@@ -44,15 +44,15 @@ struct hkMemoryRouterq
     }
 };
 
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 
 static __forceinline hkMemoryRouterq& hkGetMemoryRouter()
 {
-    return *(hkMemoryRouterq*)FUN_00c85750();
+    return *(hkMemoryRouterq*)hkMemoryRouter_getInstance();
 }
 
 int __cdecl hkArrayUtil__reserve(hkMemoryAllocatorq& alloc, void* array, int numElements, int sizeElement) throw();
-int __cdecl FUN_00cb0f50(char* buf, int n, const char* fmt, hk_va_list args) throw();
+int __cdecl hkString_vsnprintf(char* buf, int n, const char* fmt, hk_va_list args) throw();
 
 template <class T, int N> struct hkInplaceArrayq
 {
@@ -106,7 +106,7 @@ void hkStringPtr::printf_00cb0c70(const char* fmt, ...)
     while (1)
     {
         int size = buf.getCapacity();
-        int nchars = FUN_00cb0f50(buf.begin(), size, fmt, args);
+        int nchars = hkString_vsnprintf(buf.begin(), size, fmt, args);
         if (nchars >= 0 && nchars < size)
         {
             break;

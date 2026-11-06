@@ -92,8 +92,8 @@ struct GlobalDispatch
     virtual int Dispatch(int, int, int, int, int);
 };
 extern GlobalDispatch* DAT_01269b74;
-int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6);
-extern void* FUN_00d48d30(void* obj_b, int a2, int a3);
+int __cdecl hkSerializeUtil_savePackfile(int a1, int a2, int a3, int a4, int useLocal, int a6);
+extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
@@ -103,7 +103,7 @@ struct CtorBox
     int f4;
     void* b;
 };
-void* __cdecl FUN_00d48ec0(void* a1, int a2, int a3);
+void* __cdecl hkSerializeUtil_load_00d48ec0(void* a1, int a2, int a3);
 struct S_00d49310_Lock
 {
     int unk0;
@@ -117,8 +117,8 @@ struct S_00d49310_Result
     S_00d49310_Result(int v) : m_uiFilterValue(v)
     {}
 };
-void FUN_00d48af0(void* stream, int* out) throw();
-S_00d49310_Result FUN_00d49310(void* stream);
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
+S_00d49310_Result hkSerializeUtil_detectFormat_00d49310(void* stream);
 int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
@@ -186,13 +186,13 @@ struct GlobalObj
 };
 struct Obj5
 {
-    void* FUN_00dba680();
+    void* hkDataClass_getName();
     void FUN_00dba660();
 };
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
-    int FUN_00dba980();
+    int hkDataObject_isNull();
     void FUN_00dba660();
     void GetSourcePair(Pair* apOut);
 };

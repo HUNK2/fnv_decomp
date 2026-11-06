@@ -75,7 +75,7 @@ struct S_00df7010_Router
     }
 };
 
-S_00df7010_Router* FUN_00c85750() throw();
+S_00df7010_Router* hkMemoryRouter_getInstance() throw();
 void ResizeAudioStream(S_00df7010_Allocator& alloc, void* array, int sizeElem) throw();
 
 static __forceinline void S_00df7010_HitArray_destroy(hkArrayBase<unsigned int>& self) throw();
@@ -88,7 +88,7 @@ static __forceinline void S_00df7010_HitArray_AddBack(hkArrayBase<unsigned int>&
 
 static __forceinline void S_00df7010_HitArray_destroy(hkArrayBase<unsigned int>& self) throw()
 {
-        S_00df7010_HitArray__clearAndDeallocate(self, FUN_00c85750()->heap());
+        S_00df7010_HitArray__clearAndDeallocate(self, hkMemoryRouter_getInstance()->heap());
     }
 
 static __forceinline void S_00df7010_HitArray__clearAndDeallocate(hkArrayBase<unsigned int>& self, S_00df7010_Allocator& alloc)
@@ -110,7 +110,7 @@ static __forceinline void S_00df7010_HitArray__pushBack(hkArrayBase<unsigned int
 
 static __forceinline void S_00df7010_HitArray_AddBack(hkArrayBase<unsigned int>& self, const unsigned int& e)
 {
-        S_00df7010_HitArray__pushBack(self, FUN_00c85750()->heap(), e);
+        S_00df7010_HitArray__pushBack(self, hkMemoryRouter_getInstance()->heap(), e);
     }
 
 struct S_00df7010_HitArrayPolicy

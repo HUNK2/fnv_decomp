@@ -26,10 +26,11 @@ struct FUN_00d87440_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    int __thiscall FUN_00d87440(int a);
+    int __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int a);
 };
 // @fnv 0x00d87440
-int __thiscall FUN_00d87440_Class::FUN_00d87440(int aiIndex)
+// src: XBOX_PDB 0x00d87440
+int __thiscall FUN_00d87440_Class::hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int aiIndex)
 {
     return *(int*)((char*)m_iWordAt00 + aiIndex * 4 + m_8 * 8 + 8);
 }
@@ -218,8 +219,8 @@ int FUN_00d87820_Class::FindStringKey(int key)
     return table->m_iPairCount + 1;
 }
 
-hkMemoryRouter* FUN_00c85750();
-extern "C" void* FUN_00cb1280(void*, int, unsigned int);
+hkMemoryRouter* hkMemoryRouter_getInstance();
+extern "C" void* hkString_memSet(void*, int, unsigned int);
 
 struct FUN_00d87790
 {
@@ -233,10 +234,10 @@ struct FUN_00d87790
 // @fnv 0x00d87790
 FUN_00d87790::FUN_00d87790(int a)
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     void* p = reinterpret_cast<hkMemoryAllocator*>(router->m_heap)->blockAlloc(0xc0);
     m_kPrimitiveElement = p;
-    FUN_00cb1280(p, 0xff, 0x40);
+    hkString_memSet(p, 0xff, 0x40);
     m_iCapacityFlags = 0;
     m_iPairCount = 0xf;
 }
@@ -244,7 +245,7 @@ FUN_00d87790::FUN_00d87790(int a)
 class hkObjectD878
 {
   public:
-    void FUN_00d87650(int a, int* piValue);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(int a, int* piValue);
     int GetValue(int a, int b);
 };
 
@@ -252,7 +253,7 @@ class hkObjectD878
 int hkObjectD878::GetValue(int a, int aiDefault)
 {
     int iValue = aiDefault;
-    FUN_00d87650(a, &iValue);
+    hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(a, &iValue);
     return iValue;
 }
 
@@ -265,8 +266,8 @@ class hkStringMapD876
 
     int FindStringKey(const char* key);
     hkBool SetBoolFromThreshold(int it);
-    int FUN_00d87440(int it);
-    void FUN_00d874d0(const char* key, int val);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int it);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* key, int val);
     int GetOrSetInt(const char* key, int def);
 };
 
@@ -276,8 +277,8 @@ int hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 {
     int it = FindStringKey(key);
     if (SetBoolFromThreshold(it))
-        return FUN_00d87440(it);
-    FUN_00d874d0(key, iDefault);
+        return hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(it);
+    hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(key, iDefault);
     return iDefault;
 }
 
@@ -290,25 +291,26 @@ class hkStringMapD8765
 
     int FindStringKey(const char* key);
     hkBool SetBoolFromThreshold(int it);
-    int FUN_00d87440(int it);
-    int FUN_00d87650(const char* key, int* out);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int it);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(const char* key, int* out);
 };
 
 // Looks up key; if found writes its value to out and returns 0, otherwise returns 1.
 // @fnv 0x00d87650
-int hkStringMapD8765::FUN_00d87650(const char* key, int* piOut)
+// src: XBOX_PDB 0x00d87650
+int hkStringMapD8765::hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(const char* key, int* piOut)
 {
     int it = FindStringKey(key);
     if (SetBoolFromThreshold(it))
     {
-        *piOut = FUN_00d87440(it);
+        *piOut = hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(it);
         return 0;
     }
     return 1;
 }
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 class FUN_00d874d0_s
@@ -318,7 +320,7 @@ class FUN_00d874d0_s
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, int iValue);
     void hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(int iNewCap);
 };
 
@@ -329,16 +331,16 @@ void FUN_00d874d0_s::hkCachedHashMap_struct_hkStringMapOperations_struct_hkConta
 {
     int iOldCap = m_iPairCount + 1;
     unsigned int* puiOldElements = m_kPrimitiveElement;
-    hkMemoryAllocator& kAlloc = reinterpret_cast<hkMemoryAllocator&>(fnvc_adapt::FUN_00c85750().heap());
+    hkMemoryAllocator& kAlloc = reinterpret_cast<hkMemoryAllocator&>(fnvc_adapt::hkMemoryRouter_getInstance().heap());
     m_kPrimitiveElement = (unsigned int*)kAlloc.blockAlloc(iNewCap * 3 * sizeof(unsigned int));
-    FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(unsigned int));
+    hkString_memSet(m_kPrimitiveElement, 0xff, iNewCap * sizeof(unsigned int));
     m_iCapacityFlags = 0;
     m_iPairCount = iNewCap - 1;
 
     for (int i = 0; i < iOldCap; i++)
     {
         if (puiOldElements[i] != 0xffffffff)
-            FUN_00d874d0((const char*)puiOldElements[iOldCap + i], puiOldElements[i + 2 * iOldCap]);
+            hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert((const char*)puiOldElements[iOldCap + i], puiOldElements[i + 2 * iOldCap]);
     }
 
     kAlloc.blockFree(puiOldElements, iOldCap * 3 * sizeof(unsigned int));
@@ -416,13 +418,14 @@ class hkStringMapD874
         return h & 0x7fffffff;
     }
 
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, int iValue);
     void hkCachedHashMap_struct_hkStringMapOperations_struct_hkContainerHeapAllocator_resizeTable(int iNewCap);
 };
 
 // Inserts a key-value pair into the hash map, growing the table if the load factor exceeds half capacity.
 // @fnv 0x00d874d0
-void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
+// src: XBOX_PDB 0x00d874d0
+void hkStringMapD874::hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, int iValue)
 {
     int uiHash = hash(pcKey);
     if (m_iCapacityFlags * 2 > m_iPairCount)
@@ -450,7 +453,7 @@ KEY_FOUND:
 
 namespace fnv_00e02800 {
 namespace hkRouterE028 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 char* __cdecl hkString_strDup(const char* pcString, hkMemoryAllocator& kAlloc);
@@ -467,13 +470,13 @@ class FUN_00d87790
 
     static void* operator new(unsigned int uiSize)
     {
-        return reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::FUN_00c85750().heap()).blockAlloc(uiSize);
+        return reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::hkMemoryRouter_getInstance().heap()).blockAlloc(uiSize);
     }
     static void operator delete(void* p);
 
     int FindStringKey(const char* pcKey);
     char* SetBoolFromThreshold(char* pcOut, int iIt);
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, int iValue);
     int GetEntry(int iIt);
     void SetElement(int iIt, int iValue);
 
@@ -519,8 +522,8 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {
-        pcPooled = hkString_strDup(pcName, reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::FUN_00c85750().heap()));
-        pkPool->FUN_00d874d0(pcPooled, 0);
+        pcPooled = hkString_strDup(pcName, reinterpret_cast<hkMemoryAllocator&>(hkRouterE028::hkMemoryRouter_getInstance().heap()));
+        pkPool->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(pcPooled, 0);
     }
     else
     {
@@ -536,7 +539,7 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
 // hkArrayUtil::_reserveMore is the 0x00c90940 growth helper used by this unit.
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(fnvc_adapt::FUN_00c85750().heap());
+    return reinterpret_cast<hkMemoryAllocator&>(fnvc_adapt::hkMemoryRouter_getInstance().heap());
 }
 
 template <typename T>

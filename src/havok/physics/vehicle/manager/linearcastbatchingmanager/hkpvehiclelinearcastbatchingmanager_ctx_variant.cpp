@@ -61,7 +61,7 @@ struct CharacterBufferState
 	AllocV *m_pSharedOwner;
 	AllocV &heap() { return *m_pSharedOwner; }
 };
-CharacterBufferState *__cdecl FUN_00c85750();
+CharacterBufferState *__cdecl hkMemoryRouter_getInstance();
 struct AllocV
 {
 	virtual void u0();

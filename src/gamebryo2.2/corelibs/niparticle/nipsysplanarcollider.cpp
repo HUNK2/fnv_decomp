@@ -247,8 +247,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_012026c8;
 
 char* NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-char* FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
-char* FUN_00a7d550(const char* pcPrefix, float fValue);
+char* NiGetViewerString_00a7d5e0(const char* pcPrefix, const char* pcValue);
+char* NiGetViewerString_00a7d550(const char* pcPrefix, float fValue);
 
 // Stand-in for the NiTPrimitiveArray<char*> viewer-string array (vptr, base, max/size/esize/growby).
 // Stand-in for the viewer-string NiTPrimitiveArray (vptr, base, max/size/esize/growby).
@@ -283,9 +283,9 @@ void __fastcall GetPlanarColliderViewerStrings(NiPSysPlanarCollider* self, void*
     self->NiPSysCollider::GetViewerStrings(reinterpret_cast<NiViewerStringsArray*>(pkStrings));
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_012026c8.m_pcName));
     NiAVObject* pkObj = self->m_pkColliderObject;
-    pkStrings->Add(FUN_00a7d5e0("Collider Object", pkObj ? pkObj->m_kName.m_kHandle : "None"));
-    pkStrings->Add(FUN_00a7d550("Width", self->m_fOriginX));
-    pkStrings->Add(FUN_00a7d550("Height", self->m_fOriginZ));
+    pkStrings->Add(NiGetViewerString_00a7d5e0("Collider Object", pkObj ? pkObj->m_kName.m_kHandle : "None"));
+    pkStrings->Add(NiGetViewerString_00a7d550("Width", self->m_fOriginX));
+    pkStrings->Add(NiGetViewerString_00a7d550("Height", self->m_fOriginZ));
     pkStrings->Add(static_cast<const NiPoint3&>(self->m_kFirstVector).FormatToBuffer("X-Axis"));
     pkStrings->Add(static_cast<const NiPoint3&>(self->m_kSecondPlaneVector).FormatToBuffer("Y-Axis"));
 }

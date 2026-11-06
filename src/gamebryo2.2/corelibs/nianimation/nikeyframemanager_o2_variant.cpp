@@ -136,11 +136,12 @@ struct NiStreamR
 struct SeqController : NiTimeController
 {
     void NiKeyframeManager_Add(char* p1, char* p2, unsigned int ui);
-    void FUN_00a4db80(NiStreamR& kStream);
+    void NiKeyframeManager_LoadBinary(NiStreamR& kStream);
 };
 
 // @fnv 0x00a4db80
-void SeqController::FUN_00a4db80(NiStreamR& kStream)
+// src: XBOX_PDB 0x00a4db80
+void SeqController::NiKeyframeManager_LoadBinary(NiStreamR& kStream)
 {
     NiTimeController::LoadBinary(reinterpret_cast<NiStream&>(kStream));
     unsigned int uiCountB;
@@ -259,7 +260,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 __declspec(nothrow) void __cdecl NiFree(void*);
 struct MemShellD810
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern int DAT_0102102c;
 extern int DAT_0101a3a4;
@@ -314,7 +315,7 @@ struct FUN_00a47bd0 : RefD810
 };
 struct MapD810
 {
-    void FUN_00e927f0(int, SmartD810);
+    void NiTStringTemplateMap_NiTPointerMap_char_const_NiPointer_NiSequence_NiPointer_NiSequence_SetAt(int, SmartD810);
 };
 template <class T, int* VTBL> struct ArrD810
 {
@@ -338,7 +339,7 @@ struct LegacyD810
     {}
     static void __cdecl operator delete(void* p)
     {
-        ((MemShellD810*)&_g_memoryManager)->FUN_00aa4060(p);
+        ((MemShellD810*)&_g_memoryManager)->MemoryManager_Deallocate(p);
     }
 };
 extern LegacyD810* DAT_011f3fb0;
@@ -347,10 +348,11 @@ struct TargetD810
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
     MapD810 map;
     void FUN_00a6d500(StreamD810&);
-    void FUN_00a4d810(StreamD810& akStream);
+    void NiKeyframeManager_LinkObject(StreamD810& akStream);
 };
 // @fnv 0x00a4d810
-void TargetD810::FUN_00a4d810(StreamD810& akStream)
+// src: XBOX_PDB 0x00a4d810
+void TargetD810::NiKeyframeManager_LinkObject(StreamD810& akStream)
 {
     FUN_00a6d500(akStream);
     if (akStream.version < 0x4010003)
@@ -375,7 +377,7 @@ void TargetD810::FUN_00a4d810(StreamD810& akStream)
                 NiFree(pvLink);
             }
             int id = pkItem->id;
-            map.FUN_00e927f0(id, pkItem);
+            map.NiTStringTemplateMap_NiTPointerMap_char_const_NiPointer_NiSequence_NiPointer_NiSequence_SetAt(id, pkItem);
         }
         delete DAT_011f3fb0;
         DAT_011f3fb0 = 0;
@@ -387,7 +389,7 @@ void TargetD810::FUN_00a4d810(StreamD810& akStream)
         {
             RefD810* pkItem = akStream.FUN_00a63430();
             int id = pkItem->id;
-            map.FUN_00e927f0(id, pkItem);
+            map.NiTStringTemplateMap_NiTPointerMap_char_const_NiPointer_NiSequence_NiPointer_NiSequence_SetAt(id, pkItem);
         }
     }
 }
@@ -437,7 +439,7 @@ struct S_00a4dac0_Arg
 struct S_00a4dac0_Map
 {
     int unk00;
-    void __thiscall FUN_00e927f0(const char* key, S_00a4dac0_Arg value) throw();
+    void __thiscall NiTStringTemplateMap_NiTPointerMap_char_const_NiPointer_NiSequence_NiPointer_NiSequence_SetAt(const char* key, S_00a4dac0_Arg value) throw();
 };
 void __cdecl CreateOrReleaseRef(int a, int b, S_00a4dac0_Obj** out, const char* name) throw();
 struct S_00a4dac0
@@ -469,7 +471,7 @@ bool __thiscall S_00a4dac0::NiKeyframeManager_Add(int a, const char* name, int b
     if (name)
         obj->SetString(name);
     const char* key = obj->m_name;
-    map34.FUN_00e927f0(key, obj);
+    map34.NiTStringTemplateMap_NiTPointerMap_char_const_NiPointer_NiSequence_NiPointer_NiSequence_SetAt(key, obj);
     if (obj)
         obj->DecRefCount();
     return true;

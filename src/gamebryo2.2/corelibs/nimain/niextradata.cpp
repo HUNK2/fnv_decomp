@@ -118,7 +118,8 @@ bool __fastcall RegisterExtraDataStreamables(NiExtraData* self, void*, NiStream&
 }
 
 // @fnv 0x00a7b330
-void NiExtraData::FUN_00a7b330(void* destination, CloningProcess* kCloning)
+// src: XBOX_PDB 0x00a7b330
+void NiExtraData::CopyMembers_00a7b330(void* destination, CloningProcess* kCloning)
 {
     NiExtraData* pkDest = static_cast<NiExtraData*>(destination);
     NiObject::CreateVertexBufferSet(pkDest, *kCloning);
@@ -222,11 +223,11 @@ inline void AppendExtraDataString(StrArr* strings, char* value)
 extern const char* const g_01270908_arg1;
 extern const char DAT_01097790[];
 extern "C" char* NiViewerStrings_NiGetViewerString_Title(const char*);
-char* FUN_00a7d5e0(const char*, const char*);
+char* NiGetViewerString_00a7d5e0(const char*, const char*);
 // The shared header does not declare the StrArr viewer-string overload.
 // @fnv 0x00a7b580
 void __fastcall GetExtraDataViewerStrings(NiExtraData* self, void*, StrArr* strings)
 {
     AppendExtraDataString(strings, NiViewerStrings_NiGetViewerString_Title(g_01270908_arg1));
-    AppendExtraDataString(strings, FUN_00a7d5e0(DAT_01097790, static_cast<const char*>(self->m_kName)));
+    AppendExtraDataString(strings, NiGetViewerString_00a7d5e0(DAT_01097790, static_cast<const char*>(self->m_kName)));
 }

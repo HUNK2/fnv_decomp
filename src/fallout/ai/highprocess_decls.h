@@ -222,7 +222,7 @@ class DoorCell
 class HighProcessCellView
 {
   public:
-    bool FUN_00544490();
+    bool TESObjectCELL_GetOffLimits();
 };
 class HighProcessPlayerAlpha
 {
@@ -249,11 +249,11 @@ int AiFormulas_GetDetectedEvent(int, bool, float, int, int, bool, bool, bool, in
 class HighProcessCombatSource
 {
   public:
-    bool FUN_0059f610();
+    bool TESRace_GetPlayable();
 };
 
 
-double FUN_0047eeb0(unsigned char);
+double TESAIForm_GetConfidenceLevel(unsigned char);
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting106;
 extern GlobalObject_0040e0b0 g_011cdf10;
 extern SettingT_GameSettingCollection_ DAT_011cf414;
@@ -370,9 +370,9 @@ extern SettingT_GameSettingCollection_ DAT_011cdd30;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1045;
 extern GlobalObject_0040e0b0 g_011d1314;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1046;
-float FUN_0040ebd0(float, float);
-double FUN_00408820(float);
-double FUN_00408860(float);
+float BSMIN(float, float);
+double NiAbs_00408820(float);
+double fabsf_00408860(float);
 class AIFormulas
 {
   public:
@@ -396,11 +396,11 @@ extern BSSimpleArray<unsigned int, 1024> DAT_011f2250;
 class Animation
 {
   public:
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* GetControllerManager_00496940();
     void SpecialIdleFree(bool, bool);
-    bool FUN_004985f0(); // 0x004985f0
+    bool Animation_SpecialIdleDonePlaying(); // 0x004985f0
     void PlaySpecialIdle(TESIdleForm*, Actor*, int, AnimIdle::PLAY_TYPE_ENUM);
-    bool FUN_00493830();
+    bool Animation_GetAnimsLoading();
     bool IsSpecialIdlePlaying();
     bool IsSpecialIdleReady();
     bool IsSpecialIdlePlaying(TESIdleForm*);
@@ -423,10 +423,10 @@ class LocationDescriptor
   public:
     BSFileEntry* SetLocRef();
     TESObjectREFR* ResolveLocationReference(Actor*);
-    unsigned int FUN_0067f1c0();
+    unsigned int PackageLocation_GetRadius();
     TESObjectREFR* GetLocationReference();   // 0x0067f390
     TESObjectCELL* FUN_0067f3e0(); // 0x0067f3e0
-    int FUN_00678ca0();                      // 0x00678ca0
+    int PackageLocation_GetLocType();                      // 0x00678ca0
 };
 
 class TargetDoorController
@@ -455,7 +455,7 @@ struct PlayerDetectionCounter
     unsigned char flags[4];
 };
 extern PlayerDetectionCounter DAT_011a3780[];
-float FUN_00404040(float);
+float FloatFloor(float);
 
 
 #include "../../../include/ActorCombatGroup.h"
@@ -486,7 +486,7 @@ class Biped;
 
 
 #include "../../../include/Interface.h"
-bool FUN_005b9b00();
+bool BSShaderManager_IsRefractionEnabled();
 void AttachControllerManager(NiAVObject*, NiAVObjectPalette*);
 void SetObjectFormID(NiAVObject*, unsigned int);
 extern bool DAT_011c5cb4;

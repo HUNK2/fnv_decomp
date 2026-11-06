@@ -58,11 +58,12 @@ class A64330Obj
     void SetSize(unsigned int size);
     void SetAt(unsigned int index, int* const& value);
 
-    unsigned int FUN_00a64330(int* const& value);
+    unsigned int NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(int* const& value);
 };
 
 // @fnv 0x00a64330
-unsigned int A64330Obj::FUN_00a64330(int* const& value)
+// src: XBOX_PDB 0x00a64330
+unsigned int A64330Obj::NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(int* const& value)
 {
     int* element = value;
 
@@ -94,7 +95,8 @@ inline void* operator new(unsigned int, void* p) throw()
 }
 
 // @fnv 0x00e9efe0
-NiUnionBV* __cdecl FUN_00e9efe0(unsigned int a1)
+// src: XBOX_PDB 0x00e9efe0
+NiUnionBV* __cdecl NiUnionBV_CreateFromStream(unsigned int a1)
 {
     NiUnionBV* p = new (g_memoryManager.Allocate(sizeof(NiUnionBV))) NiUnionBV;
     p->LoadBinary(*(NiStream*)a1);
@@ -103,13 +105,13 @@ NiUnionBV* __cdecl FUN_00e9efe0(unsigned int a1)
 
 struct Items
 {
-    void FUN_00a64330(unsigned int*);
+    void NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(unsigned int*);
 };
 struct UnionLoadBase
 {
     void nullsub_3(void* stream);
 };
-unsigned int FUN_00e9cab0(void*);
+unsigned int NiBoundingVolume_CreateFromStream(void*);
 // @fnv 0x00e9f020
 // This loading helper is not declared by the shared class.
 // src: GAMEBRYO_SRC 0x00e9f020
@@ -125,7 +127,7 @@ void __fastcall NiUnionBV_LoadBinary(NiUnionBV* self, void*, char* stream)
     }
     for (unsigned int i = 0; i < num; ++i)
     {
-        unsigned int item = FUN_00e9cab0(stream);
+        unsigned int item = NiBoundingVolume_CreateFromStream(stream);
         if (item)
         {
             unsigned int max = self->m_kBoundingVolumes.m_usSize;
@@ -134,7 +136,7 @@ void __fastcall NiUnionBV_LoadBinary(NiUnionBV* self, void*, char* stream)
                 if (item == (unsigned int)self->m_kBoundingVolumes.m_pBase[j])
                     goto found;
             }
-            ((Items*)&self->m_kBoundingVolumes)->FUN_00a64330(&item);
+            ((Items*)&self->m_kBoundingVolumes)->NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(&item);
         found:;
         }
     }
@@ -225,7 +227,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern "C" unsigned int __cdecl strlen(const char* s);
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 int __cdecl FUN_00a305b0(char* buf, unsigned int count, const char* fmt, ...);
 
 // The shared array declares its storage and transfers; this unit supplies
@@ -249,13 +251,13 @@ inline NiBoundingVolume* GetBoundingVolume(const NiTPrimitiveArray<NiBoundingVol
 void NiUnionBV::AddViewerStrings_00e9f0b0(char* pcPrefix, NiTPrimitiveArray<char*>* pkStrings)
 {
     u32 uiLen = strlen(pcPrefix) + 12;
-    char* pcString = (char*)FUN_00aa1070(uiLen);
+    char* pcString = (char*)_NiMalloc_00aa1070(uiLen);
     FUN_00a305b0(pcString, uiLen, "%s = UNION_BV", pcPrefix);
     AddPrimitive(*pkStrings, pcString);
 
     for (u32 i = 0; i < m_kBoundingVolumes.m_usSize; i++)
     {
-        char* pcChild = (char*)FUN_00aa1070(13);
+        char* pcChild = (char*)_NiMalloc_00aa1070(13);
         FUN_00a305b0(pcChild, 13, "   child %i", i);
         GetBoundingVolume(m_kBoundingVolumes, i)->AddViewerStrings(pcChild, pkStrings);
     }
@@ -274,7 +276,7 @@ inline NiTArray<T, A>::NiTArray(unsigned int uiMaxSize, unsigned int uiGrowBy)
     m_usSize = 0;
     m_usESize = 0;
     if (m_usMaxSize > 0)
-        m_pBase = (T*)FUN_00aa1070(sizeof(T) * m_usMaxSize);
+        m_pBase = (T*)_NiMalloc_00aa1070(sizeof(T) * m_usMaxSize);
     else
         m_pBase = 0;
 }

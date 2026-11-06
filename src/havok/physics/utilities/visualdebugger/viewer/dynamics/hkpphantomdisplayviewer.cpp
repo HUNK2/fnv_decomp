@@ -19,7 +19,7 @@
 
 extern int DAT_01269cd0;
 extern int DAT_01268ff0;
-void* __cdecl FUN_00d66770();
+void* __cdecl hkpPhantomDisplayViewer_create();
 struct HKProcessFactory
 {
     void* __thiscall RegisterProcess(const char* name, void* creator);
@@ -28,7 +28,7 @@ void* __cdecl hkProcessFactory_registerProcess(void* factory, const char* name, 
 // @fnv 0x00d66af0
 void* __cdecl RegisterPhantomsProcess()
 {
-    DAT_01268ff0 = (int)((HKProcessFactory*)DAT_01269cd0)->RegisterProcess("Phantoms", (void*)&FUN_00d66770);
+    DAT_01268ff0 = (int)((HKProcessFactory*)DAT_01269cd0)->RegisterProcess("Phantoms", (void*)&hkpPhantomDisplayViewer_create);
     return (void*)DAT_01268ff0;
 }
 
@@ -320,7 +320,7 @@ void ViewerList::RemoveViewer(Viewer* pViewer)
     return;
 }
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d66770_CpuBlock
 {
     unsigned int unk00;
@@ -328,9 +328,10 @@ struct FnvCpu_FUN_00d66770_CpuBlock
     FnvCpu_FUN_00d66770_CpuBlock* FUN_00d66430(unsigned int value);
 };
 // @fnv 0x00d66770
-void* __cdecl FUN_00d66770(unsigned int value)
+// src: XBOX_PDB 0x00d66770
+void* __cdecl hkpPhantomDisplayViewer_create(unsigned int value)
 {
-    hkMemoryRouter* pCpuHolder = static_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* pCpuHolder = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     FnvCpu_FUN_00d66770_CpuBlock* pCpuBlock =
         static_cast<FnvCpu_FUN_00d66770_CpuBlock*>(reinterpret_cast<hkMemoryAllocator*>(pCpuHolder->m_heap)->blockAlloc(60));
     pCpuBlock->size = 60;
@@ -341,7 +342,7 @@ void* __cdecl FUN_00d66770(unsigned int value)
 }
 
 namespace fnv_00e015d0 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 extern char DAT_0102e388;
 struct HavokArrayOwner : hkReferencedObject
 {
@@ -352,7 +353,7 @@ struct HavokArrayOwner : hkReferencedObject
 // @fnv 0x00e015d0
 HavokArrayOwner* HavokArrayOwner::DestroyHavokArrayOwner(unsigned int deletionFlags)
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(router->m_heap);
     int previousCapacity = m_items.m_iCapacityState;
     m_items.m_iElementCount = 0;
@@ -365,7 +366,7 @@ HavokArrayOwner* HavokArrayOwner::DestroyHavokArrayOwner(unsigned int deletionFl
     *reinterpret_cast<void**>(this) = &DAT_0102e388;
     if (deletionFlags & 1)
     {
-        hkMemoryRouter* router2 = FUN_00c85750();
+        hkMemoryRouter* router2 = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(router2->m_heap)->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
@@ -386,7 +387,7 @@ FUN_00d66430::FUN_00d66430(const void* contexts) : hkpWorldViewerBase(contexts)
 {}
 
 namespace phantomViewerMemory {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 
@@ -394,7 +395,7 @@ extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 inline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
     hkReferencedObject* b = static_cast<hkReferencedObject*>(
-        reinterpret_cast<hkMemoryAllocator&>(phantomViewerMemory::FUN_00c85750().heap()).blockAlloc(nbytes));
+        reinterpret_cast<hkMemoryAllocator&>(phantomViewerMemory::hkMemoryRouter_getInstance().heap()).blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return b;
 }
@@ -416,7 +417,7 @@ hkReferencedObject* __cdecl CreateHkObject()
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(phantomViewerMemory::FUN_00c85750().heap());
+    return reinterpret_cast<hkMemoryAllocator&>(phantomViewerMemory::hkMemoryRouter_getInstance().heap());
 }
 
 template <typename T>
@@ -558,10 +559,10 @@ static __forceinline void Monitor(const char* name, volatile unsigned int& slot)
         stream.m_end.m_storage = (char*)(cmd + 1);
     }
 }
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 static __forceinline hkMemoryRouter* S00d667b0_router()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
 template <class T> struct LocalArray
@@ -655,7 +656,7 @@ struct FUN_00de1210 : DisplayGeometry
     Aabb bounds;
     FUN_00de1210();
     virtual ~FUN_00de1210();
-    void FUN_00de1170(const hkVector4&, const hkVector4&);
+    void hkDisplayAABB_setExtents(const hkVector4&, const hkVector4&);
 };
 struct Collidable
 {
@@ -733,7 +734,7 @@ void S00d667b0_Viewer::postSimulationCallback(hkpWorld* pkWorld)
         {
             Aabb bounds;
             reinterpret_cast<Phantom*>(phantoms.m_data[i])->getAabb(bounds);
-            boxes.data[i].FUN_00de1170(bounds.min, bounds.max);
+            boxes.data[i].hkDisplayAABB_setExtents(bounds.min, bounds.max);
             geometries.data[i] = boxes.data + i;
         }
         DisplayHandler* handler = displayHandler;
@@ -882,7 +883,7 @@ extern int DAT_01268ff4;
 extern const char str_010d196c[];
 extern const char str_010d1be8[];
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct Vw66530Entry
 {

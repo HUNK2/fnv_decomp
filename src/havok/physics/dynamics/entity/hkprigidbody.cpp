@@ -36,10 +36,11 @@ __forceinline Function motionVirtual(hkpMotion& motion, unsigned int slot)
 // The approved rigid-body header does not yet declare the remaining local entry points.
 struct FUN_00ca86c0_class
 {
-    unsigned int __thiscall FUN_00ca86c0();
+    unsigned int __thiscall hkpRigidBody_getStoredDynamicMotion_00ca86c0();
 };
 // @fnv 0x00ca86c0
-unsigned int __thiscall FUN_00ca86c0_class::FUN_00ca86c0()
+// src: XBOX_PDB 0x00ca86c0
+unsigned int __thiscall FUN_00ca86c0_class::hkpRigidBody_getStoredDynamicMotion_00ca86c0()
 {
     unsigned char m_0xe8 = *(unsigned char*)((char*)this + 0xe8);
     if (m_0xe8 != 4 && m_0xe8 != 5)
@@ -180,7 +181,7 @@ struct Owner
     unsigned int unkd8;
     unsigned int unkdc;
     hkpMotion subobjectE0;
-    void FUN_00ca8150(unsigned int value, hkVector4* result);
+    void hkpRigidBody_updateCachedShapeInfo(unsigned int value, hkVector4* result);
     void hkpRigidBody_setCenterOfMassLocal(unsigned int value);
 };
 // @fnv 0x00ca85f0
@@ -190,7 +191,7 @@ void Owner::hkpRigidBody_setCenterOfMassLocal(unsigned int value)
     motionVirtual<void(__thiscall*)(hkpMotion*, unsigned int)>(subobjectE0, 11)(&subobjectE0, value);
     unsigned int source = unk10;
     hkVector4 result;
-    FUN_00ca8150(source, &result);
+    hkpRigidBody_updateCachedShapeInfo(source, &result);
 }
 
 struct CA86E0Object
@@ -951,7 +952,7 @@ void FUN_00ca88e0_cls::hkpRigidBody_setMassInv(float afValue)
     motionVirtual<void(__thiscall*)(hkpMotion*, float)>(m_sub, 4)(&m_sub, afValue);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
 
 struct CA92A0Element
@@ -984,7 +985,7 @@ static __forceinline void CA92A0Array_reserve(hkArrayBase<CA92A0Element>& self, 
 
 static __forceinline hkArrayBase<CA92A0Element>& CA92A0Array_assign(hkArrayBase<CA92A0Element>& self, const hkArrayBase<CA92A0Element>& a)
 {
-        hkMemoryAllocator& alloc = heapAllocator(FUN_00c85750());
+        hkMemoryAllocator& alloc = heapAllocator(hkMemoryRouter_getInstance());
         const int oldSize = self.m_iElementCount;
         const int newSize = a.m_iElementCount;
         const int copiedSize = newSize > oldSize ? oldSize : newSize;
@@ -1157,13 +1158,13 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     FnvScratch cinfo;
     cinfo.FUN_00cf5ea0();
     WriteToInfo(&cinfo);
-    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)heapAllocator(FUN_00c85750()).blockAlloc(0x220);
+    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)heapAllocator(hkMemoryRouter_getInstance()).blockAlloc(0x220);
     *(unsigned short*)((char*)pBlock + 4) = 0x220;
     FUN_00ca90c0_cls* pCopy = pBlock->FUN_00ca8c90(&cinfo);
     memCpy16NonEmpty((char*)pCopy + 0xe0, (char*)this + 0xe0, 0x12);
     if (*(char**)((char*)this + 0x1f8))
     {
-        char* pObj = (char*)heapAllocator(FUN_00c85750()).blockAlloc(0x120);
+        char* pObj = (char*)heapAllocator(hkMemoryRouter_getInstance()).blockAlloc(0x120);
         *(unsigned short*)(pObj + 4) = 0x120;
         *(int*)(pObj + 0x118) = 0;
         *(int*)pObj = (int)&DAT_010c6c64;
@@ -1243,7 +1244,7 @@ struct S_00ca84b0_Op
 
 struct S_00ca84b0_World
 {
-    void FUN_00c91160(const S_00ca84b0_Op& op);
+    void hkpWorld_queueOperation(const S_00ca84b0_Op& op);
     void FUN_00c91120();
     void FUN_00c91140();
 
@@ -1361,7 +1362,7 @@ struct S_00ca84b0_Entity
     int unk58;
     float m_fAllowedPenetrationDepth;  // 0x5c
 
-    void FUN_00ca8150(hkpShape* shape, S_00ca84b0_Vector4* extentOut);
+    void hkpRigidBody_updateCachedShapeInfo(hkpShape* shape, S_00ca84b0_Vector4* extentOut);
     void UpdateBoundingVolume(S_00ca84b0_World* world, hkpShape* shape);
     int hkpRigidBody_setShape(hkpShape* shape);
 };
@@ -1377,7 +1378,7 @@ int S_00ca84b0_Entity::hkpRigidBody_setShape(hkpShape* shape)
         op.m_type = 5;
         op.m_pEntity = this;
         op.m_pCollisionShape = shape;
-        m_pOwningWorld->FUN_00c91160(op);
+        m_pOwningWorld->hkpWorld_queueOperation(op);
         return 0;
     }
 
@@ -1395,7 +1396,7 @@ int S_00ca84b0_Entity::hkpRigidBody_setShape(hkpShape* shape)
 
     {
         __declspec(align(16)) S_00ca84b0_Vector4 extent;
-        FUN_00ca8150(shape, &extent);
+        hkpRigidBody_updateCachedShapeInfo(shape, &extent);
 
         if (oldShape && m_fAllowedPenetrationDepth != 3.40282e38f)
             m_fAllowedPenetrationDepth = -1.0f;
@@ -1419,7 +1420,7 @@ int S_00ca84b0_Entity::hkpRigidBody_setShape(hkpShape* shape)
 #include <xmmintrin.h>
 namespace fnv_00ca8af0 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct EventBlock
 {
@@ -1469,7 +1470,7 @@ struct EventDispatcher
     int unk90;
     int m_94;
 
-    void FUN_00c91160(EventBlock* ev);
+    void hkpWorld_queueOperation(EventBlock* ev);
 };
 
 struct FUN_00ca8af0_cls
@@ -1546,11 +1547,11 @@ void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
             EventBlock ev;
             ev.m_type = 0x1c;
             ev.m_pSender = this;
-            hkMemoryRouter* holder = FUN_00c85750();
+            hkMemoryRouter* holder = hkMemoryRouter_getInstance();
             ev.m_pData = holder->m_heap->blockAlloc(0x20);
             *(__m128*)ev.m_pData = *(__m128*)a2;
             *(__m128*)((char*)ev.m_pData + 0x10) = *(__m128*)a1;
-            m_08->FUN_00c91160(&ev);
+            m_08->hkpWorld_queueOperation(&ev);
             return;
         }
     }
@@ -1712,7 +1713,7 @@ void S_00ca8f50_Src::WriteToInfo(S_00ca8f50_Info* info)
 
 namespace fnv_00ca9210 {
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct FUN_00ca9210 : hkReferencedObject
 {
@@ -1721,7 +1722,7 @@ struct FUN_00ca9210 : hkReferencedObject
     static void operator delete(void* p)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(p);
-        heapAllocator(*FUN_00c85750()).blockFree(p, b->m_usMemSizeAndFlags);
+        heapAllocator(*hkMemoryRouter_getInstance()).blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -1817,7 +1818,7 @@ struct World
     unsigned char unk_d4;
     unsigned char unk_d5;
     unsigned char m_d6;
-    void __thiscall FUN_00c91160(void* op);
+    void __thiscall hkpWorld_queueOperation(void* op);
     void __thiscall FUN_00c91120();
     void __thiscall FUN_00c91140();
 };
@@ -1911,7 +1912,7 @@ void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBo
     {
         op.type = 0x16;
         op.entity = apEntity;
-        world->FUN_00c91160(&op);
+        world->hkpWorld_queueOperation(&op);
         return;
     }
 

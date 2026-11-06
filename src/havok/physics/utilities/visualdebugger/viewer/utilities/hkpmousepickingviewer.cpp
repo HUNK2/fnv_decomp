@@ -85,11 +85,11 @@ hkpMousePickingViewer* hkpMousePickingViewer::Initialize(int contexts)
 
 extern int DAT_01269cd0;
 extern int DAT_01268ff8;
-void __cdecl FUN_00d66c50();
+void __cdecl hkpMousePickingViewer_create();
 // @fnv 0x00d66c90
 void* __cdecl RegisterMousePicking()
 {
-    DAT_01268ff8 = (int)((hkProcessFactory*)DAT_01269cd0)->RegisterProcess("Mouse Picking", (void*)FUN_00d66c50);
+    DAT_01268ff8 = (int)((hkProcessFactory*)DAT_01269cd0)->RegisterProcess("Mouse Picking", (void*)hkpMousePickingViewer_create);
     return (void*)DAT_01268ff8;
 }
 
@@ -101,11 +101,12 @@ int __cdecl FUN_00d66ed0()
     return DAT_01268ff8;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00d66c50
-void* __cdecl FUN_00d66c50(unsigned int value)
+// src: XBOX_PDB 0x00d66c50
+void* __cdecl hkpMousePickingViewer_create(unsigned int value)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     FUN_00d66cd0::hkpMousePickingViewer* block = static_cast<FUN_00d66cd0::hkpMousePickingViewer*>(
         holder->m_heap->blockAlloc(sizeof(FUN_00d66cd0::hkpMousePickingViewer)));
     block->m_usMemSizeAndFlags = sizeof(FUN_00d66cd0::hkpMousePickingViewer);
@@ -118,7 +119,7 @@ void* __cdecl FUN_00d66c50(unsigned int value)
 namespace fnv_00d66d00 {
 typedef unsigned __int64 hkUint64D66D;
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // These entry points are absent from the shared class declarations.
 extern "C" void ConstructMouseSpringAction();
@@ -137,7 +138,7 @@ static __forceinline hkMemoryAllocator& MouseSpringHeap(hkMemoryRouter* holder)
 
 static __forceinline void* AllocateMouseSpringStorage(unsigned int size)
 {
-    void* memory = MouseSpringHeap(FUN_00c85750()).blockAlloc(size);
+    void* memory = MouseSpringHeap(hkMemoryRouter_getInstance()).blockAlloc(size);
     static_cast<unsigned short*>(memory)[2] = static_cast<unsigned short>(size);
     return memory;
 }
@@ -171,7 +172,7 @@ hkBool MousePickD66D::PickEntity(hkUint64D66D uiCollidableUserData, const hkVect
             {
                 VectorStorage positionStorage;
                 hkVector4& kPositionInRbLocal = *reinterpret_cast<hkVector4*>(&positionStorage);
-                kPositionInRbLocal.FUN_00c7f690(pkEntity->m_pMotionState.m_kMotionState.m_kMotionTransform, kPositionInWorld);
+                kPositionInRbLocal.hkVector4_setTransformedInversePos(pkEntity->m_pMotionState.m_kMotionState.m_kMotionTransform, kPositionInWorld);
                 hkpMouseSpringAction* spring = static_cast<hkpMouseSpringAction*>(
                     AllocateMouseSpringStorage(sizeof(hkpMouseSpringAction)));
                 m_pkMouseSpring = reinterpret_cast<MouseSpringConstructor>(&ConstructMouseSpringAction)(
@@ -262,7 +263,7 @@ void Base2::hkpMousePickingViewer_consumeCommand(unsigned char type)
 }
 
 namespace fnv_00d66f00 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d66f00_CpuObject
 {
     unsigned int unk00;
@@ -277,7 +278,7 @@ FnvCpu_FUN_00d66f00_CpuObject* FnvCpu_FUN_00d66f00_CpuObject::FUN_00d66f00(unsig
     FUN_00d66cd0();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         holder->m_heap->blockFree(this, size);
     }
     return this;

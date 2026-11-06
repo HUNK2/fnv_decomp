@@ -71,9 +71,10 @@ extern NiNode* DAT_011d59ec;
 extern const NiPoint3 _NiPoint3_ZERO;
 
 // @fnv 0x006633f0
-const NiPoint3& FUN_006633f0()
+// src: XBOX_PDB 0x006633f0
+const NiPoint3& BSFaceGenManager_GetCameraPosition()
 {
-    return DAT_011d59ec ? static_cast<const NiNode*>(DAT_011d59ec)->FUN_0045bb80() : _NiPoint3_ZERO;
+    return DAT_011d59ec ? static_cast<const NiNode*>(DAT_011d59ec)->NiAVObject_GetWorldTranslate() : _NiPoint3_ZERO;
 }
 
 struct GeometryVertexBuffer
@@ -92,7 +93,8 @@ FUN_00663430::FUN_00663430()
 {}
 
 // @fnv 0x006639f0
-char __fastcall FUN_006639f0(char* pThis)
+// src: XBOX_PDB 0x006639f0
+char __fastcall BSFaceGenAnimationData_ShouldHeadTrack(char* pThis)
 {
     return pThis[0x189];
 }
@@ -120,7 +122,8 @@ class FlagGetterView
 extern FlagGetterView g_011d5a5c;
 
 // @fnv 0x00663a30
-unsigned char FUN_00663a30()
+// src: XBOX_PDB 0x00663a30
+unsigned char BSFaceGenManager_GetUseLOD()
 {
     return *g_011d5a5c.GetLifeStateControlFlag();
 }
@@ -145,7 +148,7 @@ struct Stand663
 // @fnv 0x00663a70
 void FUN_00663a70_shell::UpdateFaceGenNode(NiUpdateData* UpdateData, unsigned int uFlags)
 {
-    if (!((NiAVObject*)this)->FUN_00456610())
+    if (!((NiAVObject*)this)->GetAppCulled_00456610())
         ((Stand663*)this)->UpdateFaceGenAnimation(UpdateData);
     ((NiNode*)this)->NiNode::UpdateDownwardPass(*UpdateData, uFlags);
 }
@@ -274,12 +277,13 @@ namespace fnv_00663ab0 {
 struct FUN_00663ab0_class : NiNode
 {
     void UpdateFaceGenAnimation(NiUpdateData&);
-    void FUN_00663ab0(NiUpdateData&);
+    void BSFaceGenNiNode_UpdateTransformAndBounds(NiUpdateData&);
 };
 
 // Calls UpdateFaceGenAnimation with updateData, then NiNode::UpdateTransformAndBounds with updateData.
 // @fnv 0x00663ab0
-void FUN_00663ab0_class::FUN_00663ab0(NiUpdateData& updateData)
+// src: XBOX_PDB 0x00663ab0
+void FUN_00663ab0_class::BSFaceGenNiNode_UpdateTransformAndBounds(NiUpdateData& updateData)
 {
     this->UpdateFaceGenAnimation(updateData);
     NiNode::UpdateTransformAndBounds(updateData);
@@ -305,11 +309,12 @@ Ret36 FUN_00662a10_shell::GetRet36()
 
 struct FUN_00662a80_shell : BSFaceGenNiNode
 {
-    unsigned char FUN_00662a80();
+    unsigned char BSFaceGenNiNode_GetApplyRotToParent();
 };
 
 // @fnv 0x00662a80
-unsigned char FUN_00662a80_shell::FUN_00662a80()
+// src: XBOX_PDB 0x00662a80
+unsigned char FUN_00662a80_shell::BSFaceGenNiNode_GetApplyRotToParent()
 {
     return *(unsigned char*)((char*)this + 0xd8);
 }
@@ -408,7 +413,7 @@ class FaceGenAnimData
     virtual void vb048();
     virtual void vb04c();
     virtual bool UpdateAnimation(float);
-    bool FUN_0064be40(float, unsigned int);
+    bool BSFaceGenAnimationData_UpdateEyeTracking(float, unsigned int);
 };
 struct FUN_00663a10_shell
 {
@@ -507,8 +512,8 @@ extern Setting g_011c5724;
 extern Twin_0084d030 g_timeGlobal;
 extern FlagGetterView g_011df6d0;
 extern ProcessLists DAT_011e0e80;
-unsigned char __cdecl FUN_00663a30();
-unsigned char __fastcall FUN_006639f0(char*);
+unsigned char __cdecl BSFaceGenManager_GetUseLOD();
+unsigned char __fastcall BSFaceGenAnimationData_ShouldHeadTrack(char*);
 unsigned char __fastcall GetByteAt1D(char*);
 void __cdecl BSFaceGenManager_CycleFaceGenCoordValue(Actor*);
 
@@ -520,13 +525,13 @@ struct FUN_00663510_t
 // @fnv 0x00663510
 void FUN_00663510_t::UpdateFaceGenAnimation(NiUpdateData* UpdateData)
 {
-    if (((NiAVObject*)this)->FUN_00456610())
+    if (((NiAVObject*)this)->GetAppCulled_00456610())
         return;
 
     bool bchanged = false;
     bool bdead = ((FaceGenNode*)this)->GetAnimationData()->IsDead();
 
-    if (FUN_00663a30() && !((FaceGenNode*)this)->GetByteAtOffsetE1() && UpdateData->fTime > 0.0)
+    if (BSFaceGenManager_GetUseLOD() && !((FaceGenNode*)this)->GetByteAtOffsetE1() && UpdateData->fTime > 0.0)
         ((FaceGenNode*)this)->UpdateStateByDistance(-1);
 
     // NiUpdateData has its controller flag at +4; FaceGenUpdateData is a separate 32-byte morph context.
@@ -554,19 +559,19 @@ void FUN_00663510_t::UpdateFaceGenAnimation(NiUpdateData* UpdateData)
     if (((BSFaceGenNiNode*)this)->bAnimationUpdate && *(Actor**)((char*)this + 0xe8) &&
         ((MobileObject*)*(Actor**)((char*)this + 0xe8))->GetCurrentAIProcess() &&
         ((MobileObject*)*(Actor**)((char*)this + 0xe8))->GetCurrentAIProcess()->GetPrimaryTargetReference() &&
-        FUN_006639f0((char*)((FaceGenNode*)this)->GetAnimationData()) &&
+        BSFaceGenAnimationData_ShouldHeadTrack((char*)((FaceGenNode*)this)->GetAnimationData()) &&
         ((BSFaceGenNiNode*)this)->bApplyRotationToParent && !*g_011df6d0.GetLifeStateControlFlag() &&
-        ((NiAVObject*)this)->FUN_004f0140())
+        ((NiAVObject*)this)->GetSelectiveUpdate())
     {
         bool beyeTrackingChanged;
         if (GetByteAt1D((char*)&g_timeGlobal))
             beyeTrackingChanged =
-                ((FaceGenNode*)this)->GetAnimationData()->FUN_0064be40(0.0f, ((Calendar*)this)->GetDaysPassed());
+                ((FaceGenNode*)this)->GetAnimationData()->BSFaceGenAnimationData_UpdateEyeTracking(0.0f, ((Calendar*)this)->GetDaysPassed());
         else
             beyeTrackingChanged =
                 ((FaceGenNode*)this)
                     ->GetAnimationData()
-                    ->FUN_0064be40(g_timeGlobal.GetStoredFloatValue(), ((Calendar*)this)->GetDaysPassed());
+                    ->BSFaceGenAnimationData_UpdateEyeTracking(g_timeGlobal.GetStoredFloatValue(), ((Calendar*)this)->GetDaysPassed());
         bchanged = bchanged || beyeTrackingChanged;
     }
 
@@ -574,7 +579,7 @@ void FUN_00663510_t::UpdateFaceGenAnimation(NiUpdateData* UpdateData)
     {
         int inumallowedtoupdate = 10;
         bool bupdate = false;
-        if (((NiAVObject*)this)->FUN_004f0140())
+        if (((NiAVObject*)this)->GetSelectiveUpdate())
         {
             if (((FaceGenNode*)this)->GetAnimationData()->IsDead() ||
                 DAT_011e0e80.CanAddActorToList(*(Actor**)((char*)this + 0xe8), inumallowedtoupdate) ||
@@ -619,7 +624,7 @@ struct FUN_006628c0 : A51BF0Base
 {
     FUN_006628c0();
 
-    void FUN_00663c30(FUN_006628c0* pnode, CloningProcess& cloneData);
+    void BSFaceGenNiNode_CopyMembers(FUN_006628c0* pnode, CloningProcess& cloneData);
 
     virtual void v00();
     virtual void v01();
@@ -651,15 +656,16 @@ struct FUN_006628c0 : A51BF0Base
 
     unsigned char padding[0xec];
 
-    FUN_006628c0* FUN_00663b80(CloningProcess& cloneData);
+    FUN_006628c0* BSFaceGenNiNode_CreateClone(CloningProcess& cloneData);
 };
 
 // @fnv 0x00663b80
-FUN_006628c0* FUN_006628c0::FUN_00663b80(CloningProcess& cloneData)
+// src: XBOX_PDB 0x00663b80
+FUN_006628c0* FUN_006628c0::BSFaceGenNiNode_CreateClone(CloningProcess& cloneData)
 {
     FUN_006628c0* pnode = new FUN_006628c0;
 
-    FUN_00663c30(pnode, cloneData);
+    BSFaceGenNiNode_CopyMembers(pnode, cloneData);
     v26(cloneData);
 
     return pnode;
@@ -689,11 +695,12 @@ struct FUN_00663c30_shell : NiNode
     unsigned char value_e0;
     unsigned char value_e1;
 
-    void FUN_00663c30(FUN_00663c30_shell*, void*);
+    void BSFaceGenNiNode_CopyMembers(FUN_00663c30_shell*, void*);
 };
 
 // @fnv 0x00663c30
-void FUN_00663c30_shell::FUN_00663c30(FUN_00663c30_shell* pDest, void* pCloneData)
+// src: XBOX_PDB 0x00663c30
+void FUN_00663c30_shell::BSFaceGenNiNode_CopyMembers(FUN_00663c30_shell* pDest, void* pCloneData)
 {
     if (pDest == 0)
     {
@@ -800,13 +807,14 @@ struct FUN_00662b70_cls
     unsigned char unkD6;
     unsigned char flagD7;
 
-    void FUN_0043fa80(unsigned int value);
-    void FUN_00662b70(Block36* src);
+    void SetRotate_0043fa80(unsigned int value);
+    void BSFaceGenNiNode_SetBaseRotation(Block36* src);
 };
 
 // Copies the 36-byte block from src, sets flagD7 to 1, then calls FUN_0043fa80 with the result of v108(&local).
 // @fnv 0x00662b70
-void FUN_00662b70_cls::FUN_00662b70(Block36* apBlock)
+// src: XBOX_PDB 0x00662b70
+void FUN_00662b70_cls::BSFaceGenNiNode_SetBaseRotation(Block36* apBlock)
 {
     unsigned int pad1;
     unsigned int pad2;
@@ -820,7 +828,7 @@ void FUN_00662b70_cls::FUN_00662b70(Block36* apBlock)
         unsigned int local;
         block = *apBlock;
         flagD7 = 1;
-        FUN_0043fa80(v108(&local));
+        SetRotate_0043fa80(v108(&local));
     }
 }
 
@@ -1301,7 +1309,7 @@ struct SkinInstance
 };
 struct Geometry
 {
-    SkinInstance* FUN_0043fad0();
+    SkinInstance* NiGeometry_GetSkinInstance();
 };
 struct SceneNode
 {
@@ -1375,7 +1383,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
         skin = j->AsGeometry();
         if (!skin)
             continue;
-        bone = skin->FUN_0043fad0();
+        bone = skin->NiGeometry_GetSkinInstance();
         if (!bone || !bone->FUN_005585e0())
             continue;
         bones = bone->FUN_005585e0()->FUN_008041a0();
@@ -1466,7 +1474,7 @@ class AnimationState
     virtual void Unk_0cc();
     virtual void Unk_0d0();
     virtual bool IsActive();
-    float FUN_005dd4a0(int);
+    float BSFaceGenAnimationData_GetModifierValue(int);
 };
 class FaceGenParent
 {
@@ -1604,7 +1612,7 @@ class FaceGenNode
     bool forceUpdate, skipUpdate, refreshMorph;
     unsigned int FUN_0043b480();
     NiAVObject* FUN_0043b4a0(unsigned int);
-    const NiPoint3& FUN_0045bb80() const;
+    const NiPoint3& NiAVObject_GetWorldTranslate() const;
     FaceGenParent* NiAVObject_GetParent();
     void BSFaceGenNiNode_ApplyFacialPhonemes(FUN_00663430*);
     void ApplyParamValues(FUN_00663430*);
@@ -1615,11 +1623,11 @@ class FaceGenNode
 void* BSFaceGenUtils_GetFaceGenMorphDataHead(void*);
 NiExtraData* GetExtraDataIfPresent(NiAVObject*);
 void BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(NiTriBasedGeom*, BSFaceGenMorphData::Buffers*);
-const NiPoint3& FUN_006633f0();
+const NiPoint3& BSFaceGenManager_GetCameraPosition();
 float BSFaceGenManager_GetLODDistance();
 float BSFaceGenManager_GetTalkingDistance();
-unsigned char FUN_00525420();
-bool FUN_00702360();
+unsigned char Main_GetSceneIsComplex();
+bool Interface_IsInMenuMode();
 
 // @fnv 0x00663050
 // src: COMMUNITY 0x00663050
@@ -1662,22 +1670,22 @@ void FaceGenNode::BSFaceGenNiNode_UpdateAllChildrenMorphData(bool update)
         }
         bool updated4 = false;  // Full update completed.
         bool active5 = false;   // Partial update completed.
-        NiPoint3 origin6 = FUN_006633f0();
+        NiPoint3 origin6 = BSFaceGenManager_GetCameraPosition();
         float radius3 = 10.0f;
-        float kRadius = (origin6 - FUN_0045bb80()).FUN_00457990();
+        float kRadius = (origin6 - NiAVObject_GetWorldTranslate()).FUN_00457990();
         float radiusX = BSFaceGenManager_GetLODDistance();
         float aMaximum = BSFaceGenManager_GetTalkingDistance();
-        if (FUN_00525420())
+        if (Main_GetSceneIsComplex())
         {
             radiusX *= 0.25;
             aMaximum *= 0.25;
         }
         bool aOverrideFlag_2 = false;  // Within the far update range.
         bool active = false;           // Within the near update range.
-        if (kRadius <= aMaximum + radius3 || forceUpdate || FUN_00702360())
+        if (kRadius <= aMaximum + radius3 || forceUpdate || Interface_IsInMenuMode())
         {
             aOverrideFlag_2 = true;
-            if (kRadius <= radiusX + radius3 || forceUpdate || FUN_00702360())
+            if (kRadius <= radiusX + radius3 || forceUpdate || Interface_IsInMenuMode())
                 active = true;
         }
         if (refreshMorph && !done2)
@@ -1699,7 +1707,7 @@ void FaceGenNode::BSFaceGenNiNode_UpdateAllChildrenMorphData(bool update)
         }
         if (GetAnimation()->IsActive())
         {
-            if (!updated4 && GetAnimation()->FUN_005dd4a0(0) > 0.0 && NiAVObject_GetParent()->IsReady())
+            if (!updated4 && GetAnimation()->BSFaceGenAnimationData_GetModifierValue(0) > 0.0 && NiAVObject_GetParent()->IsReady())
             {
                 ApplyParameterValues(&context_2);
                 updated4 = true;
@@ -1764,7 +1772,7 @@ struct DumpAnimation
     virtual void v27();
     virtual void v28();
     virtual float v29(int);
-    float FUN_005dd4a0(int);
+    float BSFaceGenAnimationData_GetModifierValue(int);
 };
 struct DumpPointer
 {
@@ -1772,7 +1780,7 @@ struct DumpPointer
 };
 struct DumpActor
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct DumpString
 {
@@ -1780,11 +1788,11 @@ struct DumpString
 };
 extern DumpString DAT_011d5bf8;
 char* NiViewerStrings_NiGetViewerString_Title(const char*);
-char* FUN_00a7d550(const char*, float);
-const char* FUN_005dd830(int);
-const char* FUN_005dd840(int);
-const char* FUN_005dd850(int);
-int FUN_00406d00(char*, int, const char*, ...);
+char* NiGetViewerString_00a7d550(const char*, float);
+const char* BSFaceGenManager_GetFaceGenExpressionText(int);
+const char* BSFaceGenManager_GetFaceGenModifierText(int);
+const char* BSFaceGenManager_GetFaceGenPhonemeText(int);
+int BSsprintf(char*, int, const char*, ...);
 struct DumpNode
 {
     int unk00;
@@ -1846,56 +1854,56 @@ struct DumpNode
     unsigned char usingLoResHead, playerCharacter, inDialogue, unkE3;
     int unkE4;
     DumpActor* actor;
-    void FUN_00a5ea70(DumpArray*);
+    void NiNode_GetViewerStrings(DumpArray*);
     void DumpToArray(DumpArray*);
 };
 // Appends formatted debug strings describing the node's flags, lastTime, actor, and animation data to the DumpArray.
 // @fnv 0x00663d10
 void DumpNode::DumpToArray(DumpArray* out)
 {
-    FUN_00a5ea70(out);
+    NiNode_GetViewerStrings(out);
     int i, k, buffer;
     char* j = NiViewerStrings_NiGetViewerString_Title(DAT_011d5bf8.FUN_00559450());
     out->FUN_0096a610(j);
     char* title;
     title = new char[32];
-    FUN_00406d00(title, 32, "bForceBaseMorph = %s", forceBaseMorph ? "true" : "false");
+    BSsprintf(title, 32, "bForceBaseMorph = %s", forceBaseMorph ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bFixedNormals = %s", fixedNormals ? "true" : "false");
+    BSsprintf(title, 32, "bFixedNormals = %s", fixedNormals ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bAnimationUpdate = %s", animationUpdate ? "true" : "false");
+    BSsprintf(title, 32, "bAnimationUpdate = %s", animationUpdate ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bRotatedLastUpdate = %s", rotatedLastUpdate ? "true" : "false");
+    BSsprintf(title, 32, "bRotatedLastUpdate = %s", rotatedLastUpdate ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bApplyRotationToParent = %s", applyRotationToParent ? "true" : "false");
+    BSsprintf(title, 32, "bApplyRotationToParent = %s", applyRotationToParent ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bUsingLoResHead = %s", usingLoResHead ? "true" : "false");
+    BSsprintf(title, 32, "bUsingLoResHead = %s", usingLoResHead ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bIAmPlayerCharacter = %s", playerCharacter ? "true" : "false");
+    BSsprintf(title, 32, "bIAmPlayerCharacter = %s", playerCharacter ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "bIAmInDialogue = %s", inDialogue ? "true" : "false");
+    BSsprintf(title, 32, "bIAmInDialogue = %s", inDialogue ? "true" : "false");
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, "fLastTime = %0.3f", lastTime);
+    BSsprintf(title, 32, "fLastTime = %0.3f", lastTime);
     out->FUN_0096a610(title);
     title = new char[32];
-    FUN_00406d00(title, 32, DAT_01066238, actor);
+    BSsprintf(title, 32, DAT_01066238, actor);
     out->FUN_0096a610(title);
     if (actor)
     {
         title = new char[32];
-        FUN_00406d00(title, 32, "pActor->iFormID = %08X", actor->FUN_0084e3a0());
+        BSsprintf(title, 32, "pActor->iFormID = %08X", actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         out->FUN_0096a610(title);
     }
     title = new char[32];
-    FUN_00406d00(title, 32, "spAnimationData = %08X", animation.FUN_00559450());
+    BSsprintf(title, 32, "spAnimationData = %08X", animation.FUN_00559450());
     out->FUN_0096a610(title);
     if (animation.FUN_00559450())
     {
@@ -1903,21 +1911,21 @@ void DumpNode::DumpToArray(DumpArray* out)
         {
             if (animation.FUN_00559450()->v25(i) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(FUN_00a7d550(FUN_005dd830(i), animation.FUN_00559450()->v25(i)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenExpressionText(i), animation.FUN_00559450()->v25(i)));
             }
         }
         for (k = 0; k < 17; k++)
         {
-            if (animation.FUN_00559450()->FUN_005dd4a0(k) != 3.4028234663852886e+38)
+            if (animation.FUN_00559450()->BSFaceGenAnimationData_GetModifierValue(k) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(FUN_00a7d550(FUN_005dd840(k), animation.FUN_00559450()->FUN_005dd4a0(k)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenModifierText(k), animation.FUN_00559450()->BSFaceGenAnimationData_GetModifierValue(k)));
             }
         }
         for (buffer = 0; buffer < 16; buffer++)
         {
             if (animation.FUN_00559450()->v29(buffer) != 3.4028234663852886e+38)
             {
-                out->FUN_0096a610(FUN_00a7d550(FUN_005dd850(buffer), animation.FUN_00559450()->v29(buffer)));
+                out->FUN_0096a610(NiGetViewerString_00a7d550(BSFaceGenManager_GetFaceGenPhonemeText(buffer), animation.FUN_00559450()->v29(buffer)));
             }
         }
     }

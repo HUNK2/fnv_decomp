@@ -9,9 +9,9 @@
 
 const char kMeshesFolder[] = "Meshes";
 unsigned int NiVertexColorProperty_GetType();
-bool FUN_00705100();
+bool DialogMenu_IsDialogActive();
 unsigned int HudMainMenu_GetMenuID();
-bool FUN_00707b50();
+bool Renderer_GetWidescreen();
 
 struct MenuLookup704
 {
@@ -21,16 +21,17 @@ struct MenuLookup704
 struct InterfaceGate704
 {
   public:
-    bool FUN_009373f0();
+    bool TESTextureList_GetTextureCount();
 };
-bool __cdecl FUN_00702680(int, int);
+bool __cdecl Interface_IsMenuIDVisible(int, int);
 
 // @fnv 0x00704e10
-void __cdecl FUN_00704e10(int id)
+// src: XBOX_PDB 0x00704e10
+void __cdecl Interface_UpdateActorValue(int id)
 {
-    if (InterfaceManager_GetSingleton() && ((InterfaceGate704*)InterfaceManager_GetSingleton())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceGate704*)InterfaceManager_GetSingleton())->TESTextureList_GetTextureCount())
     {
-        bool b = FUN_00702680(0x3eb, 0xb);
+        bool b = Interface_IsMenuIDVisible(0x3eb, 0xb);
         if (b)
         {
             ::Menu* menu = Tile::FindMenuById(0x3ebu);

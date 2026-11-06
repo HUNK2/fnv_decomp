@@ -80,9 +80,9 @@ struct Built
     int field08;
     void __thiscall FUN_00d2f980(int);
 };
-extern "C" Global* __cdecl FUN_00c85750();
+extern "C" Global* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkpBvTreeAgent_createShapeBvAgent(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
@@ -113,7 +113,7 @@ struct D2FA00MemoryRouter
     }
 };
 namespace fnvc_adapt {
-extern "C" D2FA00MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D2FA00MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 class D2FA00ReferencedObject
@@ -122,7 +122,7 @@ class D2FA00ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         D2FA00ReferencedObject* b =
-            static_cast<D2FA00ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D2FA00ReferencedObject*>(fnvc_adapt::hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -300,11 +300,12 @@ struct SlotBox
 };
 
 // @fnv 0x00d2f690
-void FUN_00d2f690(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box)
+// src: XBOX_PDB 0x00d2f690
+void hkpBvTreeAgent_calcAabbLinearCast(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box)
 {
     Transform t1;
     SlotTemp2 t2;
-    t1.FUN_00cb22f0(reinterpret_cast<const Transform*>(b->m_08), reinterpret_cast<const Transform*>(a->m_08));
+    t1.hkTransform_setMulInverseMul(reinterpret_cast<const Transform*>(b->m_08), reinterpret_cast<const Transform*>(a->m_08));
     SlotObj* obj = a->m_ent;
     obj->Eval(&t1, p->m_08, box);
     t2.Build(b->m_08, (char*)p + 0x50);
@@ -674,7 +675,7 @@ struct SolRouter
     SolHeap* heapPtr;
     static SolRouter& GetMonitorStream()
     {
-        return *reinterpret_cast<SolRouter*>(FUN_00c85750());
+        return *reinterpret_cast<SolRouter*>(hkMemoryRouter_getInstance());
     }
     SolHeap& heap()
     {
@@ -698,7 +699,7 @@ template <class T> __forceinline void SolFreeStack(T* p)
 }
 extern void __cdecl hkArrayUtil__reserve(SolHeap&, void*, int, int);
 extern void __cdecl hkMemUtil_memMove(void*, const void*, int);
-extern void __cdecl FUN_00d88040(int);
+extern void __cdecl hkSetOutOfMemoryState(int);
 extern char DAT_011b4284, DAT_01268ad4;
 struct SolSortState
 {
@@ -888,12 +889,12 @@ template <class T> struct SolLocalArray : SolArray<T>
         SolFreeStack(localMemory);
     }
 };
-extern D2FA00Agent* __cdecl FUN_00d107a0();
+extern D2FA00Agent* __cdecl hkpNullAgent_getNullAgent();
 struct SolNull
 {
     static D2FA00Agent* getNullAgentOriginal()
     {
-        return FUN_00d107a0();
+        return hkpNullAgent_getNullAgent();
     }
     static SolAgent* GetNullAgent()
     {
@@ -929,7 +930,7 @@ struct SolUpdater : SolAgent
 {
     SolArray<SolEntry> m_kEntries;
     SolBox m_kBoundingBox;
-    void FUN_00d2fac0(const SolBody&, const SolBody&, const SolInput&, SolOwner&);
+    void hkpBvTreeAgent_prepareCollisionPartners(const SolBody&, const SolBody&, const SolInput&, SolOwner&);
 };
 
 struct SolChildState
@@ -1077,7 +1078,8 @@ template <class E> struct SolMerge
     }
 };
 // @fnv 0x00d2fac0
-void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const SolInput& value, SolOwner& context)
+// src: XBOX_PDB 0x00d2fac0
+void SolUpdater::hkpBvTreeAgent_prepareCollisionPartners(const SolBody& first, const SolBody& second, const SolInput& value, SolOwner& context)
 {
     SolBox bounds;
     {
@@ -1085,7 +1087,7 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
         {
             const Transform& secondTransform = second.getTransform();
             const Transform& firstTransform = first.getTransform();
-            transform.FUN_00cb22f0(secondTransform, firstTransform);
+            transform.hkTransform_setMulInverseMul(secondTransform, firstTransform);
         }
         float extra = value.getTolerance() * 0.5;
         first.getShape()->getAabb(transform, value.getTolerance() + extra, bounds);
@@ -1102,7 +1104,7 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
     int amount = (keys.GetLogicalSize() - m_kEntries.GetLogicalSize()) * 128;
     if (!SolRouter::GetMonitorStream().heap().CanAllocateBytes(amount))
     {
-        FUN_00d88040(1);
+        hkSetOutOfMemoryState(1);
         return;
     }
     const SolContainer* container = shape->GetShapeContainer();

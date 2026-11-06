@@ -14,7 +14,7 @@
 extern MemoryManager g_memoryManager;
 struct S
 {
-    S* FUN_00e9ee60(void*);
+    S* NiUnionBV_NiUnionBV(void*);
 };
 S* __fastcall NiUnionBV_Clone(void* self);
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
@@ -37,7 +37,8 @@ struct SViewQ
 };
 
 // @fnv 0x00e9ee60
-S* S::FUN_00e9ee60(void* pkOtherRaw)
+// src: XBOX_PDB 0x00e9ee60
+S* S::NiUnionBV_NiUnionBV(void* pkOtherRaw)
 {
     SViewQ* pkOther = (SViewQ*)pkOtherRaw;
     SViewQ* pkSelf = (SViewQ*)this;

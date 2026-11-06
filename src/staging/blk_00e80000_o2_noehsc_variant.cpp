@@ -160,7 +160,7 @@ struct NiConsoleRenderStateStub
 };
 struct FUN_00e89760_Class
 {
-    void __thiscall FUN_00e89760(NiConsoleRendererStub* renderer);
+    void __thiscall NiD3DShaderProgram_SetD3DRenderer(NiConsoleRendererStub* renderer);
 };
 extern int DAT_011f4500;
 struct ShaderNode
@@ -450,7 +450,7 @@ struct SpawnedObject
 };
 struct GlobalHolder
 {
-    void __thiscall FUN_00aa4060(SpawnedObject* p);
+    void __thiscall MemoryManager_Deallocate(SpawnedObject* p);
 };
 extern SpawnedObject* DAT_0126f72c;
 extern GlobalHolder DAT_011f6238;
@@ -7446,7 +7446,7 @@ struct PoolNode
 struct LockObj
 {
     unsigned int value;
-    void FUN_0040fbf0(char*);
+    void BSSpinLock_Lock(char*);
 };
 extern LockObj DAT_011c5f80;
 extern unsigned int DAT_011c5f84;
@@ -7486,7 +7486,7 @@ struct Target
 };
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
+extern "C" void* __cdecl _NiMalloc_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct Observer
 {
@@ -8144,7 +8144,7 @@ struct StringTable
             InterlockedDecrement((long volatile*)(pcHandle - 8));
     }
 };
-NiFixedString* FUN_00a63ae0(unsigned int ItemUpdateArray);
+NiFixedString* NiTNewInterface_NiFixedString_Allocate(unsigned int ItemUpdateArray);
 // array new
 void FUN_00a644a0(NiFixedString* pkArray);
 // array delete

@@ -122,7 +122,8 @@ const char* NiD3DHLSLVertexShader::GetConstantName(unsigned int uiIndex)
 void __cdecl FUN_00e89ad0();
 
 // @fnv 0x00e97240
-void __cdecl FUN_00e97240()
+// src: XBOX_PDB 0x00e97240
+void __cdecl NiD3DHLSLVertexShader_RecreateRendererData()
 {
     FUN_00e89ad0();
 }
@@ -360,7 +361,8 @@ __forceinline long SetM(NiD3DHLSLVertexShader* pkShader, unsigned int uiReg, con
 }
 
 // @fnv 0x00e972e0
-bool __fastcall FUN_00e972e0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0_Entry* pkEntry, const void* pvDataSource, unsigned int uiFlags)
+// src: XBOX_PDB 0x00e972e0
+bool __fastcall NiD3DHLSLVertexShader_SetShaderConstant(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0_Entry* pkEntry, const void* pvDataSource, unsigned int uiFlags)
 {
     if (!pkShader->m_pShaderConstantTable || !pkShader->m_pD3DDevice)
         return false;
@@ -444,7 +446,8 @@ extern "C" void _ReadWriteBarrier();
 extern const char str_010f14e8[];
 // Resolves the constant by name, then uploads matrix, float, integer, or boolean data to shader registers, optionally using the supplied entry order.
 // @fnv 0x00e974f0
-bool __fastcall FUN_00e974f0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0_Entry* pkEntry, const void* pvData, unsigned int uiNumEntries,
+// src: XBOX_PDB 0x00e974f0
+bool __fastcall NiD3DHLSLVertexShader_SetShaderConstantArray(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0_Entry* pkEntry, const void* pvData, unsigned int uiNumEntries,
                                unsigned int uiRegistersPerEntry, OrderArg orderArg)
 {
     if (pkShader->m_pShaderConstantTable == 0 || pkShader->m_pD3DDevice == 0)

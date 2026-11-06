@@ -40,7 +40,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) { float m128_f32[4];
 #include "../../../../../../../include/hkpCollisionAgent.h"
 #include "../../../../../../../include/hkpSymmetricAgentFlipCollector.h"
 
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
+extern void __cdecl hkpSphereBoxAgent_staticGetPenetrations(int a, int b, int c, int d);
 void __stdcall ForwardToD3C440(int a, int b, int c, int d);
 struct Conversion {
     void (*convert)();
@@ -51,17 +51,17 @@ struct Conversion {
     bool supported;
 };
 struct Registry { void FUN_00cfbbe0(Conversion*, int, int); };
-void FUN_00d3c400();
+void hkpSphereBoxAgent_createBoxSphereAgent();
 void FUN_00d3cfc0();
 void FlipAndDispatchCollector();
 void FUN_00d3ac80();
 void CreateD3C380Obj();
-void FUN_00d3c440();
-void FUN_00d3cc00();
+void hkpSphereBoxAgent_staticGetPenetrations();
+void hkpSphereBoxAgent_staticGetClosestPoints();
 void FUN_00daf8e0();
 void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry);
 extern float DAT_0104da48;
-extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
+extern void __cdecl hkpSphereBoxAgent_staticGetClosestPoints(void*, void*, int, void*);
 void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4);
 struct S_00d3c3c0_Holder {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10();
@@ -87,8 +87,8 @@ struct SmallRecord {
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-hkMemoryRouter* FUN_00c85750();
-void __cdecl FUN_00d3c400(int aiUnused1, int aiUnused2, int aiUnused3, int d);
+hkMemoryRouter* hkMemoryRouter_getInstance();
+void __cdecl hkpSphereBoxAgent_createBoxSphereAgent(int aiUnused1, int aiUnused2, int aiUnused3, int d);
 class D3CF80CollectorBase {
 public:
     D3CF80CollectorBase() : m_bHit(false) {}
@@ -108,7 +108,7 @@ public:
     void ForwardToD3C440(void* pkA, void* pkB, void* pkInput, D3CF80Collector* pkCollector);
     void CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
+extern void __cdecl hkpSphereBoxAgent_staticGetPenetrations(int a, int b, int c, int d);
 extern char DAT_010ce81c[];
 struct FlipCollectorLocal {
     void* unk00;
@@ -121,7 +121,7 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct CpuObject {
     void hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
-    void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, unsigned int);
 };
 extern "C" {
 LocalM128 _mm_shuffle_ps(LocalM128, LocalM128, unsigned int);
@@ -171,7 +171,7 @@ struct AgentBase
 };
 struct Agent : AgentBase
 {
-    void FUN_00d3d080(int a, int b, int c, Simplex* s);
+    void hkpSymmetricAgentLinearCast_hkpSphereBoxAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 extern "C" {
@@ -942,7 +942,8 @@ contactOut.setDistance(distance);
 contactOut.getPosition()(3)=1.0f;
 return true;}
 // @fnv 0x00d3cc00
-void __cdecl FUN_00d3cc00(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
+// src: XBOX_PDB 0x00d3cc00
+void __cdecl hkpSphereBoxAgent_staticGetClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,class hkpCdPointCollector&collector)
 {
 hkUint32 ticks;
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "SphereBox";static_cast<TimerCommand_spherebox*>(h)->setTime(ticks);mStream.setEnd((char*)(h+1));}};

@@ -30,13 +30,13 @@ struct S_00d3ef70_Dispatcher
 {
     void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
+S_00d3ef70_Agent* hkpSphereCapsuleAgent_createCapsuleSphereAgent(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
                   S_00d3ef70_Collector*);
 S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void hkpSphereCapsuleAgent_staticGetPenetrations(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&,
                   S_00d3ef70_Collector*);
@@ -90,9 +90,9 @@ struct SmallRecord
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-hkMemoryRouter* FUN_00c85750();
-void __cdecl FUN_00d3e2f0(int a, int b, int c, int d);
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
+hkMemoryRouter* hkMemoryRouter_getInstance();
+void __cdecl hkpSphereCapsuleAgent_createCapsuleSphereAgent(int a, int b, int c, int d);
+void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(int a, int b, int c, int d);
 void __stdcall hkpSphereCapsuleAgent_getPenetrations(int a, int b, int c, int d);
 extern char DAT_010ce81c;
 struct FUN_00d3f040_tmp
@@ -101,7 +101,7 @@ struct FUN_00d3f040_tmp
     unsigned char flag;
     unsigned int value;
 };
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
+void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
 void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int a3);
 extern char DAT_010ce81c;
 struct AgentDispatchDescriptor
@@ -113,5 +113,5 @@ struct AgentDispatchDescriptor
 struct CollisionDispatcher
 {
     void hkpSphereCapsuleAgent_getPenetrations(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
-    void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
+    void hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getPenetrations(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };

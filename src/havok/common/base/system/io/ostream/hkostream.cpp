@@ -14,7 +14,7 @@
 
 // hkMemoryRouter is the shared Havok memory-router layout: heap allocator at +0x10.
 namespace HavokHeap {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 
@@ -22,19 +22,19 @@ extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
 __declspec(nothrow) inline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
     hkReferencedObject* b = static_cast<hkReferencedObject*>(
-        HavokHeap::FUN_00c85750().heap().blockAlloc(nbytes));
+        HavokHeap::hkMemoryRouter_getInstance().heap().blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return b;
 }
 inline void hkReferencedObject::operator delete(void* p)
 {
-    HavokHeap::FUN_00c85750().heap().blockFree(
+    HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(
         p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return HavokHeap::FUN_00c85750().heap();
+    return HavokHeap::hkMemoryRouter_getInstance().heap();
 }
 
 template <class T>
@@ -65,7 +65,8 @@ extern int DAT_01268108;
 extern "C" __declspec(dllimport) void __stdcall free(void*);
 
 // @fnv 0x00c85750
-void __cdecl FUN_00c85750()
+// src: XBOX_PDB 0x00c85750
+void __cdecl hkMemoryRouter_getInstance()
 {
     free((void*)DAT_01268108);
 }
@@ -282,7 +283,7 @@ class FUN_00d46be0_class
     }
     static void operator delete(void* p) throw()
     {
-        HavokHeap::FUN_00c85750().heap().blockFree(p, sizeof(FUN_00d46be0_class));
+        HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(p, sizeof(FUN_00d46be0_class));
     }
 };
 
@@ -354,7 +355,7 @@ FUN_00cc0780::~FUN_00cc0780() throw()
         if (buffer)
         {
             buffer->~hkArray();
-            HavokHeap::FUN_00c85750().heap().blockFree(buffer, sizeof(*buffer));
+            HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(buffer, sizeof(*buffer));
         }
     }
 }
@@ -437,7 +438,8 @@ extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 
 // Gets a size and buffer, reads binary data and warns for versions below 6, otherwise calls FUN_00c87710 and may byte-swap m_data.
 // @fnv 0x00cc9f60
-unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
+// src: XBOX_PDB 0x00cc9f60
+unsigned int bhkMoppBvTreeShape::LoadCInfo(NiStream& stream)
 {
     unsigned int size = slotA8();
     char allocated;
@@ -468,7 +470,7 @@ unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
     }
     else
     {
-        FUN_00c87710(stream);
+        bhkSerializable_LoadCInfo(stream);
         if (*reinterpret_cast<char*>(reinterpret_cast<char*>(&stream) + 0x1e5) != 1)
         {
             buffer->m_data = _byteswap_ulong(buffer->m_data);

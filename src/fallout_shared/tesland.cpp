@@ -8,7 +8,8 @@
 #pragma optimize("", off)
 int TruncateFloatToInt(float value);
 // @fnv 0x005394a0
-bool TESLandFlagsView::FUN_005394a0()
+// src: XBOX_PDB 0x005394a0
+bool TESLandFlagsView::TESPackage_GetLockDoorsAtStart()
 {
     if (flags & 8)
         return true;
@@ -107,12 +108,12 @@ struct blob12
     char b[12];
 };
 
-CellMopp* __fastcall FUN_0041bb10(void* pThis);
+CellMopp* __fastcall ExtraDataList_GetCellMopp(void* pThis);
 
 // @fnv 0x00537b30
 CellMopp* __fastcall GetCellMopp(char* pThis)
 {
-    return FUN_0041bb10(pThis + 0x28);
+    return ExtraDataList_GetCellMopp(pThis + 0x28);
 }
 
 extern int DAT_0102e388;

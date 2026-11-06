@@ -308,7 +308,7 @@ void CreateDerivedA43370();
 extern const char DAT_01095a4c[];  // BSBlendTreadTransfInterpolator
 void BSBlendTreadTransfInterpolator_CreateObject();
 extern const char DAT_01095a28[];  // BSMultiTargetTreadTransfController
-void FUN_00a359d0();
+void BSMultiTargetTreadTransfController_CreateObject();
 extern const char DAT_01095a10[];  // BSFrustumFOVController
 void BSFrustumFOVController_CreateObject();
 extern const char DAT_01095a04[];  // NiVisData
@@ -388,7 +388,7 @@ void NiAnimationSDM_Init()
         FUN_00a64900(DAT_01095a88, CreateRotAccumTransfInterpolator);
         FUN_00a64900(DAT_01095a6c, CreateDerivedA43370);
         FUN_00a64900(DAT_01095a4c, BSBlendTreadTransfInterpolator_CreateObject);
-        FUN_00a64900(DAT_01095a28, FUN_00a359d0);
+        FUN_00a64900(DAT_01095a28, BSMultiTargetTreadTransfController_CreateObject);
         FUN_00a64900(DAT_01095a10, BSFrustumFOVController_CreateObject);
         FUN_00a64900(DAT_01095a04, NiBoolData_CreateObject);
         FUN_00a64920(NiOldAnimationConverter_Convert);

@@ -23,10 +23,11 @@ struct P03MM
 extern P03MM g_memoryManager;
 struct FUN_00ec1a40_Class
 {
-    void* FUN_00ec1a40();
+    void* NiTMap_char_const_char_NewItem();
 };
 // @fnv 0x00ec1a40
-void* FUN_00ec1a40_Class::FUN_00ec1a40()
+// src: XBOX_PDB 0x00ec1a40
+void* FUN_00ec1a40_Class::NiTMap_char_const_char_NewItem()
 {
     void* result = g_memoryManager.Allocate(0xc);
     return result;
@@ -371,12 +372,13 @@ struct FUN_00ec17c0_Class
     int m_0000;
     int m_0004;
     void* m_0008;
-    bool FUN_00ec17c0();
+    bool MoviePlayer_GetPlayingSequence();
 };
 
 // Returns true when m_0008 is set and GetExitCodeThread reports exit code 0x103 for it.
 // @fnv 0x00ec17c0
-bool FUN_00ec17c0_Class::FUN_00ec17c0()
+// src: XBOX_PDB 0x00ec17c0
+bool FUN_00ec17c0_Class::MoviePlayer_GetPlayingSequence()
 {
     if (!m_0008)
         return false;
@@ -884,7 +886,7 @@ void __cdecl _NiFree_00aa10f0(int aValue);
 
 struct FUN_00ec1df0_pool
 {
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern FUN_00ec1df0_pool DAT_011f6238;
 
@@ -909,7 +911,7 @@ FUN_00ec1df0_cls* FUN_00ec1df0_cls::FUN_00ec1df0(unsigned int acFlags)
     _NiFree_00aa10f0(m_08);
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -920,7 +922,7 @@ extern int DAT_010f1c20;
 class FUN_00ec1ee0_pool
 {
   public:
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern FUN_00ec1ee0_pool DAT_011f6238;
 
@@ -953,7 +955,7 @@ FUN_00ec1ee0_cls* FUN_00ec1ee0_cls::FUN_00ec1ee0(unsigned int auiFlags)
     BaseCleanup();
     if (auiFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -978,7 +980,7 @@ void __thiscall FUN_00ec1fd0_shell::UnpauseBink()
 namespace fnv_00ec25e0 {
 struct FUN_00aa4060_Obj
 {
-    void __thiscall FUN_00aa4060(FUN_00ec1f40Class* p);
+    void __thiscall MemoryManager_Deallocate(FUN_00ec1f40Class* p);
 };
 extern FUN_00aa4060_Obj DAT_011f6238;
 
@@ -1001,7 +1003,7 @@ void __thiscall FUN_00ec25e0_cls::MoviePlayer_Stop()
     {
         FUN_00ec1f40Class* t2 = m_000c;
         FUN_00ec1f40Class* p = t2;
-        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.FUN_00aa4060(p) : (void)0), p) : 0;
+        p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.MemoryManager_Deallocate(p) : (void)0), p) : 0;
         m_000c = 0;
     }
     MoviePlayer_Resume();
@@ -2174,7 +2176,7 @@ extern "C" char DAT_010f1be4;
 extern "C" __declspec(dllimport) int __stdcall BinkWait(void*);
 extern "C" __declspec(dllimport) void __stdcall BinkNextFrame(void*);
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
-void __cdecl FUN_0040fbe0(const char*, ...);
+void __cdecl ProgramFlow(const char*, ...);
 void __cdecl Blit_RAD_3D_image_pow2(unsigned int, float, float, float, float);
 struct EC1060Bink
 {
@@ -2208,7 +2210,7 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
             if (p)
             {
                 decoded++;
-                FUN_0040fbe0(&DAT_010f1be4, frame, decoded);
+                ProgramFlow(&DAT_010f1be4, frame, decoded);
             }
             BinkNextFrame(apDirectSound);
             frame++;

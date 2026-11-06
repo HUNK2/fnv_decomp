@@ -37,11 +37,12 @@ struct FUN_006ffe80_shell
     int y;
     int a;
     int b;
-    void FUN_006ffe80(int a, int b);
+    void AnimatingText_SetTraits(int a, int b);
 };
 
 // @fnv 0x006ffe80
-void FUN_006ffe80_shell::FUN_006ffe80(int aiFirst, int aiSecond)
+// src: XBOX_PDB 0x006ffe80
+void FUN_006ffe80_shell::AnimatingText_SetTraits(int aiFirst, int aiSecond)
 {
     this->a = aiFirst;
     this->b = aiSecond;
@@ -91,7 +92,8 @@ void* HackingMenu::Destroy(unsigned int flags)
 
 
 // @fnv 0x00766a40
-int __cdecl FUN_00766a40()
+// src: XBOX_PDB 0x00766a40
+int __cdecl HackingMenu_GetClassStatic()
 {
     return 0x41f;
 }
@@ -101,7 +103,8 @@ namespace fnv_00767ff0 {
 } // namespace fnv_00767ff0
 
 // @fnv 0x00767ff0
-void HackingMenu::FUN_00767ff0(int aiID, void* apTarget)
+// src: XBOX_PDB 0x00767ff0
+void HackingMenu::DoLeave_00767ff0(int aiID, void* apTarget)
 {
     using namespace fnv_00767ff0;
     ClearTilePayloadPair();
@@ -137,17 +140,18 @@ char MaxByte(unsigned char a, unsigned char b)
     return a > b ? a : b;
 }
 
-extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
+extern "C" unsigned int __cdecl RandomUnsignedInt(unsigned int);
 
 // @fnv 0x0076b2e0
 unsigned int __cdecl FUN_0076b2e0()
 {
-    return FUN_005a00a0(2) * 2 - 1;
+    return RandomUnsignedInt(2) * 2 - 1;
 }
 
 
 // @fnv 0x00747d00
-int __thiscall InterfaceManager::FUN_00747d00()
+// src: XBOX_PDB 0x00747d00
+int __thiscall InterfaceManager::GetCursorX()
 {
     return (int)(UpdateInterfaceState() / 2.0 + *(float*)((char*)this + 0x2c));
 }
@@ -158,7 +162,8 @@ unsigned int __cdecl gm_GetTickCount();
 
 // Calls FUN_0076a540 when gm_GetTickCount() exceeds the tick value stored at this+0x1d0.
 // @fnv 0x0076a510
-void __thiscall HackingMenu::FUN_0076a510()
+// src: XBOX_PDB 0x0076a510
+void __thiscall HackingMenu::AccessTerminal()
 {
     if (gm_GetTickCount() > *(unsigned int*)((char*)this + 0x1d0))
     {
@@ -170,13 +175,13 @@ void __thiscall HackingMenu::FUN_0076a510()
 struct HackingTextAnimation : BSStringT<char>
 {
     HackingTextAnimation();
-    void FUN_006ffe10();
+    void AnimatingText_Initialize();
 };
 // Constructs the object by calling FUN_006ffe10.
 // @fnv 0x00726c90
 HackingTextAnimation::HackingTextAnimation()
 {
-    FUN_006ffe10();
+    AnimatingText_Initialize();
 }
 
 struct ListX
@@ -284,12 +289,13 @@ unsigned int __thiscall HackingMenu::CountMatchingChars(const char* pcStringA, c
 struct FUN_007694f0_shell
 {
     void __thiscall FUN_00726c90();
-    int __thiscall FUN_007694f0();
+    int __thiscall HackingMenu_TerminalIO_TerminalIO();
 };
 
 // Calls FUN_00726c90, then zeroes the int fields at offsets 0x30 and 0x2c and returns this.
 // @fnv 0x007694f0
-int __thiscall FUN_007694f0_shell::FUN_007694f0()
+// src: XBOX_PDB 0x007694f0
+int __thiscall FUN_007694f0_shell::HackingMenu_TerminalIO_TerminalIO()
 {
     FUN_00726c90();
     *(int*)((char*)this + 0x30) = 0;
@@ -396,27 +402,29 @@ void __thiscall FUN_0076b2a0_shell::FreeAll()
 }  // namespace fnv_0076b2a0
 
 // @fnv 0x00768020
-void __thiscall HackingMenu::FUN_00768020()
+// src: XBOX_PDB 0x00768020
+void __thiscall HackingMenu::ClearEntry()
 {
     anim.AssignString(0);
     m_pTiles[2]->Set(0x1005, -1);
     m_pTiles[2]->Set(0x1008, -1);
 }
 
-int __cdecl FUN_004dc1f0(void);
+int __cdecl Renderer_GetScreenWidth(void);
 struct MyHack
 {
     unsigned char _pad0[0x4AC];
     float f4AC;
     unsigned char _pad1[0x20];
     float f4D0;
-    float __thiscall FUN_007697f0();
+    float __thiscall InterfaceManager_GetPipboyMouseX();
 };
 // Returns f4AC multiplied by 1280.0, divided by the result of FUN_004dc1f0, then multiplied by f4D0.
 // @fnv 0x007697f0
-float __thiscall MyHack::FUN_007697f0()
+// src: XBOX_PDB 0x007697f0
+float __thiscall MyHack::InterfaceManager_GetPipboyMouseX()
 {
-    return (float)(f4AC * 1280.0 / FUN_004dc1f0() * f4D0);
+    return (float)(f4AC * 1280.0 / Renderer_GetScreenWidth() * f4D0);
 }
 
 
@@ -448,7 +456,8 @@ struct TileHelper
 
 // Scans 46 entries for one whose value is non-null, passes a check, and whose floats at 0xfac and 0x1004 equal a and b; returns that value or null.
 // @fnv 0x00767bb0
-Tile* __thiscall HackingMenu::FUN_00767bb0(int iColumn, int iNewRow)
+// src: XBOX_PDB 0x00767bb0
+Tile* __thiscall HackingMenu::FindTile(int iColumn, int iNewRow)
 {
     for (unsigned int i = 0; i < 46; ++i)
     {
@@ -537,7 +546,7 @@ class MenuCloseOperation
 };
 
 FORenderedMenu* __fastcall FUN_00707af0(InterfaceManager* pkManager);
-void __cdecl FUN_007ffe40();
+void __cdecl FORenderedTerminal_PlayShutdownSound();
 unsigned int __cdecl gm_GetTickCount();
 
 extern const float runtimeFloatSettingDefault987;
@@ -550,16 +559,16 @@ void __cdecl UpdateD766AA0Menu()
 {
     if (g_pkD766AA0Menu)
     {
-        FUN_007ffe40();
+        FORenderedTerminal_PlayShutdownSound();
         g_pkD766AA0Menu->GetTile()->Set(0xfc1, runtimeFloatSettingDefault987, true);
         if (FUN_00707af0(g_pkD766AA0InterfaceManager))
         {
             if (FUN_00707af0(g_pkD766AA0InterfaceManager)->GetSceneNode() ==
-                ((Tile*)g_pkD766AA0Menu->GetTile())->FUN_0056c7f0())
+                ((Tile*)g_pkD766AA0Menu->GetTile())->GetModel_0056c7f0())
             {
                 FORenderedTerminal* pkTerminal =
                     dynamic_cast<FORenderedTerminal*>(FUN_00707af0(g_pkD766AA0InterfaceManager));
-                pkTerminal->FUN_007ffaf0();
+                pkTerminal->FORenderedTerminal_FadeOut();
             }
         }
         ((Tile*)g_pkD766AA0Menu->GetTile())->SetInt(0x1772, 1);
@@ -572,9 +581,9 @@ extern int DAT_010729c8;
 struct ValueRow
 {
     float __thiscall FUN_00a011b0(unsigned int key, unsigned int mode);
-    void __thiscall FUN_00a012d0(unsigned int key, float value);
+    void __thiscall Tile_Set(unsigned int key, float value);
     void __thiscall FUN_00715c60(unsigned int key, unsigned int value);
-    void __thiscall FUN_00a01350(unsigned int key, unsigned int value, unsigned int mode);
+    void __thiscall Tile_Set_00a01350(unsigned int key, unsigned int value, unsigned int mode);
 };
 struct MenuRowFactory
 {
@@ -583,8 +592,8 @@ struct MenuRowFactory
 struct EntryListNode
 {
     int __thiscall FUN_00559450();
-    ValueRow** __thiscall FUN_0057cbe0(int* iterator);
-    void __thiscall FUN_004ed8c0(ValueRow** item);
+    ValueRow** __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* iterator);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(ValueRow** item);
 };
 // Adds count to the 0xfac value of each existing row, then creates count new rows with descending 0xfac values and the given values at 0xfc4, appending each.
 // @fnv 0x00767ef0
@@ -595,16 +604,16 @@ void __thiscall HackingMenu::AddValueRows(unsigned int count, const unsigned int
         int iterator = ((EntryListNode*)((char*)this + 0x168))->FUN_00559450();
         while (iterator != 0)
         {
-            item = *(((EntryListNode*)((char*)this + 0x168))->FUN_0057cbe0(&iterator));
-            item->FUN_00a012d0(0xfac, item->FUN_00a011b0(0xfac, 1) + float(count));
+            item = *(((EntryListNode*)((char*)this + 0x168))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&iterator));
+            item->Tile_Set(0xfac, item->FUN_00a011b0(0xfac, 1) + float(count));
         }
     }
     for (unsigned int index = 0; index < count; ++index)
     {
         item = reinterpret_cast<MenuRowFactory*>(this)->FUN_00a1ddb0(*(void**)((char*)this + 0x118), &DAT_010729c8, 0);
         item->FUN_00715c60(0xfac, count - index - 1);
-        item->FUN_00a01350(0xfc4, puiValues[index], 1);
-        ((EntryListNode*)((char*)this + 0x168))->FUN_004ed8c0(&item);
+        item->Tile_Set_00a01350(0xfc4, puiValues[index], 1);
+        ((EntryListNode*)((char*)this + 0x168))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(&item);
     }
 }
 
@@ -624,7 +633,7 @@ struct FUN_007687d0
     Entry* FUN_00559450();
     FUN_007687d0 FUN_0076af90(unsigned char* result, int j);
 };
-unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
+unsigned int __cdecl BSMAX(unsigned int a, unsigned int b);
 unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 struct Context
 {
@@ -664,7 +673,7 @@ unsigned int Context::FUN_00769520(FUN_007687d0* input)
                     {
                         FUN_007687d0 a = input->FUN_0076af90(results, minimum);
                         unsigned int j = FUN_00769520(&a);
-                        worst = FUN_00403940(worst, j);
+                        worst = BSMAX(worst, j);
                     }
                 }
                 if (worst != 0)
@@ -732,7 +741,8 @@ struct TileV
 
 
 // @fnv 0x0076a3f0
-void HackingMenu::FUN_0076a3f0()
+// src: XBOX_PDB 0x0076a3f0
+void HackingMenu::DoShutdown()
 {
     if (gm_GetTickCount() > reinterpret_cast<unsigned int&>(unk1d0))
     {
@@ -759,7 +769,8 @@ void __cdecl FUN_00401460(int, const char*, int);
 
 
 // @fnv 0x0076a670
-void HackingMenu::FUN_0076a670(int a1, const char* pcSource)
+// src: XBOX_PDB 0x0076a670
+void HackingMenu::GetGarbageString(int a1, const char* pcSource)
 {
     int idx = 1;
     int r6 = FUN_00ec7690(DAT_011a0104, pcSource[0]);
@@ -787,14 +798,14 @@ void HackingMenu::FUN_0076a670(int a1, const char* pcSource)
 }
 
 extern "C" unsigned int __cdecl Cmd_GetSessionTime_Execute();
-extern "C" int __cdecl FUN_00a00940(const char*, int);
+extern "C" int __cdecl Tile_AddUserTrait(const char*, int);
 extern "C" char str_01072108;
 struct Fade
 {
     int state;
     int flags;
     float amount;
-    void __thiscall FUN_00a0a270(float value, int enabled);
+    void __thiscall Tile_Value_SetFloat_00a0a270(float value, int enabled);
 };
 struct Resources
 {
@@ -814,7 +825,7 @@ struct Widget
 void HackingMenu::UpdateFade()
 {
     static float delay = (*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))
-                             ->FUN_00a011b0(FUN_00a00940(&str_01072108, -1));
+                             ->FUN_00a011b0(Tile_AddUserTrait(&str_01072108, -1));
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<MenuWidgetLookup*>(this)->FUN_00726070(0x1006)->IsTraitNonZero())
     {
         return;
@@ -825,7 +836,7 @@ void HackingMenu::UpdateFade()
         if (Cmd_GetSessionTime_Execute() > nextUpdate && *reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) != 0)
         {
             (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))
-                ->FUN_00a0a270(
+                ->Tile_Value_SetFloat_00a0a270(
                     (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))->amount == 1.0 ? 0.0f : 1.0f, 1);
             nextUpdate = static_cast<unsigned int>(Cmd_GetSessionTime_Execute() + delay);
         }
@@ -840,12 +851,12 @@ void HackingMenu::UpdateFade()
 struct Node
 {
     bool __thiscall IsTraitNonZero(int property);
-    Node* __thiscall FUN_00a011f0(int property);
+    Node* __thiscall Tile_GetString(int property);
     Node* __thiscall FUN_0045cd60();
     void __thiscall FUN_00a011b0(int property);
     void __thiscall FUN_00700320(int property, int value);
 };
-extern int __cdecl FUN_0044a670(Node* node);
+extern int __cdecl BSstrlen(Node* node);
 extern int __cdecl FUN_00ec62c0();
 // @fnv 0x0076ab40
 void HackingMenu::UpdateActiveNodeProperty()
@@ -857,9 +868,9 @@ void HackingMenu::UpdateActiveNodeProperty()
         total = 0;
         if (reinterpret_cast<Node*>(m_pTiles[5])->IsTraitNonZero(0xfa3))
         {
-            selected = reinterpret_cast<Node*>(m_pTiles[5])->FUN_00a011f0(0xfc4);
+            selected = reinterpret_cast<Node*>(m_pTiles[5])->Tile_GetString(0xfc4);
             if (selected)
-                multiplier = FUN_0044a670(selected);
+                multiplier = BSstrlen(selected);
         }
         for (Node* current = reinterpret_cast<Node*>(m_pTiles[5]); current && current != reinterpret_cast<Node*>(m_pTiles[4])->FUN_0045cd60(); current = current->FUN_0045cd60())
         {
@@ -874,7 +885,7 @@ void HackingMenu::UpdateActiveNodeProperty()
 struct FUN_00a1ddb0_res
 {
     void __thiscall FUN_00715c60(unsigned int id, int cnt);
-    int __thiscall FUN_00700300();
+    int __thiscall GetName_00700300();
     void __thiscall FUN_00707e10(int len);
 };
 
@@ -888,7 +899,7 @@ extern HackingMenu* DAT_011d95b8;
 struct FUN_0044ddc0_sub
 {
     int __thiscall FUN_0044ddc0();
-    void __thiscall FUN_004ed8c0(FUN_00a1ddb0_res** pp);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(FUN_00a1ddb0_res** pp);
 };
 
 
@@ -899,10 +910,10 @@ void HackingMenu::BuildHackingGuessTemplate()
 {
     FUN_00a1ddb0_res* p = reinterpret_cast<FUN_00a1ddb0_owner*>(DAT_011d95b8)->FUN_00a1ddb0(reinterpret_cast<char*>(m_pTiles[1]), "hacking_guess_template", 0);
     p->FUN_00715c60(0xfac, (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).FUN_0044ddc0());
-    (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).FUN_004ed8c0(&p);
+    (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(&p);
     {
         BSStringT<char> nameBuf;
-        nameBuf.PrintfString("%s_%d", p->FUN_00700300(), (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).FUN_0044ddc0());
+        nameBuf.PrintfString("%s_%d", p->GetName_00700300(), (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).FUN_0044ddc0());
         p->FUN_00707e10((int)nameBuf.String());
     }
 }
@@ -1028,7 +1039,7 @@ struct SettingValue
 };
 struct SettingColl
 {
-    SettingValue* FUN_0043d4d0();
+    SettingValue* Setting_Int();
 };
 struct SysColorMgr
 {
@@ -1051,20 +1062,20 @@ HackingMenu::~HackingMenu()
     EntObj* entCopy2;
     int i8;
     unsigned int jB;
-    while (!list168.FUN_0076b610())
+    while (!list168.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
         head7 = list168.RemoveHead();
         objTmp = head7;
         objTmp ? objTmp->Call0(1) : 0;
     }
-    while (!list174.FUN_0076b610())
+    while (!list174.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
         head4 = list174.RemoveHead();
         obj2 = head4;
         obj2 ? obj2->Call0(1) : 0;
     }
     list188.FUN_004ed900();
-    DAT_011d95c0 = gm_GetTickCount() + DAT_011d0b90.FUN_0043d4d0()->v;
+    DAT_011d95c0 = gm_GetTickCount() + DAT_011d0b90.Setting_Int()->v;
     pair180.FreeAll();
     void* ptrTmp = reinterpret_cast<void*>(unk1b0);
     FormHeapFreeAndLog_00401030(ptrTmp);
@@ -1091,7 +1102,7 @@ struct HackList
     char** Get();
     void Remove(char**);
 };
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 // Picks a random word matching selected, fills its menu tile with dots up to dotCount, shifts positions, frees the word and decrements count.
 // @fnv 0x0076a730
 void HackingMenu::RemoveRandomWord()
@@ -1105,12 +1116,12 @@ void HackingMenu::RemoveRandomWord()
     char text[20];
     do
     {
-        index = FUN_005a00a0(reinterpret_cast<unsigned int&>(unk1a8));
+        index = RandomUnsignedInt(reinterpret_cast<unsigned int&>(unk1a8));
         iter = index;
         word = &(*reinterpret_cast<HackList*>(&pair180));
         while (iter--)
             word = word->Next();
-    } while (!FUN_00408b20(*word->Get(), reinterpret_cast<const char*>(unk19c)));
+    } while (!BSstrcmp(*word->Get(), reinterpret_cast<const char*>(unk19c)));
     aRow = 4;
     for (position3 = reinterpret_cast<unsigned int*>(unk1b0)[index]; position3 > 12; position3 -= 12)
         ++aRow;
@@ -1200,7 +1211,7 @@ struct FUN_00759eb0
 };
 struct SettingRef
 {
-    unsigned int* __thiscall FUN_0043d4d0();
+    unsigned int* __thiscall Setting_Int();
 };
 extern SettingRef DAT_011d3dc0;
 extern SettingRef DAT_011d4e4c;
@@ -1213,9 +1224,9 @@ struct TileValue
 struct ConstructorTile : FUN_00a1ddb0_res
 {
     int __thiscall FindTraitValue(int);
-    int __thiscall FUN_00a00f30(int);
+    int __thiscall Tile_GetValue(int);
     void __thiscall FUN_00700320(unsigned int, int);
-    void __thiscall FUN_00a01350(unsigned int, const char*, bool);
+    void __thiscall Tile_Set_00a01350(unsigned int, const char*, bool);
 };
 extern const char DAT_0107293c[];
 extern const char DAT_010692d0[];
@@ -1224,7 +1235,7 @@ struct FUN_0076b300 : FUN_00759eb0
     ConstructorTile* tile;
     ConstructorTile* label;
     void __thiscall SetCapacity(unsigned int);
-    void __thiscall FUN_006ffe80(int, int);
+    void __thiscall AnimatingText_SetTraits(int, int);
     FUN_0076b300(const char*, char*, const char*, int, unsigned char);
 };
 // @fnv 0x0076b300
@@ -1236,21 +1247,21 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
     if (!DAT_011d95b8)
         return;
     unsigned int counts[3];
-    counts[0] = *DAT_011d3dc0.FUN_0043d4d0();
-    counts[1] = *DAT_011d4e4c.FUN_0043d4d0();
-    counts[2] = *DAT_011d3510.FUN_0043d4d0();
+    counts[0] = *DAT_011d3dc0.Setting_Int();
+    counts[1] = *DAT_011d4e4c.Setting_Int();
+    counts[2] = *DAT_011d3510.Setting_Int();
     {
         unsigned int randomValue = counts[kind] > 1 ? FUN_004bd510(1000.0 / counts[kind], 1.0f) : 1000.0f;
         SetCapacity(randomValue);
         tile = static_cast<ConstructorTile*>(reinterpret_cast<FUN_00a1ddb0_owner*>(DAT_011d95b8)->FUN_00a1ddb0(parent, path, 0));
         if (tile)
         {
-            FUN_006ffe80(tile->FUN_00a00f30(0xfc4), tile->FindTraitValue(0xfa3));
+            AnimatingText_SetTraits(tile->Tile_GetValue(0xfc4), tile->FindTraitValue(0xfa3));
             if (kind == 1)
             {
                 label = static_cast<ConstructorTile*>(
                     reinterpret_cast<FUN_00a1ddb0_owner*>(DAT_011d95b8)->FUN_00a1ddb0(reinterpret_cast<char*>(DAT_011d95b8->m_pTiles[0]), DAT_0107293c, 0));
-                label->FUN_00a01350(0xfc4, DAT_010692d0, true);
+                label->Tile_Set_00a01350(0xfc4, DAT_010692d0, true);
             }
             if (value >= 0)
             {
@@ -1276,9 +1287,9 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl FUN_00afdf20(const char*, unsigned int, unsigned int, unsigned int);
 extern "C" void __cdecl Warning_005b5e40(int, const char*, const char*);
-extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
+extern "C" unsigned int __cdecl RandomUnsignedInt(unsigned int);
 unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
-void __cdecl FUN_0040fbe0(const char*, int);
+void __cdecl ProgramFlow(const char*, int);
 unsigned int __cdecl BSStringLength(const char*);
 extern char str_01072a34[];
 extern char str_01072a00[];
@@ -1401,7 +1412,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                     }
                     else if (*(unsigned int*)((char*)this + 0x1a8) < requestedCount - 1)
                     {
-                        accepted = (similarity > 0 || FUN_005a00a0(10) < (unsigned int)ahead);
+                        accepted = (similarity > 0 || RandomUnsignedInt(10) < (unsigned int)ahead);
                     }
                     else
                     {
@@ -1435,12 +1446,12 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
-    bracket = FUN_005a00a0(*(unsigned int*)((char*)this + 0x1a8));
+    bracket = RandomUnsignedInt(*(unsigned int*)((char*)this + 0x1a8));
     currentNode = ((WordsView*)((char*)this + 0x180));
     for (int index = 0; (unsigned int)index < bracket; ++index)
         currentNode = currentNode->FUN_00726070();
     *(char**)((char*)this + 0x19c) = *currentNode->FUN_006815c0();
-    FUN_0040fbe0(str_010729e8, (int)*(char**)((char*)this + 0x19c));
+    ProgramFlow(str_010729e8, (int)*(char**)((char*)this + 0x19c));
     MatrixWrapper bonus(*(unsigned int*)((char*)this + 0x1a8));
     row = 0;
     for (currentNode = ((WordsView*)((char*)this + 0x180)); currentNode && *currentNode->FUN_006815c0();
@@ -1471,8 +1482,8 @@ extern Setting83 DAT_011d2e20, DAT_011d33cc, DAT_011d430c;
 struct Tile83
 {
     float FUN_00a011b0(int, int);
-    void FUN_00a012d0(int, float);
-    int FUN_00a00f30(int);
+    void Tile_Set(int, float);
+    int Tile_GetValue(int);
     void FUN_00715c60(int, int);
     float GetTotalFloat();
     void FUN_00700320(int, int);
@@ -1486,7 +1497,7 @@ struct Entry83
     Entry83();
     ~Entry83();
     void* FUN_00765b50(int);
-    void FUN_006ffe80(int, int);
+    void AnimatingText_SetTraits(int, int);
 };
 struct Node83
 {
@@ -1498,11 +1509,11 @@ struct Node83
     void FUN_006ecd40(int);
 };
 void* ourMemset(void*, int, unsigned int);
-unsigned int FUN_0044a670(const char*);
+unsigned int BSstrlen(const char*);
 void* FUN_00401460(void*, const void*, unsigned int);
 void __cdecl Warning_005b5e40(const char*, ...);
 void* InterfaceManager_GetSingleton();
-bool FUN_004b71d0();
+bool InterfaceManager_Has360Controller();
 void operator delete(void*);
 void* operator new[](unsigned int);
 void operator delete[](void*);
@@ -1518,14 +1529,14 @@ void HackingMenu::BuildHackingPasswordFile()
     reinterpret_cast<Entry83**>(entries)[0] = new Entry83(DAT_011d33cc.FUN_004c69f0(), reinterpret_cast<Tile83*>(m_pTiles[1]), "hacking_intro_template", unk1b4, 0);
     reinterpret_cast<Entry83**>(entries)[1] = new Entry83(DAT_011d430c.FUN_004c69f0(), reinterpret_cast<Tile83*>(m_pTiles[1]), "hacking_intro_template", unk1b4 + unk1b8, 0);
     reinterpret_cast<Entry83**>(entries)[2] = new Entry83(text24x17.String(), reinterpret_cast<Tile83*>(m_pTiles[1]), "hacking_intro_template", unk1b4 + unk1b8 * 3, 0);
-    reinterpret_cast<Tile83*>(m_pTiles[1])->FUN_00a012d0(4101, reinterpret_cast<Entry83**>(entries)[2]->tile->FUN_00a011b0(4001, 1) + text24x17.Length() * 17);
-    reinterpret_cast<Tile83*>(m_pTiles[1])->FUN_00a012d0(4102, reinterpret_cast<Entry83**>(entries)[2]->tile->FUN_00a011b0(4002, 1));
+    reinterpret_cast<Tile83*>(m_pTiles[1])->Tile_Set(4101, reinterpret_cast<Entry83**>(entries)[2]->tile->FUN_00a011b0(4001, 1) + text24x17.Length() * 17);
+    reinterpret_cast<Tile83*>(m_pTiles[1])->Tile_Set(4102, reinterpret_cast<Entry83**>(entries)[2]->tile->FUN_00a011b0(4002, 1));
     reinterpret_cast<Entry83**>(entries)[3] = new Entry83;
-    reinterpret_cast<Entry83**>(entries)[3]->FUN_006ffe80(0, reinterpret_cast<Tile83*>(m_pTiles[1])->FUN_00a00f30(4100));
+    reinterpret_cast<Entry83**>(entries)[3]->AnimatingText_SetTraits(0, reinterpret_cast<Tile83*>(m_pTiles[1])->Tile_GetValue(4100));
     int entryIndex7x39 = 4;
     for (unsigned int i = 0; i < (unsigned int)unk1a4; i++)
         BuildHackingGuessTemplate();
-    unsigned int alphabetSize17x2 = FUN_0044a670("!@#$%^*()_+=-`[]{}|;':,./<>?\\\"");
+    unsigned int alphabetSize17x2 = BSstrlen("!@#$%^*()_+=-`[]{}|;':,./<>?\\\"");
     int spacing35x61 = 2;
     int bufferSize12x1 = 409;
     char bufferx3[409];
@@ -1537,14 +1548,14 @@ void HackingMenu::BuildHackingPasswordFile()
     while (true)
     {
         for (unsigned int fill18 = 0; fill18 < 408; fill18++)
-            bufferx3[fill18] = "!@#$%^*()_+=-`[]{}|;':,./<>?\\\""[FUN_005a00a0(alphabetSize17x2)];
+            bufferx3[fill18] = "!@#$%^*()_+=-`[]{}|;':,./<>?\\\""[RandomUnsignedInt(alphabetSize17x2)];
         bufferx3[408] = 0;
         Node83* node15 = &(*reinterpret_cast<Node83*>(&pair180));
         int wordIndex4 = 0;
         unsigned int failures12 = 0;
         while (node15 && *node15->FUN_006815c0() && failures12 < 100)
         {
-            int position4 = FUN_005a00a0(409 - unk1ac - 2);
+            int position4 = RandomUnsignedInt(409 - unk1ac - 2);
             bool free16 = true;
             for (int j = -2; free16 && j < unk1ac + 2; j++)
                 free16 = !(position4 + j >= 0 && bufferx3[position4 + j] >= 'A' && bufferx3[position4 + j] <= 'Z');
@@ -1606,7 +1617,7 @@ void HackingMenu::BuildHackingPasswordFile()
         reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile->FUN_00715c60(4012, row104x2);
         reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile->FUN_00715c60(4100, column9x68);
         InterfaceManager_GetSingleton();
-        if (FUN_004b71d0() && !row104x2 && !column9x68)
+        if (InterfaceManager_Has360Controller() && !row104x2 && !column9x68)
         {
             reinterpret_cast<Tile83*&>(m_pkCursorTile) = reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile;
             m_iCursorIndex = (int)(reinterpret_cast<Tile83*&>(m_pkCursorTile)->GetTotalFloat() + 119.0);
@@ -1631,7 +1642,7 @@ namespace s767610 {
 
 
 InterfaceManager* InterfaceManager_GetSingleton();
-bool FUN_00702450(int iMenuID);
+bool Interface_IsTopMenuID(int iMenuID);
 int FUN_00ec86e1(int iChar);
 
 struct HackingState
@@ -1700,9 +1711,9 @@ extern HackingState* DAT_011d95bc;
 bool HackingMenu::HandleKey(int iKey, int iUnused)
 {
     using namespace s767610;
-    if (!s767610::InterfaceManager_GetSingleton()->FUN_004b71d0())
+    if (!s767610::InterfaceManager_GetSingleton()->InterfaceManager_Has360Controller())
         return false;
-    if (s767610::FUN_00702450(0x41f))
+    if (s767610::Interface_IsTopMenuID(0x41f))
     {
         s767610::DAT_011d95bc->m_pkSelected = m_pkCursorTile;
         if (m_iStage < 2 && iKey == 9)
@@ -1716,12 +1727,12 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
             {
             case 4: {
                 int iSavedIndex = m_iCursorIndex;
-                bool bWord = (m_pkCursorTile && m_pkCursorTile->FUN_00a011f0(0xfc4))
-                                 ? (s767610::FUN_00ec86e1(m_pkCursorTile->FUN_00a011f0(0xfc4)[GetScaledValue()]) ? 1 : 0)
+                bool bWord = (m_pkCursorTile && m_pkCursorTile->Tile_GetString(0xfc4))
+                                 ? (s767610::FUN_00ec86e1(m_pkCursorTile->Tile_GetString(0xfc4)[GetScaledValue()]) ? 1 : 0)
                                  : 0;
                 m_iCursorIndex -= 0x11;
                 while (bWord && GetScaledValue() >= 7 &&
-                       s767610::FUN_00ec86e1(m_pkCursorTile->FUN_00a011f0(0xfc4)[GetScaledValue()]))
+                       s767610::FUN_00ec86e1(m_pkCursorTile->Tile_GetString(0xfc4)[GetScaledValue()]))
                     m_iCursorIndex -= 0x11;
                 if (GetScaledValue() < 7)
                 {
@@ -1729,7 +1740,7 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
                     {
                         int iColIndex = (int)m_pkCursorTile->FUN_00a011b0(0xfac);
                         int iNewRow = (int)m_pkCursorTile->FUN_00a011b0(0x1004) - 1;
-                        Tile* pkFound = FUN_00767bb0(iColIndex, iNewRow);
+                        Tile* pkFound = FindTile(iColIndex, iNewRow);
                         if (pkFound)
                         {
                             m_bBlink = false;
@@ -1755,12 +1766,12 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
             }
             case 3: {
                 int iSavedIndex = m_iCursorIndex;
-                bool bWord = (m_pkCursorTile && m_pkCursorTile->FUN_00a011f0(0xfc4))
-                                 ? (s767610::FUN_00ec86e1(m_pkCursorTile->FUN_00a011f0(0xfc4)[GetScaledValue()]) ? 1 : 0)
+                bool bWord = (m_pkCursorTile && m_pkCursorTile->Tile_GetString(0xfc4))
+                                 ? (s767610::FUN_00ec86e1(m_pkCursorTile->Tile_GetString(0xfc4)[GetScaledValue()]) ? 1 : 0)
                                  : 0;
                 m_iCursorIndex += 0x11;
                 while (bWord && GetScaledValue() != -1 &&
-                       s767610::FUN_00ec86e1(m_pkCursorTile->FUN_00a011f0(0xfc4)[GetScaledValue()]))
+                       s767610::FUN_00ec86e1(m_pkCursorTile->Tile_GetString(0xfc4)[GetScaledValue()]))
                     m_iCursorIndex += 0x11;
                 if (GetScaledValue() == -1)
                 {
@@ -1768,7 +1779,7 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
                     {
                         int iColIndex = (int)m_pkCursorTile->FUN_00a011b0(0xfac);
                         int iNewRow = (int)m_pkCursorTile->FUN_00a011b0(0x1004) + 1;
-                        Tile* pkFound = FUN_00767bb0(iColIndex, iNewRow);
+                        Tile* pkFound = FindTile(iColIndex, iNewRow);
                         if (pkFound)
                         {
                             m_bBlink = false;
@@ -1796,7 +1807,7 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
                 if (iColumn > 0)
                 {
                     m_bBlink = false;
-                    m_pkCursorTile = FUN_00767bb0(iColumn - 1, (unsigned int)m_pkCursorTile->FUN_00a011b0(0x1004));
+                    m_pkCursorTile = FindTile(iColumn - 1, (unsigned int)m_pkCursorTile->FUN_00a011b0(0x1004));
                     return true;
                 }
                 break;
@@ -1806,7 +1817,7 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
                 if (iColumn < 0x10)
                 {
                     m_bBlink = false;
-                    m_pkCursorTile = FUN_00767bb0(iColumn + 1, (unsigned int)m_pkCursorTile->FUN_00a011b0(0x1004));
+                    m_pkCursorTile = FindTile(iColumn + 1, (unsigned int)m_pkCursorTile->FUN_00a011b0(0x1004));
                     return true;
                 }
                 break;
@@ -1819,10 +1830,10 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
 
 
 
-bool __cdecl FUN_00702450(int);
+bool __cdecl Interface_IsTopMenuID(int);
 struct Sub4D4
 {
-    bool __thiscall FUN_00718840(int);
+    bool __thiscall InterfaceManager_TutorialManager_HasBeenShown(int);
 };
 struct Mgr4B7210
 {
@@ -2207,8 +2218,8 @@ struct Entry28
     int unk24;
     int unk28;
     void* tile2C;
-    bool __thiscall FUN_00759d80();
-    void __thiscall FUN_006ffea0();
+    bool __thiscall AnimatingText_IsDisplayFinished();
+    void __thiscall AnimatingText_Update();
 };
 
 
@@ -2218,29 +2229,29 @@ void HackingMenu::UpdateDialog()
 {
     unsigned int bbb;
     int j;
-    if (m_eFadeState != 1 || !FUN_00702450(FUN_00766a40()) ||
-        (unk1d9[1] && !((Mgr4B7210*)InterfaceManager_GetSingleton())->m4D4.FUN_00718840(0x13)))
+    if (m_eFadeState != 1 || !Interface_IsTopMenuID(HackingMenu_GetClassStatic()) ||
+        (unk1d9[1] && !((Mgr4B7210*)InterfaceManager_GetSingleton())->m4D4.InterfaceManager_TutorialManager_HasBeenShown(0x13)))
     {
         return;
     }
-    if ((InterfaceManager_GetSingleton(), FUN_004b71d0()))
+    if ((InterfaceManager_GetSingleton(), InterfaceManager_Has360Controller()))
     {
         DAT_011d95bc->mCC = m_pkCursorTile;
     }
-    anim.FUN_006ffea0();
+    anim.AnimatingText_Update();
     UpdateFade();
     switch (m_iStage)
     {
     case 0:
-        FUN_00769830();
+        DoIntro();
         break;
     case 1:
         for (bbb = 0; bbb < 46; ++bbb)
         {
-            if (reinterpret_cast<Entry28**>(entries)[bbb] && !reinterpret_cast<Entry28**>(entries)[bbb]->FUN_00759d80())
+            if (reinterpret_cast<Entry28**>(entries)[bbb] && !reinterpret_cast<Entry28**>(entries)[bbb]->AnimatingText_IsDisplayFinished())
             {
                 reinterpret_cast<BSSoundHandle&>(sounds[3]).Play(false);
-                reinterpret_cast<Entry28**>(entries)[bbb]->FUN_006ffea0();
+                reinterpret_cast<Entry28**>(entries)[bbb]->AnimatingText_Update();
                 PositionTileFromEntry(reinterpret_cast<Entry28**>(entries)[bbb]);
                 break;
             }
@@ -2261,7 +2272,7 @@ void HackingMenu::UpdateDialog()
         UpdateActiveNodeProperty();
         if (unk1a0 == 1)
         {
-            reinterpret_cast<Entry28**>(entries)[1]->FUN_006ffea0();
+            reinterpret_cast<Entry28**>(entries)[1]->AnimatingText_Update();
         }
         if (DAT_011d95bc->mCC && DAT_011d95bc->mCC->FUN_0045cd60() == m_pTiles[2])
         {
@@ -2270,13 +2281,13 @@ void HackingMenu::UpdateDialog()
         break;
     case 3:
         UpdateActiveNodeProperty();
-        FUN_0076a3f0();
+        DoShutdown();
         break;
     case 4:
         UpdateActiveNodeProperty();
         if (unk1a0 && m_eFadeState != 2)
         {
-            FUN_0076a510();
+            AccessTerminal();
         }
         break;
     }
@@ -2288,7 +2299,7 @@ struct H769TileV
 {
     void FUN_00700320(int id, int value);
     bool IsTraitNonZero(int id);
-    const char* FUN_00a011f0(int id);
+    const char* Tile_GetString(int id);
 };
 struct H769Line
 {
@@ -2305,21 +2316,22 @@ struct H769Line
     int unk28;
     H769TileV* pText;
     H769TileV* kArgumentPosition;
-    bool FUN_00759d80();
-    void FUN_006ffea0();
+    bool AnimatingText_IsDisplayFinished();
+    void AnimatingText_Update();
 };
 struct H769Audio
 {
     BSSoundHandle ResolveAudioHandle(const char* name, int flags);
 };
-H769Audio* FUN_00ad9060();
+H769Audio* BSAudioManager_QInstance_00ad9060();
 }
 using namespace H769769;
 extern unsigned int DAT_011d969c;
 extern int DAT_011d9694;
 
 // @fnv 0x00769830
-void HackingMenu::FUN_00769830()
+// src: XBOX_PDB 0x00769830
+void HackingMenu::DoIntro()
 {
     int i;
 
@@ -2333,7 +2345,7 @@ void HackingMenu::FUN_00769830()
         {
             reinterpret_cast<H769Line**>(entries)[0]->pText->FUN_00700320(0xfa3, 1);
         }
-        if (reinterpret_cast<H769Line**>(entries)[i] && !reinterpret_cast<H769Line**>(entries)[i]->FUN_00759d80())
+        if (reinterpret_cast<H769Line**>(entries)[i] && !reinterpret_cast<H769Line**>(entries)[i]->AnimatingText_IsDisplayFinished())
         {
             if (reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition)
             {
@@ -2344,19 +2356,19 @@ void HackingMenu::FUN_00769830()
                 }
                 if (Cmd_GetSessionTime_Execute() > DAT_011d969c)
                 {
-                    unsigned int uiStart4 = FUN_0044a670(reinterpret_cast<H769Line**>(entries)[i]->pText->FUN_00a011f0(0xfc4));
-                    reinterpret_cast<H769Line**>(entries)[i]->FUN_006ffea0();
-                    unsigned int uiEnd = FUN_0044a670(reinterpret_cast<H769Line**>(entries)[i]->pText->FUN_00a011f0(0xfc4));
+                    unsigned int uiStart4 = BSstrlen(reinterpret_cast<H769Line**>(entries)[i]->pText->Tile_GetString(0xfc4));
+                    reinterpret_cast<H769Line**>(entries)[i]->AnimatingText_Update();
+                    unsigned int uiEnd = BSstrlen(reinterpret_cast<H769Line**>(entries)[i]->pText->Tile_GetString(0xfc4));
                     for (unsigned int j6 = 0; j6 < uiEnd - uiStart4; j6++)
                     {
                         static int s_iTypeTime =
-                            (int)(*DAT_011d4e4c.FUN_0043d4d0() > 1
-                                      ? FUN_004bd510((float)(1000.0 / *DAT_011d4e4c.FUN_0043d4d0()), 1.0f)
+                            (int)(*DAT_011d4e4c.Setting_Int() > 1
+                                      ? FUN_004bd510((float)(1000.0 / *DAT_011d4e4c.Setting_Int()), 1.0f)
                                       : 1000.0f);
                         unsigned int uiDelay = j6 * s_iTypeTime / (uiEnd - uiStart4);
-                        FUN_00ad9060()->ResolveAudioHandle("UIHackingCharSingle", 0x121).PlayAfter(uiDelay, 0);
+                        BSAudioManager_QInstance_00ad9060()->ResolveAudioHandle("UIHackingCharSingle", 0x121).PlayAfter(uiDelay, 0);
                     }
-                    if (reinterpret_cast<H769Line**>(entries)[i]->FUN_00759d80())
+                    if (reinterpret_cast<H769Line**>(entries)[i]->AnimatingText_IsDisplayFinished())
                     {
                         reinterpret_cast<BSSoundHandle&>(sounds[4]).Play(0);
                         DAT_011d969c = Cmd_GetSessionTime_Execute() + 500;
@@ -2365,7 +2377,7 @@ void HackingMenu::FUN_00769830()
             }
             else if (Cmd_GetSessionTime_Execute() > DAT_011d969c)
             {
-                reinterpret_cast<H769Line**>(entries)[i]->FUN_006ffea0();
+                reinterpret_cast<H769Line**>(entries)[i]->AnimatingText_Update();
                 reinterpret_cast<BSSoundHandle&>(sounds[3]).Play(0);
             }
             PositionTileFromEntry(reinterpret_cast<HackEntry*>(entries[i]));
@@ -2384,12 +2396,12 @@ void __cdecl FNV_Warning(const char* format);
 
 struct MenuPX
 {
-    void FUN_00867a20();
+    void Menu_SetRenderedMenu();
 };
 struct TilePX
 {
     MenuPX* Tile_GetMenu();
-    NiNode* FUN_0056c7f0();
+    NiNode* GetModel_0056c7f0();
 };
 struct TileStatics
 {
@@ -2397,7 +2409,7 @@ struct TileStatics
 };
 
 TilePX* __cdecl CreateComputerMenu(const char* path);
-FORenderedMenu* __cdecl FUN_00707ad0();
+FORenderedMenu* __cdecl Interface_GetCurrentRenderedMenu();
 
 // Creates a computer menu tile, updates tile statics, and attaches it to a rendered terminal, creating a new FORenderedTerminal if none exists.
 // @fnv 0x0076a540
@@ -2409,16 +2421,16 @@ void HackingMenu::TransitionToComputersMenu()
     if (*(int*)((char*)this + 0x194))
     {
         TilePX* pTile = CreateComputerMenu(*(const char**)((char*)this + 0x198));
-        pTile->Tile_GetMenu()->FUN_00867a20();
+        pTile->Tile_GetMenu()->Menu_SetRenderedMenu();
         TileStatics::UpdateAll(false);
-        FORenderedTerminal* r = dynamic_cast<FORenderedTerminal*>(FUN_00707ad0());
+        FORenderedTerminal* r = dynamic_cast<FORenderedTerminal*>(Interface_GetCurrentRenderedMenu());
         if (!r)
         {
             FNV_Warning(&DAT_01072b00);
             r = new FORenderedTerminal;
         }
         r->FUN_00984f60(pTile);
-        r->FUN_00705fc0(pTile->FUN_0056c7f0());
+        r->SetTarget_00705fc0(pTile->GetModel_0056c7f0());
     }
 }
 
@@ -2463,12 +2475,12 @@ struct Ref84;
 struct Base84
 {
     bool IsFlagBitSet();
-    int FUN_00501270(Ref84*);
-    float FUN_005017a0(Ref84*);
+    int BGSTerminal_GetHackMiniGameValue(Ref84*);
+    float BGSTerminal_GetMinSkillRequiredToHack(Ref84*);
 };
 struct Ref84
 {
-    Base84* FUN_007af430();
+    Base84* BGSSaveFormBuffer_GetForm();
 };
 struct Color84
 {
@@ -2480,11 +2492,11 @@ struct Palette84
     void FUN_00719060(int, Color84*);
     void ApplyToChild(int, const Color84&);
 };
-Palette84* FUN_00718b60();
+Palette84* SystemColorManager_GetInstance();
 extern Color84 DAT_011d9674;
 struct Setting84
 {
-    unsigned int* FUN_0043d4d0();
+    unsigned int* Setting_Int();
     const char* FUN_00403df0();
     const char* FUN_004c69f0();
 };
@@ -2541,7 +2553,7 @@ struct Player84
 extern Player84* DAT_011dea3c;
 struct Keys84
 {
-    bool FUN_00718630(int, int, int);
+    bool InterfaceManager_TutorialManager_ShowMessage(int, int, int);
 };
 struct Interface84
 {
@@ -2855,19 +2867,19 @@ struct Interface84
     int unk4cc;
     int unk4d0;
     Keys84 keys;
-    Tile84* FUN_00586150(const char*);
+    Tile84* CombatController_GetCombatState(const char*);
 };
 extern Interface84* DAT_011d95bc;
 struct Tile84
 {
-    Tile84* FUN_00a01b00();
+    Tile84* Tile_ReadFile();
     HackingMenu* Tile_GetMenu();
     float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, int);
-    void FUN_00a01350(int, const char*, int);
+    void Tile_Set(int, float, int);
+    void Tile_Set_00a01350(int, const char*, int);
     void FUN_00700320(int, int);
     int FindTraitValue(int);
-    int FUN_00a00f30(int);
+    int Tile_GetValue(int);
 };
 struct Entry84
 {
@@ -2879,19 +2891,19 @@ struct Entry84
 struct Text84
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_006ffe80(int, int);
+    void AnimatingText_SetTraits(int, int);
     void SetCapacity(unsigned int);
 };
 extern HackingMenu* DAT_011d95b8;
-HackingMenu* FUN_00a09030(int);
+HackingMenu* Tile_GetMenuByClass(int);
 Interface84* InterfaceManager_GetSingleton();
 float FUN_00a01530();
 extern unsigned int DAT_0119f27c, DAT_0119f280;
 void __cdecl Warning_005b5e40(const char*, ...);
 unsigned int FUN_0042f5a0(unsigned int, unsigned int);
 void FUN_005e58f0(int, Player84*, float*);
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
+float BSMAX_00404010(float, float);
+float BSMIN(float, float);
 float FUN_004bd510(float, float);
 void* operator new(unsigned int);
 void operator delete(void*);
@@ -2921,20 +2933,20 @@ extern Setting84 DAT_011d2130;
 // src: COMMUNITY 0x00765b80
 Tile84* HackingMenu_Create(Ref84* reference)
 {
-    HackingMenu* old40 = FUN_00a09030(FUN_00766a40());
+    HackingMenu* old40 = Tile_GetMenuByClass(HackingMenu_GetClassStatic());
     if (old40)
         delete old40;
     DAT_011d95bc = InterfaceManager_GetSingleton();
     float screen13 = FUN_00a01530();
-    FUN_00718b60()->FUN_00719060(3, &DAT_011d9674);
-    Base84* terminal14 = reference->FUN_007af430();
+    SystemColorManager_GetInstance()->FUN_00719060(3, &DAT_011d9674);
+    Base84* terminal14 = reference->BGSSaveFormBuffer_GetForm();
     if (terminal14->IsFlagBitSet())
-        FUN_00718b60()->ApplyToChild(3, Color84(1.0f, 1.0f, 1.0f, 0.0f));
-    DAT_0119f27c = *DAT_011d42d0.FUN_0043d4d0();
-    DAT_0119f280 = *DAT_011d2934.FUN_0043d4d0();
-    Tile84* tile4 = DAT_011d95bc->FUN_00586150("Data\\Menus\\hacking_menu.xml")->FUN_00a01b00();
+        SystemColorManager_GetInstance()->ApplyToChild(3, Color84(1.0f, 1.0f, 1.0f, 0.0f));
+    DAT_0119f27c = *DAT_011d42d0.Setting_Int();
+    DAT_0119f280 = *DAT_011d2934.Setting_Int();
+    Tile84* tile4 = DAT_011d95bc->CombatController_GetCombatState("Data\\Menus\\hacking_menu.xml")->Tile_ReadFile();
     HackingMenu* menu24 = tile4->Tile_GetMenu();
-    if (menu24 && menu24->GetClass() == FUN_00766a40())
+    if (menu24 && menu24->GetClass() == HackingMenu_GetClassStatic())
     {
         menu24->FUN_00a1dc70(reinterpret_cast<TileMenu*>(tile4), 0);
         DAT_011d95b8 = menu24;
@@ -2945,10 +2957,10 @@ Tile84* HackingMenu_Create(Ref84* reference)
             return 0;
         }
         if (tile4->FUN_00a011b0(4007) == 6006.0 || tile4->FUN_00a011b0(4007) == 102.0)
-            tile4->FUN_00a012d0(4013, screen13, 1);
-        reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[6])->FUN_00a01350(4036, DAT_011d31bc.FUN_00403df0(), 1);
-        reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[7])->FUN_00a01350(4036, DAT_011d30e4.FUN_00403df0(), 1);
-        Base84* base14 = reference ? reference->FUN_007af430() : 0;
+            tile4->Tile_Set(4013, screen13, 1);
+        reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[6])->Tile_Set_00a01350(4036, DAT_011d31bc.FUN_00403df0(), 1);
+        reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[7])->Tile_Set_00a01350(4036, DAT_011d30e4.FUN_00403df0(), 1);
+        Base84* base14 = reference ? reference->BGSSaveFormBuffer_GetForm() : 0;
         if (base14 && DAT_011dea3c->GetTerminalAccessResult(reference) == 2)
         {
             tile4->FUN_00700320(4102, 1);
@@ -2960,27 +2972,27 @@ Tile84* HackingMenu_Create(Ref84* reference)
             reinterpret_cast<Base84*&>(DAT_011d95b8->unk194) = base14;
             reinterpret_cast<Ref84*&>(DAT_011d95b8->unk198) = reference;
             DAT_011d95b8->unk1ac =
-                reinterpret_cast<Base84*&>(DAT_011d95b8->unk194) ? reinterpret_cast<Base84*&>(DAT_011d95b8->unk194)->FUN_00501270(reinterpret_cast<Ref84*&>(DAT_011d95b8->unk198)) : 12;
+                reinterpret_cast<Base84*&>(DAT_011d95b8->unk194) ? reinterpret_cast<Base84*&>(DAT_011d95b8->unk194)->BGSTerminal_GetHackMiniGameValue(reinterpret_cast<Ref84*&>(DAT_011d95b8->unk198)) : 12;
             DAT_011d95b8->unk1ac = FUN_0042f5a0(12, DAT_011d95b8->unk1ac);
-            DAT_011d95b8->unk1d9[1] = DAT_011d95bc->keys.FUN_00718630(19, FUN_00766a40(), 512);
+            DAT_011d95b8->unk1d9[1] = DAT_011d95bc->keys.InterfaceManager_TutorialManager_ShowMessage(19, HackingMenu_GetClassStatic(), 512);
             float skill5 = DAT_011dea3c->values.FUN_0066ef50(40);
             FUN_005e58f0(30, DAT_011dea3c, &skill5);
-            unsigned int maximum12 = FUN_0042f5a0(20, *DAT_011d3318.FUN_0043d4d0());
-            unsigned int minimum17 = FUN_0042f5a0(maximum12, *DAT_011d3c4c.FUN_0043d4d0());
+            unsigned int maximum12 = FUN_0042f5a0(20, *DAT_011d3318.Setting_Int());
+            unsigned int minimum17 = FUN_0042f5a0(maximum12, *DAT_011d3c4c.Setting_Int());
             float difficulty4 =
-                FUN_0040ebd0(100.0f, FUN_00404010(0.0f, reinterpret_cast<Base84*&>(DAT_011d95b8->unk194)->FUN_005017a0(reference)));
-            float delta2 = FUN_00404010(0.0f, skill5 - difficulty4);
+                BSMIN(100.0f, BSMAX_00404010(0.0f, reinterpret_cast<Base84*&>(DAT_011d95b8->unk194)->BGSTerminal_GetMinSkillRequiredToHack(reference)));
+            float delta2 = BSMAX_00404010(0.0f, skill5 - difficulty4);
             float denominator55 = 100.0 - difficulty4;
             float fraction41 = denominator55 != 0.0 ? 1.0f - delta2 / denominator55 : 0.5;
             unsigned int count7 = minimum17 + (unsigned int)FUN_004bd510((maximum12 - minimum17) * fraction41, 1.0f);
             if (count7 > 20)
                 count7 = 20;
             DAT_011d95b8->SelectWordSet(count7);
-            tile4->FUN_00a01350(4100, ">", 1);
-            (*reinterpret_cast<Text84*>(&DAT_011d95b8->anim)).FUN_006ffe80(reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[5])->FUN_00a00f30(4036),
+            tile4->Tile_Set_00a01350(4100, ">", 1);
+            (*reinterpret_cast<Text84*>(&DAT_011d95b8->anim)).AnimatingText_SetTraits(reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[5])->Tile_GetValue(4036),
                                             reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[5])->FindTraitValue(4003));
-            if (*DAT_011d4e4c.FUN_0043d4d0() > 0)
-                (*reinterpret_cast<Text84*>(&DAT_011d95b8->anim)).SetCapacity((unsigned int)FUN_004bd510(1000.0 / *DAT_011d4e4c.FUN_0043d4d0(), 1.0f));
+            if (*DAT_011d4e4c.Setting_Int() > 0)
+                (*reinterpret_cast<Text84*>(&DAT_011d95b8->anim)).SetCapacity((unsigned int)FUN_004bd510(1000.0 / *DAT_011d4e4c.Setting_Int(), 1.0f));
             const char* name9 = "hacking_intro_template";
             reinterpret_cast<Entry84**>(DAT_011d95b8->entries)[0] =
                 new Entry84(DAT_011d3f58.FUN_004c69f0(), reinterpret_cast<Tile84*>(DAT_011d95b8->m_pTiles[0]), name9, DAT_011d95b8->unk1b4, 0);
@@ -3364,14 +3376,14 @@ extern HackSetting g_011d26dc, g_011d1e78, g_011d430c, g_011d47e0, g_011d4f6c, g
     g_011d4ae0, g_011d2b2c, g_011d1f74, g_011d3144, g_011d339c, g_011d2e20;
 extern unsigned int DAT_011d95c0;
 void* InterfaceManager_GetSingleton();
-bool FUN_004b71d0();
+bool InterfaceManager_Has360Controller();
 unsigned int gm_GetTickCount();
 int FUN_00ec86e1(int);
 unsigned int BSStringLength(const char*);
-extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
+extern "C" unsigned int __cdecl RandomUnsignedInt(unsigned int);
 void SuccessRef(HackRef*, bool);
 void FailRef(HackRef*, bool);
-int FUN_006705b0(int, int);
+int ExperiencePoints_GetExperiencePoints(int, int);
 void Finish(int);
 // Handles a tile click by comparing the entered word to the password, updating the display, and triggering success or failure outcomes based on the match result.
 } // namespace fnv_00766b80
@@ -3381,7 +3393,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
 {
     using namespace fnv_00766b80;
     fnv_00766b80::InterfaceManager_GetSingleton();
-    if (fnv_00766b80::FUN_004b71d0())
+    if (fnv_00766b80::InterfaceManager_Has360Controller())
         tile = m_pkCursorTile;
     if (!tile && aiButtonIndex >= 0 && aiButtonIndex < 8)
         tile = m_pTiles[aiButtonIndex];
@@ -3415,7 +3427,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                     c[1].PrintfString("%s%s", ">", g_011d26dc.String());
                     j = 2;
                 }
-                else if (unk1d9[0] || fnv_00766b80::FUN_005a00a0(4))
+                else if (unk1d9[0] || fnv_00766b80::RandomUnsignedInt(4))
                 {
                     RemoveRandomWord();
                     (*reinterpret_cast<HackNumberList*>(&list188)).Add(12 * (unsigned int)(reinterpret_cast<fnv_00766b80::HackTile*>(tile)->Float(0x1004) * 17.0 + reinterpret_cast<fnv_00766b80::HackTile*>(tile)->Float(0xfac)) + GetScaledValue() - 7);
@@ -3458,7 +3470,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                 if (reinterpret_cast<HackTarget*>(unk194))
                 {
                     SuccessRef(reinterpret_cast<HackRef*>(unk198), true);
-                    g_thePlayer->Reward(FUN_006705b0(2, reinterpret_cast<HackTarget*>(unk194)->Difficulty(reinterpret_cast<HackRef*>(unk198))));
+                    g_thePlayer->Reward(ExperiencePoints_GetExperiencePoints(2, reinterpret_cast<HackTarget*>(unk194)->Difficulty(reinterpret_cast<HackRef*>(unk198))));
                     HackForm* owner = reinterpret_cast<HackRef*>(unk198)->Owner();
                     if (owner)
                     {
@@ -3511,7 +3523,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
             status.PrintfString("%d %s", reinterpret_cast<unsigned int&>(unk1a0), g_011d2e20.String());
             reinterpret_cast<fnv_00766b80::HackTile**>(entries)[2]->SetText(status);
             reinterpret_cast<fnv_00766b80::HackTile**>(entries)[2]->Refresh();
-            FUN_00768020();
+            ClearEntry();
             m_bBlink = true;
         }
     }

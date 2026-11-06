@@ -714,11 +714,12 @@ struct FUN_00aa2d60_cls
     int unk1C;
     unsigned char unk20;
     unsigned char m_21;
-    void* FUN_00aa2d60();
+    void* NiMemStream_Str();
 };
 
 // @fnv 0x00aa2d60
-void* FUN_00aa2d60_cls::FUN_00aa2d60()
+// src: XBOX_PDB 0x00aa2d60
+void* FUN_00aa2d60_cls::NiMemStream_Str()
 {
     m_21 = 1;
     return m_10;
@@ -1150,12 +1151,13 @@ FUN_00aa00d0::FUN_00aa00d0(const char* pcName, unsigned int uiValue, unsigned in
     ResizeAndCopy(uiSize, pvData);
 }
 
-extern "C" void __cdecl FUN_00a81fe0();
+extern "C" void __cdecl BSTextureSet_RegisterStreamables();
 
 // @fnv 0x00aa0ad0
-void __cdecl FUN_00aa0ad0()
+// src: XBOX_PDB 0x00aa0ad0
+void __cdecl BSPackedAdditionalGeometryData_RegisterStreamables()
 {
-    FUN_00a81fe0();
+    BSTextureSet_RegisterStreamables();
 }
 
 static inline void DecRefStringAA0(char*& kHandle)
@@ -1202,7 +1204,7 @@ struct ProcessingState
     unsigned int FUN_00aa1810(void* buffer, unsigned int size);
 };
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int size);
 void __cdecl SwapBufferBySizes(void* buffer, unsigned int size, void* optionA, void* optionB);
 void __cdecl _NiFree_00aa10f0(void* buffer);
@@ -1215,7 +1217,7 @@ unsigned int __cdecl NiFile_WriteAndSwap(ProcessingState* state, const void* dat
 {
     if (size <= 0u)
         return 0;
-    void* buffer = FUN_00aa1070(size);
+    void* buffer = _NiMalloc_00aa1070(size);
     FUN_00ec44d0(buffer, data, size);
     SwapBufferBySizes(buffer, size, optionA, optionB);
     unsigned int result = state->FUN_00aa1810(buffer, size);

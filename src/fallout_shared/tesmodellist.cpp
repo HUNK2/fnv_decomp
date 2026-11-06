@@ -72,13 +72,14 @@ unsigned int TESModelList::BaseFormRecord(unsigned int type)
 
 struct FUN_00478690_shell
 {
-    void FUN_00478690();
+    void BGSDestructibleObjectForm_RemoveData();
 };
 
 
 // Releases the object stored at offset 4 by calling its virtual method with 1, then sets that pointer to null.
 // @fnv 0x00478690
-void FUN_00478690_shell::FUN_00478690()
+// src: XBOX_PDB 0x00478690
+void FUN_00478690_shell::BGSDestructibleObjectForm_RemoveData()
 {
     delete *(FileEntryListCollection**)((char*)this + 4);
     *(void**)((char*)this + 4) = 0;
@@ -96,7 +97,7 @@ unsigned char __fastcall TESCreature_GetCombatSkill(char* pThis)
     unsigned char ucLevel = static_cast<unsigned char>(pThis[0x12d]);
     if (reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->GetMatchesPCLevel())
     {
-        short slevel = reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->FUN_0047ded0();
+        short slevel = reinterpret_cast<TESActorBaseData*>(pThis + 0x30)->TESActorBaseData_GetLevel();
         if (slevel < 1)
             slevel = 1;
         ucLevel =
@@ -306,9 +307,9 @@ bool TESModelList::ContainsFile(const char* filename)
     return false;
 }
 
-unsigned int __cdecl FUN_0044a670(const char* text);
+unsigned int __cdecl BSstrlen(const char* text);
 void __cdecl FUN_00406d30(char* destination, unsigned int capacity, const char* source);
-void __cdecl FUN_004856f0(void* destination, char* source, unsigned int length);
+void __cdecl TESForm_AddChunkArray(void* destination, char* source, unsigned int length);
 
 // If the model list is non-empty, concatenates its strings into a new buffer, copies it to destination, frees it, then clears the list data.
 // @fnv 0x00489ba0
@@ -331,7 +332,7 @@ void TESModelList::CopyModelListToBuffer(void* destination, unsigned int flags)
         {
             piVar4 = iStack7->GetItem();
             if (piVar4 != 0)
-                iStack_8 = iStack_8 + FUN_0044a670(piVar4) + 1;
+                iStack_8 = iStack_8 + BSstrlen(piVar4) + 1;
             iStack7 = iStack7->GetNext();
         }
 
@@ -346,14 +347,14 @@ void TESModelList::CopyModelListToBuffer(void* destination, unsigned int flags)
             if (iVarTmp != 0)
             {
                 FUN_00406d30(puStack_18, iStack_c, iVarTmp);
-                count9 = FUN_0044a670(iVarTmp) + 1;
+                count9 = BSstrlen(iVarTmp) + 1;
                 puStack_18 = puStack_18 + count9;
                 iStack_c = iStack_c - count9;
             }
             iStack7 = iStack7->GetNext();
         }
         *puStack_18 = 0;
-        FUN_004856f0(destination, puVar4, iStack_8);
+        TESForm_AddChunkArray(destination, puVar4, iStack_8);
         freeBuffer_ = puVar4;
         ::operator delete(freeBuffer_);
     }

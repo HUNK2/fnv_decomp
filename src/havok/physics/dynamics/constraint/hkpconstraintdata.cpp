@@ -7,7 +7,7 @@
 #include "../../../../../include/hkpConstraintAtom.h"
 #include "../../../../../include/hkpSimpleContactConstraintAtom.h"
 
-extern "C" void __cdecl FUN_00cb1280(void* dst, int n, int len);
+extern "C" void __cdecl hkString_memSet(void* dst, int n, int len);
 
 struct FUN_00d21a30_class
 {
@@ -19,7 +19,7 @@ struct FUN_00d21a30_class
 void __thiscall FUN_00d21a30_class::hkpConstraintData_addInstance(int a, int pBuffer, int uiLength)
 {
     if (pBuffer)
-        FUN_00cb1280((void*)pBuffer, 0, uiLength);
+        hkString_memSet((void*)pBuffer, 0, uiLength);
 }
 
 // @fnv 0x00d21a50

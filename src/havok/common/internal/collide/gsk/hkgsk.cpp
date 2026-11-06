@@ -367,7 +367,7 @@ struct Both
     Clip first;
     Clip second;
 };
-extern "C" int FUN_00d22e40(Shape*, const hkVector4*, const hkVector4*, const hkVector4*, Clip*);
+extern "C" int hkLineSegmentUtil_closestLineSegLineSeg(Shape*, const hkVector4*, const hkVector4*, const hkVector4*, Clip*);
 
 static __forceinline void ThreeDots(const hkVector4& first, const hkVector4& firstWeight, const hkVector4& second, const hkVector4& secondWeight,
                                     const hkVector4& third, const hkVector4& thirdWeight, hkVector4& out)
@@ -465,8 +465,8 @@ int State::FUN_00e4bbe0(Shape* apShapeA, Shape* apShapeB, int* __restrict apOutC
         diff.setSub4(apShapeA->points[1], apShapeA->points[0]);
         Clip clip0, clip1;
         Clip* later = &clip1;
-        FUN_00d22e40(apShapeA, &diff, &apShapeB->points[2], &edge0, &clip0);
-        FUN_00d22e40(apShapeA, &diff, &apShapeB->points[2], &edge1, later);
+        hkLineSegmentUtil_closestLineSegLineSeg(apShapeA, &diff, &apShapeB->points[2], &edge0, &clip0);
+        hkLineSegmentUtil_closestLineSegLineSeg(apShapeA, &diff, &apShapeB->points[2], &edge1, later);
         int index = clip0.distance > clip1.distance ? 1 : 0;
         ReplaceSelected(apShapeB->points[index], apShapeB->anchors[index], apShapeB->points[2], apShapeB->anchors[2],
                         apOutCount2);

@@ -158,14 +158,15 @@ void* FUN_0062e200_shell::FUN_0062e200(unsigned int flags)
 
 struct FUN_0062e230_shell
 {
-    void* FUN_004a4960(unsigned int a, unsigned int b, unsigned int c);
-    void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
+    void* hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(unsigned int a, unsigned int b, unsigned int c);
+    void* hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator(unsigned int a, unsigned int b, unsigned int c);
 };
 // Calls FUN_004a4960 with the three arguments and returns this.
 // @fnv 0x0062e230
-void* __thiscall FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
+// src: XBOX_PDB 0x0062e230
+void* __thiscall FUN_0062e230_shell::hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator(unsigned int a, unsigned int b, unsigned int c)
 {
-    FUN_004a4960(a, b, c);
+    hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(a, b, c);
     return this;
 }
 
@@ -304,16 +305,17 @@ struct MyCollector
 {
     void* __vftable;
     InnerMember m_04;
-    void FUN_0062d330();
-    void* FUN_0062d3c0();
+    void hkpCdBodyPairCollector_reset();
+    void* hkpCdBodyPairCollector_hkpCdBodyPairCollector();
 };
 // Sets the vtable pointer, calls m_04._ref_006815c0(), then FUN_0062d330(), and returns this.
 // @fnv 0x0062d3c0
-void* MyCollector::FUN_0062d3c0()
+// src: XBOX_PDB 0x0062d3c0
+void* MyCollector::hkpCdBodyPairCollector_hkpCdBodyPairCollector()
 {
     __vftable = (void*)&DAT_0104e328;
     m_04._ref_006815c0();
-    FUN_0062d330();
+    hkpCdBodyPairCollector_reset();
     return this;
 }
 
@@ -411,7 +413,7 @@ bool FUN_0062df20_shell::TESTrapListener_IsRefInTrigger(int a1, int a2)
 namespace fnv_0062df60 {
 struct FUN_0057c400_shell
 {
-    void __thiscall FUN_0057c400(unsigned int);
+    void __thiscall bhkTTNode_TESObjectREFR_GetEntry(unsigned int);
 };
 struct FUN_0062df60_shell
 {
@@ -420,7 +422,7 @@ struct FUN_0062df60_shell
 // @fnv 0x0062df60
 void __thiscall FUN_0062df60_shell::FUN_0062df60(unsigned int a)
 {
-    ((FUN_0057c400_shell*)this)->FUN_0057c400(a);
+    ((FUN_0057c400_shell*)this)->bhkTTNode_TESObjectREFR_GetEntry(a);
 }
 }  // namespace fnv_0062df60
 
@@ -499,13 +501,14 @@ FUN_0062e170::~FUN_0062e170()
 
 struct FUN_0062e1d0_shell : FUN_0062e230_shell
 {
-    void* FUN_0062e1d0(unsigned int a);
+    void* hkInplaceArray_hkpRootCdBodyPair_16_hkContainerHeapAllocator_hkInplaceArray_hkpRootCdBodyPair_16_hkContainerHeapAllocator(unsigned int a);
 };
 // Calls FUN_0062e230 on the object at offset 0xc with the given value and size 0x10, then returns this.
 // @fnv 0x0062e1d0
-void* FUN_0062e1d0_shell::FUN_0062e1d0(unsigned int auiValue)
+// src: XBOX_PDB 0x0062e1d0
+void* FUN_0062e1d0_shell::hkInplaceArray_hkpRootCdBodyPair_16_hkContainerHeapAllocator_hkInplaceArray_hkpRootCdBodyPair_16_hkContainerHeapAllocator(unsigned int auiValue)
 {
-    FUN_0062e230((unsigned int)(this + 0xc), auiValue, 0x10);
+    hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator((unsigned int)(this + 0xc), auiValue, 0x10);
     return this;
 }
 
@@ -561,29 +564,30 @@ void FUN_0062e2f0_shell::BSListBase_TriggerEntry_TriggerEvent_AddNodeTail(void* 
     ++m_uiItemCount;
 }
 
-void __fastcall FUN_00626870(void*);
+void __fastcall hkArrayBase_hkpRootCdBodyPair_clear(void*);
 struct H_A100
 {
     void* GetSizeMasked();
 };
 struct H_6db70
 {
-    void FUN_0066db70(void*, void*);
+    void hkMemoryAllocator_bufFree_hkpRootCdBodyPair(void*, void*);
 };
 struct S_0062e350
 {
     void* f0;
     int f4;
     unsigned int f8;
-    void FUN_0062e350(void*);
+    void hkArrayBase_hkpRootCdBodyPair_clearAndDeallocate(void*);
 };
 // @fnv 0x0062e350
-void S_0062e350::FUN_0062e350(void* a)
+// src: XBOX_PDB 0x0062e350
+void S_0062e350::hkArrayBase_hkpRootCdBodyPair_clearAndDeallocate(void* a)
 {
-    FUN_00626870(this);
+    hkArrayBase_hkpRootCdBodyPair_clear(this);
     if (!(f8 & 0x80000000))
     {
-        ((H_6db70*)a)->FUN_0066db70(f0, ((H_A100*)this)->GetSizeMasked());
+        ((H_6db70*)a)->hkMemoryAllocator_bufFree_hkpRootCdBodyPair(f0, ((H_A100*)this)->GetSizeMasked());
     }
     f0 = 0;
     f8 = 0x80000000;
@@ -696,7 +700,8 @@ struct TrapTargetDispatch
 };
 // Calls target on the object returned by _ref_0084e3a0(reinterpret_cast<char*>(this) + 0x10), passing apTrap and this.
 // @fnv 0x0062c600
-void TrapTargetEntry::FUN_0062c600(ZoneEntry* apTrap)
+// src: XBOX_PDB 0x0062c600
+void TrapTargetEntry::Run_0062c600(ZoneEntry* apTrap)
 {
     ((TrapTargetDispatch*)_ref_0084e3a0(reinterpret_cast<char*>(this) + 0x10))->target(apTrap, this);
 }
@@ -721,7 +726,8 @@ FUN_0062c6e0_shell::FUN_0062c6e0_shell()
 }
 
 // @fnv 0x0062d330
-void MyCollector::FUN_0062d330()
+// src: XBOX_PDB 0x0062d330
+void MyCollector::hkpCdBodyPairCollector_reset()
 {
     ((CalleeObj*)((char*)this + 4))->FUN_00622570(false);
 }
@@ -858,16 +864,17 @@ struct FUN_0062d840_shell
 };
 struct FUN_0062d7c0_shell
 {
-    FUN_0062d840_shell* FUN_0062d7c0(unsigned int a, unsigned int b);
+    FUN_0062d840_shell* TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b);
 };
 // Allocates and constructs a FUN_0062d840_shell with the two given unsigned int arguments and returns the new object.
 // @fnv 0x0062d7c0
-FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(unsigned int a, unsigned int b)
+// src: XBOX_PDB 0x0062d7c0
+FUN_0062d840_shell* FUN_0062d7c0_shell::TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b)
 {
     return new FUN_0062d840_shell(a, b);
 }
 
-TESObjectREFR* __cdecl FUN_0062b4e0(void*);
+TESObjectREFR* __cdecl TESHavokUtilities_FindCollidableRef(void*);
 struct FUN_00620340_shell
 {
     void* BGSZoneTargetListener_AddZoneTargetPair(RootContactPoint*, TESObjectREFR*, TESObjectREFR*, int, int);
@@ -883,8 +890,8 @@ bool FUN_0062dc80_shell::TESTrapListener_contactPointAddedCallback(RootContactPo
     bool bres = false;
     TESObjectREFR* ptrapRef = 0;
     TESObjectREFR* m_pReference = 0;
-    ptrapRef = FUN_0062b4e0((void*)arPoint->m_pRootCollidableB);
-    m_pReference = FUN_0062b4e0((void*)arPoint->m_pRootCollidableA);
+    ptrapRef = TESHavokUtilities_FindCollidableRef((void*)arPoint->m_pRootCollidableB);
+    m_pReference = TESHavokUtilities_FindCollidableRef((void*)arPoint->m_pRootCollidableA);
     if (ptrapRef && m_pReference && m_pReference->IsActor())
     {
         ZoneEntry* ptrap =
@@ -973,8 +980,8 @@ void FUN_0062cb90_shell::CompactEntries()
 // src: HAVOK_SRC 0x0062d310
 void hkpAllCdBodyPairCollector::reset_0062d310()
 {
-    FUN_00626870(&m8);
-    hkpCdBodyPairCollector::FUN_0062d330();
+    hkArrayBase_hkpRootCdBodyPair_clear(&m8);
+    hkpCdBodyPairCollector::hkpCdBodyPairCollector_reset();
 }
 
 MemoryManager* __cdecl _D1A0E0GetMemoryRouter();
@@ -1006,7 +1013,7 @@ struct FUN_0062c860_shell
 // src: COMMUNITY 0x0062d510
 void FUN_0062d510_shell::TriggerEntry_ClearCurrentRefs()
 {
-    if (!g_BGSSaveLoadGame->FUN_0042ce10())
+    if (!g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
     {
         reinterpret_cast<FUN_0062c860_shell*>(reinterpret_cast<char*>(this) + 0x10)
             ->ApplyEntriesToRef(_ref_0084e3a0(this));
@@ -1017,7 +1024,7 @@ void FUN_0062d510_shell::TriggerEntry_ClearCurrentRefs()
 
 struct FUN_00620720_shell
 {
-    void* FUN_00620720(unsigned int a, unsigned int b);
+    void* bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(unsigned int a, unsigned int b);
 };
 struct FUN_0062c640_shell
 {
@@ -1036,7 +1043,7 @@ struct FUN_0062dc50_shell
 // src: COMMUNITY 0x0062dc50
 void* FUN_0062dc50_shell::TriggerEntry_TriggerEntry(unsigned int auiArg1, unsigned int auiArg2)
 {
-    ((FUN_00620720_shell*)this)->FUN_00620720(auiArg1, auiArg2);
+    ((FUN_00620720_shell*)this)->bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(auiArg1, auiArg2);
     ((FUN_0062c640_shell*)((char*)this + 0x10))->FUN_0062c640();
     return this;
 }
@@ -1060,8 +1067,8 @@ bool FUN_0062dd20_shell::TESTrapListener_contactPointRemovedCallback(RootContact
     TESObjectREFR* ptrapRef = 0;
     TESObjectREFR* m_pReference = 0;
 
-    ptrapRef = FUN_0062b4e0(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48));
-    m_pReference = FUN_0062b4e0(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x20));
+    ptrapRef = TESHavokUtilities_FindCollidableRef(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48));
+    m_pReference = TESHavokUtilities_FindCollidableRef(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x20));
 
     if (ptrapRef && m_pReference && m_pReference->IsActor())
     {
@@ -1104,11 +1111,11 @@ void __cdecl operator delete[](void*);
 class TrapReferenceNotification : public TESObjectREFR
 {
 public:
-    void FUN_00572e10(TESObjectREFR*);
+    void TESObjectREFR_SetActionRef(TESObjectREFR*);
 };
 
-TESForm* FUN_004839c0(unsigned int);
-bool FUN_005ac750(TESForm*, ExtraDataList*, unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
+bool Script_SetActionFlag(TESForm*, ExtraDataList*, unsigned int);
 struct Entry62C
 {
     unsigned int id;
@@ -1129,16 +1136,16 @@ void Shell62C::ApplyEntriesToRef(TESObjectREFR* ref)
     unsigned int size = count;
     for (int i = 0; i < count; i++)
         copy[i] = entries[i].id;
-    ExtraDataList* extra = ref->FUN_005d43c0();
+    ExtraDataList* extra = ref->BSFile_GetDevice();
     for (unsigned int j = 0; j < size; j++)
     {
-        TESForm* form = FUN_004839c0(copy[j]);
+        TESForm* form = TESForm_GetFormByNumericID(copy[j]);
         if (form && form->GetIsReference())
         {
             TESObjectREFR* target = (TESObjectREFR*)form;
-            FUN_005ac750(target, extra, 0x40000000);
-            static_cast<TrapReferenceNotification*>(ref)->FUN_00572e10(target);
-            ref->FUN_00565870();
+            Script_SetActionFlag(target, extra, 0x40000000);
+            static_cast<TrapReferenceNotification*>(ref)->TESObjectREFR_SetActionRef(target);
+            ref->TESObjectREFR_RunScript();
         }
     }
     delete[] copy;
@@ -1255,7 +1262,7 @@ struct SmallHelper
 // @fnv 0x0062e260
 void FUN_0062e170::InitHelper()
 {
-    reinterpret_cast<S_0062e350*>(this)->FUN_0062e350(SmallHelper().Init(this));
+    reinterpret_cast<S_0062e350*>(this)->hkArrayBase_hkpRootCdBodyPair_clearAndDeallocate(SmallHelper().Init(this));
 }
 
 struct CacheEntry62C
@@ -1322,7 +1329,7 @@ struct Array62
     Check62 hkArrayBase_hkpEntity_isEmpty();
     int FUN_00726070();
     ArrayEntry62* FUN_0062e150(int);
-    ArrayEntry62* FUN_00629ab0(int);
+    ArrayEntry62* NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(int);
 };
 struct World62
 {
@@ -1331,7 +1338,7 @@ struct World62
 struct CollisionObject62;
 struct Broad62
 {
-    CollisionObject62* FUN_004b59d0();
+    CollisionObject62* hkpCollidable_getOwner();
 };
 struct CollisionObject62
 {
@@ -1355,7 +1362,7 @@ struct CollisionObject62
     virtual void Collect(void*, int);
     World62* FUN_0044ddc0();
     Array62* GetOffset160();
-    Array62* FUN_0045c650();
+    Array62* hkpMotion_getLinearVelocity();
 };
 // The shared collector has no declaration for the original pair-array accessor.
 Array62* __fastcall GetCollectedBodyPairs(hkpAllCdBodyPairCollector* collector);
@@ -1375,7 +1382,7 @@ struct Subject62
     Broad62* FUN_0044ddc0();
     bool ProcessCollisionPairs(int);
 };
-void* FUN_004b59f0(void*);
+void* hkpGetRigidBody(void*);
 void __cdecl FormHeapFreeAndLog_00401030(void*);
 // @fnv 0x0062cc90
 bool Subject62::ProcessCollisionPairs(int arg)
@@ -1385,7 +1392,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
     if (!owner || owner->FUN_00440da0() || owner->FUN_00440d80() || !owner->GetNiNode())
         return world;
     Broad62* pending = FUN_0044ddc0();
-    CollisionObject62* kind = pending->FUN_004b59d0();
+    CollisionObject62* kind = pending->hkpCollidable_getOwner();
     World62* broad = kind->FUN_0044ddc0();
     if (broad)
         broad->FUN_00483710();
@@ -1413,18 +1420,18 @@ bool Subject62::ProcessCollisionPairs(int arg)
                     void* body = array->FUN_0062e150(i)->bodyC;
                     if (body)
                     {
-                        TESObjectREFR* ref = FUN_0062b4e0(body);
+                        TESObjectREFR* ref = TESHavokUtilities_FindCollidableRef(body);
                         if (ref)
                         {
-                            bool flag = ref->IsActor() && FUN_004b59f0(body);
+                            bool flag = ref->IsActor() && hkpGetRigidBody(body);
                             bool actor = ref->HasHealth(false) || ref->GetHasKnockedState();
                             if (!flag || actor)
                             {
                                 bool found = registry.RegisterCollision(ref);
                                 if (found)
                                 {
-                                    ExtraDataList* extra = _ref_0084e3a0()->FUN_005d43c0();
-                                    world |= FUN_005ac750(ref, extra, 0x10000000);
+                                    ExtraDataList* extra = _ref_0084e3a0()->BSFile_GetDevice();
+                                    world |= Script_SetActionFlag(ref, extra, 0x10000000);
                                 }
                             }
                         }
@@ -1436,27 +1443,27 @@ bool Subject62::ProcessCollisionPairs(int arg)
     else if (kind->Kind() == 0)
     {
         CollisionObject62* shape = kind;
-        Array62* array = shape->FUN_0045c650();
+        Array62* array = shape->hkpMotion_getLinearVelocity();
         if (!array->hkArrayBase_hkpEntity_isEmpty().FUN_005609f0())
         {
             int count = array->FUN_00726070();
             for (int i = 0; i < count; i++)
             {
-                void* body = array->FUN_00629ab0(i)->bodyA;
+                void* body = array->NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(i)->bodyA;
                 if (body)
                 {
-                    TESObjectREFR* ref = FUN_0062b4e0(body);
+                    TESObjectREFR* ref = TESHavokUtilities_FindCollidableRef(body);
                     if (ref)
                     {
-                        bool flag = ref->IsActor() && FUN_004b59f0(body);
+                        bool flag = ref->IsActor() && hkpGetRigidBody(body);
                         bool actor = ref->HasHealth(false) || ref->GetHasKnockedState();
                         if (!flag || actor)
                         {
                             bool found = registry.RegisterCollision(ref);
                             if (found)
                             {
-                                ExtraDataList* extra = _ref_0084e3a0()->FUN_005d43c0();
-                                world |= FUN_005ac750(ref, extra, 0x10000000);
+                                ExtraDataList* extra = _ref_0084e3a0()->BSFile_GetDevice();
+                                world |= Script_SetActionFlag(ref, extra, 0x10000000);
                             }
                         }
                     }
@@ -1474,32 +1481,32 @@ bool Subject62::ProcessCollisionPairs(int arg)
         else
             ref = 0x40000000;
         unsigned int id = object->key;
-        TESObjectREFR* flags = (TESObjectREFR*)FUN_004839c0(id);
+        TESObjectREFR* flags = (TESObjectREFR*)TESForm_GetFormByNumericID(id);
         delete object;
         if (flags)
         {
-            ExtraDataList* extra = _ref_0084e3a0()->FUN_005d43c0();
-            world |= FUN_005ac750(flags, extra, ref);
-            static_cast<TrapReferenceNotification*>(_ref_0084e3a0())->FUN_00572e10(flags);
+            ExtraDataList* extra = _ref_0084e3a0()->BSFile_GetDevice();
+            world |= Script_SetActionFlag(flags, extra, ref);
+            static_cast<TrapReferenceNotification*>(_ref_0084e3a0())->TESObjectREFR_SetActionRef(flags);
         }
     }
     return world;
 }
 
-TESObjectREFR* __cdecl FUN_0062b4e0(void* object);
+TESObjectREFR* __cdecl TESHavokUtilities_FindCollidableRef(void* object);
 struct EventContext
 {
-    void* FUN_0043b540();
+    void* hkpCollidable_getCollisionFilterInfo();
 };
 struct InputBody
 {
-    EventContext* FUN_00460140();
+    EventContext* TESDataHandler_GetWorldSpaceList();
 };
 struct EventCode
 {
     int value;
     void FUN_008c71b0(void* rawCode);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct TrapEventHandler
 {
@@ -1514,13 +1521,13 @@ struct FUN_0062da00_Class
 // @fnv 0x0062da00
 void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
 {
-    EventContext* resolvedBody = pInputBody->FUN_00460140();
+    EventContext* resolvedBody = pInputBody->TESDataHandler_GetWorldSpaceList();
     EventCode notification;
-    notification.FUN_008c71b0(resolvedBody->FUN_0043b540());
-    int category = notification.FUN_0043b4d0();
+    notification.FUN_008c71b0(resolvedBody->hkpCollidable_getCollisionFilterInfo());
+    int category = notification.CFilter_GetLayer();
     if (category == 14 || category == 16 || category == 30)
     {
-        TESObjectREFR* reference = FUN_0062b4e0(resolvedBody);
+        TESObjectREFR* reference = TESHavokUtilities_FindCollidableRef(resolvedBody);
         if (reference != 0)
         {
             if (category == 14 || category == 16)
@@ -1537,17 +1544,17 @@ void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
 
 struct LocalClass
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 
 struct ArgClass
 {
-    LocalClass* FUN_00460140();
+    LocalClass* TESDataHandler_GetWorldSpaceList();
 };
 
 struct FUN_0043b4d0_shell
 {
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 
 struct GlobalObject_008c71b0 : FUN_0043b4d0_shell
@@ -1578,12 +1585,12 @@ struct TargetClass
 // @fnv 0x0062da90
 void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
 {
-    LocalClass* v8 = arg->FUN_00460140();
-    GlobalObject_008c71b0 v4(v8->FUN_0043b540());
+    LocalClass* v8 = arg->TESDataHandler_GetWorldSpaceList();
+    GlobalObject_008c71b0 v4(v8->hkpCollidable_getCollisionFilterInfo());
 
     if (unk04)
     {
-        int vc = v4.FUN_0043b4d0();
+        int vc = v4.CFilter_GetLayer();
         if (vc == 12 || vc == 22 || vc == 24)
         {
             FUN_0062d9b0_Class* v10 = unk04->TriggerEntry_GetTriggerEntry((int)v8);
@@ -1603,17 +1610,17 @@ hkpAllCdBodyPairCollector::~hkpAllCdBodyPairCollector()
 struct CollisionBody;
 struct CollisionArgument
 {
-    CollisionBody* FUN_00460140();
+    CollisionBody* TESDataHandler_GetWorldSpaceList();
 };
 struct CollisionBody
 {
-    unsigned int FUN_0043b540();
+    unsigned int hkpCollidable_getCollisionFilterInfo();
 };
 struct FilterWord
 {
     unsigned int filter;
     FilterWord(unsigned int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 struct ListenerNode
 {
@@ -1641,12 +1648,12 @@ struct TrapListener
 // @fnv 0x0062db60
 void TrapListener::AddListener(CollisionArgument* apCollisionArgument)
 {
-    CollisionBody* body = apCollisionArgument->FUN_00460140();
-    FilterWord filter(body->FUN_0043b540());
-    int layer = filter.FUN_0043b4d0();
+    CollisionBody* body = apCollisionArgument->TESDataHandler_GetWorldSpaceList();
+    FilterWord filter(body->hkpCollidable_getCollisionFilterInfo());
+    int layer = filter.CFilter_GetLayer();
     if (layer == 12 || layer == 22 || layer == 24)
     {
-        TESObjectREFR* reference = FUN_0062b4e0(body);
+        TESObjectREFR* reference = TESHavokUtilities_FindCollidableRef(body);
         if (reference)
         {
             ListenerNode* node = new ListenerNode(reference, body);
@@ -1662,7 +1669,7 @@ struct Item62DE
 {
     virtual void vfn_00();
     virtual void vfn_04();
-    Item62DE* FUN_00620180();
+    Item62DE* ZoneEntry_QNextEntry();
 };
 
 struct Child62DE
@@ -1701,7 +1708,7 @@ void Updater62DE::TESTrapListener_Update(float f)
     while (item)
     {
         item->vfn_04();
-        item = item->FUN_00620180();
+        item = item->ZoneEntry_QNextEntry();
     }
 }
 
@@ -1751,12 +1758,13 @@ struct EventNode_62c5a0 : EventCaller_62c5a0, EventLink_62c5a0
 struct EventCollection_62c5a0
 {
     EventNode_62c5a0* FUN_00825c00();
-    void FUN_0062c5a0();
+    void TrapEntry_Run();
 };
 
 // Iterates through the linked list of event nodes and invokes each one with the collection as context.
 // @fnv 0x0062c5a0
-void EventCollection_62c5a0::FUN_0062c5a0()
+// src: XBOX_PDB 0x0062c5a0
+void EventCollection_62c5a0::TrapEntry_Run()
 {
     EventNode_62c5a0* node = FUN_00825c00();
     while (node != 0)

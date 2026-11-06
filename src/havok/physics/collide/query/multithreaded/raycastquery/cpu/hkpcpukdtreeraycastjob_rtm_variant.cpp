@@ -52,7 +52,7 @@ struct FUN_00e4dde0
     int unk8C;
     FUN_00e4dde0();
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00e4e3c0
 {
     int m_i04;
@@ -99,7 +99,7 @@ struct FUN_00e4e3c0
 
     static void operator delete(void* apMemory)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         reinterpret_cast<hkMemoryAllocator*>(pAllocator)->blockFree(apMemory, sizeof(FUN_00e4e3c0));
     }
@@ -222,7 +222,7 @@ struct FloatMatrix3
 };
 
 void __cdecl FUN_00e2ab00(InputStruct* input, FloatMatrix3* m1, FloatMatrix3* m2);
-void __cdecl FUN_00d99570(unsigned char* out, void* a1, FloatMatrix3* m1, FloatMatrix3* m2, FUN_00e4dde0* obj,
+void __cdecl hkKdTreeUtils_castRayBundleIterative(unsigned char* out, void* a1, FloatMatrix3* m1, FloatMatrix3* m2, FUN_00e4dde0* obj,
                           int flag);
 extern int DAT_011b3830[];
 
@@ -262,7 +262,7 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
     FUN_00e2ab00(a2, &m1, &m2);
 
     unsigned char result;
-    FUN_00d99570(&result, a1, &m1, &m2, &obj, DAT_011b3830[a2->count]);
+    hkKdTreeUtils_castRayBundleIterative(&result, a1, &m1, &m2, &obj, DAT_011b3830[a2->count]);
 
     for (int k = 0; k < a2->count; k++)
     {

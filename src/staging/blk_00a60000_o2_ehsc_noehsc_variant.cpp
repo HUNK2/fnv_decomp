@@ -54,7 +54,7 @@ struct FUN_00a7f820_Class
 {
     void __thiscall FUN_00a7f820();
 };
-void __fastcall FUN_00a69690(float* p);
+void __fastcall NiColor_Clamp(float* p);
 extern MemoryManager g_memoryManager;
 struct FUN_00a615c0_Class
 {
@@ -654,7 +654,7 @@ struct ColorState
 class BA72DB0Data
 {
   public:
-    void FUN_00a72db0(NiStream& kStream);
+    void NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(NiStream& kStream);
 
     bool m_bFlag;
     int m_iValue0;
@@ -799,7 +799,7 @@ struct FUN_00a7d1a0_Class
     int m_i10;
     Entry m_entries[4];
 
-    void FUN_00a7d1a0(NiStream& stream);
+    void NiPixelFormat_SaveBinary(NiStream& stream);
 };
 void* __cdecl BuildSqrtLut();
 void NiPoint3__SDMInit();
@@ -930,7 +930,7 @@ struct MyPool
 };
 struct FUN_0040fbf0_Class
 {
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
 };
 extern FUN_00a615c0_Class* DAT_011f4468;
 extern FUN_0040fbf0_Class DAT_011f4480;
@@ -1112,7 +1112,7 @@ template <class T> inline void BA643B0LoadBinary(BA643B0Stream& kStream, T& valu
 {
     BA643B0BinaryStreamLoad(*kStream.m_pUnderlyingStream, &value);
 }
-void __cdecl FUN_00a643b0(BA643B0Stream& kStream, char* pcValue);
+void __cdecl NiStreamLoadBinary_char_00a643b0(BA643B0Stream& kStream, char* pcValue);
 struct Q67530Data
 {
     int a;
@@ -1273,8 +1273,8 @@ struct ControllerA606
     bool m_bUnk40;
     bool m_bUnk41;
     bool m_bUseFirst;
-    void FUN_00a5d7b0(NiStream& kStream);
-    void FUN_00a60600(NiStream& kStream);
+    void NiSequenceStreamHelper_SaveBinary(NiStream& kStream);
+    void NiSourceTexture_SaveBinary(NiStream& kStream);
 };
 class FUN_00a5e3a0_Helper
 {
@@ -1388,13 +1388,13 @@ struct NodeList
     }
 };
 void* __cdecl FindNodeByObject(A61E60Obj* obj);
-bool __fastcall FUN_00a5c180(void*, int, NiStream*);
-bool __fastcall FUN_00a62130(void* a, int b, NiStream* s);
+bool __fastcall NiObjectNET_RegisterStreamables(void*, int, NiStream*);
+bool __fastcall NiSequenceStreamHelper_RegisterStreamables(void* a, int b, NiStream* s);
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a5c820(void* other);
-    bool __thiscall FUN_00a62140(void* other);
+    bool __thiscall NiObjectNET_IsEqual(void* other);
+    bool __thiscall NiSequenceStreamHelper_IsEqual(void* other);
 };
 class ColorAStandIn
 {
@@ -1413,11 +1413,11 @@ class ColorAStandIn
 };
 struct FUN_00a727b0_Class
 {
-    unsigned int FUN_00a727b0();
+    unsigned int NiAdditionalGeometryData_GetDataBlockCount();
 };
 extern void __cdecl FUN_00a8a9b0();
-void __cdecl FUN_00a75f00();
-unsigned short __fastcall FUN_00a75f20(char* p, int);
+void __cdecl NiPSysData_RegisterStreamables();
+unsigned short __fastcall NiTriBasedGeomData_GetActiveTriangleCount(char* p, int);
 class FileA609
 {
   public:
@@ -1544,14 +1544,14 @@ enum SourceAlphaFormat
 };
 extern bool DAT_011f4780;
 void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void*, void*);
-bool __cdecl FUN_00aa1a30(const char*, int);
+bool __cdecl NiFile_Access(const char*, int);
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f444c;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcText);
+char* __cdecl NiGetViewerString_00a7d5e0(const char* pcPrefix, const char* pcText);
 struct FUN_00a62a40_this
 {
-    void FUN_00a62a40(NiTPrimitiveArray<char*>* pkStrings);
+    void NiTexture_GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings);
 };
 struct FUN_00a60770_shell : FUN_00a62a40_this
 {
@@ -1607,7 +1607,7 @@ void __cdecl ConvertPixelFormat(unsigned int uiWidth, unsigned int uiHeight, uns
                                 unsigned char* pucDest, unsigned int uiSrcStride, unsigned int uiSrcSize,
                                 const unsigned char* pucSrc, const PixelChannelPacking* pkSrcFmt);
 void __cdecl FUN_00a8a9a0();
-void __cdecl FUN_00a7b7d0();
+void __cdecl NiPSysData_LinkObject();
 void __cdecl AddScaledPoints(NiPoint3* dest, float scale, const NiPoint3* src, unsigned int count);
 extern int DAT_0109b944;
 extern int DAT_0109df8c;
@@ -1648,7 +1648,8 @@ class FUN_007613f0
 };
 
 // @fnv 0x00a63ae0
-void* FUN_00a63ae0(unsigned int ItemUpdateArray)
+// src: XBOX_PDB 0x00a63ae0
+void* NiTNewInterface_NiFixedString_Allocate(unsigned int ItemUpdateArray)
 {
     return new FUN_007613f0[ItemUpdateArray];
 }

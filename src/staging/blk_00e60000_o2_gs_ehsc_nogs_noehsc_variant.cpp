@@ -4015,7 +4015,7 @@ struct IndexAllocator
 };
 struct IndexArray;
 void __cdecl hkArrayUtil__reserve(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int n);
+void* __cdecl hkString_memCpy(void* dst, const void* src, unsigned int n);
 struct IndexArray
 {
     unsigned short* data;
@@ -4199,7 +4199,7 @@ struct FUN_00e76620_cls
 };
 void __cdecl hkArrayUtil__reserve(void*, IndexArray*, int, int);
 void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* output, void* allocator);
-void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, int iNumBytes);
+void* __cdecl hkString_memCpy(void* pDst, const void* pSrc, int iNumBytes);
 void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
 static float rand01_00e62ac0(unsigned seed);
@@ -5046,7 +5046,7 @@ class GlobalObject_0096a2d0
 extern BlkListNodeView* DAT_011c5f58;
 extern GlobalObject_0096a2d0 g_011c5f80;
 extern unsigned int DAT_011c5f84;
-void __cdecl FUN_0043a080();
+void __cdecl NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
 struct ItemList168
 {
 

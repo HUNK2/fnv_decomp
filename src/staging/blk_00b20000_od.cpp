@@ -1318,7 +1318,7 @@ extern int DAT_010173e8;
 
 struct FUN_00b3c3b0_Sub
 {
-    void __thiscall FUN_0044a730(int a, int b);
+    void __thiscall fopen_0044a730(int a, int b);
 };
 
 struct FUN_00b3c3b0_Class
@@ -1344,7 +1344,7 @@ void FUN_00b3c3b0_Class::Initialize()
 
     this->unk00 = &DAT_010a57fc;
     this->unk00 = &DAT_010173e8;
-    this->unk0c.FUN_0044a730(1, 0);
+    this->unk0c.fopen_0044a730(1, 0);
     this->FUN_00ec79a1();
 }
 
@@ -1657,12 +1657,13 @@ struct FUN_00b29fd0_cls
     int unk74;
     int unk78;
     FUN_00b29fd0_Params m_7c;
-    FUN_00b29fd0_cls* FUN_00b29fd0();
+    FUN_00b29fd0_cls* CLightingEngine_CLightingEngine();
 };
 
 // Initializes the object's fields and copies three default parameter blocks into m_04, m_3c, and m_7c.
 // @fnv 0x00b29fd0
-FUN_00b29fd0_cls* FUN_00b29fd0_cls::FUN_00b29fd0()
+// src: XBOX_PDB 0x00b29fd0
+FUN_00b29fd0_cls* FUN_00b29fd0_cls::CLightingEngine_CLightingEngine()
 {
     unk00 = 0;
     unk38 = 0;

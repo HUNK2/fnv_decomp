@@ -83,7 +83,7 @@ public:
     LocalVec FUN_00439ef0(const LocalVec& v) const;
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     void FUN_006815c0();
     void FUN_00439180(float scale);
     LocalVec& FUN_0063c8a0(const LocalVec& v);
@@ -91,7 +91,7 @@ public:
     float FUN_004a7290() const;
     void FUN_004b4db0(const float* values);
     void FUN_00a38560();
-    void FUN_004f0180(void* value);
+    void NiQuaternion_ToRotation(void* value);
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
@@ -138,12 +138,12 @@ public:
     void normalize();
     void negate(const LocalVec& v);
 
-    void FUN_00c7f640(const void* matrix, const hkVector4& point);
-    void FUN_00c7f640(Mat4* matrix, void* point);
-    void FUN_00c7f640(const void* matrix, const LocalVec* point);
-    void FUN_00c7f640(const void* matrix, const void* point);
-    void FUN_00c7f700(Mat3* matrix, void* point);
-    void FUN_00c7f700(const void* matrix, const LocalVec* point);
+    void setTransformedPos_00c7f640(const void* matrix, const hkVector4& point);
+    void setTransformedPos_00c7f640(Mat4* matrix, void* point);
+    void setTransformedPos_00c7f640(const void* matrix, const LocalVec* point);
+    void setTransformedPos_00c7f640(const void* matrix, const void* point);
+    void hkVector4_setRotatedDir(Mat3* matrix, void* point);
+    void hkVector4_setRotatedDir(const void* matrix, const LocalVec* point);
     void Normalize_00b12790();
     void Diff_00b13040(LocalVec* out, const LocalVec* v);
     LocalVec* ScaleSwizzled(LocalVec* out, float factor);
@@ -345,7 +345,8 @@ extern float const g_011c7374_arg1;
 
 // Initializes the object's fields to zero/default values, sets flags at offset 0x10, and clears bit 0x8000.
 // @fnv 0x00ae95e0
-void __fastcall FUN_00ae95e0(BSGameSound* pObject)
+// src: XBOX_PDB 0x00ae95e0
+void __fastcall BSGameSound_Init(BSGameSound* pObject)
 {
     pObject->iSoundID = 0;
     pObject->iSoundTypeFlags = 0;
@@ -619,7 +620,7 @@ struct BSAudioSink
     virtual void __stdcall FUN_00f8();
 };
 
-extern "C" void FUN_00ad7150();
+extern "C" void BSAudio_Shutdown();
 
 extern void(__cdecl* g_pAudioShutdownCallback)();
 
@@ -627,7 +628,7 @@ extern void(__cdecl* g_pAudioShutdownCallback)();
 void BSWin32Audio::Shutdown()
 {
     this->bInitialized = 0;
-    ((void(__thiscall*)(BSAudio*))FUN_00ad7150)(this);
+    ((void(__thiscall*)(BSAudio*))BSAudio_Shutdown)(this);
     g_pAudioShutdownCallback();
     if (this->pListener)
     {
@@ -754,11 +755,12 @@ extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 
 struct AudioPathFixer
 {
-    void FUN_00aea640(char* apName);
+    void BSWin32Audio_FixSoundPath(char* apName);
 };
 // If apName starts with "fx" or "song", copies it to a buffer, then rewrites apName to "data\sound\" followed by the original name.
 // @fnv 0x00aea640
-void AudioPathFixer::FUN_00aea640(char* apName)
+// src: XBOX_PDB 0x00aea640
+void AudioPathFixer::BSWin32Audio_FixSoundPath(char* apName)
 {
     char acBuffer[260];
     if (apName && ((apName[0] == 102 && apName[1] == 120) ||

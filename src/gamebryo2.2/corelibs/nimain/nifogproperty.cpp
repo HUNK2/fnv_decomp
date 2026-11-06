@@ -98,7 +98,7 @@ struct FogPropertyRoutines
 
 struct PropertyCloneRoutines
 {
-    void FUN_00a5d7a0(void* prop, int arg);
+    void NiProperty_CopyMembers(void* prop, int arg);
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -125,7 +125,7 @@ void* FogPropertyRoutines::Clone(int arg)
         {
             esi = 0;
         }
-        ((PropertyCloneRoutines*)this)->FUN_00a5d7a0(esi, arg);
+        ((PropertyCloneRoutines*)this)->NiProperty_CopyMembers(esi, arg);
         unsigned short cx = self->m_uiObjectFlags;
         esi->m_uiObjectFlags = cx;
         esi->m_fFogDepth = self->m_fFogDepth;
@@ -169,7 +169,7 @@ NiFogProperty* __cdecl CreateNiFogProperty()
 
 struct EqBase
 {
-    bool __thiscall FUN_00a62140(NiObject* object);
+    bool __thiscall NiSequenceStreamHelper_IsEqual(NiObject* object);
 };
 
 // @fnv 0x00a9a030
@@ -178,7 +178,7 @@ bool __thiscall FogPropertyRoutines::IsEqual(NiFogProperty* other)
     NiFogProperty* self = reinterpret_cast<NiFogProperty*>(this);
     EqBase* base = reinterpret_cast<EqBase*>(this);
 
-    if (base->FUN_00a62140(reinterpret_cast<NiObject*>(other)))
+    if (base->NiSequenceStreamHelper_IsEqual(reinterpret_cast<NiObject*>(other)))
     {
         volatile unsigned char* ownFlags = reinterpret_cast<volatile unsigned char*>(&self->m_uiObjectFlags);
         unsigned char* otherFlags = reinterpret_cast<unsigned char*>(&other->m_uiObjectFlags);
@@ -332,7 +332,7 @@ template <class T> inline void WriteBinaryValue(NiStream& kStream, T& value)
 class PropertySaveRoutines
 {
   public:
-    void FUN_00a5d7b0(NiStream& kStream);
+    void NiSequenceStreamHelper_SaveBinary(NiStream& kStream);
 };
 
 // Saves the base property, flags, depth and RGB tint to the output stream.
@@ -340,7 +340,7 @@ class PropertySaveRoutines
 void FogPropertyRoutines::SaveBinary(NiStream& kStream)
 {
     NiFogProperty* self = reinterpret_cast<NiFogProperty*>(this);
-    reinterpret_cast<PropertySaveRoutines*>(this)->FUN_00a5d7b0(kStream);
+    reinterpret_cast<PropertySaveRoutines*>(this)->NiSequenceStreamHelper_SaveBinary(kStream);
     WriteBinaryValue(kStream, self->m_uiObjectFlags);
     WriteBinaryValue(kStream, self->m_fFogDepth);
     self->m_kFogTint.SaveBinary(kStream);

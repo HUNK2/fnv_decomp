@@ -64,7 +64,7 @@ void __cdecl tranformPhantom(hkpPhantom* phantom, const hkTransform& transform)
         current.m_kColumn2 = c2.q;
         current.m_vTranslation = t.q;
         current.FUN_00cb23e0(transform);
-        sp->FUN_00c9e910(current);
+        sp->hkpShapePhantom_setTransform(current);
         break;
     }
     case 0: {
@@ -73,7 +73,7 @@ void __cdecl tranformPhantom(hkpPhantom* phantom, const hkTransform& transform)
         aabb.f = reinterpret_cast<const hkAabbf&>(ap->m_kBounds);
         aabb.q.m_kMinimumCorner = _mm_add_ps(transform.m_vTranslation, aabb.q.m_kMinimumCorner);
         aabb.q.m_kMaximumCorner = _mm_add_ps(transform.m_vTranslation, aabb.q.m_kMaximumCorner);
-        ap->FUN_00cf24a0(aabb);
+        ap->hkpAabbPhantom_setAabb(aabb);
         break;
     }
     }

@@ -7,14 +7,14 @@
 
 extern "C"
 {
-    void* __cdecl FUN_00c85750(void);
+    void* __cdecl hkMemoryRouter_getInstance(void);
     void __cdecl hkMemoryRouter_easyFree(void*, void*);
 }
 extern int DAT_0102e388;
 extern void* DAT_010ea5b4;
 inline hkThreadMemory& GetMoppMemoryRouter()
 {
-    return *static_cast<hkThreadMemory*>(FUN_00c85750());
+    return *static_cast<hkThreadMemory*>(hkMemoryRouter_getInstance());
 }
 
 __forceinline hkMemoryAllocator& hkThreadMemory::heap()
@@ -51,10 +51,10 @@ void SomeClass::Destroy()
     vtable = &DAT_010ea5b4;
     if (p)
     {
-        void* q = FUN_00c85750();
+        void* q = hkMemoryRouter_getInstance();
         hkMemoryRouter_easyFree(*(void**)((char*)q + 0x10), p);
     }
-    void* s = FUN_00c85750();
+    void* s = hkMemoryRouter_getInstance();
     void* t = *(void**)((char*)s + 0x10);
     buffer._clearAndDeallocate(*static_cast<hkMemoryAllocator*>(t));
     vtable = &DAT_0102e388;
@@ -62,8 +62,8 @@ void SomeClass::Destroy()
 
 char* __cdecl AllocateWithHeader(hkMemoryAllocator* alloc, int numBytes);
 void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* alloc, void* p);
-extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memSet(void* dst, int c, int n);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 
 struct E06490Stack
 {
@@ -81,8 +81,8 @@ void E06490Stack::GrowBuffer()
 {
     int newCapacity = m_pRayCursor * 2;
     char* newBuffer = AllocateWithHeader(&GetMoppMemoryRouter().heap(), newCapacity);
-    FUN_00cb1280(newBuffer, 0xcd, m_pRayCursor);
-    FUN_00cb1260(newBuffer + m_pRayCursor, m_buffer, m_pRayCursor);
+    hkString_memSet(newBuffer, 0xcd, m_pRayCursor);
+    hkString_memCpy(newBuffer + m_pRayCursor, m_buffer, m_pRayCursor);
     char* oldBuffer = m_buffer;
     m_pRayCursor *= 2;
     hkMemoryRouter_easyFree(&GetMoppMemoryRouter().heap(), oldBuffer);
@@ -120,7 +120,7 @@ extern "C" void __cdecl nullsub_26()
 
 #include <xmmintrin.h>
 extern "C" void __cdecl hkArrayUtil__reserve(void* heap, void* arr, int n, int elemSize);
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int n);
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
@@ -189,7 +189,7 @@ S_00e064f0_Obj* FUN_00e064f0_class::FUN_00e064f0()
     S_00e064f0_Obj* pNewObj = new S_00e064f0_Obj;
     pNewObj->m_aiIndexedValues.reserveExactly(n);
     pNewObj->m_aiIndexedValues.setSize(n);
-    FUN_00cb1260(pNewObj->m_aiIndexedValues.m_data, (char*)unk08 + (unk10 - unk0C), n);
+    hkString_memCpy(pNewObj->m_aiIndexedValues.m_data, (char*)unk08 + (unk10 - unk0C), n);
     void* pOldBuffer = (void*)unk10;
     hkMemoryRouter_easyFree(GetMoppMemoryRouter().m_pMemoryAllocator, pOldBuffer);
     unk10 = 0;

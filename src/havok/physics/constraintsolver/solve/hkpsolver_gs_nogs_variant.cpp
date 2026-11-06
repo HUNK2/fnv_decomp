@@ -35,7 +35,7 @@ extern "C" void __cdecl SubtractScalarFloat(LocalM128* pResult, const LocalM128*
 {
     *pResult = _mm_sub_ss(*pLeft, *pRight);
 }
-void FUN_00d892d0();
+void hkSolveUpload();
 
 #include <math.h>
 using ::_mm_mul_ps;
@@ -136,8 +136,8 @@ public:
         else if (i == 3) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
     }
     __forceinline void setBroadcast3clobberW(const SolverVector4& v, int i) { setBroadcast(v, i); }
-    void FUN_00c7f750(const hkMatrix3& a, const SolverVector4& b);
-    __forceinline void SetRotatedVector(const hkMatrix3& a, const SolverVector4& b) { FUN_00c7f750(a, b); }
+    void hkVector4_setMul3(const hkMatrix3& a, const SolverVector4& b);
+    __forceinline void SetRotatedVector(const hkMatrix3& a, const SolverVector4& b) { hkVector4_setMul3(a, b); }
     hkQuadReal m_vComponents;
 };
 
@@ -1248,10 +1248,10 @@ case_1D_LINEAR_MOTOR:
             {
                 const hkpJacobianSetComSchema* sc = reinterpret_cast<const hkpJacobianSetComSchema*>(com);
                 storeVelocityAccumulators(*mA, *mB);
-                SolverVector4 deltaVelA; deltaVelA.FUN_00c7f750(sc->m_angularA, mA->m_vAngularVelocity);
-                SolverVector4 deltaVelB; deltaVelB.FUN_00c7f750(sc->m_angularB, mB->m_vAngularVelocity);
-                SolverVector4 deltaSumVelA; deltaSumVelA.FUN_00c7f750(sc->m_angularA, mA->getSumAngularVel());
-                SolverVector4 deltaSumVelB; deltaSumVelB.FUN_00c7f750(sc->m_angularB, mB->getSumAngularVel());
+                SolverVector4 deltaVelA; deltaVelA.hkVector4_setMul3(sc->m_angularA, mA->m_vAngularVelocity);
+                SolverVector4 deltaVelB; deltaVelB.hkVector4_setMul3(sc->m_angularB, mB->m_vAngularVelocity);
+                SolverVector4 deltaSumVelA; deltaSumVelA.hkVector4_setMul3(sc->m_angularA, mA->getSumAngularVel());
+                SolverVector4 deltaSumVelB; deltaSumVelB.hkVector4_setMul3(sc->m_angularB, mB->getSumAngularVel());
                 mA->m_vLinearVelocity.add4(deltaVelA);
                 mA->getSumLinearVel().add4(deltaSumVelA);
                 mB->m_vLinearVelocity.add4(deltaVelB);
@@ -2117,8 +2117,8 @@ public:
         else if (i == 3) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
     }
     __forceinline void setBroadcast3clobberW(const ConstraintStepVector& v, int i) { setBroadcast(v, i); }
-    void FUN_00c7f750(const hkMatrix3& a, const ConstraintStepVector& b);
-    __forceinline void SetRotatedVector(const hkMatrix3& a, const ConstraintStepVector& b) { FUN_00c7f750(a, b); }
+    void hkVector4_setMul3(const hkMatrix3& a, const ConstraintStepVector& b);
+    __forceinline void SetRotatedVector(const hkMatrix3& a, const ConstraintStepVector& b) { hkVector4_setMul3(a, b); }
     ConstraintStepQuad m_vComponents;
 };
 struct ConstraintSolverInfo
@@ -3148,10 +3148,10 @@ case_1D_LINEAR_MOTOR:
             {
                 const hkpJacobianSetComSchema* sc = reinterpret_cast<const hkpJacobianSetComSchema*>(com);
                 storeVelocityAccumulators(*mA, *mB);
-                ConstraintStepVector deltaVelA; deltaVelA.FUN_00c7f750(sc->m_angularA, mA->m_vAngularVelocity);
-                ConstraintStepVector deltaVelB; deltaVelB.FUN_00c7f750(sc->m_angularB, mB->m_vAngularVelocity);
-                ConstraintStepVector deltaSumVelA; deltaSumVelA.FUN_00c7f750(sc->m_angularA, mA->getSumAngularVel());
-                ConstraintStepVector deltaSumVelB; deltaSumVelB.FUN_00c7f750(sc->m_angularB, mB->getSumAngularVel());
+                ConstraintStepVector deltaVelA; deltaVelA.hkVector4_setMul3(sc->m_angularA, mA->m_vAngularVelocity);
+                ConstraintStepVector deltaVelB; deltaVelB.hkVector4_setMul3(sc->m_angularB, mB->m_vAngularVelocity);
+                ConstraintStepVector deltaSumVelA; deltaSumVelA.hkVector4_setMul3(sc->m_angularA, mA->getSumAngularVel());
+                ConstraintStepVector deltaSumVelB; deltaSumVelB.hkVector4_setMul3(sc->m_angularB, mB->getSumAngularVel());
                 mA->m_vLinearVelocity.add4(deltaVelA);
                 mA->getSumLinearVel().add4(deltaSumVelA);
                 mB->m_vLinearVelocity.add4(deltaVelB);

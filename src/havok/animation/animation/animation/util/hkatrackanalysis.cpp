@@ -232,7 +232,7 @@ struct TrackBuffers_e50650
     void FUN_00e50ca0();
 };
 
-void FUN_00e4f910(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
+void hkaTrackAnalysis_analyzeQsTransform(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
 
 // @fnv 0x00e50650
 void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pkArgCur)
@@ -272,7 +272,7 @@ void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pk
         kBuffers.m_kCubicCoefficient.m_data[i] = pkSource->m_fD;
         kBuffers.m_kE.m_data[i] = pkSource->m_ucE;
     }
-    FUN_00e4f910(&kBuffers, pkArg, pkArgCur, true);
+    hkaTrackAnalysis_analyzeQsTransform(&kBuffers, pkArg, pkArgCur, true);
     kBuffers.FUN_00e50ca0();
 }
 
@@ -367,7 +367,8 @@ static float readComponent(const float*& stat, const float*& dynamic, unsigned i
 }
 // Decodes transform and float tracks from static/dynamic data into 12-float transforms and a float array, using masks to select sources and defaults.
 // @fnv 0x00e4f640
-void FUN_00e4f640(const TrackData* apTrackData, float* transforms, float* floats)
+// src: XBOX_PDB 0x00e4f640
+void hkaTrackAnalysis_recompose(const TrackData* apTrackData, float* transforms, float* floats)
 {
     const float* staticData = apTrackData->staticData;
     const float* dynamicData = apTrackData->dynamicData;
@@ -527,7 +528,7 @@ struct FloatLocalArray
 void __cdecl hkaTrackAnalysis_analyze(const PerTransformIn& input, const PerFloatIn& apFloatIn, unsigned short* staticMask,
                           float* staticDOFs, hkBool displayStatsReport)
 {
-    FUN_00e4f910((TrackBuffers_e50650*)&input, staticMask, staticDOFs, false);
+    hkaTrackAnalysis_analyzeQsTransform((TrackBuffers_e50650*)&input, staticMask, staticDOFs, false);
     TrackStatistics statistics;
     ClearStatistics(statistics);
     hkaTrackAnalysis_calcStatsQsTransform(staticMask, input.numberOfTransformTracks, &statistics);

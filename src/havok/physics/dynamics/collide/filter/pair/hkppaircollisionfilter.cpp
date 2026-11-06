@@ -38,7 +38,7 @@ inline hkMemoryAllocator& GetStreamAllocator(hkMemoryRouter& stream)
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern hkMemoryRouter* FUN_00c85750();
+extern hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct HashCls
 {
@@ -60,13 +60,13 @@ int HashCls::InsertPair(int aiFirst, int aiSecond)
 
     HashCls* pHash = (HashCls*)((char*)this + 0x30);
     __int64 n = pHash->hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_getWithDefault(m, 0, 0) + 1;
-    hkMemoryAllocator& f0 = *FUN_00c85750()->m_heap;
+    hkMemoryAllocator& f0 = *hkMemoryRouter_getInstance()->m_heap;
     pHash->InsertKeyValue(f0, m, n);
     return (int)n;
 }
 
 namespace fnv_00def350 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct DEF350PointerMap
 {
@@ -76,7 +76,7 @@ struct DEF350PointerMap
 
     DEF350PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reserve(GetStreamAllocator(FUN_00c85750()), 0);
+        reserve(GetStreamAllocator(hkMemoryRouter_getInstance()), 0);
     }
 
     void reserve(hkMemoryAllocator& alloc, int numElements);
@@ -421,7 +421,7 @@ DEF120Bool DEF120Wrapper::hkpPairCollisionFilter_isCollisionEnabled_00def120(con
 }
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 typedef unsigned __int64 DEF1E0Uint64;
@@ -469,7 +469,7 @@ int DEF1E0PairCounter::DecrementPairCount(int idA, int idB)
         return 0;
     count--;
     if (count > 0)
-        map.insert(GetStreamAllocator(fnvc_adapt::FUN_00c85750()), key, count);
+        map.insert(GetStreamAllocator(fnvc_adapt::hkMemoryRouter_getInstance()), key, count);
     else
         map.remove(key);
     return (int)count;
@@ -627,7 +627,7 @@ extern int DAT_010c3b80;
 extern int DAT_0102e388;
 
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00def160_Sub
 {
@@ -635,7 +635,7 @@ struct FUN_00def160_Sub
     int unk04;
     int unk08;
 
-    void FUN_00cb1e40(void* pAllocator);
+    void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(void* pAllocator);
     void FUN_00a29680();
 };
 
@@ -678,8 +678,8 @@ void FUN_00def160_cls::FUN_00def160()
     }
 
     pSub = &m_sub;
-    pHolder = FUN_00c85750();
-    pSub->FUN_00cb1e40(pHolder->m_heap);
+    pHolder = hkMemoryRouter_getInstance();
+    pSub->hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(pHolder->m_heap);
     pSub->FUN_00a29680();
 
     m_vp14 = (void*)&DAT_010c3b8c;
@@ -691,7 +691,7 @@ void FUN_00def160_cls::FUN_00def160()
 }  // namespace fnv_00def160
 
 namespace fnv_00def500 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -707,7 +707,7 @@ CpuObject* CpuObject::hkpPairCollisionFilter_Destroy(unsigned int flags)
     FUN_00def160();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         holder->m_heap->blockFree(this, size);
     }
     return this;

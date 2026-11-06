@@ -35,7 +35,7 @@ void TESWaterForm::ResetFormData()
     cFlags = 0;
     m_pWaterSound = 0;
     m_kMaterialId.Set(0, 0);
-    FUN_0057eef0()->Initialize();
+    Sky_GetStarsColor()->Initialize();
 
     for (int i = 0; i < 3; ++i)
         m_apWaterForms[i] = 0;
@@ -240,13 +240,15 @@ bool TESWaterForm::Load(TESFile* file)
 }
 
 // @fnv 0x0057eef0
-WaterShaderSettings* TESWaterForm::FUN_0057eef0()
+// src: XBOX_PDB 0x0057eef0
+WaterShaderSettings* TESWaterForm::Sky_GetStarsColor()
 {
     return &Data;
 }
 
 // @fnv 0x0057f890
-void TESWaterForm::FUN_0057f890(SpellItem* apSpellItem)
+// src: XBOX_PDB 0x0057f890
+void TESWaterForm::SetSpellItem_0057f890(SpellItem* apSpellItem)
 {
     m_pWaterSpell = apSpellItem;
 }
@@ -295,7 +297,8 @@ void TESWaterForm::SetNP(void* apValue)
 }
 
 // @fnv 0x005806e0
-void TESWaterForm::FUN_005806e0(BGSSaveFormBuffer* apSaveGameBuffer)
+// src: XBOX_PDB 0x005806e0
+void TESWaterForm::SaveGame_005806e0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     TESForm::SaveGame(apSaveGameBuffer);
     if (apSaveGameBuffer->GetChangeFlags(0x80000000).operator bool())
@@ -324,7 +327,8 @@ void FUN_005802f0_shell::BGSPlaceableWater_SetReflectsLODTrees(bool abFlag)
 }
 
 // @fnv 0x00580730
-void TESWaterForm::FUN_00580730(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: XBOX_PDB 0x00580730
+void TESWaterForm::LoadGame_00580730(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
     if (apLoadGameBuffer->GetChangeFlags(0x80000000).operator bool())
@@ -352,12 +356,12 @@ struct FUN_00485e00_shell
 {
     void TESForm_SaveData();
 };
-void FUN_004856f0(unsigned int id, void* data, unsigned int size);
+void TESForm_AddChunkArray(unsigned int id, void* data, unsigned int size);
 void TESForm_AddChunk_3(unsigned int id, unsigned char value);
-void FUN_00485910(unsigned int id, unsigned int value);
+void TESForm_AddChunk_00485910(unsigned int id, unsigned int value);
 void AppendChunk(unsigned int id, void* data, unsigned int size);
-void FUN_00485710(unsigned int id, unsigned int* data, unsigned int count);
-bool FUN_00401500();
+void TESForm_AddChunkArray_00485710(unsigned int id, unsigned int* data, unsigned int count);
+bool TESForm_QEndianSwapOnSave();
 
 // Serializes the water form: writes name, model, flags, form IDs, and a 0xc4-byte Data block, swapping endianness when needed.
 // @fnv 0x0057fbf0
@@ -365,27 +369,27 @@ void TESWaterForm::SaveWaterForm()
 {
     unsigned int auiFormIds[3];
     TESForm::FUN_004855a0();
-    TESFullName::FUN_00487010();
-    FUN_004856f0(0x4d414e4e, (void*)m_kNoiseMapTexture.GetTextureResourceName(),
+    TESFullName::Save_00487010();
+    TESForm_AddChunkArray(0x4d414e4e, (void*)m_kNoiseMapTexture.GetTextureResourceName(),
                  m_kNoiseMapTexture.GetTextureNameLength() + 1);
     TESForm_AddChunk_3(0x4d414e41, m_ucOpacity);
     TESForm_AddChunk_3(0x4d414e46, cFlags);
-    FUN_004856f0(0x4d414e4d, (void*)GetMaterialName(), m_kMaterialId.Length() + 1);
+    TESForm_AddChunkArray(0x4d414e4d, (void*)GetMaterialName(), m_kMaterialId.Length() + 1);
     if (m_pWaterSound)
     {
         unsigned int itempint = m_pWaterSound->TESForm::GetFormID();
-        FUN_00485910(0x4d414e53, itempint);
+        TESForm_AddChunk_00485910(0x4d414e53, itempint);
     }
     if (m_pWaterSpell)
     {
         unsigned int itempint = m_pWaterSpell->GetFormID();
-        FUN_00485910(0x4d414e58, itempint);
+        TESForm_AddChunk_00485910(0x4d414e58, itempint);
     }
     ((FUN_00485e00_shell*)this)->TESForm_SaveData();
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     AppendChunk(0x4d414e44, &Data, 0xc4);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     for (int i = 0; i < 3; i++)
     {
@@ -394,7 +398,7 @@ void TESWaterForm::SaveWaterForm()
         else
             auiFormIds[i] = 0;
     }
-    FUN_00485710(0x4d414e47, auiFormIds, 3);
+    TESForm_AddChunkArray_00485710(0x4d414e47, auiFormIds, 3);
     TESForm::FUN_00485680();
 }
 
@@ -403,7 +407,8 @@ void TESWaterForm::SaveWaterForm()
 extern int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x0057ff10
-bool TESWaterForm::FUN_0057ff10(TESForm* apCompare)
+// src: XBOX_PDB 0x0057ff10
+bool TESWaterForm::Compare_0057ff10(TESForm* apCompare)
 {
     TESWaterForm* pcomp;
 
@@ -420,7 +425,7 @@ bool TESWaterForm::FUN_0057ff10(TESForm* apCompare)
     if (*(unsigned char*)((char*)this + 0x70) != *(unsigned char*)((char*)pcomp + 0x70))
         return true;
 
-    if (_memcmp(FUN_0057eef0(), pcomp->FUN_0057eef0(), 0xc4) != 0)
+    if (_memcmp(Sky_GetStarsColor(), pcomp->Sky_GetStarsColor(), 0xc4) != 0)
         return true;
 
     if (m_kNoiseMapTexture.CompareWithBase(&pcomp->m_kNoiseMapTexture))
@@ -472,7 +477,8 @@ void FUN_00589f50_shell::SetSound(void*)
 
 // Returns the BGSPlaceableWater stored at offset 0x180, creating and initialising it with editor ID "PlaceableAutoWater" if it is null.
 // @fnv 0x00580130
-BGSPlaceableWater* TESWaterForm::FUN_00580130()
+// src: XBOX_PDB 0x00580130
+BGSPlaceableWater* TESWaterForm::GetPlaceableAutoWater()
 {
     char ptempname[260];
 
@@ -512,7 +518,8 @@ BGSPlaceableWater* TESWaterForm::FUN_00580130()
 }
 
 // @fnv 0x00580330
-BGSPlaceableWater* TESWaterForm::FUN_00580330()
+// src: XBOX_PDB 0x00580330
+BGSPlaceableWater* TESWaterForm::GetPlaceableLODWater()
 {
     char ptempname[260];
 
@@ -585,58 +592,58 @@ struct ByteArg
 {
     unsigned char c;
 };
-void FUN_00401080(void* p, ByteArg v);
+void BSEndian_00401080(void* p, ByteArg v);
 // @fnv 0x0057f3a0
 void WaterShaderSettings::Endian()
 {
-    FUN_00401080((char*)this + 0x0, ByteArg());
-    FUN_00401080((char*)this + 0x4, ByteArg());
-    FUN_00401080((char*)this + 0x8, ByteArg());
-    FUN_00401080((char*)this + 0xc, ByteArg());
-    FUN_00401080((char*)this + 0x10, ByteArg());
-    FUN_00401080((char*)this + 0x14, ByteArg());
-    FUN_00401080((char*)this + 0x18, ByteArg());
-    FUN_00401080((char*)this + 0x1c, ByteArg());
-    FUN_00401080((char*)this + 0x20, ByteArg());
-    FUN_00401080((char*)this + 0x24, ByteArg());
-    FUN_00401080((char*)this + 0x28, ByteArg());
-    FUN_00401080((char*)this + 0x2c, ByteArg());
-    FUN_00401080((char*)this + 0x30, ByteArg());
-    FUN_00401080((char*)this + 0x38, ByteArg());
-    FUN_00401080((char*)this + 0x3c, ByteArg());
-    FUN_00401080((char*)this + 0x40, ByteArg());
-    FUN_00401080((char*)this + 0x44, ByteArg());
-    FUN_00401080((char*)this + 0x48, ByteArg());
-    FUN_00401080((char*)this + 0x4c, ByteArg());
-    FUN_00401080((char*)this + 0x50, ByteArg());
-    FUN_00401080((char*)this + 0x54, ByteArg());
-    FUN_00401080((char*)this + 0x58, ByteArg());
-    FUN_00401080((char*)this + 0x5c, ByteArg());
-    FUN_00401080((char*)this + 0x60, ByteArg());
-    FUN_00401080((char*)this + 0x64, ByteArg());
-    FUN_00401080((char*)this + 0x68, ByteArg());
-    FUN_00401080((char*)this + 0x6c, ByteArg());
-    FUN_00401080((char*)this + 0x70, ByteArg());
-    FUN_00401080((char*)this + 0x74, ByteArg());
-    FUN_00401080((char*)this + 0x78, ByteArg());
-    FUN_00401080((char*)this + 0x7c, ByteArg());
-    FUN_00401080((char*)this + 0x80, ByteArg());
-    FUN_00401080((char*)this + 0x84, ByteArg());
-    FUN_00401080((char*)this + 0x88, ByteArg());
-    FUN_00401080((char*)this + 0x8c, ByteArg());
-    FUN_00401080((char*)this + 0x90, ByteArg());
-    FUN_00401080((char*)this + 0x94, ByteArg());
-    FUN_00401080((char*)this + 0x98, ByteArg());
-    FUN_00401080((char*)this + 0x9c, ByteArg());
-    FUN_00401080((char*)this + 0xa0, ByteArg());
-    FUN_00401080((char*)this + 0xa4, ByteArg());
-    FUN_00401080((char*)this + 0xa8, ByteArg());
-    FUN_00401080((char*)this + 0xac, ByteArg());
-    FUN_00401080((char*)this + 0xb0, ByteArg());
-    FUN_00401080((char*)this + 0xb4, ByteArg());
-    FUN_00401080((char*)this + 0xb8, ByteArg());
-    FUN_00401080((char*)this + 0xbc, ByteArg());
-    FUN_00401080((char*)this + 0xc0, ByteArg());
+    BSEndian_00401080((char*)this + 0x0, ByteArg());
+    BSEndian_00401080((char*)this + 0x4, ByteArg());
+    BSEndian_00401080((char*)this + 0x8, ByteArg());
+    BSEndian_00401080((char*)this + 0xc, ByteArg());
+    BSEndian_00401080((char*)this + 0x10, ByteArg());
+    BSEndian_00401080((char*)this + 0x14, ByteArg());
+    BSEndian_00401080((char*)this + 0x18, ByteArg());
+    BSEndian_00401080((char*)this + 0x1c, ByteArg());
+    BSEndian_00401080((char*)this + 0x20, ByteArg());
+    BSEndian_00401080((char*)this + 0x24, ByteArg());
+    BSEndian_00401080((char*)this + 0x28, ByteArg());
+    BSEndian_00401080((char*)this + 0x2c, ByteArg());
+    BSEndian_00401080((char*)this + 0x30, ByteArg());
+    BSEndian_00401080((char*)this + 0x38, ByteArg());
+    BSEndian_00401080((char*)this + 0x3c, ByteArg());
+    BSEndian_00401080((char*)this + 0x40, ByteArg());
+    BSEndian_00401080((char*)this + 0x44, ByteArg());
+    BSEndian_00401080((char*)this + 0x48, ByteArg());
+    BSEndian_00401080((char*)this + 0x4c, ByteArg());
+    BSEndian_00401080((char*)this + 0x50, ByteArg());
+    BSEndian_00401080((char*)this + 0x54, ByteArg());
+    BSEndian_00401080((char*)this + 0x58, ByteArg());
+    BSEndian_00401080((char*)this + 0x5c, ByteArg());
+    BSEndian_00401080((char*)this + 0x60, ByteArg());
+    BSEndian_00401080((char*)this + 0x64, ByteArg());
+    BSEndian_00401080((char*)this + 0x68, ByteArg());
+    BSEndian_00401080((char*)this + 0x6c, ByteArg());
+    BSEndian_00401080((char*)this + 0x70, ByteArg());
+    BSEndian_00401080((char*)this + 0x74, ByteArg());
+    BSEndian_00401080((char*)this + 0x78, ByteArg());
+    BSEndian_00401080((char*)this + 0x7c, ByteArg());
+    BSEndian_00401080((char*)this + 0x80, ByteArg());
+    BSEndian_00401080((char*)this + 0x84, ByteArg());
+    BSEndian_00401080((char*)this + 0x88, ByteArg());
+    BSEndian_00401080((char*)this + 0x8c, ByteArg());
+    BSEndian_00401080((char*)this + 0x90, ByteArg());
+    BSEndian_00401080((char*)this + 0x94, ByteArg());
+    BSEndian_00401080((char*)this + 0x98, ByteArg());
+    BSEndian_00401080((char*)this + 0x9c, ByteArg());
+    BSEndian_00401080((char*)this + 0xa0, ByteArg());
+    BSEndian_00401080((char*)this + 0xa4, ByteArg());
+    BSEndian_00401080((char*)this + 0xa8, ByteArg());
+    BSEndian_00401080((char*)this + 0xac, ByteArg());
+    BSEndian_00401080((char*)this + 0xb0, ByteArg());
+    BSEndian_00401080((char*)this + 0xb4, ByteArg());
+    BSEndian_00401080((char*)this + 0xb8, ByteArg());
+    BSEndian_00401080((char*)this + 0xbc, ByteArg());
+    BSEndian_00401080((char*)this + 0xc0, ByteArg());
 }
 
 // @fnv 0x005800e0
@@ -650,7 +657,8 @@ void TESWaterForm::GetNoiseTexture(NiPointer<NiTexture>& a1)
 
 // Copies water effect settings from apCopy into this, including flags, opacity, shader, spell item, and noise map texture.
 // @fnv 0x0057fde0
-void TESWaterForm::FUN_0057fde0(TESForm* apCopy)
+// src: XBOX_PDB 0x0057fde0
+void TESWaterForm::Copy_0057fde0(TESForm* apCopy)
 {
     TESWaterForm* pcopy = dynamic_cast<TESWaterForm*>(apCopy);
     if (!pcopy)
@@ -658,7 +666,7 @@ void TESWaterForm::FUN_0057fde0(TESForm* apCopy)
     TESForm::CopyFrom(pcopy);
     this->cFlags = pcopy->cFlags;
     this->m_ucOpacity = pcopy->m_ucOpacity;
-    memcpy(this->FUN_0057eef0(), pcopy->FUN_0057eef0(), 0xc4);
+    memcpy(this->Sky_GetStarsColor(), pcopy->Sky_GetStarsColor(), 0xc4);
     reinterpret_cast<EffectSetting*>(this)->SetEnchantEffectShader(
         reinterpret_cast<TESEffectShader*>(reinterpret_cast<TESPackage*>(pcopy)->GetRefCount()));
     this->SetSpellItem(reinterpret_cast<SpellItem*>(pcopy->GetMember()));

@@ -124,7 +124,7 @@ void __cdecl NiParticleSDM_Shutdown()
 typedef void* (*S_00c1aa00_CreateFunc)();
 void FUN_00a64900(const char* pcName, S_00c1aa00_CreateFunc pfnCreate);
 
-void* FUN_00c21e90();
+void* NiMeshParticleSystem_CreateObject();
 void* CreateNiMeshPSysData();
 void* NiParticleSystem_CreateObject();
 void* NiPSysAirFieldAirFrictionCtlr_CreateObject();
@@ -189,7 +189,7 @@ void RegisterParticleSystems()
         return;
     DAT_012024d0 = true;
 
-    FUN_00a64900("NiMeshParticleSystem", FUN_00c21e90);
+    FUN_00a64900("NiMeshParticleSystem", NiMeshParticleSystem_CreateObject);
     FUN_00a64900("NiMeshPSysData", CreateNiMeshPSysData);
     FUN_00a64900("NiParticleSystem", NiParticleSystem_CreateObject);
     FUN_00a64900("NiPSysAirFieldAirFrictionCtlr", NiPSysAirFieldAirFrictionCtlr_CreateObject);

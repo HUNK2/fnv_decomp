@@ -114,11 +114,12 @@ struct FUN_00485e00_shell
 
 struct FUN_00409c70_shell
 {
-    void __thiscall FUN_00409c70();
+    void __thiscall IngredientItem_SaveMagicItemComponents();
 };
 
 // @fnv 0x00409c70
-void __thiscall FUN_00409c70_shell::FUN_00409c70()
+// src: XBOX_PDB 0x00409c70
+void __thiscall FUN_00409c70_shell::IngredientItem_SaveMagicItemComponents()
 {
     ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((TESIcon*)((char*)this + 0x3c))->Save(0x4e4f4349);
@@ -293,7 +294,7 @@ struct S_00586150_obj
 {
     char unk00[0xa0];
     unsigned char m_a0;
-    void* __thiscall FUN_00586150();
+    void* __thiscall CombatController_GetCombatState();
 };
 
 struct S_00810570_obj
@@ -325,7 +326,7 @@ void FUN_0040a040_cls::IngredientItem_CopyMagicItemData(unsigned int aFlag)
     }
     else
     {
-        ((S_00810570_obj*)((char*)this - 0x30))->SetAssociatedActorValue(obj->FUN_00586150());
+        ((S_00810570_obj*)((char*)this - 0x30))->SetAssociatedActorValue(obj->CombatController_GetCombatState());
         m_70 = obj->m_a0;
     }
 }
@@ -465,10 +466,10 @@ void LCItem::IngredientItem_LoadMagicItemChunk(LCFile* apFile, int aiChunk)
 namespace n40 {
 struct Blk
 {
-    void FUN_00503210();
+    void QuestPerkEntryData_Endian();
 };
 }
-bool __cdecl FUN_00401500();
+bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl AppendChunk(void* stream, void* data, unsigned int size);
 
 class PrimaryBase409
@@ -508,11 +509,11 @@ class Obj409 : public PrimaryBase409, public StreamIface409
 // src: COMMUNITY 0x00409ce0
 void Obj409::IngredientItem_Endian()
 {
-    if (FUN_00401500())
-        m_70.FUN_00503210();
+    if (TESForm_QEndianSwapOnSave())
+        m_70.QuestPerkEntryData_Endian();
     AppendChunk(v9(), &m_70, 8);
-    if (FUN_00401500())
-        m_70.FUN_00503210();
+    if (TESForm_QEndianSwapOnSave())
+        m_70.QuestPerkEntryData_Endian();
 }
 
 struct BaseZero

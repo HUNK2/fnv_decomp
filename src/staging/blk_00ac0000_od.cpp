@@ -8,15 +8,16 @@
 
 struct FUN_00ac5340_class
 {
-    void FUN_00ac5220(int a, int b, int c);
-    void FUN_00ac5340(int a, int b, int c);
+    void FutBinaryFileC_writeHeader(int a, int b, int c);
+    void FutBinaryFileC_write(int a, int b, int c);
 };
 
 // Calls FUN_00ac5220 with the three arguments a, b and c.
 // @fnv 0x00ac5340
-void FUN_00ac5340_class::FUN_00ac5340(int a, int b, int c)
+// src: XBOX_PDB 0x00ac5340
+void FUN_00ac5340_class::FutBinaryFileC_write(int a, int b, int c)
 {
-    FUN_00ac5220(a, b, c);
+    FutBinaryFileC_writeHeader(a, b, c);
 }
 
 void __cdecl _fclose(void*);
@@ -160,9 +161,10 @@ void FUN_00ad41a0_cls::FUN_00ad41a0()
 
 
 // @fnv 0x00ad84e0
-void BSAudioManager::FUN_00ad84e0(void* a, void* b)
+// src: XBOX_PDB 0x00ad84e0
+void BSAudioManager::BSAudio_KillAllOfType(void* a, void* b)
 {
-    GetRandomGenerator().FUN_00adcd00(a, b);
+    GetRandomGenerator().BSAudioManager_KillAllOfType(a, b);
 }
 
 // Retained until the shared NiPoint3 declares AddOffset(NiPoint3*, NiPoint3*).
@@ -402,7 +404,7 @@ void* __thiscall FUN_00ad5730_Class::FUN_00ad5730(int flags)
     return this;
 }
 
-void __fastcall FUN_00adc160(void* p);
+void __fastcall BSAudioManager_SetRadioVolume(void* p);
 
 struct FUN_00ad87d0_Class
 {
@@ -420,7 +422,7 @@ void FUN_00ad87d0_Class::BSAudioManager_ClearSecondaryVolumes()
     *(float*)((char*)this + 0x164) = 1.0f;
     *(float*)((char*)this + 0x168) = 1.0f;
     *(float*)((char*)this + 0x16c) = 1.0f;
-    FUN_00adc160(this);
+    BSAudioManager_SetRadioVolume(this);
 }
 
 int __cdecl FUN_00ec34d4();
@@ -498,13 +500,14 @@ NiPoint3* NiPoint3::ScaleTo(NiPoint3* pDest, float scale)
 
 struct FUN_00ac52b0_class
 {
-    void FUN_00ac52b0(int a, int b, int c);
-    void FUN_00ac5370(int a, int b, int c);
+    void FutBinaryFileC_readHeader(int a, int b, int c);
+    void FutBinaryFileC_read(int a, int b, int c);
 };
 // @fnv 0x00ac5370
-void FUN_00ac52b0_class::FUN_00ac5370(int a, int b, int c)
+// src: XBOX_PDB 0x00ac5370
+void FUN_00ac52b0_class::FutBinaryFileC_read(int a, int b, int c)
 {
-    FUN_00ac52b0(a, b, c);
+    FutBinaryFileC_readHeader(a, b, c);
 }
 
 unsigned __int64 __cdecl __time64(unsigned __int64*);
@@ -692,11 +695,12 @@ char FUN_00ad3f90_Class::std_ctype_char_do_toupper(char acValue)
 
 struct FUN_00ad56e0_class
 {
-    int FUN_00ad56e0(void* a, void* b, void* c, void* d);
+    int std_codecvt_char_char_int_do_unshift(void* a, void* b, void* c, void* d);
 };
 
 // @fnv 0x00ad56e0
-int FUN_00ad56e0_class::FUN_00ad56e0(void* apUnused, void* apValue, void* apUnused2, void* apOut)
+// src: XBOX_PDB 0x00ad56e0
+int FUN_00ad56e0_class::std_codecvt_char_char_int_do_unshift(void* apUnused, void* apValue, void* apUnused2, void* apOut)
 {
     *reinterpret_cast<void**>(apOut) = apValue;
     return 3;
@@ -1373,11 +1377,12 @@ struct FgBinaryFile
     int unk38;
     int unk3C;
     FgBinaryStream* m_pBinaryStream;
-    bool FUN_00ac5cf0(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
+    bool BSFaceGenBinaryFile_read(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
 };
 
 // @fnv 0x00ac5cf0
-bool FgBinaryFile::FUN_00ac5cf0(void* pvBuffer, unsigned int uiSize, unsigned int uiElementCount)
+// src: XBOX_PDB 0x00ac5cf0
+bool FgBinaryFile::BSFaceGenBinaryFile_read(void* pvBuffer, unsigned int uiSize, unsigned int uiElementCount)
 {
     if (m_pBinaryStream == 0)
         return false;
@@ -4048,7 +4053,7 @@ AC27Record* __cdecl CopyRecords(AC27Record*, AC27Record*, AC27Record*, AC27Tag, 
 AC27Record* __cdecl FUN_00ac3370(AC27Record*, AC27Record*, AC27Record*, void*, AC27Tag, AC27Zero);
 struct AC27Pool
 {
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 struct AC27Root
 {
@@ -4173,7 +4178,7 @@ AC27Vector& AC27Vector::Assign(const AC27Vector& right)
                         }
                         AA.ndc = limit - first;
                         AA.pd8 = first;
-                        ((AC27Pool*)&DAT_011f6238)->FUN_00aa4060(AA.pd8);
+                        ((AC27Pool*)&DAT_011f6238)->MemoryManager_Deallocate(AA.pd8);
                     }
                     {
                         unsigned int uiNewCount = right.last - right.first;
@@ -4760,7 +4765,7 @@ CopyItem16* __cdecl FUN_00ac3820(CopyItem16* first, CopyItem16* last, CopyItem16
 
 struct S00aca220_Sub
 {
-    void FUN_0044a730(int, int);
+    void fopen_0044a730(int, int);
 };
 struct S00aca220_Base
 {
@@ -4786,7 +4791,7 @@ S00aca220_Obj* S00aca220_Obj::FUN_00aca220(int flags)
     int u4;
     int u5;
     m_pVft = &DAT_010a307c;
-    m_sub.FUN_0044a730(1, 0);
+    m_sub.fopen_0044a730(1, 0);
     FUN_00ec79a1();
     if (flags & 1)
         FormHeapFreeAndLog_00401030(this);
@@ -4972,7 +4977,7 @@ struct S00acede0_Elem
     int m_10;
     int m_14;
     int m_18;
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
 };
 
 struct S00acede0_Obj
@@ -5016,7 +5021,7 @@ void S00acede0_Obj::FUN_00acede0()
         hhX = gg3;
         for (; hhX != theta4; hhX = hhX + 1)
         {
-            if (1 & (hhX->FUN_0044a730(1, 0), 0))
+            if (1 & (hhX->fopen_0044a730(1, 0), 0))
                 FormHeapFreeAndLog_00401030(hhX);
         }
         p5 = m_14 - m_0c;

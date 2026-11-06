@@ -60,19 +60,20 @@ class S00458900_Vector
 {
   public:
     S00458900_Vector();                                                       // FUN_006815c0
-    void FUN_00458a10(const S00458900_Vector* a, const S00458900_Vector* b);  // setSub4
+    void hkVector4_setSub4(const S00458900_Vector* a, const S00458900_Vector* b);  // setSub4
     void hkVector4_setAbs4(const S00458900_Vector* v);                             // setAbs4
     void hkVector4_setAll(float f);
     S00458900_Comparison hkVector4_compareLessThanEqual4(const S00458900_Vector* v) const;  // compareLessThan4
-    bool FUN_00458900(const S00458900_Vector* v, float epsilon) const;   // equals3
+    bool hkVector4_equals3(const S00458900_Vector* v, float epsilon) const;   // equals3
     __m128 m_vComponents;
 };
 
 // @fnv 0x00458900
-bool S00458900_Vector::FUN_00458900(const S00458900_Vector* v, float epsilon) const
+// src: XBOX_PDB 0x00458900
+bool S00458900_Vector::hkVector4_equals3(const S00458900_Vector* v, float epsilon) const
 {
     S00458900_Vector kDiff;
-    kDiff.FUN_00458a10(this, v);
+    kDiff.hkVector4_setSub4(this, v);
     kDiff.hkVector4_setAbs4(&kDiff);
     S00458900_Vector kEpsilon;
     kEpsilon.hkVector4_setAll(epsilon);
@@ -107,11 +108,12 @@ void FUN_004589c0_cls::hkVector4_setAll(float value)
 struct S00458a10_Vector
 {
     __m128 m_vComponents;
-    void FUN_00458a10(const S00458a10_Vector* a, const S00458a10_Vector* b);
+    void hkVector4_setSub4(const S00458a10_Vector* a, const S00458a10_Vector* b);
 };
 
 // @fnv 0x00458a10
-void S00458a10_Vector::FUN_00458a10(const S00458a10_Vector* a, const S00458a10_Vector* b)
+// src: XBOX_PDB 0x00458a10
+void S00458a10_Vector::hkVector4_setSub4(const S00458a10_Vector* a, const S00458a10_Vector* b)
 {
     m_vComponents = _mm_sub_ps(a->m_vComponents, b->m_vComponents);
 }

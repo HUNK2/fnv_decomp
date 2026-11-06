@@ -57,9 +57,9 @@ public:
 
     char* GetCombatActionName();
     void FUN_00979c80();
-    float FUN_00979e40(CombatController* apCombatController, int aiActionValue);
-    void FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
-    bool FUN_00979e90(CombatController* apCombatController, CombatWorldStateArray* apWorldStateArray, int aiActionValue);
+    float GetCost_00979e40(CombatController* apCombatController, int aiActionValue);
+    void GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
+    bool CanExecute(CombatController* apCombatController, CombatWorldStateArray* apWorldStateArray, int aiActionValue);
     bool HasRequirement(int state, int* value);
     void HasRequirement(int aiArg1, int aiArg2);
 

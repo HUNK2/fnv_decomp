@@ -447,7 +447,8 @@ void __thiscall FUN_00a5fba0_class::NiSourceTexture_SetFilePath(const NiFixedStr
 
 // Hashes the first len&~3 bytes of s four at a time with h*33+c, then hashes remaining chars until NUL, returning h % 513.
 // @fnv 0x00a5b270
-unsigned int __stdcall FUN_00a5b270(const char* pcString, unsigned int uiLength)
+// src: XBOX_PDB 0x00a5b270
+unsigned int __stdcall NiGlobalStringTable_HashFunction(const char* pcString, unsigned int uiLength)
 {
     unsigned int h = 0;
     uiLength &= 0xfffffffc;
@@ -493,7 +494,7 @@ void __cdecl NiStandardizeFilePath(NiFixedString* apString)
 extern int DAT_0109b00c;
 struct FUN_004a4650_ListBase
 {
-    void FUN_004a4650();
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll();
 };
 struct FUN_00a5a390_shell
 {
@@ -511,7 +512,7 @@ void FUN_00a5a390_shell::FUN_00a5a390()
         _g_memoryManager.Deallocate(old);
     *(unsigned int*)(p + 0x30) &= 0xfff7ffff;
     *(void**)(p + 0x20) = 0;
-    ((FUN_004a4650_ListBase*)(p + 0x24))->FUN_004a4650();
+    ((FUN_004a4650_ListBase*)(p + 0x24))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll();
     char* obj = (char*)*(void**)(p + 0x1c);
     if (obj)
     {
@@ -519,7 +520,7 @@ void FUN_00a5a390_shell::FUN_00a5a390()
             (*(void(__thiscall*)(void*))(*(void***)obj)[1])(obj);
         *(void**)(p + 0x1c) = 0;
     }
-    ((FUN_004a4650_ListBase*)(p + 0x24))->FUN_004a4650();
+    ((FUN_004a4650_ListBase*)(p + 0x24))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll();
     obj = (char*)*(void**)(p + 0x1c);
     if (obj)
     {
@@ -1328,7 +1329,7 @@ void FUN_00a53c90_cls::GetNextEntry(FUN_00a53c90_Node** ppCursor, unsigned int* 
     *ppCursor = 0;
 }
 
-extern void* __cdecl FUN_00aa1070(unsigned int size);
+extern void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 
 struct FUN_00a54110
 {
@@ -1345,7 +1346,7 @@ FUN_00a54110::FUN_00a54110(unsigned int count)
 {
     if (count > 0)
     {
-        pBuffer = static_cast<int*>(FUN_00aa1070(count * sizeof(int)));
+        pBuffer = static_cast<int*>(_NiMalloc_00aa1070(count * sizeof(int)));
     }
     else
     {
@@ -1543,12 +1544,13 @@ class FUN_00a59c60_cls
     int unk10;
     int unk14;
     FUN_00a59c60_target* m_18;
-    void FUN_00a59c60(int a1);
+    void NiAVObject_Update(int a1);
 };
 
 // Calls v41 with the given argument and 0, then calls v63 on m_18 if it is non-null.
 // @fnv 0x00a59c60
-void FUN_00a59c60_cls::FUN_00a59c60(int aiValue)
+// src: XBOX_PDB 0x00a59c60
+void FUN_00a59c60_cls::NiAVObject_Update(int aiValue)
 {
     v41(aiValue, 0);
     if (m_18 != 0)
@@ -1898,7 +1900,7 @@ struct FUN_00a5fca0_cls
     CountedRef* m_38;
     CountedRef* m_3c;
 
-    void FUN_00a5f800();
+    void NiTexture_RemoveTextureFromList();
     void DestroyFogProperty();
     void FUN_00a5fca0();
 };
@@ -1955,7 +1957,7 @@ void FUN_00a5fca0_cls::FUN_00a5fca0()
     {
         e->Vslot00(1);
     }
-    FUN_00a5f800();
+    NiTexture_RemoveTextureFromList();
     DestroyFogProperty();
 }
 
@@ -2905,7 +2907,8 @@ template <> SequenceStringMap::~NiTStringTemplateMap()
 
 void __cdecl FUN_00a57130(int a1);
 // @fnv 0x00a41220
-void __cdecl FUN_00a41220(int a1)
+// src: XBOX_PDB 0x00a41220
+void __cdecl NiColorExtraDataController_SaveBinary(int a1)
 {
     FUN_00a57130(a1);
 }
@@ -2981,7 +2984,8 @@ namespace a47 {
 extern "C" void __cdecl FUN_00a39010();
 
 // @fnv 0x00a57c00
-void __cdecl FUN_00a57c00()
+// src: XBOX_PDB 0x00a57c00
+void __cdecl NiBoolInterpController_SaveBinary()
 {
     FUN_00a39010();
 }
@@ -3025,8 +3029,8 @@ struct A5D6E0This : NiRefObject
     void AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*);
 };
 extern void* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
-extern void* __cdecl FUN_00a7d5a0(const char*, void*);
-extern void* __cdecl FUN_00a7d510(const char*, unsigned int);
+extern void* __cdecl NiGetViewerString_00a7d5a0(const char*, void*);
+extern void* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
 // Appends three values obtained from FUN_00a7d330, FUN_00a7d5a0 and FUN_00a7d510 to the array, growing it via SetSize when full.
 // @fnv 0x00a5d6e0
 void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >* apEntries)
@@ -3045,7 +3049,7 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
         entries->SetAt(size, firstValue);
     }
     {
-        BGSCameraPath* currentValue = (BGSCameraPath*)FUN_00a7d5a0("this", this);
+        BGSCameraPath* currentValue = (BGSCameraPath*)NiGetViewerString_00a7d5a0("this", this);
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
         if (size >= maxSize)
@@ -3055,7 +3059,7 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
     }
     {
         unsigned int referenceCount = m_uiRefCount;
-        BGSCameraPath* currentValue = (BGSCameraPath*)FUN_00a7d510("m_uiRefCount", referenceCount);
+        BGSCameraPath* currentValue = (BGSCameraPath*)NiGetViewerString_00a7d510("m_uiRefCount", referenceCount);
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
         if (size >= maxSize)
@@ -3065,17 +3069,19 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
     }
 }
 
-extern void __cdecl FUN_00a5c290();
+extern void __cdecl NiObjectNET_CopyMembers();
 
 // @fnv 0x00a5d7a0
-void __cdecl FUN_00a5d7a0()
+// src: XBOX_PDB 0x00a5d7a0
+void __cdecl NiProperty_CopyMembers()
 {
-    FUN_00a5c290();
+    NiObjectNET_CopyMembers();
 }
 
 void __cdecl SaveNiObjectLinks();
 // @fnv 0x00a5d7b0
-void __cdecl FUN_00a5d7b0()
+// src: XBOX_PDB 0x00a5d7b0
+void __cdecl NiSequenceStreamHelper_SaveBinary()
 {
     SaveNiObjectLinks();
 }
@@ -3412,7 +3418,8 @@ struct OwnerTriple
 
 // Allocates a Texture, copies owner fields, updates the parent reference count, sets the filename, and deletes the object if preloading is not allowed.
 // @fnv 0x00a5ff10
-Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTriple* apOwnerFields)
+// src: XBOX_PDB 0x00a5ff10
+Texture* __cdecl NiSourceTexture_Create(RefCounted* parent, void* filename, const OwnerTriple* apOwnerFields)
 {
     void* memory = FUN_00aa13e0(0x48);
     Texture* object = memory ? static_cast<Texture*>(((FUN_00a5fc10_class*)memory)->NiSourceTexture_NiSourceTexture()) : 0;
@@ -3607,7 +3614,7 @@ struct FUN_00a5abe0_lock
 {
     int m_pOwnerObject;
     int m_uiItemCount;
-    void FUN_0040fbf0(int mode);
+    void BSSpinLock_Lock(int mode);
 };
 extern FUN_00a5abe0_lock DAT_011f42a0;
 
@@ -3663,7 +3670,7 @@ struct FUN_00a5abe0_item
 
 struct FUN_00a5abe0_sub
 {
-    void FUN_00439fd0(void** p);
+    void NiAVObject_AttachProperty_00439fd0(void** p);
 };
 
 struct FUN_00a5abe0_owner
@@ -3680,9 +3687,10 @@ struct FUN_00a5abe0_list
 
 // Under a global lock, walks the list p2 and for each item with vfn35() below 7 resolves it with ctx and passes it to self->m_24.FUN_00439fd0.
 // @fnv 0x00a5abe0
-void __stdcall FUN_00a5abe0(FUN_00a5abe0_owner* apOwner, void* apList, void* volatile apContext)
+// src: XBOX_PDB 0x00a5abe0
+void __stdcall NiAVObject_CloneProperties(FUN_00a5abe0_owner* apOwner, void* apList, void* volatile apContext)
 {
-    DAT_011f42a0.FUN_0040fbf0(0);
+    DAT_011f42a0.BSSpinLock_Lock(0);
     FUN_00a5abe0_node* node = ((FUN_00a5abe0_list*)apList)->m_pFirstNode;
     while (node != 0)
     {
@@ -3699,7 +3707,7 @@ void __stdcall FUN_00a5abe0(FUN_00a5abe0_owner* apOwner, void* apList, void* vol
             continue;
         apList = item;
         InterlockedIncrement(&item->m_iWordAt04);
-        apOwner->m_24.FUN_00439fd0(&apList);
+        apOwner->m_24.NiAVObject_AttachProperty_00439fd0(&apList);
         if (InterlockedDecrement(&item->m_iWordAt04) == 0)
         {
             item->vSlot01();
@@ -3723,12 +3731,13 @@ class RefObjB
 struct ExtraOwnerB
 {
     void NiAVObject_RemoveProperty_0(int type, RefObjB*& output) throw();
-    void FUN_00a5b230(int type);
+    void NiAVObject_RemoveProperty(int type);
 };
 
 // Calls FUN_00a5aac0 with type to get a RefObjB, then decrements its reference count and calls DeleteThis if it reaches zero.
 // @fnv 0x00a5b230
-void ExtraOwnerB::FUN_00a5b230(int type)
+// src: XBOX_PDB 0x00a5b230
+void ExtraOwnerB::NiAVObject_RemoveProperty(int type)
 {
     RefObjB* out = 0;
     NiAVObject_RemoveProperty_0(type, out);
@@ -3751,14 +3760,14 @@ struct FUN_00a5b790_cls
     void NiTArray_unsigned_short_NiTMallocInterface_unsigned_short_SetSize(unsigned int newSize);
 };
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl _NiFree_00aa10f0(void* p);
 
 template <class T> struct Alloc
 {
     static T* AllocMem(unsigned int n)
     {
-        return (T*)FUN_00aa1070(n * sizeof(T));
+        return (T*)_NiMalloc_00aa1070(n * sizeof(T));
     }
 };
 
@@ -3977,12 +3986,13 @@ class Owner
     unsigned char unk043;
     Task* m_pkTask;
 
-    bool FUN_00a5f8b0();
+    bool NiSourceTexture_CreateRendererData();
 };
 
 // Returns false if there is no manager, true if m_iTarget is set (deleting m_pkTask in both), else false if CanAttach fails or true after clearing m_pkTask.
 // @fnv 0x00a5f8b0
-bool Owner::FUN_00a5f8b0()
+// src: XBOX_PDB 0x00a5f8b0
+bool Owner::NiSourceTexture_CreateRendererData()
 {
     Manager* pkManager = DAT_011f4748;
     if (!pkManager)
@@ -4204,11 +4214,12 @@ struct Owner
     Ref68* m_pkRef68;
     Ref58* m_pkRef58;
 
-    int FUN_00a5f970();
+    int NiSourceTexture_GetHeight();
 };
 
 // @fnv 0x00a5f970
-int Owner::FUN_00a5f970()
+// src: XBOX_PDB 0x00a5f970
+int Owner::NiSourceTexture_GetHeight()
 {
     if (m_pkSource)
         return m_pkSource->m_iValue;
@@ -4328,7 +4339,7 @@ struct Controller
     unsigned char unk041;
     bool m_bUsePrimary;
 
-    void FUN_00a47360(Stream* pkStream);
+    void NiSequenceStreamHelper_LinkObject(Stream* pkStream);
     void Load(Stream* pkStream);
 };
 
@@ -4336,7 +4347,7 @@ struct Controller
 // @fnv 0x00a5f9a0
 void Controller::Load(Stream* pkStream)
 {
-    FUN_00a47360(pkStream);
+    NiSequenceStreamHelper_LinkObject(pkStream);
     if (pkStream->FUN_00a63460())
     {
         if (pkStream->m_uiFileVersion >= 0x14020004 && m_bUsePrimary)
@@ -4448,20 +4459,22 @@ struct FUN_00a5fa50_Obj
     {}
     virtual void vfA8()
     {}
-    virtual void FUN_00a5f8b0()
+// src: XBOX_PDB 0x00a5f8b0
+    virtual void NiSourceTexture_CreateRendererData()
     {}
 
-    void FUN_00a5fa50(int param);
+    void NiSourceTexture_PostLinkObject(int param);
 };
 
 // If DAT_011a9594 is set, acquires DAT_011f4800, calls FUN_00a5f8b0, and releases the critical section.
 // @fnv 0x00a5fa50
-void __thiscall FUN_00a5fa50_Obj::FUN_00a5fa50(int param)
+// src: XBOX_PDB 0x00a5fa50
+void __thiscall FUN_00a5fa50_Obj::NiSourceTexture_PostLinkObject(int param)
 {
     if (DAT_011a9594)
     {
         DAT_00fdf05c(&DAT_011f4800);
-        FUN_00a5f8b0();
+        NiSourceTexture_CreateRendererData();
         return DAT_00fdf100(&DAT_011f4800);
     }
 }
@@ -4532,7 +4545,7 @@ struct Owner
     Listener* m_pkPrimary;
     Listener* m_pkSecondary;
 
-    bool FUN_00a62130(Item* pkItem);
+    bool NiSequenceStreamHelper_RegisterStreamables(Item* pkItem);
     bool AttachToListener(Item* pkItem);
 };
 
@@ -4540,7 +4553,7 @@ struct Owner
 // @fnv 0x00a5fa90
 bool Owner::AttachToListener(Item* pkItem)
 {
-    if (!FUN_00a62130(pkItem))
+    if (!NiSequenceStreamHelper_RegisterStreamables(pkItem))
         return false;
     pkItem->SetOwnerData(&m_iData);
     Listener* pkListener = m_pkPrimary;
@@ -4609,15 +4622,16 @@ class Controller
     bool m_b41;
     bool m_b42;
 
-    bool FUN_00a62140(Controller* pkOther);
-    bool FUN_00a5fae0(Controller* pkOther);
+    bool NiSequenceStreamHelper_IsEqual(Controller* pkOther);
+    bool NiSourceTexture_IsEqual(Controller* pkOther);
 };
 
 // Returns true if FUN_00a62140 passes and m_i18, m_i1c, m_i20, m_i30, the three bool flags, and objects m_spA and m_spB all match pkOther.
 // @fnv 0x00a5fae0
-bool Controller::FUN_00a5fae0(Controller* pkOther)
+// src: XBOX_PDB 0x00a5fae0
+bool Controller::NiSourceTexture_IsEqual(Controller* pkOther)
 {
-    if (!FUN_00a62140(pkOther))
+    if (!NiSequenceStreamHelper_IsEqual(pkOther))
         return false;
     if (m_i30 != pkOther->m_i30)
         return false;
@@ -4843,20 +4857,21 @@ struct ThreadedTableEntry
 
 struct ThreadedTable
 {
-    unsigned int __thiscall FUN_00a5b270(const char* key, unsigned int flags);
-    void __thiscall FUN_00a5b5a0(const char** key, unsigned int flags);
+    unsigned int __thiscall NiGlobalStringTable_HashFunction(const char* key, unsigned int flags);
+    void __thiscall NiGlobalStringTable_InsertString(const char** key, unsigned int flags);
 };
 
 // Temporarily sets per-thread field 0x2b4 to 8; under the lock calls FUN_00a5b4b0 on the entry indexed by FUN_00a5b270 and updates two counters.
 // @fnv 0x00a5b5a0
-void __thiscall ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
+// src: XBOX_PDB 0x00a5b5a0
+void __thiscall ThreadedTable::NiGlobalStringTable_InsertString(const char** key, unsigned int flags)
 {
     unsigned int tlsIndex = _tls_index;
     unsigned char* threadData = reinterpret_cast<unsigned char**>(__readfsdword(0x2c))[tlsIndex];
     const unsigned int previousMode = *reinterpret_cast<unsigned int*>(threadData + 0x2b4);
     *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = 8;
 
-    unsigned int index = FUN_00a5b270(*key, flags);
+    unsigned int index = NiGlobalStringTable_HashFunction(*key, flags);
     CRITICAL_SECTION_STUB* criticalSection =
         reinterpret_cast<CRITICAL_SECTION_STUB*>(reinterpret_cast<char*>(this) + 0x2080);
     EnterCriticalSection(criticalSection);
@@ -4936,14 +4951,15 @@ struct StringTable169
     unsigned int unk2078;
     unsigned int unk207c;
     CRITICAL_SECTION_STUB lock;
-    unsigned int FUN_00a5b270(const char*, unsigned int);
-    char* FUN_00a5b300(const char* key, unsigned int length);
+    unsigned int NiGlobalStringTable_HashFunction(const char*, unsigned int);
+    char* NiGlobalStringTable_FindString(const char* key, unsigned int length);
 };
 // Hashes key, locks the table, scans the bucket's entries for an exact match, and returns the stored string or null.
 // @fnv 0x00a5b300
-char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
+// src: XBOX_PDB 0x00a5b300
+char* StringTable169::NiGlobalStringTable_FindString(const char* key, unsigned int length)
 {
-    unsigned int uiHash = FUN_00a5b270(key, length);
+    unsigned int uiHash = NiGlobalStringTable_HashFunction(key, length);
     CRITICAL_SECTION_STUB* bucket = &lock;
     EnterCriticalSection(bucket);
     unsigned int idx = buckets[uiHash].count;
@@ -4965,7 +4981,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile lo
 extern "C" __declspec(dllimport) void __stdcall fnv_EnterCriticalSection(void* cs);
 extern "C" __declspec(dllimport) void __stdcall fnv_LeaveCriticalSection(void* cs);
 extern unsigned char DAT_011f4380;
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl NiFreeAlias(void*);
 extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
 struct ExtraName
@@ -4993,7 +5009,7 @@ bool Holder::NiObjectNET_AddExtraData(NiTexture* p)
     if (m_usMaxSize < 1)
     {
         m_usExtraDataSize = m_usMaxSize = 1;
-        m_ppkExtra = (NiExtraData**)FUN_00aa1070(4);
+        m_ppkExtra = (NiExtraData**)_NiMalloc_00aa1070(4);
         m_ppkExtra[0] = (NiExtraData*)p;
         fnv_LeaveCriticalSection(&DAT_011f4380);
         return true;
@@ -5001,7 +5017,7 @@ bool Holder::NiObjectNET_AddExtraData(NiTexture* p)
     if (m_usExtraDataSize == m_usMaxSize)
     {
         m_usMaxSize = (unsigned short)(m_usMaxSize * 2 + 1);
-        NiTexture** newData = (NiTexture**)FUN_00aa1070(m_usMaxSize * 4);
+        NiTexture** newData = (NiTexture**)_NiMalloc_00aa1070(m_usMaxSize * 4);
         memmove(newData, m_ppkExtra, m_usExtraDataSize * 4);
         NiFreeAlias(m_ppkExtra);
         m_ppkExtra = (NiExtraData**)newData;
@@ -5014,7 +5030,7 @@ bool Holder::NiObjectNET_AddExtraData(NiTexture* p)
     for (j = (unsigned short)(m_usExtraDataSize - 1); j > 0; --j)
     {
         NiTexture**& data = reinterpret_cast<NiTexture**&>(m_ppkExtra);
-        int diff = data[j - 1]->FUN_00a62660() - data[j]->FUN_00a62660();
+        int diff = data[j - 1]->GetFilename_00a62660() - data[j]->GetFilename_00a62660();
         if (diff == 0)
         {
             DeleteExtraData(j);
@@ -5134,7 +5150,8 @@ void SingletonTarget::NiGlobalStringTable_FreeStrings()
 
 // Unlinks the given NiTexture node from the doubly linked list guarded by DAT_011f4580, updating head, tail and neighbour pointers.
 // @fnv 0x00a5f800
-void __fastcall FUN_00a5f800(NiTexture* texture)
+// src: XBOX_PDB 0x00a5f800
+void __fastcall NiTexture_RemoveTextureFromList(NiTexture* texture)
 {
     EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION_STUB*>(&DAT_011f4580));
     if (DAT_011f4500 == reinterpret_cast<int>(texture))

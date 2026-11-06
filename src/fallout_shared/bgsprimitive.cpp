@@ -381,11 +381,12 @@ struct FUN_00c335d0 : NiRefObject
 struct FUN_00c33730_shell
 {
     void CopyStateTo(FUN_00c335d0* pkDest, CloningProcess& kCloning);
-    FUN_00c335d0* FUN_00c33730(CloningProcess& kCloning);
+    FUN_00c335d0* BSOcclusionPlane_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c33730
-FUN_00c335d0* FUN_00c33730_shell::FUN_00c33730(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00c33730
+FUN_00c335d0* FUN_00c33730_shell::BSOcclusionPlane_CreateClone(CloningProcess& kCloning)
 {
     FUN_00c335d0* pkObject = new FUN_00c335d0;
     CopyStateTo(pkObject, kCloning);
@@ -415,11 +416,12 @@ namespace fnv_00c37ee0 {
 struct MultiBoundAABBCloneHelper
 {
     void FUN_00c37f70(BSMultiBoundAABB* pkDest, CloningProcess& kCloning);
-    BSMultiBoundAABB* FUN_00c37ee0(CloningProcess& kCloning);
+    BSMultiBoundAABB* BSMultiBoundAABB_CreateClone(CloningProcess& kCloning);
 };
 
 // @fnv 0x00c37ee0
-BSMultiBoundAABB* MultiBoundAABBCloneHelper::FUN_00c37ee0(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00c37ee0
+BSMultiBoundAABB* MultiBoundAABBCloneHelper::BSMultiBoundAABB_CreateClone(CloningProcess& kCloning)
 {
     BSMultiBoundAABB* pkObject = new BSMultiBoundAABB;
     FUN_00c37f70(pkObject, kCloning);
@@ -428,10 +430,11 @@ BSMultiBoundAABB* MultiBoundAABBCloneHelper::FUN_00c37ee0(CloningProcess& kCloni
 }  // namespace fnv_00c37ee0
 
 // @fnv 0x00c4fb30
-BSMultiBoundSphere* BSMultiBoundSphere::FUN_00c4fb30(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00c4fb30
+BSMultiBoundSphere* BSMultiBoundSphere::CreateClone_00c4fb30(CloningProcess& kCloning)
 {
     BSMultiBoundSphere* pkObject = new BSMultiBoundSphere;
-    FUN_00c4fbc0(pkObject, kCloning);
+    CopyMembers_00c4fbc0(pkObject, kCloning);
     return pkObject;
 }
 
@@ -471,7 +474,8 @@ int BSMultiBoundAABB::GetDebugGeomShapeSize()
 }
 
 // @fnv 0x004a71d0
-void BGSPrimitiveSphere::FUN_004a71d0(NiPoint3& aPoint)
+// src: XBOX_PDB 0x004a71d0
+void BGSPrimitiveSphere::SetRadii(NiPoint3& aPoint)
 {
     SetRadius(aPoint.x);
 }
@@ -499,26 +503,28 @@ void* BSMultiBoundSphere::FUN_004a7bf0(unsigned int flags)
 
 struct FUN_00c38020_shell
 {
-    unsigned char __thiscall FUN_00c4fa30(int a);
-    unsigned char __thiscall FUN_00c38020(int a);
+    unsigned char __thiscall BSMultiBoundShape_RegisterStreamables(int a);
+    unsigned char __thiscall BSMultiBoundAABB_RegisterStreamables(int a);
 };
 
 // Returns 0 if FUN_00c4fa30(a) is false, otherwise returns 1.
 // @fnv 0x00c38020
-unsigned char __thiscall FUN_00c38020_shell::FUN_00c38020(int aiArg)
+// src: XBOX_PDB 0x00c38020
+unsigned char __thiscall FUN_00c38020_shell::BSMultiBoundAABB_RegisterStreamables(int aiArg)
 {
-    if (!FUN_00c4fa30(aiArg))
+    if (!BSMultiBoundShape_RegisterStreamables(aiArg))
         return 0;
     return 1;
 }
 
 struct FUN_00c4f6c0_shell
 {
-    void FUN_00c4f6c0(int, int);
+    void BSPortalSharedNode_CopyMembers(int, int);
 };
 
 // @fnv 0x00c4f6c0
-void FUN_00c4f6c0_shell::FUN_00c4f6c0(int, int)
+// src: XBOX_PDB 0x00c4f6c0
+void FUN_00c4f6c0_shell::BSPortalSharedNode_CopyMembers(int, int)
 {}
 
 struct FUN_00c4f550_shell
@@ -543,11 +549,12 @@ void* FUN_00c4f820_shell::FUN_00c4f820(unsigned int flags)
 
 struct FUN_00c4f9f0_shell : NiObject
 {
-    void FUN_00c4f9f0(NiStream& stream);
+    void BSMultiBoundShape_LoadBinary(NiStream& stream);
 };
 
 // @fnv 0x00c4f9f0
-void FUN_00c4f9f0_shell::FUN_00c4f9f0(NiStream& stream)
+// src: XBOX_PDB 0x00c4f9f0
+void FUN_00c4f9f0_shell::BSMultiBoundShape_LoadBinary(NiStream& stream)
 {
     NiObject::LoadBinary(stream);
 }
@@ -556,11 +563,12 @@ namespace fnv_00c4fa10 {
 
 struct FUN_00c4fa10_shell : NiObject
 {
-    void FUN_00c4fa10(NiStream& stream);
+    void BSMultiBoundShape_LinkObject(NiStream& stream);
 };
 
 // @fnv 0x00c4fa10
-void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
+// src: XBOX_PDB 0x00c4fa10
+void FUN_00c4fa10_shell::BSMultiBoundShape_LinkObject(NiStream& stream)
 {
     NiObject::LinkObject(stream);
 }
@@ -570,12 +578,13 @@ namespace fnv_00c4fa30 {
 
 struct FUN_00c4fa30_shell : NiObject
 {
-    bool FUN_00c4fa30(NiStream& stream);
+    bool BSMultiBoundShape_RegisterStreamables(NiStream& stream);
 };
 
 // Calls the base NiObject::RegisterStreamables and returns its result.
 // @fnv 0x00c4fa30
-bool FUN_00c4fa30_shell::FUN_00c4fa30(NiStream& stream)
+// src: XBOX_PDB 0x00c4fa30
+bool FUN_00c4fa30_shell::BSMultiBoundShape_RegisterStreamables(NiStream& stream)
 {
     if (!NiObject::RegisterStreamables(stream))
         return false;
@@ -587,11 +596,12 @@ namespace fnv_00c4fa60 {
 
 struct FUN_00c4fa60_shell : NiObject
 {
-    void FUN_00c4fa60(NiStream& stream);
+    void BSMultiBoundShape_SaveBinary(NiStream& stream);
 };
 
 // @fnv 0x00c4fa60
-void FUN_00c4fa60_shell::FUN_00c4fa60(NiStream& stream)
+// src: XBOX_PDB 0x00c4fa60
+void FUN_00c4fa60_shell::BSMultiBoundShape_SaveBinary(NiStream& stream)
 {
     NiObject::LinkObject(stream);
 }
@@ -690,7 +700,8 @@ void* BGSPrimitiveSphere::FUN_004a71f0(unsigned int flags)
 }
 
 // @fnv 0x004a7240
-bool BGSPrimitiveSphere::FUN_004a7240(TESCombatStyle& aPoint)
+// src: XBOX_PDB 0x004a7240
+bool BGSPrimitiveSphere::IsInside(TESCombatStyle& aPoint)
 {
     return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > aPoint.UpdateCombatStyle();
 }
@@ -733,16 +744,17 @@ void MultiBoundOBBLoad::LoadBinary(NiStream& aStream)
 namespace fnv_00c36450 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c38020(int);
+    unsigned char BSMultiBoundAABB_RegisterStreamables(int);
 };
 struct FUN_00c36450_shell : FUN_00c38020_shell
 {
-    bool FUN_00c36450(int);
+    bool BSMultiBoundOBB_RegisterStreamables(int);
 };
 // @fnv 0x00c36450
-bool FUN_00c36450_shell::FUN_00c36450(int aiValue)
+// src: XBOX_PDB 0x00c36450
+bool FUN_00c36450_shell::BSMultiBoundOBB_RegisterStreamables(int aiValue)
 {
-    if (!FUN_00c38020(aiValue))
+    if (!BSMultiBoundAABB_RegisterStreamables(aiValue))
         return false;
     return true;
 }
@@ -801,19 +813,20 @@ namespace fnv_00c37fc0 {
 struct FUN_00c4f9f0_shell
 {
     char _pad[12];
-    void FUN_00c4f9f0(class NiStream&);
+    void BSMultiBoundShape_LoadBinary(class NiStream&);
 };
 struct FUN_00c37fc0_shell : FUN_00c4f9f0_shell
 {
     NiColor unk0C;
     NiColor unk18;
-    void FUN_00c37fc0(class NiStream&);
+    void BSMultiBoundAABB_LoadBinary(class NiStream&);
 };
 // Calls the base loader, then reads two NiColor members from the stream.
 // @fnv 0x00c37fc0
-void FUN_00c37fc0_shell::FUN_00c37fc0(class NiStream& aStream)
+// src: XBOX_PDB 0x00c37fc0
+void FUN_00c37fc0_shell::BSMultiBoundAABB_LoadBinary(class NiStream& aStream)
 {
-    FUN_00c4f9f0_shell::FUN_00c4f9f0(aStream);
+    FUN_00c4f9f0_shell::BSMultiBoundShape_LoadBinary(aStream);
     unk0C.LoadBinary(aStream);
     unk18.LoadBinary(aStream);
 }
@@ -824,19 +837,21 @@ struct FUN_00c38050_Holder
     char _pad[12];
     NiColor c1;
     NiColor c2;
-    void FUN_00c4fa60(NiStream&);
-    void FUN_00c38050(NiStream&);
+    void BSMultiBoundShape_SaveBinary(NiStream&);
+    void BSMultiBoundAABB_SaveBinary(NiStream&);
 };
 // @fnv 0x00c38050
-void FUN_00c38050_Holder::FUN_00c38050(NiStream& aStream)
+// src: XBOX_PDB 0x00c38050
+void FUN_00c38050_Holder::BSMultiBoundAABB_SaveBinary(NiStream& aStream)
 {
-    FUN_00c4fa60(aStream);
+    BSMultiBoundShape_SaveBinary(aStream);
     c1.SaveBinary(aStream);
     c2.SaveBinary(aStream);
 }
 
 // @fnv 0x00c389e0
-void BSMultiBoundAABB::FUN_00c389e0(Vec4* apOut)
+// src: XBOX_PDB 0x00c389e0
+void BSMultiBoundAABB::GetNiBound(Vec4* apOut)
 {
     int pad;
     {
@@ -866,10 +881,11 @@ void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 struct TCEq
 {
     bool IsSameAs(class NiObject*);
-    bool FUN_00c4fa80(class NiObject*);
+    bool BSMultiBoundShape_IsEqual(class NiObject*);
 };
 // @fnv 0x00c4fa80
-bool TCEq::FUN_00c4fa80(class NiObject* apObject)
+// src: XBOX_PDB 0x00c4fa80
+bool TCEq::BSMultiBoundShape_IsEqual(class NiObject* apObject)
 {
     bool result = IsSameAs(apObject);
     return result;
@@ -897,17 +913,18 @@ namespace fnv_00c4fc10 {
 
 struct FUN_00c4f9f0_shell
 {
-    void FUN_00c4f9f0(NiStream&);
+    void BSMultiBoundShape_LoadBinary(NiStream&);
 };
 template <typename T> void ReadBinaryValue(NiStream&, T&);
 struct MultiBoundSphereLoad : public BSMultiBoundSphere
 {
-    void FUN_00c4fc10(NiStream&);
+    void BSMultiBoundSphere_LoadBinary(NiStream&);
 };
 // @fnv 0x00c4fc10
-void MultiBoundSphereLoad::FUN_00c4fc10(NiStream& stream)
+// src: XBOX_PDB 0x00c4fc10
+void MultiBoundSphereLoad::BSMultiBoundSphere_LoadBinary(NiStream& stream)
 {
-    ((FUN_00c4f9f0_shell*)this)->FUN_00c4f9f0(stream);
+    ((FUN_00c4f9f0_shell*)this)->BSMultiBoundShape_LoadBinary(stream);
     reinterpret_cast<NiColor&>(center).LoadBinary(stream);
     ReadBinaryValue<unsigned int>(stream, reinterpret_cast<unsigned int&>(radius));
 }
@@ -916,14 +933,15 @@ void MultiBoundSphereLoad::FUN_00c4fc10(NiStream& stream)
 namespace fnv_00c4fc70 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fa30(int);
-    unsigned char FUN_00c4fc70(int);
+    unsigned char BSMultiBoundShape_RegisterStreamables(int);
+    unsigned char BSMultiBoundSphere_RegisterStreamables(int);
 };
 // Returns 1 if FUN_00c4fa30 returns nonzero for a, otherwise returns 0.
 // @fnv 0x00c4fc70
-unsigned char FUN_00c38020_shell::FUN_00c4fc70(int a)
+// src: XBOX_PDB 0x00c4fc70
+unsigned char FUN_00c38020_shell::BSMultiBoundSphere_RegisterStreamables(int a)
 {
-    if (!FUN_00c4fa30(a))
+    if (!BSMultiBoundShape_RegisterStreamables(a))
         return 0;
     return 1;
 }
@@ -933,7 +951,7 @@ namespace fnv_00c4fca0 {
 
 struct Holder60
 {
-    void FUN_00c4fa60(NiStream&);
+    void BSMultiBoundShape_SaveBinary(NiStream&);
 };
 void __cdecl CallAnimCallback(NiStream&, void*);
 struct MultiBoundSphereSave : public BSMultiBoundSphere
@@ -943,7 +961,7 @@ struct MultiBoundSphereSave : public BSMultiBoundSphere
 // @fnv 0x00c4fca0
 void MultiBoundSphereSave::SaveToStream(NiStream& s)
 {
-    ((Holder60*)this)->FUN_00c4fa60(s);
+    ((Holder60*)this)->BSMultiBoundShape_SaveBinary(s);
     reinterpret_cast<NiColor&>(center).SaveBinary(s);
     CallAnimCallback(s, &radius);
 }
@@ -970,7 +988,8 @@ void BSMultiBoundSphere::FUN_004a7130()
 }
 
 // @fnv 0x004a7830
-void BGSPrimitiveSphere::FUN_004a7830(NiColorA& apTextColor)
+// src: XBOX_PDB 0x004a7830
+void BGSPrimitiveSphere::SetColor_004a7830(NiColorA& apTextColor)
 {
     Color = apTextColor;
     if (m_kGeometry)
@@ -1017,26 +1036,28 @@ void FUN_004a7c20_shell::DestroyBase()
 
 struct FUN_00c36430_shell
 {
-    void FUN_00c38000(int);
-    void FUN_00c36430(int a);
+    void BSMultiBoundAABB_LinkObject(int);
+    void BSMultiBoundOBB_LinkObject(int a);
 };
 
 // @fnv 0x00c36430
-void FUN_00c36430_shell::FUN_00c36430(int a)
+// src: XBOX_PDB 0x00c36430
+void FUN_00c36430_shell::BSMultiBoundOBB_LinkObject(int a)
 {
-    FUN_00c38000(a);
+    BSMultiBoundAABB_LinkObject(a);
 }
 
 struct FUN_00c38000_shell
 {
-    void FUN_00c4fa10(int);
-    void FUN_00c38000(int a);
+    void BSMultiBoundShape_LinkObject(int);
+    void BSMultiBoundAABB_LinkObject(int a);
 };
 
 // @fnv 0x00c38000
-void FUN_00c38000_shell::FUN_00c38000(int a)
+// src: XBOX_PDB 0x00c38000
+void FUN_00c38000_shell::BSMultiBoundAABB_LinkObject(int a)
 {
-    FUN_00c4fa10(a);
+    BSMultiBoundShape_LinkObject(a);
 }
 
 struct FUN_00c4f9a0_shell
@@ -1053,24 +1074,26 @@ void* FUN_00c4f9a0_shell::GetSelf(void* apUnused)
 struct FUN_00c4fab0_shell
 {
     void __thiscall AppendCameraPathEntries(int);
-    void __thiscall FUN_00c4fab0(int a);
+    void __thiscall BSMultiBoundShape_GetViewerStrings(int a);
 };
 
 // @fnv 0x00c4fab0
-void __thiscall FUN_00c4fab0_shell::FUN_00c4fab0(int a)
+// src: XBOX_PDB 0x00c4fab0
+void __thiscall FUN_00c4fab0_shell::BSMultiBoundShape_GetViewerStrings(int a)
 {
     AppendCameraPathEntries(a);
 }
 
 struct FUN_00c4fa10_shell
 {
-    void __thiscall FUN_00c4fa10(int);
-    void __thiscall FUN_00c4fc50(int a);
+    void __thiscall BSMultiBoundShape_LinkObject(int);
+    void __thiscall BSMultiBoundSphere_LinkObject(int a);
 };
 // @fnv 0x00c4fc50
-void __thiscall FUN_00c4fa10_shell::FUN_00c4fc50(int a)
+// src: XBOX_PDB 0x00c4fc50
+void __thiscall FUN_00c4fa10_shell::BSMultiBoundSphere_LinkObject(int a)
 {
-    FUN_00c4fa10(a);
+    BSMultiBoundShape_LinkObject(a);
 }
 
 struct FUN_00c50370_shell
@@ -1087,7 +1110,7 @@ extern float _DAT_010162c0;
 
 void* __cdecl BGSPrimitivePlane_CreateObject(NiPoint2*, NiColorA*);
 void* __cdecl CreatePrimitiveBox(NiPoint3*, NiColorA*);
-void* __cdecl FUN_004a5100(float, NiColorA*);
+void* __cdecl BGSPrimitive_CreateSphere(float, NiColorA*);
 
 // @fnv 0x004a4e90
 // src: COMMUNITY 0x004a4e90
@@ -1104,7 +1127,7 @@ void* __cdecl BGSPrimitive_CreateObjects(int eType, NiPoint3* apPoint, NiColorA*
         return CreatePrimitiveBox(&extents, apTextColor);
     }
     case 2:
-        return FUN_004a5100(apPoint->x, apTextColor);
+        return BGSPrimitive_CreateSphere(apPoint->x, apTextColor);
     default:
         return 0;
     }
@@ -1198,7 +1221,8 @@ void BSPortal::CopyFields(BSPortal* apTarget, int aiUnused)
 
 // Calls CopyMembersStreamWithField with a2, invokes Real on _m0C, then reads and rewrites _m18 with its own value.
 // @fnv 0x00c4fbc0
-void BSMultiBoundSphere::FUN_00c4fbc0(BSMultiBoundSphere* a1, CloningProcess& a2)
+// src: XBOX_PDB 0x00c4fbc0
+void BSMultiBoundSphere::CopyMembers_00c4fbc0(BSMultiBoundSphere* a1, CloningProcess& a2)
 {
     reinterpret_cast<fnv_00c4f9b0::FUN_00c4f9b0_class*>(this)->CopyMembersStreamWithField(a1, &a2);
     a1->SetGridPosition(reinterpret_cast<const NiPoint3&>(center));
@@ -1229,7 +1253,8 @@ BSMultiBoundSphere* BSMultiBoundSphere_CreateObject()
 
 // Allocates a sphere, applies color and radius, and sets its primitive type.
 // @fnv 0x004a5100
-void* __cdecl FUN_004a5100(float afValue, NiColorA* apColor)
+// src: XBOX_PDB 0x004a5100
+void* __cdecl BGSPrimitive_CreateSphere(float afValue, NiColorA* apColor)
 {
     BGSPrimitiveSphere* p = new BGSPrimitiveSphere;
     p->ApplyColor(reinterpret_cast<NiColorA&>(*apColor));
@@ -1270,7 +1295,7 @@ BSPortal* FUN_004a6150_shell::CreateBSPortal()
 namespace fnv_00c38220 {
 struct FUN_00c4fab0_shell
 {
-    void FUN_00c4fab0(int);
+    void BSMultiBoundShape_GetViewerStrings(int);
 };
 
 void* _FUN_00a7d330(char const*);
@@ -1289,18 +1314,18 @@ void FUN_00c38220_shell::AddPropertyNames(NiTPrimitiveArray<unsigned int>* array
     char unused[0x20];
     char* denter;
 
-    FUN_00c4fab0_shell::FUN_00c4fab0(reinterpret_cast<int>(array));
+    FUN_00c4fab0_shell::BSMultiBoundShape_GetViewerStrings(reinterpret_cast<int>(array));
 
     char const* volatile property = g_01202818_arg1;
     void* propertyId = _FUN_00a7d330(property);
     array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(propertyId));
 
     denter =
-        reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x0c)->FUN_00a59af0("Center");
+        reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x0c)->GetViewerString_00a59af0("Center");
     array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(denter));
 
     char* halfExtents = reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x18)
-                            ->FUN_00a59af0("Half Extents");
+                            ->GetViewerString_00a59af0("Half Extents");
     array->AddFirstEmpty(reinterpret_cast<unsigned int const&>(halfExtents));
 }
 }  // namespace fnv_00c38220
@@ -1322,17 +1347,18 @@ struct FUN_00c4f460 : public A51BF0Base
 
 struct FUN_00c4f6c0_shell
 {
-    void FUN_00c4f6c0(int, int);
-    FUN_00c4f460* FUN_00c4f620(int);
+    void BSPortalSharedNode_CopyMembers(int, int);
+    FUN_00c4f460* BSPortalSharedNode_CreateClone(int);
 };
 
 // Allocates a FUN_00c4f460 using the int at this+0xc0, passes it and arg to FUN_00c4f6c0, and returns the new object.
 // @fnv 0x00c4f620
-FUN_00c4f460* FUN_00c4f6c0_shell::FUN_00c4f620(int arg)
+// src: XBOX_PDB 0x00c4f620
+FUN_00c4f460* FUN_00c4f6c0_shell::BSPortalSharedNode_CreateClone(int arg)
 {
     FUN_00c4f460* object = new FUN_00c4f460(*(int*)((char*)this + 0xc0));
 
-    this->FUN_00c4f6c0((int)object, arg);
+    this->BSPortalSharedNode_CopyMembers((int)object, arg);
 
     return object;
 }
@@ -1565,12 +1591,13 @@ struct FUN_004a7aa0_cls
 {
     char _00[0x18];
     float m_f18;
-    void* FUN_004a7aa0(int a1);
+    void* BGSPrimitiveSphere_MakeMultiBoundShape(int a1);
 };
 
 // Allocates a new object constructed from a color built with the class's m_f18 value and returns it.
 // @fnv 0x004a7aa0
-void* FUN_004a7aa0_cls::FUN_004a7aa0(int aiUnused)
+// src: XBOX_PDB 0x004a7aa0
+void* FUN_004a7aa0_cls::BGSPrimitiveSphere_MakeMultiBoundShape(int aiUnused)
 {
     return new PrimitiveSphereBound(FUN_004a7aa0_color(0.0f, 0.0f, 0.0f, m_f18));
 }
@@ -1643,13 +1670,14 @@ struct FUN_0049da80_shell
 
 struct FUN_00c38920_cls
 {
-    void __thiscall FUN_00c39270(Vec12* a);
-    bool __thiscall FUN_00c38920(ProbeSet* other);
+    void __thiscall BSMultiBoundAABB_GetVertices(Vec12* a);
+    bool __thiscall BSMultiBoundAABB_CompletelyWithinFrustum(ProbeSet* other);
 };
 
 // Builds eight box points, then for each masked element tests all eight points and returns false if any test returns 2, otherwise true.
 // @fnv 0x00c38920
-bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
+// src: XBOX_PDB 0x00c38920
+bool __thiscall FUN_00c38920_cls::BSMultiBoundAABB_CompletelyWithinFrustum(ProbeSet* pProbeSet)
 {
     Vec12 boxPts[8];
     int i;
@@ -1664,7 +1692,7 @@ bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
             p++;
         }
     }
-    FUN_00c39270(boxPts);
+    BSMultiBoundAABB_GetVertices(boxPts);
     for (i = 0; i < 6; i++)
     {
         if (bool(pProbeSet->mask & (1u << i)))
@@ -1798,11 +1826,12 @@ struct FUN_00c4f6d0_cls
     unsigned short unkAA;
     FUN_00c49850_cls* m_pEntryObject;
 
-    void FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj);
+    void BSPortalSharedNode_OnVisible(FUN_00c4f6d0_arg* pObj);
 };
 
 // @fnv 0x00c4f6d0
-void FUN_00c4f6d0_cls::FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj)
+// src: XBOX_PDB 0x00c4f6d0
+void FUN_00c4f6d0_cls::BSPortalSharedNode_OnVisible(FUN_00c4f6d0_arg* pObj)
 {
     FUN_00c4f6d0_sub* tgtC;
     FUN_00c4f6d0_arg* subB = 0;
@@ -1872,7 +1901,7 @@ BSMultiBoundShape::BSMultiBoundShape()
 
 struct MultiBoundSphereEquality : public BSMultiBoundSphere
 {
-    bool FUN_00c4fa80(void* other);
+    bool BSMultiBoundShape_IsEqual(void* other);
     bool Equals(MultiBoundSphereEquality* other);
 };
 
@@ -1880,7 +1909,7 @@ struct MultiBoundSphereEquality : public BSMultiBoundSphere
 // @fnv 0x00c4fce0
 bool MultiBoundSphereEquality::Equals(MultiBoundSphereEquality* other)
 {
-    bool r6 = FUN_00c4fa80(other);
+    bool r6 = BSMultiBoundShape_IsEqual(other);
     if (r6)
     {
         MultiBoundSphereEquality* o4 = other;
@@ -1899,7 +1928,7 @@ struct NodeArgB9733
 };
 
 void* NiViewerStrings_NiGetViewerString_Title(void* g);
-void* FUN_00a7d550(const char* name, float value);
+void* NiGetViewerString_00a7d550(const char* name, float value);
 
 extern void* DAT_01203108;
 
@@ -1918,10 +1947,10 @@ void MultiBoundSphereProperties::InitNode(NodeArgB9733* pNode)
     void* g = DAT_01203108;
     void* root = NiViewerStrings_NiGetViewerString_Title(g);
     pNode->FUN_0096a610(&root);
-    void* center7 = reinterpret_cast<NiPoint3*>(&center)->FUN_00a59af0("Center");
+    void* center7 = reinterpret_cast<NiPoint3*>(&center)->GetViewerString_00a59af0("Center");
     pNode->FUN_0096a610(&center7);
     float r = radius;
-    void* radius = FUN_00a7d550("Radius", r);
+    void* radius = NiGetViewerString_00a7d550("Radius", r);
     pNode->FUN_0096a610(&radius);
 }
 
@@ -2036,9 +2065,9 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
 
         NiPointer<NiAlphaProperty> spAlphaProperty2 = new NiAlphaProperty;
         ((NiObjectNET*)(NiAlphaProperty*)spAlphaProperty2)->SetName(NiFixedString("primitive: alpha"));
-        ((NiAlphaProperty*)spAlphaProperty2)->FUN_0049ed90(true);
+        ((NiAlphaProperty*)spAlphaProperty2)->NiAlphaProperty_SetAlphaBlending(true);
         m_kGeometry->AttachProperty((NiAlphaProperty*)spAlphaProperty2);
-        m_kGeometry->GetProperty(3u)->FUN_00441130(32, false);
+        m_kGeometry->GetProperty(3u)->BSShaderProperty_SetFlag(32, false);
 
         m_pController = new BSFadeNode;
         m_pController->AttachChildInAvailableSlot(static_cast<NiAVObject*>((NiGeometry*)m_kGeometry), true);
@@ -2088,11 +2117,12 @@ class MultiBoundSphereFrustum : public BSMultiBoundSphere
 {
   public:
 
-    bool FUN_00c50210(KPlanes* planes);
+    bool BSMultiBoundSphere_WithinFrustum(KPlanes* planes);
 };
 
 // @fnv 0x00c50210
-bool MultiBoundSphereFrustum::FUN_00c50210(KPlanes* planes)
+// src: XBOX_PDB 0x00c50210
+bool MultiBoundSphereFrustum::BSMultiBoundSphere_WithinFrustum(KPlanes* planes)
 {
     int iPlaneIndex;
     float fRad = radius;
@@ -2375,12 +2405,13 @@ extern double DAT_01012060;
 class MultiBoundSphereIntersection : public BSMultiBoundSphere
 {
   public:
-    int FUN_00c4fed0(const NiBound& kBound);
+    int BSMultiBoundSphere_CheckBound(const NiBound& kBound);
 };
 
 // Returns 2 when center distance is at most the radius difference plus DAT_01012060, 1 when at most the radius sum plus that value, otherwise 0.
 // @fnv 0x00c4fed0
-int MultiBoundSphereIntersection::FUN_00c4fed0(const NiBound& kBound)
+// src: XBOX_PDB 0x00c4fed0
+int MultiBoundSphereIntersection::BSMultiBoundSphere_CheckBound(const NiBound& kBound)
 {
     NiPoint3 kDiff = reinterpret_cast<const NiPoint3&>(center) - kBound.m_kCenter;
     float fCenterDist = static_cast<const NiPoint3&>(kDiff).Length();
@@ -2417,11 +2448,12 @@ struct Sphere
 };
 struct MultiBoundSphereContainment : public BSMultiBoundSphere
 {
-    bool FUN_00c502a0(const Frustum* frustum);
+    bool BSMultiBoundSphere_CompletelyWithinFrustum(const Frustum* frustum);
 };
 // Returns true when every plane selected by kComparisonMask classifies the sphere as 1; otherwise returns false.
 // @fnv 0x00c502a0
-bool MultiBoundSphereContainment::FUN_00c502a0(const Frustum* frustum)
+// src: XBOX_PDB 0x00c502a0
+bool MultiBoundSphereContainment::BSMultiBoundSphere_CompletelyWithinFrustum(const Frustum* frustum)
 {
     float radius = this->radius;
     Sphere bound = {reinterpret_cast<const NiPoint3&>(center), radius};

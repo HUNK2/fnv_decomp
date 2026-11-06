@@ -7,21 +7,21 @@
 // @fnv 0x00867290
 Direct3DDeviceInterface* BGSMoviePlayer::GetDevice()
 {
-    NiRenderer* renderer = FUN_004bc3f0();
-    return renderer->FUN_004dc020();
+    NiRenderer* renderer = Renderer_GetNIRenderer();
+    return renderer->NiXenonRenderer_GetD3DDevice();
 }
 
 // @fnv 0x008672b0
 void BGSMoviePlayer::StartScene()
 {
-    NiRenderer* renderer = FUN_004bc3f0();
+    NiRenderer* renderer = Renderer_GetNIRenderer();
     renderer->StartScene();
 }
 
 // @fnv 0x008672d0
 void BGSMoviePlayer::FinishScene()
 {
-    NiRenderer* renderer = FUN_004bc3f0();
+    NiRenderer* renderer = Renderer_GetNIRenderer();
     renderer->FinishScene();
 }
 
@@ -37,19 +37,19 @@ unsigned int BGSMoviePlayer::GetUptimeMilliseconds()
 // @fnv 0x008673e0
 bool BGSMoviePlayer::IsDeviceReady()
 {
-    NiRenderer* renderer = FUN_004bc3f0();
+    NiRenderer* renderer = Renderer_GetNIRenderer();
     return renderer->FUN_004e9530() == 1;
 }
 
 // @fnv 0x00867220
 void BGSMoviePlayer::EndMoviePlayback()
 {
-    if (DAT_011de714 && FUN_00453a70()->FUN_005bb4d0())
+    if (DAT_011de714 && BSAudio_QInstance()->TESRegionData_GetPriority())
     {
-        FUN_00453a70()->SetUseMultipleThreads(false);
+        BSAudio_QInstance()->SetUseMultipleThreads(false);
         DAT_011de714 = 0;
     }
-    FUN_00453a70()->DisableAudioPlayback();
+    BSAudio_QInstance()->DisableAudioPlayback();
 }
 
 // Returns the result of FUN_004de0e0 when FUN_004de070 and FUN_004de080 both succeed, otherwise returns FUN_004dc1f0.
@@ -58,7 +58,7 @@ unsigned int BGSMoviePlayer::UpdateInterfaceState()
 {
     if (is_bEyeFinity() && IsEyefinity())
         return (unsigned int)Get_1280_();
-    return FUN_004dc1f0();
+    return Renderer_GetScreenWidth();
 }
 
 // Returns the result of FUN_004de0f0 when FUN_004de070 and FUN_004de080 both succeed, otherwise returns FUN_004dc200.
@@ -67,23 +67,23 @@ unsigned int BGSMoviePlayer::GetFirstInterfaceFloat()
 {
     if (is_bEyeFinity() && IsEyefinity())
         return (unsigned int)Get_720_();
-    return FUN_004dc200();
+    return Renderer_GetScreenHeight();
 }
 
 // @fnv 0x008671a0
 void BGSMoviePlayer::BeginMoviePlayback()
 {
-    if (!FUN_00453a70()->FUN_005bb4d0())
+    if (!BSAudio_QInstance()->TESRegionData_GetPriority())
     {
-        FUN_00453a70()->SetUseMultipleThreads(true);
+        BSAudio_QInstance()->SetUseMultipleThreads(true);
         DAT_011de714 = 1;
     }
-    FUN_00453a70()->BSAudio_PauseWorldSounds();
-    if (!FUN_00453a70()->FUN_005bb4d0())
+    BSAudio_QInstance()->BSAudio_PauseWorldSounds();
+    if (!BSAudio_QInstance()->TESRegionData_GetPriority())
     {
         DAT_011de714 = 0;
-        FUN_00453a70()->Update(true);
-        FUN_00453a70()->Update(true);
+        BSAudio_QInstance()->Update(true);
+        BSAudio_QInstance()->Update(true);
     }
 }
 
@@ -95,17 +95,17 @@ bool BGSMoviePlayer::UpdateMoviePlayback(bool continuePlaying)
     if (!FUN_00ec1840(continuePlaying))
         return false;
 
-    deviceStatus = FUN_0043c4b0()->FUN_004dc020()->TestCooperativeLevel();
+    deviceStatus = NiXenonRenderer_GetRenderer()->NiXenonRenderer_GetD3DDevice()->TestCooperativeLevel();
     if (deviceStatus < 0)
         return false;
 
     if (continuePlaying || field_20)
     {
-        InputManager* wheel = g_osGlobals->FUN_00877720();
+        InputManager* wheel = g_osGlobals->Main_GetControls();
         wheel->Controls_UpdateValues();
-        if (wheel->FUN_00a24660(5, true) || wheel->FUN_00a24660(0x1c, true))
+        if (wheel->Controls_GetUserAction(5, true) || wheel->Controls_GetUserAction(0x1c, true))
         {
-            if (FUN_00ec17c0())
+            if (MoviePlayer_GetPlayingSequence())
                 FUN_00ec29b0();
             wheel->Controls_UpdateValues();
             return false;
@@ -132,11 +132,12 @@ float Get_1280_()
     return DAT_01189494;
 }
 
-void __cdecl FUN_008305e0(void);
+void __cdecl FalloutAudioMedia_MediaPause(void);
 // @fnv 0x00867270
-void __thiscall BGSMoviePlayer::FUN_00867270()
+// src: XBOX_PDB 0x00867270
+void __thiscall BGSMoviePlayer::PauseMusic()
 {
-    FUN_008305e0();
+    FalloutAudioMedia_MediaPause();
 }
 
 void _Deallocate(void*);
@@ -152,7 +153,8 @@ void* __thiscall BGSMoviePlayer::FUN_00867150(unsigned int flags)
 
 void __cdecl ResetThreadFlags(void);
 // @fnv 0x00867280
-void __thiscall BGSMoviePlayer::FUN_00867280()
+// src: XBOX_PDB 0x00867280
+void __thiscall BGSMoviePlayer::UnPauseMusic()
 {
     ResetThreadFlags();
 }

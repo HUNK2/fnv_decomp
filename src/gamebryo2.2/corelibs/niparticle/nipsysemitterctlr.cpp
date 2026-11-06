@@ -185,7 +185,8 @@ void* __cdecl NiBoolData_GetRTTI()
 }
 
 // @fnv 0x00c1ba30
-void __fastcall FUN_00c1ba30(NiPSysEmitterCtlr* self, int unused)
+// src: XBOX_PDB 0x00c1ba30
+void __fastcall NiPSysEmitterCtlr_Stop(NiPSysEmitterCtlr* self, int unused)
 {
     self->m_fScaledLastTime = DAT_01015f5c;
     self->NiTimeController::Stop();
@@ -203,7 +204,8 @@ extern int DAT_011ae754;
 extern int DAT_011ae758;
 
 // @fnv 0x00c1ba50
-const char* const* __stdcall FUN_00c1ba50(unsigned short usIndex)
+// src: XBOX_PDB 0x00c1ba50
+const char* const* __stdcall NiPSysEmitterCtlr_GetInterpolatorID(unsigned short usIndex)
 {
     if (usIndex == 0)
         return reinterpret_cast<const char* const*>(DAT_011ae754);
@@ -387,11 +389,12 @@ struct M00c1bff0
 extern int g_01202500_arg1;
 struct EmitterTargetCheck : NiPSysEmitterCtlr
 {
-    bool FUN_00c1bff0();
+    bool NiPSysEmitterCtlr_TargetIsRequiredType();
 };
 // Checks FUN_00a38df0, resolves a modifier via reinterpret_cast<B00c1bff0*>(m_pkTarget)->FUN_00c1b0f0(&m_kTargetModifierName), then scans its RTTI chain for g_01202500_arg1 and returns whether it is found.
 // @fnv 0x00c1bff0
-bool EmitterTargetCheck::FUN_00c1bff0()
+// src: XBOX_PDB 0x00c1bff0
+bool EmitterTargetCheck::NiPSysEmitterCtlr_TargetIsRequiredType()
 {
     if (!CheckSingleInterpTarget(this))
         return false;
@@ -479,11 +482,12 @@ struct Mod_00c2b7d0
 };
 struct Holder00c2b7d0
 {
-    bool FUN_00c2b7d0(void* pkTarget);
+    bool NiPSysEmitterCtlr_InterpTargetIsCorrectType(void* pkTarget);
 };
 // Checks the target via IsTargetParticleSystem, resolves a modifier from this+0x38, then walks its RTTI base chain looking for g_01202500_arg1.
 // @fnv 0x00c2b7d0
-bool Holder00c2b7d0::FUN_00c2b7d0(void* pkTarget)
+// src: XBOX_PDB 0x00c2b7d0
+bool Holder00c2b7d0::NiPSysEmitterCtlr_InterpTargetIsCorrectType(void* pkTarget)
 {
     void* pkModifier;
     if (!((S_00c31530*)this)->IsTargetParticleSystem(pkTarget))
@@ -527,7 +531,8 @@ struct FUN_00a56560_shell
 };
 // Allocates a 0x34-byte NiBlendInterpolator and constructs variant 0 or 1 based on usIndex, returning null otherwise.
 // @fnv 0x00c1bb20
-NiBlendInterpolator* __stdcall FUN_00c1bb20(unsigned short usVariant, bool bAccumulateAnimations,
+// src: XBOX_PDB 0x00c1bb20
+NiBlendInterpolator* __stdcall NiPSysEmitterCtlr_CreateBlendInterpolator(unsigned short usVariant, bool bAccumulateAnimations,
                                             bool bManagerControlled, float fWeightThreshold, unsigned char ucArraySize)
 {
     if (usVariant == 0)
@@ -808,11 +813,12 @@ class NiBaseC1B : public NiPSysEmitterCtlr
 {
 public:
     bool BaseIsEqual(NiObject* object);
-    bool FUN_00c1be60(NiObject* object);
+    bool NiPSysEmitterCtlr_IsEqual(NiObject* object);
 };
 
 // @fnv 0x00c1be60
-bool NiBaseC1B::FUN_00c1be60(NiObject* pkObject)
+// src: XBOX_PDB 0x00c1be60
+bool NiBaseC1B::NiPSysEmitterCtlr_IsEqual(NiObject* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -975,7 +981,7 @@ struct C040Owner
     virtual C040Node* v2();
 };
 
-unsigned char __cdecl FUN_0043b300(void* a, void* b);
+unsigned char __cdecl NiObject_IsKindOf(void* a, void* b);
 
 __forceinline bool C040Has(C040Owner* o, void* p)
 {
@@ -987,7 +993,8 @@ __forceinline bool C040Has(C040Owner* o, void* p)
 
 // Checks whether obj contains one of the global nodes for the given type (0 or 1), or for type 1 whether FUN_0043b300 matches DAT_011f407c.
 // @fnv 0x00c1c040
-bool __stdcall FUN_00c1c040(C040Owner* pOwner, unsigned short type)
+// src: XBOX_PDB 0x00c1c040
+bool __stdcall NiPSysEmitterCtlr_InterpolatorIsCorrectType(C040Owner* pOwner, unsigned short type)
 {
     if (type == 0)
     {
@@ -998,7 +1005,7 @@ bool __stdcall FUN_00c1c040(C040Owner* pOwner, unsigned short type)
     {
         if (pOwner && C040Has(pOwner, &DAT_011f404c))
             return true;
-        if (FUN_0043b300(&DAT_011f407c, pOwner))
+        if (NiObject_IsKindOf(&DAT_011f407c, pOwner))
             return true;
     }
     return false;
@@ -1124,18 +1131,19 @@ struct C630Ctlr
     bool m_bIsInitialized;
     void EmitParticlesInInterval(float a, float b, float c, float d, float e, float f);
 
-    bool FUN_00a36250(float);
+    bool DontDoUpdate(float);
     EmitterKeyInterpolator* GetObjectValueByKey();
-    EmitterKeyInterpolator* FUN_00639b60();
+    EmitterKeyInterpolator* NiPSysEmitterCtlr_GetBirthRateInterpolator();
     bool Manager() const
     {
         return (bool)(((m_uiObjectFlags & 0x20) >> 5) & 1);
     }
-    void FUN_00c1c630(float* time);
+    void NiPSysEmitterCtlr_Update(float* time);
 };
 // Updates the particle controller time and emits particles over the active intervals between the old and new times using the rate interpolator.
 // @fnv 0x00c1c630
-void C630Ctlr::FUN_00c1c630(float* time)
+// src: XBOX_PDB 0x00c1c630
+void C630Ctlr::NiPSysEmitterCtlr_Update(float* time)
 {
     if (m_fLastTime > *time)
         m_fScaledLastTime = DAT_01015f5c;
@@ -1146,12 +1154,12 @@ void C630Ctlr::FUN_00c1c630(float* time)
     if (m_fLastTime != DAT_010241b0 && !(m_uiObjectFlags & 6) &&
         *time - m_fLastTime > ((C630Modifier*)m_pkTargetModifier)->span)
         m_fLastTime = *time;
-    if (FUN_00a36250(*time))
+    if (DontDoUpdate(*time))
         return;
     if (!m_spVisibilityInterpolator.m_pObject || !m_spControllerInterpolator.m_pObject)
         return;
     float activeBlendTime = DAT_01015f5c;
-    if (FUN_0043b300(&DAT_011f407c, m_spVisibilityInterpolator))
+    if (NiObject_IsKindOf(&DAT_011f407c, m_spVisibilityInterpolator))
     {
         C630Blend* blend = (C630Blend*)m_spVisibilityInterpolator.m_pObject;
         blend->UpdateNormalizedWeights();
@@ -1162,7 +1170,7 @@ void C630Ctlr::FUN_00c1c630(float* time)
     EmitterKeyInterpolator* emitterActive = GetObjectValueByKey();
     bool activeTimeSet = activeBlendTime != DAT_010241b0;
     float birthRateTime = DAT_01015f5c;
-    if (FUN_0043b300(&DAT_011f3e58, m_spControllerInterpolator))
+    if (NiObject_IsKindOf(&DAT_011f3e58, m_spControllerInterpolator))
     {
         C630Blend* blend = (C630Blend*)m_spControllerInterpolator.m_pObject;
         blend->UpdateNormalizedWeights();
@@ -1170,7 +1178,7 @@ void C630Ctlr::FUN_00c1c630(float* time)
         if (index != DAT_01096968)
             birthRateTime = blend->GetValueForIndex(index);
     }
-    EmitterKeyInterpolator* rateInterp = FUN_00639b60();
+    EmitterKeyInterpolator* rateInterp = NiPSysEmitterCtlr_GetBirthRateInterpolator();
     bool rateTimeSet = birthRateTime != DAT_010241b0;
     if (!emitterActive || !rateInterp)
         return;

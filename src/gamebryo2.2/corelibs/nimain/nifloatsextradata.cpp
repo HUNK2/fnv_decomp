@@ -54,7 +54,7 @@ struct CloningProcess
 // @fnv 0x00a89040
 void __thiscall NiFloatsExtraData::CopyFloatsExtraData(NiFloatsExtraData* pDest, CloningProcess* pCloning)
 {
-    FUN_00a7b330(pDest, pCloning);
+    CopyMembers_00a7b330(pDest, pCloning);
     if (!m_pfValue || m_uiSize <= 0)
     {
         pDest->m_pfValue = 0;
@@ -98,7 +98,8 @@ float __thiscall NiFloatsExtraData::GetValueAt(unsigned int uiIndex)
 
 // Compares this NiFloatsExtraData with pOther: checks size, null-ness of the value array, and element-wise equality of the floats.
 // @fnv 0x00a890b0
-bool __thiscall NiFloatsExtraData::FUN_00a890b0(const NiFloatsExtraData* pOther)
+// src: XBOX_PDB 0x00a890b0
+bool __thiscall NiFloatsExtraData::IsEqual_00a890b0(const NiFloatsExtraData* pOther)
 {
     if (!pOther)
         return false;
@@ -319,7 +320,8 @@ template <class T> inline void A89210SaveBinary(A89210Stream& kStream, const T& 
 // SaveBinary
 // Saves the base extra data, then writes the float array size and values to the stream.
 // @fnv 0x00a89210
-void NiFloatsExtraData::FUN_00a89210(NiStream& stream)
+// src: XBOX_PDB 0x00a89210
+void NiFloatsExtraData::SaveBinary_00a89210(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
     A89210Stream& kStream = reinterpret_cast<A89210Stream&>(stream);
@@ -329,8 +331,8 @@ void NiFloatsExtraData::FUN_00a89210(NiStream& stream)
 
 extern "C" void* g_011f5b60;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
+char* __cdecl NiGetViewerString_00a7d510(const char* pcPrefix, unsigned int uiValue);
+char* __cdecl NiGetViewerString_00a7d550(const char* pcPrefix, float fValue);
 
 template <class T> struct NiFloatsMallocInterface
 {
@@ -378,14 +380,15 @@ void __cdecl GetExtraDataViewerStrings();
 
 // Appends the base viewer strings, the m_uiSize entry and one entry per element of m_pfValue to pkStrings.
 // @fnv 0x00a89280
-void NiFloatsExtraData::FUN_00a89280(NiFloatsViewerStringsArray* pkStrings)
+// src: XBOX_PDB 0x00a89280
+void NiFloatsExtraData::GetViewerStrings_00a89280(NiFloatsViewerStringsArray* pkStrings)
 {
     typedef void (__thiscall* GetViewerStringsFunction)(NiExtraData*, NiFloatsViewerStringsArray*);
     reinterpret_cast<GetViewerStringsFunction>(&GetExtraDataViewerStrings)(this, pkStrings);
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f5b60));
-    pkStrings->Add(FUN_00a7d510("m_uiSize", m_uiSize));
+    pkStrings->Add(NiGetViewerString_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
-        pkStrings->Add(FUN_00a7d550("m_pfValue[i]", m_pfValue[i]));
+        pkStrings->Add(NiGetViewerString_00a7d550("m_pfValue[i]", m_pfValue[i]));
 }
 
 class BA99A90BinaryStream

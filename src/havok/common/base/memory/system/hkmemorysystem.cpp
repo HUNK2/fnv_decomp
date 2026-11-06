@@ -15,7 +15,8 @@ int __stdcall hkMemorySystem_debugTagAddress(int a, int b)
 extern int DAT_01268418;
 
 // @fnv 0x00cbbfc0
-int FUN_00cbbfc0()
+// src: XBOX_PDB 0x00cbbfc0
+int hkMemorySystem_getInstance()
 {
     return DAT_01268418;
 }
@@ -198,7 +199,7 @@ struct AllocatorHolder
         return *m_pSolverAllocator;
     }
 };
-AllocatorHolder* __cdecl FUN_00c85750();
+AllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 
 namespace MathUtilities {
 template <typename T> inline T max2(T x, T y)
@@ -282,13 +283,13 @@ void __stdcall hkMemorySystem__printStatistics(hkOstream* ostr, MemSystemInfo* i
     }
     hkOstream_printf(ostr, "            = total %i\n\n", stackTotal);
 
-    FUN_00c85750()->solverAllocator().getMemoryStatistics(reinterpret_cast<hkMemoryAllocator::MemoryStatistics&>(stats));
+    hkMemoryRouter_getInstance()->solverAllocator().getMemoryStatistics(reinterpret_cast<hkMemoryAllocator::MemoryStatistics&>(stats));
     hkOstream_printf(ostr, "\t%s:\n", "Solver");
     hkOstream_printf(ostr, "            totalSize:   %10i\n", stats.m_uiFirstValue);
     hkOstream_printf(ostr, "              peak:      %10i (%4.1f%%)\n\n", stats.m_uiThirdValue,
                  (float)stats.m_uiThirdValue * 100.0 / (float)stats.m_uiFirstValue);
 
-    FUN_00c85750()->debugAllocator().getMemoryStatistics(reinterpret_cast<hkMemoryAllocator::MemoryStatistics&>(stats));
+    hkMemoryRouter_getInstance()->debugAllocator().getMemoryStatistics(reinterpret_cast<hkMemoryAllocator::MemoryStatistics&>(stats));
     if (heapInUse == stats.m_pAllocationMap)
     {
         hkOstream_printf(ostr, "\tDebugMem: Not used.\n\n");

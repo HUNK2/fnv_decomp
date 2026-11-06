@@ -53,7 +53,8 @@ void* __cdecl NiPSysMeshUpdateModifier_GetRTTI()
 
 // Calls the base modifier's ProcessClone, then clones each non-null mesh in m_kSceneObjects.
 // @fnv 0x00c20f30
-void NiPSysMeshUpdateModifier::FUN_00c20f30(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00c20f30
+void NiPSysMeshUpdateModifier::ProcessClone_00c20f30(CloningProcess& kCloning)
 {
     NiPSysModifier::ProcessClone(kCloning);
     unsigned int ui;
@@ -73,7 +74,8 @@ struct Holder31670
 };
 }  // namespace fnv_00c20f80
 // @fnv 0x00c20f80
-bool NiPSysMeshUpdateModifier::FUN_00c20f80(NiStream& kStream)
+// src: XBOX_PDB 0x00c20f80
+bool NiPSysMeshUpdateModifier::RegisterStreamables_00c20f80(NiStream& kStream)
 {
     if (!((fnv_00c20f80::Holder31670*)this)->FUN_00c31670(kStream))
         return false;
@@ -200,11 +202,12 @@ class FUN_00c212b0_cls
     FUN_00c212b0_item** m_ppItems;
     char unk90[2];
     unsigned short m_usNumMeshes;
-    void FUN_00c212b0(unsigned int a1, NiAVObject* a2);
+    void NiMeshPSysData_FillPool(unsigned int a1, NiAVObject* a2);
 };
 
 // @fnv 0x00c212b0
-void FUN_00c212b0_cls::FUN_00c212b0(unsigned int uiIndex, NiAVObject* pSource)
+// src: XBOX_PDB 0x00c212b0
+void FUN_00c212b0_cls::NiMeshPSysData_FillPool(unsigned int uiIndex, NiAVObject* pSource)
 {
     if (uiIndex < m_usNumMeshes && m_ppItems[uiIndex] != 0)
     {
@@ -690,7 +693,8 @@ struct MeshPSysData
 
 // For each active vertex, copies position and scale to its mesh, optionally sets rotation, then calls UpdateDownwardPass.
 // @fnv 0x00c21080
-void __stdcall FUN_00c21080(float fTime, MeshPSysData* pkData)
+// src: XBOX_PDB 0x00c21080
+void __stdcall NiPSysMeshUpdateModifier_Update(float fTime, MeshPSysData* pkData)
 {
     float* pfRotationAngles = pkData->m_pfRotationAngles;
     MeshNiPoint3* pkRotationAxes = pkData->m_pkRotationAxes;
@@ -936,7 +940,7 @@ void NiPSysMeshUpdateModifier::PostLinkObject(NiStream& stream)
                 NiAVObject* mesh = m_kSceneObjects.m_pBase[index].m_pObject;
                 if (mesh != 0)
                 {
-                    reinterpret_cast<FUN_00c212b0_cls*>(data)->FUN_00c212b0(index,
+                    reinterpret_cast<FUN_00c212b0_cls*>(data)->NiMeshPSysData_FillPool(index,
                                                                             reinterpret_cast<NiAVObject*>(mesh));
                 }
             }

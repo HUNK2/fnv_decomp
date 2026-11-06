@@ -98,8 +98,8 @@ float ActorValueOwner_GetTotalArmorDT(ActorValueOwner*, ActorValue::Index);
 FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pName) == 0x38);
 FNV_STATIC_ASSERT(offsetof(ActorValueInfo, m_pDerivedValueFunction) == 0x4c);
 
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
+float BSMAX_00404010(float, float);
+float BSMIN(float, float);
 namespace ActorValue {
 bool GetFlag(Index, unsigned int);
 float ClampValue(Index, float);
@@ -118,7 +118,7 @@ bool HasActorValueChangedCallback(Index);
 template <class T> unsigned int BSStringLength(const T*);
 class TESObjectIMOD;
 
-float FUN_00406ce0(float);
+float floorf(float);
 
 namespace ActorValue {
 bool IsDerivedAttribute(Index);
@@ -127,7 +127,7 @@ bool IsSkill(Index);
 Section GetSection(Index);
 unsigned char ToArrayIndex(int, Index);
 }
-bool FUN_005d1260(ActorValue::Index);
+bool ActorValue_IsAttribute(ActorValue::Index);
 int MinInt(int, int);
 extern "C" int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 class GlobalObject_0066ef90
@@ -139,5 +139,5 @@ class GlobalObject_0066ef90
 extern GlobalObject_0066ef90 g_011d61c8;
 void* __cdecl operator new(size_t) throw();
 void __cdecl operator delete(void*);
-bool FUN_0066eba0(ActorValue::Index);
+bool ActorValue_IsResistance(ActorValue::Index);
 #endif

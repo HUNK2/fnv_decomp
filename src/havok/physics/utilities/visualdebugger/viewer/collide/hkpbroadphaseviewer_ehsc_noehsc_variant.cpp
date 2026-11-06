@@ -129,7 +129,7 @@ private:
     ~FUN_00d6a940();               // never defined: keeps a second tagged
                                    // symbol out of the object file
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct SpawnedItem {
     virtual void v00(int aiFlags);
     int unk04;
@@ -310,7 +310,7 @@ static inline hkMemoryAllocator& __fastcall GetAudioAllocator(hkMemoryRouter* ho
 
 static inline hkMemoryAllocator& S00d6a9b0_heap()
 {
-    return GetAudioAllocator(FUN_00c85750());
+    return GetAudioAllocator(hkMemoryRouter_getInstance());
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* a, void* arr, int cap, int elemSize);
 
@@ -425,7 +425,7 @@ struct S00d6a9b0_Item
     int unk40; int unk44; int unk48; int unk4c; int unk50; int unk54; int unk58; int unk5c;
     int unk60; int unk64; int unk68; int unk6c; int unk70; int unk74; int unk78; int unk7c;
     void FUN_00de1210();
-    void FUN_00de1170(void* a, void* b);
+    void hkDisplayAABB_setExtents(void* a, void* b);
 };
 
 struct S00d6a9b0_Sub
@@ -485,7 +485,7 @@ void S00d6a9b0_Obj::hkpBroadphaseViewer_postSimulationCallback(S00d6a9b0_Ctx* a1
     for (int k = req.m_iElementCount - 1; k >= 0; k--)
     {
         S00d6a9b0_Blk* b = req.m_data + k;
-        m_aiIndexedValues.m_data[k].FUN_00de1170(&b->m_kMinimumCorner, &b->m_kMaximumCorner);
+        m_aiIndexedValues.m_data[k].hkDisplayAABB_setExtents(&b->m_kMinimumCorner, &b->m_kMaximumCorner);
         ptrs.m_data[k] = m_aiIndexedValues.m_data + k;
     }
 

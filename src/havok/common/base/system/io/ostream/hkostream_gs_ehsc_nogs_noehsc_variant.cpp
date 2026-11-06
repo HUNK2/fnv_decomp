@@ -15,7 +15,7 @@
 
 // Unused declarations copied from the other hkOstream flag variants are omitted.
 #include <stdarg.h>
-extern "C" void __cdecl FUN_00cb0f50(char* buffer, unsigned int size, const char* fmt, char* args);
+extern "C" void __cdecl hkString_vsnprintf(char* buffer, unsigned int size, const char* fmt, char* args);
 extern "C" int __cdecl hkString_strLen(int value);
 extern "C" const char str_010c9308[];
 
@@ -49,7 +49,7 @@ void __cdecl hkOstream_printf(hkOstream* self, const char* fmt, ...)
     char buf[0x2728];
     va_list ap;
     va_start(ap, fmt);
-    FUN_00cb0f50(buf, 0x2728, fmt, ap);
+    hkString_vsnprintf(buf, 0x2728, fmt, ap);
     va_end(ap);
     writeString((hkWriter0080*)self->m_pStreamWriter, buf);
 }

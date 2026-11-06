@@ -352,7 +352,7 @@ bool BGSRagdoll::LoadForm(TESFile* file)
     return true;
 }
 
-void __fastcall FUN_005ed790(void*);
+void __fastcall RagdollFeedbackData_RagdollFeedbackSystemData_RagdollFeedbackSystemData(void*);
 void __fastcall BSSimpleArray_short_1024_BSSimpleArray_short_1024(void*);
 
 // @fnv 0x005ed760
@@ -360,7 +360,7 @@ void __fastcall BSSimpleArray_short_1024_BSSimpleArray_short_1024(void*);
 void* __fastcall BGSRagdoll_Feedback_Init(char* pThis)
 {
     *pThis = 0;
-    FUN_005ed790(pThis + 4);
+    RagdollFeedbackData_RagdollFeedbackSystemData_RagdollFeedbackSystemData(pThis + 4);
     BSSimpleArray_short_1024_BSSimpleArray_short_1024(pThis + 0x40);
     return pThis;
 }
@@ -371,7 +371,8 @@ extern float DAT_010231a8;
 
 // Fills the 15-element float/int block at pThis with constant values and returns pThis.
 // @fnv 0x005ed790
-void* __fastcall FUN_005ed790(float* pThis)
+// src: XBOX_PDB 0x005ed790
+void* __fastcall RagdollFeedbackData_RagdollFeedbackSystemData_RagdollFeedbackSystemData(float* pThis)
 {
     pThis[0] = g_011c3bb8_arg1;
     pThis[1] = 0.8f;
@@ -654,7 +655,7 @@ extern int DAT_010472d0;
 template <>
 BSSimpleArray<const char*, 1024>::BSSimpleArray()
 {
-    reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(this)->FUN_006b3eb0(0, false);
+    reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(this)->BSSimpleArray_float_1024_InitialSetup(0, false);
 }
 
 // @fnv 0x005eee10
@@ -743,7 +744,7 @@ struct LookIKArrayResize
     unsigned int uiSize;
     unsigned int uiAllocSize;
     void ConstructEntries(LookIK_DATA__LookIK_Head_DATA* p, unsigned int n);
-    void FUN_005efa80(unsigned int newAlloc, unsigned int copy);
+    void BSSimpleArray_PathingLocation_1024_ReallocateBuffer(unsigned int newAlloc, unsigned int copy);
     void BSSimpleArray_LookIK_DATA_LookIK_Head_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory);
 };
 
@@ -764,7 +765,7 @@ void LookIKArrayResize::BSSimpleArray_LookIK_DATA_LookIK_Head_DATA_1024_SetLengt
         }
         else
         {
-            FUN_005efa80(aiNewSize, uiSize);
+            BSSimpleArray_PathingLocation_1024_ReallocateBuffer(aiNewSize, uiSize);
             uiAllocSize = aiNewSize;
         }
         ConstructEntries(pBuffer + uiSize, aiNewSize - uiSize);
@@ -776,7 +777,7 @@ void LookIKArrayResize::BSSimpleArray_LookIK_DATA_LookIK_Head_DATA_1024_SetLengt
         uiSize = aiNewSize;
         if (abFreeMemory && aiNewSize <= uiAllocSize >> 2)
         {
-            FUN_005efa80(aiNewSize, aiNewSize);
+            BSSimpleArray_PathingLocation_1024_ReallocateBuffer(aiNewSize, aiNewSize);
             uiAllocSize = aiNewSize;
         }
     }
@@ -851,7 +852,7 @@ bool __cdecl _FUN_00401500();
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 void __cdecl _FUN_00485990(unsigned int, void*, unsigned int);
 void __cdecl FUN_00485730(void*, void*, void*);
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 
 // @fnv 0x005ee110
 void __fastcall SaveRagdoll(BGSRagdoll* ragdoll)
@@ -940,7 +941,7 @@ void __fastcall SaveRagdoll(BGSRagdoll* ragdoll)
 
     if (reinterpret_cast<BSStringT<char>*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x11c)->Length())
     {
-        FUN_004856f0(0x4d414e41,
+        TESForm_AddChunkArray(0x4d414e41,
                      const_cast<char*>(
                          reinterpret_cast<BSStringT<char>*>(reinterpret_cast<unsigned char*>(ragdoll) + 0x11c)
                              ->String()),

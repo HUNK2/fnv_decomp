@@ -20,7 +20,7 @@ struct FUN_00af30a0_Class
     int m_iValueAt90;
     char m_cValueAt94;
     char m_cValueAt95;
-    void* FUN_00af30a0();
+    void* BSSystemUtility_BSSystemUtility();
 };
 struct FUN_00ae8dc0_Class
 {
@@ -43,7 +43,7 @@ struct FUN_00aea890_Class
     void* vtbl;
     int m_kPointA;
     int m_kPointB;
-    int* FUN_00aea890();
+    int* BSWin32AudioListener_GetPosition();
 };
 extern int DAT_010a3bb4;
 struct FUN_00aeaab0_Class
@@ -159,7 +159,7 @@ struct FUN_00aeaa80_Class
 struct FUN_00aefcf0_Class
 {
     void* vtbl;
-    void __thiscall FUN_00aefcf0(float a, float b, float c);
+    void __thiscall BSWin32GameSound_SetEmitterPosition_00aefcf0(float a, float b, float c);
 };
 struct FUN_00af1d20_Class
 {
@@ -1107,7 +1107,7 @@ class FUN_00aec530_cls
     bool IsLooping();
     void UpdateFlags();
     void UpdateDistance();
-    void FUN_00aec530();
+    void BSWin32GameSound_Prepare();
 
     int unk04;
     unsigned int m_uiValue1;
@@ -1299,7 +1299,7 @@ class FUN_00aed420_cls
     S_Subsys* m_198;
     S_Subsys* m_19c;
     S_Subsys* m_1a0;
-    bool FUN_00aed420();
+    bool BSWin32GameSound_Pause();
 };
 struct IDSBufStub
 {
@@ -1466,7 +1466,7 @@ struct AudioSoundStub
     int unk224;
     int* pStatus;
 
-    bool FUN_00aed4c0();
+    bool BSWin32GameSound_Stop();
 };
 struct S_00af01e0_Snd
 {
@@ -1596,7 +1596,7 @@ struct S_00af01e0_Cls
     int unk194;
     int unk198;
     S_00af01e0_Snd* unk19c;
-    int FUN_00af01e0(float f);
+    int BSWin32GameSound_SetFrequency(float f);
 };
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 void Warning_005b5e40(const char* pcFormat, ...);
@@ -2611,7 +2611,7 @@ struct SoundObj
     bool is3D;
 
     bool IsPlaying();
-    void FUN_00aefda0(float maxDist, float minDist);
+    void BSWin32GameSound_SetMinMax(float maxDist, float minDist);
 };
 extern const double DAT_010a3e68;
 extern const double DAT_010a3e60;
@@ -3017,7 +3017,7 @@ struct S_008785e0
     unsigned char m_unk0f;
     void* m_unk10;
 
-    int FUN_00afeef0(int a1, int a2, int a3, int a4);
+    int BSSystemFile_DoSeek(int a1, int a2, int a3, int a4);
     int OpenFile(const char* lpFileName);
 };
 extern "C" __declspec(dllimport) int __stdcall ReadFile(void* hFile, void* lpBuffer, unsigned long nNumberOfBytesToRead,
@@ -3296,7 +3296,7 @@ struct xGameSound
     bool Finish(bool bSuccess);
     bool TryStream();
     void ResetFile(bool b);
-    bool FUN_00aeb270();
+    bool BSWin32GameSound_Open();
 };
 int __cdecl FUN_00ec3bad(int value);
 struct Marker
@@ -3314,7 +3314,7 @@ struct FUN_00afdb20_Class
 extern "C" int DAT_010472d0;
 struct FUN_009b7940_shell
 {
-    void FUN_006b3eb0(unsigned int a, unsigned int b);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 struct FUN_00afe9f0_Class : public FUN_009b7940_shell
 {
@@ -3329,7 +3329,7 @@ struct FUN_00ae8090_Node
 struct FUN_00ae8090_Allocator
 {
     unsigned int count;
-    void FUN_0045cee0(FUN_00ae8090_Node* node);
+    void NiTPointerAllocator_unsigned_int_Deallocate(FUN_00ae8090_Node* node);
 };
 struct FUN_00ae8090_Locals
 {
@@ -3530,7 +3530,7 @@ struct AED080_Cls
     ObjC* m_228;
     bool BSWin32GameSound_Write(int a1, unsigned int a2, unsigned int a3, char* a4);
     void ClearCallback();
-    bool FUN_00aed080(bool p);
+    bool BSWin32GameSound_Play(bool p);
 };
 // DirectSound buffer copy and auxiliary stream-state duplication.
 typedef unsigned int U32;
@@ -3998,7 +3998,7 @@ class AudioBuffer
     {
         return (m_flags & 0x4000000) || (m_flags & 0x2000000);
     }
-    void __thiscall FUN_00af0630(AudioBuffer*, bool);
+    void __thiscall BSWin32GameSound_Copy(AudioBuffer*, bool);
 };
 struct FUN_00aea020_cls
 {
@@ -4118,7 +4118,7 @@ void __cdecl WildCard_MakeString(char* result, const char* source);
 extern "C" __declspec(dllimport) int __stdcall WriteFile(void*, const void*, unsigned long, unsigned long*, void*);
 struct SystemFileWriter : Win32ReadFile
 {
-    int FUN_00afede0(void* buf, DWORD len, int unused, unsigned __int64* outRead);
+    int BSSystemFile_DoWrite(void* buf, DWORD len, int unused, unsigned __int64* outRead);
 };
 
 namespace ListenerDestruction {

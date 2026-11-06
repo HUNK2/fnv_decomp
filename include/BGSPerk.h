@@ -30,7 +30,7 @@ public:
     bool Load(TESFile* file);
     void ApplyPerkEntries(Actor* actor, unsigned char rank, bool alternate);
     bool IsPerkHidden() const;
-    unsigned char FUN_005d4ee0();
+    unsigned char BGSPerk_GetNumRanks();
     signed char Level();
     signed char GetByteAt39();
     bool GetByteAtOffset56();

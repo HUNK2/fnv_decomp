@@ -19,11 +19,12 @@ int* __cdecl NiVectorExtraData_GetRTTI()
 struct NiVectorExtraData : NiExtraData
 {
     float m_afVectorComponents[4];
-    bool FUN_00a92020(NiObject* pObject);
+    bool IsEqual_00a92020(NiObject* pObject);
 };
 
 // @fnv 0x00a92020
-bool NiVectorExtraData::FUN_00a92020(NiObject* pObject)
+// src: XBOX_PDB 0x00a92020
+bool NiVectorExtraData::IsEqual_00a92020(NiObject* pObject)
 {
     if (pObject)
     {
@@ -64,11 +65,12 @@ struct CloningProcess
 extern int DAT_0109fb94;
 struct FUN_00a920b0_shell : NiVectorExtraData
 {
-    NiObject* FUN_00a920b0(CloningProcess&);
+    NiObject* NiVectorExtraData_CreateClone(CloningProcess&);
 };
 // Allocates a NiVectorExtraData, initialises its four floats to zero, copies this object's four floats into it and returns it.
 // @fnv 0x00a920b0
-NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a920b0
+NiObject* FUN_00a920b0_shell::NiVectorExtraData_CreateClone(CloningProcess& kCloning)
 {
     NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
     if (pkObject)
@@ -82,7 +84,7 @@ NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((NiExtraData*)this)->FUN_00a7b330(pkObject, &kCloning);
+    ((NiExtraData*)this)->CopyMembers_00a7b330(pkObject, &kCloning);
     pkObject->m_afVectorComponents[0] = m_afVectorComponents[0];
     pkObject->m_afVectorComponents[1] = m_afVectorComponents[1];
     pkObject->m_afVectorComponents[2] = m_afVectorComponents[2];
@@ -341,11 +343,12 @@ struct FUN_00a59be0_tmp
 class FUN_00a92110_cls : public NiVectorExtraData
 {
   public:
-    void FUN_00a92110(S_00a921f0_Stream* s);
+    void NiVectorExtraData_LoadBinary(S_00a921f0_Stream* s);
 };
 
 // @fnv 0x00a92110
-void FUN_00a92110_cls::FUN_00a92110(S_00a921f0_Stream* s)
+// src: XBOX_PDB 0x00a92110
+void FUN_00a92110_cls::NiVectorExtraData_LoadBinary(S_00a921f0_Stream* s)
 {
     NiExtraData::LoadBinary(reinterpret_cast<NiStream&>(*s));
     if ((unsigned int)s->unk0d8 < 0x500000e)

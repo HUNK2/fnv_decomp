@@ -209,8 +209,8 @@ void __stdcall hkpVehicleLinearCastWheelCollide_getCollisionOutputFromCastResult
     {
         float z[4];
         float len[4];
-        vehicle->m_pChassisCollidable->FUN_00ca0c40(reinterpret_cast<const SpringVector*>(&out->m_vContactPoint.m_vContactPosition), reinterpret_cast<SpringVector*>(len));
-        out->m_pUserData->FUN_00ca0c40(reinterpret_cast<const SpringVector*>(&out->m_vContactPoint.m_vContactPosition), reinterpret_cast<SpringVector*>(z));
+        vehicle->m_pChassisCollidable->hkpRigidBody_getPointVelocity(reinterpret_cast<const SpringVector*>(&out->m_vContactPoint.m_vContactPosition), reinterpret_cast<SpringVector*>(len));
+        out->m_pUserData->hkpRigidBody_getPointVelocity(reinterpret_cast<const SpringVector*>(&out->m_vContactPoint.m_vContactPosition), reinterpret_cast<SpringVector*>(z));
         __m128 idx;
         idx = _mm_load_ps(z);
         __m128 wheelState;

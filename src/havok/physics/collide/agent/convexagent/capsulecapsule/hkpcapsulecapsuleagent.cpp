@@ -88,7 +88,7 @@ void FUN_00d3b3d0_Class::InvokeCallbacksAndRelease(int value)
 typedef void (__cdecl* HandlerFn)();
 
 void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent();
-void __cdecl FUN_00d3b420();
+void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations();
 void __cdecl FUN_00d3bd80();
 void __cdecl FUN_00daf8e0();
 
@@ -113,14 +113,14 @@ void __cdecl RegisterHandlers(Registry* apRegistry)
     kHandlers.m_cFlagA = 0;
     kHandlers.m_cFlagB = 0;
     kHandlers.m_pfnFirst = hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent;
-    kHandlers.m_pfnSecond = FUN_00d3b420;
+    kHandlers.m_pfnSecond = hkpCapsuleCapsuleAgent_staticGetPenetrations;
     kHandlers.m_pfnThird = FUN_00d3bd80;
     kHandlers.m_pfnFourth = FUN_00daf8e0;
 
     apRegistry->FUN_00cfbbe0(&kHandlers, 5, 5);
 }
 
-void __cdecl FUN_00d3b420(const void* a, const void* b, const void* c, void* d);
+void __cdecl hkpCapsuleCapsuleAgent_staticGetPenetrations(const void* a, const void* b, const void* c, void* d);
 
 struct D3B6D0Agent {
     virtual void ForwardToHandler(const void* a, const void* b, const void* c, void* d);
@@ -129,7 +129,7 @@ struct D3B6D0Agent {
 // @fnv 0x00d3b6d0
 void D3B6D0Agent::ForwardToHandler(const void* apArg1, const void* apArg2, const void* apArg3, void* apArg4)
 {
-    FUN_00d3b420(apArg1, apArg2, apArg3, apArg4);
+    hkpCapsuleCapsuleAgent_staticGetPenetrations(apArg1, apArg2, apArg3, apArg4);
 }
 
 struct MatrixVector { float x, y, z, w; };
@@ -157,11 +157,12 @@ struct BlendParameter {
     float fraction;
 };
 
-void __cdecl FUN_00cd6260(const void* a, float fraction, const void* b, float weightA, float weightB, int flags);
+void __cdecl hkCollideCapsuleUtilClostestPointCapsVsCaps(const void* a, float fraction, const void* b, float weightA, float weightB, int flags);
 
 // Transforms each bone's two frameVectors by its matrix, then calls FUN_00cd6260 with the results, each bone's blend value and the parameter's fraction.
 // @fnv 0x00d3b8e0
-static __declspec(noinline) void __cdecl FUN_00d3b8e0(TransformInput* first, TransformInput* second, const BlendParameter* parameter, int flags)
+// src: XBOX_PDB 0x00d3b8e0
+static __declspec(noinline) void __cdecl getClosestPointInternal_00d3b8e0(TransformInput* first, TransformInput* second, const BlendParameter* parameter, int flags)
 {
     JointTransform* firstBone = first->bone;
     JointTransform* secondBone = second->bone;
@@ -204,13 +205,13 @@ static __declspec(noinline) void __cdecl FUN_00d3b8e0(TransformInput* first, Tra
     volatile float fraction = parameter->fraction;
     volatile float weightB = secondBone->blend;
     volatile float weightA = firstBone->blend;
-    FUN_00cd6260(firstResult, weightA, secondResult, weightB, fraction, flags);
+    hkCollideCapsuleUtilClostestPointCapsVsCaps(firstResult, weightA, secondResult, weightB, fraction, flags);
 }
 TransformInput* volatile inputFirst;
 TransformInput* volatile inputSecond;
 const BlendParameter* volatile inputParameter;
 volatile int inputFlags;
-void invoke_transform() { FUN_00d3b8e0(inputFirst, inputSecond, inputParameter, inputFlags); }
+void invoke_transform() { getClosestPointInternal_00d3b8e0(inputFirst, inputSecond, inputParameter, inputFlags); }
 
 typedef float hkReal;
 typedef unsigned short hkUint16;
@@ -466,7 +467,7 @@ static __forceinline void TimerMark(const char* name, volatile unsigned int& t)
     }
 }
 
-extern "C" hkResult __cdecl FUN_00cd6260(const CapsulePointVector* capsA, float capsARadius, const CapsulePointVector* capsB, float capsBRadius, float collisionTolerance, hkContactPoint& cpoint);
+extern "C" hkResult __cdecl hkCollideCapsuleUtilClostestPointCapsVsCaps(const CapsulePointVector* capsA, float capsARadius, const CapsulePointVector* capsB, float capsBRadius, float collisionTolerance, hkContactPoint& cpoint);
 
 // Transforms two capsule endpoint pairs into world space, queries their contact point, and adds it to the collector on success.
 // @fnv 0x00d3baf0
@@ -498,7 +499,7 @@ void __stdcall hkpCapsuleCapsuleAgent_getClosestPoints(const hkpCdBody& bodyA, c
 
     CapsulePointTransforms::transformPoints2(bodyB.getTransform(), (const CapsulePointVector*)capsB->GetIndexedVertices(), 2, &capsBPoints[0]);
 
-    hkResult result = FUN_00cd6260(capsAPoints, capsA->getRadius(), capsBPoints, capsB->getRadius(), input.getTolerance(), event.m_kPoint);
+    hkResult result = hkCollideCapsuleUtilClostestPointCapsVsCaps(capsAPoints, capsA->getRadius(), capsBPoints, capsB->getRadius(), input.getTolerance(), event.m_kPoint);
     if (result == HK_SUCCESS)
     {
         collector.AddCdPoint(event);

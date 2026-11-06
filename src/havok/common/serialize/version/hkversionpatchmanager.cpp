@@ -16,14 +16,15 @@ struct FUN_00d479e0_class
 };
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char* a, int b);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* a, int b);
 };
 struct FUN_00db7d00_class
 {
-    void* __thiscall FUN_00db7d00(unsigned int a);
+    void* __thiscall hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a);
 };
 // @fnv 0x00db7d00
-void* __thiscall FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
+// src: XBOX_PDB 0x00db7d00
+void* __thiscall FUN_00db7d00_class::hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a)
 {
     if (a)
     {
@@ -31,7 +32,7 @@ void* __thiscall FUN_00db7d00_class::FUN_00db7d00(unsigned int a)
         if (!p)
         {
             p = hkString_strDup_00cb1410(a);
-            ((FUN_00d874d0_s*)((char*)this + 0x1c))->FUN_00d874d0((const char*)p, (int)p);
+            ((FUN_00d874d0_s*)((char*)this + 0x1c))->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert((const char*)p, (int)p);
         }
         return p;
     }
@@ -49,16 +50,17 @@ struct DB7DD0Outer
     int unk04;
     DB7DD0Inner* m_inner;
 
-    void FUN_00db7dd0();
+    void hkVersionPatchManager_getUid();
 };
 
 // @fnv 0x00db7dd0
-void DB7DD0Outer::FUN_00db7dd0()
+// src: XBOX_PDB 0x00db7dd0
+void DB7DD0Outer::hkVersionPatchManager_getUid()
 {
     m_inner->FUN_00db7d60();
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct GraphEntry
 {
@@ -80,7 +82,7 @@ struct DepthLimit
     int m_iLimit;
 
     int FindSlot(void* apItem);
-    void FUN_00cb1870(void* apAllocator, void* apItem, int aiFlag);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* apAllocator, void* apItem, int aiFlag);
 };
 
 // @fnv 0x00db7e70
@@ -88,9 +90,9 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
 {
     if (apDepth->FindSlot(apItem) > apDepth->m_iLimit)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         void* pAllocator = pHolder->m_heap;
-        apDepth->FUN_00cb1870(pAllocator, apItem, 0);
+        apDepth->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(pAllocator, apItem, 0);
 
         int iIndex = apTable->LookupWithDefault(apItem);
         while (iIndex != -1)
@@ -107,7 +109,7 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
 }
 
 namespace fnv_00db8540 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct ByteTag
 {
@@ -175,11 +177,11 @@ struct FUN_00db8540
 // @fnv 0x00db8540
 FUN_00db8540::FUN_00db8540() : m_u06(1)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     m_kEntryPool.ResizeToFit(pAllocator, 0);
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     CreatedObject* pNew = (CreatedObject*)reinterpret_cast<hkMemoryAllocator*>(pAllocator2)->blockAlloc(sizeof(CreatedObject));
     if (pNew)
@@ -232,7 +234,7 @@ bool DBA230Array::ContainsKey(const unsigned __int64& aullKey)
 }
 
 namespace fnv_00dbe710 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void ResizeAudioStream(hkMemoryAllocator* alloc, void* arr, int elemSize);
 
 struct S_00dbe710_Elem
@@ -263,7 +265,7 @@ int S_00dbe710::AllocateSlot()
         return idx;
     }
     int n = m_iElementCount;
-    hkMemoryRouter* r = FUN_00c85750();
+    hkMemoryRouter* r = hkMemoryRouter_getInstance();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(r->m_heap), this, 8);
     m_iElementCount++;
@@ -492,13 +494,13 @@ FUN_00dc7fd0_cls* FUN_00dc7fd0_cls::Initialize()
 }
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* pkAllocator, void* pvMem) throw();
 
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 {
-        hkMemoryAllocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.bufFree(m_data, getCapacity() * sizeof(T));
@@ -544,7 +546,7 @@ FUN_00db7f50::~FUN_00db7f50() throw()
         do
         {
             void* pvValue = pkValues->getValue(it);
-            hkMemoryRouter_easyFree(&fnvc_adapt::FUN_00c85750().heap(), pvValue);
+            hkMemoryRouter_easyFree(&fnvc_adapt::hkMemoryRouter_getInstance().heap(), pvValue);
             it = pkValues->getNext(it);
             pkValues->isValid(&bValid, it);
         } while (bValid);
@@ -556,11 +558,11 @@ namespace fnv_00db83c0 {
 
 
 namespace fnvc_adapt {
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
+__declspec(nothrow) BSAudio* __cdecl hkMemoryRouter_getInstance();
 }
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)fnvc_adapt::FUN_00c85750();
+    return (hkMemoryRouter*)fnvc_adapt::hkMemoryRouter_getInstance();
 }
 
 __declspec(nothrow) void __cdecl ResizeAudioStream(void*, void*, int);
@@ -652,7 +654,7 @@ int __cdecl FUN_00db83c0(int node, hkIntArray* state, Graph* graph, int counter,
 
 namespace fnv_00db85e0 {
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 struct DB85E0Impl
@@ -661,7 +663,7 @@ struct DB85E0Impl
 
     static void operator delete(void* p, unsigned int nbytes)
     {
-        fnvc_adapt::FUN_00c85750().heap().blockFree(p, nbytes);
+        fnvc_adapt::hkMemoryRouter_getInstance().heap().blockFree(p, nbytes);
     }
 
     int unk00;
@@ -691,7 +693,7 @@ struct DB85E0Map : DB85E0MapBase
     void ClearAndRelease(hkMemoryAllocator& alloc);
     __forceinline ~DB85E0Map()
     {
-        ClearAndRelease(fnvc_adapt::FUN_00c85750().heap());
+        ClearAndRelease(fnvc_adapt::hkMemoryRouter_getInstance().heap());
     }
 };
 
@@ -727,7 +729,7 @@ FUN_00db85e0::~FUN_00db85e0() throw()
 
 namespace fnv_00dba1e0 {
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 class DBA1E0ReferencedObject
@@ -736,7 +738,7 @@ class DBA1E0ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         DBA1E0ReferencedObject* b =
-            static_cast<DBA1E0ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().blockAlloc(nbytes));
+            static_cast<DBA1E0ReferencedObject*>(fnvc_adapt::hkMemoryRouter_getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -789,7 +791,7 @@ struct VecP
 
     ~VecP() throw()
     {
-        hkMemoryAllocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.bufFree(m_pData, (m_iCapacity & 0x3fffffff) * 4);
@@ -811,7 +813,7 @@ struct VecPair
 
     ~VecPair() throw()
     {
-        hkMemoryAllocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.bufFree(m_pData, (m_iCapacity & 0x3fffffff) * 8);
@@ -844,7 +846,7 @@ struct Vec16
 
     ~Vec16() throw()
     {
-        hkMemoryAllocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.bufFree(m_pData, (m_iCapacity & 0x3fffffff) * 16);
@@ -875,7 +877,7 @@ struct ObjCB
     void ResizeToFit(hkMemoryAllocator* a, int b) throw();
     int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned __int64 key) throw();
     void InsertKeyValue(hkMemoryAllocator* a, unsigned __int64 key, __int64 value) throw();
-    void FUN_00cb1e40(hkMemoryAllocator* a) throw();
+    void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(hkMemoryAllocator* a) throw();
     void FUN_00a29680() throw();
 };
 struct StrX
@@ -890,10 +892,10 @@ struct HelperX
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00dc8030() throw();
+    void hkDataWorldDict_hkDataWorldDict() throw();
     void FUN_00dc8080() throw();
     void* hkDataWorldDict_findClass(int a) throw();
-    void FUN_00dc8270(void* a) throw();
+    void wrapClass(void* a) throw();
     void* CreateItem(void* a) throw();
     void hkDataWorldDict_findAllClasses(void* a) throw();
     void FUN_00dc73f0(StrX* a, int b, int c) throw();
@@ -901,8 +903,8 @@ struct HelperX
     void FUN_00dc7600(StrX* a, int b) throw();
     void AssignRefCountedSlot(StrX* a, StrX* b) throw();
     void ReleaseRef(StrX* a) throw();
-    void FUN_00dc7320(StrX* a, int b) throw();
-    void FUN_00dc72e0(StrX* a, int b) throw();
+    void hkDataWorldDict_renameClass(StrX* a, int b) throw();
+    void hkDataWorldDict_setClassVersion(StrX* a, int b) throw();
 };
 struct MgrA
 {
@@ -914,12 +916,12 @@ struct MgrA
     void FUN_00cb1600(void* a, int b) throw();
     void FUN_00cc00e0() throw();
     void FUN_00d87790(int a) throw();
-    void FUN_00d874d0(int a, void* b) throw();
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
     void FUN_00d87820(int a) throw();
-    int FUN_00d87410() throw();
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator() throw();
     void SetBoolFromThreshold(void* valid, int iterator) throw();
-    void* FUN_00d87440(int a) throw();
+    void* hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int a) throw();
     int FindNextUsedSlot(int a) throw();
     void FreeBuffer() throw();
 };
@@ -936,11 +938,11 @@ struct MgrB
     void FUN_00d87790(MapTag a) throw();
     void FUN_00d87820(int a) throw();
     void FreeBuffer() throw();
-    void FUN_00d874d0(int a, void* b) throw();
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
-    int FUN_00d87410() throw();
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator() throw();
     void SetBoolFromThreshold(void* valid, int iterator) throw();
-    void* FUN_00d87440(int a) throw();
+    void* hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int a) throw();
     int FindNextUsedSlot(int a) throw();
 };
 struct ErrorBuffer
@@ -995,7 +997,7 @@ struct ArgA
     virtual void v6() throw();
     virtual void v7() throw();
     virtual void FUN_v8(void* a) throw();
-    void FUN_00dc85a0(int name, HelperX* world) throw();
+    void copyClassFromWorld(int name, HelperX* world) throw();
 };
 __declspec(noinline) int __cdecl FUN_00db7cb0(int* v)
 {
@@ -1013,7 +1015,7 @@ __declspec(noinline) int __cdecl FUN_00db7cb0(int* v)
         return 0;
     return 1;
 }
-int __cdecl FUN_00db94b0(Vec16* out, int lo, int hi, void* a, void* b, ObjCB* c, ObjCB* d) throw();
+int __cdecl setAllDependeciesToDo(Vec16* out, int lo, int hi, void* a, void* b, ObjCB* c, ObjCB* d) throw();
 struct Owner8
 {
     unsigned __int64 FUN_00db7d60(int a, int b) throw();
@@ -1033,7 +1035,7 @@ struct ClassWorld : HelperX
 {
     ClassWorld() throw()
     {
-        FUN_00dc8030();
+        hkDataWorldDict_hkDataWorldDict();
     }
     ~ClassWorld() throw()
     {
@@ -1047,12 +1049,12 @@ struct PointerMap : ObjCB
         m_pData = 0;
         m_iArrayLength = 0;
         m_iCapacity = -1;
-        hkMemoryRouter* holder = (hkMemoryRouter*)&fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)&fnvc_adapt::hkMemoryRouter_getInstance();
         ResizeToFit((hkMemoryAllocator*)holder->m_heap, 0);
     }
     ~PointerMap() throw()
     {
-        FUN_00cb1e40((hkMemoryAllocator*)fnvc_adapt::FUN_00c85750().m_heap);
+        hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate((hkMemoryAllocator*)fnvc_adapt::hkMemoryRouter_getInstance().m_heap);
         FUN_00a29680();
     }
 };
@@ -1070,7 +1072,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     pairs.m_iArrayLength = 0;
     pairs.m_iCapacity = (int)0x80000000;
     int initialCount = pSource.m_iArrayLength;
-    hkMemoryRouter* initialHolder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
+    hkMemoryRouter* initialHolder = ((hkMemoryRouter*)&fnvc_adapt::hkMemoryRouter_getInstance());
     if ((pairs.m_iCapacity & 0x3fffffff) < initialCount)
         hkArrayUtil__reserve(((hkMemoryAllocator*)initialHolder->m_heap), &pairs, initialCount, 8);
     int i;
@@ -1104,7 +1106,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         int idx = oPending.hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(id);
         if (idx <= oPending.m_iCapacity)
             return 1;
-        hkMemoryRouter* mapHolder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
+        hkMemoryRouter* mapHolder = ((hkMemoryRouter*)&fnvc_adapt::hkMemoryRouter_getInstance());
         oPending.InsertKeyValue((hkMemoryAllocator*)mapHolder->m_heap, id, (__int64)p);
     }
     apOutput->m_iArrayLength = 0;
@@ -1117,7 +1119,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             int s;
             for (s = 0; s < pairs.m_iArrayLength; s++)
             {
-                FUN_00db94b0(&work, pairs.m_pData[s * 2], pairs.m_pData[s * 2 + 1], apSource, this, &oPending, &oDone);
+                setAllDependeciesToDo(&work, pairs.m_pData[s * 2], pairs.m_pData[s * 2 + 1], apSource, this, &oPending, &oDone);
             }
         }
         while (work.m_iArrayLength != 0)
@@ -1142,25 +1144,25 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             }
             if (iIndex != -1 && m_0c[iIndex]->m_08 == -1)
             {
-                hkMemoryRouter* holder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
+                hkMemoryRouter* holder = ((hkMemoryRouter*)&fnvc_adapt::hkMemoryRouter_getInstance());
                 oDone.InsertKeyValue((hkMemoryAllocator*)holder->m_heap, uiKey, 1);
             }
             else
             {
-                hkMemoryRouter* holder = ((hkMemoryRouter*)&fnvc_adapt::FUN_00c85750());
+                hkMemoryRouter* holder = ((hkMemoryRouter*)&fnvc_adapt::hkMemoryRouter_getInstance());
                 oDone.InsertKeyValue((hkMemoryAllocator*)holder->m_heap, uiKey, 2);
             }
             if (iIndex >= 0)
             {
                 Elem* pElem = m_0c[iIndex];
-                hkMemoryAllocator& oAppendAlloc = fnvc_adapt::FUN_00c85750().heap();
+                hkMemoryAllocator& oAppendAlloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
                 if (apOutput->m_iArrayLength == (apOutput->m_iCapacity & 0x3fffffff))
                     ResizeAudioStream((hkMemoryAllocator*)&oAppendAlloc, apOutput, 4);
                 constructArray(apOutput->m_pData + apOutput->m_iArrayLength, 1, (void*)pElem);
                 apOutput->m_iArrayLength++;
                 {
                     Elem* pe = m_0c[iIndex];
-                    FUN_00db94b0(&work, pe->m_04 ? pe->m_04 : pe->m_00, pe->m_0c, apSource, this, &oPending, &oDone);
+                    setAllDependeciesToDo(&work, pe->m_04 ? pe->m_04 : pe->m_00, pe->m_0c, apSource, this, &oPending, &oDone);
                 }
             }
             else
@@ -1197,7 +1199,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                     }
                     int hv = pVerObj->FUN_00d46d40();
                     if (!world.hkDataWorldDict_findClass(hv))
-                        world.FUN_00dc8270(pVerObj);
+                        world.wrapClass(pVerObj);
                 }
             }
         }
@@ -1283,8 +1285,8 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 else
                 {
                     if (key != saved)
-                        world.FUN_00dc7320(&oStr, saved);
-                    world.FUN_00dc72e0(&oStr, ce->m_08);
+                        world.hkDataWorldDict_renameClass(&oStr, saved);
+                    world.hkDataWorldDict_setClassVersion(&oStr, ce->m_08);
                 }
                 oStr.FUN_00dba660();
             }
@@ -1305,7 +1307,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         {
             VObj* e = (VObj*)drain.m_pData[i5];
             int r = e->FUN_v2();
-            mga.FUN_00d874d0(r, e);
+            mga.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(r, e);
         }
         int j5;
         for (j5 = 0; j5 < pSource.m_iArrayLength; j5++)
@@ -1318,13 +1320,13 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 mga.FUN_00d87820(r2);
             }
         }
-        int si = mga.FUN_00d87410();
+        int si = mga.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
         char bFlag;
         mga.SetBoolFromThreshold(&bFlag, si);
         while (bFlag)
         {
-            VObj* cls = (VObj*)mga.FUN_00d87440(si);
-            apSource->FUN_00dc85a0(cls->FUN_v2(), &world);
+            VObj* cls = (VObj*)mga.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(si);
+            apSource->copyClassFromWorld(cls->FUN_v2(), &world);
             si = mga.FindNextUsedSlot(si);
             mga.SetBoolFromThreshold(&bFlag, si);
         }
@@ -1379,7 +1381,8 @@ struct PatchWorld
     virtual void v20();
     virtual int GetClassFromName(int name);
 };
-static __declspec(noinline) int FUN_00db8000(PatchArray* patches, PatchWorld* world)
+// src: XBOX_PDB 0x00db8000
+static __declspec(noinline) int applyPatchesFinally(PatchArray* patches, PatchWorld* world)
 {
     if (!world)
         return 1;
@@ -1398,14 +1401,15 @@ struct PatchManager
     int unk18;
     int unk1C;
 
-    int FUN_00db8670();
+    int hkVersionPatchManager_recomputePatchDependencies();
     int ProcessVersionPatches(int a, int b, PatchArray* c);
-    int FUN_00dba0d0(int param2, int param3);
+    int hkVersionPatchManager_applyPatches(int param2, int param3);
 };
 
 // Applies a patch to a world object, resolving the allocator, running patch operations, and releasing the allocated patch data.
 // @fnv 0x00dba0d0
-int __thiscall PatchManager::FUN_00dba0d0(int apWorld, int param3)
+// src: XBOX_PDB 0x00dba0d0
+int __thiscall PatchManager::hkVersionPatchManager_applyPatches(int apWorld, int param3)
 {
     if (param3 == 0)
     {
@@ -1416,7 +1420,7 @@ int __thiscall PatchManager::FUN_00dba0d0(int apWorld, int param3)
 
     if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0)
     {
-        if (FUN_00db8670() == 1)
+        if (hkVersionPatchManager_recomputePatchDependencies() == 1)
         {
             return 1;
         }
@@ -1430,12 +1434,12 @@ int __thiscall PatchManager::FUN_00dba0d0(int apWorld, int param3)
     int found = ProcessVersionPatches(apWorld, param3, &patchResult);
     if (found == 0)
     {
-        found = FUN_00db8000(&patchResult, reinterpret_cast<PatchWorld*>(apWorld));
+        found = applyPatchesFinally(&patchResult, reinterpret_cast<PatchWorld*>(apWorld));
     }
 
     reinterpret_cast<FUN_00c905b0_Object*>(param3)->FUN_00c905b0();
 
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* audio = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
 
     patchResult.unk04 = 0;
@@ -1458,13 +1462,14 @@ struct DBA1A0Class
     int unk18;
     int unk1C;
 
-    int FUN_00db8670();
+    int hkVersionPatchManager_recomputePatchDependencies();
     int __thiscall FUN_00dba1a0(int a1);
 };
 
 extern "C" int fnv_unknown_clobber(int a) throw();
 
-static __declspec(noinline) int FUN_00db8000(int* pArr, int iKey)
+// src: XBOX_PDB 0x00db8000
+static __declspec(noinline) int applyPatchesFinally(int* pArr, int iKey)
 {
     if (iKey == -1)
         return -1;
@@ -1476,9 +1481,9 @@ static __declspec(noinline) int FUN_00db8000(int* pArr, int iKey)
 // @fnv 0x00dba1a0
 int __thiscall DBA1A0Class::FUN_00dba1a0(int aiKey)
 {
-    if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0 && FUN_00db8670() == 1)
+    if ((unk1C & 0x7FFFFFFF) == 0 && unk10 != 0 && hkVersionPatchManager_recomputePatchDependencies() == 1)
         return 1;
-    return FUN_00db8000((int*)((char*)this + 0xC), aiKey);
+    return applyPatchesFinally((int*)((char*)this + 0xC), aiKey);
 }
 
 // @fnv 0x00db7d40
@@ -1507,7 +1512,7 @@ struct SortedEntry
     int m_iFourthElementInteger;
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* allocator, void* list, unsigned int elemSize);
 
 struct FUN_00dba4d0_cls
@@ -1517,24 +1522,25 @@ struct FUN_00dba4d0_cls
     unsigned int m_uCapBits;
 
     void FUN_00dba340(void* allocator, int index, const SortedEntry* value);
-    void FUN_00dba4d0(const SortedEntry* apValue);
+    void HeapArray_UidItem_insert(const SortedEntry* apValue);
 };
 
 // @fnv 0x00dba4d0
-void FUN_00dba4d0_cls::FUN_00dba4d0(const SortedEntry* apValue)
+// src: XBOX_PDB 0x00dba4d0
+void FUN_00dba4d0_cls::HeapArray_UidItem_insert(const SortedEntry* apValue)
 {
     for (int i = 0; i < m_iArrayLength; ++i)
     {
         SortedEntry cur = m_pData[i];
         if (apValue->m_key < cur.m_key)
         {
-            hkMemoryRouter* pHolder = FUN_00c85750();
+            hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
             FUN_00dba340(pHolder->m_heap, i, apValue);
             return;
         }
     }
 
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     if (m_iArrayLength == (int)(m_uCapBits & 0x3fffffffu))
     {
         ResizeAudioStream(pHolder->m_heap, this, sizeof(SortedEntry));
@@ -1553,7 +1559,7 @@ void FUN_00dba4d0_cls::FUN_00dba4d0(const SortedEntry* apValue)
 }  // namespace fnv_00dba4d0
 
 namespace fnv_00dba580 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -1568,7 +1574,7 @@ CpuObject* CpuObject::FUN_00dba580(unsigned int flags)
     FUN_00db85e0();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockFree(this, size);
     }
     return this;
@@ -1613,7 +1619,7 @@ void FUN_00db7ef0_cls::FUN_00db7ef0(unsigned int auiValue)
     }
 
     FUN_00db7ef0_list* pList = &m_kNode;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     unsigned int uCap = pList->m_capFlags & 0x3fffffffu;
     if (pList->m_uiItemCount == (int)uCap)
     {
@@ -1679,21 +1685,22 @@ struct S00db94b0_Owner_s
     int unk14;
     S00db94b0_Sub_s sub;
 
-    unsigned __int64 FUN_00db7dd0(int a, int b);
+    unsigned __int64 hkVersionPatchManager_getUid(int a, int b);
 };
 
 struct S00db94b0_Array_s : DBA230Array
 {
     bool ContainsKey(const unsigned __int64& key);
-    void FUN_00dba4d0(const unsigned __int64& key);
+    void HeapArray_UidItem_insert(const unsigned __int64& key);
 };
 
 // Builds a key, calls two array methods when t is not 2, and recurses for entries whose type is 6.
 // @fnv 0x00db94b0
-extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, int a2, int a3, S00db94b0_Node_s* apNode,
+// src: XBOX_PDB 0x00db94b0
+extern "C" void __cdecl setAllDependeciesToDo(S00db94b0_Array_s* apArray, int a2, int a3, S00db94b0_Node_s* apNode,
                                      S00db94b0_Owner_s* apOwner, S00db94b0_Sub_s* apSubA, S00db94b0_Sub_s* apSubB)
 {
-    unsigned __int64 key = apOwner->FUN_00db7dd0(a2, a3);
+    unsigned __int64 key = apOwner->hkVersionPatchManager_getUid(a2, a3);
 
     S00db94b0_Node_s* node = apNode->v9(a2);
     int idx = -1;
@@ -1715,7 +1722,7 @@ extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, int a2, int a3,
     {
         if (!apArray->ContainsKey(s.m_key))
         {
-            apArray->FUN_00dba4d0(s.m_key);
+            apArray->HeapArray_UidItem_insert(s.m_key);
         }
     }
 
@@ -1731,14 +1738,14 @@ extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, int a2, int a3,
         if (e->type == 6)
         {
             S00db94b0_Ref_s* ref = e->ref;
-            FUN_00db94b0(apArray, ref->unk00, ref->unk04, apNode, apOwner, apSubA, apSubB);
+            setAllDependeciesToDo(apArray, ref->unk00, ref->unk04, apNode, apOwner, apSubA, apSubB);
         }
     }
 }
 
 struct DB7D00_Shell
 {
-    void* __thiscall FUN_00db7d00(unsigned int a);
+    void* __thiscall hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a);
 };
 
 struct VersionUidCache
@@ -1764,13 +1771,13 @@ extern "C" void __cdecl ResizeAudioStream(void* alloc, void* vec, unsigned int n
 // @fnv 0x00db7d60
 unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
 {
-    unsigned int item = reinterpret_cast<unsigned int>(reinterpret_cast<DB7D00_Shell*>(this)->FUN_00db7d00(a1));
+    unsigned int item = reinterpret_cast<unsigned int>(reinterpret_cast<DB7D00_Shell*>(this)->hkVersionPatchManager_UidFromClassVersion_cache(a1));
     unsigned int uiSize = m_vec.m_uiItemCount;
     unsigned int r = GetOrSetInt(item, uiSize);
     if (r == m_vec.m_uiItemCount)
     {
         ItemVec* v = &m_vec;
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         if (v->m_uiItemCount == (v->m_cap & 0x3fffffffu))
         {
             ResizeAudioStream(holder->m_heap, v, 4);

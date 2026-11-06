@@ -72,7 +72,7 @@ public:
     hkUint32 GetUid() const;
     const ResizableArray<ConstraintRuntimeInfo>& getConstraintMastersImpl() const;
     hkpSimulationIsland* GetSimulationIsland() const;
-    void __thiscall FUN_00ca0c40(const SpringVector* point, SpringVector* velocity);
+    void __thiscall hkpRigidBody_getPointVelocity(const SpringVector* point, SpringVector* velocity);
     unsigned char* __thiscall isActive_00c9bff0(unsigned char* out);
     void __thiscall activate_00c9c1d0();
     void removeEntityListener_00c9c670(void* arg1);

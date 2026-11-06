@@ -37,19 +37,19 @@ struct FUN_005631e0_shell
     int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
-float __cdecl FUN_004a3e90(float);
+float __cdecl NI2HK_004a3e90(float);
 struct FUN_0062e710_shell
 {
     void __thiscall SetValueAt(float f, int a, int b);
 };
 struct FUN_006310c0_shell
 {
-    void __thiscall FUN_006310c0();
+    void __thiscall hkpRigidBody_getCenterOfMassInWorld();
 };
 struct FUN_00c9a460_shell
 {
     void __thiscall AddObject(int a);
-    void __thiscall FUN_00c9a600(int a);
+    void __thiscall bhkEntityListener_entityAddedCallback(int a);
 };
 
 #include <xmmintrin.h>
@@ -67,9 +67,9 @@ class NiPoint3E
     float x, y, z;
 };
 
-void __cdecl FUN_004a3e00(hkVector4* pkOut, const NiPoint3E* pkIn);
-float __cdecl FUN_004a3e90(float fValue);
-float __cdecl FUN_004587d0(float fValue);
+void __cdecl NI2HK(hkVector4* pkOut, const NiPoint3E* pkIn);
+float __cdecl NI2HK_004a3e90(float fValue);
+float __cdecl HK2NI(float fValue);
 
 class SettingE
 {
@@ -116,9 +116,9 @@ class InterfaceE
 };
 extern InterfaceE* g_pkInterfaceE;
 
-bool __cdecl FUN_008c7aa0();
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 AudioE* __cdecl FUN_004537b0();
-ImpactObjE* __cdecl FUN_0062b4e0(void* pvObj);
+ImpactObjE* __cdecl TESHavokUtilities_FindCollidableRef(void* pvObj);
 
 class BodyE;
 class RefE
@@ -213,7 +213,7 @@ class SpawnCellE : public CellBaseE, public CellLinkE
     SpawnListE* GetFirstList();
 };
 
-BodyE* __cdecl FUN_004b59f0(void* pvForm);
+BodyE* __cdecl hkpGetRigidBody(void* pvForm);
 
 class ProcessE
 {
@@ -360,7 +360,7 @@ class CameraE
   public:
     const NiPoint3E* GetPosition();
 };
-CameraE* __cdecl FUN_00524c90();
+CameraE* __cdecl Main_WorldRootCamera();
 void __cdecl TESWaterSystem_SetCurrentWaterType(void* pvWater);
 
 class SpawnManagerE
@@ -393,10 +393,10 @@ void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
         m_fTimer -= fTimeDelta;
         float fRadius = g_kSpawnRadiusE.GetValue();
         fRadius = fRadius * fRadius;
-        fRadius = FUN_004a3e90(fRadius);
-        float m_fGlyphExtent = FUN_004a3e90(g_kSpawnHeightE.GetValue());
+        fRadius = NI2HK_004a3e90(fRadius);
+        float m_fGlyphExtent = NI2HK_004a3e90(g_kSpawnHeightE.GetValue());
         hkVector4 kPlayerPos;
-        FUN_004a3e00(&kPlayerPos, g_pkPlayerE->GetPosition());
+        NI2HK(&kPlayerPos, g_pkPlayerE->GetPosition());
         hkVector4 kUnused;
         ListNodeE* pkNode = &m_kActive;
         float fFoundHeight = 0.0f;
@@ -411,15 +411,15 @@ void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
                 iResult = Update(pkBody, fFoundHeight, fTimeDelta, 0);
             if (iResult)
             {
-                ImpactObjE* pkObj = FUN_0062b4e0(pkRef->GetObject());
+                ImpactObjE* pkObj = TESHavokUtilities_FindCollidableRef(pkRef->GetObject());
                 if (pkObj)
                 {
-                    fFoundHeight = FUN_004587d0(fFoundHeight);
+                    fFoundHeight = HK2NI(fFoundHeight);
                     if (iResult == 1)
                     {
                         if (!pkObj->IsPlaying())
                         {
-                            if (FUN_008c7aa0() && FUN_004537b0())
+                            if (AILinearTaskThreadManager_ShouldQueue3DTask() && FUN_004537b0())
                                 FUN_004537b0()->PlayIn(0, pkObj, fFoundHeight);
                             else
                                 g_pkInterfaceE->GetAudio()->ProcessActorWithFlag(0, pkObj, fFoundHeight);
@@ -431,7 +431,7 @@ void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
                         pkObj->SetPlaying(false);
                         if (!pkObj->IsPlaying())
                         {
-                            if (FUN_008c7aa0() && FUN_004537b0())
+                            if (AILinearTaskThreadManager_ShouldQueue3DTask() && FUN_004537b0())
                                 FUN_004537b0()->PlayOut(0, pkObj, fFoundHeight);
                             else
                                 g_pkInterfaceE->GetAudio()->SetPlaybackTime(0, pkObj, fFoundHeight);
@@ -452,7 +452,7 @@ void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
                 for (unsigned int i = 0; i < pkList->m_kForms.GetCount(); i++)
                 {
                     void* pvForm = *pkList->m_kForms.GetAt(i);
-                    BodyE* pkBody = FUN_004b59f0(pvForm);
+                    BodyE* pkBody = hkpGetRigidBody(pvForm);
                     int iResult = 0;
                     if (!g_kSpawnLockE.IsBlocked(pkBody, &bSkip) &&
                         TESWaterListener_ShouldProcessRigidBody(pkBody, kPlayerPos, fRadius, pkCell, &fFoundHeight))
@@ -469,9 +469,9 @@ void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
         }
         Finish(0, 1, 0);
     }
-    if (FUN_00524c90() && g_pkPlayerE->GetProcess())
+    if (Main_WorldRootCamera() && g_pkPlayerE->GetProcess())
     {
-        if (FUN_00524c90()->GetPosition()->z < g_pkPlayerE->GetProcess()->UpdateTESState())
+        if (Main_WorldRootCamera()->GetPosition()->z < g_pkPlayerE->GetProcess()->UpdateTESState())
             TESWaterSystem_SetCurrentWaterType(g_pkPlayerE->GetProcess()->GetWaterForm());
     }
 }
@@ -527,7 +527,7 @@ extern GameSettingW g_kFloorOffsetW;
 
 void* __cdecl bhkEntity_Getbhk(const void* pvRef);
 NiPoint3W* __cdecl FUN_00458620(NiPoint3W* pkOut, const hkVector4* pkIn);
-float __cdecl FUN_004a3e90(float fHavok);
+float __cdecl NI2HK_004a3e90(float fHavok);
 int __cdecl FloatToInt(float fValue);
 
 class HeightGridW
@@ -580,7 +580,7 @@ bool HeightGridW::TESWaterListener_ShouldProcessRigidBody(TESObjectREFRW* pkRef,
 
         if (pkSource)
         {
-            *pfHeight = FUN_004a3e90(pkSource->m_fOriginZ);
+            *pfHeight = NI2HK_004a3e90(pkSource->m_fOriginZ);
         }
         else if (m_uiCells > 1)
         {
@@ -597,7 +597,7 @@ bool HeightGridW::TESWaterListener_ShouldProcessRigidBody(TESObjectREFRW* pkRef,
             *pfHeight = GetHeight(0, 0);
         }
 
-        float fProjectionAlongAim = FUN_004a3e90(g_kFloorOffsetW.GetValue());
+        float fProjectionAlongAim = NI2HK_004a3e90(g_kFloorOffsetW.GetValue());
         if (*pfHeight + fProjectionAlongAim < kPos.getComponent(2).getReal())
             return pkCharacter->IsNonZero(0x88);
         return true;

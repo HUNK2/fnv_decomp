@@ -146,11 +146,12 @@ struct FUN_00bc1b90_shell
 {
     char pad[0x178];
     int m_178;
-    bool __thiscall FUN_00bc1b90(int value);
+    bool __thiscall BoltShaderProperty_SetupGeometry(int value);
 };
 
 // @fnv 0x00bc1b90
-bool __thiscall FUN_00bc1b90_shell::FUN_00bc1b90(int value)
+// src: XBOX_PDB 0x00bc1b90
+bool __thiscall FUN_00bc1b90_shell::BoltShaderProperty_SetupGeometry(int value)
 {
     m_178 = value;
     return 1;
@@ -476,7 +477,7 @@ struct Obj_bc18d0
     Prop_bc18d0* GetProperty(int iType);
 };
 
-Obj_bc18d0* __cdecl FUN_00bc15a0();
+Obj_bc18d0* __cdecl BoltShader_GetBoltGeometry();
 void __cdecl FUN_00b57e30(Obj_bc18d0* pkObj, int a2, int a3);
 
 // Clones a node from FUN_00bc15a0, attaches it to pkNode, gets property type 3, and if its m_iType1c is 0xf increments DAT_01201f54 and calls v39 on it.
@@ -486,7 +487,7 @@ Prop_bc18d0* __cdecl BoltShader_Start(Obj_bc18d0* pkNode)
 {
     if (pkNode)
     {
-        Obj_bc18d0* pkClone = FUN_00bc15a0()->Clone();
+        Obj_bc18d0* pkClone = BoltShader_GetBoltGeometry()->Clone();
         pkNode->AttachChild55(pkClone, true);
         FUN_00b57e30(pkClone, 0, 0);
         Prop_bc18d0* pkProp = pkClone->GetProperty(3);
@@ -496,7 +497,7 @@ Prop_bc18d0* __cdecl BoltShader_Start(Obj_bc18d0* pkNode)
         Prop_bc18d0* pkShaderProp = bIsShaderType ? pkProp : 0;
         if (pkShaderProp)
         {
-            FUN_00bc15a0();
+            BoltShader_GetBoltGeometry();
             ++DAT_01201f54;
             pkShaderProp->v39(pkClone);
             return pkShaderProp;
@@ -907,7 +908,8 @@ inline unsigned int GetSegmentCount()
 
 // Returns the cached object or creates one from repeated quad vertex and index data and stores it in the cache.
 // @fnv 0x00bc15a0
-Obj_bc18d0* FUN_00bc15a0()
+// src: XBOX_PDB 0x00bc15a0
+Obj_bc18d0* BoltShader_GetBoltGeometry()
 {
     if (CachedShape())
         return (Obj_bc18d0*)(FUN_00a74480*)CachedShape();

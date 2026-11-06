@@ -82,7 +82,8 @@ void bhkWorld_DoObjectRec(NiAVObject* pkObject, CollisionObjectCountContext* pkC
 extern CollisionObjectCountCallback DAT_011afe9c;
 
 // @fnv 0x00c6a350
-bool FUN_00c6a350(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, bool bOption)
+// src: XBOX_PDB 0x00c6a350
+bool bhkWorld_SetMotion(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, bool bOption)
 {
     bool bResult = false;
     if (pkObject && (bForce || C6A350IsEnabled(pkObject)))

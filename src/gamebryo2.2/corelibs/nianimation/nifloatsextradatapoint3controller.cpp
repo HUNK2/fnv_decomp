@@ -67,7 +67,7 @@ struct Vec12 {
     float x, y, z;
 };
 struct Holder00 {
-    void FUN_00a494b0(Vec12);
+    void SetPoseValue(Vec12);
 };
 
 // @fnv 0x00a4ed50
@@ -86,13 +86,13 @@ void __fastcall SetInterpolatorPoint3(NiFloatsExtraDataPoint3Controller* self, i
     kPt.x = pkFloatsED->GetValueAt(self->m_iFloatsExtraDataIndex);
     kPt.y = pkFloatsED->GetValueAt(self->m_iFloatsExtraDataIndex + 1);
     kPt.z = pkFloatsED->GetValueAt(self->m_iFloatsExtraDataIndex + 2);
-    ((Holder00*)pkFloatInterp)->FUN_00a494b0(kPt);
+    ((Holder00*)pkFloatInterp)->SetPoseValue(kPt);
 }
 
 void __stdcall AddExtraDataViewerStrings(StrArr* strings);
 extern void* g_011f3fc4;
 char* __cdecl _FUN_00a7d330(void* value);
-char* __cdecl FUN_00a7d4d0(char const* name, int value);
+char* __cdecl NiGetViewerString_00a7d4d0(char const* name, int value);
 
 // @fnv 0x00a4eed0
 void __fastcall GetPoint3ControllerViewerStrings(NiFloatsExtraDataPoint3Controller* self, int, StrArr* strings)
@@ -109,7 +109,7 @@ void __fastcall GetPoint3ControllerViewerStrings(NiFloatsExtraDataPoint3Controll
     }
 
     {
-        char* value = FUN_00a7d4d0("m_iFloatsExtraDataIndex",
+        char* value = NiGetViewerString_00a7d4d0("m_iFloatsExtraDataIndex",
                                     self->m_iFloatsExtraDataIndex);
         unsigned int index = strings->m_usSize;
         unsigned int capacity = strings->m_usMaxSize;
@@ -194,7 +194,7 @@ void __fastcall UpdateController(NiFloatsExtraDataPoint3Controller* self, int, c
 {
     if (GetManagerControlledFlag(self))
         self->m_fControllerTime = DAT_01096324;
-    else if (self->FUN_00a36250(fTime)
+    else if (self->DontDoUpdate(fTime)
         && (!self->m_spControllerInterpolator.m_pObject ||
             !((Interp4edd*)self->m_spControllerInterpolator.m_pObject)->AlwaysUpdate()))
         return;

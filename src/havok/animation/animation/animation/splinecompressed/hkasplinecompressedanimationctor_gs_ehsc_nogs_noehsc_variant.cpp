@@ -419,7 +419,7 @@ struct Se31d50_Anim
     void FUN_00e319e0(unsigned char mask, Se31d50_RotQ q, const hkVector4& s, int n, const Se31d50_VecArr& p);
     void WriteCompressedAnimation(unsigned char mask, Se31d50_ScalQ q, const hkVector4& s,
                                   const hkVector4& mn, const hkVector4& mx, int n, const Se31d50_VecArr& p);
-    void FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
+    void hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
                       const Se31d50_AnimParams& animationParams);
     static hkVector4 FUN_00e31410(const Se31d50_VecArr& d);
     static hkVector4 FUN_00e31470(const Se31d50_VecArr& d);
@@ -535,7 +535,8 @@ __forceinline int Se31d50_min2(int x, int y)
 }
 
 // @fnv 0x00e31d50
-void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
+// src: XBOX_PDB 0x00e31d50
+void Se31d50_Anim::hkaSplineCompressedAnimation_initialize(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
                                 const Se31d50_AnimParams& animationParams)
 {
     m_iEndian = 0;

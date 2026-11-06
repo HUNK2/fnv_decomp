@@ -129,7 +129,8 @@ void ImageSpaceManager::SetDepthOfFieldParameters(float strength, unsigned int m
 extern ImageSpaceManager* DAT_011f91ac;
 #pragma optimize("", off)
 // @fnv 0x004e3270
-ImageSpaceManager* ImageSpaceManager::FUN_004e3270()
+// src: XBOX_PDB 0x004e3270
+ImageSpaceManager* ImageSpaceManager::BSShaderManager_GetImageSpaceManager()
 {
     return DAT_011f91ac;
 }
@@ -144,7 +145,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->GetData()->FUN_00a87ae0(4, 0, 0);
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->GetData()->SetRectangleBounds(0, DAT_01012054, 1.0f, DAT_010162c0, DAT_0104a494);
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->GetData()->FUN_00a88130(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-    (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->GetData()->FUN_00a87900();
+    (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->GetData()->NiScreenElementsData_UpdateBound();
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->NiAVObject::SetName(::NiFixedString("Imagespace Effect Geometry"));
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spScreenTriShape))->UpdateSceneObject();
     NiUpdateData update;
@@ -1959,7 +1960,8 @@ void __cdecl ImageSpaceEffectRadialBlur_GetBoundParams(int a1, int* a2, float* a
 // Projects the bound and applies its projected radius to the radial-blur start and down-start.
 // The original reuses the bound argument slot for the radius output.
 // @fnv 0x00b8b760
-void ImageSpaceManager::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, const NiBound& bound)
+// src: XBOX_PDB 0x00b8b760
+void ImageSpaceManager::ApplyRadialBlurParamModifier(float a1, float a2, float a3, float a4, float a5, const NiBound& bound)
 {
     int local[2];
     ImageSpaceEffectRadialBlur_GetBoundParams(reinterpret_cast<int>(&bound), local, &a5 + 1);
@@ -2373,7 +2375,7 @@ void ImageSpaceManager::SetMenuBackgroundBlend(float afWidth, float afHeight,
     float height = afHeight * -2.0;
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->GetData()->FUN_00a87ae0(4, 0, 0);
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->GetData()->SetRectangleBounds(0, DAT_01012054, 1.0f, width, height);
-    (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->GetData()->FUN_00a87900();
+    (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->GetData()->NiScreenElementsData_UpdateBound();
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->GetData()->FUN_00a88130(0, 0, 0.0f, 0.0f, afWidth, afHeight);
     (*reinterpret_cast<NiPointer<NiScreenElements>*>(spPartialScreenTriShape))->UpdateSceneObject();
     NiUpdateData updateData(0.0f);

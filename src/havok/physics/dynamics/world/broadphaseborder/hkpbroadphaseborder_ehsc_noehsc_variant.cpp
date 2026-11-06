@@ -27,7 +27,7 @@ struct D0B6A0MemoryRouter
         return *m_pStreamAllocator;
     }
 };
-extern "C" D0B6A0MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D0B6A0MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 struct D0B6A0Allocator
 {
     virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
@@ -39,7 +39,7 @@ struct D0B6A0Allocator
 
 inline void* __cdecl hkReferencedObject::operator new(std::size_t nbytes)
 {
-    hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+    hkReferencedObject* b = static_cast<hkReferencedObject*>(hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
     b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
     return b;
 }

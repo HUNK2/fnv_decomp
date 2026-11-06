@@ -150,7 +150,7 @@ FUN_00d2b260::FUN_00d2b260(hkpEntity* apEntity, unsigned int auiUserData)
         apEntity->RetainReference();
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
@@ -163,7 +163,7 @@ template <class T> __forceinline void constructWithCopyXd2b2f0(T* p, int n, cons
 template <class T>
 static __forceinline void hkArrayXd2b2f0_AddBack(hkArrayBase<T>& self, const T& t)
 {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (self.m_iElementCount == self.getCapacity())
             ResizeAudioStream(router.m_heap, (&self), sizeof(T));
         constructWithCopyXd2b2f0(self.m_data + self.m_iElementCount, 1, t);

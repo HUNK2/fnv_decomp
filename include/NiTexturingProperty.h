@@ -69,7 +69,7 @@ class NiTexturingProperty : public NiProperty
     static void InitializePoint3();
 
     unsigned int FUN_00a46410();
-    void FUN_005b8fc0(void*);
+    void SetBaseTexture(void*);
     void FUN_004f3200(int);
     void NiStencilProperty_SetStencilFailAction(int);
     void SetBaseMap(Map*);

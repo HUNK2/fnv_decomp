@@ -42,7 +42,7 @@ class FUN_005a71d0
   public:
     unsigned int parent;
     unsigned int previous;
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl _alloca(unsigned int);

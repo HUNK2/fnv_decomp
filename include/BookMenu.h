@@ -52,10 +52,10 @@ public:
     int GetClass_0073acf0();
     void* FUN_0073ad00(unsigned int flags);
     void FUN_0073ad30();
-    bool FUN_0073af60();
-    void FUN_0073afd0(int aiID, Tile* apTarget);
-    void FUN_0073b050(int aiID, Tile* apTarget);
+    bool IsWellFormedMenu();
+    void DoDownClick(int aiID, Tile* apTarget);
+    void DoStillDown(int aiID, Tile* apTarget);
     void FUN_00a1c520();
-    int FUN_007ca030();
-    bool FUN_007c9dc0(bool);
+    int GetCurrentStatesActorValue();
+    bool TurnPage(bool);
 };

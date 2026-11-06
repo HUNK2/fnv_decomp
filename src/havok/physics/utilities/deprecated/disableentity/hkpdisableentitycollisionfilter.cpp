@@ -77,7 +77,7 @@ void __stdcall FUN_00e467a0(char* flag, int a1, int a2, int a3, int a4, int a5, 
     *flag = 1;
 }
 
-void* __cdecl FUN_00c85750(void);
+void* __cdecl hkMemoryRouter_getInstance(void);
 
 struct FUN_00dff930_Alloc
 {
@@ -101,7 +101,7 @@ void* hkpDisableEntityCollisionFilter::DeleteInstance(unsigned char uiFlags)
     this->hkpDisableEntityCollisionFilter::~hkpDisableEntityCollisionFilter();
     if (uiFlags & 1)
     {
-        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(FUN_00c85750());
+        FUN_00dff930_Mgr* mgr = reinterpret_cast<FUN_00dff930_Mgr*>(hkMemoryRouter_getInstance());
         mgr->m_10->slot08(this, m_usMemSizeAndFlags);
     }
     return this;

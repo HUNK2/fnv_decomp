@@ -76,7 +76,8 @@ int __stdcall ThisCall_Ret0_2Args(int arg0, int arg1)
 }
 
 // @fnv 0x00a8f420
-bool __stdcall FUN_00a8f420(int a, int b, int c, int d, int e, int f)
+// src: XBOX_PDB 0x00a8f420
+bool __stdcall NiShader_SetAlphaOverride(int a, int b, int c, int d, int e, int f)
 {
     return false;
 }
@@ -89,7 +90,8 @@ char __stdcall NiD3DShaderProgram_SetShaderConstantArray(int a, int b, int c, in
 }
 
 // @fnv 0x00c9a420
-bool __stdcall FUN_00c9a420(void* unk00)
+// src: XBOX_PDB 0x00c9a420
+bool __stdcall BSShaderTextureSet_IsEqual(void* unk00)
 {
     return false;
 }

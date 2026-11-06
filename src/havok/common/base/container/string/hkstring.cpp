@@ -22,14 +22,14 @@ void __cdecl CallWithZeroMiddleArg(int aiFirst, int aiThird)
     FUN_00ec8d33(aiFirst, 0, aiThird);
 }
 
-extern "C" BSAudio* __cdecl FUN_00c85750();
+extern "C" BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl CallSwappedArgs(BSAudio*, int);
 
 // @fnv 0x00cb13c0
 // src: HAVOK_LIB 0x00cb13c0
 void __cdecl hkString_strFree(int aiAudio)
 {
-    CallSwappedArgs((BSAudio*)aiAudio, (int)FUN_00c85750()->pListener);
+    CallSwappedArgs((BSAudio*)aiAudio, (int)hkMemoryRouter_getInstance()->pListener);
 }
 
 double __cdecl FUN_00ecdf2d(unsigned int value, int mode);
@@ -92,7 +92,7 @@ void __cdecl hkString_strNdup(int a, int b, int c);
 void __cdecl hkString_strNdup_00cb13e0(int aiArg1, int aiArg2)
 {
     hkMemoryRouter router;
-    int c = (int)FUN_00c85750()->pListener;
+    int c = (int)hkMemoryRouter_getInstance()->pListener;
     hkString_strNdup(aiArg1, aiArg2, c);
 }
 
@@ -153,13 +153,13 @@ int __cdecl hkString_memCmp(const unsigned char* pLeft, const unsigned char* pRi
     return 0;
 }
 
-const char* __cdecl FUN_00cb1150(const char* str, int c);
+const char* __cdecl hkString_strRchr(const char* str, int c);
 
 // @fnv 0x00cb1390
 // src: HAVOK_LIB 0x00cb1390
 int __cdecl hkString_lastIndexOf(const char* str, char acChar)
 {
-    const char* p = FUN_00cb1150(str, acChar);
+    const char* p = hkString_strRchr(str, acChar);
     return p ? (int)(p - str) : -1;
 }
 
@@ -171,7 +171,7 @@ int __cdecl hkString_strDup(int a, int b);
 void __cdecl hkString_strDup_00cb1410(int aiValue)
 {
     hkMemoryRouter buf;
-    int r = (int)FUN_00c85750()->pListener;
+    int r = (int)hkMemoryRouter_getInstance()->pListener;
     hkString_strDup(aiValue, r);
 }
 
@@ -180,9 +180,9 @@ struct Sink
     void hkStringPtr_set(const char* p, int n);
 };
 
-const char* __cdecl FUN_00cb1130(const char* a, const char* b);
+const char* __cdecl hkString_strStr(const char* a, const char* b);
 int __cdecl hkString_strLen(const char* text);
-char* __cdecl FUN_00cb1140(const char* s, int c);
+char* __cdecl hkString_strChr(const char* s, int c);
 
 static __declspec(noinline) char* skip(char* p)
 {
@@ -195,7 +195,7 @@ static __declspec(noinline) char* skip(char* p)
 // @fnv 0x00d48440
 static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* pKey, Sink* sink)
 {
-    const char* p = FUN_00cb1130(pText, pKey);
+    const char* p = hkString_strStr(pText, pKey);
     if (!p)
         return 0;
     p += hkString_strLen(pKey);
@@ -206,7 +206,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* pText, const char* 
     if (*p != '"')
         return 0;
     ++p;
-    char* pQuoteEnd = FUN_00cb1140(p, '"');
+    char* pQuoteEnd = hkString_strChr(p, '"');
     if (!pQuoteEnd)
         return 0;
     sink->hkStringPtr_set(p, (int)(pQuoteEnd - p));
@@ -221,7 +221,8 @@ int __cdecl call_it(const char* a, const char* b, Sink* s)
 void __cdecl FUN_00ecddf1(int a, int b, int c, int d);
 
 // @fnv 0x00cb0f50
-void __cdecl FUN_00cb0f50(int a, int b, int c, int d)
+// src: XBOX_PDB 0x00cb0f50
+void __cdecl hkString_vsnprintf(int a, int b, int c, int d)
 {
     FUN_00ecddf1(a, b, c, d);
 }
@@ -230,7 +231,8 @@ namespace fnv_00cb1140 {
 extern "C" char* __cdecl _strchr(const char* s, int c);
 
 // @fnv 0x00cb1140
-char* __cdecl FUN_00cb1140(const char* s, int c)
+// src: XBOX_PDB 0x00cb1140
+char* __cdecl hkString_strChr(const char* s, int c)
 {
     return _strchr(s, c);
 }
@@ -240,7 +242,8 @@ namespace fnv_00cb1150 {
 extern "C" const char* __cdecl FUN_00ec6e30(const char* str, int c);
 
 // @fnv 0x00cb1150
-const char* __cdecl FUN_00cb1150(const char* str, int c)
+// src: XBOX_PDB 0x00cb1150
+const char* __cdecl hkString_strRchr(const char* str, int c)
 {
     return FUN_00ec6e30(str, c);
 }
@@ -249,14 +252,16 @@ const char* __cdecl FUN_00cb1150(const char* str, int c)
 void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00cb1260
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int count)
+// src: XBOX_PDB 0x00cb1260
+void* __cdecl hkString_memCpy(void* dst, const void* src, unsigned int count)
 {
     return _memmove(dst, src, count);
 }
 
 void* __cdecl FUN_00ec7230(char* a, const char* b, int c);
 // @fnv 0x00cb1270
-void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
+// src: XBOX_PDB 0x00cb1270
+void* __cdecl hkString_memMove(char* a, const char* b, int c)
 {
     return FUN_00ec7230(a, b, c);
 }
@@ -264,7 +269,8 @@ void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
 extern void __cdecl FUN_00ec61c0(void* dest, int value, unsigned int count);
 
 // @fnv 0x00cb1280
-void __cdecl FUN_00cb1280(void* dest, int value, unsigned int count)
+// src: XBOX_PDB 0x00cb1280
+void __cdecl hkString_memSet(void* dest, int value, unsigned int count)
 {
     FUN_00ec61c0(dest, value, count);
 }
@@ -294,7 +300,8 @@ int __cdecl hkString_strLen(const char* apString)
 
 namespace fnv_00cb1130 {
 // @fnv 0x00cb1130
-const char* __cdecl FUN_00cb1130(const char* a, const char* b)
+// src: XBOX_PDB 0x00cb1130
+const char* __cdecl hkString_strStr(const char* a, const char* b)
 {
     return strstr(a, b);
 }

@@ -59,7 +59,7 @@ public:
         TESObjectREFR* actionRef, TESObjectREFR* targetRef, bool recurseUp);
     int GetFlagsMasked();
     void* FUN_0067f390();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     unsigned char GetRandomValue();
     unsigned short GetField3C();
 };

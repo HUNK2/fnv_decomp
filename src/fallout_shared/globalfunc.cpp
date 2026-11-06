@@ -179,7 +179,7 @@ class NiSourceTexture;
 
 extern TES* g_TES;
 extern NiRTTI DAT_011f444c;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 
 class TESTopic;
 template <class T> class BSSimpleList;
@@ -187,7 +187,7 @@ template <class T> class BSSimpleList;
 extern NiNode* DAT_011c6328;
 extern NiAVObjectPalette* DAT_011c6324;
 extern NiRTTI DAT_011f36ac;
-const NiFixedString& FUN_00448a80();
+const NiFixedString& BSXFlags_Tag();
 const NiFixedString& get_g_EditorMarker();
 const NiFixedString& get_g_EditorMarker0();
 const NiFixedString& get_g_EditorMarker1();
@@ -196,7 +196,7 @@ int BSstricmp(const char*, const char*);
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 extern NiRTTI DAT_012024e0;
-int FUN_004a2c20(NiProperty*);
+int BSSM_ShaderPropertyIsLighting(NiProperty*);
 class TESObjectLIGH;
 
 extern "C" float logf(float);
@@ -392,7 +392,7 @@ bool UpdateObjectVisibility(NiAVObject* object)
                 {
                     NiTexture* texture = reinterpret_cast<NiTexture* (__thiscall*)(NiProperty*, int, unsigned int)>(
                         (*reinterpret_cast<void***>(textures))[0xf4 / 4])(textures, type, i);
-                    if (texture && FUN_0043b300(&DAT_011f444c, reinterpret_cast<NiAVObject*>(texture)))
+                    if (texture && NiObject_IsKindOf(&DAT_011f444c, reinterpret_cast<NiAVObject*>(texture)))
                     {
                         bool swapped;
                         NiTexture* source = texture;
@@ -442,7 +442,7 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
         return removed;
     if (!DAT_011c6328)
     {
-        NiExtraData* pExtraData = apNode->GetExtraData(FUN_00448a80());
+        NiExtraData* pExtraData = apNode->GetExtraData(BSXFlags_Tag());
         if (pExtraData)
         {
             NiExtraData* flags = pExtraData;
@@ -553,7 +553,7 @@ void SetObjectFormID(NiAVObject* object, unsigned int referenceID)
     if (object->IsGeometry())
     {
         NiProperty* property = object->GetProperty(3);
-        NiProperty* lighting = FUN_004a2c20(property) ? property : 0;
+        NiProperty* lighting = BSSM_ShaderPropertyIsLighting(property) ? property : 0;
         if (lighting)
             reinterpret_cast<EffectSetting*>(lighting)->SetLight(reinterpret_cast<TESObjectLIGH*>(referenceID));
     }
@@ -571,7 +571,7 @@ bool IsObjectNetValid(NiObjectNET* object)
 {
     if (!object)
         return false;
-    if (FUN_0043b300(&DAT_012024e0, reinterpret_cast<NiAVObject*>(object)))
+    if (NiObject_IsKindOf(&DAT_012024e0, reinterpret_cast<NiAVObject*>(object)))
         return true;
     NiNode* node = object->IsSceneNode();
     if (node)
@@ -678,7 +678,8 @@ bool bhkWorld::QPickCountOverride()
 double __cdecl FUN_00ec9010(double);
 
 // @fnv 0x004b1460
-float FUN_004b1460(float _X)
+// src: XBOX_PDB 0x004b1460
+float atanf(float _X)
 {
     return static_cast<float>(FUN_00ec9010(_X));
 }
@@ -686,7 +687,8 @@ float FUN_004b1460(float _X)
 double __cdecl FUN_00ec9130(double, double);
 
 // @fnv 0x004b1520
-float __cdecl FUN_004b1520(float _X, float _Y)
+// src: XBOX_PDB 0x004b1520
+float __cdecl fmodf(float _X, float _Y)
 {
     return (float)FUN_00ec9130((double)_X, (double)_Y);
 }
@@ -695,14 +697,15 @@ extern const NiPoint3 NiPoint3_ZERO;
 bool __cdecl PickObjectsInRadius(NiPick*, int, int, float, int);
 
 // @fnv 0x004b2780
-bool __cdecl FUN_004b2780(NiPick* pPicker, int p2, int p3, float p4, int p5, bool p6)
+// src: XBOX_PDB 0x004b2780
+bool __cdecl PickDistance(NiPick* pPicker, int p2, int p3, float p4, int p5, bool p6)
 {
     bool bResult = false;
     if (pPicker != 0 && p5 != 0 && p4 != 0.0)
     {
         if (p6)
         {
-            pPicker->FUN_00705fc0(static_cast<void*>(0));
+            pPicker->SetTarget_00705fc0(static_cast<void*>(0));
             pPicker->PerformPick(NiPoint3_ZERO, NiPoint3_ZERO, false);
         }
         bResult = PickObjectsInRadius(pPicker, p2, p3, p4, p5);
@@ -766,12 +769,13 @@ FourDimensionalVector* FUN_004b4e50_shell::SetFromScaledVector3(void* arSrc)
     return this;
 }
 
-int __fastcall FUN_004b4f20(void* pThis);
+int __fastcall hkpMotion_getTransform(void* pThis);
 
 // @fnv 0x004b4f00
-int __fastcall FUN_004b4f00(TESDataHandler* apDataHandler)
+// src: XBOX_PDB 0x004b4f00
+int __fastcall hkpRigidBody_getTransform(TESDataHandler* apDataHandler)
 {
-    return FUN_004b4f20(apDataHandler->GetBGSRagdollList());
+    return hkpMotion_getTransform(apDataHandler->GetBGSRagdollList());
 }
 
 class hkQuaternion;
@@ -794,11 +798,12 @@ struct FourDimensionalVector
 };
 struct FUN_004b4ff0_shell : public FourDimensionalVector
 {
-    void FUN_004b4ff0(float, float, float, float);
+    void bhkVector4_set(float, float, float, float);
 };
 
 // @fnv 0x004b4ff0
-void FUN_004b4ff0_shell::FUN_004b4ff0(float afX, float afY, float afZ, float afW)
+// src: XBOX_PDB 0x004b4ff0
+void FUN_004b4ff0_shell::bhkVector4_set(float afX, float afY, float afZ, float afW)
 {
     fX = afX;
     fY = afY;
@@ -843,35 +848,39 @@ struct blob8
 };
 
 hkpRigidBody* __fastcall FUN_004ae750(void*);
-float __fastcall FUN_004b4ea0(hkpRigidBody*);
+float __fastcall hkpRigidBody_getMass(hkpRigidBody*);
 
 // @fnv 0x004b5400
-float __fastcall FUN_004b5400(void* pThis)
+// src: XBOX_PDB 0x004b5400
+float __fastcall bhkRigidBody_GetMass(void* pThis)
 {
     hkpRigidBody* pb = FUN_004ae750(pThis);
-    return pb ? FUN_004b4ea0(pb) : 0.0f;
+    return pb ? hkpRigidBody_getMass(pb) : 0.0f;
 }
 
-bool __cdecl FUN_004b5470(const NiPoint3& aPt, float afCompLength);
+bool __cdecl LengthCheck_004b5470(const NiPoint3& aPt, float afCompLength);
 
 // @fnv 0x004b5440
-bool __cdecl FUN_004b5440(const NiPoint3& aPt1, const NiPoint3& aPt2, float afCompLength)
+// src: XBOX_PDB 0x004b5440
+bool __cdecl LengthCheck(const NiPoint3& aPt1, const NiPoint3& aPt2, float afCompLength)
 {
-    return FUN_004b5470(aPt1 - aPt2, afCompLength);
+    return LengthCheck_004b5470(aPt1 - aPt2, afCompLength);
 }
 
-float __cdecl FUN_004b5530(float);
+float __cdecl asinf_004b5530(float);
 
 // @fnv 0x004b5510
-float __cdecl FUN_004b5510(float _X)
+// src: XBOX_PDB 0x004b5510
+float __cdecl asin_004b5510(float _X)
 {
-    return FUN_004b5530(_X);
+    return asinf_004b5530(_X);
 }
 
 double __cdecl FUN_00ec9610(double);
 
 // @fnv 0x004b5530
-float FUN_004b5530(float value)
+// src: XBOX_PDB 0x004b5530
+float asinf_004b5530(float value)
 {
     return static_cast<float>(FUN_00ec9610(value));
 }
@@ -885,36 +894,39 @@ float __cdecl atan2_004b5570(float _Y, float _X)
     return atan2f(_Y, _X);
 }
 
-int __fastcall FUN_004b5980(const void* collidable);
-void* __cdecl FUN_004b59c0(const void* collidable);
+int __fastcall hkpCollidable_getType(const void* collidable);
+void* __cdecl hkGetWorldObject_004b59c0(const void* collidable);
 
 // Returns the result of FUN_004b59c0 when FUN_004b5980 reports 2 for collidable, otherwise returns 0.
 // @fnv 0x004b5950
-void* __cdecl FUN_004b5950(const void* collidable)
+// src: XBOX_PDB 0x004b5950
+void* __cdecl hkpGetPhantom(const void* collidable)
 {
-    if (FUN_004b5980(collidable) == 2)
+    if (hkpCollidable_getType(collidable) == 2)
     {
-        return FUN_004b59c0(collidable);
+        return hkGetWorldObject_004b59c0(collidable);
     }
     return 0;
 }
 
 // @fnv 0x004b59d0
-const void* __fastcall FUN_004b59d0(const char* apBase)
+// src: XBOX_PDB 0x004b59d0
+const void* __fastcall hkpCollidable_getOwner(const char* apBase)
 {
     return apBase + apBase[0x10];
 }
 
-int __fastcall FUN_004b5980(const void* collidable);
-void* __cdecl FUN_004b59c0(const void* collidable);
+int __fastcall hkpCollidable_getType(const void* collidable);
+void* __cdecl hkGetWorldObject_004b59c0(const void* collidable);
 
 // Returns the result of FUN_004b59c0 when FUN_004b5980 reports 1 for collidable, otherwise returns 0.
 // @fnv 0x004b59f0
-void* __cdecl FUN_004b59f0(const void* collidable)
+// src: XBOX_PDB 0x004b59f0
+void* __cdecl hkpGetRigidBody(const void* collidable)
 {
-    if (FUN_004b5980(collidable) == 1)
+    if (hkpCollidable_getType(collidable) == 1)
     {
-        return FUN_004b59c0(collidable);
+        return hkGetWorldObject_004b59c0(collidable);
     }
     return 0;
 }
@@ -964,7 +976,7 @@ float NiPoint3::Dot(void* apPoint)
            z * static_cast<const NiPoint3*>(apPoint)->z;
 }
 
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 extern NiRTTI DAT_011f9140;
 extern NiRTTI g_0126817c;
 
@@ -973,15 +985,15 @@ extern NiRTTI g_0126817c;
 // src: COMMUNITY 0x004b6740
 void __cdecl GetCollisionObjectByIndex(NiAVObject* apObject, char* data)
 {
-    if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&g_0126817c, apObject))
+    if ((*(unsigned int*)(data + 0x18) & 1) && NiObject_IsKindOf(&g_0126817c, apObject))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) &&
-        FUN_0043b300(&DAT_011f9140, (NiAVObject*)((TESObjectREFR*)apObject)->GetFlags()))
+        NiObject_IsKindOf(&DAT_011f9140, (NiAVObject*)((TESObjectREFR*)apObject)->GetFlags()))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) && ((TESObjectREFR*)apObject)->GetFlags() &&
         ((BSFadeNode*)((TESTopicInfoData*)((TESObjectREFR*)apObject)->GetFlags())->GetLinkToList())
             ->FUN_0043b1b0() &&
-        !FUN_00408b20(
+        !BSstrcmp(
             (const char*)((BSFadeNode*)((TESTopicInfoData*)((TESObjectREFR*)apObject)->GetFlags())->GetLinkToList())
                 ->FUN_0043b1b0(),
             "Arrow"))
@@ -997,7 +1009,7 @@ const char* __fastcall GetStringAtOffset13C(const char* pThis)
     return GetBSStringData(reinterpret_cast<const BSStringT<char>*>(pThis + 0x13c));
 }
 
-bool __cdecl FUN_004b71d0(void);
+bool __cdecl InterfaceManager_Has360Controller(void);
 
 // Returns 1 if FUN_004b71d0() returns true, otherwise returns 0.
 // @fnv 0x004b71a0
@@ -1005,7 +1017,7 @@ bool __cdecl FUN_004b71d0(void);
 int GetIsControllerConnected_()
 {
     int result = 0;
-    if (FUN_004b71d0())
+    if (InterfaceManager_Has360Controller())
         result = 1;
     return result;
 }
@@ -1016,7 +1028,8 @@ void* __cdecl InterfaceManager_GetSingleton(void);
 
 // Returns true when DAT_011d8a84 is set and, after calling FUN_004b7210, g_011d8c4c reports its char controller flag.
 // @fnv 0x004b71d0
-bool __cdecl FUN_004b71d0()
+// src: XBOX_PDB 0x004b71d0
+bool __cdecl InterfaceManager_Has360Controller()
 {
     return DAT_011d8a84 && (InterfaceManager_GetSingleton(), g_011d8c4c.GetCharControllerFlag());
 }
@@ -1284,7 +1297,7 @@ int __fastcall GetReferenceFlags(void*);
 // src: COMMUNITY 0x004b6b20
 void __cdecl GetHavokWorldObjectCount(bhkCollisionObject* apCollisionObject, void* apData)
 {
-    bhkWorldObject* result = apCollisionObject->FUN_006fa820();
+    bhkWorldObject* result = apCollisionObject->bhkNiCollisionObject_GetWorldObject();
     if (result && GetReferenceFlags(result))
         ((int*)apData)[3]++;
 }
@@ -1297,7 +1310,7 @@ int __fastcall GetReferenceFlags(bhkWorldObject*);
 // src: COMMUNITY 0x004b6bc0
 void GetHavokWorldObjectIndex(bhkCollisionObject* apCollisionObject, void* dest)
 {
-    bhkWorldObject* w = apCollisionObject->FUN_006fa820();
+    bhkWorldObject* w = apCollisionObject->bhkNiCollisionObject_GetWorldObject();
     if (w)
     {
         int r = GetReferenceFlags(w);
@@ -1321,7 +1334,7 @@ int __fastcall GetReferenceFlags(int* obj);
 // src: COMMUNITY 0x004b6c70
 void __cdecl GetHavokWorldObjectByIndex(bhkCollisionObject* apCollisionObject, int* arg2)
 {
-    int* obj = reinterpret_cast<int*>(apCollisionObject->FUN_006fa820());
+    int* obj = reinterpret_cast<int*>(apCollisionObject->bhkNiCollisionObject_GetWorldObject());
     if (obj)
     {
         int result = GetReferenceFlags(obj);
@@ -1427,17 +1440,19 @@ void* __thiscall UnaryActionDeletingDestructor::FUN_004b51e0(unsigned int flags)
 int __fastcall GetCharAtOffset4(int);
 
 // @fnv 0x004b5980
-int __fastcall FUN_004b5980(int param_1)
+// src: XBOX_PDB 0x004b5980
+int __fastcall hkpCollidable_getType(int param_1)
 {
     return GetCharAtOffset4(param_1 + 0x14);
 }
 
-void const* __fastcall FUN_004b59d0(char const*);
+void const* __fastcall hkpCollidable_getOwner(char const*);
 
 // @fnv 0x004b59c0
-void const* __cdecl FUN_004b59c0(char const* arg)
+// src: XBOX_PDB 0x004b59c0
+void const* __cdecl hkGetWorldObject_004b59c0(char const* arg)
 {
-    return FUN_004b59d0(arg);
+    return hkpCollidable_getOwner(arg);
 }
 
 namespace fnv_004b4d10 {
@@ -1462,22 +1477,24 @@ bhkUnaryAction* UnaryActionSettings::ApplyToAction(bhkUnaryAction* apAction)
 namespace fnv_004b4ec0 {
 struct FUN_004b4ee0_shell
 {
-    void FUN_004b4ee0();
+    void hkpMotion_getPosition();
 };
 // @fnv 0x004b4ec0
-void __fastcall FUN_004b4ec0(TESDataHandler* dataHandler)
+// src: XBOX_PDB 0x004b4ec0
+void __fastcall hkpRigidBody_getPosition(TESDataHandler* dataHandler)
 {
-    ((FUN_004b4ee0_shell*)dataHandler->GetBGSRagdollList())->FUN_004b4ee0();
+    ((FUN_004b4ee0_shell*)dataHandler->GetBGSRagdollList())->hkpMotion_getPosition();
 }
 }  // namespace fnv_004b4ec0
 
 extern "C" void __cdecl _ref_006815c0();
 struct FUN_004b4f20_shell
 {
-    void __thiscall FUN_004b4f20();
+    void __thiscall hkpMotion_getTransform();
 };
 // @fnv 0x004b4f20
-void __thiscall FUN_004b4f20_shell::FUN_004b4f20()
+// src: XBOX_PDB 0x004b4f20
+void __thiscall FUN_004b4f20_shell::hkpMotion_getTransform()
 {
     ((void(__thiscall*)(void*))_ref_006815c0)((char*)this + 0x10);
 }
@@ -1487,12 +1504,12 @@ extern float const g_011cc6cc_arg1;
 struct Base537
 {
     char _d[0x10];
-    void FUN_00537bb0();
+    void hkUnaryActionCinfo_hkUnaryActionCinfo();
 };
 struct Mem4fa0
 {
     char _d[0x10];
-    void FUN_004b4fa0();
+    void bhkVector4_bhkVector4();
 };
 struct FUN_004b4f40 : Base537
 {
@@ -1508,9 +1525,9 @@ struct FUN_004b4f40 : Base537
 // @fnv 0x004b4f40
 FUN_004b4f40::FUN_004b4f40()
 {
-    FUN_00537bb0();
-    m10.FUN_004b4fa0();
-    m20.FUN_004b4fa0();
+    hkUnaryActionCinfo_hkUnaryActionCinfo();
+    m10.bhkVector4_bhkVector4();
+    m20.bhkVector4_bhkVector4();
     f30 = 0.5f;
     f34 = 0.3f;
     f38 = DAT_0101b2d0;
@@ -1519,28 +1536,30 @@ FUN_004b4f40::FUN_004b4f40()
 
 struct FUN_004b4fa0_shell
 {
-    void* __fastcall FUN_004b4fa0();
+    void* __fastcall bhkVector4_bhkVector4();
 };
 
-void* __fastcall FUN_004b4fc0(void*);
+void* __fastcall bhkVector4_setZero4(void*);
 
 // @fnv 0x004b4fa0
-void* __fastcall FUN_004b4fa0_shell::FUN_004b4fa0()
+// src: XBOX_PDB 0x004b4fa0
+void* __fastcall FUN_004b4fa0_shell::bhkVector4_bhkVector4()
 {
-    FUN_004b4fc0(this);
+    bhkVector4_setZero4(this);
     return this;
 }
 
 struct S_004b4fc0
 {
-    void FUN_004b4ff0(float, float, float, float);
-    void FUN_004b4fc0();
+    void bhkVector4_set(float, float, float, float);
+    void bhkVector4_setZero4();
 };
 // Calls FUN_004b4ff0 with four zero float arguments.
 // @fnv 0x004b4fc0
-void S_004b4fc0::FUN_004b4fc0()
+// src: XBOX_PDB 0x004b4fc0
+void S_004b4fc0::bhkVector4_setZero4()
 {
-    FUN_004b4ff0(0.0f, 0.0f, 0.0f, 0.0f);
+    bhkVector4_set(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 extern int DAT_0102009c;
@@ -1573,7 +1592,8 @@ void* __thiscall bhkMouseSpringAction::FUN_004b5230(unsigned int flags)
 namespace fnv_004b5260 {
 
 // @fnv 0x004b5260
-NiAVObject* FUN_004b5260(NiAVObject* object)
+// src: XBOX_PDB 0x004b5260
+NiAVObject* FindFirstCollisionObject(NiAVObject* object)
 {
     NiAVObject* result = 0;
     if (object)
@@ -1587,7 +1607,7 @@ NiAVObject* FUN_004b5260(NiAVObject* object)
                 unsigned int count = node->GetNumChildren();
                 for (unsigned int i = 0; i < count; ++i)
                 {
-                    result = FUN_004b5260(node->GetAt(i));
+                    result = FindFirstCollisionObject(node->GetAt(i));
                     if (result)
                         break;
                 }
@@ -1599,7 +1619,8 @@ NiAVObject* FUN_004b5260(NiAVObject* object)
 }  // namespace fnv_004b5260
 
 // @fnv 0x004b5470
-int FUN_004b5470(TESCombatStyle* apCombatStyle, float afValue)
+// src: XBOX_PDB 0x004b5470
+int LengthCheck_004b5470(TESCombatStyle* apCombatStyle, float afValue)
 {
     float f1;
     float f2;
@@ -1616,15 +1637,16 @@ int FUN_004b5470(TESCombatStyle* apCombatStyle, float afValue)
 }
 
 extern float runtimeInitializationFloat825;
-float __cdecl FUN_004b5510(float);
+float __cdecl asin_004b5510(float);
 // @fnv 0x004b54c0
-float __cdecl FUN_004b54c0(float afValue)
+// src: XBOX_PDB 0x004b54c0
+float __cdecl NiASin_004b54c0(float afValue)
 {
     if (afValue > -1.0)
     {
         if (afValue < 1.0)
         {
-            return FUN_004b5510(afValue);
+            return asin_004b5510(afValue);
         }
         else
         {
@@ -1640,7 +1662,8 @@ float __cdecl FUN_004b54c0(float afValue)
 extern NiRTTI g_011f3728;
 // Returns true if object or any descendant NiNode child has a controller matching g_011f3728; recurses through children.
 // @fnv 0x004b5bf0
-bool FUN_004b5bf0(NiAVObject* object)
+// src: XBOX_PDB 0x004b5bf0
+bool HasMorpherController(NiAVObject* object)
 {
     if (!object)
         return false;
@@ -1652,7 +1675,7 @@ bool FUN_004b5bf0(NiAVObject* object)
         for (unsigned int i = 0; i < node->GetNumChildren(); ++i)
         {
             NiAVObject* child = node->GetAt(i);
-            if (FUN_004b5bf0(child))
+            if (HasMorpherController(child))
                 return true;
         }
     }
@@ -1663,11 +1686,12 @@ class NiCamera;
 bool __cdecl IsBoundVisible(NiBound*, NiCamera*);
 // Returns false if apObject is null, otherwise tests the object's bound against apCamera via IsBoundVisible.
 // @fnv 0x004b5fc0
-bool __cdecl FUN_004b5fc0(NiAVObject* apObject, NiCamera* apCamera)
+// src: XBOX_PDB 0x004b5fc0
+bool __cdecl NodeInFrustum(NiAVObject* apObject, NiCamera* apCamera)
 {
     if (apObject)
     {
-        return IsBoundVisible(const_cast<NiBound*>(&apObject->FUN_0043d450()), apCamera);
+        return IsBoundVisible(const_cast<NiBound*>(&apObject->NiAVObject_GetWorldBound()), apCamera);
         goto done;
     }
     return false;
@@ -1768,13 +1792,13 @@ unsigned int FUN_004b70d0_shell::NiSourceTexture_GetSrcPixelData()
 struct Sub004B
 {
     char pad[16];
-    void FUN_004b4fa0();
-    void FUN_004b4ff0(float, float, float, float);
+    void bhkVector4_bhkVector4();
+    void bhkVector4_set(float, float, float, float);
 };
 struct Sub0056
 {
     char pad[16];
-    void FUN_0056e8d0();
+    void hkConvexShapeCinfo_hkConvexShapeCinfo();
 };
 struct Owner0066d650
 {
@@ -1786,10 +1810,10 @@ struct Owner0066d650
 // @fnv 0x0066d650
 Owner0066d650* Owner0066d650::Reset()
 {
-    f0.FUN_0056e8d0();
-    f10.FUN_004b4fa0();
-    f20.FUN_004b4fa0();
-    f20.FUN_004b4ff0(1.0f, 0.0f, 0.0f, 0.0f);
+    f0.hkConvexShapeCinfo_hkConvexShapeCinfo();
+    f10.bhkVector4_bhkVector4();
+    f20.bhkVector4_bhkVector4();
+    f20.bhkVector4_set(1.0f, 0.0f, 0.0f, 0.0f);
     return this;
 }
 
@@ -1801,13 +1825,13 @@ NiPoint3* __fastcall _ref_006815c0(NiBound*);
 bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& dir, float radius, NiAVObject* object)
 {
     bool result = false;
-    if (pick && object && (!GetByteAtOffset17((const char*)pick) || !object->FUN_00456610()))
+    if (pick && object && (!GetByteAtOffset17((const char*)pick) || !object->GetAppCulled_00456610()))
     {
         if (!object->IsVisualObject())
             return false;
         // Preserve the original trivial bound copy without calling its shared copy constructor.
         unsigned int boundStorage[sizeof(NiBound) / sizeof(unsigned int)];
-        memcpy(boundStorage, &object->FUN_0043d450(), sizeof(NiBound));
+        memcpy(boundStorage, &object->NiAVObject_GetWorldBound(), sizeof(NiBound));
         NiPoint3 kDiff = *_ref_006815c0(reinterpret_cast<NiBound*>(boundStorage)) - origin;
         if (kDiff.Length() < reinterpret_cast<NiBound*>(boundStorage)->FUN_0084d030() + radius)
         {
@@ -1824,7 +1848,7 @@ bool PickObjectsInRadius(NiPick* pick, const NiPoint3& origin, const NiPoint3& d
             }
             else
             {
-                pick->FUN_00705fc0(static_cast<void*>(object));
+                pick->SetTarget_00705fc0(static_cast<void*>(object));
                 if (pick->PerformPick(origin, dir, true))
                     result = true;
             }
@@ -1847,7 +1871,7 @@ struct blob16
     char b[16];
 };
 
-int __cdecl FUN_00438220();
+int __cdecl NiShadeProperty_GetType();
 BSShaderPPLightingProperty* __cdecl FindAcceptedForm(NiNode*);
 // Scans the node's children in reverse for a BSShaderPPLightingProperty, returning it if found, otherwise falling back to FindAcceptedForm.
 // @fnv 0x004b5710
@@ -1864,10 +1888,10 @@ BSShaderPPLightingProperty* __cdecl FindPPLightingProperty(NiNode* apNode)
             NiNode* pnode = pobj->IsSceneNode();
             if (pnode)
             {
-                NiAVObject* pchild = pnode->FUN_0045bc00(0u);
+                NiAVObject* pchild = pnode->NiNode_GetAtChecked(0u);
                 if (pchild)
                 {
-                    NiShadeProperty* pproperty = (NiShadeProperty*)pchild->GetProperty(FUN_00438220());
+                    NiShadeProperty* pproperty = (NiShadeProperty*)pchild->GetProperty(NiShadeProperty_GetType());
                     if (pproperty)
                     {
                         BSShaderPPLightingProperty* plightingProperty =
@@ -1894,7 +1918,8 @@ extern double _gModifierZero;
 extern double DAT_0101ff58;
 
 // @fnv 0x004b15e0
-float __cdecl FUN_004b15e0(float startAngle, float targetAngle, float* pfOutDir)
+// src: XBOX_PDB 0x004b15e0
+float __cdecl GetAngleDelta(float startAngle, float targetAngle, float* pfOutDir)
 {
     float angleDelta = targetAngle - startAngle;
     *pfOutDir = 0.0f;
@@ -1934,7 +1959,7 @@ void BSUtils_SetPhaseRecurse(NiNode* apNode, float afPhase)
     for (; n < apNode->GetNumChildren(); ++n)
     {
         NiAVObject* pobj = apNode->GetAt(n);
-        if (pobj && FUN_0043b300(&DAT_011f4428, pobj))
+        if (pobj && NiObject_IsKindOf(&DAT_011f4428, pobj))
             BSUtils_SetPhaseRecurse((NiNode*)pobj, afPhase);
     }
 }
@@ -1944,7 +1969,8 @@ struct NiCamera;
 bool IsBoundVisible(NiBound*, NiCamera*);
 
 // @fnv 0x004b61d0
-bool FUN_004b61d0(NiPoint3 location, NiCamera* camera, float radius)
+// src: XBOX_PDB 0x004b61d0
+bool PointInFrustum(NiPoint3 location, NiCamera* camera, float radius)
 {
     if (!camera)
         return false;
@@ -1961,9 +1987,10 @@ struct PropHelper
 {
     void AssignRefObj(unsigned int);
 };
-void FUN_004b6630(NiAVObject*);
+void UnTintScenegraph(NiAVObject*);
 // @fnv 0x004b6630
-void FUN_004b6630(NiAVObject* object)
+// src: XBOX_PDB 0x004b6630
+void UnTintScenegraph(NiAVObject* object)
 {
     PropHelper* result = (PropHelper*)_UseSaveGameBlocks(&g_0120043c_arg1, object->GetProperty(3));
     if (result)
@@ -1975,13 +2002,14 @@ void FUN_004b6630(NiAVObject* object)
         for (; i < node->GetNumChildren(); ++i)
         {
             if (node->GetAt(i))
-                FUN_004b6630(node->GetAt(i));
+                UnTintScenegraph(node->GetAt(i));
         }
     }
 }
 
 // @fnv 0x004b4ea0
-float TESDataHandler::FUN_004b4ea0()
+// src: XBOX_PDB 0x004b4ea0
+float TESDataHandler::hkpRigidBody_getMass()
 {
     return reinterpret_cast<hkpMotion*>(GetBGSRagdollList())->GetMassValue();
 }
@@ -1990,11 +2018,12 @@ struct FUN_004b5020_shell
 {
     int vftable;
     void _ref_006815c0();
-    FUN_004b5020_shell* FUN_004b5020();
+    FUN_004b5020_shell* hkActionCinfo_hkActionCinfo();
 };
 
 // @fnv 0x004b5020
-FUN_004b5020_shell* FUN_004b5020_shell::FUN_004b5020()
+// src: XBOX_PDB 0x004b5020
+FUN_004b5020_shell* FUN_004b5020_shell::hkActionCinfo_hkActionCinfo()
 {
     _ref_006815c0();
     vftable = 0;
@@ -2002,7 +2031,7 @@ FUN_004b5020_shell* FUN_004b5020_shell::FUN_004b5020()
 }
 
 namespace fnv_004b68a0 {
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 extern void const* const DAT_011f9140;
 extern NiRTTI g_0126817c;
@@ -2029,18 +2058,18 @@ struct FUN_004b68a0_data
 // src: COMMUNITY 0x004b68a0
 void GetCollisionObjectIndex(GlobalfuncOffset08View* object, FUN_004b68a0_data* data)
 {
-    if ((data->field_18 & 1) && FUN_0043b300(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
+    if ((data->field_18 & 1) && NiObject_IsKindOf(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
         return;
 
     if ((data->field_18 & 2) &&
-        FUN_0043b300(reinterpret_cast<const NiRTTI*>(&DAT_011f9140), reinterpret_cast<NiAVObject*>(object->GetFlags())))
+        NiObject_IsKindOf(reinterpret_cast<const NiRTTI*>(&DAT_011f9140), reinterpret_cast<NiAVObject*>(object->GetFlags())))
         return;
 
     if ((data->field_18 & 2) && object->GetFlags() &&
         reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(object->GetFlags())->GetLinkToList())
             ->FUN_0043b1b0())
     {
-        if (!FUN_00408b20(reinterpret_cast<char const*>(
+        if (!BSstrcmp(reinterpret_cast<char const*>(
                               reinterpret_cast<BSFadeNode*>(
                                   reinterpret_cast<TESTopicInfoData*>(object->GetFlags())->GetLinkToList())
                                   ->FUN_0043b1b0()),
@@ -2075,7 +2104,7 @@ struct FUN_004b6a00_data
 extern NiRTTI DAT_011f9140;
 extern NiRTTI g_0126817c;
 
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 // Checks object against data flags and RTTI, stores it in field_10 when field_0c equals field_14, then increments field_0c.
 // @fnv 0x004b6a00
@@ -2083,13 +2112,13 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 {
     if (data->field_18 & 1)
     {
-        if (FUN_0043b300(&g_0126817c, object))
+        if (NiObject_IsKindOf(&g_0126817c, object))
             return;
     }
 
     if (data->field_18 & 2)
     {
-        if (FUN_0043b300(&DAT_011f9140, reinterpret_cast<NiAVObject*>(reinterpret_cast<GlobalfuncOffset08View*>(object)->GetFlags())))
+        if (NiObject_IsKindOf(&DAT_011f9140, reinterpret_cast<NiAVObject*>(reinterpret_cast<GlobalfuncOffset08View*>(object)->GetFlags())))
             return;
     }
 
@@ -2102,7 +2131,7 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
                         ->GetLinkToList())
                     ->FUN_0043b1b0())
             {
-                if (!FUN_00408b20(static_cast<char const*>(
+                if (!BSstrcmp(static_cast<char const*>(
                                       reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(
                                                                         reinterpret_cast<GlobalfuncOffset08View*>(object)->GetFlags())
                                                                         ->GetLinkToList())
@@ -2177,12 +2206,12 @@ float GetAnimValueByPrefix(NiObjectNET* obj, const char* name, const char* prefi
     NiControllerManager* mgr = (NiControllerManager*)NiDynamicCast(&DAT_011f36ac, obj->GetControllers());
     if (mgr)
     {
-        NiControllerSequence* seq3 = mgr->FUN_0047a520(NiFixedString(name));
+        NiControllerSequence* seq3 = mgr->NiControllerManager_GetSequenceByName(NiFixedString(name));
         if (seq3)
         {
-            NiTextKeyExtraData* data8 = seq3->FUN_00700300();
+            NiTextKeyExtraData* data8 = seq3->GetName_00700300();
             unsigned int aCount;
-            TimedTextEntry* entries3 = data8->FUN_00495f30(&aCount);
+            TimedTextEntry* entries3 = data8->GetKeys_00495f30(&aCount);
             unsigned int len = BSStringLength(prefix);
             if (len > 0)
             {
@@ -2249,7 +2278,8 @@ struct FUN_004b6980_Context
 
 // Builds a traversal context from the three flags, runs FUN_00c68900 over object with ProcessObjectMatch, and returns the accumulated count.
 // @fnv 0x004b6980
-int __cdecl FUN_004b6980(NiAVObject* object, void* auxiliaryData, bool flag1, bool flag2, bool flag3)
+// src: XBOX_PDB 0x004b6980
+int __cdecl GetCollisionObjectByIndexInSceneGraph(NiAVObject* object, void* auxiliaryData, bool flag1, bool flag2, bool flag3)
 {
     FUN_004b6980_Context context;
 
@@ -2318,7 +2348,7 @@ class FUN_004b6ce0_gl
     void FUN_004534f0(void*);
 };
 extern FUN_004b6ce0_gl DAT_011e0e80;
-int FUN_004a2c20(void*);
+int BSSM_ShaderPropertyIsLighting(void*);
 
 // @fnv 0x004b6ce0
 // src: COMMUNITY 0x004b6ce0
@@ -2339,7 +2369,7 @@ void RecursivelyRemoveAllDecals(FUN_004b6ce0_cls* p)
         RunFourthVirtual = x8->FUN_00a59d30(3);
         if (RunFourthVirtual != 0)
         {
-            y = FUN_004a2c20(RunFourthVirtual) ? RunFourthVirtual : 0;
+            y = BSSM_ShaderPropertyIsLighting(RunFourthVirtual) ? RunFourthVirtual : 0;
             if (y != 0)
             {
                 flag4 = false;
@@ -2373,7 +2403,7 @@ void __cdecl EnsureLightingProperty(NiAVObject* apObject)
         BSShaderNoLightingProperty* pProp = new BSShaderNoLightingProperty;
         pProp->SetFlag(0x30, true);
         apObject->AttachProperty(pProp);
-        apObject->FUN_00a5a040();
+        apObject->UpdateProperties();
         FUN_00b57e30(apObject, 0, 0);
     }
     else
@@ -2674,7 +2704,8 @@ extern const char* DAT_01189034;
 
 // Returns the type name string for a form type code, looking it up in typeNames, then a switch table, then FNV_FormTypeNames, warning on invalid codes.
 // @fnv 0x004b1b60
-const char* __cdecl FUN_004b1b60(unsigned char type)
+// src: XBOX_PDB 0x004b1b60
+const char* __cdecl FormIDToString(unsigned char type)
 {
     int index = LookupType(type);
     if (index >= 0)
@@ -2813,13 +2844,13 @@ struct PairMap
     int unk00, unk04, unk08, unk0c;
     PairMap(int);
     ~PairMap();
-    bool FUN_004b9b20(unsigned int, Entry&);
+    bool NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_GetAt(unsigned int, Entry&);
     void SetOrInsert(unsigned int, Entry);
     void* FUN_004b9ba0();
     void GetNextEntry(void*&, unsigned int&, Entry&);
 };
 NiPoint3* CreateElementArray(NiGeometry*);
-bool FUN_0040eb10(float, float, float);
+bool FloatEQ(float, float, float);
 NiPoint3 FUN_004a3760(float, const NiPoint3&);
 extern NiGeometry* DAT_011c6320;
 void __cdecl operator delete(void*);
@@ -2852,8 +2883,8 @@ bool __cdecl MatchGeometryVertices(NiGeometry* source, NiGeometry* target, float
         delete sourcePositions;
         return false;
     }
-    target->FUN_00461130().FUN_004b4880(aTransform);
-    rotation4 = target->FUN_00461130().m_Rotate.Inverse() * source->FUN_00461130().m_Rotate;
+    target->NiAVObject_GetWorldRotate().FUN_004b4880(aTransform);
+    rotation4 = target->NiAVObject_GetWorldRotate().m_Rotate.Inverse() * source->NiAVObject_GetWorldRotate().m_Rotate;
     unsigned int best4;
     float bestDist3;
     float bestDistance10;
@@ -2880,9 +2911,9 @@ bool __cdecl MatchGeometryVertices(NiGeometry* source, NiGeometry* target, float
             entry20.second = uiCountVal;
             entry20.bestDistance10 = bestDist3;
             Entry existing;
-            if (map30.FUN_004b9b20(best4, existing))
+            if (map30.NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_GetAt(best4, existing))
             {
-                if (FUN_0040eb10(entry20.bestDistance10, existing.bestDistance10, 0.001F))
+                if (FloatEQ(entry20.bestDistance10, existing.bestDistance10, 0.001F))
                 {
                     entry20.second = existing.first;
                     map30.SetOrInsert(best4, entry20);
@@ -2904,7 +2935,7 @@ bool __cdecl MatchGeometryVertices(NiGeometry* source, NiGeometry* target, float
             iCount++;
             map30.GetNextEntry(position, aHKey, existing);
             reinterpret_cast<NiPoint3&>(targetNormals2[existing.first]) = rotation4.operator*(reinterpret_cast<const NiPoint3&>(sourceNormals2[aHKey]));
-            targetNormals2[existing.first].FUN_004a0c10();
+            targetNormals2[existing.first].Unitize_004a0c10();
             if (existing.second < uiCountVal)
             {
                 targetNormals2[existing.second] = targetNormals2[existing.first];
@@ -2924,8 +2955,8 @@ bool __cdecl MatchGeometryVertices(NiGeometry* source, NiGeometry* target, float
     if (bChangedB)
     {
         if (adjust)
-            source->FUN_005495f0()->SetDirtyFlags(3);
-        target->FUN_005495f0()->SetDirtyFlags(3);
+            source->NiGeometry_GetModelData()->SetDirtyFlags(3);
+        target->NiGeometry_GetModelData()->SetDirtyFlags(3);
     }
     if (sourcePositions)
         delete sourcePositions;
@@ -2948,11 +2979,12 @@ struct FUN_004b4ee0_cls
     int unk08;
     int unk0c;
     FUN_004b4ee0_sub unk10;
-    void FUN_004b4ee0();
+    void hkpMotion_getPosition();
 };
 
 // @fnv 0x004b4ee0
-void FUN_004b4ee0_cls::FUN_004b4ee0()
+// src: XBOX_PDB 0x004b4ee0
+void FUN_004b4ee0_cls::hkpMotion_getPosition()
 {
     ((FUN_004b4ee0_sub*)unk10.FUN_006815c0())->FUN_00436aa0();
 }
@@ -2983,14 +3015,14 @@ void* __cdecl bhkRigidBody_FindHeaviestRigidBody(void* object)
                 child2 = bhkRigidBody_FindHeaviestRigidBody(list6->FUN_0043b4a0(i4));
                 if (child2 != 0)
                 {
-                    if (bestX == 0 || FUN_004b5400(bestX) < FUN_004b5400(child2))
+                    if (bestX == 0 || bhkRigidBody_GetMass(bestX) < bhkRigidBody_GetMass(child2))
                         bestX = child2;
                 }
             }
         }
         ref = FUN_0043b610(object);
-        other = ref ? ref->FUN_006fa820() : 0;
-        if (bestX != 0 && (other == 0 || FUN_004b5400(other) < FUN_004b5400(bestX)))
+        other = ref ? ref->bhkNiCollisionObject_GetWorldObject() : 0;
+        if (bestX != 0 && (other == 0 || bhkRigidBody_GetMass(other) < bhkRigidBody_GetMass(bestX)))
         {
             return bestX;
         }
@@ -3061,10 +3093,11 @@ struct Property6360
 {
     void AssignRefObj(FUN_00b668b0*);
 };
-Property6360* FUN_00653270(const NiRTTI*, NiProperty*);
+Property6360* NiObject_DynamicCast(const NiRTTI*, NiProperty*);
 extern const NiRTTI DAT_011fa010;
 // @fnv 0x004b6360
-void FUN_004b6360(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* property)
+// src: XBOX_PDB 0x004b6360
+void TintScenegraph(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* property)
 {
     NiPointer<FUN_00b668b0> shared(property);
     if (!property)
@@ -3080,7 +3113,7 @@ void FUN_004b6360(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* prope
         ((FUN_00b668b0*)shared)->mode2 = 1;
         ((FUN_00b668b0*)shared)->mode3 = 4;
     }
-    Property6360* material = FUN_00653270(&DAT_011fa010, object->GetProperty(3));
+    Property6360* material = NiObject_DynamicCast(&DAT_011fa010, object->GetProperty(3));
     if (material)
         material->AssignRefObj(shared);
     NiNode* node = object->IsSceneNode();
@@ -3089,7 +3122,7 @@ void FUN_004b6360(NiAVObject* object, const NiPoint3* color, FUN_00b668b0* prope
         for (unsigned int i = 0; i < node->GetNumChildren(); ++i)
         {
             if (node->GetAt(i))
-                FUN_004b6360(node->GetAt(i), color, property);
+                TintScenegraph(node->GetAt(i), color, property);
         }
     }
 }
@@ -3099,7 +3132,7 @@ class FUN_004b50c0
   public:
     FUN_004b50c0();
     virtual ~FUN_004b50c0();
-    void FUN_00c87260(unsigned int value);
+    void bhkMouseSpringAction_Init(unsigned int value);
 };
 
 class FUN_004b5040 : public FUN_004b50c0
@@ -3115,6 +3148,6 @@ extern int DAT_01268124;
 // @fnv 0x004b5040
 FUN_004b5040::FUN_004b5040(unsigned int value)
 {
-    FUN_00c87260(value);
+    bhkMouseSpringAction_Init(value);
     ++DAT_01268124;
 }

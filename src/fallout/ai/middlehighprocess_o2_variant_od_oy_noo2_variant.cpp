@@ -17,11 +17,11 @@ struct __declspec(align(16)) hkVector4L
     __m128 m_vComponents;
     hkVector4L();
 };
-hkVector4L& FUN_004a3e00(hkVector4L& out, const NiPoint3& in);
+hkVector4L& NI2HK(hkVector4L& out, const NiPoint3& in);
 
 struct hkpRigidBodyL
 {
-    void FUN_00cac960(const hkVector4L& position);
+    void hkpCharacterProxy_setLinearVelocity(const hkVector4L& position);
 };
 
 struct RigidBodyOwnerL
@@ -37,7 +37,7 @@ void RigidBodyOwnerL::bhkCharacterController_SetLinearVelocity_Ni(const NiPoint3
     hkVector4L kPos;
     hkpRigidBodyL* pBody = FUN_004ae750();
     if (pBody)
-        pBody->FUN_00cac960(FUN_004a3e00(kPos, pos));
+        pBody->hkpCharacterProxy_setLinearVelocity(NI2HK(kPos, pos));
 }
 
 class NiPoint3L
@@ -561,7 +561,7 @@ class CharControllerL
     float m_fG;
 };
 
-void* __cdecl FUN_00458b20();
+void* __cdecl hkVector4_getZero();
 
 class CellRefL
 {
@@ -882,7 +882,7 @@ void PlayerL::BaseProcess_LoadCharController(BGSLoadFormBufferL* pkBuffer)
             if (IsInCell(m_iWorldSpace, m_kCell.GetContainingCell()))
                 pkController->m_kFlags.SetFlags(0x8000000, true);
             pkController->SetEnabled(false);
-            pkController->SetWorld(FUN_00458b20());
+            pkController->SetWorld(hkVector4_getZero());
             hkQuaternionL kRotationBasis(0.0f, 0.0f, 1.0f, 0.0f);
             pkController->SetRotation(&kRotationBasis);
         }

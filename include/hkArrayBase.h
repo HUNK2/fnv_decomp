@@ -126,7 +126,7 @@ class hkArrayBase
     int m_iCapacityState;   // +0x8 m_capacityAndFlags
 
     T& FUN_00d87240(int i); // exe: 0x00d87240, out-of-line element access
-    T& FUN_00d87250(int i); // exe: 0x00d87250, out-of-line element access
+    T& hkClassMemberAccessor_asReal(int i); // exe: 0x00d87250, out-of-line element access
 
     hkArrayBase(FinishingFlag eFlag) {}
 };

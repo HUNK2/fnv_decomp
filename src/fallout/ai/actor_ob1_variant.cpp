@@ -171,7 +171,8 @@ __forceinline void ConstructColors(ArrowColor* const& memory)
     }
 }
 // @fnv 0x00c59a50
-ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColor* color)
+// src: XBOX_PDB 0x00c59a50
+ArrowGeometry* __cdecl BSTestObjects_CreateDirArrow(const ArrowPoint& direction, const ArrowColor* color)
 {
     ArrowPoint n3;
     float q;

@@ -176,7 +176,7 @@ bool TESRace::GetBipedObjectModelPath(TESNPC* npc, BIPED_OBJECT part, char* out)
     {
         const char* extension =
             strrchr(reinterpret_cast<TESFullName*>(&m_kHeadPartTextures[index][sex])->GetFullName(), '.');
-        char* dot = FUN_0040ab30(out, '.');
+        char* dot = strrchr_0040ab30(out, '.');
         if (dot && extension)
         {
             *dot = 0;
@@ -244,7 +244,8 @@ TESModel* TESRace::GetHeadPartModel_00613970(int aeSex, int aePart)
 
 // Returns the TESModel for the given sex and body part index, or null if the part index is outside 0..2.
 // @fnv 0x00613a20
-TESModel* TESRace::FUN_00613a20(int aeSex, int aePart)
+// src: XBOX_PDB 0x00613a20
+TESModel* TESRace::GetBodyPartModel_00613a20(int aeSex, int aePart)
 {
     if (aePart < 0 || aePart >= 3)
         return 0;
@@ -308,7 +309,7 @@ extern Setting g_011d5a50;
 // src: COMMUNITY 0x006151d0
 int General_uiEGTClampSize_Get()
 {
-    return *g_011d5a50.FUN_0043d4d0();
+    return *g_011d5a50.Setting_Int();
 }
 
 // Subtracts 2 from aePart and returns the result if it is in [0,3), otherwise returns -1.
@@ -398,14 +399,14 @@ struct List_009e03e0
 };
 struct RaceHairListAccess : TESRace
 {
-    List_009e03e0* __thiscall FUN_0045bb80();
+    List_009e03e0* __thiscall NiAVObject_GetWorldTranslate();
     void TESRace_ClearHairList();
 };
 // @fnv 0x00613850
 // src: COMMUNITY 0x00613850
 void RaceHairListAccess::TESRace_ClearHairList()
 {
-    FUN_0045bb80()->RemoveAll();
+    NiAVObject_GetWorldTranslate()->RemoveAll();
 }
 
 namespace fnv_00613950 {
@@ -529,7 +530,7 @@ struct FlagBox_cls
     bool v;
 };
 
-void __cdecl FUN_00401080(void* item, bool flag);
+void __cdecl BSEndian_00401080(void* item, bool flag);
 
 // @fnv 0x00611db0
 void RaceDefinitionData::SwapEndian()
@@ -537,13 +538,13 @@ void RaceDefinitionData::SwapEndian()
     for (int i = 0; i < 2; i++)
     {
         FlagBox_cls a = {};
-        FUN_00401080(&m_fGlyphExtent[i], a.v);
+        BSEndian_00401080(&m_fGlyphExtent[i], a.v);
         FlagBox_cls b = {};
-        FUN_00401080(&fWeight[i], b.v);
+        BSEndian_00401080(&fWeight[i], b.v);
     }
     {
         FlagBox_cls c = {};
-        FUN_00401080(&iFlags, c.v);
+        BSEndian_00401080(&iFlags, c.v);
     }
 }
 
@@ -761,20 +762,20 @@ void TESRace::ResetFormData()
 }
 
 extern "C" void* __cdecl _alloca(unsigned int);
-bool __cdecl FUN_00401500();
-void __cdecl FUN_004856d0(unsigned int);
-void __cdecl FUN_004856f0(unsigned int, const void*, unsigned int);
-void __cdecl FUN_00485710(unsigned int, const void*, unsigned int);
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl FUN_00485910(unsigned int, float);
-void __cdecl FUN_00485950(unsigned int, unsigned short);
+bool __cdecl TESForm_QEndianSwapOnSave();
+void __cdecl TESForm_AddChunk(unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, const void*, unsigned int);
+void __cdecl TESForm_AddChunkArray_00485710(unsigned int, const void*, unsigned int);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, float);
+void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned short);
 void* __cdecl FormHeap_Allocate(unsigned int);
 void __cdecl FormHeapFreeAndLog_00401030(void*);
 void* __cdecl ourMemset(void*, int, unsigned int);
 // The shared model API lacks this additional save operation.
 struct TESModelSaveAccess : TESModel
 {
-    void FUN_00489240(unsigned int);
+    void TESModel_SaveFlags(unsigned int);
 };
 struct SaveList611e50
 {
@@ -785,7 +786,7 @@ struct SaveList611e50
 struct FaceValue611e50
 {
     int unk00, unk04;
-    float* FUN_00629ab0();
+    float* NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
 };
 struct FaceMatrix611e50
 {
@@ -795,48 +796,48 @@ struct FaceMatrix611e50
 struct SaveRaceAccess : TESRace
 {
     void FUN_004855a0();
-    void FUN_00485e20(void*, unsigned int);
+    void TESForm___SaveData(void*, unsigned int);
     void FUN_00485680();
-    SaveList611e50* FUN_0045bb80();
-    SaveList611e50* FUN_00503650();
+    SaveList611e50* NiAVObject_GetWorldTranslate();
+    SaveList611e50* GetBackTexture();
     void SaveRace();
 };
 // @fnv 0x00611e50
 void SaveRaceAccess::SaveRace()
 {
     FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESSpellList::TESSpellList_SaveSubRecord();
     TESReactionForm::Save();
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.SwapEndian();
-    FUN_00485e20(&Data, 0x24);
-    if (FUN_00401500())
+    TESForm___SaveData(&Data, 0x24);
+    if (TESForm_QEndianSwapOnSave())
         Data.SwapEndian();
     unsigned int formid51 = 0;
     if (m_pOlderRace)
     {
-        formid51 = ((TESForm*)m_pOlderRace)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e4f, formid51);
+        formid51 = ((TESForm*)m_pOlderRace)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e4f, formid51);
     }
     if (m_pYoungerRace)
     {
-        formid51 = ((TESForm*)m_pYoungerRace)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e59, formid51);
+        formid51 = ((TESForm*)m_pYoungerRace)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e59, formid51);
     }
-    FUN_004856d0(0x324d414e);
+    TESForm_AddChunk(0x324d414e);
     if (m_apDefaultVoiceTypes[0] || m_apDefaultVoiceTypes[1])
     {
         unsigned int voiceids[2];
         for (int voiceindex = 0; voiceindex < 2; voiceindex++)
         {
             if (m_apDefaultVoiceTypes[voiceindex])
-                voiceids[voiceindex] = ((TESForm*)m_apDefaultVoiceTypes[voiceindex])->FUN_0084e3a0();
+                voiceids[voiceindex] = ((TESForm*)m_apDefaultVoiceTypes[voiceindex])->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             else
                 voiceids[voiceindex] = 0;
         }
-        FUN_00485710(0x4b435456, voiceids, 2);
+        TESForm_AddChunkArray_00485710(0x4b435456, voiceids, 2);
     }
     if (m_apDefaultHairStyles[0] || m_apDefaultHairStyles[1])
     {
@@ -844,87 +845,87 @@ void SaveRaceAccess::SaveRace()
         for (int hairindex = 0; hairindex < 2; hairindex++)
         {
             if (m_apDefaultHairStyles[hairindex])
-                hairids[hairindex] = ((TESForm*)m_apDefaultHairStyles[hairindex])->FUN_0084e3a0();
+                hairids[hairindex] = ((TESForm*)m_apDefaultHairStyles[hairindex])->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             else
                 hairids[hairindex] = 0;
         }
-        FUN_00485710(0x4d414e44, hairids, 2);
+        TESForm_AddChunkArray_00485710(0x4d414e44, hairids, 2);
     }
-    FUN_004856f0(0x4d414e43, m_acDefaultHairColors, 2);
-    FUN_00485910(0x4d414e50, m_fFaceGenMainClamp);
-    FUN_00485910(0x4d414e55, m_fFaceGenFaceClamp);
+    TESForm_AddChunkArray(0x4d414e43, m_acDefaultHairColors, 2);
+    TESForm_AddChunk_00485910(0x4d414e50, m_fFaceGenMainClamp);
+    TESForm_AddChunk_00485910(0x4d414e55, m_fFaceGenFaceClamp);
     unsigned int attributeSize72 = m_kMaleAttributes.GetAttributeDataSize();
     char* attributeData20 = (char*)_alloca(attributeSize72 * 2);
     m_kMaleAttributes.Save(attributeData20);
     m_kFemaleAttributes.Save(attributeData20 + attributeSize72);
-    FUN_004856f0(0x52545441, attributeData20, 2);
-    FUN_004856d0(0x304d414e);
+    TESForm_AddChunkArray(0x52545441, attributeData20, 2);
+    TESForm_AddChunk(0x304d414e);
     unsigned int sex3, part2;
     for (sex3 = 0; sex3 < 2; sex3++)
     {
         if (sex3 == 0)
-            FUN_004856d0(0x4d414e4d);
+            TESForm_AddChunk(0x4d414e4d);
         else if (sex3 == 1)
-            FUN_004856d0(0x4d414e46);
+            TESForm_AddChunk(0x4d414e46);
         for (part2 = 0; part2 < 8; part2++)
         {
-            FUN_00485910(0x58444e49, part2);
+            TESForm_AddChunk_00485910(0x58444e49, part2);
             m_kBodyPartModels[sex3][part2].WriteToBuffer(0x4c444f4d, 0x54444f4d);
-            ((TESModelSaveAccess*)&m_kBodyPartModels[sex3][part2])->FUN_00489240(0x44444f4d);
+            ((TESModelSaveAccess*)&m_kBodyPartModels[sex3][part2])->TESModel_SaveFlags(0x44444f4d);
             m_kBodyPartTextures[sex3][part2].Save(0x4e4f4349);
         }
     }
-    FUN_004856d0(0x314d414e);
+    TESForm_AddChunk(0x314d414e);
     for (sex3 = 0; sex3 < 2; sex3++)
     {
         if (sex3 == 0)
-            FUN_004856d0(0x4d414e4d);
+            TESForm_AddChunk(0x4d414e4d);
         else if (sex3 == 1)
-            FUN_004856d0(0x4d414e46);
+            TESForm_AddChunk(0x4d414e46);
         for (part2 = 0; part2 < 3; part2++)
         {
-            FUN_00485910(0x58444e49, part2);
+            TESForm_AddChunk_00485910(0x58444e49, part2);
             m_kHeadPartTextures[sex3][part2].Save(0x4e4f4349);
             m_kHeadPartModels[sex3][part2].WriteToBuffer(0x4c444f4d, 0x54444f4d);
-            ((TESModelSaveAccess*)&m_kHeadPartModels[sex3][part2])->FUN_00489240(0x44444f4d);
+            ((TESModelSaveAccess*)&m_kHeadPartModels[sex3][part2])->TESModel_SaveFlags(0x44444f4d);
         }
-        FUN_00485910(0x58444e49, part2);
+        TESForm_AddChunk_00485910(0x58444e49, part2);
         m_kFaceGenTextureModels[sex3].WriteToBuffer(0x4c444f4d, 0x54444f4d);
     }
     {
-        SaveList611e50* hairlist7 = FUN_0045bb80();
+        SaveList611e50* hairlist7 = NiAVObject_GetWorldTranslate();
         unsigned int hairposition7 = 0;
         unsigned int haircount2 = hairlist7->FUN_005ae380();
         unsigned int* hairdata1 = new unsigned int[haircount2];
         while (hairlist7 && *hairlist7->FUN_006815c0())
         {
-            hairdata1[hairposition7] = (*hairlist7->FUN_006815c0())->FUN_0084e3a0();
+            hairdata1[hairposition7] = (*hairlist7->FUN_006815c0())->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             hairposition7++;
             hairlist7 = hairlist7->FUN_00726070();
         }
-        FUN_00485710(0x4d414e48, hairdata1, haircount2);
+        TESForm_AddChunkArray_00485710(0x4d414e48, hairdata1, haircount2);
         delete[] hairdata1;
     }
     {
-        SaveList611e50* eyelist45 = FUN_00503650();
+        SaveList611e50* eyelist45 = GetBackTexture();
         unsigned int eyeposition15 = 0;
         unsigned int eyecount20 = eyelist45->FUN_005ae380();
         unsigned int* eyedata3 = new unsigned int[eyecount20];
         while (eyelist45 && *eyelist45->FUN_006815c0())
         {
-            eyedata3[eyeposition15] = (*eyelist45->FUN_006815c0())->FUN_0084e3a0();
+            eyedata3[eyeposition15] = (*eyelist45->FUN_006815c0())->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             eyeposition15++;
             eyelist45 = eyelist45->FUN_00726070();
         }
-        FUN_00485710(0x4d414e45, eyedata3, eyecount20);
+        TESForm_AddChunkArray_00485710(0x4d414e45, eyedata3, eyecount20);
         delete[] eyedata3;
     }
     for (sex3 = 0; sex3 < 2; sex3++)
     {
         if (sex3 == 0)
-            FUN_004856d0(0x4d414e4d);
+            TESForm_AddChunk(0x4d414e4d);
         else if (sex3 == 1)
-            FUN_004856d0(0x4d414e46);
+            TESForm_AddChunk(0x4d414e46);
         unsigned int count = 0;
         if (sex3 == 0)
             count = ((FaceMatrix611e50*)&m_kSecondFloatPairBySex[0][0])->NiAVObject_GetParent();
@@ -940,13 +941,13 @@ void SaveRaceAccess::SaveRace()
                 if (sex3 == 0)
                     geometrydata18[geometryindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[0][0])
                                                          ->FUN_0060b370(geometryindex, 0)
-                                                         .FUN_00629ab0();
+                                                         .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     geometrydata18[geometryindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][0])
                                                          ->FUN_0060b370(geometryindex, 0)
-                                                         .FUN_00629ab0();
+                                                         .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
-            FUN_00485710(0x53474746, geometrydata18, count);
+            TESForm_AddChunkArray_00485710(0x53474746, geometrydata18, count);
             FormHeapFreeAndLog_00401030(geometrydata18);
             geometrydata18 = 0;
         }
@@ -964,13 +965,13 @@ void SaveRaceAccess::SaveRace()
                 if (sex3 == 0)
                     asymmetrydata24[asymmetryindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[0][1])
                                                            ->FUN_0060b370(asymmetryindex, 0)
-                                                           .FUN_00629ab0();
+                                                           .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     asymmetrydata24[asymmetryindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[0][1])
                                                            ->FUN_0060b370(asymmetryindex, 0)
-                                                           .FUN_00629ab0();
+                                                           .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
-            FUN_00485710(0x41474746, asymmetrydata24, count);
+            TESForm_AddChunkArray_00485710(0x41474746, asymmetrydata24, count);
             FormHeapFreeAndLog_00401030(asymmetrydata24);
             asymmetrydata24 = 0;
         }
@@ -988,24 +989,24 @@ void SaveRaceAccess::SaveRace()
                 if (sex3 == 0)
                     texturedata16[textureindex] = *((FaceMatrix611e50*)&m_kSecondFloatPairBySex[1][0])
                                                        ->FUN_0060b370(textureindex, 0)
-                                                       .FUN_00629ab0();
+                                                       .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
                 else if (sex3 == 1)
                     texturedata16[textureindex] = *((FaceMatrix611e50*)&m_kFirstFloatPairBySex[1][0])
                                                        ->FUN_0060b370(textureindex, 0)
-                                                       .FUN_00629ab0();
+                                                       .NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
             }
-            FUN_00485710(0x53544746, texturedata16, count);
+            TESForm_AddChunkArray_00485710(0x53544746, texturedata16, count);
             FormHeapFreeAndLog_00401030(texturedata16);
             texturedata16 = 0;
         }
-        FUN_00485950(0x4d414e53, m_usRaceAttribute);
+        TESForm_AddChunk_00485950(0x4d414e53, m_usRaceAttribute);
     }
     FUN_00485680();
 }
 
 struct RaceListItem
 {
-    const char* FUN_0084e3a0();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct RaceList
 {
@@ -1016,22 +1017,22 @@ struct RaceList
 struct RaceComparer : TESRace
 {
     bool IsDifferentFrom(TESForm*);
-    bool FUN_00485270(RaceComparer*);
+    bool TESForm_CompareAllComponents(RaceComparer*);
     RaceDefinitionData* FUN_00613790();
     TESHair* TESRace_GetDefaultVoiceType(unsigned);
     TESEyes* TESRace_GetDefaultHair(unsigned);
     char GetByteAtOffset(unsigned);
     float TESRace_GetClampFaceGeoValue();
     float GetFieldA4OrDefault();
-    TESAttributes* FUN_004fadc0();
+    TESAttributes* GetData_004fadc0();
     TESAttributes* FUN_006130e0();
     TESModel* GetHeadPartModel_00613970(unsigned, unsigned);
     TESTexture* GetBodyPartTexture(unsigned, unsigned);
-    RaceList* FUN_0045bb80();
-    RaceList* FUN_00503650();
+    RaceList* NiAVObject_GetWorldTranslate();
+    RaceList* GetBackTexture();
     int FindByKey(const char*);
     int FindRecipeCategoryById(const char*);
-    BGSVoiceType* FUN_005d9fb0(unsigned);
+    BGSVoiceType* TESRace_GetMeanFaceCoord(unsigned);
     unsigned short GetFaceCoordNum_00607350();
 };
 int FUN_00ec4835(const void*, const void*, unsigned);
@@ -1044,7 +1045,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
     RaceComparer* pOtherRace = (RaceComparer*)dynamic_cast<TESRace*>(form);
     if (!pOtherRace)
         return true;
-    if (FUN_00485270(pOtherRace))
+    if (TESForm_CompareAllComponents(pOtherRace))
         return true;
     if (FUN_00ec4835(&Data, pOtherRace->FUN_00613790(), 36))
         return true;
@@ -1068,7 +1069,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
         return true;
     if (GetFieldA4OrDefault() != pOtherRace->GetFieldA4OrDefault())
         return true;
-    if (m_kMaleAttributes.CompareWithBase(pOtherRace->FUN_004fadc0()))
+    if (m_kMaleAttributes.CompareWithBase(pOtherRace->GetData_004fadc0()))
         return true;
     if (m_kFemaleAttributes.CompareWithBase(pOtherRace->FUN_006130e0()))
         return true;
@@ -1094,33 +1095,33 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
     }
     {
-        RaceList* hair = pOtherRace->FUN_0045bb80();
-        if (FUN_0045bb80()->FUN_005ae380() != hair->FUN_005ae380())
+        RaceList* hair = pOtherRace->NiAVObject_GetWorldTranslate();
+        if (NiAVObject_GetWorldTranslate()->FUN_005ae380() != hair->FUN_005ae380())
             return true;
         while (hair && hair->FUN_006815c0())
         {
-            if (!FindByKey(hair->FUN_006815c0()->FUN_0084e3a0()))
+            if (!FindByKey(hair->FUN_006815c0()->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
                 return true;
             hair = hair->FUN_00726070();
         }
     }
     {
-        RaceList* pEyesList = pOtherRace->FUN_00503650();
-        if (FUN_00503650()->FUN_005ae380() != pEyesList->FUN_005ae380())
+        RaceList* pEyesList = pOtherRace->GetBackTexture();
+        if (GetBackTexture()->FUN_005ae380() != pEyesList->FUN_005ae380())
             return true;
         while (pEyesList && pEyesList->FUN_006815c0())
         {
-            if (!FindRecipeCategoryById(pEyesList->FUN_006815c0()->FUN_0084e3a0()))
+            if (!FindRecipeCategoryById(pEyesList->FUN_006815c0()->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
                 return true;
             pEyesList = pEyesList->FUN_00726070();
         }
     }
-    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->FUN_005d9fb0(0), FUN_005d9fb0(0)))
+    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->TESRace_GetMeanFaceCoord(0), TESRace_GetMeanFaceCoord(0)))
     {
         m_usRaceAttribute = FUN_00487f50();
         return true;
     }
-    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->FUN_005d9fb0(1), FUN_005d9fb0(1)))
+    if (BSFaceGenManager_CompareFaceGenCoord(pOtherRace->TESRace_GetMeanFaceCoord(1), TESRace_GetMeanFaceCoord(1)))
     {
         m_usRaceAttribute = FUN_00487f50();
         return true;
@@ -1145,7 +1146,7 @@ struct Part;
 struct List;
 struct Name
 {
-    const char* FUN_00408da0();
+    const char* TESModel_GetModel();
 };
 struct Part
 {
@@ -1159,7 +1160,7 @@ struct Part
     unsigned int unk1c;
     unsigned int unk20;
     Name name;
-    List* FUN_00624700();
+    List* GetExtraPartList();
 };
 struct List
 {
@@ -1236,12 +1237,12 @@ struct NPCAppearanceAccess : TESNPC
     int TESDataHandler_GetRegionList();
     Part* FUN_00602150();
     void CreatePartTexture(unsigned int, String&);
-    List* FUN_00602170();
+    List* InterfaceManager_GetVATSEffect();
 };
 struct PlayerAppearanceAccess : PlayerCharacter
 {
-    NPCAppearanceAccess* FUN_007af430();
-    bool FUN_006047a0();
+    NPCAppearanceAccess* BGSSaveFormBuffer_GetForm();
+    bool PlayerCharacter_IsPCYoung();
 };
 extern PlayerAppearanceAccess* DAT_011dea3c;
 
@@ -1250,18 +1251,18 @@ extern Setting DAT_011cb99c;
 extern Data* DAT_011c3f2c;
 void* FUN_006521e0();
 void BSFaceGenManager_CopyFaceGenCoord(void*, Output*, int, int);
-const void* FUN_00605d40(unsigned int);
+const void* TESRace_GetHeadPartNodeName(unsigned int);
 int BSFaceGenManager_GetForcedLod();
 int BSstricmp(const char*, const char*);
 extern const char DAT_0104b8a0[];
 struct Race
 {
-    void* FUN_005d9fb0(int);
+    void* TESRace_GetMeanFaceCoord(int);
     TESHair* TESRace_GetDefaultHair(int);
     signed char GetByteAtOffset(int);
     TESModel* GetHeadPartModel_00613970(int, unsigned int);
     TESTexture* GetBodyPartTexture(int, unsigned int);
-    List* FUN_00503650();
+    List* GetBackTexture();
     void BuildAppearance(NPCAppearanceAccess*, Output*, int, bool);
 };
 // Fills an Output appearance record from an NPCAppearanceAccess or, when npc is null, from race defaults: hair, eyes, color, models, textures, slots, parts, mouth and teeth.
@@ -1273,16 +1274,16 @@ void Race::BuildAppearance(NPCAppearanceAccess* npc, Output* apOutput, int sex, 
     {
         npc->FUN_00603ad0(apOutput);
         sex = npc->FUN_005f0cc0();
-        if (npc == DAT_011dea3c->FUN_007af430())
+        if (npc == DAT_011dea3c->BGSSaveFormBuffer_GetForm())
         {
             apOutput->player = 1;
-            if (DAT_011dea3c->FUN_006047a0())
+            if (DAT_011dea3c->PlayerCharacter_IsPCYoung())
                 special = true;
         }
     }
     else
     {
-        void* model = FUN_005d9fb0(sex);
+        void* model = TESRace_GetMeanFaceCoord(sex);
         if (!model)
             model = FUN_006521e0();
         BSFaceGenManager_CopyFaceGenCoord(model, apOutput, 0, 0);
@@ -1307,7 +1308,7 @@ void Race::BuildAppearance(NPCAppearanceAccess* npc, Output* apOutput, int sex, 
     {
         apOutput->models.Add(GetHeadPartModel_00613970(sex, i));
         apOutput->textures.Add(GetBodyPartTexture(sex, i));
-        apOutput->slots.Add(FUN_00605d40(i));
+        apOutput->slots.Add(TESRace_GetHeadPartNodeName(i));
         if (npc && *DAT_011cb99c.FUN_00408d60() && !skip)
         {
             String path(0);
@@ -1319,13 +1320,13 @@ void Race::BuildAppearance(NPCAppearanceAccess* npc, Output* apOutput, int sex, 
     apOutput->texture = BSFaceGenManager_GetForcedLod();
     if (npc && !special)
     {
-        List* parts = npc->FUN_00602170();
+        List* parts = npc->InterfaceManager_GetVATSEffect();
         while (parts && !parts->FUN_008256d0())
         {
             Part* part = *parts->FUN_006815c0();
             parts = parts->FUN_00726070();
             apOutput->parts.FUN_005ae3d0(part);
-            List* children = part->FUN_00624700();
+            List* children = part->GetExtraPartList();
             while (children && !children->FUN_008256d0())
             {
                 Part* child = *children->FUN_006815c0();
@@ -1338,7 +1339,7 @@ void Race::BuildAppearance(NPCAppearanceAccess* npc, Output* apOutput, int sex, 
     apOutput->teeth = GetHeadPartModel_00613970(sex, 7);
     if (!apOutput->eyes)
     {
-        List* eyes = FUN_00503650();
+        List* eyes = GetBackTexture();
         Part* pEyeSlot = 0;
         if (eyes && !eyes->FUN_008256d0())
         {
@@ -1347,11 +1348,11 @@ void Race::BuildAppearance(NPCAppearanceAccess* npc, Output* apOutput, int sex, 
         }
         else
         {
-            eyes = reinterpret_cast<List*>(DAT_011c3f2c->FUN_0043c490());
+            eyes = reinterpret_cast<List*>(DAT_011c3f2c->GetTranslate_0043c490());
             while (eyes)
             {
                 pEyeSlot = *eyes->FUN_006815c0();
-                if (pEyeSlot && !BSstricmp(pEyeSlot->name.FUN_00408da0(), DAT_0104b8a0))
+                if (pEyeSlot && !BSstricmp(pEyeSlot->name.TESModel_GetModel(), DAT_0104b8a0))
                 {
                     apOutput->eyes = pEyeSlot;
                     break;
@@ -1508,7 +1509,7 @@ bool RaceFaceGenAccess::CreateFaceGenNodes(FUN_006628c0_C** pA, FUN_006628c0_C**
         ApplyFaceGenTextures(*pA, &obj);
         ApplyFaceGenTextures(*pB, &obj);
     }
-    if (actor && actor->FUN_0084e3a0() == 7)
+    if (actor && actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == 7)
     {
         ((FUN_00613fb0_C*)*pA)->Set(true);
         ((FUN_00613fb0_C*)*pB)->Set(true);
@@ -1535,7 +1536,7 @@ class NpcCoords : public TESNPC
 struct RaceTexture : TESRace
 {
     bool ApplyBodyTexture(NiPointer<NiSourceTexture>&, NiPointer<NiTexture>&, TESNPC*, BIPED_OBJECT, bool);
-    void* FUN_005d9fb0(int);
+    void* TESRace_GetMeanFaceCoord(int);
 };
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 void __cdecl FNV_Warning(const char*, ...);
@@ -1544,7 +1545,7 @@ bool __cdecl FindTextureByPath(char*, NiPointer<NiTexture>*);
 void __cdecl BSTexturePalette_RemoveTexture_0(char*);
 const char* __cdecl GetModelEgtFilename(BSStringT<char>*, const char*);
 BSFaceGenModel* __cdecl GetOrCreateFaceGenModel(int, int, int, const char*, int, int, int);
-void __cdecl FUN_00652af0(void*, void*, void*, bool, float);
+void __cdecl BSFaceGenManager_MergeFaceGenCoord(void*, void*, void*, bool, float);
 void* __cdecl FUN_006521e0();
 void __cdecl BSFaceGenManager_CopyFaceGenCoord(void*, void*, bool, bool);
 unsigned int __cdecl General_uiEGTClampSize_Get();
@@ -1601,11 +1602,11 @@ bool RaceTexture::ApplyBodyTexture(NiPointer<NiSourceTexture>& source, NiPointer
             return false;
         if (npc)
         {
-            FUN_00652af0(FUN_005d9fb0(static_cast<const TESActorBase*>(npc)->GetSex()), ((NpcCoords*)npc)->FUN_00601800(), coords9, false, 0.0f);
+            BSFaceGenManager_MergeFaceGenCoord(TESRace_GetMeanFaceCoord(static_cast<const TESActorBase*>(npc)->GetSex()), ((NpcCoords*)npc)->FUN_00601800(), coords9, false, 0.0f);
         }
         else
         {
-            void* _fallback = FUN_005d9fb0(sex4);
+            void* _fallback = TESRace_GetMeanFaceCoord(sex4);
             if (!_fallback)
                 _fallback = FUN_006521e0();
             BSFaceGenManager_CopyFaceGenCoord(_fallback, coords9, false, false);
@@ -1638,13 +1639,13 @@ struct RaceLoadTarget : public TESRace
 template <int N> struct RaceLoadEndianTag
 {
 };
-void __cdecl FUN_00401080(int*, RaceLoadEndianTag<4>);
+void __cdecl BSEndian_00401080(int*, RaceLoadEndianTag<4>);
 void* __cdecl ourMemset(void*, int, unsigned int);
 extern "C" void* __cdecl _alloca(unsigned int);
 
 struct RaceLoadReactionEndian
 {
-    void FUN_005a6b10();
+    void TESRegionSound_Endian();
 };
 struct RaceLoadReactionList
 {
@@ -1664,7 +1665,7 @@ struct RaceLoadCoordArray
 };
 struct RaceLoadCoordScalar
 {
-    float& FUN_00629ab0(unsigned int);
+    float& NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned int);
 };
 struct RaceLoadCoordValue : public RaceLoadCoordScalar
 {
@@ -1677,7 +1678,7 @@ struct RaceLoadCoordAccess
 };
 struct RaceLoadSpellList
 {
-    void FUN_0048d290(unsigned int);
+    void TESSpellList_AddSpell_0048d290(unsigned int);
 };
 struct RaceLoadHairList
 {
@@ -1693,13 +1694,13 @@ struct RaceLoadEyeList
 };
 struct RaceLoadDataReader
 {
-    void FUN_004861f0(TESFile*, void*, unsigned short);
+    void TESForm_LoadData(TESFile*, void*, unsigned short);
 };
 struct RaceLoadTextureChunk
 {
     static void __cdecl FUN_0048e3d0(TESTexture*, TESFile*);
 };
-bool __cdecl FUN_00489280(int);
+bool __cdecl TESModel_IsModelChunk(int);
 bool __cdecl IsChunkTypeIcon(int);
 void __cdecl FUN_004892d0(TESModel*, TESFile*);
 void __cdecl ReadFullName(TESFullName*, TESFile*);
@@ -1814,7 +1815,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
     if ((apFile->*reinterpret_cast<int (TESFile::*)()>(&TESFile::GetTESForm))() != 0xc)
         return false;
     LoadRecordHeader(apFile);
-    while ((chunkid = apFile->FUN_004726b0()) != 0)
+    while ((chunkid = apFile->TESFile_GetTESChunk()) != 0)
     {
         etype = esymm = -1;
         switch (chunkid)
@@ -1837,21 +1838,21 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
         case 0x4f4c5053: {
             unsigned int tempint = 0;
             apFile->GetChunkData(reinterpret_cast<unsigned int*>(&tempint));
-            ((RaceLoadSpellList*)(reinterpret_cast<char*>(&spellList) - offsetof(TESSpellList, spellList)))->FUN_0048d290(tempint);
+            ((RaceLoadSpellList*)(reinterpret_cast<char*>(&spellList) - offsetof(TESSpellList, spellList)))->TESSpellList_AddSpell_0048d290(tempint);
             break;
         }
         case 0x4d414e58: {
             RaceLoadReaction* pdata = new RaceLoadReaction;
             apFile->FUN_00472890(pdata, 0xc);
             if (apFile->IsEndianConversionRequired())
-                ((RaceLoadReactionEndian*)pdata)->FUN_005a6b10();
+                ((RaceLoadReactionEndian*)pdata)->TESRegionSound_Endian();
             ((RaceLoadReactionList&)((RaceLoadReactionAccess*)(reinterpret_cast<char*>(&m_kReactionList) - offsetof(TESReactionForm, m_kReactionList)))
                  ->FUN_00717e50())
                 .FUN_00905820(reinterpret_cast<char*&>(pdata));
             break;
         }
         case 0x41544144:
-            ((RaceLoadDataReader*)this)->FUN_004861f0(apFile, &Data, 0x24);
+            ((RaceLoadDataReader*)this)->TESForm_LoadData(apFile, &Data, 0x24);
             break;
         case 0x4d414e4f: {
             unsigned int itempint = 0;
@@ -1878,7 +1879,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 if (apFile->IsEndianConversionRequired())
                 {
                     for (int i = 0; i < 2; i++)
-                        FUN_00401080((int*)&ptempint[i], RaceLoadEndianTag<4>());
+                        BSEndian_00401080((int*)&ptempint[i], RaceLoadEndianTag<4>());
                 }
                 SetDefaultVoiceType(SEX_SEX_MALE, (BGSVoiceType*)ptempint[0]);
                 SetDefaultVoiceType(SEX_SEX_FEMALE, (BGSVoiceType*)ptempint[1]);
@@ -1910,7 +1911,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
             if (apFile->IsEndianConversionRequired())
             {
                 for (int i = 0; i < 2; i++)
-                    FUN_00401080((int*)&ptempint[i], RaceLoadEndianTag<4>());
+                    BSEndian_00401080((int*)&ptempint[i], RaceLoadEndianTag<4>());
             }
             ((RaceLoadHairDefault*)this)->SetIndexedInt(0, ptempint[0]);
             ((RaceLoadHairDefault*)this)->SetIndexedInt(1, ptempint[1]);
@@ -1955,11 +1956,11 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
             for (unsigned int i = 0; i < isize; i++)
             {
                 if (apFile->IsEndianConversionRequired())
-                    FUN_00401080((int*)&pfloats[i], RaceLoadEndianTag<4>());
+                    BSEndian_00401080((int*)&pfloats[i], RaceLoadEndianTag<4>());
                 if (!isex || boldSchool)
-                    ((RaceLoadCoordAccess*)&m_kSecondFloatPairBySex[etype][esymm])->FUN_0060b370(i).FUN_00629ab0(0) =
+                    ((RaceLoadCoordAccess*)&m_kSecondFloatPairBySex[etype][esymm])->FUN_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
                         pfloats[i];
-                ((RaceLoadCoordAccess*)&m_kFirstFloatPairBySex[etype][esymm])->FUN_0060b370(i).FUN_00629ab0(0) =
+                ((RaceLoadCoordAccess*)&m_kFirstFloatPairBySex[etype][esymm])->FUN_0060b370(i).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0) =
                     pfloats[i];
             }
             break;
@@ -2025,7 +2026,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 for (unsigned int i = 0; i < inumHair; i++)
                 {
                     if (apFile->IsEndianConversionRequired())
-                        FUN_00401080((int*)&phairIDs[i], RaceLoadEndianTag<4>());
+                        BSEndian_00401080((int*)&phairIDs[i], RaceLoadEndianTag<4>());
                     RemapFormIDForFile(phairIDs[i], apFile);
                     TESHair* phair = dynamic_cast<TESHair*>(GetFormByID(phairIDs[i]));
                     if (phair)
@@ -2051,7 +2052,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 for (unsigned int i = 0; i < inumEyes; i++)
                 {
                     if (apFile->IsEndianConversionRequired())
-                        FUN_00401080((int*)&peyesIDs[i], RaceLoadEndianTag<4>());
+                        BSEndian_00401080((int*)&peyesIDs[i], RaceLoadEndianTag<4>());
                     RemapFormIDForFile(peyesIDs[i], apFile);
                     TESEyes* peyes = dynamic_cast<TESEyes*>(GetFormByID(peyesIDs[i]));
                     if (peyes)
@@ -2072,7 +2073,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 {
                     if (IsChunkTypeIcon(chunkid))
                         RaceLoadTextureChunk::FUN_0048e3d0(&m_kBodyPartTextures[isex][ipart - isub], apFile);
-                    else if (FUN_00489280(chunkid))
+                    else if (TESModel_IsModelChunk(chunkid))
                         FUN_004892d0(&m_kBodyPartModels[isex][ipart - isub], apFile);
                 }
             }
@@ -2082,7 +2083,7 @@ bool RaceLoadTarget::TESRace_Load(TESFile* apFile)
                 {
                     if (IsChunkTypeIcon(chunkid))
                         RaceLoadTextureChunk::FUN_0048e3d0(&m_kHeadPartTextures[isex][ipart], apFile);
-                    else if (FUN_00489280(chunkid))
+                    else if (TESModel_IsModelChunk(chunkid))
                         FUN_004892d0(&m_kHeadPartModels[isex][ipart], apFile);
                 }
                 if (ipart == 3)

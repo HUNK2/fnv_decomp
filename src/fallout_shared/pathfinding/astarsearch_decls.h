@@ -123,5 +123,5 @@ FNV_STATIC_ASSERT(offsetof(NavMeshAStarSearch, m_bUseBestNode) == 0x2054);
 
 unsigned int gm_GetCurrentThreadId();
 
-void FUN_0040fca0(unsigned long);
+void BSSleep(unsigned long);
 #endif

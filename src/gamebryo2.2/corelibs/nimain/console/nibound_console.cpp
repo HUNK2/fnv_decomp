@@ -97,7 +97,7 @@ void __fastcall ReleasePackedAGDBuffer(BSPackedAdditionalGeometryData::NiBSPacke
 bool __fastcall IsPackedAdditionalGeometryDataEqual(BSPackedAdditionalGeometryData* pData,
                                                    void*, const NiAdditionalGeometryData* pkObject)
 {
-    if (pData->FUN_00a727f0(pkObject) && pData->m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
+    if (pData->NiAdditionalGeometryData_IsEqual(pkObject) && pData->m_uiShaderDeclarationIndex == pkObject->m_uiShaderDeclarationIndex &&
         pData->m_uiUnknownValue == pkObject->m_uiUnknownValue)
         return true;
     return false;

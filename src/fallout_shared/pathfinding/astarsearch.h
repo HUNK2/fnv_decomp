@@ -175,7 +175,7 @@ AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* AStarSearch<N
             if (++uiCounter == 50)
             {
                 uiCounter = 0;
-                FUN_0040fca0(0);
+                BSSleep(0);
             }
         }
         i = m_pCurrentNode;
@@ -209,7 +209,7 @@ bool AStarSearch<NavMeshTriangleReference, NavMeshTriangleEdgeReference>::Search
         pOutNode = NULL;
     }
     if (pOutNode)
-        FUN_006a8290(pOutNode, uiParam1, uiParam2);
+        AStarSearch_NavMeshSearchNode_NavMeshSearchLink_GetPathToNode(pOutNode, uiParam1, uiParam2);
     return bSuccess;
 }
 

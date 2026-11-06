@@ -5,7 +5,7 @@ extern void* DAT_010173f0;
 struct FUN_0044a500_s
 {
     FUN_0044a500_s* CallAndReturnSelf(int);
-    void FUN_0044a730(char, int);
+    void fopen_0044a730(char, int);
     int AssignSubstring(int, int, void*);
     FUN_0044a500_s* FUN_0044a500(int);
 };
@@ -13,7 +13,7 @@ struct FUN_0044a500_s
 FUN_0044a500_s* FUN_0044a500_s::FUN_0044a500(int a)
 {
     CallAndReturnSelf(a);
-    FUN_0044a730(0, 0);
+    fopen_0044a730(0, 0);
     AssignSubstring(a, 0, DAT_010173f0);
     return this;
 }

@@ -144,7 +144,7 @@ struct ObjX
         int aiPad[10];
         return p;
     }
-    bool FUN_006532c0(const RttiX* pk);
+    bool NiObject_IsKindOf_006532c0(const RttiX* pk);
     bool IsKindOfX(const RttiX* pk)
     {
         const RttiX* r = GetRTTI();
@@ -227,10 +227,11 @@ class WalkX
   public:
     char pad[0x5c4];
     MapX* m_pTaskMap;
-    void FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags);
+    void BSStream_ObjectRefRec(ObjX* pkObj, unsigned int uiFlags);
 };
 // @fnv 0x00c3a9c0
-void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
+// src: XBOX_PDB 0x00c3a9c0
+void WalkX::BSStream_ObjectRefRec(ObjX* pkObj, unsigned int uiFlags)
 {
     if (m_pTaskMap)
     {
@@ -254,7 +255,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
             if (!pkObj)
                 pkNode = 0;
             else
-                pkNode = (NodeX*)(pkObj->FUN_006532c0(&DAT_011f4280) ? pkObj : 0);
+                pkNode = (NodeX*)(pkObj->NiObject_IsKindOf_006532c0(&DAT_011f4280) ? pkObj : 0);
             if (pkNode)
             {
                 if (uiFlags & 4)
@@ -264,7 +265,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
                     {
                         ObjX* pkChild = pkNode->GetNext(pos);
                         if (pkChild)
-                            FUN_00c3a9c0(pkChild, uiFlags);
+                            BSStream_ObjectRefRec(pkChild, uiFlags);
                     }
                 }
                 ArrHolderX* pkHolder = (ArrHolderX*)pkObj->GetChildHolder();
@@ -277,7 +278,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
                         if (pkChild)
                         {
                             if (!(uiFlags & 3) || pkChild->GetChildHolder())
-                                FUN_00c3a9c0(pkChild, uiFlags);
+                                BSStream_ObjectRefRec(pkChild, uiFlags);
                         }
                     }
                 }
@@ -293,7 +294,7 @@ void WalkX::FUN_00c3a9c0(ObjX* pkObj, unsigned int uiFlags)
                 {
                     ObjX* pkChild = pkExtra->GetFirst(0);
                     if (pkChild)
-                        FUN_00c3a9c0(pkChild, uiFlags);
+                        BSStream_ObjectRefRec(pkChild, uiFlags);
                 }
             }
         }
@@ -311,7 +312,7 @@ struct StreamRTTI
     }
 };
 
-unsigned int __cdecl FUN_00a63630(const char*);
+unsigned int __cdecl NiStream_GetVersionFromString(const char*);
 struct StreamObject
 {
     virtual void slot0();
@@ -751,9 +752,9 @@ struct TargetStream
     void FUN_00a644f0();
     bool LoadRTTIAndObjects();
     void LoadGroups();
-    void FUN_00a63d10();
+    void NiStream_SetSelectiveUpdateFlagsForOldVersions();
     void Clear();
-    bool FUN_00a65c60();
+    bool NiStream_LoadStream();
     StreamObject* ObjectAt(unsigned int index)
     {
         StreamObject*& entry = objects[index];
@@ -769,10 +770,11 @@ struct TargetStream
             map->GetAt(aVal, aItem);
         return aItem;
     }
-    bool FUN_00c3ac10();
+    bool BSStream_LoadStream();
 };
 // @fnv 0x00c3ac10
-bool TargetStream::FUN_00c3ac10()
+// src: XBOX_PDB 0x00c3ac10
+bool TargetStream::BSStream_LoadStream()
 {
     if (map)
     {
@@ -789,13 +791,13 @@ bool TargetStream::FUN_00c3ac10()
         StreamObject* specialObject6;
         {
             unsigned int aVersion = version;
-            groupB = aVersion >= FUN_00a63630("5.0.0.1");
+            groupB = aVersion >= NiStream_GetVersionFromString("5.0.0.1");
         }
         if (groupB && !LoadRTTIAndObjects())
             return false;
         {
             unsigned int aVersion = version;
-            if (aVersion >= FUN_00a63630("5.0.0.6"))
+            if (aVersion >= NiStream_GetVersionFromString("5.0.0.6"))
                 LoadGroups();
         }
         count = objectCount;
@@ -849,12 +851,12 @@ bool TargetStream::FUN_00c3ac10()
                 objectTmp->pass27(this);
             }
         }
-        FUN_00a63d10();
+        NiStream_SetSelectiveUpdateFlagsForOldVersions();
         Clear();
     }
     else
     {
-        return FUN_00a65c60();
+        return NiStream_LoadStream();
     }
     return true;
 }
@@ -900,7 +902,7 @@ struct SpY
 struct ObjY : RefY
 {
     void* m8;
-    bool FUN_006532c0(const RttiY* pk);
+    bool NiObject_IsKindOf_006532c0(const RttiY* pk);
 };
 struct FUN_00a5d3a0 : RefY
 {
@@ -914,10 +916,10 @@ struct Z : FUN_00a5d3a0
     Z(void* p)
     {
         m8 = 0;
-        FUN_00c64780(p);
+        BSReference_SetName(p);
     }
     virtual void v0();
-    void FUN_00c64780(void* p);
+    void BSReference_SetName(void* p);
 };
 struct MapY
 {
@@ -1341,11 +1343,12 @@ class WalkY
             m_pTaskMap->FUN_00853130(aVal, &aItem);
         return aItem;
     }
-    bool FUN_00c3afc0(ObjY* pkObj);
+    bool BSStream_RegisterSaveObject(ObjY* pkObj);
 };
 
 // @fnv 0x00c3afc0
-bool WalkY::FUN_00c3afc0(ObjY* pkObj)
+// src: XBOX_PDB 0x00c3afc0
+bool WalkY::BSStream_RegisterSaveObject(ObjY* pkObj)
 {
     if (m_pTaskMap)
     {
@@ -1358,7 +1361,7 @@ bool WalkY::FUN_00c3afc0(ObjY* pkObj)
         if (!pkObj)
             pkNode2 = 0;
         else
-            pkNode2 = (ObjY*)(pkObj->FUN_006532c0(&DAT_011f4304) ? pkObj : 0);
+            pkNode2 = (ObjY*)(pkObj->NiObject_IsKindOf_006532c0(&DAT_011f4304) ? pkObj : 0);
         if (pkNode2 && Lookup(pkNode2))
         {
             spNew9.FUN_00c3b970(new Z(pkNode2->m8));
@@ -1396,7 +1399,7 @@ class Task
     {
         return unk10;
     }
-    void FUN_0044dd60();
+    void BSTask_int64_DecRefCount();
     inline void AcquireReference()
     {
         InterlockedIncrement(&unk08);
@@ -1414,7 +1417,7 @@ class TaskPtr
     inline ~TaskPtr()
     {
         if (value)
-            value->FUN_0044dd60();
+            value->BSTask_int64_DecRefCount();
     }
 };
 class Queue
@@ -1539,7 +1542,7 @@ struct S00c3fce0_Obj
 {
     int unk00, unk04;
     long references;
-    void FUN_0044dd60();
+    void BSTask_int64_DecRefCount();
 };
 struct S00c3fce0_Key
 {
@@ -1583,7 +1586,7 @@ struct S00c3fce0_Args
         int t14;
         int t15;
         if (item.object)
-            item.object->FUN_0044dd60();
+            item.object->BSTask_int64_DecRefCount();
     }
 };
 struct S00c3fce0_Tmp
@@ -2092,18 +2095,19 @@ struct C3B270_Owner
     int m_5C4;
     C3B270_Ref m_5C8;
     void FUN_00a66370(C3B270_Object* object);
-    bool FUN_00a66850();
-    bool FUN_00c3b270();
+    bool NiStream_SaveStream();
+    bool BSStream_SaveStream();
 };
 // @fnv 0x00c3b270
-bool C3B270_Owner::FUN_00c3b270()
+// src: XBOX_PDB 0x00c3b270
+bool C3B270_Owner::BSStream_SaveStream()
 {
     if (m_5C4)
     {
         m_5C8.FUN_00c3b970(new C3B270_Object);
         FUN_00a66370(m_5C8);
     }
-    bool result = FUN_00a66850();
+    bool result = NiStream_SaveStream();
     m_5C8.FUN_00c3b970(0);
     return result;
 }

@@ -483,7 +483,8 @@ ObjR* __stdcall FUN_00b585c0(void* v, FnvOwner** out);
 
 // Passes Vec4 values assembled from a5 and a6 to the located object, then inserts key when absent from its KeyedList.
 // @fnv 0x00b59ae0
-void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObjA4, NiPoint3* apPoints, float* a6,
+// src: XBOX_PDB 0x00b59ae0
+void __cdecl DistantLODShaderProperty_AddDistantLOD(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObjA4, NiPoint3* apPoints, float* a6,
                           unsigned short count)
 {
     DAT_011f9640 += count;
@@ -573,7 +574,7 @@ struct S_00b6f0b0_Node
 struct S_00b6f0b0_Lock
 {
     int owner;
-    void FUN_0040fbf0(const char* s) throw();
+    void BSSpinLock_Lock(const char* s) throw();
 };
 extern S_00b6f0b0_Lock DAT_011c5f80;
 extern S_00b6f0b0_Node* DAT_011c5f58;
@@ -657,7 +658,7 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m84.tail = 0;
         node->item = 0;
-        DAT_011c5f80.FUN_0040fbf0(0);
+        DAT_011c5f80.BSSpinLock_Lock(0);
         node->prev = 0;
         node->next = DAT_011c5f58;
         if (--DAT_011c5f84 == 0)
@@ -684,7 +685,7 @@ FUN_00b6f0b0::~FUN_00b6f0b0()
         else
             m78.tail = 0;
         node->item = 0;
-        DAT_011c5f80.FUN_0040fbf0(0);
+        DAT_011c5f80.BSSpinLock_Lock(0);
         node->prev = 0;
         node->next = DAT_011c5f58;
         if (--DAT_011c5f84 == 0)
@@ -952,7 +953,7 @@ struct Scene : NiObject
 
     NiProperty* FUN_00a59d30(int);
 
-    void FUN_00a5b230(unsigned int);
+    void NiAVObject_RemoveProperty(unsigned int);
 };
 
 struct Resource : NiRefObject
@@ -1134,7 +1135,7 @@ Resource* __cdecl DistantLODShaderProperty_GetCachedGeometry(Input* input)
     if (!GetNiTStringMap()->FUN_00e92760(input->key, &cachedResource))
     {
 
-        if (!input->scene && input->path && stream.FUN_00c3a8a0(input->path, false))
+        if (!input->scene && input->path && stream.BSStream_Load(input->path, false))
         {
 
             // The top-level object array is at stream offset 0x220.
@@ -1417,7 +1418,7 @@ Resource* __cdecl DistantLODShaderProperty_GetCachedGeometry(Input* input)
                         texture = GetShaderTexture(shader, 0, 0);
                 }
 
-                geometry->FUN_00a5b230(0);
+                geometry->NiAVObject_RemoveProperty(0);
 
                 NiAlphaProperty* alpha = new NiAlphaProperty;
 

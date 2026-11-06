@@ -11,7 +11,8 @@
 typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
 
 // @fnv 0x00a57c20
-void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
+// src: XBOX_PDB 0x00a57c20
+void* __fastcall NiPoint3InterpController_CreatePoseInterpolator(void* self, int, unsigned short usIndex)
 {
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
@@ -35,13 +36,14 @@ typedef void(__thiscall* GetPoint3Fn)(void*, NiPoint3*);
 
 // Casts pkInterp to a NiPoint3 interpolator, reads a NiPoint3 from self via a virtual call, and passes it to the interpolator.
 // @fnv 0x00a57cb0
-void __fastcall FUN_00a57cb0(void* self, int, NiObject* pkInterp, int)
+// src: XBOX_PDB 0x00a57cb0
+void __fastcall NiPoint3InterpController_SynchronizePoseInterpolator(void* self, int, NiObject* pkInterp, int)
 {
     NiPoint3Interpolator* pkPoint3Interp =
         !pkInterp ? 0 : (NiPoint3Interpolator*)pkInterp->DynamicCast(&g_011f3f70);
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
-    pkPoint3Interp->FUN_00a494b0(kValue);
+    pkPoint3Interp->SetPoseValue(kValue);
 }
 }  // namespace fnv_00a57cb0
 
@@ -54,7 +56,8 @@ void __stdcall FUN_00a390a0(CombatGroupArray* a);
 ActorCombatGroup* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 
 // @fnv 0x00a57d10
-void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
+// src: XBOX_PDB 0x00a57d10
+void __stdcall NiPoint3InterpController_GetViewerStrings(CombatGroupArray* pCombatGroups)
 {
     FUN_00a390a0(pCombatGroups);
     ActorCombatGroup* pGroup = NiViewerStrings_NiGetViewerString_Title(g_011f3f88_arg1);

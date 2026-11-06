@@ -10,7 +10,7 @@
 
 class NiPoint3;
 
-hkVector4& FUN_004a3e00(hkVector4& out, const NiPoint3& pt);
+hkVector4& NI2HK(hkVector4& out, const NiPoint3& pt);
 
 class Obj554720
 {
@@ -26,6 +26,6 @@ class Obj554720
 void Obj554720::bhkWorldM_NiCheckForMove(const NiPoint3& pt)
 {
     hkVector4 v;
-    bhkWorldM_CheckForMove(FUN_004a3e00(v, pt));
+    bhkWorldM_CheckForMove(NI2HK(v, pt));
 }
 #pragma strict_gs_check(pop)

@@ -31,7 +31,7 @@ int FUN_00807da0_shell::FUN_00807da0()
     return *(unsigned short*)((char*)this + 6) & 0x3fff;
 }
 
-void __cdecl FUN_00807cb0(void*, void*);
+void __cdecl bhkTelekinesisListener_Remove(void*, void*);
 struct DelVirt
 {
     virtual void v0();
@@ -48,13 +48,13 @@ struct FUN_00807980_shell
 // src: COMMUNITY 0x00807980
 void FUN_00807980_shell::bhkTelekinesisListener_entityDeletedCallback(void* apEntity)
 {
-    FUN_00807cb0((void*)((char*)this - 4), apEntity);
+    bhkTelekinesisListener_Remove((void*)((char*)this - 4), apEntity);
     delete (DelVirt*)((char*)this - 4);
 }
 
 struct FUN_008079e0_shell
 {
-    void FUN_00807a10(hkpEntity*);
+    void bhkTelekinesisListener_Finish(hkpEntity*);
     void bhkTelekinesisListener_entityDeactivatedCallback(hkpEntity* entity);
 };
 // If the byte at offset 0x10 of this is set, calls FUN_00807a10 on the object at this-8 with entity.
@@ -63,7 +63,7 @@ struct FUN_008079e0_shell
 void FUN_008079e0_shell::bhkTelekinesisListener_entityDeactivatedCallback(hkpEntity* entity)
 {
     if (*(unsigned char*)((char*)this + 0x10))
-        ((FUN_008079e0_shell*)((char*)this - 8))->FUN_00807a10(entity);
+        ((FUN_008079e0_shell*)((char*)this - 8))->bhkTelekinesisListener_Finish(entity);
 }
 
 struct ITopic
@@ -121,7 +121,8 @@ FUN_00807c50::FUN_00807c50()
 {}
 
 // @fnv 0x00807cb0
-void __cdecl FUN_00807cb0(char* listener, hkpEntity* entity)
+// src: XBOX_PDB 0x00807cb0
+void __cdecl bhkTelekinesisListener_Remove(char* listener, hkpEntity* entity)
 {
     entity->RemoveContactListener(listener);
     entity->AddEntityListener(listener ? listener + 4 : 0);
@@ -252,7 +253,7 @@ namespace TelekinesisRemovalDetail {
 struct ActivationArray
 {
     unsigned int __thiscall GetShortAtOffset4();
-    FUN_008079e0_shell*& __thiscall FUN_00629ab0(unsigned int index);
+    FUN_008079e0_shell*& __thiscall NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned int index);
 };
 
 extern "C" hkpEntity* __fastcall FUN_004ae750(void* body);
@@ -267,7 +268,8 @@ extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacemen
 
 // Iterates activation listeners on the hkpEntity and calls FUN_00807a10 on any that are telekinesis shells.
 // @fnv 0x00807ac0
-void __cdecl FUN_00807ac0(void* body)
+// src: XBOX_PDB 0x00807ac0
+void __cdecl bhkTelekinesisListener_RemoveTelekinesisListeners(void* body)
 {
     using namespace TelekinesisRemovalDetail;
     hkpEntity* entity = FUN_004ae750(body);
@@ -280,14 +282,14 @@ void __cdecl FUN_00807ac0(void* body)
         {
             FUN_008079e0_shell* listener =
                 reinterpret_cast<ActivationArray*>(GetOrCreate807c50(entity))
-                    ->FUN_00629ab0((unsigned int)index);
+                    ->NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt((unsigned int)index);
             {
                 FUN_008079e0_shell* telekinesis = reinterpret_cast<FUN_008079e0_shell*>(
                     FNV_DynamicCast(listener, 0, reinterpret_cast<unsigned int>(&DAT_0119d900),
                                     reinterpret_cast<unsigned int>(&DAT_011a0eac), 0));
                 if (telekinesis != 0)
                 {
-                    telekinesis->FUN_00807a10(entity);
+                    telekinesis->bhkTelekinesisListener_Finish(entity);
                     index = 0;
                 }
             }
@@ -298,7 +300,7 @@ void __cdecl FUN_00807ac0(void* body)
 namespace TelekinesisFinishCurrent {
 struct TelekinesisLodView
 {
-    void FUN_00b4dec0(int);
+    void BSFadeNode_SetLODMultType(int);
 };
 
 struct TelekinesisFadeNodeView : public TelekinesisLodView
@@ -428,7 +430,7 @@ struct TelekinesisReferenceView
 
 struct TelekinesisBodyView
 {
-    void FUN_00626cb0(unsigned int);
+    void bhkWorldObject_SetCollisionFilter(unsigned int);
 };
 
 struct TelekinesisFinishReceiver : ::bhkTelekinesisListener
@@ -436,7 +438,7 @@ struct TelekinesisFinishReceiver : ::bhkTelekinesisListener
     TelekinesisReferenceView* pRef;
     TelekinesisBodyView* pBody;
     unsigned int m_Filter;
-    void FUN_00807a10(::hkpEntity* entity);
+    void bhkTelekinesisListener_Finish(::hkpEntity* entity);
 };
 
 extern "C" int DAT_01186044;
@@ -444,7 +446,8 @@ extern "C" int DAT_0119ba28;
 
 // If pRef is set, casts its v116() result and calls FUN_00b4dec0(2) on success; then calls FUN_00626cb0, FUN_00807cb0, and deletes this receiver.
 // @fnv 0x00807a10
-void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
+// src: XBOX_PDB 0x00807a10
+void TelekinesisFinishReceiver::bhkTelekinesisListener_Finish(::hkpEntity* entity)
 {
     TelekinesisFadeNodeView* pavlod;
     void* pav;
@@ -457,12 +460,12 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
             pav, 0, reinterpret_cast<unsigned int>(&DAT_01186044), reinterpret_cast<unsigned int>(&DAT_0119ba28), 0));
 
         if (pavlod)
-            pavlod->FUN_00b4dec0(2);
+            pavlod->BSFadeNode_SetLODMultType(2);
     }
 
-    pBody->FUN_00626cb0(m_Filter);
+    pBody->bhkWorldObject_SetCollisionFilter(m_Filter);
 
-    ::FUN_00807cb0(reinterpret_cast<char*>(this), entity);
+    ::bhkTelekinesisListener_Remove(reinterpret_cast<char*>(this), entity);
 
     delete reinterpret_cast< ::DelVirt*>(this);
 }

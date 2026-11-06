@@ -469,7 +469,7 @@ int __cdecl TestPenetration(int a, int b, const hkTransform& t, float f, int c, 
 
 extern "C"
 {
-    void** FUN_00c85750();
+    void** hkMemoryRouter_getInstance();
     void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 }
 
@@ -595,7 +595,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
                  OutItem** arg5)
 {
     WorkArray storage;
-    void** tls = FUN_00c85750();
+    void** tls = hkMemoryRouter_getInstance();
     storage.data = (Item*)*tls;
     *tls = (char*)(Item*)storage.data + ((count * sizeof(Item) + 127) & ~127);
     Item* buffer = storage.begin();
@@ -631,7 +631,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
         }
         else if (count < 2)
         {
-            *FUN_00c85750() = buffer;
+            *hkMemoryRouter_getInstance() = buffer;
             return 1;
         }
 
@@ -656,7 +656,7 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
                 {
                     if (arr[i] == 3)
                     {
-                        *FUN_00c85750() = buffer;
+                        *hkMemoryRouter_getInstance() = buffer;
                         return 1;
                     }
                 }
@@ -701,6 +701,6 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
         pItem->m_arg5->direction.w = w;
     }
 
-    *FUN_00c85750() = buffer;
+    *hkMemoryRouter_getInstance() = buffer;
     return 0;
 }

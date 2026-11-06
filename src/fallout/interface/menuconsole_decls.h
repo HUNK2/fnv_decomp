@@ -34,9 +34,9 @@ void Interface_ToggleSafeZone(int);
 void Interface_SetFirstChanceTextureRelease();
 void Interface_IsolateMenuElements(bool, bool);
 void UpdateMenuTileVisibility();
-int FUN_0070ede0();
+int StartMenu_GetClassStatic();
 int MinInt(int, int);
-int FUN_00647b70(int, int);
+int BSMAX_00647b70(int, int);
 
 #include "../../../include/SETTING_VALUE.h"
 #include "../../../include/SettingT_GameSettingCollection_.h"
@@ -61,7 +61,7 @@ class MenuSystem
 };
 void* DynamicCastByRTTI(void*, NiNode*);
 extern unsigned char DAT_011f4428;
-const char* FUN_00700300(Tile*);
+const char* GetName_00700300(Tile*);
 
 FNV_STATIC_ASSERT(sizeof(BSFile) == 0x158);
 FNV_STATIC_ASSERT(sizeof(NiFrustum) == 28);

@@ -9637,9 +9637,9 @@ GlobalObject_00a7b610 g_012043d4(g_012043d4_arg0, g_012043d4_arg1);
 GlobalObject_00a7b610 g_012043dc(g_012043dc_arg0, g_012043dc_arg1);
 // @fnv 0x00fbc9a0
 GlobalObject_00a7b610 g_012043e4(g_012043e4_arg0, g_012043e4_arg1);
-extern void __cdecl FUN_00632e30();
+extern void __cdecl SettingT_BlendSettingCollection_InitCollection();
 extern int DAT_011cc694;
-int __cdecl FUN_00632e20();
+int __cdecl SettingT_BlendSettingCollection_QCollection();
 struct FUN_006ffc90_shell
 {
     int m_kPointA;
@@ -9664,7 +9664,7 @@ struct FUN_00869bf0_holder
 struct AX
 {
     void* m_vft;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 extern void* DAT_0106ba6c;
 struct FUN_00869f00_shell

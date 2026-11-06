@@ -73,7 +73,7 @@ void InitializeShaderBufferTables()
 
 struct FUN_00aa4060_Manager
 {
-    void* FUN_00aa4060(void* object);
+    void* MemoryManager_Deallocate(void* object);
 };
 
 extern FUN_00aa4060_Manager DAT_011f6238;
@@ -103,12 +103,12 @@ void* FUN_00b7e2b0_Class::Destroy(unsigned char flags)
         unsigned int count = *reinterpret_cast<unsigned int*>(allocation);
 
         FUN_00ec5fce(base, 4, count, FUN_0045cec0);
-        DAT_011f6238.FUN_00aa4060(allocation);
+        DAT_011f6238.MemoryManager_Deallocate(allocation);
     }
 
     if ((flags & 1) != 0)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
 
     return this;

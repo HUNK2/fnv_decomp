@@ -24,13 +24,13 @@ struct S_0062a320_Key
 {
     unsigned int m_uiFilterValue;
     S_0062a320_Key(unsigned int v);
-    unsigned int FUN_0043b4d0();
-    unsigned int FUN_004a3a20();
+    unsigned int CFilter_GetLayer();
+    unsigned int CFilter_GetGroup();
 };
 
 struct S_0062a320_Node
 {
-    unsigned int FUN_0043b540();
+    unsigned int hkpCollidable_getCollisionFilterInfo();
 };
 
 struct S_0062a320_Arg
@@ -52,22 +52,23 @@ struct S_0062a320
     char pad[0x70];
     S_0062a320_Key unk70;
     float unk74;
-    void FUN_0062a320(S_0062a320_Arg* arg, S_0062a320_Data* data);
-    void FUN_00ca9440(S_0062a320_Arg* arg, S_0062a320_Data* data);
+    void SpecificItemCollector_addRayHit(S_0062a320_Arg* arg, S_0062a320_Data* data);
+    void hkpClosestRayHitCollector_addRayHit(S_0062a320_Arg* arg, S_0062a320_Data* data);
 };
 
 // @fnv 0x0062a320
-void S_0062a320::FUN_0062a320(S_0062a320_Arg* arg, S_0062a320_Data* data)
+// src: XBOX_PDB 0x0062a320
+void S_0062a320::SpecificItemCollector_addRayHit(S_0062a320_Arg* arg, S_0062a320_Data* data)
 {
     S_0062a320_Node* node = arg->GetLastNode();
     if (node)
     {
-        S_0062a320_Key nodeKey(node->FUN_0043b540());
-        if (nodeKey.FUN_0043b4d0() != unk70.FUN_0043b4d0() || nodeKey.FUN_004a3a20() == unk70.FUN_004a3a20())
+        S_0062a320_Key nodeKey(node->hkpCollidable_getCollisionFilterInfo());
+        if (nodeKey.CFilter_GetLayer() != unk70.CFilter_GetLayer() || nodeKey.CFilter_GetGroup() == unk70.CFilter_GetGroup())
         {
             if (unk74 <= data->unk10)
             {
-                FUN_00ca9440(arg, data);
+                hkpClosestRayHitCollector_addRayHit(arg, data);
             }
         }
     }

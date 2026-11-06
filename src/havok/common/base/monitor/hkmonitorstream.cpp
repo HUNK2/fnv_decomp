@@ -9,7 +9,8 @@ struct S_00cb0da0
 };
 
 // @fnv 0x00cb0da0
-void FUN_00cb0da0(S_00cb0da0* p)
+// src: XBOX_PDB 0x00cb0da0
+void hkMonitorStream_reset(S_00cb0da0* p)
 {
     p->m_04 = p->m_00;
 }
@@ -43,7 +44,7 @@ struct SpawnedBuffer
     unsigned char m_10;
 };
 
-hkMemoryRouter* FUN_00c85750();  // hkMemoryRouter::getInstancePtr (TLS slot read)
+hkMemoryRouter* hkMemoryRouter_getInstance();  // hkMemoryRouter::getInstancePtr (TLS slot read)
 void hkMonitorStream_quit(SpawnedBuffer* buf);
 
 // @fnv 0x00cb0e50
@@ -59,11 +60,11 @@ void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
     {
         if (begin != 0 && pBuffer->m_10 != 0)
         {
-            hkMemoryRouter* h = FUN_00c85750();
+            hkMemoryRouter* h = hkMemoryRouter_getInstance();
             h->m_debug->bufFree(begin, end - begin);
         }
         pBuffer->m_10 = 1;
-        hkMemoryRouter* h2 = FUN_00c85750();
+        hkMemoryRouter* h2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = h2->m_debug;
         {
             int count = iSize;
@@ -86,7 +87,7 @@ extern DWORD DAT_0126835c;
 
 
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -102,7 +103,7 @@ struct SpawnedObject
 // src: HAVOK_LIB 0x00cb0db0
 void __cdecl hkMonitorStream_init()
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* alloc = holder->m_debug;
     SpawnedObject* obj = (SpawnedObject*)alloc->blockAlloc(0x14);
     TlsSetValue(DAT_0126835c, obj);
@@ -119,7 +120,7 @@ extern DWORD DAT_0126835c;
 
 
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct GrowBuffer
 {
@@ -141,12 +142,12 @@ void __cdecl hkMonitorStream_quit(GrowBuffer* apBuffer)
     if (pBegin != 0 && apBuffer->m_bOwned != 0)
     {
         char* pEnd = apBuffer->m_pRecordEnd;
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = pHolder->m_debug;
         pAllocator->bufFree(pBegin, (int)(pEnd - pBegin));
     }
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = pHolder2->m_debug;
     pAllocator2->blockFree(pThreadData, 0x14);
 

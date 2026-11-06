@@ -105,12 +105,12 @@ void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
     hkpConstraintDrawer_updateCommonParameters(a1, &w.matA, &w.matB);
     // Mat4 has the hkTransform layout, HingeDrawRotation the hkRotation one; 0x00c7f640 = hkVector4::_setTransformedPos,
     // 0x00c7f700 = hkVector4::_setRotatedDir.
-    m50.FUN_00c7f640(reinterpret_cast<const hkTransform&>(w.matA), *reinterpret_cast<const hkVector4*>(e + 0x90));
-    m40.FUN_00c7f640(reinterpret_cast<const hkTransform&>(w.matB), *reinterpret_cast<const hkVector4*>(e + 0x50));
+    m50.setTransformedPos_00c7f640(reinterpret_cast<const hkTransform&>(w.matA), *reinterpret_cast<const hkVector4*>(e + 0x90));
+    m40.setTransformedPos_00c7f640(reinterpret_cast<const hkTransform&>(w.matB), *reinterpret_cast<const hkVector4*>(e + 0x50));
     hkpConstraintDrawer_drawPivots(a3, a4);
     hkpConstraintDrawer_drawBodyFrames(a3, a4);
-    w.vb.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&m90), reinterpret_cast<const hkVector4*>(e + ((((int)e[0xa2] + 1) % 3) + 6) * 16));
-    w.va.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&m90), reinterpret_cast<const hkVector4*>(e + ((((int)e[0xa2] + 2) % 3) + 6) * 16));
+    w.vb.hkVector4_setRotatedDir(reinterpret_cast<const hkRotation*>(&m90), reinterpret_cast<const hkVector4*>(e + ((((int)e[0xa2] + 1) % 3) + 6) * 16));
+    w.va.hkVector4_setRotatedDir(reinterpret_cast<const hkRotation*>(&m90), reinterpret_cast<const hkVector4*>(e + ((((int)e[0xa2] + 2) % 3) + 6) * 16));
     float s = f1c * f00;
     float t = s;
     float sd = s + t;

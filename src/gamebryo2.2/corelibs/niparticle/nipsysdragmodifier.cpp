@@ -186,8 +186,8 @@ extern char DAT_010bff00;
 extern char DAT_01062600;
 extern char DAT_010bfef0;
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* object);
-void* __cdecl FUN_00a7d5e0(const void* typeName, const void* value);
-void* __cdecl FUN_00a7d550(const void* typeName, float value);
+void* __cdecl NiGetViewerString_00a7d5e0(const void* typeName, const void* value);
+void* __cdecl NiGetViewerString_00a7d550(const void* typeName, float value);
 // Appends the base modifier strings, drag object name, drag axis, percentage, range and falloff to the viewer array.
 // @fnv 0x00c2c620
 void NiPSysDragModifier::GetDragViewerStrings(StreamArray& array)
@@ -196,9 +196,9 @@ void NiPSysDragModifier::GetDragViewerStrings(StreamArray& array)
     reinterpret_cast<ParticleViewerStringsCall*>(this)->GetViewerStrings(array);
     array.Append(NiViewerStrings_NiGetViewerString_Title(*reinterpret_cast<void**>(&g_01202768)));
     const char* name = m_pParent ? m_pParent->m_kName.m_kHandle : &DAT_0102909c;
-    array.Append(FUN_00a7d5e0(&DAT_010bff18, name));
-    array.Append(m_kDragDirection.FUN_00a59af0(&DAT_010bff0c));
-    array.Append(FUN_00a7d550(&DAT_010bff00, m_fDragStrength));
-    array.Append(FUN_00a7d550(&DAT_01062600, m_fFirstLightParameter));
-    array.Append(FUN_00a7d550(&DAT_010bfef0, m_fSecondLightParameter));
+    array.Append(NiGetViewerString_00a7d5e0(&DAT_010bff18, name));
+    array.Append(m_kDragDirection.GetViewerString_00a59af0(&DAT_010bff0c));
+    array.Append(NiGetViewerString_00a7d550(&DAT_010bff00, m_fDragStrength));
+    array.Append(NiGetViewerString_00a7d550(&DAT_01062600, m_fFirstLightParameter));
+    array.Append(NiGetViewerString_00a7d550(&DAT_010bfef0, m_fSecondLightParameter));
 }

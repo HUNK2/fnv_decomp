@@ -53,22 +53,22 @@ class __declspec(novtable) NiCamera : public NiAVObject
     void GetScreenSpaceBounds(const NiBound& bound, NiPoint3& minimum, NiPoint3& maximum,
                              float tolerance);
 
-    using NiAVObject::FUN_00440460;
-    using NiAVObject::FUN_0043fa80;
-    using NiAVObject::FUN_0045bb80;
-    void FUN_00440460(const NiPoint3& point);
-    void FUN_00440460(const teswater_detail::NiPoint3& point);
-    void FUN_0043fa80(const NiMatrix3* rotation);
-    void FUN_0043fa80(const teswater_detail::NiMatrix3* rotation);
-    void FUN_00440490(float scale);
+    using NiAVObject::NiAVObject_SetTranslate;
+    using NiAVObject::SetRotate_0043fa80;
+    using NiAVObject::NiAVObject_GetWorldTranslate;
+    void NiAVObject_SetTranslate(const NiPoint3& point);
+    void NiAVObject_SetTranslate(const teswater_detail::NiPoint3& point);
+    void SetRotate_0043fa80(const NiMatrix3* rotation);
+    void SetRotate_0043fa80(const teswater_detail::NiMatrix3* rotation);
+    void NiAVObject_SetScale(float scale);
     void* TESDataHandler_GetImpactDataSetList();
-    void FUN_00507700(float ratio);
+    void NiCamera_SetMaxFarNearRatio(float ratio);
     void FUN_00712e60(const NiRect<float>& viewport);
     void FUN_00a6faf0(const NiFrustum& frustum);
     bool FitNearAndFarToBound(const NiBound& bound);
-    const NiPoint3& FUN_0045bb80() const;
-    const NiMatrix3& FUN_00461130() const;
-    float FUN_008d01e0() const;
+    const NiPoint3& NiAVObject_GetWorldTranslate() const;
+    const NiMatrix3& NiAVObject_GetWorldRotate() const;
+    float NiAVObject_GetWorldScale() const;
     void FUN_00a6fae0();
 
     float m_aafWorldToCam[4][4];

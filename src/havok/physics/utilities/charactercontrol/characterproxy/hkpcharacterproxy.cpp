@@ -257,7 +257,7 @@ found:
 
 struct FUN_00cade20_Class
 {
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
+    void __thiscall hkpCharacterProxy_integrateImplementation(int, int, int, int, int, int);
 };
 
 struct FUN_00cafbd0_Class
@@ -270,7 +270,7 @@ struct FUN_00cafbd0_Class
 // src: HAVOK_LIB 0x00cafbd0
 void __thiscall FUN_00cafbd0_Class::hkpCharacterProxy_integrateWithCollectors(int first, int second, int third, int fourth)
 {
-    ((FUN_00cade20_Class*)this)->FUN_00cade20(first, second, third, fourth, 0, 0);
+    ((FUN_00cade20_Class*)this)->hkpCharacterProxy_integrateImplementation(first, second, third, fourth, 0, 0);
 }
 
 struct FNVAllocator {
@@ -282,7 +282,7 @@ struct FNVMemoryManager {
         return *reinterpret_cast<FNVAllocator**>(reinterpret_cast<char*>(this) + 0x10);
     }
 };
-FNVMemoryManager* __cdecl FUN_00c85750();
+FNVMemoryManager* __cdecl hkMemoryRouter_getInstance();
 
 struct FNVArray {
     int* values;
@@ -294,7 +294,7 @@ struct FNVBuffers {
     FNVArray spare;
     FNVArray elements;
     static void* operator new(unsigned int bytes) {
-        return FUN_00c85750()->GetAllocator()->Allocate(bytes);
+        return hkMemoryRouter_getInstance()->GetAllocator()->Allocate(bytes);
     }
 };
 void __cdecl hkSmallArrayUtil__reserveMore(FNVArray*, unsigned int);
@@ -329,7 +329,7 @@ void FNVOwner::hkpEntity_addEntityListener(int value) {
 }
 
 namespace fnv_00cac120 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00cac120_cls {
     int unk00;
@@ -348,7 +348,7 @@ FUN_00cac120_cls* FUN_00cac120_cls::FUN_00cac120(unsigned char acFlags)
 {
     FUN_00cadb00();
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -460,10 +460,11 @@ struct CpuObject {
     unsigned int unk28;
     unsigned int unk2c;
     CpuScalar* value;
-    unsigned int FUN_00cac910();
+    unsigned int hkpCharacterProxy_getPosition();
 };
 // @fnv 0x00cac910
-unsigned int CpuObject::FUN_00cac910()
+// src: XBOX_PDB 0x00cac910
+unsigned int CpuObject::hkpCharacterProxy_getPosition()
 {
     return value->value + 48u;
 }
@@ -699,11 +700,12 @@ struct FUN_00cad900_cls {
     int m9c;
     int ma0;
 
-    void FUN_00cad900(FUN_00cad900_arg* a1, int a2);
+    void hkpCharacterProxy_calcContentStatistics(FUN_00cad900_arg* a1, int a2);
 };
 
 // @fnv 0x00cad900
-void FUN_00cad900_cls::FUN_00cad900(FUN_00cad900_arg* apReporter, int aiUnused) {
+// src: XBOX_PDB 0x00cad900
+void FUN_00cad900_cls::hkpCharacterProxy_calcContentStatistics(FUN_00cad900_arg* apReporter, int aiUnused) {
     if ((m7c & 0x80000000u) == 0 || apReporter->flag10 != 0) {
         int p = m74;
         int r = hkStatisticsCollector_getAllocatedSize(p, (m7c & 0x3fffffff) * 0x70);
@@ -734,7 +736,7 @@ struct PtrList {
     unsigned int m_capBits;
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* allocator, PtrList* list, unsigned int elemSize);
 
 struct FUN_00cada30_cls {
@@ -748,7 +750,7 @@ struct FUN_00cada30_cls {
 void FUN_00cada30_cls::AppendPointer(void* value)
 {
     PtrList* list = (PtrList*)((char*)this + 0x80);
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu)) {
         ResizeAudioStream(pAllocHolder->m_heap, list, 4);
     }
@@ -769,7 +771,7 @@ extern char DAT_010c8470[];
 
 struct FUN_00cad500_Class
 {
-    void __thiscall FUN_00cad500(void* arg);
+    void __thiscall hkpCharacterProxy_updateFromCinfo(void* arg);
 };
 
 struct FUN_00cada70_cls
@@ -844,14 +846,14 @@ FUN_00cada70_cls* FUN_00cada70_cls::Construct(void* a1)
     FUN_00cad500_Class* self = (FUN_00cad500_Class*)this;
     m_98 = 0;
     m_9c = 0;
-    self->FUN_00cad500(a1);
+    self->hkpCharacterProxy_updateFromCinfo(a1);
     return this;
 }
 
 extern float DAT_0104da48;
 
 
-namespace Memory289 {extern "C" hkMemoryRouter* FUN_00c85750() throw();}
+namespace Memory289 {extern "C" hkMemoryRouter* hkMemoryRouter_getInstance() throw();}
 
 
 // Keep these implementations inline while using the shared class layouts.
@@ -862,7 +864,7 @@ __forceinline void hkpCdPointCollector::reset() { m_fEarlyOutDistance=DAT_0104da
 __declspec(nothrow) __forceinline ContactArray289::ContactArray289()
     : data(local), count(0), capacity(0x80000008) {}
 __declspec(nothrow) __forceinline ContactArray289::~ContactArray289() {
-    hkMemoryAllocator* alloc=reinterpret_cast<hkMemoryAllocator*>((&Memory289::FUN_00c85750()->heap()));
+    hkMemoryAllocator* alloc=reinterpret_cast<hkMemoryAllocator*>((&Memory289::hkMemoryRouter_getInstance()->heap()));
     count=0;
     if((capacity&0x80000000)==0) alloc->bufFree(data,(capacity&0x3fffffff)*sizeof(RootContact289));
     data=0;capacity=0x80000000;
@@ -872,14 +874,14 @@ __declspec(nothrow) inline hkpAllCdPointCollector::hkpAllCdPointCollector() {}
 __declspec(nothrow) __forceinline hkpAllCdPointCollector::~hkpAllCdPointCollector() {}
 inline void hkpAllCdPointCollector::reset() {contacts.count=0;m_fEarlyOutDistance=DAT_0104da48;}
 struct Query289 {
- __declspec(nothrow) void FUN_00cade20(void*,void*,hkpCdPointCollector*,hkpCdPointCollector*,unsigned,unsigned) throw();
+ __declspec(nothrow) void hkpCharacterProxy_integrateImplementation(void*,void*,hkpCdPointCollector*,hkpCdPointCollector*,unsigned,unsigned) throw();
  void CollectAllContactPoints(void*,void*);
 };
 // Runs a collision query between a and b, gathering all contact points into two hkpAllCdPointCollector instances.
 // @fnv 0x00cafad0
 void Query289::CollectAllContactPoints(void* a,void* b) {
  hkpAllCdPointCollector c2,c1;
- FUN_00cade20(a,b,&c2,&c1,0,0);
+ hkpCharacterProxy_integrateImplementation(a,b,&c2,&c1,0,0);
 }
 
 extern "C" LocalM128 _mm_mul_ps(LocalM128 a, LocalM128 b);
@@ -1316,7 +1318,7 @@ void ContactSolver::ahkpCharacterProxy_ResolveContacts(const float* step,const h
             ((void (__thiscall*)(Motion*,FloatMatrix3*))motion->vtable[10])(motion,&inertia);
             hkVector4 transformed,torque;
             torque.set(sharedQuad(cross(_mm_sub_ps(contactQuad(work.point),contactQuad(body->motion.reference)),contactQuad(work.normal))));
-            transformed.FUN_00c7f750(reinterpret_cast<const hkMatrix3&>(inertia),torque);
+            transformed.hkVector4_setMul3(reinterpret_cast<const hkMatrix3&>(inertia),torque);
             float mass=transformed.dot3scalar(torque);
             work.mass=mass;
             mass+=laneW(body->motion.inertiaAndMass);
@@ -1371,7 +1373,7 @@ template <class T> struct HkArray289 {
 
     void clear() { m_iElementCount = 0; }
     ~HkArray289() throw() {
-        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>((&Memory289::FUN_00c85750()->heap()));
+        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>((&Memory289::hkMemoryRouter_getInstance()->heap()));
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1486,7 +1488,7 @@ struct S_Arr {
         m_cap = 0x80000000;
     }
     ~S_Arr() throw() {
-        _clearAndDeallocate(reinterpret_cast<S_Heap&>(((hkMemoryRouter*)FUN_00c85750())->heap()));
+        _clearAndDeallocate(reinterpret_cast<S_Heap&>(((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap()));
     }
 };
 
@@ -1508,7 +1510,7 @@ struct S_Collector : S_CdBase {
 };
 
 struct S00cafbf0_Obj {
-    void FUN_00cade20(int, int, S_Collector*, S_Collector*, int, int) throw();
+    void hkpCharacterProxy_integrateImplementation(int, int, S_Collector*, S_Collector*, int, int) throw();
     void hkpCharacterProxy_integrateMultithreaded(int a, int b, int c, int d) throw();
 };
 
@@ -1518,7 +1520,7 @@ struct S00cafbf0_Obj {
 void S00cafbf0_Obj::hkpCharacterProxy_integrateMultithreaded(int a, int b, int c, int d) throw() {
     S_Collector first;
     S_Collector second;
-    FUN_00cade20(a, b, &first, &second, c, d);
+    hkpCharacterProxy_integrateImplementation(a, b, &first, &second, c, d);
 }
 
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
@@ -1540,7 +1542,7 @@ struct S_00caf4d0_Stack {
     }
     void deallocateStack(void* p) throw() { m_next = (char*)p; }
 };
-static __forceinline hkMemoryRouter* GetRouter37() throw() { return reinterpret_cast<hkMemoryRouter*>(FUN_00c85750()); }
+static __forceinline hkMemoryRouter* GetRouter37() throw() { return reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance()); }
 void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
 
 inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
@@ -1719,12 +1721,13 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     void hkpCharacterProxy_fireContactAdded(const S_00caf4d0_Point* p) throw();
     int hkpCharacterProxy_findSurface(const S_00caf4d0_Point* p) throw();
 
-    void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
+    void hkpCharacterProxy_updateManifold(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
 };
 
 // Merges input and extra hit points into m_kPoints, deduplicates close points, and updates entity/phantom listener lists.
 // @fnv 0x00caf4d0
-void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw()
+// src: XBOX_PDB 0x00caf4d0
+void S_00caf4d0_Tracker::hkpCharacterProxy_updateManifold(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw()
 {
     if (!keepListeners)
     {
@@ -1995,7 +1998,7 @@ struct S00cafd90_Info {
 struct S00cafd90_Body;
 
 struct S00cafd90_Conv {
-    __declspec(noalias) void FUN_00ca0c40(S00cafd90_Body* body, LocalM128* out);
+    __declspec(noalias) void hkpRigidBody_getPointVelocity(S00cafd90_Body* body, LocalM128* out);
 };
 
 struct S00cafd90_Body {
@@ -2033,7 +2036,7 @@ static __forceinline hkVector4 S00cafd90_Pos(S00cafd90_Body* b)
     hkVector4 r;
     r.m_vComponents = _mm_setzero_ps();
     if (S00cafd90_Conv* c = S00cafd90_ConvOf(b))
-        c->FUN_00ca0c40(b, &r.m_vComponents);
+        c->hkpRigidBody_getPointVelocity(b, &r.m_vComponents);
     return r;
 }
 
@@ -2178,7 +2181,7 @@ public:
     __forceinline S00cacd60_MotionType getMotionType() const { return getRigidMotion()->getType(); }
     __forceinline S00cacd60_Bool isFixedOrKeyframed() const { return (m_pMotionState.m_type == S00cacd60_FIXED) || (m_pMotionState.m_type == S00cacd60_KEYFRAMED); }
     __forceinline const hkVector4& getCenterOfMassInWorld() const { return getRigidMotion()->GetMotionState()->getSweptTransform().m_vCenterOfMass1; }
-    void FUN_00ca0c40(const hkVector4& p, hkVector4& vel) const;
+    void hkpRigidBody_getPointVelocity(const hkVector4& p, hkVector4& vel) const;
 };
 __forceinline S00cacd60_Body* S00cacd60_GetRigidBody(const S00cacd60_Collidable* c) {
     if (c->getType() == 1) {
@@ -2283,7 +2286,7 @@ void S00cacd60_Proxy::hkpCharacterProxy_extractSurfaceConstraintInfo(const S00ca
     S00cacd60_Body* body = S00cacd60_GetRigidBody(hit.m_pRootCollidableB);
     if (body) {
         if (body->isFixedOrKeyframed()) {
-            body->FUN_00ca0c40(hit.m_kPoint.getPosition(), surface.m_fVelocity);
+            body->hkpRigidBody_getPointVelocity(hit.m_kPoint.getPosition(), surface.m_fVelocity);
         } else {
             hkVector4 linear;
             hkVector4 angular;
@@ -2356,7 +2359,8 @@ static __forceinline LocalM128 NormalizeSafe(LocalM128 projected)
 
 // If dot(normal at index, planev) is between DAT_01013ea4 and maximumDistance, appends a copy with a re-projected, normalized normal and returns 1, else 0.
 // @fnv 0x00cadca0
-__declspec(noinline) static unsigned char FUN_00cadca0(ContactBuffer* buffer, unsigned int index, float maximumDistance, const LocalM128& planev)
+// src: XBOX_PDB 0x00cadca0
+__declspec(noinline) static unsigned char addMaxSlopePlane(ContactBuffer* buffer, unsigned int index, float maximumDistance, const LocalM128& planev)
 {
     LocalM128 scaled = _mm_mul_ps(buffer->entries[index].normal, planev);
     float depth;
@@ -2384,7 +2388,7 @@ __declspec(noinline) static unsigned char FUN_00cadca0(ContactBuffer* buffer, un
 }
 
 volatile unsigned g_i; ContactBuffer* volatile g_b; volatile float g_d; const LocalM128* volatile g_p; volatile int g_o;
-void CallTarget_cadca0() { ContactBuffer* b=g_b; unsigned i=g_i; float d=g_d; const LocalM128* p=g_p; g_o=FUN_00cadca0(b,i,d,*p); g_o=FUN_00cadca0(b,i,d,*p); }
+void CallTarget_cadca0() { ContactBuffer* b=g_b; unsigned i=g_i; float d=g_d; const LocalM128* p=g_p; g_o=addMaxSlopePlane(b,i,d,*p); g_o=addMaxSlopePlane(b,i,d,*p); }
 
 static __forceinline LocalM128 CaccSplat(float value) { LocalM128 scalar = _mm_load_ss(&value); return _mm_shuffle_ps(scalar, scalar, 0); }
 extern "C" void _mm_store_ps(float*, LocalM128);
@@ -2597,7 +2601,7 @@ struct S_00cad500_This {
     int m_ac;
     char m_b0;
     int unkB1;
-    void FUN_00cad500(S_00cad500_Src* a);
+    void hkpCharacterProxy_updateFromCinfo(S_00cad500_Src* a);
     void hkpCharacterProxy_setPosition(S_00cad500_Src* a);
 };
 
@@ -2618,7 +2622,8 @@ __forceinline void S_00cad500_Normalize3(hkVector4& v, float zero, float three, 
 
 // Copies fields from a, normalizes m_40, zeroes m_20, runs FUN_00c9c670/FUN_00d07c10 over the m_8c and m_98 entries, then registers 0x1300 on m_30 unless present.
 // @fnv 0x00cad500
-void S_00cad500_This::FUN_00cad500(S_00cad500_Src* apSrc)
+// src: XBOX_PDB 0x00cad500
+void S_00cad500_This::hkpCharacterProxy_updateFromCinfo(S_00cad500_Src* apSrc)
 {
     apSrc->m_48->FUN_00c90510();
     if (m_30) {
@@ -2731,11 +2736,12 @@ struct hkpCharacterProxy {
     bool m_bRefreshManifoldInCheckSupport;
 
     const hkVector4& getPosition() const;
-    void FUN_00cac9a0(hkpCharacterProxyCinfo& info) const;
+    void getCinfo(hkpCharacterProxyCinfo& info) const;
 };
 
 // @fnv 0x00cac9a0
-void hkpCharacterProxy::FUN_00cac9a0(hkpCharacterProxyCinfo& info) const
+// src: XBOX_PDB 0x00cac9a0
+void hkpCharacterProxy::getCinfo(hkpCharacterProxyCinfo& info) const
 {
     info.m_vContactPosition = getPosition();
     info.m_fVelocity = m_fVelocity;
@@ -2810,12 +2816,13 @@ struct CharProxy_ca0c40 {
     sse_ca0c40::LocalM128 m_1b0;
     sse_ca0c40::LocalM128 m_1c0;
 
-    sse_ca0c40::LocalM128* FUN_00ca0c40(const sse_ca0c40::LocalM128* a, sse_ca0c40::LocalM128* out);
+    sse_ca0c40::LocalM128* hkpRigidBody_getPointVelocity(const sse_ca0c40::LocalM128* a, sse_ca0c40::LocalM128* out);
 };
 
 // Stores m_1b0 plus the cross product of m_1c0 with (*a - m_140) in out and returns out.
 // @fnv 0x00ca0c40
-sse_ca0c40::LocalM128* CharProxy_ca0c40::FUN_00ca0c40(const sse_ca0c40::LocalM128* a, sse_ca0c40::LocalM128* out) {
+// src: XBOX_PDB 0x00ca0c40
+sse_ca0c40::LocalM128* CharProxy_ca0c40::hkpRigidBody_getPointVelocity(const sse_ca0c40::LocalM128* a, sse_ca0c40::LocalM128* out) {
     sse_ca0c40::LocalM128 d = sse_ca0c40::_mm_sub_ps(*a, m_140);
     sse_ca0c40::LocalM128 b = m_1c0;
     sse_ca0c40::LocalM128 t1 = sse_ca0c40::_mm_mul_ps(sse_ca0c40::_mm_shuffle_ps(b, b, 0xc9), sse_ca0c40::_mm_shuffle_ps(d, d, 0xd2));
@@ -2911,7 +2918,7 @@ public:
     int unk08;
     int unk0c;
 };
-__forceinline hkMemoryRouter& S00cae900_getRouter() { return *reinterpret_cast<hkMemoryRouter*>(FUN_00c85750()); }
+__forceinline hkMemoryRouter& S00cae900_getRouter() { return *reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance()); }
 
 template <typename T>
 __forceinline T* S00cae900_allocateStack(int n, const char* what = 0) {
@@ -3100,7 +3107,8 @@ extern "C" void __cdecl hkSimplexSolverSolve(const S00cae900_SolverInput& input,
 
 
 
-static bool FUN_00cadca0(float maxSlopeCos, const hkVector4& up, int index, S00cae900_Array<S00cae900_ConstraintInfo>& surfaceConstraintsInOut)
+// src: XBOX_PDB 0x00cadca0
+static bool addMaxSlopePlane(float maxSlopeCos, const hkVector4& up, int index, S00cae900_Array<S00cae900_ConstraintInfo>& surfaceConstraintsInOut)
 {
     const float surfaceVerticalComponent = S00cae900_dot3(surfaceConstraintsInOut[index].m_kTriangleNormal, up);
     if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
@@ -3209,7 +3217,7 @@ void S00cae900_Proxy::ahkpCharacterProxy_checkSupportWithCollector(const hkVecto
         S00cae900_RootPoint& hit = m_kContactManifold[i];
         S00cae900_ConstraintInfo& constraint = *reinterpret_cast<S00cae900_ConstraintInfo*>(i * sizeof(S00cae900_ConstraintInfo) + reinterpret_cast<size_t>(surfaceConstraints.begin()));
         GetSurfaceConstraintInfo(hit, constraint, 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
+        addMaxSlopePlane(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
     }
     if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
     {
@@ -3367,7 +3375,7 @@ public:
     int unk08;
     int unk0c;
 };
-__forceinline hkMemoryRouter& S00caefd0_getRouter() { return *reinterpret_cast<hkMemoryRouter*>(FUN_00c85750()); }
+__forceinline hkMemoryRouter& S00caefd0_getRouter() { return *reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance()); }
 
 template <typename T>
 __forceinline T* S00caefd0_allocateStack(int n, const char* what = 0) {
@@ -3533,7 +3541,8 @@ void __cdecl hkSimplexSolverSolve(const S00caefd0_SolverInput& input, S00caefd0_
 
 
 
-static bool FUN_00cadca0(float maxSlopeCos, const hkVector4& up, int index, S00caefd0_Array<S00caefd0_ConstraintInfo>& surfaceConstraintsInOut)
+// src: XBOX_PDB 0x00cadca0
+static bool addMaxSlopePlane(float maxSlopeCos, const hkVector4& up, int index, S00caefd0_Array<S00caefd0_ConstraintInfo>& surfaceConstraintsInOut)
 {
     const float surfaceVerticalComponent = S00caefd0_dot3(surfaceConstraintsInOut[index].m_kTriangleNormal, up);
     if (surfaceVerticalComponent > 0.01f && surfaceVerticalComponent < maxSlopeCos)
@@ -3623,7 +3632,7 @@ void S00caefd0_Proxy::FUN_00caefd0(const hkVector4& direction, S00caefd0_Surface
     for (int i = 0; i < m_kContactManifold.GetLogicalSize(); i++)
     {
         GetSurfaceConstraintInfo(m_kContactManifold[i], surfaceConstraints[i], 0.0f);
-        FUN_00cadca0(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
+        addMaxSlopePlane(m_fMaximumSlopeAngle, m_vStart, i, surfaceConstraints);
     }
     if (surfaceConstraints.getCapacity() - surfaceConstraints.GetLogicalSize() < m_uiUserPlanes)
     {

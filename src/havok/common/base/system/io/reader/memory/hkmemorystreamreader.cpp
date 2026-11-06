@@ -188,7 +188,7 @@ struct FUN_00e05a80Class
 
     int __thiscall ReadFromBuffer(void* destination, int count);
 };
-extern "C" void __cdecl FUN_00cb1260(void* destination, const void* source, int count);
+extern "C" void __cdecl hkString_memCpy(void* destination, const void* source, int count);
 
 // @fnv 0x00e05a80
 int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
@@ -198,7 +198,7 @@ int __thiscall FUN_00e05a80Class::ReadFromBuffer(void* destination, int count)
     {
         int remaining = m_10 - m_0c;
         int copied = count < remaining ? count : remaining;
-        FUN_00cb1260(destination, m_08 + m_0c, copied);
+        hkString_memCpy(destination, m_08 + m_0c, copied);
         m_0c += copied;
         if (copied == 0 && count != 0)
             m_0c = m_10 + 1;
@@ -242,10 +242,10 @@ int __thiscall FUN_00e05af0_Obj::ReadBytes(int aiByteCount)
 }
 
 namespace hkRouterE05B {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void* __cdecl AllocateWithHeader(hkMemoryAllocator& kAlloc, int iNumBytes) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+void __cdecl hkString_memCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class FUN_00e05b40 : public hkReferencedObject
 {
@@ -270,8 +270,8 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
     m_external = external;
     if (!external)
     {
-        m_data = AllocateWithHeader(hkRouterE05B::FUN_00c85750().heap(), size);
-        FUN_00cb1260(m_data, data, size);
+        m_data = AllocateWithHeader(hkRouterE05B::hkMemoryRouter_getInstance().heap(), size);
+        hkString_memCpy(m_data, data, size);
     }
     else
     {
@@ -280,12 +280,12 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
 }
 
 namespace fnv_00e05bb0 {
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* pAllocator, void* p) throw();
 
 inline void hkDeallocateE05B(void* p)
 {
-    hkMemoryRouter* r = FUN_00c85750();
+    hkMemoryRouter* r = hkMemoryRouter_getInstance();
     hkMemoryRouter_easyFree(r->m_heap, p);
 }
 

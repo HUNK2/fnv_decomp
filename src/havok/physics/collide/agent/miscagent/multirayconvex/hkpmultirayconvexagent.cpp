@@ -4,7 +4,7 @@
 
 #include "../../../../../../../include/hkMemoryRouter.h"
 
-void FUN_00d374f0(int a, int b, int c, int d);
+void hkpMultiRayConvexAgent_staticGetPenetrations(int a, int b, int c, int d);
 
 struct FUN_00d37690_Class
 {
@@ -14,14 +14,14 @@ struct FUN_00d37690_Class
 // @fnv 0x00d37690
 void __thiscall FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    FUN_00d374f0(aiArg1, aiArg2, aiArg3, aiArg4);
+    hkpMultiRayConvexAgent_staticGetPenetrations(aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
 void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);
 void FUN_00d37860(int a, int b, int c, int d);
 void FUN_00d378a0(int a, int b, int c, int d);
-void FUN_00d37280(int a, int b, int c, int d);
+void hkpMultiRayConvexAgent_staticGetClosestPoints(int a, int b, int c, int d);
 void FUN_00daf8e0();
 void FUN_00d3ac80();
 
@@ -42,7 +42,8 @@ struct FUN_00cfbbe0_Class
 
 // Builds two FUN_00cfbbe0_Arg descriptors from function pointers and flags and passes each to FUN_00cfbbe0 with size arguments 0x12/0x18 and 0x18/0x12.
 // @fnv 0x00d377d0
-void FUN_00d377d0(int pClass)
+// src: XBOX_PDB 0x00d377d0
+void hkpMultiRayConvexAgent_registerAgent(int pClass)
 {
     FUN_00cfbbe0_Class* p = (FUN_00cfbbe0_Class*)pClass;
     FUN_00cfbbe0_Arg arg;
@@ -54,8 +55,8 @@ void FUN_00d377d0(int pClass)
     arg.f5 = 1;
     p->FUN_00cfbbe0(&arg, 0x12, 0x18);
     arg.f0 = (void*)&hkpMultiRayConvexAgent_createMultiRayConvexAgent;
-    arg.f1 = (void*)&FUN_00d374f0;
-    arg.f2 = (void*)&FUN_00d37280;
+    arg.f1 = (void*)&hkpMultiRayConvexAgent_staticGetPenetrations;
+    arg.f2 = (void*)&hkpMultiRayConvexAgent_staticGetClosestPoints;
     arg.f3 = (void*)&FUN_00daf8e0;
     arg.f4 = 0;
     arg.f5 = 1;
@@ -112,14 +113,14 @@ struct S_00d37860_Collector : S_00d37860_Base
     virtual void f1();
 };
 
-void FUN_00d374f0(void* b, void* a, void* c, S_00d37860_Collector* collector);
+void hkpMultiRayConvexAgent_staticGetPenetrations(void* b, void* a, void* c, S_00d37860_Collector* collector);
 
 // Builds a collector from filter and runs FUN_00d374f0 with b, a, c and the collector.
 // @fnv 0x00d37860
 void FUN_00d37860(void* a, void* b, void* c, int filter)
 {
     S_00d37860_Collector collector(filter);
-    FUN_00d374f0(b, a, c, &collector);
+    hkpMultiRayConvexAgent_staticGetPenetrations(b, a, c, &collector);
 }
 
 struct Payload
@@ -130,7 +131,7 @@ struct Payload
 };
 extern float DAT_0104da48;
 extern const char DAT_010ce7fc[];
-void FUN_00d37280(int, int, int, Payload*);
+void hkpMultiRayConvexAgent_staticGetClosestPoints(int, int, int, Payload*);
 // Builds a Payload from DAT_010ce7fc, DAT_0104da48 and d, then passes it with b, a and c to FUN_00d37280.
 // @fnv 0x00d378a0
 void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
@@ -139,12 +140,12 @@ void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
     p.name = DAT_010ce7fc;
     p.value = DAT_0104da48;
     p.id = aiId;
-    FUN_00d37280(aiArg2, aiArg1, aiArg3, &p);
+    hkpMultiRayConvexAgent_staticGetClosestPoints(aiArg2, aiArg1, aiArg3, &p);
 }
 
 struct D376B0Allocator;
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(D376B0Allocator* alloc, void* array, int numElements, int sizeElem);
 
 class D376B0ReferencedObject
@@ -176,7 +177,7 @@ struct D376B0IndexArray
 
     void SetSizeAndGrow(int n)
     {
-        D376B0Allocator& alloc = *(D376B0Allocator*)(&FUN_00c85750().heap());
+        D376B0Allocator& alloc = *(D376B0Allocator*)(&hkMemoryRouter_getInstance().heap());
         const int cap = getCapacity();
         if (cap < n)
         {
@@ -246,13 +247,13 @@ struct S_00d37740_Interface
     virtual S_00d376b0_Class* FUN_00d37740_Method(int a) = 0;
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // @fnv 0x00d37740
 // src: HAVOK_LIB 0x00d37740
 void hkpMultiRayConvexAgent_createMultiRayConvexAgent(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    hkMemoryRouter* obj = FUN_00c85750();
+    hkMemoryRouter* obj = hkMemoryRouter_getInstance();
     S_00d376b0_Class* result = ((S_00d37740_Interface*)(&obj->heap()))->FUN_00d37740_Method(0x20);
 
     result->unk04 = 0x20;
@@ -272,7 +273,7 @@ struct Allocator
     virtual void Free(void* p);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -290,7 +291,7 @@ struct FUN_00d376b0_cls
 // @fnv 0x00d37780
 void* FUN_00d37780_impl(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     Allocator* alloc = (Allocator*)(&pAllocHolder->heap());
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x20);
     obj->m_iElementCount = 0x20;

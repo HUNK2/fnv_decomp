@@ -53,7 +53,7 @@ void FirstBase::FUN_00d6a250(Receiver* apReceiver)
     apReceiver->ClearValue((FullObject*)((char*)this - 0x20));
 }
 
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 struct S_00d6a750_Source
 {
     void ClearValue(hkpWorldPostSimulationListener* listener) throw();
@@ -101,7 +101,7 @@ template <class T> __forceinline void hkArrayUtil_destruct(T* t, int n)
 
 __forceinline hkpMidphaseViewer::ElementArray::~ElementArray() throw()
 {
-    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance()->heap();
     hkArrayUtil_destruct(m_data, m_iElementCount);
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
@@ -124,10 +124,10 @@ class BSAudio;
 namespace fnv_00d6a810 {
 
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 struct RefObj
@@ -274,7 +274,7 @@ struct hkpPhysicsWorld
     hkpWorldViewerRegistry* unk10;
 };
 
-extern hkpPhysicsWorld* FUN_00c85750();
+extern hkpPhysicsWorld* hkMemoryRouter_getInstance();
 
 }  // namespace fnv_00d6a8b0
 
@@ -285,7 +285,7 @@ void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
     FUN_00d6a750();
     if (flags & 1)
     {
-        fnv_00d6a8b0::hkpPhysicsWorld* world = fnv_00d6a8b0::FUN_00c85750();
+        fnv_00d6a8b0::hkpPhysicsWorld* world = fnv_00d6a8b0::hkMemoryRouter_getInstance();
         world->unk10->removeViewer(this, m_usMemSizeAndFlags);
     }
     return this;

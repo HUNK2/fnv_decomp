@@ -20,7 +20,7 @@ unsigned int GraphicsRenderer::GetRenderTargetWidth()
     local.group = GetDefaultRT();
     if (local.group == 0)
         return 0;
-    local.array = (NiConsoleRendererHeightArray*)local.group->FUN_00ee84f0(0);
+    local.array = (NiConsoleRendererHeightArray*)local.group->GetBuffer_00ee84f0(0);
     if (local.array == 0)
         return 0;
     return local.array->GetSize();
@@ -37,7 +37,7 @@ unsigned int GraphicsRenderer::GetRenderTargetHeight()
     local.group = GetDefaultRT();
     if (local.group == 0)
         return 0;
-    local.caster = (MagicCaster*)local.group->FUN_00ee84f0(0);
+    local.caster = (MagicCaster*)local.group->GetBuffer_00ee84f0(0);
     if (local.caster == 0)
         return 0;
     return (unsigned int)local.caster->MagicCaster::GetSelectedMagicItem();

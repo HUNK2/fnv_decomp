@@ -145,7 +145,8 @@ struct S_00cd7850_Features
 int hkLineSegmentUtil_closestPointLineSeg(const S_00cd7850_Vec& pos, const S_00cd7850_Vec& a, const S_00cd7850_Vec& b, S_00cd7850_Vec* out);
 
 // @fnv 0x00cd7850
-int FUN_00cd7850(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, const S_00cd7850_Cache& cache,
+// src: XBOX_PDB 0x00cd7850
+int hkpCollideTriangleUtil_closestPointTriangle(const S_00cd7850_Vec& position, const S_00cd7850_Vec* tri, const S_00cd7850_Cache& cache,
                  S_00cd7850_Result& result, S_00cd7850_Features* featuresOut)
 {
     if (featuresOut)

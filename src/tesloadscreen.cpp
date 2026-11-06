@@ -298,7 +298,7 @@ class ListX
     bool FUN_008256d0();
     void* FUN_006815c0();
     ListX* FUN_00726070();
-    bool FUN_005f65d0(void*);
+    bool BSSimpleList_TESLevSpell_IsInList(void*);
     void* head;
     void* next;
 };
@@ -313,7 +313,7 @@ bool TESLoadScreen::CompareLoadScreenData(void* pOther)
         return true;
     while (it && !it->FUN_008256d0())
     {
-        if (!reinterpret_cast<ListX*>(&m_kWorldCellRecordList)->FUN_005f65d0(it->FUN_006815c0()))
+        if (!reinterpret_cast<ListX*>(&m_kWorldCellRecordList)->BSSimpleList_TESLevSpell_IsInList(it->FUN_006815c0()))
             return true;
         it = it->FUN_00726070();
     }

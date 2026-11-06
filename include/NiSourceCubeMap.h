@@ -7,7 +7,7 @@ class CubeMapLoader;
 class LoadBuffer;
 class Pixels;
 
-bool __stdcall FUN_00a60850(NiStream&);
+bool __stdcall NiSourceCubeMap_RegisterStreamables(NiStream&);
 
 class NiSourceCubeMap : public NiSourceTexture
 {
@@ -16,17 +16,17 @@ class NiSourceCubeMap : public NiSourceTexture
     virtual ~NiSourceCubeMap();
 
 
-    bool FUN_00a5fae0(NiObject*);
+    bool NiSourceTexture_IsEqual(NiObject*);
     bool IsEqual_00a60880(NiObject*);
     bool CreateCubeOrRelease();
     void GetFileStrings(StrArr*);
     void AppendGlobalString(StrArr*);
-    void FUN_00a60ba0(NiStream&);
+    void LinkObject_00a60ba0(NiStream&);
     void LinkObjectOld(NiStream&);
     void SetFaces(NiObject*, NiObject*, NiObject*, NiObject*, NiObject*, NiObject*);
     void Load(void*, void*, void*, void*, void*, void*, LoadBuffer*);
     void CreateFaces(char*, char*, char*, char*, char*, char*, int);
-    void FUN_00a612a0(NiStream&);
+    void LoadBinary_00a612a0(NiStream&);
     void LoadFromPixelData(NiRefObject*, NiRefObject*, NiRefObject*,
                       NiRefObject*, NiRefObject*, NiRefObject*);
     void LoadResources(char*, char*, char*, char*, char*, char*, CubeMapLoader*);

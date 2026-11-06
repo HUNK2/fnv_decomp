@@ -36,7 +36,7 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
         coord = BSFaceGenManager::GetFaceGenCoordinates();
     if (!coord)
         return false;
-    FUN_00652140();
+    BSFaceGenManager_LockFaceGenAccess();
     if (!BSFaceGenManager_LoadEGTData(this)) {
         if (!m_kTextureSlots->m_pTextureData) {
             if (!m_kTextureSlots->GetCharacterSex()) {
@@ -102,7 +102,7 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
         if (m_kTextureSlots->m_pTextureData->basis[uiWidth].FUN_0065cec0(mode)->height == piAccum) {}
         else ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenModel.cpp", 1163);
         FaceGenModeParameters modeData;
-        modeData.weight = static_cast<int>(*reinterpret_cast<FaceGenCoordinateBasis*>(coord->data + 64)[uiWidth].FUN_0060b370(mode, 0).FUN_00629ab0() * DAT_010231d8);
+        modeData.weight = static_cast<int>(*reinterpret_cast<FaceGenCoordinateBasis*>(coord->data + 64)[uiWidth].FUN_0060b370(mode, 0).NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt() * DAT_010231d8);
         if (!modeData.weight)
             continue;
         modeData.stride = m_kTextureSlots->m_pTextureData->basis[uiWidth].FUN_0065cec0(mode)->width + m_kTextureSlots->m_pTextureData->basis[uiWidth].FUN_0065cec0(mode)->rowPadding;

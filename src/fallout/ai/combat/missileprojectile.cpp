@@ -62,7 +62,8 @@ struct ProjectileDirectionAccess
 extern int DAT_011c6278;
 
 // @fnv 0x009b7cb0
-int __cdecl FUN_009b7cb0()
+// src: XBOX_PDB 0x009b7cb0
+int __cdecl FixedStrings_QPinnedLimb()
 {
     return DAT_011c6278;
 }
@@ -94,7 +95,8 @@ void* bhkConstraint::DestroyConstraint(unsigned int flags)
 
 // Calls the base BeamProjectile load routine, then reads 4 bytes from the load buffer into this+0x150.
 // @fnv 0x009baad0
-void MissileProjectile::FUN_009baad0(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: XBOX_PDB 0x009baad0
+void MissileProjectile::LoadGame_009baad0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<BeamProjectile*>(this)->BeamProjectile::LoadProjectile(apLoadGameBuffer);
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x150), 4);
@@ -148,16 +150,17 @@ void* MissileProjectile::FUN_009b7a20(unsigned int flags)
 
 struct FUN_009ba320_shell
 {
-    void FUN_009ba320(unsigned int a, unsigned int b);
-    void FUN_009ba350(unsigned int);
-    void FUN_009ba390(unsigned int);
+    void hkConstraintCinfo_SetEntities(unsigned int a, unsigned int b);
+    void hkConstraintCinfo_SetEntityA(unsigned int);
+    void hkConstraintCinfo_SetEntityB(unsigned int);
 };
 // Calls FUN_009ba350 with a and FUN_009ba390 with b.
 // @fnv 0x009ba320
-void FUN_009ba320_shell::FUN_009ba320(unsigned int auiFirst, unsigned int auiSecond)
+// src: XBOX_PDB 0x009ba320
+void FUN_009ba320_shell::hkConstraintCinfo_SetEntities(unsigned int auiFirst, unsigned int auiSecond)
 {
-    FUN_009ba350(auiFirst);
-    FUN_009ba390(auiSecond);
+    hkConstraintCinfo_SetEntityA(auiFirst);
+    hkConstraintCinfo_SetEntityB(auiSecond);
 }
 
 // 0x004ae750 null-checks and reads this+8 via 0x00620b80; ScriptLocals::GetLocalData is 0x00541c80.
@@ -169,10 +172,11 @@ struct NullableObjectDataAccess
 struct FUN_009ba350_shell
 {
     void* m_p;
-    void FUN_009ba350(NullableObjectDataAccess* p);
+    void hkConstraintCinfo_SetEntityA(NullableObjectDataAccess* p);
 };
 // @fnv 0x009ba350
-void FUN_009ba350_shell::FUN_009ba350(NullableObjectDataAccess* p)
+// src: XBOX_PDB 0x009ba350
+void FUN_009ba350_shell::hkConstraintCinfo_SetEntityA(NullableObjectDataAccess* p)
 {
     *(void**)((char*)this + 0xc) = p ? p->GetObjectData() : 0;
 }
@@ -180,10 +184,11 @@ void FUN_009ba350_shell::FUN_009ba350(NullableObjectDataAccess* p)
 namespace fnv_009ba390 {
 struct FUN_009ba390_shell
 {
-    void FUN_009ba390(NullableObjectDataAccess*);
+    void hkConstraintCinfo_SetEntityB(NullableObjectDataAccess*);
 };
 // @fnv 0x009ba390
-void FUN_009ba390_shell::FUN_009ba390(NullableObjectDataAccess* apObjectData)
+// src: XBOX_PDB 0x009ba390
+void FUN_009ba390_shell::hkConstraintCinfo_SetEntityB(NullableObjectDataAccess* apObjectData)
 {
     *(void**)((char*)this + 0x10) = apObjectData ? apObjectData->GetObjectData() : 0;
 }
@@ -198,12 +203,13 @@ struct FUN_009ba3d0_shell
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    void FUN_009ba3d0(int a, int b, int c, int d);
+    void hkHingeConstraintCinfo_SetInWorldSpace(int a, int b, int c, int d);
 };
 
 // If the object stored at this+4 is non-null, forwards the four arguments to its SetLocalTransforms method.
 // @fnv 0x009ba3d0
-void FUN_009ba3d0_shell::FUN_009ba3d0(int a, int b, int c, int d)
+// src: XBOX_PDB 0x009ba3d0
+void FUN_009ba3d0_shell::hkHingeConstraintCinfo_SetInWorldSpace(int a, int b, int c, int d)
 {
     int obj = *(int*)((char*)this + 4);
     if (obj)
@@ -319,7 +325,8 @@ void* __thiscall FUN_009ba630_shell::DestroyIfFlagged(unsigned int flags)
 
 void __cdecl SaveProjectile(BGSLoadFormBuffer*);
 // @fnv 0x009baaa0
-void MissileProjectile::FUN_009baaa0(BGSLoadFormBuffer* buffer)
+// src: XBOX_PDB 0x009baaa0
+void MissileProjectile::SaveGame_009baaa0(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<void(__thiscall*)(void*, BGSLoadFormBuffer*)>(::SaveProjectile)(this, buffer);
     reinterpret_cast<BGSSaveFormBuffer*>(buffer)->SaveData(reinterpret_cast<char*>(this) + 0x150, 4, 0);
@@ -332,7 +339,7 @@ void MissileProjectile::Unk_21(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<void(__thiscall*)(void*, BGSLoadFormBuffer*)>(LoadMissileFormBase)(this , apLoadGameBuffer);
     if (GetNiNode())
-        FUN_009babe0();
+        Initialize3D();
     else
         *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x154) = 1;
 }
@@ -345,8 +352,8 @@ struct MissileprojectileOffset08View
 
 struct FUN_009a7f00_obj
 {
-    float FUN_00966980();
-    bool FUN_009a7f80() const;
+    float GetGravity_00966980();
+    bool GetHitScan() const;
 };
 
 int DAT_011f2250;
@@ -363,10 +370,10 @@ void MissileProjectile::UpdateBeamFlags()
 
     bool bPathing =
         bTime ? false
-              : reinterpret_cast<FUN_009a7f00_obj*>(FUN_004181e0())->FUN_009a7f80();
+              : reinterpret_cast<FUN_009a7f00_obj*>(FUN_004181e0())->GetHitScan();
 
     bool bNewGame =
-        reinterpret_cast<FUN_009a7f00_obj*>(FUN_004181e0())->FUN_00966980() > 0.0;
+        reinterpret_cast<FUN_009a7f00_obj*>(FUN_004181e0())->GetGravity_00966980() > 0.0;
 
     reinterpret_cast<void(__thiscall*)(void*, int, bool)>(MissileLocal::SetImpactFlag)(this, 0x10, bTarget);
     reinterpret_cast<void(__thiscall*)(void*, int, bool)>(MissileLocal::SetImpactFlag)(this, 1, bPathing);
@@ -462,7 +469,8 @@ struct FUN_009babe0_list
 };
 
 // @fnv 0x009babe0
-void MissileProjectile::FUN_009babe0()
+// src: XBOX_PDB 0x009babe0
+void MissileProjectile::Initialize3D()
 {
     FUN_009babe0_impact* pimpact;
 
@@ -481,7 +489,7 @@ void MissileProjectile::FUN_009babe0()
         }
 
         if (pimpact && pimpact->pObject && pimpact->pObject->Check())
-            FUN_009b90b0();
+            ProcessImpale();
     }
 
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 4)
@@ -584,7 +592,7 @@ MissileProjectile::~MissileProjectile()
         Obj_b9999* s;
         if (reinterpret_cast<void*(__thiscall*)(void*)>(MissileLocal::GetSceneObject)(this) != 0)
         {
-            r = reinterpret_cast<Obj_b9999*>(reinterpret_cast<void*(__thiscall*)(void*)>(MissileLocal::GetSceneObject)(this))->v39(FUN_009b7cb0());
+            r = reinterpret_cast<Obj_b9999*>(reinterpret_cast<void*(__thiscall*)(void*)>(MissileLocal::GetSceneObject)(this))->v39(FixedStrings_QPinnedLimb());
             if (r != 0)
             {
                 s = r->Probe3();
@@ -604,7 +612,7 @@ struct ProjectileBoundSnapshot
     float radius;
 };
 
-bool FUN_0043b300(const NiRTTI* rtti, NiAVObject* obj);
+bool NiObject_IsKindOf(const NiRTTI* rtti, NiAVObject* obj);
 
 struct PathReq
 {
@@ -616,21 +624,21 @@ struct PathReq
 void MissileProjectile::UpdateProjectileNodeVisibility()
 {
     NiAVObject* p3D = GetNiNode();
-    if (p3D && FUN_0043b300(&DAT_011f4428, p3D))
+    if (p3D && NiObject_IsKindOf(&DAT_011f4428, p3D))
     {
         NiNode* pNode5 = static_cast<NiNode*>(p3D);
         pNode5->SetAppCulled(false);
         if (reinterpret_cast<PathReq*>(FUN_004181e0())->GetRadiusVal() > _DAT_01012060)
         {
-            if (pNode5->FUN_0045bc00(0u))
+            if (pNode5->NiNode_GetAtChecked(0u))
                 pNode5->GetAt(0)->SetAppCulled(reinterpret_cast<bool(__thiscall*)(void*, int)>(MissileLocal::IsImpactFlagSet)(this, 0x10));
-            if (pNode5->FUN_0045bc00(1u))
+            if (pNode5->NiNode_GetAtChecked(1u))
                 pNode5->GetAt(1)->SetAppCulled(!reinterpret_cast<bool(__thiscall*)(void*, int)>(MissileLocal::IsImpactFlagSet)(this, 0x10));
         }
         if (reinterpret_cast<bool(__thiscall*)(void*, int)>(MissileLocal::IsImpactFlagSet)(this, 0x10))
         {
             ProjectileBoundSnapshot bound5 = *reinterpret_cast<const ProjectileBoundSnapshot*>(&pNode5->GetBoundingVolume());
-            NiPoint3 diff2 = pNode5->FUN_0043c490() - reinterpret_cast<NiBound&>(bound5).GetNavMeshData();
+            NiPoint3 diff2 = pNode5->GetTranslate_0043c490() - reinterpret_cast<NiBound&>(bound5).GetNavMeshData();
             float fLen = diff2.Length() + reinterpret_cast<NiBound&>(bound5).GetRadius();
             float fScale3 = fLen / reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetScaleDivisor)(this);
             reinterpret_cast<void(__thiscall*)(void*, float, NiPoint3)>(MissileLocal::SetPosAndScale)(this, fScale3, NiPoint3(0.0f, fLen, 0.0f));
@@ -657,21 +665,22 @@ struct HitList
 };
 struct Collider890
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 struct CF845
 {
     int value;
     CF845(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 bool CanProjectileHit(int, Collider890*, MissileProjectile*, void*);
 // Checks the hit list and collider state, then calls ProcessHit and FUN_009b8a20 when the kind and collider conditions pass, returning true on success.
 // @fnv 0x009b8900
-bool MissileProjectile::FUN_009b8900(int aiArg1, int aiArg2, int aiArg3, Collider890* collider, int aiArg5, int aiArg6)
+// src: XBOX_PDB 0x009b8900
+bool MissileProjectile::AddImpact_009b8900(int aiArg1, int aiArg2, int aiArg3, Collider890* collider, int aiArg5, int aiArg6)
 {
     bool p = reinterpret_cast<HitList*>(&kImpacts)->FUN_008256d0() || (*reinterpret_cast<HitList*>(&kImpacts)->FUN_006815c0())->flag;
-    int h = collider ? CF845(collider->FUN_0043b540()).FUN_0043b4d0() : 0;
+    int h = collider ? CF845(collider->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() : 0;
     if (p && CanProjectileHit(aiArg1, collider, this, FUN_004181e0()) &&
         (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
         reinterpret_cast<bool(__thiscall*)(void*, int, int, int, Collider890*, int, int)>(MissileLocal::ProcessHit)(this, aiArg1, aiArg2, aiArg3, collider, aiArg5, aiArg6))
@@ -770,16 +779,16 @@ struct UpdateTransform
 };
 struct UpdateNode
 {
-    void FUN_0043fa80(const void*);
-    void FUN_00440460(UpdateVec*);
+    void SetRotate_0043fa80(const void*);
+    void NiAVObject_SetTranslate(UpdateVec*);
     void FUN_00a68bf0();
     void FUN_00450f90(bool);
-    UpdateMatrix* FUN_006a9540();
+    UpdateMatrix* NiAVObject_GetRotate_006a9540();
 };
 struct UpdateRef
 {
-    void* FUN_00460140();
-    UpdateTransform* FUN_00461130();
+    void* TESDataHandler_GetWorldSpaceList();
+    UpdateTransform* NiAVObject_GetWorldRotate();
     UpdateVec GetTargetPosition();
 };
 struct UpdateImpact
@@ -807,7 +816,7 @@ struct UpdateBase
 };
 struct UpdateFloatSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 struct UpdateBoolSetting
 {
@@ -821,8 +830,8 @@ struct UpdateWorld
 };
 extern UpdateWorld* DAT_011dea10;
 extern const char DAT_0108fd78[];
-UpdateRef* __cdecl FUN_004b5820(void*);
-void* __cdecl FUN_004b3890(const UpdateVec*, const void*, const UpdateVec*, const void*, int);
+UpdateRef* __cdecl GetAVObjectForCollidable(void*);
+void* __cdecl MakeLine(const UpdateVec*, const void*, const UpdateVec*, const void*, int);
 void __cdecl Warning_005b5e40(int, const char*, ...);
 struct UpdateColor
 {
@@ -834,7 +843,7 @@ struct UpdateColor
 void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
 {
     if ((*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x154)) && reinterpret_cast<UpdateNode*>(GetNiNode()))
-        FUN_009babe0();
+        Initialize3D();
     if (reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetElapsedTime)(this) > reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetDetonationDelay)(this) && (reinterpret_cast<UpdateList*>(&kImpacts)->FUN_008256d0() || m_bHasImpactData))
         reinterpret_cast<void(__thiscall*)(void*)>(MissileLocal::Detonate)(this);
     if (FUN_00440d80() || reinterpret_cast<bool(__thiscall*)(void*)>(MissileLocal::IsDeleted)(this))
@@ -850,14 +859,14 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
         UpdateImpact* impact = *reinterpret_cast<UpdateList*>(&kImpacts)->FUN_006815c0();
         if (impact)
         {
-            UpdateRef* node = impact->reference ? FUN_004b5820(impact->reference->FUN_00460140()) : 0;
+            UpdateRef* node = impact->reference ? GetAVObjectForCollidable(impact->reference->TESDataHandler_GetWorldSpaceList()) : 0;
             UpdateNode* reference = reinterpret_cast<UpdateNode*>(GetNiNode());
             if (node && reference)
             {
-                UpdateTransform worldTransform = node->FUN_00461130()->FUN_0062c250(*reinterpret_cast<UpdateTransform*>(&m_kImpactTransform));
-                reference->FUN_0043fa80(&worldTransform);
+                UpdateTransform worldTransform = node->NiAVObject_GetWorldRotate()->FUN_0062c250(*reinterpret_cast<UpdateTransform*>(&m_kImpactTransform));
+                reference->SetRotate_0043fa80(&worldTransform);
                 reinterpret_cast<void(__thiscall*)(void*, UpdateTransform*)>(MissileLocal::SetWorldTransform)(this, &worldTransform);
-                reference->FUN_00440460(&worldTransform.translation);
+                reference->NiAVObject_SetTranslate(&worldTransform.translation);
                 reinterpret_cast<void(__thiscall*)(void*, const UpdateVec*)>(MissileLocal::SetPosition)(this, &worldTransform.translation);
             }
             reinterpret_cast<void(__thiscall*)(void*, bool, bool)>(MissileLocal::UpdateNodeTransformBool)(this, true, false);
@@ -876,7 +885,7 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
             if (reinterpret_cast<UpdateRef*(__thiscall*)(void*)>(MissileLocal::GetTargetReference)(this))
             {
                 UpdateVec positionDelta = reinterpret_cast<UpdateRef*(__thiscall*)(void*)>(MissileLocal::GetTargetReference)(this)->GetTargetPosition() - *reinterpret_cast<UpdateVec*>(static_cast<const MissileProjectile*>(this)->GetPos());
-                if (positionDelta.FUN_00457990() > *DAT_011cff34.FUN_00403e20())
+                if (positionDelta.FUN_00457990() > *DAT_011cff34.Setting_Float_00403e20())
                     skipPosition = true;
             }
             if (*DAT_011f20ec.FUN_00408d60())
@@ -885,8 +894,8 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
                 reinterpret_cast<void(__thiscall*)(void*, float)>(MissileLocal::MoveProjectile)(this, afDeltaTime);
                 UpdateVec color = *reinterpret_cast<UpdateVec*>(static_cast<const MissileProjectile*>(this)->GetPos());
                 UpdateColor debugColor(1.0f, 1.0f, 0.0f, 1.0f);
-                void* pDebugLine = FUN_004b3890(&newPosition, &debugColor, &color, &debugColor, 1);
-                DAT_011dea10->FUN_00458e20(pDebugLine, *DAT_011f210c.FUN_00403e20());
+                void* pDebugLine = MakeLine(&newPosition, &debugColor, &color, &debugColor, 1);
+                DAT_011dea10->FUN_00458e20(pDebugLine, *DAT_011f210c.Setting_Float_00403e20());
             }
             else
                 reinterpret_cast<void(__thiscall*)(void*, float)>(MissileLocal::MoveProjectile)(this, afDeltaTime);
@@ -917,16 +926,16 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
             }
             if (reinterpret_cast<UpdateNode*>(GetNiNode()))
             {
-                UpdateMatrix matrix = *reinterpret_cast<UpdateNode*>(GetNiNode())->FUN_006a9540();
+                UpdateMatrix matrix = *reinterpret_cast<UpdateNode*>(GetNiNode())->NiAVObject_GetRotate_006a9540();
                 matrix = matrix.FUN_0043f8d0(rotation);
-                reinterpret_cast<UpdateNode*>(GetNiNode())->FUN_0043fa80(&matrix);
+                reinterpret_cast<UpdateNode*>(GetNiNode())->SetRotate_0043fa80(&matrix);
             }
             else
                 Warning_005b5e40(11, DAT_0108fd78, reinterpret_cast<const char*(__thiscall*)(void*)>(MissileLocal::GetName)(this));
         }
     }
     reinterpret_cast<void(__thiscall*)(void*, float)>(MissileLocal::UpdateDetonation)(this, afDeltaTime);
-    if (reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetSpeed)(this) > *DAT_011ce684.FUN_00403e20() && (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150)) != 4)
+    if (reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetSpeed)(this) > *DAT_011ce684.Setting_Float_00403e20() && (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150)) != 4)
         reinterpret_cast<void(__thiscall*)(void*)>(MissileLocal::Detonate)(this);
     if (reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetElapsedTime)(this) > reinterpret_cast<float(__thiscall*)(void*)>(MissileLocal::GetDetonationDelay)(this) && (reinterpret_cast<UpdateList*>(&kImpacts)->FUN_008256d0() || m_bHasImpactData))
     {
@@ -954,8 +963,8 @@ struct ImpactVector
     float DotProduct(const ImpactVector&);
 };
 ImpactVector FUN_004a3760(float, const ImpactVector&);
-void FUN_00525340(ImpactVector&);
-double FUN_00408820(float);
+void NiPoint3_UnitizeVector(ImpactVector&);
+double NiAbs_00408820(float);
 double SignOfFloat(float);
 extern const float DAT_01012054, DAT_010162c0;
 extern ImpactVector DAT_011f426c;
@@ -982,9 +991,9 @@ struct Update
 };
 struct Node
 {
-    void FUN_00440460(const ImpactVector&);
-    void FUN_00a59c60(const Update&);
-    Matrix* FUN_00461130();
+    void NiAVObject_SetTranslate(const ImpactVector&);
+    void NiAVObject_Update(const Update&);
+    Matrix* NiAVObject_GetWorldRotate();
 };
 struct Contact
 {
@@ -998,15 +1007,15 @@ struct ContactList
 };
 struct Physics
 {
-    void FUN_00573ed0(bool);
+    void bhkNiCollisionObject_SetNotify(bool);
 };
-Physics* FUN_004b5260(Node*);
-void FUN_00c6a350(Node*, int, int, int, int);
-void FUN_00c6a3d0(Node*, int, int, int);
-void FUN_00c6a0b0(Node*, int, int, int);
-int FUN_005dbe10();
-void FUN_0062b8d0(Node*, const ImpactVector&, int);
-void FUN_0062ba80(Node*, const ImpactVector&, int);
+Physics* FindFirstCollisionObject(Node*);
+void bhkWorld_SetMotion(Node*, int, int, int, int);
+void bhkWorld_SetGroup(Node*, int, int, int);
+void bhkWorld_EnableCollision(Node*, int, int, int);
+int bhkCollisionFilter_GetNewSystemGroup();
+void TESHavokUtilities_AddVelocity(Node*, const ImpactVector&, int);
+void TESHavokUtilities_AddAngularVelocity(Node*, const ImpactVector&, int);
 struct Game
 {
     bool FUN_0047c850();
@@ -1014,7 +1023,7 @@ struct Game
 extern Game* DAT_011de45c;
 struct Selection
 {
-    MissileProjectile* FUN_007af430();
+    MissileProjectile* BGSSaveFormBuffer_GetForm();
     void SetValue(int);
 };
 extern Selection DAT_011f2250;
@@ -1043,64 +1052,64 @@ bool MissileProjectile::HandleContactResponse()
     using ImpactResponse::DAT_01012054;
     using ImpactResponse::DAT_010162c0;
     using ImpactResponse::DAT_011ce1dc;
-    using ImpactResponse::FUN_004b5260;
-    using ImpactResponse::FUN_00c6a350;
-    using ImpactResponse::FUN_00c6a3d0;
-    using ImpactResponse::FUN_00c6a0b0;
-    using ImpactResponse::FUN_005dbe10;
-    using ImpactResponse::FUN_0062b8d0;
-    using ImpactResponse::FUN_0062ba80;
+    using ImpactResponse::FindFirstCollisionObject;
+    using ImpactResponse::bhkWorld_SetMotion;
+    using ImpactResponse::bhkWorld_SetGroup;
+    using ImpactResponse::bhkWorld_EnableCollision;
+    using ImpactResponse::bhkCollisionFilter_GetNewSystemGroup;
+    using ImpactResponse::TESHavokUtilities_AddVelocity;
+    using ImpactResponse::TESHavokUtilities_AddAngularVelocity;
     using ImpactResponse::FUN_004a3760;
-    using ImpactResponse::FUN_00525340;
-    using ImpactResponse::FUN_00408820;
+    using ImpactResponse::NiPoint3_UnitizeVector;
+    using ImpactResponse::NiAbs_00408820;
     using ImpactResponse::SignOfFloat;
     if (reinterpret_cast<Node*>(GetNiNode()) && !reinterpret_cast<ContactList*>(&kImpacts)->FUN_008256d0())
     {
-        if (DAT_011f2250.FUN_007af430() == this)
+        if (DAT_011f2250.BGSSaveFormBuffer_GetForm() == this)
             DAT_011f2250.SetValue(0);
         Node* node7 = reinterpret_cast<Node*>(GetNiNode());
         Contact* contact = *reinterpret_cast<ContactList*>(&kImpacts)->FUN_006815c0();
         reinterpret_cast<void(__thiscall*)(void*, int, int)>(MissileLocal::SetImpactFlagInt)(this, 4, 1);
         Unk_A9();
-        Physics* physics = FUN_004b5260(node7);
+        Physics* physics = FindFirstCollisionObject(node7);
         if (physics)
-            physics->FUN_00573ed0(true);
+            physics->bhkNiCollisionObject_SetNotify(true);
         if (!DAT_011de45c->FUN_0047c850() && !reinterpret_cast<int(__thiscall*)(void*)>(MissileLocal::IsImpactResponseSuppressed)(this))
         {
-            node7->FUN_00440460(contact->position);
+            node7->NiAVObject_SetTranslate(contact->position);
             Update update(0.0f, 0, 0);
-            node7->FUN_00a59c60(update);
+            node7->NiAVObject_Update(update);
         }
-        FUN_00c6a350(node7, 1, 1, 0, 1);
-        FUN_00c6a3d0(node7, FUN_005dbe10(), 1, 0);
-        FUN_00c6a0b0(node7, 1, 1, 0);
+        bhkWorld_SetMotion(node7, 1, 1, 0, 1);
+        bhkWorld_SetGroup(node7, bhkCollisionFilter_GetNewSystemGroup(), 1, 0);
+        bhkWorld_EnableCollision(node7, 1, 1, 0);
         if (!DAT_011de45c->FUN_0047c850())
         {
             ImpactVector linear_ = DAT_011f426c;
             ImpactVector direction3;
             direction3 = FUN_004a3760(DAT_01012054, reinterpret_cast<ProjectileDirectionAccess*>(this)->GetContactDirection());
             direction3 = direction3;
-            FUN_00525340(direction3);
-            FUN_00525340(contact->normal);
+            NiPoint3_UnitizeVector(direction3);
+            NiPoint3_UnitizeVector(contact->normal);
             float dot = contact->normal.DotProduct(direction3);
             ImpactVector correctionTmp =
                 FUN_004a3760(DAT_010162c0, FUN_004a3760(dot, contact->normal).FUN_00439ef0(direction3));
             linear_ = direction3.FUN_00439e90(correctionTmp);
-            linear_.FUN_00439180(*DAT_011ce1dc.FUN_00403e20() * reinterpret_cast<Base*>(Projectile::FUN_004181e0())->GetFloatAtOffset68());
-            FUN_0062b8d0(node7, linear_, 1);
+            linear_.FUN_00439180(*DAT_011ce1dc.Setting_Float_00403e20() * reinterpret_cast<Base*>(Projectile::FUN_004181e0())->GetFloatAtOffset68());
+            TESHavokUtilities_AddVelocity(node7, linear_, 1);
             ImpactVector kAngular = DAT_011f426c;
             Matrix rotation;
-            reinterpret_cast<Node*>(GetNiNode())->FUN_00461130()->FUN_004b46a0(rotation);
+            reinterpret_cast<Node*>(GetNiNode())->NiAVObject_GetWorldRotate()->FUN_004b46a0(rotation);
             ImpactVector local = rotation.FUN_004b4500(contact->normal);
-            if (FUN_00408820(local.y) > FUN_00408820(local.z))
-                local.z = FUN_00408820(local.y) * SignOfFloat(local.z);
+            if (NiAbs_00408820(local.y) > NiAbs_00408820(local.z))
+                local.z = NiAbs_00408820(local.y) * SignOfFloat(local.z);
             local.y = 0.0f;
-            FUN_00525340(local);
+            NiPoint3_UnitizeVector(local);
             ImpactVector spin2;
             spin2.FUN_00416870(-local.z, 0.0f, -local.x);
-            kAngular = node7->FUN_00461130()->FUN_004b4500(spin2);
-            kAngular.FUN_00439180(*DAT_011ce1dc.FUN_00403e20());
-            FUN_0062ba80(node7, kAngular, 1);
+            kAngular = node7->NiAVObject_GetWorldRotate()->FUN_004b4500(spin2);
+            kAngular.FUN_00439180(*DAT_011ce1dc.Setting_Float_00403e20());
+            TESHavokUtilities_AddAngularVelocity(node7, kAngular, 1);
         }
     }
     return true;
@@ -1132,33 +1141,33 @@ struct MissileUpdate
 struct MissileHandle
 {
     unsigned value;
-    unsigned FUN_0043b4d0();
-    void FUN_004a39f0(unsigned);
+    unsigned CFilter_GetLayer();
+    void CFilter_SetLayer(unsigned);
 };
 struct MissileBody
 {
     MissileHandle bhkWorldObject_GetCollisionFilter();
-    void FUN_00626cb0(unsigned);
-    int FUN_00517630();
+    void bhkWorldObject_SetCollisionFilter(unsigned);
+    int bhkRigidBody_GetMotionType();
     void SetFlag(unsigned, bool);
 };
 struct MissileCollision
 {
-    MissileBody* FUN_006fa820();
+    MissileBody* bhkNiCollisionObject_GetWorldObject();
 };
 struct MissileSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern MissileSetting DAT_011cfc8c;
 struct MissilePause
 {
-    bool FUN_0042ce10();
+    bool BGSSaveLoadGame_GetSaveGameLoading();
 };
 extern MissilePause* DAT_011ddf38;
 struct MissileVats
 {
-    MissileProjectile* FUN_007af430();
+    MissileProjectile* BGSSaveFormBuffer_GetForm();
     void SetValue(int);
 };
 struct MissileQueue
@@ -1251,12 +1260,12 @@ struct MissileHitHandle
     bool FUN_008256d0();
     MissileHit** FUN_006815c0();
 };
-MissileNode* FUN_004b5820(void*);
+MissileNode* GetAVObjectForCollidable(void*);
 MissileBody* bhkEntity_Getbhk(MissileNode*);
-MissileCollision* FUN_004b5260(MissileNode*);
-void FUN_00c69f50(MissileNode*, int, int);
-void FUN_00c6a350(MissileNode*, int, int, int, int);
-int FUN_009b7cb0();
+MissileCollision* FindFirstCollisionObject(MissileNode*);
+void bhkWorld_UpdatePosition(MissileNode*, int, int);
+void bhkWorld_SetMotion(MissileNode*, int, int, int, int);
+int FixedStrings_QPinnedLimb();
 const float DAT_01017b78 = 10.0f;
 struct MissileNode
 {
@@ -1300,9 +1309,9 @@ struct MissileNode
     virtual void Slot94();
     virtual void Slot98();
     virtual MissileNode* Find(int);
-    void* FUN_00460140();
-    void FUN_00a59c60(MissileUpdate*);
-    MissileTransform* FUN_00461130();
+    void* TESDataHandler_GetWorldSpaceList();
+    void NiAVObject_Update(MissileUpdate*);
+    MissileTransform* NiAVObject_GetWorldRotate();
 };
 // @fnv 0x009ba660
 } // namespace fnv_009ba660
@@ -1324,49 +1333,49 @@ void MissileProjectile::HandleMissileImpact()
     using fnv_009ba660::DAT_011ddf38;
     using fnv_009ba660::DAT_011e0e80;
     using fnv_009ba660::DAT_01017b78;
-    using fnv_009ba660::FUN_004b5820;
+    using fnv_009ba660::GetAVObjectForCollidable;
     using fnv_009ba660::bhkEntity_Getbhk;
-    using fnv_009ba660::FUN_004b5260;
-    using fnv_009ba660::FUN_00c69f50;
-    using fnv_009ba660::FUN_00c6a350;
-    using fnv_009ba660::FUN_009b7cb0;
-    static float impactScale = *DAT_011cfc8c.FUN_00403e20();
-    bool paused = DAT_011ddf38->FUN_0042ce10();
+    using fnv_009ba660::FindFirstCollisionObject;
+    using fnv_009ba660::bhkWorld_UpdatePosition;
+    using fnv_009ba660::bhkWorld_SetMotion;
+    using fnv_009ba660::FixedStrings_QPinnedLimb;
+    static float impactScale = *DAT_011cfc8c.Setting_Float_00403e20();
+    bool paused = DAT_011ddf38->BGSSaveLoadGame_GetSaveGameLoading();
     if (reinterpret_cast<MissileNode*>(GetNiNode()) && !reinterpret_cast<MissileHitHandle*>(&kImpacts)->FUN_008256d0())
     {
-        if (((MissileVats*)&DAT_011f2250)->FUN_007af430() == this)
+        if (((MissileVats*)&DAT_011f2250)->BGSSaveFormBuffer_GetForm() == this)
             ((MissileVats*)&DAT_011f2250)->SetValue(0);
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x158) = DAT_01017b78;
         MissileHit* hit31 = *reinterpret_cast<MissileHitHandle*>(&kImpacts)->FUN_006815c0();
         if (!hit31 || !hit31->node)
             return;
         MissileNode* node3 = reinterpret_cast<MissileNode*>(GetNiNode());
-        MissileNode* parent41 = FUN_004b5820(hit31->node->FUN_00460140());
+        MissileNode* parent41 = GetAVObjectForCollidable(hit31->node->TESDataHandler_GetWorldSpaceList());
         MissileBody* body20 = bhkEntity_Getbhk(hit31->node);
-        unsigned layer1 = body20 ? body20->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() : 0;
+        unsigned layer1 = body20 ? body20->bhkWorldObject_GetCollisionFilter().CFilter_GetLayer() : 0;
         if (body20 && layer1 != 19 && (!hit31->reference || !hit31->reference->IsActor()))
         {
             reinterpret_cast<void(__thiscall*)(void*, unsigned, bool)>(MissileLocal::SetImpactFlag)(this, 4, true);
             Unk_A9();
-            MissileCollision* collision9 = FUN_004b5260(node3);
-            MissileBody* ownBody53 = collision9 ? collision9->FUN_006fa820() : 0;
+            MissileCollision* collision9 = FindFirstCollisionObject(node3);
+            MissileBody* ownBody53 = collision9 ? collision9->bhkNiCollisionObject_GetWorldObject() : 0;
             if (ownBody53)
             {
                 MissileHandle handle = ownBody53->bhkWorldObject_GetCollisionFilter();
-                handle.FUN_004a39f0(15);
-                ownBody53->FUN_00626cb0(handle.value);
+                handle.CFilter_SetLayer(15);
+                ownBody53->bhkWorldObject_SetCollisionFilter(handle.value);
             }
             if (!paused)
                 reinterpret_cast<void(__thiscall*)(void*, const MissileVector&, const MissileVector&)>(MissileLocal::SetPositionAndDirection)(this, hit31->position.FUN_00439e90(), reinterpret_cast<ProjectileDirectionAccess*>(this)->GetMissileDirection().ApplyScaled(impactScale));
             reinterpret_cast<void(__thiscall*)(void*, int, int)>(MissileLocal::UpdateNodeTransformInt)(this, 0, 0);
-            FUN_00c69f50(node3, 1, 1);
+            bhkWorld_UpdatePosition(node3, 1, 1);
             MissileUpdate update53(0.0f, false, false);
-            node3->FUN_00a59c60(&update53);
-            if (body20->FUN_00517630() == 5)
-                FUN_00c6a350(node3, 5, 1, 0, 1);
+            node3->NiAVObject_Update(&update53);
+            if (body20->bhkRigidBody_GetMotionType() == 5)
+                bhkWorld_SetMotion(node3, 5, 1, 0, 1);
             else
             {
-                FUN_00c6a350(node3, 4, 1, 0, 1);
+                bhkWorld_SetMotion(node3, 4, 1, 0, 1);
                 if (!reinterpret_cast<bool(__thiscall*)(void*, unsigned)>(MissileLocal::IsImpactFlagSet)(this, 128))
                 {
                     reinterpret_cast<void(__thiscall*)(void*, unsigned, bool)>(MissileLocal::SetImpactFlag)(this, 128, true);
@@ -1378,13 +1387,13 @@ void MissileProjectile::HandleMissileImpact()
                 if (!paused && parent41)
                 {
                     MissileTransform inverse;
-                    parent41->FUN_00461130()->FUN_004b4880(inverse);
-                    *reinterpret_cast<MissileTransform*>(&m_kImpactTransform) = inverse.FUN_0062c250(*node3->FUN_00461130());
+                    parent41->NiAVObject_GetWorldRotate()->FUN_004b4880(inverse);
+                    *reinterpret_cast<MissileTransform*>(&m_kImpactTransform) = inverse.FUN_0062c250(*node3->NiAVObject_GetWorldRotate());
                 }
             }
-            MissileNode* child2 = node3 ? node3->Find(FUN_009b7cb0()) : 0;
+            MissileNode* child2 = node3 ? node3->Find(FixedStrings_QPinnedLimb()) : 0;
             if (child2)
-                FUN_00c6a350(child2, 1, 1, 1, 1);
+                bhkWorld_SetMotion(child2, 1, 1, 1, 1);
         }
         else
             HandleContactResponse();

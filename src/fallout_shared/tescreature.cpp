@@ -327,13 +327,14 @@ void* DelStandIn::FUN_005f75b0(unsigned int flags)
 
 struct FUN_0050f760_shell
 {
-    int FUN_0050f600(int);
-    int FUN_0050f760(int);
+    int TESBoundObject_ReplaceModel_0050f600(int);
+    int TESBoundAnimObject_ReplaceModel(int);
 };
 // @fnv 0x0050f760
-int FUN_0050f760_shell::FUN_0050f760(int a)
+// src: XBOX_PDB 0x0050f760
+int FUN_0050f760_shell::TESBoundAnimObject_ReplaceModel(int a)
 {
-    return FUN_0050f600(a);
+    return TESBoundObject_ReplaceModel_0050f600(a);
 }
 
 struct FUN_0051f4b0_shell
@@ -357,7 +358,7 @@ struct FUN_005f7460_shell
 // src: COMMUNITY 0x005f7460
 void FUN_005f7460_shell::TESActorBase_GetLevel()
 {
-    ((TESActorBaseData*)((char*)this - 0xd0))->FUN_0047ded0();
+    ((TESActorBaseData*)((char*)this - 0xd0))->TESActorBaseData_GetLevel();
 }
 
 struct FUN_005f7570_shell
@@ -508,7 +509,7 @@ struct FUN_005f8f10_shell : TESActorBaseData
 {
     unsigned short GetFatigue();
     bool GetMatchesPCLevel();
-    unsigned short FUN_0047ded0();
+    unsigned short TESActorBaseData_GetLevel();
     unsigned short GetScaledFatigue();
 };
 
@@ -519,7 +520,7 @@ unsigned short FUN_005f8f10_shell::GetScaledFatigue()
     unsigned short fatigue = GetFatigue();
     if (GetMatchesPCLevel())
     {
-        short value = FUN_0047ded0();
+        short value = TESActorBaseData_GetLevel();
         if (value < 1)
             value = 1;
         fatigue = (unsigned short)(value * (unsigned short)fatigue);
@@ -564,7 +565,7 @@ struct FUN_005f8e90_shell : public TESActorBaseData
     int TESCreature_TESHealthForm_getNext_get004();
     int _ref_00726070();
     bool GetMatchesPCLevel();
-    short FUN_0047ded0();
+    short TESActorBaseData_GetLevel();
 };
 
 // @fnv 0x005f8e90
@@ -574,7 +575,7 @@ int FUN_005f8e90_shell::TESCreature_TESHealthForm_getNext_get004()
     unsigned short result = 0;
     if (reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)->GetMatchesPCLevel())
     {
-        short factor = reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)->FUN_0047ded0();
+        short factor = reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)->TESActorBaseData_GetLevel();
         if (factor < 1)
             factor = 1;
         result = factor * _ref_00726070();
@@ -588,7 +589,7 @@ int FUN_005f8e90_shell::TESCreature_TESHealthForm_getNext_get004()
 
 struct FUN_005f16f0_shell
 {
-    unsigned short FUN_005f16f0(unsigned int);
+    unsigned short GetSaveSize_005f16f0(unsigned int);
 };
 struct CreatureSaveSize : FUN_005f16f0_shell
 {
@@ -598,7 +599,7 @@ struct CreatureSaveSize : FUN_005f16f0_shell
 unsigned short CreatureSaveSize::GetSaveSize(unsigned int aiFlags)
 {
     unsigned short isize = 0;
-    isize += FUN_005f16f0(aiFlags);
+    isize += GetSaveSize_005f16f0(aiFlags);
     if (aiFlags & 0x200)
         isize += 3;
     if (aiFlags & 0)
@@ -608,13 +609,13 @@ unsigned short CreatureSaveSize::GetSaveSize(unsigned int aiFlags)
 
 struct FUN_005f1f30_shell
 {
-    void __thiscall FUN_005f1f30(BGSSaveFormBuffer*);
+    void __thiscall SaveGame_005f1f30(BGSSaveFormBuffer*);
 };
 // Calls FUN_005f1f30, then if change flag 0x200 is set saves three bytes at offsets 0x12d, 0x12e and 0x12f into the buffer.
 // @fnv 0x005fb330
 void TESCreature::SaveGame(BGSSaveFormBuffer* buffer)
 {
-    ((FUN_005f1f30_shell*)this)->FUN_005f1f30(buffer);
+    ((FUN_005f1f30_shell*)this)->SaveGame_005f1f30(buffer);
     if (buffer->GetChangeFlags(0x200u).operator bool())
     {
         buffer->SaveData((char*)this + 0x12d, 1, 0);
@@ -623,7 +624,7 @@ void TESCreature::SaveGame(BGSSaveFormBuffer* buffer)
     }
 }
 
-float __cdecl FUN_00406ce0(float);
+float __cdecl floorf(float);
 struct FUN_005f73f0_Holder
 {
     virtual void v0();
@@ -641,7 +642,7 @@ struct FUN_005f73f0_Holder
 // @fnv 0x005f73f0
 int FUN_005f73f0_Holder::ConvertVirtualResultToInt(int a)
 {
-    return (int)FUN_00406ce0(v8(a));
+    return (int)floorf(v8(a));
 }
 
 struct FakeAVOwner
@@ -918,12 +919,12 @@ void TESCreature::SetActorValueI(ActorValue::Index index, int value)
 
 struct FUN_00608e00_shell
 {
-    void FUN_005f18c0(unsigned int);
+    void SaveGame_005f18c0(unsigned int);
 };
 
 struct PC7d
 {
-    void FUN_00484ce0(unsigned int, int);
+    void TESForm_SaveGameDataOLD(unsigned int, int);
 };
 
 struct FUN_00484d20_Class
@@ -936,15 +937,15 @@ unsigned int __fastcall _ref_0084e3a0(unsigned int);
 // @fnv 0x005fb1e0
 void TESCreature::SaveGameLegacy(unsigned int flags)
 {
-    reinterpret_cast<FUN_00608e00_shell*>(this)->FUN_005f18c0(flags);
+    reinterpret_cast<FUN_00608e00_shell*>(this)->SaveGame_005f18c0(flags);
 
     if (flags & 0x200)
     {
-        reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
+        reinterpret_cast<PC7d*>(this)->TESForm_SaveGameDataOLD(
             reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12d), 1);
-        reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
+        reinterpret_cast<PC7d*>(this)->TESForm_SaveGameDataOLD(
             reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12e), 1);
-        reinterpret_cast<PC7d*>(this)->FUN_00484ce0(
+        reinterpret_cast<PC7d*>(this)->TESForm_SaveGameDataOLD(
             reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12f), 1);
     }
 
@@ -982,7 +983,7 @@ FUN_005f77b0::~FUN_005f77b0()
 
 struct FormObj_5f7c20
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 // Save is not yet declared by the shared CreatureSounds header.
@@ -999,7 +1000,7 @@ struct Sub70_5f7c20
 struct Subd0_5f7c20
 {
     int u00, u04, u08;
-    void FUN_00487010();
+    void Save_00487010();
 };
 
 struct Sub12c_5f7c20
@@ -1008,46 +1009,46 @@ struct Sub12c_5f7c20
     void FUN_00483710();
 };
 
-bool __cdecl FUN_00401500();
+bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl FUN_00485910(unsigned int, float);
-void __cdecl FUN_00485910(unsigned int, int);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, float);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, int);
 
 // @fnv 0x005f7c20
 void TESCreature::SaveForm()
 {
     FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     TESModel::WriteToBuffer(0x4c444f4d, 0x54444f4d);
     TESSpellList::TESSpellList_SaveSubRecord();
     ((Sub70_5f7c20*)((char*)this + 0x70))->FUN_0047bd70();
     TESModelList::CopyModelListToBuffer(0x5a46494e, 0x5446494e);
     TESActorBaseData::Save();
     BGSDestructibleObjectForm::Save();
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
     {
         ((Sub12c_5f7c20*)&Data)->FUN_00483710();
     }
-    FUN_00485e20(&Data, 4);
-    if (FUN_00401500())
+    TESForm___SaveData(&Data, 4);
+    if (TESForm_QEndianSwapOnSave())
     {
         ((Sub12c_5f7c20*)&Data)->FUN_00483710();
     }
     TESForm_AddChunk_3(0x4d414e52, m_ucCreatureType);
     if (((const TESActorBase*)this)->GetCombatStyle())
     {
-        FUN_00485910(0x4d414e5a, ((TESForm*)((const TESActorBase*)this)->GetCombatStyle())->FUN_0084e3a0());
+        TESForm_AddChunk_00485910(0x4d414e5a, ((TESForm*)((const TESActorBase*)this)->GetCombatStyle())->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     }
     if (((const TESActorBase*)this)->GetBodyPartData())
     {
-        FUN_00485910(0x4d414e50, ((const TESActorBase*)this)->GetBodyPartData()->FUN_0084e3a0());
+        TESForm_AddChunk_00485910(0x4d414e50, ((const TESActorBase*)this)->GetBodyPartData()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     }
-    FUN_00485910(0x4d414e54, m_fFirstCreatureStat);
-    FUN_00485910(0x4d414e42, m_fThirdCreatureStatCur);
-    FUN_00485910(0x4d414e57, m_fSecondCreatureStat);
-    FUN_00485910(0x344d414e, (int)m_eImpactMaterial);
-    FUN_00485910(0x354d414e, (int)m_eSoundLevel);
+    TESForm_AddChunk_00485910(0x4d414e54, m_fFirstCreatureStat);
+    TESForm_AddChunk_00485910(0x4d414e42, m_fThirdCreatureStatCur);
+    TESForm_AddChunk_00485910(0x4d414e57, m_fSecondCreatureStat);
+    TESForm_AddChunk_00485910(0x344d414e, (int)m_eImpactMaterial);
+    TESForm_AddChunk_00485910(0x354d414e, (int)m_eSoundLevel);
     if (TESActorBaseData::GetFlag(0x100))
     {
         CreatureSounds* sounds = GetCreatureSounds();
@@ -1065,19 +1066,19 @@ void TESCreature::SaveForm()
         TESCreature* soundCreature = GetSoundCreature();
         if (soundCreature)
         {
-            unsigned int soundId = soundCreature->FUN_0084e3a0();
-            FUN_00485910(0x52435343, soundId);
+            unsigned int soundId = soundCreature->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(0x52435343, soundId);
         }
     }
     if (m_pImpactDataSet)
     {
-        unsigned int impactId = ((TESForm*)m_pImpactDataSet)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e43, impactId);
+        unsigned int impactId = ((TESForm*)m_pImpactDataSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e43, impactId);
     }
     if (m_pCreatureListForm)
     {
-        unsigned int weaponId = ((TESForm*)m_pCreatureListForm)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e4c, weaponId);
+        unsigned int weaponId = ((TESForm*)m_pCreatureListForm)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e4c, weaponId);
     }
     FUN_00485680();
 }
@@ -1089,7 +1090,7 @@ void* ourMemset(void*, int, unsigned int);
 struct CreatureRecordFile
 {
     unsigned char FUN_00472660();
-    int FUN_004726b0();
+    int TESFile_GetTESChunk();
     bool FUN_004726f0();
     unsigned int GetField25C();
     bool FUN_00401680();
@@ -1102,7 +1103,7 @@ struct CreatureContainerEntry
 {
     unsigned int form;
     int count;
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
 struct CreatureFactionEntry
 {
@@ -1110,7 +1111,7 @@ struct CreatureFactionEntry
     unsigned char rank;
     unsigned char unk05;
     unsigned short unk06;
-    void FUN_00503210();
+    void QuestPerkEntryData_Endian();
 };
 struct CreatureAIData
 {
@@ -1154,7 +1155,7 @@ bool TESCreature::LoadForm(TESFile* file)
     int chunk;
     bool consumed5;
     bool valid4;
-    while ((chunk = ((CreatureRecordFile*)file)->FUN_004726b0()) != 0)
+    while ((chunk = ((CreatureRecordFile*)file)->TESFile_GetTESChunk()) != 0)
     {
         consumed5 = false;
         valid4 = true;
@@ -1185,14 +1186,14 @@ bool TESCreature::LoadForm(TESFile* file)
         }
         case 0x4f544e43:
         case 0x44454f43:
-            switch (((CreatureRecordFile*)file)->FUN_004726b0())
+            switch (((CreatureRecordFile*)file)->TESFile_GetTESChunk())
             {
             case 0x4f544e43: {
                 CreatureContainerEntry item;
                 ourMemset(&item, 0, 8);
                 ((CreatureRecordFile*)file)->FUN_00472890(&item, 8);
                 if (((CreatureRecordFile*)file)->FUN_00401680())
-                    item.FUN_00462230();
+                    item.TwoValues_Endian();
                 DAT_011cb5f8 = (LastContainerItem*)TESContainer::AddContainerObject((void*)&item);
                 break;
             }
@@ -1209,7 +1210,7 @@ bool TESCreature::LoadForm(TESFile* file)
         case 0x4f4c5053: {
             unsigned int spellID = 0;
             ((CreatureRecordFile*)file)->ReadChunkInt(&spellID);
-            TESSpellList::FUN_0048d290(spellID);
+            TESSpellList::TESSpellList_AddSpell_0048d290(spellID);
             break;
         }
         case 0x4d544945: {
@@ -1277,7 +1278,7 @@ bool TESCreature::LoadForm(TESFile* file)
             ourMemset(&faction, 0, 8);
             ((CreatureRecordFile*)file)->FUN_00472890(&faction, 8);
             if (((CreatureRecordFile*)file)->FUN_00401680())
-                faction.FUN_00503210();
+                faction.QuestPerkEntryData_Endian();
             TESActorBaseData::SetFactionRank((TESFaction*)faction.faction, (char)faction.rank);
             break;
         }
@@ -1422,7 +1423,7 @@ bool TESCreature::LoadForm(TESFile* file)
             break;
     }
     if (!TESActorBaseData::GetShortAtOffset12())
-        Warning_005b5e40(DAT_0104947c, GetName(), FUN_0084e3a0());
+        Warning_005b5e40(DAT_0104947c, GetName(), GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     return true;
 }
 
@@ -1450,7 +1451,7 @@ struct FUN_005f8d70_actor : TESActorBaseData
 };
 struct FUN_005f8d70_settings
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern FUN_005f8d70_settings DAT_011cb58c;
 struct FUN_005f8d70_shell
@@ -1477,11 +1478,11 @@ unsigned short FUN_005f8d70_shell::TESCreature_GetAttackDamage()
         return 0;
     if (reinterpret_cast<FUN_005f8d70_actor*>(reinterpret_cast<char*>(this) - 0xdc)->FUN_00461560())
     {
-        short level = reinterpret_cast<FUN_005f8d70_actor*>(reinterpret_cast<char*>(this) - 0xdc)->FUN_0047ded0();
+        short level = reinterpret_cast<FUN_005f8d70_actor*>(reinterpret_cast<char*>(this) - 0xdc)->TESActorBaseData_GetLevel();
         if (level < 1)
             level = 1;
         result = FUN_0047ff30();
-        result += static_cast<int>(static_cast<double>(level) * *DAT_011cb58c.FUN_00403e20());
+        result += static_cast<int>(static_cast<double>(level) * *DAT_011cb58c.Setting_Float_00403e20());
     }
     else
     {
@@ -1567,14 +1568,14 @@ struct Effect
     int unk28;
     int unk2c;
     void* weapon;
-    bool FUN_0058cba0(unsigned int);
+    bool EffectSetting_IsFlagSetAny(unsigned int);
 };
 
 namespace fnv_008b4d10 {
 struct Part
 {
     bool IsFlag40Set();
-    bool FUN_008b4360();
+    bool BGSBodyPart_IsExplodablePart();
     unsigned char GetByte65();
     signed char GetByte63();
     bool BGSBodyPart_IsSeverablePart();
@@ -1681,7 +1682,7 @@ struct BaseView
 };
 struct Node
 {
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
 };
 struct Weapon
 {
@@ -1698,7 +1699,7 @@ struct Queue
     void TaskQueueInterface_QueueDismemberLimb(void*, int, int, bool, bool);
 };
 Queue* FUN_004537b0();
-bool FUN_008c7aa0();
+bool AILinearTaskThreadManager_ShouldQueue3DTask();
 void RollChanceOutcome(ActorValueOwner*, Weapon*, int, int, int, bool, bool*, bool*);
 }  // namespace fnv_008b4d10
 
@@ -1709,7 +1710,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
 {
     using namespace fnv_008b4d10;
     TESCreature* eb = dynamic_cast<TESCreature*>(GetActorBase());
-    if (((eb && eb->FUN_005fbf20()) || IsCharacter()) && *g_011df7f8.Bool())
+    if (((eb && eb->IsHumanoidCreature()) || IsCharacter()) && *g_011df7f8.Bool())
         return;
     switch (type)
     {
@@ -1727,7 +1728,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
     }
     if (FUN_00573090(part))
         return;
-    if (FUN_0087f3d0() || GetIsChildSize(false))
+    if (GetEssential() || GetIsChildSize(false))
         return;
     Part* q;
     fnv_008b4d10::Weapon* b;
@@ -1745,7 +1746,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
         if (q)
         {
             cf = q->IsFlag40Set();
-            if (q->FUN_008b4360())
+            if (q->BGSBodyPart_IsExplodablePart())
                 h = q->GetByte65();
             if (q && cf && h >= 100)
                 f = true;
@@ -1756,9 +1757,9 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
     bool a = f;
     if (effect)
     {
-        if (effect->FUN_0058cba0(64))
+        if (effect->EffectSetting_IsFlagSetAny(64))
             a = true;
-        else if (effect->FUN_0058cba0(32))
+        else if (effect->EffectSetting_IsFlagSetAny(32))
             p = true;
     }
     if (!p && !a)
@@ -1781,15 +1782,15 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
         if (!c || c->GetByte63() != type)
             continue;
         k = reinterpret_cast<Node*>(m_pBaseProcess->GetNodeByType(static_cast<LIMB_TYPE>(ba)));
-        if (!k || k->FUN_00456610())
+        if (!k || k->GetAppCulled_00456610())
             continue;
-        if (a && !c->FUN_008b4360())
+        if (a && !c->BGSBodyPart_IsExplodablePart())
             a = false;
-        if (!c->BGSBodyPart_IsSeverablePart() && !c->FUN_008b4360())
+        if (!c->BGSBodyPart_IsSeverablePart() && !c->BGSBodyPart_IsExplodablePart())
             continue;
         TESObjectREFR_SetDismembered(ba, source, target, ba, a);
-        if (!FUN_008c7aa0())
-            FUN_008b52a0(type, ba, a, !flag, true, false);
+        if (!AILinearTaskThreadManager_ShouldQueue3DTask())
+            Actor_DismemberLimb(type, ba, a, !flag, true, false);
         else
             FUN_004537b0()->TaskQueueInterface_QueueDismemberLimb(this, type, ba, a, !flag);
         if (*g_011df858.Bool() && ba != -1)
@@ -1868,8 +1869,8 @@ void TESCreature::CopyFrom(const TESForm* apSource)
     memcpy((char*)this + 0x12c, src2->GetOffset12C(), 4);
     *(int*)((char*)this + 0x34) = *((Spells*)((char*)src2 + 0x30))->FUN_00717e50();
     SetCreatureType(src2->ShadowSceneNode_GetDisableLightUpdate());
-    FUN_00507780(src2->FUN_00821640());
-    SetBoltGrowWidth(src2->FUN_00567470());
+    FUN_00507780(src2->TESObjectWEAP_GetShotsPerSecond());
+    SetBoltGrowWidth(src2->TESEffectShader_GetAddOnScaleStart());
     SetBoltSmallWidth(src2->GetFootWeight());
     ((Spells*)((char*)this + 0x30))->v23(((Spells*)((char*)src2 + 0x30))->v22());
     if (src2->GetCreatureSounds())

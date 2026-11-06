@@ -381,7 +381,7 @@ struct S_00cf10f0_Ctx
     }
 };
 
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 struct S_00cf10f0_Arr4;
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
@@ -393,7 +393,7 @@ struct S_00cf10f0_Arr4
     int m_cap;
     __forceinline void reserve(int n) throw()
     {
-        hkMemoryAllocator& h = FUN_00c85750()->heap();
+        hkMemoryAllocator& h = hkMemoryRouter_getInstance()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
             hkArrayUtil__reserve(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
@@ -421,7 +421,7 @@ int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* pArray)
     S_00cf10f0_Ctx guard(0x10);
     int n = 0;
     BinaryStreamLoad(*kStream->unk24c, &n, 1);
-    pArray->_clearAndDeallocate(FUN_00c85750()->heap());
+    pArray->_clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
     pArray->SetSizeAndGrow(n);
     int bytes = n * 4;
     for (int iIndex = 0; iIndex < n; iIndex++)
@@ -448,10 +448,10 @@ struct HeapContextGuard
     }
 };
 
-__declspec(nothrow) hkMemoryRouter* __cdecl FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return FUN_00c85750();
+    return hkMemoryRouter_getInstance();
 }
 
 __declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
@@ -656,7 +656,7 @@ struct FUN_008cd6a0_Class
     V4 rot0;
     V4 rot1;
     V4 comLocal;
-    void __thiscall FUN_00cb2d90(void*);
+    void __thiscall hkRotation_set(void*);
 };
 
 __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
@@ -716,7 +716,7 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
     apTransform->com1.q = com;
     apTransform->com1.q.m128_f32[3] = 0.0f;
 
-    apTransform->FUN_00cb2d90(&apTransform->rot1);
+    apTransform->hkRotation_set(&apTransform->rot1);
 
     __m128 v = apTransform->comLocal.q;
     __m128 y = _mm_shuffle_ps(v, v, 0x55);
@@ -838,7 +838,7 @@ struct Obj_t
     __m128 m80;
     __m128 m90;
 
-    void FUN_00cb2d90(const __m128& value);
+    void hkRotation_set(const __m128& value);
 };
 
 // Applies a 3x3 matrix (m00, m10, m20) times a vector (m80) plus translation (first) to produce m40 and m50, preserving the w component of m40.
@@ -849,7 +849,7 @@ void __cdecl hkSweptTransformUtil_warpTo(const __m128& apTranslation, const __m1
     obj->m90 = _mm_setzero_ps();
     obj->m60 = second;
     obj->m70 = second;
-    obj->FUN_00cb2d90(second);
+    obj->hkRotation_set(second);
     {
         __m128& t = obj->m30;
         t = apTranslation;
@@ -959,7 +959,7 @@ void __cdecl FUN_00cf1920(const hkSweptTransform* sweptTrans, float afTime, FUN_
         qResult.normalize4();
     }
     FUN_008cd6a0_Class* pTransform = apTransform;
-    pTransform->FUN_00cb2d90(&qResult);
+    pTransform->hkRotation_set(&qResult);
 
     hkVector4& vTranslation = *((hkVector4*)&pTransform->translation);
     __m128 vTimeWeight = _mm_load_ss(&afTime);
@@ -985,7 +985,8 @@ struct MotionExtR : FUN_008cd6a0_Class
 
 // Computes values from time and com0/com1, then updates rot1, com1, deltaAngle, and translation.
 // @fnv 0x00cf1b10
-void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
+// src: XBOX_PDB 0x00cf1b10
+void __cdecl hkSweptTransformUtil_backStepMotionState(float time, FUN_008cd6a0_Class* self)
 {
     float t0 = (time - self->com0.q.m128_f32[3]) * self->com1.q.m128_f32[3];
     float w = (DAT_0104da4c < t0) ? t0 : DAT_0104da4c;
@@ -1023,7 +1024,7 @@ void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
     __m128 wb = _mm_load_ss(&w);
     wb = _mm_shuffle_ps(wb, wb, 0);
     ((MotionExtR*)self)->deltaAngle.q = _mm_mul_ps(wb, ((MotionExtR*)self)->deltaAngle.q);
-    self->FUN_00cb2d90(&self->rot1);
+    self->hkRotation_set(&self->rot1);
 
     __m128 vComLocal = self->comLocal.q;
     __m128 vRy = _mm_mul_ps(_mm_shuffle_ps(vComLocal, vComLocal, 0x55), self->col1.q);

@@ -143,7 +143,7 @@ struct D9Matrix
         return (&unk00)[i];
     }
     void FUN_00cd4b60();
-    void FUN_00cd55b0(const D9Matrix&, const D9Matrix&);
+    void hkMatrix3_setMul(const D9Matrix&, const D9Matrix&);
 };
 struct __declspec(align(16)) D9Rotation : D9Matrix
 {
@@ -523,7 +523,7 @@ void __cdecl FUN_00d9ee50(D9Solver* solver, const D9Contact& contact, void* para
                 scaled.column(0).multiply(sx, rotation.column(0));
                 scaled.column(1).multiply(sy, rotation.column(1));
                 scaled.column(2).multiply(sz, rotation.column(2));
-                input.unk10.FUN_00cd55b0(scaled, accumulator->rotation());
+                input.unk10.hkMatrix3_setMul(scaled, accumulator->rotation());
             }
             input.unk50 = &owner->unkf0;
             accumulator = accumulatorB;

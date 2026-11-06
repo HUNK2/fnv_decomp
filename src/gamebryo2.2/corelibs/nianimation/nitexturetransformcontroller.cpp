@@ -386,13 +386,14 @@ NiTextureTransformController* __thiscall FUN_00a468f0_shell::Clone(CloningProces
     return pkObject;
 }
 
-void __stdcall FUN_00a576c0(StrArr*);
+void __stdcall NiFloatInterpController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Ensures pkStrings has room, then stores the string returned by _FUN_00a7d330 at index m_0A.
 // @fnv 0x00a46ac0
-void __stdcall FUN_00a46ac0(StrArr* pkStrings)
+// src: XBOX_PDB 0x00a46ac0
+void __stdcall NiTextureTransformController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pszString = _FUN_00a7d330(*(const char**)&g_011f3f20);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
@@ -521,14 +522,14 @@ struct FUN_00a46a30_Cls
     unsigned char m_40;
     unsigned int m_44;
     unsigned int m_48;
-    void __thiscall FUN_00a57c00(NiStreamStandInW_nitexturetransformcontroller* pkStream);
+    void __thiscall NiBoolInterpController_SaveBinary(NiStreamStandInW_nitexturetransformcontroller* pkStream);
     void __thiscall WriteToStream(NiStreamStandInW_nitexturetransformcontroller* pkStream);
 };
 
 // @fnv 0x00a46a30
 void __thiscall FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW_nitexturetransformcontroller* pkStream)
 {
-    FUN_00a57c00(pkStream);
+    NiBoolInterpController_SaveBinary(pkStream);
     unsigned char ucFlag = m_40;
     pkStream->m_pBackingStream->Write(&ucFlag);
     pkStream->m_pBackingStream->Write(&m_44);
@@ -772,14 +773,15 @@ struct S00a46970_Base
 };
 struct S00a46970_StreamFix
 {
-    void FUN_00a645b0();
+    void ReadLinkID();
 };
 struct S00a46970_Ctlr : public NiTextureTransformController
 {
-    void FUN_00a46970(S00a46970_Stream& kStream);
+    void NiTextureTransformController_LoadBinary(S00a46970_Stream& kStream);
 };
 // @fnv 0x00a46970
-void S00a46970_Ctlr::FUN_00a46970(S00a46970_Stream& kStream)
+// src: XBOX_PDB 0x00a46970
+void S00a46970_Ctlr::NiTextureTransformController_LoadBinary(S00a46970_Stream& kStream)
 {
     reinterpret_cast<S00a46970_Base*>(this)->FUN_00a57c70(kStream);
     bool bShaderMap;
@@ -790,7 +792,7 @@ void S00a46970_Ctlr::FUN_00a46970(S00a46970_Stream& kStream)
     S00a46970_StreamLoadBinary(kStream, uiMember);
     m_eTransformMember = (NiTextureTransformController__TransformMember)uiMember;
     if (kStream.m_uiNifVersion < 0x0a010068)
-        reinterpret_cast<S00a46970_StreamFix*>(&kStream)->FUN_00a645b0();
+        reinterpret_cast<S00a46970_StreamFix*>(&kStream)->ReadLinkID();
 }
 
 // @fnv 0x00a46950

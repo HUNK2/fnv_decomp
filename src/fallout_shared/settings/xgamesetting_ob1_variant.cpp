@@ -300,7 +300,8 @@ inline NiSourceTexture* DynamicCastC4BB(NiObject* pkObject)
 }
 
 // @fnv 0x00c4bb40
-void* __cdecl FUN_00c4bb40(NiObject* pkObject)
+// src: XBOX_PDB 0x00c4bb40
+void* __cdecl BSUtilities_GetTextureName(NiObject* pkObject)
 {
     void* pvData = 0;
     NiSourceTexture* pkTarget;
@@ -422,7 +423,8 @@ class NiPoint3R
     }
     float Dot(const NiPoint3R&) const;
     float Length() const;
-    void FUN_004a0c10()
+// src: XBOX_PDB 0x004a0c10
+    void Unitize_004a0c10()
     {
         float len = Length();
         if (len > 1e-06)
@@ -449,11 +451,11 @@ class NiMatrix3R
 {
   public:
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-    void FUN_00439f50(unsigned int, NiPoint3R&) const;
+    void NiMatrix3_GetCol(unsigned int, NiPoint3R&) const;
     NiPoint3R Column(unsigned int column) const
     {
         NiPoint3R result;
-        FUN_00439f50(column, result);
+        NiMatrix3_GetCol(column, result);
         return result;
     }
     void NiMatrix3_NiMatrix3(const NiPoint3R&, const NiPoint3R&, const NiPoint3R&);
@@ -482,13 +484,13 @@ void __cdecl BSUtilities_ReflectCameraAboutArbitraryPlane(NiCamera* source, Plan
     NiPoint3R thirdB = reinterpret_cast<const NiMatrix3R&>(source->m_kWorld.m_Rotate).Column(1);
     NiPoint3R reflected6 = position + (-plane->normal) * (float)(2.0 * plane->Distance(position));
     NiPoint3R direction6 = -first7;
-    direction6.FUN_004a0c10();
+    direction6.Unitize_004a0c10();
     NiPoint3R axisA = (float)(2.0 * plane->normal.Dot(direction6)) * plane->normal - direction6;
     direction6 = -second3;
-    direction6.FUN_004a0c10();
+    direction6.Unitize_004a0c10();
     NiPoint3R axis2 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
     direction6 = thirdB;
-    direction6.FUN_004a0c10();
+    direction6.Unitize_004a0c10();
     NiPoint3R axis7 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
     NiMatrix3R matrix;
     matrix.NiMatrix3_NiMatrix3(axisA, axis7, axis2);

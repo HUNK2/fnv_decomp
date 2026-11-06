@@ -87,14 +87,14 @@ void PathingRequestLOS::CopyTo(PathingRequest* apDest)
 // @fnv 0x006e5b20
 void PathingRequestLOS::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    PathingRequest::FUN_006e3230(apSaveGameBuffer);
+    PathingRequest::PathingRequest_SaveGame(apSaveGameBuffer);
 
     unsigned int isaveGameCount =
         (reinterpret_cast<unsigned int>(this) + 0xB4) != 0
             ? m_b4.GetSize()
             : 0;
 
-    reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(isaveGameCount);
+    reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->SaveVariableSizedValue(isaveGameCount);
 
     {
         unsigned int i;

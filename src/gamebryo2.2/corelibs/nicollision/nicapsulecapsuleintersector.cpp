@@ -36,7 +36,7 @@ struct S_00eaee50_Shape
     S_00eaee50_Line m_kLine;
 };
 
-float FUN_00eaf310(const S_00eaee50_Line& a, const S_00eaee50_Line& b, float* pS, float* pT);
+float NiSqrDistance_Compute(const S_00eaee50_Line& a, const S_00eaee50_Line& b, float* pS, float* pT);
 
 struct S_00eaee50
 {
@@ -71,7 +71,7 @@ float S_00eaee50::NiCapsuleCapsuleIntersector_Pseudodistance(const NiPoint3& kOf
     S_00eaee50_Line kB = m_pkShapeB->m_kLine;
     kA.m_kStartPoint += kOffsetA * fTime;
     kB.m_kStartPoint += kOffsetB * fTime;
-    return FUN_00eaf310(kA, kB, &m_fParamA, &m_fParamB) * m_fScale - 1.0;
+    return NiSqrDistance_Compute(kA, kB, &m_fParamA, &m_fParamB) * m_fScale - 1.0;
 }
 
 inline NiPoint3 NiPoint3::operator-(const NiPoint3& kRhs) const
@@ -151,7 +151,7 @@ void S_00eaef80::UpdatePoints(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB
         FUN_Offset(kPointB, kOffsetB, unk1C);
 
         m_kPoint2C = kPointB - kPointA;
-        m_kPoint2C.FUN_004a0c10();
+        m_kPoint2C.Unitize_004a0c10();
 
         m_kPoint20 = kPointA + m_kPoint2C * m_pkShapeA->m_fBoundRadius;
     }
@@ -163,7 +163,7 @@ void S_00eaef80::UpdatePoints(const NiPoint3& kOffsetA, const NiPoint3& kOffsetB
         if (kPointB != kPointA)
         {
             m_kPoint2C = kPointB - kPointA;
-            m_kPoint2C.FUN_004a0c10();
+            m_kPoint2C.Unitize_004a0c10();
         }
         else
         {

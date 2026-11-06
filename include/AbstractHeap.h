@@ -99,7 +99,7 @@ public:
     void RemoveBlockFromFreeList(HeapFreeBlock* block);
     void PushBlock(MemoryBlockHeader* block);
     void AddBlockToFreeList(HeapFreeBlock* block);
-    void FUN_00aa9e50(HeapFreeList* list, HeapFreeBlock* block);
+    void RemoveBlockFromFreeList_00aa9e50(HeapFreeList* list, HeapFreeBlock* block);
     void IncrementSubBucket(int size);
     void DecrementSubBucket(int size);
     void RebuildFreeLists();

@@ -32,7 +32,7 @@ struct FUN_00e01870_Class
     FUN_00e01870_Class* FUN_00e01870(unsigned int);
 };
 void* DAT_0102e388;
-UnkRet* FUN_00c85750();
+UnkRet* hkMemoryRouter_getInstance();
 // Calls FUN_00cb0c00 on part10, part0c and part08, sets vptr to DAT_0102e388, and if flags bit 0 is set releases this with refCount via object->part10.
 // @fnv 0x00e01870
 FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
@@ -43,7 +43,7 @@ FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
     vptr = &DAT_0102e388;
     if (flags & 1)
     {
-        UnkRet* object = FUN_00c85750();
+        UnkRet* object = hkMemoryRouter_getInstance();
         unsigned int count = refCount;
         RetPart* part = object->part10;
         part->Release(this, count);

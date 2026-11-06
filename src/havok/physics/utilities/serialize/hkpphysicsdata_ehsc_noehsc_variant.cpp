@@ -43,7 +43,7 @@ struct FUN_00d4c050_obj
     int FindMatchingEntry(int a);
 };
 extern int DAT_0102f0ec;
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 void __cdecl InitializeWorld(void*) throw();
 void __cdecl RunWithLocalContext(void*, void*, void*) throw();
 struct FUN_00d1df70
@@ -160,7 +160,7 @@ struct PhysicsDataExt : public hkpPhysicsData
 {
     hkpWorld* CreateWorld(char bRegisterWithMemoryManager) throw();
 };
-extern void* __cdecl FUN_00c85750(void);
+extern void* __cdecl hkMemoryRouter_getInstance(void);
 extern int DAT_010d07f4;
 extern void __cdecl ProcessCollisionRecords(void*, void*, void*);
 extern void __cdecl ResizeAudioStream(void*, void*, int);
@@ -230,7 +230,7 @@ struct HolderType
 };
 struct ClientType
 {
-    void FUN_00c91c50(void*);
+    void hkpWorld_getCinfo(void*);
     void AddPhysicsSystem(void*);
 };
 struct ArrayType
@@ -376,7 +376,7 @@ struct SplitHeap
 {
     inline SplitAllocator& get(const void*)
     {
-        return ((SplitRouter*)FUN_00c85750())->allocator();
+        return ((SplitRouter*)hkMemoryRouter_getInstance())->allocator();
     }
 };
 template <class T> static __forceinline void copyItems(T* dest, int count, const T& item)
@@ -494,7 +494,7 @@ struct SplitSystem : SplitRef
     SplitBool active;
     static __forceinline void* operator new(unsigned int bytes)
     {
-        SplitRef* p = (SplitRef*)((SplitRouter*)FUN_00c85750())->allocator().alloc(bytes);
+        SplitRef* p = (SplitRef*)((SplitRouter*)hkMemoryRouter_getInstance())->allocator().alloc(bytes);
         p->m_usMemSizeAndFlags = (unsigned short)bytes;
         return p;
     }

@@ -92,7 +92,7 @@ struct FUN_00db7b70_Class
     void AppendToArray(FUN_00db7b70_Array* p);
 };
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(void* mm, FUN_00db7b70_Array* arr, int count, int size);
 
 // Appends the null-terminated pointer list in unk0c to the array p, growing its capacity via the memory manager when needed.
@@ -105,7 +105,7 @@ void FUN_00db7b70_Class::AppendToArray(FUN_00db7b70_Array* apArray)
     while (this->unk0c[count] != 0)
         count++;
 
-    FUN_00c85750_Obj* tls = (FUN_00c85750_Obj*)FUN_00c85750();
+    FUN_00c85750_Obj* tls = (FUN_00c85750_Obj*)hkMemoryRouter_getInstance();
     void* memmgr = tls->unk10;
     int oldCount = apArray->count;
     int iCapacity = apArray->capacity;

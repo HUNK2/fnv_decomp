@@ -143,7 +143,7 @@ struct S_00cb17b0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00cb17b0_Router* FUN_00c85750();
+S_00cb17b0_Router* hkMemoryRouter_getInstance();
 struct S_00cb17b0_RefObj
 {
     virtual ~S_00cb17b0_RefObj();
@@ -152,7 +152,7 @@ struct S_00cb17b0_RefObj
     void operator delete(void* p)
     {
         S_00cb17b0_RefObj* b = static_cast<S_00cb17b0_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter_getInstance()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 struct FUN_00cb17b0 : S_00cb17b0_RefObj

@@ -51,14 +51,14 @@ public:
     PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
     void FUN_00439ef0();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
     PodPoint3* FUN_00416870(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
-    char* FUN_00a59af0(const char* text);
+    char* GetViewerString_00a59af0(const char* text);
 
     static void* operator new[](size_t size);
     static void operator delete[](void* memory);
@@ -89,11 +89,12 @@ void BSSimpleArray<PathingLocation, 1024>::Clear(bool freeStorage)
 
 struct _dummy_FUN_00984230
 {
-    void* FUN_00984230();
+    void* hkpAabbPhantom_getAabb();
 };
 
 // @fnv 0x00984230
-void* __fastcall FUN_00984230(char* pThis)
+// src: XBOX_PDB 0x00984230
+void* __fastcall hkpAabbPhantom_getAabb(char* pThis)
 {
     return pThis + 0xB0;
 }
@@ -126,7 +127,8 @@ NiPoint3& FUN_006ab150_shell::PathingRequestLOS_GetSearchCenter(NiPoint3& akDest
 }
 
 // @fnv 0x006ab360
-void* BSMultiBoundRoom::FUN_006ab360()
+// src: XBOX_PDB 0x006ab360
+void* BSMultiBoundRoom::TESCombatStyle_GetAdvancedData()
 {
     return reinterpret_cast<char*>(this) + 0xB4;
 }
@@ -227,7 +229,7 @@ void FUN_006aac10_shell::InitNavMeshPoint(void* p, NavMesh* n, unsigned short t)
         ((float*)p)[1] =
             ((NiPoint3*)&(reinterpret_cast<const NiPoint3&>(vecPos) -
                           ((NavMeshTriangleReference*)((char*)this + 0x2078))->FastNavMeshTriLocation_GetLocation()))
-                ->FUN_00589850();
+                ->NiPoint3_XYLength();
     else
         ((float*)p)[1] = 0.0f;
 }
@@ -252,7 +254,7 @@ struct TerrainChunk
 };
 struct MaterialObject
 {
-    TerrainChunk* FUN_007af430();
+    TerrainChunk* BGSSaveFormBuffer_GetForm();
 };
 struct VectVec
 {
@@ -261,7 +263,7 @@ struct VectVec
 struct QueryObject
 {
     bool FUN_0073cb80();
-    void* FUN_006c9900();
+    void* GetActorLockData();
     double GetFirstLightParameter();
     PodPoint3 PathingRequestLOS_GetSearchCenter();
     double GetFloatAtOffset68();
@@ -323,19 +325,19 @@ struct PathSearch
     NodeLink rooms;
     bool useDirection;
     NodeInternals destination;
-    int FUN_006a94f0(NavMesh* mesh, unsigned short triangle, float cost, SearchNode** out);
+    int GetKeyForNode_006a94f0(NavMesh* mesh, unsigned short triangle, float cost, SearchNode** out);
     int FUN_006a7e00(int handle);
     void InitNavMeshPoint(SearchNode* target, NavMesh* mesh, unsigned short triangle);
     unsigned char ExpandNeighbors(NodeCost* origin, FlagCollection* output);
 };
 struct ConfigValue
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern ConfigValue g_navConfig;
 extern float g_navModifier;
-extern float __cdecl FUN_00404010(float v, float fTargetUpperBound);
-extern MaterialObject* __cdecl FUN_004839c0(unsigned int materialID);
+extern float __cdecl BSMAX_00404010(float v, float fTargetUpperBound);
+extern MaterialObject* __cdecl TESForm_GetFormByNumericID(unsigned int materialID);
 // @fnv 0x006aacb0
 unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* output)
 {
@@ -359,14 +361,14 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                                         &connectedMesh, &connectedTri, &boundary))
                                 {
                                     EdgeExtraInfo* edgeDetails =
-                                        origin->node.mesh->FUN_0068f230(origin->node.triangle, edgeIndex);
+                                        origin->node.mesh->GetEdgeExtraInfo(origin->node.triangle, edgeIndex);
                                     {
                                         float edgeModifier;
                                         if (edgeDetails != 0 && edgeDetails->state == 1)
                                             continue;
                                         if (connectedMesh != origin->node.mesh)
                                         {
-                                            if (!rooms.FUN_00559450(connectedMesh->FUN_0084e3a0())->HasNavMeshEntry())
+                                            if (!rooms.FUN_00559450(connectedMesh->GetHavokWorldObjectCountInSceneGraph_0084e3a0())->HasNavMeshEntry())
                                                 continue;
                                         }
                                         edgeModifier = 1.0f;
@@ -382,7 +384,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                 {
                                                     int materialID =
                                                         *connectedMesh->FUN_00699af0(connectedTri);
-                                                    material = FUN_004839c0(materialID);
+                                                    material = TESForm_GetFormByNumericID(materialID);
                                                     if (material)
                                                     {
                                                         void* filterRef;
@@ -390,11 +392,11 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                             bool inside;
                                                             {
                                                                 DoorAccessData filter(reinterpret_cast<TESObjectREFR*>(material));
-                                                                filterRef = query->FUN_006c9900();
+                                                                filterRef = query->GetActorLockData();
                                                                 if (!filter.CanUnlockDoor(static_cast<const PathingActorData*>(filterRef),
                                                                                           reinterpret_cast<TESObjectREFR*>(material), inside))
                                                                     continue;
-                                                                if (material->FUN_007af430()->FUN_00518000())
+                                                                if (material->BGSSaveFormBuffer_GetForm()->FUN_00518000())
                                                                     edgeModifier = g_navModifier;
                                                             }
                                                         }
@@ -412,7 +414,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                 query->GetFirstLightParameter() * query->GetFirstLightParameter())
                                                 continue;
                                         }
-                                        if (query->GetFloatAtOffset68() > *g_navConfig.FUN_00403e20())
+                                        if (query->GetFloatAtOffset68() > *g_navConfig.Setting_Float_00403e20())
                                         {
                                             if (connectedMesh->FUN_005582f0(connectedTri)->FUN_00691140(0x10))
                                                 continue;
@@ -420,7 +422,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                         connectedMesh->FUN_00558220(reinterpret_cast<NiPoint3*>(&candidatePoint),
                                                                    connectedTri);
                                         cost = ((NiPoint3*)&(reinterpret_cast<const PodPoint3&>(originPos) - candidatePoint))
-                                                   ->FUN_00589850();
+                                                   ->NiPoint3_XYLength();
                                         extraCost = 0.0f;
                                         if (query->GetString())
                                             extraCost = (float)query->GetString()->SumNodeValues(&candidatePoint);
@@ -433,16 +435,16 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             {
                                                 PodPoint3 vecDirectionB =
                                                     reinterpret_cast<const PodPoint3&>(originPos) - candidatePoint;
-                                                vecDirectionA.FUN_004a0c10();
-                                                vecDirectionB.FUN_004a0c10();
+                                                vecDirectionA.Unitize_004a0c10();
+                                                vecDirectionB.Unitize_004a0c10();
                                                 cost *= 1.0f - vecDirectionA.DotProduct(vecDirectionB);
-                                                cost = FUN_00404010(cost, 0.0f);
+                                                cost = BSMAX_00404010(cost, 0.0f);
                                             }
                                         }
                                         cost = (origin->cost + cost) * (1.0f + extraCost);
                                         cost *= edgeModifier;
                                         switch (
-                                            FUN_006a7e00(FUN_006a94f0(connectedMesh, connectedTri, cost, &nextNode)))
+                                            FUN_006a7e00(GetKeyForNode_006a94f0(connectedMesh, connectedTri, cost, &nextNode)))
                                         {
                                         case 0:
                                             InitNavMeshPoint(nextNode, connectedMesh, connectedTri);
@@ -501,16 +503,17 @@ struct FUN_006ab180_shell
     SeqObj* m_pkFound;
     SeqObj* m_pkClosest;
     float m_fClosest;
-    bool FUN_006ab180(SeqObj* pkObj);
+    bool NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj);
 };
 // @fnv 0x006ab180
-bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
+// src: XBOX_PDB 0x006ab180
+bool FUN_006ab180_shell::NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj)
 {
     char cLineOfSightValue = ((LOSTarget*)(BSFadeNode*)m_spReferencedObject)
-                                 ->GetLOSValue(pkObj->m_kNode.m_pkMesh->FUN_0084e3a0(), pkObj->m_kNode.m_usTriangle);
+                                 ->GetLOSValue(pkObj->m_kNode.m_pkMesh->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), pkObj->m_kNode.m_usTriangle);
     if (cLineOfSightValue < 0)
     {
-        LOSPortalArray* pkArray = static_cast<LOSPortalArray*>(m_pkRoom->FUN_006ab360());
+        LOSPortalArray* pkArray = static_cast<LOSPortalArray*>(m_pkRoom->TESCombatStyle_GetAdvancedData());
         for (unsigned int i = 0; i < pkArray->FUN_0044ddc0(); i++)
         {
             NiPoint3 kTargetCenter = pkObj->m_kNode.FastNavMeshTriLocation_GetLocation();
@@ -567,9 +570,9 @@ struct Position
 };
 struct World
 {
-    WorldStateManager* FUN_00984230();
+    WorldStateManager* hkpAabbPhantom_getAabb();
     Position* GetOffsetC(Position*);
-    void* FUN_006a9540();
+    void* NiAVObject_GetRotate_006a9540();
 };
 struct Location
 {
@@ -2677,7 +2680,7 @@ struct FUN_006aa780_Class
     int state;
     bool NavMeshSearchLOS_BuildNodePath(World*, const Location*, int, int);
     bool FUN_006a7d60(int, int, int);
-    int FUN_006a94f0(NavMesh*, unsigned short, Location*, float);
+    int GetKeyForNode_006a94f0(NavMesh*, unsigned short, Location*, float);
     void FUN_006a7c90(int);
 };
 // @fnv 0x006aa780
@@ -2687,11 +2690,11 @@ bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Lo
     unsigned short x8;
     world = apWorld;
     location = *apLocation;
-    if (!apWorld->FUN_00984230()->FUN_00559450())
+    if (!apWorld->hkpAabbPhantom_getAabb()->FUN_00559450())
         return false;
-    entry.FUN_0066b0d0(new FUN_006e1370(apWorld->FUN_00984230()->FUN_00559450()->GetLocationAndReturn(),
-                                        apWorld->FUN_00984230()->FUN_00559450()->FUN_00508050()));
-    apWorld->FUN_00984230()->FUN_00559450()->UpdateNavMeshes(&entry);
+    entry.FUN_0066b0d0(new FUN_006e1370(apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->GetLocationAndReturn(),
+                                        apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->FUN_00508050()));
+    apWorld->hkpAabbPhantom_getAabb()->FUN_00559450()->UpdateNavMeshes(&entry);
     state = 0;
     Position v5;
     apWorld->GetOffsetC(&v5)->FUN_005c3420();
@@ -2703,13 +2706,13 @@ bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Lo
     location.point.z = y.z;
     float t2;
     if (oldValid)
-        t2 = (location.FastNavMeshTriLocation_GetLocation() - old.FastNavMeshTriLocation_GetLocation()).FUN_00589850();
+        t2 = (location.FastNavMeshTriLocation_GetLocation() - old.FastNavMeshTriLocation_GetLocation()).NiPoint3_XYLength();
     else
         t2 = 0.0f;
-    FUN_006a7c90(FUN_006a94f0(location.mesh, location.triangle, &location, t2));
+    FUN_006a7c90(GetKeyForNode_006a94f0(location.mesh, location.triangle, &location, t2));
     NavMeshPtr uA;
     oldValid = false;
-    PathingLocation z(static_cast<BGSWorldLocation*>(world->FUN_006a9540()));
+    PathingLocation z(static_cast<BGSWorldLocation*>(world->NiAVObject_GetRotate_006a9540()));
     if (z.FUN_006dd6f0(0))
     {
         if (z.FUN_006dd640(&uA, &x8))

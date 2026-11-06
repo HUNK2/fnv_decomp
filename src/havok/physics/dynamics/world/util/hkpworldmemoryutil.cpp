@@ -112,12 +112,12 @@ struct S_00d01bc0_Owner
     int unkb0;
     unsigned int m_uiItemCount;
     void IncrementCounter();
-    void FUN_00c91190();
+    void hkpWorld_unlock();
     void ComputeMemoryUsage(S_00d01bc0_Iter* out);
-    S_00d01bc0_Handler* FUN_00c93570();
+    S_00d01bc0_Handler* hkpWorld_getMemoryWatchDog();
 };
 
-S_00d01bc0_Global* __cdecl FUN_00c85750();
+S_00d01bc0_Global* __cdecl hkMemoryRouter_getInstance();
 void __cdecl PropagateStateToChildren(S_00d01bc0_Owner* owner, S_00d01bc0_Node* node);
 
 // @fnv 0x00d01bc0
@@ -128,7 +128,7 @@ void __cdecl hkpWorldMemoryUtil_checkMemoryForIntegration(S_00d01bc0_Owner* pOwn
     unsigned int saved = pOwner->m_uiItemCount;
     S_00d01bc0_Iter iter;
     pOwner->ComputeMemoryUsage(&iter);
-    if (!FUN_00c85750()->sink()->v8(iter.m_key))
+    if (!hkMemoryRouter_getInstance()->sink()->v8(iter.m_key))
     {
         do
         {
@@ -150,7 +150,7 @@ void __cdecl hkpWorldMemoryUtil_checkMemoryForIntegration(S_00d01bc0_Owner* pOwn
                 }
                 s = (iter.m_node->m_flags >> 2) & 3;
             }
-            if (!FUN_00c85750()->sink()->v8(iter.m_key))
+            if (!hkMemoryRouter_getInstance()->sink()->v8(iter.m_key))
             {
                 S_00d01bc0_Node* node = iter.m_node;
                 if (!node->hkpSimulationIsland_isFullyConnected())
@@ -159,14 +159,14 @@ void __cdecl hkpWorldMemoryUtil_checkMemoryForIntegration(S_00d01bc0_Owner* pOwn
                 }
                 else
                 {
-                    pOwner->FUN_00c93570()->v5(node, 0);
+                    pOwner->hkpWorld_getMemoryWatchDog()->v5(node, 0);
                     pOwner->ComputeMemoryUsage(&iter);
                 }
             }
-        } while (!FUN_00c85750()->sink()->v8(iter.m_key));
+        } while (!hkMemoryRouter_getInstance()->sink()->v8(iter.m_key));
     }
     pOwner->m_uiItemCount = saved;
-    pOwner->FUN_00c91190();
+    pOwner->hkpWorld_unlock();
 }
 
 struct D01CE0Action
@@ -240,17 +240,17 @@ struct ParamObj
     int unk04;
     ChildObj* m_08;
 
-    InnerObj* FUN_00c93570();
+    InnerObj* hkpWorld_getMemoryWatchDog();
 };
 
-void __cdecl FUN_00d88040(int value);
+void __cdecl hkSetOutOfMemoryState(int value);
 void __cdecl ApplyActionPhases(ParamObj* param);
 
 // Returns early if the inner object is null; otherwise loops up to 10 times while the child's m_28 is nonzero, calling v10, FUN_00d88040 and ApplyActionPhases.
 // @fnv 0x00d01df0
 void __cdecl ProcessChildLoop(ParamObj* param)
 {
-    if (param->FUN_00c93570() == 0)
+    if (param->hkpWorld_getMemoryWatchDog() == 0)
     {
         return;
     }
@@ -263,9 +263,9 @@ void __cdecl ProcessChildLoop(ParamObj* param)
             break;
         }
 
-        InnerObj* inner = param->FUN_00c93570();
+        InnerObj* inner = param->hkpWorld_getMemoryWatchDog();
         inner->v10(param);
-        FUN_00d88040(0);
+        hkSetOutOfMemoryState(0);
         ApplyActionPhases(param);
     }
 }
@@ -330,7 +330,7 @@ void __cdecl hkpWorldMemoryUtil_watchHeapMemory(Src* pSrc)
     PFN_TlsGetValue pfnTls;
     TaskObj* pTask = pSrc->GetB();
     DWORD r = pTask->vtbl0C();
-    D01D20Holder* h = (D01D20Holder*)FUN_00c85750();
+    D01D20Holder* h = (D01D20Holder*)hkMemoryRouter_getInstance();
     if (!h->m_pTask->vtbl24(r))
     {
         pfnTls = (PFN_TlsGetValue)DAT_00fdf044;
@@ -359,6 +359,6 @@ void __cdecl hkpWorldMemoryUtil_watchHeapMemory(Src* pSrc)
     }
     if (DAT_01269200 != 0)
     {
-        FUN_00d88040(0);
+        hkSetOutOfMemoryState(0);
     }
 }

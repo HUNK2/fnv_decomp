@@ -17,7 +17,7 @@ inline hkRotation::hkRotation() {}
 struct __declspec(align(16)) DisplayBoxVector
 {
     float x, y, z, w;
-    void FUN_00c7f640(const hkTransform& t, const DisplayBoxVector& p);
+    void setTransformedPos_00c7f640(const hkTransform& t, const DisplayBoxVector& p);
     void set(const DisplayBoxVector& o)
     {
         *(__m128*)&x = *(const __m128*)&o.x;
@@ -72,7 +72,7 @@ void hkBoxGeometry::GetEdgeLines(hkVector4Array& aEdgeLines, hkMemoryAllocator& 
             halfExtent.y *= -1.0;
         if (iVertex & 4)
             halfExtent.z *= -1.0;
-        verts[iVertex].FUN_00c7f640(m_kMotionTransform, halfExtent);
+        verts[iVertex].setTransformedPos_00c7f640(m_kMotionTransform, halfExtent);
     }
 
     int n = 0;

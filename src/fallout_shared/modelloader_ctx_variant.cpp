@@ -6,11 +6,11 @@
 #include "../../include/NiNode.h"
 #include "../../include/NiPointer.h"
 #include "../../include/NiRenderer.h"
-NiRenderer* FUN_0043c4b0();
-const NiFixedString& FUN_00448a80();
+NiRenderer* NiXenonRenderer_GetRenderer();
+const NiFixedString& BSXFlags_Tag();
 
-NiRenderer* FUN_0043c4b0();
-const NiFixedString& FUN_00448a80();
+NiRenderer* NiXenonRenderer_GetRenderer();
+const NiFixedString& BSXFlags_Tag();
 
 class H_A100
 {
@@ -27,7 +27,7 @@ class FUN_0043c3b0_This
 class FUN_0043e480_shell
 {
   public:
-    void FUN_0043e480(bool);
+    void QueuedKF_SetAlreadyInKFMap(bool);
 };
 
 class FUN_0043c3d0_shell
@@ -96,7 +96,7 @@ bool fnv_NiStreamGetTexture(const char*, NiPointer<NiNode>&);
 int NiTexture_GetLoadMethod();
 void NiTexture_SetLoadMethod(unsigned int);
 extern "C" char* strstr(const char*, const char*);
-NiNode* FUN_00a61040(const NiFixedString&, MyFileEntry*, NiRenderer*, void*);
+NiNode* NiSourceCubeMap_Create(const NiFixedString&, MyFileEntry*, NiRenderer*, void*);
 NiNode* NiSourceTexture_CreateTexture(MyFileEntry*, const char*, void*, int);
 void FNV_Warning(const char*, ...);
 
@@ -122,11 +122,12 @@ class CQueuedTexture
     const char* GetFilePath();
     MyFileEntry* FUN_00c3cff0(int, int);
 
-    void FUN_0043c150();
+    void QueuedTexture_Run();
 };
 
 // @fnv 0x0043c150
-void CQueuedTexture::FUN_0043c150()
+// src: XBOX_PDB 0x0043c150
+void CQueuedTexture::QueuedTexture_Run()
 {
     AutoMemContext memContext(this->unk18, true,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 695);
@@ -142,7 +143,7 @@ void CQueuedTexture::FUN_0043c150()
 
     if (this->unk30)
     {
-        ((FUN_0043e480_shell*)(void*)this)->FUN_0043e480(true);
+        ((FUN_0043e480_shell*)(void*)this)->QueuedKF_SetAlreadyInKFMap(true);
         if (((TextureNode*)(void*)(NiNode*)this->unk30)->NiTexture_GetTextureQualityLevel() == 3 &&
             !((FUN_0043c3d0_shell*)(void*)this)->QueuedTexture_GetLoadDegraded())
         {
@@ -163,7 +164,7 @@ void CQueuedTexture::FUN_0043c150()
         }
         if (strstr(path, "_e.dd"))
         {
-            this->unk30 = FUN_00a61040(NiFixedString(path), fileEntry, FUN_0043c4b0(), &DAT_011a9598);
+            this->unk30 = NiSourceCubeMap_Create(NiFixedString(path), fileEntry, NiXenonRenderer_GetRenderer(), &DAT_011a9598);
         }
         else
         {

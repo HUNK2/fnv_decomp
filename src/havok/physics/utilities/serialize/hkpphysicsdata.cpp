@@ -92,7 +92,7 @@ int FUN_00d4c050_obj::FindMatchingEntry(int a)
 extern int DAT_0102f0ec;
 
 
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 void __cdecl InitializeWorld(void*) throw();
 void __cdecl RunWithLocalContext(void*, void*, void*) throw();
 
@@ -205,7 +205,7 @@ __forceinline hkMemoryAllocator& hkThreadMemory::heap()
 
 __forceinline void* hkpWorld::operator new(size_t size) throw()
 {
-    void* p = ((hkThreadMemory*)FUN_00c85750())->allocateChunk(size);
+    void* p = ((hkThreadMemory*)hkMemoryRouter_getInstance())->allocateChunk(size);
     ((unsigned short*)p)[2] = (unsigned short)size;
     return p;
 }
@@ -235,11 +235,11 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
     hkpWorld* world;
     if (this->m_pWorldCinfo == 0)
     {
-        world = ((hkpWorld*)hkpWorld::operator new(0x350))->FUN_00c95a80(reinterpret_cast<const hkpWorldCinfo*>(&defaultCinfo));
+        world = ((hkpWorld*)hkpWorld::operator new(0x350))->hkpWorld_hkpWorld(reinterpret_cast<const hkpWorldCinfo*>(&defaultCinfo));
     }
     else
     {
-        world = ((hkpWorld*)hkpWorld::operator new(0x350))->FUN_00c95a80(this->m_pWorldCinfo);
+        world = ((hkpWorld*)hkpWorld::operator new(0x350))->hkpWorld_hkpWorld(this->m_pWorldCinfo);
     }
 
     if (bRegisterWithMemoryManager)
@@ -281,7 +281,7 @@ class FUN_00dcecc0
 
     static void operator delete(void* p) throw()
     {
-        ((hkThreadMemory*)FUN_00c85750())->heap().blockFree(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
+        ((hkThreadMemory*)hkMemoryRouter_getInstance())->heap().blockFree(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00dcecc0* Destroy(unsigned int uiFlags) throw();
@@ -298,7 +298,7 @@ FUN_00dcecc0* FUN_00dcecc0::Destroy(unsigned int uiFlags) throw()
 }
 }  // namespace fnv_00d4c8e0
 
-extern void* __cdecl FUN_00c85750(void);
+extern void* __cdecl hkMemoryRouter_getInstance(void);
 extern int DAT_010d07f4;
 extern void __cdecl ProcessCollisionRecords(void*, void*, void*);
 extern void __cdecl ResizeAudioStream(void*, void*, int);
@@ -351,7 +351,7 @@ struct SmallType
 
 struct ClientType
 {
-    void FUN_00c91c50(void*);
+    void hkpWorld_getCinfo(void*);
     void AddPhysicsSystem(void*);
 };
 struct HostType
@@ -370,13 +370,13 @@ void HostType::hkpPhysicsData_populateFromWorld(ClientType* client, unsigned cha
 {
     if (m_08 == 0)
     {
-        hkThreadMemory* holder = (hkThreadMemory*)FUN_00c85750();
+        hkThreadMemory* holder = (hkThreadMemory*)hkMemoryRouter_getInstance();
         BigType* big = (BigType*)holder->allocateChunk(0xF0);
         big->m_04 = 0xF0;
         m_08 = big->FUN_00c90b80();
     }
 
-    client->FUN_00c91c50(m_08);
+    client->hkpWorld_getCinfo(m_08);
     hkArray<SmallType*>* array = &m_0c;
     client->AddPhysicsSystem(array);
 
@@ -391,7 +391,7 @@ void HostType::hkpPhysicsData_populateFromWorld(ClientType* client, unsigned cha
         local.m_flag = 0;
         local.m_uiFilterValue = 0;
 
-        hkThreadMemory* holder = (hkThreadMemory*)FUN_00c85750();
+        hkThreadMemory* holder = (hkThreadMemory*)hkMemoryRouter_getInstance();
         SmallType* small = (SmallType*)holder->allocateChunk(0x50);
         small->m_04 = 0x50;
         small->FUN_00d065e0();
@@ -403,7 +403,7 @@ void HostType::hkpPhysicsData_populateFromWorld(ClientType* client, unsigned cha
 
         small->m_40 = 0;
 
-        holder = (hkThreadMemory*)FUN_00c85750();
+        holder = (hkThreadMemory*)hkMemoryRouter_getInstance();
         if (array->m_iElementCount == (array->m_iCapacityState & 0x3fffffff))
         {
             ResizeAudioStream(holder->m_pMemoryAllocator, array, 4);
@@ -501,7 +501,7 @@ void probeCaller()
 template <typename T, typename Allocator>
 __forceinline hkArray<T, Allocator>::~hkArray() throw()
 {
-    hkMemoryAllocator& alloc = ((hkThreadMemory*)FUN_00c85750())->heap();
+    hkMemoryAllocator& alloc = ((hkThreadMemory*)hkMemoryRouter_getInstance())->heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

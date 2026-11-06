@@ -32,14 +32,14 @@ void __thiscall FUN_00ddf020_Class::FUN_00ddf020()
 
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int n);
 
 struct hkArrayCharLocalForm
 { // local form of hkArray: 0x00ddf370 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -98,7 +98,7 @@ struct Obj
 void Obj::SetData(const void* src, int n, hkBool swap)
 {
     m14.setData(src, n);
-    FUN_00cb1260(m14.m_data, src, n);
+    hkString_memCpy(m14.m_data, src, n);
     if (swap)
     {
         for (int i = 0; i < m14.m_iElementCount;)
@@ -118,7 +118,7 @@ struct MemoryAllocator
     virtual void v1();
     virtual void Free(void* memory, unsigned int size);
 };
-extern hkMemoryRouter* __cdecl FUN_00c85750();
+extern hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct StreamStatisticsCollector
 {
     int unk00;
@@ -132,7 +132,7 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
     FUN_00ddf240();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         ((MemoryAllocator*)holder->m_heap)->Free(this, (unsigned int)unk04);
     }
     return this;
@@ -292,7 +292,7 @@ void __cdecl AggregateChildValues(MonitorNode* node, MonitorStrings* strings)
 }
 
 namespace hkRouterDDF9 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 inline hkMemoryAllocator& heap(hkMemoryRouter& holder)
 {
     return *(hkMemoryAllocator*)holder.m_heap;
@@ -301,7 +301,7 @@ inline hkMemoryAllocator& heap(hkMemoryRouter& holder)
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return hkRouterDDF9::heap(hkRouterDDF9::FUN_00c85750());
+    return hkRouterDDF9::heap(hkRouterDDF9::hkMemoryRouter_getInstance());
 }
 
 template <typename T, typename Allocator>
@@ -330,7 +330,7 @@ class ObjDDF9
     void ClearItems() throw();
     static void operator delete(void* p, unsigned int nbytes)
     {
-        hkRouterDDF9::heap(hkRouterDDF9::FUN_00c85750()).blockFree(p, nbytes);
+        hkRouterDDF9::heap(hkRouterDDF9::hkMemoryRouter_getInstance()).blockFree(p, nbytes);
     }
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
@@ -359,7 +359,7 @@ struct SubBase
 
 inline hkMemoryRouter* holderGet()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 struct SpawnedHandle
@@ -378,7 +378,7 @@ struct SpawnedHandle
     }
     void SetSizeAndGrow(int n)
     {
-        hkMemoryAllocator& alloc = hkRouterDDF9::heap(hkRouterDDF9::FUN_00c85750());
+        hkMemoryAllocator& alloc = hkRouterDDF9::heap(hkRouterDDF9::hkMemoryRouter_getInstance());
         if (getCap() < n)
         {
             int cap = 2 * getCap();
@@ -414,7 +414,7 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::hkStreamStatisticsCollector_hkStreamStatisti
     pHandle->m_uiFilterValue = 0;
     pHandle->m_flags = 0x80000000u;
 
-    hkMemoryAllocator& alloc = hkRouterDDF9::heap(hkRouterDDF9::FUN_00c85750());
+    hkMemoryAllocator& alloc = hkRouterDDF9::heap(hkRouterDDF9::hkMemoryRouter_getInstance());
     void* p;
     if (value)
     {
@@ -472,7 +472,7 @@ void StrPacker::hkStreamStatisticsCollector_pushDir(const char* str)
         *(unsigned short*)(out + 4) = 0;
         if (count > 0)
         {
-            FUN_00cb1260(out + 6, str, count);
+            hkString_memCpy(out + 6, str, count);
             if (pad != 0)
                 out[count + 6] = 0;
         }
@@ -537,7 +537,7 @@ unsigned char* FUN_00ddf640_Cls::hkStreamStatisticsCollector_popDir()
 }
 
 namespace fnv_00ddf240 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct SpawnedSub
 {
@@ -568,10 +568,10 @@ struct FUN_00ddf240_cls : SpawnedRoot
 FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 {
     SpawnedSub* pSub = &m_sub;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     pSub->Attach(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
     pSub->Reset();
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uFlags = m_uiObjectFlags;
     m_iUnk18 = 0;
@@ -585,7 +585,7 @@ FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 }  // namespace fnv_00ddf240
 
 namespace fnv_00ddfa10 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct Sub20_cls
 {
@@ -627,7 +627,7 @@ void FUN_00ddfa10_cls::hkStreamStatisticsCollector_addReferencedObject(int a1, i
     Sub20_cls* sub = &m_20;
     if (sub->CB1930(a2, 0))
         return;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     sub->CB1870((int)holder->m_heap, a2, 1);
     if ((aiFlags & 1) == 0)
     {
@@ -655,10 +655,10 @@ struct Param1
 struct Sub20
 {
     int LookupHashEntry(int a, int b);
-    void FUN_00cb1870(int a, int b, int c);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(int a, int b, int c);
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(int a, void* b, void* c);
 
 struct FUN_00ddfab0_cls
@@ -697,8 +697,8 @@ void FUN_00ddfab0_cls::hkStreamStatisticsCollector_addObject(Param1* a1, int a2,
     {
         return;
     }
-    hkMemoryRouter* holder = FUN_00c85750();
-    m_20.FUN_00cb1870((int)holder->m_heap, a3, 1);
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
+    m_20.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert((int)holder->m_heap, a3, 1);
     if ((aiFlags & 1) == 0)
     {
         int r = a1->FUN_00d470d0();
@@ -762,7 +762,7 @@ void StreamStatisticsCollector_ddf4d0::hkStreamStatisticsCollector_addChunk(int 
     *(unsigned short*)(p + 4) = r;
     if (len > 0)
     {
-        FUN_00cb1260(p + 6, name, len);
+        hkString_memCpy(p + 6, name, len);
         if (odd)
             p[len + 6] = 0;
     }
@@ -797,7 +797,7 @@ void Pkt::hkStreamStatisticsCollector__startObject(const char* str, const void* 
     rec->b = (unsigned short)v;
     if (len > 0)
     {
-        FUN_00cb1260(out + 6, str, len);
+        hkString_memCpy(out + 6, str, len);
         if (pad != 0)
             out[len + 6] = 0;
     }

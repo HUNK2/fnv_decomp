@@ -64,7 +64,7 @@ void FUN_00e60690_owner::DispatchToInner(int index,int value) { unk0c->inner.run
 extern int DAT_010c6fb0;
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00e60c30_cls {
     int m_vptr;
@@ -86,7 +86,7 @@ FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
     m_p14 = (void*)&DAT_010c6fb0;
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }

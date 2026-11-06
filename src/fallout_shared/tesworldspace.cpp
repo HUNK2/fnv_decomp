@@ -43,11 +43,11 @@ struct CellRuntimeMethods : TESObjectCELL
 {
     void SetFlag400(int);
     void ResetCellData();
-    void FUN_0054de10(TESWorldSpace*);
+    void SetWorldSpace(TESWorldSpace*);
     void MoveReferencesToWorldCells(TESWorldSpace*);
     bool FUN_00550200(TESObjectREFR*);
-    bool FUN_0054da20(const NiPoint3*, float, const NiPoint3*, float, int, unsigned int);
-    float FUN_0054fb70(const NiPoint3*);
+    bool TESObjectCELL_EnumReferencesCloseToPoint(const NiPoint3*, float, const NiPoint3*, float, int, unsigned int);
+    float TESObjectCELL_GetDistanceFromPoint(const NiPoint3*);
 };
 
 // @fnv 0x00425fd0
@@ -152,7 +152,8 @@ TESObjectCELL* TESWorldSpace::GetCellAtGridPosition(int x, int y)
     return 0;
 }
 // @fnv 0x00586150
-Tile* InterfaceManager::FUN_00586150()
+// src: XBOX_PDB 0x00586150
+Tile* InterfaceManager::CombatController_GetCombatState()
 {
     return pMenuRoot;
 }
@@ -236,7 +237,8 @@ int __cdecl _FNV_Finite(double);
 int __cdecl _FNV_IsNaN(double);
 
 // @fnv 0x00587440
-int __cdecl FUN_00587440(const NiPoint3* aCoord)
+// src: XBOX_PDB 0x00587440
+int __cdecl TESWorldSpace_GetKeyForWorldCoord(const NiPoint3* aCoord)
 {
     int icellx;
     int icelly;
@@ -285,7 +287,8 @@ bool __cdecl TESWorldSpace_IsFixedRef(void* apRef)
 
 // If apRef is non-null, gets the interior cell and calls RemoveReference on it with apRef.
 // @fnv 0x00588030
-void TESWorldSpace::FUN_00588030(TESObjectREFR* apRef)
+// src: XBOX_PDB 0x00588030
+void TESWorldSpace::RemovePersistentRef(TESObjectREFR* apRef)
 {
     if (apRef)
     {
@@ -386,7 +389,8 @@ char* TESWorldSpace::GetName() const
 
 unsigned int __fastcall _ref_0084e3a0(void*);
 // @fnv 0x00587670
-bool TESWorldSpace::FUN_00587670(TESObjectCELL* apCell)
+// src: XBOX_PDB 0x00587670
+bool TESWorldSpace::AddCell(TESObjectCELL* apCell)
 {
     int key;
     TESObjectCELL* ignore;
@@ -410,7 +414,7 @@ bool TESWorldSpace::FUN_00587670(TESObjectCELL* apCell)
         }
         (*(DummyPointerMap**)((char*)this + 0x30))->SetAt(key, (unsigned int)apCell);
     }
-    ((CellRuntimeMethods*)apCell)->FUN_0054de10(this);
+    ((CellRuntimeMethods*)apCell)->SetWorldSpace(this);
     return true;
 }
 
@@ -635,7 +639,8 @@ bool WorldSpaceFlagMethods::TESWorldSpace_IsAllowNPCFallDamage()
 
 // Returns the full name of the parent worldspace if one exists, otherwise the full name of this worldspace.
 // @fnv 0x00586440
-const char* TESWorldSpace::FUN_00586440()
+// src: XBOX_PDB 0x00586440
+const char* TESWorldSpace::GetWorldMapTextureName()
 {
     if (this->GetParentWorld(static_cast<TESWorldSpace::PARENT_USE_FLAG>(2)))
     {
@@ -673,7 +678,8 @@ extern "C"
 }  // namespace fnv_00587550
 
 // @fnv 0x00587550
-TESObjectCELL* TESWorldSpace::FUN_00587550(const NiPoint3& aCoord)
+// src: XBOX_PDB 0x00587550
+TESObjectCELL* TESWorldSpace::GetCellFromWorldCoord(const NiPoint3& aCoord)
 {
 
     int icellx = fnv_00587550::TruncateFloatToInt(aCoord.x) >> 12;
@@ -756,13 +762,13 @@ struct Modifier
 };
 struct AlphaColor
 {
-    void FUN_0052ce20(float);
+    void TESRegionPoint_SetX(float);
 };
 struct FUN_004f6fc0_shell
 {
     int _a;
     int _b;
-    void FUN_004f6fc0();
+    void TESRegionPoint_TESRegionPoint();
 };
 struct FUN_004f6850_shell
 {
@@ -777,8 +783,8 @@ struct FUN_004f6800_shell
 void FUN_004f6800_shell::TESRegionList_GetDerivedData_(void* a1, float* a2, void* a3)
 {
     FUN_004f6fc0_shell tmp;
-    tmp.FUN_004f6fc0();
-    ((AlphaColor*)&tmp)->FUN_0052ce20(a2[0]);
+    tmp.TESRegionPoint_TESRegionPoint();
+    ((AlphaColor*)&tmp)->TESRegionPoint_SetX(a2[0]);
     ((Modifier*)&tmp)->SetValue(a2[1]);
     ((FUN_004f6850_shell*)this)->TESRegionList_GetDerivedData(a1, &tmp, a3);
 }
@@ -886,10 +892,11 @@ struct PointerPairData;
 
 // Returns the parent world's result if GetParentWorld(2) is set, otherwise returns this object offset by 0x80.
 // @fnv 0x00586400
-PointerPairData* TESWorldSpace::FUN_00586400()
+// src: XBOX_PDB 0x00586400
+PointerPairData* TESWorldSpace::GetWorldMapData()
 {
     if (GetParentWorld((PARENT_USE_FLAG)2))
-        return GetParentWorld((PARENT_USE_FLAG)2)->FUN_00586400();
+        return GetParentWorld((PARENT_USE_FLAG)2)->GetWorldMapData();
     return (PointerPairData*)((char*)this + 0x80);
 }
 
@@ -908,7 +915,7 @@ void TESWorldSpace::RemoveCellFromMap(TESObjectCELL* cell)
         cell == reinterpret_cast<TESObjectCELL*>(entry7))
     {
         cellMap->RemoveAt(key);
-        reinterpret_cast<CellRuntimeMethods*>(cell)->FUN_0054de10(0);
+        reinterpret_cast<CellRuntimeMethods*>(cell)->SetWorldSpace(0);
     }
 }
 
@@ -1013,15 +1020,16 @@ struct CameraPathManager
 typedef char _sizecheck_BGSCameraPathManager[sizeof(CameraPathManager) == 40 ? 1 : -1];
 struct FUN_0095f530_shell : public CameraPathManager
 {
-    BGSCameraPath* FUN_0095f530(TESObjectREFR*, TESObjectREFR*);
+    BGSCameraPath* PlayerCharacter_SetControlsDisabled(TESObjectREFR*, TESObjectREFR*);
 };
 
 struct Caller_0095f590
 {
-    BGSCameraPath* __thiscall FUN_0095f590(unsigned int);
+    BGSCameraPath* __thiscall PlayerCharacter_SetControlsDisabled_0095f590(unsigned int);
 };
 // @fnv 0x0095f530
-BGSCameraPath* FUN_0095f530_shell::FUN_0095f530(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
+// src: XBOX_PDB 0x0095f530
+BGSCameraPath* FUN_0095f530_shell::PlayerCharacter_SetControlsDisabled(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
 {
     unsigned char nv;
     if ((unsigned char)apActionRef)
@@ -1033,7 +1041,7 @@ BGSCameraPath* FUN_0095f530_shell::FUN_0095f530(TESObjectREFR* apActionRef, TESO
         nv = (unsigned char)~(unsigned char)apTargetRef;
         nv = *(unsigned char*)((char*)this + 0x680) & nv;
     }
-    return ((Caller_0095f590*)this)->FUN_0095f590(nv);
+    return ((Caller_0095f590*)this)->PlayerCharacter_SetControlsDisabled_0095f590(nv);
 }
 
 namespace worldspace_cell_map {
@@ -1052,7 +1060,7 @@ TESWorldSpace::TESWorldSpace() : m_kSecondTreeComponent(0x25), m_kFourthTreeComp
     m_kFirstPoint.x = 3.4028234663852886e+38f;
     m_kEndPoint.y = worldspace_cell_map::_DAT_01015f5c;
     m_kEndPoint.x = worldspace_cell_map::_DAT_01015f5c;
-    FUN_00583070();
+    InitializeData_00583070();
 }
 
 namespace fnv_005857b0 {
@@ -1193,7 +1201,8 @@ struct WorldSpaceVirtual
 }  // namespace fnv_00583070
 
 // @fnv 0x00583070
-void TESWorldSpace::FUN_00583070()
+// src: XBOX_PDB 0x00583070
+void TESWorldSpace::InitializeData_00583070()
 {
 
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x70) = 0;
@@ -1489,7 +1498,7 @@ struct FUN_00583270_sub_cls
 };
 struct FUN_00583270_mid_cls
 {
-    int FUN_00454b30();
+    int ShadowSceneNode_QPortalGraph();
 };
 struct FUN_00583270_tgt_cls
 {
@@ -1500,17 +1509,18 @@ void* __cdecl FUN_00450b80_cb(int v);
 
 struct WorldSpaceNodeMethods : TESWorldSpace
 {
-    void FUN_00583270();
+    void TESWorldSpace_ClearPortalGraph();
 };
 
 // @fnv 0x00583270
-void WorldSpaceNodeMethods::FUN_00583270()
+// src: XBOX_PDB 0x00583270
+void WorldSpaceNodeMethods::TESWorldSpace_ClearPortalGraph()
 {
     if ((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450())
     {
         if (FUN_00726070_cb((*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450()) == 1)
         {
-            if (reinterpret_cast<FUN_00583270_mid_cls*>(FUN_00450b80_cb(0))->FUN_00454b30() == (int)(*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450())
+            if (reinterpret_cast<FUN_00583270_mid_cls*>(FUN_00450b80_cb(0))->ShadowSceneNode_QPortalGraph() == (int)(*reinterpret_cast<FUN_00583270_sub_cls*>(&m_kFourthTreeComponent)).FUN_00559450())
             {
                 reinterpret_cast<FUN_00583270_tgt_cls*>(FUN_00450b80_cb(0))->FUN_00b5ddf0(0);
             }
@@ -1539,11 +1549,11 @@ struct Offsets
 struct CellCoordinates
 {
     int x, y, flags;
-    void FUN_00540720();
-    void FUN_00462230();
+    void EXTERIOR_DATA_EXTERIOR_DATA();
+    void TwoValues_Endian();
 };
 int GetCellCoordKey(int, int);
-int FUN_005442c0(int, int);
+int TESObjectCELL_CalcExtGroupSubBlockKey(int, int);
 extern unsigned int kGroupFormType;
 extern unsigned int DAT_011872b4;
 extern unsigned int DAT_01187338;
@@ -1578,10 +1588,10 @@ bool WorldSpaceCellReadMethods::SeekToCellInWorld(TESFile* file, int x, int y)
     int subBlock;
     bool found = false;
     int block = GetCellCoordKey(x, y);
-    subBlock = FUN_005442c0(x, y);
-    if (file && file->FUN_004734d0(reinterpret_cast<TESForm*>(this)))
+    subBlock = TESObjectCELL_CalcExtGroupSubBlockKey(x, y);
+    if (file && file->FindForm(reinterpret_cast<TESForm*>(this)))
     {
-        file->FUN_00472150(true);
+        file->NextForm_00472150(true);
         bool done = false;
         TypeGroupInfo* header = reinterpret_cast<TypeGroupInfo*>(file->GetRecordHeader());
         while (header && !done)
@@ -1610,31 +1620,31 @@ bool WorldSpaceCellReadMethods::SeekToCellInWorld(TESFile* file, int x, int y)
                     if (skip)
                         file->IsGroupOpen();
                     else
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
                 }
             }
             else if (header->type == DAT_011872b4)
             {
                 CellCoordinates cellCoords;
-                cellCoords.FUN_00540720();
+                cellCoords.EXTERIOR_DATA_EXTERIOR_DATA();
                 memset(&cellCoords, 0, 12);
                 if (header->label & 0x400)
                     cellCoords.x = 0x7fffffff;
                 else
                 {
                     bool read = false;
-                    int chunk = file->FUN_004726b0();
+                    int chunk = file->TESFile_GetTESChunk();
                     while (chunk && !read)
                     {
                         if (chunk == 0x434c4358)
                         {
                             file->FUN_00472890(&cellCoords, 12);
                             if (file->IsEndianConversionRequired())
-                                cellCoords.FUN_00462230();
+                                cellCoords.TwoValues_Endian();
                             read = true;
                         }
                         if (file->NextChunk())
-                            chunk = file->FUN_004726b0();
+                            chunk = file->TESFile_GetTESChunk();
                         else
                             chunk = 0;
                     }
@@ -1646,11 +1656,11 @@ bool WorldSpaceCellReadMethods::SeekToCellInWorld(TESFile* file, int x, int y)
                     SkipCurrentForm(file);
                 }
                 else
-                    file->FUN_00472150(true);
+                    file->NextForm_00472150(true);
             }
             else if (header->type == DAT_01187338)
             {
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
             }
             else
                 done = true;
@@ -1780,18 +1790,19 @@ struct BoundsOffsetData
     unsigned int fileOffset;
 };
 void BSEndian(float*, EndianSizeTag<4>);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
+float BSMIN(float, float);
+float BSMAX_00404010(float, float);
 // Local method adapter: the shared header does not yet declare FUN_00583360.
 struct WorldSpaceBoundsMethods : TESWorldSpace
 {
-    bool FUN_00583360(TESFile*);
+    bool TESWorldSpace_LoadPartial(TESFile*);
 };
 // @fnv 0x00583360
-bool WorldSpaceBoundsMethods::FUN_00583360(TESFile* file)
+// src: XBOX_PDB 0x00583360
+bool WorldSpaceBoundsMethods::TESWorldSpace_LoadPartial(TESFile* file)
 {
     unsigned int type = 0;
-    while (type = file->FUN_004726b0())
+    while (type = file->TESFile_GetTESChunk())
     {
         switch (type)
         {
@@ -1803,8 +1814,8 @@ bool WorldSpaceBoundsMethods::FUN_00583360(TESFile* file)
                 BSEndian(&minimum.x, EndianSizeTag<4>());
                 BSEndian(&minimum.y, EndianSizeTag<4>());
             }
-            m_kFirstPoint.x = FUN_0040ebd0(m_kFirstPoint.x, minimum.x);
-            m_kFirstPoint.y = FUN_0040ebd0(m_kFirstPoint.y, minimum.y);
+            m_kFirstPoint.x = BSMIN(m_kFirstPoint.x, minimum.x);
+            m_kFirstPoint.y = BSMIN(m_kFirstPoint.y, minimum.y);
             if (file->IsMasterFile())
             {
                 BoundsOffsetData* data = reinterpret_cast<BoundsOffsetData*>(GetOrCreateCellOffsetData(file));
@@ -1820,8 +1831,8 @@ bool WorldSpaceBoundsMethods::FUN_00583360(TESFile* file)
                 BSEndian(&maximum.x, EndianSizeTag<4>());
                 BSEndian(&maximum.y, EndianSizeTag<4>());
             }
-            m_kEndPoint.x = FUN_00404010(m_kEndPoint.x, maximum.x);
-            m_kEndPoint.y = FUN_00404010(m_kEndPoint.y, maximum.y);
+            m_kEndPoint.x = BSMAX_00404010(m_kEndPoint.x, maximum.x);
+            m_kEndPoint.y = BSMAX_00404010(m_kEndPoint.y, maximum.y);
             if (file->IsMasterFile())
             {
                 BoundsOffsetData* data = reinterpret_cast<BoundsOffsetData*>(GetOrCreateCellOffsetData(file));
@@ -1844,12 +1855,12 @@ struct SaveForm
 struct SaveFullName
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_00487010();
+    void Save_00487010();
 };
 struct SaveTexture
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct SaveMap
 {
@@ -1859,68 +1870,69 @@ struct SaveMap
 struct SaveOffset
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_005a6b10();
+    void TESRegionSound_Endian();
 };
 struct SaveGameString
 {
     unsigned int unk00, unk04, unk08;
     int FUN_0048cee0();
-    int* FUN_00408da0();
+    int* TESModel_GetModel();
 };
 struct SavePair
 {
     float land, water;
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
-bool FUN_00401500();
-void FUN_00485910(unsigned int, unsigned int);
+bool TESForm_QEndianSwapOnSave();
+void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void _FUN_00485910(unsigned int, float);
-void FUN_00485950(unsigned int, unsigned int);
+void TESForm_AddChunk_00485950(unsigned int, unsigned int);
 void AppendChunk(unsigned int, void*, unsigned int);
 void TESForm_AddChunk_3(unsigned int, unsigned char);
-void FUN_00485710(unsigned int, unsigned int*, unsigned int);
-void FUN_004856f0(unsigned int, void*, unsigned int);
+void TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
+void TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 // Saving helpers missing from the shared header; all fields come from TESWorldSpace.
 struct WorldSpaceSaveMethods : TESWorldSpace
 {
     ::SaveForm* TESWorldSpace_GetWaterType();
     float FUN_0045cd80();
     ::SaveForm* FUN_008041a0();
-    ::SaveForm* FUN_00586150();
-    void FUN_00584170();
+    ::SaveForm* CombatController_GetCombatState();
+    void TESWorldSpace_Save();
 };
 // Writes the world record's encounter zone, parent, canopy, water noise, heights, map, offset, bounds and flags to the save stream.
 // @fnv 0x00584170
-void WorldSpaceSaveMethods::FUN_00584170()
+// src: XBOX_PDB 0x00584170
+void WorldSpaceSaveMethods::TESWorldSpace_Save()
 {
     FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     unsigned int formID = 0;
     if (reinterpret_cast<::SaveForm*>(fieldD0))
     {
         formID = reinterpret_cast<::SaveForm*>(fieldD0)->GetFormID();
-        FUN_00485910(0x4e5a4558, formID);
+        TESForm_AddChunk_00485910(0x4e5a4558, formID);
     }
     if (parent)
     {
         formID = parent->GetFormID();
-        FUN_00485910(0x4d414e57, formID);
-        FUN_00485950(0x4d414e50, field4E);
+        TESForm_AddChunk_00485910(0x4d414e57, formID);
+        TESForm_AddChunk_00485950(0x4d414e50, field4E);
     }
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(4)) && GetClimate())
     {
         formID = reinterpret_cast<::SaveForm*>(GetClimate())->GetFormID();
-        FUN_00485910(0x4d414e43, formID);
+        TESForm_AddChunk_00485910(0x4d414e43, formID);
     }
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(3)) && TESWorldSpace_GetWaterType())
     {
         formID = TESWorldSpace_GetWaterType()->GetFormID();
-        FUN_00485910(0x324d414e, formID);
+        TESForm_AddChunk_00485910(0x324d414e, formID);
     }
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(1)) && GetLODWaterType())
     {
         formID = reinterpret_cast<::SaveForm*>(GetLODWaterType())->GetFormID();
-        FUN_00485910(0x334d414e, formID);
+        TESForm_AddChunk_00485910(0x334d414e, formID);
         _FUN_00485910(0x344d414e, FUN_0045cd80());
     }
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(0)))
@@ -1928,41 +1940,41 @@ void WorldSpaceSaveMethods::FUN_00584170()
         SavePair pairHeights;
         pairHeights.land = fC8;
         pairHeights.water = fCC;
-        if (FUN_00401500())
-            pairHeights.FUN_00462230();
+        if (TESForm_QEndianSwapOnSave())
+            pairHeights.TwoValues_Endian();
         AppendChunk(0x4d414e44, &pairHeights, 8);
-        if (FUN_00401500())
-            pairHeights.FUN_00462230();
+        if (TESForm_QEndianSwapOnSave())
+            pairHeights.TwoValues_Endian();
     }
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(2)))
     {
         TESTexture::Save(0x4e4f4349);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             (*reinterpret_cast<SaveMap*>(unk80)).FUN_005840b0();
         AppendChunk(0x4d414e4d, &(*reinterpret_cast<SaveMap*>(unk80)), 16);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             (*reinterpret_cast<SaveMap*>(unk80)).FUN_005840b0();
     }
-    if (FUN_00401500())
-        (*reinterpret_cast<SaveOffset*>(unk80 + 16)).FUN_005a6b10();
+    if (TESForm_QEndianSwapOnSave())
+        (*reinterpret_cast<SaveOffset*>(unk80 + 16)).TESRegionSound_Endian();
     AppendChunk(0x4d414e4f, &(*reinterpret_cast<SaveOffset*>(unk80 + 16)), 12);
-    if (FUN_00401500())
-        (*reinterpret_cast<SaveOffset*>(unk80 + 16)).FUN_005a6b10();
+    if (TESForm_QEndianSwapOnSave())
+        (*reinterpret_cast<SaveOffset*>(unk80 + 16)).TESRegionSound_Endian();
     if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(5)) && FUN_008041a0())
     {
         formID = FUN_008041a0()->GetFormID();
-        FUN_00485910(0x4d414e49, formID);
+        TESForm_AddChunk_00485910(0x4d414e49, formID);
     }
     TESForm_AddChunk_3(0x41544144, flags4C);
-    FUN_00485710(0x304d414e, &(*reinterpret_cast<unsigned int*>(&m_kFirstPoint.x)), 2);
-    FUN_00485710(0x394d414e, &(*reinterpret_cast<unsigned int*>(&m_kEndPoint.x)), 2);
-    if (FUN_00586150())
+    TESForm_AddChunkArray_00485710(0x304d414e, &(*reinterpret_cast<unsigned int*>(&m_kFirstPoint.x)), 2);
+    TESForm_AddChunkArray_00485710(0x394d414e, &(*reinterpret_cast<unsigned int*>(&m_kEndPoint.x)), 2);
+    if (CombatController_GetCombatState())
     {
-        formID = FUN_00586150()->GetFormID();
-        FUN_00485910(0x4d414e5a, formID);
+        formID = CombatController_GetCombatState()->GetFormID();
+        TESForm_AddChunk_00485910(0x4d414e5a, formID);
     }
-    FUN_004856f0(0x4d414e4e, (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).FUN_00408da0(), (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).FUN_0048cee0() + 1);
-    FUN_004856f0(0x4d414e58, (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).FUN_00408da0(), (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).FUN_0048cee0() + 1);
+    TESForm_AddChunkArray(0x4d414e4e, (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).FUN_0048cee0() + 1);
+    TESForm_AddChunkArray(0x4d414e58, (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).FUN_0048cee0() + 1);
     if (reinterpret_cast<::SaveForm*>(data))
         reinterpret_cast<::SaveForm*>(data)->Save();
     FUN_00485680();
@@ -2075,7 +2087,7 @@ struct CopyArray
 // Copy helpers missing from the shared header; no local worldspace layout.
 struct WorldSpaceCopyMethods : TESWorldSpace
 {
-    void FUN_00584fa0(TESForm*);
+    void TESWorldSpace_Copy(TESForm*);
     void CopyBase(TESForm*);
     TESClimate* GetWorldClimate();
     void* GetImageSpace();
@@ -2089,7 +2101,8 @@ struct WorldSpaceCopyMethods : TESWorldSpace
     void SetMusic(int);
 };
 // @fnv 0x00584fa0
-void WorldSpaceCopyMethods::FUN_00584fa0(TESForm* form)
+// src: XBOX_PDB 0x00584fa0
+void WorldSpaceCopyMethods::TESWorldSpace_Copy(TESForm* form)
 {
     WorldSpaceCopyMethods* source = (WorldSpaceCopyMethods*)_FNV_DynamicCast(form, 0, &_FNV_RTTI_TESForm, &_FNV_RTTI_TESWorldSpace, 0);
     if (!source)
@@ -2179,7 +2192,7 @@ bool WorldSpaceEditorLookupMethods::FindCellByEditorID(const char* editorID, int
                             data->SetOffset(offset + file->baseOffset);
                             if (GetCurrentFormType(data) == 0x39)
                             {
-                                unsigned int chunkID = data->FUN_004726b0();
+                                unsigned int chunkID = data->TESFile_GetTESChunk();
                                 if (chunkID == 0x44494445)
                                 {
                                     unsigned int uiBufferSize = data->GetField25C() + 1;
@@ -2209,10 +2222,10 @@ extern const char DAT_01031f18[];
 extern const char DAT_01031ec0[];
 struct CellOperations : CellRuntimeMethods
 {
-    bool FUN_00551420();
-    void FUN_00544300(bool);
+    bool GetHasTempData();
+    void TESObjectCELL_SetInterior(bool);
     void SetExteriorCellCoordinates(int, int);
-    bool FUN_00550500(TESFile*);
+    bool TESObjectCELL_LoadTempDataFromFile(TESFile*);
     void TESObjectCELL_SetHasTempData(bool);
 };
 struct SaveLoadOperations
@@ -2229,17 +2242,18 @@ struct WorldSpaceCellLoadMethods : TESWorldSpace
     unsigned int GetSourceFileCount();
     TESFile* FUN_00484e60(unsigned int);
     bool SeekToCellInWorld(TESFile*, int, int);
-    unsigned int FUN_0084e3a0();
-    CellOperations* FUN_00585b30(int x, int y);
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    CellOperations* TESWorldSpace_LoadCell(int x, int y);
 };
 // @fnv 0x00585b30
-CellOperations* WorldSpaceCellLoadMethods::FUN_00585b30(int x, int y)
+// src: XBOX_PDB 0x00585b30
+CellOperations* WorldSpaceCellLoadMethods::TESWorldSpace_LoadCell(int x, int y)
 {
     AutoMemHelper j(26, true, DAT_01031f18, 1942);
     bool i = true;
     CellOperations* p = reinterpret_cast<CellOperations*>(GetCellAtGridPosition(x, y));
     DAT_011c3f34 = reinterpret_cast<TESWorldSpace*>(this);
-    if (!p || !p->FUN_00551420())
+    if (!p || !p->GetHasTempData())
     {
         unsigned int fileCount = GetSourceFileCount();
         for (unsigned int fileIndex = 0; fileIndex < fileCount; ++fileIndex)
@@ -2251,12 +2265,12 @@ CellOperations* WorldSpaceCellLoadMethods::FUN_00585b30(int x, int y)
                 if (!p)
                 {
                     p = reinterpret_cast<CellOperations*>(new TESObjectCELL);
-                    p->FUN_00544300(false);
+                    p->TESObjectCELL_SetInterior(false);
                     p->ResetCellData();
                     p->SetExteriorCellCoordinates(x, y);
-                    FUN_00587670(reinterpret_cast<TESObjectCELL*>(p));
+                    AddCell(reinterpret_cast<TESObjectCELL*>(p));
                     void* worldData = 0;
-                    worldData = DAT_011de45c->RemoveCommand(FUN_0084e3a0(), x, y);
+                    worldData = DAT_011de45c->RemoveCommand(GetHavokWorldObjectCountInSceneGraph_0084e3a0(), x, y);
                     if (worldData)
                         ((void(__thiscall*)(TESObjectCELL*, void*, bool))(*(void***)p)[74])(p, worldData, true);
                     i = FUN_004601d0(p, file);
@@ -2265,7 +2279,7 @@ CellOperations* WorldSpaceCellLoadMethods::FUN_00585b30(int x, int y)
                 {
                     FUN_004601d0(p, file);
                 }
-                if (!p->FUN_00550500(file))
+                if (!p->TESObjectCELL_LoadTempDataFromFile(file))
                     i = false;
             }
         }
@@ -2280,7 +2294,7 @@ CellOperations* WorldSpaceCellLoadMethods::FUN_00585b30(int x, int y)
         }
     }
     if (!i)
-        Warning(DAT_01031ec0, x, y, GetName(), FUN_0084e3a0());
+        Warning(DAT_01031ec0, x, y, GetName(), GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     return p;
 }
 
@@ -2460,7 +2474,7 @@ struct RegionForm
     virtual void v119();
     virtual unsigned char Value120();
     const char* TESGrass_GetModelPath();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct Region
 {
@@ -2532,7 +2546,7 @@ struct RegionResult
     unsigned char e, f, g, unk1f;
     float samples[9];
 };
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 float __cdecl TESGrass_GetWaveOffsetRange();
 struct WorldSpaceRegionMethods : TESWorldSpace
 {
@@ -2631,9 +2645,9 @@ void WorldSpaceRegionMethods::BuildRegionResults(float minX, float minY, float m
         if (results[p].name)
             delete[] results[p].name;
         char* name = new char[260];
-        FUN_00406d00(name, 260, "data/meshes/%s", a->TESGrass_GetModelPath());
+        BSsprintf(name, 260, "data/meshes/%s", a->TESGrass_GetModelPath());
         results[p].name = name;
-        results[p].formID = a->FUN_0084e3a0();
+        results[p].formID = a->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         results[p].a = a->Value108();
         results[p].b = a->Value110();
         results[p].c = a->Value112();
@@ -2742,7 +2756,7 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                 cell = reinterpret_cast<CellRuntimeMethods*>(GetCellAtGridPosition(width, y));
                 if (cell != 0)
                 {
-                    if (!cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context))
+                    if (!cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context))
                         return;
                 }
                 {
@@ -2755,11 +2769,11 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                         for (i = 0; i < j; i++)
                         {
                             cell = reinterpret_cast<CellRuntimeMethods*>(GetCellAtGridPosition(width, y));
-                            if (cell != 0 && (distance == DAT_010231b0 || cell->FUN_0054fb70(point) < distance) &&
-                                (otherDistance == DAT_010231b0 || cell->FUN_0054fb70(otherPoint) < otherDistance))
+                            if (cell != 0 && (distance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(point) < distance) &&
+                                (otherDistance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(otherPoint) < otherDistance))
                             {
                                 found += 1;
-                                if (!cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context))
+                                if (!cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context))
                                     return;
                             }
                             width += 1;
@@ -2767,11 +2781,11 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                         for (x = 0; x < j; x++)
                         {
                             cell = reinterpret_cast<CellRuntimeMethods*>(GetCellAtGridPosition(width, y));
-                            if (cell != 0 && (distance == DAT_010231b0 || cell->FUN_0054fb70(point) < distance) &&
-                                (otherDistance == DAT_010231b0 || cell->FUN_0054fb70(otherPoint) < otherDistance))
+                            if (cell != 0 && (distance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(point) < distance) &&
+                                (otherDistance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(otherPoint) < otherDistance))
                             {
                                 found += 1;
-                                if (!cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context))
+                                if (!cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context))
                                     return;
                             }
                             y += 1;
@@ -2779,11 +2793,11 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                         for (i = 0; i < j; i++)
                         {
                             cell = reinterpret_cast<CellRuntimeMethods*>(GetCellAtGridPosition(width, y));
-                            if (cell != 0 && (distance == DAT_010231b0 || cell->FUN_0054fb70(point) < distance) &&
-                                (otherDistance == DAT_010231b0 || cell->FUN_0054fb70(otherPoint) < otherDistance))
+                            if (cell != 0 && (distance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(point) < distance) &&
+                                (otherDistance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(otherPoint) < otherDistance))
                             {
                                 found += 1;
-                                if (!cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context))
+                                if (!cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context))
                                     return;
                             }
                             width -= 1;
@@ -2791,11 +2805,11 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                         for (x = 0; x < j; x++)
                         {
                             cell = reinterpret_cast<CellRuntimeMethods*>(GetCellAtGridPosition(width, y));
-                            if (cell != 0 && (distance == DAT_010231b0 || cell->FUN_0054fb70(point) < distance) &&
-                                (otherDistance == DAT_010231b0 || cell->FUN_0054fb70(otherPoint) < otherDistance))
+                            if (cell != 0 && (distance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(point) < distance) &&
+                                (otherDistance == DAT_010231b0 || cell->TESObjectCELL_GetDistanceFromPoint(otherPoint) < otherDistance))
                             {
                                 found += 1;
-                                if (!cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context))
+                                if (!cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context))
                                     return;
                             }
                             y -= 1;
@@ -2803,7 +2817,7 @@ void WorldSpaceRadiusMethods::ProcessCellsInRadius(const NiPoint3* point, float 
                     }
                     cell = (CellRuntimeMethods*)GetInteriorCell();
                     if (cell != 0)
-                        cell->FUN_0054da20(point, distance, otherPoint, otherDistance, options, context);
+                        cell->TESObjectCELL_EnumReferencesCloseToPoint(point, distance, otherPoint, otherDistance, options, context);
                 }
             }
         }
@@ -2842,9 +2856,9 @@ struct QueryData
 extern QueryData* g_011c3f2c;
 struct CellQuery
 {
-    bool FUN_00549580();
+    bool TESForm_GetHasSpokenFlag();
     bool FUN_00440d80();
-    WorldSpacePointQueryMethods* FUN_007af430();
+    WorldSpacePointQueryMethods* BGSSaveFormBuffer_GetForm();
     QueryLink<AreaQuery>* FUN_00441110();
 };
 struct WorldSpacePointQueryMethods : TESWorldSpace
@@ -2864,7 +2878,7 @@ bool WorldSpacePointQueryMethods::ContainsPoint(const NiPoint3* position)
     while (node2 && *node2->FUN_006815c0())
     {
         CellQuery* cell2 = *node2->FUN_006815c0();
-        if (cell2->FUN_00549580() && !cell2->FUN_00440d80() && cell2->FUN_007af430() == this)
+        if (cell2->TESForm_GetHasSpokenFlag() && !cell2->FUN_00440d80() && cell2->BGSSaveFormBuffer_GetForm() == this)
         {
             QueryLink<AreaQuery>* link = cell2->FUN_00441110();
             while (link && *link->FUN_006815c0())
@@ -2900,7 +2914,7 @@ struct WorldCellOffsetRecord
 struct WorldDefaultHeightChunk
 {
     float x, y;
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
 struct MapData583
 {
@@ -2910,13 +2924,13 @@ struct MapData583
 struct Extra583
 {
     unsigned int x, y, z;
-    void FUN_005a6b10();
+    void TESRegionSound_Endian();
 };
 void FUN_0048e3d0(TESTexture*, TESFile*);
 void ReadFullName(TESFullName*, TESFile*);
-void FUN_00401080(void*, bool);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
+void BSEndian_00401080(void*, bool);
+float BSMIN(float, float);
+float BSMAX_00404010(float, float);
 class FUN_0058efd0
 {
   public:
@@ -3016,7 +3030,7 @@ class WorldSpaceLoadMethods : public TESWorldSpace
 {
   public:
     void FUN_00484ab0(int);
-    void FUN_0087ce80(unsigned int);
+    void TESWorldSpace_SetClimate(unsigned int);
     void FUN_008d8040(unsigned int);
     void FUN_004febb0(unsigned int);
     void FUN_00442a80(unsigned int);
@@ -3089,7 +3103,7 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
                     if (file->IsEndianConversionRequired())
                     {
                         for (unsigned int i = 0; i < count; i++)
-                            FUN_00401080(&data->offsets[i], EndianFlag583().value);
+                            BSEndian_00401080(&data->offsets[i], EndianFlag583().value);
                     }
                 }
             }
@@ -3104,7 +3118,7 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
         case 0x4d414e43: {
             unsigned int value = 0;
             file->GetChunkData(&value);
-            FUN_0087ce80(value);
+            TESWorldSpace_SetClimate(value);
             break;
         }
         case 0x4d414e49: {
@@ -3145,7 +3159,7 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
             WorldDefaultHeightChunk value;
             file->GetChunkData(&value, 8);
             if (file->IsEndianConversionRequired())
-                value.FUN_00462230();
+                value.TwoValues_Endian();
             fC8 = value.x;
             fCC = value.y;
             break;
@@ -3158,7 +3172,7 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
         case 0x4d414e4f:
             file->GetChunkData(&(*reinterpret_cast<Extra583*>(unk80 + 16)), 12);
             if (file->IsEndianConversionRequired())
-                (*reinterpret_cast<Extra583*>(unk80 + 16)).FUN_005a6b10();
+                (*reinterpret_cast<Extra583*>(unk80 + 16)).TESRegionSound_Endian();
             break;
         case 0x4d414e53: {
             unsigned int value = 0;
@@ -3202,11 +3216,11 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
             file->GetChunkData(&value, 8);
             if (file->IsEndianConversionRequired())
             {
-                FUN_00401080(&value.x, EndianFlag583().value);
-                FUN_00401080(&value.y, EndianFlag583().value);
+                BSEndian_00401080(&value.x, EndianFlag583().value);
+                BSEndian_00401080(&value.y, EndianFlag583().value);
             }
-            m_kFirstPoint.x = FUN_0040ebd0(m_kFirstPoint.x, value.x);
-            m_kFirstPoint.y = FUN_0040ebd0(m_kFirstPoint.y, value.y);
+            m_kFirstPoint.x = BSMIN(m_kFirstPoint.x, value.x);
+            m_kFirstPoint.y = BSMIN(m_kFirstPoint.y, value.y);
             if (file->IsMasterFile())
             {
                 WorldCellOffsetRecord* data = reinterpret_cast<WorldCellOffsetRecord*>(GetOrCreateCellOffsetData(file));
@@ -3219,11 +3233,11 @@ bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
             file->GetChunkData(&value, 8);
             if (file->IsEndianConversionRequired())
             {
-                FUN_00401080(&value.x, EndianFlag583().value);
-                FUN_00401080(&value.y, EndianFlag583().value);
+                BSEndian_00401080(&value.x, EndianFlag583().value);
+                BSEndian_00401080(&value.y, EndianFlag583().value);
             }
-            m_kEndPoint.x = FUN_00404010(m_kEndPoint.x, value.x);
-            m_kEndPoint.y = FUN_00404010(m_kEndPoint.y, value.y);
+            m_kEndPoint.x = BSMAX_00404010(m_kEndPoint.x, value.x);
+            m_kEndPoint.y = BSMAX_00404010(m_kEndPoint.y, value.y);
             if (file->IsMasterFile())
             {
                 WorldCellOffsetRecord* data = reinterpret_cast<WorldCellOffsetRecord*>(GetOrCreateCellOffsetData(file));
@@ -3406,11 +3420,12 @@ int TruncateFloatToInt(float);
 class WorldSpaceOverlapMethods : public TESWorldSpace
 {
   public:
-    void FUN_005878d0(RefObj*);
+    void TESWorldSpace_AddMultiBoundRef(RefObj*);
 };
 
 // @fnv 0x005878d0
-void WorldSpaceOverlapMethods::FUN_005878d0(RefObj* pRef)
+// src: XBOX_PDB 0x005878d0
+void WorldSpaceOverlapMethods::TESWorldSpace_AddMultiBoundRef(RefObj* pRef)
 {
     if (pRef)
     {
@@ -3477,8 +3492,8 @@ struct AreaList65
 };
 struct Data65
 {
-    bool FUN_004f1540();
-    unsigned char FUN_005bb4d0();
+    bool TESRegionData_GetOverride();
+    unsigned char TESRegionData_GetPriority();
     virtual void v00();
     virtual void v04();
     virtual void v08();
@@ -3524,11 +3539,12 @@ struct Cell65
 // Local method adapter: the shared header has no position-name lookup yet.
 struct WorldSpacePositionNameMethods : TESWorldSpace
 {
-    bool FUN_00586500(BSStringT<char>*, Pos65);
+    bool TESWorldSpace_GetMapNameForLocation(BSStringT<char>*, Pos65);
 };
 // Selects a name for pos from its cell or matching regions, falls back to this world's full name or FUN_00586980, and reports whether output changed.
 // @fnv 0x00586500
-bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 pos)
+// src: XBOX_PDB 0x00586500
+bool WorldSpacePositionNameMethods::TESWorldSpace_GetMapNameForLocation(BSStringT<char>* output, Pos65 pos)
 {
     static BSStringT<char> lastName;
     static Pos65 lastPos;
@@ -3600,21 +3616,21 @@ bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 
                 node5 = node5->FUN_00726070();
                 continue;
             }
-            if (data7->FUN_004f1540())
+            if (data7->TESRegionData_GetOverride())
             {
-                if (aOverrideFlag && data7->FUN_005bb4d0() <= priority6)
+                if (aOverrideFlag && data7->TESRegionData_GetPriority() <= priority6)
                 {
                     node5 = node5->FUN_00726070();
                     continue;
                 }
             }
-            else if (aOverrideFlag || data7->FUN_005bb4d0() <= priority6)
+            else if (aOverrideFlag || data7->TESRegionData_GetPriority() <= priority6)
             {
                 node5 = node5->FUN_00726070();
                 continue;
             }
-            aOverrideFlag = data7->FUN_004f1540();
-            priority6 = data7->FUN_005bb4d0();
+            aOverrideFlag = data7->TESRegionData_GetOverride();
+            priority6 = data7->TESRegionData_GetPriority();
             data7->v28(output);
             node5 = node5->FUN_00726070();
         }

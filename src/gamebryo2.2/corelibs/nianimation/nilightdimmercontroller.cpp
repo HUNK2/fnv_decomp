@@ -10,7 +10,8 @@
 extern "C" char __stdcall FUN_00a57c10(void* a);
 
 // @fnv 0x00a4cf50
-char __stdcall FUN_00a4cf50(void* pThis)
+// src: XBOX_PDB 0x00a4cf50
+char __stdcall NiLightDimmerController_IsEqual(void* pThis)
 {
     return FUN_00a57c10(pThis) != 0;
 }
@@ -56,12 +57,13 @@ void* NiLightDimmerController_CreateObject()
 }
 
 #include "../../../../include/NiTPrimitiveArray.h"
-void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*>*);
+void __stdcall NiFloatInterpController_GetViewerStrings(NiTPrimitiveArray<char*>*);
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00a4d100
-void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*>* pkStrings)
+// src: XBOX_PDB 0x00a4d100
+void __stdcall NiLightDimmerController_GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pszStr = NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_011f3fa0);
     unsigned int uIdx = pkStrings->m_usSize;
     if (uIdx >= pkStrings->m_usMaxSize)
@@ -109,7 +111,7 @@ void __fastcall UpdateDimmer(NiLightDimmerController* controller, void*, const f
     {
         controller->m_fControllerTime = DAT_01096324;
     }
-    else if (controller->FUN_00a36250(fTime) && (!controller->m_spControllerInterpolator.m_pObject || !controller->m_spControllerInterpolator.m_pObject->AlwaysUpdate()))
+    else if (controller->DontDoUpdate(fTime) && (!controller->m_spControllerInterpolator.m_pObject || !controller->m_spControllerInterpolator.m_pObject->AlwaysUpdate()))
     {
         return;
     }
@@ -132,7 +134,8 @@ void __fastcall UpdateDimmer(NiLightDimmerController* controller, void*, const f
 extern void FUN_00a57c70();
 
 // @fnv 0x00a4cf40
-void FUN_00a4cf40()
+// src: XBOX_PDB 0x00a4cf40
+void NiLightDimmerController_LoadBinary()
 {
     FUN_00a57c70();
 }

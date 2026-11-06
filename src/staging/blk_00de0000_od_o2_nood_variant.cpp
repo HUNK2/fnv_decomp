@@ -138,10 +138,11 @@ struct FnvCpu_FUN_00de1170_CpuObject
     unsigned int unk5c;
     __m128 field60;
     __m128 field70;
-    void FUN_00de1170(FnvCpu_FUN_00de1170_CpuData0* input0, FnvCpu_FUN_00de1170_CpuData1* input1);
+    void hkDisplayAABB_setExtents(FnvCpu_FUN_00de1170_CpuData0* input0, FnvCpu_FUN_00de1170_CpuData1* input1);
 };
 // @fnv 0x00de1170
-void FnvCpu_FUN_00de1170_CpuObject::FUN_00de1170(FnvCpu_FUN_00de1170_CpuData0* input0,
+// src: XBOX_PDB 0x00de1170
+void FnvCpu_FUN_00de1170_CpuObject::hkDisplayAABB_setExtents(FnvCpu_FUN_00de1170_CpuData0* input0,
                                                  FnvCpu_FUN_00de1170_CpuData1* input1)
 {
     this->field60 = input0->field00;
@@ -1924,7 +1925,8 @@ __declspec(noalias) int FUN_00df4ec0(SplitB* a, int b, int c, SplitA* sa, int* p
                                      SIMD56::LocalM128* v40);
 
 // @fnv 0x00df56a0
-int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
+// src: XBOX_PDB 0x00df56a0
+int hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict_0_buildTreeRecursive(Node56* p, Output56** p2, int p3, int* p4, int* p5)
 {
     int i;
     i = p->m10 - p->m0c;
@@ -2005,8 +2007,8 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
     }
     int cnt;
     int r;
-    cnt = FUN_00df56a0(&left, p2, p3, p4, p5);
-    r = FUN_00df56a0(&right, p2, p3, p4, p5);
+    cnt = hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict_0_buildTreeRecursive(&left, p2, p3, p4, p5);
+    r = hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict_0_buildTreeRecursive(&right, p2, p3, p4, p5);
     return (cnt > r ? cnt : r) + 1;
 }
 

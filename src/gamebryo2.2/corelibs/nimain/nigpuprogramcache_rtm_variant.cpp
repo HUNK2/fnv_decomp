@@ -14,7 +14,7 @@
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern void* DAT_11ac230;
-void __cdecl FUN_00aa1ab0();
+void __cdecl NiFile_DirectoryExists();
 struct S_00a8d8b0
 {
     int _0;
@@ -88,7 +88,7 @@ class FUN_00ee8fe0_cls
     void RemoveAt(unsigned int idx);
 };
 extern void* DAT_11ac230;
-void __cdecl FUN_00aa1ab0();
+void __cdecl NiFile_DirectoryExists();
 void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
 bool __stdcall NiGPUProgramCache_LoadStringA(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3);
 struct S_00ee97e0_Stream
@@ -100,11 +100,11 @@ struct S_00ee97e0_Stream
 };
 struct S_00ee97e0_Elem
 {
-    int* FUN_00a62660();
-    int* FUN_00eea4f0();
-    int* FUN_00eea500();
-    int* FUN_00eea510();
-    int* FUN_00eea520();
+    int* GetFilename_00a62660();
+    int* NiMaterialResource_GetSemantic();
+    int* NiMaterialResource_GetLabel();
+    int* NiMaterialResource_GetVariable();
+    int* NiMaterialResource_GetDefaultValue();
     int NiRenderTargetGroup_GetBufferCount();
     int NiFile_GetBuffer();
     int NiRenderTargetGroup_GetRendererData();
@@ -162,7 +162,7 @@ struct ReleaseHelper
 };
 struct MapClearHelper
 {
-    void FUN_00ee8e10();
+    void NiTPtrSet_NiFixedString_NiTNewInterface_NiFixedString_RemoveAll();
 };
 class SpawnedRoot
 {
@@ -218,10 +218,10 @@ struct KeyObj
 };
 struct KeyEntry
 {
-    char** FUN_00eea510();
+    char** NiMaterialResource_GetVariable();
     __forceinline bool CompareKey(const char* key)
     {
-        char* hk = *FUN_00eea510();
+        char* hk = *NiMaterialResource_GetVariable();
         if (hk == key)
             return true;
         if (!key || !hk)
@@ -237,7 +237,7 @@ struct FUN_00ee90f0_cls
     void RemoveAt(int index);
 };
 bool __stdcall RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
-bool FUN_00aa1a30(const char* pcName, int iMode);
+bool NiFile_Access(const char* pcName, int iMode);
 #include <windows.h>
 #include "../../../../include/NiTFixedStringMap_NiAVObject___.h"
 struct Node
@@ -269,7 +269,7 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 }
 bool __stdcall NiGPUProgramCache_SaveString(S_00ee9230_Stream* pkStream, const char* pcString);
 extern bool DAT_011c2fdd;
-bool __cdecl FUN_00aa1ab0(const char* pcName);
+bool __cdecl NiFile_DirectoryExists(const char* pcName);
 bool __cdecl NiFile_CreateDirectoryRecursive(const char* pcName);
 NiFile* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void __cdecl AdvancePosition(NiFile* pkFile, char* pcBuffer, unsigned int uiLen);
@@ -361,7 +361,7 @@ struct ShaderEntry : NiRefObject
     void FUN_00eea690(const NiFixedString& s);
     void SetLookAtName(const NiFixedString& s);
     void AssignRefCounted(const NiFixedString& s);
-    void FUN_00eea540(unsigned int v);
+    void SetCreator_00eea540(unsigned int v);
     void NiMaterialResource_SetSource(unsigned int v);
     void NiMaterialResource_SetExtraData(unsigned int v);
     void NiMaterialResource_SetObjectType(unsigned int v);
@@ -504,7 +504,7 @@ class ShaderLib
     int unk30;
     int m_iSlotCount;
 
-    bool FUN_00ee9cc0(S_00a8d8b0* s, bool& changed);
+    bool NiGPUProgramCache_LoadEntry(S_00a8d8b0* s, bool& changed);
 };
 
 // The cache reader constructs strings in raw storage and releases them explicitly.
@@ -514,7 +514,8 @@ __declspec(nothrow) static __forceinline NiFixedString* ConstructCacheString(voi
 }
 
 // @fnv 0x00ee9cc0
-bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
+// src: XBOX_PDB 0x00ee9cc0
+bool ShaderLib::NiGPUProgramCache_LoadEntry(S_00a8d8b0* s, bool& changed)
 {
     char buf[0x200];
     int version;
@@ -588,7 +589,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             t5.~NiFixedString();
             unsigned int v;
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea540(v);
+            e->SetCreator_00eea540(v);
             ReadRaw(s, &v, 4, 4);
             e->NiMaterialResource_SetSource(v);
             ReadRaw(s, &v, 4, 4);

@@ -71,9 +71,9 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(unsigned char b, unsigned n);
+    void fopen_0044a730(unsigned char b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -137,7 +137,8 @@ struct LeafQ
     }
 };
 // @fnv 0x00b405c0
-LeafQ* FUN_00b405c0(Parser* p)
+// src: XBOX_PDB 0x00b405c0
+LeafQ* CBillboardLeaf_Parse(Parser* p)
 {
     LeafQ* pLeaf = new LeafQ;
     int iToken = p->GetNextElement();

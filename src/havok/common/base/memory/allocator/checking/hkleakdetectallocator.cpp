@@ -134,7 +134,7 @@ struct Old
     void __thiscall ReleaseReference();
 };
 extern void* DAT_01269a84;
-extern void* __cdecl FUN_00da2bc0();
+extern void* __cdecl hkStackTracer_create();
 // @fnv 0x00d5ee80
 void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllocator, void* apArg2, void* apArg3)
 {
@@ -145,7 +145,7 @@ void __thiscall FUN_00d5ee80_class::InitWithAllocator(void* apArg0, void* apAllo
     unk44 = 0;
     if (!DAT_01269a84)
     {
-        void* x = FUN_00da2bc0();
+        void* x = hkStackTracer_create();
         if (DAT_01269a84)
             ((Old*)DAT_01269a84)->ReleaseReference();
         DAT_01269a84 = x;
@@ -186,7 +186,7 @@ struct Sub30
     virtual int vfunc_2C(int a, void* b);
 };
 
-void* __stdcall FUN_00da2b20(void* buf, int size);
+void* __stdcall hkStackTracer_getStackTrace(void* buf, int size);
 struct Helper8
 {
     int FindOrAddCallTrace(void* buf, void* val);
@@ -231,7 +231,7 @@ int FUN_00d5f0a0_class::ProcessAndDispatch(int aiFlag, void* apArg)
     int buffer[32];
     if (unk04)
     {
-        p.p0 = unk08.FindOrAddCallTrace(buffer, FUN_00da2b20(buffer, 0x20));
+        p.p0 = unk08.FindOrAddCallTrace(buffer, hkStackTracer_getStackTrace(buffer, 0x20));
     }
     else
     {
@@ -341,7 +341,8 @@ struct FUN_00da2b90_class
 extern FUN_00da2b90_class DAT_01269a90;
 
 // @fnv 0x00da2bc0
-void FUN_00da2bc0()
+// src: XBOX_PDB 0x00da2bc0
+void hkStackTracer_create()
 {
     DAT_01269a90.Initialize();
 }
@@ -412,7 +413,7 @@ struct FUN_00d5f2d0_cls
     int hkLeakDetectAllocator_bufRealloc(int a1, int a2, int* a3);
 };
 
-void __cdecl FUN_00d2caa0(int a, int b, int c);
+void __cdecl hkMemUtil_memCpy_00d2caa0(int a, int b, int c);
 
 // @fnv 0x00d5f2d0
 // src: HAVOK_LIB 0x00d5f2d0
@@ -424,7 +425,7 @@ int FUN_00d5f2d0_cls::hkLeakDetectAllocator_bufRealloc(int a1, int a2, int* piVa
     {
         m = a2;
     }
-    FUN_00d2caa0(r, a1, m);
+    hkMemUtil_memCpy_00d2caa0(r, a1, m);
     reinterpret_cast<FUN_00d5f2b0_class*>(this)->hkLeakDetectAllocator_checkedFree(1, a1, a2);
     return r;
 }
@@ -758,9 +759,9 @@ struct RouterD5
         return *m_pStreamAllocator;
     }
 };
-RouterD5* FUN_00c85750();
-extern "C" void* __cdecl FUN_00d2cab0(void* dst, int value, int numBytes);
-extern "C" void* __cdecl FUN_00cb1260(void* dst, const void* src, int numBytes);
+RouterD5* hkMemoryRouter_getInstance();
+extern "C" void* __cdecl hkMemUtil_memSet(void* dst, int value, int numBytes);
+extern "C" void* __cdecl hkString_memCpy(void* dst, const void* src, int numBytes);
 
 struct PointerInfoD5
 {
@@ -873,12 +874,12 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
         return 0;
     }
     out->m_num = n;
-    out->m_entries = (SnapshotEntryD5*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(SnapshotEntryD5));
-    FUN_00d2cab0(out->m_entries, 0, n * sizeof(SnapshotEntryD5));
-    out->m_keys = (int*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(int));
+    out->m_entries = (SnapshotEntryD5*)hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(n * sizeof(SnapshotEntryD5));
+    hkMemUtil_memSet(out->m_entries, 0, n * sizeof(SnapshotEntryD5));
+    out->m_keys = (int*)hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(n * sizeof(int));
     SnapshotEntryD5* entry = out->m_entries;
     int* keys = out->m_keys;
-    RouterD5* router = FUN_00c85750();
+    RouterD5* router = hkMemoryRouter_getInstance();
     for (int it = map->GetFirstIterator(); map->isValid(it); it = map->getNext(it))
     {
         PointerInfoD5 info = map->getValue(it);
@@ -886,7 +887,7 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
         unsigned int data[16];
         int n = m_pObservedSource.hkStackTracer_CallTree_getCallStack(info.a, data, 16);
         entry->m_uiItemCount = n;
-        FUN_00cb1260(entry->m_data, data, n * sizeof(unsigned int));
+        hkString_memCpy(entry->m_data, data, n * sizeof(unsigned int));
         entry->m_uiFilterValue = info.b;
         router->m_kListener->onEntry(*keys, info.b);
         entry++;

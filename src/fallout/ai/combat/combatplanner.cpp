@@ -12,7 +12,8 @@ template <class NodeDataType, class LinkDataType> struct AStarNode
 };
 // Returns true when the int at offset 0xdc of the node's m_p is zero, otherwise false.
 // @fnv 0x00995800
-bool CombatPlanner::FUN_00995800(const AStarNode<CombatPlanNode*, CombatPlanLink*>* apNode)
+// src: XBOX_PDB 0x00995800
+bool CombatPlanner::IsGoalNode_00995800(const AStarNode<CombatPlanNode*, CombatPlanLink*>* apNode)
 {
     if (*(const int*)((const char*)apNode->m_p + 0xdc) == 0)
         return true;
@@ -151,7 +152,7 @@ struct CPOutItem
 class CPOutArray
 {
   public:
-    void FUN_0084b5c0(unsigned int uiSize);
+    void BSSimpleArray_TESObjectREFR_1024_SetReservedSize(unsigned int uiSize);
     void FUN_007cb2e0(CPOutItem*& rpkItem);
     void FUN_008454f0(bool bFree);
 };
@@ -162,7 +163,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
     float m_fPathingCostCur = pkNode->m_fCost;
     bool bFirst = (pkNode->TESMain_GetThread() == 0) ? true : false;
     if (bFirst)
-        pkOut->FUN_0084b5c0(0x10);
+        pkOut->BSSimpleArray_TESObjectREFR_1024_SetReservedSize(0x10);
 
     for (unsigned int i = 0; i < pkNode->m_pUserData->m_uiNumEntries; i++)
     {
@@ -188,7 +189,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                         if (fActionCost < DAT_0108dbf0)
                         {
                             FUN_00994e60_State* pkState =
-                                new (field_20b8.FUN_00aa54a0(sizeof(FUN_00994e60_State), DAT_010a2720))
+                                new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_00994e60_State), DAT_010a2720))
                                     FUN_00994e60_State(&field_205c);
 
                             CPCondList* pkEffect = pkAction->FUN_007d6bb0();
@@ -215,7 +216,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkGoalCond->FUN_00726070(), pkTarget);
                                 if (!pkState->CombatWorldStateArray_IsTrue(pkGoalCond->FUN_00559450(), iCondValue))
                                     pkState->AppendPair(
-                                        new (field_20b8.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                        new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(pkGoalCond->FUN_00559450(), iCondValue),
                                         pkNode->m_pUserData->m_aEntries[j].m_pAssociatedData);
                             }
@@ -227,7 +228,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                                 int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkPreCond->FUN_00726070(), pkTarget);
                                 if (!pkState->CombatWorldStateArray_IsTrue(pkPreCond->FUN_00559450(), iCondValue))
                                     pkState->AppendPair(
-                                        new (field_20b8.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
+                                        new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(pkPreCond->FUN_00559450(), iCondValue),
                                         pkState);
                                 pkRequire = pkRequire->FUN_0062d990();
@@ -244,7 +245,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                                 pkResult->m_fCost = 0.0f;
                             case 1: {
                                 FUN_00995780_Plan* pkPlan =
-                                    new (field_20b8.FUN_00aa54a0(sizeof(FUN_00995780_Plan), DAT_010a2720))
+                                    new (field_20b8.ScrapHeap_Allocate(sizeof(FUN_00995780_Plan), DAT_010a2720))
                                         FUN_00995780_Plan(pkAction, pkTarget,
                                                           pkNode->m_pUserData->m_aEntries[i].m_pAssociatedData);
                                 pkPlan->m_iAim = kAim.m_iValue;

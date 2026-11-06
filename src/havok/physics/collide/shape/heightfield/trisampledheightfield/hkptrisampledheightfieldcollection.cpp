@@ -146,21 +146,23 @@ struct FUN_00d26450_Obj
     int unk10;
     int unk14;
     void* unk18;
-    void* FUN_00d26450();
+    void* hkpTriSampledHeightFieldCollection_getHeightFieldShape();
 };
 // @fnv 0x00d26450
-void* FUN_00d26450_Obj::FUN_00d26450()
+// src: XBOX_PDB 0x00d26450
+void* FUN_00d26450_Obj::hkpTriSampledHeightFieldCollection_getHeightFieldShape()
 {
     return unk18;
 }
 
 struct S_d264d0_Coll : public hkpTriSampledHeightFieldCollection
 {
-    hkpSampledHeightFieldShape* FUN_00d26450();
+    hkpSampledHeightFieldShape* hkpTriSampledHeightFieldCollection_getHeightFieldShape();
     void hkpTriSampledHeightFieldCollection_setWeldingInfo(unsigned int key, unsigned short value);
 };
 
-__declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
+// src: XBOX_PDB 0x00d26450
+__declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::hkpTriSampledHeightFieldCollection_getHeightFieldShape()
 {
     return m_pHeightFieldShape;
 }
@@ -170,7 +172,7 @@ __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
 // src: HAVOK_LIB 0x00d264d0
 void S_d264d0_Coll::hkpTriSampledHeightFieldCollection_setWeldingInfo(unsigned int key, unsigned short value)
 {
-    unsigned int count = FUN_00d26450()->m_iXResolution;
+    unsigned int count = hkpTriSampledHeightFieldCollection_getHeightFieldShape()->m_iXResolution;
     unsigned int idx = ((count - 1) * (key >> 16) + ((key >> 1) & 0x7fff)) * 2 | (key & 1);
     m_kWeldingInfo.m_data[idx] = value;
 }
@@ -222,13 +224,13 @@ FUN_00d26700::FUN_00d26700(void* p, float f)
 
 // hkMemoryRouter is the shared Havok memory router: 0x00c85750 returns it, heap at +0x10.
 namespace HavokHeap {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return HavokHeap::FUN_00c85750().heap();
+    return HavokHeap::hkMemoryRouter_getInstance().heap();
 }
 
 template <class T, class Allocator>
@@ -283,7 +285,7 @@ FUN_00d26760::~FUN_00d26760() throw()
 
 struct FUN_00d26450_S
 {
-    hkpSampledHeightFieldShape* FUN_00d26450();
+    hkpSampledHeightFieldShape* hkpTriSampledHeightFieldCollection_getHeightFieldShape();
 };
 
 struct FUN_00d267c0_Alloc
@@ -295,7 +297,7 @@ struct FUN_00d267c0_Alloc
     virtual void Free(void* data, int size);
 };
 
-void* FUN_00c85750(void);
+void* hkMemoryRouter_getInstance(void);
 void hkArrayUtil__reserve(int a1, int a2, int a3, int a4);
 
 struct FUN_00d267c0_t : FUN_00d26450_S
@@ -310,15 +312,15 @@ void FUN_00d267c0_t::hkpTriSampledHeightFieldCollection_initWeldingInfo(int mode
 {
     if (mode != 6)
     {
-        const hkpSampledHeightFieldShape* o = FUN_00d26450();
+        const hkpSampledHeightFieldShape* o = hkpTriSampledHeightFieldCollection_getHeightFieldShape();
         int idx = (2 * o->m_iZResolution - 2) * (o->m_iXResolution - 1);
         char* arr = (char*)this + 0x24;
-        char* cur = (char*)FUN_00c85750();
+        char* cur = (char*)hkMemoryRouter_getInstance();
         if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
         {
             hkArrayUtil__reserve(*(int*)(cur + 0x10), (int)arr, idx, 2);
         }
-        cur = (char*)FUN_00c85750();
+        cur = (char*)hkMemoryRouter_getInstance();
         int alloc = *(int*)(cur + 0x10);
         int a = *(int*)(arr + 8) & 0x3fffffff;
         if (a < idx)
@@ -330,7 +332,7 @@ void FUN_00d267c0_t::hkpTriSampledHeightFieldCollection_initWeldingInfo(int mode
     }
     else
     {
-        char* cur = (char*)FUN_00c85750();
+        char* cur = (char*)hkMemoryRouter_getInstance();
         FUN_00d267c0_Alloc* alloc = *(FUN_00d267c0_Alloc**)(cur + 0x10);
         int a = *(int*)((char*)this + 0x2c);
         *(int*)((char*)this + 0x28) = 0;

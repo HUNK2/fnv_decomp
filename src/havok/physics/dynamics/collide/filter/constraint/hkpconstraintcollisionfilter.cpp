@@ -308,7 +308,7 @@ struct S_00d87f60_Base
 // hkpWorld's pending-operation entry point is not declared in the shared header yet.
 struct PendingWorldOperationReceiver
 {
-    void FUN_00c91160(void* operation);
+    void hkpWorld_queueOperation(void* operation);
 };
 struct S_00d87f60
 {
@@ -327,7 +327,7 @@ void S_00d87f60::hkpConstraintCollisionFilter_constraintRepairedCallback(S_00d87
         d.unk04 = (char*)this - 0x40;
         d.unk08 = arg->unk04;
         d.unk0c = 0;
-        reinterpret_cast<PendingWorldOperationReceiver*>(obj)->FUN_00c91160(&d);
+        reinterpret_cast<PendingWorldOperationReceiver*>(obj)->hkpWorld_queueOperation(&d);
     }
     else
     {
@@ -640,7 +640,7 @@ void S_00d87f00::hkpConstraintCollisionFilter_constraintBreakingCallback(Constra
         ev.m_kind = 0x23;
         ev.m_val = apPair->m_iSecondInteger;
         ev.m_flag = 1;
-        reinterpret_cast<PendingWorldOperationReceiver*>(obj)->FUN_00c91160(&ev);
+        reinterpret_cast<PendingWorldOperationReceiver*>(obj)->hkpWorld_queueOperation(&ev);
     }
     else
     {
@@ -649,7 +649,7 @@ void S_00d87f00::hkpConstraintCollisionFilter_constraintBreakingCallback(Constra
     }
 }
 
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 struct ConstraintFilterDeleteReceiver
 {
     unsigned int unk00;
@@ -664,7 +664,7 @@ ConstraintFilterDeleteReceiver* ConstraintFilterDeleteReceiver::FUN_00d88000(uns
     FUN_00d87bf0();
     if (flags & 1u)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = hkMemoryRouter_getInstance();
         unsigned int bytes = size4;
         reinterpret_cast<hkMemoryAllocator*>(audio->pListener)->blockFree(this, bytes);
     }

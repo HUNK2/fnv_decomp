@@ -127,8 +127,8 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
         hkTransform refLocalToWorld;
         hkTransform attLocalToWorld;
         hkpConstraintDrawer_updateCommonParameters(constraint, refLocalToWorld, attLocalToWorld);
-        m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, pulley->m_kTranslationB);
-        m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, pulley->m_kTranslationA);
+        m_vVectorAtOffset50.setTransformedPos_00c7f640(refLocalToWorld, pulley->m_kTranslationB);
+        m_vVectorAtOffset40.setTransformedPos_00c7f640(attLocalToWorld, pulley->m_kTranslationA);
     }
     hkpConstraintDrawer_drawPivots(id, tag);
     hkpConstraintDrawer_drawBodyFrames(id, tag);
@@ -139,7 +139,7 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
     int numRopes = int(hkMax2(pulley->m_fRopeLength, 1.0f));
     hkVector4 offset(0.0f, 0.0f, 0.0f, 0.0f);
     offset.set(0.07f, 0.0f, 0.0f, 0.0f);
-    offset.FUN_00c7f700(constraint->m_kActorEntries[1]->m_pMotionState.m_kMotionState.m_kMotionTransform.getRotation(), offset);
+    offset.hkVector4_setRotatedDir(constraint->m_kActorEntries[1]->m_pMotionState.m_kMotionState.m_kMotionTransform.getRotation(), offset);
     hkVector4 start(0.0f, 0.0f, 0.0f, 0.0f);
     start.setMul4_b(hkReal((numRopes - 1) * DAT_01011598), offset);
     for (int i = 0; i < numRopes; i++)

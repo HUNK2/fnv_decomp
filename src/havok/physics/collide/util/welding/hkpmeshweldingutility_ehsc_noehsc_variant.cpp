@@ -91,7 +91,7 @@ struct S_00ddecf0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddecf0_Router* FUN_00c85750();
+S_00ddecf0_Router* hkMemoryRouter_getInstance();
 struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
@@ -266,7 +266,7 @@ __declspec(align(16)) struct QueryBuffer
     unsigned int unk1F8;
     unsigned int unk1FC;
 };
-int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* hkArrayUtil__reserve(void* alloc, void* arr, int numElems, int elemSize);
 void hkMemUtil_memMove(void* dst, const void* src, int numBytes);
@@ -320,7 +320,7 @@ struct LocalBuffer
 };
 char* IsDegenerateTriangle(char* out, const hkVector4* v0, const hkVector4* v1, const hkVector4* v2,
                            float eps);
-int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
 extern const float DAT_01017d00;
 extern const LocalM128 DAT_01017d10;
@@ -447,7 +447,7 @@ struct S_00ddecf0_Heap
     }
 };
 extern const double DAT_010290b8;
-__declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
+__declspec(nothrow) S_00ddecf0_Router* hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
 {
@@ -469,7 +469,7 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 // hkArray bodies (allocator = the memory router's heap).
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap());
+    return reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap());
 }
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 {
@@ -702,7 +702,7 @@ struct hkInplaceArrayW
     }
     inline ~hkInplaceArrayW()
     {
-        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        S_00ddecf0_Heap& alloc = hkMemoryRouter_getInstance()->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
@@ -739,7 +739,7 @@ struct hkHistogramW
     }
     inline ~hkHistogramW()
     {
-        S_00ddecf0_Heap& alloc = FUN_00c85750()->heap();
+        S_00ddecf0_Heap& alloc = hkMemoryRouter_getInstance()->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkEntryW));
@@ -881,7 +881,8 @@ __declspec(noinline) hkBool __cdecl IsDotProductBelowThreshold(const hkVector4& 
 }
 
 // @fnv 0x00dddcd0
-void __cdecl FUN_00dddcd0(const Transform& transform, hkpShapeCollectionW* collection, int weldingType,
+// src: XBOX_PDB 0x00dddcd0
+void __cdecl hkpMeshWeldingUtility_computeWeldingInfoMultiShape(const Transform& transform, hkpShapeCollectionW* collection, int weldingType,
                           hkShapeInfoArrayW& allShapes, bool weldOpenEdges)
 {
     if (collection->m_eCollectionType != COLLECTION_LIST_W &&
@@ -928,7 +929,7 @@ void __cdecl FUN_00dddcd0(const Transform& transform, hkpShapeCollectionW* colle
                 const hkShapeInfoW& info = allShapes[shapeIndex];
                 const hkpBvTreeShapeW* bvTree = allShapes[shapeIndex].m_pCollisionShape;
                 __declspec(align(16)) Transform t;
-                t.FUN_00cb22f0(info.m_kMotionTransform, transform);
+                t.hkTransform_setMulInverseMul(info.m_kMotionTransform, transform);
 
                 hkVector4 normal;
                 normal._setRotatedDir(*reinterpret_cast<const hkRotation*>(t.r), triangleNormal);

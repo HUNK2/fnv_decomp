@@ -38,10 +38,10 @@ public:
     void ShowMessageBox();
     void ApplyReputationChange(int type, int amount);
     void SetReputation_00615580(int type, float value);
-    void FUN_00615730(int kind, float delta);
+    void AddReputationValue(int kind, float delta);
     void RemoveReputationExact(int kind, float amount);
     void RemoveReputation(int kind, int amount);
-    float FUN_00616a20();
-    float FUN_00616a40();
+    float TESReputation_GetPositiveRatio();
+    float TESReputation_GetNegativeRatio();
     unsigned int GetSaveFormID();
 };

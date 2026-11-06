@@ -42,7 +42,7 @@ enum SIT_SLEEP_STATE;
 class Animation
 {
 public:
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* GetControllerManager_00496940();
 };
 
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
@@ -56,7 +56,8 @@ int __thiscall RaceSexMenu::GetMenuID_007ac4f0()
 }
 
 // @fnv 0x007ac9c0
-int __cdecl FUN_007ac9c0()
+// src: XBOX_PDB 0x007ac9c0
+int __cdecl RaceSexMenu_GetClassStatic()
 {
     return 0x40c;
 }
@@ -110,12 +111,13 @@ void FUN_007b3720_shell::TESNPC_SetHairColor(int value)
 struct RaceSexMenu_MenuOption
 {
     Tile* pTGF;
-    void FUN_007b3840(int& aiLow, int& aiHigh);
+    void RaceSexMenu_MenuOption_GetRange(int& aiLow, int& aiHigh);
 };
 
 // If pTGF is set, reads floats 0x1006 and 0x1007 from it and stores them as ints into aiLow and aiHigh.
 // @fnv 0x007b3840
-void RaceSexMenu_MenuOption::FUN_007b3840(int& aiLow, int& aiHigh)
+// src: XBOX_PDB 0x007b3840
+void RaceSexMenu_MenuOption::RaceSexMenu_MenuOption_GetRange(int& aiLow, int& aiHigh)
 {
     if (pTGF)
     {
@@ -256,20 +258,21 @@ struct TileValueAccessor
 {
     Tile* m_tile;
     int __thiscall GetFloat1005();
-    void __thiscall FUN_007b3760(int value);
-    void __thiscall FUN_007b3890(int aiLow, int aiHigh);
+    void __thiscall RaceSexMenu_MenuOption_SetValue(int value);
+    void __thiscall RaceSexMenu_MenuOption_SetRange(int aiLow, int aiHigh);
 };
 // @fnv 0x007b3890
-void __thiscall TileValueAccessor::FUN_007b3890(int aiLow, int aiHigh)
+// src: XBOX_PDB 0x007b3890
+void __thiscall TileValueAccessor::RaceSexMenu_MenuOption_SetRange(int aiLow, int aiHigh)
 {
     if (m_tile)
     {
         ((Tile*)m_tile)->Set(0x1006, aiLow);
         ((Tile*)m_tile)->Set(0x1007, aiHigh);
         if (GetFloat1005() < aiLow)
-            FUN_007b3760(aiLow);
+            RaceSexMenu_MenuOption_SetValue(aiLow);
         if (GetFloat1005() > aiHigh)
-            FUN_007b3760(aiHigh);
+            RaceSexMenu_MenuOption_SetValue(aiHigh);
     }
 }
 
@@ -326,11 +329,12 @@ struct TL
 };
 struct S
 {
-    Tile* FUN_007b41c0(int);
+    Tile* RaceSexMenu_MenuOptionList_Find(int);
 };
 // Walks the linked list starting at the value stored in this, returning the first Tile whose first int equals a, or 0 if none matches.
 // @fnv 0x007b41c0
-Tile* S::FUN_007b41c0(int a)
+// src: XBOX_PDB 0x007b41c0
+Tile* S::RaceSexMenu_MenuOptionList_Find(int a)
 {
     void* cur = (void*)(unsigned int)(*(Flt*)this);
     while (cur)
@@ -382,11 +386,12 @@ struct FUN_007b4900_shell
     int m0;
     int m1;
     int m2;
-    FUN_007b4900_shell* FUN_007b4900();
+    FUN_007b4900_shell* RaceSexMenu_MenuOption_MenuOption();
 };
 // Sets m0 and m2 to zero and returns this.
 // @fnv 0x007b4900
-FUN_007b4900_shell* FUN_007b4900_shell::FUN_007b4900()
+// src: XBOX_PDB 0x007b4900
+FUN_007b4900_shell* FUN_007b4900_shell::RaceSexMenu_MenuOption_MenuOption()
 {
     m0 = 0;
     m2 = 0;
@@ -421,20 +426,21 @@ struct FUN_007adc30_shell
 {
     char _pad[0xec];
     unsigned int m_flags;
-    bool FUN_007adc30(int trait);
+    bool RaceSexMenu_IsFlagged(int trait);
 };
 
 // Returns whether the bit for the given trait index is set in m_flags.
 // @fnv 0x007adc30
-bool FUN_007adc30_shell::FUN_007adc30(int trait)
+// src: XBOX_PDB 0x007adc30
+bool FUN_007adc30_shell::RaceSexMenu_IsFlagged(int trait)
 {
     return (m_flags & (1 << trait)) != 0;
 }
 
 struct OptList
 {
-    void FUN_007b4410();
-    int FUN_0084e3a0();
+    void RaceSexMenu_MenuOptionList_SetActive();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 
@@ -447,18 +453,19 @@ struct FUN_007af180_shell : FUN_007adc30_shell
     void PopulateEyesList();
     void SyncListItemTemplate();
     void UpdateMinusPlusTiles();
-    bool FUN_007af180(int aeList);
+    bool RaceSexMenu_SetActiveList(int aeList);
 };
 // @fnv 0x007af180
-bool FUN_007af180_shell::FUN_007af180(int aeList)
+// src: XBOX_PDB 0x007af180
+bool FUN_007af180_shell::RaceSexMenu_SetActiveList(int aeList)
 {
     if (aeList < 20)
     {
         (*(Tile**)((char*)this + 4))->Set(0x1004, aeList);
-        ((OptList**)((char*)this + 0x28))[aeList]->FUN_007b4410();
-        if (aeList == 5 && FUN_007adc30(0))
+        ((OptList**)((char*)this + 0x28))[aeList]->RaceSexMenu_MenuOptionList_SetActive();
+        if (aeList == 5 && RaceSexMenu_IsFlagged(0))
             PopulateHairOptions();
-        else if (aeList == 8 && FUN_007adc30(1))
+        else if (aeList == 8 && RaceSexMenu_IsFlagged(1))
             PopulateEyesList();
         else if (aeList == 3)
             SyncListItemTemplate();
@@ -466,7 +473,7 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
         if (InterfaceManager_GetSingleton()->GetActiveRenderedMenu() && aeList < 4)
             InterfaceManager_GetSingleton()->GetActiveRenderedMenu()->UpdateSlotSelection(aeList);
         (*(Tile**)((char*)this + 0x88))
-            ->Set(0xfa3, ((OptList**)((char*)this + 0x28))[aeList]->FUN_0084e3a0() < 20);
+            ->Set(0xfa3, ((OptList**)((char*)this + 0x28))[aeList]->GetHavokWorldObjectCountInSceneGraph_0084e3a0() < 20);
         (*(Tile**)((char*)this + 0x8c))
             ->Set(0xfa3, (int)((BSAudio**)((char*)this + 0x28))[aeList]->GetAudioBackendData() < 20 ||
                              aeList == *(int*)((char*)this + 0x120));
@@ -482,14 +489,14 @@ bool FUN_007af180_shell::FUN_007af180(int aeList)
 struct GlobalObject_00869f00
 {
     void Clear(bool);
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     unsigned int GetFlags();
 };
 struct MenuOption2
 {
     MenuOption2* FindByColor(int);
     void SetTileEnabled(bool);
-    void FUN_007b3890(int, int);
+    void RaceSexMenu_MenuOption_SetRange(int, int);
 };
 void __cdecl TESNPC_FillCharGenPresetList(TESRace*, int, GlobalObject_00869f00*);
 struct FUN_007af610_shell
@@ -500,18 +507,18 @@ struct FUN_007af610_shell
 void FUN_007af610_shell::UpdateHairMenuOption()
 {
     ((GlobalObject_00869f00*)((char*)this + 0xdc))->Clear(false);
-    TESNPC_FillCharGenPresetList((TESRace*)(*((TESNPC**)((char*)this + 0xd8)))->FUN_004ac110(),
+    TESNPC_FillCharGenPresetList((TESRace*)(*((TESNPC**)((char*)this + 0xd8)))->TESNPC_GetRace(),
                  ((TESActorBase*)*((TESActorBase**)((char*)this + 0xd8)))->GetSex(),
                  (GlobalObject_00869f00*)((char*)this + 0xdc));
     MenuOption2* popt = ((MenuOption2*)*((MenuOption2**)((char*)this + 0x30)))->FindByColor(0x18);
-    if (((GlobalObject_00869f00*)((char*)this + 0xdc))->FUN_0076b610())
+    if (((GlobalObject_00869f00*)((char*)this + 0xdc))->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
         popt->SetTileEnabled(false);
     }
     else
     {
         popt->SetTileEnabled(true);
-        popt->FUN_007b3890(true, ((GlobalObject_00869f00*)((char*)this + 0xdc))->GetFlags());
+        popt->RaceSexMenu_MenuOption_SetRange(true, ((GlobalObject_00869f00*)((char*)this + 0xdc))->GetFlags());
     }
 }
 
@@ -531,11 +538,11 @@ struct HairNode
     HairNode* _ref_00726070();
 };
 
-HairNode* __fastcall FUN_0045bb80(TESRace*);
+HairNode* __fastcall NiAVObject_GetWorldTranslate(TESRace*);
 
 struct FUN_007adc60_shell
 {
-    void FUN_007adc60(int, bool);
+    void RaceSexMenu_SetFlag(int, bool);
 };
 struct FUN_007b1ca0_t
 {
@@ -551,8 +558,8 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
 {
     if (!pNPC->GetHair()->IsValidForNPC((::TESNPC*)pNPC))
     {
-        TESHair* m_pHair = ((TESRace*)pNPC->FUN_004ac110())->TESRace_GetDefaultHair(((TESActorBase*)pNPC)->GetSex());
-        for (HairNode* pNode = FUN_0045bb80(((TESRace*)pNPC->FUN_004ac110()));
+        TESHair* m_pHair = ((TESRace*)pNPC->TESNPC_GetRace())->TESRace_GetDefaultHair(((TESActorBase*)pNPC)->GetSex());
+        for (HairNode* pNode = NiAVObject_GetWorldTranslate(((TESRace*)pNPC->TESNPC_GetRace()));
              m_pHair == 0 && pNode && *pNode->_ref_006815c0(); pNode = pNode->_ref_00726070())
         {
             if (((FUN_005fdf40_shell*)*pNode->_ref_006815c0())->TESHair_GetPlayable())
@@ -567,11 +574,11 @@ void FUN_007b1ca0_t::UpdateHairAndEyes()
     }
     if (!((FUN_005fc5f0_shell*)((MiddleHighProcess*)pNPC)->MiddleHighProcess::GetAnimation())->CanBeNPC(pNPC))
     {
-        pNPC->SetEyes(((TESRace*)pNPC->FUN_004ac110())->GetReferencedValue());
+        pNPC->SetEyes(((TESRace*)pNPC->TESNPC_GetRace())->GetReferencedValue());
         UpdateEyeTextures();
     }
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(0, true);
-    ((FUN_007adc60_shell*)this)->FUN_007adc60(1, true);
+    ((FUN_007adc60_shell*)this)->RaceSexMenu_SetFlag(0, true);
+    ((FUN_007adc60_shell*)this)->RaceSexMenu_SetFlag(1, true);
 }
 }  // namespace fnv_007b1ca0
 
@@ -602,7 +609,7 @@ void FUN_007b1ae0_shell::UpdateShadowSceneNode()
 
 struct IMStandIn
 {
-    void FUN_00715860(int, int, int);
+    void InterfaceManager_SetCurrentFocusTarget(int, int, int);
 };
 struct InputFocusController
 {
@@ -625,13 +632,13 @@ bool InputFocusController::SetFocus(bool abFocus)
     {
         if (m_20 && *(void**)m_20)
         {
-            reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->FUN_00715860((int)*(void**)m_20, 0xfc3, 1);
+            reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->InterfaceManager_SetCurrentFocusTarget((int)*(void**)m_20, 0xfc3, 1);
             bret = true;
         }
     }
     else
     {
-        reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->FUN_00715860(0, 0xfc3, 1);
+        reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->InterfaceManager_SetCurrentFocusTarget(0, 0xfc3, 1);
         m_20 = 0;
         bret = true;
     }
@@ -652,8 +659,8 @@ void FUN_007b5180_shell::CreateMenuOption()
     int ihigh;
     UpdateHairMenuOption();
     m_pCurrentOption = ((MenuOption2*)*(void**)((char*)this + 0x30))->FindByColor(0x18);
-    ((RaceSexMenu_MenuOption*)m_pCurrentOption)->FUN_007b3840(ilow, ihigh);
-    ((TileValueAccessor*)m_pCurrentOption)->FUN_007b3760(ilow);
+    ((RaceSexMenu_MenuOption*)m_pCurrentOption)->RaceSexMenu_MenuOption_GetRange(ilow, ihigh);
+    ((TileValueAccessor*)m_pCurrentOption)->RaceSexMenu_MenuOption_SetValue(ilow);
     HandleOptionSelection();
     m_pCurrentOption = 0;
 }
@@ -665,7 +672,7 @@ struct FUN_00601830_shell
 };
 struct FUN_007adc60_shell
 {
-    void FUN_007adc60(int, bool);
+    void RaceSexMenu_SetFlag(int, bool);
 };
 struct FUN_007b18f0_shell
 {
@@ -677,7 +684,7 @@ struct FUN_007b1e70_shell
 };
 struct FUN_007b25a0_shell
 {
-    void FUN_007b25a0();
+    void RaceSexMenu_UpdatePlayerBody();
 };
 struct FUN_007b51f0_shell : FUN_007adc30_shell
 {
@@ -690,16 +697,16 @@ void __cdecl RaceSexMenu_RandomizeCallback()
 {
     if (DAT_011da634)
     {
-        if (ConsumeByteAtE4() == 1 || ((FUN_007adc30_shell*)DAT_011da634)->FUN_007adc30(7))
+        if (ConsumeByteAtE4() == 1 || ((FUN_007adc30_shell*)DAT_011da634)->RaceSexMenu_IsFlagged(7))
         {
             ((FUN_00601830_shell*)(void*)(*((char**)DAT_011da634 + 0xd8 / 4)))->RandomizeFace(1, 0, 1);
-            ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(7, true);
+            ((FUN_007adc60_shell*)DAT_011da634)->RaceSexMenu_SetFlag(7, true);
             ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x22);
             ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x23);
             ((FUN_007b1e70_shell*)DAT_011da634)->UpdateFaceGen(1, 1, 0);
-            ((FUN_007b25a0_shell*)DAT_011da634)->FUN_007b25a0();
-            ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(8, false);
-            ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(9, false);
+            ((FUN_007b25a0_shell*)DAT_011da634)->RaceSexMenu_UpdatePlayerBody();
+            ((FUN_007adc60_shell*)DAT_011da634)->RaceSexMenu_SetFlag(8, false);
+            ((FUN_007adc60_shell*)DAT_011da634)->RaceSexMenu_SetFlag(9, false);
         }
     }
 }
@@ -725,14 +732,14 @@ int FUN_007b1e50_shell::GetReferencedValue()
 
 struct InterfaceManager_helper
 {
-    Tile* FUN_00586150();
+    Tile* CombatController_GetCombatState();
 };
 
 struct Str6a70
 {
     Str6a70& operator=(const char*);
 };
-Tile* __cdecl FUN_00a09030(int);
+Tile* __cdecl Tile_GetMenuByClass(int);
 extern const char DAT_010759bc[];
 
 struct GlobalObject_0040c150
@@ -751,8 +758,8 @@ int __cdecl FUN_004b7220();
 
 struct RaceSexInventoryActor
 {
-    unsigned char FUN_008a6970();
-    void FUN_008a6840(int);
+    unsigned char Actor_GetWantWeaponDrawn();
+    void Actor_SetWantWeaponDrawn(int);
     void UnEquipObject(void*, int, void*, bool, bool, bool);
 };
 extern RaceSexInventoryActor* pPlayer;
@@ -875,10 +882,10 @@ struct Im7181
 // @fnv 0x007ac730
 Tile* __cdecl GetOrCreateMenuTile(int param)
 {
-    Tile* previous = FUN_00a09030(FUN_007ac9c0());
+    Tile* previous = Tile_GetMenuByClass(RaceSexMenu_GetClassStatic());
     if (previous)
         return previous;
-    Tile* tile = ((Tile*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->FUN_00586150())->ReadFile(DAT_010759bc);
+    Tile* tile = ((Tile*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->CombatController_GetCombatState())->ReadFile(DAT_010759bc);
     if (tile)
     {
         DAT_011da634 = ((Tile*)tile)->GetMenu();
@@ -895,8 +902,8 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
                 ((StrH*)&g_011da6f4)->BSStringT_MakeUpper();
             }
         }
-        DAT_011da688 = pPlayer->FUN_008a6970();
-        pPlayer->FUN_008a6840(0);
+        DAT_011da688 = pPlayer->Actor_GetWantWeaponDrawn();
+        pPlayer->Actor_SetWantWeaponDrawn(0);
         InventoryChanges* inventory = InventoryChanges::GetOrAddInventoryChanges((void*)pPlayer);
         for (unsigned int i = 0; i < 20; i++)
         {
@@ -912,7 +919,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             case 11:
             case 14:
             case 15:
-                DAT_011da638[i] = reinterpret_cast<RacesexmenuOffset08View*>(inventory->FUN_004c8c10(i, 0));
+                DAT_011da638[i] = reinterpret_cast<RacesexmenuOffset08View*>(inventory->InventoryChanges_GetWornItem(i, 0));
                 if (DAT_011da638[i])
                     pPlayer->UnEquipObject((void*)DAT_011da638[i]->GetFlags(), 1, 0, 0, 0, 1);
                 break;
@@ -925,7 +932,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             FUN_007ac9f0* pRenderData = new FUN_007ac9f0;
             pRenderData->FUN_007ac9d0(param);
             ((MagicHitEffect*)pRenderData)->FUN_00984f60((unsigned int)tile);
-            ((NiPick*)pRenderData)->FUN_00705fc0((void*)tile->FUN_0056c7f0());
+            ((NiPick*)pRenderData)->SetTarget_00705fc0((void*)tile->GetModel_0056c7f0());
             ((Im7181*)InterfaceManager_GetSingleton())->SetRenderedMenu((int)pRenderData);
         }
     }
@@ -976,7 +983,8 @@ int __fastcall FUN_005f0cc0(void* self);
 int __fastcall FUN_00726070(int value);
 
 // @fnv 0x007ad940
-unsigned char __cdecl FUN_007ad940(int aiValue)
+// src: XBOX_PDB 0x007ad940
+unsigned char __cdecl RaceSexMenu_IsPlayerSex(int aiValue)
 {
     int result;
     if (aiValue != 0 && DAT_011da634 != 0 && ((FUN_007ad940_Holder*)DAT_011da634)->m_d8 != 0 &&
@@ -1029,7 +1037,7 @@ char __cdecl IsArgValueInSubLookup(FUN_007ad9c0_Arg* a1)
 struct RSOptionList
 {
     bool SetFocus(bool abFocus);
-    void FUN_007b4410();
+    void RaceSexMenu_MenuOptionList_SetActive();
 };
 
 struct RSMenu
@@ -1130,7 +1138,7 @@ void __cdecl UpdateRaceSexMenu()
                     }
                     else
                     {
-                        g_raceSexMenu->optionLists[g_raceSexMenu->GetCurrentPage()]->FUN_007b4410();
+                        g_raceSexMenu->optionLists[g_raceSexMenu->GetCurrentPage()]->RaceSexMenu_MenuOptionList_SetActive();
                         g_raceSexMenu->Accept();
                     }
                 }
@@ -1181,7 +1189,7 @@ class RaceMenuClickState
 {
   public:
     int GetCurrentPage();
-    void FUN_007ae1b0(int iType, Tile* pkClickedTile);
+    void RaceSexMenu_DoDownClick(int iType, Tile* pkClickedTile);
 
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24;
@@ -1198,7 +1206,8 @@ class RaceMenuClickState
 
 // For type 0x69 stores the clicked tile and its option value; for type 1 stores the interface timer time.
 // @fnv 0x007ae1b0
-void RaceMenuClickState::FUN_007ae1b0(int iType, Tile* pkClickedTile)
+// src: XBOX_PDB 0x007ae1b0
+void RaceMenuClickState::RaceSexMenu_DoDownClick(int iType, Tile* pkClickedTile)
 {
     switch (iType)
     {
@@ -1233,8 +1242,8 @@ struct HairOptions
 {
     void FUN_007b45b0();
     HairOption* RaceSexMenu_List_AddListItemWithID(const char*, int);
-    HairOption* FUN_007af430();
-    bool FUN_007b4260(int);
+    HairOption* BGSSaveFormBuffer_GetForm();
+    bool RaceSexMenu_MenuOptionList_DoGamepad(int);
     void ApplyToAllTiles();
 };
 bool __cdecl RaceSexMenu_HairStyle_IsSelected(HairOption*);
@@ -1297,7 +1306,7 @@ struct HairMenu
     TESNPC* npc;
     void PopulateHairOptions();
     void UpdateMinusPlusTiles();
-    void FUN_007adc60(int, bool);
+    void RaceSexMenu_SetFlag(int, bool);
 };
 // @fnv 0x007af300
 void HairMenu::PopulateHairOptions()
@@ -1315,11 +1324,11 @@ void HairMenu::PopulateHairOptions()
         }
     }
     UpdateMinusPlusTiles();
-    while (pChosenOption && pChosenOption != options->FUN_007af430() && options->FUN_007b4260(2))
+    while (pChosenOption && pChosenOption != options->BGSSaveFormBuffer_GetForm() && options->RaceSexMenu_MenuOptionList_DoGamepad(2))
     {
     }
     options->ApplyToAllTiles();
-    FUN_007adc60(0, false);
+    RaceSexMenu_SetFlag(0, false);
 }
 
 class B7AF450Texture
@@ -1425,7 +1434,7 @@ class B7AF450RaceMenu
     int unkD4;
     TESNPC* m_pkNPC;
 
-    void FUN_007adc60(int iIndex, bool bFlag);
+    void RaceSexMenu_SetFlag(int iIndex, bool bFlag);
     void PopulateEyesList();
 };
 
@@ -1441,14 +1450,14 @@ void B7AF450RaceMenu::PopulateEyesList()
                 ->SetData(*pkIter->GetItem());
     }
     m_pkListBox->Finish();
-    FUN_007adc60(1, false);
+    RaceSexMenu_SetFlag(1, false);
 }
 
 // SyncListItemTemplate: thiscall, /MT /Od /GS /EHsc. Two guarded blocks on flags from this->m_34 / this->m_d8.
 struct Opt34
 {
     Opt34* FindByColor(int);
-    void FUN_007b3d50(int, const char*);
+    void RaceSexMenu_MenuOptionList_InsertMenuOption(int, const char*);
     void RemoveOptionById(int);
 };
 
@@ -1465,7 +1474,7 @@ struct StrTable
     const char* FUN_00403df0();
 };
 extern StrTable DAT_011d23a0;
-extern "C" void __cdecl FUN_00406f60(SpStr* dst, const char* fmt, ...);
+extern "C" void __cdecl BSStringT_char_SPrintF(SpStr* dst, const char* fmt, ...);
 
 struct FUN_007af520_cls
 {
@@ -1535,8 +1544,8 @@ void FUN_007af520_cls::SyncListItemTemplate()
     if (d && !e)
     {
         SpStr s;
-        FUN_00406f60(&s, "%s %c", DAT_011d23a0.FUN_00403df0(), 0x3e);
-        m_34->FUN_007b3d50(2, s.FUN_00559450("RSM_list_item_template", 7));
+        BSStringT_char_SPrintF(&s, "%s %c", DAT_011d23a0.FUN_00403df0(), 0x3e);
+        m_34->RaceSexMenu_MenuOptionList_InsertMenuOption(2, s.FUN_00559450("RSM_list_item_template", 7));
     }
     else if (e && !d)
     {
@@ -1547,7 +1556,7 @@ void FUN_007af520_cls::SyncListItemTemplate()
 namespace fnv_007af900 {
 
 
-int __cdecl FUN_00406f60(::BSStringT<char>*, const char*, ...);
+int __cdecl BSStringT_char_SPrintF(::BSStringT<char>*, const char*, ...);
 struct HairOption
 {
     int FUN_00726070();
@@ -1598,9 +1607,9 @@ void HairMenu::ApplyHairOption(HairOption* option)
         bool found;
         {
             ::BSStringT<char> name;
-            FUN_00406f60(&name, "iHairColor%02d", option->GetFloat1005());
+            BSStringT_char_SPrintF(&name, "iHairColor%02d", option->GetFloat1005());
             found = GameSettingCollection::Instance()->GetSetting(name, &valueSetting);
-            FUN_00406f60(&name, "sHairColor%d", option->GetFloat1005());
+            BSStringT_char_SPrintF(&name, "sHairColor%d", option->GetFloat1005());
             found = GameSettingCollection::Instance()->GetSetting(name, &setting);
             option->RaceSexMenu_MenuOption_SetDisplay(setting->String());
             RaceSexMenu_SetHairColor(*(int*)valueSetting->Int());
@@ -1617,7 +1626,7 @@ void HairMenu::ApplyHairOption(HairOption* option)
 struct FUN_007afa40_mgr
 {
     void* FUN_00559450();
-    void** FUN_0057cbe0(void** pp);
+    void** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void** pp);
 };
 struct FUN_00726070_shell
 {
@@ -1640,17 +1649,17 @@ void FUN_007afa40_cls::RaceSexMenu_SetHairColor(unsigned int uiPackedValue)
     void* cur = m_40->FUN_00559450();
     while (cur != 0)
     {
-        void* item = *m_40->FUN_0057cbe0(&cur);
+        void* item = *m_40->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&cur);
         switch (((FUN_00726070_shell*)item)->FUN_00726070())
         {
         case 0x1e:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)(uiPackedValue & 0xff));
+            ((TileValueAccessor*)item)->RaceSexMenu_MenuOption_SetValue((unsigned char)(uiPackedValue & 0xff));
             break;
         case 0x1f:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)((((unsigned short)uiPackedValue) >> 8) & 0xff));
+            ((TileValueAccessor*)item)->RaceSexMenu_MenuOption_SetValue((unsigned char)((((unsigned short)uiPackedValue) >> 8) & 0xff));
             break;
         case 0x20:
-            ((TileValueAccessor*)item)->FUN_007b3760((unsigned char)((uiPackedValue >> 16) & 0xff));
+            ((TileValueAccessor*)item)->RaceSexMenu_MenuOption_SetValue((unsigned char)((uiPackedValue >> 16) & 0xff));
             break;
         }
     }
@@ -1695,8 +1704,8 @@ struct Matrix
 extern Matrix DAT_011f4248;
 struct SceneObject
 {
-    Matrix* FUN_006a9540();
-    void FUN_0043fa80(const Matrix*);
+    Matrix* NiAVObject_GetRotate_006a9540();
+    void SetRotate_0043fa80(const Matrix*);
 };
 struct ScenePointer
 {
@@ -1705,7 +1714,7 @@ struct ScenePointer
 struct ScaleObject
 {
     float GetWeight();
-    float FUN_00944300();
+    float TESNPC_GetHeight();
 };
 struct Target
 {
@@ -1765,12 +1774,13 @@ struct Target
     ScenePointer scene;
     ScaleObject* scale;
     void UpdateShadowSceneNode();
-    bool FUN_007b1970(float, bool);
+    bool RaceSexMenu_RotatePlayer(float, bool);
 };
 // @fnv 0x007b1970
-bool Target::FUN_007b1970(float offset, bool force)
+// src: XBOX_PDB 0x007b1970
+bool Target::RaceSexMenu_RotatePlayer(float offset, bool force)
 {
-    Matrix p = *scene.FUN_00559450()->FUN_006a9540();
+    Matrix p = *scene.FUN_00559450()->NiAVObject_GetRotate_006a9540();
     float s, a, i;
     p.DecomposeToEulerAngles(s, a, i);
     float h = i - offset;
@@ -1784,9 +1794,9 @@ bool Target::FUN_007b1970(float offset, bool force)
     Matrix f = DAT_011f4248;
     f.SetMatrixElement(0, 0, scale->GetWeight());
     f.SetMatrixElement(1, 1, scale->GetWeight());
-    f.SetMatrixElement(2, 2, scale->FUN_00944300());
+    f.SetMatrixElement(2, 2, scale->TESNPC_GetHeight());
     p = p.FUN_0043f8d0(f);
-    scene.FUN_00559450()->FUN_0043fa80(&p);
+    scene.FUN_00559450()->SetRotate_0043fa80(&p);
     UpdateShadowSceneNode();
     return true;
 }
@@ -1949,11 +1959,11 @@ struct NodeB50
     virtual void v1ac();
     virtual void v1b0();
     PropertyB50* FUN_00a59d30(int);
-    void FUN_00a5a040();
+    void UpdateProperties();
     unsigned FUN_0043b480();
     NodeB50* FUN_0043b4a0(unsigned);
     NiFixedString& FUN_00413f40();
-    void FUN_00a59c60(const NiUpdateData&);
+    void NiAVObject_Update(const NiUpdateData&);
 };
 struct PtrB50
 {
@@ -2265,7 +2275,7 @@ struct PlayerB50
     virtual void v374();
     virtual void v378();
     virtual FaceB50* v37c();
-    BaseB50* FUN_007af430();
+    BaseB50* BGSSaveFormBuffer_GetForm();
     int FUN_0087f4c0();
     Animation* FUN_00950a60(bool);
 };
@@ -2334,9 +2344,9 @@ struct HostB50
 char* __cdecl FUN_00657820(char*, int);
 void __cdecl BuildHairFaceGenNodes(NodeB50**, NodeB50**, SnapshotB50*, bool);
 extern unsigned DAT_011f4a04;
-ObjectB50* __cdecl FUN_00653270(unsigned*, void*);
+ObjectB50* __cdecl NiObject_DynamicCast(unsigned*, void*);
 void __cdecl FUN_00b57e30(NodeB50*, int, int);
-unsigned __cdecl FUN_0044a670(const char*);
+unsigned __cdecl BSstrlen(const char*);
 int __cdecl FUN_004564f0(const char*, const char*, unsigned);
 void __cdecl BSFaceGenManager_ApplyHairMorph(NodeB50*, float);
 // @fnv 0x007b2b50
@@ -2358,7 +2368,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
     {
         char p[32];
         SnapshotB50 i;
-        pPlayer->v37c()->BuildAppearance(pPlayer->FUN_007af430(), &i, pPlayer->FUN_0087f4c0(), false);
+        pPlayer->v37c()->BuildAppearance(pPlayer->BGSSaveFormBuffer_GetForm(), &i, pPlayer->FUN_0087f4c0(), false);
         NodeB50* h = pPlayer->v1ac(false);
         NodeB50* cf = pPlayer->v1b0(false);
         for (int i = 0; i < 2; i++)
@@ -2369,14 +2379,14 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
         BuildHairFaceGenNodes(&h, &cf, &i, false);
         j = pPlayer->FUN_00950a60(false);
-        void* a = j->FUN_00496940()->GetStringAtOffset();
+        void* a = j->GetControllerManager_00496940()->GetStringAtOffset();
         if (a)
         {
-            ObjectB50* object = FUN_00653270(&DAT_011f4a04, a);
+            ObjectB50* object = NiObject_DynamicCast(&DAT_011f4a04, a);
             if (object)
                 object->FUN_00a6e960();
         }
-        pPlayer->FUN_007af430()->UpdateFaceGenHairVisibility(pPlayer, false);
+        pPlayer->BGSSaveFormBuffer_GetForm()->UpdateFaceGenHairVisibility(pPlayer, false);
         for (int i = 0; i < 2; i++)
         {
             NodeB50* part = h->v09c(NiFixedString((const char*)FUN_00657820(p, i)));
@@ -2400,7 +2410,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                 }
             }
         }
-        h->FUN_00a5a040();
+        h->UpdateProperties();
     }
     else
     {
@@ -2408,9 +2418,9 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         for (unsigned i = 0; i < count; i++)
         {
             b = pPlayer->v1ac(false)->FUN_0043b4a0(i);
-            bool hair = b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenHair", FUN_0044a670("FaceGenHair"));
+            bool hair = b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenHair", BSstrlen("FaceGenHair"));
             bool accessory =
-                !hair && b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenAccessory", FUN_0044a670("FaceGenAccessory"));
+                !hair && b && !FUN_004564f0(b->FUN_00413f40(), "FaceGenAccessory", BSstrlen("FaceGenAccessory"));
             if (hair || accessory)
             {
                 eb = b->v01c();
@@ -2443,7 +2453,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
     }
     NiUpdateData l(0, false, false);
-    pPlayer->v1ac(false)->FUN_00a59c60(l);
+    pPlayer->v1ac(false)->NiAVObject_Update(l);
     UpdateShadowSceneNode();
     return true;
 }
@@ -2451,27 +2461,28 @@ bool HostB50::RebuildFaceGen(bool rebuild)
 
 struct Trait
 {
-    int FUN_0084e3a0();
-    void __thiscall FUN_00a0a270(float value, unsigned int update);
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    void __thiscall Tile_Value_SetFloat_00a0a270(float value, unsigned int update);
 };
 
 struct MenuOptionFor3760
 {
     Tile* tile;
     int __thiscall GetFloat1005();
-    void __thiscall FUN_007b3840(int& fTargetUpperBound, int& fMinimumInputValue);
-    bool __thiscall FUN_007b3760(int value);
+    void __thiscall RaceSexMenu_MenuOption_GetRange(int& fTargetUpperBound, int& fMinimumInputValue);
+    bool __thiscall RaceSexMenu_MenuOption_SetValue(int value);
 };
 
 // Clamps value between the option's min and max, and if it differs from the current value, updates the tile and its trait, returning true.
 // @fnv 0x007b3760
-bool MenuOptionFor3760::FUN_007b3760(int value)
+// src: XBOX_PDB 0x007b3760
+bool MenuOptionFor3760::RaceSexMenu_MenuOption_SetValue(int value)
 {
     if (tile != 0)
     {
         int currentValue = GetFloat1005();
         int fTargetUpperBound, fMinimumInputValue;
-        FUN_007b3840(fTargetUpperBound, fMinimumInputValue);
+        RaceSexMenu_MenuOption_GetRange(fTargetUpperBound, fMinimumInputValue);
         if (value < fTargetUpperBound)
             value = fTargetUpperBound;
         if (value > fMinimumInputValue)
@@ -2479,9 +2490,9 @@ bool MenuOptionFor3760::FUN_007b3760(int value)
         if (currentValue != value)
         {
             tile->FUN_00700320(0x1005, value);
-            Trait* trait = (Trait*)tile->FUN_00a00f30(0x1009);
-            if (trait->FUN_0084e3a0() == 0)
-                trait->FUN_00a0a270((float)value, 1);
+            Trait* trait = (Trait*)tile->Tile_GetValue(0x1009);
+            if (trait->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == 0)
+                trait->Tile_Value_SetFloat_00a0a270((float)value, 1);
             return true;
         }
     }
@@ -2558,7 +2569,7 @@ struct InterfaceRoot
     void* unk78;
     Tile* FUN_00a1ddb0(void* parent, const char* name, int mode);
 };
-int __cdecl FUN_00a00940(const char* name, int index);
+int __cdecl Tile_AddUserTrait(const char* name, int index);
 struct FUN_007b39e0 : FUN_0048f200
 {
     int unk0c;
@@ -2578,10 +2589,10 @@ FUN_007b39e0::FUN_007b39e0(int low, int high)
     unk1c = 0;
     unk14 = ((InterfaceRoot*)DAT_011da634)->FUN_00a1ddb0(((InterfaceRoot*)DAT_011da634)->unk78, str_01075b10, 0);
     unk14->Set(0x1004, low);
-    unk14->FUN_00a01350(0xfc4, high, true);
+    unk14->Tile_Set_00a01350(0xfc4, high, true);
     unk14->Set(0xfaf, 0);
-    unk14->Set(FUN_00a00940(str_01075b5c, -1), 1);
-    unk14->FUN_00a04640(false);
+    unk14->Set(Tile_AddUserTrait(str_01075b5c, -1), 1);
+    unk14->Tile_UpdateTile(false);
     unk20 = 0;
 }
 
@@ -2623,7 +2634,7 @@ struct TempString_007b3bb0
 };
 extern const char DAT_01075b28[];
 extern const char DAT_01075b10[];
-void __cdecl FUN_00406f60(TempString_007b3bb0* result, const char* format, const char* input, int limit);
+void __cdecl BSStringT_char_SPrintF(TempString_007b3bb0* result, const char* format, const char* input, int limit);
 struct SelectedOption_007b3bb0
 {
     int unk00;
@@ -2649,7 +2660,7 @@ struct FloatOptionList
 int FloatOptionList::AddFloatOption(const char* input, SelectedOption_007b3bb0* selected)
 {
     TempString_007b3bb0 text;
-    FUN_00406f60(&text, DAT_01075b28, input, 0x3e);
+    BSStringT_char_SPrintF(&text, DAT_01075b28, input, 0x3e);
     selected->value0c = (unsigned int)pTGF->GetFloat(0x1004);
     return CreateEntry(text.FUN_00559450(DAT_01075b10, (unsigned int)selected->pTGF->GetFloat(0x1004)), 0);
 }
@@ -2672,11 +2683,12 @@ class B3CA0Menu
 {
   public:
     B3CA0SliderOption* AddOption(int m_uiSoundID, const char* pcTemplate, int iParent, int iUnk);
-    B3CA0SliderOption* FUN_007b3ca0(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float fSequenceTimeRatio);
+    B3CA0SliderOption* RaceSexMenu_MenuOptionList_AddSliderOption(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float fSequenceTimeRatio);
 };
 
 // @fnv 0x007b3ca0
-B3CA0SliderOption* B3CA0Menu::FUN_007b3ca0(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float afFraction)
+// src: XBOX_PDB 0x007b3ca0
+B3CA0SliderOption* B3CA0Menu::RaceSexMenu_MenuOptionList_AddSliderOption(int m_uiSoundID, int iParent, int iLow, int iHigh, int iValue, float afFraction)
 {
     if (afFraction < 0.0)
         afFraction = 0.0f;
@@ -2696,8 +2708,8 @@ struct Date
     ~Date();
     int FUN_00726070();
 };
-int __cdecl FUN_00a00940(const char*, int);
-void __cdecl FUN_00706ff0(Tile*);
+int __cdecl Tile_AddUserTrait(const char*, int);
+void __cdecl Interface_SetCurrentFocusTarget(Tile*);
 struct OptionList
 {
     void* unk00;
@@ -2710,7 +2722,7 @@ struct OptionList
     void* unk1c;
     Date* selected;
     operator void*() const;
-    Date*& FUN_0057cbe0(void*&);
+    Date*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*&);
     Date*& AddEight(void*);
     Date*& FUN_007b5370();
     void FUN_0057c730(Date*&);
@@ -2724,13 +2736,13 @@ void OptionList::RemoveOptionById(int id)
     void* pos = *this;
     while (pos)
     {
-        Date* option = FUN_0057cbe0(pos);
+        Date* option = NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(pos);
         if (option->FUN_00726070() == id)
         {
             if (selected == option)
             {
                 selected = pos ? AddEight(pos) : FUN_007b5370();
-                FUN_00706ff0(selected->tile);
+                Interface_SetCurrentFocusTarget(selected->tile);
             }
             delete option->tile;
             delete option;
@@ -2742,12 +2754,12 @@ void OptionList::RemoveOptionById(int id)
     {
         void* prev = GetSecondField(pos);
         Date* current = prev ? AddEight(prev) : 0;
-        Date* before = FUN_0057cbe0(pos);
+        Date* before = NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(pos);
         before->tile->Set(0xfa2,
                           current ? current->tile->FUN_00a011b0(0xfa2) + current->tile->FUN_00a011b0(0xfb0)
-                                  : before->tile->GetParent()->FUN_00a011b0(FUN_00a00940("_top_bound", -1)),
+                                  : before->tile->GetParent()->FUN_00a011b0(Tile_AddUserTrait("_top_bound", -1)),
                           true);
-        before->tile->FUN_00a04640(false);
+        before->tile->Tile_UpdateTile(false);
     }
 }
 
@@ -2824,7 +2836,7 @@ struct FUN_007b45b0_shell
     void* m_20;
 
     void* FUN_00559450();
-    NodeT*& FUN_0057cbe0(void*& it);
+    NodeT*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*& it);
     void FUN_004ed900();
     void FUN_007b45b0();
 };
@@ -2836,7 +2848,7 @@ void FUN_007b45b0_shell::FUN_007b45b0()
     void* it = FUN_00559450();
     while (it != 0)
     {
-        NodeT* node = FUN_0057cbe0(it);
+        NodeT* node = NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(it);
         delete node->m_item;
         delete node;
     }
@@ -2848,7 +2860,7 @@ void FUN_007b45b0_shell::FUN_007b45b0()
 
 struct InitPlayer
 {
-    TESBoundObject* FUN_007af430();
+    TESBoundObject* BGSSaveFormBuffer_GetForm();
 };
 extern InitPlayer* DAT_011dea3c;
 
@@ -2856,7 +2868,7 @@ struct InitSetting
 {
     const char* FUN_00403df0();
     const char* FUN_004c69f0();
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 struct InitItem
 {
@@ -2867,7 +2879,7 @@ struct InitOptions
 {
     void FUN_0050f9a0(void*);
     InitItem* RaceSexMenu_List_AddListItemWithID(const char*, int);
-    InitItem* FUN_007b3ca0(const char*, int, int, int, int, float);
+    InitItem* RaceSexMenu_MenuOptionList_AddSliderOption(const char*, int, int, int, int, float);
     void AddFloatOption(const char*, InitOptions*);
     void FUN_0041fd00(int);
     void CopyControlValues(InitOptions*);
@@ -2878,9 +2890,9 @@ struct InitForm
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     struct Name
     {
-        const char* FUN_00408da0();
+        const char* TESModel_GetModel();
     } name;
-    bool FUN_0059f610();
+    bool TESRace_GetPlayable();
     bool IsPlayable_005e7a60();
 };
 struct InitNode
@@ -2901,7 +2913,7 @@ struct InitSub
 };
 struct InitManager
 {
-    void FUN_00718630(int, void*, int);
+    void InterfaceManager_TutorialManager_ShowMessage(int, void*, int);
 };
 struct InitRootManager
 {
@@ -3217,9 +3229,9 @@ struct InitRootManager
     InitManager messages;
 };
 float __stdcall FUN_00a01530(int);
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
-void __cdecl FUN_00406f60(::BSStringT<char>*, const char*, ...);
+float __cdecl BSMIN(float, float);
+float __cdecl BSMAX_00404010(float, float);
+void __cdecl BSStringT_char_SPrintF(::BSStringT<char>*, const char*, ...);
 char __cdecl IsHairMatching(int);
 extern InitSetting DAT_011d1f38;
 extern InitSetting DAT_011d20dc;
@@ -3317,7 +3329,7 @@ struct InitRaceMenu
     Tile* FUN_00726070();
     void BuildMorphOptions();
     void UpdateHairMenuOption();
-    bool FUN_007af180(int);
+    bool RaceSexMenu_SetActiveList(int);
     void FUN_00a1dc20(int);
     void SetupRaceMenu(int mode);
 };
@@ -3326,12 +3338,12 @@ void InitRaceMenu::SetupRaceMenu(int mode)
 {
     const char* names[20];
     if (tile->FUN_00a011b0(0xfa7) == 6006.0 || tile->FUN_00a011b0(0xfa7) == 102.0)
-        tile->FUN_00a012d0(0xfad, FUN_00a01530(1));
-    ((InitRootManager*)InterfaceManager_GetSingleton())->messages.FUN_00718630(15, (void*)FUN_007ac9c0(), 0x200);
-    FUN_00726070()->FUN_00a01350(0x1005, DAT_01063ab4, true);
-    FUN_00726070()->FUN_00a01350(0x1006, DAT_010692d0, true);
-    npc = dynamic_cast<TESNPC*>(DAT_011dea3c->FUN_007af430());
-    display->FUN_00a01350(0xfc4, DAT_011da6f4.FUN_00559450(), true);
+        tile->Tile_Set(0xfad, FUN_00a01530(1));
+    ((InitRootManager*)InterfaceManager_GetSingleton())->messages.InterfaceManager_TutorialManager_ShowMessage(15, (void*)RaceSexMenu_GetClassStatic(), 0x200);
+    FUN_00726070()->Tile_Set_00a01350(0x1005, DAT_01063ab4, true);
+    FUN_00726070()->Tile_Set_00a01350(0x1006, DAT_010692d0, true);
+    npc = dynamic_cast<TESNPC*>(DAT_011dea3c->BGSSaveFormBuffer_GetForm());
+    display->Tile_Set_00a01350(0xfc4, DAT_011da6f4.FUN_00559450(), true);
     {
         ::BSStringT<char> aLabelStrings[4];
         {
@@ -3351,10 +3363,10 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                             aLabelStrings[3].Set(DAT_011d43d8.FUN_00403df0(), 0);
                             break;
                         default:
-                            FUN_00406f60(&aLabelStrings[0], DAT_01075ae4, DAT_011d1f38.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[1], DAT_01075adc, DAT_011d20dc.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[2], DAT_01075ad4, DAT_011d2058.FUN_00403df0());
-                            FUN_00406f60(&aLabelStrings[3], DAT_01075acc, DAT_011d43d8.FUN_00403df0());
+                            BSStringT_char_SPrintF(&aLabelStrings[0], DAT_01075ae4, DAT_011d1f38.FUN_00403df0());
+                            BSStringT_char_SPrintF(&aLabelStrings[1], DAT_01075adc, DAT_011d20dc.FUN_00403df0());
+                            BSStringT_char_SPrintF(&aLabelStrings[2], DAT_01075ad4, DAT_011d2058.FUN_00403df0());
+                            BSStringT_char_SPrintF(&aLabelStrings[3], DAT_01075acc, DAT_011d43d8.FUN_00403df0());
                             break;
                         }
                         names[0] = aLabelStrings[0].String();
@@ -3381,28 +3393,28 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         {
                             options[i] = new FUN_007b39e0(i, (int)names[i]);
                         }
-                        ((InitOptions*)options[0])->FUN_0050f9a0((void*)FUN_007ad940);
+                        ((InitOptions*)options[0])->FUN_0050f9a0((void*)RaceSexMenu_IsPlayerSex);
                         ((InitOptions*)options[1])->FUN_0050f9a0((void*)IsHairMatching);
                         ((InitOptions*)options[5])->FUN_0050f9a0((void*)(unsigned char(__cdecl*)(Obj0*))RaceSexMenu_HairStyle_IsSelected);
                         ((InitOptions*)options[8])->FUN_0050f9a0((void*)IsAnimationMatch);
                         ((InitOptions*)options[7])->FUN_0050f9a0((void*)IsArgValueInSubLookup);
                         ((InitOptions*)options[0])->RaceSexMenu_List_AddListItemWithID(DAT_011d37ec.FUN_004c69f0(), 21);
                         ((InitOptions*)options[0])->RaceSexMenu_List_AddListItemWithID(DAT_011d2d3c.FUN_004c69f0(), 22);
-                        for (InitNode* pRaceNode = (InitNode*)DAT_011c3f2c->FUN_004ea950();
+                        for (InitNode* pRaceNode = (InitNode*)DAT_011c3f2c->BGSProjectile_GetData();
                              pRaceNode && *pRaceNode->FUN_006815c0(); pRaceNode = pRaceNode->FUN_00726070())
                         {
-                            if ((*pRaceNode->FUN_006815c0())->FUN_0059f610())
+                            if ((*pRaceNode->FUN_006815c0())->TESRace_GetPlayable())
                                 ((InitOptions*)options[1])
-                                    ->RaceSexMenu_List_AddListItemWithID((*pRaceNode->FUN_006815c0())->name.FUN_00408da0(), 23)
+                                    ->RaceSexMenu_List_AddListItemWithID((*pRaceNode->FUN_006815c0())->name.TESModel_GetModel(), 23)
                                     ->FUN_00403550(*pRaceNode->FUN_006815c0());
                         }
                         ((InitOptions*)options[2])
-                            ->FUN_007b3ca0(DAT_011d3ff4.FUN_004c69f0(), 24, 1, 20, 0x80000001, 0.25f);
+                            ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d3ff4.FUN_004c69f0(), 24, 1, 20, 0x80000001, 0.25f);
                         ((InitOptions*)options[2])
                             ->AddFloatOption(DAT_011d36e4.FUN_004c69f0(), ((InitOptions*)options[4]));
                         ((InitOptions*)options[2])->RaceSexMenu_List_AddListItemWithID(DAT_011d3d48.FUN_004c69f0(), 25);
                         slider = ((InitOptions*)options[2])
-                                     ->FUN_007b3ca0(DAT_011d4084.FUN_004c69f0(), 26, 1, 10, 0x80000001, 0.25f);
+                                     ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d4084.FUN_004c69f0(), 26, 1, 10, 0x80000001, 0.25f);
                         slider->RaceSexMenu_MenuOption_SetDisplay(DAT_01020770);
                         ((InitOptions*)options[3])
                             ->AddFloatOption(DAT_011d22d4.FUN_004c69f0(), ((InitOptions*)options[5]));
@@ -3422,23 +3434,23 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                             ->AddFloatOption(DAT_011d31c8.FUN_004c69f0(), ((InitOptions*)options[8]));
                         color = npc->TESDataHandler_GetRegionList();
                         ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d3ff4.FUN_004c69f0(), 29, 0, 15, 0x80000001, 0.25f)
+                            ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d3ff4.FUN_004c69f0(), 29, 0, 15, 0x80000001, 0.25f)
                             ->RaceSexMenu_MenuOption_SetDisplay(DAT_011d3528.FUN_00403df0());
                         ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d2a84.FUN_004c69f0(), 30, 0, 255, (unsigned char)(color & 255),
+                            ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d2a84.FUN_004c69f0(), 30, 0, 255, (unsigned char)(color & 255),
                                            0.125f);
                         ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d25a4.FUN_004c69f0(), 31, 0, 255,
+                            ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d25a4.FUN_004c69f0(), 31, 0, 255,
                                            (unsigned char)(((unsigned short)color >> 8) & 255), 0.125f);
                         ((InitOptions*)options[6])
-                            ->FUN_007b3ca0(DAT_011d2d48.FUN_004c69f0(), 32, 0, 255,
+                            ->RaceSexMenu_MenuOptionList_AddSliderOption(DAT_011d2d48.FUN_004c69f0(), 32, 0, 255,
                                            (unsigned char)((color >> 16) & 255), 0.125f);
-                        for (InitNode* pBeardNode = (InitNode*)DAT_011c3f2c->FUN_00624700();
+                        for (InitNode* pBeardNode = (InitNode*)DAT_011c3f2c->GetExtraPartList();
                              pBeardNode && *pBeardNode->FUN_006815c0(); pBeardNode = pBeardNode->FUN_00726070())
                         {
                             if ((*pBeardNode->FUN_006815c0())->IsPlayable_005e7a60())
                                 ((InitOptions*)options[7])
-                                    ->RaceSexMenu_List_AddListItemWithID((*pBeardNode->FUN_006815c0())->name.FUN_00408da0(), 28)
+                                    ->RaceSexMenu_List_AddListItemWithID((*pBeardNode->FUN_006815c0())->name.TESModel_GetModel(), 28)
                                     ->FUN_00403550(*pBeardNode->FUN_006815c0());
                         }
                         for (int j = 10; j < 19; j++)
@@ -3491,15 +3503,15 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         }
                         if (FUN_004b7220() != 1)
                             doneLabel.BSStringT_ToLower();
-                        FUN_00406f60(&question, DAT_01074e34, DAT_011d4108.FUN_00403df0(), doneLabel.String());
-                        valued0 = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, *DAT_011da6cc.FUN_00403e20()));
+                        BSStringT_char_SPrintF(&question, DAT_01074e34, DAT_011d4108.FUN_00403df0(), doneLabel.String());
+                        valued0 = BSMAX_00404010(0.0f, BSMIN(1.0f, *DAT_011da6cc.Setting_Float_00403e20()));
                         valuec8 = valued0;
                         ((InitOptions*)options[0])->ApplyToAllTiles();
                         ((InitOptions*)options[1])->ApplyToAllTiles();
                         ((InitOptions*)options[7])->ApplyToAllTiles();
                         sub0.FUN_00ad8830(0);
                         sub1.FUN_00ad8830(0);
-                        FUN_007af180(page);
+                        RaceSexMenu_SetActiveList(page);
                         FUN_00a1dc20(0);
                     }
                 }
@@ -3510,16 +3522,16 @@ void InitRaceMenu::SetupRaceMenu(int mode)
 
 struct MenuOption7
 {
-    void FUN_007b3840(int& aiLow, int& aiHigh);
-    bool FUN_007b3760(int aiValue);
+    void RaceSexMenu_MenuOption_GetRange(int& aiLow, int& aiHigh);
+    bool RaceSexMenu_MenuOption_SetValue(int aiValue);
 };
 struct OptionList7
 {
-    MenuOption7* FUN_007b41c0(Tile* apTile);
+    MenuOption7* RaceSexMenu_MenuOptionList_Find(Tile* apTile);
 };
 struct IM7
 {
-    float FUN_007697f0();
+    float InterfaceManager_GetPipboyMouseX();
 };
 IM7* GetInterfaceMgr7();
 float __cdecl FUN_004bd510(float a, float b);
@@ -3574,28 +3586,29 @@ struct RaceSexMenu7
     MenuOption7* pActiveOption;
     int GetCurrentPage();
     void HandleOptionSelection();
-    bool FUN_007b1970(float afAngle, int a2);
-    void FUN_007adc60(int aiID, bool abVal);
-    void FUN_007ae240(int aiID, Tile* apTile);
+    bool RaceSexMenu_RotatePlayer(float afAngle, int a2);
+    void RaceSexMenu_SetFlag(int aiID, bool abVal);
+    void RaceSexMenu_DoStillDown(int aiID, Tile* apTile);
 };
 
 // @fnv 0x007ae240
-void RaceSexMenu7::FUN_007ae240(int aiID, Tile* apTile)
+// src: XBOX_PDB 0x007ae240
+void RaceSexMenu7::RaceSexMenu_DoStillDown(int aiID, Tile* apTile)
 {
-    float fDelta2 = GetInterfaceMgr7()->FUN_007697f0() - fLastTime;
+    float fDelta2 = GetInterfaceMgr7()->InterfaceManager_GetPipboyMouseX() - fLastTime;
     if (fDelta2 != 0.0)
     {
         if (aiID == 0x69 && apTile)
         {
             int iPage = GetCurrentPage();
-            MenuOption7* pOption = optionLists[iPage]->FUN_007b41c0(apTile->GetParent());
+            MenuOption7* pOption = optionLists[iPage]->RaceSexMenu_MenuOptionList_Find(apTile->GetParent());
             if (pOption)
             {
                 int iLow6;
                 int iHigh;
-                pOption->FUN_007b3840(iLow6, iHigh);
+                pOption->RaceSexMenu_MenuOption_GetRange(iLow6, iHigh);
                 float fRatio = fDelta2 / apTile->GetParent()->GetChild(0x65)->GetFloat(0xfb1);
-                if (pOption->FUN_007b3760(FUN_004bd510(iBase + (iHigh - iLow6) * fRatio, 1.0f)))
+                if (pOption->RaceSexMenu_MenuOption_SetValue(FUN_004bd510(iBase + (iHigh - iLow6) * fRatio, 1.0f)))
                 {
                     pActiveOption = pOption;
                     pActiveTile = apTile;
@@ -3606,8 +3619,8 @@ void RaceSexMenu7::FUN_007ae240(int aiID, Tile* apTile)
         else if (aiID == 1)
         {
             static float sfWidth = tile7c->GetFloat(0xfb1);
-            FUN_007adc60(5, FUN_007b1970(fDelta2 / sfWidth * 6.2831854820251465, 0));
-            fLastTime = GetInterfaceMgr7()->FUN_007697f0();
+            RaceSexMenu_SetFlag(5, RaceSexMenu_RotatePlayer(fDelta2 / sfWidth * 6.2831854820251465, 0));
+            fLastTime = GetInterfaceMgr7()->InterfaceManager_GetPipboyMouseX();
         }
     }
 }
@@ -3625,11 +3638,11 @@ struct Sound
 struct Input
 {
     int GetAxisState(int, int);
-    int FUN_00a23a50(int, int);
+    int Controls_GetMouseButton(int, int);
 };
 struct OS
 {
-    Input* FUN_00877720();
+    Input* Main_GetControls();
 };
 extern OS* DAT_011dea0c;
 // Exe 0x007ae420: unit-local Interface view; declarations and layout are preserved.
@@ -3687,16 +3700,16 @@ struct RacesexmenuInterfaceView
     unsigned int unkc4;
     unsigned int unkc8;
     void* selected;
-    int FUN_0070ec70();
+    int InterfaceManager_GetMouseWheel();
 };
 RacesexmenuInterfaceView* InterfaceManager_GetSingleton();
-bool FUN_004b71d0();
+bool InterfaceManager_Has360Controller();
 unsigned int Cmd_GetSessionTime_Execute();
-bool FUN_00702450(int);
-int FUN_0072fa60(int);
+bool Interface_IsTopMenuID(int);
+int BSAbs(int);
 int MinInt(int, int);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
+float BSMIN(float, float);
+float BSMAX_00404010(float, float);
 extern int DAT_011a07b0, DAT_011a07ac;
 extern double DAT_01075af8, DAT_01075af0, DAT_01017b70, DAT_01012060;
 extern float DAT_01075aec, DAT_0105559c;
@@ -3759,29 +3772,29 @@ struct RaceSexMenuState : ::Menu
 // @fnv 0x007ae420
 void RaceSexMenuState::UpdateZoomAndScroll()
 {
-    if (FUN_00702450(GetClass()))
+    if (Interface_IsTopMenuID(GetClass()))
     {
         for (unsigned int i = 0; i < 4; i++)
             if (sounds[i].FUN_0044ddc0() == 3)
                 sounds[i].FUN_00ad8830(0);
         static unsigned int previous = Cmd_GetSessionTime_Execute();
         unsigned int time = Cmd_GetSessionTime_Execute();
-        if (FUN_004b71d0())
+        if (InterfaceManager_Has360Controller())
         {
             int horizontalSlot1 = 0;
             int verticalSlot17 = 0;
-            horizontalSlot1 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 9);
-            verticalSlot17 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 10);
-            int absXSlot10 = FUN_0072fa60(horizontalSlot1);
-            int absYSlot39 = FUN_0072fa60(verticalSlot17);
-            FUN_007adc60(5, 0);
-            FUN_007adc60(6, 0);
+            horizontalSlot1 = DAT_011dea0c->Main_GetControls()->GetAxisState(0, 9);
+            verticalSlot17 = DAT_011dea0c->Main_GetControls()->GetAxisState(0, 10);
+            int absXSlot10 = BSAbs(horizontalSlot1);
+            int absYSlot39 = BSAbs(verticalSlot17);
+            RaceSexMenu_SetFlag(5, 0);
+            RaceSexMenu_SetFlag(6, 0);
             if (absYSlot39 > 8689 && absYSlot39 > absXSlot10)
             {
                 int span = DAT_011a07b0 - 8689;
                 int amountSlot0 = span - (DAT_011a07b0 - MinInt(absYSlot39, DAT_011a07b0));
                 velocity += amountSlot0 * DAT_01075af8 / span * (time - previous);
-                FUN_007adc60(
+                RaceSexMenu_SetFlag(
                     6, UpdateProgress((verticalSlot17 > DAT_01012060 ? -1 : 1) * velocity * (time - previous), 0));
             }
             else
@@ -3790,19 +3803,19 @@ void RaceSexMenuState::UpdateZoomAndScroll()
                 {
                     float ratio = horizontalSlot1 > 0 ? (float)(horizontalSlot1 - 8689) / (DAT_011a07b0 - 8689)
                                                       : (float)(-horizontalSlot1 - 8689) / (DAT_011a07ac + 8689);
-                    FUN_007adc60(5, FUN_007b1970(ratio * DAT_01075af0 * (time - previous) / DAT_01017b70, 0));
+                    RaceSexMenu_SetFlag(5, RaceSexMenu_RotatePlayer(ratio * DAT_01075af0 * (time - previous) / DAT_01017b70, 0));
                 }
                 velocity = 0.0f;
             }
-            if (FUN_007adc30(5) && !sounds[3].FUN_00ad8930())
+            if (RaceSexMenu_IsFlagged(5) && !sounds[3].FUN_00ad8930())
                 sounds[3].FUN_00ad8830(0);
-            else if (!FUN_007adc30(5) && sounds[3].FUN_00ad8930())
+            else if (!RaceSexMenu_IsFlagged(5) && sounds[3].FUN_00ad8930())
                 sounds[3].FUN_00ad88f0();
-            if (FUN_007adc30(6) && !sounds[2].FUN_00ad8930())
+            if (RaceSexMenu_IsFlagged(6) && !sounds[2].FUN_00ad8930())
                 sounds[2].FUN_00ad8830(0);
-            else if (!FUN_007adc30(6) && sounds[2].FUN_00ad8930())
+            else if (!RaceSexMenu_IsFlagged(6) && sounds[2].FUN_00ad8930())
                 sounds[2].FUN_00ad88f0();
-            if (dragY && FUN_007adc30(4))
+            if (dragY && RaceSexMenu_IsFlagged(4))
             {
                 HandleOptionSelection();
                 dragY = 0;
@@ -3811,14 +3824,14 @@ void RaceSexMenuState::UpdateZoomAndScroll()
         }
         else
         {
-            FUN_007adc60(6, 0);
-            if (InterfaceManager_GetSingleton()->FUN_0070ec70() && InterfaceManager_GetSingleton()->selected)
+            RaceSexMenu_SetFlag(6, 0);
+            if (InterfaceManager_GetSingleton()->InterfaceManager_GetMouseWheel() && InterfaceManager_GetSingleton()->selected)
             {
-                bool up = InterfaceManager_GetSingleton()->FUN_0070ec70() > DAT_01012060;
+                bool up = InterfaceManager_GetSingleton()->InterfaceManager_GetMouseWheel() > DAT_01012060;
                 if (InterfaceManager_GetSingleton()->selected == zoomTile)
                 {
                     desired += up ? DAT_01075aec : DAT_0105559c;
-                    desired = FUN_00404010(FUN_0040ebd0(desired, 1.0f), 0.0f);
+                    desired = BSMAX_00404010(BSMIN(desired, 1.0f), 0.0f);
                 }
                 else
                 {
@@ -3834,7 +3847,7 @@ void RaceSexMenuState::UpdateZoomAndScroll()
                 float increase = (time - previous) * velocity;
                 if (desired < current + increase)
                     increase = desired - current;
-                FUN_007adc60(6, UpdateProgress(increase, 0));
+                RaceSexMenu_SetFlag(6, UpdateProgress(increase, 0));
             }
             else if (current > desired)
             {
@@ -3842,20 +3855,20 @@ void RaceSexMenuState::UpdateZoomAndScroll()
                 float decrease = (time - previous) * velocity;
                 if (desired > current + decrease)
                     decrease = desired - current;
-                FUN_007adc60(6, UpdateProgress(decrease, 0));
+                RaceSexMenu_SetFlag(6, UpdateProgress(decrease, 0));
             }
             else
                 velocity = 0.0f;
-            if (FUN_007adc30(6) && !sounds[2].FUN_00ad8930())
+            if (RaceSexMenu_IsFlagged(6) && !sounds[2].FUN_00ad8930())
                 sounds[2].FUN_00ad8830(0);
-            else if (!FUN_007adc30(6) && sounds[2].FUN_00ad8930())
+            else if (!RaceSexMenu_IsFlagged(6) && sounds[2].FUN_00ad8930())
                 sounds[2].FUN_00ad88f0();
-            if (FUN_007adc30(5) && !sounds[3].FUN_00ad8930())
+            if (RaceSexMenu_IsFlagged(5) && !sounds[3].FUN_00ad8930())
                 sounds[3].FUN_00ad8830(0);
-            else if (!FUN_007adc30(5) && sounds[3].FUN_00ad8930())
+            else if (!RaceSexMenu_IsFlagged(5) && sounds[3].FUN_00ad8930())
                 sounds[3].FUN_00ad88f0();
-            FUN_007adc60(5, 0);
-            if (dragY && DAT_011dea0c->FUN_00877720() && DAT_011dea0c->FUN_00877720()->FUN_00a23a50(0, 2))
+            RaceSexMenu_SetFlag(5, 0);
+            if (dragY && DAT_011dea0c->Main_GetControls() && DAT_011dea0c->Main_GetControls()->Controls_GetMouseButton(0, 2))
                 HandlePendingTileAction();
         }
         previous = time;
@@ -3872,9 +3885,9 @@ void RaceSexMenuState::UpdateZoomAndScroll()
 
 struct Option67
 {
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int TESMain_GetThread();
-    bool FUN_007b4260(int);
+    bool RaceSexMenu_MenuOptionList_DoGamepad(int);
     void SetFocus(int);
 };
 struct Sound67
@@ -3887,14 +3900,14 @@ struct Audio67
 {
     Sound67 BSAudio_GetSoundHandleByEditorName(const char*, int, int);
 };
-Audio67* FUN_00453a70();
+Audio67* BSAudio_QInstance();
 struct Value67
 {
     int GetAxisState();
 };
 struct Input67
 {
-    Value67* FUN_00877720(int, int);
+    Value67* Main_GetControls(int, int);
 };
 struct Interface67
 {
@@ -3963,12 +3976,12 @@ struct String67
 extern Input67* DAT_011dea0c;
 extern Setting67 DAT_011d34f8, DAT_011d3684;
 extern char DAT_0106f380[], DAT_01075b00[];
-bool FUN_00702450(int);
-int FUN_0072fa60(int);
-bool FUN_004b71d0();
-void FUN_00706ff0(Tile*);
+bool Interface_IsTopMenuID(int);
+int BSAbs(int);
+bool InterfaceManager_Has360Controller();
+void Interface_SetCurrentFocusTarget(Tile*);
 void UpdateRaceSexMenu();
-void FUN_00703e80(const char*, int, int, void (*)(), int, int, float, float, const char*, const char*, int);
+void Interface_CreateMessageMenu(const char*, int, int, void (*)(), int, int, float, float, const char*, const char*, int);
 struct Menu67
 {
     virtual void v0();
@@ -4001,38 +4014,38 @@ struct Menu67
     Tile* right;
     int unk90, unk94;
     String67 message;
-    void FUN_007adc60(int, bool);
+    void RaceSexMenu_SetFlag(int, bool);
     int FUN_007dcc00();
-    bool FUN_007af180(int);
+    bool RaceSexMenu_SetActiveList(int);
     bool HandleAction(int, int);
 };
 // @fnv 0x007aecb0
 bool Menu67::HandleAction(int action, int argument)
 {
-    if (FUN_00702450(Id()))
+    if (Interface_IsTopMenuID(Id()))
     {
         if (action >= 0)
         {
-            int key = DAT_011dea0c->FUN_00877720(0, 7)->GetAxisState();
-            FUN_007adc60(4, action != 4 && action != 3 && FUN_0072fa60(key) < 0x1ea9);
+            int key = DAT_011dea0c->Main_GetControls(0, 7)->GetAxisState();
+            RaceSexMenu_SetFlag(4, action != 4 && action != 3 && BSAbs(key) < 0x1ea9);
         }
         switch (action)
         {
         case 10:
-            if (FUN_007af180(options[FUN_007dcc00()]->FUN_0084e3a0()))
-                FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0106f380, 0x121, 0).FUN_00ad8830();
+            if (RaceSexMenu_SetActiveList(options[FUN_007dcc00()]->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
+                BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_0106f380, 0x121, 0).FUN_00ad8830();
             return true;
         case 13:
         case 14: {
             int iOptionIndex = FUN_007dcc00();
             while (iOptionIndex >= 4)
-                iOptionIndex = options[iOptionIndex]->FUN_0084e3a0();
-            bool bChanged = action == 13 ? FUN_007af180(options[iOptionIndex]->FUN_0084e3a0())
-                                         : FUN_007af180(options[iOptionIndex]->TESMain_GetThread());
+                iOptionIndex = options[iOptionIndex]->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            bool bChanged = action == 13 ? RaceSexMenu_SetActiveList(options[iOptionIndex]->GetHavokWorldObjectCountInSceneGraph_0084e3a0())
+                                         : RaceSexMenu_SetActiveList(options[iOptionIndex]->TESMain_GetThread());
             if (bChanged)
-                FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01075b00, 0x121, 0).FUN_00ad8830();
+                BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01075b00, 0x121, 0).FUN_00ad8830();
             else if (action == 14)
-                FUN_00703e80(message.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
+                Interface_CreateMessageMenu(message.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
                              DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
             return true;
         }
@@ -4041,7 +4054,7 @@ bool Menu67::HandleAction(int action, int argument)
         case 15:
         case 16: {
             Tile* tile = ((Interface67*)InterfaceManager_GetSingleton())->GetFieldBC();
-            if (!tile && !FUN_004b71d0())
+            if (!tile && !InterfaceManager_Has360Controller())
             {
                 tile = ((Interface67*)InterfaceManager_GetSingleton())->focused;
                 while (tile && tile->FUN_0045cd60() != parent)
@@ -4049,12 +4062,12 @@ bool Menu67::HandleAction(int action, int argument)
             }
             if (tile == left && action == 3 && right->IsAllChildrenFlag0())
             {
-                FUN_00706ff0(right);
+                Interface_SetCurrentFocusTarget(right);
                 return true;
             }
             else if (tile == right && action == 4 && left->IsAllChildrenFlag0())
             {
-                FUN_00706ff0(left);
+                Interface_SetCurrentFocusTarget(left);
                 return true;
             }
             else if (tile)
@@ -4070,7 +4083,7 @@ bool Menu67::HandleAction(int action, int argument)
                     trait7 = 0x64;
                 else
                     return false;
-                Tile* pDestination = tile->FUN_00a03eb0(trait7);
+                Tile* pDestination = tile->Tile_GetChildByID(trait7);
                 if (pDestination)
                 {
                     Activate(trait7, pDestination);
@@ -4079,21 +4092,21 @@ bool Menu67::HandleAction(int action, int argument)
             }
         }
         case 1:
-            return options[FUN_007dcc00()]->FUN_007b4260(action);
+            return options[FUN_007dcc00()]->RaceSexMenu_MenuOptionList_DoGamepad(action);
         case 2:
             if (((Interface67*)InterfaceManager_GetSingleton())->GetFieldBC() == left ||
-                ((Interface67*)InterfaceManager_GetSingleton())->GetFieldBC() == right || options[FUN_007dcc00()]->FUN_007b4260(action))
+                ((Interface67*)InterfaceManager_GetSingleton())->GetFieldBC() == right || options[FUN_007dcc00()]->RaceSexMenu_MenuOptionList_DoGamepad(action))
                 return true;
             else if (left->IsAllChildrenFlag0())
             {
                 options[FUN_007dcc00()]->SetFocus(0);
-                FUN_00706ff0(left);
+                Interface_SetCurrentFocusTarget(left);
                 return true;
             }
             else if (right->IsAllChildrenFlag0())
             {
                 options[FUN_007dcc00()]->SetFocus(0);
-                FUN_00706ff0(right);
+                Interface_SetCurrentFocusTarget(right);
                 return true;
             }
             break;
@@ -4109,10 +4122,10 @@ struct StatsMenuItem
 struct StatsMenuItemList
 {
     StatsMenuItem* FUN_00559450();
-    StatsMenuItem** FUN_0057cbe0(StatsMenuItem*& p);
+    StatsMenuItem** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(StatsMenuItem*& p);
 };
 
-extern void __cdecl FUN_00a04200(int);
+extern void __cdecl Tile_UpdateAll(int);
 
 // Race/sex option state beyond the shared Menu base.
 struct RaceSexMenuOptionState : Menu
@@ -4137,10 +4150,10 @@ void RaceSexMenuOptionState::UpdateMinusPlusTiles()
     {
         bool foundMinus = false;
         foundPlus = false;
-        FUN_00a04200(0);
+        Tile_UpdateAll(0);
         while (pos && (!foundMinus || !foundPlus))
         {
-            switch ((*pOwner->FUN_0057cbe0(pos))->GetPosition())
+            switch ((*pOwner->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(pos))->GetPosition())
             {
             case -1:
                 foundMinus = true;
@@ -4498,12 +4511,12 @@ struct FaceActor
     int FUN_005f0cc0();
     void* FUN_00601800();
 };
-void FUN_00652af0(void*, void*, MorphData*, int, float);
+void BSFaceGenManager_MergeFaceGenCoord(void*, void*, MorphData*, int, float);
 void* FUN_00651b30();
 int FUN_006521b0(int, int);
 float GetMorphCoordinateValue(MorphData*, int, int, int);
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
+float BSMIN(float, float);
+float BSMAX_00404010(float, float);
 struct MorphMenuOption
 {
     void RaceSexMenu_MenuOption_SetDisplay(const char*);
@@ -4511,7 +4524,7 @@ struct MorphMenuOption
 };
 struct MorphMenuList
 {
-    MorphMenuOption* FUN_007b3ca0(const char*, int, int, int, int, float);
+    MorphMenuOption* RaceSexMenu_MenuOptionList_AddSliderOption(const char*, int, int, int, int, float);
 };
 extern const char morphFormat[];
 struct FaceMorphMenu
@@ -4531,10 +4544,10 @@ struct FaceMorphMenu
         unkB0, unkB4, unkB8, unkBc, unkC0, unkC4, unkC8, unkCc, unkD0, unkD4;
     FaceActor* actor;
     void HandleMenuKey(int);
-    bool FUN_007adc30(int);
+    bool RaceSexMenu_IsFlagged(int);
     void UpdateFaceGen(int, int, int);
-    void FUN_007adc60(int, bool);
-    void FUN_007b25a0();
+    void RaceSexMenu_SetFlag(int, bool);
+    void RaceSexMenu_UpdatePlayerBody();
     void BuildMorphOptions();
 };
 // @fnv 0x007afaf0
@@ -4632,15 +4645,15 @@ void FaceMorphMenu::BuildMorphOptions()
         {19, setting_011d5098.String(), setting_011da6a4.Float(), setting_011da6dc.Float()},
     };
     MorphData morphs[4];
-    FUN_00652af0(actor->race.FUN_00726070()->GetMeanFaceCoord((SEX)actor->FUN_005f0cc0()), actor->FUN_00601800(), morphs, 0,
+    BSFaceGenManager_MergeFaceGenCoord(actor->race.FUN_00726070()->GetMeanFaceCoord((SEX)actor->FUN_005f0cc0()), actor->FUN_00601800(), morphs, 0,
                  0.0f);
     for (int index = 0; index < (FUN_00651b30(), FUN_006521b0(0, 0)); ++index)
     {
         if (shape[index].group < 20 && shape[index].name)
         {
             float value = GetMorphCoordinateValue(morphs, 0, 0, index);
-            value = FUN_00404010(FUN_0040ebd0(value, shape[index].maximum), shape[index].minimum);
-            MorphMenuOption* option = lists[shape[index].group]->FUN_007b3ca0(
+            value = BSMAX_00404010(BSMIN(value, shape[index].maximum), shape[index].minimum);
+            MorphMenuOption* option = lists[shape[index].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
                 shape[index].name, 34, static_cast<int>(shape[index].minimum * 10.0),
                 static_cast<int>(shape[index].maximum * 10.0), static_cast<int>(value * 10.0), 0.25f);
             option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4649,8 +4662,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 29);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[29].maximum), tone[29].minimum);
-        MorphMenuOption* option = lists[tone[29].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[29].maximum), tone[29].minimum);
+        MorphMenuOption* option = lists[tone[29].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[29].name, 35, static_cast<int>(tone[29].minimum * 10.0), static_cast<int>(tone[29].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4658,8 +4671,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 28);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[28].maximum), tone[28].minimum);
-        MorphMenuOption* option = lists[tone[28].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[28].maximum), tone[28].minimum);
+        MorphMenuOption* option = lists[tone[28].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[28].name, 35, static_cast<int>(tone[28].minimum * 10.0), static_cast<int>(tone[28].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4667,8 +4680,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 30);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[30].maximum), tone[30].minimum);
-        MorphMenuOption* option = lists[tone[30].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[30].maximum), tone[30].minimum);
+        MorphMenuOption* option = lists[tone[30].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[30].name, 35, static_cast<int>(tone[30].minimum * 10.0), static_cast<int>(tone[30].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4676,8 +4689,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 31);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[31].maximum), tone[31].minimum);
-        MorphMenuOption* option = lists[tone[31].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[31].maximum), tone[31].minimum);
+        MorphMenuOption* option = lists[tone[31].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[31].name, 35, static_cast<int>(tone[31].minimum * 10.0), static_cast<int>(tone[31].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4685,8 +4698,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 8);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[8].maximum), tone[8].minimum);
-        MorphMenuOption* option = lists[tone[8].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[8].maximum), tone[8].minimum);
+        MorphMenuOption* option = lists[tone[8].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[8].name, 35, static_cast<int>(tone[8].minimum * 10.0), static_cast<int>(tone[8].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4694,8 +4707,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 9);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[9].maximum), tone[9].minimum);
-        MorphMenuOption* option = lists[tone[9].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[9].maximum), tone[9].minimum);
+        MorphMenuOption* option = lists[tone[9].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[9].name, 35, static_cast<int>(tone[9].minimum * 10.0), static_cast<int>(tone[9].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4703,8 +4716,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 18);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[18].maximum), tone[18].minimum);
-        MorphMenuOption* option = lists[tone[18].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[18].maximum), tone[18].minimum);
+        MorphMenuOption* option = lists[tone[18].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[18].name, 35, static_cast<int>(tone[18].minimum * 10.0), static_cast<int>(tone[18].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4712,8 +4725,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 27);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[27].maximum), tone[27].minimum);
-        MorphMenuOption* option = lists[tone[27].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[27].maximum), tone[27].minimum);
+        MorphMenuOption* option = lists[tone[27].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[27].name, 35, static_cast<int>(tone[27].minimum * 10.0), static_cast<int>(tone[27].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4721,8 +4734,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 22);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[22].maximum), tone[22].minimum);
-        MorphMenuOption* option = lists[tone[22].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[22].maximum), tone[22].minimum);
+        MorphMenuOption* option = lists[tone[22].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[22].name, 35, static_cast<int>(tone[22].minimum * 10.0), static_cast<int>(tone[22].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4730,8 +4743,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 5);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[5].maximum), tone[5].minimum);
-        MorphMenuOption* option = lists[tone[5].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[5].maximum), tone[5].minimum);
+        MorphMenuOption* option = lists[tone[5].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[5].name, 35, static_cast<int>(tone[5].minimum * 10.0), static_cast<int>(tone[5].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4739,8 +4752,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 6);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[6].maximum), tone[6].minimum);
-        MorphMenuOption* option = lists[tone[6].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[6].maximum), tone[6].minimum);
+        MorphMenuOption* option = lists[tone[6].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[6].name, 35, static_cast<int>(tone[6].minimum * 10.0), static_cast<int>(tone[6].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4748,8 +4761,8 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     {
         float value = GetMorphCoordinateValue(morphs, 1, 0, 3);
-        value = FUN_00404010(FUN_0040ebd0(value, tone[3].maximum), tone[3].minimum);
-        MorphMenuOption* option = lists[tone[3].group]->FUN_007b3ca0(
+        value = BSMAX_00404010(BSMIN(value, tone[3].maximum), tone[3].minimum);
+        MorphMenuOption* option = lists[tone[3].group]->RaceSexMenu_MenuOptionList_AddSliderOption(
             tone[3].name, 35, static_cast<int>(tone[3].minimum * 10.0), static_cast<int>(tone[3].maximum * 10.0),
             static_cast<int>(value * 10.0), 0.25f);
         option->RaceSexMenu_MenuOption_SetDisplay(morphFormat);
@@ -4757,15 +4770,15 @@ void FaceMorphMenu::BuildMorphOptions()
     }
     HandleMenuKey(34);
     HandleMenuKey(35);
-    if (FUN_007adc30(8))
+    if (RaceSexMenu_IsFlagged(8))
     {
         UpdateFaceGen(1, 1, 0);
-        FUN_007adc60(8, false);
+        RaceSexMenu_SetFlag(8, false);
     }
-    if (FUN_007adc30(9))
+    if (RaceSexMenu_IsFlagged(9))
     {
-        FUN_007b25a0();
-        FUN_007adc60(9, false);
+        RaceSexMenu_UpdatePlayerBody();
+        RaceSexMenu_SetFlag(9, false);
     }
 }
 
@@ -4799,7 +4812,7 @@ struct SliderActor
     int FUN_005f0cc0();
     void* FUN_00601800();
 };
-void __cdecl FUN_00652af0(const char*, void*, FUN_00449610*, int, float);
+void __cdecl BSFaceGenManager_MergeFaceGenCoord(const char*, void*, FUN_00449610*, int, float);
 float __cdecl GetMorphCoordinateValue(FUN_00449610*, int, int, int);
 struct SliderMenu
 {
@@ -4819,30 +4832,30 @@ bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward
         void* position = optionLists[i]->FUN_00559450();
         while (position)
         {
-            SliderOption* option = (SliderOption*)*optionLists[i]->FUN_0057cbe0(&position);
+            SliderOption* option = (SliderOption*)*optionLists[i]->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&position);
             if (option && (option->FUN_00726070() == 0x22 || option->FUN_00726070() == 0x23))
             {
                 FUN_00449610 values[4];
-                FUN_00652af0((const char*)actor->name.FUN_00726070()->GetMeanFaceCoord((SEX)actor->FUN_005f0cc0()), actor->FUN_00601800(),
+                BSFaceGenManager_MergeFaceGenCoord((const char*)actor->name.FUN_00726070()->GetMeanFaceCoord((SEX)actor->FUN_005f0cc0()), actor->FUN_00601800(),
                              values, 0, 0.0f);
                 {
                     int low, high;
                     {
                         int value = (int)(GetMorphCoordinateValue(values, bForward, 0, option->FUN_0044ddc0()) * 10.0);
-                        option->FUN_007b3840(low, high);
+                        option->RaceSexMenu_MenuOption_GetRange(low, high);
                         if (value < low)
                         {
-                            option->FUN_007b3760(low);
+                            option->RaceSexMenu_MenuOption_SetValue(low);
                             changed = true;
                         }
                         else if (value > high)
                         {
-                            option->FUN_007b3760(high);
+                            option->RaceSexMenu_MenuOption_SetValue(high);
                             changed = true;
                         }
                         else if (option != selected)
                         {
-                            option->FUN_007b3760(value);
+                            option->RaceSexMenu_MenuOption_SetValue(value);
                         }
                     }
                 }
@@ -4852,8 +4865,8 @@ bool SliderMenu::ClampSliderOptions(int iStartIndex, int iEndIndex, int bForward
     return changed;
 }
 
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl BSMIN(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 
 struct PlayerStandIn
 {
@@ -4862,7 +4875,7 @@ struct PlayerStandIn
 
 struct PosTarget
 {
-    void FUN_004bc1f0(float x, float y, float z);
+    void NiAVObject_SetTranslate_004bc1f0(float x, float y, float z);
 };
 
 struct PosTargetPtr
@@ -4937,11 +4950,11 @@ struct RaceSexMenuCamera
 bool RaceSexMenuCamera::UpdateProgress(float afDelta, bool abForce)
 {
     float fOldProgress = fProgress;
-    fProgress = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, fProgress + afDelta));
+    fProgress = BSMAX_00404010(0.0f, BSMIN(1.0f, fProgress + afDelta));
     if (fOldProgress == fProgress && !abForce)
         return false;
     ((PosTarget*)m_spTargetObject)
-        ->FUN_004bc1f0((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
+        ->NiAVObject_SetTranslate_004bc1f0((fEndX - fStartX) * fProgress + fStartX, (fEndY - fStartY) * fProgress + fStartY,
                        ((PlayerStandIn*)g_thePlayer)->GetActorHeight() * ((fEndZ - fStartZ) * fProgress + fStartZ));
     UpdateShadowSceneNode();
     return true;
@@ -5222,7 +5235,7 @@ struct AppearanceNPC
 typedef void (__thiscall* SetHairTextureFn)(BSShaderProperty*, int, void*);
 struct AppearanceAnimation
 {
-    struct AppearanceManager* FUN_00496940();
+    struct AppearanceManager* GetControllerManager_00496940();
 };
 struct AppearanceManager
 {
@@ -5341,8 +5354,8 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
         if (root)
         {
             void* manager = 0;
-            if (appearancePlayer->GetAnimation(false) && appearancePlayer->GetAnimation(false)->FUN_00496940())
-                manager = appearancePlayer->GetAnimation(false)->FUN_00496940()->GetStringAtOffset();
+            if (appearancePlayer->GetAnimation(false) && appearancePlayer->GetAnimation(false)->GetControllerManager_00496940())
+                manager = appearancePlayer->GetAnimation(false)->GetControllerManager_00496940()->GetStringAtOffset();
             SkinRoot* controller;
             void* skin = manager;
             controller = appearancePlayer->RootB(0);
@@ -5553,10 +5566,10 @@ class Player511
     virtual void Virtual1a8();
     virtual int HasStateA(int);
     virtual int HasStateB(int);
-    HairOption* FUN_007af430();
+    HairOption* BGSSaveFormBuffer_GetForm();
     MiddleHighProcess* FUN_008d8520();
-    void* FUN_00950b00(bool);
-    Node511* FUN_00950bb0(bool);
+    void* GetBiped(bool);
+    Node511* PlayerCharacter_Get3D_00950bb0(bool);
     Matrix TESObjectREFR_MultipleMatrixByRace(const Matrix&);
 };
 extern "C" Player511* _g_thePlayer;
@@ -5564,7 +5577,7 @@ extern bool DAT_011c5cb4;
 extern Matrix DAT_011a9448;
 
 extern IOManager* DAT_01202d98;
-Root511* FUN_00705990();
+Root511* Interface_GetPipboy();
 void BSFaceGenManager_ClearBodyTexturesFromPalette(HairOption*);
 class QHeadLocal
 {
@@ -5585,9 +5598,9 @@ class QHeadLocal
     int unk34;
     QHeadLocal(TESNPC*, int);
     ~QHeadLocal();
-    void FUN_0043ecb0();
+    void QueuedHead_Run();
     void RunVirtualMethod28();
-    void FUN_0043ed90(Player511*, void*);
+    void QueuedHead_Attach(Player511*, void*);
 };
 // 0x007b25a0 refreshes race-menu face geometry using the NPC at +0xd8, beyond Menu (0x28 bytes).
 struct RaceMenuFaceRefreshState
@@ -5648,12 +5661,13 @@ struct RaceMenuFaceRefreshState
     int unkd4;
     TESNPC* npc;
     void UpdateShadowSceneNode();
-    void FUN_007b25a0();
+    void RaceSexMenu_UpdatePlayerBody();
 };
 // @fnv 0x007b25a0
-void RaceMenuFaceRefreshState::FUN_007b25a0()
+// src: XBOX_PDB 0x007b25a0
+void RaceMenuFaceRefreshState::RaceSexMenu_UpdatePlayerBody()
 {
-    BSFaceGenManager_ClearBodyTexturesFromPalette(_g_thePlayer->FUN_007af430());
+    BSFaceGenManager_ClearBodyTexturesFromPalette(_g_thePlayer->BGSSaveFormBuffer_GetForm());
     DAT_011c5cb4 = true;
     _g_thePlayer->FUN_008d8520()->InitializeProcessState();
     ((BaseProcess*)_g_thePlayer->FUN_008d8520())->ResetActorModel((RESET_3D_FLAGS)3);
@@ -5661,20 +5675,20 @@ void RaceMenuFaceRefreshState::FUN_007b25a0()
     if (!_g_thePlayer->HasStateB(0) && !_g_thePlayer->HasStateA(0))
     {
         QHeadLocal head(npc, 0);
-        head.FUN_0043ecb0();
+        head.QueuedHead_Run();
         head.RunVirtualMethod28();
-        head.FUN_0043ed90(_g_thePlayer, _g_thePlayer->FUN_00950b00(false));
+        head.QueuedHead_Attach(_g_thePlayer, _g_thePlayer->GetBiped(false));
     }
     DAT_011c5cb4 = false;
-    Node511* node = _g_thePlayer->FUN_00950bb0(true);
+    Node511* node = _g_thePlayer->PlayerCharacter_Get3D_00950bb0(true);
     Node511* matrix = node;
     NiAVObject* object = matrix->FUN_0043b4a0(0);
     Matrix node2 = DAT_011a9448;
-    object->FUN_0043fa80(&_g_thePlayer->TESObjectREFR_MultipleMatrixByRace(node2));
+    object->SetRotate_0043fa80(&_g_thePlayer->TESObjectREFR_MultipleMatrixByRace(node2));
     DAT_01202d98->IOManager_LoadAllQueuedPriorities();
     UpdateShadowSceneNode();
-    FUN_00705990()->Update();
-    FUN_00705990()->Refresh();
+    Interface_GetPipboy()->Update();
+    Interface_GetPipboy()->Refresh();
 }
 
 struct NavItem
@@ -5688,7 +5702,7 @@ struct NavController
     virtual void Slot2();
     virtual void Navigate(int, int);
 };
-void FUN_00706ff0(Tile*);
+void Interface_SetCurrentFocusTarget(Tile*);
 struct NavList
 {
     int unk00;
@@ -5707,12 +5721,13 @@ struct NavList
     void* FUN_00559450();
     NavItem*& AddEight(void*);
     NavItem*& FUN_007b5370();
-    NavItem*& FUN_0073ac90();
-    bool FUN_007b4260(int);
+    NavItem*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead();
+    bool RaceSexMenu_MenuOptionList_DoGamepad(int);
 };
 // Moves the selection according to direction, retries navigation up to 100 times, then updates the selected tile.
 // @fnv 0x007b4260
-bool NavList::FUN_007b4260(int direction)
+// src: XBOX_PDB 0x007b4260
+bool NavList::RaceSexMenu_MenuOptionList_DoGamepad(int direction)
 {
     void* position;
     bool previousVal = direction == 1 || direction == 15;
@@ -5744,7 +5759,7 @@ bool NavList::FUN_007b4260(int direction)
         selected = FUN_007b5370();
         break;
     case 15:
-        selected = FUN_0073ac90();
+        selected = NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead();
         break;
     default:
         return false;
@@ -5756,7 +5771,7 @@ bool NavList::FUN_007b4260(int direction)
         {
             reinterpret_cast<NavController*>(DAT_011da634)->Navigate(previousVal ? 2 : 3, 0);
         }
-        FUN_00706ff0(selected->tile);
+        Interface_SetCurrentFocusTarget(selected->tile);
     }
     return bResult;
 }
@@ -5805,7 +5820,7 @@ struct Root4650
 };
 extern Root4650* root4650;
 int LookupTrait(const char*, int);
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 extern float DAT_010162c0;
 struct List4650
 {
@@ -5851,7 +5866,7 @@ OptEntry* List4650::CreateEntry(const char* text, const char* templ, unsigned in
                               true);
         current5->tile->Refresh(false);
     }
-    height = FUN_00404010(height, entry7->tile->Read(0xfb0));
+    height = BSMAX_00404010(height, entry7->tile->Read(0xfb0));
     if (index < 4 && entry7->kind < 4)
         entry7->tile->Text(0xfcb, "UIPipBoyMode", true);
     if (!selected)
@@ -5922,8 +5937,8 @@ struct PendingMenu
     int unk0bc;
     Tile* pendingTile;
     PendingOption* pendingOption;
-    bool FUN_007adc30(int trait);
-    void FUN_007adc60(int trait, bool enabled);
+    bool RaceSexMenu_IsFlagged(int trait);
+    void RaceSexMenu_SetFlag(int trait, bool enabled);
     void HandleOptionSelection();
     void HandlePendingTileAction();
 };
@@ -5936,39 +5951,39 @@ void PendingMenu::HandlePendingTileAction()
         int action = (int)pendingTile->FUN_00a011b0(0xfaa);
         bool changed = false;
         if (pendingOption->FUN_00726070() == 29 && (action == 100 || action == 104) &&
-            _mbscmp(reinterpret_cast<const unsigned char*>(pendingTile->GetParent()->FUN_00a011f0(0x1009)),
+            _mbscmp(reinterpret_cast<const unsigned char*>(pendingTile->GetParent()->Tile_GetString(0x1009)),
                     reinterpret_cast<const unsigned char*>(DAT_011d3528.FUN_00403df0())) == 0)
         {
             changed = true;
         }
         else if (action == 100)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() - pendingOption->ReadOptionValue());
+            changed = pendingOption->RaceSexMenu_MenuOption_SetValue(pendingOption->GetFloat1005() - pendingOption->ReadOptionValue());
         }
         else if (action == 104)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() + pendingOption->ReadOptionValue());
+            changed = pendingOption->RaceSexMenu_MenuOption_SetValue(pendingOption->GetFloat1005() + pendingOption->ReadOptionValue());
         }
         else if (action == 102)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() -
+            changed = pendingOption->RaceSexMenu_MenuOption_SetValue(pendingOption->GetFloat1005() -
                                                   (int)pendingTile->GetParent()->FUN_00a011b0(0x1008));
         }
         else if (action == 103)
         {
-            changed = pendingOption->FUN_007b3760(pendingOption->GetFloat1005() +
+            changed = pendingOption->RaceSexMenu_MenuOption_SetValue(pendingOption->GetFloat1005() +
                                                   (int)pendingTile->GetParent()->FUN_00a011b0(0x1008));
         }
         else if (action == 105)
         {
-            changed = FUN_007adc30(2);
+            changed = RaceSexMenu_IsFlagged(2);
         }
         if (changed)
         {
             HandleOptionSelection();
-            pendingTile->FUN_00a0b110(0xfcb);
+            pendingTile->Tile_PlayTileSound(0xfcb);
         }
-        FUN_007adc60(2, false);
+        RaceSexMenu_SetFlag(2, false);
         pendingTile = 0;
         pendingOption = 0;
     }
@@ -5989,8 +6004,8 @@ struct Option7
     void ApplyToAllTiles();
     Option7* FindByColor(int);
     void RaceSexMenu_MenuOption_SetDisplay(const char*);
-    void FUN_007b3840(int&, int&);
-    void FUN_007b3760(int);
+    void RaceSexMenu_MenuOption_GetRange(int&, int&);
+    void RaceSexMenu_MenuOption_SetValue(int);
 };
 struct RaceRef7
 {
@@ -6139,10 +6154,10 @@ struct Menu7
     void ApplyHairOption(Option7*);
     void ApplyParam(Option7*);
     void HandleMenuKey(int);
-    bool FUN_007adc30(int);
+    bool RaceSexMenu_IsFlagged(int);
     void UpdateFaceGen(int, int, int);
-    void FUN_007adc60(int, bool);
-    void FUN_007b25a0();
+    void RaceSexMenu_SetFlag(int, bool);
+    void RaceSexMenu_UpdatePlayerBody();
     void RebuildFaceGen(int);
     void UpdateEyeTextures();
     void RaceSexMenu_SetHairColor(unsigned int);
@@ -6167,13 +6182,13 @@ void Menu7::HandleOptionSelection()
     {
         ApplyParam(selected);
         HandleMenuKey(selected->FUN_00726070());
-        if (FUN_007adc30(8))
+        if (RaceSexMenu_IsFlagged(8))
         {
             if (selected->FUN_00726070() == 34)
                 UpdateFaceGen(0, 1, 0);
             else
                 UpdateFaceGen(0, 0, 1);
-            FUN_007adc60(8, false);
+            RaceSexMenu_SetFlag(8, false);
         }
     }
     else if (selected->FUN_00726070() == 24)
@@ -6184,21 +6199,21 @@ void Menu7::HandleOptionSelection()
         HandleMenuKey(34);
         HandleMenuKey(35);
         UpdateFaceGen(1, 1, 0);
-        FUN_007b25a0();
+        RaceSexMenu_UpdatePlayerBody();
         RebuildFaceGen(1);
         UpdateEyeTextures();
-        FUN_007adc60(8, false);
-        FUN_007adc60(9, false);
+        RaceSexMenu_SetFlag(8, false);
+        RaceSexMenu_SetFlag(9, false);
         RaceSexMenu_SetHairColor(npc->TESDataHandler_GetRegionList());
         Option7* option6 = lists[6]->FindByColor(29);
         if (option6)
         {
             option6->RaceSexMenu_MenuOption_SetDisplay(g_011d3528.String());
             int low3, high;
-            option6->FUN_007b3840(low3, high);
-            option6->FUN_007b3760(low3);
+            option6->RaceSexMenu_MenuOption_GetRange(low3, high);
+            option6->RaceSexMenu_MenuOption_SetValue(low3);
         }
-        FUN_007adc60(0, true);
+        RaceSexMenu_SetFlag(0, true);
     }
     else if (selected->FUN_00726070() == 26)
     {
@@ -6220,28 +6235,28 @@ void Menu7::HandleOptionSelection()
         BSFaceGenManager_OffsetFaceGenCoord((char*)npc->race.FUN_00726070()->GetMeanFaceCoord((SEX)npc->GetSex()), base3, result6, 0);
         if (BSFaceGenManager_CompareFaceGenCoord(result6, npc->FUN_00601800()))
             BSFaceGenManager_CopyFaceGenCoord(result6, npc->FUN_00601800(), 0, 0);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(7, true);
+        ((Menu7*)DAT_011da634)->RaceSexMenu_SetFlag(7, true);
         ((Menu7*)DAT_011da634)->HandleMenuKey(34);
         ((Menu7*)DAT_011da634)->HandleMenuKey(35);
         ((Menu7*)DAT_011da634)->UpdateFaceGen(1, 1, 0);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(8, false);
-        ((Menu7*)DAT_011da634)->FUN_007adc60(9, true);
+        ((Menu7*)DAT_011da634)->RaceSexMenu_SetFlag(8, false);
+        ((Menu7*)DAT_011da634)->RaceSexMenu_SetFlag(9, true);
     }
     else
         return;
-    FUN_007adc60(7, false);
+    RaceSexMenu_SetFlag(7, false);
 }
 }  // namespace fnv_007b4b50
 
 int __fastcall FUN_0044ddc0(void* self);
-TESRace* __fastcall FUN_004ac110(void* self);
+TESRace* __fastcall TESNPC_GetRace(void* self);
 // Returns 1 if p is non-null, its FUN_0044ddc0 result is non-zero, and the holder's m_d8 hair result equals that value; otherwise 0.
 // @fnv 0x007ad7f0
 char __cdecl IsHairMatching(Obj0* p)
 {
     int result;
     if (p != 0 && FUN_0044ddc0(p) != 0 && DAT_011da634 != 0 && ((Holder*)DAT_011da634)->m_d8 != 0 &&
-        (int)FUN_004ac110(((Holder*)DAT_011da634)->m_d8) == FUN_0044ddc0(p))
+        (int)TESNPC_GetRace(((Holder*)DAT_011da634)->m_d8) == FUN_0044ddc0(p))
         result = 1;
     else
         result = 0;
@@ -6261,11 +6276,11 @@ class HCOption
 class HCOptionList
 {
   public:
-    HCOption* FUN_007b41c0(Tile* pkTile);
+    HCOption* RaceSexMenu_MenuOptionList_Find(Tile* pkTile);
     void ApplyToAllTiles();
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int TESMain_GetThread();
-    void FUN_007b4530(int iStep);
+    void RaceSexMenu_MenuOptionList_ScrollBy(int iStep);
 };
 
 struct HCHairList
@@ -6294,8 +6309,8 @@ class HCNPC
     int unk28;
     int unk2c;
     HCFaceFlags m_kFlags;  // +0x30
-    HCHairList* FUN_00602170();
-    TESRace* FUN_004ac110();
+    HCHairList* InterfaceManager_GetVATSEffect();
+    TESRace* TESNPC_GetRace();
     void SetRace(int iValue, int iFlag);
     void SetHair(int iValue);
     void SetEyes(int iValue);
@@ -6303,7 +6318,7 @@ class HCNPC
 
 struct HCPlayerSub
 {
-    void FUN_008249d0(int iValue);
+    void MagicTarget_DispelAllSpells(int iValue);
 };
 class HCPlayer
 {
@@ -6411,26 +6426,27 @@ class HCMenuView
 
     int FUN_007dcc00();
     void CreateMenuOption();
-    void FUN_007b25a0();
+    void RaceSexMenu_UpdatePlayerBody();
     void UpdateHairAndEyes();
-    bool FUN_007adc30(int m_iValueId);
+    bool RaceSexMenu_IsFlagged(int m_iValueId);
     void RebuildFaceGen(int iValue);
     void UpdateEyeTextures();
     void UpdateFaceGen(int iA, int iB, int iC);
-    bool FUN_007af180(int iValue);
-    void FUN_007adc60(int m_uiSoundID, int iValue);
+    bool RaceSexMenu_SetActiveList(int iValue);
+    void RaceSexMenu_SetFlag(int m_uiSoundID, int iValue);
     void HandlePendingTileAction();
     void UpdateMinusPlusTiles();
-    void FUN_007adce0(int aiIndex, Tile* pkTile);
+    void RaceSexMenu_DoClick(int aiIndex, Tile* pkTile);
 };
 
 // @fnv 0x007adce0
-void HCMenuView::FUN_007adce0(int aiIndex, Tile* pkTile)
+// src: XBOX_PDB 0x007adce0
+void HCMenuView::RaceSexMenu_DoClick(int aiIndex, Tile* pkTile)
 {
     if (!pkTile && aiIndex < 6)
         pkTile = m_apDefaultTiles[aiIndex];
     int iList = FUN_007dcc00();
-    HCOption* pkOption = m_apLists[iList]->FUN_007b41c0(pkTile);
+    HCOption* pkOption = m_apLists[iList]->RaceSexMenu_MenuOptionList_Find(pkTile);
     if (pkOption)
     {
         bool bChangedTmp = false;
@@ -6438,27 +6454,27 @@ void HCMenuView::FUN_007adce0(int aiIndex, Tile* pkTile)
         switch (pkOption->FUN_00726070())
         {
         case 0x16:
-            m_pkNPC->FUN_00602170()->FUN_00470470();
+            m_pkNPC->InterfaceManager_GetVATSEffect()->FUN_00470470();
         case 0x15:
         case 0x17:
             if (!pkOption->IsSelected())
             {
                 if (pkOption->FUN_00726070() == 0x17)
                 {
-                    m_pkNPC->FUN_004ac110()->ClearFaceGenUndo();
+                    m_pkNPC->TESNPC_GetRace()->ClearFaceGenUndo();
                     ((HCPlayer*)DAT_011dea3c)->FUN_0095e5f0();
-                    ((HCPlayer*)DAT_011dea3c)->m_kSub94.FUN_008249d0(0);
+                    ((HCPlayer*)DAT_011dea3c)->m_kSub94.MagicTarget_DispelAllSpells(0);
                     ((HCPlayer*)DAT_011dea3c)->ApplyActorSpells();
                     m_pkNPC->SetRace(pkOption->FUN_0044ddc0(), 0);
                 }
                 else
                 {
-                    m_pkNPC->FUN_004ac110()->ClearFaceGenUndo();
+                    m_pkNPC->TESNPC_GetRace()->ClearFaceGenUndo();
                     m_pkNPC->m_kFlags.FUN_0047dd50(1, pkOption->FUN_00726070() == 0x16, 1);
                     bUpdatePlayer = true;
                 }
                 CreateMenuOption();
-                FUN_007b25a0();
+                RaceSexMenu_UpdatePlayerBody();
                 UpdateHairAndEyes();
                 bChangedTmp = true;
                 if (bUpdatePlayer)
@@ -6466,10 +6482,10 @@ void HCMenuView::FUN_007adce0(int aiIndex, Tile* pkTile)
             }
             break;
         case 0x19:
-            if (FUN_007adc30(7))
+            if (RaceSexMenu_IsFlagged(7))
                 RaceSexMenu_RandomizeCallback();
             else
-                FUN_00703e80(DAT_011d3288.FUN_00403df0(), 0, 0, RaceSexMenu_RandomizeCallback, 0, 0x12, 0.0f, 0.0f,
+                Interface_CreateMessageMenu(DAT_011d3288.FUN_00403df0(), 0, 0, RaceSexMenu_RandomizeCallback, 0, 0x12, 0.0f, 0.0f,
                              DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
             break;
         case 0x1b:
@@ -6489,40 +6505,40 @@ void HCMenuView::FUN_007adce0(int aiIndex, Tile* pkTile)
             }
             break;
         case 0x1c:
-            m_pkNPC->FUN_00602170()->FUN_00470470();
+            m_pkNPC->InterfaceManager_GetVATSEffect()->FUN_00470470();
             if (!pkOption->IsSelected())
             {
                 int iValue = pkOption->FUN_0044ddc0();
-                m_pkNPC->FUN_00602170()->FUN_005ae3d0(iValue);
+                m_pkNPC->InterfaceManager_GetVATSEffect()->FUN_005ae3d0(iValue);
             }
             UpdateFaceGen(1, 1, 0);
             bChangedTmp = true;
             break;
         default:
             if (pkOption->FUN_00726070() < 0x14)
-                FUN_007af180(pkOption->FUN_00726070());
+                RaceSexMenu_SetActiveList(pkOption->FUN_00726070());
         }
         if (bChangedTmp)
         {
             m_apLists[iList]->ApplyToAllTiles();
-            FUN_007adc60(7, 0);
+            RaceSexMenu_SetFlag(7, 0);
         }
     }
     else if (aiIndex == 4)
     {
-        FUN_007af180(m_apLists[iList]->FUN_0084e3a0());
+        RaceSexMenu_SetActiveList(m_apLists[iList]->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     }
     else if (aiIndex == 5)
     {
         if (iList == m_iNameList)
-            FUN_00703e80(m_kName.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
+            Interface_CreateMessageMenu(m_kName.FUN_00559450(), 0, 0, UpdateRaceSexMenu, 1, 0x12, 0.0f, 0.0f,
                          DAT_011d3684.FUN_00403df0(), DAT_011d34f8.FUN_00403df0(), 0);
         else
-            FUN_007af180(m_apLists[iList]->TESMain_GetThread());
+            RaceSexMenu_SetActiveList(m_apLists[iList]->TESMain_GetThread());
     }
     else
     {
-        pkOption = m_apLists[iList]->FUN_007b41c0(pkTile->FUN_0045cd60());
+        pkOption = m_apLists[iList]->RaceSexMenu_MenuOptionList_Find(pkTile->FUN_0045cd60());
         if (pkOption)
         {
             m_pkSelectedTile = pkTile;
@@ -6531,12 +6547,12 @@ void HCMenuView::FUN_007adce0(int aiIndex, Tile* pkTile)
         }
         else if (aiIndex == 2 && pkTile->IsTraitNonZero(0xfa3))
         {
-            m_apLists[iList]->FUN_007b4530(1);
+            m_apLists[iList]->RaceSexMenu_MenuOptionList_ScrollBy(1);
             UpdateMinusPlusTiles();
         }
         else if (aiIndex == 3 && pkTile->IsTraitNonZero(0xfa3))
         {
-            m_apLists[iList]->FUN_007b4530(-1);
+            m_apLists[iList]->RaceSexMenu_MenuOptionList_ScrollBy(-1);
             UpdateMinusPlusTiles();
         }
     }
@@ -6576,7 +6592,7 @@ extern PlayerCharacter* _g_thePlayer;
 
 extern TES* g_TES;
 
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 
 class RSMenuTarget
 {
@@ -6658,11 +6674,11 @@ bool RSMenuTarget::UpdateEyeTextures()
     for (unsigned int aI = 0; aI < childCount3; ++aI)
     {
         child = reinterpret_cast<_FakeNiNode*>(_g_thePlayer->vfn_1ac(false))->FUN_0043b4a0(aI);
-        if (FUN_00408b20(child->GetName(), "FaceGenEyeLeft") == 0)
+        if (BSstrcmp(child->GetName(), "FaceGenEyeLeft") == 0)
         {
             spEyeLeft2 = reinterpret_cast<NiNode*>(child->IsTriBasedGeometry());
         }
-        if (FUN_00408b20(child->GetName(), "FaceGenEyeRight") == 0)
+        if (BSstrcmp(child->GetName(), "FaceGenEyeRight") == 0)
         {
             spEyeRight = reinterpret_cast<NiNode*>(child->IsTriBasedGeometry());
         }
@@ -6673,11 +6689,11 @@ bool RSMenuTarget::UpdateEyeTextures()
         BSStringT<char> strEyeTexture;
         if (this->m_npc->FUN_00602150())
         {
-            FUN_00406f60((SpStr*)&strEyeTexture, "Textures\\%s", this->m_npc->FUN_00602150()->GetTextureResourceName());
+            BSStringT_char_SPrintF((SpStr*)&strEyeTexture, "Textures\\%s", this->m_npc->FUN_00602150()->GetTextureResourceName());
         }
         else
         {
-            FUN_00406f60((SpStr*)&strEyeTexture, "Textures\\Characters\\Eyes\\EyeDefault.dds");
+            BSStringT_char_SPrintF((SpStr*)&strEyeTexture, "Textures\\Characters\\Eyes\\EyeDefault.dds");
         }
         NiPointer_007b27c0<NiSourceTexture> spTextureVal;
         g_TES->CreateTextureImage(strEyeTexture, spTextureVal, false, false);
@@ -6714,7 +6730,7 @@ bool RSMenuTarget::UpdateEyeTextures()
 struct FUN_00559450_shell
 {
     int FUN_00559450();
-    int* FUN_0057cbe0(int*);
+    int* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int*);
 };
 
 struct FUN_007b3720_shell_
@@ -6792,7 +6808,7 @@ void FUN_007b3660_shell::FUN_007b3660()
     iter = m40->FUN_00559450();
     while (iter != 0)
     {
-        int u1 = *(m40->FUN_0057cbe0(&iter));
+        int u1 = *(m40->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&iter));
         switch (((FUN_00726070_shell*)u1)->FUN_00726070())
         {
         case 0x1e:
@@ -6850,7 +6866,7 @@ struct FGLink
 struct FGProperty
 {
     void* Explosion_GetActorCause();
-    float FUN_009a9350();
+    float TESCombatStyle_GetWeaponMinRangeMult();
     void NiMaterialProperty_SetShine(float fValue);
 };
 struct FGShape
@@ -6865,7 +6881,7 @@ struct FGSkin
 {
     bool FUN_00a67360(int iFlag);
     void NiGeometryData_GetVerticesIterator(FGLink* pkLink);
-    void* FUN_00460140();
+    void* TESDataHandler_GetWorldSpaceList();
 };
 struct FGName
 {
@@ -6876,16 +6892,16 @@ class FGNode
 {
   public:
     void AssignFixedString(const NiFixedString& kName);
-    void FUN_00440460(const void* pkTranslate);
-    void FUN_0043fa80(const void* pkRotate);
-    void FUN_00440490(float fScale);
+    void NiAVObject_SetTranslate(const void* pkTranslate);
+    void SetRotate_0043fa80(const void* pkRotate);
+    void NiAVObject_SetScale(float fScale);
     FGProperty* FUN_00a59d30(int iType);
     void ForwardToSubobject(FGProperty* pkProperty);
-    void FUN_00439410(FGShape* pkShape);
+    void NiAVObject_AttachProperty(FGShape* pkShape);
     void FUN_00874460(int iFlags);
     unsigned short CallTargetV36();
-    FGSkin* FUN_005495f0();
-    void FUN_00a5a040();
+    FGSkin* NiGeometry_GetModelData();
+    void UpdateProperties();
 };
 
 class FGChild
@@ -6900,11 +6916,11 @@ class FGChild
     virtual void v018();
     virtual void* GetGeometryData();  // +0x1c
     FGName* FUN_00413f40();
-    const void* FUN_0043c490();
-    const void* FUN_006a9540();
+    const void* GetTranslate_0043c490();
+    const void* NiAVObject_GetRotate_006a9540();
     float GetFloatAt64();
     FGChildProperty* FUN_00a59d30(int iType);
-    int FUN_004030b0();
+    int CombatController_GetTarget();
 };
 
 class FGRoot
@@ -7001,7 +7017,7 @@ struct FGModel
 };
 struct FGGenerator;
 
-int FUN_00408b20(const char* pcA, const char* pcB);
+int BSstrcmp(const char* pcA, const char* pcB);
 FGGeometry* FUN_006530e0(void* pvData);
 FGGenerator* FUN_006521e0();
 void BSFaceGenManager_CopyFaceGenCoord(FGGenerator* pkGeneratorCur, FUN_00449610* pkCoords, int iA, int iB);
@@ -7029,7 +7045,7 @@ void BSFaceGenManager_ReplaceFaceMeshLOD(FGRoot* pkRoot, int iMode)
         if (pkChild)
         {
             const char* pcName = pkChild->FUN_00413f40()->FUN_0043b1b0();
-            if (!FUN_00408b20(pcName, "FaceGenFace"))
+            if (!BSstrcmp(pcName, "FaceGenFace"))
             {
                 void* pvGeomData = pkChild->GetGeometryData();
                 FGGeometry* pkSampleGeom = FUN_006530e0(pvGeomData);
@@ -7069,9 +7085,9 @@ void BSFaceGenManager_ReplaceFaceMeshLOD(FGRoot* pkRoot, int iMode)
                     return;
                 spFaceTmp->AssignFixedString(NiFixedString("FaceGenFace"));
                 pkFaceInfo = spFaceTmp;
-                pkFaceInfo->FUN_00440460(pkChild->FUN_0043c490());
-                pkFaceInfo->FUN_0043fa80(pkChild->FUN_006a9540());
-                pkFaceInfo->FUN_00440490(pkChild->GetFloatAt64());
+                pkFaceInfo->NiAVObject_SetTranslate(pkChild->GetTranslate_0043c490());
+                pkFaceInfo->SetRotate_0043fa80(pkChild->NiAVObject_GetRotate_006a9540());
+                pkFaceInfo->NiAVObject_SetScale(pkChild->GetFloatAt64());
                 FUN_00b57e30(pkFaceInfo, 0, 0);
                 FGProperty* pkProperty = pkFaceInfo->FUN_00a59d30(3);
                 FGChildProperty* pkChildPropertyValue = pkChild->FUN_00a59d30(3);
@@ -7079,21 +7095,21 @@ void BSFaceGenManager_ReplaceFaceMeshLOD(FGRoot* pkRoot, int iMode)
                 FGShape* pkShape = pkChildPropertyValue->FUN_00a5d2c0(&kBufferData);
                 pkShape->BSShaderPPLightingProperty_StoreExtraDataPointers(pkProperty->Explosion_GetActorCause());
                 pkFaceInfo->ForwardToSubobject(pkProperty);
-                pkFaceInfo->FUN_00439410(pkShape);
-                pkFaceInfo->FUN_00874460(pkChild->FUN_004030b0());
+                pkFaceInfo->NiAVObject_AttachProperty(pkShape);
+                pkFaceInfo->FUN_00874460(pkChild->CombatController_GetTarget());
                 unsigned short usFlags = pkFaceInfo->CallTargetV36();
-                if (pkFaceInfo->FUN_005495f0()->FUN_00a67360(1))
+                if (pkFaceInfo->NiGeometry_GetModelData()->FUN_00a67360(1))
                 {
                     FGLink kLink;
-                    pkFaceInfo->FUN_005495f0()->NiGeometryData_GetVerticesIterator(&kLink);
+                    pkFaceInfo->NiGeometry_GetModelData()->NiGeometryData_GetVerticesIterator(&kLink);
                     if (kLink.FUN_00559450())
-                        ComputeBoundingSphere(pkFaceInfo->FUN_005495f0()->FUN_00460140(), &kLink, usFlags);
+                        ComputeBoundingSphere(pkFaceInfo->NiGeometry_GetModelData()->TESDataHandler_GetWorldSpaceList(), &kLink, usFlags);
                 }
                 FGProperty* pkAlphaData = pkFaceInfo->FUN_00a59d30(2);
-                if (pkAlphaData && pkAlphaData->FUN_009a9350() < 1.0)
+                if (pkAlphaData && pkAlphaData->TESCombatStyle_GetWeaponMinRangeMult() < 1.0)
                     pkAlphaData->NiMaterialProperty_SetShine(4.0f);
                 pkRoot->SetAt(i, pkFaceInfo);
-                pkFaceInfo->FUN_00a5a040();
+                pkFaceInfo->UpdateProperties();
                 pkRoot->SetSelectiveUpdate(pkRoot->NiAVObject_GetParent(0));
                 switch (iMode)
                 {
@@ -7130,12 +7146,13 @@ class StringList7B3D
     }
     ListNode7B3D* DereferenceIfNotNull(ListNode7B3D* pkPos);
     int CreateEntry(const char* pcText, int iA, int iB, ListNode7B3D* pkPos);
-    int FUN_007b3d50(int iIndex, const char* pcText, int iA, int iB);
+    int RaceSexMenu_MenuOptionList_InsertMenuOption(int iIndex, const char* pcText, int iA, int iB);
 };
 
 // Inserts a new entry with pcText at position iIndex in the string list, returning 0 on failure or the result of CreateEntry.
 // @fnv 0x007b3d50
-int StringList7B3D::FUN_007b3d50(int iIndex, const char* pcText, int iA, int iB)
+// src: XBOX_PDB 0x007b3d50
+int StringList7B3D::RaceSexMenu_MenuOptionList_InsertMenuOption(int iIndex, const char* pcText, int iA, int iB)
 {
     if (!pcText || !DAT_011da634 || !((Manager7B3D*)DAT_011da634)->m_pkActive || !m_uiCount)
     {
@@ -7218,7 +7235,7 @@ struct MgrObj
     T12 ResolveAudioHandle(const char* name, unsigned int kind, bool flag);
 };
 
-MgrObj* FUN_00ad9060();
+MgrObj* BSAudioManager_QInstance_00ad9060();
 void __cdecl ourMemset(void* p, int v, unsigned int n);
 extern Pt12 DAT_011f426c;
 
@@ -7287,7 +7304,7 @@ FUN_007ac1f0_cls::FUN_007ac1f0_cls() : m_d4(0)
     m_cc = 0.0f;
     m_a0[1] = DAT_011f426c;
     m_a0[0] = m_a0[1];
-    MgrObj* mgr = FUN_00ad9060();
+    MgrObj* mgr = BSAudioManager_QInstance_00ad9060();
     m_f0[0].FUN_00418900(mgr->ResolveAudioHandle("OBJComputerTerminal01LP", 0x31, true))->FUN_004f15a0();
     m_f0[1].FUN_00418900(mgr->ResolveAudioHandle("QSTBirthRoomLP", 0x31, true))->FUN_004f15a0();
     m_f0[2].FUN_00418900(mgr->ResolveAudioHandle("UIFaceGenZoomLP", 0x31, true))->FUN_004f15a0();

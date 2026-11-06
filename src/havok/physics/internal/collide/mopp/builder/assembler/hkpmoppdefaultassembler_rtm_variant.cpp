@@ -703,7 +703,7 @@ struct Handler
     Entry* unk10;
     void __thiscall hkpMoppDefaultAssembler_fixScale(Entry*);
     int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
+    void __thiscall hkpMoppDefaultAssembler_findPlanes(Entry*, Entry*, Entry**, Entry**);
     void __thiscall hkpMoppDefaultAssembler_addSplit(Entry*, Entry*, int, int, int);
     void __thiscall WriteSize(int);
     void __thiscall hkpMoppDefaultAssembler_checkAndAddProperties(Entry*, Entry*, Entry*);
@@ -815,7 +815,7 @@ struct S_00e07da0_Tree
     void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
     void hkpMoppDefaultAssembler_recalcRescale(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
     int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
+    void hkpMoppDefaultAssembler_findPlanes(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
 struct BSAudio;
 extern int DAT_010ea5dc;
@@ -1149,7 +1149,7 @@ struct FUN_00e07b90_bounds
 {
     float unk00, unk04, unk08, minimumX, maximumX, minimumY, maximumY, minimumZ, maximumZ;
 };
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, hkVector4* result);
+void __stdcall hkpMoppDefaultAssembler_getScaleInfo(const FUN_00e07b90_bounds* bounds, hkVector4* result);
 struct S_00e07d60_Info
 {
     float x;
@@ -1345,7 +1345,7 @@ struct BvRange
     int unk10;
 };
 void __stdcall hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
+void* __cdecl hkString_memCpy(void*, const void*, int);
 // src: HAVOK_LIB 0x00e08320
 static void copyJumpCommandInfo(hkArrayBase<BvFixup>* destination, hkArrayBase<BvFixup>* source, int adjustment)
 {
@@ -1840,7 +1840,7 @@ struct KdQuantizer
     int unk2c;
     hkVector4Unaligned m_vRayOrigins;
 
-    void FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut);
+    void hkpMoppDefaultAssembler_findPlanes(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut);
 };
 
 static __forceinline int toCell(hkReal scale, double x)
@@ -1862,7 +1862,8 @@ static __forceinline int clampIndex(int i)
 }
 
 // @fnv 0x00e07880
-void KdQuantizer::FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
+// src: XBOX_PDB 0x00e07880
+void KdQuantizer::hkpMoppDefaultAssembler_findPlanes(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
 {
     const hkReal* n = &node->m_vHitNormal->m_vComponents.m128_f32[0];
     int numNonZero = 0;

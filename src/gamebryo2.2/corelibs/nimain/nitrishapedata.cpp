@@ -47,7 +47,8 @@ void __fastcall NiTriShapeData_SetData(NiTriShapeData* self, int, unsigned short
 
 // Reads three consecutive unsigned shorts from self->m_pusTriList at offset i*3 and writes them to the three output pointers.
 // @fnv 0x00a7b720
-void __fastcall FUN_00a7b720(NiTriShapeData* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
+// src: XBOX_PDB 0x00a7b720
+void __fastcall NiTriShapeData_GetTriangleIndices(NiTriShapeData* self, int, unsigned short i, unsigned short* i0, unsigned short* i1,
                              unsigned short* i2)
 {
     unsigned int j = i * 3;
@@ -57,7 +58,8 @@ void __fastcall FUN_00a7b720(NiTriShapeData* self, int, unsigned short i, unsign
 }
 
 // @fnv 0x00a7b760
-void __fastcall FUN_00a7b760(NiTriShapeData* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
+// src: XBOX_PDB 0x00a7b760
+void __fastcall NiTriShapeData_GetStripData(NiTriShapeData* self, int, unsigned short* p1, unsigned int* p2, unsigned short** p3,
                              unsigned int* p4)
 {
     *p1 = self->m_usTriangles;
@@ -158,8 +160,8 @@ void __fastcall DestroyTriShapeData(NiTriShapeData* self)
 
 extern const char* const g_011f5af4_arg1;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d510(const char*, unsigned int);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
+char* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d5a0(const char*, void*);
 
 inline void StrArr::AppendInline(char* e)
 {
@@ -177,8 +179,8 @@ void __fastcall AppendTriListInfo(NiTriShapeData* self, int, StrArr* pStrArr)
 {
     reinterpret_cast<void (__thiscall*)(NiTriBasedGeomData*, StrArr*)>(AppendTrianglesInfo)(self, pStrArr);
     pStrArr->AppendInline(NiViewerStrings_NiGetViewerString_Title(g_011f5af4_arg1));
-    pStrArr->AppendInline(FUN_00a7d510("m_uiTriListLength", self->m_uiTriListLength));
-    pStrArr->AppendInline(FUN_00a7d5a0("m_pusTriList", self->m_pusTriList));
+    pStrArr->AppendInline(NiGetViewerString_00a7d510("m_uiTriListLength", self->m_uiTriListLength));
+    pStrArr->AppendInline(NiGetViewerString_00a7d5a0("m_pusTriList", self->m_pusTriList));
 }
 
 inline void NiBinaryStream::BinaryWrite(const void* pvBuffer, unsigned int uiTotalBytes,
@@ -403,7 +405,8 @@ NiTriShapeData* __fastcall InitializeTriShapeData(NiTriShapeData* self)
 bool __cdecl MatchesTriangleCount();
 
 // @fnv 0x00a7b7e0
-bool NiTriShapeData::FUN_00a7b7e0(const NiTriShapeData* pkOther)
+// src: XBOX_PDB 0x00a7b7e0
+bool NiTriShapeData::IsEqual_00a7b7e0(const NiTriShapeData* pkOther)
 {
     if (!reinterpret_cast<bool (__thiscall*)(NiTriBasedGeomData*, const NiTriShapeData*)>(MatchesTriangleCount)(this, pkOther))
         return false;

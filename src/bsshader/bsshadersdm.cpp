@@ -52,7 +52,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_01201f68;
 // @fnv 0x00bc28f0
-void __stdcall FUN_00bc28f0(StrArr* pStrArr)
+// src: XBOX_PDB 0x00bc28f0
+void __stdcall BoltShaderProperty_GetViewerStrings(StrArr* pStrArr)
 {
     WriteToSettingArray(pStrArr);
     char* pStr = _FUN_00a7d330(g_01201f68.f0);

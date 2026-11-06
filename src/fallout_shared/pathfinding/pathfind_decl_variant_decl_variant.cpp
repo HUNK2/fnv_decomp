@@ -38,7 +38,8 @@ extern NiPoint3 DAT_011a9478;
 extern const NiPoint3 DAT_011a9484;
 extern const float DAT_01032adc;
 // @fnv 0x006da420
-NiPoint3 __cdecl FUN_006da420(float angle, const PathingLocation& sourceLocation, float width)
+// src: XBOX_PDB 0x006da420
+NiPoint3 __cdecl Pathing_ComputeFinalTangentForActor(float angle, const PathingLocation& sourceLocation, float width)
 {
     RotationMatrix seed_2;
     seed_2.FUN_004a0c90(angle);

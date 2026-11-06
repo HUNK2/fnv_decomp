@@ -59,7 +59,7 @@ class LocalPoint3Ext
     AimVector FUN_00439e90(const AimVector& point) const;
     bool FUN_00439090(const AimVector& point) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     void FUN_006815c0();
     float FUN_004a7290() const;
     float FUN_00457910();
@@ -252,7 +252,7 @@ class B9F30Owner
     int unk148;
     B9F30Property* m_pkProperty;
 
-    B9F30Property* FUN_00b69f30(B9F30Geometry* pkGeometry);
+    B9F30Property* WaterShaderProperty_GetWaterPass(B9F30Geometry* pkGeometry);
 };
 
 struct B006815c0
@@ -283,7 +283,7 @@ struct NiVec4
 {
     float x, y, z, w;
 };
-NiRenderer* FUN_0043c4b0();
+NiRenderer* NiXenonRenderer_GetRenderer();
 extern "C" void* __stdcall D3DXMatrixInverse(void*, float*, const void*);
 extern "C" void* __stdcall D3DXMatrixTranspose(void*, const void*);
 extern "C" hkVector4* __stdcall D3DXPlaneNormalize(hkVector4*, const hkVector4*);
@@ -322,5 +322,5 @@ void WaterPlaneHost::TESWaterSystem_SetClipPlane(float x, float y, float z, floa
     output.y = result.y;
     output.z = result.z;
     output.w = result.w;
-    FUN_0043c4b0()->CallFooForEachElement(0, 1, &output);
+    NiXenonRenderer_GetRenderer()->CallFooForEachElement(0, 1, &output);
 }

@@ -183,7 +183,7 @@ int Caster::ProcessSource(Source* pSource, int aiArg1, int aiArg2, int aiArg3, i
 {
     Body* body = pSource->body;
     hkTransform xf;
-    xf.FUN_00cb2240(*pSource->rot, body->unk30);
+    xf.hkTransform_setMul(*pSource->rot, body->unk30);
     Input in;
     in.xf = &xf;
     in.src = pSource;
@@ -254,7 +254,7 @@ void __cdecl DispatchClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& body
 {
     const S_00d42d60_TransformShape* pTransformShape = (const S_00d42d60_TransformShape*)bodyA.m_pCollisionShape;
     __declspec(align(16)) hkTransform t;
-    t.FUN_00cb2240(*(const hkTransform*)bodyA.m_pMotionState, pTransformShape->m_kMotionTransform);
+    t.hkTransform_setMul(*(const hkTransform*)bodyA.m_pMotionState, pTransformShape->m_kMotionTransform);
 
     hkpCdBody childBody;
     childBody.m_parent = &bodyA;
@@ -279,7 +279,7 @@ void Owner::hkpTransformAgent_getPenetrations(Input* input,int aiArg1,int aiArg2
 {
     Object* object=input->object;
     hkTransform temp;
-    temp.FUN_00cb2240(*input->transform, object->transform);
+    temp.hkTransform_setMul(*input->transform, object->transform);
     DispatchData data;
     data.unk08=&temp;
     data.unk0c=input;
@@ -305,7 +305,7 @@ int Owner::hkpTransformAgent_updateShapeCollectionFilter(Input* input, int aiArg
 {
     Object* object = input->object;
     hkTransform temp;
-    temp.FUN_00cb2240(*input->transform, object->transform);
+    temp.hkTransform_setMul(*input->transform, object->transform);
     DispatchData data;
     data.unk08 = &temp;
     data.unk0c = input;
@@ -548,7 +548,7 @@ struct Allocator {
     virtual Header* allocate(int size);
 };
 struct Resource { int unk00;int unk04;int unk08;int unk0c; Allocator* allocator; };
-Resource* __cdecl FUN_00c85750();
+Resource* __cdecl hkMemoryRouter_getInstance();
 
 struct Meta {int unk00; int unk04; int unk08; int sequence;};
 struct Root {
@@ -568,7 +568,7 @@ __declspec(align(16)) struct WorkArea {
     void CopyFrom(struct DataHandle data);
     __forceinline void SetTransformProduct(struct DataHandle data, const hkTransform& transform)
     {
-        m_kMotionTransform.FUN_00cb2240(
+        m_kMotionTransform.hkTransform_setMul(
             *reinterpret_cast<const hkTransform*>(data.handle),
             transform);
     }
@@ -587,7 +587,7 @@ struct HandlerEntry {
 // Allocates a 16-byte Header, fills tag/format/userValue, runs workspace setup, selects a handler by kind from a table and stores its return in header->result.
 // @fnv 0x00d42a70
 Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput,InputC* pStateInput,int value) {
-    Resource* resource = FUN_00c85750();
+    Resource* resource = hkMemoryRouter_getInstance();
     Header* header = resource->allocator->allocate(16);
     header->byteCount=16;
     header->format=1;
@@ -684,7 +684,7 @@ void __cdecl ProcessTransformShapeCollision(
     const TransformShape_00d42f40* shape =
         static_cast<const TransformShape_00d42f40*>(first->shape);
     hkTransform transform;
-    transform.FUN_00cb2240(*first->transform, shape->transform);
+    transform.hkTransform_setMul(*first->transform, shape->transform);
 
     CollisionBody_00d42f40 childBody;
     childBody.parent = first;
@@ -1327,7 +1327,7 @@ struct S_00d43030_RefObj {
     __forceinline S_00d43030_RefObj() throw() { m_sReferenceCount = 1; }
     __forceinline void* operator new(unsigned int nbytes)
     {
-        S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(FUN_00c85750())->heap().allocate(nbytes));
+        S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(hkMemoryRouter_getInstance())->heap().allocate(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1545,7 +1545,7 @@ void S_00d42b50_Cls::hkpTransformAgent_processCollision(const S_00d42b50_CdBody&
     scratch.shape = (const S_00d42b50_TShape*)bodyA.m_pCollisionShape;
     const hkTransform& xf = scratch.shape->m_kMotionTransform;
     S_00d42b50_Motion ms;
-    ms.m_kMotionTransform.FUN_00cb2240(bodyA.m_pMotionState->m_kMotionTransform, xf);
+    ms.m_kMotionTransform.hkTransform_setMul(bodyA.m_pMotionState->m_kMotionTransform, xf);
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
@@ -1687,7 +1687,7 @@ void TransformClosestAgent::hkpTransformAgent_getClosestPoints(const hkpCdBody& 
     __declspec(align(16)) hkTransform transform;
     const S_00d42d60_TransformShape* shape =
         reinterpret_cast<const S_00d42d60_TransformShape*>(bodyA.m_pCollisionShape);
-    transform.FUN_00cb2240(
+    transform.hkTransform_setMul(
         *static_cast<const hkTransform*>(bodyA.m_pMotionState),
         shape->m_kMotionTransform);
 
@@ -1750,7 +1750,7 @@ void __cdecl hkpTransformAgent_staticGetClosestPoints(const CollisionBody_00d42f
     const TransformShape_00d42f40* shape =
         static_cast<const TransformShape_00d42f40*>(bodyA->shape);
     TransformClosestFrame frame;
-    frame.transform.FUN_00cb2240(*bodyA->transform, shape->transform);
+    frame.transform.hkTransform_setMul(*bodyA->transform, shape->transform);
     frame.parent = bodyA;
     frame.motion = &frame.transform;
     const Shape_00d42f40* child = shape->child;

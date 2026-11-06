@@ -65,7 +65,7 @@ public:
     ConstraintPacketLocal_00d8(float x, float y, float z, float w);
     ConstraintPacketLocal_00d8(const __m128& vector);
 
-    ConstraintPacketLocal_00d8* FUN_005532a0(float x, float y, float z, float w);
+    ConstraintPacketLocal_00d8* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(ConstraintPacketLocal_00d8* vector);
     void __thiscall FUN_004b4db0(const ConstraintPacketLocal_00d8* vector);
     ConstraintPacketLocal_00d8& FUN_00e531a0(int parameter);
@@ -173,8 +173,8 @@ struct AllocIface {
     virtual void unk00();
     virtual void* Alloc(unsigned int size);
 };
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
-void __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
+void __cdecl hkString_memCpy(void* dst, const void* src, unsigned int size);
 struct FUN_00d85360_cls {
     void* m_vptr;
     unsigned short m_w04;
@@ -350,7 +350,7 @@ struct TargetData {
 };
 struct FUN_00d53200_class {
     int unk00;
-    void FUN_00c8a230(NiStream&) throw();
+    void hkConstraintCinfo_LoadBinary(NiStream&) throw();
 };
 struct Derived_00d53200 : public FUN_00d53200_class {
     TargetData* unk04;
@@ -552,7 +552,7 @@ struct Record {
     unsigned int unk6c;
     unsigned int words70;
 };
-void __stdcall FUN_00c8a280(DataStream* stream);
+void __stdcall hkConstraintCinfo_SaveBinary(DataStream* stream);
 struct DataOwner {
     unsigned int unknown00;
     Record* record;
@@ -568,8 +568,8 @@ inline int countBitsSetD866(unsigned int n)
 }
 int __cdecl CountBitsInWords(const unsigned int* puiWords, int iNumWords);
 int __cdecl j_strncmp(const char*, const char*, unsigned int);
-const char* __cdecl FUN_00cb1150(const char*, int);
-const char* __cdecl FUN_00cb1140(const char*, int);
+const char* __cdecl hkString_strRchr(const char*, int);
+const char* __cdecl hkString_strChr(const char*, int);
 struct TypeEntry {
     const char* name;
     int unk04;
@@ -661,7 +661,7 @@ public:
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    int FUN_00d87410() const;
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator() const;
 };
 struct FUN_00d87910_cls {
     int m_00;
@@ -949,7 +949,7 @@ struct FNV_00d99f50_Result {
     FNV_00d99f50_Result() {}
     ~FNV_00d99f50_Result() {}
 };
-extern "C" void __cdecl FUN_00d98ca0(unsigned char* scratch, const FNV_00d99f50_Entry* entry, void* context, void* left, void* right);
+extern "C" void __cdecl hkKdTreeUtils_castRayIterative(unsigned char* scratch, const FNV_00d99f50_Entry* entry, void* context, void* left, void* right);
 FNV_00d99f50_Result __cdecl hkKdTreeUtils_castRayMultiTree(int count, const FNV_00d99f50_Entry* const* entries, void* context, void* left, void* right);
 struct FUN_00d9a4a0_Param {
     int unk00;
@@ -1058,14 +1058,14 @@ struct SerializedWordPairPayload {
     unsigned int m_0c;
     unsigned int m_10;
 };
-void __cdecl FUN_00d86100(NiStream& kStream, SerializedWordPairPayload* pkData);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream& kStream, SerializedWordPairPayload* pkData);
 template <class T>
 inline void NiStreamLoadBinaryD8616(NiBinaryStream& kStream, T& value)
 {
     unsigned int uiSize = sizeof(T);
     kStream.BinaryRead(&value, sizeof(T), &uiSize, 1);
 }
-void __cdecl FUN_00d86160(NiStream& kStream, SerializedWordPairPayload* pkData);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(NiStream& kStream, SerializedWordPairPayload* pkData);
 extern int DAT_010d3838;
 struct FUN_00d86220_Class {
     unsigned int m_vptr;
@@ -1129,7 +1129,7 @@ struct FUN_00dee750 {
 
     static void* operator new(unsigned int sz)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         AllocIface* alloc = reinterpret_cast<AllocIface*>(holder->m_heap);
         void* p = alloc->Alloc(sz);
         ((FUN_00dee750*)p)->m_usMemorySizeAndFlags = (unsigned short)sz;
@@ -1143,7 +1143,7 @@ struct FUN_00d86470_cls {
     int unk00;
     FUN_00dee750* m_04;
 
-    unsigned int FUN_00d86470();
+    unsigned int hkPointToPathConstraintCinfo_CreateData();
 };
 struct Cls00d86950 {
     int unk00;
@@ -1211,7 +1211,7 @@ struct S00d881a0_Obj {
     S00d881a0_Mid* m00;
 };
 int __cdecl hkRigidMotionUtilApplyAccumulators(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
-void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
+void __cdecl hkpEntityAabbUtil_entityBatchRecalcAabb(int a0, void* a1, void* a2);
 static int hkConstraintSolverSetup_integrate2(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
 int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
@@ -1424,7 +1424,7 @@ struct PivotCData {
     virtual void v07();
     virtual int v08();
 
-    PivotCData* FUN_00cdf6c0();
+    PivotCData* hkpMalleableConstraintData_getWrappedConstraintData();
 
     unsigned int unk04;
     unsigned int unk08;
@@ -1518,7 +1518,7 @@ extern const char DAT_010d3aa0[];
 extern const char DAT_010d3a90[];
 int __cdecl j_strncmp(const char*, const char*, int) throw();
 int __cdecl hkString_strLen(const char*) throw();
-const char* __cdecl FUN_00cb1140(const char*, int) throw();
+const char* __cdecl hkString_strChr(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
 int __cdecl GetTypeCode(const char*) throw();
 struct HkTempAllocator {
@@ -1555,7 +1555,7 @@ struct FUN_00d61b10 {
 
     FUN_00d61b10(const char*, int) throw();
     ~FUN_00d61b10() throw() {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         int cap = m_kStringBuffer.m_iCapacityState;
         HkTempAllocator* allocator = reinterpret_cast<HkTempAllocator*>(router->m_temp);
         m_kStringBuffer.m_iElementCount = 0;
@@ -1756,8 +1756,8 @@ struct StructB {
 };
 extern double DAT_010c9300;
 struct LocalFlag { unsigned char value; };
-void __cdecl FUN_00d72190(short* a1, StructB* a2, LocalFlag a3, int** a4);
-void __cdecl FUN_00d6f460(short* a1, unsigned short a2, StructB* a3, int** a4);
+void __cdecl hkSimpleContactConstraintDataBuildJacobian(short* a1, StructB* a2, LocalFlag a3, int** a4);
+void __cdecl hkSolverBuildJacobianFromAtomsNotContact(short* a1, unsigned short a2, StructB* a3, int** a4);
 static void WriteItems(StructA* a, StructB* b);
 extern "C" StructA* input_a();
 extern "C" StructB* input_b();
@@ -1894,7 +1894,7 @@ struct ContainerShape : Shape {
 };
 
 struct ListShape : Shape {
-    Shape* FUN_00cdf6c0();
+    Shape* hkpMalleableConstraintData_getWrappedConstraintData();
 };
 
 struct VertexShape : Shape {
@@ -1930,7 +1930,7 @@ void FUN_00d85040(Shape* pkShape, const Transform& kTransform, int iIndex)
             pkShape = ((ContainerShape*)pkShape)->m_pkChild;
             break;
         case 13:
-            pkShape = ((ListShape*)pkShape)->FUN_00cdf6c0();
+            pkShape = ((ListShape*)pkShape)->hkpMalleableConstraintData_getWrappedConstraintData();
             break;
         case 1:
             ((TransformShape*)pkShape)->m_akTransforms[iIndex].FUN_00c6cd60(kTransform);
@@ -2330,12 +2330,12 @@ struct __declspec(align(16)) S00d94a80_Local {
     unsigned int unk90;
     char* unk94;
 };
-void __cdecl FUN_00d6f460(char* atom, int count, S00d94a80_Local* ctx, int** cursor);
+void __cdecl hkSolverBuildJacobianFromAtomsNotContact(char* atom, int count, S00d94a80_Local* ctx, int** cursor);
 struct S00d94a80_Bool {
     bool m_cBooleanValue;
     S00d94a80_Bool(bool v) { m_cBooleanValue = v; }
 };
-void __cdecl FUN_00d72190(char* atom, S00d94a80_Local* ctx, S00d94a80_Bool bCopy, int** cursor);
+void __cdecl hkSimpleContactConstraintDataBuildJacobian(char* atom, S00d94a80_Local* ctx, S00d94a80_Bool bCopy, int** cursor);
 inline S00d94a80_Bool S00d94a80_True() { S00d94a80_Bool r(true); return r; }
 struct S00d94a80_A0 {
     SubObj* unk00;
@@ -2421,9 +2421,9 @@ static __forceinline void S00d94a80_Process(Arg0* a1, Arg2* p)
         char* atom = r->unk00;
         if (*(unsigned short*)atom == 0x16) {
             S00d94a80_Bool b(true);
-            FUN_00d72190(atom, &base, b, &cursor);
+            hkSimpleContactConstraintDataBuildJacobian(atom, &base, b, &cursor);
         } else {
-            FUN_00d6f460(atom, w14, &base, &cursor);
+            hkSolverBuildJacobianFromAtomsNotContact(atom, w14, &base, &cursor);
         }
     } while (--remaining);
     }
@@ -2576,7 +2576,7 @@ extern "C" int __fastcall FUN_00d86ec0(MemberD86* self, void*, char* output, int
     }
     CopyIfNonEmpty(output, text.m_kStringBuffer, capacity);
     int result = text.m_fRestLength - 1;
-    BufferReleaseContext* router = (BufferReleaseContext*)FUN_00c85750();
+    BufferReleaseContext* router = (BufferReleaseContext*)hkMemoryRouter_getInstance();
     FreeD86* heap = router->heap;
     text.m_fRestLength = 0;
     if ((text.m_iCapacityState & 0x80000000) == 0)

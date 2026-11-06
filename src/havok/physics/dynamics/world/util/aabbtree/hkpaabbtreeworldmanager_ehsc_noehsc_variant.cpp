@@ -65,7 +65,7 @@ struct CollidableArray : hkArray<hkpCollidable*> {
     }
 };
 struct Tree {
-    unsigned short FUN_00d9c610(hkAabb*, hkpCollidable*);
+    unsigned short hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_add(hkAabb*, hkpCollidable*);
     void hkAabbTree_struct_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_remove(unsigned short);
 };
 struct ScanToken;
@@ -173,7 +173,7 @@ void UpdateState::hkpAabbTreeWorldManager_incrementalBuild(int arg1, int arg2) {
                     hkAabb bounds;
                     node->m_pCollisionShape->CalculateAabb(node->getTransform(), 0.0f, bounds);
                     hkAddValue("MiNum of Added Nodes", 1.0f);
-                    DispatchToOffsetTarget(inactive[i], t->FUN_00d9c610(&bounds, node));
+                    DispatchToOffsetTarget(inactive[i], t->hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_add(&bounds, node));
             }
             dirty = false;
         }

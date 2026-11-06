@@ -108,13 +108,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -135,7 +135,7 @@ public:
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct Sub
 {
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
 };
 struct V3
 {
@@ -363,7 +363,7 @@ struct NarrowString : std::string
     std::string FUN_00b09f90();
 };
 
-std::string __cdecl FUN_00b18860(const char*, ...);
+std::string __cdecl IdvFormatString(const char*, ...);
 
 struct ChunkReader
 {
@@ -402,7 +402,7 @@ void FrondInfo::FUN_00b3e750(ChunkReader* reader)
             break;
         }
         default:
-            throw IdvFileError(FUN_00b18860("malformed frond info (token %d)", token), false);
+            throw IdvFileError(IdvFormatString("malformed frond info (token %d)", token), false);
         }
         token = reader->GetNextElement();
     } while (token != 0x4651);

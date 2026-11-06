@@ -82,13 +82,15 @@ int FUN_00e02e90_cls::ApplyValue(int value, int mode)
 }
 
 // @fnv 0x00e02f10
-void __stdcall FUN_00e02f10(unsigned char* output)
+// src: XBOX_PDB 0x00e02f10
+void __stdcall hkOffsetOnlyStreamWriter_isOk(unsigned char* output)
 {
     *output = 1;
 }
 
 // @fnv 0x00e02f20
-void __stdcall FUN_00e02f20(unsigned char* output)
+// src: XBOX_PDB 0x00e02f20
+void __stdcall hkOffsetOnlyStreamWriter_seekTellSupported(unsigned char* output)
 {
     *output = 1;
 }

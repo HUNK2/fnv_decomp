@@ -32,7 +32,8 @@ void FreeAllocatorBlock(void* apBlock)
 extern NiMemoryManagerState* DAT_011f6080;
 
 // @fnv 0x00aa1070
-void* FUN_00aa1070(unsigned int uiSize)
+// src: XBOX_PDB 0x00aa1070
+void* _NiMalloc_00aa1070(unsigned int uiSize)
 {
     unsigned int size;
     *(volatile unsigned int*)&size = uiSize != 0 ? uiSize : 1;

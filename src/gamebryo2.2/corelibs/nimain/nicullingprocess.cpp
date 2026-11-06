@@ -32,11 +32,12 @@ struct S694a0
     H74e10 _2c;
     char _pad[95];
     int _8c;
-    void __thiscall FUN_00a694a0(void*);
+    void __thiscall NiCullingProcess_SetFrustum(void*);
 };
 // If _0c is set, copies seven ints from src into _10, calls SetFromFrustum on _10 and _0c+0x68, then sets _8c to 63.
 // @fnv 0x00a694a0
-void __thiscall S694a0::FUN_00a694a0(void* pSource)
+// src: XBOX_PDB 0x00a694a0
+void __thiscall S694a0::NiCullingProcess_SetFrustum(void* pSource)
 {
     if (_0c)
     {
@@ -71,7 +72,7 @@ void WorkerS694a0::NiCullingProcess_DoCulling(NiAVObject* object)
     {
         if (flags & mask)
         {
-            int side = const_cast<NiBound&>(object->FUN_0043d450()).WhichSide(plane);
+            int side = const_cast<NiBound&>(object->NiAVObject_GetWorldBound()).WhichSide(plane);
             if (side == 2)
                 break;
             if (side == 1)
@@ -199,7 +200,7 @@ void Sub694a0::ProcessWorkerWithHandler(void* worker, Handler* handler, void* te
     if (worker != 0 && handler != 0)
     {
         _0c = (char*)worker;
-        FUN_00a694a0((char*)worker + 0xdc);
+        NiCullingProcess_SetFrustum((char*)worker + 0xdc);
         void* previous = 0;
         if (temporary)
         {

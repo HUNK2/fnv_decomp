@@ -80,10 +80,11 @@ void FUN_00d541d0_class::hkpBallAndSocketConstraintData_setMaxLinearImpulse(floa
 
 struct FUN_00d54200_class
 {
-    unsigned char __thiscall FUN_00d54200();
+    unsigned char __thiscall hkpBallAndSocketConstraintData_getNotifiedBodyIndex();
 };
 // @fnv 0x00d54200
-unsigned char FUN_00d54200_class::FUN_00d54200()
+// src: XBOX_PDB 0x00d54200
+unsigned char FUN_00d54200_class::hkpBallAndSocketConstraintData_getNotifiedBodyIndex()
 {
     return *(unsigned char*)((char*)this + 0x42) >> 1;
 }
@@ -100,11 +101,12 @@ struct D54270Bool
 
 struct D54270Object
 {
-    virtual D54270Bool FUN_00d54270() const;
+    virtual D54270Bool hkpBallAndSocketConstraintData_isValid() const;
 };
 
 // @fnv 0x00d54270
-D54270Bool D54270Object::FUN_00d54270() const
+// src: XBOX_PDB 0x00d54270
+D54270Bool D54270Object::hkpBallAndSocketConstraintData_isValid() const
 {
     return true;
 }
@@ -130,11 +132,12 @@ struct FUN_00d541e0_class
     int unk40;
     float unk44;
 
-    float __thiscall FUN_00d541e0();
+    float __thiscall hkpBallAndSocketConstraintData_getMaxLinearImpulse();
 };
 
 // @fnv 0x00d541e0
-float __thiscall FUN_00d541e0_class::FUN_00d541e0()
+// src: XBOX_PDB 0x00d541e0
+float __thiscall FUN_00d541e0_class::hkpBallAndSocketConstraintData_getMaxLinearImpulse()
 {
     return unk44;
 }

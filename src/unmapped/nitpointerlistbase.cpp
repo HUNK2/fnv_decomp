@@ -97,7 +97,8 @@ int* __thiscall FUN_004edcf0_t::InitWithGlobal(int a, int b)
 void __cdecl NiFreeAlias(void*);
 
 // @fnv 0x004ede70
-void __cdecl FUN_004ede70(void* apMemory)
+// src: XBOX_PDB 0x004ede70
+void __cdecl NiTMallocInterface_unsigned_int_Deallocate(void* apMemory)
 {
     NiFreeAlias(apMemory);
 }

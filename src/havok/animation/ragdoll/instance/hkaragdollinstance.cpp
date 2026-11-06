@@ -33,7 +33,7 @@ struct FUN_00ce2430_Class
     unsigned char pad[0x2c];
     hkaSkeleton* data;
 
-    void FUN_00ce2150(int, float, void*);
+    void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int, float, void*);
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
 
@@ -45,7 +45,7 @@ void FUN_00ce2430_Class::ApplyValueToTransforms(float value, FUN_00ce2430_Transf
 
     for (int i = 0; i < count; ++i)
     {
-        this->FUN_00ce2150(i, value, transforms);
+        this->hkaRagdollInstance_getApproxWorldFromBoneTransformAt(i, value, transforms);
         ++transforms;
     }
 }
@@ -104,7 +104,7 @@ struct ArrayAllocator
     virtual void* allocateBuffer(int& bytes);
     virtual void freeBuffer(void* buffer, int bytes);
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 template <class T> struct ObjectArrayLocalForm
 { // local form of hkArray: 0x00ce22c0 needs the original inline/out-of-line helper split; shared replacement changes bytes.
     T* m_data;
@@ -116,7 +116,7 @@ template <class T> struct ObjectArrayLocalForm
     }
     __forceinline void assign(const ObjectArrayLocalForm& source)
     {
-        ArrayAllocator* heap = (ArrayAllocator*)FUN_00c85750()->m_heap;
+        ArrayAllocator* heap = (ArrayAllocator*)hkMemoryRouter_getInstance()->m_heap;
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < source.m_iElementCount)
         {
@@ -171,7 +171,7 @@ struct FnvRefObject
     void FUN_00c905b0() throw();
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 struct FnvArray
 {
     void** data;
@@ -179,7 +179,7 @@ struct FnvArray
     unsigned int capacityAndFlags;
     ~FnvArray() throw()
     {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         hkMemoryAllocator* mgr = (hkMemoryAllocator*)router->m_heap;
         unsigned int cap = capacityAndFlags;
         size = 0;
@@ -221,7 +221,7 @@ FUN_00ce2600::~FUN_00ce2600() throw()
 
 struct FUN_00ce26f0_ObjectC
 {
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
 };
 
 struct FUN_00ce26f0_ObjectB
@@ -261,7 +261,7 @@ void FUN_00ce26f0_Class::hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_0
         return;
     }
 
-    this->ApplyValueToTransforms(target->FUN_00c91020(), apTransform);
+    this->ApplyValueToTransforms(target->hkpWorld_getCurrentTime(), apTransform);
 }
 
 typedef unsigned int hk_size_tR;
@@ -596,9 +596,10 @@ struct Vec4x3
 
 // Reserves stack space for count Vec4x3 values, transforms each source entry with SIMD, calls FUN_00ce2d10, then restores the stack cursor.
 // @fnv 0x00ce2f40
-void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4)
+// src: XBOX_PDB 0x00ce2f40
+void __cdecl hkaSkeletonMapper_additivePoseFromCombinedPoseAndReferencePose(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4)
 {
-    void** cursor = (void**)FUN_00c85750();
+    void** cursor = (void**)hkMemoryRouter_getInstance();
     unsigned char* pMatBase = (unsigned char*)*cursor;
     unsigned int size = (unsigned int)((count * 3) << 4) + 0x7f;
     size &= 0xffffff80u;
@@ -649,7 +650,7 @@ void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg
     }
 
     FUN_00ce2d10(arg0, (void*)pMatBase, arg2, count, arg4);
-    void** cursor2 = (void**)FUN_00c85750();
+    void** cursor2 = (void**)hkMemoryRouter_getInstance();
     *cursor2 = pMatBase;
 }
 

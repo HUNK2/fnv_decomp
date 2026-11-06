@@ -51,7 +51,8 @@ inline void AddViewerString(StrArr* array, char* element)
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 // @fnv 0x00a7da80
-void NiBillboardNode::FUN_00a7da80(NiUpdateData& a, unsigned int b)
+// src: XBOX_PDB 0x00a7da80
+void NiBillboardNode::UpdateSelectedDownwardPass_00a7da80(NiUpdateData& a, unsigned int b)
 {
     *(float*)&unkB0 = a.fTime;
     NiNode::UpdateSelectedDownwardPass(a, b);
@@ -59,7 +60,8 @@ void NiBillboardNode::FUN_00a7da80(NiUpdateData& a, unsigned int b)
 }
 
 // @fnv 0x00a7dab0
-void NiBillboardNode::FUN_00a7dab0(NiUpdateData& data, unsigned int flags)
+// src: XBOX_PDB 0x00a7dab0
+void NiBillboardNode::UpdateRigidDownwardPass_00a7dab0(NiUpdateData& data, unsigned int flags)
 {
     *(float*)&unkB0 = data.fTime;
     NiNode::UpdateRigidDownwardPass(data, flags);
@@ -67,9 +69,10 @@ void NiBillboardNode::FUN_00a7dab0(NiUpdateData& data, unsigned int flags)
 }
 
 // @fnv 0x00a7e610
-void NiBillboardNode::FUN_00a7e610(NiCullingProcess* process)
+// src: XBOX_PDB 0x00a7e610
+void NiBillboardNode::OnVisible_00a7e610(NiCullingProcess* process)
 {
-    FUN_00a7de40(*(NiCullingProcess**)((char*)process + 0xc));
+    RotateToCamera(*(NiCullingProcess**)((char*)process + 0xc));
     NiNode::OnVisible(*process);
 }
 
@@ -95,7 +98,8 @@ __declspec(noinline) NiNode* __fastcall InitializeNiNode(NiNode* node, void*, un
 }
 
 // @fnv 0x00a7dae0
-void NiBillboardNode::FUN_00a7dae0(NiUpdateData& data, unsigned int flags)
+// src: XBOX_PDB 0x00a7dae0
+void NiBillboardNode::UpdateDownwardPass_00a7dae0(NiUpdateData& data, unsigned int flags)
 {
     *(float*)&unkB0 = data.fTime;
     unsigned short& billboardFlags = *(unsigned short*)&unkAC;
@@ -108,7 +112,8 @@ void NiBillboardNode::FUN_00a7dae0(NiUpdateData& data, unsigned int flags)
 }
 
 // @fnv 0x00a7db30
-unsigned char NiBillboardNode::FUN_00a7db30(NiObject* object)
+// src: XBOX_PDB 0x00a7db30
+unsigned char NiBillboardNode::IsEqual_00a7db30(NiObject* object)
 {
     NiBillboardNode* node = (NiBillboardNode*)object;
     if (!NiNode::IsEqual(object))
@@ -117,7 +122,8 @@ unsigned char NiBillboardNode::FUN_00a7db30(NiObject* object)
 }
 
 // @fnv 0x00a7e850
-void NiBillboardNode::FUN_00a7e850(NiStream& stream)
+// src: XBOX_PDB 0x00a7e850
+void NiBillboardNode::SaveBinary_00a7e850(NiStream& stream)
 {
     NiNode::SaveBinary(stream);
     NiBinaryStream* __restrict output = *(NiBinaryStream**)((char*)&stream + 0x250);
@@ -169,7 +175,8 @@ template <class T> inline void ReadBinaryValue(NiStream& stream, T& value)
 }
 
 // @fnv 0x00a7e7b0
-void NiBillboardNode::FUN_00a7e7b0(NiStream& stream)
+// src: XBOX_PDB 0x00a7e7b0
+void NiBillboardNode::LoadBinary_00a7e7b0(NiStream& stream)
 {
     NiNode::LoadBinary(stream);
 #define m_usFlags (*(unsigned short*)&unkAC)
@@ -214,7 +221,8 @@ inline void NiBound::SetCenterAndRadius(const NiPoint3& center, float radius)
 }
 
 // @fnv 0x00a7e630
-void NiBillboardNode::FUN_00a7e630()
+// src: XBOX_PDB 0x00a7e630
+void NiBillboardNode::UpdateWorldBound_00a7e630()
 {
 #define m_pkWorldBound (*(NiBound**)&m_kWorldBound)
 #define m_kWorldTranslate m_kWorld.m_Translate
@@ -242,27 +250,29 @@ class GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f4aa0;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* value);
-char* __cdecl FUN_00a7db60(const char* pName, unsigned int uiValue);
+char* __cdecl NiBillboardNode_GetViewerString(const char* pName, unsigned int uiValue);
 
 // @fnv 0x00a7e890
-void NiBillboardNode::FUN_00a7e890(StrArr* array)
+// src: XBOX_PDB 0x00a7e890
+void NiBillboardNode::GetViewerStrings_00a7e890(StrArr* array)
 {
     NiNode::GetViewerStrings((NiViewerStringsArray*)array);
     AddViewerString(array, NiViewerStrings_NiGetViewerString_Title(g_011f4aa0.m_pString));
     unsigned int uiFlags = *(unsigned short*)&unkAC & 7;
-    AddViewerString(array, FUN_00a7db60("m_eMode", uiFlags));
+    AddViewerString(array, NiBillboardNode_GetViewerString("m_eMode", uiFlags));
 }
 
 extern "C" unsigned int __cdecl strlen(const char* s);
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 int __cdecl FUN_00a305b0(char* buffer, unsigned int size, const char* format, ...);
 
 // @fnv 0x00a7db60
-char* __cdecl FUN_00a7db60(const char* name, int type)
+// src: XBOX_PDB 0x00a7db60
+char* __cdecl NiBillboardNode_GetViewerString(const char* name, int type)
 {
     unsigned int size = strlen(name) + 0x16;
-    char* buffer = (char*)FUN_00aa1070(size);
+    char* buffer = (char*)_NiMalloc_00aa1070(size);
     switch (type)
     {
     case 0:
@@ -394,7 +404,8 @@ struct CompositionResult
     float storage[sizeof(BoardTransform) / sizeof(float)];
 };
 // @fnv 0x00a7de40
-void NiBillboardNode::FUN_00a7de40(const BoardObject* cameraObject)
+// src: XBOX_PDB 0x00a7de40
+void NiBillboardNode::RotateToCamera(const BoardObject* cameraObject)
 {
     const NiAVObject* camera = (const NiAVObject*)cameraObject;
 #define world (*(BoardTransform*)&m_kWorld)
@@ -572,7 +583,8 @@ inline NiBillboardNode* InitializeBillboardClone(void* storage)
 }
 
 // @fnv 0x00a7e710
-BillboardClone* NiBillboardNode::FUN_00a7e710(void* context)
+// src: XBOX_PDB 0x00a7e710
+BillboardClone* NiBillboardNode::CreateClone_00a7e710(void* context)
 {
     void* storage = FUN_00aa13e0(sizeof(NiBillboardNode));
     NiBillboardNode* clone = storage ? InitializeBillboardClone(storage) : 0;

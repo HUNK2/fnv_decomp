@@ -150,10 +150,10 @@ class hkTargetCD0E
 class hkControllerCD0E
 {
   public:
-    void FUN_00d60960(int mode);
-    void FUN_00d605d0(unsigned int flags);
+    void hkOArchive_write32u(int mode);
+    void hkOArchive_write8u(unsigned int flags);
     void HashUInt(float t);
-    hkTargetCD0E* FUN_00d60800();
+    hkTargetCD0E* hkOArchive_getStreamWriter();
 };
 
 class hkItemCD0E
@@ -194,10 +194,10 @@ void hkOwnerCD0E::ActivateEntry(int aiIndex, float t)
     if (e.m_item->m_uiContentCount.isActive())
     {
         hkControllerCD0E* c = e.m_item->m_controller;
-        c->FUN_00d60960(5);
-        c->FUN_00d605d0(0);
+        c->hkOArchive_write32u(5);
+        c->hkOArchive_write8u(0);
         c->HashUInt(t);
-        c->FUN_00d60800()->activate();
+        c->hkOArchive_getStreamWriter()->activate();
     }
 }
 

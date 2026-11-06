@@ -267,7 +267,7 @@ struct FUN_00de87c0_class {
 };
 void __cdecl FUN_00de81a0(void* self, void* arg);
 struct FUN_00d21ce0_cls {
-    void __thiscall FUN_00d21ce0(void*);
+    void __thiscall hkpBridgeConstraintAtom_init(void*);
 };
 struct FUN_00de8550_t {
     int m_iWordAt00;
@@ -458,7 +458,7 @@ void __cdecl FUN_00dffe60(FUN_00dffe60_vt* p);
 typedef void (__thiscall *Vfn0)(void*, int);
 void __cdecl FUN_00dfff00(void* p);
 extern int DAT_0102e388;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00de10e0_cls {
     int m_vptr;
     unsigned short m_uSize;
@@ -919,7 +919,7 @@ struct FUN_00de8570_cls {
     int m_00;
     int m_04;
     int m_08;
-    void __thiscall FUN_00d21ce0(int value);
+    void __thiscall hkpBridgeConstraintAtom_init(int value);
 };
 void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex);
 extern int DAT_0126a378;
@@ -2692,7 +2692,7 @@ void stub_caller(stub_cls* self);
 struct DF30D0Pair { unsigned int m_ucLowNibble; unsigned int m_ucHighNibble; };
 static void CopyPairAtIndex(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
 void DF30D0Caller(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
-void FUN_00df3160();
+void hkKdTreeBuilderSparseWriter_flush();
 void nullsub_184();
 void __cdecl nullsub_185();
 struct FUN_00df7210_Inner {
@@ -2960,7 +2960,7 @@ struct ExecutionContext {
 extern unsigned long DAT_0126835c;
 extern "C" const char str_010db918[];
 extern "C" const char str_010c41f8[];
-int __cdecl FUN_00d1b930(void* processor, WorkItem* item, unsigned int* value, int remaining);
+int __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b930(void* processor, WorkItem* item, unsigned int* value, int remaining);
 void __cdecl ProcessWorkQueue(ExecutionContext* context, WorkQueue* queue);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
@@ -2997,7 +2997,7 @@ struct Job
     int m_28;
     int m_2c;
 };
-void __cdecl FUN_00df6e00(Job* job, int a, int b, int c);
+void __cdecl hkCpuPairGetClosestPointsImplementation(Job* job, int a, int b, int c);
 struct Scheduler
 {
     int ProcessCallback(Key* key, int b, int a);
@@ -3029,7 +3029,7 @@ static __declspec(noinline) float rand01(void)
 }
 static void WriteFloatToVector(float a, float b, float* out);
 void dummy_caller(void);
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dfb5a0_cls {
     int unk00;
     char* m_pData;
@@ -3056,7 +3056,7 @@ struct FilterRegistryEntry {
 struct Registry_de30 {
     int unk00, unk04;
     hkArray<FilterRegistryEntry> m_pairs;
-    void FUN_00de30a0(void* value, int key);
+    void hkpUserConvexRadiusBuilder_registerUserConvexRadiusDisplayBuilder(void* value, int key);
 };
 void __cdecl FUN_00de9b00();
 static void FUN_00df30b0(stub_cls* target, int value);
@@ -3256,8 +3256,8 @@ struct KdJob2 {
 struct KdQueue2 {
     int ProcessCallback(const KdJob2* a, const KdJob2* b, int flag);
 };
-void __cdecl FUN_00e29cd0(int, int, int, int, int, float, float, KdPair, int*, int, int*);
-void __cdecl FUN_00e2a010(int, int, int, int, float, float, KdPair, int*, int, int*);
+void __cdecl hkTreeBundleRayCastUtil_autoBundleFromList(int, int, int, int, int, float, float, KdPair, int*, int, int*);
+void __cdecl hkTreeBundleRayCastUtil_autoBundleScanAll(int, int, int, int, float, float, KdPair, int*, int, int*);
 int __cdecl ExecuteJob(KdQueue2* queue, KdJob2* job);
 struct InDF8800 {
     int unk00; int unk04; int unk08; int unk0c;
@@ -3273,7 +3273,7 @@ struct InDF8800 {
 struct ArrDF8800 {
     ~ArrDF8800()
     {
-        hkMemoryAllocator* pkAllocator = reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+        hkMemoryAllocator* pkAllocator = reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
         int iCapacityAndFlags = m_iCapacityAndFlags;
         m_uiLogicalSize = 0;
         if ((iCapacityAndFlags & 0x80000000) == 0)
@@ -4339,7 +4339,7 @@ struct FUN_00dfdd90_cls
     void __thiscall FUN_00cb0c00();
 };
 void __cdecl FUN_00dfdd90(FUN_00dfdd90_cls* p);
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00de10b0_cls {
     virtual ~FUN_00de10b0_cls();
     unsigned short m_uSize;
@@ -4347,7 +4347,7 @@ struct FUN_00de10b0_cls {
 
     static void operator delete(void* apMemory) throw()
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(apMemory, ((FUN_00de10b0_cls*)apMemory)->m_uSize);
     }
@@ -4911,7 +4911,8 @@ command->m_iResultCapacity=fixedBufferRayHitCollector.m_iHitCount;
 }
 }
 // @fnv 0x00df94b0
-JobDispatcher::JobStatus __cdecl FUN_00df94b0(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
+// src: XBOX_PDB 0x00df94b0
+JobDispatcher::JobStatus __cdecl hkCpuShapeRayCastJob(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "CollQueryShapeRayCast";h->setTime();mStream.setEnd((char*)(h+1));}};
 const WorldRayCastJob&raycastJob=reinterpret_cast<WorldRayCastJob&>(nextJobOut);

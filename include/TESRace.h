@@ -45,7 +45,7 @@ public:
     TESModel* GetBipedObjectModel(SEX sex, BIPED_OBJECT part);
     TESModel* GetBodyPartModel(SEX sex, int part);
     TESModel* GetHeadPartModel_00613970(int sex, int part);
-    TESModel* FUN_00613a20(int sex, int part);
+    TESModel* GetBodyPartModel_00613a20(int sex, int part);
     TESTexture* GetBodyPartTexture(int sex, int part);
     TESTexture* GetBodyPartTexture(unsigned int sex, unsigned int part);
     TESTexture* GetBodyPartTexture(int sex, unsigned int part);

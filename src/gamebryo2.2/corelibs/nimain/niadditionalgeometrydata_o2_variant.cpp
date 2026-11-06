@@ -39,7 +39,8 @@ struct NiAGDDataBlock
     unsigned char m_bFlag;
 };
 // @fnv 0x00a727c0
-NiAGDDataBlock* __cdecl FUN_00a727c0()
+// src: XBOX_PDB 0x00a727c0
+NiAGDDataBlock* __cdecl NiAdditionalGeometryData_CreateAGDDataBlock()
 {
     NiAGDDataBlock* block = static_cast<NiAGDDataBlock*>(g_memoryManager.Allocate(16));
     if (block)
@@ -143,7 +144,7 @@ void S00a72330::NiAdditionalGeometryData_NiAGDDataStream_FillInByteSizeArray(uns
 
 struct FUN_00aa4060_owner
 {
-    void __thiscall FUN_00aa4060(unsigned int value);
+    void __thiscall MemoryManager_Deallocate(unsigned int value);
 };
 
 extern FUN_00aa4060_owner DAT_011f6238;
@@ -156,16 +157,17 @@ class FUN_00a72530_owner
     unsigned int unk08;
     unsigned char unk0c;
 
-    void __thiscall FUN_00a72530(unsigned int value);
+    void __thiscall NiAdditionalGeometryData_NiAGDDataBlock_FreeBuffer(unsigned int value);
 };
 
 // @fnv 0x00a72530
-void __thiscall FUN_00a72530_owner::FUN_00a72530(unsigned int value)
+// src: XBOX_PDB 0x00a72530
+void __thiscall FUN_00a72530_owner::NiAdditionalGeometryData_NiAGDDataBlock_FreeBuffer(unsigned int value)
 {
     if (value == 0 && unk0c != 0)
         value = unk08;
 
-    DAT_011f6238.FUN_00aa4060(value);
+    DAT_011f6238.MemoryManager_Deallocate(value);
 }
 
 // The shared stream is opaque; retain this unit's inlined transfer operations.
@@ -433,11 +435,12 @@ class A2440Buffer
     unsigned int m_uiSize;
     unsigned char* m_pCompressedData;
 
-    bool FUN_00a72440(const A2440Buffer& kOther) const;
+    bool NiAdditionalGeometryData_NiAGDDataStream_IsEqual(const A2440Buffer& kOther) const;
 };
 
 // @fnv 0x00a72440
-bool A2440Buffer::FUN_00a72440(const A2440Buffer& kOther) const
+// src: XBOX_PDB 0x00a72440
+bool A2440Buffer::NiAdditionalGeometryData_NiAGDDataStream_IsEqual(const A2440Buffer& kOther) const
 {
     if (m_uiSize != kOther.m_uiSize)
         return false;
@@ -540,11 +543,12 @@ struct LBObject : NiObject
 
     // Legacy base loader at 0x00a5d610, distinct from NiObject::LoadBinary.
     void LoadBaseBinary(NiStream& arStream);
-    void FUN_00a73160(NiStream& arStream);
+    void NiAdditionalGeometryData_LoadBinary(NiStream& arStream);
 };
 
 // @fnv 0x00a73160
-void LBObject::FUN_00a73160(NiStream& arStream)
+// src: XBOX_PDB 0x00a73160
+void LBObject::NiAdditionalGeometryData_LoadBinary(NiStream& arStream)
 {
     LoadBaseBinary(arStream);
     LBStreamLoadBinary(arStream, m_usKeyType);
@@ -607,12 +611,12 @@ struct ChildElem
     int unk10;
     int unk14;
     int unk18;
-    void FUN_00a72db0(NiStream* stream);
+    void NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(NiStream* stream);
 };
 
 struct ChildObj
 {
-    void FUN_00a728d0(NiStream* stream, unsigned int index, ChildElem* elems, unsigned int count, unsigned int flags);
+    void NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(NiStream* stream, unsigned int index, ChildElem* elems, unsigned int count, unsigned int flags);
 };
 
 struct FUN_00a73370Node
@@ -630,18 +634,19 @@ struct FUN_00a73370Node
     unsigned short unk24;
     unsigned short childCount;
     void LinkObject(NiStream* stream);
-    void FUN_00a73370(NiStream* stream);
+    void NiAdditionalGeometryData_SaveBinary(NiStream* stream);
 };
 
 // @fnv 0x00a73370
-void FUN_00a73370Node::FUN_00a73370(NiStream* stream)
+// src: XBOX_PDB 0x00a73370
+void FUN_00a73370Node::NiAdditionalGeometryData_SaveBinary(NiStream* stream)
 {
     LinkObject(stream);
     SerializeValue(stream, flags);
     SerializeValue(stream, elemCount);
     for (unsigned int i = 0; i < elemCount; i++)
     {
-        elems[i].FUN_00a72db0(stream);
+        elems[i].NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(stream);
     }
     SerializeValue(stream, (unsigned int)childCount);
     for (unsigned int j = 0; j < childCount; j++)
@@ -650,7 +655,7 @@ void FUN_00a73370Node::FUN_00a73370(NiStream* stream)
         bool present = (c != 0);
         SerializeValue(stream, present);
         if (present)
-            c->FUN_00a728d0(stream, j, elems, elemCount, flags);
+            c->NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(stream, j, elems, elemCount, flags);
     }
 }
 
@@ -668,15 +673,15 @@ struct ArrayArg
 
 extern const char str_0109d2f4[];
 extern const char str_0109d2dc[];
-unsigned int __cdecl FUN_00a7d510(const char* s, unsigned int v);
-unsigned int __cdecl FUN_00a7d5a0(const char* s, unsigned int v);
+unsigned int __cdecl NiGetViewerString_00a7d510(const char* s, unsigned int v);
+unsigned int __cdecl NiGetViewerString_00a7d5a0(const char* s, unsigned int v);
 
 struct FUN_00a73d90_cls
 {
     unsigned int unk00;
     unsigned int m_04;
     unsigned int m_08;
-    void FUN_00a73d90(ArrayArg* p);
+    void NiAdditionalGeometryData_NiAGDDataBlock_GetViewerStrings(ArrayArg* p);
 };
 
 static inline void AddVal(ArrayArg* p, unsigned int v)
@@ -690,10 +695,11 @@ static inline void AddVal(ArrayArg* p, unsigned int v)
 }
 
 // @fnv 0x00a73d90
-void FUN_00a73d90_cls::FUN_00a73d90(ArrayArg* p)
+// src: XBOX_PDB 0x00a73d90
+void FUN_00a73d90_cls::NiAdditionalGeometryData_NiAGDDataBlock_GetViewerStrings(ArrayArg* p)
 {
-    AddVal(p, FUN_00a7d510(str_0109d2f4, m_04));
-    AddVal(p, FUN_00a7d5a0(str_0109d2dc, m_08));
+    AddVal(p, NiGetViewerString_00a7d510(str_0109d2f4, m_04));
+    AddVal(p, NiGetViewerString_00a7d5a0(str_0109d2dc, m_08));
 }
 
 #include "../../../../include/NiTMallocInterface.h"
@@ -786,11 +792,12 @@ class NiAGDViewer : public NiObject
     // This unit calls the legacy base viewer routine at 0x00a5d6e0.
     // The shared NiObject viewer declaration names a different routine.
     void AppendBaseViewerStrings(NiViewerStringsArray* pkStrings);
-    void FUN_00a73e40(NiViewerStringsArray* pkStrings);
+    void NiAdditionalGeometryData_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 
 // @fnv 0x00a73e40
-void NiAGDViewer::FUN_00a73e40(NiViewerStringsArray* pkStrings)
+// src: XBOX_PDB 0x00a73e40
+void NiAGDViewer::NiAdditionalGeometryData_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     AppendBaseViewerStrings(pkStrings);
 
@@ -839,7 +846,7 @@ class Owner517
     virtual void v0();
     unsigned int size;
     char* data;
-    void FUN_00a728d0(NiStream& stream, unsigned int block, Descriptor517* entries, unsigned int count,
+    void NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(NiStream& stream, unsigned int block, Descriptor517* entries, unsigned int count,
                       unsigned short vertices);
 };
 template <class T> inline void BinaryLoad517(NiBinaryStream* input, T* value, unsigned int count)
@@ -864,7 +871,8 @@ inline void ReadComponents517(NiBinaryStream* input, void* destination, unsigned
     ReadBinary517(input, destination, sum * vertices, components, count);
 }
 // @fnv 0x00a728d0
-void Owner517::FUN_00a728d0(NiStream& stream, unsigned int block, Descriptor517* entries, unsigned int count,
+// src: XBOX_PDB 0x00a728d0
+void Owner517::NiAdditionalGeometryData_NiAGDDataBlock_SaveBinary(NiStream& stream, unsigned int block, Descriptor517* entries, unsigned int count,
                             unsigned short vertices)
 {
     Descriptor517* idx = entries;
@@ -969,8 +977,8 @@ struct StringArray73530
         FUN_0096ae90(index, &value);
     }
 };
-const char* __cdecl FUN_00a7d5e0(const char*, const char*);
-const char* __cdecl FUN_00a7d370(const char*, bool);
+const char* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
+const char* __cdecl NiGetViewerString(const char*, bool);
 struct Descriptor73530
 {
     unsigned char flags;
@@ -979,12 +987,12 @@ struct Descriptor73530
         switch (flags & 6)
         {
         case 2:
-            return FUN_00a7d5e0("        Consistency", "MUTABLE");
+            return NiGetViewerString_00a7d5e0("        Consistency", "MUTABLE");
         case 3:
             goto staticConsistency;
         default:
         staticConsistency:
-            return FUN_00a7d5e0("        Consistency", "STATIC");
+            return NiGetViewerString_00a7d5e0("        Consistency", "STATIC");
         }
     }
     __forceinline void AppendConsistency(StringArray73530* output) const
@@ -993,175 +1001,176 @@ struct Descriptor73530
         switch (flags & 6)
         {
         case 2:
-            value = FUN_00a7d5e0("        Consistency", "MUTABLE");
+            value = NiGetViewerString_00a7d5e0("        Consistency", "MUTABLE");
             output->Append(value);
             break;
         case 3:
             goto staticConsistency;
         default:
         staticConsistency:
-            value = FUN_00a7d5e0("        Consistency", "STATIC");
+            value = NiGetViewerString_00a7d5e0("        Consistency", "STATIC");
             output->Append(value);
             break;
         }
     }
     unsigned int type, unitSize, totalSize, stride, blockIndex, blockOffset;
-    void FUN_00a73530(StringArray73530* output);
+    void NiAdditionalGeometryData_NiAGDDataStream_GetViewerStrings(StringArray73530* output);
 };
 // @fnv 0x00a73530
-void Descriptor73530::FUN_00a73530(StringArray73530* output)
+// src: XBOX_PDB 0x00a73530
+void Descriptor73530::NiAdditionalGeometryData_NiAGDDataStream_GetViewerStrings(StringArray73530* output)
 {
     const char* value;
     switch (type)
     {
     case 0:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_INVALID");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_INVALID");
         output->FUN_0096a610(&value);
         break;
     case 1:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT1");
         output->FUN_0096a610(&value);
         break;
     case 2:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT2");
         output->FUN_0096a610(&value);
         break;
     case 3:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT3");
         output->FUN_0096a610(&value);
         break;
     case 4:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT4");
         output->FUN_0096a610(&value);
         break;
     case 5:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG1");
         output->FUN_0096a610(&value);
         break;
     case 6:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG2");
         output->FUN_0096a610(&value);
         break;
     case 7:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG3");
         output->FUN_0096a610(&value);
         break;
     case 8:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG4");
         output->FUN_0096a610(&value);
         break;
     case 9:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG1");
         output->FUN_0096a610(&value);
         break;
     case 10:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG2");
         output->FUN_0096a610(&value);
         break;
     case 11:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG3");
         output->FUN_0096a610(&value);
         break;
     case 12:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG4");
         output->FUN_0096a610(&value);
         break;
     case 13:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT1");
         output->FUN_0096a610(&value);
         break;
     case 14:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT2");
         output->FUN_0096a610(&value);
         break;
     case 15:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT3");
         output->FUN_0096a610(&value);
         break;
     case 16:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT4");
         output->FUN_0096a610(&value);
         break;
     case 17:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT1");
         output->FUN_0096a610(&value);
         break;
     case 18:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT2");
         output->FUN_0096a610(&value);
         break;
     case 19:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT3");
         output->FUN_0096a610(&value);
         break;
     case 20:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT4");
         output->FUN_0096a610(&value);
         break;
     case 21:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE1");
         output->FUN_0096a610(&value);
         break;
     case 22:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE2");
         output->FUN_0096a610(&value);
         break;
     case 23:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE3");
         output->FUN_0096a610(&value);
         break;
     case 24:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE4");
         output->FUN_0096a610(&value);
         break;
     case 25:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE1");
         output->FUN_0096a610(&value);
         break;
     case 26:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE2");
         output->FUN_0096a610(&value);
         break;
     case 27:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE3");
         output->FUN_0096a610(&value);
         break;
     case 28:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE4");
         output->FUN_0096a610(&value);
         break;
     case 29:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND1");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND1");
         output->FUN_0096a610(&value);
         break;
     case 30:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND2");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND2");
         output->FUN_0096a610(&value);
         break;
     case 31:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND3");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND3");
         output->FUN_0096a610(&value);
         break;
     case 32:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND4");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND4");
         output->FUN_0096a610(&value);
         break;
     case 33:
-        value = FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_COUNT");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "AGD_NITYPE_COUNT");
         output->FUN_0096a610(&value);
         break;
     default:
-        value = FUN_00a7d5e0("        m_uiType", "UNKNOWN!!!");
+        value = NiGetViewerString_00a7d5e0("        m_uiType", "UNKNOWN!!!");
         output->Append(value);
         break;
     }
-    output->Append((const char*)FUN_00a7d510("        m_uiUnitSize", unitSize));
-    output->Append((const char*)FUN_00a7d510("        m_uiTotalSize", totalSize));
-    output->Append((const char*)FUN_00a7d510("        m_uiStride", stride));
-    output->Append((const char*)FUN_00a7d510("        m_uiBlockIndex", blockIndex));
-    output->Append((const char*)FUN_00a7d510("        m_uiBlockOffset", blockOffset));
+    output->Append((const char*)NiGetViewerString_00a7d510("        m_uiUnitSize", unitSize));
+    output->Append((const char*)NiGetViewerString_00a7d510("        m_uiTotalSize", totalSize));
+    output->Append((const char*)NiGetViewerString_00a7d510("        m_uiStride", stride));
+    output->Append((const char*)NiGetViewerString_00a7d510("        m_uiBlockIndex", blockIndex));
+    output->Append((const char*)NiGetViewerString_00a7d510("        m_uiBlockOffset", blockOffset));
     bool keepValue = (flags & 1) != 0;
-    output->Append(FUN_00a7d370("        Keep", keepValue));
+    output->Append(NiGetViewerString("        Keep", keepValue));
     AppendConsistency(output);
 }
 
@@ -1198,10 +1207,11 @@ class NiAGDObject : public NiObject
     int unk18;
     NiTPrimitiveArray<A2440Buffer*> m_aDataBlocks;
 
-    bool FUN_00a727f0(NiObject* pkObject);
+    bool NiAdditionalGeometryData_IsEqual(NiObject* pkObject);
 };
 // @fnv 0x00a727f0
-bool NiAGDObject::FUN_00a727f0(NiObject* pkObject)
+// src: XBOX_PDB 0x00a727f0
+bool NiAGDObject::NiAdditionalGeometryData_IsEqual(NiObject* pkObject)
 {
     if (!NiObject::IsSameAs(pkObject))
         return false;
@@ -1234,7 +1244,7 @@ bool NiAGDObject::FUN_00a727f0(NiObject* pkObject)
         {
             if (!pkBlock)
                 return false;
-            if (!pkBlock->FUN_00a72440(*pkOtherBlock))
+            if (!pkBlock->NiAdditionalGeometryData_NiAGDDataStream_IsEqual(*pkOtherBlock))
                 return false;
         }
     }

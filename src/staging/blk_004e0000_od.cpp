@@ -247,7 +247,8 @@ float __thiscall FUN_004e3d40_Class::GetFloatAtOffset12C()
 float FUN_004e44d0(float);
 
 // @fnv 0x004e44b0
-float FUN_004e44b0(float value)
+// src: XBOX_PDB 0x004e44b0
+float sin_004e44b0(float value)
 {
     return FUN_004e44d0(value);
 }
@@ -352,15 +353,16 @@ void FUN_004eeae0_shell::FUN_004eeae0(int arg)
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
 };
 
 
 
 // @fnv 0x004f0140
-bool NiAVObject::FUN_004f0140()
+// src: XBOX_PDB 0x004f0140
+bool NiAVObject::GetSelectiveUpdate()
 {
-    return ((FUN_00456630_helper*)this)->FUN_00456630(2);
+    return ((FUN_00456630_helper*)this)->NiAVObject_GetBit(2);
 }
 
 struct FUN_004f0360_class
@@ -376,11 +378,12 @@ bool FUN_004f0360_class::HasFlag(unsigned short mask)
 struct FUN_004f05a0_Class
 {
     void HasFlag(int);
-    void FUN_004f05a0();
+    void NiTimeController_GetActive();
 };
 
 // @fnv 0x004f05a0
-void FUN_004f05a0_Class::FUN_004f05a0()
+// src: XBOX_PDB 0x004f05a0
+void FUN_004f05a0_Class::NiTimeController_GetActive()
 {
     HasFlag(8);
 }
@@ -452,14 +455,14 @@ unsigned int S7010::GetLengthPlusOne()
 
 struct FUN_004f6fc0_shell
 {
-    void FUN_004f6fc0();
+    void TESRegionPoint_TESRegionPoint();
     FUN_004f6fc0_shell* FUN_004f87e0();
 };
 
 // @fnv 0x004f87e0
 FUN_004f6fc0_shell* FUN_004f6fc0_shell::FUN_004f87e0()
 {
-    FUN_004f6fc0();
+    TESRegionPoint_TESRegionPoint();
     return this;
 }
 
@@ -480,12 +483,13 @@ void __thiscall FUN_004f8a60_class::SetField108(int aiValue)
 
 struct FUN_004f8a90_Class
 {
-    void FUN_004f8a90(unsigned int key, unsigned int& value);
+    void SettingCollectionMap_Setting_Get(unsigned int key, unsigned int& value);
 };
 
 // Looks up the value for key in the DummyPointerMap at offset 0x10c of this object and writes it to value.
 // @fnv 0x004f8a90
-void FUN_004f8a90_Class::FUN_004f8a90(unsigned int key, unsigned int& value)
+// src: XBOX_PDB 0x004f8a90
+void FUN_004f8a90_Class::SettingCollectionMap_Setting_Get(unsigned int key, unsigned int& value)
 {
     ((DummyPointerMap*)((char*)this + 0x10c))->GetAt(key, value);
 }
@@ -519,18 +523,20 @@ unsigned char FUN_004fb970_class::GetByteAtOffsetD9() const
 
 
 // @fnv 0x004fd400
-EffectSetting* __thiscall MagicProjectile::FUN_004fd400()
+// src: XBOX_PDB 0x004fd400
+EffectSetting* __thiscall MagicProjectile::GetAVEffect()
 {
     return *(EffectSetting**)((char*)this + 0xa0);
 }
 
 struct FUN_004fd4f0_Class
 {
-    int __thiscall FUN_004fd4f0();
+    int __thiscall BGSProjectile_GetMotionType();
 };
 
 // @fnv 0x004fd4f0
-int __thiscall FUN_004fd4f0_Class::FUN_004fd4f0()
+// src: XBOX_PDB 0x004fd4f0
+int __thiscall FUN_004fd4f0_Class::BGSProjectile_GetMotionType()
 {
     return *(int*)((char*)this + 0x60) & 0x1f0000;
 }
@@ -624,7 +630,7 @@ void* __thiscall FUN_004ed890_Class::FUN_004ed890(unsigned int flags)
 }
 
 extern unsigned int DAT_011c7870;
-void __cdecl FUN_0040fca0(unsigned long);
+void __cdecl BSSleep(unsigned long);
 // If DAT_011c7870 is nonzero, clamps it to 0x14, passes it to FUN_0040fca0, then resets DAT_011c7870 to 0.
 // @fnv 0x004e1610
 // src: COMMUNITY 0x004e1610
@@ -636,7 +642,7 @@ void SleepManager_RunSleep()
         {
             DAT_011c7870 = 0x14;
         }
-        FUN_0040fca0(DAT_011c7870);
+        BSSleep(DAT_011c7870);
         DAT_011c7870 = 0;
     }
 }
@@ -675,13 +681,14 @@ struct GlobalObject_00633c90;
 extern GlobalObject_00633c90 g_011c7c28;
 
 // @fnv 0x004e7ff0
-unsigned int FUN_004e7ff0()
+// src: XBOX_PDB 0x004e7ff0
+unsigned int TESWaterSystem_GetWaterRoot()
 {
     return ((Flt*)&g_011c7c28)->operator unsigned int();
 }
 
 namespace fnv_004e8000 {
-struct IdleCleanup { void FUN_004def90(); };
+struct IdleCleanup { void NiNode_RemoveAllChildren(); };
 
 
 extern GlobalObject_00633c90 g_011c7c28;
@@ -692,7 +699,7 @@ extern GlobalObject_00633c90 g_011c7c28;
 void TESWaterSystem_ClearWaterRoot()
 {
     if (reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())
-        reinterpret_cast<IdleCleanup*>(reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())->FUN_004def90();
+        reinterpret_cast<IdleCleanup*>(reinterpret_cast<Flt*>(&g_011c7c28)->operator unsigned int())->NiNode_RemoveAllChildren();
     reinterpret_cast<GO*>(&g_011c7c28)->operator=(0);
 }
 }  // namespace fnv_004e8000
@@ -720,11 +727,12 @@ struct FUN_004f0110_Holder
 {
     char pad[0x2c];
     FUN_004f0110_Data d;
-    void __thiscall FUN_004f0110(FUN_004f0110_Data* src);
+    void __thiscall bhkBlendCollisionObjectAddRotation_SetAdditionalRotation(FUN_004f0110_Data* src);
 };
 // Copies the nine-int data block pointed to by src into the holder's d field.
 // @fnv 0x004f0110
-void __thiscall FUN_004f0110_Holder::FUN_004f0110(FUN_004f0110_Data* pSource)
+// src: XBOX_PDB 0x004f0110
+void __thiscall FUN_004f0110_Holder::bhkBlendCollisionObjectAddRotation_SetAdditionalRotation(FUN_004f0110_Data* pSource)
 {
     d = *pSource;
 }
@@ -828,7 +836,8 @@ struct Vec3i
     int z;
 };
 // @fnv 0x004f6e00
-float FUN_004f6e00(int aiX, int aiY, int aiZ)
+// src: XBOX_PDB 0x004f6e00
+float TESRegionObject_ConvertNormalToAngle(int aiX, int aiY, int aiZ)
 {
     Vec3i v;
     float len;
@@ -866,7 +875,7 @@ struct Modifier
 };
 struct AlphaColor
 {
-    void __thiscall FUN_0052ce20(float);
+    void __thiscall TESRegionPoint_SetX(float);
 };
 struct FUN_004f7030 : BaseS
 {
@@ -876,7 +885,7 @@ struct FUN_004f7030 : BaseS
 // @fnv 0x004f7030
 FUN_004f7030::FUN_004f7030(float* afPair)
 {
-    ((AlphaColor*)this)->FUN_0052ce20(afPair[0]);
+    ((AlphaColor*)this)->TESRegionPoint_SetX(afPair[0]);
     ((Modifier*)this)->SetValue(afPair[1]);
 }
 }  // namespace fnv_004f7030
@@ -888,7 +897,7 @@ struct Modifier
 };
 struct AlphaColor
 {
-    void __thiscall FUN_0052ce20(float);
+    void __thiscall TESRegionPoint_SetX(float);
 };
 struct BaseS
 {
@@ -903,7 +912,7 @@ struct FUN_004f7070_shell
 void* __thiscall FUN_004f7070_shell::SetValues(float afFirst, float afSecond)
 {
     ((BaseS*)this)->_ref_006815c0();
-    ((AlphaColor*)this)->FUN_0052ce20(afFirst);
+    ((AlphaColor*)this)->TESRegionPoint_SetX(afFirst);
     ((Modifier*)this)->SetValue(afSecond);
     return this;
 }
@@ -1101,7 +1110,7 @@ struct RegionPoint
     float GetY();
     float GetZ();
 };
-bool __cdecl FUN_0040eb10(float, float, float);
+bool __cdecl FloatEQ(float, float, float);
 struct FUN_004f70b0_Class
 {
     bool j_8TESRegionPoint_QEBA_NAEBV0_Z(RegionPoint* other);
@@ -1110,8 +1119,8 @@ struct FUN_004f70b0_Class
 // src: COMMUNITY 0x004f70b0
 bool FUN_004f70b0_Class::j_8TESRegionPoint_QEBA_NAEBV0_Z(RegionPoint* other)
 {
-    if (FUN_0040eb10(((RegionPoint*)this)->GetX(), other->GetX(), 0.001f) &&
-        FUN_0040eb10(((RegionPoint*)this)->GetY(), other->GetY(), 0.001f))
+    if (FloatEQ(((RegionPoint*)this)->GetX(), other->GetX(), 0.001f) &&
+        FloatEQ(((RegionPoint*)this)->GetY(), other->GetY(), 0.001f))
         return true;
     return false;
 }
@@ -1123,7 +1132,7 @@ bool FUN_004f70b0_Class::j_8TESRegionPoint_QEBA_NAEBV0_Z(RegionPoint* other)
 BGSConstructibleObject::BGSConstructibleObject()
 {
     SetFormType(0x32);
-    FUN_004f9570();
+    InitializeData();
 }
 
 class ActorCombatGroup;
@@ -1323,7 +1332,7 @@ void FUN_00a35910_shell::BSMultiTargetTreadTransfController_RemoveNodeRecurse(Ni
 
 struct FUN_00564f00_shell
 {
-    bool FUN_00564f00();
+    bool TESObjectREFR_GetIsImposter();
 };
 
 struct FUN_00564f40_shell
@@ -1340,7 +1349,7 @@ void TESRegionDataImposter_SetImposterVisible(TESObjectREFR* object, bool visibl
     if (object == 0)
         return;
 
-    if (!reinterpret_cast<FUN_00564f00_shell*>(object)->FUN_00564f00())
+    if (!reinterpret_cast<FUN_00564f00_shell*>(object)->TESObjectREFR_GetIsImposter())
     {
         reinterpret_cast<FUN_00564f40_shell*>(object)->TESObjectREFR_SetIsImposter(1);
         _FNV_Warning(0xe, "SetImposterVisible: ObjectREFR is not flagged as an imposter (%s:%X)", object->GetName(),
@@ -1508,7 +1517,8 @@ FUN_004ee1e0::~FUN_004ee1e0()
 extern int DAT_011c61d4;
 
 // @fnv 0x004ee440
-int __cdecl FUN_004ee440()
+// src: XBOX_PDB 0x004ee440
+int __cdecl FixedStrings_QDecalNode()
 {
     return DAT_011c61d4;
 }
@@ -1516,7 +1526,7 @@ int __cdecl FUN_004ee440()
 class SubObjectAC
 {
   public:
-    void FUN_004ee920();
+    void BSSimpleList_NiPointer_bhkAction_RemoveAll();
 };
 class FUN_004ee770_cls
 {
@@ -1635,7 +1645,7 @@ void FUN_004ee770_cls::BGSDecalNode_RemoveDecals()
 {
     if (m_ac != 0)
     {
-        m_ac->FUN_004ee920();
+        m_ac->BSSimpleList_NiPointer_bhkAction_RemoveAll();
     }
     for (unsigned int i = 0; i < FUN_0043b480(); ++i)
     {
@@ -1735,8 +1745,8 @@ class B4EFE80Node
 extern B4EFE80RTTI g_kB4EFE80RTTIA;
 extern B4EFE80RTTI g_kB4EFE80RTTIB;
 
-bool __cdecl FUN_0045bad0(const B4EFE80RTTI* pkRTTI, B4EFE80Controller* pkObject);
-void __cdecl FUN_004f0020(int iMode);
+bool __cdecl NiObject_IsExactKindOf(const B4EFE80RTTI* pkRTTI, B4EFE80Controller* pkObject);
+void __cdecl bhkNiCollisionObject_SetSyncMode(int iMode);
 
 class B4EFE80Object
 {
@@ -1748,11 +1758,11 @@ class B4EFE80Object
 // @fnv 0x004efe80
 void B4EFE80Object::UpdateControllers(float fTime, B4EFE80Node* pkNode)
 {
-    FUN_004f0020(3);
+    bhkNiCollisionObject_SetSyncMode(3);
     for (B4EFE80Controller* pkController = GetControllers(); pkController; pkController = pkController->GetNext())
     {
-        bool bExcluded = FUN_0045bad0(&g_kB4EFE80RTTIA, pkController);
-        bExcluded = bExcluded | FUN_0045bad0(&g_kB4EFE80RTTIB, pkController);
+        bool bExcluded = NiObject_IsExactKindOf(&g_kB4EFE80RTTIA, pkController);
+        bExcluded = bExcluded | NiObject_IsExactKindOf(&g_kB4EFE80RTTIB, pkController);
         if (!bExcluded)
         {
             B4EFE80UpdateData kData(fTime, false, false);
@@ -1765,7 +1775,7 @@ void B4EFE80Object::UpdateControllers(float fTime, B4EFE80Node* pkNode)
         B4EFE80UpdateData kNodeData(fTime, true, false);
         pkNode->FUN_004eff50(kNodeData, true);
     }
-    FUN_004f0020(0);
+    bhkNiCollisionObject_SetSyncMode(0);
 }
 
 struct FUN_004f1730_obj
@@ -1829,7 +1839,7 @@ struct InnerRegion
 };
 struct RegionSource
 {
-    InnerRegion* FUN_00527900();
+    InnerRegion* BGSWorldLocation_GetCell();
 };
 struct RegionPlayer
 {
@@ -1853,7 +1863,7 @@ bool __cdecl TESObjectREFR_IsImposterInActiveRegionList(RDLItem* target)
     {
         regionNode = reinterpret_cast<RegionPlayer*>(_g_thePlayer)
                          ->TESObjectREFR_GetWorldLocation(&queryBuffer, true)
-                         ->FUN_00527900()
+                         ->BGSWorldLocation_GetCell()
                          ->FUN_00547110();
     }
     while (regionNode != 0 && *regionNode->FUN_006815c0() != 0)
@@ -2019,11 +2029,12 @@ struct FUN_004f6640_cls
     int m_unk00;
     FUN_004f6640_node m_node;
     unsigned char m_flag0c;
-    void FUN_004f6640();
+    void TESRegionList_Clear();
 };
 
 // @fnv 0x004f6640
-void FUN_004f6640_cls::FUN_004f6640()
+// src: XBOX_PDB 0x004f6640
+void FUN_004f6640_cls::TESRegionList_Clear()
 {
     FUN_004f6640_item* item = *m_node.FUN_006815c0();
     while (item != 0)
@@ -2047,11 +2058,11 @@ struct NiMemObject4f
 struct RDLItemX : RDLItem
 {
     bool FUN_00440d80();
-    int FUN_007af430();
+    int BGSSaveFormBuffer_GetForm();
     struct MidX* NiAVObject_GetParent(int);
     bool _GetByte05();
-    bool FUN_004f1540();
-    unsigned char FUN_005bb4d0();
+    bool TESRegionData_GetOverride();
+    unsigned char TESRegionData_GetPriority();
     RDLNode* FUN_00441110();
     bool TESRegionPointList_IsInsideRegion(int);
 };
@@ -2115,7 +2126,7 @@ RDLItem* FUN_004f6850_Class::TESRegionList_GetDerivedData(int arg0, int arg1, in
             nodeB = nodeB->FUN_00726070();
             continue;
         }
-        if (arg2 != 0 && arg2 != ((RDLItemX*)curB)->FUN_007af430())
+        if (arg2 != 0 && arg2 != ((RDLItemX*)curB)->BGSSaveFormBuffer_GetForm())
         {
             nodeB = nodeB->FUN_00726070();
             continue;
@@ -2180,7 +2191,7 @@ RDLItem* FUN_004f6850_Class::TESRegionList_GetDerivedData(int arg0, int arg1, in
             nodeB = nodeB->FUN_00726070();
             continue;
         }
-        if (((RDLItemX*)itemB)->FUN_004f1540())
+        if (((RDLItemX*)itemB)->TESRegionData_GetOverride())
         {
             foundC = true;
             if (resultD != 0)
@@ -2188,10 +2199,10 @@ RDLItem* FUN_004f6850_Class::TESRegionList_GetDerivedData(int arg0, int arg1, in
                 delete resultD;
                 resultD = 0;
             }
-            if (((RDLItemX*)itemB)->FUN_005bb4d0() > bestPrioB)
+            if (((RDLItemX*)itemB)->TESRegionData_GetPriority() > bestPrioB)
             {
                 bestE = itemB;
-                bestPrioB = (unsigned short)((RDLItemX*)itemB)->FUN_005bb4d0();
+                bestPrioB = (unsigned short)((RDLItemX*)itemB)->TESRegionData_GetPriority();
             }
         }
         else if (!foundC)
@@ -2257,7 +2268,7 @@ class SpawnedObject
 {
   public:
     SpawnedObject();
-    void FUN_0052ce20(float v);
+    void TESRegionPoint_SetX(float v);
     void FUN_004f5d90(float v);
     int unk00;
     int unk04;
@@ -2267,7 +2278,7 @@ class FUN_004f7130_cls
 {
   public:
     float FUN_006a7f50();
-    float FUN_006b9130();
+    float CombatTimer_GetTargetTime();
     SpawnedObject* TESRegionPoint_Copy(SpawnedObject* src);
 };
 
@@ -2277,8 +2288,8 @@ class FUN_004f7130_cls
 SpawnedObject* FUN_004f7130_cls::TESRegionPoint_Copy(SpawnedObject* src)
 {
     SpawnedObject* obj = src ? src : new SpawnedObject();
-    obj->FUN_0052ce20(this->FUN_006a7f50());
-    obj->FUN_004f5d90(this->FUN_006b9130());
+    obj->TESRegionPoint_SetX(this->FUN_006a7f50());
+    obj->FUN_004f5d90(this->CombatTimer_GetTargetTime());
     return obj;
 }
 
@@ -2510,13 +2521,13 @@ class FUN_00438170
 
 struct Value4e1
 {
-    int& FUN_0043d4d0();
+    int& Setting_Int();
 };
 
 
 struct TES4e1
 {
-    NiNode* FUN_0084e3a0();
+    NiNode* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 extern TES4e1* DAT_011dea10;
@@ -2536,7 +2547,7 @@ extern Value4e1 DAT_011c7afc;
 extern int DAT_011c7a44;
 extern int DAT_011c7a40;
 
-unsigned int __cdecl FUN_004e7ff0();
+unsigned int __cdecl TESWaterSystem_GetWaterRoot();
 
 class FUN_004e1650
 {
@@ -2575,10 +2586,10 @@ FUN_004e1650::FUN_004e1650()
     f24 = 0.0f;
     DAT_011ff100 = *DAT_011c7bbc.FUN_00408d60();
     DAT_011ad86e = 0;
-    if (!FUN_004e7ff0())
+    if (!TESWaterSystem_GetWaterRoot())
     {
         *(NiPointer<AnimIdle>*)&g_011c7c28 = new FUN_00a5ecb0(0);
-        DAT_011dea10->FUN_0084e3a0()->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(static_cast<AnimIdle*>(*(NiPointer<AnimIdle>*)&g_011c7c28)), true);
+        DAT_011dea10->GetHavokWorldObjectCountInSceneGraph_0084e3a0()->AttachChildInAvailableSlot(reinterpret_cast<NiAVObject*>(static_cast<AnimIdle*>(*(NiPointer<AnimIdle>*)&g_011c7c28)), true);
     }
     DAT_011ff3b8 = FUN_00414430(0.0f, DAT_01016248, DAT_01016248, 1.0f);
     DAT_011ff3c8 = FUN_00414430(0.0f, 0.0f, DAT_0101e2bc, 1.0f);
@@ -2594,8 +2605,8 @@ FUN_004e1650::FUN_004e1650()
     m48 = 0;
     f98 = 0.0f;
     b9c = 0;
-    DAT_011c7a44 = DAT_011c7bec.FUN_0043d4d0();
-    DAT_011c7a40 = DAT_011c7afc.FUN_0043d4d0();
+    DAT_011c7a44 = DAT_011c7bec.Setting_Int();
+    DAT_011c7a40 = DAT_011c7afc.Setting_Int();
 }
 
 namespace fnv_004e19c0 {
@@ -2724,7 +2735,7 @@ struct CleanupObject
 {
     unsigned int FUN_00726070();
     void ClearTextureAndShaderTextures();
-    void FUN_00b6da10();
+    void BSTextureManager_ReturnRenderedTexture();
 };
 
 namespace fnv_004ed3e0 {
@@ -2743,7 +2754,7 @@ struct CleanupOwner
 };
 struct CleanupRegistry
 {
-    CleanupObject* FUN_0070ec90(void* object, int mode, int flags);
+    CleanupObject* DetailedActorPathHandler_GetCurrentNodeIndex(void* object, int mode, int flags);
 };
 extern CleanupRegistry* DAT_011dea10;
 CleanupObject* __stdcall BSShaderManager_GetTextureManager(CleanupObject* object);
@@ -2837,17 +2848,17 @@ FUN_004ed3e0::~FUN_004ed3e0()
 {
     ptr94.FUN_0066b0d0(0);
     ptr98.FUN_0066b0d0(0);
-    DAT_011dea10->FUN_0070ec90(this, 1, 0)->ClearTextureAndShaderTextures();
+    DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex(this, 1, 0)->ClearTextureAndShaderTextures();
     if (owner && owner->node.FUN_00559450() && owner->node.FUN_00559450()->FUN_00726070() == 2)
     {
-        BSShaderManager_GetTextureManager(owner->node.FUN_00559450())->FUN_00b6da10();
+        BSShaderManager_GetTextureManager(owner->node.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
         owner->node.FUN_0066b0d0(0);
     }
     list30.FUN_004ed900();
     list3c.FUN_004ed900();
     if (ptr58.FUN_00559450())
     {
-        ((CleanupManager*)FUN_004e7ff0())->Release(ptr58.FUN_00559450());
+        ((CleanupManager*)TESWaterSystem_GetWaterRoot())->Release(ptr58.FUN_00559450());
         ptr58.FUN_0066b0d0(0);
     }
 }
@@ -3126,7 +3137,7 @@ bool __cdecl TESRegionPoint_LineSegmentsIntersect(NiPoint3* apSeg1Start, NiPoint
 struct PolygonPoint
 {
     float FUN_006a7f50();
-    float FUN_006b9130();
+    float CombatTimer_GetTargetTime();
 };
 struct PolygonNode
 {
@@ -3159,7 +3170,7 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
     if (!pPoint || FUN_0059bb30() < 3)
         return false;
     float x = pPoint->FUN_006a7f50();
-    float by = pPoint->FUN_006b9130();
+    float by = pPoint->CombatTimer_GetTargetTime();
     if (x < TESRegionPointList_GetMinX() || x > TESRegionPointList_GetMaxX() || by < GetMinimumY() || by > GetMaxY())
         return false;
     PolygonNode* node6 = this;
@@ -3186,8 +3197,8 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
             _crossing = false;
         if (_crossing)
         {
-            ay_ = a2->FUN_006b9130();
-            yB = b_->FUN_006b9130();
+            ay_ = a2->CombatTimer_GetTargetTime();
+            yB = b_->CombatTimer_GetTargetTime();
             if ((ay_ > by && by >= yB) || (ay_ <= by && by < yB))
                 count7++;
         }
@@ -3336,11 +3347,12 @@ class Ref4FF
 class Owner4FF
 {
   public:
-    int FUN_004ff070(Ref4FF* pkRef);
+    int BGSTalkingActivator_AddMobileObjectExtra(Ref4FF* pkRef);
 };
 
 // @fnv 0x004ff070
-int Owner4FF::FUN_004ff070(Ref4FF* pkRef)
+// src: XBOX_PDB 0x004ff070
+int Owner4FF::BGSTalkingActivator_AddMobileObjectExtra(Ref4FF* pkRef)
 {
     int iResult = 0;
     pkRef->GetExtraData()->AddOwner(this, pkRef);
@@ -3360,11 +3372,12 @@ class ListX
   public:
     NiPointer<BSTempEffect> m_spNode;
     FUN_004ee360* m_pHead;
-    void FUN_004ee920();
+    void BSSimpleList_NiPointer_bhkAction_RemoveAll();
 };
 // Deletes all nodes in the m_pHead linked list and resets m_spNode to null.
 // @fnv 0x004ee920
-void ListX::FUN_004ee920()
+// src: XBOX_PDB 0x004ee920
+void ListX::BSSimpleList_NiPointer_bhkAction_RemoveAll()
 {
     while (m_pHead)
     {
@@ -3645,7 +3658,7 @@ struct Modifier
 };
 struct AlphaColor
 {
-    void __thiscall FUN_0052ce20(float);
+    void __thiscall TESRegionPoint_SetX(float);
 };
 struct Base006815c0
 {
@@ -3653,14 +3666,15 @@ struct Base006815c0
 };
 struct MyClass004f6fc0
 {
-    MyClass004f6fc0* __thiscall FUN_004f6fc0();
+    MyClass004f6fc0* __thiscall TESRegionPoint_TESRegionPoint();
 };
 // Calls _ref_006815c0, then FUN_0052ce20 and SetValue each with 0.0f, and returns this.
 // @fnv 0x004f6fc0
-MyClass004f6fc0* __thiscall MyClass004f6fc0::FUN_004f6fc0()
+// src: XBOX_PDB 0x004f6fc0
+MyClass004f6fc0* __thiscall MyClass004f6fc0::TESRegionPoint_TESRegionPoint()
 {
     ((Base006815c0*)this)->_ref_006815c0();
-    ((AlphaColor*)this)->FUN_0052ce20(0.0f);
+    ((AlphaColor*)this)->TESRegionPoint_SetX(0.0f);
     ((Modifier*)this)->SetValue(0.0f);
     return this;
 }
@@ -3823,15 +3837,15 @@ struct Obj20
     void SetByteAtOffset190(int arg);
     float GetFieldE8Float();
     float GetFieldEC();
-    float FUN_004e4600();
+    float Projectile_GetSpreadLooking();
     float GetField130();
-    float FUN_00821640();
+    float TESObjectWEAP_GetShotsPerSecond();
     float GetFootWeight();
-    float FUN_00567470();
+    float TESEffectShader_GetAddOnScaleStart();
     float TESObjectWEAP_GetFiringRumbleRightMotorStrength();
     float GetFloatAt144();
-    float FUN_006447d0();
-    float FUN_004e4620();
+    float Sky_GetCurrentWeatherPct();
+    float TESObjectWEAP_GetSpeed();
     float FUN_006447f0();
 };
 struct PropObj
@@ -3844,7 +3858,7 @@ struct PropObj
 };
 struct Refr
 {
-    BoundObj* FUN_007af430();
+    BoundObj* BGSSaveFormBuffer_GetForm();
 };
 struct StrList
 {
@@ -3864,7 +3878,7 @@ struct ProcObj
 };
 struct ItemObj
 {
-    ProcObj* FUN_004030b0();
+    ProcObj* CombatController_GetTarget();
     PropObj* FUN_00a59d30(int arg);
 };
 struct G4680Obj
@@ -3874,8 +3888,8 @@ struct G4680Obj
 };
 struct Map6c
 {
-    bool FUN_0057c850(Obj20* obj, bool& oflag);
-    void FUN_0084d310(Obj20* obj, bool value);
+    bool NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(Obj20* obj, bool& oflag);
+    void NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt(Obj20* obj, bool value);
 };
 extern GlobalObject_0045cf30 g_011c7b98;
 
@@ -3887,14 +3901,14 @@ struct TESObj
 struct ImgMgr
 {
     void ImageSpaceManager_RenderEffect_2(int a1, void* a2, void* a3, void* a4, int a5, int a6);
-    static ImgMgr* FUN_004e3270();
+    static ImgMgr* BSShaderManager_GetImageSpaceManager();
 };
 int __cdecl ImageSpaceEffectNoise_GetInstance();
 float __cdecl BSShaderManager_GetTimer(bool arg);
-float __cdecl FUN_004e44b0(float value);
+float __cdecl sin_004e44b0(float value);
 float __cdecl cos(float value);
 float __cdecl FUN_004e4430(float value);
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 void __cdecl WrapValueToRange(float* ptr, float a, float b);
 void* __cdecl BSShaderManager_GetRenderer();
 BSTextureManager* __stdcall BSShaderManager_GetTextureManager();
@@ -3914,7 +3928,7 @@ struct Self
 {
     int f00[27];
     Map6c m_6c;
-    ItemObj* FUN_004e8030(Refr* rrefr);
+    ItemObj* TESWaterSystem_GetWaterGeometry(Refr* rrefr);
     void AssignMemberToSource(void* arg);
     void TESWaterSystem_UpdateWaterNoise(ParamObj* param);
 };
@@ -3929,7 +3943,7 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
     {
         next = param->m_24.DereferenceIfNotNull(zpos);
         Refr* rrefr = param->m_24.AddEight(zpos);
-        BoundObj* bound = rrefr->FUN_007af430();
+        BoundObj* bound = rrefr->BGSSaveFormBuffer_GetForm();
         Obj20* obj = (Obj20*)bound->getObj80();
         if (obj != 0)
         {
@@ -3939,11 +3953,11 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                 {
                     ((G4680Obj*)ImageSpaceEffectNoise_GetInstance())->ImageSpaceEffectNoise_ShufflePermuationTable();
                 }
-                ItemObj* item = FUN_004e8030(rrefr);
+                ItemObj* item = TESWaterSystem_GetWaterGeometry(rrefr);
                 if (item != 0)
                 {
                     ItemObj* item3 = item;
-                    ProcObj* proc = item3->FUN_004030b0();
+                    ProcObj* proc = item3->CombatController_GetTarget();
                     if (proc != 0)
                     {
                         if (proc->FUN_008d8520() == 13)
@@ -3985,7 +3999,7 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                             }
                             pprop->m_138.FUN_006e5cc0(obj->m_30);
                             bool oflag = false;
-                            if (!m_6c.FUN_0057c850(obj, oflag))
+                            if (!m_6c.NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(obj, oflag))
                             {
                                 if (pprop->m_134.FUN_00559450() != 0)
                                 {
@@ -3993,16 +4007,16 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                                     float f_44 = BSShaderManager_GetTimer(true);
                                     float f_40 = obj->GetFieldE8Float();
                                     float zf4c = obj->GetFieldEC();
-                                    float f48 = obj->FUN_004e4600();
-                                    obj->m_34.v[0] += (double)FUN_004e44b0((float)(f_40 * 0.01745329238474369)) *
-                                                      (obj->FUN_006447d0() * f_44);
+                                    float f48 = obj->Projectile_GetSpreadLooking();
+                                    obj->m_34.v[0] += (double)sin_004e44b0((float)(f_40 * 0.01745329238474369)) *
+                                                      (obj->Sky_GetCurrentWeatherPct() * f_44);
                                     obj->m_34.v[1] +=
-                                        (double)cos((float)(f_40 * 0.01745329238474369)) * (obj->FUN_006447d0() * f_44);
-                                    obj->m_44.v[0] += (double)FUN_004e44b0((float)(zf4c * 0.01745329238474369)) *
-                                                      (obj->FUN_004e4620() * f_44);
+                                        (double)cos((float)(f_40 * 0.01745329238474369)) * (obj->Sky_GetCurrentWeatherPct() * f_44);
+                                    obj->m_44.v[0] += (double)sin_004e44b0((float)(zf4c * 0.01745329238474369)) *
+                                                      (obj->TESObjectWEAP_GetSpeed() * f_44);
                                     obj->m_44.v[1] +=
-                                        (double)cos((float)(zf4c * 0.01745329238474369)) * (obj->FUN_004e4620() * f_44);
-                                    obj->m_54.v[0] += (double)FUN_004e44b0((float)(f48 * 0.01745329238474369)) *
+                                        (double)cos((float)(zf4c * 0.01745329238474369)) * (obj->TESObjectWEAP_GetSpeed() * f_44);
+                                    obj->m_54.v[0] += (double)sin_004e44b0((float)(f48 * 0.01745329238474369)) *
                                                       (obj->FUN_006447f0() * f_44);
                                     obj->m_54.v[1] +=
                                         (double)cos((float)(f48 * 0.01745329238474369)) * (obj->FUN_006447f0() * f_44);
@@ -4015,17 +4029,17 @@ void Self::TESWaterSystem_UpdateWaterNoise(ParamObj* param)
                                     DAT_011ffe4c = obj->m_34;
                                     DAT_011ffe5c = obj->m_44;
                                     DAT_011ffe6c = obj->m_54;
-                                    DAT_011ffe7c = FUN_00404010(1.0f, FUN_004e4430(obj->GetField130() / 100.0));
-                                    DAT_011ffe80 = FUN_00404010(1.0f, FUN_004e4430(obj->FUN_00821640() / 100.0));
-                                    DAT_011ffe84 = FUN_00404010(1.0f, FUN_004e4430(obj->GetFootWeight() / 100.0));
-                                    DAT_011ffe8c = obj->FUN_00567470();
+                                    DAT_011ffe7c = BSMAX_00404010(1.0f, FUN_004e4430(obj->GetField130() / 100.0));
+                                    DAT_011ffe80 = BSMAX_00404010(1.0f, FUN_004e4430(obj->TESObjectWEAP_GetShotsPerSecond() / 100.0));
+                                    DAT_011ffe84 = BSMAX_00404010(1.0f, FUN_004e4430(obj->GetFootWeight() / 100.0));
+                                    DAT_011ffe8c = obj->TESEffectShader_GetAddOnScaleStart();
                                     DAT_011ffe90 = obj->TESObjectWEAP_GetFiringRumbleRightMotorStrength();
                                     DAT_011ffe94 = obj->GetFloatAt144();
-                                    ImgMgr::FUN_004e3270()->ImageSpaceManager_RenderEffect_2(0x21, BSShaderManager_GetRenderer(),
+                                    ImgMgr::BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect_2(0x21, BSShaderManager_GetRenderer(),
                                                                          pprop->m_134.FUN_00559450(),
                                                                          obj->m_30.FUN_00559450(), 0, 1);
                                 }
-                                m_6c.FUN_0084d310(obj, true);
+                                m_6c.NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt(obj, true);
                             }
                         }
                     }

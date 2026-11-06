@@ -162,11 +162,12 @@ void* FUN_00bd23c0_shell::DestroyIfFlagged(int arg)
 
 struct FUN_00bd2720_shell
 {
-    virtual void FUN_00bd2720();
+    virtual void DistantLODShader_ReloadShaders();
 };
 
 // @fnv 0x00bd2720
-void FUN_00bd2720_shell::FUN_00bd2720()
+// src: XBOX_PDB 0x00bd2720
+void FUN_00bd2720_shell::DistantLODShader_ReloadShaders()
 {
     void** v = *(void***)this;
     ((void(__thiscall*)(void*))v[0x13c / 4])(this);
@@ -518,7 +519,7 @@ inline bool SetScreenElementTexture(NiScreenElements* geometry, int a, int b, fl
 
 inline void FinishScreenElement(NiScreenElements* geometry)
 {
-    geometry->GetData()->FUN_00a87900();
+    geometry->GetData()->NiScreenElementsData_UpdateBound();
 }
 
 struct DebugShaderInit : BloodSplatterBeamShader
@@ -541,7 +542,7 @@ bool DebugShaderInit::InitDebugShader()
     SetScreenElementRectangle(m_pMenuBackgroundScreenGeometry.m_pObject, 0, -1.0f, 1.0f, 2.0f, -2.0f);
     SetScreenElementTexture(m_pMenuBackgroundScreenGeometry.m_pObject, 0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
     FinishScreenElement(m_pMenuBackgroundScreenGeometry.m_pObject);
-    m_pMenuBackgroundScreenGeometry.m_pObject->FUN_00a5a040();
+    m_pMenuBackgroundScreenGeometry.m_pObject->UpdateProperties();
     GetNiScreenElements()->Update(&update);
     if (!m_spPixelConstantMap.m_pObject)
     {
@@ -615,7 +616,7 @@ struct RenderRectangle
 struct RenderView
 {
     void FUN_00a88020(int flags, float x, float y, float width, float height);
-    void FUN_00a87900();
+    void NiScreenElementsData_UpdateBound();
 };
 
 struct RenderContext : RenderResource
@@ -981,7 +982,7 @@ void RenderOwner::DrawSlots(void* destination)
             float fSizeX = fScaleX * DAT_0106b168;
             float fSizeY = fScaleY * DAT_010760f0;
             context.m_pObject->GetView()->FUN_00a88020(0, bx, by, fSizeX, fSizeY);
-            context.m_pObject->GetView()->FUN_00a87900();
+            context.m_pObject->GetView()->NiScreenElementsData_UpdateBound();
             context.m_pObject->SetOwner(this);
             DrawFrame(context.m_pObject);
             if ((DAT_011f4748->GetStatus() == 1 || DAT_011f4748->GetStatus() == 2) && DAT_011f4748->GetMode() == 1)

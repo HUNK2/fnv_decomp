@@ -151,7 +151,7 @@ static __forceinline void Dot3(float& result, LocalM128 u, LocalM128 v)
     LocalM128 z = _mm_shuffle_ps(m, m, 0xaa);
     _mm_store_ss(&result, _mm_add_ss(z, _mm_add_ss(y, m)));
 }
-int FUN_00d231b0(const LocalM128* pa, const LocalM128* pb, const LocalM128* pc, const LocalM128* pd, ClosestPointResult* out);
+int hkLineSegmentUtil_closestPointInfLineInfLine(const LocalM128* pa, const LocalM128* pb, const LocalM128* pc, const LocalM128* pd, ClosestPointResult* out);
 using ::_mm_store_ps;
 using ::_mm_xor_ps;
 extern float DAT_0104da48;
@@ -341,11 +341,12 @@ class FUN_00d2c960_cls
     unsigned int unk1C;
     unsigned int m_kRoomNode;
 
-    void FUN_00d2c960(const S00d2c960_Info* pkInfo);
+    void hkLiquidAction_applyAction(const S00d2c960_Info* pkInfo);
 };
 
 // @fnv 0x00d2c960
-void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
+// src: XBOX_PDB 0x00d2c960
+void FUN_00d2c960_cls::hkLiquidAction_applyAction(const S00d2c960_Info* pkInfo)
 {
     float fTime = pkInfo->m_fTime;
     S00d2c960_Body* pkBody = m_pkBody;

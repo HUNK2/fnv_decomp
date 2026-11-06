@@ -242,7 +242,7 @@ FUN_00d63c50::FUN_00d63c50(ViewerArg* arg) : WorldViewerBase(arg)
     m_38 = 0x80000000;
 }
 
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 struct S_B20
 {
     virtual void b20v0();
@@ -262,7 +262,7 @@ inline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() throw()
 // hkArray<T>::~hkArray() = clearAndDeallocate() on the heap allocator.
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(((hkMemoryRouter*)FUN_00c85750())->heap());
+    return reinterpret_cast<hkMemoryAllocator&>(((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap());
 }
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& heap)
 {
@@ -294,7 +294,7 @@ FUN_00d63cb0::~FUN_00d63cb0() throw()
 }
 
 namespace fnv_00d63d60 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d63d60_obj
 {
@@ -309,7 +309,7 @@ struct FUN_00d63d60_obj
 // @fnv 0x00d63d60
 void* AllocAndInitObject(int a1)
 {
-    hkMemoryRouter* pAllocHolder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* pAllocHolder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* pAllocator = pAllocHolder->m_heap;
     typedef void* (__thiscall* AllocFn)(hkMemoryAllocator*, unsigned int);
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(
@@ -325,7 +325,7 @@ void* AllocAndInitObject(int a1)
 }  // namespace fnv_00d63d60
 
 namespace fnv_00d63e10 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d63e10_cls
 {
@@ -345,7 +345,7 @@ FUN_00d63e10_cls* FUN_00d63e10_cls::Destroy(unsigned char acFlags)
     FUN_00d63cb0();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -354,7 +354,7 @@ FUN_00d63e10_cls* FUN_00d63e10_cls::Destroy(unsigned char acFlags)
 }  // namespace fnv_00d63e10
 
 namespace hkD635 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iSizeElem) throw();
@@ -408,7 +408,7 @@ __forceinline void _pushBack(hkArray<T>& array, hkMemoryRouter& router, const T&
 template <class T>
 __forceinline void AddBack(hkArray<T>& array, const T& t)
 {
-    _pushBack(array, hkD635::FUN_00c85750(), t);
+    _pushBack(array, hkD635::hkMemoryRouter_getInstance(), t);
 }
 
 class VehicleViewerD635

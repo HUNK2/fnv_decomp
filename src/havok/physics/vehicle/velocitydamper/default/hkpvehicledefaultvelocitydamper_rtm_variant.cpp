@@ -13,7 +13,7 @@ extern double DAT_01012060;
 class FnvVehicleState
 {
   public:
-    void FUN_00561800(const hkVector4* value);
+    void hkpRigidBody_setAngularVelocity(const hkVector4* value);
 };
 
 class FnvVehicleDefaultVelocityDamper : public hkpVehicleDefaultVelocityDamper
@@ -59,5 +59,5 @@ void __thiscall FnvVehicleDefaultVelocityDamper::hkpVehicleDefaultVelocityDamper
     _mm_store_ps(&values.x, scaled);
 
     FnvVehicleState* st = (FnvVehicleState*)state;
-    st->FUN_00561800(&values);
+    st->hkpRigidBody_setAngularVelocity(&values);
 }

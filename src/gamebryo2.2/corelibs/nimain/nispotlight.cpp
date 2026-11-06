@@ -59,7 +59,7 @@ void* __cdecl NiSpotLight_CreateObject()
 bool NiSpotLight::IsEqual(NiObject* pObject) const
 {
     NiSpotLight* pOther = (NiSpotLight*)pObject;
-    if (((NiPointLight*)this)->FUN_00a7d730(pObject))
+    if (((NiPointLight*)this)->IsEqual_00a7d730(pObject))
     {
         if (m_f0108 == pOther->m_f0108 && m_f0110 == pOther->m_f0110 && m_f010c == pOther->m_f010c)
             return true;
@@ -69,17 +69,18 @@ bool NiSpotLight::IsEqual(NiObject* pObject) const
 
 struct C_00a7d7a0
 {
-    void __thiscall FUN_00a7d7a0(NiUpdateData&);
+    void __thiscall UpdateWorldData_00a7d7a0(NiUpdateData&);
 };
 struct S_00a94d90
 {
-    void __thiscall FUN_00a94d90(NiUpdateData&);
+    void __thiscall NiSpotLight_UpdateWorldData(NiUpdateData&);
 };
 // Calls the base update, copies three floats from offsets 0x68/0x74/0x80 to 0xFC/0x100/0x104, and increments the counter at 0xA8.
 // @fnv 0x00a94d90
-void __thiscall S_00a94d90::FUN_00a94d90(NiUpdateData& UpdateData)
+// src: XBOX_PDB 0x00a94d90
+void __thiscall S_00a94d90::NiSpotLight_UpdateWorldData(NiUpdateData& UpdateData)
 {
-    ((C_00a7d7a0*)this)->FUN_00a7d7a0(UpdateData);
+    ((C_00a7d7a0*)this)->UpdateWorldData_00a7d7a0(UpdateData);
     *(volatile float*)((char*)this + 0xFC) = *(volatile float*)((char*)this + 0x68);
     *(volatile float*)((char*)this + 0x100) = *(volatile float*)((char*)this + 0x74);
     *(volatile float*)((char*)this + 0x104) = *(volatile float*)((char*)this + 0x80);
@@ -94,7 +95,7 @@ struct NiPointLightViewerStrings
 };
 
 char* __cdecl _FUN_00a7d330(void* object);
-char* __cdecl FUN_00a7d550(char const* name, float value);
+char* __cdecl NiGetViewerString_00a7d550(char const* name, float value);
 
 struct FUN_00a94f70_shell : NiSpotLightShell
 {
@@ -117,28 +118,28 @@ void FUN_00a94f70_shell::AppendViewerStrings(StrArr* strings)
         strings->SetSize(index + strings->m_usGrowBy);
     strings->SetAt(index, value);
 
-    value = reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xfc)->FUN_00a59af0("m_kWorldDir");
+    value = reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xfc)->GetViewerString_00a59af0("m_kWorldDir");
 
     index = strings->m_usSize;
     if (index >= strings->m_usMaxSize)
         strings->SetSize(index + strings->m_usGrowBy);
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fOuterSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x108));
+    value = NiGetViewerString_00a7d550("m_fOuterSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x108));
 
     index = strings->m_usSize;
     if (index >= strings->m_usMaxSize)
         strings->SetSize(index + strings->m_usGrowBy);
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fInnerSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10c));
+    value = NiGetViewerString_00a7d550("m_fInnerSpotAngle", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x10c));
 
     index = strings->m_usSize;
     if (index >= strings->m_usMaxSize)
         strings->SetSize(index + strings->m_usGrowBy);
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fSpotExponent", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x110));
+    value = NiGetViewerString_00a7d550("m_fSpotExponent", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x110));
 
     index = strings->m_usSize;
     if (index >= strings->m_usMaxSize)
@@ -326,7 +327,7 @@ struct FUN_00a94e40_cls
     float m_f010c;
     float m_f0110;
     void __thiscall SaveToStream(FUN_00a94e40_arg* a);
-    void __thiscall FUN_00a94e40(FUN_00a94e40_arg* a);
+    void __thiscall NiSpotLight_LoadBinary(FUN_00a94e40_arg* a);
 };
 
 struct StreamCb
@@ -489,7 +490,8 @@ struct FUN_00a94e40_arg
 };
 
 // @fnv 0x00a94e40
-void __thiscall FUN_00a94e40_cls::FUN_00a94e40(FUN_00a94e40_arg* apArg)
+// src: XBOX_PDB 0x00a94e40
+void __thiscall FUN_00a94e40_cls::NiSpotLight_LoadBinary(FUN_00a94e40_arg* apArg)
 {
     SaveToStream(apArg);
     StreamCb* s = apArg->m_024c;
@@ -649,18 +651,20 @@ BA94DD0FadeNode* BA94DD0FadeNode::Clone(BA94DD0CloningProcess& kCloning)
 
 class NiStream;
 
-extern "C" void __cdecl FUN_00a9b360(void* thisPtr, NiStream& stream);
+extern "C" void __cdecl NiAmbientLight_LinkObject(void* thisPtr, NiStream& stream);
 
 // @fnv 0x00a94c60
-void __cdecl FUN_00a94c60(void* thisPtr, NiStream& stream)
+// src: XBOX_PDB 0x00a94c60
+void __cdecl NiSpotLight_LinkObject(void* thisPtr, NiStream& stream)
 {
-    FUN_00a9b360(thisPtr, stream);
+    NiAmbientLight_LinkObject(thisPtr, stream);
 }
 
 extern "C" void __cdecl _FUN_00a75c10();
 
 // @fnv 0x00a94c70
-void __cdecl FUN_00a94c70()
+// src: XBOX_PDB 0x00a94c70
+void __cdecl NiSpotLight_RegisterStreamables()
 {
     _FUN_00a75c10();
 }

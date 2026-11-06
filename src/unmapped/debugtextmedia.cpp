@@ -11,10 +11,10 @@ class GlobalObject_0045cf30
 };
 extern GlobalObject_0045cf30 g_011de308;
 int __cdecl FUN_00406d50(char* dst, unsigned int sz, const char* src);
-int __cdecl FUN_0044a670(char* s);
+int __cdecl BSstrlen(char* s);
 extern const char saveExtension[];
 int __cdecl FUN_004564f0(char* a, const char* b, int n);
-int __cdecl FUN_00406d00(char* buf, unsigned int sz, const char* fmt, ...);
+int __cdecl BSsprintf(char* buf, unsigned int sz, const char* fmt, ...);
 void* __cdecl operator new(unsigned int n);
 
 class Finder
@@ -132,7 +132,7 @@ class InfoLike
   public:
     int FUN_008d85e0(int a, int b, int* pair);
     int FUN_008d85e0();
-    void* FUN_0068efb0();
+    void* GetNavMeshInfo_0068efb0();
     void BSSaveDataSystemUtilityFile_SetDirectoryName(const char* s);
     void BSSaveDataSystemUtilityFile_SetSubTitle(char* s);
     void BSSaveDataSystemUtilityFile_SetDetail(char* s);
@@ -177,22 +177,22 @@ class EntryLike
     int unk074;
     int unk078;
 
-    char* FUN_007d5180();
-    char* FUN_007d5140();
-    char* FUN_0075f8c0();
-    unsigned int FUN_007d5160();
+    char* BGSSaveLoadFileEntry_GetPlayTime();
+    char* GetPlayerTitle();
+    char* BGSSaveLoadFileEntry_GetPlayerName();
+    unsigned int BGSSaveLoadFileEntry_GetPlayerLevel();
     int GetScreenshotWidth();
     int GetScreenshotOffset();
     int GetScreenshotHeight();
-    char* FUN_007d6970();
-    void FUN_006ea330();
+    char* BGSSaveLoadFileEntry_GetLocation();
+    void BSTaskletData_TaskYield();
 };
 class SingObj
 {
   public:
     void* BSSystemUtility_GetMsgDialogUtility();
     void* BSSystemUtility_GetSaveDataUtility();
-    bool FUN_004f1540();
+    bool TESRegionData_GetOverride();
 };
 SingObj* __cdecl FUN_00af2640();
 class VCall8
@@ -225,7 +225,7 @@ extern GlobalObject_0040c150 g_011d4f78;
 extern GlobalObject_0040c150 g_011d3b2c;
 void __cdecl FUN_0084dab0(int a, int b);
 int __cdecl BSprintf(const char* fmt, char* buf);
-void __cdecl FUN_0040fca0(int ms);
+void __cdecl BSSleep(int ms);
 void BGSSaveLoadManager_SysUtilSaveCompleteCallback();
 
 union SizePair
@@ -267,7 +267,7 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
     {
         if (finder.FUN_00852700() == 1)
         {
-            lenTmp7 = FUN_0044a670(finder.FUN_00436aa0());
+            lenTmp7 = BSstrlen(finder.FUN_00436aa0());
             if (FUN_004564f0(finder.FUN_00436aa0() + lenTmp7 - 4, saveExtension, 4) == 0)
             {
                 {
@@ -279,7 +279,7 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
                     int val4a8;
                     SizePair pair2a;
                     char buf2[0x108];
-                    FUN_00406d00(buf2, 0x104, "%s%s", buf127, finder.FUN_00436aa0());
+                    BSsprintf(buf2, 0x104, "%s%s", buf127, finder.FUN_00436aa0());
                     Handle handle20(buf2, 0, 0, 0);
                     if (handle20.FUN_00559450() == 0)
                     {
@@ -287,30 +287,30 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
                         kPair1a12.high = 0;
                         handle20.BSSystemFile_GetSize(&kPair1a12.low);
                         val4a8 = (int)new SaveData("SaveData", 0, kPair1a12.low);
-                        info8 = ((InfoLike*)(void*)val4a8)->FUN_0068efb0();
+                        info8 = ((InfoLike*)(void*)val4a8)->GetNavMeshInfo_0068efb0();
                         pair2a.low = 0;
                         pair2a.high = 0;
                         handle20.FUN_008526d0(
                             ((InfoLike*)info8)->FUN_008d85e0(kPair1a12.low, kPair1a12.high, &pair2a.low));
                         if (handle20.FUN_00559450() == 0)
                         {
-                            FUN_00406d00(buf313, 0x104, "Copying the save game file to the target...\n\n");
+                            BSsprintf(buf313, 0x104, "Copying the save game file to the target...\n\n");
                             FUN_00406d50(buf313, 0x104, buf2);
                             ((VCall8*)FUN_00af2640()->BSSystemUtility_GetMsgDialogUtility())->v8(buf313, 1000);
                             entry3 = new EntryLike(buf2, 0);
                             FUN_0084dab0(val4a8, (int)entry3);
-                            entry3->FUN_006ea330();
+                            entry3->BSTaskletData_TaskYield();
                             ((InfoLike*)info8)->BSSaveDataSystemUtilityFile_SetDirectoryName("-SAVE-");
-                            if (entry3->FUN_007d6970() != 0 && FUN_0044a670(entry3->FUN_007d6970()) != 0)
-                                ((InfoLike*)info8)->BSSaveDataSystemUtilityFile_SetSubTitle(entry3->FUN_007d6970());
+                            if (entry3->BGSSaveLoadFileEntry_GetLocation() != 0 && BSstrlen(entry3->BGSSaveLoadFileEntry_GetLocation()) != 0)
+                                ((InfoLike*)info8)->BSSaveDataSystemUtilityFile_SetSubTitle(entry3->BGSSaveLoadFileEntry_GetLocation());
                             else
                                 ((InfoLike*)info8)->BSSaveDataSystemUtilityFile_SetSubTitle("Location");
-                            FUN_00406d00(
+                            BSsprintf(
                                 buf410, 0x100, "%s\n%s %d: %s\n%s: %s",
-                                entry3->FUN_0075f8c0() ? entry3->FUN_0075f8c0() : (char*)g_011d4f78.FUN_00403df0(),
-                                g_011d3b2c.FUN_00403df0(), entry3->FUN_007d5160(),
-                                entry3->FUN_007d5140() ? entry3->FUN_007d5140() : "-", g_011d3954.FUN_00403df0(),
-                                entry3->FUN_007d5180() ? entry3->FUN_007d5180() : (char*)g_011d3954.FUN_00403df0());
+                                entry3->BGSSaveLoadFileEntry_GetPlayerName() ? entry3->BGSSaveLoadFileEntry_GetPlayerName() : (char*)g_011d4f78.FUN_00403df0(),
+                                g_011d3b2c.FUN_00403df0(), entry3->BGSSaveLoadFileEntry_GetPlayerLevel(),
+                                entry3->GetPlayerTitle() ? entry3->GetPlayerTitle() : "-", g_011d3954.FUN_00403df0(),
+                                entry3->BGSSaveLoadFileEntry_GetPlayTime() ? entry3->BGSSaveLoadFileEntry_GetPlayTime() : (char*)g_011d3954.FUN_00403df0());
                             ((InfoLike*)info8)->BSSaveDataSystemUtilityFile_SetDetail(buf410);
                             ((InfoLike*)info8)
                                 ->BSSaveDataSystemUtilityFile_SetIconImage(entry3->GetScreenshotWidth(), entry3->GetScreenshotHeight(),
@@ -320,8 +320,8 @@ void ThisCls::BGSSaveLoadManager_CopySaveGames(int unused)
                             delete entry3;
                             FUN_0050f9c0(val4a8);
                             ((VCall20*)FUN_00af2640()->BSSystemUtility_GetSaveDataUtility())->v20((int)info8);
-                            while (((SingObj*)FUN_00af2640()->BSSystemUtility_GetSaveDataUtility())->FUN_004f1540() == 1)
-                                FUN_0040fca0(10);
+                            while (((SingObj*)FUN_00af2640()->BSSystemUtility_GetSaveDataUtility())->TESRegionData_GetOverride() == 1)
+                                BSSleep(10);
                         }
                         else
                         {

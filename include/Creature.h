@@ -24,6 +24,6 @@ public:
     float GetAnimationSpeedMultiplier(ANIM_GROUP_ENUM group);
     float CalculateRunSpeed_008d4f10();
     float Creature_GetWeaponSkill();
-    float FUN_00821640();
+    float TESObjectWEAP_GetShotsPerSecond();
     static void __cdecl SetNodeFlagsRecursive(NiAVObject*, int, bool, bool, bool);
 };

@@ -69,11 +69,11 @@ struct EnvironmentVariable
     hkStringPtr m_name;
     hkStringPtr m_value;
 };
-HKXMemoryRouter* __cdecl FUN_00c85750();
+HKXMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 __forceinline void ReleaseEnvironmentVariables(hkArray<EnvironmentVariable>& variables)
 {
-    hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->manager);
+    hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->manager);
     EnvironmentVariable* entry = variables.m_data;
     if (variables.m_iElementCount > 0)
     {
@@ -139,7 +139,7 @@ template <typename T> __forceinline void hkArrayBase<T>::removeAt(int iIndex)
 
 template <> __forceinline void hkArray<EnvironmentVariable>::pushBack(const EnvironmentVariable& kElem)
 {
-    HKXMemoryRouter* pRouter = FUN_00c85750();
+    HKXMemoryRouter* pRouter = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(pRouter->manager);
     if (m_iElementCount == getCapacity())
         ResizeAudioStream(pAlloc, this, sizeof(EnvironmentVariable));

@@ -54,12 +54,13 @@ void BSShaderProperty::ShaderPassList::Add(NiGeometry* geometry, unsigned short 
 
 struct FUN_00ba8ab0_shell : public BSShaderProperty
 {
-    void FUN_00ba8ab0(float);
+    void BSShaderProperty_SetAlpha(float);
 };
 
 // Resets the int at offset 0x38 when the stored float at 0x28 crosses the 1.0 threshold, then stores afAlpha at 0x28.
 // @fnv 0x00ba8ab0
-void FUN_00ba8ab0_shell::FUN_00ba8ab0(float afAlpha)
+// src: XBOX_PDB 0x00ba8ab0
+void FUN_00ba8ab0_shell::BSShaderProperty_SetAlpha(float afAlpha)
 {
     if ((*(float*)((char*)this + 0x28) >= 1.0f && afAlpha < 1.0f) ||
         (*(float*)((char*)this + 0x28) < 1.0f && afAlpha >= 1.0f))
@@ -85,14 +86,15 @@ void __fastcall FUN_00ba8cd0(char* pThis)
 
 struct FUN_00baa000_shell : public BSShaderProperty
 {
-    void FUN_00baa000();
+    void BSShaderProperty_FreeRenderPasses();
 };
 
 void __fastcall FUN_00ba9520(void* pThis);
 
 // Clears the int at offset 0x38, then for each pointer at offsets 0x3c-0x54 calls FUN_00ba9520, deallocates it via g_memoryManager and nulls it.
 // @fnv 0x00baa000
-void FUN_00baa000_shell::FUN_00baa000()
+// src: XBOX_PDB 0x00baa000
+void FUN_00baa000_shell::BSShaderProperty_FreeRenderPasses()
 {
     char* self = reinterpret_cast<char*>(this);
     *reinterpret_cast<int*>(self + 0x38) = 0;
@@ -165,7 +167,7 @@ const char* __cdecl NiShadeProperty_GetRTTI()
 struct BSSP_stub4;
 struct NiObject_stub
 {
-    void FUN_00a81430(BSSP_stub4*, int);
+    void NiShadeProperty_CopyMembers(BSSP_stub4*, int);
 };
 struct BSSP_stub4 : NiObject_stub
 {
@@ -179,9 +181,10 @@ struct BSSP_stub4 : NiObject_stub
     float m_fFogDepth;
 };
 // @fnv 0x00ba8b10
-void __fastcall FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
+// src: XBOX_PDB 0x00ba8b10
+void __fastcall BSShaderProperty_CopyMembers(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
 {
-    self->FUN_00a81430(dst, arg);
+    self->NiShadeProperty_CopyMembers(dst, arg);
     dst->m_f0 = self->m_f0;
     dst->m_f1 = self->m_f1;
     dst->m_fAlpha = self->m_fAlpha;
@@ -208,7 +211,7 @@ void __cdecl ToggleGlobalFlag()
 
 struct NiObjectNET_stub
 {
-    void FUN_00a5c6a0(int);
+    void NiObjectNET_PostLinkObject(int);
 };
 struct BSSP_stub : NiObjectNET_stub
 {
@@ -218,9 +221,10 @@ struct BSSP_stub : NiObjectNET_stub
     float m_depth;
 };
 // @fnv 0x00ba8be0
-void __fastcall FUN_00ba8be0(BSSP_stub* self, int, int arg)
+// src: XBOX_PDB 0x00ba8be0
+void __fastcall BSShaderProperty_PostLinkObject(BSSP_stub* self, int, int arg)
 {
-    self->FUN_00a5c6a0(arg);
+    self->NiObjectNET_PostLinkObject(arg);
     if ((self->m_flags & 0x4000000) > 0)
         self->m_depth = 1.0f;
 }
@@ -264,7 +268,8 @@ void __fastcall BSShaderProperty_RenderPass_ClearSceneLights(FUN_00ba8c30_shell2
 
 extern const char g_011fa018_arg1[];
 // @fnv 0x00ba8eb0
-const char* __cdecl FUN_00ba8eb0()
+// src: XBOX_PDB 0x00ba8eb0
+const char* __cdecl BSShaderProperty_GetRTTI()
 {
     return g_011fa018_arg1;
 }
@@ -602,12 +607,12 @@ struct ShaderFlagList
 };
 extern void __stdcall WriteToArray(SettingArray* target);
 extern int __cdecl NiViewerStrings_NiGetViewerString_Title(const char* text);
-extern int __cdecl FUN_00a7d370(const char* text, int flag);
-extern int __cdecl FUN_00a7d550(const char* text, float value);
-extern int __cdecl FUN_00a7d4d0(const char* text, int value);
-extern unsigned int __cdecl FUN_00a7d510(const char* text, unsigned int value);
-extern int __cdecl FUN_00a7d5e0(const char* text, const char* value);
-extern const char* __cdecl FUN_00b4f9d0(unsigned int value);
+extern int __cdecl NiGetViewerString(const char* text, int flag);
+extern int __cdecl NiGetViewerString_00a7d550(const char* text, float value);
+extern int __cdecl NiGetViewerString_00a7d4d0(const char* text, int value);
+extern unsigned int __cdecl NiGetViewerString_00a7d510(const char* text, unsigned int value);
+extern int __cdecl NiGetViewerString_00a7d5e0(const char* text, const char* value);
+extern const char* __cdecl BSShaderManager_GetPassName(unsigned int value);
 extern const char* DAT_01200464;
 extern const char UNK_010b8950[];
 extern const char UNK_010b8948[];
@@ -718,35 +723,35 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
     {
         if ((flags[i >> 5] & mask) > 0 && flagNames[i] != 0)
         {
-            formatted.token = FUN_00a7d370(flagNames[i], 1);
+            formatted.token = NiGetViewerString(flagNames[i], 1);
             output->AddTextValue(&formatted.token);
         }
         mask = (mask << 1) | (mask >> 31);
     }
     if (alpha < 1.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85dc, alpha);
+        formatted.token = NiGetViewerString_00a7d550(UNK_010b85dc, alpha);
         output->AddTextValue(&formatted.token);
     }
     if (fade < 1.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85d0, fade);
+        formatted.token = NiGetViewerString_00a7d550(UNK_010b85d0, fade);
         output->AddTextValue(&formatted.token);
     }
     if (depth > 0.0f)
     {
-        formatted.token = FUN_00a7d550(UNK_010b85c4, depth);
+        formatted.token = NiGetViewerString_00a7d550(UNK_010b85c4, depth);
         output->AddTextValue(&formatted.token);
     }
     if ((flags[0] & 0x80u) > 0)
     {
         formatted.scalar = specular;
-        formatted.token = FUN_00a7d550(UNK_010b85b4, formatted.scalar);
+        formatted.token = NiGetViewerString_00a7d550(UNK_010b85b4, formatted.scalar);
         output->AddTextValue(&formatted.token);
     }
-    int numericToken = FUN_00a7d4d0(UNK_010b85a4, shaderType);
+    int numericToken = NiGetViewerString_00a7d4d0(UNK_010b85a4, shaderType);
     output->AddNumericValue(numericToken);
-    numericToken = FUN_00a7d4d0(UNK_010b858c, material);
+    numericToken = NiGetViewerString_00a7d4d0(UNK_010b858c, material);
     output->AddNumericValue(numericToken);
     if (!flagsList)
     {
@@ -755,7 +760,7 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
         return;
     }
     unsigned int count = flagsList->count;
-    formatted.token = FUN_00a7d510(UNK_010b855c, count);
+    formatted.token = NiGetViewerString_00a7d510(UNK_010b855c, count);
     output->AddTextValue(&formatted.token);
     for (unsigned int index = 0; index < count; ++index)
     {
@@ -766,11 +771,11 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
             const unsigned int code = type;
             if (entry->secondary)
             {
-                output->AddFinal(FUN_00a7d5e0(UNK_010b8554, FUN_00b4f9d0((unsigned int)entry->type)));
+                output->AddFinal(NiGetViewerString_00a7d5e0(UNK_010b8554, BSShaderManager_GetPassName((unsigned int)entry->type)));
             }
             else
             {
-                output->AddFinal(FUN_00a7d5e0(UNK_010b854c, FUN_00b4f9d0((unsigned int)entry->type)));
+                output->AddFinal(NiGetViewerString_00a7d5e0(UNK_010b854c, BSShaderManager_GetPassName((unsigned int)entry->type)));
             }
         }
     }
@@ -798,7 +803,7 @@ FUN_00ba8e20::~FUN_00ba8e20()
 namespace fnv_00bb73f0 {
 struct FUN_00ba8ab0_shell : public BSShaderProperty
 {
-    void FUN_00ba8ab0(float);
+    void BSShaderProperty_SetAlpha(float);
 };
 
 struct FUN_00ba9820_shell : public BSShaderProperty
@@ -836,13 +841,14 @@ struct FUN_00bb73f0_shell
     int unk50;
     BSShaderProperty::ShaderPassList* m_pRenderPassArray54;
 
-    BSShaderProperty::ShaderPassList* FUN_00bb73f0(int geometry, unsigned int arg2, int arg3, unsigned int arg4,
+    BSShaderProperty::ShaderPassList* BSDistantTreeShaderProperty_GetRenderPasses(int geometry, unsigned int arg2, int arg3, unsigned int arg4,
                                                    int arg5, int arg6);
 };
 
 // Computes a pass key from arg2 and arg4, sets alpha and light index, and returns the appropriate render pass list for the given geometry.
 // @fnv 0x00bb73f0
-BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry, unsigned int arg2, int aiUnused,
+// src: XBOX_PDB 0x00bb73f0
+BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::BSDistantTreeShaderProperty_GetRenderPasses(int geometry, unsigned int arg2, int aiUnused,
                                                                    unsigned int arg4, int aiUnused2, int aiUnused3)
 {
     int* shaderSlot = (int*)((char*)geometry + 0x9c);
@@ -858,7 +864,7 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
             alpha = *(float*)((char*)shader + 0x3c) * m_fAlpha;
         else
             alpha = m_fAlpha;
-        ((FUN_00ba8ab0_shell*)this)->FUN_00ba8ab0(alpha);
+        ((FUN_00ba8ab0_shell*)this)->BSShaderProperty_SetAlpha(alpha);
     }
 
     if (arg4 == 0xf)

@@ -24,9 +24,9 @@ typedef NiTPrimitiveArray<const char*> NiViewerStringsArray;
 class bhkViewerObject_tesobjectrefr_o2_nood_variant
 {
 public:
-    void FUN_00c9f480(NiViewerStringsArray* pkStrings);
+    void bhkPhantom_GetViewerStrings(NiViewerStringsArray* pkStrings);
     void bhkShapePhantom_GetTransform(hkTransform& kTransform);
-    void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
+    void bhkShapePhantom_GetViewerStrings(NiViewerStringsArray* pkStrings);
 };
 #include "../../include/hkVector4.h"
 #include "../../include/NiUpdateData.h"
@@ -92,11 +92,12 @@ void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
 
 
 // @fnv 0x00c9ed30
-void bhkViewerObject_tesobjectrefr_o2_nood_variant::FUN_00c9ed30(NiViewerStringsArray* pkStrings)
+// src: XBOX_PDB 0x00c9ed30
+void bhkViewerObject_tesobjectrefr_o2_nood_variant::bhkShapePhantom_GetViewerStrings(NiViewerStringsArray* pkStrings)
 {
     MemContextGuard kGuard(16);
 
-    FUN_00c9f480(pkStrings);
+    bhkPhantom_GetViewerStrings(pkStrings);
     AddViewerString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_01268224.GetName()));
 
     hkTransform kTransform;
@@ -107,7 +108,7 @@ void bhkViewerObject_tesobjectrefr_o2_nood_variant::FUN_00c9ed30(NiViewerStrings
     FUN_00458620(&kNiTransform.m_Translate, reinterpret_cast<const hkVector4*>(&kTransform.m_row3));
 
     AddViewerString(pkStrings, kNiTransform.m_Rotate.GetViewerString("Rot"));
-    AddViewerString(pkStrings, kNiTransform.m_Translate.FUN_00a59af0("Trans"));
+    AddViewerString(pkStrings, kNiTransform.m_Translate.GetViewerString_00a59af0("Trans"));
 }
 
 namespace fnv_00cb3650 {
@@ -207,12 +208,13 @@ struct Owner
     unsigned int unk1c;
     __m128 rotation;
     __m128 vec30;
-    void FUN_00c8d2f0(NiNode*);
-    void FUN_00cb3650(ArgObj* arg);
+    void bhkRigidBody_CreateDisplayGeometry(NiNode*);
+    void bhkRigidBodyT_CreateDisplayGeometry(ArgObj* arg);
 };
 
 // @fnv 0x00cb3650
-void Owner::FUN_00cb3650(ArgObj* arg)
+// src: XBOX_PDB 0x00cb3650
+void Owner::bhkRigidBodyT_CreateDisplayGeometry(ArgObj* arg)
 {
     TlsScope scope(0x10);
     NiNode* body = 0;
@@ -239,14 +241,14 @@ void Owner::FUN_00cb3650(ArgObj* arg)
     {
         body->SetName(NiFixedString(g_012683c8_arg0));
         hkTransform hk;
-        reinterpret_cast<hkRotation*>(&hk.m_row0)->FUN_00cb2d90(*reinterpret_cast<const hkQuaternion*>(&rotation));
+        reinterpret_cast<hkRotation*>(&hk.m_row0)->hkRotation_set(*reinterpret_cast<const hkQuaternion*>(&rotation));
         hk.m_row3 = vec30;
         NiTransform t;
         HK2NI_00624b10(&t.m_Rotate, &hk.m_row0);
         FUN_00458620(&t.m_Translate, &hk.m_row3);
         body->m_kLocal.m_Rotate = t.m_Rotate;
         body->m_kLocal.m_Translate = t.m_Translate;
-        FUN_00c8d2f0(body);
+        bhkRigidBody_CreateDisplayGeometry(body);
     }
 }
 }  // namespace fnv_00cb3650
@@ -268,12 +270,13 @@ struct Arg_00c9f830
 struct Obj_00c9f830
 {
     void FillOutputFromState(Arg_00c9f830* value);
-    void FUN_006288c0(__m128* value);
-    void FUN_00c9f830(Arg_00c9f830* value);
+    void bhkAabbPhantom_GetAabb(__m128* value);
+    void bhkAabbPhantom_CopyCinfo(Arg_00c9f830* value);
 };
 
 // @fnv 0x00c9f830
-void Obj_00c9f830::FUN_00c9f830(Arg_00c9f830* arg)
+// src: XBOX_PDB 0x00c9f830
+void Obj_00c9f830::bhkAabbPhantom_CopyCinfo(Arg_00c9f830* arg)
 {
     register Obj_00c9f830* pThis = this;
     register Arg_00c9f830* pArg = arg;
@@ -281,7 +284,7 @@ void Obj_00c9f830::FUN_00c9f830(Arg_00c9f830* arg)
     pThis->FillOutputFromState(pArg);
 
     __m128 tmp[2];
-    pThis->FUN_006288c0(tmp);
+    pThis->bhkAabbPhantom_GetAabb(tmp);
 
     pArg->unk20 = tmp[0];
     pArg->unk30 = tmp[1];
@@ -301,11 +304,12 @@ struct FUN_00cb31a0_cls
 
     void Sub_b(__m128* p);
     void Sub_c(FUN_00cb31a0_cls* p);
-    void FUN_00cb31a0(FUN_00cb31a0_cls* src);
+    void bhkRigidBodyT_PostInit(FUN_00cb31a0_cls* src);
 };
 
 // @fnv 0x00cb31a0
-void FUN_00cb31a0_cls::FUN_00cb31a0(FUN_00cb31a0_cls* src)
+// src: XBOX_PDB 0x00cb31a0
+void FUN_00cb31a0_cls::bhkRigidBodyT_PostInit(FUN_00cb31a0_cls* src)
 {
     m_30 = src->m_30;
     m_20 = src->m_40;
@@ -327,7 +331,7 @@ struct Cls
     char pad[0x20];
     Sub m_20;
     void FUN_00c8d130(__m128* out);
-    Arg* FUN_00cb3200(Arg* arg);
+    Arg* bhkRigidBodyT_GetRotation(Arg* arg);
 };
 
 struct Arg
@@ -336,7 +340,8 @@ struct Arg
 };
 
 // @fnv 0x00cb3200
-Arg* Cls::FUN_00cb3200(Arg* arg)
+// src: XBOX_PDB 0x00cb3200
+Arg* Cls::bhkRigidBodyT_GetRotation(Arg* arg)
 {
     __m128 buf;
     FUN_00c8d130(&buf);
@@ -354,7 +359,7 @@ class S00cb3250_Object
 {
   public:
     void FUN_00c8d1a0(S00cb3250_Query* pQuery);
-    void FUN_00cb3250(int iArg);
+    void bhkRigidBodyT_SetRotation(int iArg);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -367,7 +372,8 @@ class S00cb3250_Object
 };
 
 // @fnv 0x00cb3250
-void S00cb3250_Object::FUN_00cb3250(int iArg)
+// src: XBOX_PDB 0x00cb3250
+void S00cb3250_Object::bhkRigidBodyT_SetRotation(int iArg)
 {
     S00cb3250_Query kQuery(iArg, &m_kOwner);
     FUN_00c8d1a0(&kQuery);
@@ -430,15 +436,16 @@ struct ShapeFrame
     virtual void vd0();
     virtual void GetTranslation(__m128*);
     virtual void GetRotation(__m128*);
-    hkTransform* FUN_00cb3310(hkTransform*);
+    hkTransform* bhkRigidBodyT_GetTransform(hkTransform*);
 };
 // @fnv 0x00cb3310
-hkTransform* ShapeFrame::FUN_00cb3310(hkTransform* result)
+// src: XBOX_PDB 0x00cb3310
+hkTransform* ShapeFrame::bhkRigidBodyT_GetTransform(hkTransform* result)
 {
     __m128 rotation;
     GetTranslation(&result->m_row3);
     GetRotation(&rotation);
-    reinterpret_cast<hkRotation*>(&result->m_row0)->FUN_00cb2d90(*reinterpret_cast<const hkQuaternion*>(&rotation));
+    reinterpret_cast<hkRotation*>(&result->m_row0)->hkRotation_set(*reinterpret_cast<const hkQuaternion*>(&rotation));
     return result;
 }
 
@@ -463,7 +470,7 @@ struct F9_Router
         return *m_pStreamAllocator;
     }
 };
-F9_Router* __cdecl FUN_00c85750();
+F9_Router* __cdecl hkMemoryRouter_getInstance();
 
 struct F9_Ctx
 {
@@ -777,7 +784,7 @@ struct F9_Obj
     void FUN_00c905b0();
     static void* operator new(unsigned int n)
     {
-        F9_Alloc& h = FUN_00c85750()->heap();
+        F9_Alloc& h = hkMemoryRouter_getInstance()->heap();
         void* p = h.alloc((int)n);
         ((F9_Obj*)p)->unk04 = (short)n;
         return p;
@@ -836,11 +843,12 @@ struct F9_Owner
     virtual void v45();
     virtual void v46();
     virtual void post(F9_Arg* a);
-    void FUN_00c9f050(F9_Arg* arg);
+    void bhkSimpleShapePhantom_Init(F9_Arg* arg);
 };
 
 // @fnv 0x00c9f050
-void F9_Owner::FUN_00c9f050(F9_Arg* arg)
+// src: XBOX_PDB 0x00c9f050
+void F9_Owner::bhkSimpleShapePhantom_Init(F9_Arg* arg)
 {
     F9_Scope scope;
     ViewerTransform mat;
@@ -876,13 +884,14 @@ struct PositionOwner
     int unk00;
     int unk04;
     PositionSource* m_pkSource;
-    void FUN_00ca02b0(NiNode* pkParent, int iUnused);
+    void bhkBoxShape_BuildDisplayGeometry(NiNode* pkParent, int iUnused);
 };
 
 // Preserve the original stack protection with the shared SIMD union layout.
 #pragma strict_gs_check(on)
 // @fnv 0x00ca02b0
-void PositionOwner::FUN_00ca02b0(NiNode* pkParent, int iUnused)
+// src: XBOX_PDB 0x00ca02b0
+void PositionOwner::bhkBoxShape_BuildDisplayGeometry(NiNode* pkParent, int iUnused)
 {
     MemContextGuard kGuard(16);
     hkVector4 kPosition;
@@ -1295,15 +1304,16 @@ class MotionObject
     Obj570 m_570;
     Obj594* m_594;
     void bhkCharacterController_UnMarkWrite();
-    void FUN_00c6e390(__m128* v);
+    void bhkCharacterController_SetPosition(__m128* v);
 };
 
 // @fnv 0x00c6e390
-void MotionObject::FUN_00c6e390(__m128* v)
+// src: XBOX_PDB 0x00c6e390
+void MotionObject::bhkCharacterController_SetPosition(__m128* v)
 {
     __m128 t;
     char* base = (m_594 != 0) ? (char*)m_594->m_08 : (char*)0;
-    reinterpret_cast<hkVector4*>(&t)->FUN_00c7f700(
+    reinterpret_cast<hkVector4*>(&t)->hkVector4_setRotatedDir(
         reinterpret_cast<const hkRotation*>(base + 0xb0), reinterpret_cast<const hkVector4*>(&m_570));
     __m128 s = _mm_add_ps(*v, t);
     Obj08* object = m_08;
@@ -1558,11 +1568,12 @@ struct C9FA20_Owner
     int unk04;
     int m_08;
     C9FA20_Data* m_pData;
-    void FUN_00c9f830(C9FA20_Data* data);
-    C9FA20_Data* FUN_00c9fa20(bool* created);
+    void bhkAabbPhantom_CopyCinfo(C9FA20_Data* data);
+    C9FA20_Data* bhkAabbPhantom_CreateCinfo(bool* created);
 };
 // @fnv 0x00c9fa20
-C9FA20_Data* C9FA20_Owner::FUN_00c9fa20(bool* created)
+// src: XBOX_PDB 0x00c9fa20
+C9FA20_Data* C9FA20_Owner::bhkAabbPhantom_CreateCinfo(bool* created)
 {
     C9FA20_TlsGuard guard;
     *created = m_pData == 0;
@@ -1570,7 +1581,7 @@ C9FA20_Data* C9FA20_Owner::FUN_00c9fa20(bool* created)
     {
         m_pData = new C9FA20_Data;
         if (m_08)
-            FUN_00c9f830(m_pData);
+            bhkAabbPhantom_CopyCinfo(m_pData);
     }
     return m_pData;
 }
@@ -1655,21 +1666,22 @@ class BhkWrapperBaseDAD
 class BhkWrapperDAD : public BhkWrapperBaseDAD
 {
   public:
-    void FUN_00c8d960(int a);
-    void FUN_00cb3150(int a);
+    void bhkRigidBody_SaveBinary(int a);
+    void bhkRigidBodyT_SaveBinary(int a);
 
     hkVector4 m_v20;
     hkVector4 m_v30;
 };
 
 // @fnv 0x00cb3150
-void BhkWrapperDAD::FUN_00cb3150(int a)
+// src: XBOX_PDB 0x00cb3150
+void BhkWrapperDAD::bhkRigidBodyT_SaveBinary(int a)
 {
     int iToken;
     PhantomDataDAD* pkData = GetData(&iToken);
     pkData->m_v30 = m_v30;
     pkData->m_v40 = m_v20;
-    FUN_00c8d960(a);
+    bhkRigidBody_SaveBinary(a);
     ReleaseData(iToken);
 }
 
@@ -1762,14 +1774,15 @@ class Position : public PositionBase
 {
   public:
     hkVector4& GetVec(hkVector4& out);
-    hkVector4& FUN_00cb32a0(hkVector4& out);
+    hkVector4& bhkRigidBodyT_GetCenterOfMassInWorld(hkVector4& out);
     hkVector4 localTranslation;
 };
 
 // Preserve the original stack protection with the shared SIMD union layout.
 #pragma strict_gs_check(on)
 // @fnv 0x00cb32a0
-hkVector4& Position::FUN_00cb32a0(hkVector4& out)
+// src: XBOX_PDB 0x00cb32a0
+hkVector4& Position::bhkRigidBodyT_GetCenterOfMassInWorld(hkVector4& out)
 {
     GetVec(out);
     if (this && worldObject)
@@ -1916,13 +1929,14 @@ class RigidBodyCenterOffsetView : public RigidBodyTransformViewBase
     hkVector4 m_vCenterOfMassLocal;
 
     void getPosition(hkVector4& kPositionOut) const;
-    hkVector4& FUN_00cb3370(hkVector4& kOut) const;
+    hkVector4& bhkRigidBodyT_GetPosition(hkVector4& kOut) const;
 };
 
 // Preserve the original stack protection with the shared SIMD union layout.
 #pragma strict_gs_check(on)
 // @fnv 0x00cb3370
-hkVector4& RigidBodyCenterOffsetView::FUN_00cb3370(hkVector4& kOut) const
+// src: XBOX_PDB 0x00cb3370
+hkVector4& RigidBodyCenterOffsetView::bhkRigidBodyT_GetPosition(hkVector4& kOut) const
 {
     if (this && m_pHavokObject)
     {

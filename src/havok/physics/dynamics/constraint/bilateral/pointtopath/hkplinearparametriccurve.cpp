@@ -66,15 +66,16 @@ void CurvePointTransformer::hkpLinearParametricCurve_transformPoints(void const*
 {
     int pointCount = m_kPoints.m_iElementCount;
     for (int i = 0; i < pointCount; ++i)
-        m_kPoints.m_data[i].FUN_00c7f640(*static_cast<const hkTransform*>(data), m_kPoints.m_data[i]);
+        m_kPoints.m_data[i].setTransformedPos_00c7f640(*static_cast<const hkTransform*>(data), m_kPoints.m_data[i]);
 }
 
 struct CurveSmoothingSetter : public hkpLinearParametricCurve
 {
-    void FUN_00e47430(float input);
+    void hkpLinearParametricCurve_setSmoothingFactor(float input);
 };
 // @fnv 0x00e47430
-void CurveSmoothingSetter::FUN_00e47430(float input)
+// src: XBOX_PDB 0x00e47430
+void CurveSmoothingSetter::hkpLinearParametricCurve_setSmoothingFactor(float input)
 {
     m_fSmoothingValue = input;
 }
@@ -101,11 +102,12 @@ float __cdecl GetZeroFloat()
 class CurveSmoothingGetter : public hkpLinearParametricCurve
 {
   public:
-    float FUN_00e47420() const;
+    float hkpLinearParametricCurve_getSmoothingFactor() const;
 };
 
 // @fnv 0x00e47420
-float CurveSmoothingGetter::FUN_00e47420() const
+// src: XBOX_PDB 0x00e47420
+float CurveSmoothingGetter::hkpLinearParametricCurve_getSmoothingFactor() const
 {
     return m_fSmoothingValue;
 }
@@ -413,7 +415,7 @@ struct ThreadMemory
     Allocator* m_pMemoryAllocator;
 };
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 
 struct CurveHelper : public hkpLinearParametricCurve
 {
@@ -424,7 +426,7 @@ struct CurveHelper : public hkpLinearParametricCurve
 // @fnv 0x00e47fa0
 void CurveHelper::CopyPoints(hkArray<hkVector4>& out) const
 {
-    Allocator* mgr = ((ThreadMemory*)FUN_00c85750())->m_pMemoryAllocator;
+    Allocator* mgr = ((ThreadMemory*)hkMemoryRouter_getInstance())->m_pMemoryAllocator;
     int cap = out.m_iCapacityState & 0x3fffffff;
     if (cap < this->m_kPoints.m_iElementCount)
     {
@@ -505,7 +507,7 @@ struct LinearCurveClone : public hkpLinearParametricCurve
 };
 static __forceinline LinearCurveClone* createCurve()
 {
-    CurveThreadMemory* memory = (CurveThreadMemory*)FUN_00c85750();
+    CurveThreadMemory* memory = (CurveThreadMemory*)hkMemoryRouter_getInstance();
     void* chunk = memory->m_pThreadAllocator->allocateChunk(0x40);
     ((hkReferencedObject*)chunk)->m_usMemSizeAndFlags = 0x40;
     return static_cast<LinearCurveClone*>(::new (chunk) hkpLinearParametricCurve);
@@ -551,7 +553,7 @@ LinearCurveClone* LinearCurveClone::hkpLinearParametricCurve_clone()
                          curveLane(m_kVector4, 1),
                          curveLane(m_kVector4, 2), 0.0f);
     copyFromArray_e48090(clone->m_fClosestPointDistanceSquared,
-                         ((CurveThreadMemory*)FUN_00c85750())->m_pThreadAllocator,
+                         ((CurveThreadMemory*)hkMemoryRouter_getInstance())->m_pThreadAllocator,
                          this->m_fClosestPointDistanceSquared);
     clone->m_fSmoothingValue = this->m_fSmoothingValue;
     return clone;

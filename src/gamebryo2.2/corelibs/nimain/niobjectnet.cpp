@@ -189,7 +189,7 @@ void NiObjectNET::AddController(NiTimeController* controller)
 bhkSphereShape::bhkSphereShape(float radius, bool convert)
 {
     DAT_01268280 = DAT_01268280 + 1;
-    FUN_0056ea00(convert ? FUN_004a3e90(radius) : radius);
+    bhkSphereShape_Init(convert ? NI2HK_004a3e90(radius) : radius);
 }
 #pragma optimize("", on)
 
@@ -341,7 +341,8 @@ struct NiObjectBase
     bool RegisterStreamables(NiStream*);
 };
 // @fnv 0x00a5c180
-bool __fastcall FUN_00a5c180(void* thisp, int, NiStream* kStream)
+// src: XBOX_PDB 0x00a5c180
+bool __fastcall NiObjectNET_RegisterStreamables(void* thisp, int, NiStream* kStream)
 {
     char* self = reinterpret_cast<char*>(thisp);
     VStream* stream = reinterpret_cast<VStream*>(kStream);
@@ -524,7 +525,7 @@ struct CloningProcess
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a5c290_shell : public NiObjectNET
 {
-    void FUN_00a5c290(NiObjectNET*, CloningProcess*);
+    void NiObjectNET_CopyMembers(NiObjectNET*, CloningProcess*);
 };
 
 extern "C" unsigned int __cdecl strlen(const char*);
@@ -591,7 +592,8 @@ struct VObj
 
 // Clones the object's name, extra data and time controller onto pkDest according to the cloning flags in kCloning.
 // @fnv 0x00a5c290
-void FUN_00a5c290_shell::FUN_00a5c290(NiObjectNET* pkDest, CloningProcess* kCloning)
+// src: XBOX_PDB 0x00a5c290
+void FUN_00a5c290_shell::NiObjectNET_CopyMembers(NiObjectNET* pkDest, CloningProcess* kCloning)
 {
     char* pcSuffixedName;
     int iNameLen;
@@ -787,7 +789,7 @@ C7B0ObjectNET* C7B0ObjectNET::DestroyObject(unsigned int uiFlags)
 
 namespace fnv_00a5c820 {
 extern int DAT_0109b2d4;
-void* FUN_00aa1070(unsigned int);
+void* _NiMalloc_00aa1070(unsigned int);
 
 struct ShortArray
 {
@@ -840,7 +842,7 @@ void ShortArray::NiTArray_unsigned_short_NiTMallocInterface_unsigned_short_SetSi
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = (unsigned short*)FUN_00aa1070(m_usMaxSize * sizeof(unsigned short));
+        m_pBase = (unsigned short*)_NiMalloc_00aa1070(m_usMaxSize * sizeof(unsigned short));
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pSaveBase[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -944,17 +946,18 @@ struct VExtra
 };
 struct NetEqual : NiObjectNET
 {
-    bool FUN_00a5c820(NiObjectNET*);
+    bool NiObjectNET_IsEqual(NiObjectNET*);
     bool IsSameAs(NiObject*);
 };
 struct CountController : NiTimeController
 {
-    unsigned int FUN_00a6cd00();
+    unsigned int NiTimeController_ItemsInList();
 };
 
 // Compares two NiObjectNET objects by checking name handle, geometry controller extra data, and time controller lists for equality.
 // @fnv 0x00a5c820
-bool NetEqual::FUN_00a5c820(NiObjectNET* other)
+// src: XBOX_PDB 0x00a5c820
+bool NetEqual::NiObjectNET_IsEqual(NiObjectNET* other)
 {
     if (!IsSameAs(other))
         return false;
@@ -987,8 +990,8 @@ bool NetEqual::FUN_00a5c820(NiObjectNET* other)
     }
     NiTimeController* pOtherController = other->m_spControllers;
     NiTimeController* pController = m_spControllers;
-    unsigned int i = pController ? ((CountController*)pController)->FUN_00a6cd00() : 0;
-    unsigned int uiOtherControllerCount = pOtherController ? ((CountController*)pOtherController)->FUN_00a6cd00() : 0;
+    unsigned int i = pController ? ((CountController*)pController)->NiTimeController_ItemsInList() : 0;
+    unsigned int uiOtherControllerCount = pOtherController ? ((CountController*)pOtherController)->NiTimeController_ItemsInList() : 0;
     if (i != uiOtherControllerCount)
         goto fail;
     while (pController && pOtherController)
@@ -1045,7 +1048,7 @@ struct LinkObjectA5 : LinkBaseA5
             DeleteExtraData(index);
         leaveLock(&g_NiObjectNETExtraDataLock);
     }
-    void FUN_00a5c6a0(NiStream& stream);
+    void NiObjectNET_PostLinkObject(NiStream& stream);
 };
 inline bool IsExactTypeA5(const void* type, const LinkExtraA5* object)
 {
@@ -1056,7 +1059,8 @@ inline bool IsExactTypeA5(const void* type, const LinkExtraA5* object)
 }
 // Links the object from the stream, transfers the old-version extra-data chain, and removes entries whose RTTI pointer equals g_ExtraTypeA5.
 // @fnv 0x00a5c6a0
-void LinkObjectA5::FUN_00a5c6a0(NiStream& stream)
+// src: XBOX_PDB 0x00a5c6a0
+void LinkObjectA5::NiObjectNET_PostLinkObject(NiStream& stream)
 {
     LinkBaseA5::LinkObject(stream);
     if (stream.m_uiNifFileVersion < 0x0500000b)
@@ -1108,7 +1112,7 @@ struct StrArray
 };
 extern int DAT_011f4304;
 char* NiViewerStrings_NiGetViewerString_Title(int);
-char* FUN_00a7d5e0(const char*, ...);
+char* NiGetViewerString_00a7d5e0(const char*, ...);
 struct S
 {
     void* vtbl;
@@ -1119,16 +1123,17 @@ struct S
         return unk08;
     }
     void AppendCameraPathEntries(StrArray* arr);
-    void FUN_00a5ca80(StrArray* arr);
+    void NiObjectNET_GetViewerStrings(StrArray* arr);
 };
 // Appends camera path entries, a string from DAT_011f4304, and a formatted m_kName string to the given StrArray.
 // @fnv 0x00a5ca80
-void S::FUN_00a5ca80(StrArray* apArray)
+// src: XBOX_PDB 0x00a5ca80
+void S::NiObjectNET_GetViewerStrings(StrArray* apArray)
 {
     AppendCameraPathEntries(apArray);
     char* str = NiViewerStrings_NiGetViewerString_Title(DAT_011f4304);
     apArray->Add(str);
-    str = FUN_00a7d5e0("m_kName", GetUnk08());
+    str = NiGetViewerString_00a7d5e0("m_kName", GetUnk08());
     apArray->Add(str);
 }
 

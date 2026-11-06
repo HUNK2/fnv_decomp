@@ -155,7 +155,8 @@ namespace fnv_00c85760 {
 extern DWORD g_dwTlsIndex;
 
 // @fnv 0x00c85760
-void* FUN_00c85760()
+// src: XBOX_PDB 0x00c85760
+void* hkMemoryRouter_getInstancePtr()
 {
     return TlsGetValue(g_dwTlsIndex);
 }

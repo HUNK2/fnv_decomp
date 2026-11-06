@@ -270,7 +270,8 @@ int FUN_00720760_shell::LoveTesterMenu_GetMenuID()
 }
 
 // @fnv 0x00720df0
-int __cdecl FUN_00720df0()
+// src: XBOX_PDB 0x00720df0
+int __cdecl MapMenu_GetClassStatic()
 {
     return 0x3ff;
 }
@@ -536,7 +537,7 @@ struct IMH;
 IMH* __cdecl InterfaceManager_GetSingleton(void);
 struct IMH
 {
-    Tile* FUN_00586150();
+    Tile* CombatController_GetCombatState();
 };
 struct Flt
 {
@@ -553,11 +554,11 @@ Menu* FUN_00720e60_shell::FindTopMenu()
 {
     Menu* ptop = 0;
     float fMaxDepth = -100000000.0f;
-    void* pListElem = (void*)(unsigned int)*(Flt*)((char*)InterfaceManager_GetSingleton()->FUN_00586150() + 4);
+    void* pListElem = (void*)(unsigned int)*(Flt*)((char*)InterfaceManager_GetSingleton()->CombatController_GetCombatState() + 4);
     while (pListElem)
     {
         Tile* pmenutile =
-            *(Tile**)((FUN_006317a0_struct*)((char*)InterfaceManager_GetSingleton()->FUN_00586150() + 4))->AddEight((int)pListElem);
+            *(Tile**)((FUN_006317a0_struct*)((char*)InterfaceManager_GetSingleton()->CombatController_GetCombatState() + 4))->AddEight((int)pListElem);
         Menu* pmenu = 0;
         if (pmenutile)
             pmenu = pmenutile->GetMenu();
@@ -571,7 +572,7 @@ Menu* FUN_00720e60_shell::FindTopMenu()
                 ptop = pmenu;
             }
         }
-        pListElem = ((NiTPointerList_00720e60<TESObjectREFR*>*)((char*)InterfaceManager_GetSingleton()->FUN_00586150() + 4))
+        pListElem = ((NiTPointerList_00720e60<TESObjectREFR*>*)((char*)InterfaceManager_GetSingleton()->CombatController_GetCombatState() + 4))
                         ->DereferenceIfNotNull(pListElem);
     }
     return ptop;
@@ -630,7 +631,7 @@ void FUN_007254d0_t::ListBox_StatsMenu_StatusEffect_Synchronize()
 
 namespace fnv_00726530 {
 float __cdecl FUN_004e4430(float);
-int __cdecl FUN_00647b70(int, int);
+int __cdecl BSMAX_00647b70(int, int);
 struct ListBoxBase_t
 {
     virtual ~ListBoxBase_t();
@@ -648,12 +649,13 @@ struct FUN_00726530_t : public ListBoxBase_t, public BSSimpleList_t
     const char* pTemplateName;
     unsigned short usItemCount;
     float m_fFirstListValue;
-    void FUN_00726530();
+    void ListBox_unsigned_int_SetTotalListHeight();
     unsigned int GetFilteredCount();
 };
 
 // @fnv 0x00726530
-void FUN_00726530_t::FUN_00726530()
+// src: XBOX_PDB 0x00726530
+void FUN_00726530_t::ListBox_unsigned_int_SetTotalListHeight()
 {
     if (m_pListTile)
     {
@@ -662,7 +664,7 @@ void FUN_00726530_t::FUN_00726530()
         if (m_fFirstListValue > 0.0 && flistHeight > 0.0)
         {
             if (m_fFirstListValue > flistHeight)
-                inumPages = FUN_00647b70(
+                inumPages = BSMAX_00647b70(
                     (int)FUN_004e4430(GetFilteredCount() * (m_fFirstListValue - flistHeight) / m_fFirstListValue) + 1,
                     2);
             if (inumPages > 1)
@@ -1004,11 +1006,12 @@ typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_008d0300_shell : public CombatManager
 {
-    bool FUN_008d0300(Actor*, Actor*);
+    bool Actor_CheckAttackDisarm(Actor*, Actor*);
 };
 
 // @fnv 0x008d0300
-bool FUN_008d0300_shell::FUN_008d0300(Actor* apAttacker, Actor* apTarget)
+// src: XBOX_PDB 0x008d0300
+bool FUN_008d0300_shell::Actor_CheckAttackDisarm(Actor* apAttacker, Actor* apTarget)
 {
     return false;
 }
@@ -1098,11 +1101,12 @@ void* FUN_0071fef0::FUN_0071fec0(unsigned int flags)
 
 struct FUN_00720010_shell
 {
-    int FUN_00720010(int a);
+    int SurgeryMenu_GetIndex(int a);
 };
 // Returns a-1 when a is in 1..0x12, otherwise returns 0x12.
 // @fnv 0x00720010
-int FUN_00720010_shell::FUN_00720010(int aiValue)
+// src: XBOX_PDB 0x00720010
+int FUN_00720010_shell::SurgeryMenu_GetIndex(int aiValue)
 {
     return (aiValue > 0 && aiValue <= 0x12) ? aiValue - 1 : 0x12;
 }
@@ -1231,22 +1235,24 @@ struct S0071
 {
     unsigned char _pad[0x2c];
     Tile* m_pTiles[18];
-    int __thiscall FUN_00720010(int);
-    void __thiscall FUN_0071ffe0(int, Tile*);
+    int __thiscall SurgeryMenu_GetIndex(int);
+    void __thiscall SurgeryMenu_AttachTileByID(int, Tile*);
 };
 // Stores apTile in the slot returned by FUN_00720010(aiID) when aiID is in 1..0x12.
 // @fnv 0x0071ffe0
-void __thiscall S0071::FUN_0071ffe0(int aiID, Tile* apTile)
+// src: XBOX_PDB 0x0071ffe0
+void __thiscall S0071::SurgeryMenu_AttachTileByID(int aiID, Tile* apTile)
 {
     if (aiID > 0 && aiID <= 0x12)
     {
-        m_pTiles[FUN_00720010(aiID)] = apTile;
+        m_pTiles[SurgeryMenu_GetIndex(aiID)] = apTile;
     }
 }
 
 // Stores apTile into the menu tile slot indexed by aiID when aiID is between 1 and 0x1F.
 // @fnv 0x00720140
-void VATSMenu::FUN_00720140(int aiID, Tile* apTile)
+// src: XBOX_PDB 0x00720140
+void VATSMenu::AttachTileByID(int aiID, Tile* apTile)
 {
     if (aiID > 0 && aiID <= 0x1F)
     {
@@ -1416,7 +1422,7 @@ struct NiPtrStub
 
 struct ListStandIn
 {
-    int* FUN_0057cbe0(int** cursor);
+    int* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int** cursor);
 };
 
 
@@ -1425,7 +1431,7 @@ struct ListStandIn
 
 struct InterfaceManager_helper
 {
-    void* FUN_00586150();
+    void* CombatController_GetCombatState();
 };
 
 void* __cdecl InterfaceManager_GetSingleton(void);
@@ -1434,11 +1440,11 @@ void* __cdecl InterfaceManager_GetSingleton(void);
 // src: COMMUNITY 0x00720f90
 bool FUN_00720f90_shell::MenuManager_IsMenuOpen(int param_1)
 {
-    int* cursor = (int*)((NiPtrStub*)((char*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->FUN_00586150() + 4))->GetPtr();
+    int* cursor = (int*)((NiPtrStub*)((char*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->CombatController_GetCombatState() + 4))->GetPtr();
     while (cursor)
     {
-        int item = *((ListStandIn*)((char*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->FUN_00586150() + 4))
-                        ->FUN_0057cbe0(&cursor);
+        int item = *((ListStandIn*)((char*)((InterfaceManager_helper*)InterfaceManager_GetSingleton())->CombatController_GetCombatState() + 4))
+                        ->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&cursor);
         Menu* menu = 0;
         if (item)
             menu = ((Tile*)item)->GetMenu();

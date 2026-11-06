@@ -33,19 +33,20 @@ struct D2B3D0Owner
     int unk04;
     D2B3D0Map m_map;
 
-    void FUN_00d2b3d0();
+    void hkDefaultError_enableAll();
 };
 
 // @fnv 0x00d2b3d0
-void D2B3D0Owner::FUN_00d2b3d0()
+// src: XBOX_PDB 0x00d2b3d0
+void D2B3D0Owner::hkDefaultError_enableAll()
 {
     m_map.clear();
 }
 
 struct FUN_00cb18f0_t
 {
-    int FUN_00cb1fb0(int value);
-    void FUN_00cb1870(int managerValue, int value, int flag);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int value);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(int managerValue, int value, int flag);
 };
 struct FUN_00c85750_return
 {
@@ -55,7 +56,7 @@ struct FUN_00c85750_return
     int unk0c;
     int unk10;
 };
-FUN_00c85750_return* __cdecl FUN_00c85750();
+FUN_00c85750_return* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d2b5c0_class
 {
     int unk00;
@@ -70,11 +71,11 @@ void FUN_00d2b5c0_class::hkDefaultError_setEnabled(int value, char flag)
 {
     if (flag != 0)
     {
-        sub.FUN_00cb1fb0(value);
+        sub.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(value);
         return;
     }
-    FUN_00c85750_return* manager = FUN_00c85750();
-    sub.FUN_00cb1870(manager->unk10, value, 1);
+    FUN_00c85750_return* manager = hkMemoryRouter_getInstance();
+    sub.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(manager->unk10, value, 1);
 }
 
 namespace fnv_00d2b710 {
@@ -103,7 +104,7 @@ struct Widget : Base
     int unk06;
     void* GetSelfWithNotify(unsigned char flags);
 };
-extern AudioState* __cdecl FUN_00c85750();
+extern AudioState* __cdecl hkMemoryRouter_getInstance();
 // Calls the base function, and if bit 0 of flags is set, notifies the audio manager's vtable with this object and unk04, then returns this.
 // @fnv 0x00d2b710
 void* Widget::GetSelfWithNotify(unsigned char flags)
@@ -111,7 +112,7 @@ void* Widget::GetSelfWithNotify(unsigned char flags)
     ClearAndReset();
     if (flags & 1)
     {
-        AudioState* state = FUN_00c85750();
+        AudioState* state = hkMemoryRouter_getInstance();
         state->unk10->notify(this, unk04);
     }
     return this;
@@ -218,7 +219,7 @@ D2B640Object* D2B640Object::Initialize(int a1, int a2)
     *(unsigned int volatile*)&sub->m_00 = 0;
     *(unsigned int volatile*)&sub->m_04 = 0;
     *(unsigned int volatile*)&sub->m_08 = 0xffffffffu;
-    FUN_00c85750_return* pResult = FUN_00c85750();
+    FUN_00c85750_return* pResult = hkMemoryRouter_getInstance();
     sub->EnsureCapacity(pResult->unk10, 0);
     *(unsigned int volatile*)&m_14 = 0;
     *(unsigned int volatile*)&m_18 = 0;
@@ -265,7 +266,7 @@ struct FUN_00d2b6b0_cls
 // @fnv 0x00d2b6b0
 void FUN_00d2b6b0_cls::ClearAndReset()
 {
-    FUN_00c85750_return* pHolder = FUN_00c85750();
+    FUN_00c85750_return* pHolder = hkMemoryRouter_getInstance();
     D2B6Allocator* pAllocator = (D2B6Allocator*)pHolder->unk10;
     m_iArrayLength = 0;
     unsigned int uCapacityFlags = m_uCapBits;
@@ -276,7 +277,7 @@ void FUN_00d2b6b0_cls::ClearAndReset()
     m_pData = 0;
     m_uCapBits = 0x80000000u;
     D2B6Sub* pSub = &m_sub;
-    pSub->ProcessArgument(FUN_00c85750()->unk10);
+    pSub->ProcessArgument(hkMemoryRouter_getInstance()->unk10);
     pSub->FUN_00a29680();
     m_vptr00 = (int)&DAT_0102e388;
 }
@@ -290,11 +291,11 @@ struct S_00d2b3e0_Mgr
     unsigned short unk04;
     unsigned short unk06;
     void ReleaseReference();
-    int FUN_00da2b20(void** trace, int max);
+    int hkStackTracer_getStackTrace(void** trace, int max);
     void hkStackTracer_dumpStackTrace(void** trace, int count, void(__cdecl* cb)(const char*, int), int user);
 };
 extern S_00d2b3e0_Mgr* DAT_01269a84;
-S_00d2b3e0_Mgr* __cdecl FUN_00da2bc0();
+S_00d2b3e0_Mgr* __cdecl hkStackTracer_create();
 
 struct S_00d2b3e0
 {
@@ -327,14 +328,14 @@ void S_00d2b3e0::hkDefaultError_showMessage(const char* kind, int code, const ch
     {
         if (!DAT_01269a84)
         {
-            S_00d2b3e0_Mgr* pCurMgr = FUN_00da2bc0();
+            S_00d2b3e0_Mgr* pCurMgr = hkStackTracer_create();
             S_00d2b3e0_Mgr* pOldMgr = DAT_01269a84;
             if (pOldMgr)
                 pOldMgr->ReleaseReference();
             DAT_01269a84 = pCurMgr;
         }
         void* frames[20];
-        int n = DAT_01269a84->FUN_00da2b20(frames, 20);
+        int n = DAT_01269a84->hkStackTracer_getStackTrace(frames, 20);
         if (n > 2)
         {
             m_callback("Stack trace is:\n", m_user);
@@ -352,10 +353,11 @@ struct FUN_00d2b5b0_Class
     int unk10;
     int unk14;
     int unk18;
-    void FUN_00d2b5b0();
+    void hkDefaultError_sectionEnd();
 };
 // @fnv 0x00d2b5b0
-void FUN_00d2b5b0_Class::FUN_00d2b5b0()
+// src: XBOX_PDB 0x00d2b5b0
+void FUN_00d2b5b0_Class::hkDefaultError_sectionEnd()
 {
     unk18--;
 }

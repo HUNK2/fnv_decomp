@@ -274,29 +274,29 @@ struct List0bc0
     Button0bc0*& FUN_006815c0();
     List0bc0* FUN_00726070();
 };
-void __cdecl FUN_00485910(unsigned int, unsigned int);
-int __cdecl FUN_0044a670(const char*);
-void __cdecl FUN_004856f0(unsigned int, const char*, unsigned int);
+void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
+int __cdecl BSstrlen(const char*);
+void __cdecl TESForm_AddChunkArray(unsigned int, const char*, unsigned int);
 // @fnv 0x00590bc0
 void BGSMessage::WriteToStream()
 {
     FUN_004855a0();
     TESDescription::Save_00482cb0();
-    TESFullName::FUN_00487010();
-    unsigned int id = GetIcon() ? GetIcon()->FUN_0084e3a0() : 0;
-    FUN_00485910(0x4d414e49, id);
-    FUN_00485910(0x4d414e44, iFlags);
+    TESFullName::Save_00487010();
+    unsigned int id = GetIcon() ? GetIcon()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
+    TESForm_AddChunk_00485910(0x4d414e49, id);
+    TESForm_AddChunk_00485910(0x4d414e44, iFlags);
     if (!GetIsMessageBox())
-        FUN_00485910(0x4d414e54, m_uiDisplayDuration);
+        TESForm_AddChunk_00485910(0x4d414e54, m_uiDisplayDuration);
     List0bc0* node = reinterpret_cast<List0bc0*>(GetButtonList());
     while (node && !node->FUN_008256d0())
     {
         Button0bc0* button = node->FUN_006815c0();
         node = node->FUN_00726070();
         if (button->text.FUN_00559450())
-            FUN_004856f0(0x54585449, button->text.FUN_00559450(), FUN_0044a670(button->text.FUN_00559450()) + 1);
+            TESForm_AddChunkArray(0x54585449, button->text.FUN_00559450(), BSstrlen(button->text.FUN_00559450()) + 1);
         else
-            FUN_00485910(0x54585449, 0);
+            TESForm_AddChunk_00485910(0x54585449, 0);
         button->conditions.ProcessItems();
     }
     FUN_00485680();

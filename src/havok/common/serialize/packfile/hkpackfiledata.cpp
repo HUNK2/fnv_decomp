@@ -30,10 +30,11 @@ struct FUN_00e05140_Class
     void* m_kPointA;
     void* m_kPointB;
     void* m_iThirdValue;
-    unsigned long FUN_00e05140();
+    unsigned long hkPackfileData_getContentsTypeName();
 };
 // @fnv 0x00e05140
-unsigned long FUN_00e05140_Class::FUN_00e05140()
+// src: XBOX_PDB 0x00e05140
+unsigned long FUN_00e05140_Class::hkPackfileData_getContentsTypeName()
 {
     if (m_iThirdValue)
         return ((FUN_00cb1930_Class*)((char*)this + 0x10))->FindValueForKey(m_iThirdValue, 0);
@@ -82,7 +83,7 @@ int FUN_00e05950_class::FindFirstNonEmptySlot()
     return count;
 }
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* a, void* b, int c);
 struct UnkRet
 {
@@ -102,15 +103,16 @@ struct UnkHolder
     int count;
     int pad;
     int pad2;
-    UnkRet* FUN_00c85750();
-    void FUN_00e055a0(UnkRet* r, int v);
+    UnkRet* hkMemoryRouter_getInstance();
+    void hkPackfileData_addImport(UnkRet* r, int v);
 };
 // Appends a two-int entry (r, v) to the array at this+0x58, growing it via ResizeAudioStream when full, and increments the count.
 // @fnv 0x00e055a0
-void UnkHolder::FUN_00e055a0(UnkRet* r, int v)
+// src: XBOX_PDB 0x00e055a0
+void UnkHolder::hkPackfileData_addImport(UnkRet* r, int v)
 {
     UnkRet* slot = (UnkRet*)((char*)this + 0x58);
-    UnkRet* pTemp = FUN_00c85750();
+    UnkRet* pTemp = hkMemoryRouter_getInstance();
     if ((unsigned int)slot->b == ((unsigned int)slot->c & 0x3fffffff))
         ResizeAudioStream((void*)pTemp->e, slot, 8);
     UnkRet* p = (UnkRet*)((char*)slot->a + slot->b * 8);
@@ -281,11 +283,12 @@ struct FUN_00e05240_cls
     int m_18;
     int m_1c;
     int m_20;
-    bool FUN_00e05240();
+    bool hkPackfileData_finishedObjects();
 };
 
 // @fnv 0x00e05240
-bool FUN_00e05240_cls::FUN_00e05240()
+// src: XBOX_PDB 0x00e05240
+bool FUN_00e05240_cls::hkPackfileData_finishedObjects()
 {
     return m_20 != 0;
 }
@@ -330,7 +333,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
 template <typename T, typename Allocator>
 __forceinline hkArray<T, Allocator>& hkArray<T, Allocator>::operator=(const hkArray<T, Allocator>& a)
 {
-    hkMemoryAllocator& kAlloc = ((hkMemoryRouter*)FUN_00c85750())->heap();
+    hkMemoryAllocator& kAlloc = ((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap();
     const int iOldSize = this->m_iElementCount;
     int iNewSize = a.m_iElementCount;
     int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;
@@ -380,7 +383,7 @@ struct FUN_00dce8d0_class
 
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, int iValue);
 };
 
 class hkClassRegistryE055
@@ -448,12 +451,13 @@ class hkPackfileData
     int m_aiUnk20[3];
     hkClassRegistryE055* m_pkClassRegistry;
 
-    int FUN_00e05240();
-    void* FUN_00e055f0(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish);
+    int hkPackfileData_finishedObjects();
+    void* getContentsPointer(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish);
 };
 
 // @fnv 0x00e055f0
-void* hkPackfileData::FUN_00e055f0(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish)
+// src: XBOX_PDB 0x00e055f0
+void* hkPackfileData::getContentsPointer(const char* pcExpectedClassName, const hkFinishRegistryE055* pkFinish)
 {
     if (m_pvTopLevelObject)
     {
@@ -467,7 +471,7 @@ void* hkPackfileData::FUN_00e055f0(const char* pcExpectedClassName, const hkFini
             if (!pkExpected->hkClass_isSuperClass(*pkTopClass).m_cBooleanValue)
                 goto fail;
         }
-        if (FUN_00e05240() == 0 && pkFinish)
+        if (hkPackfileData_finishedObjects() == 0 && pkFinish)
         {
             bool bFailed = false;
             for (int i = m_kTrackedTypes.FindFirstNonEmptySlot(); m_kTrackedTypes.isValid(i);
@@ -477,7 +481,7 @@ void* hkPackfileData::FUN_00e055f0(const char* pcExpectedClassName, const hkFini
                 const char* pcClassName = (const char*)m_kTrackedTypes.getValue(i);
                 int iInfo = pkFinish->RegisterLoadedObject(pvObject, pcClassName);
                 if (iInfo)
-                    m_kFinishedTypes.FUN_00d874d0(pcClassName, iInfo);
+                    m_kFinishedTypes.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(pcClassName, iInfo);
                 else
                     bFailed = true;
             }
@@ -493,7 +497,7 @@ fail:
 extern "C" const void* DAT_010ea51c;
 extern int DAT_0102e388;
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 void __cdecl hkMemoryRouter_easyFree(void* heap, void* ptr);
 
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
@@ -525,7 +529,7 @@ struct Map1Type
 
     void ClearAndRelease()
     {
-        hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         this->ProcessArgument(router->m_heap);
         this->FUN_00a29680();
     }
@@ -569,7 +573,7 @@ void FUN_00e057c0_Class::FUN_00e057c0()
     for (i = 0; i < this->m_pMemoryAllocator.m_iElementCount; ++i)
     {
         void* item = this->m_pMemoryAllocator.m_data[i];
-        hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkMemoryRouter_easyFree(router->m_heap, item);
     }
 
@@ -577,24 +581,24 @@ void FUN_00e057c0_Class::FUN_00e057c0()
     {
         int size = this->m_kChunks.m_data[i].size;
         void* data = this->m_kChunks.m_data[i].data;
-        hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         router->m_heap->blockFree(data, size);
     }
 
     void* unk0c = this->unk0c;
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryRouter_easyFree(router->m_heap, unk0c);
 
-    hkMemoryRouter* r1 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* r1 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     this->m_kImports._clearAndDeallocate(*r1->m_heap);
 
-    hkMemoryRouter* r2 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* r2 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     this->m_kExports._clearAndDeallocate(*r2->m_heap);
 
-    hkMemoryRouter* r3 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* r3 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     this->m_kChunks._clearAndDeallocate(*r3->m_heap);
 
-    hkMemoryRouter* r4 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* r4 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     this->m_pMemoryAllocator._clearAndDeallocate(*r4->m_heap);
 
     if (this->m_obj)
@@ -623,7 +627,7 @@ class hkObje05970 : public FUN_00e057c0
 
     static void operator delete(void* p) throw()
     {
-        static_cast<hkMemoryRouter*>(FUN_00c85750())
+        static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())
             ->heap()
             .blockFree(p, static_cast<hkObje05970*>(p)->GetAllocationSize());
     }
@@ -643,12 +647,12 @@ hkObje05970* hkObje05970::FUN_00e05970(unsigned int uiFlags) throw()
     return this;
 }
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 void __cdecl hkMemoryRouter_easyFree(void* heap, void* ptr);
 char* __cdecl hkString_strDup_00cb1410(const char* src);
 inline void Crux53_FreeName(char* existing)
 {
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryRouter_easyFree(router->m_heap, existing);
 }
 struct Crux53_Named
@@ -689,12 +693,13 @@ class hkListenerE051
     int unk00[19];
     hkArray<PackfileExport> m_entries;
 
-    void FUN_00e05190(int key);
+    void hkPackfileData_removeExport(int key);
 };
 
 // Removes exports whose data pointer matches key; these 8-byte entries are not the 12-byte hkEntry type.
 // @fnv 0x00e05190
-void hkListenerE051::FUN_00e05190(int key)
+// src: XBOX_PDB 0x00e05190
+void hkListenerE051::hkPackfileData_removeExport(int key)
 {
     for (int i = m_entries.m_iElementCount - 1; i >= 0; i--)
     {
@@ -855,12 +860,13 @@ struct S00e05700_Class
     S00e05700_Arr arr4C;
     S00e05700_Arr arr58;
 
-    S00e05700_Class* __thiscall FUN_00e05700();
+    S00e05700_Class* __thiscall hkPackfileData_hkPackfileData();
 };
 
 // Initializes fields, resets four arrays, and assigns DAT_01268b08->vf10()'s result to unk2C.
 // @fnv 0x00e05700
-S00e05700_Class* __thiscall S00e05700_Class::FUN_00e05700()
+// src: XBOX_PDB 0x00e05700
+S00e05700_Class* __thiscall S00e05700_Class::hkPackfileData_hkPackfileData()
 {
     int zero = 0;
 
@@ -874,7 +880,7 @@ S00e05700_Class* __thiscall S00e05700_Class::FUN_00e05700()
     first[1] = zero;
     first[2] = -1;
 
-    void* audio = FUN_00c85750();
+    void* audio = hkMemoryRouter_getInstance();
     void* audioObject = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio) + 0x10);
 
     reinterpret_cast<FUN_00cb1fe0_Class*>(first)->EnsureCapacity(audioObject, zero);

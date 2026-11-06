@@ -279,7 +279,7 @@ struct Both
     Clip first;
     Clip second;
 };
-extern "C" int FUN_00d22e40(Shape*, const V*, const V*, const V*, Clip*);
+extern "C" int hkLineSegmentUtil_closestLineSegLineSeg(Shape*, const V*, const V*, const V*, Clip*);
 static __forceinline void ThreeDots(const V& first, const V& firstWeight, const V& second, const V& secondWeight,
                                     const V& third, const V& thirdWeight, V& out)
 {
@@ -812,7 +812,7 @@ class SegUtil
         Vec4 m_kClosestPointOnSecond;
         Pad<Real> m_fValue;
     };
-    static int __cdecl FUN_00d22e40(const Vec4& A, const Vec4& dA, const Vec4& B, const Vec4& dB, Result& result);
+    static int __cdecl hkLineSegmentUtil_closestLineSegLineSeg(const Vec4& A, const Vec4& dA, const Vec4& B, const Vec4& dB, Result& result);
 };
 
 extern const SChar DAT_010ececc[];
@@ -888,7 +888,7 @@ class Gsk
         SReal m_fBlendWeight;
     };
 
-    GskStatus FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskOut& output);
+    GskStatus hkGsk_getClosestPoint(const Input& input, GskCache* __restrict cache, GskOut& output);
 
     enum
     {
@@ -1037,8 +1037,8 @@ Gsk::NextCase Gsk::FUN_00e4bbe0(Vec4* __restrict vertexA, Vec4* __restrict verte
             edgeA.setSub4(vertexA[1], vertexA[0]);
             SegUtil::Result result0;
             SegUtil::Result result1;
-            SegUtil::FUN_00d22e40(vertexA[0], edgeA, vertexB[2], edge0, result0);
-            SegUtil::FUN_00d22e40(vertexA[0], edgeA, vertexB[2], edge1, result1);
+            SegUtil::hkLineSegmentUtil_closestLineSegLineSeg(vertexA[0], edgeA, vertexB[2], edge0, result0);
+            SegUtil::hkLineSegmentUtil_closestLineSegLineSeg(vertexA[0], edgeA, vertexB[2], edge1, result1);
 
             int index = (result0.m_fValue > result1.m_fValue) ? 1 : 0;
 
@@ -1378,7 +1378,7 @@ Gsk::ReduceDimensionResult Gsk::reduceDimension(Pad<int>& dimA, Pad<int>& dimB, 
                 goto case_edge_point;
             }
 
-            int result = SegUtil::FUN_00d22e40(a0, edgeA, b0, edgeB, m_kVectorPairResult);
+            int result = SegUtil::hkLineSegmentUtil_closestLineSegLineSeg(a0, edgeA, b0, edgeB, m_kVectorPairResult);
             if (result == 0)
             {
                 {
@@ -1579,7 +1579,8 @@ void Gsk::FUN_00e4c230(const GskShape* shapeA, const GskShape* shapeB, const Xfo
 }
 
 // @fnv 0x00e4c730
-GskStatus Gsk::FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskOut& output)
+// src: XBOX_PDB 0x00e4c730
+GskStatus Gsk::hkGsk_getClosestPoint(const Input& input, GskCache* __restrict cache, GskOut& output)
 {
     const GskShape* shapeA = input.m_pShapeA;
     const GskShape* shapeB = input.m_pShapeB;
@@ -1608,7 +1609,7 @@ GskStatus Gsk::FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskO
         dirNeg.hkVector4_setRotatedInverseDir(input.m_kTransform.getRotation(), dirNeg);
         shapeA->GetSupportPoint(dir, &m_akPackedVerticesA[0]);
         shapeB->GetSupportPoint(dirNeg, &m_akPackedVerticesB[0]);
-        m_akCachedVectors[0].FUN_00c7f700(input.m_kTransform.getRotation(), m_akPackedVerticesB[0]);
+        m_akCachedVectors[0].hkVector4_setRotatedDir(input.m_kTransform.getRotation(), m_akPackedVerticesB[0]);
     }
 
     SReal terminationEps = 1e-5f;

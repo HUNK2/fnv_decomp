@@ -60,8 +60,8 @@ struct FUN_00a24f60_Class
 };
 struct InputManager
 {
-    void FUN_00a25410(int);
-    void FUN_00a253d0();
+    void Controls_ClearUserAction(int);
+    void Controls_ClearUserActions();
 };
 struct FUN_00a24080_Class
 {
@@ -2041,7 +2041,7 @@ struct ButtonDevice
     int swapped;
     unsigned int unk1b50, unk1b54;
     unsigned char clicks[8];
-    int FUN_00a23a50(int button, unsigned int query);
+    int Controls_GetMouseButton(int button, unsigned int query);
 };
 extern unsigned char DAT_011f35ae;
 extern unsigned char DAT_011f35af;
@@ -3835,7 +3835,7 @@ struct InputHandler
 
     void FUN_00a237f0(unsigned int* out);
     void Controls_SetActionMapping(int index, int flags, unsigned char state);
-    int FUN_00a23a50(int index, int flags);
+    int Controls_GetMouseButton(int index, int flags);
     bool HandleInput(int key);
 };
 class SpawnedObject
@@ -3879,7 +3879,7 @@ struct FUN_00a25810_Class
 {
     void ResetTargetState();
 };
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
+extern "C" void __stdcall XInputManager_KillRumbles(int, unsigned short*);
 // FUN_00a25870 - returns the flag byte stored in the global at 0x011f3630.
 // The module is an unoptimised (/Od) build, so even this one-liner keeps the
 // full frame: push ebp / mov ebp,esp / mov al,[g] / pop ebp / ret.
@@ -4075,7 +4075,7 @@ struct FUN_00a26520_Class
 {
     void UpdateWaveChannel(int a, short* b, int c);
 };
-void __stdcall FUN_00ee820a(int a, short* b);
+void __stdcall XInputManager_KillRumbles(int a, short* b);
 struct TwoShorts
 {
     short x;
@@ -4168,7 +4168,7 @@ struct EventMemory
 };
 extern EventMemory _g_memoryManager;
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __stdcall FUN_00ee820a(int, unsigned short*);
+extern "C" void __stdcall XInputManager_KillRumbles(int, unsigned short*);
 struct Controller
 {
     int unk0000;
@@ -5934,13 +5934,13 @@ struct Controller
     EventQueue* queue;
     int unk1b84;
     unsigned char enabled;
-    void FUN_00a255b0(float left, float right, int a, int b, int value, unsigned char state, bool force);
+    void Controls_Rumble(float left, float right, int a, int b, int value, unsigned char state, bool force);
 };
 int __cdecl FUN_00ec68e4(const char* name, unsigned int a1);
 class FUN_00a261a0_cls
 {
   public:
-    int FUN_00a261a0(unsigned int a1);
+    int XGamerProfile_GetContentBit(unsigned int a1);
 };
 struct WaveConfig
 {
@@ -6266,7 +6266,8 @@ struct S_00a25920_Obj
 };
 extern S_00a25920_Obj* DAT_011f3634;
 // @fnv 0x00a25920
-S_00a25920_Obj* __cdecl FUN_00a25920()
+// src: XBOX_PDB 0x00a25920
+S_00a25920_Obj* __cdecl XGamerProfile_Instance()
 {
     if (DAT_011f3634 == 0)
     {

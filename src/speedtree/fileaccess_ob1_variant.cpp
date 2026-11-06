@@ -99,19 +99,19 @@ struct Str_00b3ee40
         Alloc_00b3ee40 c;
         Alloc_00b3ee40* pal = &c;
         int j, o, e, t, f7;
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     Str_00b3ee40(const Str_00b3ee40& rhs)
     {
         int k0, k1, k2, k3, k4, k5, k6, k7, k8, k9, k10, k11, k12, k13, k14, k15, k16;
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(rhs, 0, DAT_010173f0);
     }
     ~Str_00b3ee40()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool, unsigned int);
+    void fopen_0044a730(bool, unsigned int);
     Str_00b3ee40& AssignSubstring(const Str_00b3ee40&, unsigned int, unsigned int);
     Str_00b3ee40& AppendChars(unsigned int, char);
     Str_00b3ee40& operator+=(char ch)

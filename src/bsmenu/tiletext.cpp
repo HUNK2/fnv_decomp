@@ -73,9 +73,9 @@ Tile* TileText::SetTraitValue(int aiTrait, float afValue, const char* axString)
     return 0;
 }
 
-unsigned __cdecl FUN_0044a670(const char*);
+unsigned __cdecl BSstrlen(const char*);
 
-unsigned __cdecl FUN_00403940(unsigned, unsigned);
+unsigned __cdecl BSMAX(unsigned, unsigned);
 
 void* __cdecl FormHeap_Allocate(unsigned);
 
@@ -388,7 +388,7 @@ struct TextNode
         return NiAtomicIncrement_0040b460(&unk04);
     }
 
-    void FUN_00a5a040();
+    void UpdateProperties();
     bool SetExtraDataName(TileExtra*);
     bool NiObjectNET_AddExtraData(TileExtra*);
 
@@ -564,7 +564,7 @@ struct TileExtra
     char* name;
     Tile* tile;
     TextNode* node;
-    const NameString& FUN_00a62660() const;
+    const NameString& GetFilename_00a62660() const;
     const TypeInfo* GetTypeInfo() const;
     void FUN_00a7b2e0();
     void AssignFixedString(const NameString&);
@@ -583,7 +583,7 @@ struct TileExtra
 
 int __cdecl FUN_00a305b0(char*, unsigned, const char*, ...);
 const char* __cdecl FUN_00ec7750(const char*, const char*);
-void* __cdecl FUN_00aa1070(unsigned);
+void* __cdecl _NiMalloc_00aa1070(unsigned);
 void __cdecl _NiFree_00aa10f0(void*);
 char* __cdecl CopyFilePath(char*, unsigned, const char*, unsigned);
 int __cdecl FUN_00ec6bd2(char*, unsigned, const char*);
@@ -591,19 +591,19 @@ inline bool TextNode::SetExtraDataName(TileExtra* extra)
 {
     if (!extra)
         return false;
-    if (!extra->FUN_00a62660().value)
+    if (!extra->GetFilename_00a62660().value)
     {
         const char* typeName = extra->GetTypeInfo()->name;
-        if (typeName && FUN_0044a670(typeName))
+        if (typeName && BSstrlen(typeName))
         {
             char suffix[6];
             FUN_00a305b0(suffix, 6, "ED%03d", extraCount);
             const char* marker = FUN_00ec7750(typeName, "ExtraData");
-            char* newName = (char*)FUN_00aa1070(
-                ((marker > typeName ? (unsigned)(marker - typeName) : 0) + FUN_0044a670(suffix) + 1));
-            CopyFilePath(newName, ((marker > typeName ? (unsigned)(marker - typeName) : 0) + FUN_0044a670(suffix) + 1),
+            char* newName = (char*)_NiMalloc_00aa1070(
+                ((marker > typeName ? (unsigned)(marker - typeName) : 0) + BSstrlen(suffix) + 1));
+            CopyFilePath(newName, ((marker > typeName ? (unsigned)(marker - typeName) : 0) + BSstrlen(suffix) + 1),
                          typeName, marker > typeName ? (unsigned)(marker - typeName) : 0);
-            FUN_00ec6bd2(newName, ((marker > typeName ? (unsigned)(marker - typeName) : 0) + FUN_0044a670(suffix) + 1),
+            FUN_00ec6bd2(newName, ((marker > typeName ? (unsigned)(marker - typeName) : 0) + BSstrlen(suffix) + 1),
                          suffix);
             {
                 NameString assignedName(newName);
@@ -619,7 +619,7 @@ float __cdecl FUN_00706e00();
 
 TextNode* __cdecl FUN_00706d30();
 
-void __cdecl FUN_00707930(int);
+void __cdecl Interface_SetNeedToUpdate(int);
 
 inline int ClampFont(int number)
 {
@@ -688,7 +688,7 @@ NiNode* TileText::CalculateNode()
 
     const char* text;
 
-    text = FUN_00a011f0(0xfc4);
+    text = Tile_GetString(0xfc4);
 
     if (text && *text)
         current.Set(text, 0);
@@ -729,7 +729,7 @@ NiNode* TileText::CalculateNode()
         maximumX = params.width;
         countVal = params.height;
 
-        FUN_00a012d0(0xfd5, ParseFloatValue(params.lineCount), true);
+        Tile_Set(0xfd5, ParseFloatValue(params.lineCount), true);
 
         multibyte = params.multibyte;
     }
@@ -760,9 +760,9 @@ NiNode* TileText::CalculateNode()
 
     fontA->SetHeight((float)oldStateVal);
 
-    FUN_00a012d0(0xfb1, ParseFloatValue(maximumX), true);
+    Tile_Set(0xfb1, ParseFloatValue(maximumX), true);
 
-    FUN_00a012d0(0xfb0, ParseFloatValue(countVal), true);
+    Tile_Set(0xfb0, ParseFloatValue(countVal), true);
 
     Tile_SetChangeFlag(9);
 
@@ -776,9 +776,9 @@ NiNode* TileText::CalculateNode()
 
     reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry)->SetCulled(!IsTraitNonZero(0xfa3));
 
-    reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry)->FUN_00a5a040();
+    reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry)->UpdateProperties();
 
-    FUN_00707930(1);
+    Interface_SetNeedToUpdate(1);
 
     reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry)->SetExtraDataName(new TileExtra((Tile*)this, reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry)));
 

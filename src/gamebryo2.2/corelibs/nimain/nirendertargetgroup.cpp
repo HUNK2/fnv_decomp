@@ -32,7 +32,8 @@ const NiPixelFormat* __thiscall NiRenderTargetGroup::GetPixelFormat() const
 
 
 // @fnv 0x00ee8460
-void NiRenderTargetGroup::FUN_00ee8460(RendererData* pkRendererData)
+// src: XBOX_PDB 0x00ee8460
+void NiRenderTargetGroup::SetRendererData_00ee8460(RendererData* pkRendererData)
 {
     RendererData*& m_pTextureRendererData = reinterpret_cast<RendererData*&>(RenderTargetBufferInfo);
     if (m_pTextureRendererData)
@@ -47,7 +48,8 @@ void NiRenderTargetGroup::FUN_00ee8460(RendererData* pkRendererData)
 }
 
 // @fnv 0x00ee84d0
-int NiRenderTargetGroup::FUN_00ee84d0() const
+// src: XBOX_PDB 0x00ee84d0
+int NiRenderTargetGroup::GetDepthStencilWidth() const
 {
     const NiMemObject* p =
         *reinterpret_cast<const NiMemObject* const*>(reinterpret_cast<const unsigned char*>(this) + 0x20);
@@ -57,7 +59,8 @@ int NiRenderTargetGroup::FUN_00ee84d0() const
 }
 
 // @fnv 0x00ee84e0
-int NiRenderTargetGroup::FUN_00ee84e0() const
+// src: XBOX_PDB 0x00ee84e0
+int NiRenderTargetGroup::GetDepthStencilHeight() const
 {
     void* p =
         *reinterpret_cast<void**>(const_cast<unsigned char*>(reinterpret_cast<const unsigned char*>(this)) + 0x20);
@@ -67,19 +70,22 @@ int NiRenderTargetGroup::FUN_00ee84e0() const
 }
 
 // @fnv 0x00ee84f0
-NiMemObject* __thiscall NiRenderTargetGroup::FUN_00ee84f0(unsigned int uiIndex) const
+// src: XBOX_PDB 0x00ee84f0
+NiMemObject* __thiscall NiRenderTargetGroup::GetBuffer_00ee84f0(unsigned int uiIndex) const
 {
     return GetBuffers()[uiIndex];
 }
 
 // @fnv 0x00ee8550
-void __thiscall NiRenderTargetGroup::FUN_00ee8550(bool abResolve)
+// src: XBOX_PDB 0x00ee8550
+void __thiscall NiRenderTargetGroup::SetResolveDepthBufferMode(bool abResolve)
 {
     m_bNeedsResolve = abResolve;
 }
 
 // @fnv 0x00ee86e0
-void* NiRenderTargetGroup::FUN_00ee86e0(unsigned int uiIndex) const
+// src: XBOX_PDB 0x00ee86e0
+void* NiRenderTargetGroup::GetBufferRendererData(unsigned int uiIndex) const
 {
     void* p = GetBuffers()[uiIndex];
     if (p)
@@ -104,7 +110,8 @@ void* __thiscall NiRenderTargetGroup::FUN_00ee87e0(unsigned int flags)
 void __stdcall AppendCameraPathEntries(StrArr*);
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00ee8800
-void __stdcall FUN_00ee8800(StrArr* pkStrings)
+// src: XBOX_PDB 0x00ee8800
+void __stdcall NiRenderTargetGroup_GetViewerStrings(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pString = NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_012708ec);
@@ -386,7 +393,7 @@ struct RefCountedObj
 // @fnv 0x00ee8620
 bool __fastcall SetRenderTargetGroupItem(NiRenderTargetGroup* pkGroup, void*, RefCountedObj* apItem, unsigned int uiIndex)
 {
-    pkGroup->FUN_00ee8460(0);
+    pkGroup->SetRendererData_00ee8460(0);
     RefCountedObj** m_apItems = reinterpret_cast<RefCountedObj**>(pkGroup->GetBuffers());
     if (uiIndex < reinterpret_cast<unsigned int&>(pkGroup->m_aspRenderTargetBuffers[2].m_pObject))
     {

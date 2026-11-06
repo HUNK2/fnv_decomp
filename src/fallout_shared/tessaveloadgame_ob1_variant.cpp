@@ -66,7 +66,7 @@ FUN_00c3da50::FUN_00c3da50() : BaseListL(10, 1, 120)
     m_pFirstData = GetDataAt(0);
 }
 
-extern "C" void FUN_0044dd60(void* p);
+extern "C" void BSTask_int64_DecRefCount(void* p);
 extern "C" long __stdcall InterlockedCompareExchange(long volatile* dest, long exchange, long comparand);
 
 struct Node006c6fe0
@@ -117,7 +117,7 @@ struct C006c6fe0
                 old = *pending;
                 if (old != 0)
                 {
-                    FUN_0044dd60(old->value);
+                    BSTask_int64_DecRefCount(old->value);
                     *pending = 0;
                 }
                 return false;

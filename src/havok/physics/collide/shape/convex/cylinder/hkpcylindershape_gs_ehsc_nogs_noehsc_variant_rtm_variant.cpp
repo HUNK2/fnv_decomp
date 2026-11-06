@@ -33,7 +33,7 @@ int __cdecl FUN_00d571b0();
 //  m_type 0xC, m_fSphereRadius 0x10, m_fCylinderRadius 0x14).
 extern char DAT_01268940[];
 void __cdecl hkReferencedObject_calcContentStatistics(void* item, const char* type);
-void __cdecl FUN_00d571c0(void* item, const char*);
+void __cdecl hkpCylinderShape_calcContentStatistics(void* item, const char*);
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 extern char DAT_010305a8;
@@ -62,7 +62,7 @@ struct CylVec4
 
 struct CylShapeAdapter : public hkpCylinderShape
 {
-    void __thiscall FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
+    void __thiscall hkpCylinderShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int numIds, CylVec4* verticesOut) const;
 };
 
 extern float DAT_011b5be4;
@@ -76,7 +76,8 @@ struct CylSimd
 static inline float CylSqrt(float r) { return (float)sqrt(r); }
 
 // @fnv 0x00d576d0
-void CylShapeAdapter::FUN_00d576d0(const unsigned short* ids, int numIds, CylVec4* verticesOut) const
+// src: XBOX_PDB 0x00d576d0
+void CylShapeAdapter::hkpCylinderShape_convertVertexIdsToVerticesImpl(const unsigned short* ids, int numIds, CylVec4* verticesOut) const
 {
     for (int i = numIds - 1; i >= 0;)
     {
@@ -122,7 +123,7 @@ static inline __m128 scalar(float value) { return _mm_load_ss(&value); }
 
 class CylVertices : public hkpCylinderShape {
 public:
-    hkVector4* FUN_00d57890(VertexOutput output);
+    hkVector4* hkpCylinderShape_getCollisionSpheresImpl(VertexOutput output);
     hkVector4* prime(VertexOutput output);
 };
 
@@ -221,7 +222,8 @@ hkVector4* CylVertices::prime(VertexOutput output)
     return out;
 }
 // @fnv 0x00d57890
-hkVector4* CylVertices::FUN_00d57890(VertexOutput output)
+// src: XBOX_PDB 0x00d57890
+hkVector4* CylVertices::hkpCylinderShape_getCollisionSpheresImpl(VertexOutput output)
 {
     __m128 offA, sC, kA, kB;
     hkVector4* v = &m_kVertexA;
@@ -460,11 +462,12 @@ struct CylinderSupportStore : CylinderSupportArithmetic {
 };
 class CylinderSupportShape : public hkpCylinderShape {
 public:
-    void FUN_00d57400(const hkVector4& direction, CylinderSupportStore& output) const;
+    void hkpCylinderShape_getSupportingVertexImpl(const hkVector4& direction, CylinderSupportStore& output) const;
 };
 
 // @fnv 0x00d57400
-void CylinderSupportShape::FUN_00d57400(const hkVector4& direction, CylinderSupportStore& output) const
+// src: XBOX_PDB 0x00d57400
+void CylinderSupportShape::hkpCylinderShape_getSupportingVertexImpl(const hkVector4& direction, CylinderSupportStore& output) const
 {
     int vertexId;
     {

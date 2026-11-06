@@ -142,7 +142,7 @@ namespace fnv_0060bdd0 {
 extern void* DAT_0104ab04;
 struct AX
 {
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     AX* BSSimpleArray_BGSHeadPart_1024_BSSimpleArray_BGSHeadPart_1024();
 };
 // @fnv 0x0060bdd0
@@ -150,7 +150,7 @@ struct AX
 AX* AX::BSSimpleArray_BGSHeadPart_1024_BSSimpleArray_BGSHeadPart_1024()
 {
     *reinterpret_cast<void**>(this) = &DAT_0104ab04;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 }  // namespace fnv_0060bdd0
@@ -557,7 +557,8 @@ FUN_00601100_cls* __thiscall FUN_00601100_cls::NiTMapBase_DFALL_NiTMapItem_char_
 extern "C" void* __cdecl DAT_01199fc4[];
 
 // @fnv 0x00605d40
-void* __cdecl FUN_00605d40(int index)
+// src: XBOX_PDB 0x00605d40
+void* __cdecl TESRace_GetHeadPartNodeName(int index)
 {
     return DAT_01199fc4[index];
 }
@@ -699,8 +700,8 @@ void* __thiscall FUN_0060f410_class::FUN_0060f410(unsigned int flags)
 
 struct S_00616a60
 {
-    void __thiscall FUN_00616a20();
-    void __thiscall FUN_00616a40();
+    void __thiscall TESReputation_GetPositiveRatio();
+    void __thiscall TESReputation_GetNegativeRatio();
     void __thiscall TESReputation_GetReputationPct(int);
 };
 // Calls FUN_00616a20 when a equals 1, otherwise calls FUN_00616a40.
@@ -710,11 +711,11 @@ void __thiscall S_00616a60::TESReputation_GetReputationPct(int a)
 {
     if (a == 1)
     {
-        FUN_00616a20();
+        TESReputation_GetPositiveRatio();
         return;
         return;
     }
-    FUN_00616a40();
+    TESReputation_GetNegativeRatio();
 }
 
 struct FUN_00618890_cls
@@ -913,24 +914,25 @@ FUN_0060bd20_class::FUN_0060bd20_class(unsigned short a, unsigned short b)
 
 struct FUN_00616c20_cls
 {
-    void __thiscall FUN_00615730(int, float);
+    void __thiscall AddReputationValue(int, float);
 };
 extern Setting originalRuntimeFloatSetting51;
 extern Setting originalRuntimeFloatSetting50;
 struct FUN_00616c20_shell : FUN_00616c20_cls
 {
-    void __thiscall FUN_00616c20(bool b);
+    void __thiscall TESReputation_CommitCrime(bool b);
 };
 // Reads one of two runtime float settings depending on b and passes it to FUN_00615730 with index 0.
 // @fnv 0x00616c20
-void __thiscall FUN_00616c20_shell::FUN_00616c20(bool abUseFirstSetting)
+// src: XBOX_PDB 0x00616c20
+void __thiscall FUN_00616c20_shell::TESReputation_CommitCrime(bool abUseFirstSetting)
 {
     float f;
     if (abUseFirstSetting)
         f = *originalRuntimeFloatSetting51.Float();
     else
         f = *originalRuntimeFloatSetting50.Float();
-    FUN_00615730(0, f);
+    AddReputationValue(0, f);
 }
 
 struct FUN_00619a90_shell
@@ -1064,7 +1066,7 @@ FUN_0061fc50::~FUN_0061fc50()
 class FNVNode;
 class FNVHeap;
 
-FNVHeap* FUN_00401020();
+FNVHeap* MemoryManager_Instance();
 
 class FNVHeap
 {
@@ -1088,15 +1090,15 @@ class FUN_0060ba40_cls : public FNVBaseObj
     virtual ~FUN_0060ba40_cls();
     FNVNode* m_10;
     FUN_0060ba40_cls();
-    void FUN_006b3eb0(unsigned int a, unsigned int b);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 
 // Initializes m_10 from FUN_00401020()->FUN_00aa42e0() and calls FUN_006b3eb0 with 0, 0.
 // @fnv 0x0060ba40
 FUN_0060ba40_cls::FUN_0060ba40_cls()
 {
-    m_10 = FUN_00401020()->FUN_00aa42e0();
-    FUN_006b3eb0(0, 0);
+    m_10 = MemoryManager_Instance()->FUN_00aa42e0();
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
 }
 
 class FUN_0060bac0_base
@@ -1257,11 +1259,12 @@ class B616A20Meter
     float m_fMaximum;
     float m_fCurrent;
 
-    float FUN_00616a20();
+    float TESReputation_GetPositiveRatio();
 };
 
 // @fnv 0x00616a20
-float B616A20Meter::FUN_00616a20()
+// src: XBOX_PDB 0x00616a20
+float B616A20Meter::TESReputation_GetPositiveRatio()
 {
     return m_fCurrent / m_fMaximum;
 }
@@ -1288,11 +1291,12 @@ struct FUN_00616a40_cls
     float m_f40;
     float m_f44;
     float m_f48;
-    float __thiscall FUN_00616a40();
+    float __thiscall TESReputation_GetNegativeRatio();
 };
 
 // @fnv 0x00616a40
-float __thiscall FUN_00616a40_cls::FUN_00616a40()
+// src: XBOX_PDB 0x00616a40
+float __thiscall FUN_00616a40_cls::TESReputation_GetNegativeRatio()
 {
     return m_f48 / m_f40;
 }
@@ -1371,7 +1375,7 @@ char Comparison::TESReputation_GetReputationThreshold(char mode)
     return 0;
 }
 
-extern "C" void __cdecl FUN_00401080(void* p, bool flag);
+extern "C" void __cdecl BSEndian_00401080(void* p, bool flag);
 
 struct FUN_00616c70_flag
 {
@@ -1393,13 +1397,13 @@ struct FUN_00616c70_cls
 void FUN_00616c70_cls::InitializeFields()
 {
     FUN_00616c70_flag a = {};
-    FUN_00401080(this, a.m_bValue);
+    BSEndian_00401080(this, a.m_bValue);
     FUN_00616c70_flag b = {};
-    FUN_00401080((char*)this + 4, b.m_bValue);
+    BSEndian_00401080((char*)this + 4, b.m_bValue);
     FUN_00616c70_flag c5 = {};
-    FUN_00401080((char*)this + 8, c5.m_bValue);
+    BSEndian_00401080((char*)this + 8, c5.m_bValue);
     FUN_00616c70_flag d = {};
-    FUN_00401080((char*)this + 0x10, d.m_bValue);
+    BSEndian_00401080((char*)this + 0x10, d.m_bValue);
 }
 
 int __cdecl FUN_00406d50(char* destination, unsigned int capacity, const char* source);
@@ -1742,7 +1746,7 @@ struct CleanupItem
 };
 struct CleanupArray
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void FUN_0061bd20(unsigned int, CleanupItem* const&);
 };
 struct CleanupTopic
@@ -1793,7 +1797,7 @@ FUN_006186d0::~FUN_006186d0()
     while (list && *list->FUN_006815c0())
     {
         CleanupTopic* topic = *list->FUN_006815c0();
-        unsigned int count = topic->FUN_00717e50()->FUN_0084e3a0();
+        unsigned int count = topic->FUN_00717e50()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         for (unsigned int i = 0; i < count; ++i)
         {
             CleanupItem* item = GetTopicInfoByIndex(topic, i);

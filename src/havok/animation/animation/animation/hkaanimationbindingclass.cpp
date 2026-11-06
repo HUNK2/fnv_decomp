@@ -17,7 +17,7 @@ struct Holder
     int unk0c;
     Manager* manager;
 };
-Holder* FUN_00c85750();
+Holder* hkMemoryRouter_getInstance();
 struct Record
 {
     int unk00;
@@ -32,7 +32,7 @@ Record* Record::FUN_00dfea70(unsigned int flags)
     ClearReferences();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = hkMemoryRouter_getInstance();
         holder->manager->Notify(this, value);
     }
     return this;
@@ -75,7 +75,7 @@ struct CalleeB
 void Record::ClearReferences()
 {
     ReclaimState* pState = reinterpret_cast<ReclaimState*>(this);
-    Holder* pManagerHolder = FUN_00c85750();
+    Holder* pManagerHolder = hkMemoryRouter_getInstance();
     ManagerSlots* pManager = reinterpret_cast<ManagerSlots*>(pManagerHolder->manager);
     pState->m_20 = 0;
     if ((pState->m_24 & 0x80000000u) == 0)
@@ -85,7 +85,7 @@ void Record::ClearReferences()
     pState->m_1c = 0;
     pState->m_24 = 0x80000000u;
 
-    pManagerHolder = FUN_00c85750();
+    pManagerHolder = hkMemoryRouter_getInstance();
     pManager = reinterpret_cast<ManagerSlots*>(pManagerHolder->manager);
     pState->unk14 = 0;
     if ((pState->unk18 & 0x80000000u) == 0)

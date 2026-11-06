@@ -33,7 +33,7 @@ extern NiRTTI g_01268420;
 struct FUN_009afc30_shell
 {
     NavMeshPtr m_navMeshPtr;
-    NavMesh* FUN_009afc30();
+    NavMesh* hkpFixedBufferCdPointCollector_getHits();
 };
 struct FUN_009afbb0_shell
 {
@@ -54,7 +54,7 @@ struct FUN_009afc50_shell
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    NavMesh* FUN_009afc30();
+    NavMesh* hkpFixedBufferCdPointCollector_getHits();
 };
 
 struct P03MM
@@ -256,15 +256,16 @@ struct FUN_00cbc650_cls
     virtual void v2B();
     virtual void v2C();
     virtual FUN_00cbc650_obj* vGet(FUN_00cbc650_obj* volatile* pp);
-    void FUN_00c86790(FUN_00cbc650_obj* a);
-    void FUN_00cbc650(FUN_00cbc650_obj* volatile a1);
+    void bhkUnaryAction_LoadBinary(FUN_00cbc650_obj* a);
+    void bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1);
 };
 
 // @fnv 0x00cbc650
-void FUN_00cbc650_cls::FUN_00cbc650(FUN_00cbc650_obj* volatile a1)
+// src: XBOX_PDB 0x00cbc650
+void FUN_00cbc650_cls::bhkLiquidAction_LoadBinary(FUN_00cbc650_obj* volatile a1)
 {
     FUN_00cbc650_obj* obj = a1;
-    FUN_00c86790(obj);
+    bhkUnaryAction_LoadBinary(obj);
     if (obj->m_1e5 != 1)
     {
         volatile unsigned int* p = (volatile unsigned int*)vGet(&a1);
@@ -309,7 +310,7 @@ struct FUN_00cbc6a0_Class
     virtual void vf19();
     virtual void vf20();
     virtual void vf21();
-    virtual void FUN_00cbc6a0(unsigned char* arg);
+    virtual void bhkLiquidAction_SaveBinary(unsigned char* arg);
     virtual void vf23();
     virtual void vf24();
     virtual void vf25();
@@ -333,11 +334,12 @@ struct FUN_00cbc6a0_Class
     virtual void vf43();
     virtual void vf44();
     virtual FUN_00cbc6a0_Data* vf45(int* value);
-    void __thiscall FUN_00c868b0(unsigned char* arg);
+    void __thiscall bhkUnaryAction_SaveBinary(unsigned char* arg);
 };
 
 // @fnv 0x00cbc6a0
-void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
+// src: XBOX_PDB 0x00cbc6a0
+void FUN_00cbc6a0_Class::bhkLiquidAction_SaveBinary(unsigned char* arg)
 {
     unsigned char value;
     FUN_00cbc6a0_Data* data = vf45((int*)&value);
@@ -350,7 +352,7 @@ void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
         data->unk14 = _byteswap_ulong(data->unk14);
     }
 
-    FUN_00c868b0(arg);
+    bhkUnaryAction_SaveBinary(arg);
 
     if (arg[0x1E4] != 1)
     {
@@ -362,8 +364,8 @@ void FUN_00cbc6a0_Class::FUN_00cbc6a0(unsigned char* arg)
 }
 
 extern __declspec(thread) int g_memoryContext;
-void __cdecl FUN_00c876f0();
-void __cdecl FUN_00c87700();
+void __cdecl bhkSerializable_CloneCritLock();
+void __cdecl bhkSerializable_CloneCritUnlock();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 inline AutoMemContext::AutoMemContext()
 {
@@ -400,22 +402,23 @@ struct FUN_00cbc550_class
 };
 struct FUN_00cbca20_class
 {
-    void __thiscall FUN_00c86800(FUN_00cbc550_class* obj, int flags);
-    FUN_00cbc550_class* __thiscall FUN_00cbca20(int flags);
+    void __thiscall bhkUnaryAction_CopyMembers(FUN_00cbc550_class* obj, int flags);
+    FUN_00cbc550_class* __thiscall bhkLiquidAction_CreateClone(int flags);
 };
 // @fnv 0x00cbca20
-FUN_00cbc550_class* __thiscall FUN_00cbca20_class::FUN_00cbca20(int flags)
+// src: XBOX_PDB 0x00cbca20
+FUN_00cbc550_class* __thiscall FUN_00cbca20_class::bhkLiquidAction_CreateClone(int flags)
 {
     AutoMemContext context;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     FUN_00cbc550_class* result = new FUN_00cbc550_class();
-    FUN_00c86800(result, flags);
-    FUN_00c87700();
+    bhkUnaryAction_CopyMembers(result, flags);
+    bhkSerializable_CloneCritUnlock();
     return result;
 }
 
 
-extern "C" HavokAllocatorContext_explosion* __cdecl FUN_00c85750();
+extern "C" HavokAllocatorContext_explosion* __cdecl hkMemoryRouter_getInstance();
 
 struct HavokObj
 {
@@ -435,7 +438,7 @@ struct HavokObj
 
     static void* operator new(size_t size)
     {
-        HavokAllocatorContext_explosion* tm = FUN_00c85750();
+        HavokAllocatorContext_explosion* tm = hkMemoryRouter_getInstance();
         HavokObj* p = (HavokObj*)tm->m_alloc->blockAlloc(size);
         p->m_flags = (short)size;
         return p;
@@ -478,7 +481,7 @@ struct GarbageCollectorObjectPtr
 extern const void* DAT_01267b70;
 extern const void* g_012043f8;
 
-GarbageCollectorObjectPtr* __cdecl FUN_00c85ef0(GarbageCollectorObjectPtr* out, void* obj, const void* rtti);
+GarbageCollectorObjectPtr* __cdecl bhkWorldObject_GetProperty(GarbageCollectorObjectPtr* out, void* obj, const void* rtti);
 
 struct ArgStruct
 {
@@ -550,12 +553,13 @@ struct TargetClass
     float unk1c;
     float unk20;
 
-    void FUN_00cbcbd0(void* p);
-    void FUN_00cbd520(ArgStruct* arg);
+    void bhkLiquidAction_SetTargetObject(void* p);
+    void bhkLiquidAction_Init(ArgStruct* arg);
 };
 
 // @fnv 0x00cbd520
-void TargetClass::FUN_00cbd520(ArgStruct* arg)
+// src: XBOX_PDB 0x00cbd520
+void TargetClass::bhkLiquidAction_Init(ArgStruct* arg)
 {
     AutoMemContext memContext;
 
@@ -570,13 +574,13 @@ void TargetClass::FUN_00cbd520(ArgStruct* arg)
 
     GarbageCollectorObjectPtr gcPtr;
     void* pObj = arg->unk04;
-    GarbageCollectorObjectPtr* res = FUN_00c85ef0(&gcPtr, pObj, &DAT_01267b70);
+    GarbageCollectorObjectPtr* res = bhkWorldObject_GetProperty(&gcPtr, pObj, &DAT_01267b70);
     if (res->m_ptr)
     {
         DynCastHelper1* dyn = res->m_ptr->DynamicCast(&g_012043f8);
         if (dyn && dyn->unk08 && dyn->unk08->unk18)
         {
-            this->FUN_00cbcbd0(dyn->unk08->unk18);
+            this->bhkLiquidAction_SetTargetObject(dyn->unk08->unk18);
         }
     }
 
@@ -599,20 +603,21 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > NiViewerStringArray;
 class FUN_00cbd650_base
 {
   public:
-    void FUN_00c86b80(NiViewerStringArray* pkStrings);
+    void bhkUnaryAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 class FUN_00cbd650_cls : public FUN_00cbd650_base
 {
   public:
-    void FUN_00cbd650(NiViewerStringArray* pkStrings);
+    void bhkLiquidAction_GetViewerStrings(NiViewerStringArray* pkStrings);
 };
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 extern const char* DAT_01268420;
 // @fnv 0x00cbd650
-void FUN_00cbd650_cls::FUN_00cbd650(NiViewerStringArray* pkStrings)
+// src: XBOX_PDB 0x00cbd650
+void FUN_00cbd650_cls::bhkLiquidAction_GetViewerStrings(NiViewerStringArray* pkStrings)
 {
     AutoMemContext kContext;
-    FUN_00c86b80(pkStrings);
+    bhkUnaryAction_GetViewerStrings(pkStrings);
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268420));
 }
 
@@ -647,11 +652,12 @@ struct StateOwner
     float unk18;
     float unk1c;
     float unk20;
-    void __thiscall FUN_00c867d0(SmallAlignedState* state);
-    SmallAlignedState* FUN_00cbcad0(bool* created);
+    void __thiscall bhkUnaryAction_CopyCinfo(SmallAlignedState* state);
+    SmallAlignedState* bhkLiquidAction_CreateCinfo(bool* created);
 };
 // @fnv 0x00cbcad0
-SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
+// src: XBOX_PDB 0x00cbcad0
+SmallAlignedState* StateOwner::bhkLiquidAction_CreateCinfo(bool* created)
 {
     AutoMemContext context;
     *created = !unk0c;
@@ -665,7 +671,7 @@ SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
         unk0c = state;
         if (unk08)
         {
-            FUN_00c867d0(state);
+            bhkUnaryAction_CopyCinfo(state);
             state->unk08 = unk1c;
             state->unk0c = unk20;
             state->unk10 = unk14;
@@ -879,7 +885,8 @@ struct CauseList
     void __thiscall PushItem(void** owner);
 };
 // @fnv 0x00cbcbd0
-void TargetClass::FUN_00cbcbd0(void* p)
+// src: XBOX_PDB 0x00cbcbd0
+void TargetClass::bhkLiquidAction_SetTargetObject(void* p)
 {
     unsigned int restore = threadBlock.context;
     ContextScope scope(restore);

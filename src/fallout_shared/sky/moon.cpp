@@ -65,11 +65,12 @@ class TaskQueueInterface
 {
   public:
     void SetTaskFlagDWord(bool, unsigned int);
-    void FUN_00635fe0(bool bDisplay);
+    void NiAVObject_SetDisplayObject(bool bDisplay);
 };
 
 // @fnv 0x00635fe0
-void TaskQueueInterface::FUN_00635fe0(bool bDisplay)
+// src: XBOX_PDB 0x00635fe0
+void TaskQueueInterface::NiAVObject_SetDisplayObject(bool bDisplay)
 {
     SetTaskFlagDWord(bDisplay, 0x20);
 }
@@ -77,7 +78,7 @@ void TaskQueueInterface::FUN_00635fe0(bool bDisplay)
 class Flag512Receiver
 {
   public:
-    void FUN_00633ba0(bool, unsigned int);
+    void NiAlphaProperty_SetBit(bool, unsigned int);
     void NiAlphaProperty_SetNoSorter(bool enabled);
 };
 
@@ -85,7 +86,7 @@ class Flag512Receiver
 // src: COMMUNITY 0x00636000
 void Flag512Receiver::NiAlphaProperty_SetNoSorter(bool enabled)
 {
-    FUN_00633ba0(enabled, 0x2000);
+    NiAlphaProperty_SetBit(enabled, 0x2000);
 }
 
 struct Calendar
@@ -133,7 +134,8 @@ struct NiAVObjectFlagQuery
 };
 
 // @fnv 0x006366b0
-bool NiAVObject::FUN_006366b0()
+// src: XBOX_PDB 0x006366b0
+bool NiAVObject::GetDisplayObject()
 {
     return ((NiAVObjectFlagQuery*)this)->HasFlags(0x20);
 }
@@ -198,7 +200,7 @@ extern double DAT_0103c348;
 extern const double DAT_01023128;
 extern float DAT_010249d8;
 
-float __cdecl FUN_0040ebd0(float, float);
+float __cdecl BSMIN(float, float);
 float __fastcall GetFieldEC(const char*);
 
 struct Mtx
@@ -225,7 +227,7 @@ struct PropHelper
 
 struct SkyView
 {
-    int FUN_00476c90();
+    int Sky_GetMode();
 };
 
 struct Twin_0084d030
@@ -294,7 +296,7 @@ void Moon::Update(::Sky* apSky, float afSecondsPassed)
     fvisMoon = GetMoonVisibility();
     fvisShadow = GetMoonShadowVisibility();
     fvisStars = ((Twin_0084d030*)((BSThread*)apSky)->GetThreadID())->GetStoredFloatValue();
-    fvisShadow = FUN_0040ebd0(fvisShadow, fvisStars);
+    fvisShadow = BSMIN(fvisShadow, fvisStars);
 
     if (m_eUpdateStatus == US_INITIALIZE ||
         (m_eUpdateStatus == US_WHEN_CULLED && fvisMoon <= _gModifierZero && fvisShadow <= _gModifierZero))
@@ -308,13 +310,13 @@ void Moon::Update(::Sky* apSky, float afSecondsPassed)
         ::NiTexture* ptex = (::NiTexture*)((const Flt*)&spTex)->operator unsigned int();
         if (ptex)
             pprop->SetTexture(ptex);
-        ((::TaskQueueInterface*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_00635fe0(ptex != 0);
+        ((::TaskQueueInterface*)((const Flt*)&m_pMoonShape)->operator unsigned int())->NiAVObject_SetDisplayObject(ptex != 0);
         m_eUpdateStatus = US_NOT_REQUIRED;
     }
 
-    if (((SkyView*)apSky)->FUN_00476c90() == 3 || ((SkyView*)apSky)->FUN_00476c90() == 2)
+    if (((SkyView*)apSky)->Sky_GetMode() == 3 || ((SkyView*)apSky)->Sky_GetMode() == 2)
     {
-        if (!((::NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->FUN_006366b0())
+        if (!((::NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->GetDisplayObject())
         {
             ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(true);
             return;
@@ -334,7 +336,7 @@ void Moon::Update(::Sky* apSky, float afSecondsPassed)
         {
             ((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())->SetAppCulled(false);
             if (fvisMoon <= _gModifierZero ||
-                !((::NiAVObject*)((const Flt*)&m_pMoonShape)->operator unsigned int())->FUN_006366b0())
+                !((::NiAVObject*)((const Flt*)&m_pMoonShape)->operator unsigned int())->GetDisplayObject())
             {
                 ((NiAVObject*)((const Flt*)&m_pMoonNode)->operator unsigned int())->SetAppCulled(true);
             }
@@ -354,7 +356,7 @@ void Moon::Update(::Sky* apSky, float afSecondsPassed)
                     ((NiColorA*)&pshadeProperty->propertyData[0x60])->a = fvisMoon;
             }
             if (fvisShadow <= _gModifierZero ||
-                !((::NiAVObject*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->FUN_006366b0())
+                !((::NiAVObject*)((const Flt*)&m_pMoonShadowShape)->operator unsigned int())->GetDisplayObject())
             {
                 ((NiAVObject*)((const Flt*)&m_pMoonShadowNode)->operator unsigned int())->SetAppCulled(true);
             }

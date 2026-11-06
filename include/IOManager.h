@@ -44,11 +44,11 @@ public:
     void BSTaskManager_CancelTask(int);
     void RequeuePrioritiesToNewPriority(int, int);
     bool UpdateQueue();
-    void FUN_00c3dfa0(int mode);
+    void LoadQueuedPriority(int mode);
     void IOManager_PauseThread(int);
-    void FUN_008495b0();
-    void FUN_00c3e340();
-    void FUN_0043d6b0(IOManager* task);
+    void IOManager_ForceHighestPriority();
+    void IOManager_Resume();
+    void IOManager_AddPostProcessTask(IOManager* task);
     void FUN_00c3fce0();
     void CancelAllTasks();
 

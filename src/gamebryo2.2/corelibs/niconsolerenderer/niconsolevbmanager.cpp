@@ -162,7 +162,7 @@ struct Holder_e8bff0 {
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 void __cdecl _NiFree_00aa10f0(void* p);
-void* __cdecl FUN_00aa1070(unsigned int n);
+void* __cdecl _NiMalloc_00aa1070(unsigned int n);
 void __cdecl FUN_00ec44d0(void* p, unsigned int out, unsigned int n);
 struct Owner_e8bff0 {
     void*& Data() { return *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40); }
@@ -183,7 +183,7 @@ void* Owner_e8bff0::NiDX9VertexBufferManager_LockVB(Holder_e8bff0* source, unsig
     Size() = length;
     if (Capacity() < length) {
         _NiFree_00aa10f0(Data());
-        Data() = FUN_00aa1070(length);
+        Data() = _NiMalloc_00aa1070(length);
         Capacity() = length;
     }
     if ((flags & 0x3000) == 0)

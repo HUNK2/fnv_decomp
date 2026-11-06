@@ -51,7 +51,8 @@ void __stdcall FUN_00a80e70(StrArr*);
 char* _FUN_00a7d330(const char*);
 // Grows the StrArr if it is full, then appends the string returned by _FUN_00a7d330(g_011f5f14_arg1) at the current size.
 // @fnv 0x00a9b2e0
-void __stdcall FUN_00a9b2e0(StrArr* apStrArr)
+// src: XBOX_PDB 0x00a9b2e0
+void __stdcall NiParticles_GetViewerStrings(StrArr* apStrArr)
 {
     FUN_00a80e70(apStrArr);
     char* psz = _FUN_00a7d330(g_011f5f14_arg1);
@@ -101,7 +102,7 @@ struct ObjHdr
 
 struct HolderB8
 {
-    void FUN_00a96910(unsigned int);
+    void NiParticlesData_SortParticles(unsigned int);
 };
 
 struct ArgRec
@@ -119,7 +120,7 @@ void __fastcall ProcessArgIfFlagged(NiParticles* self, void*, ArgRec* pArg)
     ObjHdr* pObjHdr = (ObjHdr*)self->m_PropertyState.m_aspProps[0];
     if (pObjHdr != 0 && (pObjHdr->m_18b & 1) != 0 && (pObjHdr->m_18w & 0x1E0) != 0)
     {
-        ((HolderB8*)self->m_spModelData.m_pObject)->FUN_00a96910(pArg->m_0C);
+        ((HolderB8*)self->m_spModelData.m_pObject)->NiParticlesData_SortParticles(pArg->m_0C);
     }
     self->NiGeometry::OnVisible(*reinterpret_cast<NiCullingProcess*>(pArg));
 }

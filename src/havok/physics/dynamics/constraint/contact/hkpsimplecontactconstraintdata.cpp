@@ -70,7 +70,7 @@ struct S_00d92690_Mgr
 hkpSimpleContactConstraintAtom* AllocateBlock(int cap, int a, int b, int maxCap);
 void FUN_00d925b0(hkpSimpleContactConstraintAtom* dst, hkpSimpleContactConstraintAtom* src);
 int RoundUpToBucketSize(int size);
-S_00d92690_Mgr* FUN_00c85750();
+S_00d92690_Mgr* hkMemoryRouter_getInstance();
 
 // @fnv 0x00d92690
 // src: HAVOK_LIB 0x00d92690
@@ -88,7 +88,7 @@ hkpSimpleContactConstraintAtom* hkpSimpleContactConstraintAtomUtil_expandOne(hkp
         result = AllocateBlock(iNewCapacity, apContainer->m_ucNumReservedContactPoints, apContainer->m_ucNumContactPointProperties, apContainer->m_usMaxNumContactPointProperties);
         FUN_00d925b0(result, apContainer);
         int size = RoundUpToBucketSize(apContainer->m_usSizeOfAllAtoms);
-        FUN_00c85750()->GetAllocator()->Free(apContainer, size);
+        hkMemoryRouter_getInstance()->GetAllocator()->Free(apContainer, size);
         pContainer = result;
         *grew = true;
     }
@@ -107,7 +107,8 @@ int __cdecl FUN_00d92810()
 }
 
 // @fnv 0x00d92800
-void __stdcall FUN_00d92800(bool* p)
+// src: XBOX_PDB 0x00d92800
+void __stdcall hkpSimpleContactConstraintData_isValid(bool* p)
 {
     *p = true;
 }
@@ -236,7 +237,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
     S_00d92fd0_Atom* a = holder->head;
     while (a->type >= 0x17)
     {
-        S_00d92690_Mgr* pMgr = FUN_00c85750();
+        S_00d92690_Mgr* pMgr = hkMemoryRouter_getInstance();
         if (arr.size == (arr.cap & 0x3fffffff))
             ResizeAudioStream(pMgr->GetAllocator(), &arr, 4);
         arr.data[arr.size] = a;
@@ -262,7 +263,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
             break;
         }
     }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)FUN_00c85750()->GetAllocator();
+    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)hkMemoryRouter_getInstance()->GetAllocator();
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
         pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
@@ -292,7 +293,7 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
         }
         i--;
     }
-    S_00d92690_Mgr* mgr = FUN_00c85750();
+    S_00d92690_Mgr* mgr = hkMemoryRouter_getInstance();
     if (m_len == (m_cap & 0x3fffffff))
     {
         ResizeAudioStream(mgr->unk10, this, 1);
@@ -313,11 +314,12 @@ int __stdcall FUN_00d927f0(int arg)
 struct FUN_00d92820_cls
 {
     int unk00;
-    char* FUN_00d92820();
+    char* hkpSimpleContactConstraintData_getSimpleConstraintContactMgr();
 };
 
 // @fnv 0x00d92820
-char* FUN_00d92820_cls::FUN_00d92820()
+// src: XBOX_PDB 0x00d92820
+char* FUN_00d92820_cls::hkpSimpleContactConstraintData_getSimpleConstraintContactMgr()
 {
     return (char*)this - 0x14;
 }
@@ -927,9 +929,10 @@ struct S00d92900_QueryIn
 struct S00d92900_Mgr;
 struct S00d92900_Data
 {
-    S00d92900_Mgr* FUN_00d92820();
+    S00d92900_Mgr* hkpSimpleContactConstraintData_getSimpleConstraintContactMgr();
 };
-__declspec(noinline) S00d92900_Mgr* S00d92900_Data::FUN_00d92820()
+// src: XBOX_PDB 0x00d92820
+__declspec(noinline) S00d92900_Mgr* S00d92900_Data::hkpSimpleContactConstraintData_getSimpleConstraintContactMgr()
 {
     return (S00d92900_Mgr*)((char*)this - 0x14);
 }
@@ -1057,7 +1060,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                                               in->m_pBodyB->getCenterOfMassInWorld(), cp);
             {
                 unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);
-                S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(),
+                S00d92900_Event event(2, rbA, rbB, constraintData->hkpSimpleContactConstraintData_getSimpleConstraintContactMgr(), type, cp, cpp->asProperties(),
                                       &projectedVel, 0, fireCallbacksForNewPoints, i == bound, i == 0, extendedUserData,
                                       accA, accB);
                 hkpWorldCallbackUtil_fireContactPointCallback(world, event);
@@ -1129,7 +1132,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
         else if (fireCallbacksForNewPoints)
         {
             unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);
-            S00d92900_Event event(2, rbA, rbB, constraintData->FUN_00d92820(), type, cp, cpp->asProperties(), 0, 0,
+            S00d92900_Event event(2, rbA, rbB, constraintData->hkpSimpleContactConstraintData_getSimpleConstraintContactMgr(), type, cp, cpp->asProperties(), 0, 0,
                                   true, i == bound, i == 0, extendedUserData, accA, accB);
             hkpWorldCallbackUtil_fireContactPointCallback(world, event);
             event.m_pObservedSource = 0;
@@ -1148,7 +1151,8 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
 
 // Wraps dispatchContacts to process contact points for a constraint atom, firing events and resolving collisions.
 // @fnv 0x00d92900
-void FUN_00d92900(S00d92900_Data* constraintData, const S00d92900_QueryIn* in, hkpSimpleContactConstraintAtom* atom, int type)
+// src: XBOX_PDB 0x00d92900
+void hkSimpleContactConstraintData_fireCallbacks(S00d92900_Data* constraintData, const S00d92900_QueryIn* in, hkpSimpleContactConstraintAtom* atom, int type)
 {
     int bound;
     dispatchContacts(constraintData, in, atom, type, bound);

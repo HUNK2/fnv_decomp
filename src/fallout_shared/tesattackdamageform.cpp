@@ -42,7 +42,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
     } templateSelection;
     {
         TESCreature defaultCreature;
-        defaultCreature.TESCreature::SetCombatStyle(FUN_00505000());
+        defaultCreature.TESCreature::SetCombatStyle(TESCombatStyle_GetDefaultCombatStyle());
         templateSelection.creature = 0;
         if (!IsTemplateLeveled())
             templateSelection.creature =
@@ -159,7 +159,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             SetLevel(templateSelection.creature->GetLevel());
             SetMatchesPCLevel(templateSelection.creature->GetMatchesPCLevel());
             SetCalcLevelMin(templateSelection.creature->GetCalcLevelMin_0047d390());
-            SetCalcLevelMax(templateSelection.creature->FUN_0047d3b0());
+            SetCalcLevelMax(templateSelection.creature->GetAnimGroupType_0047d3b0());
             TESAttributes::BaseFormRecord((TESAttributes*)templateSelection.creature);
             TESHealthForm::BaseFormRecord((TESHealthForm*)templateSelection.creature);
             TESAttackDamageForm::BaseFormRecord((TESAttackDamageForm*)templateSelection.creature);
@@ -167,8 +167,8 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             SetFatigue(static_cast<const TESCreature*>(templateSelection.creature)->GetFatigue());
             SetByteAt12D(templateSelection.creature->GetCombatSkill());
             SetCreatureType(templateSelection.creature->ShadowSceneNode_GetDisableLightUpdate());
-            FUN_00507780(templateSelection.creature->FUN_00821640());
-            SetBoltGrowWidth(templateSelection.creature->FUN_00567470());
+            FUN_00507780(templateSelection.creature->TESObjectWEAP_GetShotsPerSecond());
+            SetBoltGrowWidth(templateSelection.creature->TESEffectShader_GetAddOnScaleStart());
             SetBoltSmallWidth(templateSelection.creature->GetFootWeight());
         }
         if (GetTemplateUseFlag(TU_FACTIONS))

@@ -136,7 +136,7 @@ struct Holder
     unsigned int unk10;
     void* m_pAllocator;
 };
-Holder* __cdecl FUN_00c85750();
+Holder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(void* pAllocator, void* pBuf, int newCap, int bFlag);
 void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
@@ -237,7 +237,7 @@ void __cdecl SortRecordsByKey(FNVRec_0f10* arr, int n);
 void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
 {
     int n = cloud->m_uiItemCount;
-    FNVRouter_0f10* r = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* r = (FNVRouter_0f10*)hkMemoryRouter_getInstance();
     FNVScratchAlloc_0f10* alloc = r->heap;
     int cap = idx->m_uCapacity & 0x3fffffff;
     if (cap < n)
@@ -248,7 +248,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
     idx->m_iArrayLength = n;
 
     int scratchCap = n + 4;
-    FNVRouter_0f10* router2 = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* router2 = (FNVRouter_0f10*)hkMemoryRouter_getInstance();
     FNVScratchAlloc_0f10* alloc2 = router2->heap;
     FNVRec_0f10* scratch;
     if (scratchCap)
@@ -315,7 +315,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             {
                 FNVVector_0f10 p = cloud->m_pPts[ci];
                 ((int*)idx->m_pData)[ci] = out->m_iArrayLength;
-                FNVRouter_0f10* router3 = (FNVRouter_0f10*)FUN_00c85750();
+                FNVRouter_0f10* router3 = (FNVRouter_0f10*)hkMemoryRouter_getInstance();
                 if (out->m_iArrayLength == (out->m_uCapacity & 0x3fffffff))
                 {
                     (ResizeAudioStream)((void*)router3->heap, (void*)out, 0x10);
@@ -356,7 +356,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             }
         }
     }
-    FNVRouter_0f10* router4 = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* router4 = (FNVRouter_0f10*)hkMemoryRouter_getInstance();
     FNVScratchAlloc_0f10* a4 = router4->heap;
     if ((scratchCap & 0x80000000) == 0)
         a4->freeArray(scratch, scratchCap & 0x3fffffff);

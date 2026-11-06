@@ -63,7 +63,7 @@ public:
     PacketCallLocal_00d323f0(float x, float y, float z, float w);
     PacketCallLocal_00d323f0(const __m128& vector);
 
-    PacketCallLocal_00d323f0* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00d323f0* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00d323f0* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00d323f0* vector);
     PacketCallLocal_00d323f0& FUN_00e531a0(int parameter);
@@ -143,7 +143,7 @@ __forceinline hkTransform::hkTransform(const hkTransform& other) {
 
 extern char DAT_010ceaa8[];
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
 
@@ -160,7 +160,7 @@ struct SourceRef {
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    hkMemoryRouter* a = FUN_00c85750();
+    hkMemoryRouter* a = hkMemoryRouter_getInstance();
     return *(hkMemoryAllocator*)a->m_heap;
 }
 
@@ -212,7 +212,7 @@ FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, int aiUnu
 }
 
 namespace fnv_00d32110 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct TargetObj {
     int unk00;
@@ -223,18 +223,18 @@ struct TargetObj {
 // Allocates a 0x18-byte TargetObj from the shared allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
 // @fnv 0x00d32110
 TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     TargetObj* obj = (TargetObj*)((hkMemoryAllocator*)holder->m_heap)->blockAlloc(0x18);
     obj->size = 0x18;
     return obj->FUN_00d32060(apArg1, apArg2, apArg3, apArg4);
 }
 }  // namespace fnv_00d32110
 
-extern void __cdecl FUN_00d319e0(void*, void*, void*, void*);
+extern void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(void*, void*, void*, void*);
 // @fnv 0x00d32170
 // src: HAVOK_SRC 0x00d32170
 void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    FUN_00d319e0(apArg1, apArg2, apArg3, apArg4);
+    hkpHeightFieldAgent_staticGetClosestPoints(apArg1, apArg2, apArg3, apArg4);
 }
 
 typedef void (*S_00d321e0_Func)();
@@ -244,8 +244,8 @@ void FUN_00d32370();
 void FUN_00d323b0();
 void FUN_00d323f0();
 void AllocateTargetObj();
-void FUN_00d317d0();
-void FUN_00d319e0();
+void hkpHeightFieldAgent_staticGetPenetrations();
+void hkpHeightFieldAgent_staticGetClosestPoints();
 void FUN_00d31d30();
 
 struct S_00d321e0_AgentFuncs {
@@ -262,7 +262,8 @@ struct S_00d321e0_Dispatcher {
 };
 
 // @fnv 0x00d321e0
-void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
+// src: XBOX_PDB 0x00d321e0
+void hkpHeightFieldAgent_registerAgent(S_00d321e0_Dispatcher* dispatcher)
 {
     {
         S_00d321e0_AgentFuncs af;
@@ -277,8 +278,8 @@ void FUN_00d321e0(S_00d321e0_Dispatcher* dispatcher)
     {
         S_00d321e0_AgentFuncs af;
         af.m_pCreateFunc = AllocateTargetObj;
-        af.m_pQueryPenetrationsFunc = FUN_00d317d0;
-        af.m_pGetPenetrationsFunc = FUN_00d319e0;
+        af.m_pQueryPenetrationsFunc = hkpHeightFieldAgent_staticGetPenetrations;
+        af.m_pGetPenetrationsFunc = hkpHeightFieldAgent_staticGetClosestPoints;
         af.m_pLinearCastFunc = FUN_00d31d30;
         af.m_bIsFlipped = false;
         af.m_bIsPredictive = true;
@@ -307,14 +308,14 @@ struct D323B0Collector : D323B0CollectorBase {
     virtual void unk04();
 };
 
-void __cdecl FUN_00d319e0(int a, int b, int c, D323B0CollectorBase* collector);
+void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(int a, int b, int c, D323B0CollectorBase* collector);
 
 // Constructs a D323B0Collector from d and passes it with b, a, c to FUN_00d319e0.
 // @fnv 0x00d323b0
 void __cdecl FUN_00d323b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
 {
     D323B0Collector collector(aiData);
-    FUN_00d319e0(aiArg2, aiArg1, aiArg3, &collector);
+    hkpHeightFieldAgent_staticGetClosestPoints(aiArg2, aiArg1, aiArg3, &collector);
 }
 
 struct Handler {
@@ -355,17 +356,17 @@ extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1,
     FUN_00d31d30(arg0, arg1, arg2, arg3, arg4);
 }
 
-extern "C" void __cdecl FUN_00d317d0(void* arg0, void* arg1, void* arg2, void* arg3);
+extern "C" void __cdecl hkpHeightFieldAgent_staticGetPenetrations(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150
 // src: HAVOK_SRC 0x00d32150
 extern "C" void __stdcall hkpHeightFieldAgent_getPenetrations(void* arg0, void* arg1, void* arg2, void* arg3)
 {
-    FUN_00d317d0(arg0, arg1, arg2, arg3);
+    hkpHeightFieldAgent_staticGetPenetrations(arg0, arg1, arg2, arg3);
 }
 
 extern char DAT_010ce81c;
 
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4);
+void __cdecl hkpHeightFieldAgent_staticGetPenetrations(int a1, int a2, int a3, void* a4);
 
 struct FUN_00d32370_cls {
     void* vt;
@@ -380,7 +381,7 @@ void __cdecl FUN_00d32370(int aiArg1, int aiArg2, int aiArg3, int a4) {
     local.flag = 0;
     local.d = a4;
     local.vt = &DAT_010ce81c;
-    FUN_00d317d0(aiArg2, aiArg1, aiArg3, &local);
+    hkpHeightFieldAgent_staticGetPenetrations(aiArg2, aiArg1, aiArg3, &local);
 }
 
 namespace fnv_00d323f0 {
@@ -579,7 +580,8 @@ struct CollisionScratch { hkTransform transform; ContactPointPair contact; };
 
 
 // @fnv 0x00d317d0
-void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
+// src: XBOX_PDB 0x00d317d0
+void __cdecl hkpHeightFieldAgent_staticGetPenetrations(int a1, int a2, int a3, void* a4)
 {
     const hkpCdBody* bodyA = (const hkpCdBody*)a1;
     const hkpCdBody* bodyB = (const hkpCdBody*)a2;
@@ -593,11 +595,11 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
     // Float storage avoids VC9 treating the SDK __m128 byte lanes as a GS buffer.
     __declspec(align(16)) float transformStorage[sizeof(hkTransform) / sizeof(float)];
     hkTransform& aTb = *::new (transformStorage) hkTransform;
-    aTb.FUN_00cb22f0(bodyB->m_pMotionState, bodyA->m_pMotionState);
+    aTb.hkTransform_setMulInverseMul(bodyB->m_pMotionState, bodyA->m_pMotionState);
 
     int count = ((CollisionSphereShape*)shapeA)->getNumCollisionSpheres();
 
-    hkMemoryRouter* q = FUN_00c85750();
+    hkMemoryRouter* q = hkMemoryRouter_getInstance();
     char* cur1 = (char*)q->m_stack.m_next.m_storage;
     hkSphere* sphereBuffer = (hkSphere*)cur1;
     q->m_stack.m_next.m_storage = (void*)((int)(cur1 + ((count * 16 + 127) & ~127)));
@@ -607,7 +609,7 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
 
     static_cast<StringCursor_hkpheightfieldagent&>(hkMonitorStream::getInstance()).timerSplit("StCollide");
 
-    hkMemoryRouter* bs2 = FUN_00c85750();
+    hkMemoryRouter* bs2 = hkMemoryRouter_getInstance();
     char* cur2 = (char*)bs2->m_stack.m_next.m_storage;
     hkSphere* hitResults = (hkSphere*)cur2;
     {
@@ -630,14 +632,14 @@ void __cdecl FUN_00d317d0(int a1, int a2, int a3, void* a4)
         }
     }
 
-    FUN_00c85750()->m_stack.m_next.m_storage = (void*)((int)hitResults);
-    FUN_00c85750()->m_stack.m_next.m_storage = (void*)((int)sphereBuffer);
+    hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = (void*)((int)hitResults);
+    hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = (void*)((int)sphereBuffer);
 
     static_cast<StringCursor_hkpheightfieldagent&>(hkMonitorStream::getInstance()).timerEnd("lt");
 }
 
 namespace fnv_00d32190 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 extern char DAT_010ceaf4[];
 
@@ -654,7 +656,7 @@ struct FUN_00d32190_cls {
 // src: HAVOK_LIB 0x00d32190
 FUN_00d32190_cls* __cdecl hkpHeightFieldAgent_createHeightFieldAAgent(int a1, int a2, int a3, int a4)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     FUN_00d32190_cls* obj = (FUN_00d32190_cls*)((hkMemoryAllocator*)holder->m_heap)->blockAlloc(0x18);
     obj->m_w04 = 0x18;
     obj->FUN_00d32060(a2, a1, a3, a4);

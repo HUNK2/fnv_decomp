@@ -30,7 +30,7 @@ struct hkMemoryRouterMA
     }
 };
 
-hkMemoryRouterMA& __cdecl FUN_00c85750();
+hkMemoryRouterMA& __cdecl hkMemoryRouter_getInstance();
 
 
 
@@ -40,7 +40,7 @@ class hkpMotorActionMA : public hkpMotorAction
     void* operator new(unsigned int nbytes)
     {
         hkReferencedObject* b =
-            static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            static_cast<hkReferencedObject*>(hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }

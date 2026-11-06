@@ -78,7 +78,8 @@ const char* BSShaderTextureSet::GetTexture(BSShaderProperty::TextureTypeEnum tex
 
 void __cdecl _MyHelper00a5d2f0(int a);
 // @fnv 0x00a81fe0
-void __cdecl FUN_00a81fe0(int a)
+// src: XBOX_PDB 0x00a81fe0
+void __cdecl BSTextureSet_RegisterStreamables(int a)
 {
     _MyHelper00a5d2f0(a);
 }

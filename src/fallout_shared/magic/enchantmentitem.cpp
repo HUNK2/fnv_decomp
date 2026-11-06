@@ -133,7 +133,7 @@ float FUN_004094a0_Class::EnchantmentItem_GetCost(int apActor)
 
 struct IMH
 {
-    int FUN_00586150(void);
+    int CombatController_GetCombatState(void);
 };
 
 struct FUN_00409fd0_shell : EnchantmentItem
@@ -149,7 +149,7 @@ bool FUN_00409fd0_shell::IngredientItem_CompareMagicItemData(MagicItem* apCompar
     EnchantmentItem* penchantment = (EnchantmentItem*)dynamic_cast<IngredientItem*>(apCompare);
     if (!penchantment)
         return true;
-    if (((IMH*)((char*)penchantment))->FUN_00586150() != ((IMH*)((char*)this - 0x30))->FUN_00586150() ||
+    if (((IMH*)((char*)penchantment))->CombatController_GetCombatState() != ((IMH*)((char*)this - 0x30))->CombatController_GetCombatState() ||
         *(unsigned char*)((char*)penchantment + 0xa0) != *(unsigned char*)((char*)this + 0x70))
         return true;
     return false;

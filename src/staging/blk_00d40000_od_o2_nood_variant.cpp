@@ -192,11 +192,12 @@ struct FUN_00d56470_cls
     hkQuaternion m_rotation;
     hkVector4 m_vTranslation;
 
-    FUN_00d56470_cls* FUN_00d56470(int bCompute);
+    FUN_00d56470_cls* hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute);
 };
 
 // @fnv 0x00d56470
-FUN_00d56470_cls* FUN_00d56470_cls::FUN_00d56470(int bCompute)
+// src: XBOX_PDB 0x00d56470
+FUN_00d56470_cls* FUN_00d56470_cls::hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute)
 {
     if (bCompute)
     {

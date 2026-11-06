@@ -16,10 +16,10 @@ extern const NiPixelFormat DAT_011aa2e8;
 extern const NiPixelFormat DAT_011aa2a0;
 extern int DAT_011a9598;
 
-double FUN_00404040(float v);
+double FloatFloor(float v);
 bool BSShaderManager_GetTintMipMaps();
 void BSShaderUtil_TintUncompressedPixelDataByMipMap(void* p);
-NiTexture* FUN_00a5ff10(void* p, int a, void* b);
+NiTexture* NiSourceTexture_Create(void* p, int a, void* b);
 NiTexture* BSShaderUtil_ConvertTexture(NiTexture* t, void* p);
 
 extern Setting g_011d59ac;
@@ -78,17 +78,17 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
         if (((NiTexture*)srcv)->FUN_00726070() == 0)
         {
             pixelData = new NiPixelData((*(int*)&m_pkRendererData), (*(int*)&m_pkPrev), &DAT_011aa2e8, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];
-                cursor[0] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[0] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[1];
-                cursor[1] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[1] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[2];
-                cursor[2] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[2] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 cursor += 3;
                 FaceGenImageView tmp;
@@ -98,20 +98,20 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
         else
         {
             pixelData = new NiPixelData((*(int*)&m_pkRendererData), (*(int*)&m_pkPrev), &DAT_011aa2a0, 1, 1);
-            cursor = (unsigned char*)pixelData->FUN_0064dac0(0, 0);
+            cursor = (unsigned char*)pixelData->NiPixelData_GetPixels(0, 0);
             for (unsigned int i = 0; i < (unsigned int)count; i++)
             {
                 value = view.FUN_0064dbd0()[0];
-                cursor[0] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[0] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[1];
-                cursor[1] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[1] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[2];
-                cursor[2] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[2] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 value = view.FUN_0064dbd0()[3];
-                cursor[3] = (unsigned char)((FUN_00404040(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
+                cursor[3] = (unsigned char)((FloatFloor(value >= lo ? (value <= hi ? value : hi) : lo) - lo) * scale);
 
                 cursor += 4;
                 FaceGenImageView tmp;
@@ -125,13 +125,13 @@ NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, floa
             delete pixelData;
             if (BSShaderManager_GetTintMipMaps())
                 BSShaderUtil_TintUncompressedPixelDataByMipMap(createdTex);
-            result.FUN_0066b0d0(FUN_00a5ff10(createdTex, 0, &DAT_011a9598));
+            result.FUN_0066b0d0(NiSourceTexture_Create(createdTex, 0, &DAT_011a9598));
         }
         else
         {
             if (BSShaderManager_GetTintMipMaps())
                 BSShaderUtil_TintUncompressedPixelDataByMipMap(pixelData);
-            result.FUN_0066b0d0(FUN_00a5ff10(pixelData, 0, &DAT_011a9598));
+            result.FUN_0066b0d0(NiSourceTexture_Create(pixelData, 0, &DAT_011a9598));
         }
 
         if (((NiTexture*)srcv)->FUN_00726070() == 1 || ((NiTexture*)srcv)->FUN_00726070() == 0)

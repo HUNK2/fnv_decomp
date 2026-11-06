@@ -100,10 +100,11 @@ struct BlkOffset08View
 };
 struct FUN_004d7d50_StandIn
 {
-    unsigned int __thiscall FUN_004d7d50();
+    unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
 // @fnv 0x004d7d50
-unsigned int __thiscall FUN_004d7d50_StandIn::FUN_004d7d50()
+// src: XBOX_PDB 0x004d7d50
+unsigned int __thiscall FUN_004d7d50_StandIn::NiParticleSystem_GetModifierCount()
 {
     return ((BlkOffset08View*)((char*)this + 0xC8))->GetFlags();
 }
@@ -123,7 +124,7 @@ void FUN_004d8510_StandIn::bhkBinaryAction_GetRigidBodyB()
 
 struct TESObjectREFR;
 struct bhkShape;
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
 {
@@ -134,7 +135,7 @@ struct FUN_004d85a0_Class
 // src: COMMUNITY 0x004d85a0
 void* FUN_004d85a0_Class::bhkListShape_GetChildShape(int a)
 {
-    return FUN_004a3a40(GetLocalSubValue(a));
+    return bhkShape_Getbhk(GetLocalSubValue(a));
 }
 
 struct FUN_004d8670_Class
@@ -217,10 +218,11 @@ void __thiscall FUN_004d9190_Class::FUN_004d9190()
 struct FUN_004dc020_Class
 {
     unsigned int m_p288;
-    unsigned int FUN_004dc020();
+    unsigned int NiXenonRenderer_GetD3DDevice();
 };
 // @fnv 0x004dc020
-unsigned int FUN_004dc020_Class::FUN_004dc020()
+// src: XBOX_PDB 0x004dc020
+unsigned int FUN_004dc020_Class::NiXenonRenderer_GetD3DDevice()
 {
     return *(unsigned int*)((char*)this + 0x288);
 }
@@ -369,11 +371,12 @@ struct GlobalObject_004aff00
 
 struct FUN_004def90_Class
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 
 // @fnv 0x004def90
-void FUN_004def90_Class::FUN_004def90()
+// src: XBOX_PDB 0x004def90
+void FUN_004def90_Class::NiNode_RemoveAllChildren()
 {
     ((GlobalObject_004aff00*)((char*)this + 0x9c))->RemoveAll();
 }
@@ -399,13 +402,14 @@ struct MersenneTwister
 
 struct FUN_004dfec0_StandIn
 {
-    void FUN_004dfec0();
+    void BSRandom_FloatNeg1To1();
 };
 
 // @fnv 0x004dfea0
-void FUN_004dfea0()
+// src: XBOX_PDB 0x004dfea0
+void RandomFloatNeg1To1()
 {
-    reinterpret_cast<FUN_004dfec0_StandIn*>(MersenneTwister::GetRandomGenerator())->FUN_004dfec0();
+    reinterpret_cast<FUN_004dfec0_StandIn*>(MersenneTwister::GetRandomGenerator())->BSRandom_FloatNeg1To1();
 }
 
 void _NiFreeAlias(void*);
@@ -716,7 +720,7 @@ struct FUN_004d8630_Class
 bhkShape* __thiscall FUN_004d8630_Class::GetShape()
 {
     void* p = ((bhkWorldObject*)this)->FUN_004ae750();
-    return FUN_004a3a40(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0);
+    return bhkShape_Getbhk(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0);
 }
 }  // namespace fnv_004d8630
 
@@ -1312,7 +1316,8 @@ void __cdecl ClearGlobalArray(void)
 }
 
 // @fnv 0x004d5e00
-int __cdecl FUN_004d5e00()
+// src: XBOX_PDB 0x004d5e00
+int __cdecl StatsMenu_GetClassStatic()
 {
     return (int)1003u;
 }
@@ -1446,7 +1451,7 @@ struct ClearMap64
     int unk00;
     void __thiscall FUN_00438af0();
 };
-const char* __cdecl FUN_00464f30(const char* value, bool format);
+const char* __cdecl ConvertFromUni(const char* value, bool format);
 typedef int(__stdcall* SendMessageResult64)(void*, int, int, int);
 extern void(__stdcall* DAT_00fdf288)(void*, int);
 extern void(__stdcall* DAT_00fdf284)(void*);
@@ -1492,7 +1497,7 @@ void Owner64::NiTreeCtrl_CreateTree(int value, const char* text)
     header.tertiary = 0x27;
     header.primary = 0xffff0000;
     Params64 params;
-    params.message = text ? FUN_00464f30(text, false) : defaultText;
+    params.message = text ? ConvertFromUni(text, false) : defaultText;
     params.flags = 0;
     params.flagsCopy = params.flags;
     params.number = value;
@@ -1522,7 +1527,7 @@ typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
 
 struct FUN_004d74c0_Value
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 struct FUN_004d74c0_Node
 {
@@ -1575,7 +1580,7 @@ void __cdecl ExpandTreeItemsRecursively(void* tree, int startingItem, int expand
             }
             if (pNodeValue != 0)
             {
-                if (pNodeValue->FUN_00453470() != 0)
+                if (pNodeValue->NiNode_GetChildCount() != 0)
                 {
                     ((SendTreeMessage)DAT_00fdf28c)(tree, 0x1102, expandFlags, item.handle);
                     ExpandTreeItemsRecursively(tree, item.handle, expandFlags);
@@ -1625,7 +1630,7 @@ int TreeCtrlCallback(NiObject* pkObject, int iType, int iCommand)
             }
             else if (iCommand == 0x72)
             {
-                pkNode->FUN_00a5a040();
+                pkNode->UpdateProperties();
                 NiUpdateData kUpdateData(0.0f, false, false);
                 pkNode->Update(kUpdateData);
                 iResult = 1;
@@ -1655,7 +1660,7 @@ int TreeCtrlCallback(NiObject* pkObject, int iType, int iCommand)
 }
 
 extern const NiRTTI DAT_012024e0;
-NiObject* __cdecl FUN_00653270(const NiRTTI*, NiObject*);
+NiObject* __cdecl NiObject_DynamicCast(const NiRTTI*, NiObject*);
 
 const char* __cdecl PrepareScriptMessage(const char* msg, bool flag);
 
@@ -1666,7 +1671,7 @@ struct Holder_004d9100 : public NiTArray<BGSAddonNode*, NiTMallocInterface<BGSAd
 };
 
 struct NiTArray_Layout;
-void __fastcall FUN_005e03d0(NiTArray_Layout*);
+void __fastcall NiTArray_char_NiTMallocInterface_char_RemoveAll(NiTArray_Layout*);
 
 class ActorPathingMessageQueue;
 
@@ -1753,7 +1758,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
     ObjClass* res;
     Holder_004d9100* b2;
     int bo;
-    res = (ObjClass*)FUN_00653270(&DAT_012024e0, apObject);
+    res = (ObjClass*)NiObject_DynamicCast(&DAT_012024e0, apObject);
     if (res)
     {
         b2 = new Holder_004d9100(0x80, 0x80);
@@ -1768,7 +1773,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
 
         bo = ((DAT_00fdf28c_fn)DAT_00fdf28c)(this->unk0C, 0x1100, 0, &n3);
 
-        for (cnt2 = 0; cnt2 < res->FUN_004d7d50(); ++cnt2)
+        for (cnt2 = 0; cnt2 < res->NiParticleSystem_GetModifierCount(); ++cnt2)
         {
             qB = res->GetByIndex(cnt2);
             if (qB)
@@ -1793,7 +1798,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
                     ((DAT_00fdf28c_fn)DAT_00fdf28c)(this->unk0C, 0x1100, 0, &n3);
                 }
 
-                FUN_005e03d0((NiTArray_Layout*)b2);
+                NiTArray_char_NiTMallocInterface_char_RemoveAll((NiTArray_Layout*)b2);
             }
         }
 
@@ -1830,7 +1835,7 @@ struct Node7
     virtual void v22();
     virtual void v23();
     virtual void v24(void*);
-    void* FUN_006fa820();
+    void* bhkNiCollisionObject_GetWorldObject();
 };
 struct FUN_004d9100
 {
@@ -1839,10 +1844,10 @@ struct FUN_004d9100
     char pad[12];
     unsigned GetShortAtOffsetA();
     char** FUN_00877a30(unsigned);
-    void FUN_005e03d0();
+    void NiTArray_char_NiTMallocInterface_char_RemoveAll();
 };
-Node7* __cdecl FUN_00653270(void*, Node7*);
-const char* __cdecl FUN_00464f30(const char*, bool);
+Node7* __cdecl NiObject_DynamicCast(void*, Node7*);
+const char* __cdecl ConvertFromUni(const char*, bool);
 const char* __fastcall FUN_00559450(void*);
 void __cdecl BSstrncpy(char*, const char*, unsigned);
 struct Insert7
@@ -1865,7 +1870,7 @@ struct C7
 // @fnv 0x004d7df0
 void C7::AddChildTreeItem(void* parent, Node7* node)
 {
-    Node7* casted7 = FUN_00653270(&DAT_01267b70, node);
+    Node7* casted7 = NiObject_DynamicCast(&DAT_01267b70, node);
     if (casted7)
     {
         FUN_004d9100* arr = new FUN_004d9100(128, 128);
@@ -1873,7 +1878,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         ins.after = 0xffff0002;
         ins.mask = 0x27;
         ins.param = node;
-        ins.text = FUN_00464f30(&DAT_01020ebc, false);
+        ins.text = ConvertFromUni(&DAT_01020ebc, false);
         ins.image = 5;
         ins.selected = ins.image;
         ins.parent = parent;
@@ -1881,7 +1886,7 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         char buffer[64];
         BSstrncpy(buffer, FUN_00559450(casted7->v2()), 63);
         buffer[63] = 0;
-        ins.text = FUN_00464f30(buffer, false);
+        ins.text = ConvertFromUni(buffer, false);
         ins.image = 0;
         ins.selected = ins.image;
         ins.parent = handle4;
@@ -1891,13 +1896,13 @@ void C7::AddChildTreeItem(void* parent, Node7* node)
         unsigned index4;
         for (index4 = 0; index4 < arr->GetShortAtOffsetA(); index4++)
         {
-            ins.text = FUN_00464f30(*arr->FUN_00877a30(index4), false);
+            ins.text = ConvertFromUni(*arr->FUN_00877a30(index4), false);
             ins.image = 6;
             ins.selected = ins.image;
             ((void*(__stdcall*)(void*, unsigned, unsigned, Insert7*))DAT_00fdf28c)(hwnd, 0x1100, 0, &ins);
         }
-        arr->FUN_005e03d0();
-        void* obj2 = casted7->FUN_006fa820();
+        arr->NiTArray_char_NiTMallocInterface_char_RemoveAll();
+        void* obj2 = casted7->bhkNiCollisionObject_GetWorldObject();
         BuildTreeItems(parent, obj2);
         delete arr;
     }
@@ -1913,7 +1918,7 @@ struct FUN_004d9100
     FUN_004d9100(unsigned int initialCapacity, unsigned int growthCapacity);
     unsigned int GetShortAtOffsetA();
     void** FUN_00877a30(unsigned int index);
-    void FUN_005e03d0();
+    void NiTArray_char_NiTMallocInterface_char_RemoveAll();
 };
 struct FNVObjectName
 {
@@ -1977,7 +1982,7 @@ struct FNVChildLink
 };
 struct FNVTypeA
 {
-    FNVObjectName* FUN_004ae6a0();
+    FNVObjectName* bhkWorldObject_GetShape();
 };
 struct FNVTypeB
 {
@@ -2008,8 +2013,8 @@ extern unsigned char DAT_012681b4;
 extern unsigned char DAT_012681a8;
 extern unsigned char DAT_01268198;
 extern unsigned char DAT_0126818c;
-extern void* __cdecl FUN_00653270(const void*, void*);
-extern char* __cdecl FUN_00464f30(const void*, int);
+extern void* __cdecl NiObject_DynamicCast(const void*, void*);
+extern char* __cdecl ConvertFromUni(const void*, int);
 extern void __cdecl BSstrncpy(char*, const char*, unsigned int);
 struct FUN_004d80b0_Class
 {
@@ -2037,7 +2042,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             insertInfo.item.node = node;
             BSstrncpy(displayName, (const char*)node->GetName()->FUN_00559450(), 63);
             displayName[63] = 0;
-            insertInfo.item.text = FUN_00464f30(displayName, 0);
+            insertInfo.item.text = ConvertFromUni(displayName, 0);
             insertInfo.item.image = 0;
             insertInfo.item.selectedImage = insertInfo.item.image;
             insertInfo.parent = parent;
@@ -2047,19 +2052,19 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             node->CollectChildren(nodeArray);
             for (childIndex = 0; childIndex < nodeArray->GetShortAtOffsetA(); ++childIndex)
             {
-                insertInfo.item.text = FUN_00464f30(*nodeArray->FUN_00877a30(childIndex), 0);
+                insertInfo.item.text = ConvertFromUni(*nodeArray->FUN_00877a30(childIndex), 0);
                 insertInfo.item.image = 6;
                 insertInfo.item.selectedImage = insertInfo.item.image;
                 DAT_00fdf28c(m_treeWindow, 0x1100, 0, (int)&insertInfo);
             }
-            nodeArray->FUN_005e03d0();
+            nodeArray->NiTArray_char_NiTMallocInterface_char_RemoveAll();
         }
-        partA = (FNVTypeA*)FUN_00653270(&DAT_01268110, node);
+        partA = (FNVTypeA*)NiObject_DynamicCast(&DAT_01268110, node);
         if (partA)
         {
-            FNVTreeNode* childNode = (FNVTreeNode*)partA->FUN_004ae6a0();
+            FNVTreeNode* childNode = (FNVTreeNode*)partA->bhkWorldObject_GetShape();
             BuildTreeItems(parent, childNode);
-            FNVTypeB* partB = (FNVTypeB*)FUN_00653270(&DAT_012681c0, node);
+            FNVTypeB* partB = (FNVTypeB*)NiObject_DynamicCast(&DAT_012681c0, node);
             if (partB && partB->GetNodeCount())
             {
                 FNVChildLink* link = partB->FUN_007d6bb0();
@@ -2072,17 +2077,17 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
         }
         else
         {
-            FNVTypeD* partD = (FNVTypeD*)FUN_00653270(&DAT_01268100, node);
+            FNVTypeD* partD = (FNVTypeD*)NiObject_DynamicCast(&DAT_01268100, node);
             if (partD)
             {
-                FNVTypeC* partC = (FNVTypeC*)FUN_00653270(&DAT_012681b4, partD);
+                FNVTypeC* partC = (FNVTypeC*)NiObject_DynamicCast(&DAT_012681b4, partD);
                 if (partC)
                 {
                     BuildTreeItems(parent, partC->GetShape());
                 }
                 else
                 {
-                    FNVTypeD* partE = (FNVTypeD*)FUN_00653270(&DAT_012681a8, partD);
+                    FNVTypeD* partE = (FNVTypeD*)NiObject_DynamicCast(&DAT_012681a8, partD);
                     if (partE)
                     {
                         unsigned int count = partE->GetInnerVirtualResult();
@@ -2098,14 +2103,14 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             }
             else
             {
-                FNVTypeE* partE = (FNVTypeE*)FUN_00653270(&DAT_01268198, node);
+                FNVTypeE* partE = (FNVTypeE*)NiObject_DynamicCast(&DAT_01268198, node);
                 if (partE)
                 {
                     BuildTreeItems(parent, partE->bhkBinaryAction_GetRigidBodyB());
                 }
                 else
                 {
-                    FNVTypeF* partF = (FNVTypeF*)FUN_00653270(&DAT_0126818c, node);
+                    FNVTypeF* partF = (FNVTypeF*)NiObject_DynamicCast(&DAT_0126818c, node);
                     if (partF)
                     {
                         BuildTreeItems(parent, partF->bhkConstraint_GetEntityB());
@@ -2175,8 +2180,8 @@ struct Palette4d86;
 struct Object4d86
 {
     Palette4d86* GetStringAtOffset();
-    unsigned int FUN_00495d00();
-    NiControllerSequence* FUN_00495d20(unsigned int uiIndex);
+    unsigned int GetSequenceCount_00495d00();
+    NiControllerSequence* GetSequenceAt_00495d20(unsigned int uiIndex);
 };
 
 struct TreeCtrl4d86
@@ -2215,17 +2220,17 @@ void TreeCtrl4d86::PopulateObjectTree(void* hParentItem, Object4d86* pkObject)
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
         hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
-        for (unsigned int i = 0; i < pkObject->FUN_00495d00(); i++)
+        for (unsigned int i = 0; i < pkObject->GetSequenceCount_00495d00(); i++)
         {
-            NiControllerSequence* pkSet = pkObject->FUN_00495d20(i);
+            NiControllerSequence* pkSet = pkObject->GetSequenceAt_00495d20(i);
             if (pkSet && pkSet->GetState())
                 NiTreeCtrl_AddControllerSequence(hItem, pkSet);
         }
         kInsert.item.pszText = PrepareScriptMessage("Inactive Sequences", false);
         hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
-        for (unsigned int uiIndex2 = 0; uiIndex2 < pkObject->FUN_00495d00(); uiIndex2++)
+        for (unsigned int uiIndex2 = 0; uiIndex2 < pkObject->GetSequenceCount_00495d00(); uiIndex2++)
         {
-            NiControllerSequence* pkSet = pkObject->FUN_00495d20(uiIndex2);
+            NiControllerSequence* pkSet = pkObject->GetSequenceAt_00495d20(uiIndex2);
             if (pkSet && !pkSet->GetState())
                 NiTreeCtrl_AddControllerSequence(hItem, pkSet);
         }
@@ -2357,7 +2362,7 @@ struct FUN_004d9100
     virtual ~FUN_004d9100();
     unsigned int GetShortAtOffsetA();
     const char** FUN_00877a30(unsigned int uiIndex);
-    void FUN_005e03d0();
+    void NiTArray_char_NiTMallocInterface_char_RemoveAll();
     int unk04[3];
 };
 
@@ -2419,7 +2424,7 @@ void TreeCtrl4d8a::AddNameItems(void* hParent, NameSource4d8a* pkSource)
             kInsert.item.iSelectedImage = kInsert.item.iImage;
             DAT_00fdf28c(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
         }
-        pkNames->FUN_005e03d0();
+        pkNames->NiTArray_char_NiTMallocInterface_char_RemoveAll();
         delete pkNames;
     }
 }
@@ -2465,7 +2470,8 @@ unsigned int __cdecl NiDX9Renderer_GetDirect3D()
 }
 
 // @fnv 0x004dc0a0
-unsigned char __cdecl FUN_004dc0a0()
+// src: XBOX_PDB 0x004dc0a0
+unsigned char __cdecl BSShaderManager_GetUseRefractionShader()
 {
     return DAT_011f9180;
 }
@@ -2498,7 +2504,8 @@ int __cdecl TESRenderer_GetHWND()
 extern unsigned int DAT_0118947c;
 
 // @fnv 0x004dc1f0
-unsigned int __cdecl FUN_004dc1f0()
+// src: XBOX_PDB 0x004dc1f0
+unsigned int __cdecl Renderer_GetScreenWidth()
 {
     return DAT_0118947c;
 }
@@ -2506,7 +2513,8 @@ unsigned int __cdecl FUN_004dc1f0()
 extern int DAT_01189480;
 
 // @fnv 0x004dc200
-int __cdecl FUN_004dc200()
+// src: XBOX_PDB 0x004dc200
+int __cdecl Renderer_GetScreenHeight()
 {
     return DAT_01189480;
 }
@@ -2884,7 +2892,7 @@ struct FUN_00559450_Helper
 };
 struct FUN_0066b0d0_Helper
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void FUN_0066b0d0(int);
 };
 
@@ -2893,7 +2901,7 @@ void FUN_004def20()
 {
     if ((unsigned char)DAT_011c77e8)
     {
-        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->FUN_00559450())->FUN_004def90();
+        ((FUN_0066b0d0_Helper*)((FUN_00559450_Helper*)&DAT_011c7810)->FUN_00559450())->NiNode_RemoveAllChildren();
         ((FUN_0066b0d0_Helper*)&DAT_011c7810)->FUN_0066b0d0(0);
         ((FUN_0066b0d0_Helper*)&DAT_011c781c)->FUN_0066b0d0(0);
     }
@@ -3280,13 +3288,14 @@ extern double DAT_010229b8;
 extern double DAT_01012070;
 struct FUN_004dfec0_Class
 {
-    unsigned int FUN_00476be0();
-    float FUN_004dfec0();
+    unsigned int BSRandom_UnsignedInt();
+    float BSRandom_FloatNeg1To1();
 };
 // @fnv 0x004dfec0
-float FUN_004dfec0_Class::FUN_004dfec0()
+// src: XBOX_PDB 0x004dfec0
+float FUN_004dfec0_Class::BSRandom_FloatNeg1To1()
 {
-    unsigned int randomValue = FUN_00476be0();
+    unsigned int randomValue = BSRandom_UnsignedInt();
     return static_cast<float>(static_cast<double>(randomValue) * DAT_010229b8 - DAT_01012070);
 }
 
@@ -3321,13 +3330,13 @@ void __cdecl ReadSavedSettings(BGSLoadGameBuffer* buffer)
 {
     unsigned int count = 0x15;
     if (buffer->GetVersion() >= 11)
-        buffer->FUN_00864980(&count, 4);
+        buffer->LoadData(&count, 4);
     if (count > 0x1000000)
         return;
     for (unsigned int i = 0; i < count; i++)
     {
         unsigned int value = 0;
-        buffer->FUN_00864980(&value, 4);
+        buffer->LoadData(&value, 4);
         if (i < 43 && DAT_011c6d50[i])
             static_cast<SavedSettingValue*>(DAT_011c6d50[i])->value = value;
     }
@@ -3338,7 +3347,7 @@ class ListT
   public:
     unsigned int FUN_0044ddc0();
     void* FUN_00559450();
-    ListT* FUN_0057cbe0(void**);
+    ListT* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 class Owner
 {
@@ -3406,7 +3415,7 @@ void* Owner::GetByIndex(unsigned int idx)
     void* n = kList.FUN_00559450();
     while (n)
     {
-        void* d = kList.FUN_0057cbe0(&n)->FUN_00559450();
+        void* d = kList.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&n)->FUN_00559450();
         if (i++ == idx)
             return d;
     }
@@ -3458,7 +3467,7 @@ struct DoorTeleportLoadData
 };
 struct FUN_008579e0_shell
 {
-    void FUN_008579e0(void*, unsigned int);
+    void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
 };
 extern FUN_008579e0_shell* g_TESSaveLoadGame;
 struct DoorTeleportArray
@@ -3472,9 +3481,9 @@ struct DoorTeleportArray
 // src: COMMUNITY 0x004da3f0
 void DoorTeleportArray::RagDollData_LoadGame()
 {
-    g_TESSaveLoadGame->FUN_008579e0(this, 1);
+    g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(this, 1);
     entries = new DoorTeleportLoadData[count];
-    g_TESSaveLoadGame->FUN_008579e0(entries, count * sizeof(DoorTeleportLoadData));
+    g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(entries, count * sizeof(DoorTeleportLoadData));
 }
 
 extern int DAT_011c70e0;
@@ -3492,11 +3501,11 @@ extern int(__stdcall* DAT_00fdf2e8)(unsigned int, int);
 extern int(__stdcall* DAT_00fdf310)(OutT*, int, int);
 extern int(__stdcall* DAT_00fdf2a4)(unsigned int, int, int);
 
-unsigned int FUN_004bc3f0();
+unsigned int Renderer_GetNIRenderer();
 
 struct FUN_004dc540_shell
 {
-    void FUN_004dc540(NiAVObject*);
+    void NiTexturingProperty_Map_SetTexture(NiAVObject*);
 };
 
 extern BGSMoviePlayer* DAT_0126fac4;
@@ -3505,9 +3514,9 @@ extern BSAudio* g_osGlobals;
 
 struct FUN_00b7b930_Ctx
 {
-    void FUN_00b631d0();
+    void BSShaderAccumulator_ClearAllQueries();
 };
-FUN_00b7b930_Ctx* FUN_00b4f5c0();
+FUN_00b7b930_Ctx* BSShaderManager_GetAccumulator();
 
 struct GO45
 {
@@ -3535,9 +3544,9 @@ extern GlobalObject_00633c90 g_011c73b4;
 
 struct FUN_00558310_node
 {
-    void FUN_00c52520();
+    void BSSceneGraph_UpdateCameraFOV();
 };
-FUN_00558310_node* FUN_0045c670();
+FUN_00558310_node* Main_GetWorldSceneGraph();
 
 class E73shell
 {
@@ -3567,9 +3576,9 @@ void __cdecl CopyStringToGlobal(const char* src);
 // @fnv 0x004dc360
 void RecreateRenderDevice()
 {
-    if (FUN_004bc3f0() && DAT_011c70e0 && DAT_011c70e4)
+    if (Renderer_GetNIRenderer() && DAT_011c70e0 && DAT_011c70e4)
     {
-        FUN_00b4f5c0()->FUN_00b631d0();
+        BSShaderManager_GetAccumulator()->BSShaderAccumulator_ClearAllQueries();
         ((GO45*)&g_011c73dc)->FUN_0045ce80(DAT_011c70e0);
         ((GO45*)&g_011c718c)->FUN_0045ce80(DAT_011c70e4);
         if (DAT_011c70e4 / (double)DAT_011c70e0 == 0.75)
@@ -3580,8 +3589,8 @@ void RecreateRenderDevice()
         Interface_Free();
         InterfaceSceneGraph_Destroy();
         Interface3DSceneGraph_Destroy();
-        ((FUN_004dc540_shell*)FUN_004bc3f0())->FUN_004dc540(0);
-        bool bSuccess = ((E73shell*)FUN_004bc3f0())->NiDX9Renderer_Recreate_(DAT_011c70e0, DAT_011c70e4) != 0;
+        ((FUN_004dc540_shell*)Renderer_GetNIRenderer())->NiTexturingProperty_Map_SetTexture(0);
+        bool bSuccess = ((E73shell*)Renderer_GetNIRenderer())->NiDX9Renderer_Recreate_(DAT_011c70e0, DAT_011c70e4) != 0;
         if (bSuccess)
         {
             unsigned int uiFlags = g_osGlobals->FUN_0044ddc0();
@@ -3600,8 +3609,8 @@ void RecreateRenderDevice()
         }
         BSTexturePalette_RemoveAll();
         BSShaderManager_Reinitialize();
-        g_011c73b4.FUN_00559450()->FUN_004dc540((NiAVObject*)FUN_00b4f5c0());
-        FUN_0045c670()->FUN_00c52520();
+        g_011c73b4.FUN_00559450()->NiTexturingProperty_Map_SetTexture((NiAVObject*)BSShaderManager_GetAccumulator());
+        Main_GetWorldSceneGraph()->BSSceneGraph_UpdateCameraFOV();
         TESMain_CreateMenuRootNode();
         FUN_004dc650();
         BlkInterfaceView::Init(false);
@@ -3687,8 +3696,8 @@ void* __cdecl TESRenderer_GetSystemDesc();
 DisplayAdapter* __cdecl GetFltValueAt(int indexInfo);
 int __cdecl TESRenderer_GetFrameBufferFormat();
 D3DFORMAT __cdecl MapIndexToValue(int format);
-int __cdecl FUN_004dc1f0();
-int __cdecl FUN_004dc200();
+int __cdecl Renderer_GetScreenWidth();
+int __cdecl Renderer_GetScreenHeight();
 unsigned int __cdecl TESRenderer_GetVertexShaderVersion();
 unsigned int __cdecl TESRenderer_GetPixelShaderVersion();
 struct GlobalObject_0045cf30
@@ -3746,15 +3755,15 @@ unsigned char __cdecl TESRenderer_ValidateSettings()
                             (std::abs(screenAspect - 1.25) < (double)0.01f &&
                              std::abs(aspect - (double)(4.0f / 3.0f)) < (double)0.01f))
                         {
-                            if (FUN_004dc1f0() == mode->Width && FUN_004dc200() == mode->Height)
+                            if (Renderer_GetScreenWidth() == mode->Width && Renderer_GetScreenHeight() == mode->Height)
                             {
                                 success = 1;
                                 break;
                             }
-                            else if (TESRenderer_GetFullScreen() && FUN_004dc1f0() == mode->Width &&
+                            else if (TESRenderer_GetFullScreen() && Renderer_GetScreenWidth() == mode->Width &&
                                      !(std::abs(aspect - 1.25) < (double)0.01f &&
                                        std::abs(aspect - (double)(4.0f / 3.0f)) < (double)0.01f) &&
-                                     mode->Height > (unsigned int)FUN_004dc200() &&
+                                     mode->Height > (unsigned int)Renderer_GetScreenHeight() &&
                                      (selectedPos > adapter->NiDX9AdapterDesc_GetModeCount() || mode->Height > selectedHeight))
                             {
                                 selectedPos = indexInfo;
@@ -3762,7 +3771,7 @@ unsigned char __cdecl TESRenderer_ValidateSettings()
                         }
                         else
                         {
-                            if (FUN_004dc1f0() == mode->Width && FUN_004dc200() <= (int)mode->Height &&
+                            if (Renderer_GetScreenWidth() == mode->Width && Renderer_GetScreenHeight() <= (int)mode->Height &&
                                 selectedPos > adapter->NiDX9AdapterDesc_GetModeCount())
                                 selectedPos = indexInfo;
                         }

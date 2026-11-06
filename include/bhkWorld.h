@@ -33,15 +33,15 @@ public:
     static bool __cdecl QPickCountOverride();
 
     void bhkWorld_SaveSnapshot(const char* name);
-    void FUN_00c674d0(void* p, unsigned int count) throw();
+    void bhkWorld_AddEntities(void* p, unsigned int count) throw();
     void bhkWorld_AddBatchedActions() throw();
     void bhkWorld_UpdateActions(float f) throw();
     void bhkWorld_ScaleSolverInfo() throw();
     void bhkWorld_UpdateListeners(float f) throw();
     void bhkWorld_UpdateDebugger() throw();
-    void FUN_00c6b540(bool);
-    void FUN_00c66310();
-    void FUN_00c66300();
+    void bhkWorld_StopBatchingAdds(bool);
+    void bhkWorld_StartBatchingRemovals();
+    void bhkWorld_StartBatchingAdds();
 
     unsigned int unk0C;
     void* pDebugger;

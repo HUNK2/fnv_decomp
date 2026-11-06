@@ -149,11 +149,12 @@ struct Owner
     void ShadowSceneNode_UpdateQueuedDynamicLight(Item*);
     void FUN_00b5d300(Item*);
     void ShadowSceneNode_RemoveQueuedLight(NiPointer<Item>&);
-    void FUN_00b5fd60();
+    void ShadowSceneNode_ProcessQueuedLights();
 };
-void FUN_00b5dac0(Item*, Owner*, int, bool);
+void ShadowSceneNode_UpdateQueuedObjectLightingStart(Item*, Owner*, int, bool);
 // @fnv 0x00b5fd60
-void Owner::FUN_00b5fd60()
+// src: XBOX_PDB 0x00b5fd60
+void Owner::ShadowSceneNode_ProcessQueuedLights()
 {
     DAT_011f9ea0.Lock(0);
     void* pos = list0e4.GetHeadPos();
@@ -191,7 +192,7 @@ void Owner::FUN_00b5fd60()
                 NiPointer<Item> spItem = item;
                 if (spItem)
                 {
-                    DAT_011f91a8->FUN_00b6d4c0(spItem->field_10c);
+                    DAT_011f91a8->BSTextureManager_ReturnFrustumShadowTexture(spItem->field_10c);
                     spItem->field_10c = 0;
                     ShadowSceneNode_RemoveQueuedLight(spItem);
                 }
@@ -211,9 +212,9 @@ void Owner::FUN_00b5fd60()
         if (item)
         {
             if (item->IsVisibleThing() && BoundOf(item)->m_fRadius < DAT_010231d0)
-                FUN_00b5dac0(item, this, 1, true);
+                ShadowSceneNode_UpdateQueuedObjectLightingStart(item, this, 1, true);
             else
-                FUN_00b5dac0(item, this, 1, false);
+                ShadowSceneNode_UpdateQueuedObjectLightingStart(item, this, 1, false);
         }
     }
     pos = list108.GetHeadPos();
@@ -223,9 +224,9 @@ void Owner::FUN_00b5fd60()
         if (item)
         {
             if (item->IsVisibleThing() && BoundOf(item)->m_fRadius < DAT_010231d0)
-                FUN_00b5dac0(item, this, 0, true);
+                ShadowSceneNode_UpdateQueuedObjectLightingStart(item, this, 0, true);
             else
-                FUN_00b5dac0(item, this, 0, false);
+                ShadowSceneNode_UpdateQueuedObjectLightingStart(item, this, 0, false);
         }
     }
     if (field_1e0)

@@ -73,8 +73,8 @@ struct __declspec(align(16)) Buffer
 };
 
 extern "C" void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(void*);
-extern "C" void __cdecl FUN_00d72190(Node*, Buffer*, int, int*);
-extern "C" void __cdecl FUN_00d6f460(Node*, unsigned short, Buffer*, int*);
+extern "C" void __cdecl hkSimpleContactConstraintDataBuildJacobian(Node*, Buffer*, int, int*);
+extern "C" void __cdecl hkSolverBuildJacobianFromAtomsNotContact(Node*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
 
 // Copies source to a local buffer, follows unk14 links while unk00 >= 0x17, then calls FUN_00d72190 if that node's unk00 is 0x16, else FUN_00d6f460.
@@ -105,11 +105,11 @@ static void __cdecl FUN_00d6c5a0(Node* self, int* counter, Buffer* source)
     if (node->unk00 == 0x16)
     {
         flag.byte = 1;
-        FUN_00d72190(node, &buffer, flag.value, counter);
+        hkSimpleContactConstraintDataBuildJacobian(node, &buffer, flag.value, counter);
     }
     else
     {
-        FUN_00d6f460(node, (unsigned short)value, &buffer, counter);
+        hkSolverBuildJacobianFromAtomsNotContact(node, (unsigned short)value, &buffer, counter);
     }
 }
 

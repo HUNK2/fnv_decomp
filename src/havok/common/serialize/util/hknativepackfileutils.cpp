@@ -20,7 +20,7 @@ void FUN_00dc0ed0_class::FUN_00dc0ed0(int aiFirst, int aiSecond)
     ProcessElements(*(int*)((char*)this + 8), aiSecond, aiFirst);
 }
 
-void __cdecl FUN_00dc0de0(void*, void*);
+void __cdecl hkNativePackfileUtils_unload(void*, void*);
 
 struct FUN_00dc0ef0_class
 {
@@ -40,7 +40,7 @@ void FUN_00dc0ef0_class::FUN_00dc0ef0()
 {
     if (m_14)
     {
-        FUN_00dc0de0(m_08, m_0c);
+        hkNativePackfileUtils_unload(m_08, m_0c);
         m_14 = 0;
         m_18 = 0;
     }
@@ -88,7 +88,7 @@ extern "C" void __cdecl ProcessElements(int header, int first, int second)
     }
 }
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& GetHeap(hkMemoryRouter* holder)
 {
@@ -97,7 +97,7 @@ inline hkMemoryAllocator& GetHeap(hkMemoryRouter* holder)
 
 inline hkMemoryRouter& GetMonitorStream() throw()
 {
-    return *FUN_00c85750();
+    return *hkMemoryRouter_getInstance();
 }
 
 struct S_00dc0de0_Value
@@ -190,7 +190,8 @@ struct S_00dc0de0
 };
 
 // @fnv 0x00dc0de0
-void FUN_00dc0de0(S_00dc0de0* s)
+// src: XBOX_PDB 0x00dc0de0
+void hkNativePackfileUtils_unload(S_00dc0de0* s)
 {
     s->m_00 = 0;
     S_00dc0de0_Map& map = s->m_map;
@@ -200,8 +201,8 @@ void FUN_00dc0de0(S_00dc0de0* s)
         if (pValue->m_callback)
             pValue->m_callback(map.GetIteratorKey(it));
     }
-    s->m_ppData._clearAndDeallocate(GetHeap(FUN_00c85750()));
-    map.ClearAndRelease(GetHeap(FUN_00c85750()));
+    s->m_ppData._clearAndDeallocate(GetHeap(hkMemoryRouter_getInstance()));
+    map.ClearAndRelease(GetHeap(hkMemoryRouter_getInstance()));
     map.FUN_00a29680();
 }
 
@@ -357,7 +358,7 @@ namespace fnv_00dc0f20 {
 extern int DAT_010d6a94;
 extern int DAT_0102e388;
 
-void __cdecl FUN_00dc0de0(void*, void*);
+void __cdecl hkNativePackfileUtils_unload(void*, void*);
 
 
 struct FUN_00dc0f20_cls
@@ -379,11 +380,11 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
     m_vptr = (int)&DAT_010d6a94;
     if (m_14 != 0)
     {
-        FUN_00dc0de0(m_08, m_0c);
+        hkNativePackfileUtils_unload(m_08, m_0c);
         m_14 = 0;
         m_18 = 0;
     }
-    hkMemoryRouter* pAudioHolder = FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAudioHolder->m_heap);
     m_0c = 0;
     unsigned int uCapBits = m_10;
@@ -407,8 +408,8 @@ struct StructureLayoutRules
 
 extern StructureLayoutRules DAT_011b7b88;
 
-void __cdecl FUN_00cb1280(void* p, int a, int b);
-void* __cdecl FUN_00dc0fb0();
+void __cdecl hkString_memSet(void* p, int a, int b);
+void* __cdecl hkVersionUtil_getCurrentVersion();
 int __cdecl hkString_strCmp(const void* a, const void* b);
 
 struct hkPackfileHeader
@@ -438,7 +439,7 @@ struct hkPackfileHeader
 
     hkPackfileHeader()
     {
-        FUN_00cb1280(this, -1, sizeof(*this));
+        hkString_memSet(this, -1, sizeof(*this));
         m_magic0 = 0x57e0e057;
         m_magic1 = 0x10c0c010;
         m_contentsVersion_0 = 0;
@@ -504,7 +505,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
             *outError = "Packfile file format is too old";
         return 1;
     }
-    if (hkString_strCmp(&header->m_contentsVersion_0, FUN_00dc0fb0()) != 0)
+    if (hkString_strCmp(&header->m_contentsVersion_0, hkVersionUtil_getCurrentVersion()) != 0)
     {
         if (outError)
             *outError = "Packfile contents are not up to date";
@@ -673,7 +674,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
                 const void* typeInfo = registry->RegisterLoadedObject(obj, className);
                 if (typeInfo)
                 {
-                    hkMemoryAllocator& heap = GetHeap(FUN_00c85750());
+                    hkMemoryAllocator& heap = GetHeap(hkMemoryRouter_getInstance());
                     out->m_pTracker.add(&heap, obj, typeInfo);
                 }
             }
@@ -774,7 +775,7 @@ extern "C" int __cdecl FUN_00dc07d0(void* packfileData, void* packfileSize) thro
 }
 
 namespace fnv_00dc0f80 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 struct FUN_00dc0f80
 {
     unsigned short allocationSize;
@@ -782,7 +783,7 @@ struct FUN_00dc0f80
     virtual ~FUN_00dc0f80();
     void operator delete(void* ptr)
     {
-        hkMemoryRouter* manager = FUN_00c85750();
+        hkMemoryRouter* manager = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(manager->m_heap)->blockFree(ptr, static_cast<FUN_00dc0f80*>(ptr)->allocationSize);
     }
 };

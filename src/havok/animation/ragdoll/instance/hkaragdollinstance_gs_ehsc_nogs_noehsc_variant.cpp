@@ -27,7 +27,7 @@ struct ArrayRouter
     void* unk0c;
     hkMemoryAllocator* m_pStreamAllocator;
 };
-ArrayRouter* __cdecl FUN_00c85750();
+ArrayRouter* __cdecl hkMemoryRouter_getInstance();
 
 #include <xmmintrin.h>
 // FUN_00ce0d30 - build orthonormal basis from 3 indexed points, convert to quaternion via FUN_00cb26e0
@@ -107,7 +107,7 @@ void __fastcall hkaPoseMatchingUtility_computeOrientation(ThisX* th, void* edx_u
     _mm_store_ps(&out->x, _mm_load_ps(reinterpret_cast<const float*>(&obj)));
 }
 
-ArrayRouter* __cdecl FUN_00c85750();
+ArrayRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* a, void* b, int c);
 
 struct __declspec(align(16)) Pose32
@@ -196,7 +196,7 @@ int Owner::hkaPoseMatchingUtility_addCandidatePose(void* pose, int arg2, float t
     poseData.unk10 = arg2;
     hkaPoseMatchingUtility_computeOrientation(pose, &poseData);
     FUN_00ce0ff0(&sub, &poseData);
-    ArrayRouter* router = FUN_00c85750();
+    ArrayRouter* router = hkMemoryRouter_getInstance();
     if (count == (capacity & 0x3FFFFFFF))
         ResizeAudioStream(router->m_pStreamAllocator, this, 0x20);
     Pose32* destination = data + count;
@@ -417,11 +417,12 @@ class FUN_00ce2150Owner
     int unk28;
     hkaSkeleton* m_pkSkeleton;
 
-    void FUN_00ce2150(int iBone, float fTime, hkQsTransform& kOut);
+    void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int iBone, float fTime, hkQsTransform& kOut);
 };
 
 // @fnv 0x00ce2150
-void FUN_00ce2150Owner::FUN_00ce2150(int iBone, float fTime, hkQsTransform& kOut)
+// src: XBOX_PDB 0x00ce2150
+void FUN_00ce2150Owner::hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int iBone, float fTime, hkQsTransform& kOut)
 {
     int iBody = m_piBoneToBody[iBone];
     if (iBody >= 0)
@@ -441,7 +442,7 @@ void FUN_00ce2150Owner::FUN_00ce2150(int iBone, float fTime, hkQsTransform& kOut
         hkQsTransform kParent;
         int iParent = m_pkSkeleton->m_kParentIndices.m_data[iBone];
         if (iParent >= 0)
-            FUN_00ce2150(iParent, fTime, kParent);
+            hkaRagdollInstance_getApproxWorldFromBoneTransformAt(iParent, fTime, kParent);
         else
             kParent.setIdentity();
         ComposeReferenceTransform(kOut, kParent, m_pkSkeleton->m_kReferencePose.m_data[iBone]);
@@ -511,8 +512,8 @@ void Ce12a0Host::FUN_00ce12a0(void* a1, void* a2, hkQsTransform* a3, hkQsTransfo
     {
         __declspec(align(16)) float angle;
         hkQuaternion axis;
-        a3->m_rotation.FUN_00cb2ca0(&self->unk10, &axis, &angle);
-        a3->m_rotation.FUN_00cb2450(&self->unk10, angle);
+        a3->m_rotation.hkQuaternion_decomposeRestAxis(&self->unk10, &axis, &angle);
+        a3->m_rotation.hkQuaternion_setAxisAngle(&self->unk10, angle);
     }
 }
 

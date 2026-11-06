@@ -94,8 +94,8 @@ class NiPoint3
     void ComputeMagnitude();
     float ComputeMagnitude() const;
     void Unitize();
-    __declspec(noalias) void FUN_004a0c10();
-    float FUN_00589850() const;
+    __declspec(noalias) void Unitize_004a0c10();
+    float NiPoint3_XYLength() const;
     bool FUN_004390c0(const NiPoint3& point);
     NiPoint3& FUN_00439180(float scalar);
     NiPoint3 FUN_00439e90(const NiPoint3& point);
@@ -160,7 +160,7 @@ class NiPoint3
     NiPoint3* FUN_00416870(float x, float y, float z);
     NiPoint3* FUN_00439e90(NiPoint3* output, const NiPoint3* other) const;
     void FUN_0043d410(float x, int y, int z);
-    char* FUN_00a59af0(const char* prefix);
+    char* GetViewerString_00a59af0(const char* prefix);
     NiPoint3& FUN_00b2a1c0(const NiPoint3& point);
 
     NiPoint3 Add(const NiPoint3& point) const;
@@ -204,7 +204,7 @@ class NiPoint3
     static void PointsPlusEqualFloatTimesPoints(NiPoint3* points, float scalar, void* other, unsigned int count);
     static void WeightedPointsPlusWeightedPoints(NiPoint3* points, float scalar, void* other, unsigned int count);
     static unsigned int* InitSqrtTable();
-    static void __cdecl FUN_00525340(NiPoint3& point);
+    static void __cdecl NiPoint3_UnitizeVector(NiPoint3& point);
 };
 
 typedef char NiPoint3_size_check[(sizeof(NiPoint3) == 12) ? 1 : -1];

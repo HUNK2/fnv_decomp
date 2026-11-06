@@ -380,7 +380,7 @@ struct EventData
     int m1c;
 };
 
-void __cdecl FUN_00da48e0(void*, void*);
+void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void*, void*);
 
 // @fnv 0x00d32c40
 // src: HAVOK_LIB 0x00d32c40
@@ -399,7 +399,7 @@ void __cdecl hkConvexListAgent3_updateFilter(int aiUnused, Arg1* a1, int a2, Arg
     j.m14 = aiArg5;
     j.m18 = aiArg6;
     j.m0c = iSlotResult;
-    FUN_00da48e0(&a1->field_10, &j);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(&a1->field_10, &j);
 }
 
 // The shared hkpGskCache header is not available yet; retain the accessed cache fields here.
@@ -554,7 +554,7 @@ struct ConvexListAgentRecord
 };
 
 void __cdecl ForwardToTarget(void* agent, ConvexListAgentRecord* shape, void* input, void* output, void* collector);
-void __cdecl FUN_00da42b0(int* data, void* collector, void* input, void* output);
+void __cdecl hkAgent1nMachine_Destroy(int* data, void* collector, void* input, void* output);
 
 // If the ConvexListAgentRecord flag 0x20 is set, forward the call to ForwardToTarget; otherwise call FUN_00da42b0 with the shape data.
 // @fnv 0x00d32ba0
@@ -566,7 +566,7 @@ void __cdecl hkConvexListAgent3_destroy(void* agent, ConvexListAgentRecord* shap
         ForwardToTarget(agent, shape, input, output, collector);
         return;
     }
-    FUN_00da42b0(&shape->m_data, collector, input, output);
+    hkAgent1nMachine_Destroy(&shape->m_data, collector, input, output);
 }
 
 void __cdecl FUN_00d41860();
@@ -590,14 +590,14 @@ void __cdecl RegisterAgent3Entries(hkpCollisionDispatcher* pkDispatcher)
 // Builds on an earlier contributor's 2026-10-25 reconstruction of this routine.
 extern float DAT_010CEB6C;
 extern __m128 DAT_01268370;
-void __cdecl FUN_00d41930(int, int, int, int);
+void __cdecl hkPredGskAgent3_sepNormal(int, int, int, int);
 // If bit 5 of the flag byte at c+11 is set, delegates to FUN_00d41930; otherwise writes DAT_01268370 to output and sets its fourth float to DAT_010CEB6C.
 // @fnv 0x00d32ca0
 void __cdecl FUN_00d32ca0(int a, int b, int c, int output)
 {
     if ((*reinterpret_cast<const unsigned char*>(c + 11) & 0x20) != 0)
     {
-        FUN_00d41930(a, b, c, output);
+        hkPredGskAgent3_sepNormal(a, b, c, output);
         return;
     }
     __m128* __restrict p = reinterpret_cast<__m128*>(output);
@@ -922,13 +922,13 @@ struct Monitor
 extern DWORD DAT_0126835c;
 extern void* DAT_010ceb44;
 extern float DAT_010ceb6c;
-int __cdecl FUN_00dabca0(ProbeInput*, Agent*, void*, hkVector4*);
-void __cdecl FUN_00da42b0(Cache*, int, Manager*, int);
+int __cdecl hkpGsk_getClosestPoint(ProbeInput*, Agent*, void*, hkVector4*);
+void __cdecl hkAgent1nMachine_Destroy(Cache*, int, Manager*, int);
 void* __cdecl hkPredGskAgent3_process(ProcessInput_hkpconvexlistagent3*, int, Agent*, void*, Output*);
 void __cdecl FUN_00d41860(int, Agent*, Manager*, int);
 void __cdecl InitBlockPool(Cache*);
-void __cdecl FUN_00da4aa0(Cache*, Context*, int*, int*, Output*);
-void* __cdecl FUN_00c85750();
+void __cdecl hkAgent1nMachine_Process(Cache*, Context*, int*, int*, Output*);
+void* __cdecl hkMemoryRouter_getInstance();
 
 struct TLSArgument
 {
@@ -1000,7 +1000,7 @@ void* __cdecl hkConvexListAgent3_process(Context* context, int stream, Agent* ag
             agent->state.countdown = 25;
             {
 
-                reinterpret_cast<hkTransform&>(phase).FUN_00cb22f0(context->bodyA->m_pMotionState, context->bodyB->m_pMotionState);
+                reinterpret_cast<hkTransform&>(phase).hkTransform_setMulInverseMul(context->bodyA->m_pMotionState, context->bodyB->m_pMotionState);
 
                 arguments.probe.a = context->bodyA->m_pCollisionShape;
                 arguments.probe.b = context->bodyB->m_pCollisionShape;
@@ -1008,10 +1008,10 @@ void* __cdecl hkConvexListAgent3_process(Context* context, int stream, Agent* ag
                 arguments.probe.world = context->bodyA->m_pMotionState;
                 arguments.probe.tolerance = context->input->tolerance;
 
-                if (!FUN_00dabca0(&arguments.probe, agent, collisionOutput, &separating))
+                if (!hkpGsk_getClosestPoint(&arguments.probe, agent, collisionOutput, &separating))
                     goto fallback;
             }
-            FUN_00da42b0(&agent->state.cache, context->input->unk00, context->manager, output->owner);
+            hkAgent1nMachine_Destroy(&agent->state.cache, context->input->unk00, context->manager, output->owner);
             agent->flags |= 0x20;
             agent->state.packed = 0;
             temporary.hkpProcessCollisionOutputBackup_rollbackOutput(context->bodyA, context->bodyB, output, context->manager);
@@ -1076,7 +1076,7 @@ fallback:
     collisionOutput->distance = -1.701410009187828e+38f;
     {
         int count = scratch.shapeEnd.shape->m_kChildShapes.m_iElementCount;
-        int** arena = (int**)FUN_00c85750();
+        int** arena = (int**)hkMemoryRouter_getInstance();
         int* keys = *arena;
         *arena = (int*)((char*)keys + ((count * 4 + 0x83) & ~0x7f));
         for (int i = 0; i < count; ++i)
@@ -1084,8 +1084,8 @@ fallback:
         int* sub = reinterpret_cast<int*>(
             reinterpret_cast<char*>(*(hkpConvexListShape* volatile*)&scratch.shapeEnd.shape) + sizeof(hkpConvexShape));
         Cache* cache = &agent->state.cache;
-        FUN_00da4aa0((keys[count] = -1, cache), context, sub, keys, output);
-        *(int**)FUN_00c85750() = keys;
+        hkAgent1nMachine_Process((keys[count] = -1, cache), context, sub, keys, output);
+        *(int**)hkMemoryRouter_getInstance() = keys;
         scratch.outcome.result = cache + 1;
     }
 finished:

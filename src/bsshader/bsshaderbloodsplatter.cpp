@@ -56,7 +56,7 @@ class BloodSplatterShaderLocal_00b80d30 : public BSShader
     BSShader* CreateShader();
     void InitializeShaderData();
     bool ConfigureShaderPass();
-    void FUN_00b81110(unsigned int);
+    void BSShaderBloodSplatterProperty_SetClampD3D(unsigned int);
     void BSShaderBloodSplatter_InitPass(unsigned int);
     void NiD3DPass_SetPixelShader(NiRefObject*);
     void SetupConstantMaps();
@@ -302,7 +302,8 @@ void BloodSplatterShaderLocal_00b80d30::InitializeShaderData()
 }
 
 // @fnv 0x00b81110
-void BloodSplatterShaderLocal_00b80d30::FUN_00b81110(unsigned int value)
+// src: XBOX_PDB 0x00b81110
+void BloodSplatterShaderLocal_00b80d30::BSShaderBloodSplatterProperty_SetClampD3D(unsigned int value)
 {
     iShaderType = (value != 3) ? 3 : 0;
 }

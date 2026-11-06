@@ -95,7 +95,7 @@ template <> inline NiPointer<NiTransformData>& NiPointer<NiTransformData>::opera
 struct TransformInterpolatorKeys : NiTransformInterpolator
 {
     PositionKeyInterpolator* FUN_00a3f990(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
-    TimedRotationKey* FUN_0058cb00(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
+    TimedRotationKey* NiTransformInterpolator_GetRotData(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
     TimedAnimationKey* NiTransformInterpolator_GetScaleData(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
 };
 
@@ -148,7 +148,7 @@ bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTran
             PositionKeyInterpolator::InterpolatePosition(time, pTranslateKeys, eKeyType, count, last, size));
         m_usLastRotationKeyIndex = (unsigned short)last;
     }
-    TimedRotationKey* pRotateKeys = ((TransformInterpolatorKeys*)this)->FUN_0058cb00(count, eKeyType, size);
+    TimedRotationKey* pRotateKeys = ((TransformInterpolatorKeys*)this)->NiTransformInterpolator_GetRotData(count, eKeyType, size);
     if (count > 0)
     {
         last = m_usLastPositionKeyIndex;
@@ -199,7 +199,8 @@ enum KeyContent
 
 // Maps a channel index to a KeyContent: 0 quaternion, 1 position, 2 none, otherwise tangent.
 // @fnv 0x00a3f570
-KeyContent __stdcall FUN_00a3f570(unsigned short usChannel)
+// src: XBOX_PDB 0x00a3f570
+KeyContent __stdcall NiTransformInterpolator_GetKeyContent(unsigned short usChannel)
 {
     if (usChannel == 0)
         return KEY_CONTENT_QUATERNION;
@@ -799,7 +800,7 @@ void NiTransformInterpolator::SaveBinary(NiStream& stream)
 
 #include <string.h>
 
-void __stdcall FUN_00aa0ab0(NiTransformInterpolator* pkDest, CloningProcess* kCloning);
+void __stdcall NiKeyBasedInterpolator_CopyMembers(NiTransformInterpolator* pkDest, CloningProcess* kCloning);
 
 template <> inline NiPointer<NiTransformData>& NiPointer<NiTransformData>::operator=(const NiPointer& rhs)
 {
@@ -818,7 +819,7 @@ template <> inline NiPointer<NiTransformData>& NiPointer<NiTransformData>::opera
 // @fnv 0x00a40360
 void NiTransformInterpolator::CopyMemberData(NiTransformInterpolator* pkDest, CloningProcess& kCloning)
 {
-    FUN_00aa0ab0(pkDest, &kCloning);
+    NiKeyBasedInterpolator_CopyMembers(pkDest, &kCloning);
 
     memcpy(&pkDest->m_kDefaultTransform, &m_kDefaultTransform, 32);
 

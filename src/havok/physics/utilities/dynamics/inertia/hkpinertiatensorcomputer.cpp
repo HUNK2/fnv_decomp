@@ -119,7 +119,7 @@ struct State
     int count;
     int context;
 };
-void FUN_00cebbb0(void* state, float zero, void* receiver);
+void hkpInertiaTensorComputer_computeConvexHullMassProperties(void* state, float zero, void* receiver);
 // @fnv 0x00ced020
 int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value)
 {
@@ -131,7 +131,7 @@ int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit,
     state.count = count;
     state.context = context;
     state.first = owner;
-    FUN_00cebbb0(&state, 0.0f, receiver);
+    hkpInertiaTensorComputer_computeConvexHullMassProperties(&state, 0.0f, receiver);
     receiver->FUN_00cecc90(limit);
     return 0;
 }
@@ -364,7 +364,7 @@ struct S_00cee1c0_Arr
     unsigned int* m_pTrailingData;
 };
 
-S_00cee1c0_Router* FUN_00c85750();
+S_00cee1c0_Router* hkMemoryRouter_getInstance();
 float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00cee1c0_Arr* arr, int unk, float value);
 
 // @fnv 0x00cee1c0
@@ -375,7 +375,7 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     arr.m_iElementCount = 0;
     arr.m_cap = 0x80000000;
 
-    S_00cee1c0_Router* r = FUN_00c85750();
+    S_00cee1c0_Router* r = hkMemoryRouter_getInstance();
     unsigned int* mem = (unsigned int*)r->cursor;
     r->cursor = (unsigned int)mem + ((count * 4 + 0x7f) & 0xffffff80);
     arr.m_cap = count | 0x80000000;
@@ -398,8 +398,8 @@ void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, flo
     {
         arr.m_iElementCount = 0;
     }
-    FUN_00c85750()->cursor = (unsigned int)local;
-    S_00cee1c0_Heap* h = FUN_00c85750()->heap;
+    hkMemoryRouter_getInstance()->cursor = (unsigned int)local;
+    S_00cee1c0_Heap* h = hkMemoryRouter_getInstance()->heap;
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
     {
@@ -587,7 +587,8 @@ struct Owner
 };
 // Multiplies m04 by value, then calls Multiply on m20 with a hkVector4 broadcast from value.
 // @fnv 0x00cebfd0
-static __declspec(noinline) void FUN_00cebfd0(Owner* self, float afScale)
+// src: XBOX_PDB 0x00cebfd0
+static __declspec(noinline) void hkMatrix3_mul(Owner* self, float afScale)
 {
     self->m04 *= afScale;
     hkVector4 tmp;
@@ -599,7 +600,7 @@ volatile float g_value;
 Owner* volatile g_sink;
 void caller()
 {
-    FUN_00cebfd0(g_owner, g_value);
+    hkMatrix3_mul(g_owner, g_value);
     g_sink = g_owner;
 }
 
@@ -631,16 +632,18 @@ struct S00ceccf0_Out
 
 extern const double DAT_010cbf40;
 
-static __declspec(noinline) void __cdecl FUN_00ceba60(float a, float b, S00ceccf0_Out* out)
+// src: XBOX_PDB 0x00ceba60
+static __declspec(noinline) void __cdecl hkpInertiaTensorComputer_computeSphereVolumeMassProperties(float a, float b, S00ceccf0_Out* out)
 {
     out->m_10.m_vComponents = _mm_setzero_ps();
     out->m_00 = a * b;
     out->m_04 = a + b;
 }
 
-void(__cdecl* g_S00ceccf0_fp)(float, float, S00ceccf0_Out*) = &FUN_00ceba60;
+void(__cdecl* g_S00ceccf0_fp)(float, float, S00ceccf0_Out*) = &hkpInertiaTensorComputer_computeSphereVolumeMassProperties;
 
-static __declspec(noinline) void FUN_00cebfd0(S00ceccf0_Out* out, float value)
+// src: XBOX_PDB 0x00cebfd0
+static __declspec(noinline) void hkMatrix3_mul(S00ceccf0_Out* out, float value)
 {
     out->m_00 *= value;
     out->m_04 *= value;
@@ -682,8 +685,8 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out)
     y.m_00 = 0.0f;
     y.m_04 = 0.0f;
 
-    FUN_00ceba60(start, a, &x);
-    FUN_00ceba60(d, b, &y);
+    hkpInertiaTensorComputer_computeSphereVolumeMassProperties(start, a, &x);
+    hkpInertiaTensorComputer_computeSphereVolumeMassProperties(d, b, &y);
 
     S00ceccf0_Mat& r = out->m_20;
     out->m_10.m_vComponents = zero;
@@ -692,7 +695,7 @@ int __cdecl FUN_00ceccf0(float start, float span, float t, S00ceccf0_Out* out)
 
     out->m_04 = x.m_04 - y.m_04;
     out->m_00 = x.m_00 - y.m_00;
-    FUN_00cebfd0(out, span / (a - b));
+    hkMatrix3_mul(out, span / (a - b));
     return 0;
 }
 
@@ -758,7 +761,7 @@ void __cdecl ResizeAudioStream(void* heap, void* array, int elemSize);
 
 __forceinline void releaseArr(LocalArr* a)
 {
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = hkMemoryRouter_getInstance();
     S_00cee1c0_Heap* heap = router->heap;
     int cap = a->m_cap;
     a->m_iElementCount = 0;
@@ -803,7 +806,7 @@ float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00ce
         if (n != i)
             data[i] = data[n];
 
-        S_00cee1c0_Router* router = FUN_00c85750();
+        S_00cee1c0_Router* router = hkMemoryRouter_getInstance();
         if (local.m_iElementCount == (local.m_cap & 0x3fffffff))
             ResizeAudioStream(router->heap, &local, 4);
         local.m_data[local.m_iElementCount++] = e;
@@ -892,7 +895,7 @@ struct Track
     double hkgpConvexHull_getVolume();
     LocalM128* hkgpConvexHull_getCenterOfMass();
     LocalM128* hkgpConvexHull_getWorldInertia();
-    void FUN_00d77be0(float scale);
+    void hkgpConvexHull_expandByPlanarMargin(float scale);
     void FUN_00d76940();
 };
 struct RowMatrix
@@ -925,7 +928,8 @@ inline LocalM128 scalarVector(float x)
 extern "C" void _ReadWriteBarrier();
 // Steps a Track until it reaches stage 3 past a threshold, stores its translation, matrix and time in receiver, and returns 0, or 1 if the stage is -1.
 // @fnv 0x00cebbb0
-int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
+// src: XBOX_PDB 0x00cebbb0
+int __cdecl hkpInertiaTensorComputer_computeConvexHullMassProperties(void* state, float value, Receiver2* receiver)
 {
     Track track;
     Probe probe;
@@ -951,7 +955,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
         while (track.FUN_00d74e10() != 3 || track.hkgpConvexHull_getVolume() < DAT_010cbf48)
         {
             track.hkgpConvexHull_build_00d77200(state, &probe);
-            track.FUN_00d77be0(step);
+            track.hkgpConvexHull_expandByPlanarMargin(step);
             if (track.FUN_00d74e10() == 3)
                 track.FUN_00d762f0();
             step += step;
@@ -1166,7 +1170,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     triAreas.size = 0;
     triAreas.m_iCapacity = 0x80000000u;
 
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = hkMemoryRouter_getInstance();
     S_00cee1c0_Heap* heap = router->heap;
     int cap = (int)(triAreas.m_iCapacity & 0x3fffffffu);
     if (cap < count)
@@ -1258,7 +1262,7 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
     center->m_vComponents = _mm_mul_ps(inv, center->m_vComponents);
     hkpInertiaTensorComputer_shiftInertiaToCom(center, mass, &inertia->row0.x);
 
-    S_00cee1c0_Router* freeRouter = FUN_00c85750();
+    S_00cee1c0_Router* freeRouter = hkMemoryRouter_getInstance();
     S_00cee1c0_Heap* freeHeap = freeRouter->heap;
     int flags = (int)triAreas.m_iCapacity;
     triAreas.size = 0;
@@ -1355,7 +1359,8 @@ void __cdecl AddInertiaTensor(hkVector4* d, float m, S_00ced090_Mat* mat);
 
 // Sums mass and mass-weighted center and accumulates an inertia tensor over the elements into out; returns 1 if the total mass is not positive.
 // @fnv 0x00ced090
-int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
+// src: XBOX_PDB 0x00ced090
+int __cdecl hkpInertiaTensorComputer_combineMassProperties(S_00ced090_State* apState, S_00ced090_Out* out)
 {
     float mass = 0.0f;
     float sum0 = 0.0f;
@@ -1363,7 +1368,7 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
     for (int i = 0; i < apState->count; i++)
     {
         hkVector4 v;
-        v.FUN_00c7f640(*reinterpret_cast<const Transform*>(&apState->first[i].unk50), *reinterpret_cast<const hkVector4*>(&apState->first[i].unk10));
+        v.setTransformedPos_00c7f640(*reinterpret_cast<const Transform*>(&apState->first[i].unk50), *reinterpret_cast<const hkVector4*>(&apState->first[i].unk10));
         LocalM128 t = _mm_load_ss(&apState->first[i].unk04);
         mass = mass + apState->first[i].unk04;
         sum0 += apState->first[i].unk00;
@@ -1389,7 +1394,7 @@ int __cdecl FUN_00ced090(S_00ced090_State* apState, S_00ced090_Out* out)
         *(LocalM128*)&m.r2 = *(LocalM128*)&apState->first[i].unk40;
         m.FUN_00cd5880(&apState->first[i].unk50);
         hkVector4 v;
-        v.FUN_00c7f640(*reinterpret_cast<const Transform*>(&apState->first[i].unk50), *reinterpret_cast<const hkVector4*>(&apState->first[i].unk10));
+        v.setTransformedPos_00c7f640(*reinterpret_cast<const Transform*>(&apState->first[i].unk50), *reinterpret_cast<const hkVector4*>(&apState->first[i].unk10));
         v.m_vComponents = _mm_sub_ps(v.m_vComponents, vAccum);
         AddInertiaTensor(&v, apState->first[i].unk04, &m);
         I->FUN_00cd5140(&m);
@@ -1609,7 +1614,7 @@ struct S00cf0f40_Arr
     }
     void ClearAndRelease()
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        S_00cee1c0_Heap& heap = S00cf0f40_heap(hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
             heap.Free(m_data, getCapacity() * sizeof(hkVector4));
@@ -1618,7 +1623,7 @@ struct S00cf0f40_Arr
     }
     void reserve(int n)
     {
-        S_00cee1c0_Heap& heap = S00cf0f40_heap(FUN_00c85750());
+        S_00cee1c0_Heap& heap = S00cf0f40_heap(hkMemoryRouter_getInstance());
         int cap = getCapacity();
         if (cap < n)
         {
@@ -1643,7 +1648,8 @@ inline void S00cf0f40_Swap4(void* p)
 }
 
 // @fnv 0x00cf0f40
-unsigned int __cdecl FUN_00cf0f40(S00cf0f40_Owner* owner, S00cf0f40_Arr* arr)
+// src: XBOX_PDB 0x00cf0f40
+unsigned int __cdecl bhkStream_LoadBinary(S00cf0f40_Owner* owner, S00cf0f40_Arr* arr)
 {
     S00cf0f40_Guard guard;
     unsigned int n = 0;
@@ -1715,7 +1721,8 @@ struct Target
 
 // Returns 1 if a or b is not positive; otherwise sets three diagonal entries to a*b*a*DAT_010290c0, m_f00 to a^3*DAT_010cbf40 and m_f04 to b, and returns 0.
 // @fnv 0x00ceba60
-int __cdecl FUN_00ceba60(float a, float b, Target* t)
+// src: XBOX_PDB 0x00ceba60
+int __cdecl hkpInertiaTensorComputer_computeSphereVolumeMassProperties(float a, float b, Target* t)
 {
     if (b <= 0.0f)
         return 1;
@@ -1927,12 +1934,12 @@ struct ScaledShape
     void FUN_00cd8160(float);
 };
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl FUN_00cebaf0(hkVector4*, float, MassBody*);
-void __cdecl FUN_00ceeca0(hkVector4*, hkVector4*, float, float, MassBody*);
-void __cdecl FUN_00cef6d0(hkVector4*, hkVector4*, float, float, MassBody*);
+void __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(hkVector4*, float, MassBody*);
+void __cdecl hkpInertiaTensorComputer_computeCapsuleVolumeMassProperties(hkVector4*, hkVector4*, float, float, MassBody*);
+void __cdecl hkpInertiaTensorComputer_computeCylinderVolumeMassProperties(hkVector4*, hkVector4*, float, float, MassBody*);
 float __cdecl NiMax(float, float);
 void __cdecl FUN_00cee290(hkVector4*, hkVector4*, hkVector4*, float, float, MassBody*);
-void __cdecl FUN_00ced090(void*, MassBody*);
+void __cdecl hkpInertiaTensorComputer_combineMassProperties(void*, MassBody*);
 struct RawBody
 {
     float volume, mass;
@@ -2001,7 +2008,8 @@ union ResultStorage
 
 // Recursively computes the mass, volume, center of mass, and inertia of an HkShape into output, handling primitives, composites, and containers.
 // @fnv 0x00ceff00
-void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float limit, MassBody& output)
+// src: XBOX_PDB 0x00ceff00
+void __cdecl computeRecursiveShapeVolumeMassProperties(HkShape* apShape, const Transform& transform, float limit, MassBody& output)
 {
     Working workspace;
     ResultStorage storage;
@@ -2016,7 +2024,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
     switch (shapeType)
     {
     case 1:
-        FUN_00ceba60(apShape->radius, 1.0f, (S00ceccf0_Out*)&body);
+        hkpInertiaTensorComputer_computeSphereVolumeMassProperties(apShape->radius, 1.0f, (S00ceccf0_Out*)&body);
         break;
     case 4: {
         float r = apShape->radius;
@@ -2025,7 +2033,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         LocalM128 halfExtents = (const LocalM128&)apShape->v20;
         radius = _mm_add_ps(radius, halfExtents);
         _mm_store_ps(&radii.x, radius);
-        FUN_00cebaf0(&radii, 1.0f, &body);
+        hkpInertiaTensorComputer_computeBoxVolumeMassProperties(&radii, 1.0f, &body);
         break;
     }
     case 6: {
@@ -2038,8 +2046,8 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         view.data = h.data;
         view.count = h.count;
         view.stride = 16;
-        FUN_00cebbb0(&view, apShape->radius, &body);
-        Router* vertexRouter = (Router*)FUN_00c85750();
+        hkpInertiaTensorComputer_computeConvexHullMassProperties(&view, apShape->radius, &body);
+        Router* vertexRouter = (Router*)hkMemoryRouter_getInstance();
         h.release(vertexRouter->heap);
         break;
     }
@@ -2054,22 +2062,22 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         break;
     }
     case 27:
-        FUN_00ceff00(apShape->child18, transform, limit, output);
+        computeRecursiveShapeVolumeMassProperties(apShape->child18, transform, limit, output);
         return;
     case 11: {
         InitializeTranslatedTransform(&local, apShape->v20);
-        combined.FUN_00cb2240(&transform, &local);
-        FUN_00ceff00(apShape->child18, combined, limit, output);
+        combined.hkTransform_setMul(&transform, &local);
+        computeRecursiveShapeVolumeMassProperties(apShape->child18, combined, limit, output);
         return;
     }
     case 12: {
-        combined.FUN_00cb2240(&transform, (const Transform*)&apShape->v20);
-        FUN_00ceff00(apShape->child18, combined, limit, output);
+        combined.hkTransform_setMul(&transform, (const Transform*)&apShape->v20);
+        computeRecursiveShapeVolumeMassProperties(apShape->child18, combined, limit, output);
         return;
     }
     case 15: {
-        combined.FUN_00cb2240(&transform, (const Transform*)&apShape->v30);
-        FUN_00ceff00(apShape->child14, combined, limit, output);
+        combined.hkTransform_setMul(&transform, (const Transform*)&apShape->v30);
+        computeRecursiveShapeVolumeMassProperties(apShape->child14, combined, limit, output);
         return;
     }
     case 21: {
@@ -2083,10 +2091,10 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
                 _mm_store_ps(&combined.m_f10, _mm_load_ps(&transform.m_f10));
                 _mm_store_ps(&combined.m_f20, _mm_load_ps(&transform.m_f20));
                 _mm_store_ps(&combined.m_f30, _mm_load_ps(&transform.m_f30));
-                reinterpret_cast<hkVector4&>(combined.r[3]).FUN_00c7f640(combined, *walk);
+                reinterpret_cast<hkVector4&>(combined.r[3]).setTransformedPos_00c7f640(combined, *walk);
                 ScaledShape& scaled = reinterpret_cast<ScaledShape&>(workspace.temp.scaled);
                 scaled.FUN_00cd8160(walk->w);
-                FUN_00ceff00((HkShape*)&scaled, combined, limit, output);
+                computeRecursiveShapeVolumeMassProperties((HkShape*)&scaled, combined, limit, output);
                 ++i;
                 ++walk;
             } while (i < apShape->count);
@@ -2118,7 +2126,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         {
             HkShape* found = container->Find(id, &q);
             if (found)
-                FUN_00ceff00(found, transform, limit, output);
+                computeRecursiveShapeVolumeMassProperties(found, transform, limit, output);
             id = container->Next(id);
             if (id == -1)
                 break;
@@ -2126,7 +2134,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         return;
     }
     case 5:
-        FUN_00ceeca0((hkVector4*)&apShape->v20, (hkVector4*)&apShape->v30, apShape->radius, 1.0f, &body);
+        hkpInertiaTensorComputer_computeCapsuleVolumeMassProperties((hkVector4*)&apShape->v20, (hkVector4*)&apShape->v30, apShape->radius, 1.0f, &body);
         break;
     case 2: {
         LocalM128 v5 = _mm_load_ps(&apShape->v30.x), v3 = _mm_load_ps(&apShape->v20.x);
@@ -2151,7 +2159,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         _mm_store_ps(&start.x, _mm_sub_ps(v3, _mm_mul_ps(_mm_shuffle_ps(ts, ts2, 0), n)));
         _mm_store_ps(&end.x, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(ts2, ts, 0), n), v5));
         float radius = apShape->FUN_00d571a0() + t;
-        FUN_00cef6d0(&start, &end, radius, 1.0f, &body);
+        hkpInertiaTensorComputer_computeCylinderVolumeMassProperties(&start, &end, radius, 1.0f, &body);
         break;
     }
     case 28:
@@ -2161,12 +2169,12 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
     }
     if (body.volume != 0.0f)
     {
-        FUN_00cebfd0((Owner*)&body, body.volume);
+        hkMatrix3_mul((Owner*)&body, body.volume);
         Array& arr = reinterpret_cast<Array&>(storage.array);
         arr.data = arr.local;
         arr.count = 0;
         arr.capacity = 0x80000002;
-        Router* router = (Router*)FUN_00c85750();
+        Router* router = (Router*)hkMemoryRouter_getInstance();
         if (arr.count == (arr.capacity & 0x3fffffff))
             ResizeAudioStream(router->heap, &arr, 0x90);
         Element* slot = arr.data + arr.count;
@@ -2181,7 +2189,7 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         e0->transform.m_f14 = 1.0f;
         e0->transform.m_f28 = 1.0f;
         _mm_store_ps(&e0->transform.m_f30, zero);
-        router = (Router*)FUN_00c85750();
+        router = (Router*)hkMemoryRouter_getInstance();
         if (arr.count == (arr.capacity & 0x3fffffff))
             ResizeAudioStream(router->heap, &arr, 0x90);
         slot = arr.data + arr.count;
@@ -2193,8 +2201,8 @@ void __cdecl FUN_00ceff00(HkShape* apShape, const Transform& transform, float li
         e1->transform.r[1] = transform.r[1];
         e1->transform.r[2] = transform.r[2];
         e1->transform.r[3] = transform.r[3];
-        FUN_00ced090(&arr, &output);
-        Router* cleanupRouter = (Router*)FUN_00c85750();
+        hkpInertiaTensorComputer_combineMassProperties(&arr, &output);
+        Router* cleanupRouter = (Router*)hkMemoryRouter_getInstance();
         arr.release(cleanupRouter->heap);
     }
 function_end:
@@ -2289,7 +2297,8 @@ struct MassProperties
 
 // Fills result with the inertia tensor, zero center of mass, volume and mass for a box of given halfExtents and mass, returning 1 if mass is not positive.
 // @fnv 0x00cebaf0
-int __cdecl FUN_00cebaf0(const V4& halfExtents, float mass, MassProperties& result)
+// src: XBOX_PDB 0x00cebaf0
+int __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(const V4& halfExtents, float mass, MassProperties& result)
 {
     if (mass <= 0.0f)
         return 1;
@@ -2379,7 +2388,7 @@ static __forceinline float Abs(float x)
 struct EigenMatrix
 {
     LocalM128 row0, row1, row2;
-    void FUN_00cd55b0(const EigenMatrix& a, const EigenMatrix& b);
+    void hkMatrix3_setMul(const EigenMatrix& a, const EigenMatrix& b);
 };
 
 struct EigenVector
@@ -2525,11 +2534,11 @@ void __cdecl FUN_00cec880(EigenMatrix* src, EigenMatrix* dst)
         r[q + p * 4] = s;
 
         EigenMatrix temp;
-        temp.FUN_00cd55b0(R, *src);
+        temp.hkMatrix3_setMul(R, *src);
         r[p + q * 4] = s;
         r[q + p * 4] = ns;
-        src->FUN_00cd55b0(temp, R);
-        temp.FUN_00cd55b0(*dst, R);
+        src->hkMatrix3_setMul(temp, R);
+        temp.hkMatrix3_setMul(*dst, R);
         dst->row0 = temp.row0;
         dst->row1 = temp.row1;
         dst->row2 = temp.row2;
@@ -2596,7 +2605,7 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
     a.m_data = 0;
     a.m_iElementCount = 0;
     a.m_iCapacityState = 0x80000000u;
-    S_00cee1c0_Router* router = FUN_00c85750();
+    S_00cee1c0_Router* router = hkMemoryRouter_getInstance();
     S_00cee1c0_Heap* heap = router->heap;
     if ((int)(a.m_iCapacityState & 0x3fffffff) < count)
     {
@@ -2617,7 +2626,7 @@ int __cdecl FUN_00cedcb0(char* apVertices, int stride, int count, float mass, Ou
         p += stride;
     }
     computePoints(a.m_data, count, mass, out);
-    router = FUN_00c85750();
+    router = hkMemoryRouter_getInstance();
     heap = router->heap;
     a.m_iElementCount = 0;
     unsigned capacity = a.m_iCapacityState;
@@ -2671,7 +2680,8 @@ __declspec(noinline) void __cdecl FUN_00cec7f0(Vec4* v, int n, Vec4* center, Vec
     _mm_store_ps(&center->x, _mm_mul_ps(a, b));
     _mm_store_ps(&dims->x, _mm_add_ps(b, hi));
 }
-__declspec(noinline) int __cdecl FUN_00cebaf0(Vec4* d, float m, MassPropertiesSV* p)
+// src: XBOX_PDB 0x00cebaf0
+__declspec(noinline) int __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(Vec4* d, float m, MassPropertiesSV* p)
 {
     if (m <= 0.0f)
         return 1;
@@ -2746,7 +2756,7 @@ void __cdecl FUN_00ced6b0(Geometry* geometry, float mass, MassPropertiesSV* resu
         _mm_store_ps(&boxProperties.inertia.c0.x, _mm_setzero_ps());
         _mm_store_ps(&boxProperties.inertia.c1.x, _mm_setzero_ps());
         _mm_store_ps(&boxProperties.inertia.c2.x, _mm_setzero_ps());
-        FUN_00cebaf0(&dimensions, mass, &boxProperties);
+        hkpInertiaTensorComputer_computeBoxVolumeMassProperties(&dimensions, mass, &boxProperties);
     }
     LocalM128 centerValue = *(LocalM128*)&center;
     *(LocalM128*)&boxProperties.center = centerValue;

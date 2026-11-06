@@ -237,19 +237,20 @@ struct VertexBuffer_e614
     int m_iStridedVertexCount;
     int unk48, unk4C, unk50, unk54, unk58;
     VertexFormat_e614 m_eVertexFormat;
-    const char* FUN_00e3dfb0(VertexDesc_e614* desc);
+    const char* hkxVertexBuffer_getVertexDataPtr(VertexDesc_e614* desc);
 };
 
 struct Mesh_e614
 {
     int unk00, unk04;
     VertexBuffer_e614* m_pMeshVertexBuffer;
-    void FUN_00e61480(hkArray<__m128>& positions);
+    void hkxMeshSection_collectVertexPositions(hkArray<__m128>& positions);
 };
 
 // Copies vertex position vectors from the mesh vertex buffer into the positions array, growing it as needed.
 // @fnv 0x00e61480
-void Mesh_e614::FUN_00e61480(hkArray<__m128>& positions)
+// src: XBOX_PDB 0x00e61480
+void Mesh_e614::hkxMeshSection_collectVertexPositions(hkArray<__m128>& positions)
 {
     VertexBuffer_e614* pVertexBuffer = m_pMeshVertexBuffer;
     if (!pVertexBuffer)
@@ -258,7 +259,7 @@ void Mesh_e614::FUN_00e61480(hkArray<__m128>& positions)
     int numVertices = pVertexBuffer->m_iStridedVertexCount;
     if (!desc || numVertices <= 0)
         return;
-    const char* src = pVertexBuffer->FUN_00e3dfb0(desc);
+    const char* src = pVertexBuffer->hkxVertexBuffer_getVertexDataPtr(desc);
     int stride = desc->m_iElementIndex;
     int base = positions.m_iElementCount;
     positions.setSize(base + numVertices);

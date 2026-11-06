@@ -16,7 +16,7 @@ struct FUN_008b3d70_Vec3
     FUN_008b3d70_Vec3 FUN_00439ef0(const FUN_008b3d70_Vec3& o) const;
     FUN_008b3d70_Vec3 ApplyScaled(float f) const;
 };
-void FUN_00525340(FUN_008b3d70_Vec3* v);
+void NiPoint3_UnitizeVector(FUN_008b3d70_Vec3* v);
 
 struct FUN_008b3d70_Hit
 {
@@ -38,15 +38,15 @@ struct FUN_008b3d70_Sphere
 {
     __m128 v;
     void FUN_006240d0();
-    void FUN_008a50f0(const FUN_008b3d70_hkVec& c);
-    void FUN_008a50d0(float r);
+    void hkSphere_setPosition(const FUN_008b3d70_hkVec& c);
+    void hkSphere_setRadius(float r);
 };
-FUN_008b3d70_hkVec& FUN_004a3e00(FUN_008b3d70_hkVec& out, const FUN_008b3d70_Vec3& in);
+FUN_008b3d70_hkVec& NI2HK(FUN_008b3d70_hkVec& out, const FUN_008b3d70_Vec3& in);
 struct FUN_008b3d70_Body
 {
     void* FUN_004ae750();
 };
-FUN_008b3d70_Body* FUN_00c806b0(FUN_008b3d70_World* world, FUN_008b3d70_Sphere* s, int flag);
+FUN_008b3d70_Body* bhkUtilFunctions_GetClosestBody(FUN_008b3d70_World* world, FUN_008b3d70_Sphere* s, int flag);
 struct FUN_008b3d70_Wrap
 {
     FUN_008b3d70_Hit* FUN_0044ddc0();
@@ -55,18 +55,19 @@ FUN_008b3d70_Wrap* FUN_004b5a20(void* p);
 
 struct FUN_008b3d70_Picker
 {
-    FUN_008b3d70_World* FUN_0043fcd0();
-    void* FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end);
+    FUN_008b3d70_World* TESObjectREFR_Get3D();
+    void* Actor_GetClosestBone(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end);
 };
 
 // @fnv 0x008b3d70
-void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end)
+// src: XBOX_PDB 0x008b3d70
+void* FUN_008b3d70_Picker::Actor_GetClosestBone(FUN_008b3d70_Vec3 start, FUN_008b3d70_Vec3 end)
 {
-    FUN_008b3d70_World* world = FUN_0043fcd0();
+    FUN_008b3d70_World* world = TESObjectREFR_Get3D();
     FUN_008b3d70_Hit* object = 0;
     float distance = 512.0f;
     FUN_008b3d70_Vec3 direction = end.FUN_00439ef0(start);
-    FUN_00525340(&direction);
+    NiPoint3_UnitizeVector(&direction);
     FUN_008b3d70_Vec3 origin = end.FUN_00439ef0(direction.ApplyScaled(distance).ApplyScaled(0.5f));
     object = ArrowProjectile_PickSceneGraph(world, origin, direction, &distance, 0);
     if (!object)
@@ -75,10 +76,10 @@ void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Ve
         bound.FUN_006240d0();
         FUN_008b3d70_hkVec center;
         center.FUN_006815c0();
-        FUN_004a3e00(center, end);
-        bound.FUN_008a50f0(center);
-        bound.FUN_008a50d0(200.0f);
-        FUN_008b3d70_Body* body = FUN_00c806b0(world, &bound, 0);
+        NI2HK(center, end);
+        bound.hkSphere_setPosition(center);
+        bound.hkSphere_setRadius(200.0f);
+        FUN_008b3d70_Body* body = bhkUtilFunctions_GetClosestBody(world, &bound, 0);
         if (body)
         {
             FUN_008b3d70_Wrap* wrapper = FUN_004b5a20(body->FUN_004ae750());

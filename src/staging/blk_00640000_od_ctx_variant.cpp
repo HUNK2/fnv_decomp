@@ -36,7 +36,7 @@ struct FUN_006427a0_Class
 };
 struct FUN_00642890_Class
 {
-    void FUN_00642890();
+    void Sun_StopSunOcclusion();
 };
 struct GlobalObject_0040e0b0
 {
@@ -72,7 +72,7 @@ void GlobalObject_00869f00::Clear(bool b)
 }
 struct FUN_00644790_class
 {
-    float FUN_00644790();
+    float BGSProjectile_GetExplosionTimer();
 };
 struct FUN_00645c20_Class
 {
@@ -168,7 +168,7 @@ extern "C" void __cdecl FUN_0064e920(int, int, int, int);
 void __cdecl ForwardToHandler(int a, int b, int c, int d);
 struct DecalStub
 {
-    void FUN_004bc480(int);
+    void NiMaterialProperty_SetChanged(int);
     float m_f;
     void NiMaterialProperty_SetShine(float f);
 };
@@ -543,7 +543,7 @@ struct FUN_006444e0_Class
 };
 GlobalObject_0040e0b0 g_011ce840;
 GlobalObject_0040e0b0 g_011cfd8c;
-float FUN_006463a0(int value);
+float CombatFormulas_CalcBlock(int value);
 void __cdecl ClampUInt(unsigned int* p, unsigned int low, unsigned int high);
 extern double g_d100;
 extern Setting g_011d17d0;
@@ -551,7 +551,7 @@ extern Setting originalRuntimeFloatSetting1216;
 float __cdecl CalculateMagicMedicine(ActorValueOwner* p);
 struct S_0064dac0
 {
-    int __thiscall FUN_0064dac0(int, int);
+    int __thiscall NiPixelData_GetPixels(int, int);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0064db20_Class
@@ -1078,7 +1078,7 @@ struct FUN_0065f430_class
 };
 struct FUN_0064cc90_Class
 {
-    void __thiscall FUN_0064cc90(unsigned char bFlag);
+    void __thiscall BSFaceGenAnimationData_SetAnimHeadCulled(unsigned char bFlag);
 };
 void* __cdecl NiMalloc(unsigned int);
 void* __cdecl memset(void* dst, int value, unsigned int size);
@@ -1282,7 +1282,7 @@ struct Object_006428b0
 extern double DAT_010356d8;
 extern double DAT_01012060;
 float __cdecl FUN_00476b70(float a, float b);
-float __cdecl FUN_006429e0(float a, float b);
+float __cdecl AiFormulas_RandomHour(float a, float b);
 extern GlobalObject_0040e0b0 g_011cddec;
 extern Setting originalRuntimeFloatSetting112;
 extern Setting originalRuntimeFloatSetting117;
@@ -1345,7 +1345,7 @@ struct FUN_00647a30_Flag
 {
     unsigned char Check();
 };
-float __cdecl FUN_00647a30(FUN_00647a30_Obj* a1, FUN_00647a30_Flag* a2, float a3);
+float __cdecl CombatFormulas_CalcTargetedLimbDamage(FUN_00647a30_Obj* a1, FUN_00647a30_Flag* a2, float a3);
 class SettingValue
 {
   public:
@@ -1356,7 +1356,7 @@ extern SettingValue g_011cf314;
 extern SettingValue g_011ced28;
 extern SettingValue g_011ceb38;
 float __cdecl FUN_00476b70(float a, float b);
-int __cdecl FUN_00647b70(int a, int b);
+int __cdecl BSMAX_00647b70(int a, int b);
 int __cdecl ComputeScaledSettingSum(float scale);
 // Scale a value by the remaining fraction (max - current) / max, clamped to [0, 1].
 float __cdecl E50Max(float fA, float fB);
@@ -1364,7 +1364,7 @@ float __cdecl E50Min(float fA, float fB);
 float __cdecl ScaleByInverseRatio(float fValue, float fScaledValue, float fCurrentAmountNext);
 struct S_00648ea0_Setting
 {
-    float* __thiscall FUN_00403e20();
+    float* __thiscall Setting_Float_00403e20();
 };
 extern S_00648ea0_Setting DAT_011d0c90;
 extern S_00648ea0_Setting DAT_011d07c0;
@@ -1419,7 +1419,7 @@ struct FUN_0064bda0_Class
     virtual void vf90();
     virtual float vf94(int index);
 
-    int __thiscall FUN_0064bda0();
+    int __thiscall BSFaceGenAnimationData_GetCurrentExpression();
 };
 inline void FUN_0064bda0_Class::vf04()
 {}
@@ -1497,7 +1497,8 @@ inline float FUN_0064bda0_Class::vf94(int)
 {
     return 0.0f;
 }
-int __thiscall FUN_0064bda0_Class::FUN_0064bda0()
+// src: XBOX_PDB 0x0064bda0
+int __thiscall FUN_0064bda0_Class::BSFaceGenAnimationData_GetCurrentExpression()
 {
     int result = -1;
 
@@ -1524,22 +1525,22 @@ int __thiscall FUN_0064bda0_Class::FUN_0064bda0()
 }
 struct FUN_0040fbf0_lock
 {
-    void FUN_0040fbf0(int);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int);
+    void BSSpinLock_Unlock();
 };
 struct FUN_0064be40_shell
 {
-    bool FUN_0064be40(float elapsed, int unused);
-    int FUN_0064bda0();
+    bool BSFaceGenAnimationData_UpdateEyeTracking(float elapsed, int unused);
+    int BSFaceGenAnimationData_GetCurrentExpression();
     void FUN_0064bf90(int deltaY, float* deltaX, float* limit, float elapsed);
     void SetEyeHeadingAndPitch(float x, float y);
 };
 struct FUN_00403e20_setting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern FUN_00403e20_setting DAT_011d5924;
-void __cdecl FUN_005330e0(float* value, float minimum, float maximum);
+void __cdecl BSClamp_float(float* value, float minimum, float maximum);
 struct S_0064ccf0_Obj
 {
     virtual void vfn_0();
@@ -1727,7 +1728,7 @@ struct S_0064ddf0_Iter
 {
     int unk00;
     S_0064ddf0_Elem* ptr;
-    bool FUN_005ca4f0();
+    bool ActorCause_IsValid();
     S_0064ddf0_Container* FaceGenData_Iterator_FaceGenData_GetUnk00();
     S_0064ddf0_Iter* Increment();
 };
@@ -1841,7 +1842,7 @@ struct FUN_0064fcd0_Other
     virtual int v02();
     virtual float v03();
     unsigned int __thiscall TESMain_GetThread(int flag);
-    float __thiscall FUN_005dd4e0(unsigned int index);
+    float __thiscall BSFaceGenKeyframeMultiple_GetQuantity(unsigned int index);
 };
 struct FUN_0064fcd0_Self
 {
@@ -1870,7 +1871,7 @@ struct FUN_0064fcd0_Self
     int unk08;
     int unk0c;
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0064a4d0(unsigned int index, float value);
+    void __thiscall SetQuantity_0064a4d0(unsigned int index, float value);
     FUN_0064fcd0_Self* __thiscall CopyFrom(FUN_0064fcd0_Other* other);
 };
 struct FUN_00438af0_cls
@@ -1919,7 +1920,7 @@ struct S_006503b0_List
     void NiTMap_Ptr_GetNext(int* pos, int* out, S_006503b0_Slot* slot);
     void RemoveKey(int item);
 };
-void __cdecl FUN_00652140();
+void __cdecl BSFaceGenManager_LockFaceGenAccess();
 void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 struct S_006503b0_Owner
 {
@@ -1953,14 +1954,14 @@ struct FileNames
     const char* GetFloatValue();
     const char* BSFaceGenModel_GetString();
 };
-unsigned FUN_0044a670(const char*);
-void FUN_00652140();
+unsigned BSstrlen(const char*);
+void BSFaceGenManager_LockFaceGenAccess();
 void BSFaceGenManager_UnlockFaceGenAccess();
 unsigned gm_GetTickCount();
 struct CacheMap
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
-    bool FUN_006c62d0(const char*, NPX&);
+    bool NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_GetAt(const char*, NPX&);
 };
 struct Target
 {
@@ -2424,7 +2425,7 @@ class FUN_0065cef0_cls
     FNVPair8* CallWithSelf(FNVPair8* out);
     FNVPair8* FUN_0044a170(FNVPair8* out);
     void BuildAndComparePair(FNVPair8* out, FNVPair8 y, FNVPair8 x);
-    void FUN_0065cef0();
+    void std_vector_FffModeTexS_std_allocator_FffModeTexS_clear();
 };
 struct FUN_0065cfd0_sub
 {
@@ -2631,7 +2632,7 @@ struct S_0065e1a0
 {
     int unk00;
     int unk04;
-    bool FUN_005ca4f0();
+    bool ActorCause_IsValid();
     bool LightRefData_IsEqual(S_0065e1a0* other);
     bool FaceGenData_Iterator_AreIdentical(S_0065e1a0* other);
 };
@@ -2780,7 +2781,7 @@ struct FNVFlag7675
 int __cdecl ComputeIndexAndCall(int a, int b, int c);
 // Candidate: CallWithFlag
 //   int CallWithFlag(int* p) { bool flag; return FUN_0043b1d0(p, flag); }
-int __cdecl FUN_0043b1d0(int* p, bool flag);
+int __cdecl NiGlobalStringTable_GetString(int* p, bool flag);
 int __cdecl CallWithFlag(int* p);
 struct _DummyTag
 {
@@ -2831,7 +2832,7 @@ struct LinkedList
     void* FUN_00559450();
     FUN_0064ec10_obj*& AddEight(void*);
     void* DereferenceIfNotNull(void*);
-    void FUN_004ed8c0(void* const&);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(void* const&);
 };
 struct CloneVector
 {
@@ -3432,7 +3433,7 @@ class FloatSource
 };
 struct FloatGetterGlobal
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern FloatGetterGlobal DAT_011cfb5c, DAT_011cf264;
 float CombatFormulas_CalcExplosionDamage(FloatSource* src);
@@ -3530,7 +3531,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting102;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting150;
 extern GlobalObject_0040e0b0 g_011cd080;
 extern GlobalObject_0040e0b0 g_011cdb84;
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 int __cdecl AiFormulas_GetDetectedEvent(int skill, int count, float distance, int resistance, int level, bool flagA, bool flagB,
                          bool flagC, int quantity, int value, bool special);
 struct FUN_006443d0 : GlobalObject_00869f00

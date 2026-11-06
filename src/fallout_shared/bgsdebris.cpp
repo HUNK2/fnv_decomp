@@ -170,7 +170,7 @@ MagicItemForm::MagicItemForm()
 BGSPreloadable::BGSPreloadable()
 {}
 
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 struct S_004fa4b0
 {
@@ -193,7 +193,7 @@ int __cdecl DebrisSortFunction(const S_004fa4b0* apLeft, const S_004fa4b0* apRig
     }
     else
     {
-        return FUN_00408b20(apLeft->s, apRight->s);
+        return BSstrcmp(apLeft->s, apRight->s);
     }
 }
 
@@ -333,7 +333,7 @@ extern const double DAT_01020758;
 extern NiPoint3 DAT_011f426c;
 float __cdecl FUN_00476b70(float, float);
 
-void __cdecl FUN_006890b0(void* a1, float f, void* m, NiPoint3 v1, NiPoint3 v2, float s, int k, int z);
+void __cdecl BSTempEffectParticle_Spawn(void* a1, float f, void* m, NiPoint3 v1, NiPoint3 v2, float s, int k, int z);
 // @fnv 0x004fa6f0
 void BGSDebris::SpawnDebris(void* a1, NiPoint3* apPosition, unsigned int count, float scale)
 {
@@ -365,7 +365,7 @@ void BGSDebris::SpawnDebris(void* a1, NiPoint3* apPosition, unsigned int count, 
                 }
                 else
                 {
-                    FUN_006890b0(a1, DAT_01017b78, d9->model, v4, *apPosition, (float)(scale * DAT_01020758), 7, 0);
+                    BSTempEffectParticle_Spawn(a1, DAT_01017b78, d9->model, v4, *apPosition, (float)(scale * DAT_01020758), 7, 0);
                 }
                 i8++;
             }
@@ -388,7 +388,7 @@ struct DebrisEntry4fa
     DebrisModel4fa kModel;
 };
 
-void __cdecl FUN_004856f0(unsigned int uiType, void* pvData, unsigned int uiSize);
+void __cdecl TESForm_AddChunkArray(unsigned int uiType, void* pvData, unsigned int uiSize);
 
 // @fnv 0x004fa1a0
 void BGSDebris::WriteDebrisEntries()
@@ -409,7 +409,7 @@ void BGSDebris::WriteDebrisEntries()
             pcCur += BSStringLength(pkData->pcPath) + 1;
             *pcCur = pkData->cFlags;
             pcCur++;
-            FUN_004856f0('ATAD', pTmpcBuffer, uiSize);
+            TESForm_AddChunkArray('ATAD', pTmpcBuffer, uiSize);
             delete pTmpcBuffer;
             pkData->kModel.FUN_008d0600('TDOM', (int)pkData->pcPath);
         }
@@ -418,7 +418,7 @@ void BGSDebris::WriteDebrisEntries()
     FUN_00485680();
 }
 
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 struct DebrisListNode
 {
@@ -448,7 +448,7 @@ bool BGSDebris::Compare(TESForm* form)
         {
             if (srcData->chance != dstData->chance)
                 return true;
-            if (FUN_00408b20(srcData->path, dstData->path))
+            if (BSstrcmp(srcData->path, dstData->path))
                 return true;
             if (srcData->flags != dstData->flags)
                 return true;

@@ -185,8 +185,8 @@ extern "C" const char str_0109d984[];
 extern "C" const char str_0109d970[];
 extern "C" const char str_0109d960[];
 unsigned int NiViewerStrings_NiGetViewerString_Title(const NiRTTI*);
-unsigned int FUN_00a7d490(const void*, unsigned short);
-unsigned int FUN_00a7d5a0(const void*, const void*);
+unsigned int NiGetViewerString_00a7d490(const void*, unsigned short);
+unsigned int NiGetViewerString_00a7d5a0(const void*, const void*);
 
 // NiTriBasedGeomData's viewer-string override at 0x00a8aab0 is not declared
 // in the shared header. EDX is ignored by its thiscall implementation.
@@ -204,7 +204,7 @@ void __fastcall GetTriangleStripViewerStrings(NiTriStripsData* self, void* unuse
     }
     stream.FUN_0096ae90(count, &entry);
 
-    entry = FUN_00a7d490(str_0109d984, self->m_usStrips);
+    entry = NiGetViewerString_00a7d490(str_0109d984, self->m_usStrips);
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -212,7 +212,7 @@ void __fastcall GetTriangleStripViewerStrings(NiTriStripsData* self, void* unuse
     }
     stream.FUN_0096ae90(count, &entry);
 
-    entry = FUN_00a7d5a0(str_0109d970, self->m_pusStripLengths);
+    entry = NiGetViewerString_00a7d5a0(str_0109d970, self->m_pusStripLengths);
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -220,7 +220,7 @@ void __fastcall GetTriangleStripViewerStrings(NiTriStripsData* self, void* unuse
     }
     stream.FUN_0096ae90(count, &entry);
 
-    entry = FUN_00a7d5a0(str_0109d960, self->m_pusStripLists);
+    entry = NiGetViewerString_00a7d5a0(str_0109d960, self->m_pusStripLists);
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -230,7 +230,7 @@ void __fastcall GetTriangleStripViewerStrings(NiTriStripsData* self, void* unuse
 }
 
 namespace fnv_00a761c0 {
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 struct BinaryA
 {
     int unk0;
@@ -276,7 +276,7 @@ void NiTriStripsData::LoadBinary(NiStream& stream)
         if (GetGroup())
             m_pusStripLengths = (unsigned short*)((SharedView*)GetGroup())->Allocate(m_usStrips * sizeof(unsigned short));
         else
-            m_pusStripLengths = (unsigned short*)FUN_00aa1070(m_usStrips * sizeof(unsigned short));
+            m_pusStripLengths = (unsigned short*)_NiMalloc_00aa1070(m_usStrips * sizeof(unsigned short));
         InputStream(stream)->Read(m_pusStripLengths, m_usStrips * 2, 2);
         bool present;
         if (FileVersion(stream) >= 0x0a000111)
@@ -289,7 +289,7 @@ void NiTriStripsData::LoadBinary(NiStream& stream)
             if (GetGroup())
                 m_pusStripLists = (unsigned short*)((SharedView*)GetGroup())->Allocate(count * sizeof(unsigned short));
             else
-                m_pusStripLists = (unsigned short*)FUN_00aa1070(count * sizeof(unsigned short));
+                m_pusStripLists = (unsigned short*)_NiMalloc_00aa1070(count * sizeof(unsigned short));
             InputStream(stream)->Read(m_pusStripLists, count * 2, 2);
         }
     }

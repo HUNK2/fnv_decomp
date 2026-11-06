@@ -57,7 +57,7 @@ struct UnkHolder
     volatile int mC;
     volatile int m10;
     volatile int m14;
-    UnkRet* FUN_00c85750();
+    UnkRet* hkMemoryRouter_getInstance();
     void FUN_00c72210();
 };
 
@@ -194,11 +194,11 @@ struct MovementInput {
 };
 struct Rotation {
     S00c73170_Vec q;
-    void __thiscall FUN_00cb2450(const S00c73170_Vec* axis, float angle);
+    void __thiscall hkQuaternion_setAxisAngle(const S00c73170_Vec* axis, float angle);
 };
 struct State {
     unsigned int unk00;
-    int FUN_00ca9600();
+    int hkpCharacterContext_getState();
 };
 struct Action {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
@@ -262,9 +262,9 @@ struct Body {
     unsigned int unk0a8;
     int mode;
     HitArray* ahkpCharacterProxy_GetCdPoints();
-    S00c73170_Vec* FUN_00cac910();
+    S00c73170_Vec* hkpCharacterProxy_getPosition();
     void hkpCharacterProxy_setPosition(S00c73170_Vec*);
-    void FUN_00cac960(S00c73170_Vec*);
+    void hkpCharacterProxy_setLinearVelocity(S00c73170_Vec*);
 };
 struct Gravity {     unsigned int unk000;
     unsigned int unk004;
@@ -380,10 +380,10 @@ struct Gravity {     unsigned int unk000;
 };
 extern Gravity* DAT_01267bb4;
 struct AllocatorHolder { unsigned int unk00,unk04,unk08,unk0c; void* allocator; };
-AllocatorHolder* FUN_00c85750();
+AllocatorHolder* hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*,HitArray*,unsigned int);
 __forceinline void HitArray::Append(const BooleanFloatQuery* src) {
-    AllocatorHolder* holder=FUN_00c85750();
+    AllocatorHolder* holder=hkMemoryRouter_getInstance();
     if(size==(capacity&0x3fffffff)) ResizeAudioStream(holder->allocator,this,0x70);
     BooleanFloatQuery* dst=data+size;
     if(dst) {
@@ -397,7 +397,7 @@ __forceinline void HitArray::Append(const BooleanFloatQuery* src) {
 }
 void __cdecl FUN_00458620(NiPoint3*,const S00c73170_Vec*);
 bool __cdecl AreVectorsEqual(NiPoint3*,NiPoint3*,float);
-void __cdecl FUN_004a3e00(S00c73170_Vec*,NiPoint3*);
+void __cdecl NI2HK(S00c73170_Vec*,NiPoint3*);
 struct Inspect { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,count; };
 struct ReadyInterface {
     virtual void v00();
@@ -820,18 +820,18 @@ struct MovementController {
     S00c73170_RefPtr ref638;
     HitArray hits;
     void SubtractVectors(S00c73170_Vec*);
-    void FUN_005620e0(NiPoint3*);
+    void SetPosition_005620e0(NiPoint3*);
     void ClearList();
-    Inspect* FUN_00621ad0();
+    Inspect* bhkCharacterController_GetWorld();
     void bhkCharacterController_ClearPush();
-    void FUN_00c70940(float);
+    void bhkCharacterController_ChangeSize(float);
     float Evaluate(float,float);
     unsigned char bhkCharacterController_GetIsSwimming();
     unsigned char bhkCharacterController_GetUseZ();
-    void FUN_00c6e420(Rotation*);
-    S00c73170_Vec* FUN_00807080();
+    void bhkCharacterController_ApplyPitchAndRoll(Rotation*);
+    S00c73170_Vec* bhkCharacterProxy_GethkLinearVelocity();
     Action* FUN_00933810();
-    void FUN_0080fb00(S00c73170_Vec*);
+    void bhkCharacterProxy_SetLinearVelocity(S00c73170_Vec*);
     void bhkCharacterController_MoveAsProjectile(float);
     void bhkCharacterController_InitFrontBack();
     void CallTargetWithArgs(S00c73170_Vec*,unsigned int*);
@@ -841,11 +841,12 @@ struct MovementController {
     void bhkCharacterController_CalculatePitchAndRoll();
 };
 // @fnv 0x00c73170
-extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, MovementInput* in) {
+// src: XBOX_PDB 0x00c73170
+extern "C" int __fastcall bhkCharacterController_Move(MovementController* self, void*, MovementInput* in) {
     int result=0;
     struct SpeedTrace { float value; } speedTrace;
     Rotation rot;
-    if (self->state.FUN_00ca9600()==4) {
+    if (self->state.hkpCharacterContext_getState()==4) {
         Trace(str_010c4ad8);
         NiPoint3 temp;
         {
@@ -854,7 +855,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         FUN_00458620(&temp,&position);
         }
         AddMovement(temp,in->displacement);
-        self->FUN_005620e0(&temp);
+        self->SetPosition_005620e0(&temp);
         self->actions->FUN_00cbc510(self->actionIndex)->update(self);
         NiPoint3* v;
         if(in->dt>0) {
@@ -882,7 +883,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     bool skip=in->dt<=DAT_01032980 || !ready;
     if(!skip) {
     if(self->fl.Bit(22)) {
-        if(self->FUN_00621ad0()->count>0) goto done;
+        if(self->bhkCharacterController_GetWorld()->count>0) goto done;
         self->fl.Clear(0x400000);
     }
     bool idle=AreVectorsEqual(&in->displacement,&DAT_011f426c,DAT_010181bc);
@@ -894,11 +895,11 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     Trace(str_010c4ac0);
     {
     S00c73170_Vec negAxis;
-    self->FUN_00c70940(dt);
+    self->bhkCharacterController_ChangeSize(dt);
     self->value434=0x24; self->value438=0;
     float speed=self->Evaluate(in->speed,in->dt);
     in->speed=speed;
-    rot.FUN_00cb2450(&self->axis,-speed);
+    rot.hkQuaternion_setAxisAngle(&self->axis,-speed);
     self->time4e8=in->dt;
     self->inverse4ec=1.0f/in->dt;
     NiPoint3* displacement=&in->displacement;
@@ -910,35 +911,35 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         float& reciprocal=speedTrace.value;
         reciprocal=self->inverse4ec;
         temp*=reciprocal;
-        FUN_004a3e00(&self->desiredVelocity,&temp);
+        NI2HK(&self->desiredVelocity,&temp);
     }
     if(self->bhkCharacterController_GetUseZ() && in->angle!=0) {
         S00c73170_Vec axisAngle; axisAngle.set(-1.0f,0.0f,0.0f,0.0f);
         Rotation q;
-        q.FUN_00cb2450(&axisAngle,in->angle);
+        q.hkQuaternion_setAxisAngle(&axisAngle,in->angle);
         self->desiredVelocity.SetRotatedDirection(q.q,self->desiredVelocity);
     }
     float* stepOut=&self->value578;*stepOut=self->value538;
     S00c73170_Vec down; down.set(0.0f,-1.0f,0.0f,0.0f);
     negAxis.setNeg4(self->axis);
-    if(self->fl.Bit(25) || self->fl.Bit(26) || self->fl.Bit(0)) self->FUN_00c6e420(&rot);
+    if(self->fl.Bit(25) || self->fl.Bit(26) || self->fl.Bit(0)) self->bhkCharacterController_ApplyPitchAndRoll(&rot);
     S00c73170_Vec rotated; rotated.SetRotatedDirection(rot.q,down);
     if(!idle || !rotated.equals3(self->normal)) self->value530=DAT_011b014c;
     Body* savedBody=self->body;
     self->normal=rotated;
     if(mode19) {
-        self->velocity=*self->FUN_00807080();
+        self->velocity=*self->bhkCharacterProxy_GethkLinearVelocity();
         self->value4a0=S00c73170_Zero();
         Trace(str_010c4ad8);
         self->FUN_00933810()->update(self);
         Trace(str_010c41f8);
-        self->FUN_0080fb00(&self->velocity);
+        self->bhkCharacterProxy_SetLinearVelocity(&self->velocity);
         self->bhkCharacterController_MoveAsProjectile(self->time4e8);
     } else {
         DAT_01267bb4=0;
-        self->velocity=*self->FUN_00807080();
-        if(idle && self->state.FUN_00ca9600()!=2) self->velocity(2)=0;
-        if(in->active || self->state.FUN_00ca9600()!=0 || !displacement->FUN_004390c0(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
+        self->velocity=*self->bhkCharacterProxy_GethkLinearVelocity();
+        if(idle && self->state.hkpCharacterContext_getState()!=2) self->velocity(2)=0;
+        if(in->active || self->state.hkpCharacterContext_getState()!=0 || !displacement->FUN_004390c0(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
             self->fl.Clear(0x600);
             self->fl.Or(0x10000);
             self->bhkCharacterController_InitFrontBack();
@@ -966,9 +967,9 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         Trace(str_010c4ad8);
         self->actions->FUN_00cbc510(self->actionIndex)->update(self);
         Trace(str_010c41f8);
-        if(self->body) self->body->FUN_00cac960(&self->velocity);
+        if(self->body) self->body->hkpCharacterProxy_setLinearVelocity(&self->velocity);
         bool changed=true;
-        if(idle && self->state.FUN_00ca9600()!=2 && (self->state.FUN_00ca9600()!=5 || self->velocity(2)==0) && savedBody->ahkpCharacterProxy_GetCdPoints()->size<=self->hits.size) {
+        if(idle && self->state.hkpCharacterContext_getState()!=2 && (self->state.hkpCharacterContext_getState()!=5 || self->velocity(2)==0) && savedBody->ahkpCharacterProxy_GetCdPoints()->size<=self->hits.size) {
             changed=false;
             for(int i=0;!changed;++i) {
                 HitArray* loopArray=savedBody->ahkpCharacterProxy_GetCdPoints();
@@ -995,12 +996,12 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
             savedBody->mode=4;
         } else {
             self->velocity=S00c73170_Zero();
-            if(self->body) self->body->FUN_00cac960(&self->velocity);
+            if(self->body) self->body->hkpCharacterProxy_setLinearVelocity(&self->velocity);
         }
         if(DAT_01267bb4 && !(self->fl.value&0x2000)) {
             self->bhkCharacterController_UnMarkWrite();
             Body* target=self->FUN_004ae750();
-            S00c73170_Vec position=*target->FUN_00cac910();
+            S00c73170_Vec position=*target->hkpCharacterProxy_getPosition();
             float gravity=DAT_01267bb4->acceleration*self->time4e8;
             position(2)=self->value578+DAT_01267bb0+gravity;
             target->hkpCharacterProxy_setPosition(&position);

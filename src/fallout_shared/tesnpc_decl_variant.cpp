@@ -64,7 +64,8 @@
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // @fnv 0x006047c0
-void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
+// src: XBOX_PDB 0x006047c0
+void TESNPC::InitDefaultWorn(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
 {
     InventoryChanges* j;
     InventoryStackRecord* item;

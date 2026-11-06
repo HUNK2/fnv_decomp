@@ -1032,7 +1032,7 @@ struct BoxAgent
 
     void FUN_00d40940();
     int FUN_00db0ec0(void* pUnk80);
-    __declspec(noalias) int FUN_00db1ed0(MyDb0920* a1, Local0c* a2, Local10* a3);
+    __declspec(noalias) int hkpBoxBoxCollisionDetection_findClosestPoint(MyDb0920* a1, Local0c* a2, Local10* a3);
 
     __declspec(noinline) hkBool& FUN_00db2750(hkBool& valid, hkContactPoint& outPoint);
 };
@@ -1050,7 +1050,7 @@ __declspec(noinline) hkBool& BoxAgent::FUN_00db2750(hkBool& valid, hkContactPoin
     {
         ResultWork work;
         Local10& local_10 = work.result;
-        if (this->FUN_00db1ed0(&local_80, &local_0c, &local_10) == 2)
+        if (this->hkpBoxBoxCollisionDetection_findClosestPoint(&local_80, &local_0c, &local_10) == 2)
         {
             valid = true;
 
@@ -1183,7 +1183,7 @@ struct ClosestPointDetector
     Vec4 u1;             // 0xc0
     Vec4 u2;             // 0xd0
     mutable Vec4 pl[5];  // 0xe0..0x12f
-    __declspec(noinline) int FUN_00db1ed0(Arg0& ref0, KeyEntry& ref1, Out& ref2) const;
+    __declspec(noinline) int hkpBoxBoxCollisionDetection_findClosestPoint(Arg0& ref0, KeyEntry& ref1, Out& ref2) const;
     ClosestPointBool TestEdgeEdgeContact(Out* out) const;
 };
 static ClosestPointQuad load4(const Vec4& v)
@@ -1377,7 +1377,8 @@ static __forceinline const float* getSignAddress(const Out& out)
     return &out.f30;
 }
 // @fnv 0x00db1ed0
-__declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry& ref1, Out& ref2) const
+// src: XBOX_PDB 0x00db1ed0
+__declspec(noinline) int ClosestPointDetector::hkpBoxBoxCollisionDetection_findClosestPoint(Arg0& ref0, KeyEntry& ref1, Out& ref2) const
 {
     Arg0* arg0 = &ref0;
     KeyEntry* arg1 = &ref1;
@@ -1867,7 +1868,7 @@ class NV
     __forceinline void _setTransformedInversePos(const hkTransform&, const NV&);
     __forceinline void _setRotatedDir(const NR&, const NV&);
     __forceinline void _setRotatedInverseDir(const NR&, const NV&);
-    void FUN_00c7f700(const NR&, const NV&);
+    void hkVector4_setRotatedDir(const NR&, const NV&);
 };
 struct NMatrixBase
 {
@@ -2070,7 +2071,7 @@ struct NDetector
     NV dinA, dinB;
     void FUN_00d40940() const;
     int FUN_00db0ec0(const NV&) const;
-    __declspec(noalias) int FUN_00db1ed0(NManifold&, NFeature&, NCache&) const;
+    __declspec(noalias) int hkpBoxBoxCollisionDetection_findClosestPoint(NManifold&, NFeature&, NCache&) const;
     __declspec(noalias) NBool TestEdgeEdgeContact(NCache&) const;
     void CheckFeatureCacheCoverage(NManifold&, int, int) const;
     __forceinline void remove(NManifold&, int) const;
@@ -2092,7 +2093,7 @@ struct NDetector
     __forceinline void scanA(NManifold&, NFeature, unsigned short, float) const;
     __forceinline void scanB(NManifold&, NFeature, unsigned short, float) const;
     __forceinline void extra(NManifold&, NFeature) const;
-    __declspec(noinline) void FUN_00db2960(NManifold&) const;
+    __declspec(noinline) void hkpBoxBoxCollisionDetection_calcManifold(NManifold&) const;
 };
 static __forceinline float NSign(unsigned short bits)
 {
@@ -2292,7 +2293,7 @@ __forceinline void NDetector::normalFromCache(NV& n, const NFeature& f, NCache& 
 __forceinline void NDetector::compact(NManifold& m) const
 {
     NV normalWorld;
-    normalWorld.FUN_00c7f700(reinterpret_cast<const NR&>(worldA.getRotation()), m.normal);
+    normalWorld.hkVector4_setRotatedDir(reinterpret_cast<const NR&>(worldA.getRotation()), m.normal);
     int outIndex = output->size() - m.size();
     int i = 0;
     while (i < m.size())
@@ -2553,7 +2554,8 @@ __forceinline void NDetector::extra(NManifold& m, NFeature keyA) const
         CheckFeatureCacheCoverage(m, maskA, maskB);
 }
 // @fnv 0x00db2960
-__declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
+// src: XBOX_PDB 0x00db2960
+__declspec(noinline) void NDetector::hkpBoxBoxCollisionDetection_calcManifold(NManifold& m) const
 {
     union
     {
@@ -2584,7 +2586,7 @@ __declspec(noinline) void NDetector::FUN_00db2960(NManifold& m) const
     NFeature& feature = *new (&keyBits) NFeature;
     NCache cache;
     cache.normal.setZero4();
-    int valid = FUN_00db1ed0(m, feature, cache);
+    int valid = hkpBoxBoxCollisionDetection_findClosestPoint(m, feature, cache);
     if (request && valid)
     {
         normalFromCache(m.normal, feature, cache, valid == 2);

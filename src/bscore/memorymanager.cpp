@@ -101,11 +101,11 @@ void ExtraDataList::SetExtraHealth(float health)
     }
 }
 
-MemoryManager* FUN_00401020();
+MemoryManager* MemoryManager_Instance();
 // @fnv 0x0042f5d0
 void* Reallocate(void* pointer, unsigned int size)
 {
-    return FUN_00401020()->Reallocate(pointer, size);
+    return MemoryManager_Instance()->Reallocate(pointer, size);
 }
 
 // Looks up the scrap heap for the current thread ID, creating and storing a new one if none exists, and returns it.

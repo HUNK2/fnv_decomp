@@ -48,7 +48,7 @@ public:
     float Dot(void* point);
     float Unitize();
     float NormalizeXY();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength() const;
     NiPoint2& Scale(float scalar);
     NiPoint2& DivideBy(float scalar);
     NiPoint2 Subtract(const NiPoint2& point) const;

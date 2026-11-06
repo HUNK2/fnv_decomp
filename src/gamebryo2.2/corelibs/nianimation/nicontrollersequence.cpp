@@ -194,7 +194,7 @@ void NiControllerSequence::SaveToStream(NiStream& kStream)
 
 struct FUN_00a2e420_shell
 {
-    unsigned char FUN_00a2e420(float);
+    unsigned char NiControllerManager_StopTransSourceSequence(float);
 };
 
 extern float DAT_01015f5c;
@@ -217,11 +217,11 @@ unsigned char NiControllerSequence::SetEaseOut(float fEaseOutTime, bool bTransit
         *(float*)((char*)this + 0x48) = *(float*)((char*)this + 0x38) / *(float*)((char*)this + 0x28) -
                                         *(float*)((char*)this + 0x34) + *(float*)((char*)this + 0x48);
     if (*(unsigned int*)((char*)this + 0x44) == 5 && *(void**)((char*)this + 0x40))
-        ((FUN_00a2e420_shell*)*(void**)((char*)this + 0x40))->FUN_00a2e420(0.0f);
+        ((FUN_00a2e420_shell*)*(void**)((char*)this + 0x40))->NiControllerManager_StopTransSourceSequence(0.0f);
     *(float*)((char*)this + 0x54) = DAT_01015f5c;
     *(unsigned int*)((char*)this + 0x44) = 0;
     *(void**)((char*)this + 0x58) = 0;
-    ((NiControllerSequence*)this)->FUN_00a30540();
+    ((NiControllerSequence*)this)->NiControllerSequence_DetachInterpolators();
     return 1;
 }
 
@@ -444,7 +444,8 @@ extern "C" double __cdecl fmod(double, double);
 
 // Advances the sequence's accumulated time by frequency times the delta, wraps it into [begin,end] when cycleType is 0, and optionally stores the new state.
 // @fnv 0x00a30970
-float NiControllerSequence::FUN_00a30970(float time, bool update)
+// src: XBOX_PDB 0x00a30970
+float NiControllerSequence::ComputeScaledTime_00a30970(float time, bool update)
 {
     float accumulated = m_fWeightAdjustedLastTime;
     float delta;
@@ -589,7 +590,8 @@ struct TagView
 };
 
 // @fnv 0x00a30ea0
-bool NiControllerSequence::FUN_00a30ea0(NiStream& stream)
+// src: XBOX_PDB 0x00a30ea0
+bool NiControllerSequence::RegisterStreamables_00a30ea0(NiStream& stream)
 {
     if (!NiObject::RegisterStreamables(stream))
         return false;
@@ -651,7 +653,7 @@ extern int(__stdcall* DAT_00fdf1c4)(void*);
 
 struct S_00aa4060_Class
 {
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern S_00aa4060_Class DAT_011f6238;
 
@@ -722,7 +724,7 @@ FUN_00a315b0_cls* FUN_00a315b0_cls::NiControllerSequence_IDTag_Free(unsigned cha
         }
         if (acFlags & 1)
         {
-            DAT_011f6238.FUN_00aa4060(base);
+            DAT_011f6238.MemoryManager_Deallocate(base);
         }
         return (FUN_00a315b0_cls*)base;
     }
@@ -730,7 +732,7 @@ FUN_00a315b0_cls* FUN_00a315b0_cls::NiControllerSequence_IDTag_Free(unsigned cha
     ((FUN_00a315b0_Base*)this)->NiControllerSequence_IDTag_Destroy();
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -856,7 +858,8 @@ extern char* DAT_0109b220;
 
 // Computes the sequence offset and optionally sets each controller time.
 // @fnv 0x00a328b0
-void NiControllerSequence::FUN_00a328b0(float time, bool setControllerTimes)
+// src: XBOX_PDB 0x00a328b0
+void NiControllerSequence::SetPhase(float time, bool setControllerTimes)
 {
     float currentTime = time + m_fFirstKeyTime;
     if (setControllerTimes)
@@ -1043,11 +1046,11 @@ struct TagItem
 
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 void* __cdecl FormatStringWithType(const char*, void*);
-void* __cdecl FUN_00a7d510(const char*, unsigned int);
-void* __cdecl FUN_00a7d550(const char*, float);
-void* __cdecl FUN_00a6d190(const char*, void*);
+void* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
+void* __cdecl NiGetViewerString_00a7d550(const char*, float);
+void* __cdecl NiTimeController_GetViewerString(const char*, void*);
 int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
-void* __cdecl FUN_00a7d5e0(const char*, const char*);
+void* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
 
 struct Position
 {
@@ -1064,18 +1067,18 @@ void NiControllerSequence::AddViewerStrings(NiViewerStringsArray* strings)
     NiObject::AddViewerStrings(strings);
     output->Append(NiViewerStrings_NiGetViewerString_Title(DAT_011f36dc));
     output->Append(FormatStringWithType(&DAT_01044a7c, (void*)m_eAnimationState));
-    output->Append(FUN_00a7d510(&DAT_01096678, m_uiNumControlledBlocks));
-    output->Append(FUN_00a7d550(&DAT_0105ac84, m_fWeight));
-    output->Append(FUN_00a6d190(&DAT_0109666c, (void*)m_eAnimationCycleType));
-    output->Append(FUN_00a7d550(&DAT_01096664, m_fFrequency));
-    output->Append(FUN_00a7d550(&DAT_01044c94, m_fFirstKeyTime));
-    output->Append(FUN_00a7d550(&DAT_01044c90, m_fLastKeyTime));
-    output->Append(FUN_00a7d550(&DAT_0109665c, m_fLastTime));
-    output->Append(FUN_00a7d550(&DAT_01096654, m_fSequenceOffset));
-    output->Append(FUN_00a7d550(&DAT_010477f4, m_fStartTime));
-    output->Append(FUN_00a7d550(&DAT_01044c90, m_fEndTime));
-    output->Append(FUN_00a7d550(&DAT_01096648, m_fWeightAdjustedLastTime));
-    output->Append(FUN_00a7d550(&DAT_0109663c, m_fScaledLastTime));
+    output->Append(NiGetViewerString_00a7d510(&DAT_01096678, m_uiNumControlledBlocks));
+    output->Append(NiGetViewerString_00a7d550(&DAT_0105ac84, m_fWeight));
+    output->Append(NiTimeController_GetViewerString(&DAT_0109666c, (void*)m_eAnimationCycleType));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01096664, m_fFrequency));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01044c94, m_fFirstKeyTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01044c90, m_fLastKeyTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_0109665c, m_fLastTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01096654, m_fSequenceOffset));
+    output->Append(NiGetViewerString_00a7d550(&DAT_010477f4, m_fStartTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01044c90, m_fEndTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_01096648, m_fWeightAdjustedLastTime));
+    output->Append(NiGetViewerString_00a7d550(&DAT_0109663c, m_fScaledLastTime));
     Position pos;
     pos.i = 0;
     if (pos.i < m_uiNumControlledBlocks)
@@ -1090,7 +1093,7 @@ void NiControllerSequence::AddViewerStrings(NiViewerStringsArray* strings)
             ControlItem* ctrl = (ControlItem*)((char*)m_pInterpArray + controlOffset);
             FUN_00a305b0(key, sizeof(key), &DAT_01096630, pos.i);
             FUN_00a305b0(val, sizeof(val), &DAT_01096624, tag->first, tag->third, ctrl->priority);
-            void* entry = FUN_00a7d5e0(key, val);
+            void* entry = NiGetViewerString_00a7d5e0(key, val);
             unsigned int index = output->length;
             if (index >= output->capacity)
                 output->FUN_0096ad30(index + output->growth);
@@ -1323,7 +1326,8 @@ struct SeqTK
 
 // Compares this sequence with another field by field, including interpolators, tags, text keys and owner, returning true only if all match.
 // @fnv 0x00a30fb0
-unsigned char NiControllerSequence::FUN_00a30fb0(NiControllerSequence* other)
+// src: XBOX_PDB 0x00a30fb0
+unsigned char NiControllerSequence::IsEqual_00a30fb0(NiControllerSequence* other)
 {
     if (!((TCEq*)this)->IsSameAs((NiObject*)other))
         return false;
@@ -1531,7 +1535,8 @@ struct UpdateOwner
 };
 
 // @fnv 0x00a34ba0
-void NiControllerSequence::FUN_00a34ba0(float time, bool update)
+// src: XBOX_PDB 0x00a34ba0
+void NiControllerSequence::Update_00a34ba0(float time, bool update)
 {
     if (m_eAnimationState == 0)
     {
@@ -1625,13 +1630,13 @@ void NiControllerSequence::FUN_00a34ba0(float time, bool update)
         else if (m_pkTimeSyncSequence)
         {
             if (m_pkTimeSyncSequence->m_fLastTime != time + m_pkTimeSyncSequence->m_fSequenceOffset)
-                m_pkTimeSyncSequence->FUN_00a34ba0(time, false);
+                m_pkTimeSyncSequence->Update_00a34ba0(time, false);
             localTime = GetMorphedTime(m_pkTimeSyncSequence, time + m_pkTimeSyncSequence->m_fSequenceOffset);
             localTime /= m_fFrequency;
         }
         else
             localTime = time + m_fSequenceOffset;
-        FUN_00a32290(m_fWeight * transition, ease, FUN_00a30970(localTime, true));
+        NiControllerSequence_SetInterpsWeightAndTime(m_fWeight * transition, ease, ComputeScaledTime_00a30970(localTime, true));
         if (((UpdateNote**)m_pkAnimNotes))
         {
             if (fOldScaledTime > m_fScaledLastTime)
@@ -1788,7 +1793,7 @@ NiObject* NiControllerSequence::MakeClone(CloningProcess& cloning)
 {
     void* p = FUN_00aa13e0(0x74);
     void* result = p ? ((NiControllerSequence*)p)->FUN_00a316a0() : 0;
-    FUN_00a33570((NiControllerSequence*)result, (int)&cloning);
+    NiControllerSequence_CopyMembers((NiControllerSequence*)result, (int)&cloning);
     return (NiObject*)result;
 }
 
@@ -1796,7 +1801,8 @@ extern const float DAT_010141cc;
 
 
 // @fnv 0x00a350d0
-bool NiControllerSequence::FUN_00a350d0(NiControllerSequence* pkTarget, float fTime, float m_fTimeout, int iPriority, float fSeqWeight,
+// src: XBOX_PDB 0x00a350d0
+bool NiControllerSequence::StartBlend(NiControllerSequence* pkTarget, float fTime, float m_fTimeout, int iPriority, float fSeqWeight,
                                     float fTargetWeight, NiControllerSequence* pkPartner)
 {
     Deactivate(0.0f, true);
@@ -1900,12 +1906,12 @@ A31500Item* A31500Item::NiControllerSequence_InterpArrayItem_Free(unsigned char 
             Release(pkItem->m_spControllerInterpolator);
         }
         if (m_ucEntryType & 1)
-            DAT_011f6238.FUN_00aa4060(piItemCount);
+            DAT_011f6238.MemoryManager_Deallocate(piItemCount);
         return reinterpret_cast<A31500Item*>(piItemCount);
     }
     ReleaseRefs();
     if (m_ucEntryType & 1)
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     return this;
 }
 
@@ -2038,7 +2044,7 @@ struct MorphController31910 : NiSingleInterpControllerBase
     unsigned short count;
     unsigned short unk3e;
     unsigned short FindIndexByValue(Node31910*);
-    unsigned short FUN_00a35fe0(Node31910*, unsigned short, MorphItem31910*);
+    unsigned short BSMultiTargetTreadTransfController_AddInterpolatorTarget(Node31910*, unsigned short, MorphItem31910*);
     void SetSlotEntry(unsigned short, Node31910*, unsigned short, MorphItem31910*);
     Blend31910* FUN_00a358a0(unsigned short);
     MorphController31910* FUN_00a36070(unsigned short, unsigned short);
@@ -2106,7 +2112,7 @@ static inline NiMultiTargetTransformController* ConstructMultiTargetController(
     controller->m_usNumInterps = 0;
     controller->m_pkBlendInterpolators = 0;
     controller->m_ppTargetObjects = 0;
-    controller->FUN_00a2feb0(count);
+    controller->AllocateStorage(count);
     return controller;
 }
 void* __cdecl operator new(unsigned int, void* p)
@@ -2330,7 +2336,7 @@ bool NiControllerSequence::ResolveTransformInterpolators(NiAVObject* targetObjec
                 Node31910* spTransformController = root->FindObject(&item->name);
                 unsigned short usMorphSlot = pMorphCtrl->FindIndexByValue(spTransformController);
                 if (usMorphSlot == DAT_01096320)
-                    s = pMorphCtrl->FUN_00a35fe0(spTransformController, idx, item);
+                    s = pMorphCtrl->BSMultiTargetTreadTransfController_AddInterpolatorTarget(spTransformController, idx, item);
                 else
                     pMorphCtrl->SetSlotEntry(usMorphSlot, spTransformController, idx, item);
             }
@@ -2362,7 +2368,7 @@ struct TimedTextEntry
 
 extern const char* ms_kMorphTextKey;
 extern int ms_iMorphTextKeyLength;
-int __cdecl FUN_00aa1370(const char*, const char*, unsigned int);
+int __cdecl NiStrnicmp(const char*, const char*, unsigned int);
 int __cdecl FUN_00aa1360(const char*, const char*);
 
 // Interpolates between matching key times in this sequence using surrounding morph-key times from the partner sequence.
@@ -2370,7 +2376,7 @@ int __cdecl FUN_00aa1360(const char*, const char*);
 float NiControllerSequence::GetMorphedTime(NiControllerSequence* pkPartnerSequence, float fFrameTime)
 {
     TimedTextEntry* pkNextKey = 0;
-    float fPartnerTime = pkPartnerSequence->FUN_00a30970(fFrameTime, false);
+    float fPartnerTime = pkPartnerSequence->ComputeScaledTime_00a30970(fFrameTime, false);
 
     unsigned int uiNumPartnerKeys;
     TimedTextEntry* pkPartnerKeys = ((NiTextKeyExtraData*)pkPartnerSequence->m_spTextKeyData.m_pObject)->GetKeys(uiNumPartnerKeys);
@@ -2382,7 +2388,7 @@ float NiControllerSequence::GetMorphedTime(NiControllerSequence* pkPartnerSequen
     for (ui = 0; ui < uiNumPartnerKeys; ui++)
     {
         const char* pcText = pkPartnerKeys[ui].GetText();
-        if (pcText && FUN_00aa1370(pcText, ms_kMorphTextKey, ms_iMorphTextKeyLength) == 0)
+        if (pcText && NiStrnicmp(pcText, ms_kMorphTextKey, ms_iMorphTextKeyLength) == 0)
         {
             pkLastKey = &pkPartnerKeys[ui];
             if (!pkFirstKey)
@@ -2642,7 +2648,7 @@ void NiControllerSequence::ClearInterpolatorRefs(NiControllerSequence* pkSrc, in
         ((Ctl43c*)pkSrc->m_pInterpArray)->NiControllerSequence_InterpArrayItem_Free(3);
     if (pkSrc->m_pkIDTags)
         ((Ctl43c*)pkSrc->m_pkIDTags)->NiControllerSequence_IDTag_Free(3);
-    FUN_00a33570(pkSrc, iArg);
+    NiControllerSequence_CopyMembers(pkSrc, iArg);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -2716,7 +2722,8 @@ extern "C" void __cdecl ConvertOldSequence(NiObject*, S00a35700_NodeRef*) throw(
 
 // Retrieves a NiNode by index from a NiStream, using version-specific lookup, and assigns it to the output pointer with a reference count adjustment.
 // @fnv 0x00a35700
-void __cdecl FUN_00a35700(void* streamObject, unsigned int index, NiPtrNode& out)
+// src: XBOX_PDB 0x00a35700
+void __cdecl NiControllerSequence_CreateSequenceFromFile(void* streamObject, unsigned int index, NiPtrNode& out)
 {
     NiStream* stream = static_cast<NiStream*>(streamObject);
     if (index >= SequenceStreamObjectCount(*stream))
@@ -2749,7 +2756,7 @@ struct ActiveArray
     void** items;
     unsigned int capacity;
     unsigned int size;
-    void FUN_00a311e0(unsigned int);
+    void NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(unsigned int);
     unsigned int Find(void* const& key) const
     {
         for (unsigned int i = 0; i < size; ++i)
@@ -2767,7 +2774,7 @@ unsigned int ActiveArray::FindOrAdd(void* const& key)
     if (i != (unsigned int)-1)
         return i;
     if (size == capacity)
-        FUN_00a311e0(capacity > 0 ? capacity * 2 : 1);
+        NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(capacity > 0 ? capacity * 2 : 1);
     unsigned int index = size;
     items[index] = key;
     ++size;
@@ -2828,7 +2835,7 @@ void NiControllerSequence__IDTag::ResetStrings()
 }
 
 
-int __cdecl FUN_00aa1370(const char*, const char*, const char*);
+int __cdecl NiStrnicmp(const char*, const char*, const char*);
 extern const char* g_kTextKeyA;
 extern const char* g_kTextKeyB;
 
@@ -2858,7 +2865,7 @@ bool NiControllerSequence::MatchesTextKeys(NiControllerSequence* pkOther)
     for (i = 0; i < uiNumOther; i++)
     {
         const char* pcText = pOther[i].m_kText;
-        if (!FUN_00aa1370(pcText, g_kTextKeyA, g_kTextKeyB))
+        if (!NiStrnicmp(pcText, g_kTextKeyA, g_kTextKeyB))
         {
             bFound = true;
             bool bMatch = false;
@@ -2880,7 +2887,7 @@ bool NiControllerSequence::MatchesTextKeys(NiControllerSequence* pkOther)
     for (i = 0; i < uiNumKeys; i++)
     {
         const char* pcText = pKeys[i].m_kText;
-        if (!FUN_00aa1370(pcText, g_kTextKeyA, g_kTextKeyB))
+        if (!NiStrnicmp(pcText, g_kTextKeyA, g_kTextKeyB))
         {
             bFound = true;
             bool bMatch = false;
@@ -3148,7 +3155,8 @@ struct BindTag
 
 // Resolves interpolators, objects, and controllers for each BindItem, creating blends and updating the owner's target.
 // @fnv 0x00a32c70
-bool NiControllerSequence::FUN_00a32c70(bool abUpdate)
+// src: XBOX_PDB 0x00a32c70
+bool NiControllerSequence::StoreTargets(bool abUpdate)
 {
     BindObj* root = ((BindOwner*)m_pkOwnerManager)->root;
     if (m_kAccumulationRootName.m_kHandle != (const char*)DAT_0109b220)

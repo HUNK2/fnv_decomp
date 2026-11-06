@@ -25,7 +25,8 @@ struct SplitPathOutputBuffers
 
 // Extracts the file extension from pcFilename via __splitpath_s and copies it into pcDest, returning true.
 // @fnv 0x00e98430
-bool __cdecl FUN_00e98430(const char* pcFilename, char* pcDest, unsigned int uiDestSize)
+// src: XBOX_PDB 0x00e98430
+bool __cdecl NiD3DUtility_GetFileExtension(const char* pcFilename, char* pcDest, unsigned int uiDestSize)
 {
     SplitPathOutputBuffers buffers;
     unsigned int uiLen;

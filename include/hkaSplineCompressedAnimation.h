@@ -83,9 +83,9 @@ public:
                       const hkUint8*& dataInOut, hkQuaternion& out) const;
     void ExtractFrame(hkReal time, int quantization, int numItems, void* out,
                       const hkUint8*& dataInOut, int stride);
-    void FUN_00e33e90(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
+    void sampleScale(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
                       const hkUint8*& dataInOut, hkVector4& out) const;
-    void FUN_00e33f10(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
+    void hkaSplineCompressedAnimation_sampleFloat(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask, int quantization,
                       const hkUint8*& dataInOut, hkReal& out) const;
     void sampleIndividualTransformTracks(hkReal time, const hkInt16* tracks, hkUint32 numTracks,
                       hkQsTransform* transformTracksOut) const;
@@ -100,7 +100,7 @@ public:
     void WriteCompressedAnimation(hkUint8 mask, ScalarQuantization quantization,
                                   const hkVector4& staticValue, const hkVector4& minValue,
                                   const hkVector4& maxValue, int n, const hkArray<hkVector4>& points);
-    void FUN_00e31d50(const hkaInterleavedUncompressedAnimation& raw,
+    void hkaSplineCompressedAnimation_initialize(const hkaInterleavedUncompressedAnimation& raw,
                       const PerTrackCompressionParams& trackParams,
                       const AnimationCompressionParams& animationParams);
 

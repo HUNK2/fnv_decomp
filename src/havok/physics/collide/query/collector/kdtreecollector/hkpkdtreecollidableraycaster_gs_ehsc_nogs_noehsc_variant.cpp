@@ -155,7 +155,7 @@ struct S00d97bf0_Pool
     S00d97bf0_Rec* end;
 };
 struct S00d97bf0_Obj;
-void __cdecl FUN_00d98ca0(int* p, int a, int b, int c, S00d97bf0_Obj* d);
+void __cdecl hkKdTreeUtils_castRayIterative(int* p, int a, int b, int c, S00d97bf0_Obj* d);
 struct S00d97bf0_Obj
 {
     virtual void v0();
@@ -188,7 +188,7 @@ struct D98360MemoryRouter
         return *m_pStreamAllocator;
     }
 };
-extern "C" D98360MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D98360MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 struct D98360Base
 {
     virtual ~D98360Base()
@@ -207,7 +207,7 @@ struct FUN_00d98360 : D98360Base
 
     static void operator delete(void* p, unsigned int nbytes)
     {
-        FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(p, nbytes);
     }
 };
 FUN_00d98360::FUN_00d98360()

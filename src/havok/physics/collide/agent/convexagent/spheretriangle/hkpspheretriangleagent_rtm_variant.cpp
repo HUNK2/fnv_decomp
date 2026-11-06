@@ -64,7 +64,7 @@ public:
     PacketCallLocal_00d3dd90(float x, float y, float z, float w);
     PacketCallLocal_00d3dd90(const LocalM128& vector);
 
-    PacketCallLocal_00d3dd90* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00d3dd90* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00d3dd90* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00d3dd90* vector);
     PacketCallLocal_00d3dd90& FUN_00e531a0(int parameter);
@@ -172,8 +172,8 @@ struct hkMemory {
     virtual void unk0();
     virtual void* allocateChunk(int size);
 };
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
+extern "C" hkThreadMemory* __cdecl hkMemoryRouter_getInstance();
+extern "C" void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* src, void* dst);
 extern "C" const void* DAT_010cf060;
 extern "C" const void* DAT_010cf09c;
 struct TargetAgent {
@@ -193,7 +193,7 @@ struct TargetAgent {
     {
         vtable = &DAT_010cf060;
         void* triangle = *(void**)bodyA;
-        FUN_00cd7160((char*)triangle + 0x20, m_pAccessManager);
+        hkpCollideTriangleUtil_setupClosestPointTriangleCache((char*)triangle + 0x20, m_pAccessManager);
         vtable = &DAT_010cf09c;
     }
 };
@@ -210,7 +210,7 @@ struct D3DD10Object
     void __thiscall hkpSphereTriangleAgent_getPenetrations(unsigned int a1, unsigned int a2,
                                  unsigned int a3, D3DD10Data* data);
 
-    void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1,
+    void __thiscall hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_getPenetrations(unsigned int p0, unsigned int p1,
                                  unsigned int p2, unsigned int p3);
 };
 extern "C" {
@@ -270,7 +270,7 @@ class ParticleSystemOps
 {
 public:
     void hkpSphereTriangleAgent_processCollision(int a, int b, int c, ParticleSystemState* state);
-    void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
+    void hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_processCollision(int a1, int a2, int a3, ParticleSystemState* s);
 };
 typedef unsigned long DWORD;
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(DWORD);
@@ -316,7 +316,7 @@ struct Sink {
     virtual void unk00();
     virtual void unk04(BodyHolderB& a, BodyHolderB& b);
 };
-extern void __cdecl FUN_00cd7850(PacketCallLocal_00d3dd90* v, void* tri, float* f, Res* out, void* flag);
+extern void __cdecl hkpCollideTriangleUtil_closestPointTriangle(PacketCallLocal_00d3dd90* v, void* tri, float* f, Res* out, void* flag);
 // non-POD 1-dword wrapper params: block the entry-enregister pass so the
 // params are read lazily from their incoming arg slots (see e2fbc0)
 struct BHWrap {
@@ -373,12 +373,12 @@ struct __declspec(align(16)) S_00d3d3e0_Out {
     int unk00, unk04, unk08, unk0c;
     float f10;
 };
-void __cdecl FUN_00cd7160(void* a, PacketCallLocal_00d3dd90* out);
-void __cdecl FUN_00cd7850(PacketCallLocal_00d3dd90* a, void* b, PacketCallLocal_00d3dd90* c, S_00d3d3e0_Out* d, bool* e);
+void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* a, PacketCallLocal_00d3dd90* out);
+void __cdecl hkpCollideTriangleUtil_closestPointTriangle(PacketCallLocal_00d3dd90* a, void* b, PacketCallLocal_00d3dd90* c, S_00d3d3e0_Out* d, bool* e);
 struct S_00d3d3e0_P1P { S_00d3d3e0_P1* p; S_00d3d3e0_P1* val() const { return p; } };
 struct S_00d3d3e0_P2P { S_00d3d3e0_P2* p; S_00d3d3e0_P2* val() const { return p; } };
 struct S_00d3d3e0_P3P { S_00d3d3e0_P3* p; S_00d3d3e0_P3* val() const { return p; } };
-void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3);
+void hkpSphereTriangleAgent_staticGetPenetrations(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3);
 
 extern "C" LocalM128 _mm_load_ss(float const*_A);
 typedef unsigned long DWORD;
@@ -400,7 +400,7 @@ struct S00d3d6b0_BodyHolderB { S00d3d6b0_BodyB* obj; int unk04; Transform* xf; }
 struct __declspec(align(16)) S00d3d6b0_HitInfo { PacketCallLocal_00d3dd90 pt,nrm; S00d3d6b0_BodyHolderB* a; S00d3d6b0_BodyHolderB* b; };
 struct S00d3d6b0_Sink { virtual void unk00(); virtual void unk04(S00d3d6b0_HitInfo*); };
 struct S00d3d6b0_Input { int unk00,unk04; float tolerance; };
-extern void __cdecl FUN_00cd7850(PacketCallLocal_00d3dd90* v, void* tri, float* f, S00d3d6b0_Res* out, void* flag);
+extern void __cdecl hkpCollideTriangleUtil_closestPointTriangle(PacketCallLocal_00d3dd90* v, void* tri, float* f, S00d3d6b0_Res* out, void* flag);
 class S00d3d6b0_SphereTriAgent {
 public:
     int unk00,unk04,unk08,unk0C;
@@ -455,7 +455,7 @@ void S00d3d6b0_SphereTriAgent::hkpSphereTriangleAgent_getClosestPoints(S00d3d6b0
             *(LocalM128*)&tri[i] = _mm_add_ps(_mm_add_ps(py,px),_mm_add_ps(pz,*(LocalM128*)&out.pt));
         }
     }
-    FUN_00cd7850(center,tri,&unk10,&out,0);
+    hkpCollideTriangleUtil_closestPointTriangle(center,tri,&unk10,&out,0);
     float sum = shapeA->radius+shapeB->radius;
     float distance = out.d;
     float threshold = input->tolerance+sum;
@@ -593,7 +593,7 @@ struct MonitorRecord {
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
 
-extern "C" int __cdecl FUN_00cd7850(
+extern "C" int __cdecl hkpCollideTriangleUtil_closestPointTriangle(
     const void* spherePos,
     const void* vertices,
     void* cache,
@@ -624,7 +624,7 @@ static __forceinline int queryContact(const CdBody* bodyA, const CdBody* bodyB, 
         }
 
     __declspec(align(16)) ClosestPointOutput cpOutput;
-    int featureKind = FUN_00cd7850(spherePos, vTransformed, cache, &cpOutput, feature);
+    int featureKind = hkpCollideTriangleUtil_closestPointTriangle(spherePos, vTransformed, cache, &cpOutput, feature);
 
     float sumRadius = shapeA->m_fSphereRadius + shapeB->m_fSphereRadius;
     float maxDist = sumRadius + input->m_fCollisionTolerance;
@@ -777,10 +777,11 @@ struct __declspec(align(16)) S_00d3d520_Res {
 
 struct __declspec(align(16)) S_00d3d520_Out { PacketCallLocal_00d3dd90 point; PacketCallLocal_00d3dd90 normal; };
 
-int __cdecl FUN_00cd7850(const PacketCallLocal_00d3dd90* pos, const PacketCallLocal_00d3dd90* tri, int a4, S_00d3d520_Res* out, char* flag);
+int __cdecl hkpCollideTriangleUtil_closestPointTriangle(const PacketCallLocal_00d3dd90* pos, const PacketCallLocal_00d3dd90* tri, int a4, S_00d3d520_Res* out, char* flag);
 
 // @fnv 0x00d3d520
-int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* info, int a4, S_00d3d520_Out* outp)
+// src: XBOX_PDB 0x00d3d520
+int __cdecl hkpSphereTriangleAgent_getClosestPoint(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* info, int a4, S_00d3d520_Out* outp)
 {
     __declspec(align(16)) PacketCallLocal_00d3dd90 v[3]; S_00d3d520_Shape* sphere = a->shape;
     { S_00d3d520_Shape* tri = b->shape;
@@ -788,7 +789,7 @@ int __cdecl FUN_00d3d520(S_00d3d520_A* a, S_00d3d520_Body* b, S_00d3d520_Info* i
     
     S_00d3d520_TransformPoints(*b->motion, tri->verts, v);
     S_00d3d520_Res pen;
-    int r = FUN_00cd7850(count, v, a4, &pen, 0);
+    int r = hkpCollideTriangleUtil_closestPointTriangle(count, v, a4, &pen, 0);
     float k = sphere->radius + tri->radius;
     
     float thr = info->distance + k;

@@ -51,11 +51,12 @@ class HingeLimitsRotationValidationView
     hkRotation m_kRotationA;
     hkRotation m_kRotationB;
 
-    hkBool FUN_00d52f50() const;
+    hkBool hkpHingeLimitsData_isValid() const;
 };
 
 // @fnv 0x00d52f50
-hkBool HingeLimitsRotationValidationView::FUN_00d52f50() const
+// src: XBOX_PDB 0x00d52f50
+hkBool HingeLimitsRotationValidationView::hkpHingeLimitsData_isValid() const
 {
     return m_kRotationA.IsOrthonormal(0.001f) && m_kRotationB.IsOrthonormal(0.001f);
 }

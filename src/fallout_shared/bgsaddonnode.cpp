@@ -161,7 +161,8 @@ void __cdecl BGSAddonNodeSoundHandleExtra_InitTag()
 }
 
 // @fnv 0x004f9230
-const NiFixedString& FUN_004f9230()
+// src: XBOX_PDB 0x004f9230
+const NiFixedString& BGSAddonNodeSoundHandleExtra_Tag()
 {
     return *DAT_011c8058;
 }
@@ -221,9 +222,9 @@ void* FUN_004fc940_cls::GetCastSoundOrEffect()
     return fld4C->GetCastSound();
 }
 
-void FUN_00485910(unsigned int, unsigned int);
+void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void AppendChunk(unsigned int, void*, unsigned int);
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 struct S_0048a520
 {
     void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
@@ -247,16 +248,16 @@ void FUN_004f8fe0_shell::BGSAddonNode_SaveAlt()
     reinterpret_cast<::FUN_004855a0*>(this)->M();
     reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x30)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    FUN_00485910(0x41544144, uiIndex);
+    TESForm_AddChunk_00485910(0x41544144, uiIndex);
     if (SoundAssetTmp)
     {
         unsigned int itempint = SoundAssetTmp->TESForm::GetFormID();
-        FUN_00485910(0x4d414e53, itempint);
+        TESForm_AddChunk_00485910(0x4d414e53, itempint);
     }
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->FUN_00512810();
     AppendChunk(0x4d414e44, reinterpret_cast<char*>(this) + 0x58, 4);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<AddonNodeData*>(reinterpret_cast<char*>(this) + 0x58)->FUN_00512810();
     reinterpret_cast<::FUN_00485680*>(this)->M();
 }
@@ -271,7 +272,7 @@ const NiRTTI* BGSAddonNodeSoundHandleExtra::GetRTTI() const
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_004f90a0_shell : BGSAddonNode
 {
@@ -283,7 +284,7 @@ void FUN_004f90a0_shell::CopyFromAddonNode(TESForm* apCopy)
     BGSAddonNode* pcopy = dynamic_cast<BGSAddonNode*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     *(unsigned int*)((char*)this + 0x50) = *(unsigned int*)((char*)pcopy + 0x50);
     *(TESSound**)((char*)this + 0x54) = *(TESSound**)((char*)pcopy + 0x54);
     memcpy((char*)this + 0x58, (char*)pcopy + 0x58, 4);
@@ -291,16 +292,17 @@ void FUN_004f90a0_shell::CopyFromAddonNode(TESForm* apCopy)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct FUN_004f9110_shell : BGSAddonNode
 {
-    bool FUN_004f9110(TESForm* apCompare);
+    bool BGSAddonNode_Compare(TESForm* apCompare);
 };
 
 // @fnv 0x004f9110
-bool FUN_004f9110_shell::FUN_004f9110(TESForm* apCompare)
+// src: XBOX_PDB 0x004f9110
+bool FUN_004f9110_shell::BGSAddonNode_Compare(TESForm* apCompare)
 {
     BGSAddonNode* pcomp;
 
@@ -308,7 +310,7 @@ bool FUN_004f9110_shell::FUN_004f9110(TESForm* apCompare)
     if (!pcomp)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcomp))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcomp))
         return true;
 
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x50) !=
@@ -352,5 +354,5 @@ FUN_004f8bc0::~FUN_004f8bc0()
 }
 
 // @fnv 0x004f91b0
-BGSAddonNodeSoundHandleExtra::BGSAddonNodeSoundHandleExtra() : NiExtraData(FUN_004f9230())
+BGSAddonNodeSoundHandleExtra::BGSAddonNodeSoundHandleExtra() : NiExtraData(BGSAddonNodeSoundHandleExtra_Tag())
 {}

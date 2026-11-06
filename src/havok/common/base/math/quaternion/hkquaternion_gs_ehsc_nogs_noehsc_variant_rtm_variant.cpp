@@ -109,10 +109,11 @@ class Rotation
 {
   public:
     __m128 m_v;
-    void FUN_00cb2850(const __m128* a, const __m128* b, float t);
+    void D3D_ComputeClearColor(const __m128* a, const __m128* b, float t);
 };
 // @fnv 0x00cb2850
-void Rotation::FUN_00cb2850(const __m128* a, const __m128* b, float t)
+// src: XBOX_PDB 0x00cb2850
+void Rotation::D3D_ComputeClearColor(const __m128* a, const __m128* b, float t)
 {
     __m128 va = *a;
     __m128 vb = *b;

@@ -47,7 +47,7 @@ public:
 
         TargetCommand();
         ~TargetCommand();
-        void FUN_009ca500();
+        void VATS_COMMAND_Initialize();
     };
 
     virtual ~VATSMenu();
@@ -96,20 +96,20 @@ public:
     TargetCommand m_acTargetText;
 
     VATSMenu();
-    void FUN_00720140(int aiID, Tile* apTile);
+    void AttachTileByID(int aiID, Tile* apTile);
     int GetSelectedTargetIndex();
     unsigned int Create();
     unsigned int GetFilteredCount();
     unsigned int GetUnfilteredCount();
-    int FUN_007a7830();
-    int FUN_007267c0();
+    int ListBox_BGSQuestObjective_NumUnfiltered();
+    int ListBox_enum_MiscStatManager_MiscStatID_NumUnfiltered();
 
     void HandleClick(int aiID, int aiArg);
     bool HandleKey(int aiKey);
-    void FUN_007ef7b0(int aiID, int aiArg);
-    void FUN_007ef830(int aiID, int aiOther);
-    void FUN_007ef760(int aiID, Tile* apTarget);
-    void FUN_007ef8b0(int aiID, Tile* apTarget);
+    void DoEnter_007ef7b0(int aiID, int aiArg);
+    void DoLeave_007ef830(int aiID, int aiOther);
+    void DoWheelMove_007ef760(int aiID, Tile* apTarget);
+    void DoStillDown_007ef8b0(int aiID, Tile* apTarget);
 
     BSSimpleList<TargetX*>* FindListEntryForTarget(ActorX* apTarget);
     TargetListM* FindListEntryForTarget(ActorM* apTarget);
@@ -123,7 +123,7 @@ public:
     bool UpdateVatsTargeting();
     void VATSMenu_SetTargetLimb();
     bool UpdateAmmo();
-    bool FUN_007f6af0();
+    bool VATSMenu_PickNewTarget();
     int VATSMenu_GetActorValueFromBodyPart(int aiLimb);
     int GetConsecutiveMatchCount();
     void UpdateLimbTiles();

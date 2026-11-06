@@ -25,7 +25,7 @@ class NiSkinInstance : public NiObject
 
     bool IsCloneable(CloningProcess& kCloning);
     void CopyMemberData(NiSkinInstance* pkDest, CloningProcess& kCloning);
-    NiSkinInstance* FUN_00a86830(CloningProcess& kCloning);
+    NiSkinInstance* CreateClone_00a86830(CloningProcess& kCloning);
 
     NiSkinData* GetSkinData();
     NiSkinData* GetData();

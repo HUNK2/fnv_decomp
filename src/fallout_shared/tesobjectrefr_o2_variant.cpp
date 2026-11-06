@@ -30,11 +30,12 @@ struct FUN_00c9c240_holder
     void* m4;
     void* m8;
     void FUN_00c9c240();
-    void FUN_00c9d600();
+    void bhkEntity_Deactivate();
 };
 
 // @fnv 0x00c9d600
-void FUN_00c9c240_holder::FUN_00c9d600()
+// src: XBOX_PDB 0x00c9d600
+void FUN_00c9c240_holder::bhkEntity_Deactivate()
 {
     if (this && m8)
         ((FUN_00c9c240_holder*)m8)->FUN_00c9c240();
@@ -78,7 +79,8 @@ FUN_00c6d190::FUN_00c6d190()
 }
 
 // @fnv 0x00c876a0
-__declspec(noinline) void ProjectileListener::FUN_00c876a0()
+// src: XBOX_PDB 0x00c876a0
+__declspec(noinline) void ProjectileListener::bhkSerializable_Kill()
 {
     typedef void(__thiscall * Fn)(void*, int);
     if (m_pHavokObject != 0)
@@ -86,18 +88,19 @@ __declspec(noinline) void ProjectileListener::FUN_00c876a0()
     ((Fn)(*(void***)this)[0xa4 / 4])(this, 1);
 }
 
-void FUN_00c876a0();
+void bhkSerializable_Kill();
 struct FUN_00c9d4c0_holder
 {
     void* m0;
     void* m4;
     void* m8;
-    void FUN_00c9d4c0();
+    void bhkEntity_Kill();
     void FUN_00c9c240();
-    void FUN_00c9d600();
+    void bhkEntity_Deactivate();
 };
 // @fnv 0x00c9d4c0
-void FUN_00c9d4c0_holder::FUN_00c9d4c0()
+// src: XBOX_PDB 0x00c9d4c0
+void FUN_00c9d4c0_holder::bhkEntity_Kill()
 {
     void* p = m8;
     if (p)
@@ -156,10 +159,11 @@ struct Holder00c9d5d0
     virtual CallRet* GetRet();
     void* unk4;
     void* unk8;
-    void FUN_00c9d5d0();
+    void bhkEntity_UpdateCFilter();
 };
 // @fnv 0x00c9d5d0
-void Holder00c9d5d0::FUN_00c9d5d0()
+// src: XBOX_PDB 0x00c9d5d0
+void Holder00c9d5d0::bhkEntity_UpdateCFilter()
 {
     CallRet* p = GetRet();
     if (p)
@@ -174,7 +178,7 @@ struct FUN_00c9f3b0 : bhkWorldObject
 // @fnv 0x00c9f3b0
 FUN_00c9f3b0::~FUN_00c9f3b0()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     --DAT_01268238;
 }
 
@@ -183,7 +187,8 @@ struct WorldHolder
     void UpdatePhantom(void* a, int b);
 };
 // @fnv 0x00c9f460
-void bhkAabbPhantom::FUN_00c9f460()
+// src: XBOX_PDB 0x00c9f460
+void bhkAabbPhantom::bhkPhantom_UpdateCFilter()
 {
     WorldHolder* w = GetWorld();
     if (w)
@@ -200,7 +205,7 @@ struct MyObj
 {
     char pad[8];
     InnerS* p8;
-    void __thiscall FUN_00c84e20(void* a);
+    void __thiscall bhkShape_CopyCinfo(void* a);
 };
 struct OutS
 {
@@ -208,9 +213,10 @@ struct OutS
     float f4;
 };
 // @fnv 0x00c9fb70
-void __fastcall FUN_00c9fb70(MyObj* _this, int, OutS* _out)
+// src: XBOX_PDB 0x00c9fb70
+void __fastcall bhkConvexShape_CopyCinfo(MyObj* _this, int, OutS* _out)
 {
-    _this->FUN_00c84e20(_out);
+    _this->bhkShape_CopyCinfo(_out);
     if (_this && _this->p8)
     {
         volatile float v = _this->p8->f10;
@@ -232,12 +238,13 @@ struct RetV
     float f4;
 };
 // @fnv 0x00ca0740
-void __thiscall bhkSphereShape::FUN_00ca0740(void* a, ArgB* b)
+// src: XBOX_PDB 0x00ca0740
+void __thiscall bhkSphereShape::CopyMembers_00ca0740(void* a, ArgB* b)
 {
     unsigned int tmp;
     RetV* r = reinterpret_cast<RetV*>(slotB4((char*)&tmp + 3));
     r->f4 *= b->f10;
-    bhkSphereShape::FUN_00c84df0(a, b);
+    bhkSphereShape::bhkShape_CopyMembers(a, b);
 }
 
 struct S_00cb3070
@@ -288,13 +295,14 @@ struct S_00cb3070
     virtual void v43();
     virtual void v43b();
     virtual void v44(int*);
-    void FUN_00c8ea30(int);
-    void FUN_00cb3070(int);
+    void bhkRigidBody_LoadBinary(int);
+    void bhkRigidBodyT_LoadBinary(int);
 };
 // @fnv 0x00cb3070
-void S_00cb3070::FUN_00cb3070(int a)
+// src: XBOX_PDB 0x00cb3070
+void S_00cb3070::bhkRigidBodyT_LoadBinary(int a)
 {
-    FUN_00c8ea30(a);
+    bhkRigidBody_LoadBinary(a);
     v44(&a);
 }
 
@@ -374,7 +382,7 @@ FUN_00c9d620_holder::~FUN_00c9d620_holder()
             ((hkReferencedObject*)q)->removeReference();
         *(void**)((char*)p + 0x210) = 0;
     }
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     --DAT_012681fc;
 }
 
@@ -391,7 +399,7 @@ struct FUN_00c9fb00 : FUN_0056e780_Class
 // @fnv 0x00c9fb00
 FUN_00c9fb00::~FUN_00c9fb00()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_01268250;
 }
 
@@ -477,13 +485,13 @@ struct FUN_00c84c50 : FUN_00c877b0
     virtual ~FUN_00c84c50();
 };
 
-void FUN_00c876a0();
+void bhkSerializable_Kill();
 extern int DAT_012680f8;
 
 // @fnv 0x00c84c50
 FUN_00c84c50::~FUN_00c84c50()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_012680f8;
 }
 
@@ -492,7 +500,7 @@ extern int DAT_0126810c;
 // @fnv 0x00c85790
 bhkWorldObject::~bhkWorldObject()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     DAT_0126810c--;
 }
 
@@ -636,12 +644,13 @@ struct WorldObjectView
     virtual void v43();
     virtual void v44();
     virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c87600(int a, int b);
-    void FUN_00c85900(int a, int b);
+    void bhkSerializable_CopyMembers(int a, int b);
+    void bhkWorldObject_CopyMembers(int a, int b);
 };
 
 // @fnv 0x00c85900
-void WorldObjectView::FUN_00c85900(int a, int b)
+// src: XBOX_PDB 0x00c85900
+void WorldObjectView::bhkWorldObject_CopyMembers(int a, int b)
 {
     ScopedMode mode;
     unsigned char used;
@@ -659,7 +668,7 @@ void WorldObjectView::FUN_00c85900(int a, int b)
         }
     }
     result->enabled = 0;
-    FUN_00c87600(a, b);
+    bhkSerializable_CopyMembers(a, b);
 }
 
 
@@ -759,7 +768,8 @@ static __forceinline hkCdBodyStub* GetWorldObjectBody(bhkWorldObject* object)
 }
 
 // @fnv 0x00c86190
-void __fastcall FUN_00c86190(bhkWorldObject* object, void*, DebugStrArray* arr)
+// src: XBOX_PDB 0x00c86190
+void __fastcall bhkWorldObject_GetViewerStrings(bhkWorldObject* object, void*, DebugStrArray* arr)
 {
     HeapContextGuard guard(0x10);
     typedef void (__thiscall* AppendStrings)(bhkRefObject*, DebugStrArray*);
@@ -820,7 +830,7 @@ struct FUN_00c9eb30 : FUN_00c9f3b0
 // @fnv 0x00c9eb30
 FUN_00c9eb30::~FUN_00c9eb30()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     --DAT_01268208;
 }
 
@@ -838,7 +848,7 @@ struct FUN_00c9eec0 : FUN_00c9eb30
 // @fnv 0x00c9eec0
 FUN_00c9eec0::~FUN_00c9eec0()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     --DAT_0126822c;
 }
 }  // namespace fnv_00c9eec0
@@ -1024,8 +1034,8 @@ struct TlsBlock_t
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void FUN_00c876f0();
-void FUN_00c87700();
+void bhkSerializable_CloneCritLock();
+void bhkSerializable_CloneCritUnlock();
 
 struct TlsGuard_t
 {
@@ -1050,18 +1060,19 @@ inline void* operator new(unsigned int n)
 
 struct FUN_00c9efa0_cls
 {
-    void FUN_00c85900(FUN_00c6d190* p, unsigned int flag);
-    bhkRefObject* FUN_00c9efa0(unsigned int flag);
+    void bhkWorldObject_CopyMembers(FUN_00c6d190* p, unsigned int flag);
+    bhkRefObject* bhkSimpleShapePhantom_CreateClone(unsigned int flag);
 };
 
 // @fnv 0x00c9efa0
-bhkRefObject* FUN_00c9efa0_cls::FUN_00c9efa0(unsigned int flag)
+// src: XBOX_PDB 0x00c9efa0
+bhkRefObject* FUN_00c9efa0_cls::bhkSimpleShapePhantom_CreateClone(unsigned int flag)
 {
     TlsGuard_t guard;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     FUN_00c6d190* p = new FUN_00c6d190;
-    this->FUN_00c85900(p, flag);
-    FUN_00c87700();
+    this->bhkWorldObject_CopyMembers(p, flag);
+    bhkSerializable_CloneCritUnlock();
     return &p->base;
 }
 
@@ -1281,10 +1292,11 @@ struct S_00c9f1e0_Obj
     virtual S_00c9f1e0_Holder* GetWorld();
     int unk04;
     S_00c9f1e0_Ctx* ctx;
-    void FUN_00c9f1e0(S_00c9f1e0_Range* r);
+    void bhkSimpleShapePhantom_GetFixedClosestPoints(S_00c9f1e0_Range* r);
 };
 // @fnv 0x00c9f1e0
-void S_00c9f1e0_Obj::FUN_00c9f1e0(S_00c9f1e0_Range* r)
+// src: XBOX_PDB 0x00c9f1e0
+void S_00c9f1e0_Obj::bhkSimpleShapePhantom_GetFixedClosestPoints(S_00c9f1e0_Range* r)
 {
     S_00c9f1e0_World* w = GetWorld()->world;
     S_00c9f1e0_Disp* d = w->disp;
@@ -1350,11 +1362,12 @@ class C9F270Object
 {
   public:
     void GetViewerStringsBase(C9F270StrArray* pkStrings);
-    void FUN_00c9f270(C9F270StrArray* pkStrings);
+    void bhkSimpleShapePhantom_GetViewerStrings(C9F270StrArray* pkStrings);
 };
 
 // @fnv 0x00c9f270
-void C9F270Object::FUN_00c9f270(C9F270StrArray* pkStrings)
+// src: XBOX_PDB 0x00c9f270
+void C9F270Object::bhkSimpleShapePhantom_GetViewerStrings(C9F270StrArray* pkStrings)
 {
     C9F270MemContext kContext(0x10);
     GetViewerStringsBase(pkStrings);
@@ -1372,7 +1385,7 @@ struct FUN_00c9f320_object
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00c9f320(char release);
+    void bhkAabbPhantom_KillCinfo(char release);
 };
 struct TlsGuard
 {
@@ -1388,7 +1401,8 @@ struct TlsGuard
     }
 };
 // @fnv 0x00c9f320
-void FUN_00c9f320_object::FUN_00c9f320(char release)
+// src: XBOX_PDB 0x00c9f320
+void FUN_00c9f320_object::bhkAabbPhantom_KillCinfo(char release)
 {
     TlsGuard guard;
     if (release)
@@ -1404,7 +1418,7 @@ void FUN_00c9f320_object::FUN_00c9f320(char release)
 
 struct PhysicsAction
 {
-    bool __thiscall FUN_00c68cb0(void* owner);
+    bool __thiscall bhkWorld_Remove_00c68cb0(void* owner);
 };
 struct LinkedObject
 {
@@ -1455,33 +1469,35 @@ struct FUN_00c9f420_Class
     virtual LinkedObject* ResolveLinkedObject();
     int unk4;
     void* handle;
-    bool FUN_00c9f420();
+    bool bhkPhantom_Remove();
 };
 // @fnv 0x00c9f420
-bool FUN_00c9f420_Class::FUN_00c9f420()
+// src: XBOX_PDB 0x00c9f420
+bool FUN_00c9f420_Class::bhkPhantom_Remove()
 {
     bool result = false;
     LinkedObject* linked = ResolveLinkedObject();
     PhysicsAction* action = linked ? linked->GetAction() : 0;
     if (action)
-        result = action->FUN_00c68cb0(handle);
+        result = action->bhkWorld_Remove_00c68cb0(handle);
     return result;
 }
 
-void __cdecl FUN_00c876f0();
-void __cdecl FUN_00c87700();
+void __cdecl bhkSerializable_CloneCritLock();
+void __cdecl bhkSerializable_CloneCritUnlock();
 struct ProjectileCreator
 {
-    void __thiscall FUN_00c85900(Object_00c9f5a0* projectile, int mode);
-    Object_00c9f5a0* __thiscall FUN_00c9f640(int mode);
+    void __thiscall bhkWorldObject_CopyMembers(Object_00c9f5a0* projectile, int mode);
+    Object_00c9f5a0* __thiscall bhkAabbPhantom_CreateClone(int mode);
 };
 // @fnv 0x00c9f640
-Object_00c9f5a0* ProjectileCreator::FUN_00c9f640(int mode)
+// src: XBOX_PDB 0x00c9f640
+Object_00c9f5a0* ProjectileCreator::bhkAabbPhantom_CreateClone(int mode)
 {
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     Object_00c9f5a0* projectile = new Object_00c9f5a0;
-    FUN_00c85900(projectile, mode);
-    FUN_00c87700();
+    bhkWorldObject_CopyMembers(projectile, mode);
+    bhkSerializable_CloneCritUnlock();
     return projectile;
 }
 
@@ -1686,14 +1702,14 @@ struct Pool
     int unk0, unk4, unk8, unkc;
     Allocator* allocator;
 };
-extern "C" Pool* __cdecl FUN_00c85750();
+extern "C" Pool* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00cf2cb0
 {
     int unk0;
     unsigned short length;
     static void* operator new(unsigned int count)
     {
-        Pool* pool = FUN_00c85750();
+        Pool* pool = hkMemoryRouter_getInstance();
         FUN_00cf2cb0* p = (FUN_00cf2cb0*)pool->allocator->Allocate(224);
         p->length = 224;
         return p;
@@ -1758,10 +1774,11 @@ struct Receiver
     virtual void v45();
     virtual void v46();
     virtual void finish(void*);
-    void FUN_00c9f890(Input* input);
+    void bhkAabbPhantom_Init(Input* input);
 };
 // @fnv 0x00c9f890
-void Receiver::FUN_00c9f890(Input* input)
+// src: XBOX_PDB 0x00c9f890
+void Receiver::bhkAabbPhantom_Init(Input* input)
 {
     ThreadFlagGuard tlsGuard;
     FUN_00cf2cb0* packet = new FUN_00cf2cb0(&input->payload, input->tag);
@@ -1808,15 +1825,16 @@ char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00c9f970_cls
 {
   public:
-    void FUN_00c9f480(BC9F970StringArray* pkArray);
-    void FUN_00c9f970(BC9F970StringArray* pkArray);
+    void bhkPhantom_GetViewerStrings(BC9F970StringArray* pkArray);
+    void bhkAabbPhantom_GetViewerStrings(BC9F970StringArray* pkArray);
 };
 
 // @fnv 0x00c9f970
-void FUN_00c9f970_cls::FUN_00c9f970(BC9F970StringArray* pkArray)
+// src: XBOX_PDB 0x00c9f970
+void FUN_00c9f970_cls::bhkAabbPhantom_GetViewerStrings(BC9F970StringArray* pkArray)
 {
     BC9F970AllocTagScope kScope(0x10);
-    FUN_00c9f480(pkArray);
+    bhkPhantom_GetViewerStrings(pkArray);
     char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcC9F970Name);
     pkArray->Add(pcName);
 }
@@ -1896,11 +1914,12 @@ struct SphereShape : SphereShapeBase
     {
         return (this && pHkShape) ? pHkShape->fRadius : DAT_010c72bc;
     }
-    void FUN_00c9fc50(ViewerStringArray* apViewerStrings);
+    void bhkConvexShape_GetViewerStrings(ViewerStringArray* apViewerStrings);
 };
 
 // @fnv 0x00c9fc50
-void SphereShape::FUN_00c9fc50(ViewerStringArray* apViewerStrings)
+// src: XBOX_PDB 0x00c9fc50
+void SphereShape::bhkConvexShape_GetViewerStrings(ViewerStringArray* apViewerStrings)
 {
     MemContextGuard guard;
     BaseGetViewerStrings(apViewerStrings);
@@ -1914,13 +1933,13 @@ class FUN_00c9fd70_cls : public FUN_00c9fb00
 {
   public:
     virtual ~FUN_00c9fd70_cls();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 
 // @fnv 0x00c9fd70
 FUN_00c9fd70_cls::~FUN_00c9fd70_cls()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_0126825c;
 }
 
@@ -1931,10 +1950,11 @@ struct SphereScaleFields
 };
 struct SphereScalingMethod : bhkSphereShape
 {
-    void __thiscall FUN_00c9fea0(void* first, ArgB* second);
+    void __thiscall bhkBoxShape_CopyMembers(void* first, ArgB* second);
 };
 // @fnv 0x00c9fea0
-void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
+// src: XBOX_PDB 0x00c9fea0
+void SphereScalingMethod::bhkBoxShape_CopyMembers(void* first, ArgB* second)
 {
     char flag;
     SphereScaleFields* result = reinterpret_cast<SphereScaleFields*>(slotB4(&flag));
@@ -1944,7 +1964,7 @@ void SphereScalingMethod::FUN_00c9fea0(void* first, ArgB* second)
     result->m_14 *= scale;
     result->m_18 *= scale;
     result->m_1c *= scale;
-    bhkSphereShape::FUN_00c84df0(first, second);
+    bhkSphereShape::bhkShape_CopyMembers(first, second);
 }
 
 struct Tls_ca0090
@@ -2161,12 +2181,13 @@ struct FUN_00ca0090_cls
     unsigned int unk04;
     void* m08;
     void* m0C;
-    void FUN_00c9fb70(void* a);
-    void* FUN_00ca0090(unsigned char* out);
+    void bhkConvexShape_CopyCinfo(void* a);
+    void* bhkBoxShape_CreateCinfo(unsigned char* out);
 };
 
 // @fnv 0x00ca0090
-void* FUN_00ca0090_cls::FUN_00ca0090(unsigned char* out)
+// src: XBOX_PDB 0x00ca0090
+void* FUN_00ca0090_cls::bhkBoxShape_CreateCinfo(unsigned char* out)
 {
     TlsGuard_ca0090 guard;
     bool GetObjectKind = (m0C == 0);
@@ -2190,7 +2211,7 @@ void* FUN_00ca0090_cls::FUN_00ca0090(unsigned char* out)
         m0C = (void*)(raw + adj);
         if (m08 != 0)
         {
-            FUN_00c9fb70(m0C);
+            bhkConvexShape_CopyCinfo(m0C);
             void* q = (m08 != 0) ? (void*)((char*)m08 + 0x20) : (void*)&DAT_01267e30;
             reinterpret_cast<Sub_ca0090*>((char*)raw + adj + 0x10)->FUN_004b4db0(q);
         }
@@ -2274,11 +2295,12 @@ struct ShapePhantomBase
 
 struct AabbPhantomVS : ShapePhantomBase
 {
-    void FUN_00ca0410(ViewerStrings* apViewerStrings);
+    void bhkBoxShape_GetViewerStrings(ViewerStrings* apViewerStrings);
 };
 
 // @fnv 0x00ca0410
-void AabbPhantomVS::FUN_00ca0410(ViewerStrings* apViewerStrings)
+// src: XBOX_PDB 0x00ca0410
+void AabbPhantomVS::bhkBoxShape_GetViewerStrings(ViewerStrings* apViewerStrings)
 {
     MemContextGuard guard(0x10);
     GetViewerStringsBase(apViewerStrings);
@@ -2340,15 +2362,16 @@ char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00ca05b0_cls
 {
   public:
-    void FUN_00c851c0(BCA05B0StringArray* pkArray);
-    void FUN_00ca05b0(BCA05B0StringArray* pkArray);
+    void bhkShape_GetViewerStrings(BCA05B0StringArray* pkArray);
+    void bhkSphereRepShape_GetViewerStrings(BCA05B0StringArray* pkArray);
 };
 
 // @fnv 0x00ca05b0
-void FUN_00ca05b0_cls::FUN_00ca05b0(BCA05B0StringArray* pkArray)
+// src: XBOX_PDB 0x00ca05b0
+void FUN_00ca05b0_cls::bhkSphereRepShape_GetViewerStrings(BCA05B0StringArray* pkArray)
 {
     BCA05B0AllocTagScope kScope(0x10);
-    FUN_00c851c0(pkArray);
+    bhkShape_GetViewerStrings(pkArray);
     char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcCA05B0Name);
     pkArray->Add(pcName);
 }
@@ -2428,11 +2451,12 @@ class CA0840Constraint
     CA0840Output* m_pkOutput;
 
     void SetOutput(CA0840Output* pkOutput);
-    CA0840Output* FUN_00ca0840(bool* pbCreated);
+    CA0840Output* bhkSphereShape_CreateCinfo(bool* pbCreated);
 };
 
 // @fnv 0x00ca0840
-CA0840Output* CA0840Constraint::FUN_00ca0840(bool* pbCreated)
+// src: XBOX_PDB 0x00ca0840
+CA0840Output* CA0840Constraint::bhkSphereShape_CreateCinfo(bool* pbCreated)
 {
     CA0840MemContext kContext(0x10);
     *pbCreated = m_pkOutput == 0;
@@ -2478,8 +2502,8 @@ void* bhkRigidBodyT_GetRTTI()
 }
 
 namespace fnv_00cb3a40 {
-void FUN_00c876f0();
-void FUN_00c87700() throw();
+void bhkSerializable_CloneCritLock();
+void bhkSerializable_CloneCritUnlock() throw();
 extern __declspec(thread) int threadMode;
 struct MemoryAllocator
 {
@@ -2513,7 +2537,7 @@ struct ThreadRouterScope
     }
     ~ThreadRouterScope() throw()
     {
-        FUN_00c87700();
+        bhkSerializable_CloneCritUnlock();
         threadMode = previousMode;
     }
 };
@@ -2583,17 +2607,18 @@ struct World
     virtual void m61();
     virtual void m62();
     virtual void m63(int active);
-    void FUN_00cb30d0(FUN_00cb3860* object, int flags);
-    FUN_00cb3860* FUN_00cb3a40(int flags);
+    void bhkRigidBodyT_CopyMembers(FUN_00cb3860* object, int flags);
+    FUN_00cb3860* bhkRigidBodyT_CreateClone(int flags);
 };
 // @fnv 0x00cb3a40
-FUN_00cb3860* World::FUN_00cb3a40(int flags)
+// src: XBOX_PDB 0x00cb3a40
+FUN_00cb3860* World::bhkRigidBodyT_CreateClone(int flags)
 {
     ThreadRouterScope threadScope;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     m63(0);
     FUN_00cb3860* obj = new FUN_00cb3860;
-    FUN_00cb30d0(obj, flags);
+    bhkRigidBodyT_CopyMembers(obj, flags);
     m63(1);
     return obj;
 }
@@ -2627,13 +2652,13 @@ extern int DAT_01268660;
 struct FUN_00cca8d0 : FUN_00c9fb00
 {
     virtual ~FUN_00cca8d0();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 
 // @fnv 0x00cca8d0
 FUN_00cca8d0::~FUN_00cca8d0()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_01268660;
 }
 
@@ -2648,7 +2673,7 @@ struct FUN_00ccd080 : FUN_00c9fb00
 // @fnv 0x00ccd080
 FUN_00ccd080::~FUN_00ccd080()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     DAT_0126868c--;
 }
 
@@ -2656,14 +2681,14 @@ extern int DAT_0126869c;
 
 struct FUN_00ccdbc0 : FUN_00c9fb00
 {
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
     virtual ~FUN_00ccdbc0();
 };
 
 // @fnv 0x00ccdbc0
 FUN_00ccdbc0::~FUN_00ccdbc0()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_0126869c;
 }
 
@@ -2699,7 +2724,7 @@ struct FUN_00ccf4f0_cls : FUN_00c9fb00
 // @fnv 0x00ccf4f0
 FUN_00ccf4f0_cls::~FUN_00ccf4f0_cls()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
 }
 
 extern int DAT_012686c0;
@@ -2708,13 +2733,13 @@ class FUN_00ccf740_cls : public FUN_00c9fb00
 {
   public:
     virtual ~FUN_00ccf740_cls();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 
 // @fnv 0x00ccf740
 FUN_00ccf740_cls::~FUN_00ccf740_cls()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_012686c0;
 }
 
@@ -2741,11 +2766,12 @@ NiObject* NiControllerC9E::bhkSimpleShapePhantom_CreateObject()
 
 extern const char* DAT_0126823c;
 // @fnv 0x00c9f480
-void FUN_00c9f970_cls::FUN_00c9f480(BC9F970StringArray* pkArray)
+// src: XBOX_PDB 0x00c9f480
+void FUN_00c9f970_cls::bhkPhantom_GetViewerStrings(BC9F970StringArray* pkArray)
 {
     TlsGuard_t kGuard;
     typedef void (__thiscall* AppendStrings)(bhkWorldObject*, DebugStrArray*);
-    ((AppendStrings)FUN_00c86190)((bhkWorldObject*)this, (DebugStrArray*)pkArray);
+    ((AppendStrings)bhkWorldObject_GetViewerStrings)((bhkWorldObject*)this, (DebugStrArray*)pkArray);
     pkArray->Add(NiViewerStrings_NiGetViewerString_Title(DAT_0126823c));
 }
 
@@ -2782,10 +2808,11 @@ struct FUN_00c6b980_cls
 {
     int unk00, unk04, unk08, unk0c;
     World_c6b* m_spWorld;
-    void FUN_00c6b980(World_c6b* apWorld);
+    void bhkNiCollisionObject_SetWorldObject(World_c6b* apWorld);
 };
 // @fnv 0x00c6b980
-void FUN_00c6b980_cls::FUN_00c6b980(World_c6b* apWorld)
+// src: XBOX_PDB 0x00c6b980
+void FUN_00c6b980_cls::bhkNiCollisionObject_SetWorldObject(World_c6b* apWorld)
 {
     if (m_spWorld == apWorld)
         return;
@@ -2894,11 +2921,12 @@ struct S_00c85c10
     void* unk04;
     S_00c85c10_data* unk08;
 
-    void FUN_00c85c10(int* result, int* value);
+    void bhkWorldObject_SetAVObject(int* result, int* value);
 };
 
 // @fnv 0x00c85c10
-void S_00c85c10::FUN_00c85c10(int* result, int* value)
+// src: XBOX_PDB 0x00c85c10
+void S_00c85c10::bhkWorldObject_SetAVObject(int* result, int* value)
 {
     S_00c85c10_pair local;
 
@@ -2945,7 +2973,7 @@ void S_00c85c10::FUN_00c85c10(int* result, int* value)
 
 struct ActionC68bf0
 {
-    bool FUN_00c68bf0(void* owner);
+    bool bhkWorld_Remove(void* owner);
 };
 struct LinkedObjectC9d590
 {
@@ -2965,17 +2993,18 @@ struct ActionOwnerC9d590
     virtual LinkedObjectC9d590* ResolveLinkedObject();
     int unk4;
     void* handle;
-    bool FUN_00c9d590();
+    bool bhkEntity_Remove();
 };
 
 // @fnv 0x00c9d590
-bool ActionOwnerC9d590::FUN_00c9d590()
+// src: XBOX_PDB 0x00c9d590
+bool ActionOwnerC9d590::bhkEntity_Remove()
 {
     bool result = false;
     LinkedObjectC9d590* obj = ResolveLinkedObject();
     ActionC68bf0* action = obj ? obj->GetAction() : 0;
     if (action)
-        result = action->FUN_00c68bf0(handle);
+        result = action->bhkWorld_Remove(handle);
     return result;
 }
 
@@ -2999,14 +3028,15 @@ extern const char* DAT_01268288;
 
 struct FUN_00ca0ac0_class : SphereShape
 {
-    void FUN_00ca0ac0(ViewerStringArray* strings);
+    void bhkSphereShape_GetViewerStrings(ViewerStringArray* strings);
 };
 
 // @fnv 0x00ca0ac0
-void FUN_00ca0ac0_class::FUN_00ca0ac0(ViewerStringArray* strings)
+// src: XBOX_PDB 0x00ca0ac0
+void FUN_00ca0ac0_class::bhkSphereShape_GetViewerStrings(ViewerStringArray* strings)
 {
     TlsGuard_t context;
-    FUN_00c9fc50(strings);
+    bhkConvexShape_GetViewerStrings(strings);
     char* text = NiViewerStrings_NiGetViewerString_Title(DAT_01268288);
     strings->Add(text);
 }
@@ -3016,12 +3046,12 @@ extern int DAT_012686d0;
 struct FUN_00cd2de0 : FUN_00c84c50
 {
     virtual ~FUN_00cd2de0();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 // @fnv 0x00cd2de0
 FUN_00cd2de0::~FUN_00cd2de0()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_012686d0;
 }
 
@@ -3030,13 +3060,13 @@ extern int DAT_01268f8c;
 struct FUN_00d54e60 : FUN_00c84c50
 {
     virtual ~FUN_00d54e60();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 
 // @fnv 0x00d54e60
 FUN_00d54e60::~FUN_00d54e60()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_01268f8c;
 }
 
@@ -3247,11 +3277,12 @@ struct LoadObject
     virtual void v44();
     virtual LoadedData* GetHavokData(int* piSize);
     void LoadBase(LoadStream*);
-    void FUN_00c85f20(LoadStream*);
+    void bhkWorldObject_LoadBinary(LoadStream*);
 };
 void SwapHavokObjectEndian(LoadedData* pkData, void* pkClass, void** ppkArrayData);
 // @fnv 0x00c85f20
-void LoadObject::FUN_00c85f20(LoadStream* stream)
+// src: XBOX_PDB 0x00c85f20
+void LoadObject::bhkWorldObject_LoadBinary(LoadStream* stream)
 {
     TlsGuard_t guard;
     stream->Prepare();
@@ -3506,7 +3537,7 @@ struct Info
     unsigned int unk08;
     hkArray<Pair8> arr;
 };
-void __cdecl FUN_00cf0930(Info*, int, hkArray<Pair8>*);
+void __cdecl bhkStream_SwapHKArray(Info*, int, hkArray<Pair8>*);
 struct Stream86060
 {
     virtual void v0();
@@ -3693,10 +3724,11 @@ struct Obj86060
     virtual void vb0();
     virtual Info* GetInfo(void**);
     void SaveSerializeData(Stream86060&);
-    void FUN_00c86060(Stream86060&);
+    void bhkWorldObject_SaveBinary(Stream86060&);
 };
 // @fnv 0x00c86060
-void Obj86060::FUN_00c86060(Stream86060& stream)
+// src: XBOX_PDB 0x00c86060
+void Obj86060::bhkWorldObject_SaveBinary(Stream86060& stream)
 {
     TagScope scope(16);
     void* handle;
@@ -3704,10 +3736,10 @@ void Obj86060::FUN_00c86060(Stream86060& stream)
     if (stream.mode != 1)
     {
         int kind = Kind();
-        FUN_00cf0930(info, kind, &info->arr);
+        bhkStream_SwapHKArray(info, kind, &info->arr);
         info->value = _byteswap_ulong(info->value);
     }
-    ClearAndRelease(info->arr, FUN_00c85750());
+    ClearAndRelease(info->arr, hkMemoryRouter_getInstance());
     RefLink* ref = info->link;
     ref = ref ? ref->ref : 0;
     stream.WriteRef(ref);
@@ -3721,7 +3753,7 @@ extern int DAT_01268244;
 // @fnv 0x00c9f530
 bhkAabbPhantom::~bhkAabbPhantom()
 {
-    reinterpret_cast<ProjectileListener*>(this)->FUN_00c876a0();
+    reinterpret_cast<ProjectileListener*>(this)->bhkSerializable_Kill();
     DAT_01268244--;
 }
 
@@ -3920,15 +3952,16 @@ struct FUN_00c9f700_cls
     virtual void f43();
     virtual void f44();
     virtual Rec* GetRec(Arg** pp);
-    void FUN_00c85f20(Arg* a);
-    void FUN_00c9f700(Arg* volatile a);
+    void bhkWorldObject_LoadBinary(Arg* a);
+    void bhkAabbPhantom_LoadBinary(Arg* volatile a);
 };
 
 // @fnv 0x00c9f700
-void FUN_00c9f700_cls::FUN_00c9f700(Arg* volatile a)
+// src: XBOX_PDB 0x00c9f700
+void FUN_00c9f700_cls::bhkAabbPhantom_LoadBinary(Arg* volatile a)
 {
     Arg* p = a;
-    FUN_00c85f20(p);
+    bhkWorldObject_LoadBinary(p);
     Rec* r = GetRec((Arg**)&a);
     if (p->m1e5 != 1)
     {
@@ -4158,11 +4191,12 @@ class C9F770Constraint
     virtual C9F770HavokData* GetHavokData(bool* pbOwned);
 
     void SaveBaseBinary(C9F770Stream& kStream);
-    void FUN_00c9f770(C9F770Stream& kStream);
+    void bhkAabbPhantom_SaveBinary(C9F770Stream& kStream);
 };
 
 // @fnv 0x00c9f770
-void C9F770Constraint::FUN_00c9f770(C9F770Stream& kStream)
+// src: XBOX_PDB 0x00c9f770
+void C9F770Constraint::bhkAabbPhantom_SaveBinary(C9F770Stream& kStream)
 {
     bool bIsValid;
     C9F770HavokData* pkData = GetHavokData(&bIsValid);
@@ -4405,16 +4439,17 @@ struct Cls_00c9fbc0
     virtual void v44()
     {}
     virtual Rec_00c9fbc0* GetRec(Arg_00c9fbc0*& a);
-    void FUN_00c84d00(Arg_00c9fbc0* a);
-    void FUN_00c9fbc0(Arg_00c9fbc0* a1);
+    void bhkShape_LoadBinary(Arg_00c9fbc0* a);
+    void bhkConvexShape_LoadBinary(Arg_00c9fbc0* a1);
 };
 
 // @fnv 0x00c9fbc0
-void Cls_00c9fbc0::FUN_00c9fbc0(Arg_00c9fbc0* a1)
+// src: XBOX_PDB 0x00c9fbc0
+void Cls_00c9fbc0::bhkConvexShape_LoadBinary(Arg_00c9fbc0* a1)
 {
     Arg_00c9fbc0* volatile* pa = &a1;
     Arg_00c9fbc0* a = *pa;
-    FUN_00c84d00(a);
+    bhkShape_LoadBinary(a);
     if (a->unk1e5 != 1)
     {
         Rec_00c9fbc0* r = GetRec(a1);
@@ -4606,11 +4641,12 @@ class C9FC00Object
     virtual C9FC00Data* GetData(bool* pbValid);
 
     void SaveBinaryBase(C9FC00Stream& kStream);
-    void FUN_00c9fc00(C9FC00Stream& kStream);
+    void bhkConvexShape_SaveBinary(C9FC00Stream& kStream);
 };
 
 // @fnv 0x00c9fc00
-void C9FC00Object::FUN_00c9fc00(C9FC00Stream& kStream)
+// src: XBOX_PDB 0x00c9fc00
+void C9FC00Object::bhkConvexShape_SaveBinary(C9FC00Stream& kStream)
 {
     bool bValid;
     C9FC00Data* pkData = GetData(&bValid);
@@ -4796,15 +4832,16 @@ struct FUN_00c9ff00_cls
     virtual void v2B();
     virtual void v2C();
     virtual volatile unsigned int* vGet(void* pp);
-    void FUN_00c9fbc0(FUN_00c9ff00_arg* a);
-    void FUN_00c9ff00(FUN_00c9ff00_arg* a1);
+    void bhkConvexShape_LoadBinary(FUN_00c9ff00_arg* a);
+    void bhkBoxShape_LoadBinary(FUN_00c9ff00_arg* a1);
 };
 
 // @fnv 0x00c9ff00
-void FUN_00c9ff00_cls::FUN_00c9ff00(FUN_00c9ff00_arg* volatile a1)
+// src: XBOX_PDB 0x00c9ff00
+void FUN_00c9ff00_cls::bhkBoxShape_LoadBinary(FUN_00c9ff00_arg* volatile a1)
 {
     FUN_00c9ff00_arg* obj = a1;
-    FUN_00c9fbc0(obj);
+    bhkConvexShape_LoadBinary(obj);
     if (obj->m_1e5 != 1)
     {
         volatile unsigned int* p = vGet((void*)&a1) + 4;
@@ -4989,12 +5026,13 @@ struct FUN_00c9ff50_cls
     virtual void v2B();
     virtual void v2C();
     virtual volatile unsigned int* vGet(unsigned char* out);
-    void FUN_00c9fc00(FUN_00c9ff50_arg* a);
-    void FUN_00c9ff50(FUN_00c9ff50_arg* a1);
+    void bhkConvexShape_SaveBinary(FUN_00c9ff50_arg* a);
+    void bhkBoxShape_SaveBinary(FUN_00c9ff50_arg* a1);
 };
 
 // @fnv 0x00c9ff50
-void FUN_00c9ff50_cls::FUN_00c9ff50(FUN_00c9ff50_arg* a1)
+// src: XBOX_PDB 0x00c9ff50
+void FUN_00c9ff50_cls::bhkBoxShape_SaveBinary(FUN_00c9ff50_arg* a1)
 {
     unsigned int tmp;
     volatile unsigned int* p = vGet((unsigned char*)&tmp + 3);
@@ -5005,7 +5043,7 @@ void FUN_00c9ff50_cls::FUN_00c9ff50(FUN_00c9ff50_arg* a1)
         p[6] = _byteswap_ulong(p[6]);
         p[7] = _byteswap_ulong(p[7]);
     }
-    FUN_00c9fc00(a1);
+    bhkConvexShape_SaveBinary(a1);
     if (a1->unk1E4 != 1)
     {
         p[4] = _byteswap_ulong(p[4]);
@@ -5080,16 +5118,17 @@ struct CA0780Owner
     virtual void vf47();
     virtual void vf48();
     virtual void vf49(FUN_0094dbb0* object, unsigned int argument);
-    FUN_0094dbb0* FUN_00ca0780(unsigned int argument);
+    FUN_0094dbb0* bhkSphereShape_CreateClone(unsigned int argument);
 };
 // @fnv 0x00ca0780
-FUN_0094dbb0* CA0780Owner::FUN_00ca0780(unsigned int argument)
+// src: XBOX_PDB 0x00ca0780
+FUN_0094dbb0* CA0780Owner::bhkSphereShape_CreateClone(unsigned int argument)
 {
     TlsGuard_t guard;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     FUN_0094dbb0* object = new FUN_0094dbb0;
     vf49(object, argument);
-    FUN_00c87700();
+    bhkSerializable_CloneCritUnlock();
     return object;
 }
 
@@ -5098,13 +5137,13 @@ extern int DAT_012682cc;
 struct FUN_00ca4da0 : FUN_00c84c50
 {
     virtual ~FUN_00ca4da0();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
 };
 
 // @fnv 0x00ca4da0
 FUN_00ca4da0::~FUN_00ca4da0()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     DAT_012682cc--;
 }
 
@@ -5203,7 +5242,7 @@ FUN_00cb38c0::FUN_00cb38c0(bhkRigidBodyBase* pkSource)
 struct FUN_00cbe9f0_Target;
 struct FUN_00c85c80_Class
 {
-    int FUN_00c85c80(int a);
+    int bhkWorldObject_GetAVObject(int a);
 };
 struct S00cbe9f0_cls
 {
@@ -5216,21 +5255,22 @@ struct S00cbe9f0_cls
     FUN_00cbe9f0_Target* m18;
     unsigned char m1c;
 
-    void FUN_00c9f050(const void* a);
-    void FUN_00c85c10(int a, int b);
-    void FUN_00cbe9f0(int a1, FUN_00cbe9f0_Target* a2);
+    void bhkSimpleShapePhantom_Init(const void* a);
+    void bhkWorldObject_SetAVObject(int a, int b);
+    void bhkCollisionBox_Init(int a1, FUN_00cbe9f0_Target* a2);
 };
 
 // @fnv 0x00cbe9f0
-void S00cbe9f0_cls::FUN_00cbe9f0(int a1, FUN_00cbe9f0_Target* a2)
+// src: XBOX_PDB 0x00cbe9f0
+void S00cbe9f0_cls::bhkCollisionBox_Init(int a1, FUN_00cbe9f0_Target* a2)
 {
     m1c = 0;
-    FUN_00c9f050((const void*)a1);
+    bhkSimpleShapePhantom_Init((const void*)a1);
     m18 = a2;
     if (a2 == 0)
         return;
     FUN_00c85c80_Class* p = *(FUN_00c85c80_Class**)((char*)a2 + 0x594);
-    FUN_00c85c10(p ? p->FUN_00c85c80(0) : 0, 0);
+    bhkWorldObject_SetAVObject(p ? p->bhkWorldObject_GetAVObject(0) : 0, 0);
 }
 
 extern "C" unsigned short __cdecl _byteswap_ushort(unsigned short);
@@ -5288,14 +5328,15 @@ struct FUN_00c9d4f0_cls
     virtual void v2B();
     virtual void v2C();
     virtual unsigned char* vGet(unsigned char* pp);
-    void FUN_00c85f20(FUN_00c9d4f0_obj* p);
-    void FUN_00c9d4f0(FUN_00c9d4f0_obj* p);
+    void bhkWorldObject_LoadBinary(FUN_00c9d4f0_obj* p);
+    void bhkEntity_LoadBinary(FUN_00c9d4f0_obj* p);
 };
 
 // @fnv 0x00c9d4f0
-void FUN_00c9d4f0_cls::FUN_00c9d4f0(FUN_00c9d4f0_obj* p)
+// src: XBOX_PDB 0x00c9d4f0
+void FUN_00c9d4f0_cls::bhkEntity_LoadBinary(FUN_00c9d4f0_obj* p)
 {
-    FUN_00c85f20(p);
+    bhkWorldObject_LoadBinary(p);
     if (p->m_1e5 != 1)
     {
         unsigned char flag;
@@ -5523,12 +5564,13 @@ struct FUN_00c9d530_cls
     virtual void v44()
     {}
     virtual unsigned char* GetRef(unsigned char* flag);
-    void FUN_00c86060(FUN_00c9d530_arg* a);
-    void FUN_00c9d530(FUN_00c9d530_arg* a1);
+    void bhkWorldObject_SaveBinary(FUN_00c9d530_arg* a);
+    void bhkEntity_SaveBinary(FUN_00c9d530_arg* a1);
 };
 
 // @fnv 0x00c9d530
-void FUN_00c9d530_cls::FUN_00c9d530(FUN_00c9d530_arg* a1)
+// src: XBOX_PDB 0x00c9d530
+void FUN_00c9d530_cls::bhkEntity_SaveBinary(FUN_00c9d530_arg* a1)
 {
     unsigned char flag;
     unsigned char* r = GetRef(&flag);
@@ -5538,7 +5580,7 @@ void FUN_00c9d530_cls::FUN_00c9d530(FUN_00c9d530_arg* a1)
         unsigned short* p = (unsigned short*)(r + 0x1a);
         *p = _byteswap_ushort(*p);
     }
-    FUN_00c86060(a);
+    bhkWorldObject_SaveBinary(a);
     if (a->m1E4 != 1)
     {
         unsigned short* p = (unsigned short*)(r + 0x1a);
@@ -5577,8 +5619,8 @@ struct StringArray
 };
 extern const char* DAT_01268200;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
+char* __cdecl NiGetViewerString(const char*, bool);
+char* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
 struct Body
 {
     int unk00;
@@ -5647,7 +5689,7 @@ struct Object
     void* vfptr;
     int unk04;
     Body* body;
-    void FUN_00c86190(StringArray*);
+    void bhkWorldObject_GetViewerStrings(StringArray*);
     bool IsActive()
     {
         bool active;
@@ -5665,20 +5707,21 @@ struct Object
     {
         return this && body ? body->island : 0;
     }
-    void FUN_00c9d6b0(StringArray* strings);
+    void bhkEntity_GetViewerStrings(StringArray* strings);
 };
 // @fnv 0x00c9d6b0
-void Object::FUN_00c9d6b0(StringArray* strings)
+// src: XBOX_PDB 0x00c9d6b0
+void Object::bhkEntity_GetViewerStrings(StringArray* strings)
 {
     AllocationScope scope;
     bool active;
-    FUN_00c86190(strings);
+    bhkWorldObject_GetViewerStrings(strings);
     strings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268200));
-    strings->Add(FUN_00a7d370("Active", (this && body) ? (*body->isActive_00c9bff0(&active) ? true : false) : false));
-    strings->Add(FUN_00a7d370("Fixed", (this && body) ? (body->motionType == 5 ? true : false) : false));
+    strings->Add(NiGetViewerString("Active", (this && body) ? (*body->isActive_00c9bff0(&active) ? true : false) : false));
+    strings->Add(NiGetViewerString("Fixed", (this && body) ? (body->motionType == 5 ? true : false) : false));
     char buffer[64];
     _snprintf(buffer, 64, "0x%08X", GetIsland());
-    strings->Add(FUN_00a7d5e0("SimIsland", buffer));
+    strings->Add(NiGetViewerString_00a7d5e0("SimIsland", buffer));
 }
 
 struct S_00ca09e0_Inner
@@ -5752,7 +5795,7 @@ struct S_00ca09e0_Target
     virtual void v54();
     virtual void v55(S_00ca09e0_Shape* s, int f);
 };
-S_00ca09e0_Shape* __cdecl FUN_00c56680(float a, int b, int c, int d);
+S_00ca09e0_Shape* __cdecl BSTestObjects_CreateSphere(float a, int b, int c, int d);
 char* __cdecl FUN_00a5b690(const char* s);
 extern char* _EmptyFS;
 struct S_00ca09e0_Str
@@ -5774,12 +5817,13 @@ struct S_00ca09e0_Obj
     int unk0;
     int unk4;
     S_00ca09e0_Inner* unk8;
-    void FUN_00ca09e0(S_00ca09e0_Target* a, int b);
+    void bhkSphereShape_BuildDisplayGeometry(S_00ca09e0_Target* a, int b);
 };
 // @fnv 0x00ca09e0
-void S_00ca09e0_Obj::FUN_00ca09e0(S_00ca09e0_Target* a, int b)
+// src: XBOX_PDB 0x00ca09e0
+void S_00ca09e0_Obj::bhkSphereShape_BuildDisplayGeometry(S_00ca09e0_Target* a, int b)
 {
-    S_00ca09e0_Shape* s = FUN_00c56680(((this && unk8) ? unk8->unk10 : DAT_010c72bc) * DAT_011b15c8, 10, 10, 0);
+    S_00ca09e0_Shape* s = BSTestObjects_CreateSphere(((this && unk8) ? unk8->unk10 : DAT_010c72bc) * DAT_011b15c8, 10, 10, 0);
     if (s)
     {
         static S_00ca09e0_Str name("bhkSphereShape");
@@ -5816,7 +5860,7 @@ struct S00ca0900_Shape
     unsigned short m_usMemSizeAndFlags;
     static void* operator new(unsigned int size)
     {
-        Pool* pool = FUN_00c85750();
+        Pool* pool = hkMemoryRouter_getInstance();
         S00ca0900_Shape* p = (S00ca0900_Shape*)pool->allocator->Allocate(0x20);
         p->m_usMemSizeAndFlags = 0x20;
         return p;
@@ -5877,11 +5921,12 @@ struct S00ca0900_cls
     virtual void v2d();
     virtual void v2e();
     virtual void Finish(S00ca0900_Arg* arg);
-    void FUN_00ca0900(S00ca0900_Arg* arg);
+    void bhkSphereShape_Init_00ca0900(S00ca0900_Arg* arg);
 };
 
 // @fnv 0x00ca0900
-void S00ca0900_cls::FUN_00ca0900(S00ca0900_Arg* arg)
+// src: XBOX_PDB 0x00ca0900
+void S00ca0900_cls::bhkSphereShape_Init_00ca0900(S00ca0900_Arg* arg)
 {
     S00ca0900_Guard guard;
     S00ca0900_Shape* shape = new S00ca0900_Shape(arg->unk04);
@@ -5919,7 +5964,7 @@ struct RotationValue
 struct PositionValue
 {
     float x, y, z;
-    void* FUN_00a59af0(const char*);
+    void* GetViewerString_00a59af0(const char*);
 };
 void FUN_00458620(PositionValue*, const void*);
 struct ModeScope
@@ -5941,14 +5986,15 @@ struct Target
         RotationOffset = 0x20,
         PositionOffset = 0x30
     };
-    void FUN_00c8f870(OutputList*);
-    void FUN_00cb3b20(OutputList*);
+    void bhkRigidBody_GetViewerStrings(OutputList*);
+    void bhkRigidBodyT_GetViewerStrings(OutputList*);
 };
 // @fnv 0x00cb3b20
-void Target::FUN_00cb3b20(OutputList* out)
+// src: XBOX_PDB 0x00cb3b20
+void Target::bhkRigidBodyT_GetViewerStrings(OutputList* out)
 {
     ModeScope scope;
-    FUN_00c8f870(out);
+    bhkRigidBody_GetViewerStrings(out);
     out->append(NiViewerStrings_NiGetViewerString_Title(DAT_012683c8));
     const float* rotation = reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + RotationOffset);
     RotationValue value;
@@ -5959,7 +6005,7 @@ void Target::FUN_00cb3b20(OutputList* out)
     PositionValue position;
     FUN_00458620(&position, reinterpret_cast<const char*>(this) + PositionOffset);
     out->append(value.FUN_00a6e190(str_010c88a8));
-    out->append(position.FUN_00a59af0(str_010c889c));
+    out->append(position.GetViewerString_00a59af0(str_010c889c));
 }
 }  // namespace fnv_00cb3b20
 
@@ -6021,22 +6067,23 @@ struct ShapeViewerFields
     {
         return collisionFlags & 0x1f;
     }
-    void FUN_00c851c0(BCA05B0StringArray* output);
+    void bhkShape_GetViewerStrings(BCA05B0StringArray* output);
 };
 
 extern const char DAT_010c59cc[];
 extern "C" const char* DAT_01268100;
-char* __cdecl FUN_00a7d4d0(const char*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d4d0(const char*, unsigned int);
 
 // @fnv 0x00c851c0
-void ShapeViewerFields::FUN_00c851c0(BCA05B0StringArray* output)
+// src: XBOX_PDB 0x00c851c0
+void ShapeViewerFields::bhkShape_GetViewerStrings(BCA05B0StringArray* output)
 {
     TlsGuard_ca0090 context;
     DebugStrArray* strings = reinterpret_cast<DebugStrArray*>(output);
     typedef void (__thiscall* AppendStrings)(bhkRefObject*, DebugStrArray*);
     ((AppendStrings)AppendHavokViewerStrings)((bhkRefObject*)this, strings);
     strings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268100));
-    strings->Add(FUN_00a7d4d0(DAT_010c59cc, reinterpret_cast<ShapeViewerFields*>(this)->Layer()));
+    strings->Add(NiGetViewerString_00a7d4d0(DAT_010c59cc, reinterpret_cast<ShapeViewerFields*>(this)->Layer()));
 }
 
 struct Q00c9fde0
@@ -6100,15 +6147,16 @@ struct C9FFD0Owner
     virtual void vf47();
     virtual void vf48();
     virtual void vf49(Q00c9fde0* object, unsigned int argument);
-    Q00c9fde0* FUN_00c9ffd0(unsigned int argument);
+    Q00c9fde0* bhkBoxShape_CreateClone(unsigned int argument);
 };
 // @fnv 0x00c9ffd0
-Q00c9fde0* C9FFD0Owner::FUN_00c9ffd0(unsigned int argument)
+// src: XBOX_PDB 0x00c9ffd0
+Q00c9fde0* C9FFD0Owner::bhkBoxShape_CreateClone(unsigned int argument)
 {
     TlsGuard_t guard;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     Q00c9fde0* object = new Q00c9fde0;
     vf49(object, argument);
-    FUN_00c87700();
+    bhkSerializable_CloneCritUnlock();
     return object;
 }

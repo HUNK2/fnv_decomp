@@ -295,7 +295,7 @@ FreeNode* Allocator::hkThreadMemory_blockAlloc(int size)
 }
 }  // namespace fnv_00d2c5a0
 
-extern void FUN_00d2caa0(void* res, int a1, int n);
+extern void hkMemUtil_memCpy_00d2caa0(void* res, int a1, int n);
 
 struct SelfCls
 {
@@ -312,7 +312,7 @@ void* SelfCls::hkThreadMemory_bufRealloc(int a1, int a2, FUN_00d2c3a0_class* a3)
 {
     void* res = this->vslot1(a3->m0);
     int n = (int)a3->m0 < a2 ? (int)a3->m0 : a2;
-    FUN_00d2caa0(res, a1, n);
+    hkMemUtil_memCpy_00d2caa0(res, a1, n);
     this->vslot2(a1, a2);
     return res;
 }

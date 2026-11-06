@@ -142,13 +142,13 @@ public:
     GskVectorCallLocal_00da8500 FUN_00439ef0(const GskVectorCallLocal_00da8500& vector);
     GskVectorCallLocal_00da8500 FUN_00439e90(const GskVectorCallLocal_00da8500& vector);
     void FUN_00439180(float value);
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     void normalize_005611c0();
     void setMul(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
     void setMulInverse(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
     void hkQuaternion_getAxis(GskVectorCallLocal_00da8500* vector);
-    void FUN_00c7f640(const Transform& transform, const GskVectorCallLocal_00da8500& point);
-    void FUN_00cb2450(const GskVectorCallLocal_00da8500* vector, float value);
+    void setTransformedPos_00c7f640(const Transform& transform, const GskVectorCallLocal_00da8500& point);
+    void hkQuaternion_setAxisAngle(const GskVectorCallLocal_00da8500* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);
 
     template <int I> void splat(const GskVectorCallLocal_00da8500& vector);
@@ -578,12 +578,13 @@ struct __declspec(align(16)) FUN_00da9880_cls
     int unk12C;
     __m128 m_v130;
 
-    void FUN_00da9880(const SpawnedSrc* apSrc, SpawnedDst* apDst);
+    void hkpGsk_convertFeatureToClosestDistance(const SpawnedSrc* apSrc, SpawnedDst* apDst);
 };
 
 // Copies apSrc's vector and float into apDst, then sets m_v10 to m_v20 if m_i00 is 1, to a w-scaled blend with m_va0 if m_i04 is 1, else to m_v130.
 // @fnv 0x00da9880
-void FUN_00da9880_cls::FUN_00da9880(const SpawnedSrc* apSrc, SpawnedDst* apDst)
+// src: XBOX_PDB 0x00da9880
+void FUN_00da9880_cls::hkpGsk_convertFeatureToClosestDistance(const SpawnedSrc* apSrc, SpawnedDst* apDst)
 {
     apDst->m_f20 = *(const volatile float*)((const char*)apSrc + 0xc);
     apDst->m_v00 = apSrc->m_v;
@@ -685,7 +686,7 @@ struct S00da8820_Result
     float m_fValue;
 };
 
-int __cdecl FUN_00d22e40(const hkVector4& A, const hkVector4& dA, const hkVector4& B,
+int __cdecl hkLineSegmentUtil_closestLineSegLineSeg(const hkVector4& A, const hkVector4& dA, const hkVector4& B,
                          const hkVector4& dB, S00da8820_Result& result);
 
 // Finds the closest points of two edges, builds a plane from their cross product (using oldNormal if near-parallel), and stores the point and plane.
@@ -700,7 +701,7 @@ static __declspec(noinline) void __cdecl FUN_00da8820(hkVector4* edgeA, hkVector
     dB.setSub4(edgeB[1], edgeB[0]);
 
     S00da8820_Result result;
-    FUN_00d22e40(edgeA[0], dA, edgeB[0], dB, result);
+    hkLineSegmentUtil_closestLineSegLineSeg(edgeA[0], dA, edgeB[0], dB, result);
 
     planeOut.setCross(dA, dB);
 
@@ -829,9 +830,9 @@ extern const __m128 DAT_010c44d0;
 extern const signed char DAT_010cb438[], DAT_010cb440[], DAT_010cb442[];
 struct Transform_result : Collision_vector
 {
-    void FUN_00c7f700(Collision_mat*, Collision_vector*);
+    void hkVector4_setRotatedDir(Collision_mat*, Collision_vector*);
 };
-extern int FUN_00d22e40(Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*);
+extern int hkLineSegmentUtil_closestLineSegLineSeg(Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*, Collision_vector*);
 struct SmallBool
 {
     char value;
@@ -1007,7 +1008,7 @@ redispatch:
         Collision_vector& eb = edgeB;
         eb.simd() = b[1].simd();
         eb.simd() = _mm_sub_ps(eb.simd(), b[0].simd());
-        int result = FUN_00d22e40(a, &edgeA, b, &edgeB, witnesses);
+        int result = hkLineSegmentUtil_closestLineSegLineSeg(a, &edgeA, b, &edgeB, witnesses);
         if (!result)
         {
             axis.simd() = cross(edgeA.simd(), edgeB.simd());
@@ -1263,7 +1264,7 @@ SmallBool Collision_workspace::FUN_00da9b30(Collision_vcls* shapeA, Collision_vc
             localDirection.simd() = _mm_add_ps(_mm_add_ps(zero, t), u);
             shapeB->support(&localDirection, &supportB);
             Transform_result transformed;
-            transformed.FUN_00c7f700(transform, &supportB);
+            transformed.hkVector4_setRotatedDir(transform, &supportB);
             support.simd() = _mm_sub_ps(support.simd(), transformed.simd());
         }
         int z = countA;
@@ -1493,7 +1494,7 @@ struct ContactClosest
     ContactVector delta;
     StoredDistance distanceSquared;
 };
-int FUN_00d22e40(const ContactVector&, const ContactVector&, const ContactVector&, const ContactVector&,
+int hkLineSegmentUtil_closestLineSegLineSeg(const ContactVector&, const ContactVector&, const ContactVector&, const ContactVector&,
                  ContactClosest&);
 
 static __forceinline void orient(ContactVector& out, const ContactVector& axis)
@@ -1531,7 +1532,7 @@ static __forceinline void edgeToEdge(ContactVector* first, ContactVector* second
     edgeA.setSub4(first[1], first[0]);
     edgeB.setSub4(second[1], second[0]);
     ContactClosest closest;
-    FUN_00d22e40(first[0], edgeA, second[0], edgeB, closest);
+    hkLineSegmentUtil_closestLineSegLineSeg(first[0], edgeA, second[0], edgeB, closest);
     out.setCross(edgeA, edgeB);
     float combinedLength;
     {
@@ -1967,7 +1968,7 @@ struct GapLineResult
     GapVector point, difference;
     GapValue<float> distance;
 };
-int __cdecl FUN_00d22e40(const GapVector&, const GapVector&, const GapVector&, const GapVector&, GapLineResult&);
+int __cdecl hkLineSegmentUtil_closestLineSegLineSeg(const GapVector&, const GapVector&, const GapVector&, const GapVector&, GapLineResult&);
 namespace GapMath {
 inline int negative(const GapScalar& v)
 {
@@ -2059,10 +2060,10 @@ class GapSolver
     {
         changed = f;
     }
-    void FUN_00daa7e0(const GapShape*, const GapShape*, const GapTransform&);
+    void hkpGsk_processEdgeTriangle(const GapShape*, const GapShape*, const GapTransform&);
     int FUN_00da8500(const GapVector&, GapVector*, SupportTypes);
     NextCase FUN_00da9340(GapVector*, GapVector*, GapValue<int>&, GapValue<int>&, GapBool, SupportTypes);
-    GapStatus FUN_00daad40(const GapShape*, const GapShape*, const GapTransform&, GapVector&);
+    GapStatus hkpGsk_getClosestFeature(const GapShape*, const GapShape*, const GapTransform&, GapVector&);
 };
 
 static __declspec(noinline) int FUN_00da8390(const GapVector& point, const GapVector* tetra, GapVector& weights)
@@ -2391,7 +2392,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
             edgeA.subtract(verticesA[1], verticesA[0]);
             GapVector edgeB;
             edgeB.edgeSubtract(verticesB[1], verticesB[0]);
-            int result = FUN_00d22e40(verticesA[0], edgeA, verticesB[0], edgeB, closest);
+            int result = hkLineSegmentUtil_closestLineSegLineSeg(verticesA[0], edgeA, verticesB[0], edgeB, closest);
             if (result == 0)
             {
                 axis.cross(edgeA, edgeB);
@@ -2469,7 +2470,8 @@ __forceinline float hkGskCalcSupportDistSquared(const GapVector& support, const 
     return GapMath::absolute(dot0) * dot0;
 }
 // @fnv 0x00daad40
-GapStatus GapSolver::FUN_00daad40(const GapShape* shapeA, const GapShape* shapeB, const GapTransform& aTb,
+// src: XBOX_PDB 0x00daad40
+GapStatus GapSolver::hkpGsk_getClosestFeature(const GapShape* shapeA, const GapShape* shapeB, const GapTransform& aTb,
                                   GapVector& separatingNormalOut)
 {
     GapUtil::points(aTb, &sourceB[0], countB, &verticesB[0]);
@@ -2493,7 +2495,7 @@ GapStatus GapSolver::FUN_00daad40(const GapShape* shapeA, const GapShape* shapeB
             {
                 if (!skipPenetration.val())
                 {
-                    FUN_00daa7e0(shapeA, shapeB, aTb);
+                    hkpGsk_processEdgeTriangle(shapeA, shapeB, aTb);
                     break;
                 }
                 else
@@ -2745,7 +2747,7 @@ struct SolverOutput
     AlignedPoint normal, point;
     float distance;
 };
-extern void __cdecl FUN_00d22e40(const AlignedPoint* polygon, const AlignedPoint* direction, const AlignedPoint* vertex,
+extern void __cdecl hkLineSegmentUtil_closestLineSegLineSeg(const AlignedPoint* polygon, const AlignedPoint* direction, const AlignedPoint* vertex,
                                  const AlignedPoint* edge, SolverOutput* result);
 static __forceinline __m128 dotThree(__m128 vector, __m128 normal)
 {
@@ -2862,8 +2864,8 @@ int __thiscall CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint
         }
         scratch.quad = (_mm_sub_ps(segment[1].quad, segment[0].quad));
         SolverOutput sampleB, sampleA;
-        FUN_00d22e40(segment, &scratch, polygon + 2, &edgeB, &sampleA);
-        FUN_00d22e40(segment, &scratch, polygon + 2, &edgeA, &sampleB);
+        hkLineSegmentUtil_closestLineSegLineSeg(segment, &scratch, polygon + 2, &edgeB, &sampleA);
+        hkLineSegmentUtil_closestLineSegLineSeg(segment, &scratch, polygon + 2, &edgeA, &sampleB);
         int selection = sampleA.distance > sampleB.distance ? 1 : 0;
         polygon[selection] = polygon[2];
         polygon[selection + 4] = polygon[6];

@@ -80,9 +80,9 @@ struct Built
     int field08;
     void __thiscall FUN_00d2f980(int);
 };
-extern "C" Global* __cdecl FUN_00c85750();
+extern "C" Global* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkpBvTreeAgent_createShapeBvAgent(int arg1, int arg2, int arg3, int arg4);
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d315d0
@@ -113,7 +113,7 @@ struct D2FA00MemoryRouter
     }
 };
 namespace fnvc_adapt {
-extern "C" D2FA00MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D2FA00MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 class D2FA00ReferencedObject
@@ -122,7 +122,7 @@ class D2FA00ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         D2FA00ReferencedObject* b =
-            static_cast<D2FA00ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D2FA00ReferencedObject*>(fnvc_adapt::hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -347,7 +347,7 @@ struct S312_InplaceArray : S312_Array
     }
     ~S312_InplaceArray()
     {
-        ClearAndRelease((S312_Alloc&)fnvc_adapt::FUN_00c85750().heap());
+        ClearAndRelease((S312_Alloc&)fnvc_adapt::hkMemoryRouter_getInstance().heap());
     }
 };
 struct S312_BvTree

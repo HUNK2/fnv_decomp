@@ -24,18 +24,19 @@ void* NiStencilProperty::DestroyAndFree(unsigned int flags)
 
 struct Flag512Receiver
 {
-    void FUN_00633ba0(bool, unsigned int);
+    void NiAlphaProperty_SetBit(bool, unsigned int);
 };
 
 struct FUN_0049ed90_shell : Flag512Receiver
 {
-    void FUN_0049ed90(bool bAlpha);
+    void NiAlphaProperty_SetAlphaBlending(bool bAlpha);
 };
 
 // @fnv 0x0049ed90
-void __thiscall FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
+// src: XBOX_PDB 0x0049ed90
+void __thiscall FUN_0049ed90_shell::NiAlphaProperty_SetAlphaBlending(bool bAlpha)
 {
-    this->FUN_00633ba0(bAlpha, 1);
+    this->NiAlphaProperty_SetBit(bAlpha, 1);
 }
 
 // Forwards the given texture slot to FUN_00439360 with flags 0xf000 and value 0xc.
@@ -117,11 +118,12 @@ struct FUN_0049eea0_shell
 {
     char pad[0x30];
     NiPoint3 m_kPoint;
-    void FUN_0049eea0(const NiPoint3& arPoint);
+    void TESObjectREFR_SetLocationOnReferenceSimple(const NiPoint3& arPoint);
 };
 
 // @fnv 0x0049eea0
-void FUN_0049eea0_shell::FUN_0049eea0(const NiPoint3& arPoint)
+// src: XBOX_PDB 0x0049eea0
+void FUN_0049eea0_shell::TESObjectREFR_SetLocationOnReferenceSimple(const NiPoint3& arPoint)
 {
     m_kPoint = arPoint;
 }
@@ -141,7 +143,7 @@ template <> struct UninitializedStorage<sizeof(unsigned int)>
 
 struct FUN_0049eed0_item
 {
-    NiPoint3* FUN_006a7af0();
+    NiPoint3* BSSimpleArray_NiPoint3_1024_GetAt();
 };
 
 struct FUN_0049eed0_list
@@ -162,7 +164,7 @@ bool AnyPointInListMatches(FUN_0049eed0_list* apList, FUN_0049eed0_target* apTar
     for (int i8 = 0; i8 < apList->FUN_0059bb30(); i8++)
     {
         UninitializedStorage<sizeof(NiPoint3)> p2Storage;
-        (*reinterpret_cast<NiPoint3*>(&p2Storage)) = *apList->FUN_00559450(i8)->FUN_006a7af0();
+        (*reinterpret_cast<NiPoint3*>(&p2Storage)) = *apList->FUN_00559450(i8)->BSSimpleArray_NiPoint3_1024_GetAt();
         NiPoint2 v((*reinterpret_cast<NiPoint3*>(&p2Storage)).x, (*reinterpret_cast<NiPoint3*>(&p2Storage)).y);
         if (apTarget->ContainsMatchingTriple(v))
         {
@@ -215,9 +217,9 @@ struct FUN_0049f640
 };
 struct ScriptProgram
 {
-    bool FUN_0045cb90();
+    bool TESObjectLAND_HasVertices();
     void TESObjectLAND_LoadVertices(int);
-    void FUN_00536d80();
+    void TESObjectLAND_UnLoadVertices();
     float TESObjectLAND_GetBaseHeight();
     MeshPoint** GetSecondPointer();
 };
@@ -227,8 +229,8 @@ struct MeshMode
 };
 struct MeshInput
 {
-    ScriptProgram* FUN_00546fb0();
-    float FUN_005471e0();
+    ScriptProgram* TESObjectCELL_GetLand();
+    float TESObjectCELL_GetWaterHeight();
     MeshMode* FUN_0054ddd0();
 };
 extern FUN_0049f1c0* DAT_011c57ac;
@@ -243,15 +245,15 @@ extern bool __cdecl FUN_0049c7b0(const MeshPoint&, const MeshPoint&);
 // @fnv 0x0049c930
 void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
 {
-    ScriptProgram* mesh = pMeshInput->FUN_00546fb0();
-    float height = pMeshInput->FUN_005471e0();
+    ScriptProgram* mesh = pMeshInput->TESObjectCELL_GetLand();
+    float height = pMeshInput->TESObjectCELL_GetWaterHeight();
     if (!DAT_011c57ac)
         DAT_011c57ac = new FUN_0049f1c0;
     else
         DAT_011c57ac->FUN_008454f0(true);
     if (mesh)
     {
-        bool active8 = mesh->FUN_0045cb90();
+        bool active8 = mesh->TESObjectLAND_HasVertices();
         if (!active8)
             mesh->TESObjectLAND_LoadVertices(0);
         FUN_0049f640 _list1;
@@ -526,7 +528,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
             }
         }
         if (!active8)
-            mesh->FUN_00536d80();
+            mesh->TESObjectLAND_UnLoadVertices();
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
@@ -556,7 +558,7 @@ struct CellOrigin
 };
 struct Cell
 {
-    CellOrigin* FUN_00546fb0();
+    CellOrigin* TESObjectCELL_GetLand();
     int FUN_00544c30();
     int FUN_00544c60();
 };
@@ -566,7 +568,7 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 {
     unsigned int f = 0;  // Edge mask: west=1, east=2, north=4, south=8.
     // Translate the point into the cell's coordinate system.
-    NiPoint3 i = cell->FUN_00546fb0()->TESObjectLAND_GetWorldOffsetForBlock(false);
+    NiPoint3 i = cell->TESObjectCELL_GetLand()->TESObjectLAND_GetWorldOffsetForBlock(false);
     point += i;
     // Cell corners: p=southwest, a=southeast, s=northwest, h=northeast.
     NiPoint2 p(float(cell->FUN_00544c30() << 12), float(cell->FUN_00544c60() << 12));
@@ -604,15 +606,15 @@ struct UpdData
 struct AVObj
 {
     void AssignFixedString(const NiFixedString&);
-    void FUN_00439410(void*);
+    void NiAVObject_AttachProperty(void*);
     int FUN_0049ec60();
-    unsigned short FUN_00456650() const;
+    unsigned short NiGeometry_GetVertexCount() const;
 };
 struct NodeObj
 {
     ~NodeObj();
-    AVObj* FUN_0056c7f0();
-    AVObj* FUN_004a8a90();
+    AVObj* GetModel_0056c7f0();
+    AVObj* NiTimeController_GetNext();
     int FUN_0049e3e0(unsigned int);
 };
 struct BufObj
@@ -624,12 +626,12 @@ struct BufObj
 };
 struct WaterForm
 {
-    void* FUN_00580130();
+    void* GetPlaceableAutoWater();
 };
 struct ParamObj
 {
-    float FUN_005471e0();
-    BufObj FUN_00546fb0(int);
+    float TESObjectCELL_GetWaterHeight();
+    BufObj TESObjectCELL_GetLand(int);
     WaterForm* Actor_GetRadiationLevel();
     void FUN_00548230(void*, bool);
 };
@@ -646,8 +648,8 @@ struct SettingObj
     unsigned char* FUN_00408d60();
 };
 extern SettingObj DAT_011cc5a8;
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMIN(float, float);
+float __cdecl BSMAX_00404010(float, float);
 namespace std {
 float abs(float);
 }
@@ -795,9 +797,9 @@ struct FUN_0055a2f0
     int m_5c;
     int m_60;
     int m_64;
-    void FUN_00575690(void*);
+    void TESObjectREFR_SetObjectReference(void*);
     void FUN_00484490();
-    void FUN_0056c8f0();
+    void TESObjectREFR_InitHavokForPlaceableWater();
 };
 struct FUN_00b6abb0 : NiMemObject
 {
@@ -1080,8 +1082,8 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
             NodeObj* nodeX;
             if (0 != DAT_011c57b0)
             {
-                (*reinterpret_cast<NiPoint3*>(&origin.position)).Set(a0->FUN_00546fb0(0).TESObjectLAND_GetWorldOffsetForBlock()->x, a0->FUN_00546fb0(0).TESObjectLAND_GetWorldOffsetForBlock()->y,
-                                 a0->FUN_005471e0());
+                (*reinterpret_cast<NiPoint3*>(&origin.position)).Set(a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->x, a0->TESObjectCELL_GetLand(0).TESObjectLAND_GetWorldOffsetForBlock()->y,
+                                 a0->TESObjectCELL_GetWaterHeight());
                 origin.hasWaterForm = false;
                 s = DAT_011c57b0->FUN_00559450();
                 i = 0;
@@ -1091,7 +1093,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                     if (!!s)
                     {
                         nodeX = *(NodeObj**)DAT_011c57b0->AddEight(s);
-                        if (nodeX->FUN_0056c7f0() != 0 && nodeX->FUN_004a8a90() != 0)
+                        if (nodeX->GetModel_0056c7f0() != 0 && nodeX->NiTimeController_GetNext() != 0)
                         {
                             {
                                 UninitializedStorage<sizeof(NiPoint3)> nStorage;
@@ -1134,12 +1136,12 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                         {
                                                                                                             UninitializedStorage<sizeof(NiPoint3)> oldNodeStorage;
                                                                                                             nodeX
-                                                                                                                ->FUN_0056c7f0()
+                                                                                                                ->GetModel_0056c7f0()
                                                                                                                 ->AssignFixedString(
                                                                                                                     NiFixedString(
                                                                                                                         "AutoWaterNode"));
                                                                                                             nodeX
-                                                                                                                ->FUN_004a8a90()
+                                                                                                                ->NiTimeController_GetNext()
                                                                                                                 ->AssignFixedString(
                                                                                                                     NiFixedString(
                                                                                                                         "AutoWater"));
@@ -1148,24 +1150,24 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             geom =
                                                                                                                 new FUN_00b6abb0;
                                                                                                             nodeX
-                                                                                                                ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
+                                                                                                                ->NiTimeController_GetNext()
+                                                                                                                ->NiAVObject_AttachProperty(
                                                                                                                     geom);
                                                                                                             FUN_00b57e30(
                                                                                                                 nodeX
-                                                                                                                    ->FUN_0056c7f0(),
+                                                                                                                    ->GetModel_0056c7f0(),
                                                                                                                 0, 0);
                                                                                                             minY =
                                                                                                                 new NiStencilProperty;
                                                                                                             minY->NiStencilProperty_SetDrawMode(
                                                                                                                 3);
                                                                                                             nodeX
-                                                                                                                ->FUN_004a8a90()
-                                                                                                                ->FUN_00439410(
+                                                                                                                ->NiTimeController_GetNext()
+                                                                                                                ->NiAVObject_AttachProperty(
                                                                                                                     minY);
-                                                                                                            p84->FUN_00575690(
+                                                                                                            p84->TESObjectREFR_SetObjectReference(
                                                                                                                 a0->Actor_GetRadiationLevel()
-                                                                                                                    ->FUN_00580130());
+                                                                                                                    ->GetPlaceableAutoWater());
                                                                                                             p80 =
                                                                                                                 new AutoWaterFadeNode;
                                                                                                             p80->SetIgnoreFade(
@@ -1173,11 +1175,11 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             p84->FUN_vt1cc(
                                                                                                                 p80,
                                                                                                                 true);
-                                                                                                            p80->FUN_00440460(
+                                                                                                            p80->NiAVObject_SetTranslate(
                                                                                                                 (*reinterpret_cast<NiPoint3*>(&origin.position)));
                                                                                                             ((FUN_0049eea0_shell*)
                                                                                                                  p84)
-                                                                                                                ->FUN_0049eea0(
+                                                                                                                ->TESObjectREFR_SetLocationOnReferenceSimple(
                                                                                                                     (*reinterpret_cast<NiPoint3*>(&origin.position)));
                                                                                                             p7c =
                                                                                                                 new FUN_00c37ec0;
@@ -1189,7 +1191,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                             minZ = 0.0f;
                                                                                                             bufA =
                                                                                                                 nodeX
-                                                                                                                    ->FUN_004a8a90();
+                                                                                                                    ->NiTimeController_GetNext();
                                                                                                             verts =
                                                                                                                 (NiPoint3*)bufA
                                                                                                                     ->FUN_0049ec60();
@@ -1197,7 +1199,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 b = 0;
                                                                                                                 b <
                                                                                                                 (int)bufA
-                                                                                                                    ->FUN_00456650();
+                                                                                                                    ->NiGeometry_GetVertexCount();
                                                                                                                 b++)
                                                                                                             {
                                                                                                                 (*reinterpret_cast<NiPoint3*>(&oldNodeStorage)) = verts
@@ -1205,27 +1207,27 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 if (0 <
                                                                                                                     b)
                                                                                                                 {
-                                                                                                                    val = FUN_0040ebd0(
+                                                                                                                    val = BSMIN(
                                                                                                                         val,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .x);
-                                                                                                                    maxY = FUN_0040ebd0(
+                                                                                                                    maxY = BSMIN(
                                                                                                                         maxY,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .y);
-                                                                                                                    n7c = FUN_0040ebd0(
+                                                                                                                    n7c = BSMIN(
                                                                                                                         n7c,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .z);
-                                                                                                                    minX = FUN_00404010(
+                                                                                                                    minX = BSMAX_00404010(
                                                                                                                         minX,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .x);
-                                                                                                                    p50 = FUN_00404010(
+                                                                                                                    p50 = BSMAX_00404010(
                                                                                                                         p50,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .y);
-                                                                                                                    minZ = FUN_00404010(
+                                                                                                                    minZ = BSMAX_00404010(
                                                                                                                         minZ,
                                                                                                                         (*reinterpret_cast<NiPoint3*>(&oldNodeStorage))
                                                                                                                             .z);
@@ -1289,13 +1291,13 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 true);
                                                                                                             oldNode2->FUN_vtdc(
                                                                                                                 nodeX
-                                                                                                                    ->FUN_0056c7f0(),
+                                                                                                                    ->GetModel_0056c7f0(),
                                                                                                                 true);
                                                                                                             res.NiUpdateData(
                                                                                                                 0.0f,
                                                                                                                 false,
                                                                                                                 false);
-                                                                                                            p80->FUN_00a59c60(
+                                                                                                            p80->NiAVObject_Update(
                                                                                                                 &res);
                                                                                                             a0->FUN_00548230(
                                                                                                                 p84,
@@ -1306,7 +1308,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                     0 &&
                                                                                                                 !origin.hasWaterForm)
                                                                                                             {
-                                                                                                                p84->FUN_0056c8f0();
+                                                                                                                p84->TESObjectREFR_InitHavokForPlaceableWater();
                                                                                                                 origin.hasWaterForm =
                                                                                                                     true;
                                                                                                             }
@@ -1394,7 +1396,8 @@ void BuildWaterSurfaces(MeshInput*);
 
 // Builds auto-water boundary geometry and creates the auto-water node for the given mesh input.
 // @fnv 0x0049c860
-void FUN_0049c860(MeshInput* apMeshInput)
+// src: XBOX_PDB 0x0049c860
+void BGSAutoWater_GeneratePlaceableWaterForCell(MeshInput* apMeshInput)
 {
     AutoMemHelper context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSAutoWater.cpp", 83);
     if (!apMeshInput || !reinterpret_cast<TESObjectCELL*>(apMeshInput)->HasWater())

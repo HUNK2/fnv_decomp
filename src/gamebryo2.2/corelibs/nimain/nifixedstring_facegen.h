@@ -67,7 +67,7 @@ struct FaceGenCoordinateValue
 {
     const float* values;
     unsigned int stride;
-    const float* FUN_00629ab0();
+    const float* NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
 };
 struct FaceGenCoordinateBasis
 {
@@ -85,7 +85,7 @@ class BSFaceGenTexture
 NiTexture* GetFaceGenManagerValue();
 FaceGenTextureFile* BSFaceGenModel_EGTData_Create(const char*);
 bool BSFaceGenManager_LoadEGTData(BSFaceGenModel*);
-void FUN_00652140();
+void BSFaceGenManager_LockFaceGenAccess();
 void BSFaceGenManager_UnlockFaceGenAccess();
 int Warning(const char*, ...);
 void ReportAssertionViolation(const char*, unsigned int);

@@ -32,7 +32,7 @@ public:
     char* ToString(const char* prefix);
 
     NiMatrix3 FUN_004768c0();
-    NiTransform* FUN_00476a80();
+    NiTransform* NiTransform_NiTransform();
     NiPoint3 FUN_004b4500(NiPoint3* point);
     void FUN_004b4880(NiTransform& result) const;
     void FUN_004b4880(NiTransform* result) const;

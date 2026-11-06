@@ -237,7 +237,7 @@ class S00ce0290_hkVector4
         return reinterpret_cast<hkReal*>(&m_vComponents)[a];
     }
     __forceinline void SetRotatedDirection(const S00ce0290_hkQuaternion& quat, const S00ce0290_hkVector4& direction);
-    void FUN_00c7f750(const S00ce0290_hkMatrix3& a, const S00ce0290_hkVector4& b);
+    void hkVector4_setMul3(const S00ce0290_hkMatrix3& a, const S00ce0290_hkVector4& b);
 
     hkQuadReal m_vComponents;
 };
@@ -255,7 +255,7 @@ class S00ce0290_hkQuaternion
     {
         return m_vec;
     }
-    void FUN_00cb2450(const S00ce0290_hkVector4& axis, hkReal angle);
+    void hkQuaternion_setAxisAngle(const S00ce0290_hkVector4& axis, hkReal angle);
     void setMul(const S00ce0290_hkQuaternion& q0, const S00ce0290_hkQuaternion& q1);
     void FUN_00ce0ca0(const S00ce0290_hkQuaternion& q);  // mul
     S00ce0290_hkVector4 m_vec;
@@ -409,7 +409,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
         cross.setCross(setup.m_kThirdVector, vecToTargetMS);
         cross.normalize3();
         S00ce0290_hkQuaternion q;
-        q.FUN_00cb2450(cross, limitAngle);
+        q.hkQuaternion_setAxisAngle(cross, limitAngle);
         vecToTargetMS.SetRotatedDirection(q, setup.m_kThirdVector);
         insideLimits = false;
     }
@@ -427,7 +427,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
         fsuFromWorld.FUN_00cd4ba0(worldFromFSU);
 
         S00ce0290_hkVector4 vec;
-        vec.FUN_00c7f750(fsuFromWorld, vecToTargetMS);
+        vec.hkVector4_setMul3(fsuFromWorld, vecToTargetMS);
         FUN_00ce01c0(vec);
 
         S00ce0290_hkVector4 maxVec;
@@ -440,7 +440,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
         limitedVec.setMax4(limitedVec, minVec);
         FUN_00ce0110(limitedVec);
 
-        vecToTargetMS.FUN_00c7f750(worldFromFSU, limitedVec);
+        vecToTargetMS.hkVector4_setMul3(worldFromFSU, limitedVec);
 
         if (!vecToTargetMS.equals3(vecToTargetMSOld, 0.001f))
         {
@@ -460,7 +460,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
         const hkReal angle = ClampedAcos(cosAngle) * gain;
 
         S00ce0290_hkQuaternion q;
-        q.FUN_00cb2450(cross, angle);
+        q.hkQuaternion_setAxisAngle(cross, angle);
 
         const hkReal eyeDistLS = setup.m_kMiddleVector.length3();
         if (eyeDistLS > 0.0)
@@ -499,7 +499,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& 
             crossCorrection.normalize3();
 
             S00ce0290_hkQuaternion qCorrection;
-            qCorrection.FUN_00cb2450(crossCorrection, -correctionAngle);
+            qCorrection.hkQuaternion_setAxisAngle(crossCorrection, -correctionAngle);
             q.FUN_00ce0ca0(qCorrection);
         }
 

@@ -93,8 +93,8 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
 
     unkC0.hkpPrimitiveDrawer_setDisplayHandler(a2);
     hkpConstraintDrawer_updateCommonParameters(a1.value, &v44, &v80);
-    unk50.FUN_00c7f640(v44, reinterpret_cast<const hkVector4&>(b->unk30));
-    unk40.FUN_00c7f640(v80, reinterpret_cast<const hkVector4&>(b->unk20));
+    unk50.setTransformedPos_00c7f640(v44, reinterpret_cast<const hkVector4&>(b->unk30));
+    unk40.setTransformedPos_00c7f640(v80, reinterpret_cast<const hkVector4&>(b->unk20));
     hkpConstraintDrawer_drawPivots(a3, a4);
     hkpConstraintDrawer_drawBodyFrames(a3, a4);
 

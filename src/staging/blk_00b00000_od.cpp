@@ -29,11 +29,12 @@ extern int DAT_010a47b3;
 
 struct FUN_00b008e0_class
 {
-    int* __thiscall FUN_00b008e0();
+    int* __thiscall BSContentPackage_FileName();
 };
 
 // @fnv 0x00b008e0
-int* __thiscall FUN_00b008e0_class::FUN_00b008e0()
+// src: XBOX_PDB 0x00b008e0
+int* __thiscall FUN_00b008e0_class::BSContentPackage_FileName()
 {
     return &DAT_010a47b3;
 }

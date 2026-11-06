@@ -106,10 +106,10 @@ int __cdecl FUN_00d9f6f0(void* unused, const Header* header, const State* states
             secondLocal.FUN_00d72030(second);
             second = &secondLocal;
             hkVector4 firstAxis, secondAxis, firstBasis, secondBasis;
-            firstAxis.FUN_00c7f750(cursor, &firstLocal.axis);
-            secondAxis.FUN_00c7f750(cursor + 48, &secondLocal.axis);
-            firstBasis.FUN_00c7f750(cursor, &firstLocal.basis2);
-            secondBasis.FUN_00c7f750(cursor + 48, &secondLocal.basis2);
+            firstAxis.hkVector4_setMul3(cursor, &firstLocal.axis);
+            secondAxis.hkVector4_setMul3(cursor + 48, &secondLocal.axis);
+            firstBasis.hkVector4_setMul3(cursor, &firstLocal.basis2);
+            secondBasis.hkVector4_setMul3(cursor + 48, &secondLocal.basis2);
             firstLocal.position.set(_mm_add_ps(firstLocal.position.get(), firstAxis.get()));
             firstLocal.basis1.set(_mm_add_ps(firstLocal.basis1.get(), firstBasis.get()));
             secondLocal.position.set(_mm_add_ps(secondLocal.position.get(), secondAxis.get()));

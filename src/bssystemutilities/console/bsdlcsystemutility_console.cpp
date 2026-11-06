@@ -95,7 +95,8 @@ unsigned int DownloadableContentManager::MountDownloadableContent(unsigned int u
 
 // Zeroes the object's first three words and clears three list nodes at offsets 0xc, 0x14 and 0x1c, then returns self.
 // @fnv 0x00af27c0
-DownloadableContentManager* __fastcall FUN_00af27c0(DownloadableContentManager* self)
+// src: XBOX_PDB 0x00af27c0
+DownloadableContentManager* __fastcall BSDLCSystemUtility_BSDLCSystemUtility(DownloadableContentManager* self)
 {
     *(unsigned int*)((char*)self + 0) = 0;
     *(unsigned int*)((char*)self + 4) = 0;

@@ -115,13 +115,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -524,7 +524,7 @@ struct FUN_00aa5ff0_Class
     unsigned int m_uiItemCount;
     unsigned int m_uiThreadId;
 
-    void __thiscall FUN_00aa5ff0();
+    void __thiscall BSReadWriteLock_LockForRead();
 };
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
@@ -893,7 +893,7 @@ struct FUN_00aa7300_pool
 {
     int m_00;
     int m_04;
-    void FUN_0040fbf0(const char* name);
+    void BSSpinLock_Lock(const char* name);
 };
 class FUN_00aa7300_cls
 {
@@ -957,7 +957,7 @@ extern PoolA* DAT_011f6c04;
 void __cdecl CompleteJob(JobA* job);
 struct S_0044a730_Class
 {
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
 };
 struct S_00aba220_Class
 {
@@ -2676,7 +2676,7 @@ FUN_00aa4a60::~FUN_00aa4a60()
 
 struct S_00aa8950_MM
 {
-    void __thiscall FUN_00aa4060(void*);
+    void __thiscall MemoryManager_Deallocate(void*);
 };
 
 struct S00aa8950_ReleaseGuard
@@ -2703,13 +2703,13 @@ void* __thiscall S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
     ((int*)this)[0] = (int)&DAT_010a2980;
     if (flags & 1)
     {
-        reinterpret_cast<S_00aa8950_MM*>(&DAT_011f6238)->FUN_00aa4060(this);
+        reinterpret_cast<S_00aa8950_MM*>(&DAT_011f6238)->MemoryManager_Deallocate(this);
     }
     return this;
 }
 
 extern "C" unsigned int __cdecl strlen(const char*);
-void* __cdecl FUN_0044d670(unsigned int, int);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int, int);
 
 namespace FnvControlStd {
 template <class E> struct char_traits;
@@ -2747,7 +2747,7 @@ template <class T> class allocator
     }
     pointer allocate(size_type count)
     {
-        return (pointer)FUN_0044d670(count, 0);
+        return (pointer)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
     }
 };
 template <class E, class Tr, class A> class basic_string
@@ -2874,11 +2874,12 @@ struct S00aaaa80_Str
 struct S00aaaa80_Body
 {
     virtual void Anchor();
-    void FUN_00ac5430()
+// src: XBOX_PDB 0x00ac5430
+    void FutBinaryFileC_close()
     {
         unsigned n0, n1, n2, n3, n4, n5, n6, n7, n8, n9;
         if (n0)
-            FUN_00ac5430();
+            FutBinaryFileC_close();
         n0 = n1 = n2 = n3 = n4 = n5 = n6 = n7 = n8 = n9 = 0;
     }
 };
@@ -2894,7 +2895,7 @@ struct FUN_00aaaa80 : S00aaaa80_Body
 // @fnv 0x00aaaa80
 FUN_00aaaa80::~FUN_00aaaa80()
 {
-    FUN_00ac5430();
+    FutBinaryFileC_close();
 }
 
 namespace fnv_00aaab90 {
@@ -2903,7 +2904,7 @@ extern "C" int __cdecl fclose(void*);
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" const char DAT_01011584[];
 char* __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
-void* __cdecl FUN_0044d670(unsigned int, int);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int, int);
 
 struct ReaderAllocator
 {
@@ -2936,7 +2937,8 @@ struct ReaderString
     } storage;
     unsigned int length;
     unsigned int capacity;
-    void FUN_0044a730(bool built = false, unsigned int count = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built = false, unsigned int count = 0)
     {
         if (built && 16 <= capacity)
         {
@@ -2961,10 +2963,10 @@ struct ReaderString
         unsigned int newres = count | 15;
         if (max_size() < newres)
             newres = count;
-        char* ptr = (char*)FUN_0044d670(newres + 1, 0);
+        char* ptr = (char*)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(newres + 1, 0);
         if (0 < oldLength)
             std_Traits_helper_copy_s_std_char_traits_char(ptr, newres + 1, Myptr(), oldLength);
-        FUN_0044a730(true);
+        fopen_0044a730(true);
         storage.heap = ptr;
         capacity = newres;
         Eos(oldLength);
@@ -2976,7 +2978,7 @@ struct ReaderString
         if (capacity < count)
             Copy(count, length);
         else if (trim && count < 16)
-            FUN_0044a730(true, count < length ? count : length);
+            fopen_0044a730(true, count < length ? count : length);
         else if (count == 0)
             Eos(0);
         return 0 < count;
@@ -3002,7 +3004,7 @@ struct ReaderString
     }
     ~ReaderString()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
 };
 
@@ -3011,7 +3013,8 @@ struct FUN_00aaaa80
     ReaderString filename;
     ReaderString signature;
     void* unk3c;
-    void FUN_00ac5430()
+// src: XBOX_PDB 0x00ac5430
+    void FutBinaryFileC_close()
     {
         if (unk3c != 0)
             fclose(unk3c);
@@ -3021,7 +3024,7 @@ struct FUN_00aaaa80
     }
     virtual ~FUN_00aaaa80()
     {
-        FUN_00ac5430();
+        FutBinaryFileC_close();
     }
 };
 
@@ -3032,7 +3035,7 @@ struct ReaderObject
 
 struct LoadedFile
 {
-    void FUN_0044b180();
+    void LoadedFile_DecRefCount();
 };
 
 struct DerivedReader : FUN_00aaaa80
@@ -3044,7 +3047,7 @@ struct DerivedReader : FUN_00aaaa80
         if (unk44 != 0)
         {
             unk40 = 0;
-            unk44->FUN_0044b180();
+            unk44->LoadedFile_DecRefCount();
             unk44 = 0;
         }
         else
@@ -3399,7 +3402,7 @@ extern const char DAT_010a27f4[];
 struct MatrixPoolLock
 {
     unsigned int owner, count, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    void FUN_0040fbf0(const char*);
+    void BSSpinLock_Lock(const char*);
 };
 struct MatrixPool
 {
@@ -3422,7 +3425,7 @@ struct MatrixPool
     {
         if (!pointer)
             return;
-        lock.FUN_0040fbf0(DAT_010a27f4);
+        lock.BSSpinLock_Lock(DAT_010a27f4);
         FUN_00aa6e00(pointer);
         unsigned int page = ((unsigned int)pointer - begin) >> 12;
         --pageCounts[page];
@@ -4571,7 +4574,7 @@ void NoiseGridBuilder::FUN_00aad6b0(float magnitude, NoiseGrid input[2][2], Nois
 
 struct BlendAllocator
 {
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 struct BlendEmpty
 {
@@ -4590,7 +4593,7 @@ struct BlendStorage : BlendEmpty
             int m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
         } p;
         p.m_00 = m_00;
-        ((BlendAllocator*)&DAT_011f6238)->FUN_00aa4060(p.m_00);
+        ((BlendAllocator*)&DAT_011f6238)->MemoryManager_Deallocate(p.m_00);
     }
 };
 struct BlendStorageWrapper : BlendStorage
@@ -5619,7 +5622,7 @@ ElemMOVE* __cdecl FUN_00aaf7e0(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 struct FUN_00aaec10
@@ -5632,7 +5635,7 @@ inline void Del(FUN_00aaec10* p, unsigned int f)
 {
     p->FUN_006593e0();
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -5686,7 +5689,7 @@ void FUN_00aaf8a0(FUN_00aaec10* first, unsigned int count, const FUN_00aaec10& v
 namespace fnv_00aafa80 {
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 inline void operator delete(void*, void*)
@@ -5701,7 +5704,7 @@ inline void Del(FUN_00aaec10* p, unsigned int f)
 {
     p->FUN_006593e0();
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -6223,7 +6226,8 @@ struct MMDealloc
         }
         return 0;
     }
-    void FUN_00aa4060(void* p)
+// src: XBOX_PDB 0x00aa4060
+    void MemoryManager_Deallocate(void* p)
     {
         if (!p)
             return;
@@ -6333,7 +6337,7 @@ struct FUN_00aaaa80
     int unk3c;
     FUN_00aaaa80(std::Str s);
     virtual ~FUN_00aaaa80();
-    void FUN_00ac5430();
+    void FutBinaryFileC_close();
 };
 struct ReaderStream
 {
@@ -6385,7 +6389,7 @@ struct ReaderChars
     ~ReaderChars()
     {
         Destroy();
-        ((MMDealloc*)&g_memoryManager)->FUN_00aa4060(first);
+        ((MMDealloc*)&g_memoryManager)->MemoryManager_Deallocate(first);
     }
     char& operator[](unsigned int i)
     {
@@ -6424,7 +6428,8 @@ struct FUN_00ac5490 : FUN_00aaaa80
             m40 = 0;
         }
     }
-    unsigned char FUN_00ac5540(std::Str s, int z)
+// src: XBOX_PDB 0x00ac5540
+    unsigned char BSFaceGenBinaryFile_openForRead(std::Str s, int z)
     {
         int mode = z ? 0x100 : 1;
         ReaderRef reference(readerDirectory ? readerDirectory->Find(s._Myptr()) : 0);
@@ -6464,7 +6469,7 @@ struct FUN_00ac5490 : FUN_00aaaa80
         return m40 != 0;
     }
     unsigned char BSFaceGenBinaryFile_readHeader(void* buf, int a, int b);
-    unsigned char FUN_00ac5cf0(void* buf, int a, int b);
+    unsigned char BSFaceGenBinaryFile_read(void* buf, int a, int b);
     unsigned char FUN_00ac5c70(void* buf, int n);
 };
 static const char signatureText[] = "FREGM002";
@@ -6477,7 +6482,7 @@ unsigned char __cdecl fffReadEgmFile(const std::Str& pStr, int* pOut, Arr28* pA,
     unsigned short* _res;
     {
         FUN_00ac5490 obj4((std::Str(signatureText)));
-        if (!obj4.FUN_00ac5540(pStr, 0))
+        if (!obj4.BSFaceGenBinaryFile_openForRead(pStr, 0))
         {
             return 0;
         }
@@ -6498,7 +6503,7 @@ unsigned char __cdecl fffReadEgmFile(const std::Str& pStr, int* pOut, Arr28* pA,
             {
                 Elem28* e = &(*pA)[p2];
                 (*pA)[p2].arr.resize(hdr.f0);
-                if (!obj4.FUN_00ac5cf0(&val, 4, 1))
+                if (!obj4.BSFaceGenBinaryFile_read(&val, 4, 1))
                     return 0;
                 (*pA)[p2].f = val;
                 if (!obj4.FUN_00ac5c70(_res, hdr.f0 * 3))
@@ -6534,7 +6539,7 @@ unsigned char __cdecl fffReadEgmFile(const std::Str& pStr, int* pOut, Arr28* pA,
             {
                 Elem28* e = &(*pB)[p2];
                 e->arr.resize(hdr.f0);
-                if (!obj4.FUN_00ac5cf0(&val, 4, 1))
+                if (!obj4.BSFaceGenBinaryFile_read(&val, 4, 1))
                     return 0;
                 e->f = val;
                 if (!obj4.FUN_00ac5c70(_res, hdr.f0 * 3))
@@ -6567,7 +6572,7 @@ unsigned char __cdecl fffReadEgmFile(const std::Str& pStr, int* pOut, Arr28* pA,
                 }
             }
             if (_res)
-                ((MMDealloc*)&g_memoryManager)->FUN_00aa4060(_res);
+                ((MMDealloc*)&g_memoryManager)->MemoryManager_Deallocate(_res);
         }
         return 1;
     }
@@ -6783,7 +6788,7 @@ void Ab0a30Owner::std_vector_FffModeGS_std_allocator_FffModeGS_resize(int a0)
 }
 
 namespace fnv_00ab0a80 {
-void* __cdecl FUN_0044d670(unsigned int, int);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int, int);
 void __cdecl FUN_0064df10(void*, unsigned int);
 inline void __cdecl operator delete(void*, void*)
 {}
@@ -6821,7 +6826,7 @@ template <class T> struct GameAlloc
     {}
     pointer allocate(size_type count)
     {
-        return (pointer)FUN_0044d670(count, 0);
+        return (pointer)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
     }
     void deallocate(pointer ptr, size_type)
     {
@@ -9098,21 +9103,21 @@ struct TriString : StringValue
     unsigned int length, capacity;
     TriString() : StringValue()
     {
-        FUN_0044a730();
+        fopen_0044a730();
     }
     TriString(const char* text) : StringValue()
     {
-        FUN_0044a730();
+        fopen_0044a730();
         assign(text);
     }
     TriString(const TriString& source) : StringValue(source)
     {
-        FUN_0044a730();
+        fopen_0044a730();
         AssignSubstring(source, 0, DAT_010173f0);
     }
     ~TriString()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
     TriString& operator=(const TriString& source)
     {
@@ -9166,7 +9171,7 @@ struct TriString : StringValue
         if (capacity < count)
             FUN_0044a6f0(count, length);
         else if (trim && count < 16)
-            FUN_0044a730(true, count < length ? count : length);
+            fopen_0044a730(true, count < length ? count : length);
         else if (count == 0)
             terminate(0);
         return 0 < count;
@@ -9178,7 +9183,8 @@ struct TriString : StringValue
         else
             return true;
     }
-    void FUN_0044a730(bool built = false, unsigned int count = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built = false, unsigned int count = 0)
     {
         unsigned int t00;
         unsigned int t01;
@@ -9514,7 +9520,7 @@ FUN_00aba060_It& FUN_00aba060_It::FUN_00aba060()
 }
 
 namespace fnv_00aba0d0 {
-void* __cdecl FUN_0044d670(unsigned int count, int hint);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int count, int hint);
 inline void __cdecl operator delete(void*, void*)
 {}
 struct AbaAux
@@ -9549,7 +9555,7 @@ template <class T> struct AbaAlloc
     pointer allocate(size_type count)
     {
         unsigned x, y, z;
-        return (pointer)FUN_0044d670(count, 0);
+        return (pointer)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
     }
     void deallocate(pointer ptr, size_type)
     {
@@ -9704,15 +9710,16 @@ struct TriString : StringValue
     unsigned int length, capacity;
     TriString() : StringValue()
     {
-        FUN_0044a730();
+        fopen_0044a730();
     }
     ~TriString()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
-    void FUN_0044a730(bool built = false, unsigned int count = 0);
+    void fopen_0044a730(bool built = false, unsigned int count = 0);
 };
-inline void TriString::FUN_0044a730(bool built, unsigned int count)
+// src: XBOX_PDB 0x0044a730
+inline void TriString::fopen_0044a730(bool built, unsigned int count)
 {
     unsigned int s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21,
         s22, s23, s24, s25, s26, s27, s28, s29, s30, s31, s32, s33, s34, s35, s36, s37, s38;
@@ -10811,7 +10818,7 @@ extern MemoryManager DAT_011f6238;
 
 struct S00abb930_Pool
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 
 struct S00abb930_Elem
@@ -10824,7 +10831,7 @@ struct S00abb930_Elem
     }
     void operator delete(void* p)
     {
-        reinterpret_cast<S00abb930_Pool*>(&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<S00abb930_Pool*>(&DAT_011f6238)->MemoryManager_Deallocate(p);
     }
 };
 
@@ -11505,7 +11512,7 @@ ElemBF50& FUN_00abbf50_Iterator::FUN_00abbf50() const
 
 struct S00abc120_shell
 {
-    void __thiscall FUN_00aa4060(void* p);
+    void __thiscall MemoryManager_Deallocate(void* p);
 };
 
 struct S00abc120_ptr
@@ -11527,7 +11534,7 @@ void __thiscall S00abc120_cls::FUN_00abc120()
 {
     S00abc120_ptr p;
     p.m_v = m_00;
-    ((S00abc120_shell*)&DAT_011f6238)->FUN_00aa4060(p.m_v);
+    ((S00abc120_shell*)&DAT_011f6238)->MemoryManager_Deallocate(p.m_v);
 }
 
 namespace fnv_00abca90 {
@@ -11590,7 +11597,7 @@ void __cdecl FUN_00ac20d0(Vec3Item*, unsigned int, const Vec3Item*, unsigned int
 
 struct Vector3Heap
 {
-    void __thiscall FUN_00aa4060(void*);
+    void __thiscall MemoryManager_Deallocate(void*);
 };
 
 struct UnchangedBaseTag
@@ -11719,7 +11726,7 @@ struct Vector3Storage
     }
     inline void deallocate(Vec3Item* _Ptr, unsigned int _Count)
     {
-        ((Vector3Heap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((Vector3Heap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     inline Vec3Item* _UcopyRaw(Vec3Item* _First, Vec3Item* _Last, Vec3Item* _Ptr)
     {
@@ -11752,7 +11759,7 @@ void Vector3Storage::FUN_00abca90(int unused, Vec3Item* position, unsigned int c
         catch (...)
         {
             destroy_range(_Newvec, _Newlast, allocator);
-            ((Vector3Heap*)&DAT_011f6238)->FUN_00aa4060(_Newvec);
+            ((Vector3Heap*)&DAT_011f6238)->MemoryManager_Deallocate(_Newvec);
             throw;
         }
         count += (unsigned int)(last - first);
@@ -17759,21 +17766,21 @@ struct TriString : StringValue
     unsigned int length, capacity;
     TriString() : StringValue()
     {
-        FUN_0044a730();
+        fopen_0044a730();
     }
     TriString(const char* text) : StringValue()
     {
-        FUN_0044a730();
+        fopen_0044a730();
         assign(text);
     }
     TriString(const TriString& source) : StringValue(source)
     {
-        FUN_0044a730();
+        fopen_0044a730();
         AssignSubstring(source, 0, DAT_010173f0);
     }
     ~TriString()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
     TriString& operator=(const TriString& source)
     {
@@ -17827,7 +17834,7 @@ struct TriString : StringValue
         if (capacity < count)
             FUN_0044a6f0(count, length);
         else if (trim && count < 16)
-            FUN_0044a730(true, count < length ? count : length);
+            fopen_0044a730(true, count < length ? count : length);
         else if (count == 0)
             terminate(0);
         return 0 < count;
@@ -17839,7 +17846,7 @@ struct TriString : StringValue
         else
             return true;
     }
-    void FUN_0044a730(bool built = false, unsigned int count = 0);
+    void fopen_0044a730(bool built = false, unsigned int count = 0);
     char* pointer()
     {
         return 16 <= capacity ? storage.heap : storage.small;
@@ -17894,12 +17901,12 @@ struct FUN_00ac5490 : FUN_00aaaa80
         ClearHolders();
     }
     void ClearHolders();
-    bool FUN_00ac5540(TriString, int);
+    bool BSFaceGenBinaryFile_openForRead(TriString, int);
     bool BSFaceGenBinaryFile_readHeader(void*, unsigned int, unsigned int);
-    bool FUN_00ac5cf0(void*, unsigned int, unsigned int);
+    bool BSFaceGenBinaryFile_read(void*, unsigned int, unsigned int);
     template <class T> bool read(T& value)
     {
-        return FUN_00ac5cf0(&value, sizeof(T), 1);
+        return BSFaceGenBinaryFile_read(&value, sizeof(T), 1);
     }
 };
 struct IteratorAuxiliary;
@@ -18076,7 +18083,7 @@ struct Geometry
     PartitionBuffer partitions;
 };
 struct ContainerAux;
-void* __cdecl FUN_0044d670(int, int);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(int, int);
 struct Aux
 {
     const ContainerAux* container;
@@ -18137,7 +18144,7 @@ struct FUN_00aba0d0 : VectorVal<char>
     void FUN_00abbfc0(unsigned int, const char&);
     FUN_00aba0d0(unsigned int count)
     {
-        void* space = FUN_0044d670(1, 0);
+        void* space = std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(1, 0);
         Aux* node = (Aux*)space;
         if (node != 0)
             node->container = this;
@@ -18169,7 +18176,7 @@ struct FUN_00aba0d0 : VectorVal<char>
         return first[index];
     }
 };
-void __cdecl FUN_00ac6430(int, TriString);
+void __cdecl futSetLastError(int, TriString);
 // @fnv 0x00ab5ec0
 // src: COMMUNITY 0x00ab5ec0
 bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
@@ -18177,7 +18184,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
     TriHeader triHeader;
     fnv_zlib_memset(&triHeader, 0, 56);
     FUN_00ac5490 reader("FRTRI003");
-    if (!reader.FUN_00ac5540(filename, 0))
+    if (!reader.BSFaceGenBinaryFile_openForRead(filename, 0))
         return false;
     if (!reader.BSFaceGenBinaryFile_readHeader(&triHeader, 1, 56))
         return false;
@@ -18190,11 +18197,11 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
     geometry->morphs.resize(triHeader.morphs);
     geometry->partitions.resize(triHeader.partitions);
     if (triHeader.vertices + triHeader.extraVertices &&
-        !reader.FUN_00ac5cf0(&geometry->vertices[0], 12, triHeader.vertices + triHeader.extraVertices))
+        !reader.BSFaceGenBinaryFile_read(&geometry->vertices[0], 12, triHeader.vertices + triHeader.extraVertices))
         return false;
-    if (triHeader.triangles && !reader.FUN_00ac5cf0(&geometry->triangles[0], 12, triHeader.triangles))
+    if (triHeader.triangles && !reader.BSFaceGenBinaryFile_read(&geometry->triangles[0], 12, triHeader.triangles))
         return false;
-    if (triHeader.quads && !reader.FUN_00ac5cf0(&geometry->quads[0], 16, triHeader.quads))
+    if (triHeader.quads && !reader.BSFaceGenBinaryFile_read(&geometry->quads[0], 16, triHeader.quads))
         return false;
     unsigned int item;
     unsigned int accumulated;
@@ -18208,7 +18215,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (materialLength)
         {
             FUN_00aba0d0 materialBytes(materialLength);
-            if (!reader.FUN_00ac5cf0(&materialBytes[0], 1, materialLength))
+            if (!reader.BSFaceGenBinaryFile_read(&materialBytes[0], 1, materialLength))
                 return false;
             if (materialLength > 1)
             {
@@ -18234,7 +18241,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (shapeLength)
         {
             FUN_00aba0d0 shapeBytes(shapeLength);
-            if (!reader.FUN_00ac5cf0(&shapeBytes[0], 1, shapeLength))
+            if (!reader.BSFaceGenBinaryFile_read(&shapeBytes[0], 1, shapeLength))
                 return false;
             if (shapeLength > 1)
             {
@@ -18253,7 +18260,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (!triHeader.texcoords)
         {
             geometry->texcoords.resize(triHeader.vertices);
-            if (triHeader.vertices && !reader.FUN_00ac5cf0(&geometry->texcoords[0], 8, triHeader.vertices))
+            if (triHeader.vertices && !reader.BSFaceGenBinaryFile_read(&geometry->texcoords[0], 8, triHeader.vertices))
                 return false;
             geometry->textureTriangles.FUN_00ab9cd0();
             geometry->textureQuads.FUN_00ab9dc0();
@@ -18261,13 +18268,13 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         else
         {
             geometry->texcoords.resize(triHeader.texcoords);
-            if (triHeader.texcoords && !reader.FUN_00ac5cf0(&geometry->texcoords[0], 8, triHeader.texcoords))
+            if (triHeader.texcoords && !reader.BSFaceGenBinaryFile_read(&geometry->texcoords[0], 8, triHeader.texcoords))
                 return false;
             geometry->textureTriangles.resize(triHeader.triangles);
-            if (triHeader.triangles && !reader.FUN_00ac5cf0(&geometry->textureTriangles[0], 12, triHeader.triangles))
+            if (triHeader.triangles && !reader.BSFaceGenBinaryFile_read(&geometry->textureTriangles[0], 12, triHeader.triangles))
                 return false;
             geometry->textureQuads.resize(triHeader.quads);
-            if (triHeader.quads && !reader.FUN_00ac5cf0(&geometry->textureQuads[0], 16, triHeader.quads))
+            if (triHeader.quads && !reader.BSFaceGenBinaryFile_read(&geometry->textureQuads[0], 16, triHeader.quads))
                 return false;
         }
     }
@@ -18279,7 +18286,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (morphLength)
         {
             FUN_00aba0d0 morphBytes(morphLength);
-            if (!reader.FUN_00ac5cf0(&morphBytes[0], 1, morphLength))
+            if (!reader.BSFaceGenBinaryFile_read(&morphBytes[0], 1, morphLength))
                 return false;
             if (morphLength > 1)
             {
@@ -18297,7 +18304,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         for (unsigned int vertex = 0; vertex < triHeader.vertices; vertex++)
         {
             ShortPoint displacement;
-            if (!reader.FUN_00ac5cf0(&displacement, 2, 3))
+            if (!reader.BSFaceGenBinaryFile_read(&displacement, 2, 3))
                 return false;
             geometry->morphs[item].points[vertex] =
                 reinterpret_cast<const NiPoint3&>(
@@ -18313,7 +18320,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (partitionCount)
         {
             FUN_00aba0d0 partitionBytes(partitionCount);
-            if (!reader.FUN_00ac5cf0(&partitionBytes[0], 1, partitionCount))
+            if (!reader.BSFaceGenBinaryFile_read(&partitionBytes[0], 1, partitionCount))
                 return false;
             if (partitionCount > 1)
             {
@@ -18328,13 +18335,13 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
         if (!reader.read(partitionCount))
             return false;
         geometry->partitions[item].indices.resize(partitionCount);
-        if (partitionCount && !reader.FUN_00ac5cf0(&geometry->partitions[item].indices[0], 4, partitionCount))
+        if (partitionCount && !reader.BSFaceGenBinaryFile_read(&geometry->partitions[item].indices[0], 4, partitionCount))
             return false;
         accumulated += partitionCount;
     }
     if (accumulated != triHeader.vertices + triHeader.extraVertices)
     {
-        FUN_00ac6430(1, filename);
+        futSetLastError(1, filename);
         return false;
     }
     return true;
@@ -18475,7 +18482,7 @@ float FanControlsV7::FanGenCtlsGrpC_getAttribute(int a1, int a2, int a3, const I
 
 template <class T> inline T* Allocate(unsigned int count, T*)
 {
-    return (T*)FUN_0044d670(count, 0);
+    return (T*)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
 }
 
 template <class T> struct ContainerAllocator
@@ -20580,7 +20587,7 @@ extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl FUN_00ec7c56();
 double __cdecl FUN_00ec6940(double);
 
-void* __cdecl FUN_0044d670(unsigned int count, int hint);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int count, int hint);
 namespace TriWriterRework {
 inline void __cdecl GameFree(void* p)
 {
@@ -20589,7 +20596,7 @@ inline void __cdecl GameFree(void* p)
 
 template <class T> inline T* Allocate(unsigned int count, T*)
 {
-    return (T*)FUN_0044d670(count, 0);
+    return (T*)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
 }
 
 template <class T> struct Allocator
@@ -21138,12 +21145,13 @@ struct Writer
     virtual void v04();
     virtual void v08();
     virtual bool Write(const void* p, unsigned int size, unsigned int count);
-    bool FUN_00ac5220(const void* p, unsigned int size, unsigned int count);
+    bool FutBinaryFileC_writeHeader(const void* p, unsigned int size, unsigned int count);
 };
 
 }
 // @fnv 0x00ab7f40
-bool __cdecl FUN_00ab7f40(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
+// src: XBOX_PDB 0x00ab7f40
+bool __cdecl fffWriteTriFile(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
 {
     using namespace TriWriterRework;
     union
@@ -21177,7 +21185,7 @@ bool __cdecl FUN_00ab7f40(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
         hdr.counts[6] &= ~1;
         hdr.counts[5] = 0;
     }
-    if (!w->FUN_00ac5220(hdr.bytes, 0x38, 1))
+    if (!w->FutBinaryFileC_writeHeader(hdr.bytes, 0x38, 1))
         return false;
     if (hdr.counts[0] + hdr.counts[9] != 0 && !w->Write(&(*t)[0], 12, hdr.counts[0] + hdr.counts[9]))
         return false;
@@ -21315,7 +21323,7 @@ extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 extern MemoryManager DAT_011f6238;
-void* __cdecl FUN_0044d670(unsigned int, int);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int, int);
 inline void __cdecl GameFree(void* p)
 {
     DAT_011f6238.Deallocate(p);
@@ -21615,7 +21623,7 @@ struct VirtualFile
 };
 struct LoadedFile
 {
-    void FUN_0044b180();
+    void LoadedFile_DecRefCount();
 };
 struct FUN_00ac5490 : ImageReaderTypes::FUN_00aaaa80
 {
@@ -21623,15 +21631,15 @@ struct FUN_00ac5490 : ImageReaderTypes::FUN_00aaaa80
     VirtualFile* unk40;
     LoadedFile* unk44;
 
-    bool FUN_00ac5540(ReaderString, int);
+    bool BSFaceGenBinaryFile_openForRead(ReaderString, int);
     bool BSFaceGenBinaryFile_readHeader(void*, unsigned int, unsigned int);
-    bool FUN_00ac5cf0(void*, unsigned int, unsigned int);
+    bool BSFaceGenBinaryFile_read(void*, unsigned int, unsigned int);
     inline void ClearHolders()
     {
         if (unk44)
         {
             unk40 = 0;
-            unk44->FUN_0044b180();
+            unk44->LoadedFile_DecRefCount();
             unk44 = 0;
         }
         else
@@ -21720,7 +21728,8 @@ struct Images
         {}
     };
     Iterator BuildAndComparePair(ConstIterator, ConstIterator);
-    inline void FUN_0065cef0()
+// src: XBOX_PDB 0x0065cef0
+    inline void std_vector_FffModeTexS_std_allocator_FffModeTexS_clear()
     {
         BuildAndComparePair(FUN_0044a170(), CallWithSelf());
     }
@@ -21759,15 +21768,15 @@ struct ImageHeader
 bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Images* first, Images* second)
 {
     FUN_00ac5490 stream3((ReaderString(&DAT_010a2d3c)));
-    if (!stream3.FUN_00ac5540(filename, 0))
+    if (!stream3.BSFaceGenBinaryFile_openForRead(filename, 0))
         return false;
     ImageHeader kHeader;
     if (!stream3.BSFaceGenBinaryFile_readHeader(&kHeader, 1, 56))
         return false;
     kHeader.nullsub_322();
     *format = kHeader.format;
-    first->FUN_0065cef0();
-    second->FUN_0065cef0();
+    first->std_vector_FffModeTexS_std_allocator_FffModeTexS_clear();
+    second->std_vector_FffModeTexS_std_allocator_FffModeTexS_clear();
     unsigned int stride6 = 1;
     unsigned int padding3 = ((kHeader.width * stride6 + 7) & ~7u) / stride6 - kHeader.width;
     unsigned int rowSize = kHeader.width + padding3;
@@ -21776,7 +21785,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
     unsigned int i3, j2, k;
     for (i3 = 0; i3 < kHeader.count1; i3++)
     {
-        if (!stream3.FUN_00ac5cf0(&(*first)[i3], 4, 1))
+        if (!stream3.BSFaceGenBinaryFile_read(&(*first)[i3], 4, 1))
             return false;
         (*first)[i3].m4 = kHeader.width;
         (*first)[i3].m8 = kHeader.height;
@@ -21787,7 +21796,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
             unsigned char* row = &((TextureChannel&)(*first)[i3].m10[j2])[size7 - rowSize];
             for (k = 0; k < kHeader.height; k++)
             {
-                if (!stream3.FUN_00ac5cf0(row, stride6, kHeader.width))
+                if (!stream3.BSFaceGenBinaryFile_read(row, stride6, kHeader.width))
                     return false;
                 row -= kHeader.width + padding3;
             }
@@ -21796,7 +21805,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
     second->resize(kHeader.count2);
     for (i3 = 0; i3 < kHeader.count2; i3++)
     {
-        if (!stream3.FUN_00ac5cf0(&(*second)[i3], 4, 1))
+        if (!stream3.BSFaceGenBinaryFile_read(&(*second)[i3], 4, 1))
             return false;
         (*second)[i3].m4 = kHeader.width;
         (*second)[i3].m8 = kHeader.height;
@@ -21807,7 +21816,7 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
             unsigned char* row = ((TextureChannel&)(*second)[i3].m10[j2]).FUN_0065cc70(size7 - rowSize);
             for (k = 0; k < kHeader.height; k++)
             {
-                if (!stream3.FUN_00ac5cf0(row, stride6, kHeader.width))
+                if (!stream3.BSFaceGenBinaryFile_read(row, stride6, kHeader.width))
                     return false;
                 row -= kHeader.width + padding3;
             }

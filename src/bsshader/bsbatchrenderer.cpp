@@ -217,7 +217,7 @@ void __fastcall PersistentPassList_AddBack(int* self, int, const int* pElement)
 }
 
 void __cdecl BSBatchRenderer_EndPass();
-void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
+void __cdecl BSBatchRenderer_RenderPassImmediately(void*, unsigned short, int, int, int);
 
 struct PassListElement
 {
@@ -254,7 +254,7 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList* pList, int a2)
         {
             if (pElement->pPass)
             {
-                FUN_00b994f0(pElement, pElement->m_usPassCountLocal, 1, a2, 1);
+                BSBatchRenderer_RenderPassImmediately(pElement, pElement->m_usPassCountLocal, 1, a2, 1);
             }
 
             pElement = pNode ? GetNext(pNode) : 0;
@@ -801,7 +801,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011ffe3c;
 // @fnv 0x00b9aa70
-GlobalObjectO2_00a7b610* __cdecl FUN_00b9aa70()
+// src: XBOX_PDB 0x00b9aa70
+GlobalObjectO2_00a7b610* __cdecl BSBatchRenderer_GetRTTI()
 {
     return &g_011ffe3c;
 }
@@ -1141,11 +1142,12 @@ extern Shader_b994f0* DAT_011ffe2c;
 extern unsigned int DAT_011ffe30;
 int __cdecl BSRenderState_SetAlphaToCoverageEnable(int, int);
 void __cdecl SetShaderPass(unsigned int, Shader_b994f0*);
-void __cdecl FUN_00b99110(Pass_b994f0*, bool, bool, bool);
+void __cdecl BSBatchRenderer_RenderPassImmediately_Skinned(Pass_b994f0*, bool, bool, bool);
 void __cdecl DrawGeometryPass(Pass_b994f0*, bool, bool, bool);
 
 // @fnv 0x00b994f0
-void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTest, bool abAlphaPass,
+// src: XBOX_PDB 0x00b994f0
+void BSBatchRenderer_RenderPassImmediately(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTest, bool abAlphaPass,
                   bool abGeometryRenderStates)
 {
     if (prenderpass->m_usShaderPassType != uiPassId)
@@ -1169,7 +1171,7 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
     }
     if (DAT_011f9508->NiDX9Renderer_IsHardwareSkinned(prenderpass->pGeom, 0))
     {
-        FUN_00b99110(prenderpass, balphaTest, abAlphaPass, abGeometryRenderStates);
+        BSBatchRenderer_RenderPassImmediately_Skinned(prenderpass, balphaTest, abAlphaPass, abGeometryRenderStates);
     }
     else if (prenderpass->pGeom->IsA12())
     {
@@ -1262,7 +1264,7 @@ class NiTListItem_BSBatchRenderer__GeometryGroup___
     NiTListItem_BSBatchRenderer__GeometryGroup___* m_pkPrev;
     BSBatchRenderer__GeometryGroup* m_element;
 };
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 
 // @fnv 0x00b98c80
 float __fastcall ComputeAlphaDepth(BSBatchRenderer* pThis, int, int iIndex, SortCamera* pkCamera, bool bUseRadius)
@@ -1286,10 +1288,10 @@ float __fastcall ComputeAlphaDepth(BSBatchRenderer* pThis, int, int iIndex, Sort
     {
         const SortBound& kB1 = pkGeom->GetBoundingVolume();
         const SortBound& kB2 = pkGeom->GetBoundingVolume();
-        return FUN_00404010(fListDepth, kB1.kTargetCenter.Dot(kWorldPosition) - kB2.fRadius);
+        return BSMAX_00404010(fListDepth, kB1.kTargetCenter.Dot(kWorldPosition) - kB2.fRadius);
     }
     const SortPt& center = pkGeom->GetBoundingVolume().kTargetCenter;
-    return FUN_00404010(fListDepth, (float)(static_cast<const volatile float&>(kWorldPosition.x) * center.x +
+    return BSMAX_00404010(fListDepth, (float)(static_cast<const volatile float&>(kWorldPosition.x) * center.x +
                                             kWorldPosition.y * center.y + kWorldPosition.z * center.z));
 }
 
@@ -1647,14 +1649,14 @@ extern PoolLock g_011c5f80;
 extern int DAT_011c5f80;
 extern void* DAT_011c5f58;
 extern unsigned int DAT_011c5f84;
-void __cdecl FUN_0043a080();
+void __cdecl NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
 static inline AlphaNode* PoolCreateNode()
 {
     g_011c5f80.Lock(0);
     AlphaNode* pkNode = (AlphaNode*)DAT_011c5f58;
     if (pkNode == 0)
     {
-        FUN_0043a080();
+        NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
         pkNode = (AlphaNode*)DAT_011c5f58;
     }
     DAT_011c5f58 = pkNode->m_pkNext;
@@ -1881,7 +1883,8 @@ struct DrawGeometry
     struct DrawData* data;
     SkinInstance* skin;
     DrawShader* shader;
-    __declspec(noinline) const DrawBound& FUN_0043d450() const
+// src: XBOX_PDB 0x0043d450
+    __declspec(noinline) const DrawBound& NiAVObject_GetWorldBound() const
     {
         return unk20 ? *unk20 : DAT_011f4288;
     }
@@ -2552,7 +2555,8 @@ inline bool S00b99110_IsExact(void* rtti, SkinInstance* obj)
 }
 // Sets up the renderer and shader, then iterates skin partitions to draw geometry with optional alpha, depth, and blend state handling.
 // @fnv 0x00b99110
-void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
+// src: XBOX_PDB 0x00b99110
+void __cdecl BSBatchRenderer_RenderPassImmediately_Skinned(DrawPass* pass, bool depth, bool alpha, bool blend)
 {
     unsigned int passId = pass->pass;
     DrawRenderer* renderer = DAT_011f4748;
@@ -2577,7 +2581,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
         {
             DrawPartition* partition = &partitions[i];
             unsigned int vertexData = partition->vertexData;
-            const DrawBound& geometryFlags = geometry->FUN_0043d450();
+            const DrawBound& geometryFlags = geometry->NiAVObject_GetWorldBound();
             shader->Setup(geometry, skin, partition, vertexData, properties, 0, &geometry->unk68, geometryFlags);
             if (first)
             {
@@ -3439,12 +3443,12 @@ struct RendererState
     bool bFlag164;
     bool bFlag165;
 };
-RendererState* FUN_00b4f5c0();
+RendererState* BSShaderManager_GetAccumulator();
 
 void BSRenderState_SetCullMode(int, int);
 void BSRenderState_SetAlphaTestEnable(int, int);
 int BSRenderState_SetAlphaToCoverageEnable(int, int);
-void FUN_00b994f0(void*, unsigned short, bool, int, int);
+void BSBatchRenderer_RenderPassImmediately(void*, unsigned short, bool, int, int);
 void BSBatchRenderer_EndPass();
 
 typedef NiTListItem<void* > PassNode;
@@ -3547,7 +3551,7 @@ __forceinline void __fastcall RenderGroup(BSBatchRenderer* pThis, int, unsigned 
         while (kPos)
         {
             void* pInfo = kBucket.GetNext(kPos);
-            FUN_00b994f0(pInfo, (unsigned short)uiPass, bAlpha, arg3, 0);
+            BSBatchRenderer_RenderPassImmediately(pInfo, (unsigned short)uiPass, bAlpha, arg3, 0);
         }
 
         if (DAT_011f9421)
@@ -3566,7 +3570,8 @@ __forceinline void __fastcall RenderGroup(BSBatchRenderer* pThis, int, unsigned 
 
 // Iterates active passes in range, renders matching groups via RenderGroup, then resets renderer state.
 // @fnv 0x00b99e20
-void __fastcall FUN_00b99e20(BSBatchRenderer* pThis, int, unsigned int uiMinPass, unsigned int uiMaxPass, int arg3)
+// src: XBOX_PDB 0x00b99e20
+void __fastcall BSBatchRenderer_RenderBatches(BSBatchRenderer* pThis, int, unsigned int uiMinPass, unsigned int uiMaxPass, int arg3)
 {
     unsigned int minPass = uiMinPass;
     unsigned int maxPass = uiMaxPass;
@@ -3594,7 +3599,7 @@ void __fastcall FUN_00b99e20(BSBatchRenderer* pThis, int, unsigned int uiMinPass
                 unsigned int uiValue = 0;
                 reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&pThis->RenderPassMap)->GetAt(item, uiValue);
 
-                if (BSShaderAccumulator_IsShadowPass(item) && (FUN_00b4f5c0()->bFlag164 || FUN_00b4f5c0()->bFlag165))
+                if (BSShaderAccumulator_IsShadowPass(item) && (BSShaderManager_GetAccumulator()->bFlag164 || BSShaderManager_GetAccumulator()->bFlag165))
                 {
                     static_cast<RenderPassListCollection*>(pThis->pRenderPassA)[uiValue].ClearPassGroups(false);
                     pPass = pPass->m_pkNext;
@@ -3671,7 +3676,7 @@ extern int DAT_011ffa24, DAT_011ff9e8, DAT_011ffa28;
 void BSRenderState_SetCullMode(int, int);
 void BSRenderState_SetAlphaTestEnable(int, int);
 int BSRenderState_SetAlphaToCoverageEnable(int, int);
-void FUN_00b994f0(void*, unsigned int, bool, int, int);
+void BSBatchRenderer_RenderPassImmediately(void*, unsigned int, bool, int, int);
 // Processes a batch queue by applying state, rendering passes, and removing them until a kind change or empty queue is reached.
 // @fnv 0x00b9a120
 // src: COMMUNITY 0x00b9a120
@@ -3729,7 +3734,7 @@ bool __fastcall BSBatchRenderer_RenderNextRenderPass(BSBatchRenderer* pThis, int
             found = true;
             break;
         }
-        FUN_00b994f0(pass, key, alpha, flags, 0);
+        BSBatchRenderer_RenderPassImmediately(pass, key, alpha, flags, 0);
         BatchGroup& group = static_cast<BatchGroup*>(pThis->pRenderPassA)[index];
         group.queues[bucket].RemoveHead();
         --group.count;

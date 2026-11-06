@@ -120,7 +120,8 @@ bool __fastcall NiTimeController_IsEqual(NiTimeController* pThis, int edx, NiObj
 
 
 // @fnv 0x00a6cd00
-unsigned int __fastcall FUN_00a6cd00(NiTimeController* p, int edx)
+// src: XBOX_PDB 0x00a6cd00
+unsigned int __fastcall NiTimeController_ItemsInList(NiTimeController* p, int edx)
 {
     unsigned int n = 0;
     while (p)
@@ -145,7 +146,8 @@ void __fastcall InitStartTime(NiTimeController* p, int edx, float fTime)
 
 // Registers the object's streamables with kStream, then registers the streamables of the stored NiObject if present; returns false if the base registration fails.
 // @fnv 0x00a6d0f0
-bool __fastcall FUN_00a6d0f0(NiTimeController* p, int edx, NiStream& kStream)
+// src: XBOX_PDB 0x00a6d0f0
+bool __fastcall NiTimeController_RegisterStreamables(NiTimeController* p, int edx, NiStream& kStream)
 {
     if (!p->NiObject::RegisterStreamables(kStream))
         return false;
@@ -406,7 +408,8 @@ class TCTimeNode
 extern int DAT_011f4280;
 
 // @fnv 0x00a6d2d0
-void __cdecl FUN_00a6d2d0(TCTimeNode* obj)
+// src: XBOX_PDB 0x00a6d2d0
+void __cdecl NiTimeController_StartAnimations(TCTimeNode* obj)
 {
     TCTimeNode* p = obj->m_pChildObject;
     while (p != 0)
@@ -436,7 +439,7 @@ found:
     {
         item = GetNextItem(pListLink);
         if (item != 0 && item->m_pChildObject != 0)
-            FUN_00a6d2d0(item);
+            NiTimeController_StartAnimations(item);
     } while (pListLink != 0);
 
 after_list:
@@ -446,7 +449,7 @@ after_list:
         {
             item = obj->m_ppItems[i];
             if (item != 0)
-                FUN_00a6d2d0(item);
+                NiTimeController_StartAnimations(item);
         }
     }
 }
@@ -519,11 +522,11 @@ void __fastcall SaveTimeController(NiTimeController* controller, int, NiStream& 
 extern const char* DAT_011f49e4;
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
+char* __cdecl NiGetViewerString_00a7d550(const char*, float);
+char* __cdecl NiGetViewerString_00a7d5a0(const char*, void*);
 char* __cdecl BuildAppTimeOrInitString(const char*, int);
-char* __cdecl FUN_00a6d190(const char*, int);
-char* __cdecl FUN_00a7d370(const char*, bool);
+char* __cdecl NiTimeController_GetViewerString(const char*, int);
+char* __cdecl NiGetViewerString(const char*, bool);
 
 #include "../../../../include/NiTPrimitiveArray.h"
 // Gamebryo NiTArray.inl: the original inlines Add (SetAtGrow) and calls SetSize / SetAt out of line
@@ -544,21 +547,21 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 void __fastcall GetTimeControllerViewerStrings(NiTimeController* controller, int, NiViewerStringsArray* pkViewerStrings)
 {
     pkViewerStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f49e4));
-    pkViewerStrings->Add(FUN_00a7d550("m_fFrequency", controller->m_fFrequency));
-    pkViewerStrings->Add(FUN_00a7d550("m_fPhase", controller->m_fPhase));
-    pkViewerStrings->Add(FUN_00a7d550("m_fLoKeyTime", controller->m_fLoKeyTime));
-    pkViewerStrings->Add(FUN_00a7d550("m_fHiKeyTime", controller->m_fHiKeyTime));
-    pkViewerStrings->Add(FUN_00a7d550("m_fStartTime", controller->m_fStartTime));
-    pkViewerStrings->Add(FUN_00a7d550("m_fLastTime", controller->m_fLastTime));
-    pkViewerStrings->Add(FUN_00a7d5a0("m_pkTarget", controller->m_pkTarget));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fFrequency", controller->m_fFrequency));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fPhase", controller->m_fPhase));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fLoKeyTime", controller->m_fLoKeyTime));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fHiKeyTime", controller->m_fHiKeyTime));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fStartTime", controller->m_fStartTime));
+    pkViewerStrings->Add(NiGetViewerString_00a7d550("m_fLastTime", controller->m_fLastTime));
+    pkViewerStrings->Add(NiGetViewerString_00a7d5a0("m_pkTarget", controller->m_pkTarget));
     int iAnimType = controller->m_uiObjectFlags & 1;
     pkViewerStrings->Add(BuildAppTimeOrInitString("anim type", iAnimType));
     int iCycleType = (controller->m_uiObjectFlags >> 1) & 3;
-    pkViewerStrings->Add(FUN_00a6d190("cycle type", iCycleType));
+    pkViewerStrings->Add(NiTimeController_GetViewerString("cycle type", iCycleType));
     bool bActive = (controller->m_uiObjectFlags >> 3) & 1;
-    pkViewerStrings->Add(FUN_00a7d370("Active", bActive));
+    pkViewerStrings->Add(NiGetViewerString("Active", bActive));
     bool bBack = (controller->m_uiObjectFlags >> 4) & 1;
-    pkViewerStrings->Add(FUN_00a7d370("Play Backwards", bBack));
+    pkViewerStrings->Add(NiGetViewerString("Play Backwards", bBack));
 }
 
 // @fnv 0x00a29680
@@ -569,7 +572,8 @@ void __cdecl FUN_00a29680()
 
 // When active and time changed or force-update is set, it may return true if scaled time matches; otherwise it deactivates and returns false.
 // @fnv 0x00a36250
-bool NiTimeController::FUN_00a36250(float fTime)
+// src: XBOX_PDB 0x00a36250
+bool NiTimeController::DontDoUpdate(float fTime)
 {
     if (GetControllerActive(this))
     {
@@ -703,7 +707,8 @@ void* __cdecl _NiMalloc(unsigned int);
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 // Allocates a buffer, formats pcPrefix with LOOP, REVERSE, CLAMP, or UNKNOWN!!! based on eType, and returns it.
 // @fnv 0x00a6d190
-char* __cdecl FUN_00a6d190(const char* pcPrefix, int eType)
+// src: XBOX_PDB 0x00a6d190
+char* __cdecl NiTimeController_GetViewerString(const char* pcPrefix, int eType)
 {
     unsigned int uiLen = (unsigned int)strlen(pcPrefix) + 11;
     char* pcString = (char*)_NiMalloc(uiLen);

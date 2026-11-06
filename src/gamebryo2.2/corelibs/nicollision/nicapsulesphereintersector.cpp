@@ -117,7 +117,7 @@ void ContactGeometry::ComputeContactPoint(const NiPoint3& velocity0, const NiPoi
         kCapsulePoint += velocity0 * m_fTime;
         kSpherePoint += velocity1 * m_fTime;
         m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-        m_kPlaneNormal.FUN_004a0c10();
+        m_kPlaneNormal.Unitize_004a0c10();
         m_kPoint = kCapsulePoint + m_kPlaneNormal * m_pkCapsule->m_fBoundRadius;
     }
     else
@@ -126,7 +126,7 @@ void ContactGeometry::ComputeContactPoint(const NiPoint3& velocity0, const NiPoi
         if (kCapsulePoint != kSpherePoint)
         {
             m_kPlaneNormal = Difference(kSpherePoint, kCapsulePoint);
-            m_kPlaneNormal.FUN_004a0c10();
+            m_kPlaneNormal.Unitize_004a0c10();
         }
         else
             m_kPlaneNormal = DAT_011a9484;

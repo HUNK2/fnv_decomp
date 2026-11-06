@@ -19,7 +19,7 @@ void __cdecl hkPredGskCylinderAgent3_process(void);
 void __cdecl hkConvexListAgent3_process(void);
 void __cdecl BuildEventIndex(void);
 void __fastcall hkBvTreeAgent3_process(void*, int, void*, int);
-void __cdecl FUN_00d35770(void);
+void __cdecl process_00d35770(void);
 void __cdecl hkpCollectionAgent3_process(void);
 int __cdecl hkpSaveContactPointsUtil_getSerializedAgentType(void* p);
 struct D10710Object
@@ -1617,7 +1617,7 @@ struct S_00dcdd80_Router
     int unk08;
     int unk0C;
     S_00dcdd80_Heap* m_pStreamAllocator;
-    static S_00dcdd80_Router& FUN_00c85750();
+    static S_00dcdd80_Router& hkMemoryRouter_getInstance();
     S_00dcdd80_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -1631,7 +1631,7 @@ struct S_00dcdd80_RefObj
     static void* operator new(unsigned int nbytes)
     {
         S_00dcdd80_RefObj* b =
-            static_cast<S_00dcdd80_RefObj*>(S_00dcdd80_Router::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<S_00dcdd80_RefObj*>(S_00dcdd80_Router::hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1805,7 +1805,7 @@ extern int DAT_010d77c0;
 extern "C" void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, LocalContext*);
 void __cdecl RunWithLocalContext(int first, int second, int third);
 void __cdecl hkpSaveContactPointsUtil_loadContactPointsInternal(int, int, int, void*);
-int __cdecl FUN_00c85750();
+int __cdecl hkMemoryRouter_getInstance();
 struct FUN_00dce7e0_local
 {
     int unk00;
@@ -1819,7 +1819,7 @@ struct FUN_00dce7e0_local
 void __cdecl hkpSaveContactPointsUtil_loadContactPoints(int a, int b, int* p, int d);
 struct BSAudio;
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(void* apAllocator, void* apArray, unsigned int auiNewCap, int aiElemSize);
 struct SrcNode
@@ -2023,7 +2023,7 @@ struct S_00dcda40_Arr
     void Search(S_00dcda40_Heap& h, int idx, void* src, int n);
     __forceinline S_00dcda40_Arr(const S_00dcda40_Arr& other) : data(0), size(0), cap(0x80000000)
     {
-        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
+        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::hkMemoryRouter_getInstance().heap();
         if ((cap & 0x3fffffff) < other.size)
         {
             if ((cap & 0x80000000) == 0)
@@ -2044,7 +2044,7 @@ struct S_00dcda40_Arr
         int count = other.size;
         void* src = other.data;
         int at = size;
-        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap();
+        S_00dcda40_Heap& heap = (S_00dcda40_Heap&)S_00dcdd80_Router::hkMemoryRouter_getInstance().heap();
         Search(heap, at, src, count);
     }
 };
@@ -2098,7 +2098,7 @@ struct EntryArray
     {}
     __forceinline ~EntryArray()
     {
-        _clearAndDeallocate((S_00dcda40_Heap&)S_00dcdd80_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((S_00dcda40_Heap&)S_00dcdd80_Router::hkMemoryRouter_getInstance().heap());
     }
     __forceinline void _clearAndDeallocate(S_00dcda40_Heap& alloc)
     {
@@ -2142,7 +2142,7 @@ struct PointerMap
     {}
     ~PointerMap();
     void EnsureCapacity(S_00dcdd80_Heap& alloc, int numElements);
-    void FUN_00cb1870(S_00dcdd80_Heap& alloc, LinkedCollidable* key, int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_00dcdd80_Heap& alloc, LinkedCollidable* key, int val);
     int FindSlot(LinkedCollidable* key);
     void ProcessArgument(S_00dcdd80_Heap& alloc);
     bool isValid(int it) const
@@ -2151,15 +2151,15 @@ struct PointerMap
     }
     void reserve(int numElements)
     {
-        EnsureCapacity(S_00dcdd80_Router::FUN_00c85750().heap(), numElements);
+        EnsureCapacity(S_00dcdd80_Router::hkMemoryRouter_getInstance().heap(), numElements);
     }
     void insert(LinkedCollidable* key, int val)
     {
-        FUN_00cb1870(S_00dcdd80_Router::FUN_00c85750().heap(), key, val);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_00dcdd80_Router::hkMemoryRouter_getInstance().heap(), key, val);
     }
     void clear()
     {
-        ProcessArgument(S_00dcdd80_Router::FUN_00c85750().heap());
+        ProcessArgument(S_00dcdd80_Router::hkMemoryRouter_getInstance().heap());
     }
 };
 

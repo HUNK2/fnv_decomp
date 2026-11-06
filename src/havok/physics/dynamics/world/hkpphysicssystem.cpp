@@ -263,7 +263,8 @@ void FUN_00d06640_class::Destroy()
 }
 
 // @fnv 0x00cb0020
-void __stdcall FUN_00cb0020(unsigned char* output)
+// src: XBOX_PDB 0x00cb0020
+void __stdcall hkMemoryTrackStreamWriter_seekTellSupported(unsigned char* output)
 {
     *output = 0;
 }

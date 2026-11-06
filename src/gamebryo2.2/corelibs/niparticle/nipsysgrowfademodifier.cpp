@@ -47,11 +47,12 @@ FUN_00c2a370_shell* FUN_00c2a370_shell::FUN_00c2a370(unsigned int flags)
 
 struct FUN_00c2a2f0_shell : NiPSysGrowFadeModifier
 {
-    bool FUN_00c2a2f0(NiObject* pkObject);
+    bool NiPSysGrowFadeModifier_IsEqual(NiObject* pkObject);
 };
 
 // @fnv 0x00c2a2f0
-bool FUN_00c2a2f0_shell::FUN_00c2a2f0(NiObject* pkObject)
+// src: XBOX_PDB 0x00c2a2f0
+bool FUN_00c2a2f0_shell::NiPSysGrowFadeModifier_IsEqual(NiObject* pkObject)
 {
     FUN_00c2a2f0_shell* pkDest = (FUN_00c2a2f0_shell*)pkObject;
     if (NiPSysModifier::IsEqual(pkObject) && m_fGrowthTime == pkDest->m_fGrowthTime &&
@@ -148,8 +149,8 @@ void FUN_00c2a610_cls::LoadGrowFadeModifier(NiStream& stream)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026f8;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
-char* __cdecl FUN_00a7d550(const char* pcName, float fValue);
-char* __cdecl FUN_00a7d490(const char* pcName, unsigned short usValue);
+char* __cdecl NiGetViewerString_00a7d550(const char* pcName, float fValue);
+char* __cdecl NiGetViewerString_00a7d490(const char* pcName, unsigned short usValue);
 inline void StrArr::AppendReference(char*& element)
 {
     unsigned int uiIndex = m_usSize;
@@ -173,15 +174,15 @@ void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
     ((NiPSysModifierViewerStrings*)this)->GetViewerStrings(pkStrings);
     char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_012026f8);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d550("Grow Time", m_fGrowthTime);
+    pcString = NiGetViewerString_00a7d550("Grow Time", m_fGrowthTime);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d490("Grow Generation", m_usGrowGenerationLimit);
+    pcString = NiGetViewerString_00a7d490("Grow Generation", m_usGrowGenerationLimit);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d550("Fade Time", m_fFadeDuration);
+    pcString = NiGetViewerString_00a7d550("Fade Time", m_fFadeDuration);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d490("Fade Generation", m_usFadeGenerationLimit);
+    pcString = NiGetViewerString_00a7d490("Fade Generation", m_usFadeGenerationLimit);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d550("Base Scale", m_fInitialScale);
+    pcString = NiGetViewerString_00a7d550("Base Scale", m_fInitialScale);
     pkStrings->AppendReference(pcString);
 }
 
@@ -207,11 +208,12 @@ class A4b0Cls : public NiPSysModifier
         m_24 = 0;
         m_28 = 0.0f;
     }
-    NiPSysModifier* __thiscall FUN_00c2a4b0(CloningProcess* cloning);
+    NiPSysModifier* __thiscall NiPSysGrowFadeModifier_CreateClone(CloningProcess* cloning);
 };
 // Allocates an A4b0Cls, copies the base modifier and grow/fade fields, and returns it.
 // @fnv 0x00c2a4b0
-NiPSysModifier* A4b0Cls::FUN_00c2a4b0(CloningProcess* cloning)
+// src: XBOX_PDB 0x00c2a4b0
+NiPSysModifier* A4b0Cls::NiPSysGrowFadeModifier_CreateClone(CloningProcess* cloning)
 {
     void* mem = FUN_00aa13e0(sizeof(A4b0Cls));
     A4b0Cls* p = mem ? ::new (mem) A4b0Cls : 0;

@@ -62,11 +62,12 @@ extern const hkxEnvironmentTransition s_transitionTable[32];
 struct hkxEnvironmentParser : public hkxEnvironment
 {
     void AddVariable(const char* name, const char* value);
-    int FUN_00e3f520(const char* str);
+    int hkxEnvironment_interpretString(const char* str);
 };
 
 // @fnv 0x00e3f520
-int hkxEnvironmentParser::FUN_00e3f520(const char* str)
+// src: XBOX_PDB 0x00e3f520
+int hkxEnvironmentParser::hkxEnvironment_interpretString(const char* str)
 {
     int state = 0;
     int pos = 0;

@@ -101,7 +101,7 @@ NiDynamicEffect::NiDynamicEffect()
 }
 
 void __fastcall FUN_00a5a390(void*);
-void __fastcall FUN_00a68e30(void*);
+void __fastcall NiDynamicEffect_DetachAllUnaffectedNodes(void*);
 void __cdecl _delete(void*, unsigned int);
 
 extern const void* vftable_NiDynamicEffect;
@@ -112,7 +112,7 @@ extern const void* vftable_NiDynamicEffect;
 void* __fastcall DestroyNiDynamicEffect(NiDynamicEffect* effect, void*, unsigned int flags)
 {
     *reinterpret_cast<void**>(effect) = &vftable_NiDynamicEffect;
-    FUN_00a68e30(effect);
+    NiDynamicEffect_DetachAllUnaffectedNodes(effect);
     reinterpret_cast<BSShaderLightingProperty*>(&effect->unaffectedNodes)->ClearLights();
     reinterpret_cast<BSShaderLightingProperty*>(&effect->shadowGenerator)->ClearLights();
     FUN_00a5a390(effect);
@@ -169,7 +169,7 @@ struct NiAVObjectEffectMethods
 };
 int NiSprintf(char*, unsigned int, const char*, ...);
 char* NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
+char* __cdecl NiGetViewerString_00a7d5a0(const char*, void*);
 extern const char* const g_011f4a28_arg1;
 static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 {
@@ -191,7 +191,7 @@ void NiDynamicEffect::AppendEffectProperties(StrArr* pkStrings)
             NiNode* pkNode = GetNext(kPos);
             char acPrefix[64];
             NiSprintf(acPrefix, 64, "affected node[%d]", i);
-            pkStrings->AddInline(FUN_00a7d5a0(acPrefix, pkNode));
+            pkStrings->AddInline(NiGetViewerString_00a7d5a0(acPrefix, pkNode));
             i++;
         }
         kPos = EffectNodes(unaffectedNodes).m_pkHead;
@@ -200,7 +200,7 @@ void NiDynamicEffect::AppendEffectProperties(StrArr* pkStrings)
             NiNode* pkNode = GetNext(kPos);
             char acPrefix[64];
             NiSprintf(acPrefix, 64, "unaffected node[%d]", i);
-            pkStrings->AddInline(FUN_00a7d5a0(acPrefix, pkNode));
+            pkStrings->AddInline(NiGetViewerString_00a7d5a0(acPrefix, pkNode));
             i++;
         }
     }

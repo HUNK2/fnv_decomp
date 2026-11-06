@@ -21,7 +21,7 @@ struct ObjA
     int unk08;
     int unk0c;
     ObjA();
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
     ~ObjA();
 };
 
@@ -55,7 +55,7 @@ struct SubC2C
     int unk4;
     int unk8;
     bool BSReadWriteLock_TryLockForWriteAndReserve();
-    void FUN_00aa62e0();
+    void BSReadWriteLock_UnlockWrite();
 };
 
 struct NameGetter
@@ -86,14 +86,14 @@ struct Coll1480 : public CollBase
 struct TaskQueueInterface
 {
     static TaskQueueInterface* GetInstance();
-    void FUN_0087ac60(void* p);
+    void TaskQueueInterface_QueueNodeDetach(void* p);
     void QueueTaskWithTwoObjects(void* a, void* b, bool c, bool d);
     void TaskQueueInterface_QueueObjectUpdate(void* p);
 };
 
 extern NiPointer<NiNode> g_011d6e5c;
 
-bool FUN_008c7aa0();
+bool AILinearTaskThreadManager_ShouldQueue3DTask();
 
 struct FUN_006eae40_shell
 {
@@ -1408,7 +1408,7 @@ struct FUN_006eae40_shell
     int unk_1478;
     int unk_147c;
     Coll1480 m_sub1480;
-    void FUN_006c5ec0(ObjC* pC, int a);
+    void BSTaskletGroup_AttachTask(ObjC* pC, int a);
     void PathManagerImpl_Update();
 };
 
@@ -1431,7 +1431,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
         break;
         break;
     case 3:
-        m_subC2C.FUN_00aa62e0();
+        m_subC2C.BSReadWriteLock_UnlockWrite();
         m_stateC24 = 0;
         m_countC28 = 0;
         break;
@@ -1440,7 +1440,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     ObjA objA6;
     PathingTaskData_Ext* pFound_vv;
     void* pOut_b;
-    while (!objA6.FUN_006ebde0())
+    while (!objA6.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         if (m_sub1480.TryGetNextEntry(&objA6, &pOut_b, &pFound_vv, 1) && pFound_vv->GetByteAtOffset64())
         {
@@ -1452,7 +1452,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
                 pFound_vv->FUN_0060d4b0(0);
                 ObjC objC_oqluk;
                 objC_oqluk.FUN_006ecd40(pFound_vv);
-                FUN_006c5ec0(&objC_oqluk, 0);
+                BSTaskletGroup_AttachTask(&objC_oqluk, 0);
             }
         }
     }
@@ -1472,9 +1472,9 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     NiPointer<NiNode> spObj2(0);
     while (m_coll1064.ContainsItem(&spObj2))
     {
-        if (FUN_008c7aa0())
+        if (AILinearTaskThreadManager_ShouldQueue3DTask())
         {
-            TaskQueueInterface::GetInstance()->FUN_0087ac60(spObj2);
+            TaskQueueInterface::GetInstance()->TaskQueueInterface_QueueNodeDetach(spObj2);
         }
         else
         {
@@ -1484,7 +1484,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     }
     while (m_collC50.ContainsItem(&spObj2))
     {
-        if (FUN_008c7aa0())
+        if (AILinearTaskThreadManager_ShouldQueue3DTask())
         {
             TaskQueueInterface::GetInstance()->QueueTaskWithTwoObjects(spObj2, g_011d6e5c, true, false);
         }
@@ -1496,7 +1496,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     }
     if (bFlag_ad)
     {
-        if (FUN_008c7aa0())
+        if (AILinearTaskThreadManager_ShouldQueue3DTask())
         {
             TaskQueueInterface::GetInstance()->TaskQueueInterface_QueueObjectUpdate(g_011d6e5c);
         }

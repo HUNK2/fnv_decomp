@@ -201,7 +201,7 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" AllocatorState* __cdecl FUN_00c85750();
+extern "C" AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
@@ -723,7 +723,7 @@ static void FUN_00dd8fd0(unsigned char* a, unsigned char* b);
 extern "C" unsigned char* GetPtr();
 void Caller(unsigned char* a);
 namespace hkRouterDDFB {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);

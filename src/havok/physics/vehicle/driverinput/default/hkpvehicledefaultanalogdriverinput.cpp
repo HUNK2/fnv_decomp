@@ -233,12 +233,12 @@ hkReal AnalogDriverInput::hkpVehicleDefaultAnalogDriverInput_calcBrakeInput(hkRe
 #include "../../../../../../include/hkMemoryRouter.h"
 
 namespace hkRouterE43A {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 inline void* __cdecl hkReferencedObject::operator new(std::size_t nbytes)
 {
-    hkReferencedObject* b = static_cast<hkReferencedObject*>(hkRouterE43A::FUN_00c85750().heap().blockAlloc(nbytes));
+    hkReferencedObject* b = static_cast<hkReferencedObject*>(hkRouterE43A::hkMemoryRouter_getInstance().heap().blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return b;
 }

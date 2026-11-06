@@ -90,7 +90,7 @@ struct Mgr
     int unk00, unk04, unk08, unk0c;
     AllocObj* m_10;
 };
-Mgr* FUN_00c85750();
+Mgr* hkMemoryRouter_getInstance();
 int hkArrayUtil__reserve(void*, void*, int, int);
 struct Quaternion;
 class LaneScalar
@@ -212,12 +212,13 @@ struct __declspec(align(16)) Quaternion
     {}
     Quaternion(const MathVector& axis, float theta)
     {
-        FUN_00cb2450(axis, theta);
+        hkQuaternion_setAxisAngle(axis, theta);
     }
-    __declspec(noinline) void FUN_00cb2450(const MathVector& axis, float theta);
+    __declspec(noinline) void hkQuaternion_setAxisAngle(const MathVector& axis, float theta);
     __declspec(noinline) void setMul(const Quaternion& a, const Quaternion& b);
 };
-__declspec(noinline) void Quaternion::FUN_00cb2450(const MathVector& axis, float angle)
+// src: XBOX_PDB 0x00cb2450
+__declspec(noinline) void Quaternion::hkQuaternion_setAxisAngle(const MathVector& axis, float angle)
 {
     float h = (float)(angle * 0.5);
     float sn = (float)sin(h);
@@ -282,7 +283,7 @@ template <class T> struct List
     {}
     __forceinline T* expandBy(int amount)
     {
-        Mgr* mgr = FUN_00c85750();
+        Mgr* mgr = hkMemoryRouter_getInstance();
         void* allocator = mgr->m_10;
         int old = size;
         int need = old + amount;
@@ -372,9 +373,9 @@ __declspec(noinline) void __fastcall hkDisplayCylinder_buildGeometry(CylinderMes
         MathVector& zxy = const_cast<MathVector&>(zxyStorage);
         MathVector& yzx = pair.yzx;
         Quaternion& delta = pair.delta;
-        delta.FUN_00cb2450(unit, float(double(6.28318548f) / sectors));
+        delta.hkQuaternion_setAxisAngle(unit, float(double(6.28318548f) / sectors));
         Quaternion rotation(unit, 0.0f);
-        Mgr* mgr = FUN_00c85750();
+        Mgr* mgr = hkMemoryRouter_getInstance();
         void* allocation = mgr->m_10->v04(24);
         self->m_08 = allocation ? new (allocation) Geometry : 0;
         *self->m_08->vertices.expandBy(1) = origin;

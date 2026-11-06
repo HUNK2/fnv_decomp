@@ -258,7 +258,7 @@ extern "C" void _mm_store_ps(float*, __m128);
 extern "C" __m128 _mm_load_ps(const float*);
 extern "C"
 {
-    void** FUN_00c85750();
+    void** hkMemoryRouter_getInstance();
     void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 
     __m128 _mm_mul_ps(__m128, __m128);

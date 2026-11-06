@@ -93,7 +93,7 @@ struct S_00d02020_Pair
     S_00d02020_Handle* m_kPointA;
     S_00d02020_Handle* m_kPointB;
 };
-void __stdcall FUN_00d02020(S_00d02020_Pair* pair);
+void __stdcall hkpMultiThreadedSimulation_MtPhantomBroadPhaseListener_removeCollisionPair(S_00d02020_Pair* pair);
 struct CompareValue
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -365,7 +365,7 @@ struct SubNode
     int unk0c;
     signed char off10;  // +0x10  byte offset of the polymorphic object
 };
-void __stdcall FUN_00d01fc0(HandlePair* pHandlePair);
+void __stdcall hkpMultiThreadedSimulation_MtPhantomBroadPhaseListener_addCollisionPair(HandlePair* pHandlePair);
 bool pairLessThan(int* apPairA, int* apPairB);
 struct PairEntry
 {
@@ -378,7 +378,7 @@ struct PairArray
     int m_iElementCount;
     unsigned int m_pRayCursor;
 };
-char* __cdecl FUN_00c85750();
+char* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void __cdecl hkpWorldAgentUtil_addAgent(char* a, char* b, char* c);
 struct FUN_00d026e0_cls
@@ -394,7 +394,7 @@ struct SortPair8
 };
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
 void __cdecl QuickSortPairs(SortPair8* apPairs, int lo, int hi, SortPairLess apLess);
-void __stdcall FUN_00d020f0(S_00d02020_Pair* pair);
+void __stdcall hkpMultiThreadedSimulation_MtBroadPhaseBorderListener_removeCollisionPair(S_00d02020_Pair* pair);
 void __stdcall hkpMultiThreadedSimulation_61(int);
 void __stdcall hkpMultiThreadedSimulation_assertThereIsNoCollisionInformationForEntities(int, int, int);
 struct OwnerD020;
@@ -467,7 +467,7 @@ struct __declspec(align(16)) SolverContext
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
-    void FUN_00cfa6e0(void*, void*, int);
+    void hkpConstraintQueryIn_set(void*, void*, int);
 };
 struct PhysicsOwner
 {
@@ -637,10 +637,10 @@ struct Group
     int unk14;
 };
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n);
+extern "C" void __cdecl hkString_memSet(void* p, int v, int n);
 __forceinline hkMemoryRouterQ_hkpmultithreadedsimulation_rtm_variant& getRouter()
 {
-    return *(hkMemoryRouterQ_hkpmultithreadedsimulation_rtm_variant*)FUN_00c85750();
+    return *(hkMemoryRouterQ_hkpmultithreadedsimulation_rtm_variant*)hkMemoryRouter_getInstance();
 }
 #include "../../../../../../../include/hkArray.h"
 // The function's local arrays are released by explicit calls (no destructor, no EH state), so they are hkArrayBase
@@ -770,7 +770,7 @@ struct SimulationIslandQ
 struct InputQ
 {
     int LookupHashEntry(int key, int flag);
-    void FUN_00cb1870(hkMemoryAllocator* heap, int key, EntityQ* entity);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator* heap, int key, EntityQ* entity);
 };
 struct CollideSimQ
 {
@@ -783,7 +783,7 @@ struct CollideSimQ
     int unk40[0x20];
     int m_c0;
     void hkpContinuousSimulation_collideEntitiesOfOneIslandNarrowPhaseContinuous_toiOnly(EntityQ** entities, int numEntities, void* input, int* out);
-    void FUN_00d03030(AgentEntryQ** entries, int numEntries, void* input, SimulationIslandQ* island, hkBool flag);
+    void hkpMultiThreadedSimulation_processAgentNnEntries(AgentEntryQ** entries, int numEntries, void* input, SimulationIslandQ* island, hkBool flag);
     void ProcessCollisionEntries(EntityQ** entities, int numEntities, void* input, InputQ* collInput) throw();
 };
 extern "C" void _ReadWriteBarrier(void);
@@ -2061,8 +2061,8 @@ struct StepWorld
     void nullsub_6();
     void FUN_00c91120();
     void FUN_00c91140();
-    void FUN_00c91190();
-    int FUN_00c93570();
+    void hkpWorld_unlock();
+    int hkpWorld_getMemoryWatchDog();
 };
 struct TimeInfo
 {
@@ -2073,14 +2073,14 @@ struct StepPair
     Handle* first;
     Handle* second;
 };
-void __cdecl FUN_00dd7d00(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
 void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(PairArray*, PairArray*);
 void __cdecl sortPairList(PairArray*);
 void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(StepWorld*, Island*, Island*);
 Agent* __cdecl hkpWorldAgentUtil_addAgent(Body*, Body*, Dispatcher*);
 Agent* __cdecl FindEntryValue(Body*, Body*);
 void __cdecl hkpWorldAgentUtil_removeAgentAndItsToiEvents(Agent*);
-void __cdecl FUN_00cfedd0(Agent*, Dispatcher*, Output*, Manager*);
+void __cdecl hkAgentNnMachine_ProcessAgent(Agent*, Dispatcher*, Output*, Manager*);
 void __cdecl hkpWorldCallbackUtil_fireConstraintViolated(StepWorld*, Constraint*);
 void __cdecl hkpWorldCallbackUtil_firePostCollideCallback(StepWorld*, TimeInfo*);
 void __cdecl ProcessChildLoop(StepWorld*);
@@ -2288,7 +2288,7 @@ struct Singleton
 void __cdecl ResizeAudioStream(void*, PairArray*, int);
 static inline Singleton* GetSingleton()
 {
-    return (Singleton*)FUN_00c85750();
+    return (Singleton*)hkMemoryRouter_getInstance();
 }
 struct ArrPair
 {
@@ -2355,7 +2355,7 @@ struct ObjA
     int m_08;
     void EnsureCapacity(DeallocCtx* ctx, int zero);
     int LookupHashEntry(void* elem, int zero);
-    void FUN_00cb1870(DeallocCtx* ctx, void* elem, int one);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(DeallocCtx* ctx, void* elem, int one);
     void ProcessArgument(DeallocCtx* ctx);
     void FUN_00a29680();
 };
@@ -4844,7 +4844,7 @@ struct Glob
 };
 void __cdecl hkpWorldOperationUtil_cleanupDirtyIslands(void* p);
 void __cdecl hkpWorldMemoryUtil_checkMemoryForIntegration(void* p);
-void __cdecl FUN_00d892d0();
+void __cdecl hkSolveUpload();
 struct Sub
 {
     int unk00;
@@ -4997,7 +4997,7 @@ struct RegA
     int unk74;
     int unk78;
     int unk7c;
-    void FUN_00cfa6e0(Sub* s, Vec4* v, void* h);
+    void hkpConstraintQueryIn_set(Sub* s, Vec4* v, void* h);
 };
 struct RegB
 {
@@ -5184,7 +5184,7 @@ struct Obj
                 FUN_00c91140();
         }
     }
-    void* FUN_00c93570();
+    void* hkpWorld_getMemoryWatchDog();
     void ComputeMemoryUsage(MemoryInfo* out);
     void FUN_00c91120();
     void FUN_00c91140();
@@ -5243,7 +5243,7 @@ struct Simulation
     int unkb4;
     int m_b8;
     int m_bc;
-    int FUN_00d022b0(ArgCls* arg, float dt);
+    int hkpMultiThreadedSimulation_stepBeginSt(ArgCls* arg, float dt);
     void hkpSimulation_applyActions();
 };
 static __forceinline void scaleGravity(Vec4* dst, const Obj& world, const float& scale)
@@ -5254,7 +5254,8 @@ static __forceinline void scaleGravity(Vec4* dst, const Obj& world, const float&
                                               StepBeginSse::_mm_load_ps((const float*)&world.m_10)));
 }
 // @fnv 0x00d022b0
-int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
+// src: XBOX_PDB 0x00d022b0
+int Simulation::hkpMultiThreadedSimulation_stepBeginSt(ArgCls* arg, float dt)
 {
     union StepTraceScratch
     {
@@ -5278,11 +5279,11 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     hkpWorldOperationUtil_cleanupDirtyIslands(m_0c);
     MemoryInfo outVal;
     m_0c->ComputeMemoryUsage(&outVal);
-    Glob* g = (Glob*)FUN_00c85750();
+    Glob* g = (Glob*)hkMemoryRouter_getInstance();
     bool ok = g->m_18->v20(outVal.maximum);
     if (!ok)
     {
-        if (m_0c->FUN_00c93570())
+        if (m_0c->hkpWorld_getMemoryWatchDog())
         {
             m_0c->unlock();
             hkpWorldMemoryUtil_checkMemoryForIntegration(m_0c);
@@ -5296,7 +5297,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
             return 1;
         }
     }
-    FUN_00d892d0();
+    hkSolveUpload();
     m_0c->m_1d0 = v;
     Sub* sub = &const_cast<Obj*&>(m_0c)->m_1e0;
     sub->m_10c = sub->m_120 * v.z;
@@ -5309,7 +5310,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     edi->m_114 = &world->m_1d0;
     edi->m_90.FUN_00cfa7d0(m_0c->m_78);
     world = m_0c;
-    edi->m_10.FUN_00cfa6e0(&world->m_1e0, &world->m_1d0, world->m_1b8);
+    edi->m_10.hkpConstraintQueryIn_set(&world->m_1e0, &world->m_1d0, world->m_1b8);
     edi->m_110 = this;
     edi->m_118 = m_0c->m_78->m_08;
     edi->m_11c = &DAT_01269210;

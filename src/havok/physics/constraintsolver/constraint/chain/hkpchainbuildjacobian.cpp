@@ -470,7 +470,8 @@ __forceinline void buildConstraintMatrixLuDecompositionForBallAndSocketChain(
 
 // Initializes a BallSocketChainSchema, builds LU-decomposed constraint matrices, and advances the schema pointer past the schema block.
 // @fnv 0x00dd0ad0
-extern "C" void FUN_00dd0ad0(int numConstraints, hkReal tau, hkReal afMotorDamping, hkReal cfm,
+// src: XBOX_PDB 0x00dd0ad0
+extern "C" void hkBallSocketChainBuildJacobian(int numConstraints, hkReal tau, hkReal afMotorDamping, hkReal cfm,
                              QuantizedBoundsDataOffset* accumulatorOffsets, const QuantizedBoundsData* accumsBase,
                              Matrix3LowerDiagonalUpperFactors* tripleBuffer, int bufferSize,
                              hkPadSpu<SolverSchemaHeader*>& schemaInOut)

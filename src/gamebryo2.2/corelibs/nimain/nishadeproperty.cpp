@@ -30,7 +30,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00a81480
-NiObject* NiShadeProperty::FUN_00a81480(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a81480
+NiObject* NiShadeProperty::CreateClone_00a81480(CloningProcess& kCloning)
 {
     NiShadeProperty* pkObject = (NiShadeProperty*)NiProperty::operator new(32);
     if (pkObject)
@@ -44,7 +45,7 @@ NiObject* NiShadeProperty::FUN_00a81480(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((NiCullingProperty*)this)->FUN_00a5d7a0((NiCullingProperty*)pkObject, kCloning);
+    ((NiCullingProperty*)this)->NiProperty_CopyMembers((NiCullingProperty*)pkObject, kCloning);
     pkObject->m_uFlags = m_uFlags;
     return (NiObject*)pkObject;
 }
@@ -76,7 +77,8 @@ inline unsigned int NiBinaryStream::Read(void* pvBuffer, unsigned int uiSize)
 }
 
 // @fnv 0x00a95190
-void NiShadeProperty::FUN_00a95190(NiStream& kStream)
+// src: XBOX_PDB 0x00a95190
+void NiShadeProperty::NiDitherProperty_LoadBinary(NiStream& kStream)
 {
     NiProperty::LoadBinary(kStream);
     if (*(unsigned int*)((char*)&kStream + 0xd8) < 0x0A000102)
@@ -90,7 +92,8 @@ void NiShadeProperty::FUN_00a95190(NiStream& kStream)
 }
 
 // @fnv 0x00a9a5b0
-bool NiShadeProperty::FUN_00a9a5b0(NiObject* pkObject)
+// src: XBOX_PDB 0x00a9a5b0
+bool NiShadeProperty::NiCullingProperty_IsEqual(NiObject* pkObject)
 {
     if (!reinterpret_cast<PropertyRoutines*>(this)->IsEqual(pkObject))
         return false;
@@ -131,7 +134,8 @@ extern PropertyHolder DAT_011f5ae8;
 
 // Creates the default shade property and retains it in DAT_011f5ae8.
 // @fnv 0x00a81520
-void __cdecl FUN_00a81520()
+// src: XBOX_PDB 0x00a81520
+void __cdecl NiShadeProperty__SDMInit()
 {
     void* allocation = FUN_00aa13e0(32);
     NiShadeProperty* replacement;
@@ -168,7 +172,7 @@ void NiShadeProperty__SDMShutdown()
 
 extern void* DAT_011f5ae0;
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
-void* __cdecl FUN_00a7d370(const char* name, bool value);
+void* __cdecl NiGetViewerString(const char* name, bool value);
 struct NiArr
 {
     unsigned int m_00;
@@ -194,5 +198,5 @@ void NiShadeProperty::GetViewerStrings(NiViewerStringsArray* strings)
     reinterpret_cast<PropertyRoutines*>(this)->GetViewerStrings(a);
     a->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f5ae0));
     bool b = (m_uFlags & 1) != 0;
-    a->Add(FUN_00a7d370("m_bSmooth", b));
+    a->Add(NiGetViewerString("m_bSmooth", b));
 }

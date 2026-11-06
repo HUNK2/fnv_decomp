@@ -38,7 +38,7 @@ struct FUN_00507570_Class
 };
 struct FUN_005076c0Class
 {
-    void __thiscall FUN_005076c0(float value);
+    void __thiscall PathingRequestCoveredMove_SetAttackerHealth(float value);
 };
 struct FUN_005076e0_Class
 {
@@ -62,7 +62,7 @@ struct FUN_00507780
 };
 struct FUN_005077a0_Class
 {
-    void FUN_005077a0(float value);
+    void BoltShaderProperty_SetSegmentVariance(float value);
 };
 struct Flt
 {
@@ -70,7 +70,7 @@ struct Flt
 };
 struct FUN_00507d80_Class
 {
-    unsigned int FUN_00507d80();
+    unsigned int FOPipboyManager_Get3rdPersonPipboyRoot();
 };
 struct FUN_00508050_Class
 {
@@ -137,7 +137,7 @@ struct FUN_008256d0_list
 };
 struct FUN_005194d0_shell_base
 {
-    bool FUN_005194d0();
+    bool IsRandomDoor();
 };
 extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
@@ -208,11 +208,11 @@ struct FUN_00501cd0_class
     void* m_0c;
     unsigned int m_10;
     void* m_14;
-    void* __thiscall FUN_00501cd0();
+    void* __thiscall DoorLock_DoorLock();
 };
 struct TESForm;
 TESForm* __cdecl GetFormByID(unsigned int id);
-TESForm* __cdecl FUN_00505000();
+TESForm* __cdecl TESCombatStyle_GetDefaultCombatStyle();
 struct FUN_00507590_Data
 {
     float a;
@@ -247,11 +247,11 @@ struct FUN_00507690_Class
 };
 struct FUN_00508100_shell
 {
-    float FUN_00508100();
+    float GetEndKeyTime_00508100();
 };
 struct FUN_00759450_shell
 {
-    float FUN_00759450();
+    float NiPSysSpawnModifier_GetLifeSpan();
 };
 struct FUN_005082b0_shell
 {
@@ -259,11 +259,11 @@ struct FUN_005082b0_shell
 };
 struct FUN_00508090_shell
 {
-    float FUN_009a9350() const;
+    float TESCombatStyle_GetWeaponMinRangeMult() const;
     float GetActorRadius();
-    float FUN_00508100();
-    float FUN_00508120();
-    float FUN_00759450();
+    float GetEndKeyTime_00508100();
+    float NiControllerSequence_GetLastTime();
+    float NiPSysSpawnModifier_GetLifeSpan();
     void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
     void TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d);
 };
@@ -273,8 +273,8 @@ struct FUN_0050e640_Holder
     unsigned char _4;
     bool __thiscall MatchesValue(unsigned char v);
 };
-float __cdecl FUN_004579e0(float);
-float __fastcall FUN_0050ec80(short* p);
+float __cdecl NiSqrt_004579e0(float);
+float __fastcall NiNPShortPoint3_Length(short* p);
 struct AVH
 {
     static int __cdecl GetActorValueForSectionIndex(int, unsigned char);
@@ -283,7 +283,7 @@ struct FUN_00514fd0_class
 {
     int __thiscall TESObjectBOOK_GetTeaches();
 };
-bool __cdecl FUN_00519570(int);
+bool __cdecl TESObjectDOOR_CanBeRandomTeleport(int);
 struct LH
 {
     bool IsInList(int&);
@@ -563,9 +563,9 @@ class FUN_00507da0_cls
 {
   public:
     int unk00;
-    float FUN_008d01e0();
-    float FUN_00644930(float value);
-    float FUN_00507e10(float value);
+    float NiAVObject_GetWorldScale();
+    float Explosion_GetRadius(float value);
+    float BGSProjectile_GetMuzzleFlashDuration(float value);
     float GetField90Float(float value);
     float FUN_0051b8e0(float value);
     void UpdateEnvelope(float a, float b, float c, unsigned char flag, float value);
@@ -573,7 +573,7 @@ class FUN_00507da0_cls
 };
 extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
-float FUN_004e44b0(float fValue);
+float sin_004e44b0(float fValue);
 class B5081D0Actor
 {
   public:
@@ -596,8 +596,8 @@ class C508240Ref
 namespace std {
 float abs(float);
 }
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
+float BSMAX_00404010(float, float);
+float BSMIN(float, float);
 unsigned int FUN_00ba52d0();
 struct Envelope
 {
@@ -1063,7 +1063,7 @@ struct Item
 };
 struct T
 {
-    void __thiscall FUN_004bc450(void* p);
+    void __thiscall NiMaterialProperty_SetEmittance(void* p);
 };
 extern void* DAT_011f4998;
 void __cdecl ProcessListItems(List* list);
@@ -1091,22 +1091,22 @@ extern double DAT_01016408;
 extern float DAT_0101e2bc;
 extern float DAT_010181bc;
 unsigned int __cdecl FUN_00487f50();
-float __cdecl FUN_004e44b0(float v);
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl sin_004e44b0(float v);
+float __cdecl BSMIN(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 float __cdecl FUN_00408840(float v);
 struct Obj
 {
-    float FUN_004e4600();
-    float FUN_006447d0();
-    float FUN_004e4620();
+    float Projectile_GetSpreadLooking();
+    float Sky_GetCurrentWeatherPct();
+    float TESObjectWEAP_GetSpeed();
     void FUN_0050c630(float v);
     void FUN_0050c660(float v);
     void FUN_0050c690(float v);
-    void FUN_004bc1f0(float a, float b, float c);
-    void FUN_00a59c60(NiUpdateData& u);
+    void NiAVObject_SetTranslate_004bc1f0(float a, float b, float c);
+    void NiAVObject_Update(NiUpdateData& u);
     float TESCombatStyle_GetDodgeDuringAttackMult();
-    void FUN_0050dd20(float v);
+    void NiLight_SetDimmer(float v);
 };
 struct Ptr
 {
@@ -1125,7 +1125,7 @@ struct TQ
     void TaskQueueInterface_QueueObjectUpdate();
 };
 TQ* __stdcall FUN_004537b0(void* p);
-bool __cdecl FUN_008c7aa0();
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 struct Host
 {
     int unk00;
@@ -1221,11 +1221,11 @@ extern Setting g_011d4ccc;
 extern Setting g_011d49c0;
 extern Setting g_011c9284;
 extern float DAT_010162c0;
-bool FUN_00702360();
+bool Interface_IsInMenuMode();
 bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 void ApplyPerkModifiers(int, Actor*, ...);
 void FUN_004d5c60(int);
-int FUN_00406f60(StrMem*, const char*, ...);
+int BSStringT_char_SPrintF(StrMem*, const char*, ...);
 namespace ActorValue {
 bool IsSkill(Index);
 const char* GetActorValueName(Index);
@@ -1243,7 +1243,7 @@ bool SkillBookEffect552::TESObjectBOOK_Read(TESObjectREFR* reference)
     Actor* actor2 = dynamic_cast<Actor*>(reference);
     if (!actor2->IsPlayerRef())
         return applied;
-    if (actor2->FUN_00493bb0() && !FUN_00702360())
+    if (actor2->Actor_IsInCombat() && !Interface_IsInMenuMode())
     {
         QueueUIMessage(g_011d4ccc.FUN_00403df0(), 0, 0, 0, DAT_010162c0, false);
         return applied;
@@ -1253,12 +1253,12 @@ bool SkillBookEffect552::TESObjectBOOK_Read(TESObjectREFR* reference)
     {
         if (g_thePlayer->GetPermanentActorValue(skill2) < 200)
         {
-            float amount5 = *g_011c9284.FUN_00403e20();
+            float amount5 = *g_011c9284.Setting_Float_00403e20();
             StrMem message;
             ApplyPerkModifiers(11, g_thePlayer, &amount5);
             g_thePlayer->ForceActorValue(skill2, amount5, 0);
             FUN_004d5c60(15);
-            FUN_00406f60(&message, g_011d49c0.FUN_00403df0(), ActorValue::GetActorValueName(skill2),
+            BSStringT_char_SPrintF(&message, g_011d49c0.FUN_00403df0(), ActorValue::GetActorValueName(skill2),
                          static_cast<int>(amount5));
             QueueUIMessage(message.FUN_00559450(), 1, 0, 0, DAT_010162c0, false);
             applied = true;

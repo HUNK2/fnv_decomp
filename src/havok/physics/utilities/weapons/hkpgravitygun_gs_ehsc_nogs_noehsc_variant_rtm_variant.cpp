@@ -46,7 +46,8 @@ inline hkSimdReal::hkSimdReal(float f)
     m_vValue = _mm_load_ss(&f);
 }
 
-inline __declspec(noinline) void hkVector4::FUN_00c7f640(const hkTransform& t, const hkVector4& in)
+// src: XBOX_PDB 0x00c7f640
+inline __declspec(noinline) void hkVector4::setTransformedPos_00c7f640(const hkTransform& t, const hkVector4& in)
 {
     __m128 v = *(__m128*)&in;
     __m128 y = _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), t.m_row1);
@@ -85,7 +86,8 @@ inline hkSimdReal hkVector4::lengthSquared3() const
 
 
 // @fnv 0x00e45ee0
-void hkpGravityGun::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
+// src: XBOX_PDB 0x00e45ee0
+void hkpGravityGun::gravityGunPush(int dirSlot, int viewSlot, int p3Slot)
 {
     union
     {
@@ -94,7 +96,7 @@ void hkpGravityGun::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
     } v;
     if (m_kPickedBodies.m_iElementCount != 0)
     {
-        hkpRigidBody* body = FUN_00e45e60(0);
+        hkpRigidBody* body = hkpGravityGun_dropObject(0);
         v.q = _mm_mul_ps(bcastE45(m_fHoldDistance), *(const __m128*)dirSlot);
         v.f[1] = (float)(v.f[1] + DAT_01011588);
         v.q = _mm_add_ps(((const hkpRigidBody*)viewSlot)->m_pMotionState.m_kTranslationalVelocity, v.q);
@@ -116,7 +118,8 @@ void hkpGravityGun::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
 }
 
 // @fnv 0x00e45c90
-__declspec(noinline) void hkpGravityGun::FUN_00e45c90(float dTime, const hkTransform& transform,
+// src: XBOX_PDB 0x00e45c90
+__declspec(noinline) void hkpGravityGun::gravityGunStep(float dTime, const hkTransform& transform,
                                                    hkpRigidBody* otherRb)
 {
     for (int i = 0; i < m_kPickedBodies.m_iElementCount; ++i)
@@ -126,7 +129,7 @@ __declspec(noinline) void hkpGravityGun::FUN_00e45c90(float dTime, const hkTrans
         hkVector4 localPos;
         localPos.setAddMul4(m_kGrabPosition, m_kTargetPosition, hkSimdReal((float)i));
         hkVector4 targetPos;
-        targetPos.FUN_00c7f640(transform, localPos);
+        targetPos.setTransformedPos_00c7f640(transform, localPos);
         hkpRigidBody* rb = (hkpRigidBody*)m_kPickedBodies.m_data[i];
         hkVector4 newLinearVelocity = (const hkVector4&)rb->m_pMotionState.m_kTranslationalVelocity;
         newLinearVelocity.setInterpolate4(rb->m_pMotionState.m_kTranslationalVelocity,

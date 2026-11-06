@@ -129,7 +129,7 @@ struct FnvSpawnedObject
 bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj);
 void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
 void __cdecl hkaSkeletonMapper_mapExtractedMotion(int pObject, int param_2, int param_3);
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(int a1, int a2, int a3, int a4, int a5, int a6);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4);
 struct FnvKeyRec
 {
@@ -158,14 +158,14 @@ struct FUN_00ce5480_cls
     int m_uiItemCount;
 };
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox);
-void __cdecl FUN_00d86160(void* stream, void* self);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(void* stream, void* self);
 struct FUN_00cf4490_cls
 {
     char unk00[0x14];
     unsigned int m_14;
     unsigned int m_18;
     unsigned char m_1c;
-    void FUN_00cf4490(void* stream);
+    void bhkVelocityConstraintMotor_SaveBinary(void* stream);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
@@ -175,7 +175,7 @@ struct SerializedObject
     int base00, base04, base08, base0C, base10, word14, word18;
     void __thiscall SerializeToStream(int source);
 };
-extern "C" void __cdecl FUN_00d86160(int, SerializedObject*);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(int, SerializedObject*);
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
 extern __declspec(thread) int g_iCF4BC0AllocTag;
 struct CF4BC0AllocTagScope
@@ -233,10 +233,10 @@ class CF4BC0Saver
     void SetObject(CF4BC0Object* pkObject);
 };
 CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
-void __cdecl FUN_00cf4bc0(NiStream& kStream, CF4BC0Object* pkObject);
+void __cdecl bhkConstraintManager_SaveBinary(NiStream& kStream, CF4BC0Object* pkObject);
 extern int DAT_010cc2fc;
 extern int DAT_0102e388;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct SubObject_b3813
 {
     int unk00;
@@ -545,7 +545,7 @@ struct Record
     int unk24;
     int unk28;
 };
-void FUN_00cf09a0(NiStream* owner, Record* rec);
+void bhkPoseArray_bhkPose_SaveBinary(NiStream* owner, Record* rec);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct ArrayData
 {
@@ -590,17 +590,17 @@ struct FUN_00cf4190 : FUN_00cdf560
 };
 extern int DAT_01268730;
 int* bhkPositionConstraintMotor_GetRTTI();
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(void* view, void* object);
 struct SerializedRecord
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     unsigned int m_14, m_18, m_1c, m_20;
-    void FUN_00cf41c0(NiStream* view);
+    void bhkPositionConstraintMotor_LoadBinary(NiStream* view);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
 CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI();
-void __cdecl FUN_00d86100(NiStream* ar, void* obj);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream* ar, void* obj);
 class hkObjCF46
 {
   public:
@@ -891,7 +891,7 @@ void __cdecl EnableConstraintsAndZeroArrays(CE0020Target* pTarget, CE0020Subject
 void __cdecl FUN_00ce2d10();
 void __cdecl FUN_00ce2f30();
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStream& kStream, SerializableCF42* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(NiStream& kStream, SerializableCF42* pkObject);
 class SerializableCF42
 {
   public:
@@ -901,7 +901,7 @@ class SerializableCF42
     unsigned int m_uiValue1C;
     unsigned int m_uiValue20;
 
-    void FUN_00cf4260(NiStream& kStream);
+    void bhkPositionConstraintMotor_SaveBinary(NiStream& kStream);
 };
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
@@ -926,7 +926,7 @@ class FUN_00cf43b0
     FUN_00cf43b0();
 };
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStream& kStream, SerializableCF44* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream& kStream, SerializableCF44* pkObject);
 class SerializableCF44
 {
   public:
@@ -935,7 +935,7 @@ class SerializableCF44
     unsigned int m_uiValue18;
     unsigned char m_ucValue1C;
 
-    void FUN_00cf4400(NiStream& kStream);
+    void bhkVelocityConstraintMotor_LoadBinary(NiStream& kStream);
 };
 class CF4BC0SaverLoader
 {
@@ -968,7 +968,7 @@ struct AllocScope
         g_iCF4BC0AllocTag = saved;
     }
 };
-hkReferencedObject* __cdecl FUN_00cf4af0(NiStream& kStream);
+hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream);
 void FUN_00cf6d10();
 class hkRefObjCF70 : public hkBaseObject
 {
@@ -1076,7 +1076,7 @@ struct FUN_00cf08c0_VectorArray
     float* values;
     int count;
 };
-bool __cdecl FUN_00cf08c0(const FUN_00cf08c0_VectorArray* left, const FUN_00cf08c0_VectorArray* right);
+bool __cdecl bhkStream_IsEqual(const FUN_00cf08c0_VectorArray* left, const FUN_00cf08c0_VectorArray* right);
 struct hkMatrixCF0
 {
     hkVector4 m_kColumn0;
@@ -1094,7 +1094,7 @@ static unsigned int S00cf0cf0_SaveRaw(NiBinaryStream* s, const void* p, unsigned
     unsigned int uiSize = elemSize;
     return s->m_pfnWrite(s, p, n * elemSize, &uiSize, 1);
 }
-int __cdecl FUN_00cf0cf0(NiStream* self, S00cf0cf0_Arr* arr);
+int __cdecl bhkStream_SaveBinary(NiStream* self, S00cf0cf0_Arr* arr);
 struct TargetType
 {
     int unk00;
@@ -1297,7 +1297,7 @@ struct BlockList_cfd
 bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr);
 inline hkMemoryAllocator& heap_cfde()
 {
-    return *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+    return *reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
 }
 extern "C" void __cdecl hkArrayUtil__reduce(hkMemoryAllocator* alloc, void* array, int elemSize, void* storage, int capacity);
 struct BlockArr_cfde
@@ -1332,7 +1332,7 @@ struct BlockArr_cfde
             int newCap = c + 1;
             if (newCap < 1)
             {
-                hkMemoryRouter* h = FUN_00c85750();
+                hkMemoryRouter* h = hkMemoryRouter_getInstance();
                 hkArrayUtil__reduce(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())

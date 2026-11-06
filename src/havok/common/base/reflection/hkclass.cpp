@@ -265,7 +265,7 @@ struct hkOArchive_ExplicitDtorView
     void __thiscall FUN_00d60830(void* stream, SmallFlag swap);
     void __thiscall WriteInt(int value);
     void __thiscall FUN_00d60900(unsigned short value);
-    int __thiscall FUN_00d607b0(const void* data, int bytes);
+    int __thiscall hkOArchive_writeRaw(const void* data, int bytes);
     void __thiscall FUN_00d60590();
 };
 // 0x00d868a0 indexes 12-byte native-type properties at 0x011b6ab0, not hkTypeInfo objects.
@@ -276,7 +276,7 @@ struct NativeTypeProperties
     short m_size;
     short m_alignment;
 };
-NativeTypeProperties* __cdecl FUN_00d868a0(unsigned int which);
+NativeTypeProperties* __cdecl hkClassMember_getClassMemberTypeProperties(unsigned int which);
 int __cdecl hkString_strLen(const char* str);
 // @fnv 0x00d47490
 __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, void* stream)
@@ -295,7 +295,7 @@ __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, v
         hkClassMember info = member;
         if (info.m_type == 0x18 || info.m_type == 0x1f)
         {
-            unsigned short typeWidth = FUN_00d868a0(info.m_eSubtype)->m_size;
+            unsigned short typeWidth = hkClassMember_getClassMemberTypeProperties(info.m_eSubtype)->m_size;
             info.m_flags ^= typeWidth * 8;
             info.m_eSubtype = 0;
         }
@@ -310,7 +310,7 @@ __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, v
         }
         if (info.m_class && member.m_type != 0x14 && member.m_eSubtype != 0x14)
         {
-            const hkClass* parentClass = member.FUN_00d86920();
+            const hkClass* parentClass = member.getClass();
             while (parentClass)
             {
                 reinterpret_cast<ClassSerializer>(SerializeClass)(parentClass, stream);
@@ -319,7 +319,7 @@ __declspec(noinline) void __fastcall SerializeClass(const hkClass* cls, void*, v
         }
         if (info.m_pClassEnum)
             reinterpret_cast<EnumSerializer>(SerializeEnum)(GetMemberEnum(&member), stream);
-        out.FUN_00d607b0(info.m_name, hkString_strLen(info.m_name));
+        out.hkOArchive_writeRaw(info.m_name, hkString_strLen(info.m_name));
         out.FUN_00d60900(info.m_type);
         out.FUN_00d60900(info.m_eSubtype);
         if (altType != 0)
@@ -358,7 +358,7 @@ unsigned int __fastcall ComputeSignature(const hkClass* cls, void*, int signatur
     return crc.FUN_00db7860();
 }
 
-void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
+void __cdecl hkString_memCpy(void* dst, const void* src, int n);
 
 struct ReflectionTypeTag
 {
@@ -394,11 +394,11 @@ struct ReflectionValueStorage
 // @fnv 0x00d476e0
 __declspec(noinline) int ReflectionValueStorage::SetData(const void* src, unsigned int type)
 {
-    NativeTypeProperties* info = FUN_00d868a0(type);
+    NativeTypeProperties* info = hkClassMember_getClassMemberTypeProperties(type);
     if ((unsigned short)info->m_size <= 0x40)
     {
         m_type = type;
-        FUN_00cb1260(m_data, src, info->m_size);
+        hkString_memCpy(m_data, src, info->m_size);
         return 0;
     }
     return 1;
@@ -571,7 +571,7 @@ S00d47350_Res __fastcall hkClass_getDefault(const hkClass* self, int, void* data
     unsigned char type = member->m_type;
     if (type == 0x14)
     {
-        const void* d = member->FUN_00d86920();
+        const void* d = member->getClass();
         output->m_type = 0x14;
         output->m_value = data;
         output->m_descriptor = d;
@@ -650,7 +650,7 @@ hkResult __fastcall ReadDeclaredDefaultValue(const hkClass* cls, void*, int iInd
 
             if (ucType == 0x14)
             {
-                const hkClass* pkClass = kMember.FUN_00d86920();
+                const hkClass* pkClass = kMember.getClass();
                 pvAddr = *(const void* const*)pvAddr;
                 kOut.m_descriptor = pkClass;
                 kOut.m_value = pvAddr;
@@ -682,8 +682,8 @@ typedef int (__thiscall *DefaultWriter)(const hkClass*, int, int);
 
 static __declspec(noinline) int FUN_00e03100(const hkClassMember* node)
 {
-    if (node->FUN_00d86940())
-        return node->FUN_00d86940();
+    if (node->getCstyleArraySize())
+        return node->getCstyleArraySize();
     return 1;
 }
 
@@ -695,7 +695,7 @@ int __cdecl FUN_00e03240(const hkClass* holder, const hkClassMember* node, int v
     if (node->m_type != 0x19)
         return result;
 
-    const hkClass* childHolder = node->FUN_00d86920();
+    const hkClass* childHolder = node->getClass();
     if (!childHolder)
         return result;
 

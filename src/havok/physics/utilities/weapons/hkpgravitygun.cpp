@@ -25,9 +25,9 @@ typedef short hkInt16;
 typedef int hkInt32;
 typedef unsigned int hkUint32;
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 template <typename T> void hkMemoryAllocator::_bufFree(void* p, int n) { bufFree(p, n * sizeof(T)); }
-__forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*) { return FUN_00c85750().heap(); }
+__forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*) { return hkMemoryRouter_getInstance().heap(); }
 template <class T> __forceinline void hkArrayBase<T>::clear()
 {
     for (int i = 0; i < m_iElementCount; ++i) m_data[i].~T();
@@ -43,7 +43,7 @@ template <class T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemo
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray() { clearAndDeallocate(); }
 inline void hkReferencedObject::operator delete(void* p)
 {
-    FUN_00c85750().heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
+    hkMemoryRouter_getInstance().heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
 struct GGTransform;
@@ -60,7 +60,7 @@ struct GunArg3;
 void hkpGravityGun::FUN_00e45fb0(int, int, int)
 {
     if (m_kPickedBodies.m_iElementCount != 0)
-        FUN_00e45e60(0);
+        hkpGravityGun_dropObject(0);
 }
 
 
@@ -397,7 +397,7 @@ void hkpGravityGun::stepGun(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransfor
 
     if (b1)
     {
-        FUN_00e45ee0(apGunTransform, a3, world);
+        gravityGunPush(apGunTransform, a3, world);
         *(__m128*)&v1 = *(__m128*)&a3->unk120;
         for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
         {
@@ -408,7 +408,7 @@ void hkpGravityGun::stepGun(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransfor
     {
         if (m_kPickedBodies.m_iElementCount != m_iMaxPickedBodies)
         {
-            FUN_00e46080(apGunTransform, a3, world);
+            gravityGunPull(apGunTransform, a3, world);
             *(__m128*)&v2 = *(__m128*)&apGunTransform->m_vTranslation;
             *(__m128*)&v1 = *(__m128*)&a3->unk120;
             for (int i = 0; i < m_kListeners.m_iElementCount; ++i)
@@ -427,7 +427,7 @@ void hkpGravityGun::stepGun(hkReal dt, hkpWorld* world, GunArg3* a3, GunTransfor
         }
     }
 
-    FUN_00e45c90(dt, apGunTransform, a3);
+    gravityGunStep(dt, apGunTransform, a3);
 }
 
 extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
@@ -448,7 +448,8 @@ template <class T> __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocato
 
 // Retains the body, appends it to the picked bodies, and scales its inverse mass by 100.
 // @fnv 0x00e46000
-void hkpGravityGun::FUN_00e46000(hkpRigidBody* apEntity)
+// src: XBOX_PDB 0x00e46000
+void hkpGravityGun::takeObject(hkpRigidBody* apEntity)
 {
     apEntity->addReference();
     m_kPickedBodies.pushBack(apEntity);

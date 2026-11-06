@@ -26,7 +26,7 @@ struct E01D40MemoryRouter
     }
 };
 
-extern "C" E01D40MemoryRouter& __cdecl FUN_00c85750();
+extern "C" E01D40MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct E01D40ReferencedObject
 {
@@ -97,7 +97,7 @@ struct E01D40Object : E01D40Base
 void E01D40Object::FUN_00e01d40()
 {
     m_name.release();
-    m_kTrackedObjects._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750().heap()));
+    m_kTrackedObjects._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance().heap()));
     E01D40Base::release();
 }
 
@@ -117,7 +117,7 @@ struct AudioSystem
     int unk0c;
     AudioInterface* unk10;
 };
-extern void* __cdecl FUN_00c85750();
+extern void* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     int unk00;
@@ -132,7 +132,7 @@ CpuObject* CpuObject::FUN_00e01dd0(bool enabled)
     FUN_00e01d40();
     if (enabled & 1)
     {
-        AudioSystem* system = static_cast<AudioSystem*>(FUN_00c85750());
+        AudioSystem* system = static_cast<AudioSystem*>(hkMemoryRouter_getInstance());
         system->unk10->dispatch(this, unk04);
     }
     return this;

@@ -83,7 +83,7 @@ FNV_STATIC_ASSERT(offsetof(NiPoint4, m_afExtents) == 0);
 class NiMatrix3_Xbox360
 {
   public:
-    void FUN_00439f50(int column, NiPoint3& out) const;  // declared for the original code (decl_variants.py)
+    void NiMatrix3_GetCol(int column, NiPoint3& out) const;  // declared for the original code (decl_variants.py)
 
   public:
     NiPoint4 m_afEntries[3];  // +0x0, 48 bytes

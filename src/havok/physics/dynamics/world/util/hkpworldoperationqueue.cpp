@@ -12,7 +12,7 @@ struct S_00cf7540_Alloc
 {
 };
 
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 void ResizeAudioStream(S_00cf7540_Alloc* alloc, void* arr, int elemSize);
 
 struct S_00cf7540_Ref
@@ -33,7 +33,7 @@ struct S_00cf7540_Entry
 template <class T>
 static __forceinline T& S_00cf7540_Array_AllocatePair(hkArrayBase<T>& self)
 {
-        BSAudio* router = FUN_00c85750();
+        BSAudio* router = hkMemoryRouter_getInstance();
         if (self.m_iElementCount == (self.m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<S_00cf7540_Alloc*>(router->pListener), (&self), sizeof(T));
         return self.m_data[self.m_iElementCount++];
@@ -420,7 +420,7 @@ struct Body
     void hkpPhantom_updateBroadPhase(void*);
     void hkpRigidBody_setPositionAndRotation(const hkVector4&, const hkVector4&);
     void OnTrigger(const hkVector4&);
-    void FUN_00561800(const hkVector4&);
+    void hkpRigidBody_setAngularVelocity(const hkVector4&);
     void activate_00c9c1d0();
     void FUN_00c9c240();
     void hkpConstraintCollisionFilter__constraintBreakingCallbackImmediate(Body*, int);
@@ -582,7 +582,7 @@ static __forceinline void release(Body* p)
 }
 static __forceinline Heap* heap()
 {
-    BSAudio* router = FUN_00c85750();
+    BSAudio* router = hkMemoryRouter_getInstance();
     return reinterpret_cast<Heap*>(router->pListener);
 }
 static __forceinline void freeBlock(void* p, int n)
@@ -778,7 +778,7 @@ void Pending::FUN_00cf7c10()
         case 26: {
             hkVector4 v;
             v.quad = _mm_setr_ps(p->x, p->y, p->z, 0.0f);
-            p->object->FUN_00561800(v);
+            p->object->hkpRigidBody_setAngularVelocity(v);
             release(p->object);
             break;
         }
@@ -880,7 +880,7 @@ struct Allocator
     virtual void Release(void* data, unsigned int size) = 0;
 };
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 struct Elem20
 {
@@ -912,7 +912,7 @@ template <typename T> void Buffer<T>::clear()
 {
     const unsigned int stride = sizeof(T);
 
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(audio->pListener);
 
     const unsigned int f = flags;
@@ -963,9 +963,9 @@ struct FUN_00d1df70
 };
 void EnterTlsGuard();
 void hkReferencedObject_unlockAll();
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* alloc, void* vec, int elemsz);
-void FUN_00cb1260(void* dst, void* src, int n);
+void hkString_memCpy(void* dst, void* src, int n);
 
 struct Elem
 {
@@ -1013,7 +1013,7 @@ struct hkpWorldOperationQueue
 void hkpWorldOperationQueue::queueOperation(Elem* arg)
 {
     EnterTlsGuard();
-    BSAudio* bsa = FUN_00c85750();
+    BSAudio* bsa = hkMemoryRouter_getInstance();
     if (cnt == (cap & 0x3fffffff))
     {
         ResizeAudioStream(reinterpret_cast<Alloc*>(bsa->pListener), this, 0x14);
@@ -1053,10 +1053,10 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
     case 6: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        hkString_memCpy(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
@@ -1069,10 +1069,10 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
     case 7: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        hkString_memCpy(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
@@ -1099,7 +1099,7 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
         ((Obj*)dst->f08)->FUN_00c90510();
         {
             VecBase* s = &sub;
-            BSAudio* b = FUN_00c85750();
+            BSAudio* b = hkMemoryRouter_getInstance();
             if (s->cnt == (s->cap & 0x3fffffff))
             {
                 ResizeAudioStream(reinterpret_cast<Alloc*>(b->pListener), s, 0x14);
@@ -1123,10 +1123,10 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
     case 15: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        hkString_memCpy(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
@@ -1139,10 +1139,10 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
     case 16: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        hkString_memCpy(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
@@ -1154,7 +1154,7 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
         return;
     case 17: {
         ((Obj*)dst->f04)->FUN_00c90510();
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(0x20);
         int nf08;
         if (mem)
@@ -1196,10 +1196,10 @@ void hkpWorldOperationQueue::queueOperation(Elem* arg)
     case 23: {
         int f08v = dst->f08;
         int count = (unsigned short)f08v;
-        BSAudio* b = FUN_00c85750();
+        BSAudio* b = hkMemoryRouter_getInstance();
         void* mem = reinterpret_cast<Alloc*>(b->pListener)->V04(count * 4);
         dst->f04 = (int*)mem;
-        FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
+        hkString_memCpy(mem, arg->f04, (unsigned short)arg->f08 * 4);
         int* p = dst->f04;
         int* end = p + (unsigned short)dst->f08;
         while (p < end)
@@ -1267,10 +1267,10 @@ struct S_00cf7ae0_Heap
     virtual void vc();
     virtual void ReleaseBlock(void* p, int n);
 };
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline BSAudio& GetMonitorStream()
 {
-    return *FUN_00c85750();
+    return *hkMemoryRouter_getInstance();
 }
 inline S_00cf7ae0_Heap& __fastcall GetStreamHeap(BSAudio& audio)
 {
@@ -1747,11 +1747,12 @@ struct S_Owner
     virtual void v35();
     virtual void v36();
     virtual S_Mgr* GetMgr();
-    void FUN_00c674d0(S_Item** items, unsigned int count);
+    void bhkWorld_AddEntities(S_Item** items, unsigned int count);
 };
 // For each item clears flag 0x10 on its body (or calls ProcessTarget), updates the first valid shape once, calls FUN_00c905b0, then zeroes the items array.
 // @fnv 0x00c674d0
-void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
+// src: XBOX_PDB 0x00c674d0
+void S_Owner::bhkWorld_AddEntities(S_Item** items, unsigned int count)
 {
     S_ModeGuard guard;
     S_Mgr* mgr = GetMgr();

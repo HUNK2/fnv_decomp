@@ -636,7 +636,8 @@ struct FUN_00b79da0_obj
 
 // Stores the given boolean value into the flag field of the object.
 // @fnv 0x00b79da0
-void __fastcall FUN_00b79da0(FUN_00b79da0_obj* self, int edx, bool value)
+// src: XBOX_PDB 0x00b79da0
+void __fastcall NiD3DShaderInterface_SetIsBestImplementation(FUN_00b79da0_obj* self, int edx, bool value)
 {
     self->flag = value;
 }
@@ -788,7 +789,7 @@ void __stdcall UpdateEyePosition(unsigned int type, char* geom, Matrix_b78ef0 ma
 }  // namespace fnv_00b78ef0
 
 struct BSFogProperty;
-BSFogProperty* __cdecl FUN_00b55520(int);
+BSFogProperty* __cdecl BSShaderManager_GetFogProperty(int);
 extern unsigned char DAT_011f91c4;
 extern float DAT_010af2f0;
 extern float DAT_011fa2d4;
@@ -986,7 +987,7 @@ void ShaderS::ApplyFogAndAlpha(unsigned int uiPass, void* pArg2, GeomS* pGeom, v
     if (uiPass - 0x1f7 <= 0x37)
         ShadowLightShader_UpdateTogglesConstantLand(pArg2, 0, pGeom, 0);
     else
-        SetFog(pArg2, FUN_00b55520(DAT_011f91c4), pArg4);
+        SetFog(pArg2, BSShaderManager_GetFogProperty(DAT_011f91c4), pArg4);
     if (pProp && !pProp->bFlag)
         DAT_011fa2d4 = 0.0f;
     if (!((((GeomData*)pGeom)->uiFlags & 0x4000) > 0) && (uiPass < 0x248 || uiPass > 0x24b))
@@ -4111,8 +4112,8 @@ extern float DAT_011ad838;
 extern const float DAT_011ad808;
 extern NiPoint2 DAT_011f962c, DAT_011f9634;
 extern bool DAT_011f94aa;
-float __cdecl FUN_00404010(float, float);
-float __cdecl FUN_0040ebd0(float, float);
+float __cdecl BSMAX_00404010(float, float);
+float __cdecl BSMIN(float, float);
 // @fnv 0x00b791f0
 // src: COMMUNITY 0x00b791f0
 void __stdcall ShadowLightShader_SetupGeometryConstants_LODLandParams(unsigned int mode, Params* first, Params* second)
@@ -4138,7 +4139,7 @@ void __stdcall ShadowLightShader_SetupGeometryConstants_LODLandParams(unsigned i
         };
         Triple pos = *reinterpret_cast<Triple*>(&second->x);
         float ratio = (DAT_011f940c - DAT_011f94ac) / (DAT_011ad838 * 5.0);
-        ratio = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, ratio));
+        ratio = BSMIN(1.0f, BSMAX_00404010(0.0f, ratio));
         NiPoint2 uv = (DAT_011f962c - DAT_011f9634) * ratio + DAT_011f9634;
         if (ratio == 1.0f)
             DAT_011f94aa = false;

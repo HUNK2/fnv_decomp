@@ -207,11 +207,12 @@ struct S00b3d1b0_Obj
     float m_30;
     int m_34;
 
-    void FUN_00b3d1b0(S00b3d1b0_Src* src);
+    void SIdvLeafInfo_Parse(S00b3d1b0_Src* src);
 };
 
 // @fnv 0x00b3d1b0
-void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
+// src: XBOX_PDB 0x00b3d1b0
+void S00b3d1b0_Obj::SIdvLeafInfo_Parse(S00b3d1b0_Src* src)
 {
     int aTag = src->ReadToken();
     int count;

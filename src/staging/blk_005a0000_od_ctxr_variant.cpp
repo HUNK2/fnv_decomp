@@ -16,9 +16,9 @@ struct FUN_005a3740_cls
 };
 struct FUN_005a3790Class
 {
-    bool FUN_005a3790();
+    bool TESForm_GetIgnoreFriendlyHits();
 };
-bool __cdecl FUN_005a3760(void* reference, void* b, void* c, double& result);
+bool __cdecl Script_GetIgnoreFriendlyHitsConditionFunction(void* reference, void* b, void* c, double& result);
 struct FUN_005a7840_Class
 {
     void ClearFlag(unsigned char bFlag);
@@ -77,7 +77,7 @@ struct FUN_005a7c00_class : public BSSimpleListBase
 };
 struct FUN_005a8e20_cls
 {
-    int __thiscall FUN_005a90b0(void* param, bool flag);
+    int __thiscall ScriptLocals_GetActionObject(void* param, bool flag);
     void __thiscall AttachScriptLocals(void* param);
     char __thiscall ScriptLocals_CheckActionFlag(int param_2, int param_3);
 };
@@ -177,7 +177,7 @@ struct FUN_004855a0_shell
 };
 struct FUN_00487010_shell
 {
-    void FUN_00487010();
+    void Save_00487010();
 };
 struct FUN_00483710_shell
 {
@@ -185,13 +185,13 @@ struct FUN_00483710_shell
 };
 struct FUN_00485e20_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
 struct FUN_00485680_shell
 {
     void FUN_00485680();
 };
-unsigned char __cdecl FUN_00401500();
+unsigned char __cdecl TESForm_QEndianSwapOnSave();
 struct FUN_005a7a90_shell
 {
     int unk00;
@@ -242,7 +242,7 @@ struct FUN_005a7b00_Class
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int m_24;
-    void FUN_004851b0(unsigned int id);
+    void TESForm_CopyAllComponents(unsigned int id);
     void InitializeFromRecord(unsigned int id);
 };
 extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
@@ -255,7 +255,7 @@ class FUN_008ad910_ref
 class FUN_005e79a0_t
 {
   public:
-    bool FUN_00485270(TESForm* pkForm);
+    bool TESForm_CompareAllComponents(TESForm* pkForm);
 };
 class FUN_005a7b60_cls
 {
@@ -263,7 +263,7 @@ class FUN_005a7b60_cls
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     unsigned char m_data;
 
-    bool FUN_005a7b60(TESForm* pkForm);
+    bool TESRecipeCategory_Compare(TESForm* pkForm);
 };
 void __cdecl operator delete(void*);
 struct DeletingObject

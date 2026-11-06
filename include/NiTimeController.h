@@ -88,11 +88,11 @@ public:
     static void __cdecl UpdateControllersForTarget(Target* target);
 
     int FUN_00441110();
-    NiControllerSequence* FUN_0047a520(const NiFixedString& name);
-    bool __thiscall FUN_00a36250(float value);
+    NiControllerSequence* NiControllerManager_GetSequenceByName(const NiFixedString& name);
+    bool __thiscall DontDoUpdate(float value);
     void BSShaderPPLightingProperty_SetLandscapeTextureSet(int value, void* data);
     void BSShaderPPLightingProperty_SetLandscapeSpecularExponents(char, char, char, char, char, char, char, int, int, int);
-    void FUN_00baa000();
+    void BSShaderProperty_FreeRenderPasses();
 
     union
     {

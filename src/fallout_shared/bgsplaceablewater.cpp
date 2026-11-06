@@ -16,7 +16,7 @@ BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel()
 // @fnv 0x004fc2e0
 void BGSPlaceableWater::ResetFormData()
 {
-    FUN_00624700()->Reinitialize();
+    GetExtraPartList()->Reinitialize();
     BGSPlaceableWater_SetReflectionEnabled(true);
     BGSPlaceableWater_SetReflectsLand(true);
     BGSPlaceableWater_SetReflectsLODLand(true);
@@ -83,7 +83,7 @@ bool BGSPlaceableWater::LoadForm(TESFile* file)
             data.Reset();
             reinterpret_cast<BGSImpactData*>(this)->ReadTypedData(file, &data, 8);
             if (reinterpret_cast<TESFileGetChunkData*>(file)->GetChunkData())
-                data.FUN_00535aa0();
+                data.OBJ_WEAP_CRITICAL_Endian();
             Data.m_pOwningWater = data.m_pOwningWater;
             Data.flags = 0;
             BGSPlaceableWater_SetReflectionEnabled(true);
@@ -100,7 +100,7 @@ bool BGSPlaceableWater::LoadForm(TESFile* file)
             if (reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion() < 9)
                 BGSPlaceableWater_SetAutomaticWater(false);
             if (reinterpret_cast<TESFileGetChunkData*>(file)->GetChunkData())
-                Data.FUN_00462230();
+                Data.TwoValues_Endian();
             break;
         }
         }
@@ -177,22 +177,23 @@ void FUN_004fc420_shell::BGSPlaceableWater_SetUnderwaterFog(bool abValue)
 
 struct FUN_005e78f0_t
 {
-    void __thiscall FUN_004851b0(TESForm*);
+    void __thiscall TESForm_CopyAllComponents(TESForm*);
 };
 void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_004fc860_shell : public BGSPlaceableWater
 {
-    void FUN_004fc860(TESForm* apCopy);
+    void BGSPlaceableWater_Copy(TESForm* apCopy);
 };
 // @fnv 0x004fc860
-void FUN_004fc860_shell::FUN_004fc860(TESForm* apCopy)
+// src: XBOX_PDB 0x004fc860
+void FUN_004fc860_shell::BGSPlaceableWater_Copy(TESForm* apCopy)
 {
     BGSPlaceableWater* pcopy;
     pcopy = dynamic_cast<BGSPlaceableWater*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
-    __memcpy(FUN_00624700(), pcopy->FUN_00624700(), 8);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
+    __memcpy(GetExtraPartList(), pcopy->GetExtraPartList(), 8);
 }
 
 // Sets or clears aiFlag in the flags of the object returned by FUN_00624700, depending on abSet.
@@ -201,9 +202,9 @@ void FUN_004fc860_shell::FUN_004fc860(TESForm* apCopy)
 void FUN_004fc990_t::BGSPlaceableWater_SetFlag(int aiFlag, bool abSet)
 {
     if (abSet)
-        ((BGSPlaceableWater*)this)->FUN_00624700()->flags |= aiFlag;
+        ((BGSPlaceableWater*)this)->GetExtraPartList()->flags |= aiFlag;
     else
-        ((BGSPlaceableWater*)this)->FUN_00624700()->flags &= ~aiFlag;
+        ((BGSPlaceableWater*)this)->GetExtraPartList()->flags &= ~aiFlag;
 }
 
 struct FUN_004fc360_shell : public BGSPlaceableWater
@@ -291,23 +292,24 @@ void FUN_004fc490_shell::BGSPlaceableWater_SetDepthEnabled(bool abValue)
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 extern char DAT_01183028;
 struct FUN_004fc8c0_shell : public BGSPlaceableWater
 {
-    bool FUN_004fc8c0(TESForm* apCompare);
+    bool BGSPlaceableWater_Compare(TESForm* apCompare);
 };
 // @fnv 0x004fc8c0
-bool FUN_004fc8c0_shell::FUN_004fc8c0(TESForm* apCompare)
+// src: XBOX_PDB 0x004fc8c0
+bool FUN_004fc8c0_shell::BGSPlaceableWater_Compare(TESForm* apCompare)
 {
     BGSPlaceableWater* pcomp = dynamic_cast<BGSPlaceableWater*>(apCompare);
     if (!pcomp)
         return true;
-    if (((FUN_005e79a0_t*)this)->FUN_00485270(pcomp))
+    if (((FUN_005e79a0_t*)this)->TESForm_CompareAllComponents(pcomp))
         return true;
-    if (memcmp((char*)this + 0x48, pcomp->FUN_00624700(), 8))
+    if (memcmp((char*)this + 0x48, pcomp->GetExtraPartList(), 8))
         return true;
     return false;
 }
@@ -333,7 +335,7 @@ class ModelCallees
 class WaterFormCallees
 {
   public:
-    void* FUN_0084e3a0();
+    void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 class FUN_004fc7b0_cls : public BGSPlaceableWater
@@ -344,7 +346,7 @@ class FUN_004fc7b0_cls : public BGSPlaceableWater
     void BGSPlaceableWater_SaveAlt();
 };
 
-bool __cdecl FUN_00401500();
+bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl FUN_00401460(void* dst, void* src, unsigned int size);
 void __cdecl AppendChunk(unsigned int chunkId, void* data, unsigned int size);
 
@@ -358,15 +360,15 @@ void FUN_004fc7b0_cls::BGSPlaceableWater_SaveAlt()
     waterFormData.FUN_004019f0();
     FUN_00401460(&waterFormData, &Data, 8);
     waterFormData.m_pOwningWater =
-        (TESWaterForm*)((Data.m_pOwningWater != 0) ? ((WaterFormCallees*)Data.m_pOwningWater)->FUN_0084e3a0() : 0);
-    if (FUN_00401500())
+        (TESWaterForm*)((Data.m_pOwningWater != 0) ? ((WaterFormCallees*)Data.m_pOwningWater)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0);
+    if (TESForm_QEndianSwapOnSave())
     {
-        waterFormData.FUN_00462230();
+        waterFormData.TwoValues_Endian();
     }
     AppendChunk(0x4d414e44, &waterFormData, 8);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
     {
-        waterFormData.FUN_00462230();
+        waterFormData.TwoValues_Endian();
     }
     FUN_00485680();
 }

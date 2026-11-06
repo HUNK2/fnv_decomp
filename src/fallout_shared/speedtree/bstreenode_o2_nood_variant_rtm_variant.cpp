@@ -125,11 +125,11 @@ struct FUN_0066d3a0_shell
 {
     void* __thiscall bhkSPCollisionObject_bhkSPCollisionObject(void*);
 };
-extern "C" void __cdecl FUN_004b5020();
+extern "C" void __cdecl hkActionCinfo_hkActionCinfo();
 extern "C" void __cdecl FUN_0056e270();
 struct FUN_0056e120_shell
 {
-    void __thiscall FUN_0056e120();
+    void __thiscall bhkTransform_setIdentity();
 };
 struct FUN_0066d550_shell
 {
@@ -156,11 +156,11 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
-    void* __thiscall FUN_0066d770();
+    void* __thiscall hkMultiSphereShapeCinfo_hkMultiSphereShapeCinfo();
 };
 struct FUN_0094db80_shell
 {
-    void FUN_0094db80(unsigned char);
+    void NiAlphaProperty_SetTestRef(unsigned char);
 };
 struct FUN_0066bf80_data
 {
@@ -169,12 +169,12 @@ struct FUN_0066bf80_data
 struct NiCamera;
 extern double gModifierZero;
 extern "C" unsigned int __cdecl BSTreeManager_GetCamera();
-extern bool __cdecl FUN_004b5fc0(NiAVObject*, NiCamera*);
+extern bool __cdecl NodeInFrustum(NiAVObject*, NiCamera*);
 #include "../../../include/MEM_CONTEXT.h"
 class NiTexture;
 struct bhkWorldObject;
 extern char g_01268444_arg1;
-NiObject* __cdecl FUN_00653270(const NiRTTI* apRTTI, NiObject* apObject);
+NiObject* __cdecl NiObject_DynamicCast(const NiRTTI* apRTTI, NiObject* apObject);
 struct FUN_0066d7c0_cls
 {
     virtual void v00();
@@ -289,7 +289,7 @@ struct FUN_0066d490_base
 struct FUN_0066d490_cls : FUN_0066d490_base
 {
     void* m_vptr;
-    void FUN_00cb7b80(unsigned int a1);
+    void bhkMultiSphereShape_Init(unsigned int a1);
     FUN_0066d490_cls(unsigned int a1);
 };
 extern char DAT_01066d44;
@@ -302,10 +302,10 @@ struct FUN_0066d590_base
 struct FUN_0066d590_cls : FUN_0066d590_base
 {
     void* m_vptr;
-    void FUN_00c8c5b0(unsigned int a1);
+    void bhkTransformShape_Init(unsigned int a1);
     FUN_0066d590_cls(unsigned int a1);
 };
-extern "C" int __cdecl FUN_00406d00(char* text, unsigned size, const char* fmt, ...);
+extern "C" int __cdecl BSsprintf(char* text, unsigned size, const char* fmt, ...);
 extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 struct S_0066d880_List
 {
@@ -313,7 +313,7 @@ struct S_0066d880_List
 };
 struct S_0066d880_Obj
 {
-    unsigned char FUN_00666f00();
+    unsigned char CombatProcedure_GetFinished();
     int FUN_008d6f30();
 };
 struct S_0066d880_Holder
@@ -340,8 +340,8 @@ struct MyObj
 {
     unsigned char unk00[8];
     Inner* m8;
-    void __thiscall FUN_00c84e20(void*);
-    void __thiscall FUN_00c8c410(void*);
+    void __thiscall bhkShape_CopyCinfo(void*);
+    void __thiscall bhkTransformShape_CopyCinfo(void*);
 };
 struct Alloc
 {
@@ -651,16 +651,16 @@ struct Obj
     virtual void Call(void*, void*, void*, const char*);
     int unk04;
     Data8* unk08;
-    void FUN_00c9fb70(Output*);
-    void FUN_00cab1b0(void*, void*);
+    void bhkConvexShape_CopyCinfo(Output*);
+    void bhkCapsuleShape_BuildDisplayGeometry(void*, void*);
 };
 extern unsigned int DAT_0126fd98;
 extern float DAT_010c72bc;
 extern float DAT_01267e30[];
-Holder* __cdecl FUN_00c85750();
+Holder* __cdecl hkMemoryRouter_getInstance();
 void* FUN_00d22dc0::operator new(unsigned int n)
 {
-    Holder* h = FUN_00c85750();
+    Holder* h = hkMemoryRouter_getInstance();
     Alloc* allocator = h->unk10;
     void* p = allocator->Alloc_(n);
     *(short*)((char*)p + 4) = (short)n;
@@ -748,7 +748,7 @@ struct SpawnedSourceOwner
     virtual void Apply(SpawnedSource* apSource);
 
     void bhkCapsuleShape_Init(__m128* apA, __m128* apB, float afT);
-    void FUN_00cab820(SpawnedSource* apSource);
+    void bhkCapsuleShape_Init_00cab820(SpawnedSource* apSource);
 };
 #include <xmmintrin.h>
 #include <xmmintrin.h>
@@ -815,7 +815,7 @@ struct S00c880f0_Ifc
     virtual void v10();
     virtual void v14();
     virtual void v18(S00c880f0_Bounds* out);
-    void FUN_00cf24a0(S00c880f0_Bounds* out);
+    void hkpAabbPhantom_setAabb(S00c880f0_Bounds* out);
 };
 struct S00c880f0_Node
 {
@@ -829,14 +829,15 @@ struct S00c880f0_Cls
     NiAVObject* m_08;
     unsigned int m_0c;
     S00c880f0_Node* m_10;
-    void FUN_00c880f0();
+    void bhkPCollisionObject_NitohkTransform();
 };
 struct S00c880f0_LockObj
 {
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
 };
 // @fnv 0x00c880f0
-void S00c880f0_Cls::FUN_00c880f0()
+// src: XBOX_PDB 0x00c880f0
+void S00c880f0_Cls::bhkPCollisionObject_NitohkTransform()
 {
     NiAVObject* a = m_08;
     S00c880f0_Node* b = m_10;
@@ -861,12 +862,12 @@ void S00c880f0_Cls::FUN_00c880f0()
                 makePosition(position, *reinterpret_cast<const NiPoint3*>(worldTransform + offsetof(NiTransform, m_Translate) / sizeof(float)));
                 out.min.plus(position);
                 out.max.plus(position);
-                reinterpret_cast<S00c880f0_LockObj*>(&DAT_01267b80)->FUN_0040fbf0(0);
+                reinterpret_cast<S00c880f0_LockObj*>(&DAT_01267b80)->BSSpinLock_Lock(0);
                 S00c880f0_Ifc* item = b->m_08;
                 if (item)
                 {
                     b->FUN_00a29680();
-                    item->FUN_00cf24a0(&out);
+                    item->hkpAabbPhantom_setAabb(&out);
                     b->FUN_00a29680();
                 }
                 if (--DAT_01267b84 == 0)

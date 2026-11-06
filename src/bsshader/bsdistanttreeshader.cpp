@@ -47,7 +47,8 @@ inline NiColorA::NiColorA(float red, float green, float blue, float alpha)
 extern int g_012007bc;
 
 // @fnv 0x00bb6490
-int* __cdecl FUN_00bb6490()
+// src: XBOX_PDB 0x00bb6490
+int* __cdecl BSDistantTreeShader_GetRTTI()
 {
     return &g_012007bc;
 }
@@ -60,11 +61,12 @@ struct Unknown_00bb62b0
     int m_70;
     char _1[0xc];
     NiGPUProgram* m_80;
-    NiPointer_NiGPUProgram_& FUN_00bb62b0(int);
+    NiPointer_NiGPUProgram_& BSDistantTreeShader_InitPass(int);
 };
 // Stores m_6c or m_70 into DAT_0126f74c based on a, then replaces the GPU program pointer at offset 0x28 with m_80.
 // @fnv 0x00bb62b0
-NiPointer_NiGPUProgram_& Unknown_00bb62b0::FUN_00bb62b0(int a)
+// src: XBOX_PDB 0x00bb62b0
+NiPointer_NiGPUProgram_& Unknown_00bb62b0::BSDistantTreeShader_InitPass(int a)
 {
     switch (a)
     {
@@ -89,7 +91,8 @@ struct S_00bb6b60_b
     S_00bb6b60_a* m_C;
 };
 // @fnv 0x00bb6b60
-void __stdcall FUN_00bb6b60(S_00bb6b60_b* p)
+// src: XBOX_PDB 0x00bb6b60
+void __stdcall BSDistantTreeShader_PostGeometry(S_00bb6b60_b* p)
 {
     S_00bb6b60_a* pFlagHolder = p->m_C;
     if (pFlagHolder && ((pFlagHolder->m_24 & 0x10000) > 0))
@@ -660,7 +663,7 @@ FUN_00bb6c30* CreateTreeShader()
 struct ZVec
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 struct ZFog
 {
@@ -1063,8 +1066,8 @@ struct ZSky
     int unk150;
     NiColorA unk154;
 };
-ZFog* __cdecl FUN_00b55520(int);
-ZRenderer* __cdecl FUN_00b4f5c0();
+ZFog* __cdecl BSShaderManager_GetFogProperty(int);
+ZRenderer* __cdecl BSShaderManager_GetAccumulator();
 ZSky* __cdecl BSShaderManager_GetCurrentAccumulator();
 extern unsigned char DAT_011f91c4;
 extern unsigned int DAT_011f91b8;
@@ -1113,7 +1116,7 @@ struct ZTree
 // @fnv 0x00bb6700
 void ZTree::UpdateLighting(int arg)
 {
-    ZFog* fog = FUN_00b55520(DAT_011f91c4);
+    ZFog* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
     if (fog)
     {
         float fFogStart = fog->unk2C;
@@ -1138,11 +1141,11 @@ void ZTree::UpdateLighting(int arg)
         unkBC = DAT_011a9bd0;
         return;
     }
-    ZLight* light = FUN_00b4f5c0()->unk194->unkE0->unkF8;
+    ZLight* light = BSShaderManager_GetAccumulator()->unk194->unkE0->unkF8;
     if (light)
     {
         ZVec lightDir = light->unkF0;
-        lightDir.FUN_004a0c10();
+        lightDir.Unitize_004a0c10();
         ZVec ambient = light->unkC8;
         unkAC = NiColorA(ambient.x, ambient.y, ambient.z, 1.0f);
         ambient = light->unkD4;

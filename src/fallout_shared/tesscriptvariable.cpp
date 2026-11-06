@@ -18,11 +18,12 @@ void ScriptVariableInfo::Load(TESFile* file)
 
 struct SL_standin
 {
-    SL_standin* FUN_005ac150(SL_standin* apCopy);
+    SL_standin* SCRIPT_LOCAL_SCRIPT_LOCAL(SL_standin* apCopy);
 };
 // Copies the byte at offset 0x10, the uint at offset 0, and the double at offset 8 from apCopy into this, then returns this.
 // @fnv 0x005ac150
-SL_standin* SL_standin::FUN_005ac150(SL_standin* apCopy)
+// src: XBOX_PDB 0x005ac150
+SL_standin* SL_standin::SCRIPT_LOCAL_SCRIPT_LOCAL(SL_standin* apCopy)
 {
     *((char*)this + 0x10) = *((char*)apCopy + 0x10);
     *(unsigned int*)this = *(unsigned int*)apCopy;
@@ -82,11 +83,12 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 
 struct FUN_00414220_shell
 {
-    void FUN_00414220();
+    void SCRIPT_HEADER_Endian();
 };
 
 // @fnv 0x00414220
-void FUN_00414220_shell::FUN_00414220()
+// src: XBOX_PDB 0x00414220
+void FUN_00414220_shell::SCRIPT_HEADER_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());

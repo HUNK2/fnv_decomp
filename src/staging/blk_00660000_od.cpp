@@ -129,12 +129,13 @@ void NiTPointerMap<unsigned int, FormChangeRecord*>::DeleteItem(NiTMapItem<unsig
 extern Setting originalRuntimeFloatSetting1297;
 
 // @fnv 0x0066b0b0
-float FUN_0066b0b0()
+// src: XBOX_PDB 0x0066b0b0
+float BSTreeManager_GetSizeConversion()
 {
     return *originalRuntimeFloatSetting1297.Float();
 }
 
-extern "C" void* __cdecl FUN_00664840(int);
+extern "C" void* __cdecl BSTreeManager_GetInstance(int);
 struct Flt
 {
     operator unsigned int();
@@ -142,7 +143,7 @@ struct Flt
 // @fnv 0x0066b660
 unsigned int __cdecl GetFltValueAtOffset16()
 {
-    return ((Flt*)((char*)FUN_00664840(1) + 0x10))->operator unsigned int();
+    return ((Flt*)((char*)BSTreeManager_GetInstance(1) + 0x10))->operator unsigned int();
 }
 
 struct FUN_0066dd80_Class
@@ -158,7 +159,8 @@ bool FUN_0066dd80_Class::IsFlag8Set() const
 
 // Returns true when type is 7 or 8, false otherwise.
 // @fnv 0x0066de80
-bool FUN_0066de80(int type)
+// src: XBOX_PDB 0x0066de80
+bool ActionPoints_IsThrownAttackAction(int type)
 {
     switch (type)
     {
@@ -229,11 +231,12 @@ struct FUN_0067f4b0_class
     unsigned char b;
     int a;
     int c;
-    void FUN_0067f4b0(int d);
+    void PackageLocation_SetLocObjectType(int d);
 };
 
 // @fnv 0x0067f4b0
-void FUN_0067f4b0_class::FUN_0067f4b0(int aiValue)
+// src: XBOX_PDB 0x0067f4b0
+void FUN_0067f4b0_class::PackageLocation_SetLocObjectType(int aiValue)
 {
     b = 5;
     c = aiValue;
@@ -437,10 +440,11 @@ struct FUN_0066c9c0_Class
 {
     T_ a;
     T_ b;
-    void FUN_0066c9c0(T_& x, T_& y, float f);
+    void hkContactPoint_set(T_& x, T_& y, float f);
 };
 // @fnv 0x0066c9c0
-void FUN_0066c9c0_Class::FUN_0066c9c0(T_& x, T_& y, float afValue)
+// src: XBOX_PDB 0x0066c9c0
+void FUN_0066c9c0_Class::hkContactPoint_set(T_& x, T_& y, float afValue)
 {
     a.FUN_004a3f10(&x);
     ((T_*)((char*)&a) + 16)->FUN_004a3f10(&y);
@@ -454,12 +458,12 @@ struct Date
 struct FUN_0066da50 : Date
 {
     ~FUN_0066da50();
-    void FUN_0066dab0();
+    void hkArray_hkVector4_hkContainerHeapAllocator_clearAndDeallocate();
 };
 // @fnv 0x0066da50
 FUN_0066da50::~FUN_0066da50()
 {
-    FUN_0066dab0();
+    hkArray_hkVector4_hkContainerHeapAllocator_clearAndDeallocate();
 }
 
 struct H_A100
@@ -468,7 +472,7 @@ struct H_A100
 };
 struct H_6db70
 {
-    void FUN_0066db70(void* a, void* b);
+    void hkMemoryAllocator_bufFree_hkpRootCdBodyPair(void* a, void* b);
 };
 struct FUN_0066dae0_Class
 {
@@ -476,14 +480,15 @@ struct FUN_0066dae0_Class
     unsigned int pad;
     unsigned int state;
     void __thiscall DestroyRange();
-    void __thiscall FUN_0066dae0(void* a);
+    void __thiscall hkArrayBase_hkVector4_clearAndDeallocate(void* a);
 };
 // @fnv 0x0066dae0
-void __thiscall FUN_0066dae0_Class::FUN_0066dae0(void* pTarget)
+// src: XBOX_PDB 0x0066dae0
+void __thiscall FUN_0066dae0_Class::hkArrayBase_hkVector4_clearAndDeallocate(void* pTarget)
 {
     DestroyRange();
     if (!(state & 0x80000000))
-        ((H_6db70*)pTarget)->FUN_0066db70(p, ((H_A100*)this)->GetSizeMasked());
+        ((H_6db70*)pTarget)->hkMemoryAllocator_bufFree_hkpRootCdBodyPair(p, ((H_A100*)this)->GetSizeMasked());
     p = 0;
     state = 0x80000000;
 }
@@ -514,11 +519,12 @@ struct FUN_0066db70_Class
     {}
     virtual void v4(int, int)
     {}
-    void __thiscall FUN_0066db70(int a, int b);
+    void __thiscall hkMemoryAllocator_bufFree_hkpRootCdBodyPair(int a, int b);
 };
 // Calls the virtual v4 with a and b shifted left by 4 bits; the local t is set to 0x10 and unused.
 // @fnv 0x0066db70
-void __thiscall FUN_0066db70_Class::FUN_0066db70(int a, int b)
+// src: XBOX_PDB 0x0066db70
+void __thiscall FUN_0066db70_Class::hkMemoryAllocator_bufFree_hkpRootCdBodyPair(int a, int b)
 {
     int t = 0x10;
     this->v4(a, b << 4);
@@ -618,7 +624,7 @@ void* __thiscall FUN_0067ad70_cls::DestroyAndFree(unsigned int flags)
 
 struct FUNObj
 {
-    void __thiscall FUN_0067fb60(void*);
+    void __thiscall PackageLocation_SaveGame(void*);
 };
 struct Holder
 {
@@ -633,7 +639,7 @@ void __thiscall Holder::SaveToBuffer(void* apBuffer)
     b = q != 0;
     ((BGSSaveFormBuffer*)apBuffer)->SaveData(&b, 1u, 0);
     if (b)
-        q->FUN_0067fb60(apBuffer);
+        q->PackageLocation_SaveGame(apBuffer);
 }
 
 extern int DAT_010689e4;
@@ -681,10 +687,11 @@ void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
 void __cdecl BSEndian(unsigned char* p, EndianSizeTag<2>);
 struct FUN_0067eff0_Class
 {
-    void __thiscall FUN_0067eff0();
+    void __thiscall PACK_LOC_FILE_Endian();
 };
 // @fnv 0x0067eff0
-void __thiscall FUN_0067eff0_Class::FUN_0067eff0()
+// src: XBOX_PDB 0x0067eff0
+void __thiscall FUN_0067eff0_Class::PACK_LOC_FILE_Endian()
 {
     BSEndian(reinterpret_cast<unsigned char*>(this) + 4, EndianSizeTag<1>());
     BSEndian(reinterpret_cast<unsigned char*>(this) + 8, EndianSizeTag<2>());
@@ -701,11 +708,12 @@ void __cdecl BSEndian(unsigned char* p, EndianSizeTag<2>);
 struct FUN_0067ff10_Class
 {
     unsigned char d[4];
-    void __thiscall FUN_0067ff10();
+    void __thiscall OBJ_WEAP_VATS_SPECIAL_Endian();
 };
 
 // @fnv 0x0067ff10
-void __thiscall FUN_0067ff10_Class::FUN_0067ff10()
+// src: XBOX_PDB 0x0067ff10
+void __thiscall FUN_0067ff10_Class::OBJ_WEAP_VATS_SPECIAL_Endian()
 {
     BSEndian(&d[4], EndianSizeTag<1>());
     BSEndian(&d[8], EndianSizeTag<0>());
@@ -748,11 +756,12 @@ struct FUN_0067b100_Class
     unsigned char b4;
     unsigned char b0c;
     unsigned char b14;
-    void __thiscall FUN_0067b100();
+    void __thiscall PACK_DIALOGUE_DATA_Endian();
 };
 
 // @fnv 0x0067b100
-void __thiscall FUN_0067b100_Class::FUN_0067b100()
+// src: XBOX_PDB 0x0067b100
+void __thiscall FUN_0067b100_Class::PACK_DIALOGUE_DATA_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<1>());
     BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());
@@ -768,7 +777,7 @@ struct FUN_0066d6a0 : bhkConvexShape
 // @fnv 0x0066d6a0
 FUN_0066d6a0::FUN_0066d6a0(int a)
 {
-    FUN_00cab820(a);
+    bhkCapsuleShape_Init_00cab820(a);
     ++DAT_01268324;
 }
 
@@ -922,7 +931,8 @@ struct FUN_0067caa0
 };
 
 // @fnv 0x00672d10
-Schedule206* __thiscall TESPackage::FUN_00672d10()
+// src: XBOX_PDB 0x00672d10
+Schedule206* __thiscall TESPackage::GetOrCreateUseWeaponPackageData()
 {
     if (GetPackType() == 0x10)
     {
@@ -1134,8 +1144,8 @@ extern int g_timerA;
 extern int g_timerB;
 extern unsigned char g_counter;
 
-float* __fastcall FUN_00403e20(void* obj);
-int* __fastcall FUN_0043d4d0(void* obj);
+float* __fastcall Setting_Float_00403e20(void* obj);
+int* __fastcall Setting_Int(void* obj);
 
 struct FUN_0066ca50_cls
 {
@@ -1215,10 +1225,10 @@ bool FUN_0066ca50_cls::BSTreeNode_CheckForCollision(float dt)
     }
     else if (m_f4 == g_dblConst)
     {
-        m_f4 = (float)((double)(dt + *FUN_00403e20(&g_timerA)) +
-                       (*FUN_00403e20(&g_timerA) / *FUN_0043d4d0(&g_timerB)) * g_counter);
+        m_f4 = (float)((double)(dt + *Setting_Float_00403e20(&g_timerA)) +
+                       (*Setting_Float_00403e20(&g_timerA) / *Setting_Int(&g_timerB)) * g_counter);
         g_counter++;
-        g_counter %= *FUN_0043d4d0(&g_timerB);
+        g_counter %= *Setting_Int(&g_timerB);
         return true;
     }
     else
@@ -1226,7 +1236,7 @@ bool FUN_0066ca50_cls::BSTreeNode_CheckForCollision(float dt)
         bool result = false;
         if (dt > m_f4)
         {
-            m_f4 = dt + *FUN_00403e20(&g_timerA);
+            m_f4 = dt + *Setting_Float_00403e20(&g_timerA);
             result = true;
         }
         return result;
@@ -1269,12 +1279,13 @@ extern "C" int __cdecl FUN_004019a0(void*);
 
 struct S_0066e2b0_Class : public FUN_0066df40_Class
 {
-    void __thiscall FUN_0066e2b0();
+    void __thiscall ActorCause_DecRefCount();
 };
 
 // Calls FUN_004019a0 on the object at offset 0x18; if it returns 0, calls FUN_0066e300(1) on this.
 // @fnv 0x0066e2b0
-void __thiscall S_0066e2b0_Class::FUN_0066e2b0()
+// src: XBOX_PDB 0x0066e2b0
+void __thiscall S_0066e2b0_Class::ActorCause_DecRefCount()
 {
     if (FUN_004019a0((void*)((char*)this + 0x18)) == 0)
     {
@@ -1336,7 +1347,7 @@ void __thiscall DetClassCls::WriteToSaveBuffer(BGSSaveFormBuffer* buffer)
     buffer->FUN_00865e50(&this->m_14, 4, 0);
     buffer->FUN_00865df0(this->m_00, 0);
     unsigned int count = 0;
-    unsigned int pos4 = buffer->FUN_00865f20();
+    unsigned int pos4 = buffer->StartVariableSizedValue();
     SaveNodeCls* node3 = this->m_04;
     while (node3 != 0)
     {
@@ -1348,7 +1359,7 @@ void __thiscall DetClassCls::WriteToSaveBuffer(BGSSaveFormBuffer* buffer)
         }
         node3 = node3->FUN_00726070();
     }
-    buffer->FUN_00865ff0(count, pos4);
+    buffer->SaveVariableSizedValue_00865ff0(count, pos4);
 }
 
 extern double DAT_01012060;
@@ -1378,33 +1389,34 @@ bool __cdecl IsScaledValueAboveThreshold(float a, float b)
     return value > *(&DAT_011d6458)->GetValuePtr();
 }
 
-void __cdecl FUN_00407a90(void* p, bool flag);
-void __cdecl FUN_00401080(void* p, bool flag);
+void __cdecl BSEndian_00407a90(void* p, bool flag);
+void __cdecl BSEndian_00401080(void* p, bool flag);
 struct SpawnedFlag
 {
     bool m_bValue;
 };
 struct FUN_0067ca10_cls
 {
-    void FUN_0067ca10();
+    void PACK_USE_WEAPON_DATA_PKW2_Endian();
 };
 // Calls FUN_00407a90 on this+6, +8 and +0xa, then FUN_00401080 on this+0xc and this+0x10, each with a zero-initialised bool.
 // @fnv 0x0067ca10
-void FUN_0067ca10_cls::FUN_0067ca10()
+// src: XBOX_PDB 0x0067ca10
+void FUN_0067ca10_cls::PACK_USE_WEAPON_DATA_PKW2_Endian()
 {
     SpawnedFlag a = {};
-    FUN_00407a90((char*)this + 6, a.m_bValue);
+    BSEndian_00407a90((char*)this + 6, a.m_bValue);
     SpawnedFlag b = {};
-    FUN_00407a90((char*)this + 8, b.m_bValue);
+    BSEndian_00407a90((char*)this + 8, b.m_bValue);
     SpawnedFlag c = {};
-    FUN_00407a90((char*)this + 0xa, c.m_bValue);
+    BSEndian_00407a90((char*)this + 0xa, c.m_bValue);
     {
         SpawnedFlag d = {};
-        FUN_00401080((char*)this + 0xc, d.m_bValue);
+        BSEndian_00401080((char*)this + 0xc, d.m_bValue);
     }
     {
         SpawnedFlag e = {};
-        FUN_00401080((char*)this + 0x10, e.m_bValue);
+        BSEndian_00401080((char*)this + 0x10, e.m_bValue);
     }
 }
 
@@ -1481,7 +1493,7 @@ void SaveE6D0Items(BGSSaveFormBuffer* pkBuffer)
 {
     pkBuffer->SaveData(&g_iE6D0Header, 4, 0);
     int aiCountValue = 0;
-    unsigned int uiCountPos = pkBuffer->FUN_00865f20();
+    unsigned int uiCountPos = pkBuffer->StartVariableSizedValue();
     E6D0Node* pkNode = &g_kE6D0Items;
     while (pkNode)
     {
@@ -1493,19 +1505,19 @@ void SaveE6D0Items(BGSSaveFormBuffer* pkBuffer)
         }
         pkNode = pkNode->GetNext();
     }
-    pkBuffer->FUN_00865ff0(aiCountValue, uiCountPos);
+    pkBuffer->SaveVariableSizedValue_00865ff0(aiCountValue, uiCountPos);
 }
 
 struct ComparisonEntry
 {
-    int FUN_00678ca0();
+    int PackageLocation_GetLocType();
     int GetSecondByte();
-    signed char FUN_00678ce0();
+    signed char Main_GameReset();
     signed char FUN_0086a460();
 };
 struct ComparisonOwner
 {
-    ComparisonEntry* FUN_0041d8a0();
+    ComparisonEntry* TESPackage_GetPackageSchedule();
     int CompareTo(ComparisonEntry* other);
 };
 
@@ -1513,11 +1525,11 @@ struct ComparisonOwner
 // @fnv 0x00678a80
 int ComparisonOwner::CompareTo(ComparisonEntry* other)
 {
-    ComparisonEntry* entry = FUN_0041d8a0();
-    if ((entry->FUN_00678ca0() == -1 && other->FUN_00678ca0() == -1) || entry->FUN_00678ca0() == other->FUN_00678ca0())
+    ComparisonEntry* entry = TESPackage_GetPackageSchedule();
+    if ((entry->PackageLocation_GetLocType() == -1 && other->PackageLocation_GetLocType() == -1) || entry->PackageLocation_GetLocType() == other->PackageLocation_GetLocType())
     {
-        if ((entry->FUN_00678ce0() == 0 && other->FUN_00678ce0() == -1) ||
-            entry->FUN_00678ce0() == other->FUN_00678ce0())
+        if ((entry->Main_GameReset() == 0 && other->Main_GameReset() == -1) ||
+            entry->Main_GameReset() == other->Main_GameReset())
         {
             if ((entry->GetSecondByte() == -1 && other->GetSecondByte() == -1) ||
                 entry->GetSecondByte() == other->GetSecondByte())
@@ -1555,8 +1567,8 @@ int ComparisonOwner::CompareTo(ComparisonEntry* other)
         }
         else
         {
-            if (entry->FUN_00678ce0() != -1 &&
-                (other->FUN_00678ce0() == -1 || entry->FUN_00678ce0() < other->FUN_00678ce0()))
+            if (entry->Main_GameReset() != -1 &&
+                (other->Main_GameReset() == -1 || entry->Main_GameReset() < other->Main_GameReset()))
             {
                 return -1;
             }
@@ -1568,8 +1580,8 @@ int ComparisonOwner::CompareTo(ComparisonEntry* other)
     }
     else
     {
-        if (entry->FUN_00678ca0() != -1 &&
-            (other->FUN_00678ca0() == -1 || entry->FUN_00678ca0() < other->FUN_00678ca0()))
+        if (entry->PackageLocation_GetLocType() != -1 &&
+            (other->PackageLocation_GetLocType() == -1 || entry->PackageLocation_GetLocType() < other->PackageLocation_GetLocType()))
         {
             return -1;
         }
@@ -1580,7 +1592,7 @@ int ComparisonOwner::CompareTo(ComparisonEntry* other)
     }
 }
 
-TESForm* __cdecl FUN_004839c0(void* p);
+TESForm* __cdecl TESForm_GetFormByNumericID(void* p);
 struct E640Item
 {
     void __thiscall ResolveActorFormId();
@@ -1594,7 +1606,7 @@ struct E640Cls : DetClassCls
 // src: COMMUNITY 0x0066e640
 void E640Cls::ActorCause_InitItem(BGSSaveFormBuffer* buffer)
 {
-    m_00 = m_00 ? dynamic_cast<Actor*>(FUN_004839c0(m_00)) : 0;
+    m_00 = m_00 ? dynamic_cast<Actor*>(TESForm_GetFormByNumericID(m_00)) : 0;
     SaveNodeCls* n = m_04;
     while (n)
     {
@@ -1674,7 +1686,7 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 
 float __cdecl ActionPoints_GetCost(int value);
-float* __fastcall FUN_00403e20(void* object);
+float* __fastcall Setting_Float_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
 
 // Returns FUN_0066dc70(value), multiplied by the value from FUN_00403e20(&DAT_011d5f88) unless unscaled is set.
@@ -1685,7 +1697,7 @@ float __cdecl GetRequiredAPForAction(int value, bool unscaled)
     float baseValue = ActionPoints_GetCost(value);
     if (!unscaled)
     {
-        return baseValue * *FUN_00403e20(&DAT_011d5f88);
+        return baseValue * *Setting_Float_00403e20(&DAT_011d5f88);
     }
     else
     {
@@ -1793,15 +1805,16 @@ void ArrD9E0::PushBack(void* pAlloc, const ElemD9E0& kVal)
 struct FUN_004a4840_class
 {
     char pad;
-    void* __thiscall FUN_004a4840(int);
+    void* __thiscall hkContainerHeapAllocator_get(int);
 };
 
 // Calls FUN_0066dae0 on this with the result of FUN_004a4840, called on a zeroed local object with this cast to int.
 // @fnv 0x0066dab0
-void FUN_0066da50::FUN_0066dab0()
+// src: XBOX_PDB 0x0066dab0
+void FUN_0066da50::hkArray_hkVector4_hkContainerHeapAllocator_clearAndDeallocate()
 {
     FUN_004a4840_class obj = {};
-    ((FUN_0066dae0_Class*)this)->FUN_0066dae0(obj.FUN_004a4840((int)this));
+    ((FUN_0066dae0_Class*)this)->hkArrayBase_hkVector4_clearAndDeallocate(obj.hkContainerHeapAllocator_get((int)this));
 }
 
 struct FUN_00660070_cls

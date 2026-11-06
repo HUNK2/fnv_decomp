@@ -88,26 +88,26 @@ class ProcessLists
     void AdvanceProcessLists(float);
     void CalculateAliveActorList();
     bool CanAddActorToList(Actor*, int);
-    void FUN_00445570(TESObjectREFR*);
+    void ModelLoader_CancelReference(TESObjectREFR*);
     ActorList* FUN_00717e50();
     void ProcessLists_UpdateMiddleHighList(float, bool);
-    void FUN_0096bcd0(float, bool);
-    void FUN_0096bcd0(float, int);
-    void FUN_0096c860();
+    void MiddleHighProcess_CalculateLightValue(float, bool);
+    void MiddleHighProcess_CalculateLightValue(float, int);
+    void ProcessLists_UpdateAnimationScenegraph();
     void ProcessLists_RunActorAnimationUpdates();
     void ProcessLists_ParallelActorAnimationMovementUpdates();
-    float FUN_0096d490();
+    float ProcessLists_GetSystemTimeClock();
     void FUN_0096d4b0(float);
     unsigned short Crime_CreateIndex(int, Crime*);
-    Crime* FUN_009727c0(int, unsigned short);
-    void FUN_009781d0(float);
+    Crime* ProcessLists_GetCrimeByIndex(int, unsigned short);
+    void ProcessLists_UpdateNonRenderSafeStuff(float);
     MagicShaderHitEffect* FindMagicShaderHitEffect(TESObjectREFR*);
     // Called on the singleton (0x011e0e80) by highprocess.cpp; FUN_ names are placeholders.
-    void FUN_0096d450(MobileObject*, int, bool, bool, bool);            // 0x0096d450: forwards to m_kMobileObjectProcessList (0x0096a970)
-    void FUN_0096d450(RefX*, int, bool, int, bool);
-    void FUN_0096d470(MobileObject*, int);                              // 0x0096d470: forwards to m_kMobileObjectProcessList (0x0096aaf0)
-    TESObjectREFR* FUN_00970a20(TESForm*, bool);                        // 0x00970a20
-    TESObjectREFR* FUN_00970b30(TESForm*, int, int);                    // 0x00970b30
+    void ProcessLists_AddReference(MobileObject*, int, bool, bool, bool);            // 0x0096d450: forwards to m_kMobileObjectProcessList (0x0096a970)
+    void ProcessLists_AddReference(RefX*, int, bool, int, bool);
+    void ProcessLists_RemoveReference(MobileObject*, int);                              // 0x0096d470: forwards to m_kMobileObjectProcessList (0x0096aaf0)
+    TESObjectREFR* ProcessLists_GetActorRefInHigh(TESForm*, bool);                        // 0x00970a20
+    TESObjectREFR* ProcessLists_GetActorRefInHigh_00970b30(TESForm*, int, int);                    // 0x00970b30
     BSSimpleList<Actor*>* CollectNearbyRefs(void*, void*);              // 0x009711e0
     BSSimpleList<Actor*>* CollectCombatTargets(int, void*);             // 0x009715c0
     Crime* FindCrime(Actor*, int, int aiCrimeType);                     // 0x00972570: searches m_pkCrimeLists[aiCrimeType]

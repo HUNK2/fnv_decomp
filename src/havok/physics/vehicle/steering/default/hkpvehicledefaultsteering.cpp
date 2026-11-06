@@ -21,7 +21,7 @@ extern "C" void _mm_store_ss(float* p, LocalM128 a);
 struct S00e43f70_Vec
 {
     LocalM128 q;
-    void FUN_00c7f700(const void* a, const void* b);
+    void hkVector4_setRotatedDir(const void* a, const void* b);
 };
 
 struct S00e43f70_Obj
@@ -40,7 +40,7 @@ void S00e43f70_Obj::hkpVehicleDefaultSteering_calcMainSteeringAngle(int aiUnused
 {
     *apResult = apOther->unk08 * unk08;
     S00e43f70_Vec v;
-    v.FUN_00c7f700(*(char**)(a1 + 0x18) + 0xf0, *(char**)(a1 + 0x1c) + 0x40);
+    v.hkVector4_setRotatedDir(*(char**)(a1 + 0x18) + 0xf0, *(char**)(a1 + 0x1c) + 0x40);
     LocalM128 w = _mm_load_ps((const float*)(*(char**)(a1 + 0x18) + 0x1b0));
     LocalM128 p = _mm_mul_ps(w, v.q);
     LocalM128 s = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);

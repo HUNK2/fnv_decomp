@@ -29,13 +29,13 @@ class NiAlphaProperty : public NiProperty
     void SetFlag512(bool enable);
     void SetFlags(unsigned short flags);
 
-    void FUN_0049ed90(bool enable);
-    void FUN_0094db80(unsigned char value);
+    void NiAlphaProperty_SetAlphaBlending(bool enable);
+    void NiAlphaProperty_SetTestRef(unsigned char value);
     void NiAlphaProperty_SetSrcBlendMode(int value);
     void NiAlphaProperty_SetDestBlendMode(int value);
     void NiAlphaProperty_SetNoSorter(bool enable);
-    void FUN_00633ba0(bool enable, unsigned short flags);
-    void FUN_00633ba0(bool enable, unsigned int flags);
+    void NiAlphaProperty_SetBit(bool enable, unsigned short flags);
+    void NiAlphaProperty_SetBit(bool enable, unsigned int flags);
     void FUN_00439320();
     void* FUN_004392f0(unsigned int flags);
 

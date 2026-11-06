@@ -127,5 +127,5 @@ class FrameE3B
 void FrameE3B::FUN_00e3b630(const void* pSource)
 {
     m_rotation.setIdentity();
-    m_pChildAtom.FUN_00cb2d90(*static_cast<const hkQuaternion*>(pSource));
+    m_pChildAtom.hkRotation_set(*static_cast<const hkQuaternion*>(pSource));
 }

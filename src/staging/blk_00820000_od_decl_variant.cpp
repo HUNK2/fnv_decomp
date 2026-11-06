@@ -35,7 +35,7 @@
 #include "../../include/TESTopicInfo.h"
 struct FUN_00821620_Class
 {
-    void __thiscall FUN_00821620(float value);
+    void __thiscall BoltShaderProperty_SetBoltsRadius(float value);
 };
 struct FUN_00821680_Class
 {
@@ -53,7 +53,7 @@ struct FUN_00827200_class
 {
     void __thiscall _ref_006815c0();
     void __thiscall FUN_00cb26e0(int);
-    FUN_00827200_class* __thiscall FUN_00827200(int a);
+    FUN_00827200_class* __thiscall hkQuaternion_hkQuaternion(int a);
 };
 extern int DAT_0107ca44;
 void __cdecl InitArray(int);
@@ -107,7 +107,7 @@ struct FUN_00836630
 };
 extern int DAT_011a1888[];
 extern int DAT_011dd87c[];
-int __cdecl FUN_008374b0(int index);
+int __cdecl ImpactMixer_GetMaterialSoundName(int index);
 extern "C" void __cdecl FalloutAudio_FUN_00839ab0();
 extern unsigned char DAT_011dd85c;
 void ResetFootstepSounds();
@@ -124,7 +124,7 @@ struct S7010
 };
 struct FUN_0083dea0_class
 {
-    unsigned int FUN_0083dea0();
+    unsigned int TESTopic_HasDummyPrompt();
 };
 extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0107ca64;
@@ -509,7 +509,7 @@ struct SecondaryBase_b5774
 };
 struct GlobalMgr_b5774
 {
-    bool FUN_004226e0();
+    bool TESDataHandler_GetClearingData();
 };
 extern GlobalMgr_b5774* DAT_011c3f2c;
 struct Holder_b5774
@@ -574,7 +574,7 @@ extern "C" void* __cdecl FUN_00afdf20(const char*, int, int, int);
 struct FNVHandle
 {
     virtual ~FNVHandle();
-    bool FUN_008905f0();
+    bool TESAnimGroup_GetDecal();
 };
 struct FUN_0082f240
 {
@@ -613,7 +613,7 @@ struct ProbeTarget
     virtual void v0C();
     virtual void v10();
     virtual void v14(int a, int b);
-    bool FUN_008905f0();
+    bool TESAnimGroup_GetDecal();
 };
 class FUN_0082f310_cls
 {
@@ -793,7 +793,7 @@ struct ArchiveStream
 // signals the object at +0x34, waits for the worker thread to leave, closes its
 // handle, then runs the base class destructor.
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
-void __cdecl FUN_0040fca0(int milliseconds);
+void __cdecl BSSleep(int milliseconds);
 struct FUN_00aa63c0
 {
     virtual ~FUN_00aa63c0();
@@ -844,7 +844,7 @@ struct BSAudioShell
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
+    TESSound* __thiscall TESObjectWEAP_GetAttackSound(bool v);
     void* __thiscall GetPointerByFlag(bool v);
     TESSound* __thiscall GetValueByFlag(bool v);
 };
@@ -1070,15 +1070,15 @@ struct Player
 };
 struct ListObj
 {
-    NiPoint3* __thiscall FUN_0045bb80();
+    NiPoint3* __thiscall NiAVObject_GetWorldTranslate();
 };
 struct SettingObj
 {
-    float* __thiscall FUN_00403e20();
+    float* __thiscall Setting_Float_00403e20();
 };
 bool __cdecl ImpactMixer_GetGunshotsInitialized();
-bool __fastcall FUN_00524d10(void* p);
-void* __cdecl FUN_00453a70();
+bool __fastcall PlayerCharacter_IsActually3rdPerson(void* p);
+void* __cdecl BSAudio_QInstance();
 unsigned int __cdecl Cmd_GetSessionTime_Execute();
 bool __cdecl FUN_0082eca0(void* snd, NiPoint3 pos, float v);
 extern Player* DAT_011dea3c;
@@ -1127,15 +1127,15 @@ struct EffectHandle
 struct SpellTimes
 {
     float FUN_009a7c40();
-    float FUN_00759450();
+    float NiPSysSpawnModifier_GetLifeSpan();
 };
 struct EffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     unsigned int FUN_0044ddc0();
-    EffectHandle* FUN_006a7ad0(unsigned int);
+    EffectHandle* BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
 };
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 struct FUN_008216c0_shell
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
@@ -1665,7 +1665,7 @@ struct SoundTimer
 // the supplied class declaration; they add no storage or replacement bodies.
 struct StringAccess530
 {
-    unsigned int FUN_004048e0();
+    unsigned int BSStringT_char_Length();
     char* ApplyMaskedOffset(unsigned int);
 };
 struct BraceString530 : BSStringT<char>
@@ -1681,7 +1681,7 @@ BSStringT<char> BraceString530::BSStringT_char_RemoveCurlyContent()
     unsigned int index4;       // input character index
     BSStringT<char> result;
     result.Set(String(), 0);
-    for (index4 = 0; index4 < ((StringAccess530*)this)->FUN_004048e0(); ++index4)
+    for (index4 = 0; index4 < ((StringAccess530*)this)->BSStringT_char_Length(); ++index4)
     {
         if (String()[index4] == '{')
         {
@@ -1700,7 +1700,7 @@ BSStringT<char> BraceString530::BSStringT_char_RemoveCurlyContent()
             }
         }
     }
-    if (output6 < ((StringAccess530*)&result)->FUN_004048e0())
+    if (output6 < ((StringAccess530*)&result)->BSStringT_char_Length())
     {
         *((StringAccess530*)&result)->ApplyMaskedOffset(output6) = 0;
     }

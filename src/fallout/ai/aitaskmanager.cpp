@@ -54,7 +54,8 @@ void PlayerTaskMethods::SetUpdateFlag(bool abValue)
 
 
 // @fnv 0x008c8fd0
-void BaseProcess::FUN_008c8fd0(bool abVal)
+// src: XBOX_PDB 0x008c8fd0
+void BaseProcess::HighProcess_SetSkippedLastUpdate(bool abVal)
 {
     reinterpret_cast<HighProcess*>(this)->m_kFirstAdditionalHighProcessField = abVal;
 }
@@ -68,7 +69,8 @@ extern SoundListView g_011d970c;
 int __cdecl QuestUpdateManager_SortQuestNamesByPriorityFunction(WeatherEntry*, WeatherEntry*);
 // Appends name to g_011d970c and re-sorts the list using FUN_0076bb00 as the comparison.
 // @fnv 0x0076bad0
-void FUN_0076bad0(char* name)
+// src: XBOX_PDB 0x0076bad0
+void QuestUpdateManager_AddQuestNamesTail(char* name)
 {
     g_011d970c.AddTail(name);
     ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(QuestUpdateManager_SortQuestNamesByPriorityFunction);
@@ -136,18 +138,19 @@ void FUN_008c8430_shell::FUN_008c8430()
 }
 
 extern PlayerCharacter* g_thePlayer;
-void __fastcall FUN_00964260(void*);
+void __fastcall PlayerCharacter_UpdateAutoAimActor(void*);
 extern ActorTaskManager g_011dfbe8;
 extern ActorTaskManager g_011dfc04;
 struct FUN_008c8490_shell
 {
-    void FUN_008c8490(unsigned int);
+    void DetectionTaskData_HandleEndMessage(unsigned int);
 };
 // Calls FUN_00964260 on g_thePlayer, then waits for rendering tasks on g_011dfc04 and g_011dfbe8.
 // @fnv 0x008c8490
-void FUN_008c8490_shell::FUN_008c8490(unsigned int)
+// src: XBOX_PDB 0x008c8490
+void FUN_008c8490_shell::DetectionTaskData_HandleEndMessage(unsigned int)
 {
-    FUN_00964260(g_thePlayer);
+    PlayerCharacter_UpdateAutoAimActor(g_thePlayer);
     g_011dfc04.WaitForTasksDuringRendering();
     g_011dfbe8.WaitForTasksDuringRendering();
 }
@@ -219,11 +222,12 @@ extern ActorTaskManager g_011dfc04;
 extern ActorTaskManager g_011dfc38;
 struct FUN_008c88e0_shell
 {
-    void FUN_008c88e0(int a);
+    void AnimationTaskData_HandleEndMessage(int a);
 };
 // Calls WaitForTasksDuringRendering on g_011dfc04 and g_011dfc38.
 // @fnv 0x008c88e0
-void FUN_008c88e0_shell::FUN_008c88e0(int aiUnused)
+// src: XBOX_PDB 0x008c88e0
+void FUN_008c88e0_shell::AnimationTaskData_HandleEndMessage(int aiUnused)
 {
     g_011dfc04.WaitForTasksDuringRendering();
     g_011dfc38.WaitForTasksDuringRendering();
@@ -282,11 +286,12 @@ namespace fnv_008c8a20 {
 extern ActorTaskManager g_011dfc38;
 struct FUN_008c8a20_shell
 {
-    void FUN_008c8a20(int);
+    void ActorUpdateTaskData_HandleCountMessage(int);
 };
 // Clears the int at offset 0x38 and calls QueryPerformanceCounter on g_011dfc38.
 // @fnv 0x008c8a20
-void FUN_008c8a20_shell::FUN_008c8a20(int)
+// src: XBOX_PDB 0x008c8a20
+void FUN_008c8a20_shell::ActorUpdateTaskData_HandleCountMessage(int)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x38) = 0;
     g_011dfc38.QueryPerformanceCounter(0);
@@ -297,10 +302,11 @@ namespace fnv_008c8a50 {
 extern ActorTaskManager g_011dfc38;
 struct FUN_008c8a50_shell
 {
-    void FUN_008c8a50(int a);
+    void ActorUpdateTaskData_HandleEndMessage(int a);
 };
 // @fnv 0x008c8a50
-void FUN_008c8a50_shell::FUN_008c8a50(int aiUnused)
+// src: XBOX_PDB 0x008c8a50
+void FUN_008c8a50_shell::ActorUpdateTaskData_HandleEndMessage(int aiUnused)
 {
     g_011dfc38.WaitForTasksDuringRendering();
 }
@@ -338,7 +344,8 @@ void FUN_008c8b50_shell::FUN_008c8b50()
 extern "C" unsigned char DAT_011e01dd;
 
 // @fnv 0x008c8bd0
-void FUN_008c8bd0()
+// src: XBOX_PDB 0x008c8bd0
+void HighProcess_ClearWanderStarted()
 {
     DAT_011e01dd = 0;
 }
@@ -350,7 +357,7 @@ struct Twin_0084d030
 };
 struct PkgObj
 {
-    void FUN_00977130(float f);
+    void ProcessLists_DisableExcessDeadActors(float f);
 };
 extern Twin_0084d030 g_timeGlobal;
 extern PkgObj DAT_011e0e80;
@@ -361,7 +368,7 @@ extern ActorTaskManager g_011dfbe8;
 void PackageUpdateTaskData::RunPackageUpdateTask(unsigned int aiThread)
 {
     using namespace fnv_008c8ff0;
-    fnv_008c8ff0::DAT_011e0e80.FUN_00977130(fnv_008c8ff0::g_timeGlobal.GetStoredFloatValue());
+    fnv_008c8ff0::DAT_011e0e80.ProcessLists_DisableExcessDeadActors(fnv_008c8ff0::g_timeGlobal.GetStoredFloatValue());
     fnv_008c8ff0::g_011dfbe8.WaitForTasksDuringRendering();
 }
 
@@ -423,11 +430,12 @@ extern ActorTaskManager g_011dfc04;
 extern ActorTaskManager g_011dfc38;
 struct FUN_008c90e0_shell
 {
-    void FUN_008c90e0(unsigned int);
+    void ActorsScriptTaskData_HandleEndMessage(unsigned int);
 };
 // Calls WaitForTasksDuringRendering on three global ActorTaskManager instances to wait for their tasks during rendering.
 // @fnv 0x008c90e0
-void FUN_008c90e0_shell::FUN_008c90e0(unsigned int)
+// src: XBOX_PDB 0x008c90e0
+void FUN_008c90e0_shell::ActorsScriptTaskData_HandleEndMessage(unsigned int)
 {
     g_011dfbe8.WaitForTasksDuringRendering();
     g_011dfc04.WaitForTasksDuringRendering();
@@ -509,11 +517,12 @@ extern ActorTaskManager g_011dfbe8;
 extern ActorTaskManager g_011dfc04;
 struct FUN_008c9300_shell
 {
-    void FUN_008c9300(int a);
+    void MovementTaskData_HandleEndMessage(int a);
 };
 // Calls WaitForTasksDuringRendering on g_011dfbe8 and g_011dfc04.
 // @fnv 0x008c9300
-void FUN_008c9300_shell::FUN_008c9300(int aiUnused)
+// src: XBOX_PDB 0x008c9300
+void FUN_008c9300_shell::MovementTaskData_HandleEndMessage(int aiUnused)
 {
     g_011dfbe8.WaitForTasksDuringRendering();
     g_011dfc04.WaitForTasksDuringRendering();
@@ -525,11 +534,12 @@ struct FUN_008c9a50_shell
     int m_uiContentCount;
     int m_auiShapeKeys;
     int m_uiFilterValue;
-    FUN_008c9a50_shell* FUN_008c9a50(int value);
+    FUN_008c9a50_shell* MobileObjectMessage_MobileObjectMessage_008c9a50(int value);
 };
 // Sets the first field to 1 and stores value in the third field, then returns this.
 // @fnv 0x008c9a50
-FUN_008c9a50_shell* FUN_008c9a50_shell::FUN_008c9a50(int value)
+// src: XBOX_PDB 0x008c9a50
+FUN_008c9a50_shell* FUN_008c9a50_shell::MobileObjectMessage_MobileObjectMessage_008c9a50(int value)
 {
     m_uiContentCount = 1;
     m_uiFilterValue = value;
@@ -651,7 +661,7 @@ void __thiscall FUN_008ca300_shell::AITaskManager_WaitForTasksDuringRendering()
     }
 }
 
-void __fastcall FUN_008c7490(void* p);
+void __fastcall AITaskThread_WaitForCompletion(void* p);
 struct FUN_008ca330_shell
 {
     void AITaskThreadManager_WaitForThread(int a);
@@ -660,7 +670,7 @@ struct FUN_008ca330_shell
 // src: COMMUNITY 0x008ca330
 void FUN_008ca330_shell::AITaskThreadManager_WaitForThread(int aiIndex)
 {
-    FUN_008c7490(((void**)this)[aiIndex]);
+    AITaskThread_WaitForCompletion(((void**)this)[aiIndex]);
 }
 
 extern int DAT_0108583c;
@@ -834,7 +844,8 @@ struct List_009e03e0
 
 // If the new value differs from reinterpret_cast<int&>(m_pCurrentQuest), stores it and, when it becomes zero, clears the m_6c4 list.
 // @fnv 0x009529d0
-void PlayerCharacter::FUN_009529d0(int a)
+// src: XBOX_PDB 0x009529d0
+void PlayerCharacter::SetActiveQuest(int a)
 {
     if (a != reinterpret_cast<int&>(m_pCurrentQuest))
     {
@@ -926,11 +937,12 @@ struct FUN_008c9a20_shell
     unsigned int a;
     unsigned int b;
     unsigned int c;
-    FUN_008c9a20_shell* FUN_008c9a20(unsigned int v);
+    FUN_008c9a20_shell* MobileObjectMessage_MobileObjectMessage(unsigned int v);
 };
 // Initialises the object's fields: sets a and c to 0 and stores v in b, then returns this.
 // @fnv 0x008c9a20
-FUN_008c9a20_shell* FUN_008c9a20_shell::FUN_008c9a20(unsigned int v)
+// src: XBOX_PDB 0x008c9a20
+FUN_008c9a20_shell* FUN_008c9a20_shell::MobileObjectMessage_MobileObjectMessage(unsigned int v)
 {
     a = 0;
     b = v;
@@ -1037,7 +1049,7 @@ struct FUN_008ca500
 };
 struct FUN_008ca480 : FUN_008ca500
 {
-    bool FUN_006ec390(Tmp_008ca480* t);
+    bool BSTCommonMessageQueue_MobileObjectMessage_TryPop(Tmp_008ca480* t);
     virtual ~FUN_008ca480();
 };
 // Destructor that repeatedly calls FUN_006ec390 with a temporary Tmp_008ca480 until it returns false.
@@ -1045,7 +1057,7 @@ struct FUN_008ca480 : FUN_008ca500
 FUN_008ca480::~FUN_008ca480()
 {
     Tmp_008ca480 t;
-    while (FUN_006ec390(&t))
+    while (BSTCommonMessageQueue_MobileObjectMessage_TryPop(&t))
     {
     }
 }
@@ -1174,7 +1186,7 @@ void MobileObjectTaskletData::ProcessMessages(int eType)
 
 struct MobileObjectExt
 {
-    void FUN_00565870();
+    void TESObjectREFR_RunScript();
 };
 
 // If apMob is an actor and the script check passes, calls FUN_00565870 on it and increments m_3C.
@@ -1189,7 +1201,7 @@ void ProcessActorScriptMethods::Run(MobileObject* apMob)
     MobileObject* pmob = apMob;
     if (pmob && pmob->IsActor() && Script::IsConsolePlatform())
     {
-        ((MobileObjectExt*)pmob)->FUN_00565870();
+        ((MobileObjectExt*)pmob)->TESObjectREFR_RunScript();
         uiRunCount++;
     }
 }
@@ -1306,7 +1318,7 @@ namespace fnv_008c8b70 {
 
 extern ActorTaskManager g_011dfbe8;
 extern Actor* g_thePlayer;
-void FUN_008c8bd0();
+void HighProcess_ClearWanderStarted();
 
 // @fnv 0x008c8b70
 // File-local extension for a method absent from the shared declaration.
@@ -1318,7 +1330,7 @@ void ResetPackageTaskMethods::Run(unsigned int auiUnused)
 {
     uiUpdatedCount = 0;
     uiSkippedCount = 0;
-    FUN_008c8bd0();
+    HighProcess_ClearWanderStarted();
     g_thePlayer->FUN_008c8bb0(0);
     g_011dfbe8.QueryPerformanceCounter(0);
 }
@@ -1349,7 +1361,7 @@ namespace fnv_008c9c70 {
 
 struct GlobalObject_008caab0
 {
-    MobileObjectTaskletData* FUN_008c9cf0();
+    MobileObjectTaskletData* AITaskQueue_Dequeue();
 };
 extern GlobalObject_008caab0 g_011dfb98;
 struct FUN_008c9c70_cls
@@ -1378,7 +1390,7 @@ unsigned int FUN_008c9c70_cls::RunTaskletLoop()
         pTaskletData = 0;
         do
         {
-            pTaskletData = g_011dfb98.FUN_008c9cf0();
+            pTaskletData = g_011dfb98.AITaskQueue_Dequeue();
             if (pTaskletData)
                 pTaskletData->ProcessMessages(arg);
         } while (pTaskletData);
@@ -1408,19 +1420,20 @@ void FUN_008c9f70_this::CallAllElements()
 }
 
 struct FUN_008c7490_this;
-void __fastcall FUN_008c7490(FUN_008c7490_this*);
+void __fastcall AITaskThread_WaitForCompletion(FUN_008c7490_this*);
 struct FUN_008c9fd0_this
 {
     int pad[3];
     int count;
-    void FUN_008c9fd0();
+    void AITaskThreadManager_WaitForThreads();
 };
 // Calls FUN_008c7490 on each of the count pointers stored in the array starting at this.
 // @fnv 0x008c9fd0
-void FUN_008c9fd0_this::FUN_008c9fd0()
+// src: XBOX_PDB 0x008c9fd0
+void FUN_008c9fd0_this::AITaskThreadManager_WaitForThreads()
 {
     for (int i = 0; i < count; i++)
-        FUN_008c7490(((FUN_008c7490_this**)this)[i]);
+        AITaskThread_WaitForCompletion(((FUN_008c7490_this**)this)[i]);
 }
 
 struct S008ca010
@@ -1533,7 +1546,7 @@ extern GameTimerRecord g_timeGlobal;
 
 
 
-void __cdecl FUN_0076bad0(char*);
+void __cdecl QuestUpdateManager_AddQuestNamesTail(char*);
 
 extern int DAT_011d96ac;
 extern int _pme;
@@ -1548,7 +1561,8 @@ struct Task
 };
 
 // @fnv 0x0077a480
-void __cdecl FUN_0077a480(TESQuest* quest)
+// src: XBOX_PDB 0x0077a480
+void __cdecl HUDMainMenu_ShowQuestName(TESQuest* quest)
 {
     g_011d96cc.QueryPerformanceCounter(0);
 
@@ -1563,23 +1577,23 @@ void __cdecl FUN_0077a480(TESQuest* quest)
     if (quest->HasFlag40())
     {
         task->state = 2;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
-            _g_thePlayer->FUN_009529d0(0);
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == quest)
+            _g_thePlayer->SetActiveQuest(0);
     }
     else if (quest->GetCompleted())
     {
         task->state = 1;
-        if (_g_thePlayer->FUN_005cbb50() == quest)
-            _g_thePlayer->FUN_009529d0(0);
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == quest)
+            _g_thePlayer->SetActiveQuest(0);
     }
     else
     {
         task->state = 0;
-        if (_g_thePlayer->FUN_005cbb50() == 0)
-            _g_thePlayer->FUN_009529d0(reinterpret_cast<int>(quest));
+        if (_g_thePlayer->PlayerCharacter_GetActiveQuest() == 0)
+            _g_thePlayer->SetActiveQuest(reinterpret_cast<int>(quest));
     }
 
-    FUN_0076bad0(reinterpret_cast<char*>(task));
+    QuestUpdateManager_AddQuestNamesTail(reinterpret_cast<char*>(task));
 
     g_011d96cc.WaitForTasksDuringRendering();
 }
@@ -1593,7 +1607,7 @@ struct ResourceHandle
 };
 struct Completion
 {
-    void FUN_008c70c0();
+    void hkStackMemory_initMemory();
 };
 struct ContextBlock
 {
@@ -1616,7 +1630,7 @@ struct DispatchQueue
     virtual void Queue(ContextBlock* context, TaskToken token);
 };
 void hkBaseSystem_quitThread();
-DispatchQueue* FUN_00cbbfc0();
+DispatchQueue* hkMemorySystem_getInstance();
 struct TaskOwner
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -1635,8 +1649,8 @@ void TaskOwner::DispatchTask()
 {
     context.TESMain_GetThread()->Dispatch(payload, 0x16800);
     hkBaseSystem_quitThread();
-    FUN_00cbbfc0()->Queue(&context, TaskToken(1));
-    context.FUN_006815c0(0, 0)->FUN_008c70c0();
+    hkMemorySystem_getInstance()->Queue(&context, TaskToken(1));
+    context.FUN_006815c0(0, 0)->hkStackMemory_initMemory();
 }
 
 // Stand-in for the game's PlayerCharacter.  The unit file only
@@ -1678,13 +1692,13 @@ void MovementTaskData::UpdateMovementTask(HighProcess* apMob)
 struct CountTask
 {
     unsigned state, kind, value;
-    CountTask* FUN_008c9a20(unsigned);
+    CountTask* MobileObjectMessage_MobileObjectMessage(unsigned);
 };
 struct ActorTask
 {
     unsigned state, kind;
     Actor* value;
-    ActorTask* FUN_008c9a50(Actor*);
+    ActorTask* MobileObjectMessage_MobileObjectMessage_008c9a50(Actor*);
 };
 struct WorkQueue
 {
@@ -1709,7 +1723,7 @@ struct ThreadManagerView
 {
     void CreateThread(unsigned);
     void CallAllElements();
-    void FUN_008c9fd0();
+    void AITaskThreadManager_WaitForThreads();
 };
 extern ThreadManagerView DAT_011dfc24;
 struct QueueManagerView
@@ -1719,8 +1733,8 @@ struct QueueManagerView
 extern QueueManagerView DAT_011dfb98;
 struct ActorListView
 {
-    unsigned FUN_005be5c0();
-    Actor* FUN_00968670();
+    unsigned ProcessArray_GetProcessLevelTail();
+    Actor* ProcessArray_GetItem();
 };
 struct ActorManagerView
 {
@@ -1810,11 +1824,12 @@ struct TaskOwnerTarget
     unsigned unk130;
     unsigned unk134;
     WorkQueue sixth;
-    void FUN_008c94e0();
+    void AITaskManager_UpdateTasks();
 };
 // If enabled, queues count and actor tasks into the six work queues, dispatches or clears them, and runs the int-setting callbacks.
 // @fnv 0x008c94e0
-void TaskOwnerTarget::FUN_008c94e0()
+// src: XBOX_PDB 0x008c94e0
+void TaskOwnerTarget::AITaskManager_UpdateTasks()
 {
     unsigned count, uiActorCount;
 
@@ -1828,37 +1843,37 @@ void TaskOwnerTarget::FUN_008c94e0()
         }
         DAT_011a34e7 = false;
     }
-    if (DAT_011f1220 && DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0() > 0)
+    if (DAT_011f1220 && DAT_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail() > 0)
     {
-        uiActorCount = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
+        uiActorCount = DAT_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail();
         if (!*DAT_011dfc70.Bool())
         {
             CountTask a;
-            first.ForwardToInner((a.FUN_008c9a20(uiActorCount), a));
+            first.ForwardToInner((a.MobileObjectMessage_MobileObjectMessage(uiActorCount), a));
         }
         {
             CountTask b;
-            third.ForwardToInner((b.FUN_008c9a20(uiActorCount), b));
+            third.ForwardToInner((b.MobileObjectMessage_MobileObjectMessage(uiActorCount), b));
         }
         if (*DAT_011c3ea4.Int() == 1)
         {
             {
                 CountTask c;
-                fourth.ForwardToInner((c.FUN_008c9a20(uiActorCount), c));
+                fourth.ForwardToInner((c.MobileObjectMessage_MobileObjectMessage(uiActorCount), c));
             }
             {
                 CountTask d;
-                second.ForwardToInner((d.FUN_008c9a20(uiActorCount), d));
+                second.ForwardToInner((d.MobileObjectMessage_MobileObjectMessage(uiActorCount), d));
             }
         }
         {
             CountTask e;
-            fifth.ForwardToInner((e.FUN_008c9a20(uiActorCount), e));
+            fifth.ForwardToInner((e.MobileObjectMessage_MobileObjectMessage(uiActorCount), e));
         }
         if (!*DAT_011dfb88.Bool())
         {
             CountTask f;
-            sixth.ForwardToInner((f.FUN_008c9a20(uiActorCount), f));
+            sixth.ForwardToInner((f.MobileObjectMessage_MobileObjectMessage(uiActorCount), f));
         }
         count = 0;
         do
@@ -1866,34 +1881,34 @@ void TaskOwnerTarget::FUN_008c94e0()
             if (!*DAT_011dfc70.Bool())
             {
                 ActorTask g;
-                first.ForwardToInner((g.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), g));
+                first.ForwardToInner((g.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), g));
             }
             {
                 ActorTask h;
-                third.ForwardToInner((h.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), h));
+                third.ForwardToInner((h.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), h));
             }
             if (*DAT_011c3ea4.Int() == 1)
             {
                 {
                     ActorTask j;
-                    fourth.ForwardToInner((j.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), j));
+                    fourth.ForwardToInner((j.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), j));
                 }
                 {
                     ActorTask k;
-                    second.ForwardToInner((k.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), k));
+                    second.ForwardToInner((k.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), k));
                 }
             }
             {
                 ActorTask l;
-                fifth.ForwardToInner((l.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), l));
+                fifth.ForwardToInner((l.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), l));
             }
             if (!*DAT_011dfb88.Bool())
             {
                 ActorTask m;
-                sixth.ForwardToInner((m.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(count)->FUN_00968670()), m));
+                sixth.ForwardToInner((m.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(count)->ProcessArray_GetItem()), m));
             }
             ++count;
-        } while (count < DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0());
+        } while (count < DAT_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail());
         if (!*DAT_011dfc70.Bool())
             first.CallMidVirtualB();
         third.CallMidVirtualB();
@@ -1919,7 +1934,7 @@ void TaskOwnerTarget::FUN_008c94e0()
                 DAT_011dfb98.PushItem(&second);
             }
             DAT_011dfc24.CallAllElements();
-            DAT_011dfc24.FUN_008c9fd0();
+            DAT_011dfc24.AITaskThreadManager_WaitForThreads();
         }
         else
         {
@@ -1983,8 +1998,8 @@ class ActorProjectileMethods : public Actor
 {
 public:
     PROJ* GetProjectileBase();
-    unsigned char FUN_008bc700(ActorProjectileMethods* a);
-    int FUN_008a0d10(int a, ActorProjectileMethods* b, unsigned char* c, unsigned char d, int e, int f, unsigned char* g);
+    unsigned char Actor_IsInCombatWithActor(ActorProjectileMethods* a);
+    int Actor_GetDetectionLevelAgainstActor(int a, ActorProjectileMethods* b, unsigned char* c, unsigned char d, int e, int f, unsigned char* g);
     void PlayerCharacter_InsertPerceivedActor(ActorProjectileMethods* a, unsigned char b, int c);
     void PlayerCharacter_RemovePerceivedActor(ActorProjectileMethods* a);
 };
@@ -2010,7 +2025,7 @@ class S3
 class S4
 {
   public:
-    void FUN_0096e3c0(ActorProjectileMethods* a);
+    void ProcessLists_InsertActorCloseToPlayer(ActorProjectileMethods* a);
 };
 
 extern ActorProjectileMethods* DAT_011dea3c;
@@ -2023,7 +2038,7 @@ extern FS DAT_011d13c8;
 extern S4 DAT_011e0e80;
 
 
-float FUN_0040ebd0(float a, float b);
+float BSMIN(float a, float b);
 float _RandomFloat(float a, float b);
 
 class Owner
@@ -2041,7 +2056,7 @@ class Owner
 void Owner::UpdateProjectile(ActorProjectileMethods* arg)
 {
     float v6 = (double)m30 * DAT_011f6394.GetTime();
-    v6 = FUN_0040ebd0(v6, 5.0f);
+    v6 = BSMIN(v6, 5.0f);
     v6 = _RandomFloat(0.0f, v6);
     ActorProjectileMethods* p = NULL;
     if (arg && static_cast<MobileObject*>(arg)->IsActor())
@@ -2050,10 +2065,10 @@ void Owner::UpdateProjectile(ActorProjectileMethods* arg)
         ActorProjectileMethods* aQ = p;
         if (aQ->m_bFirstActorFlag && !aQ->GetProjectileBase()->m30.a20())
         {
-            float v3 = aQ->FUN_005723b0(DAT_011dea3c, 0, 0);
+            float v3 = aQ->TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0);
             if (aQ != DAT_011dea3c && !DAT_011de45c->GetLoading())
             {
-                if (reinterpret_cast<float (__thiscall*)(ActorProjectileMethods*)>((*reinterpret_cast<void***>(p))[0xad])(p) < 0.0 && !aQ->FUN_00437bd0() && !reinterpret_cast<unsigned char (__thiscall*)(ActorProjectileMethods*, int)>((*reinterpret_cast<void***>(p))[0x8b])(p, 0))
+                if (reinterpret_cast<float (__thiscall*)(ActorProjectileMethods*)>((*reinterpret_cast<void***>(p))[0xad])(p) < 0.0 && !aQ->Actor_IsUnConscious() && !reinterpret_cast<unsigned char (__thiscall*)(ActorProjectileMethods*, int)>((*reinterpret_cast<void***>(p))[0x8b])(p, 0))
                 {
                     if (DAT_011d8804->FUN_007014e0(1) <= 0.0)
                     {
@@ -2061,12 +2076,12 @@ void Owner::UpdateProjectile(ActorProjectileMethods* arg)
                         if (static_cast<const MobileObject*>(aQ)->FUN_008d8520()->CanUsePlayerAction(aQ))
                         {
                             unsigned char v16 = 0;
-                            unsigned char v1e2 = p->FUN_00493bb0();
+                            unsigned char v1e2 = p->Actor_IsInCombat();
                             unsigned char v1d = 0;
-                            int aV14 = DAT_011dea3c->FUN_008a0d10(1, p, &v16, v1e2, 0, 0, &v1d);
+                            int aV14 = DAT_011dea3c->Actor_GetDetectionLevelAgainstActor(1, p, &v16, v1e2, 0, 0, &v1d);
                             unsigned char v15 = 0;
                             int v1c2 = 0;
-                            if (p->IsHostileToActor(DAT_011dea3c, 0, &v1c2, false) || p->FUN_008bc700(DAT_011dea3c))
+                            if (p->IsHostileToActor(DAT_011dea3c, 0, &v1c2, false) || p->Actor_IsInCombatWithActor(DAT_011dea3c))
                             {
                                 v15 = 1;
                             }
@@ -2079,7 +2094,7 @@ void Owner::UpdateProjectile(ActorProjectileMethods* arg)
                             if (p)
                             {
                                 if (v3 < *DAT_011ccf94.Float())
-                                    DAT_011e0e80.FUN_0096e3c0(aQ);
+                                    DAT_011e0e80.ProcessLists_InsertActorCloseToPlayer(aQ);
                             }
                             if ((double)aV14 >= *DAT_011d13c8.Float())
                             {
@@ -2121,9 +2136,9 @@ struct FollowerActorMethods : Actor
 
 struct FollowerExtra : ExtraDataList
 {
-    ExtraFollower* FUN_00422700();
-    void FUN_00422690(Actor* actor);
-    void FUN_00422720();
+    ExtraFollower* ExtraDataList_GetFollowerExtra();
+    void ExtraDataList_RemoveFollower(Actor* actor);
+    void ExtraDataList_RemoveFollowerExtra();
 };
 // This view supplies the float-taking update slot at vtable index 0x97.
 
@@ -2176,7 +2191,7 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
             static_cast<const MobileObject*>(actorTmp)->FUN_008d8520()->CheckForNewPackage(actorTmp, false);
             allowedTmp = false;
             ++updatedActors;
-            static_cast<const MobileObject*>(actorTmp)->FUN_008d8520()->FUN_008c8fd0(true);
+            static_cast<const MobileObject*>(actorTmp)->FUN_008d8520()->HighProcess_SetSkippedLastUpdate(true);
         }
         else
         {
@@ -2194,7 +2209,7 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
         if (allowedTmp)
         {
             otherList3 =
-                current->GetExtraData() ? static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422700() : 0;
+                current->GetExtraData() ? static_cast<FollowerExtra*>(current->GetExtraData())->ExtraDataList_GetFollowerExtra() : 0;
             if (otherList3)
             {
                 listVal = new BSSimpleList<Actor*>;
@@ -2217,7 +2232,7 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
                 while (nodeVal && nodeVal->GetItem())
                 {
                     Actor* targetB = nodeVal->GetItem();
-                    static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422690(targetB);
+                    static_cast<FollowerExtra*>(current->GetExtraData())->ExtraDataList_RemoveFollower(targetB);
                     nodeVal = nodeVal->GetNext();
                 }
                 listVal->RemoveAll();
@@ -2225,7 +2240,7 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
                 otherListA->RemoveAll();
                 delete otherListA;
                 if (otherList3->list->IsEmpty())
-                    static_cast<FollowerExtra*>(current->GetExtraData())->FUN_00422720();
+                    static_cast<FollowerExtra*>(current->GetExtraData())->ExtraDataList_RemoveFollowerExtra();
             }
         }
     }
@@ -2235,7 +2250,7 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
 namespace fnv_008ca070 {
 struct IntSetting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 struct BoolSetting
 {
@@ -2243,8 +2258,8 @@ struct BoolSetting
 };
 struct Values
 {
-    unsigned FUN_005be5c0();
-    void* FUN_00968670();
+    unsigned ProcessArray_GetProcessLevelTail();
+    void* ProcessArray_GetItem();
 };
 struct Container
 {
@@ -2253,8 +2268,8 @@ struct Container
 struct Temp
 {
     int unk00, unk04, unk08;
-    Temp* FUN_008c9a20(unsigned);
-    Temp* FUN_008c9a50(void*);
+    Temp* MobileObjectMessage_MobileObjectMessage(unsigned);
+    Temp* MobileObjectMessage_MobileObjectMessage_008c9a50(void*);
 };
 struct Store
 {
@@ -2281,27 +2296,27 @@ struct Obj
 // src: COMMUNITY 0x008ca070
 void Obj::AITaskManager_StartTasksDuringRendering()
 {
-    if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
+    if (*DAT_011c3ea4.Setting_Int() == 1)
     {
         if (!*DAT_011dfc70.FUN_00408d60() && !*DAT_011dfb88.FUN_00408d60())
             return;
         if (DAT_011f1220)
         {
-            unsigned aVal = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
+            unsigned aVal = DAT_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail();
             if (aVal > 0)
             {
-                unsigned b_2 = DAT_011e0e80.FUN_00717e50(0)->FUN_005be5c0();
+                unsigned b_2 = DAT_011e0e80.FUN_00717e50(0)->ProcessArray_GetProcessLevelTail();
                 unsigned i;
                 if (*DAT_011dfc70.FUN_00408d60())
                 {
                     Temp t2;
-                    t2.FUN_008c9a20(b_2);
+                    t2.MobileObjectMessage_MobileObjectMessage(b_2);
                     ForwardToInner(&t2);
                 }
                 if (*DAT_011dfb88.FUN_00408d60())
                 {
                     Temp u9;
-                    u9.FUN_008c9a20(b_2);
+                    u9.MobileObjectMessage_MobileObjectMessage(b_2);
                     ((Obj*)((char*)this + 0x138))->ForwardToInner(&u9);
                 }
                 for (i = 0; i < b_2; ++i)
@@ -2309,13 +2324,13 @@ void Obj::AITaskManager_StartTasksDuringRendering()
                     if (*DAT_011dfc70.FUN_00408d60())
                     {
                         Temp v5;
-                        v5.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(i)->FUN_00968670());
+                        v5.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(i)->ProcessArray_GetItem());
                         ForwardToInner(&v5);
                     }
                     if (*DAT_011dfb88.FUN_00408d60())
                     {
                         Temp w2;
-                        w2.FUN_008c9a50(DAT_011e0e80.FUN_00717e50(i)->FUN_00968670());
+                        w2.MobileObjectMessage_MobileObjectMessage_008c9a50(DAT_011e0e80.FUN_00717e50(i)->ProcessArray_GetItem());
                         ((Obj*)((char*)this + 0x138))->ForwardToInner(&w2);
                     }
                 }
@@ -2360,8 +2375,8 @@ struct FacQ
     virtual void v2();
     virtual void Create(MemQ* p, const char* pName, FUN_008c71b0 k);
 };
-FacQ* FUN_00cbbfc0();
-void __cdecl FUN_00cbb930(MemQ* p);
+FacQ* hkMemorySystem_getInstance();
+void __cdecl hkBaseSystem_initThread(MemQ* p);
 struct HeapQ
 {
     virtual void v0();
@@ -2369,7 +2384,7 @@ struct HeapQ
 };
 struct BufQ
 {
-    void FUN_008c70c0(int p, int n);
+    void hkStackMemory_initMemory(int p, int n);
 };
 struct MemQ
 {
@@ -2394,12 +2409,12 @@ struct OwnQ
 // @fnv 0x008c9d70
 void OwnQ::InitMemory()
 {
-    FUN_00cbbfc0()->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
-    FUN_00cbb930(&kMem);
+    hkMemorySystem_getInstance()->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
+    hkBaseSystem_initThread(&kMem);
     kMem.FUN_0041fd00(kMem.TESMain_GetThread());
     kMem.FUN_00984f60(kMem.TESMain_GetThread());
     unk74 = kMem.TESMain_GetThread()->Alloc(0x16800);
-    kMem.FUN_006815c0()->FUN_008c70c0(unk74, 0x16800);
+    kMem.FUN_006815c0()->hkStackMemory_initMemory(unk74, 0x16800);
     DAT_011c3f2c->FUN_00462ee0();
 }
 }  // namespace fnv_008c9d70
@@ -2416,12 +2431,13 @@ struct Obj_008c9cf0
     int m_uiItemCount;
     int m_next;
     void QueryPerformanceCounter(int a);
-    int FUN_008c9cf0();
+    int AITaskQueue_Dequeue();
 };
 
 // Pops the next task from a circular buffer of 10 items, wrapping the index, then calls WaitForTasksDuringRendering.
 // @fnv 0x008c9cf0
-int Obj_008c9cf0::FUN_008c9cf0()
+// src: XBOX_PDB 0x008c9cf0
+int Obj_008c9cf0::AITaskQueue_Dequeue()
 {
     QueryPerformanceCounter(0);
     int result = 0;

@@ -71,7 +71,7 @@ void BGSBipedModelList::InitItem(TESForm* owner)
                     break;
                 }
                 else
-                    model->FUN_00480d50(true);
+                    model->TESBipedModelForm_SetAddOnModel(true);
                 iter = iter->GetNext();
             }
         }

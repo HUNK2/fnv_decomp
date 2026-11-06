@@ -27,7 +27,7 @@ struct FUN_00dee6b0_Class
     float FUN_00dee6b0(int testFlag);
 };
 extern int DAT_010cd664;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -156,7 +156,7 @@ struct Obj
 };
 void __cdecl ResizeAudioStream(void* allocator, Vec4Array* arr, int elemSize);
 extern Vec4 DAT_01267e30;
-bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj);
+bool __cdecl hkGeometryProcessingInternals_generateRandomDistribution(Owner* self, int count, Vec4Array* out, Obj* obj);
 
 #include <xmmintrin.h>
 
@@ -164,7 +164,8 @@ extern __declspec(align(16)) float DAT_010c7160[4];
 extern float DAT_01012054;
 
 // @fnv 0x00de9e10
-float __cdecl FUN_00de9e10(float* arg1, float* arg2, float* arg3, float* result, float* optionalResult)
+// src: XBOX_PDB 0x00de9e10
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToLine(float* arg1, float* arg2, float* arg3, float* result, float* optionalResult)
 {
     __m128 b = _mm_load_ps(arg2);
     __m128 a = _mm_load_ps(arg1);

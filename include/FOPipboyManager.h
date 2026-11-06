@@ -38,14 +38,14 @@ public:
     void SetValue(int page, bool abPlaySounds);
     bool CheckOrangeButtonsClicked(bool press, bool release, float& x, float& y, int& button);
     NiAVObject* SkyObject_GetNiNode();
-    void FUN_00705fc0(NiNode*);
-    void FUN_004dc540(NiNode*);
+    void SetTarget_00705fc0(NiNode*);
+    void NiTexturingProperty_Map_SetTexture(NiNode*);
     void FORenderedMenu_SetupScreen(NiAVObject*);
-    void FUN_007f7fb0(const NiColorA&);
+    void FORenderedMenu_SetTintColor(const NiColorA&);
     void TESQuest_SetScriptProcessingDelay(float);
-    void FUN_00810530(bool);
+    void bhkCharacterControllerCinfo_SetAvoidBox(bool);
     FORenderedMenu* FUN_00704370();
-    void FUN_007fa200();
+    void ReInitialize();
 
     NiPointer<NiNode> m_pPipBoyObject0;
     NiPointer<NiNode> m_pPipBoyObject1;

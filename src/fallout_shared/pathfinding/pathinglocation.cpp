@@ -122,7 +122,7 @@ void PathingLocation::LoadGame(BGSLoadGameBuffer* buffer)
         if (m_pContainingWorldspace)
             pNavMeshInfoArray = ForwardToPathing(m_pContainingWorldspace, m_uiPathingFlags);
         else if (pCell)
-            pNavMeshInfoArray = FUN_006d6f40(pCell);
+            pNavMeshInfoArray = Pathing_GetPotentialNavMeshInfoForLocation(pCell);
     }
 }
 
@@ -130,13 +130,13 @@ void PathingLocation::LoadGame(BGSLoadGameBuffer* buffer)
 // @fnv 0x006de250
 bool PathingLocation::HasPathingLocation()
 {
-    if (FUN_006a9520())
+    if (PathingLocation_QUnused())
         return false;
     if (!m_pLocationNavMesh && !pNavMeshInfoArray)
         return false;
     else if (m_pLocationNavMesh)
     {
-        if (m_pLocationNavMesh->FUN_0068f320())
+        if (m_pLocationNavMesh->NavMeshInfo_GetDisabled())
             return false;
         else
             return true;
@@ -196,13 +196,13 @@ bool PathingLocation::HasPathingLocation()
 // @fnv 0x006dd6f0
 bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filter)
 {
-    if (FUN_006a9520())
+    if (PathingLocation_QUnused())
         return false;
     if (!m_pLocationNavMesh && !pNavMeshInfoArray)
         return false;
     else if (m_pLocationNavMesh)
     {
-        if (m_pLocationNavMesh->FUN_0068f320())
+        if (m_pLocationNavMesh->NavMeshInfo_GetDisabled())
             return false;
         if (m_usTriangleID == 0xffff)
         {
@@ -250,7 +250,7 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
             const NavMeshInfo* info = (NavMeshInfo*)((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)->GetAt(static_cast<int>(i));
-            if (!info->FUN_0068f320())
+            if (!info->NavMeshInfo_GetDisabled())
             {
                 NavMeshBounds* bounds = const_cast<NavMeshInfo*>(info)->GetBounds();
                 if (bounds && bounds->ContainsPoint(Location))
@@ -279,7 +279,7 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
         for (unsigned int i = 0; i < ((BSSimpleArray<SandboxProcedureData, 1024>*)pNavMeshInfoArray)->GetSize(); ++i)
         {
             const NavMeshInfo* info = (NavMeshInfo*)((BSSimpleArray<unsigned int, 1024>*)pNavMeshInfoArray)->GetAt(static_cast<int>(i));
-            if (!info->FUN_0068f320())
+            if (!info->NavMeshInfo_GetDisabled())
             {
                 NavMeshBounds* bounds = const_cast<NavMeshInfo*>(info)->GetBounds();
                 if (bounds)
@@ -482,10 +482,10 @@ void PathingLocation::SaveGame(BGSSaveGameBuffer* gameBuffer)
     reinterpret_cast<BGSSaveFormBuffer*>(gameBuffer)->SaveData(&bhadNavMeshesArray, 1, 0);
 }
 
-unsigned int FUN_00587440(const NiPoint3&);
+unsigned int TESWorldSpace_GetKeyForWorldCoord(const NiPoint3&);
 unsigned int PackShortPair(int, int);
 const BSSimpleArray<const NavMeshInfo*, 1024>* ForwardToPathing(TESWorldSpace*, unsigned int);
-const BSSimpleArray<const NavMeshInfo*, 1024>* FUN_006d6f40(TESObjectCELL*);
+const BSSimpleArray<const NavMeshInfo*, 1024>* Pathing_GetPotentialNavMeshInfoForLocation(TESObjectCELL*);
 
 // Stores the position, resolves the nav-mesh array from the world or cell, marks all meshes reachable when exactly one mesh exists, and sets flags.
 // @fnv 0x006dd280
@@ -496,13 +496,13 @@ void PathingLocation::SetLocationData(const NiPoint3& position, TESObjectCELL* c
     if (world)
     {
         m_pContainingWorldspace = world;
-        m_uiPathingFlags = FUN_00587440(Location);
+        m_uiPathingFlags = TESWorldSpace_GetKeyForWorldCoord(Location);
         pCell = 0;
         pNavMeshInfoArray = ForwardToPathing(m_pContainingWorldspace, m_uiPathingFlags);
     }
     else
     {
-        pNavMeshInfoArray = FUN_006d6f40(cell);
+        pNavMeshInfoArray = Pathing_GetPotentialNavMeshInfoForLocation(cell);
         if (cell && !cell->IsInterior())
         {
             m_pContainingWorldspace = cell->GetParentWorldSpace();
@@ -607,10 +607,10 @@ class MeshTriangleArray
 class MeshVertexArray
 {
   public:
-    bool FUN_0076b610();                      // IsEmpty
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();                      // IsEmpty
     NiPoint3* FUN_006a1440(unsigned int i);  // GetAt
 };
-bool __cdecl FUN_006b9cf0(const NiPoint3* pkA, const NiPoint3* pkB, const NiPoint3* pkC, const NiPoint3* pkPoint,
+bool __cdecl NavMeshMath_IsPointInsideTriangle(const NiPoint3* pkA, const NiPoint3* pkB, const NiPoint3* pkC, const NiPoint3* pkPoint,
                           float* pfHeight, float fAbove, float fBelow);
 
 class MeshBounds
@@ -631,7 +631,7 @@ bool MeshBounds::ContainsPoint(const NiPoint3* pkPoint)
     if (pkPoint->x >= m_kMin.x && pkPoint->x <= m_kMax.x && pkPoint->y >= m_kMin.y && pkPoint->y <= m_kMax.y &&
         m_kMin.z - 180.0 <= pkPoint->z && m_kMax.z + 180.0 >= pkPoint->z)
     {
-        if (!m_kVerts.FUN_0076b610())
+        if (!m_kVerts.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
         {
             float m_fGlyphExtent = m_kMax.z - m_kMin.z;
             float fOut;
@@ -640,7 +640,7 @@ bool MeshBounds::ContainsPoint(const NiPoint3* pkPoint)
                 NiPoint3 kA = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v0);
                 NiPoint3 kB = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v1);
                 NiPoint3 kC = *m_kVerts.FUN_006a1440(m_kTris.FUN_0069ccf0(i)->v2);
-                if (FUN_006b9cf0(&kA, &kB, &kC, pkPoint, &fOut, m_fGlyphExtent, m_fGlyphExtent))
+                if (NavMeshMath_IsPointInsideTriangle(&kA, &kB, &kC, pkPoint, &fOut, m_fGlyphExtent, m_fGlyphExtent))
                     return true;
             }
         }
@@ -654,16 +654,16 @@ bool MeshBounds::ContainsPoint(const NiPoint3* pkPoint)
 
 extern const char DAT_0106cdec[];
 extern const char DAT_0106cdd8[];
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 int __cdecl FUN_00406d50(char*, unsigned int, const char*);
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 
 // NavMeshInfo parent-space accessor at 0x006b7770; the shared header has no declaration.
 TESForm* __fastcall GetNavMeshParentSpace(NavMeshInfo*);
 struct DebugMeshes
 {
     unsigned int FUN_0044ddc0();
-    NavMeshInfo*& FUN_006a7ad0(unsigned int);
+    NavMeshInfo*& BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
 };
 
 // Writes a formatted description of the location's cell, world, mesh or mesh list and coordinates into out up to capacity.
@@ -674,19 +674,19 @@ void PathingLocation::WriteDebugString(char* acBuffer, int capacity)
     {
         if (!m_pContainingWorldspace)
         {
-            FUN_00406d00(acBuffer, capacity, "Cell %s, %.2f %.2f %.2f", pCell ? pCell->GetName() : "NONE", Location.x,
+            BSsprintf(acBuffer, capacity, "Cell %s, %.2f %.2f %.2f", pCell ? pCell->GetName() : "NONE", Location.x,
                          Location.y, Location.z);
         }
         else
         {
             int cellX2 = (int)Location.x >> 12;
             int y8 = (int)Location.y >> 12;
-            TESForm* found8 = m_pContainingWorldspace->FUN_00587550(Location);
+            TESForm* found8 = m_pContainingWorldspace->GetCellFromWorldCoord(Location);
             if (found8)
-                FUN_00406d00(acBuffer, capacity, "Cell %s[%d,%d] %s,  %.2f %.2f %.2f", m_pContainingWorldspace->GetName(), cellX2, y8,
+                BSsprintf(acBuffer, capacity, "Cell %s[%d,%d] %s,  %.2f %.2f %.2f", m_pContainingWorldspace->GetName(), cellX2, y8,
                              found8->GetName(), Location.x, Location.y, Location.z);
             else
-                FUN_00406d00(acBuffer, capacity, "Cell %s[%d,%d], %.2f %.2f %.2f", m_pContainingWorldspace->GetName(), cellX2, y8,
+                BSsprintf(acBuffer, capacity, "Cell %s[%d,%d], %.2f %.2f %.2f", m_pContainingWorldspace->GetName(), cellX2, y8,
                              Location.x, Location.y, Location.z);
         }
     }
@@ -696,42 +696,42 @@ void PathingLocation::WriteDebugString(char* acBuffer, int capacity)
         if (m_pLocationNavMesh)
         {
             if (m_usTriangleID != 65535)
-                FUN_00406d00(acBuffer, capacity, DAT_0106cdec, meshName2, m_usTriangleID, Location.x, Location.y, Location.z);
+                BSsprintf(acBuffer, capacity, DAT_0106cdec, meshName2, m_usTriangleID, Location.x, Location.y, Location.z);
             else
-                FUN_00406d00(acBuffer, capacity, DAT_0106cdd8, meshName2, Location.x, Location.y, Location.z);
+                BSsprintf(acBuffer, capacity, DAT_0106cdd8, meshName2, Location.x, Location.y, Location.z);
         }
         else
         {
             char list7[256];
-            FUN_00406d00(list7, capacity, "[");
+            BSsprintf(list7, capacity, "[");
             {
                 unsigned int i3;
                 for (i3 = 0; i3 < ((DebugMeshes*)pNavMeshInfoArray)->FUN_0044ddc0(); i3++)
                 {
                     char entry2[64];
-                    FUN_00406d00(entry2, 64, "%08x", ((DebugMeshes*)pNavMeshInfoArray)->FUN_006a7ad0(i3)->GetNavMeshID());
+                    BSsprintf(entry2, 64, "%08x", ((DebugMeshes*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(i3)->GetNavMeshID());
                     FUN_00406d50(list7, 256, entry2);
                     if (i3 < ((DebugMeshes*)pNavMeshInfoArray)->FUN_0044ddc0() - 1)
                         FUN_00406d50(list7, 256, ", ");
                 }
                 FUN_00406d50(list7, 256, "]");
-                TESWorldSpace* listWorld4 = ((DebugMeshes*)pNavMeshInfoArray)->FUN_006a7ad0(0)->GetParentWorldSpace();
-                TESForm* listCell3 = GetNavMeshParentSpace(((DebugMeshes*)pNavMeshInfoArray)->FUN_006a7ad0(0));
+                TESWorldSpace* listWorld4 = ((DebugMeshes*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(0)->GetParentWorldSpace();
+                TESForm* listCell3 = GetNavMeshParentSpace(((DebugMeshes*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(0));
                 if (!listWorld4)
                 {
-                    FUN_00406d00(acBuffer, capacity, "%s Cell %s, %.2f %.2f %.2f", list7, listCell3->GetName(),
+                    BSsprintf(acBuffer, capacity, "%s Cell %s, %.2f %.2f %.2f", list7, listCell3->GetName(),
                                  Location.x, Location.y, Location.z);
                 }
                 else
                 {
                     int gx = (int)Location.x >> 12;
                     int gy2 = (int)Location.y >> 12;
-                    if (listCell3 && FUN_00408b20(listCell3->GetName(), ""))
-                        FUN_00406d00(acBuffer, capacity, "%s Cell %s[%d, %d](%s), %.2f %.2f %.2f", list7,
+                    if (listCell3 && BSstrcmp(listCell3->GetName(), ""))
+                        BSsprintf(acBuffer, capacity, "%s Cell %s[%d, %d](%s), %.2f %.2f %.2f", list7,
                                      listWorld4->GetName(), gx, gy2, listCell3->GetName(), Location.x, Location.y,
                                      Location.z);
                     else
-                        FUN_00406d00(acBuffer, capacity, "%s Cell %s[%d, %d], %.2f %.2f %.2f", list7,
+                        BSsprintf(acBuffer, capacity, "%s Cell %s[%d, %d], %.2f %.2f %.2f", list7,
                                      listWorld4->GetName(), gx, gy2, Location.x, Location.y, Location.z);
                 }
             }
@@ -894,7 +894,7 @@ class NLMeshInfoArray
 {
   public:
     unsigned int FUN_0044ddc0();                      // GetSize
-    NavMeshInfo*& FUN_006a7ad0(unsigned int uiIndex);  // GetAt
+    NavMeshInfo*& BSSimpleArray_NiAVObject_1024_GetAt(unsigned int uiIndex);  // GetAt
 };
 
 extern TES* DAT_011dea10;
@@ -915,7 +915,7 @@ bool PathingLocation::IsPathingLocationValid()
         NavMeshPtr kMeshPtr;
         if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(kMeshPtr))
         {
-            if (kMeshPtr.FUN_00559450()->FUN_00696cf0(Location, &m_usTriangleID, &bInside))
+            if (kMeshPtr.FUN_00559450()->FindClosestTriangleForLocation(Location, &m_usTriangleID, &bInside))
             {
                 if (!bInside)
                 {
@@ -948,18 +948,18 @@ bool PathingLocation::IsPathingLocationValid()
             unsigned short usTri = kClearTriangleDataValue1;
             bool bInTri = false;
             NavMeshPtr pFoundNavMesh;
-            NavMeshInfo* pInfo = ((NLMeshInfoArray*)pNavMeshInfoArray)->FUN_006a7ad0(i);
-            if (!pInfo->FUN_0068f320() && pInfo->ResolveNavMesh(pFoundNavMesh) &&
-                !pFoundNavMesh.FUN_00559450()->FUN_00696cf0(Location, &usTri, &bInTri))
+            NavMeshInfo* pInfo = ((NLMeshInfoArray*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(i);
+            if (!pInfo->NavMeshInfo_GetDisabled() && pInfo->ResolveNavMesh(pFoundNavMesh) &&
+                !pFoundNavMesh.FUN_00559450()->FindClosestTriangleForLocation(Location, &usTri, &bInTri))
                 continue;
             if (bInTri)
             {
-                m_pLocationNavMesh = ((NLMeshInfoArray*)pNavMeshInfoArray)->FUN_006a7ad0(i);
+                m_pLocationNavMesh = ((NLMeshInfoArray*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(i);
                 pNavMeshInfoArray = 0;
                 m_usTriangleID = usTri;
                 return true;
             }
-            else if (pFoundNavMesh.FUN_00458b50())
+            else if (pFoundNavMesh.AnimatingText_GetFullText())
             {
                 NiPoint3 kToCenter =
                     Location.FUN_00439ef0(pFoundNavMesh.FUN_00559450()->FUN_00558220(usTri));
@@ -994,7 +994,7 @@ bool PathingLocation::IsPathingLocationValid()
         }
         if (iClosest != -1)
         {
-            m_pLocationNavMesh = ((NLMeshInfoArray*)pNavMeshInfoArray)->FUN_006a7ad0(iClosest);
+            m_pLocationNavMesh = ((NLMeshInfoArray*)pNavMeshInfoArray)->BSSimpleArray_NiAVObject_1024_GetAt(iClosest);
             pNavMeshInfoArray = 0;
             m_usTriangleID = usBestTri;
             NavMeshPtr spBest;
@@ -1022,7 +1022,8 @@ class PathingSolution;
 
 // Creates a PathBuilder from pRequest and m_pOutputSolution, calls BuildPath, and returns its result.
 // @fnv 0x006d0b10
-bool __cdecl FUN_006d0b10(PathingRequest* pRequest, PathingSolution* m_pOutputSolution)
+// src: XBOX_PDB 0x006d0b10
+bool __cdecl Pathing_Pathfind(PathingRequest* pRequest, PathingSolution* m_pOutputSolution)
 {
     PathBuilder kBuilder(pRequest, m_pOutputSolution);
     bool bResult = kBuilder.BuildPath();

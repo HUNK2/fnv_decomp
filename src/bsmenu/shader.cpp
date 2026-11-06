@@ -1,7 +1,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_004381d0(void*);
-void __cdecl FUN_0043ba60(int const&);
+void __cdecl NiGlobalStringTable_DecRefCount(void*);
+void __cdecl NiGlobalStringTable_IncRefCount(int const&);
 struct FUN_0043ba10_shell
 {
     int m;
@@ -15,8 +15,8 @@ FUN_0043ba10_shell* FUN_0043ba10_shell::FUN_0043ba10(FUN_0043ba10_shell* other)
     if (m != other->m)
     {
         tmp = other->m;
-        FUN_0043ba60(tmp);
-        FUN_004381d0(this);
+        NiGlobalStringTable_IncRefCount(tmp);
+        NiGlobalStringTable_DecRefCount(this);
         m = tmp;
     }
     return this;

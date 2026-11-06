@@ -1089,7 +1089,7 @@ struct EdgeMemory
     int unk0c;
     EdgeAllocator* allocator;
 };
-EdgeMemory* FUN_00c85750();
+EdgeMemory* hkMemoryRouter_getInstance();
 void hkArrayUtil__reserve(void*, void*, int, int);
 void FUN_00c90940(void*, void*, int);
 float FUN_00e13870(EdgeNode*, int);
@@ -1107,7 +1107,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
 }
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
-    EdgeMemory* memory = FUN_00c85750();
+    EdgeMemory* memory = hkMemoryRouter_getInstance();
     if (size == (capacity & 0x3fffffff))
         FUN_00c90940(memory->allocator, this, elementSize);
 }
@@ -1192,12 +1192,12 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
     EdgeArray<float> scores;
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = hkMemoryRouter_getInstance();
         memory->allocator->reserve(refs, required, 8);
     }
     {
         int required = mesh->count * 3;
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = hkMemoryRouter_getInstance();
         memory->allocator->reserve(scores, required, 4);
     }
     for (EdgeNode* node = mesh->head; node; node = node->next)
@@ -1272,11 +1272,11 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
         }
     }
     {
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = hkMemoryRouter_getInstance();
         memory->allocator->clear(scores, 4);
     }
     {
-        EdgeMemory* memory = FUN_00c85750();
+        EdgeMemory* memory = hkMemoryRouter_getInstance();
         memory->allocator->clear(refs, 8);
     }
 }

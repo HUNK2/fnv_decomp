@@ -87,7 +87,7 @@ void ClearInterfaceState(Tile*);
 class InputManager
 {
   public:
-    int FUN_00a24660(int, int);
+    int Controls_GetUserAction(int, int);
     void SetFlag(unsigned short flag)
     {
         *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1b92) |= flag;
@@ -221,9 +221,9 @@ MenuValueDescriptor* __cdecl GetOrLoadXML(const char* apFilename, bool abAdd)
 }
 
 extern double _gModifierZero;
-void __cdecl FUN_00706f50(Menu* m, float f);
-void __cdecl FUN_00706fd0(int a, int b);
-void __cdecl FUN_00706f70();
+void __cdecl Interface_NewTimer(Menu* m, float f);
+void __cdecl Interface_PopFromEnterStack(int a, int b);
+void __cdecl Interface_UpdateAllTimers();
 // @fnv 0x00a1d910
 void Menu::LoadMenuData()
 {
@@ -234,22 +234,22 @@ void Menu::LoadMenuData()
     ffade = pMenu->GetFloat(0xfc1);
     if (ffade == _gModifierZero)
         ffade = pMenu->GetFloat(0xfc2);
-    FUN_00706f50(this, ffade);
+    Interface_NewTimer(this, ffade);
     m_eFadeState = Interface::FADING_OUT;
     if (m_iModalMenuId)
     {
         Tile* t2 = pMenu;
         if (t2->ContainsTrait(0x1772))
         {
-            FUN_00706fd0(m_iModalMenuId, 0);
+            Interface_PopFromEnterStack(m_iModalMenuId, 0);
             ClearInterfaceState(0);
         }
     }
-    FUN_00706f70();
+    Interface_UpdateAllTimers();
 }
 
-void __cdecl FUN_00706f50(Menu* apMenu, float afFade);
-void __cdecl FUN_00706f70();
+void __cdecl Interface_NewTimer(Menu* apMenu, float afFade);
+void __cdecl Interface_UpdateAllTimers();
 
 // @fnv 0x00a1db20
 void Menu::UnloadMenuData()
@@ -257,9 +257,9 @@ void Menu::UnloadMenuData()
     float ffade = pMenu ? pMenu->GetFloat(0xfc1) : 0.25f;
     if (ffade == 0.0)
         ffade = pMenu->GetFloat(0xfc2);
-    FUN_00706f50(this, ffade);
+    Interface_NewTimer(this, ffade);
     m_eFadeState = Interface::FADING_IN;
-    FUN_00706f70();
+    Interface_UpdateAllTimers();
 }
 
 // @fnv 0x00a1dd80
@@ -362,9 +362,9 @@ void RemoveMenuEntries(const char* apFilename, Menu* apMenu)
 
 void Interface_AddToEnterStack(int, int);
 Tile* InterfaceManager_GetOverTileTarget();
-void FUN_00707050(Tile*);
+void Interface_SetOverTileTarget(Tile*);
 Menu* GetFieldD0();
-void FUN_00707080(Menu*);
+void Interface_SetOverTileMenu(Menu*);
 
 // @fnv 0x00a1dc70
 void Menu::SetTileMenu(TileMenu* apMenu, bool abDontAddToStack)
@@ -385,8 +385,8 @@ void Menu::SetTileMenu(TileMenu* apMenu, bool abDontAddToStack)
                     Tile* pTile = InterfaceManager_GetOverTileTarget();
                     pTile->Set(0xfc3, 0.0f, true);
                 }
-                FUN_00707050(0);
-                FUN_00707080(0);
+                Interface_SetOverTileTarget(0);
+                Interface_SetOverTileMenu(0);
             }
         }
     }
@@ -546,10 +546,11 @@ void __cdecl Menu_SetParsedXML(char const* a1, int aiValue)
 
 void Interface_ClearTimer(Menu* apMenu);
 void Interface_RecursiveFade(void* apTile, float a, float b);
-void __cdecl FUN_00706fd0(int a, int b);
+void __cdecl Interface_PopFromEnterStack(int a, int b);
 
 // @fnv 0x00a1d9e0
-void Menu::FUN_00a1d9e0()
+// src: XBOX_PDB 0x00a1d9e0
+void Menu::InstantFadeOut()
 {
     if (m_eFadeState != 4)
     {
@@ -568,7 +569,7 @@ void Menu::FUN_00a1d9e0()
             pTile_d = pMenu;
             if (pTile_d->ContainsTrait(0x1772))
             {
-                FUN_00706fd0(m_iModalMenuId, 0);
+                Interface_PopFromEnterStack(m_iModalMenuId, 0);
                 ClearInterfaceState(0);
             }
         }
@@ -701,7 +702,7 @@ struct XMLEntry
     }
 };
 BSFile* __cdecl FileFinder_GetFile_(const char* apPath, int a, int b);
-int __cdecl FUN_00a01e20(const char* apName, const char* apData, unsigned int auLength);
+int __cdecl Tile_ParseFile(const char* apName, const char* apData, unsigned int auLength);
 void __cdecl Menu_SetParsedXML(const char* apName, int aiValue);
 void __cdecl FUN_00a0ba50();
 
@@ -728,7 +729,7 @@ bool Menu_LoadFinalMasterXML()
                 for (unsigned int i = 0; i < kHeader.ItemUpdateArray; i++)
                 {
                     XMLEntry* pEntry = (XMLEntry*)pCurrent;
-                    int iTemplate = FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength());
+                    int iTemplate = Tile_ParseFile(pEntry->acName, pEntry->acData, pEntry->GetLength());
                     Menu_SetParsedXML(pEntry->acName, iTemplate);
                     pCurrent += pEntry->GetLength() + 0x84;
                 }
@@ -781,7 +782,8 @@ extern double g_d100;
 extern double DAT_0106f290;
 
 // @fnv 0x00a1dfb0
-float FUN_00a1dfb0()
+// src: XBOX_PDB 0x00a1dfb0
+float Menu_GetMaxDepth()
 {
     void* xelem;
     float fmaxdepth = 0.0f;
@@ -1154,10 +1156,10 @@ extern int DAT_0103d420;
 extern int DAT_0103d418;
 extern const char DAT_01095548[];
 extern const char DAT_01095528[];
-void __cdecl FUN_00a02d40(CompressedEntry* apEntry);
-void __cdecl FUN_00406d00(char* apBuffer, unsigned int auiSize, const char* apFormat, const char* apName,
+void __cdecl Tile_InsertIncludedFiles(CompressedEntry* apEntry);
+void __cdecl BSsprintf(char* apBuffer, unsigned int auiSize, const char* apFormat, const char* apName,
                           unsigned int auiLength);
-void __cdecl FUN_0040fbe0(const char* apText);
+void __cdecl ProgramFlow(const char* apText);
 void __cdecl _NiFree_00aa10f0(void* apMem);
 void* __cdecl FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
 int __cdecl FUN_00ec65a6(char* apDst, unsigned int auiSize, const char* apSrc);
@@ -1299,11 +1301,11 @@ bool WriteCompressedEntryArchive()
                             {
                                 const char* index;
                                 DAT_011f34e0.GetNext(e, index, entry);
-                                FUN_00a02d40(entry);
+                                Tile_InsertIncludedFiles(entry);
                                 records.SetAtGrow(records.m_usSize, entry);
                                 names.Add(index);
-                                FUN_00406d00(debug, 0x104, DAT_01095548, index, entry->m_uiCharacterCount);
-                                FUN_0040fbe0(debug);
+                                BSsprintf(debug, 0x104, DAT_01095548, index, entry->m_uiCharacterCount);
+                                ProgramFlow(debug);
                                 g.m_uiTotal += 0x84 + entry->m_uiCharacterCount;
                                 ++g.m_uiCount;
                             }
@@ -1352,9 +1354,9 @@ bool WriteCompressedEntryArchive()
 
 namespace fnv_00a1c520 {
 extern bool DAT_011f308f[];
-int FUN_00706fd0(int, bool);
+int Interface_PopFromEnterStack(int, bool);
 void FUN_00a1e130(int, Tile*);
-int FUN_007023c0();
+int Interface_GetTopMenuID();
 
 extern MemoryManager g_memoryManager;
 
@@ -1398,10 +1400,10 @@ inline void ClearMenuClass(int menuClass)
 }
 }  // namespace fnv_00a1c520
 using fnv_00a1c520::ClearMenuClass;
-using fnv_00a1c520::FUN_00706fd0;
+using fnv_00a1c520::Interface_PopFromEnterStack;
 using fnv_00a1c520::FUN_00a1e130;
 using fnv_00a1c520::TileCollection;
-using fnv_00a1c520::FUN_007023c0;
+using fnv_00a1c520::Interface_GetTopMenuID;
 using fnv_00a1c520::g_osGlobals;
 // Clears the menu class, deletes its tiles, and removes template-list nodes.
 // @fnv 0x00a1c520
@@ -1409,7 +1411,7 @@ Menu::~Menu()
 {
     ClearMenuClass(m_iMenuId);
     if (m_iModalMenuId)
-        FUN_00706fd0(m_iModalMenuId, 1);
+        Interface_PopFromEnterStack(m_iModalMenuId, 1);
     FUN_00a1e130(m_iMenuId, 0);
     if (pMenu)
     {
@@ -1429,6 +1431,6 @@ Menu::~Menu()
         }
     }
     m_kTileTemplateList.RemoveAll();
-    if (!FUN_007023c0() && g_osGlobals->FUN_00877720()->FUN_00a24660(14, 0))
-        g_osGlobals->FUN_00877720()->SetFlag(8);
+    if (!Interface_GetTopMenuID() && g_osGlobals->Main_GetControls()->Controls_GetUserAction(14, 0))
+        g_osGlobals->Main_GetControls()->SetFlag(8);
 }

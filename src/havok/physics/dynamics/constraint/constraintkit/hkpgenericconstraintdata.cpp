@@ -828,7 +828,8 @@ int* FUN_00d50560_class::hkpGenericConstraintData_getParameters(unsigned int ind
 }
 
 // @fnv 0x00d50500
-void __stdcall FUN_00d50500(unsigned char* out)
+// src: XBOX_PDB 0x00d50500
+void __stdcall hkpGenericConstraintData_isValid(unsigned char* out)
 {
     *out = 1;
 }
@@ -842,11 +843,12 @@ int FUN_00d50510()
 class CFoo
 {
   public:
-    void* FUN_00d504f0();
+    void* hkpGenericConstraintData_getScheme();
 };
 
 // @fnv 0x00d504f0
-void* CFoo::FUN_00d504f0()
+// src: XBOX_PDB 0x00d504f0
+void* CFoo::hkpGenericConstraintData_getScheme()
 {
     return (void*)((char*)this + 0x18);
 }
@@ -893,15 +895,16 @@ struct FUN_00d50bd0_owner
     hkpBridgeAtoms m_kBridgeAtoms;
     hkpGenericConstraintDataScheme m_kConstraintDataScheme;
 
-    void FUN_00d50640(hkpGenericConstraintDataScheme* scheme, SolverItem* item, int index);
-    void FUN_00d50bd0(SolverItem* item, int index);
+    void hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme* scheme, SolverItem* item, int index);
+    void hkpGenericConstraintData_buildJacobian(SolverItem* item, int index);
 };
 
 // @fnv 0x00d50bd0
-void FUN_00d50bd0_owner::FUN_00d50bd0(SolverItem* item, int index)
+// src: XBOX_PDB 0x00d50bd0
+void FUN_00d50bd0_owner::hkpGenericConstraintData_buildJacobian(SolverItem* item, int index)
 {
     AppendEventRecord(item, index, item->unk64, 8);
-    FUN_00d50640(&m_kConstraintDataScheme, item, index);
+    hkpGenericConstraintData_hatchScheme(&m_kConstraintDataScheme, item, index);
 }
 
 struct FUN_00d51620_Alloc
@@ -922,7 +925,7 @@ struct FUN_00d51620_Router
     FUN_00d51620_Alloc* m_pThreadAllocator;
 };
 
-FUN_00d51620_Router* FUN_00c85750();
+FUN_00d51620_Router* hkMemoryRouter_getInstance();
 
 struct FUN_00d51620_class
 {
@@ -949,7 +952,7 @@ struct FUN_00d51620_class
 // @fnv 0x00d51620
 void FUN_00d51620_class::FreeArrays()
 {
-    FUN_00d51620_Router* m = FUN_00c85750();
+    FUN_00d51620_Router* m = hkMemoryRouter_getInstance();
     FUN_00d51620_Alloc* alloc = m->m_pThreadAllocator;
     int c = m_3c;
     m_38 = 0;
@@ -957,7 +960,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_34, (c & 0x3fffffff) * 4);
     m_34 = 0;
     m_3c = 0x80000000;
-    m = FUN_00c85750();
+    m = hkMemoryRouter_getInstance();
     alloc = m->m_pThreadAllocator;
     c = m_30;
     m_2c = 0;
@@ -965,7 +968,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_28, (c & 0x3fffffff) * 4);
     m_28 = 0;
     m_30 = 0x80000000;
-    m = FUN_00c85750();
+    m = hkMemoryRouter_getInstance();
     alloc = m->m_pThreadAllocator;
     c = m_24;
     m_20 = 0;
@@ -973,7 +976,7 @@ void FUN_00d51620_class::FreeArrays()
         alloc->free(m_1c, (c & 0x3fffffff) * 4);
     m_1c = 0;
     m_24 = 0x80000000;
-    m = FUN_00c85750();
+    m = hkMemoryRouter_getInstance();
     alloc = m->m_pThreadAllocator;
     c = m_a18;
     m_a14 = 0;
@@ -998,7 +1001,7 @@ struct FnvCpu_FUN_00d516f0_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d516f0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d516f0_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00d516f0_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d516f0_CpuObject
 {
     unsigned int unk00;
@@ -1012,7 +1015,7 @@ FnvCpu_FUN_00d516f0_CpuObject* FnvCpu_FUN_00d516f0_CpuObject::FUN_00d516f0(unsig
     FUN_00d50c50();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1035,24 +1038,25 @@ struct FUN_00d503c0_src
 };
 
 extern "C" LocalM128 __cdecl _mm_setzero_ps(void);
-void __cdecl FUN_00dcf280(FUN_00d503c0_m* m, void* obj, void* out);
+void __cdecl hk1dLinearBilateralConstraintBuildJacobian(FUN_00d503c0_m* m, void* obj, void* out);
 
 // Copies two vectors from src, sets a third to each unit axis in turn calling FUN_00dcf280 each time, then adds 3 to src->unkB8.
 // @fnv 0x00d503c0
-void __stdcall FUN_00d503c0(int a, int b, int c, FUN_00d503c0_src* src, void* obj, void* out)
+// src: XBOX_PDB 0x00d503c0
+void __stdcall hkpGenericConstraintData_constrainAllLinearW(int a, int b, int c, FUN_00d503c0_src* src, void* obj, void* out)
 {
     FUN_00d503c0_m m;
     m.r0.m_vComponents = src->r0.m_vComponents;
     m.r1.m_vComponents = src->r1.m_vComponents;
     m.r2.m_vComponents = _mm_setzero_ps();
     m.r2.m_vec.x = 1.0f;
-    FUN_00dcf280(&m, obj, out);
+    hk1dLinearBilateralConstraintBuildJacobian(&m, obj, out);
     m.r2.m_vec.x = 0.0f;
     m.r2.m_vec.y = 1.0f;
-    FUN_00dcf280(&m, obj, out);
+    hk1dLinearBilateralConstraintBuildJacobian(&m, obj, out);
     m.r2.m_vec.y = 0.0f;
     m.r2.m_vec.z = 1.0f;
-    FUN_00dcf280(&m, obj, out);
+    hk1dLinearBilateralConstraintBuildJacobian(&m, obj, out);
     src->unkB8 += 3;
 }
 
@@ -1074,7 +1078,7 @@ struct BridgeAtom
     void* constraintData;
     BridgeAtom() : type(1)
     {}
-    void FUN_00d21ce0(FUN_00d50c90* parent);
+    void hkpBridgeConstraintAtom_init(FUN_00d50c90* parent);
 };
 template <class T> struct ConstraintArray
 {
@@ -1109,7 +1113,7 @@ struct FUN_00d50c90 : ReferenceFields
 FUN_00d50c90::FUN_00d50c90()
 {
     *(volatile int*)&scheme.info.m_iSchemaByteSize += 16;
-    atom.FUN_00d21ce0(this);
+    atom.hkpBridgeConstraintAtom_init(this);
 }
 
 struct S00d50e10_Rows
@@ -1119,7 +1123,7 @@ struct S00d50e10_Rows
     LocalM128 v2;
 };
 
-void __cdecl FUN_00dcee80(S00d50e10_Rows* out, int d, int e);
+void __cdecl hk1dAngularBilateralConstraintBuildJacobian(S00d50e10_Rows* out, int d, int e);
 
 // Builds three S00d50e10_Rows from vectors in p, calls FUN_00dcee80 on each with d and e, and adds 3 to the int at p+0xB8.
 // @fnv 0x00d50e10
@@ -1132,17 +1136,17 @@ void __stdcall FUN_00d50e10(int a0, int a1, int a2, void* p, int d, int e)
     out1.v0 = (*reinterpret_cast<const LocalM128*>(base + 0x14));
     out1.v2 = (*reinterpret_cast<const LocalM128*>(base + 0x24));
     out1.v1 = (*reinterpret_cast<const LocalM128*>(base + 0x1C));
-    FUN_00dcee80(&out1, d, e);
+    hk1dAngularBilateralConstraintBuildJacobian(&out1, d, e);
 
     out.v0 = (*reinterpret_cast<const LocalM128*>(base + 0x18));
     out.v2 = (*reinterpret_cast<const LocalM128*>(base + 0x28));
     out.v1 = out1.v0;
-    FUN_00dcee80(&out, d, e);
+    hk1dAngularBilateralConstraintBuildJacobian(&out, d, e);
 
     out.v2 = (*reinterpret_cast<const LocalM128*>(base + 0x20));
     out.v1 = out.v0;
     out.v0 = out1.v1;
-    FUN_00dcee80(&out, d, e);
+    hk1dAngularBilateralConstraintBuildJacobian(&out, d, e);
 
     *reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0xB8) += 3;
 }
@@ -1351,7 +1355,8 @@ float __cdecl Atan2(float y, float x);
 
 // Dots columns of m_rotB with a column of m_rotA, chosen by axis through two lookup tables, and passes the results to Atan2 as sine and cosine.
 // @fnv 0x00d50450
-static __declspec(noinline) float FUN_00d50450(const AngularFrames* frames, int axis)
+// src: XBOX_PDB 0x00d50450
+static __declspec(noinline) float calcDeltaAngleAroundAxis(const AngularFrames* frames, int axis)
 {
     const hkVector4q& dirA = frames->m_rotA.getColumn(DAT_011b5a90[axis]);
     const float sinAngle = frames->m_rotB.getColumn(DAT_011b5a94[axis]).dot3(dirA);
@@ -1361,7 +1366,7 @@ static __declspec(noinline) float FUN_00d50450(const AngularFrames* frames, int 
 
 float calcAngleForAxis(const AngularFrames* frames, int axis)
 {
-    return FUN_00d50450(frames, axis);
+    return calcDeltaAngleAroundAxis(frames, axis);
 }
 
 extern "C" LocalM128 _mm_sub_ps(LocalM128 a, LocalM128 b);
@@ -1374,11 +1379,12 @@ struct S00d505c0_Blk
     int idx;
 };
 
-void __cdecl FUN_00dcf100(S00d505c0_Blk* in, int* cfg, int index);
+void __cdecl hk1dLinearFrictionBuildJacobian(S00d505c0_Blk* in, int* cfg, int index);
 
 // Builds an S00d505c0_Blk from vectors in c, a float read via b and a destination offset, calls FUN_00dcf100 with basePtr and index, and increments c[0xb8/4].
 // @fnv 0x00d505c0
-void __stdcall FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index)
+// src: XBOX_PDB 0x00d505c0
+void __stdcall hkpGenericConstraintData_setLinearFrictionW(int** a, int* b, void* unused, int* c, int* basePtr, int index)
 {
     int idxBase = basePtr[0x64 / 4];
 
@@ -1396,7 +1402,7 @@ void __stdcall FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr,
 
     blk.idx = idxBase + c[0xb8 / 4] * 8;
 
-    FUN_00dcf100(&blk, basePtr, index);
+    hk1dLinearFrictionBuildJacobian(&blk, basePtr, index);
 
     c[0xb8 / 4]++;
 }
@@ -1427,7 +1433,7 @@ extern unsigned int DAT_011b5a90;
 extern unsigned int DAT_011b5a94;
 extern unsigned int DAT_010c44d0;
 
-void __cdecl FUN_00dcee80(void* pair, int a2, int a3);
+void __cdecl hk1dAngularBilateralConstraintBuildJacobian(void* pair, int a2, int a3);
 
 // Loads three vectors into out, calls FUN_00dcee80, sets a to old b XORed with a constant and b to old a, calls it again, and adds 2 to data->numDecoded.
 // @fnv 0x00d50d60
@@ -1439,12 +1445,12 @@ void __stdcall FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50
     _mm_store_ps(&out.b.m_vec.x, apStream->vecs[(&DAT_011b5a90)[idx] + 5].m_vComponents);
     _mm_store_ps(&out.a.m_vec.x, apStream->vecs[(&DAT_011b5a94)[idx] + 5].m_vComponents);
     _mm_store_ps(&out.c.m_vec.x, apStream->vecs[idx + 8].m_vComponents);
-    FUN_00dcee80(&out, a4, a5);
+    hk1dAngularBilateralConstraintBuildJacobian(&out, a4, a5);
     LocalM128 cur = _mm_load_ps(&out.b.m_vec.x);
     LocalM128 t = _mm_xor_ps(_mm_load_ps((const float*)&DAT_010c44d0), cur);
     _mm_store_ps(&out.b.m_vec.x, _mm_load_ps(&out.a.m_vec.x));
     _mm_store_ps(&out.a.m_vec.x, t);
-    FUN_00dcee80(&out, a4, a5);
+    hk1dAngularBilateralConstraintBuildJacobian(&out, a4, a5);
     apStream->numDecoded += 2;
 }
 }  // namespace fnv_00d50d60
@@ -1553,7 +1559,7 @@ struct S00d51100_Blk
     float f1;
 };
 
-void __cdecl FUN_00dcfa30(S00d51100_Blk* in, int* cfg, int index);
+void __cdecl hk1dLinearLimitBuildJacobian(S00d51100_Blk* in, int* cfg, int index);
 
 // @fnv 0x00d51100
 void __stdcall FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr, int index)
@@ -1570,7 +1576,7 @@ void __stdcall FUN_00d51100(int** a, int* b, void* unused, int* c, int* basePtr,
     blk.f0 = bv[0];
     blk.f1 = bv[1];
 
-    FUN_00dcfa30(&blk, basePtr, index);
+    hk1dLinearLimitBuildJacobian(&blk, basePtr, index);
 
     c[0xb8 / 4]++;
 }
@@ -1590,7 +1596,8 @@ extern "C" void __cdecl _mm_store_ss(float*, LocalM128);
 extern int DAT_011b5a90[];
 extern float Atan2(float, float);
 extern float dotAngle(LocalM128, LocalM128);
-static __declspec(noinline) float FUN_00d50450(AnglePool* pool, int index)
+// src: XBOX_PDB 0x00d50450
+static __declspec(noinline) float calcDeltaAngleAroundAxis(AnglePool* pool, int index)
 {
     LocalM128 first = pool->vectors[DAT_011b5a90[index] + 5];
     LocalM128 basis[3] = {pool->vectors[8], pool->vectors[9], pool->vectors[10]};
@@ -1613,7 +1620,7 @@ void __stdcall FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int u
     int index = **stream;
     info.m_vScale = DAT_01016248;
     (LocalM128&)info.m_jacobian = pool->vectors[index + 5];
-    info.m_out = FUN_00d50450(pool, index);
+    info.m_out = calcDeltaAngleAroundAxis(pool, index);
     AngleRecord* pRecord = *cursor;
     info.m_f0 = pRecord->x;
     *cursor = pRecord + 1;
@@ -1973,7 +1980,7 @@ struct FUN_00cdf250_class
         c1 = m.c1;
         c2 = m.c2;
     }
-    void FUN_00cd55b0(int*, int);
+    void hkMatrix3_setMul(int*, int);
 };
 struct __declspec(align(16)) InputD506
 {
@@ -2010,13 +2017,13 @@ struct ConstraintCommandCallback
 {
     ConstraintCommandCallbackVTable* vtable;
 };
-extern "C" void FUN_00c7f640();
+extern "C" void setTransformedPos_00c7f640();
 typedef void(__thiscall* PivotD506)(hkVector4q*, const void*, const hkVector4q*);
 struct InterpreterD506
 {
-    void FUN_00d50640(hkpGenericConstraintDataScheme*, const InputD506*, void*);
-    void FUN_00d50d00(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d503c0(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme*, const InputD506*, void*);
+    void hkpGenericConstraintData_constrainLinearW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_constrainAllLinearW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d50d60(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d50e10(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51100(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
@@ -2026,7 +2033,7 @@ struct InterpreterD506
     void FUN_00d51410(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51270(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
     void FUN_00d51390(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
-    void FUN_00d505c0(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
+    void hkpGenericConstraintData_setLinearFrictionW(int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*, InputD506*, void*);
 };
 typedef void(__thiscall* HandlerD506)(InterpreterD506*, int**, hkVector4q**, hkpGenericConstraintDataScheme*, StateD506*,
                                       InputD506*, void*);
@@ -2046,7 +2053,8 @@ static __forceinline void rotateD506(hkVector4q& out, const FUN_00cdf250_class* 
 
 // Executes a byte-code program from a constraint scheme, dispatching on command codes to update state and call handler functions.
 // @fnv 0x00d50640
-void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const InputD506* input, void* output)
+// src: XBOX_PDB 0x00d50640
+void InterpreterD506::hkpGenericConstraintData_hatchScheme(hkpGenericConstraintDataScheme* scheme, const InputD506* input, void* output)
 {
     InputD506 localInput = *input;
     StateD506 state;
@@ -2103,21 +2111,21 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
             break;
         }
         case 6:
-            FUN_00d50d00(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_constrainLinearW(&command, &data, scheme, &state, &localInput, output);
             break;
         case 7:
-            FUN_00d503c0(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_constrainAllLinearW(&command, &data, scheme, &state, &localInput, output);
             break;
         case 8: {
             FUN_00cdf250_class* m = (FUN_00cdf250_class*)data;
             data += 3;
-            state.basisA.FUN_00cd55b0((int*)state.transformA, (int)m);
+            state.basisA.hkMatrix3_setMul((int*)state.transformA, (int)m);
             break;
         }
         case 9: {
             FUN_00cdf250_class* m = (FUN_00cdf250_class*)data;
             data += 3;
-            state.basisB.FUN_00cd55b0((int*)state.transformB, (int)m);
+            state.basisB.hkMatrix3_setMul((int*)state.transformB, (int)m);
             break;
         }
         case 10:
@@ -2154,14 +2162,14 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
             FUN_00d51390(&command, &data, scheme, &state, &localInput, output);
             break;
         case 21:
-            FUN_00d505c0(&command, &data, scheme, &state, &localInput, output);
+            hkpGenericConstraintData_setLinearFrictionW(&command, &data, scheme, &state, &localInput, output);
             break;
         case 1:
-            state.pivotA.FUN_00c7f640(*(const hkTransform*)state.transformA, *data);
+            state.pivotA.setTransformedPos_00c7f640(*(const hkTransform*)state.transformA, *data);
             ++data;
             break;
         case 2:
-            state.pivotB.FUN_00c7f640(*(const hkTransform*)state.transformB, *data);
+            state.pivotB.setTransformedPos_00c7f640(*(const hkTransform*)state.transformB, *data);
             ++data;
             break;
         case 22: {
@@ -2186,7 +2194,8 @@ void InterpreterD506::FUN_00d50640(hkpGenericConstraintDataScheme* scheme, const
 }
 
 // @fnv 0x00d50d00
-void __stdcall FUN_00d50d00(int** commands, int unusedData, int unusedScheme, Runtime* runtime, void* input,
+// src: XBOX_PDB 0x00d50d00
+void __stdcall hkpGenericConstraintData_constrainLinearW(int** commands, int unusedData, int unusedScheme, Runtime* runtime, void* input,
                             void* output)
 {
     ++*commands;
@@ -2194,6 +2203,6 @@ void __stdcall FUN_00d50d00(int** commands, int unusedData, int unusedScheme, Ru
     packet.r2.m_vComponents = runtime->v[**commands + 2].m;
     packet.r0.m_vComponents = runtime->v[0].m;
     packet.r1.m_vComponents = runtime->v[1].m;
-    FUN_00dcf280(&packet, input, output);
+    hk1dLinearBilateralConstraintBuildJacobian(&packet, input, output);
     ++runtime->m_iFirstInteger;
 }

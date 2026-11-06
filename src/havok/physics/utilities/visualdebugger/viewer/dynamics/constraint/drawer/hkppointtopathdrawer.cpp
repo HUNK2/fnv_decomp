@@ -26,7 +26,7 @@ inline void hkVector4::operator=(const hkVector4& v)
     m_vComponents = v.m_vComponents;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 static __forceinline void hkVector4Array_ClearAndRelease(hkArrayBase<hkVector4>& self, hkMemoryAllocator& alloc);
 
@@ -258,7 +258,7 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
 
     if (scene->m_kPoints)
     {
-        worldTransform.FUN_00cb2240(localTransform, scene->m_kMotionTransform);
+        worldTransform.hkTransform_setMul(localTransform, scene->m_kMotionTransform);
         PointSource* source = scene->m_kPoints;
         if (source)
         {
@@ -270,12 +270,12 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
                 hkVector4 a;
                 hkVector4 b;
                 hkVector4 p = points.m_data[i];
-                a.FUN_00c7f640(worldTransform, p);
+                a.setTransformedPos_00c7f640(worldTransform, p);
                 p = points.m_data[i - 1];
-                b.FUN_00c7f640(worldTransform, p);
+                b.setTransformedPos_00c7f640(worldTransform, p);
                 drawer->drawLine(a, b, PackColorBigEndian(0.0f, DAT_0101622c, 1.0f, 1.0f), id, tag);
             }
-            hkVector4Array_ClearAndRelease(points, PointToPathHeap(FUN_00c85750()));
+            hkVector4Array_ClearAndRelease(points, PointToPathHeap(hkMemoryRouter_getInstance()));
         }
     }
 }

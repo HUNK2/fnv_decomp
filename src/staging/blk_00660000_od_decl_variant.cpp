@@ -56,8 +56,8 @@ struct FUN_00665f10_class
     int __thiscall Identity(int a);
 };
 extern Setting originalRuntimeFloatSetting1297;
-float FUN_0066b0b0();
-extern "C" void* __cdecl FUN_00664840(int);
+float BSTreeManager_GetSizeConversion();
+extern "C" void* __cdecl BSTreeManager_GetInstance(int);
 struct Flt
 {
     operator unsigned int();
@@ -67,7 +67,7 @@ struct FUN_0066dd80_Class
 {
     bool IsFlag8Set() const;
 };
-bool FUN_0066de80(int type);
+bool ActionPoints_IsThrownAttackAction(int type);
 extern int DAT_01068884;
 struct FUN_0067ad20_Class
 {
@@ -93,7 +93,7 @@ struct FUN_0067f4b0_class
     unsigned char b;
     int a;
     int c;
-    void FUN_0067f4b0(int d);
+    void PackageLocation_SetLocObjectType(int d);
 };
 struct FUN_00666020
 {
@@ -188,7 +188,7 @@ struct FUN_0066c9c0_Class
 {
     T_ a;
     T_ b;
-    void FUN_0066c9c0(T_& x, T_& y, float f);
+    void hkContactPoint_set(T_& x, T_& y, float f);
 };
 struct Date
 {
@@ -197,7 +197,7 @@ struct Date
 struct FUN_0066da50 : Date
 {
     ~FUN_0066da50();
-    void FUN_0066dab0();
+    void hkArray_hkVector4_hkContainerHeapAllocator_clearAndDeallocate();
 };
 struct H_A100
 {
@@ -205,7 +205,7 @@ struct H_A100
 };
 struct H_6db70
 {
-    void FUN_0066db70(void* a, void* b);
+    void hkMemoryAllocator_bufFree_hkpRootCdBodyPair(void* a, void* b);
 };
 struct FUN_0066dae0_Class
 {
@@ -213,7 +213,7 @@ struct FUN_0066dae0_Class
     unsigned int pad;
     unsigned int state;
     void __thiscall DestroyRange();
-    void __thiscall FUN_0066dae0(void* a);
+    void __thiscall hkArrayBase_hkVector4_clearAndDeallocate(void* a);
 };
 struct FUN_0066db70_Class
 {
@@ -227,7 +227,7 @@ struct FUN_0066db70_Class
     {}
     virtual void v4(int, int)
     {}
-    void __thiscall FUN_0066db70(int a, int b);
+    void __thiscall hkMemoryAllocator_bufFree_hkpRootCdBodyPair(int a, int b);
 };
 void __cdecl Deallocate(void* p);
 struct FUN_0066df40_Class
@@ -278,7 +278,7 @@ struct FUN_0067ad70_cls
 void __cdecl _Deallocate(void*);
 struct FUNObj
 {
-    void __thiscall FUN_0067fb60(void*);
+    void __thiscall PackageLocation_SaveGame(void*);
 };
 struct Holder
 {
@@ -300,7 +300,7 @@ void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
 void __cdecl BSEndian(unsigned char* p, EndianSizeTag<2>);
 struct FUN_0067eff0_Class
 {
-    void __thiscall FUN_0067eff0();
+    void __thiscall PACK_LOC_FILE_Endian();
 };
 struct FUN_0067b170
 {
@@ -316,7 +316,7 @@ struct FUN_0067b100_Class
     unsigned char b4;
     unsigned char b0c;
     unsigned char b14;
-    void __thiscall FUN_0067b100();
+    void __thiscall PACK_DIALOGUE_DATA_Endian();
 };
 extern int DAT_01066e2c;
 extern int DAT_01268324;
@@ -398,7 +398,7 @@ struct FUN_00672d10_Class
     unsigned char m_auiShapeKeys[0x28];
     FUN_0067caa0* m_pObject;
 
-    FUN_0067caa0* __thiscall FUN_00672d10();
+    FUN_0067caa0* __thiscall GetOrCreateUseWeaponPackageData();
 };
 struct C0130Iterator
 {
@@ -516,8 +516,8 @@ extern const double g_dblConst;
 extern int g_timerA;
 extern int g_timerB;
 extern unsigned char g_counter;
-float* __fastcall FUN_00403e20(void* obj);
-int* __fastcall FUN_0043d4d0(void* obj);
+float* __fastcall Setting_Float_00403e20(void* obj);
+int* __fastcall Setting_Int(void* obj);
 struct FUN_0066ca50_cls
 {
     int unk00;
@@ -600,7 +600,7 @@ float __cdecl GetObjectValue(SpawnedObject* obj);
 extern "C" int __cdecl FUN_004019a0(void*);
 struct S_0066e2b0_Class : public FUN_0066df40_Class
 {
-    void __thiscall FUN_0066e2b0();
+    void __thiscall ActorCause_DecRefCount();
 };
 struct G2;
 extern G2 g_011d6124;
@@ -631,15 +631,15 @@ class StatsGetterCls
 };
 extern StatsGetterCls DAT_011d6458;
 bool __cdecl IsScaledValueAboveThreshold(float a, float b);
-void __cdecl FUN_00407a90(void* p, bool flag);
-void __cdecl FUN_00401080(void* p, bool flag);
+void __cdecl BSEndian_00407a90(void* p, bool flag);
+void __cdecl BSEndian_00401080(void* p, bool flag);
 struct SpawnedFlag
 {
     bool m_bValue;
 };
 struct FUN_0067ca10_cls
 {
-    void FUN_0067ca10();
+    void PACK_USE_WEAPON_DATA_PKW2_Endian();
 };
 // NiTMap destructor: remove all entries, then the base map destructor frees the hash table.
 class F5FC0MapBase
@@ -686,17 +686,17 @@ extern E6D0Node g_kE6D0Items;
 void SaveE6D0Items(BGSSaveFormBuffer* pkBuffer);
 struct ComparisonEntry
 {
-    int FUN_00678ca0();
+    int PackageLocation_GetLocType();
     int GetSecondByte();
-    signed char FUN_00678ce0();
+    signed char Main_GameReset();
     signed char FUN_0086a460();
 };
 struct ComparisonOwner
 {
-    ComparisonEntry* FUN_0041d8a0();
+    ComparisonEntry* TESPackage_GetPackageSchedule();
     int CompareTo(ComparisonEntry* other);
 };
-TESForm* __cdecl FUN_004839c0(void* p);
+TESForm* __cdecl TESForm_GetFormByNumericID(void* p);
 struct E640Item
 {
     void __thiscall ResolveActorFormId();
@@ -748,7 +748,7 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 
 float __cdecl ActionPoints_GetCost(int value);
-float* __fastcall FUN_00403e20(void* object);
+float* __fastcall Setting_Float_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
 float __cdecl GetRequiredAPForAction(int value, bool unscaled);
 extern NiPoint3 DAT_011f426c;
@@ -779,7 +779,7 @@ struct DetectionGroup
 {
     unsigned int owner;
     DetectionEntryList* entries;
-    bool FUN_005ca4f0();
+    bool ActorCause_IsValid();
     unsigned int FUN_00559450();
     DetectionEntryList* FUN_00726070();
     void ClearAndReset();
@@ -793,7 +793,7 @@ void __cdecl ActorCause_ClearActor(unsigned int key)
     {
         DetectionGroup* group = node->FUN_006815c0();
         node = node->FUN_00726070();
-        if (group && group->FUN_005ca4f0())
+        if (group && group->ActorCause_IsValid())
         {
             if (group->FUN_00559450() == key)
                 group->ClearAndReset();

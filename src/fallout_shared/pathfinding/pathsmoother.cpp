@@ -63,7 +63,7 @@ struct EntryPool
 {
     int unk00, unk04, unk08, unk0c;
     ~EntryPool();
-    void FUN_00aa5610(void* pvEntry);
+    void ScrapHeap_Deallocate(void* pvEntry);
 };
 
 struct EntryArrayBase
@@ -73,8 +73,8 @@ struct EntryArrayBase
     unsigned int FUN_0044ddc0();
     PooledEntry*& FUN_00877a30(unsigned int uiIndex);
     void FUN_008454f0(bool bFree);
-    bool FUN_0076b610();
-    void FUN_009a4320(int a1, int a2);
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
+    void BSSimpleArray_Actor_1024_RemoveFast(int a1, int a2);
 };
 
 struct EntryArrayA : EntryArrayBase
@@ -115,27 +115,27 @@ FUN_006ed220::~FUN_006ed220()
     for (unsigned int i = 0; i < m_kActive.FUN_0044ddc0(); i++)
     {
         m_kActive.FUN_00877a30(i)->DestroyIfFlagged(0);
-        m_kEntryPool.FUN_00aa5610(m_kActive.FUN_00877a30(i));
+        m_kEntryPool.ScrapHeap_Deallocate(m_kActive.FUN_00877a30(i));
     }
-    if (!m_kPending.FUN_0076b610())
-        m_kPending.FUN_009a4320(0, 1);
-    if (!m_kPending.FUN_0076b610())
-        m_kPending.FUN_009a4320(0, 1);
+    if (!m_kPending.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
+        m_kPending.BSSimpleArray_Actor_1024_RemoveFast(0, 1);
+    if (!m_kPending.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
+        m_kPending.BSSimpleArray_Actor_1024_RemoveFast(0, 1);
     for (unsigned int j = 0; j < m_kPending.FUN_0044ddc0(); j++)
     {
         m_kPending.FUN_00877a30(j)->DestroyIfFlagged(0);
-        m_kEntryPool.FUN_00aa5610(m_kPending.FUN_00877a30(j));
+        m_kEntryPool.ScrapHeap_Deallocate(m_kPending.FUN_00877a30(j));
     }
     m_kActive.FUN_008454f0(true);
     m_kPending.FUN_008454f0(true);
     for (unsigned int k = 0; k < m_kFreeA.FUN_0044ddc0(); k++)
-        m_kEntryPool.FUN_00aa5610(m_kFreeA.FUN_00877a30(k));
+        m_kEntryPool.ScrapHeap_Deallocate(m_kFreeA.FUN_00877a30(k));
     for (unsigned int l = 0; l < m_kFreeB.FUN_0044ddc0(); l++)
-        m_kEntryPool.FUN_00aa5610(m_kFreeB.FUN_00877a30(l));
+        m_kEntryPool.ScrapHeap_Deallocate(m_kFreeB.FUN_00877a30(l));
     m_kFreeA.FUN_008454f0(true);
     m_kFreeB.FUN_008454f0(true);
     for (unsigned int m = 0; m < m_kFreeC.FUN_0044ddc0(); m++)
-        m_kEntryPool.FUN_00aa5610(m_kFreeC.FUN_00877a30(m));
+        m_kEntryPool.ScrapHeap_Deallocate(m_kFreeC.FUN_00877a30(m));
     m_kFreeC.FUN_008454f0(true);
 }
 
@@ -154,7 +154,7 @@ struct SubSlot
     int unk0c;
     int unk10;
 
-    void FUN_0084b5c0(unsigned int aCount);
+    void BSSimpleArray_TESObjectREFR_1024_SetReservedSize(unsigned int aCount);
     void FUN_008454f0(unsigned int aCount);
 };
 
@@ -166,7 +166,7 @@ struct ArgObj
 
 struct Holder
 {
-    void* FUN_0068efb0();
+    void* GetNavMeshInfo_0068efb0();
 };
 
 struct NodeA
@@ -176,7 +176,7 @@ struct NodeA
 
 struct Gate
 {
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
 };
 
 struct FUN_006ed530_cls
@@ -232,16 +232,16 @@ bool FUN_006ed530_cls::PathSmoother_SmoothPath(NodeA* apNode, ArgObj* apArgObj, 
 
     if (apArgObj->FUN_0044ddc0() == 1)
     {
-        PathSmoother_AddPathingNode(apTripleA, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
-        PathSmoother_AddPathingNode(apTripleB, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
+        PathSmoother_AddPathingNode(apTripleA, (*(Holder**)apArgObj->FUN_006b3160(0))->GetNavMeshInfo_0068efb0());
+        PathSmoother_AddPathingNode(apTripleB, (*(Holder**)apArgObj->FUN_006b3160(0))->GetNavMeshInfo_0068efb0());
         return true;
     }
 
-    m_40.FUN_0084b5c0(apArgObj2->FUN_0044ddc0() << 1);
-    m_54.FUN_0084b5c0(apArgObj2->FUN_0044ddc0() << 1);
-    m_68.FUN_0084b5c0(apArgObj2->FUN_0044ddc0() << 1);
-    m_7c.FUN_0084b5c0(apArgObj2->FUN_0044ddc0() << 1);
-    m_90.FUN_0084b5c0(apArgObj2->FUN_0044ddc0() << 1);
+    m_40.BSSimpleArray_TESObjectREFR_1024_SetReservedSize(apArgObj2->FUN_0044ddc0() << 1);
+    m_54.BSSimpleArray_TESObjectREFR_1024_SetReservedSize(apArgObj2->FUN_0044ddc0() << 1);
+    m_68.BSSimpleArray_TESObjectREFR_1024_SetReservedSize(apArgObj2->FUN_0044ddc0() << 1);
+    m_7c.BSSimpleArray_TESObjectREFR_1024_SetReservedSize(apArgObj2->FUN_0044ddc0() << 1);
+    m_90.BSSimpleArray_TESObjectREFR_1024_SetReservedSize(apArgObj2->FUN_0044ddc0() << 1);
 
     m_40.FUN_008454f0(0);
     m_54.FUN_008454f0(0);
@@ -259,7 +259,7 @@ bool FUN_006ed530_cls::PathSmoother_SmoothPath(NodeA* apNode, ArgObj* apArgObj, 
     BuildLocations();
     ClipPathAgainstObstacles();
 
-    if (abForce != 0 || apGate->FUN_0076b610())
+    if (abForce != 0 || apGate->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
         AppendSegments(1, 1);
         SmoothPathDirections();

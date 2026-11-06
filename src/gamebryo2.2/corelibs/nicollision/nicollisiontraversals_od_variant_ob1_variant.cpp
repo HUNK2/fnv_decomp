@@ -39,7 +39,8 @@ inline NiPoint3 NiPoint3::operator*(float s) const
 {
     return NiPoint3(s * x, s * y, s * z);
 }
-inline void NiPoint3::FUN_004a0c10()
+// src: XBOX_PDB 0x004a0c10
+inline void NiPoint3::Unitize_004a0c10()
 {
     float len = Length();
     if (len > DAT_01017cf8)
@@ -235,7 +236,7 @@ struct Host
             return false;
         return ((VObj*)this)->vt08() == (int)&DAT_012030b0;
     }
-    void FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag);
+    void BSOcclusionPlane_MakeDebugGeom(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag);
 };
 // src: COMMUNITY 0x00c35c10
 inline void Host::BSOcclusionPlane_GetVertices(Pt* v)
@@ -265,7 +266,8 @@ inline void Host::BSOcclusionPlane_GetVertices(Pt* v)
     }
 }
 // @fnv 0x00c34ad0
-void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
+// src: XBOX_PDB 0x00c34ad0
+void Host::BSOcclusionPlane_MakeDebugGeom(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
 {
     int count30 = 4;
     int n21 = 2;
@@ -273,16 +275,16 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     Pt tmp4c;
     BSOcclusionPlane_GetVertices(aCorners);
     tmp4c = (&aCorners[0])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.Unitize_004a0c10();
     aCorners[4] = (&aCorners[0])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[1])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.Unitize_004a0c10();
     aCorners[5] = (&aCorners[1])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[2])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.Unitize_004a0c10();
     aCorners[6] = (&aCorners[2])->operator+((&tmp4c)->operator*(DAT_010500cc));
     tmp4c = (&aCorners[3])->operator-(p0);
-    tmp4c.FUN_004a0c10();
+    tmp4c.Unitize_004a0c10();
     aCorners[7] = (&aCorners[3])->operator+((&tmp4c)->operator*(DAT_010500cc));
     unsigned short t13[8][2];
     t13[0][0] = 0;

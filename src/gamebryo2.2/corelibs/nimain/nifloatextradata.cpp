@@ -63,7 +63,7 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
     {
         pkObject = 0;
     }
-    this->FUN_00a7b330(pkObject, kCloning);
+    this->CopyMembers_00a7b330(pkObject, kCloning);
     pkObject->m_fValue = static_cast<NiFloatExtraData*>(this)->m_fValue;
     return pkObject;
 }
@@ -105,7 +105,7 @@ void __fastcall SaveFloatExtraData(NiFloatExtraData* self, void*, NiStream& stre
 extern void __fastcall GetExtraDataViewerStrings(NiExtraData* self, void*, StrArr* strings);
 
 char* __cdecl _FUN_00a7d330(GlobalObjectO2_00a7b610* object);
-char* __cdecl FUN_00a7d550(char const* name, float value);
+char* __cdecl NiGetViewerString_00a7d550(char const* name, float value);
 
 // @fnv 0x00a9a520
 void __fastcall AppendViewerStrings(NiFloatExtraData* self, void* unused, StrArr* strings)
@@ -122,7 +122,7 @@ void __fastcall AppendViewerStrings(NiFloatExtraData* self, void* unused, StrArr
 
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fValue", self->m_fValue);
+    value = NiGetViewerString_00a7d550("m_fValue", self->m_fValue);
 
     index = strings->m_usSize;
 

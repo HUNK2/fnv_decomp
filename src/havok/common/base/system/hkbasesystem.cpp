@@ -54,7 +54,8 @@ extern "C" void __cdecl SetThreadLocalValue(void* value);
 extern "C" void __cdecl hkMonitorStream_init();
 
 // @fnv 0x00cbb930
-int __cdecl FUN_00cbb930(void* value)
+// src: XBOX_PDB 0x00cbb930
+int __cdecl hkBaseSystem_initThread(void* value)
 {
     SetThreadLocalValue(value);
     hkMonitorStream_init();
@@ -64,7 +65,7 @@ int __cdecl FUN_00cbb930(void* value)
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern unsigned long DAT_0126835c;
 void __cdecl hkMonitorStream_quit(void*);
-int __cdecl FUN_00c85760();
+int __cdecl hkMemoryRouter_getInstancePtr();
 void __cdecl SetThreadLocalValue(int);
 
 namespace impl {
@@ -75,7 +76,7 @@ extern "C" int __cdecl hkBaseSystem_quitThread()
     void* p = TlsGetValue(DAT_0126835c);
     if (p)
         hkMonitorStream_quit(p);
-    if (FUN_00c85760())
+    if (hkMemoryRouter_getInstancePtr())
         SetThreadLocalValue(0);
     return 0;
 }
@@ -89,10 +90,10 @@ void __stdcall InvokeCallback(int first, int second)
     ((Callback)DAT_011b3dbc)(first, second);
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return FUN_00c85750();
+    return hkMemoryRouter_getInstance();
 }
 
 struct LocalBuf
@@ -155,7 +156,7 @@ struct FUN_00cbc810_cls;
 
 struct FUN_00aa4060_cls
 {
-    void FUN_00aa4060(FUN_00cbc810_cls* node);
+    void MemoryManager_Deallocate(FUN_00cbc810_cls* node);
 };
 
 extern FUN_00aa4060_cls DAT_011f6238;
@@ -204,7 +205,7 @@ found:
             m_key = head_next->m_key;
             head_next->m_next = 0;
             head_next->FUN_00b4df30();
-            DAT_011f6238.FUN_00aa4060(head_next);
+            DAT_011f6238.MemoryManager_Deallocate(head_next);
             return;
         }
         m_key = 0;
@@ -213,7 +214,7 @@ found:
     prev->m_next = cur->m_next;
     cur->m_next = 0;
     cur->FUN_00b4df30();
-    DAT_011f6238.FUN_00aa4060(cur);
+    DAT_011f6238.MemoryManager_Deallocate(cur);
 }
 
 extern int DAT_01268790;
@@ -382,7 +383,7 @@ void __cdecl GetProcessorCount(int* piProcessorCount)
 }
 
 namespace fnv_00cbb9c0 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -401,9 +402,10 @@ struct SpawnedObject
 
 // Allocates 8 bytes through the holder's allocator, sets m_w04 and m_w06, then placement-constructs a SpawnedObject there.
 // @fnv 0x00cbb9c0
-void __cdecl FUN_00cbb9c0()
+// src: XBOX_PDB 0x00cbb9c0
+void __cdecl hkDummySingletoncreate()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     SpawnedObject* pSpawnedObject = (SpawnedObject*)pAllocator->blockAlloc(8);
     pSpawnedObject->m_w04 = 8;
@@ -413,7 +415,7 @@ void __cdecl FUN_00cbb9c0()
 }  // namespace fnv_00cbb9c0
 
 namespace fnv_00cbbb10 {
-extern "C" void __cdecl FUN_00cbb930(int value);
+extern "C" void __cdecl hkBaseSystem_initThread(int value);
 extern "C" void __cdecl hkBaseSystem_initSingletons();
 extern "C" unsigned char DAT_010c8eb8;
 extern int DAT_01268410;
@@ -440,7 +442,7 @@ struct VirtualIface
     virtual void v3();
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
@@ -451,8 +453,8 @@ int __cdecl hkBaseSystem_init(int a1, unsigned int auParam1, unsigned int auPara
     {
         return 0;
     }
-    FUN_00cbb930(a1);
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkBaseSystem_initThread(a1);
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     SpawnedObject8* obj8 = (SpawnedObject8*)reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockAlloc(8);
     obj8->m_size04 = 8;
     obj8->m_flags06 = 1;
@@ -463,7 +465,7 @@ int __cdecl hkBaseSystem_init(int a1, unsigned int auParam1, unsigned int auPara
     }
     DAT_01268364 = (int)obj8;
 
-    holder = FUN_00c85750();
+    holder = hkMemoryRouter_getInstance();
     SpawnedObject28* obj28 = (SpawnedObject28*)reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockAlloc(0x28);
     obj28->m_size04 = 0x28;
     obj28 = obj28->Init(auParam1, auParam2);
@@ -480,7 +482,7 @@ int __cdecl hkBaseSystem_init(int a1, unsigned int auParam1, unsigned int auPara
 }  // namespace fnv_00cbbb10
 
 namespace fnv_00cbbde0 {
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 struct S_00cbbde0_Bool
 {
@@ -504,7 +506,7 @@ struct S_00cbbde0_StringBuf
     S_00cbbde0_StringBuf() throw();
     ~S_00cbbde0_StringBuf() throw()
     {
-        hkMemoryAllocator& a = FUN_00c85750()->temp();
+        hkMemoryAllocator& a = hkMemoryRouter_getInstance()->temp();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(char));
@@ -519,7 +521,7 @@ struct S_00cbbde0_RefObject
     virtual ~S_00cbbde0_RefObject() throw();
     void* operator new(unsigned int n)
     {
-        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(FUN_00c85750()->heap().blockAlloc(n));
+        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(hkMemoryRouter_getInstance()->heap().blockAlloc(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }

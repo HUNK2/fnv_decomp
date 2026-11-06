@@ -118,7 +118,7 @@ struct D6A140MemoryRouter
     }
 };
 
-extern "C" D6A140MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D6A140MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class D6A140ReferencedObject
 {
@@ -126,7 +126,7 @@ class D6A140ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         D6A140ReferencedObject* b =
-            static_cast<D6A140ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D6A140ReferencedObject*>(hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -179,7 +179,7 @@ struct Manager
     int unk00, unk04, unk08, unk0C;
     Allocator* unk10;
 };
-extern Manager* __cdecl FUN_00c85750();
+extern Manager* __cdecl hkMemoryRouter_getInstance();
 struct Owner
 {
     __declspec(noinline) virtual ~Owner();
@@ -196,7 +196,7 @@ void* Owner::DestroyOwner(unsigned int flags)
     this->Owner::~Owner();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = hkMemoryRouter_getInstance();
         Allocator* allocator = manager->unk10;
         unsigned short size = unk04;
         allocator->Free(this, size);
@@ -420,7 +420,7 @@ struct GlobalHolder
 };
 
 namespace fnvc_adapt {
-GlobalHolder* __cdecl FUN_00c85750();
+GlobalHolder* __cdecl hkMemoryRouter_getInstance();
 }
 extern "C" void _ReadWriteBarrier(void);
 void __cdecl ResizeAudioStream(void* aAlloc, void* aList, unsigned int aiElemSize);
@@ -439,7 +439,7 @@ struct FUN_00d6a000_cls
 void FUN_00d6a000_cls::AppendDword(unsigned int aValue)
 {
     DwordList* list = &m_kNode;
-    GlobalHolder* pAllocHolder = fnvc_adapt::FUN_00c85750();
+    GlobalHolder* pAllocHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
     {
         ResizeAudioStream(pAllocHolder->m_pAllocator, list, 4);
@@ -472,7 +472,7 @@ struct Manager
 };
 
 namespace fnvc_adapt {
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 }
 
 struct Array
@@ -482,7 +482,7 @@ struct Array
     unsigned int capacity;
     ~Array() throw()
     {
-        Manager* mgr = (Manager*)fnvc_adapt::FUN_00c85750();
+        Manager* mgr = (Manager*)fnvc_adapt::hkMemoryRouter_getInstance();
         Allocator* alloc = mgr->unk10;
         count = 0;
         if (!(capacity & 0x80000000))
@@ -715,7 +715,7 @@ struct COMViewerPart
     int unk00;
     Body** items;
     int count;
-    void FUN_00d69d00(void* unused);
+    void hkpRigidBodyCentreOfMassViewer_postSimulationCallback(void* unused);
 };
 
 struct COMViewer : HandlerOwner, COMViewerPart
@@ -724,7 +724,8 @@ struct COMViewer : HandlerOwner, COMViewerPart
 
 // For each body whose motion.FUN_00c86430() is nonzero, draws red, green and blue lines from its position along its three axes through the display handler.
 // @fnv 0x00d69d00
-void COMViewerPart::FUN_00d69d00(void* unused)
+// src: XBOX_PDB 0x00d69d00
+void COMViewerPart::hkpRigidBodyCentreOfMassViewer_postSimulationCallback(void* unused)
 {
     (void)unused;
     struct Timings

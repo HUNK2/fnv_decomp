@@ -323,7 +323,7 @@ inline unsigned int StrArr::AddInline(char* element)
 }
 
 char* NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d490(const char*, unsigned short);
+char* __cdecl NiGetViewerString_00a7d490(const char*, unsigned short);
 
 // @fnv 0x00a4e990
 void TransformDataOperations::AppendTransformKeyCounts(void* pStrArr)
@@ -331,9 +331,9 @@ void TransformDataOperations::AppendTransformKeyCounts(void* pStrArr)
     StrArr* apViewerStrings = (StrArr*)pStrArr;
     NiObject::AddViewerStrings(reinterpret_cast<NiViewerStringsArray*>(apViewerStrings));
     apViewerStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(g_011f3fbc.m_pcName));
-    apViewerStrings->AddInline(FUN_00a7d490("m_usNumRotKeys", m_usNumRotKeys));
-    apViewerStrings->AddInline(FUN_00a7d490("m_usNumPosKeys", m_usNumPosKeys));
-    apViewerStrings->AddInline(FUN_00a7d490("m_usNumScaleKeys", m_usNumScaleKeys));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d490("m_usNumRotKeys", m_usNumRotKeys));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d490("m_usNumPosKeys", m_usNumPosKeys));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d490("m_usNumScaleKeys", m_usNumScaleKeys));
 }
 
 void UpdateSlotStates(unsigned int content, NiAnimationKey::KeyType type, NiAnimationKey*& keys, unsigned int& count,
@@ -420,7 +420,7 @@ bool TransformDataOperations::CompareTransformData(NiObject* pkObject)
     return true;
 }
 
-void __cdecl FUN_00a3d630(int iKind, NiAnimationKey::KeyType keyType, void* pvExtra, unsigned int ItemUpdateArray, float fA, float fB, int* piOutA,
+void __cdecl NiAnimationKey_CopySequence(int iKind, NiAnimationKey::KeyType keyType, void* pvExtra, unsigned int ItemUpdateArray, float fA, float fB, int* piOutA,
                           int* piOutB);
 
 // @fnv 0x00a4e410
@@ -435,17 +435,17 @@ void TransformDataOperations::ExtractKeyRange(float fA, float fB, NiPointer<NiTr
     int iOutB = 0;
     if (m_usNumRotKeys > 0)
     {
-        FUN_00a3d630(2, m_eRotationKeyType, m_pkRotationKeys, m_usNumRotKeys, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(2, m_eRotationKeyType, m_pkRotationKeys, m_usNumRotKeys, fA, fB, &iOutA, &iOutB);
         pkResult->SetRotationKeys(reinterpret_cast<TimedRotationKey*>(iOutA), iOutB, m_eRotationKeyType);
     }
     if (m_usNumPosKeys > 0)
     {
-        FUN_00a3d630(1, m_ePositionKeyType, m_pkPositionKeys, m_usNumPosKeys, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(1, m_ePositionKeyType, m_pkPositionKeys, m_usNumPosKeys, fA, fB, &iOutA, &iOutB);
         pkResult->SetPositionKeys(reinterpret_cast<PositionKeyInterpolator*>(iOutA), iOutB, m_ePositionKeyType);
     }
     if (m_usNumScaleKeys > 0)
     {
-        FUN_00a3d630(0, m_eScaleKeyType, m_pkScaleKeyArray, m_usNumScaleKeys, fA, fB, &iOutA, &iOutB);
+        NiAnimationKey_CopySequence(0, m_eScaleKeyType, m_pkScaleKeyArray, m_usNumScaleKeys, fA, fB, &iOutA, &iOutB);
         pkResult->SetScaleKeys(reinterpret_cast<TimedAnimationKey*>(iOutA), iOutB, m_eScaleKeyType);
     }
     spOut = pkResult;
@@ -530,7 +530,8 @@ void TransformDataOperations::SaveTransformData(NiStream& stream)
 extern void FUN_00a57630();
 
 // @fnv 0x00a4eaf0
-void FUN_00a4eaf0()
+// src: XBOX_PDB 0x00a4eaf0
+void NiFloatsExtraDataPoint3Controller_LinkObject()
 {
     FUN_00a57630();
 }

@@ -178,7 +178,7 @@ struct GameObject
     float accumulated;
     float step;
 
-    void FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4);
+    void ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2, int arg3, int arg4);
 };
 
 extern float DAT_010313d4;
@@ -213,7 +213,8 @@ static HolderForAccum* GetNode(HolderForAccum* p)
 }
 
 // @fnv 0x00ba0900
-void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
+// src: XBOX_PDB 0x00ba0900
+void GameObject::ImageSpaceEffectWaterDisplacement_Render(void* arg1, void* arg2, int arg3, int arg4)
 {
     if (DAT_011fffed)
     {
@@ -236,8 +237,8 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
 
     tex64.ImageSpaceTexture_BorrowRenderedTexture(8);
 
-    tex34.ImageSpaceTexture_SetTexture((BSRenderedTexture*)new RenderedTextureWrapper(tex64.FUN_00ba3770()->BSRenderedTexture_GetTexture(), 0, 1,
-                                         ((RenderTargetGroup*)GetAsset<1>()->FUN_00ba3770()->GetGroup())->GetView()));
+    tex34.ImageSpaceTexture_SetTexture((BSRenderedTexture*)new RenderedTextureWrapper(tex64.ImageSpaceTexture_GetRenderedTexture()->BSRenderedTexture_GetTexture(), 0, 1,
+                                         ((RenderTargetGroup*)GetAsset<1>()->ImageSpaceTexture_GetRenderedTexture()->GetGroup())->GetView()));
 
     ImageSpaceTexture tex44;
 
@@ -290,10 +291,10 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
                     localData0->FUN_00a87ae0(4, 0, 0);
                     NiScreenElementsData* localData1 = (NiScreenElementsData*)widget->m_spModelData.m_pObject;
                     localData1->SetRectangle(0, 0.0f, DAT_01013ea4, 1.0f, DAT_010542a4);
-                    ((NiScreenElementsData*)widget->m_spModelData.m_pObject)->FUN_00a87900();
+                    ((NiScreenElementsData*)widget->m_spModelData.m_pObject)->NiScreenElementsData_UpdateBound();
                     NiScreenElementsData* localData2 = (NiScreenElementsData*)widget->m_spModelData.m_pObject;
                     localData2->FUN_00a88130(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
-                    widget->FUN_00a5a040();
+                    widget->UpdateProperties();
 
                     NiUpdateData kData(0.0f);
                     widget->Update(&kData);
@@ -373,7 +374,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
     {
         void* renderer = DAT_011f9508;
         ImageSpaceManager* pManager = DAT_011f91ac;
-        pManager->ImageSpaceManager_RenderEffect(0x22, renderer, tex54.FUN_00ba3770(), tex34.FUN_00ba3770(), 0, 1);
+        pManager->ImageSpaceManager_RenderEffect(0x22, renderer, tex54.ImageSpaceTexture_GetRenderedTexture(), tex34.ImageSpaceTexture_GetRenderedTexture(), 0, 1);
     }
 
     if (tex64.GetTexture())

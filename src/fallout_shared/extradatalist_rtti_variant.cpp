@@ -119,15 +119,16 @@ struct ResQ
 {
     void FUN_00483710();
 };
-void __cdecl FUN_00806130(int a, int b);
+void __cdecl ActiveEffect_FinishInitLoadGameActiveEffectList(int a, int b);
 struct OwnQ
 {
-    ResQ* FUN_00418460();
+    ResQ* ExtraDataList_GetTeleport();
     BSExtraData* BaseExtraList_GetExtraData(int iType);
-    void FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3);
+    void ExtraDataList_FinishInitLoadGame(unsigned int uiFlags, int a2, P3Q* p3);
 };
 // @fnv 0x00426720
-void OwnQ::FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3)
+// src: XBOX_PDB 0x00426720
+void OwnQ::ExtraDataList_FinishInitLoadGame(unsigned int uiFlags, int a2, P3Q* p3)
 {
     bool bSkip = false;
     if (p3 && p3->IsX())
@@ -136,14 +137,14 @@ void OwnQ::FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3)
     {
         if (uiFlags & 0x20000)
         {
-            ResQ* pRes = FUN_00418460();
+            ResQ* pRes = ExtraDataList_GetTeleport();
             pRes->FUN_00483710();
         }
         if (uiFlags & 0)
         {
             NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(BaseExtraList_GetExtraData(0x33));
             if (pTarget)
-                FUN_00806130((int)pTarget->GetActiveEffectList(), 0);
+                ActiveEffect_FinishInitLoadGameActiveEffectList((int)pTarget->GetActiveEffectList(), 0);
         }
     }
 }

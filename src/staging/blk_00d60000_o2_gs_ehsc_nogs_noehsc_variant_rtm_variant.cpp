@@ -21,7 +21,7 @@ typedef ::__m128 LocalM128;
 #include "../../include/hkMemoryRouter.h"
 #include "../../include/hkOstream.h"
 #include "../../include/hkError.h"
-void __cdecl FUN_00d687c0(void);
+void __cdecl hkpInactiveContactPointViewer_create(void);
 struct Registry_00dd9380
 {
     void* Register(char const*, void(__cdecl*)(void));
@@ -55,14 +55,14 @@ struct FUN_00d68770_cls
 };
 void* __stdcall hkpInactiveContactPointViewer_getIslands(char* a1);
 struct FnvCpu_FUN_00d687c0_CpuBlock;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d687c0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d687c0_CpuBlock* Construct(unsigned int value);
 };
-void* __cdecl FUN_00d687c0(unsigned int value);
+void* __cdecl hkpInactiveContactPointViewer_create(unsigned int value);
 extern "C" int DAT_010d203c;
 extern "C" int DAT_010d201c;
 extern "C" int DAT_010d200c;
@@ -218,12 +218,12 @@ struct FUN_00d61470_Class
 {
     void* FUN_00d61470();
 };
-char* __cdecl FUN_00cb1130(char* pcHaystack, const char* pcNeedle);
+char* __cdecl hkString_strStr(char* pcHaystack, const char* pcNeedle);
 inline char toLowerD614(char c)
 {
     return (c >= 'A' && c <= 'Z') ? c - 'A' + 'a' : c;
 }
-int __cdecl FUN_00cb1130(int a1, int a2);
+int __cdecl hkString_strStr(int a1, int a2);
 struct FUN_00d61520_cls
 {
     int unk00;
@@ -301,7 +301,7 @@ struct hkMathD618
     }
 };
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+void __cdecl hkString_memCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 class FUN_00d61b10
 {
   public:
@@ -310,7 +310,7 @@ class FUN_00d61b10
     FUN_00d61b10(const char* pcString, int iLength) throw();
 };
 int __cdecl hkString_strLen(int);
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d62630_Obj
 {
     void FUN_00d62630(int a1, int a2, int a3, int a4);
@@ -322,17 +322,17 @@ struct FUN_00d61df0_cls
     FUN_00d61df0_cls* FUN_00d61df0(int arg);
 };
 int __cdecl hkString_strLen(const char* pcString) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+void __cdecl hkString_memCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 namespace hkRouterD620 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void __cdecl FUN_00d2caa0(void* pvDst, void* pvSrc, unsigned int uiNumBytes);
+void __cdecl hkMemUtil_memCpy_00d2caa0(void* pvDst, void* pvSrc, unsigned int uiNumBytes);
 int __cdecl hkString_strLen(int value);
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(int value1, int value2, int value3, int value4);
-void __cdecl FUN_00d2caa0(void* value1, unsigned int value2, unsigned int value3);
+void __cdecl hkMemUtil_memCpy_00d2caa0(void* value1, unsigned int value2, unsigned int value3);
 struct D62080_Audio
 {
     int unk00;
@@ -571,7 +571,7 @@ class FUN_00d63370_class
 };
 extern int DAT_01268fc8;
 int __cdecl FUN_00d63420();
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 class FUN_00d63340
 {
   public:
@@ -581,7 +581,7 @@ class FUN_00d63340
 
     static void operator delete(void* p) throw()
     {
-        ((hkMemoryRouter*)FUN_00c85750())
+        ((hkMemoryRouter*)hkMemoryRouter_getInstance())
             ->heap()
             .blockFree(p, static_cast<FUN_00d63340*>(p)->m_usMemSizeAndFlags);
     }
@@ -641,14 +641,14 @@ class FUN_00d64260 : public FUN_00ddccb0, public hkIfaceAD642, public hkIfaceBD6
     virtual void b0();
 };
 struct FnvCpu_FUN_00d645f0_CpuBlock;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d645f0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d645f0_CpuBlock* FUN_00d64260(unsigned int value);
 };
-void* __cdecl FUN_00d645f0(unsigned int value);
+void* __cdecl hkpSweptTransformDisplayViewer_create(unsigned int value);
 struct FUN_00d65250_cls
 {
     int unk00;
@@ -806,7 +806,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     void FUN_00d65290(unsigned char arg0);
 };
 void __cdecl nullsub_103();
-extern "C" void __cdecl FUN_00d72e90();
+extern "C" void __cdecl hkMathUtil_decompose4x4ColTransform();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0
 {
@@ -876,7 +876,7 @@ struct S
     R IsLessThan(int other) const;
 };
 namespace hkRouterD619 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl ResizeAudioStream(hkMemoryAllocator& kAlloc, void* pArray, int iElemSize);
 template <class T> __forceinline void constructWithCopyD619(T* p, int n, const T& t)
@@ -910,7 +910,7 @@ namespace fnvc_adapt {
 char* __cdecl hkString_strLen(int value);
 }
 void __cdecl hkArrayUtil__reserve(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
-void __cdecl FUN_00cb1260(int* data, int value, char* source);
+void __cdecl hkString_memCpy(int* data, int value, char* source);
 template <class T> __forceinline void hkArrayCopyD61B8(T* pDst, const T* pSrc, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -933,11 +933,11 @@ struct FUN_00d61cc0_t
 };
 void __cdecl ArrayReserveImpl(void*, void*, int, int);
 namespace hkRouterD61F {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 namespace hkRouterD62 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 // The snapshot factory at 0x00d62f20 returns this four-byte interface at +8, after hkReferencedObject; it is not hkpCollisionAgent.
 class SnapshotViewerInterface
@@ -1052,13 +1052,13 @@ struct FUN_00d74dc0_cls
     void* FUN_00d74dc0();
 };
 #include <stdarg.h>
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* getRouterD624()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-int __cdecl FUN_00cb0f50(char* pcBuf, int iBufSize, const char* pcFormat, va_list kArgs) throw();
+int __cdecl hkString_vsnprintf(char* pcBuf, int iBufSize, const char* pcFormat, va_list kArgs) throw();
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
 // declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (8).
 struct PrimaryBase

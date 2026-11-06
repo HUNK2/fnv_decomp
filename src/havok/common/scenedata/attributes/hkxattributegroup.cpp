@@ -95,7 +95,7 @@ void hkArrayBase<hkxAttribute>::_spliceInto(hkMemoryAllocator& kAlloc, int iInde
 struct NameReference
 {
     unsigned int encoded;
-    int FUN_00cb0a80();
+    int hkStringPtr_getLength();
 };
 struct TextWriter
 {
@@ -118,7 +118,7 @@ AttributeFormatter* AttributeFormatter::WriteName(NameReference* name)
     {
         const char* text = (const char*)(name->encoded & ~1u);
         void** methods = output->virtualMethods;
-        int length = name->FUN_00cb0a80();
+        int length = name->hkStringPtr_getLength();
         ((WriteMethod)methods[4])(output, text, length);
     }
     else
@@ -229,7 +229,7 @@ struct S00e5cce0_Class
 };
 
 void __cdecl hkArrayUtil__reserve(int alloc, ElemArray* a, int bytes, int elemSize);
-Allocator* __cdecl FUN_00c85750(void);
+Allocator* __cdecl hkMemoryRouter_getInstance(void);
 
 static __forceinline void destructElems(hkxAttribute* data, int n)
 {
@@ -262,7 +262,7 @@ S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class&
 {
     FUN_00cb0c30(aOther);
     ElemArray& s = arr;
-    Allocator* pAllocator = FUN_00c85750();
+    Allocator* pAllocator = hkMemoryRouter_getInstance();
     int alloc = pAllocator->unk10;
     int n = 0;
     int iCapacity = s.capacityAndFlags & 0x3fffffff;
@@ -280,7 +280,7 @@ S00e5cce0_Class& __thiscall S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class&
     if (iCount != 0)
     {
         hkxAttribute* src = aOther.arr.data;
-        int a = FUN_00c85750()->unk10;
+        int a = hkMemoryRouter_getInstance()->unk10;
         s.FUN_00e5cec0(a, 0, src, iCount);
     }
     return *this;

@@ -45,7 +45,8 @@ void __thiscall DebugText::AddScaledValue(int aiIndex, int aiMultiplier)
 }
 
 // @fnv 0x00a0e470
-int __cdecl FUN_00a0e470(DebugText* apDebugText, int aiX, const char* apFormatString, ...)
+// src: XBOX_PDB 0x00a0e470
+int __cdecl DebugText_PrintX(DebugText* apDebugText, int aiX, const char* apFormatString, ...)
 {
     int iret;
     {
@@ -68,7 +69,8 @@ int __cdecl InvokeVirtualWithArgs(DebugText* apObject, int aiArg1, int aiArg2, i
 }
 
 // @fnv 0x00a0e580
-int __cdecl FUN_00a0e580(DebugText* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...)
+// src: XBOX_PDB 0x00a0e580
+int __cdecl DebugText_PrintLine(DebugText* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...)
 {
     char* args;
     int iret;
@@ -79,7 +81,8 @@ int __cdecl FUN_00a0e580(DebugText* pThis, int aeLocation, int aeJustify, const 
 
 // Forwards a format string and its varargs to the object's virtual f4 with x, 0, 1 and a color, returning its result.
 // @fnv 0x00a0e690
-int FUN_00a0e690(DebugText* aObj, int aiX, const NiColorA& arColor, const char* apFormatString, ...)
+// src: XBOX_PDB 0x00a0e690
+int DebugText_PrintXC(DebugText* aObj, int aiX, const NiColorA& arColor, const char* apFormatString, ...)
 {
     char* args;
     int iret;
@@ -105,7 +108,8 @@ namespace fnv_00a0e710 {
 typedef char* va_list;
 // Forwards a format string and its va_list to the virtual vf18 debug-text method and returns its result.
 // @fnv 0x00a0e710
-int FUN_00a0e710(DebugText* pThis, const NiColorA* apTextColor, DEBUGTEXT_LOCATION aeLocation, DEBUGTEXT_JUSTIFY aeJustify, const char* apFormatString, ...)
+// src: XBOX_PDB 0x00a0e710
+int DebugText_PrintLineC(DebugText* pThis, const NiColorA* apTextColor, DEBUGTEXT_LOCATION aeLocation, DEBUGTEXT_JUSTIFY aeJustify, const char* apFormatString, ...)
 {
     va_list args;
     int iret;
@@ -115,7 +119,7 @@ int FUN_00a0e710(DebugText* pThis, const NiColorA* apTextColor, DEBUGTEXT_LOCATI
 }
 }  // namespace fnv_00a0e710
 
-extern "C" unsigned char __cdecl FUN_00702fc0();
+extern "C" unsigned char __cdecl Interface_IsDebugTextVisible();
 extern int DAT_011f33dc;
 extern void (__stdcall *DAT_00fdf05c)(int*);
 
@@ -123,7 +127,7 @@ extern void (__stdcall *DAT_00fdf05c)(int*);
 // src: COMMUNITY 0x00a11820
 void __cdecl DebugText_Lock()
 {
-    if (FUN_00702fc0())
+    if (Interface_IsDebugTextVisible())
         DAT_00fdf05c(&DAT_011f33dc);
 }
 
@@ -177,7 +181,7 @@ struct PendingObj {
 };
 
 struct PendingOwner {
-    void FUN_00aa4060(PendingObj* p);
+    void MemoryManager_Deallocate(PendingObj* p);
 };
 
 extern PendingOwner g_011f6238;
@@ -192,7 +196,7 @@ void __cdecl ClearPendingObject() {
         void* r;
         if (a != 0) {
             if ((a->FUN_00a0dcc0(), 1) & 1) {
-                g_011f6238.FUN_00aa4060(a);
+                g_011f6238.MemoryManager_Deallocate(a);
             }
             r = a;
         } else {
@@ -206,7 +210,7 @@ extern Setting DAT_011f33c8,DAT_011debac,DAT_011deec0;
 extern int DAT_01202800;
 struct Record { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34; float* unk38; };
 extern Record** DAT_011f33f8;
-bool FUN_00703150();
+bool Interface_GetFullHelp();
 // Computes height from a record's unk38, fills positions[3] from a margin setting, and sets left/right/center from the right margin setting.
 // @fnv 0x00a0e2a0
 void DebugText::UpdateLayoutPositions() {
@@ -217,7 +221,7 @@ void DebugText::UpdateLayoutPositions() {
  int l;
  for (l=0;l<3;l++) {
   int* margin = &DAT_011debac ? reinterpret_cast<int*>(&DAT_011debac.uValue) : (DAT_01202800=0,&DAT_01202800);
-  ((int*)((char*)this + 0x2284))[l] = *margin + (FUN_00703150() ? 4 : 1)*(*(int*)((char*)this + 0x2280));
+  ((int*)((char*)this + 0x2284))[l] = *margin + (Interface_GetFullHelp() ? 4 : 1)*(*(int*)((char*)this + 0x2280));
  }
     {
  int* rightMargin = &DAT_011deec0 ? reinterpret_cast<int*>(&DAT_011deec0.uValue) : (DAT_01202800=0,&DAT_01202800);
@@ -261,7 +265,7 @@ struct ListNode_b5742 {
 };
 
 struct FUN_00aa4060_shell {
-    void __thiscall FUN_00aa4060(void* p);
+    void __thiscall MemoryManager_Deallocate(void* p);
 };
 extern FUN_00aa4060_shell DAT_011f6238;
 
@@ -305,7 +309,7 @@ unsigned int FUN_00a11e10_cls::RemoveNode(ListNode_b5742** pNode) {
     node3->m_08 = 0;
     {
     ListNode_b5742* pDead = node3;
-    DAT_011f6238.FUN_00aa4060(pDead);
+    DAT_011f6238.MemoryManager_Deallocate(pDead);
     }
     m_08 = m_08 - 1;
     return uiData;}
@@ -458,7 +462,7 @@ bool DebugText::GetDebugText_0(char* destination, float x, float y, int flags)
 // @fnv 0x00a11840
 void __cdecl ReleaseLock()
 {
-    if (FUN_00702fc0() != 0) {
+    if (Interface_IsDebugTextVisible() != 0) {
         LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_011f33dc);
     }
 }

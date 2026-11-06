@@ -240,7 +240,7 @@ class GlobalObject_00a7b610
 {
 };
 extern GlobalObject_00a7b610 g_011dfeac;
-const NiFixedString& FUN_00448a80();
+const NiFixedString& BSXFlags_Tag();
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting35;
 // 0x3c bytes (TESObjectDOOR::Create3DModel pushes 0x3c before the constructor 0x008d15d0).
 class TESObjectDoorController : public NiTimeController

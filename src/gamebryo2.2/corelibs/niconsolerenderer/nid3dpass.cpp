@@ -245,7 +245,7 @@ void __cdecl FreePointerArray(NiPointer<BeamStage>* pkElement)
     }
 }
 
-void* __cdecl FUN_00c1d790(unsigned int);
+void* __cdecl NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(unsigned int);
 extern int DAT_010ef35c;
 extern int DAT_010ef378;
 
@@ -260,7 +260,7 @@ void* __fastcall NiTObjectArray_NiPointer_NiD3DTextureStage_Init(void* pThis, in
     *(unsigned short*)((char*)pThis + 0xa) = 0;
     *(unsigned short*)((char*)pThis + 0xc) = 0;
     if (usMaxSize > 0)
-        *(void**)((char*)pThis + 4) = FUN_00c1d790(usMaxSize);
+        *(void**)((char*)pThis + 4) = NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(usMaxSize);
     else
         *(void**)((char*)pThis + 4) = 0;
     *(int**)pThis = &DAT_010ef378;
@@ -397,17 +397,18 @@ void __fastcall FUN_00e7f070(void* apList)
 }
 }  // namespace fnv_00e7f070
 
-void __fastcall FUN_00e7ef40(void*);
+void __fastcall NiD3DRenderStateGroup_RestoreRenderStates(void*);
 struct PassLike
 {
     char pad[0x30];
     void* m_p;
 };
 // @fnv 0x00e7f7d0
-unsigned int __fastcall FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPass)
+// src: XBOX_PDB 0x00e7f7d0
+unsigned int __fastcall NiD3DPass_PostProcessRenderingPass(PassLike* self, int edx, unsigned int uiPass)
 {
     if (self->m_p)
-        FUN_00e7ef40(self->m_p);
+        NiD3DRenderStateGroup_RestoreRenderStates(self->m_p);
     return 0;
 }
 
@@ -878,7 +879,7 @@ struct TexPtr_e7fd20
     }
 };
 
-void* __cdecl FUN_00c1d790(unsigned int ItemUpdateArray);
+void* __cdecl NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(unsigned int ItemUpdateArray);
 void __cdecl FreePointerArray(TexPtr_e7fd20* pBase);
 
 struct TexArray_e7fd20
@@ -918,7 +919,7 @@ void TexArray_e7fd20::NiD3DPass_SetAtGrow(unsigned int uiMaxSize)
     m_usMaxSize = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        m_pBase = (TexPtr_e7fd20*)FUN_00c1d790(m_usMaxSize);
+        m_pBase = (TexPtr_e7fd20*)NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(m_usMaxSize);
         for (i = 0; i < m_usSize; i++)
             m_pBase[i] = pOldEntries[i];
         for (i = m_usSize; i < m_usMaxSize; i++)
@@ -3279,12 +3280,13 @@ struct TextureStageParameter
 };
 struct PassUpdate : NiD3DPass
 {
-    unsigned int FUN_00e7f990(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned int p5,
+    unsigned int NiD3DPass_SetupShaderPrograms(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned int p5,
                               unsigned int p6, unsigned int p7, unsigned int p8, unsigned int p9);
 };
 // Sets pixel and vertex shader programs and constants, configures texture stage states, and falls back to render entry or value when no vertex shader is present.
 // @fnv 0x00e7f990
-unsigned int PassUpdate::FUN_00e7f990(unsigned int apContext, unsigned int p2, unsigned int ap3, unsigned int ap4,
+// src: XBOX_PDB 0x00e7f990
+unsigned int PassUpdate::NiD3DPass_SetupShaderPrograms(unsigned int apContext, unsigned int p2, unsigned int ap3, unsigned int ap4,
                                       unsigned int p5, unsigned int p6, unsigned int p7, unsigned int p8,
                                       unsigned int p9)
 {

@@ -147,7 +147,7 @@ void FUN_00df66a0_Node::GetWorldTransform(hkTransform* dest)
         hkTransform local;
         v8()->GetWorldTransform(&parent);
         v3(&local);
-        dest->FUN_00cb2240(parent, local);
+        dest->hkTransform_setMul(parent, local);
     }
     else
     {
@@ -202,7 +202,7 @@ void hkpDF65Node::hkSimpleLocalFrame_getNearbyFrames(const hkVector4& kPos, floa
     if (m_children.GetLogicalSize() > 0)
     {
         hkVector4 kLocalPos;
-        kLocalPos.FUN_00c7f690(m_kMotionTransform, kPos);
+        kLocalPos.hkVector4_setTransformedInversePos(m_kMotionTransform, kPos);
         for (int i = 0; i < m_children.GetLogicalSize(); i++)
         {
             m_children[i]->query(kLocalPos, afRadius, pkCollector);
@@ -249,7 +249,7 @@ void df6710_self::hkLocalFrame_getPositionInRoot(hkVector4* apMatrix)
     for (df6710_frame* p = unk08(); p; p = p->unk08())
     {
         p->unk03(&buf);
-        apMatrix->FUN_00c7f640(buf, *apMatrix);
+        apMatrix->setTransformedPos_00c7f640(buf, *apMatrix);
     }
 }
 
@@ -291,13 +291,13 @@ hkTransform FUN_00df67a0_cls::GetMotionTransform() const
     return m_kMotionTransform;
 }
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 
 template <typename T, typename Allocator>
 __forceinline hkArray<T, Allocator>::~hkArray() throw()
 {
-    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance()->heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

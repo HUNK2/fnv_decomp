@@ -176,14 +176,14 @@ struct M76Glob
 };
 extern M76Glob* g_011f407c;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(M76Glob*);
-char* __cdecl FUN_00a7d410(const char*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d410(const char*, unsigned int);
 // Calls FUN_00a38080, then appends the result of FUN_00a7d330 and the formatted "m_bBoolValue" string to pkStrings.
 // @fnv 0x00a56960
 void __fastcall AddBoolValueStrings(NiBlendBoolInterpolator* self, int, M76Arr* pkStrings)
 {
     self->NiBlendInterpolator::AppendInterpolatorStrings(reinterpret_cast<StrArr*>(pkStrings));
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_011f407c));
-    pkStrings->Add(FUN_00a7d410("m_bBoolValue", self->m_bBoolValue));
+    pkStrings->Add(NiGetViewerString_00a7d410("m_bBoolValue", self->m_bBoolValue));
 }
 }  // namespace fnv_00a56960
 

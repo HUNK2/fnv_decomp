@@ -75,7 +75,7 @@ FUN_00e4dde0::FUN_00e4dde0()
     unk8C = 0;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00e4e3c0
 {
@@ -123,7 +123,7 @@ struct FUN_00e4e3c0
 
     static void operator delete(void* apMemory)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         // Free occupies vtable slot 2 in this allocator interface.
         typedef void (__thiscall* FreeFunction)(hkMemoryAllocator*, void*, unsigned int);

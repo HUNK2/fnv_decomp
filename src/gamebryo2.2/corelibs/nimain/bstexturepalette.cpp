@@ -282,7 +282,8 @@ __declspec(noinline) bool __cdecl BSTexturePalette_GetFirstPos(TexMapIter& it)
 
 // Iterates texture cache entries, removes entries whose object ref count is 2 up to a limit, then decrements the last object's ref count.
 // @fnv 0x00a61cd0
-void __cdecl FUN_00a61cd0()
+// src: XBOX_PDB 0x00a61cd0
+void __cdecl BSTexturePalette_PurgeUnusedTextures()
 {
     if (DAT_011f4468)
     {

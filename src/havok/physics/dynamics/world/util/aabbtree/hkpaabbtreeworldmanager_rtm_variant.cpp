@@ -165,8 +165,8 @@ public:
 
     FUN_00d9a040() throw();
 };
-hkBool __cdecl FUN_00d98ca0(void* pkBroadPhase, const hkVector4& kFrom, const hkVector4& kTo, hkpWorldRayCaster* pkCaster) throw();
-void __cdecl FUN_00d1bd00(void* pkTree, const hkVector4& kFrom, const hkVector4& kTo, hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
+hkBool __cdecl hkKdTreeUtils_castRayIterative(void* pkBroadPhase, const hkVector4& kFrom, const hkVector4& kTo, hkpWorldRayCaster* pkCaster) throw();
+void __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRay(void* pkTree, const hkVector4& kFrom, const hkVector4& kTo, hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
 class hkpRayCastQueryD084 {
 public:
     int m_00;
@@ -246,7 +246,7 @@ struct hkLoaderE02 {
 };
 hkMemoryRouter* __cdecl _FNV_e03300_arena();
 struct Sink {
-    void FUN_00cb1870(void*, int, int);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void*, int, int);
 };
 struct FUN_00d08940_shell {
     unsigned int unk00;
@@ -428,7 +428,7 @@ public:
     int m_iPairCount;
 
     hkResult LookupBucketValue(unsigned int key, unsigned int* out) const;
-    int FUN_00cb1870(hkMemoryAllocatorD089& alloc, unsigned int key, unsigned int val);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocatorD089& alloc, unsigned int key, unsigned int val);
 };
 class OwnerD089 {
 public:
@@ -707,12 +707,12 @@ struct __declspec(align(16)) S00d094a0_Desc {
     int m_uiItemCount; char m_04; char m_isMt; short m_06; int m_08; int m_0c;
     S00d094a0_Vec m_kMinimumCorner;
     S00d094a0_Vec m_kMaximumCorner;
-    void FUN_00d976d0();
+    void hkKdTreeCinfo_hkKdTreeCinfo();
 };
 struct S00d094a0_Tree {
     void* m_00; int m_04; int m_08; int m_0c; int m_10; int m_14; int m_18; void* m_1c;
     int total() const { return m_14 + m_18; }
-    void FUN_00d978d0(S00d094a0_Desc*);
+    void hkKdTree_reset(S00d094a0_Desc*);
     S00d094a0_Tree* Init(S00d094a0_Desc*);
 };
 struct S00d094a0_Shape {
@@ -737,7 +737,7 @@ struct S00d094a0_Sync {
     virtual void f00(); virtual void f04(); virtual void f08();
     virtual void signal(S00d094a0_Queue*, int); virtual void wait();
 };
-struct S00d094a0_Helper { int FUN_00d04380(); };
+struct S00d094a0_Helper { int hkSemaphore_acquire(); };
 struct S00d094a0_JobHead {
     __declspec(align(16)) char m_00;
     char m_01; char m_02;
@@ -777,7 +777,7 @@ struct __declspec(align(16)) S00d094a0_Build {
 struct S00d094a0_Fallback {
     int m_00; int m_04; int m_08;
     void InitWalker(S00d094a0_Input*, S00d094a0_Ctx*);
-    int FUN_00d9e000();
+    int hkpCollidableMediator_getNumPrimitives();
 };
 void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(S00d094a0_Tree*, int, void*, void*);
 void __cdecl FillAabbArray(S00d094a0_Fallback*, int, int, void*);
@@ -913,7 +913,7 @@ struct D9bed0Cls {
     void __thiscall FUN_00d9bed0();
 };
 struct D09020Cls {
-    void __thiscall FUN_00d09020(int* p, void* a, void* b);
+    void __thiscall hkpAabbTreeWorldManager_buildInactiveTree(int* p, void* a, void* b);
 };
 struct ActiveTreeBuilder {
     void __thiscall hkpAabbTreeWorldManager_buildActiveTree(void* entries, void* queue, void* pool);
@@ -1048,7 +1048,7 @@ inline void hkVector4::interpolate(const hkVector4& a,const hkVector4& b,const S
  __m128 opposite=_mm_sub_ps(DAT_010ec7f0,weight);
  value=_mm_add_ps(_mm_mul_ps(opposite,a.value),_mm_mul_ps(b.value,weight));
 }
-__declspec(noalias) void __cdecl FUN_00df2750(void* output, int arg1, Triple* mid, CollectorState* self, float f);
+__declspec(noalias) void __cdecl hkKdTreeAabbCastUtils_castAabb(void* output, int arg1, Triple* mid, CollectorState* self, float f);
 // @fnv 0x00d984b0
 void CollectorState::FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4, MatrixData* arg5, FloatPtr arg6, void* volatile arg7, void* volatile arg8)
 {
@@ -1085,5 +1085,5 @@ void CollectorState::FUN_00d984b0(int arg1, Obj* arg2, Vertex* arg3, void* arg4,
     temp.half.scale(Scalar(DAT_01016248));
     f80=arg3->unk10;
     unsigned char result;
-    FUN_00df2750(&result,arg1,&temp,this,*arg6.p);
+    hkKdTreeAabbCastUtils_castAabb(&result,arg1,&temp,this,*arg6.p);
 }

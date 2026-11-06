@@ -237,7 +237,8 @@ void EffectSettingCollection_InitItems()
 
 // Retrieves extra data of type 0x8c from the list and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x0041c460
-int __fastcall FUN_0041c460(BaseExtraList* apExtraList)
+// src: XBOX_PDB 0x0041c460
+int __fastcall ExtraDataList_GetImpactSwap(BaseExtraList* apExtraList)
 {
     BSExtraData* pExtra = apExtraList->GetExtraData(0x8c);
     if (!pExtra)
@@ -299,15 +300,15 @@ TESFile::TESFile(const char* ppath, const char* pfilename, NiFile::OpenMode acce
         _FNV_Warning("MASTERFILE: Could not close file '%s'.", pfilename);
 }
 
-BSSimpleList<char*>* __fastcall FUN_00464df0(TESFile* pThis);
+BSSimpleList<char*>* __fastcall GetMasterList_00464df0(TESFile* pThis);
 
 // @fnv 0x00470bc0
 void TESFile::ClearMasterLists()
 {
-    while (::FUN_00464df0(this)->GetItem())
+    while (::GetMasterList_00464df0(this)->GetItem())
     {
-        delete ::FUN_00464df0(this)->GetItem();
-        ::FUN_00464df0(this)->RemoveHead();
+        delete ::GetMasterList_00464df0(this)->GetItem();
+        ::GetMasterList_00464df0(this)->RemoveHead();
     }
     while (GetMasterDataList()->GetItem())
     {
@@ -320,18 +321,18 @@ void TESFile::ClearMasterLists()
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 int __cdecl strcat_s(char*, unsigned int, const char*);
 char* __cdecl strchr(char*, int);
-bool __fastcall FUN_004226e0(TESDataHandler*);
+bool __fastcall TESDataHandler_GetClearingData(TESDataHandler*);
 void __fastcall ProcessGroups(TESFile*);
 void __fastcall FUN_00473960(TESFile*);
-int __cdecl FUN_00aff0b0(const char*);
+int __cdecl BSSystemFile_DeleteFileA(const char*);
 int __cdecl FUN_00ec862c(const char*, const char*);
-void __cdecl FUN_00461300();
+void __cdecl MessageHandler_ForceNextWarningToDisplay();
 void __cdecl _FNV_Warning(const char*, ...);
 
 // @fnv 0x00471130
 bool TESFile::CloseTESFile()
 {
-    if (!m_bHasCurrentGroup && g_dataHandler && !FUN_004226e0(g_dataHandler))
+    if (!m_bHasCurrentGroup && g_dataHandler && !TESDataHandler_GetClearingData(g_dataHandler))
         return true;
 
     ProcessGroups(this);
@@ -370,9 +371,9 @@ bool TESFile::CloseTESFile()
         delete m_pSecondaryFile;
         m_pSecondaryFile = 0;
 
-        if (FUN_00aff0b0(szFilename))
+        if (BSSystemFile_DeleteFileA(szFilename))
         {
-            FUN_00461300();
+            MessageHandler_ForceNextWarningToDisplay();
             *(int*)this = 9;
             _FNV_Warning(
                 "MASTERFILE: Unable to complete operation due to failure removing previous file.\r\nPlugin '%s' may be locked or read only.\r\n\r\nTemp file '%s' contains saved data.",
@@ -381,7 +382,7 @@ bool TESFile::CloseTESFile()
         }
         if (FUN_00ec862c(szTempname, szFilename))
         {
-            FUN_00461300();
+            MessageHandler_ForceNextWarningToDisplay();
             *(int*)this = 9;
             _FNV_Warning(
                 "MASTERFILE: Unable to complete operation due to failure renaming temp file.\r\nTemp file '%s' contains saved data.",
@@ -452,7 +453,8 @@ void TESFile::ResetFileState(bool getform)
 
 // Returns the value at offset 0x38 unless it is -1, in which case it returns the value at offset 0x150.
 // @fnv 0x004720a0
-int __fastcall FUN_004720a0(char* _this)
+// src: XBOX_PDB 0x004720a0
+int __fastcall BSFile_Tell(char* _this)
 {
     return *(int*)(_this + 0x38) != -1 ? *(int*)(_this + 0x38) : *(int*)(_this + 0x150);
 }
@@ -460,7 +462,8 @@ int __fastcall FUN_004720a0(char* _this)
 void __fastcall FUN_00473960(TESFile*);
 
 // @fnv 0x00472150
-bool TESFile::FUN_00472150(bool abSkipIgnored)
+// src: XBOX_PDB 0x00472150
+bool TESFile::NextForm_00472150(bool abSkipIgnored)
 {
     FUN_00473960(this);
     bool bresult = HasNextForm();
@@ -476,7 +479,8 @@ bool TESFile::FUN_00472150(bool abSkipIgnored)
 }
 
 // @fnv 0x00472380
-int __fastcall FUN_00472380(int param_1)
+// src: XBOX_PDB 0x00472380
+int __fastcall MissileProjectile_GetImpactResult(int param_1)
 {
     return *(int*)(param_1 + 0x150);
 }
@@ -566,11 +570,12 @@ extern FormEnumEntry DAT_01187008[];
 
 // Seeks the file to apForm's form type and ID, skipping groups and other records, and returns true when the matching record is found.
 // @fnv 0x004734d0
-bool TESFile::FUN_004734d0(TESForm* apForm)
+// src: XBOX_PDB 0x004734d0
+bool TESFile::FindForm(TESForm* apForm)
 {
     bool bretval = false;
     if (apForm && GetHasGroups() && *(BSThread**)((char*)this + 0x10) &&
-        (*(BSThread**)((char*)this + 0x10))->FUN_008905f0())
+        (*(BSThread**)((char*)this + 0x10))->TESAnimGroup_GetDecal())
     {
         if (apForm->Unk_1F(this))
         {
@@ -579,7 +584,7 @@ bool TESFile::FUN_004734d0(TESForm* apForm)
         this->ResetFileState(true);
         while (m_kRecordInfo.form == DAT_01187014)
         {
-            this->FUN_00472150(true);
+            this->NextForm_00472150(true);
         }
         unsigned int uiFormType = DAT_01187008[apForm->GetTypeID()].formID;
         unsigned int ifileformid = ((TESSound*)apForm)->Deallocate();
@@ -590,7 +595,7 @@ bool TESFile::FUN_004734d0(TESForm* apForm)
             {
                 if (((bool (__thiscall*)(TESForm*, void*, bool, bool))(*(void***)apForm)[0x44])(apForm, (char*)this + 0x240, true, false))
                 {
-                    this->FUN_00472150(true);
+                    this->NextForm_00472150(true);
                 }
                 else
                 {
@@ -605,7 +610,7 @@ bool TESFile::FUN_004734d0(TESForm* apForm)
             }
             else
             {
-                this->FUN_00472150(true);
+                this->NextForm_00472150(true);
             }
         }
     }
@@ -698,7 +703,8 @@ void BGSSaveFormBuffer::SetForm(TESForm* apForm)
 }
 
 // @fnv 0x008905f0
-bool __fastcall FUN_008905f0(bool* pFlags)
+// src: XBOX_PDB 0x008905f0
+bool __fastcall TESAnimGroup_GetDecal(bool* pFlags)
 {
     return pFlags[0x2c];
 }
@@ -773,7 +779,8 @@ unsigned int __cdecl GetOwnerFileByID(unsigned int aiID)
 extern int DAT_01202c50;
 
 // @fnv 0x00c3bb80
-int* FUN_00c3bb80()
+// src: XBOX_PDB 0x00c3bb80
+int* MessageHandler_GetWarningFileName()
 {
     return &DAT_01202c50;
 }
@@ -916,7 +923,7 @@ struct FUN_00472d30_CHUNK
 {
     unsigned int id;
     unsigned short size;
-    void FUN_004141e0();
+    void CHUNK_Endian();
 };
 
 }  // namespace fnv_00472d30
@@ -950,7 +957,7 @@ bool TESFile::ReadChunkHeader()
         }
     }
     if (IsEndianConversionRequired())
-        tempchunk.FUN_004141e0();
+        tempchunk.CHUNK_Endian();
     *(unsigned int*)((char*)this + 0x258) = tempchunk.id;
     m_uiChunkSize = tempchunk.size;
     if (tempchunk.id == 0x58585858)
@@ -982,10 +989,11 @@ extern FormTypeInfo DAT_01187000[];
 
 struct FUN_00482f40_t : Menu
 {
-    void FUN_00482f40(TESForm* apForm, unsigned int auiChunk);
+    void TESDescription_LoadDescription(TESForm* apForm, unsigned int auiChunk);
 };
 // @fnv 0x00482f40
-void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
+// src: XBOX_PDB 0x00482f40
+void FUN_00482f40_t::TESDescription_LoadDescription(TESForm* apForm, unsigned int auiChunk)
 {
     unsigned char cType;
     bool bFound;
@@ -1129,7 +1137,7 @@ int TESFile::ReadTESInfo()
     SetFileLanguage(m_uiFileCount >> 24);
 
     while (TESFileGetFormType(this) == 1)
-        this->FUN_00472150(true);
+        this->NextForm_00472150(true);
     inexttype = TESFileGetFormType(this);
     SetGroupMode(inexttype == 2 || inexttype == 0);
     this->ResetFileState(true);
@@ -1141,7 +1149,7 @@ namespace fnv_004721d0 {
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 extern int DAT_010a2480;
-int __fastcall FUN_00472380(int);
+int __fastcall MissileProjectile_GetImpactResult(int);
 void __cdecl _FNV_Warning(const char*, ...);
 
 struct FileFormHeader
@@ -1177,10 +1185,10 @@ bool TESFile::HasNextForm()
         return false;
     }
     currentoffset = this->m_uiRecordSize;
-    if (fnv_004721d0::FUN_00472380((int)this->m_pFile) != currentoffset)
+    if (fnv_004721d0::MissileProjectile_GetImpactResult((int)this->m_pFile) != currentoffset)
     {
         this->m_pFile->Seek(currentoffset, fnv_004721d0::DAT_010a2480);
-        this->m_uiRecordSize = fnv_004721d0::FUN_00472380((int)this->m_pFile);
+        this->m_uiRecordSize = fnv_004721d0::MissileProjectile_GetImpactResult((int)this->m_pFile);
     }
     if (this->m_uiRecordSize == -1)
     {
@@ -1207,7 +1215,7 @@ bool TESFile::HasNextForm()
 // src: COMMUNITY 0x00471a60
 const char* TESFile::GetIndexName(unsigned int count)
 {
-    BSSimpleList<BGSPerk*>* list = reinterpret_cast<BSSimpleList<BGSPerk*>*>(FUN_00464df0());
+    BSSimpleList<BGSPerk*>* list = reinterpret_cast<BSSimpleList<BGSPerk*>*>(GetMasterList_00464df0());
     if (list->GetItem() == 0)
         return 0;
     unsigned int index = 1;
@@ -1260,7 +1268,7 @@ void TESFile::ClearGroupStack()
 }
 
 int DAT_010a2480;
-int __fastcall FUN_004720a0(char*);
+int __fastcall BSFile_Tell(char*);
 
 // Resets the form offset fields, seeks past the current form when it is not compressed, clears the current chunk and returns the chunk ID.
 // @fnv 0x00472000
@@ -1276,7 +1284,7 @@ unsigned int __fastcall RewindTESFileForm(TESFile* file)
     {
         (*reinterpret_cast<BSFile**>(reinterpret_cast<char*>(file) + 0x10))
             ->Seek(position, DAT_010a2480);
-        position = FUN_004720a0(*reinterpret_cast<char**>(reinterpret_cast<char*>(file) + 0x10));
+        position = BSFile_Tell(*reinterpret_cast<char**>(reinterpret_cast<char*>(file) + 0x10));
     }
 
     file->ClearCurrentChunk();
@@ -1301,7 +1309,7 @@ extern FormTypeInfo g_FormTypes[];
 
 unsigned int __fastcall _FNV_GetFormType(TESForm*);
 int __cdecl return15();
-int __fastcall FUN_004720a0(char*);
+int __fastcall BSFile_Tell(char*);
 extern int DAT_010a2488;
 
 }  // namespace fnv_00472e60
@@ -1330,7 +1338,7 @@ int __thiscall TESFile::WriteForm(TESForm* apForm)
     m_pFile->Seek(0, fnv_00472e60::DAT_010a2488);
 
     m_uiChunkValue1 =
-        fnv_00472e60::FUN_004720a0(reinterpret_cast<char*>(m_pFile));
+        fnv_00472e60::BSFile_Tell(reinterpret_cast<char*>(m_pFile));
     m_uiChunkValue2 = 0;
 
     return this->ReadFileBuffer(&m_kChunkInfo, 0x18);
@@ -1369,7 +1377,7 @@ void __fastcall ClearGroupStackEntry(TESFile* file)
 struct TESFormFileAccess : TESForm
 {
     void FUN_004f15a0(int);
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
     void FUN_00403550(int);
     void FUN_00484f50(TESFile*);
 };
@@ -1378,7 +1386,7 @@ struct TESFormFileAccess : TESForm
 void TESFile::LoadForm(TESForm* apTarget)
 {
     ((TESFormFileAccess*)apTarget)->FUN_004f15a0(TESFileGetFormType(this));
-    if (((TESFormFileAccess*)apTarget)->FUN_004077c0())
+    if (((TESFormFileAccess*)apTarget)->TESForm_GetTemporary())
     {
         ((TESFormFileAccess*)apTarget)->FUN_00403550(GetFlags() | 0x4000);
     }
@@ -1421,7 +1429,7 @@ int __thiscall TESFile::ReadFileBuffer(void* buffer, unsigned int size)
 {
     if (buffer != 0)
     {
-        if ((unsigned int)m_pFile->FUN_00473180((const char*)buffer, size) < size)
+        if ((unsigned int)m_pFile->NiBinaryStream_Write((const char*)buffer, size) < size)
         {
             int error = *FUN_00ec85e3();
             m_eReturnCode = TES_RETURN_CODE_TES_ERROR_WRITE_FAILURE;
@@ -1470,7 +1478,7 @@ void TESFile::GetAnimationSequence(FormRecordHeader* arg)
 
 extern int DAT_010a2480;
 extern int DAT_010a2488;
-int __fastcall FUN_004720a0(char* _this);
+int __fastcall BSFile_Tell(char* _this);
 
 struct FUN_004733a0_rec
 {
@@ -1492,7 +1500,7 @@ void TESFile::CloseGroup()
         if (m_pFile != 0)
         {
             m_pFile->Seek(0, DAT_010a2488);
-            x->m_04 = FUN_004720a0((char*)m_pFile) - x->m_18;
+            x->m_04 = BSFile_Tell((char*)m_pFile) - x->m_18;
             m_pFile->Seek(x->m_18, DAT_010a2480);
             ReadFileBuffer(x, 0x18);
         }
@@ -1566,8 +1574,8 @@ void TESFile::SetCurrentForm(TESForm* form)
             }
             else
             {
-                FNV_Warning("FORMS: Failed to CreateGroupData for %s form '%s' (%08X)", form->FUN_00440e30(),
-                            form->GetName(), form->FUN_0084e3a0());
+                FNV_Warning("FORMS: Failed to CreateGroupData for %s form '%s' (%08X)", form->TESForm_GetFormTypeString(),
+                            form->GetName(), form->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 return;
             }
         }
@@ -1606,7 +1614,7 @@ class FUN_00841250_cls
 // @fnv 0x00841250
 void FUN_00841250_cls::ProcessRef(TESFormReferenceAccess* apRef, void* apFallback, unsigned int auiValue)
 {
-    void* p = apRef ? (void*)apRef->FUN_0084e3a0() : apFallback;
+    void* p = apRef ? (void*)apRef->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : apFallback;
     FUN_00841250_guard gTmp;
     gTmp.Init();
     FUN_00841250_pair pr;
@@ -1648,7 +1656,7 @@ struct FormPointReader
     unsigned char ReadFromFile(TESFile* pFile);
 };
 
-void __cdecl FUN_00401080(float*, EndianSizeTag<4>);
+void __cdecl BSEndian_00401080(float*, EndianSizeTag<4>);
 
 // @fnv 0x00438fc0
 unsigned char FormPointReader::ReadFromFile(TESFile* pFile)
@@ -1661,9 +1669,9 @@ unsigned char FormPointReader::ReadFromFile(TESFile* pFile)
             pFile->GetChunkData(this, 12);
             if (pFile->IsEndianConversionRequired())
             {
-                FUN_00401080(&x, EndianSizeTag<4>());
-                FUN_00401080(&y, EndianSizeTag<4>());
-                FUN_00401080(&z, EndianSizeTag<4>());
+                BSEndian_00401080(&x, EndianSizeTag<4>());
+                BSEndian_00401080(&y, EndianSizeTag<4>());
+                BSEndian_00401080(&z, EndianSizeTag<4>());
             }
             result = 1;
         }
@@ -1708,7 +1716,7 @@ bool TESFile::HasMasterFileChanged()
 {
     _ULARGE_INTEGER* pSize4;
     void* hFind6;
-    BSSimpleList<char*>* pMasters = (BSSimpleList<char*>*)::FUN_00464df0(this);
+    BSSimpleList<char*>* pMasters = (BSSimpleList<char*>*)::GetMasterList_00464df0(this);
     BSSimpleList<_ULARGE_INTEGER*>* pMastersData = GetMasterDataList();
     bool bChanged_ = false;
     while (pMasters && pMasters->GetItem() && pMastersData && pMastersData->GetItem())
@@ -1865,7 +1873,7 @@ struct AutoMemX
 struct TagX
 {
 };
-void FUN_00401080(void* p, TagX t);
+void BSEndian_00401080(void* p, TagX t);
 void* FormHeap_Allocate(unsigned int n);
 void FormHeapFreeAndLog_00401030(void* p);
 bool FindFormEnumIndex(int id);
@@ -1919,7 +1927,7 @@ void TESFile::InflateCompressedForm()
             unsigned int uiSize7 = *(unsigned int*)pBufferVal;
             char* pData4 = pBufferVal + 4;
             if (IsEndianConversionRequired())
-                FUN_00401080(&uiSize7, TagX());
+                BSEndian_00401080(&uiSize7, TagX());
             pBufferVal[m_kRecordInfo.length] = 0;
             m_pDecompressedFormBuffer = (char*)FormHeap_Allocate(uiSize7);
             m_uiAuxBufferSize = uiSize7;
@@ -2058,7 +2066,8 @@ bool TESFile::GetChunkData(void* data, unsigned int size)
 // Read raw bytes (component size 1)
 // Reads uiBytes into pvBuffer via CallAndAccumulate with a single 1-byte element size and returns the number of bytes read.
 // @fnv 0x00473180
-int BSFile::FUN_00473180(const char* pvBuffer, unsigned int uiBytes)
+// src: XBOX_PDB 0x00473180
+int BSFile::NiBinaryStream_Write(const char* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiElemSize = 1;
     unsigned int uiRead = NiBinaryStream::BinaryWrite(pvBuffer, uiBytes, &uiElemSize, 1);
@@ -2066,7 +2075,7 @@ int BSFile::FUN_00473180(const char* pvBuffer, unsigned int uiBytes)
 }
 
 void* __cdecl memset(void*, int, unsigned int);
-int __fastcall FUN_004720a0(char*);
+int __fastcall BSFile_Tell(char*);
 void _FNV_Warning(const char*, ...);
 extern int DAT_010a2480;
 void __fastcall FUN_00473960(TESFile*);
@@ -2085,7 +2094,7 @@ bool TESFile::SetOffset(unsigned int newoffset)
     }
     currentoffset = m_uiRecordSize;
     ((BSFile*)m_pFile)->Seek(currentoffset, DAT_010a2480);
-    m_uiRecordSize = FUN_004720a0((char*)m_pFile);
+    m_uiRecordSize = BSFile_Tell((char*)m_pFile);
     if (m_uiRecordSize == 0xFFFFFFFF)
     {
         char* lpMsgBuf;
@@ -2120,7 +2129,7 @@ bool TESFile::SetOffsetChunk(unsigned int newoffset)
     }
     currentoffset = newoffset;
     ((BSFile*)m_pFile)->Seek(currentoffset, ::DAT_010a2480);
-    currentoffset = ::FUN_004720a0((char*)m_pFile);
+    currentoffset = ::BSFile_Tell((char*)m_pFile);
     if (currentoffset == -1)
     {
         char* lpMsgBuf;

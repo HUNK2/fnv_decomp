@@ -82,11 +82,11 @@ struct MyCls
     int _40;
     int _44;
     void _Call_a5d3a0();
-    void FUN_00a853c0(int);
+    void NiSkinData_ComputeBoneBounds(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
-int __cdecl FUN_00a853c0();
+int __cdecl NiSkinData_ComputeBoneBounds();
 void* __cdecl _NiMalloc(unsigned int);
 void __cdecl _NiFree(void*);
 struct FUN_00a826b0_shell
@@ -634,7 +634,7 @@ class SkinPartitionOwner : public SkinObjectBase
     NiSkinPartition::Partition* m_pPartitions;
 
     virtual ~SkinPartitionOwner();
-    void FUN_00a846e0(SkinViewerStrings* pkStrings);
+    void NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 inline unsigned int NiBinaryStream::BinaryWrite(const void* pvBuffer, unsigned int uiTotalBytes,
                                                 unsigned int* puiComponentSizes, unsigned int uiNumComponents)
@@ -730,7 +730,7 @@ class SaverA83C : public FUN_00a89af0_helper
     unsigned int m_uiCount;
     ElemA83C* m_pkElems;
 
-    void FUN_00a83ce0(NiStream& kStream);
+    void NiSkinPartition_SaveBinary(NiStream& kStream);
 };
 
 inline unsigned int NiBinaryStream::BinaryRead(void* pvBuffer, unsigned int uiTotalBytes,
@@ -796,11 +796,12 @@ struct LBSkinPartition : LBObject
     unsigned int m_uiPartitionCount;
     LBPartition* m_pPartitions;
 
-    void FUN_00a83c30(NiStream& arStream);
+    void NiSkinPartition_LoadBinary(NiStream& arStream);
 };
 
 // @fnv 0x00a83c30
-void LBSkinPartition::FUN_00a83c30(NiStream& arStream)
+// src: XBOX_PDB 0x00a83c30
+void LBSkinPartition::NiSkinPartition_LoadBinary(NiStream& arStream)
 {
     LBObject::LoadBinary(arStream);
     LBStreamLoadBinary(arStream, m_uiPartitionCount);

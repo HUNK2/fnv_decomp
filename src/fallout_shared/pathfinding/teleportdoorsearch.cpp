@@ -54,7 +54,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
             void* b01 =
                 reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320()
                     ? reinterpret_cast<void*>(reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())->FUN_0043a320())
-                    : reinterpret_cast<void*>(a00->GetExtraRadioData()->FUN_0043a2b0());
+                    : reinterpret_cast<void*>(a00->GetExtraRadioData()->DoorTeleportData_GetTeleportCell());
             switch (restriction)
             {
             case 2:
@@ -97,7 +97,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
             if (maxCost != 0.0 && node->cost + b00 > maxCost)
                 continue;
             a01 = node->cost + b00 + a06;
-            a07 = a00->GetExtraRadioData()->FUN_0043a2b0();
+            a07 = a00->GetExtraRadioData()->DoorTeleportData_GetTeleportCell();
             switch (InsertOrUpdateNode(b01, a01, a08))
             {
             case 0:
@@ -112,7 +112,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                 {
                     a08->exterior = false;
                     a08->world = 0;
-                    a08->cell = a00->GetExtraRadioData()->FUN_0043a2b0();
+                    a08->cell = a00->GetExtraRadioData()->DoorTeleportData_GetTeleportCell();
                 }
                 a08->fitness = 1.0f;
             case 1:

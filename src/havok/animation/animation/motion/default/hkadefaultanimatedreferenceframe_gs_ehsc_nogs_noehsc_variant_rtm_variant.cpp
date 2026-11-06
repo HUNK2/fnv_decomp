@@ -98,7 +98,7 @@ struct Motion363
     __m128 vector;
     hkQuaternion angular;
 };
-void FUN_00e41220(Projection363_Owner* a, Motion363* __restrict b, Projection363_Input* c, hkVector4* out);
+void hkaDefaultAnimatedReferenceFrame_project(Projection363_Owner* a, Motion363* __restrict b, Projection363_Input* c, hkVector4* out);
 inline hkVector4::hkVector4(const hkVector4& a)
 {
     memcpy(m_f, a.m_f, sizeof(m_f));
@@ -343,6 +343,6 @@ void S00e41100_LinearKeyTrack::hkaDefaultAnimatedReferenceFrame_getReferenceFram
         v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t), a.getQuad()), _mm_mul_ps(b.getQuad(), t));
     }
     out.m_vTranslation.getQuad() = v;
-    out.m_rotation.FUN_00cb2450(m_kAxisEndPoints, v.m128_f32[3]);
+    out.m_rotation.hkQuaternion_setAxisAngle(m_kAxisEndPoints, v.m128_f32[3]);
     out.m_vScale.getQuad() = _mm_set_ps1(1.0f);
 }

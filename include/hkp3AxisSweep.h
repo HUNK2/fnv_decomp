@@ -86,28 +86,28 @@ public:
     virtual void Set32BitOffsetAndScale(const hkVector4& offsetLow, const hkVector4& offsetHigh, const hkVector4& scale);
     virtual void CollectAabbCastResults(const hkAabb& aabb, hkpBroadPhaseCastCollector* collector) const;
 
-    int FUN_00d11620();
+    int getNumObjects();
     int getAabbCacheSize();
     void getAabb_00d119c0(UnkHandle* handle);
-    void FUN_00d11650(const Node& node, hkAabb& aabb) const;
+    void getAabbFromNode(const Node& node, hkAabb& aabb) const;
     void FixNodeEdges(unsigned int index);
     void FixNodeEdges(int index);
     void BuildBroadPhasePairs(Node* nodesA, int numNodesA, Node* nodesB, int numNodesB, int mode, BroadPhasePairArray& pairs);
     void queryBatchAabbSub(unsigned int* bits, PairVec* out, char flag);
-    void FUN_00d10e10(__m128* out0, __m128* out1);
+    void getExtents(__m128* out0, __m128* out1);
     bool __thiscall areAabbsOverlapping(int* first, int* second);
     void defragment();
     void GetValues(__m128* out0, __m128* out1);
-    void FUN_00d112c0(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
-    void FUN_00d112c0(int count, int key, SweepNodeX* node, unsigned int index, unsigned int* bits);
-    void FUN_00d112c0(int count, unsigned int key, Node16* node, int index, void* buffer);
-    void FUN_00d10d10(SweepNodeX* base, int count, SweepNodeX* node);
+    void hkp3AxisSweep_setBitsBasedOnXInterval(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
+    void hkp3AxisSweep_setBitsBasedOnXInterval(int count, int key, SweepNodeX* node, unsigned int index, unsigned int* bits);
+    void hkp3AxisSweep_setBitsBasedOnXInterval(int count, unsigned int key, Node16* node, int index, void* buffer);
+    void hkp3AxisSweep_updateNodesAfterDelete(SweepNodeX* base, int count, SweepNodeX* node);
     void reQuerySingleObject(int* index, EventList* events);
     void removeObject(unsigned int* handle, SweepPairsX* pairs);
     void calcAabbCache(ItemList* items, unsigned int out);
     __declspec(noinline) void calcAabbCacheInternal(Blk* array, unsigned int out);
     __declspec(noinline) void FUN_00d10b30(Node16* buf, int index, Node16* node);
-    void FUN_00d142b0(int* handle, Input* input, PairArr* outPairs);
+    void addObject_00d142b0(int* handle, Input* input, PairArr* outPairs);
     void removeObjectBatch(RemovedHandleList* removed, int pairs);
 
     unsigned char unk10[0x10];

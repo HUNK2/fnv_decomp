@@ -19,7 +19,7 @@ struct __declspec(align(16)) CollisionTransform
     float yx, yy, yz, yw;
     float zx, zy, zz, zw;
     float tx, ty, tz, tw;
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
 };
 struct __declspec(align(16)) CollisionInfo
 {
@@ -34,8 +34,8 @@ struct CollisionFilter
 {
     unsigned int value;
     CollisionFilter(int);
-    void FUN_004a39f0(int);
-    void FUN_0059ce80(unsigned int);
+    void CFilter_SetLayer(int);
+    void CFilter_SetGroup(unsigned int);
     void* FUN_00559450() const;
 };
 class FUN_0056e2d0 : public NiMemObject
@@ -52,7 +52,7 @@ struct CollisionPointer
     FUN_0056e2d0* object;
     void operator=(FUN_0056e2d0*);
 };
-unsigned int __cdecl FUN_005dbe10();
+unsigned int __cdecl bhkCollisionFilter_GetNewSystemGroup();
 struct CollisionPair
 {
     CollisionPointer first;
@@ -169,7 +169,7 @@ struct LoadedAreaBoundsAccumulator
     Obj_006286f0* unk20;
     void AddShape(Box_006286f0* box, unsigned int kind, Shape_006286f0* shape);
     void AddPoint(Box_006286f0* box, float* pt);
-    void FUN_006286f0();
+    void LoadedAreaBound_CheckForDynamicBodiesOutsideBound();
 };
 class TESForm620;
 class bhkWorldObject620;
@@ -347,9 +347,9 @@ class ImpactHandler620
     FormRef620 m_kSource;
     ImpactEvent620* CreateEventDirect(void* pvTarget, void* pvBody, void* pvInfo);
 };
-void* __cdecl FUN_004b5820(void* pvBody);
-void* __cdecl FUN_0056f930(void* pvObject);
-PhysicsVectorSource* __cdecl FUN_004b59f0(void* pvForm);
+void* __cdecl GetAVObjectForCollidable(void* pvBody);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvObject);
+PhysicsVectorSource* __cdecl hkpGetRigidBody(void* pvForm);
 void* __cdecl bhkEntity_Getbhk(const void* pvRef);
 class ImpactManager620
 {
@@ -363,7 +363,7 @@ float xFUN_004a3e90(float);
 const NiPoint3* __fastcall xFUN_0045bb80(void*);
 struct xFltSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern xFltSetting xg_11cc188;
 struct xMid
@@ -821,7 +821,7 @@ struct xQty
 struct xEvent
 {
     xEvent();
-    void FUN_006218d0(float);
+    void hkpCollisionInput_setTolerance(float);
     xQty m_iWordAt00;
     xQty m_iThirdValue;
     int m_rest[14];
@@ -856,7 +856,7 @@ struct xBody
 struct xMotion
 {
     float ActorPackage_GetPackageStartTime();
-    void FUN_00621b20(float);
+    void NiTimeController_SetPhase(float);
 };
 xMotion* __fastcall xFUN_004ae6c0(xBody*);
 typedef void (*xCastFn)(xModelPtr*, xModelPtr*, xEvent*, xCollector*);
@@ -877,14 +877,14 @@ struct xCaster2
 };
 struct xSrc
 {
-    xModelPtr* FUN_00460140();
+    xModelPtr* TESDataHandler_GetWorldSpaceList();
 };
 struct xRef
 {
-    bool FUN_00621240();
-    void* FUN_00621a40();
-    xSrc* FUN_00621a90();
-    xCaster2* FUN_00621ad0();
+    bool bhkCharacterController_QChaseBip();
+    void* bhkCharacterProxy_GethkPosition();
+    xSrc* bhkCharacterProxy_GethkShapePhantom();
+    xCaster2* bhkCharacterController_GetWorld();
 };
 struct xBodyPtr
 {
@@ -895,7 +895,7 @@ struct xCaster
 {
     xBodyPtr m_iWordAt00;
     xBodyPtr m_iWordAt04;
-    bool FUN_006214d0(xRef* apRef, const NiPoint3& akPos, float afA, float afB);
+    bool CameraCaster_KeepOutOfCharacter(xRef* apRef, const NiPoint3& akPos, float afA, float afB);
 };
 struct __declspec(align(16)) MotionFrame
 {
@@ -916,7 +916,7 @@ struct MotionStatus
 {
     bool FUN_005609f0();
 };
-void FUN_004a3e00(void*, const void*);
+void NI2HK(void*, const void*);
 struct MotionOwner
 {
     virtual void Slot0();
@@ -988,7 +988,7 @@ struct MotionOwner
     void DecalCaster_Pick(const void*, const void*, float);
 };
 class S006230f0_Source;
-const hkVector4* __cdecl FUN_004a3e00(hkVector4* pOut, const S006230f0_Source* pSource);
+const hkVector4* __cdecl NI2HK(hkVector4* pOut, const S006230f0_Source* pSource);
 class S006230f0_Object
 {
   public:
@@ -1198,9 +1198,9 @@ class TESObjectREFRB
 class SpawnAreaB
 {
   public:
-    bool FUN_006281d0(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkOut);
+    bool LoadedAreaBound_GetBoundFromCell(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkOut);
 };
-const hkVector4& FUN_00458b20();
+const hkVector4& hkVector4_getZero();
 // shared zero vector
 struct S006288c0_Aabb
 {
@@ -1211,7 +1211,7 @@ struct S006288c0_Aabb
 class S006288c0_Shape
 {
   public:
-    const S006288c0_Aabb& FUN_00984230() const;
+    const S006288c0_Aabb& hkpAabbPhantom_getAabb() const;
 };
 class S006288c0_Bounds
 {
@@ -1223,7 +1223,7 @@ class S006288c0_Object
   public:
     S006288c0_Shape* FUN_004ae750();
     void FUN_00a29680();
-    void FUN_006288c0(S006288c0_Bounds* bounds);
+    void bhkAabbPhantom_GetAabb(S006288c0_Bounds* bounds);
 };
 struct __declspec(align(16)) Text628980
 {
@@ -1291,9 +1291,9 @@ struct Owner628980
     void Expand(void*, List628980*);
     void FUN_00628980(Filter628980*, List628980*);
 };
-void* __cdecl FUN_004b59f0(const void*);
+void* __cdecl hkpGetRigidBody(const void*);
 void* __cdecl bhkEntity_Getbhk(const void*);
-int __fastcall FUN_00517670(void*);
+int __fastcall hkpRigidBody_getMotionType(void*);
 struct S00628c50_Vector
 {
     __m128 m_vComponents;
@@ -1309,7 +1309,7 @@ class S00628c50_Box
     __m128 unk00;
     S00628c50_Vector m_kCenter;
 };
-void __cdecl FUN_004a3e00(hkVector4* pkOut, const NiPoint3* pkIn);
+void __cdecl NI2HK(hkVector4* pkOut, const NiPoint3* pkIn);
 class TESObjectCELLP;
 class TESObjectREFRP
 {
@@ -1489,7 +1489,7 @@ class TESObjectCELLP
     void* GetLandData();
     void ResolvePoint(NiPoint3* pkOut, NiPoint3* pkNormal);
 };
-bool __cdecl FUN_006d97b0(NiPoint3* pkPos, TESObjectCELLP* pkCell, void* pvLand, float* pfZ);
+bool __cdecl Pathing_GetNavMeshZForLocation(NiPoint3* pkPos, TESObjectCELLP* pkCell, void* pvLand, float* pfZ);
 class RegionP
 {
   public:
@@ -1698,9 +1698,9 @@ class SmoothListV
 };
 extern SmoothListV g_kSmoothListV;
 void __cdecl TESArrowTargetListener_AddArrowTarget(const hkVector4& kTarget, void* pvRef);
-hkVector4& FUN_004a3e00(hkVector4& out, const NiPoint3& in);
+hkVector4& NI2HK(hkVector4& out, const NiPoint3& in);
 void TESHavokUtilities_AddAngularVelocity_0062bae0(void* obj, hkVector4& v, int flag);
-void FUN_0062ba80(void* obj, const NiPoint3& pos, bool flag);
+void TESHavokUtilities_AddAngularVelocity(void* obj, const NiPoint3& pos, bool flag);
 // These arguments are hkVector4: component access binds 0x00560d30 and addition binds 0x00553f70.
 struct WorldObject62BAE0
 {
@@ -1709,7 +1709,7 @@ struct WorldObject62BAE0
 };
 struct Collision62BAE0
 {
-    WorldObject62BAE0* FUN_006fa820();
+    WorldObject62BAE0* bhkNiCollisionObject_GetWorldObject();
 };
 struct Node62BAE0;
 struct Object62BAE0
@@ -1771,7 +1771,7 @@ class ShapePhantom
   public:
     void InvokeInterfaceCall(hkVector4* pFrom, InitFloats* pRay, class ShapeCaster* pCollector, int i);
 };
-void FUN_004a3e00(void* pOut, const NiPoint3& kIn);
+void NI2HK(void* pOut, const NiPoint3& kIn);
 class ShapeCaster
 {
   public:
@@ -2012,8 +2012,8 @@ class ShapeCaster
     ShapeCastPointer<ShapePhantom> m_spWorld;
     void HitCaster_SetCustomPickCollisions();
     xHitRes* hkpAllCdPointCollector_hasHit(xHitFlag* pFlag);
-    void FUN_00cabad0();
-    bool FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosition, float fDist);
+    void hkpAllCdPointCollector_sortHits();
+    bool HitCaster_CastShape(const NiPoint3& kFrom, const NiPoint3& kWorldPosition, float fDist);
 };
 extern "C" __m128 _mm_min_ps(__m128, __m128);
 const __m128* __fastcall FUN_006815c0(const void* obj);
@@ -2042,7 +2042,8 @@ struct VectorNormalizeOperations
 };
 
 // @fnv 0x0062aea0
-void hkVector4::FUN_0062aea0()
+// src: XBOX_PDB 0x0062aea0
+void hkVector4::normalize3_0062aea0()
 {
     // The helper writes these SIMD temporaries without calling vector constructors.
     __m128 kScale;

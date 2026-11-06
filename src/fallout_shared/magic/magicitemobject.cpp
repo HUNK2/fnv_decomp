@@ -58,7 +58,7 @@ bool MagicItemObject::Load(TESFile* file)
 void MagicItemObject::ClearData()
 {
     TESForm::FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     ClearMagicItemData();
     SaveMagicItemData();
     FUN_004056d0(reinterpret_cast<char*>(this) + kEffectListOffset);

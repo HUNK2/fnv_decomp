@@ -11,14 +11,14 @@
 bool Renderer::SetBackgroundColor(NiColor& color)
 {
     DAT_011c74b8 = color;
-    if (FUN_004bc3f0())
+    if (Renderer_GetNIRenderer())
     {
         NiColorA background(0.0f, 0.0f, 0.0f, 0.0f);
         background.r = DAT_011c74b8.r;
         background.g = DAT_011c74b8.g;
         background.b = DAT_011c74b8.b;
         background.a = 0.0f;
-        FUN_004bc3f0()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&background)); // slot 43 (+0xac)
+        Renderer_GetNIRenderer()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&background)); // slot 43 (+0xac)
         return true;
     }
     return false;
@@ -35,7 +35,8 @@ double __cdecl FUN_00ec9ac0(double, double);
 
 // Returns the result of FUN_00ec9ac0(_X, _Y) cast to float.
 // @fnv 0x004dd150
-float __cdecl FUN_004dd150(float _X, float _Y)
+// src: XBOX_PDB 0x004dd150
+float __cdecl powf_004dd150(float _X, float _Y)
 {
     return (float)FUN_00ec9ac0(_X, _Y);
 }
@@ -78,12 +79,13 @@ void* __cdecl TESRenderer_GetSystemDesc()
 }
 
 namespace fnv_004dd130 {
-extern "C" float __cdecl FUN_004dd150(float, float);
+extern "C" float __cdecl powf_004dd150(float, float);
 
 // @fnv 0x004dd130
-float FUN_004dd130(float a, float b)
+// src: XBOX_PDB 0x004dd130
+float pow_004dd130(float a, float b)
 {
-    return FUN_004dd150(a, b);
+    return powf_004dd150(a, b);
 }
 }  // namespace fnv_004dd130
 
@@ -116,12 +118,13 @@ struct ShaderReference
 GO g_011c73b4;
 
 void __cdecl BSShaderManager_Free(bool);
-void __cdecl FUN_00461300();
+void __cdecl MessageHandler_ForceNextWarningToDisplay();
 void __cdecl _FNV_Warning(const char*, ...);
 
 // Calls FUN_00b54630, and on final kill releases the renderer via FUN_00461300, warning if smart pointers remain, then clears g_011c73b4.
 // @fnv 0x004da4d0
-void __cdecl FUN_004da4d0(bool abFinalKill)
+// src: XBOX_PDB 0x004da4d0
+void __cdecl Renderer_Kill(bool abFinalKill)
 {
     BSShaderManager_Free(abFinalKill);
 
@@ -129,7 +132,7 @@ void __cdecl FUN_004da4d0(bool abFinalKill)
     {
         if (g_011c73b4.operator unsigned int() && reinterpret_cast<ShaderReference*>(g_011c73b4.operator unsigned int())->_ref_00726070() != 1)
         {
-            FUN_00461300();
+            MessageHandler_ForceNextWarningToDisplay();
 
             if (reinterpret_cast<ShaderReference*>(g_011c73b4.operator unsigned int())->_ref_00726070() == 2)
             {
@@ -358,8 +361,8 @@ float __cdecl Get_1280();
 float __cdecl Get_720();
 void __cdecl InitEyefinityDisplayInfo();
 bool __cdecl TESRenderer_ValidateSettings(int);
-int __cdecl FUN_004dc1f0();
-int __cdecl FUN_004dc200();
+int __cdecl Renderer_GetScreenWidth();
+int __cdecl Renderer_GetScreenHeight();
 int __cdecl TESRenderer_GetHWND();
 int __cdecl TESRenderer_GetAdapterIndex();
 int __cdecl TESRenderer_GetFlags();
@@ -503,7 +506,7 @@ struct RendObj
     virtual void vfn_134();
     virtual void vfn_138();
     virtual int __stdcall vfn_13c(float);
-    RendObj* FUN_004dc020();
+    RendObj* NiXenonRenderer_GetD3DDevice();
     static DevObj* NiDX9Renderer_GetDirect3D();
 };
 struct ShaderInitializer
@@ -1292,7 +1295,7 @@ int __cdecl DetectGpuVendor(int, int, int, void*, void*, int);
 int __cdecl FUN_004dc060(int);
 int __cdecl BSRenderState_GetGPUVendor();
 void __cdecl BSShaderManager_SetMaxShadowMaps(int);
-int __cdecl FUN_00647b70(int, int);
+int __cdecl BSMAX_00647b70(int, int);
 void __cdecl BSShaderManager_EnableUseRefractionShader(int);
 bool __cdecl TESRenderer_GetMultiSampleEnabled();
 int __cdecl FUN_009fea2a();
@@ -1301,7 +1304,7 @@ int __cdecl FUN_009fead6(int, int*);
 int __cdecl FUN_009feae8(int*, unsigned int*);
 int __cdecl FUN_009feae2(int*, unsigned int*);
 int __cdecl FUN_009febd8(void*, int*);
-void* __cdecl FUN_0043c4b0();
+void* __cdecl NiXenonRenderer_GetRenderer();
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct DriverVersion
 {
@@ -1529,7 +1532,7 @@ extern Setting DAT_011c7b6c;
 extern Setting DAT_011c7ac4;
 extern Setting DAT_011c7b48;
 extern SettingT_GameSettingCollection_ DAT_011c3ea4;
-bool __cdecl FUN_004dc0a0();
+bool __cdecl BSShaderManager_GetUseRefractionShader();
 int __cdecl ShaderBuffer_GetCurrentBufferType();
 void __cdecl FUN_00ec9907(void*);
 extern int DAT_011ad830;
@@ -1613,7 +1616,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     {
         _fclose(file32);
     }
-    DAT_011c6fb0 = *DAT_011c7628.FUN_0043d4d0();
+    DAT_011c6fb0 = *DAT_011c7628.Setting_Int();
     DAT_0118947c = DAT_011c73dc.GetUInt();
     DAT_01189480 = DAT_011c718c.GetUInt();
     if (DAT_011c771c.GetBoolValue())
@@ -1635,13 +1638,13 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
         }
         else
         {
-            DAT_011c6fbc = IMP_fdf2b8(0, DAT_011a2fe8, 0, 0x50000000, 0, 0, FUN_004dc1f0(), FUN_004dc200(),
+            DAT_011c6fbc = IMP_fdf2b8(0, DAT_011a2fe8, 0, 0x50000000, 0, 0, Renderer_GetScreenWidth(), Renderer_GetScreenHeight(),
                                       DAT_011c6fc0, 0, DAT_011c6fc4, 0);
             Rect4 rect13;
             rect13.a = 0;
             rect13.b = 0;
-            rect13.c = FUN_004dc1f0();
-            rect13.d = FUN_004dc200();
+            rect13.c = Renderer_GetScreenWidth();
+            rect13.d = Renderer_GetScreenHeight();
             IMP_fdf310(&rect13, IMP_fdf2e8(DAT_011c6fc0, -16, IMP_fdf2ec(DAT_011c6fbc, -8)));
             int w3 = rect13.c - rect13.a;
             int h11 = rect13.d - rect13.b;
@@ -1662,17 +1665,17 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
             {
                 int t113 = IMP_fdf2b0(1);
                 int t212 = IMP_fdf2b0(0);
-                if (t113 != FUN_004dc200())
+                if (t113 != Renderer_GetScreenHeight())
                 {
                     flag2 = true;
                 }
-                else if (t212 != FUN_004dc1f0())
+                else if (t212 != Renderer_GetScreenWidth())
                 {
                     flag2 = true;
                 }
             }
         }
-        DAT_011c73b4.operator=(reinterpret_cast<void*>(FUN_00e76210(FUN_004dc1f0(), FUN_004dc200(), TESRenderer_GetFlags(), TESRenderer_GetHWND(),
+        DAT_011c73b4.operator=(reinterpret_cast<void*>(FUN_00e76210(Renderer_GetScreenWidth(), Renderer_GetScreenHeight(), TESRenderer_GetFlags(), TESRenderer_GetHWND(),
                                                TESRenderer_GetHWND(), TESRenderer_GetAdapterIndex(), TESRenderer_GetDeviceType(), TESRenderer_GetFrameBufferFormat(),
                                                TESRenderer_GetDepthStencilFormat(), TESRenderer_GetPresentInterval(), TESRenderer_GetSwapEffect(), TESRenderer_GetFrameBufferMode(),
                                                TESRenderer_GetBackBufferCount(), TESRenderer_GetRefreshRate(), flag2)));
@@ -1721,7 +1724,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
         reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int())->vfn_b0(BSShaderManager_kBackgroundColor_Get());
         if (DAT_011c6fba != 0)
         {
-            RendObj* sub = reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int())->FUN_004dc020();
+            RendObj* sub = reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int())->NiXenonRenderer_GetD3DDevice();
             if (sub != 0)
             {
                 sub->vfn_13c((float)TESRenderer_GetNPatchSegments());
@@ -1773,15 +1776,15 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     DAT_011c70ea = (int)(hr62 >= 0);
     hr62 = reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int())->NiDX9Renderer_GetDirect3D()->vfn_28(0, 1, 0x16, 0x20000, 3, 0x71);
     DAT_011f941f = (int)(hr62 >= 0);
-    DAT_011ad810 = *DAT_011c7284.FUN_0043d4d0();
-    DAT_011ad814 = *DAT_011c7784.FUN_0043d4d0();
-    DAT_011ad818 = *DAT_011c7680.FUN_0043d4d0();
+    DAT_011ad810 = *DAT_011c7284.Setting_Int();
+    DAT_011ad814 = *DAT_011c7784.Setting_Int();
+    DAT_011ad818 = *DAT_011c7680.Setting_Int();
     DAT_011f9420 = ((sub13013->f40 & 0x400) != 0);
     bool b12;
     b12 = ((sub13013->f3c & 2) != 0 && (sub13013->f3c & 0x100) == 0) ? 0 : 1;
     DAT_011f9183 = (b12 && !*DAT_011c7538.FUN_00408d60()) ? 1 : 0;
-    DAT_0126efc4 = *DAT_011c779c.FUN_0043d4d0();
-    DAT_0126efc8 = *DAT_011c7254.FUN_0043d4d0();
+    DAT_0126efc4 = *DAT_011c779c.Setting_Int();
+    DAT_0126efc8 = *DAT_011c7254.Setting_Int();
     DAT_011f9426 = DAT_011c70ec;
     if (DAT_011c70ec != 0)
     {
@@ -1801,7 +1804,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     {
         DAT_011c71dc.Setting_SetValueB(0);
     }
-    *(short*)&DAT_011ad830 = *reinterpret_cast<short*>(DAT_011c7520.FUN_0043d4d0());
+    *(short*)&DAT_011ad830 = *reinterpret_cast<short*>(DAT_011c7520.Setting_Int());
     if (BSRenderState_GetGPUVendor() == 1)
     {
         hr62 = reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int())->NiDX9Renderer_GetDirect3D()->vfn_28(0, 1, 0x16, 0, 1, 0x434f5441);
@@ -1819,7 +1822,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
         hr62 = (int)0x88760866;
     }
     DAT_011f9421 = (hr62 >= 0 && *DAT_011c7790.Bool() && *DAT_011c73f4.Int() > 1) ? 1 : 0;
-    BSShaderManager_SetMaxShadowMaps(FUN_00647b70(*DAT_011c72e4.FUN_0043d4d0(), *DAT_011c72d8.FUN_0043d4d0()));
+    BSShaderManager_SetMaxShadowMaps(BSMAX_00647b70(*DAT_011c72e4.Setting_Int(), *DAT_011c72d8.Setting_Int()));
     bool flag27 = true;
     if (BSRenderState_GetGPUVendor() == 2)
     {
@@ -1874,7 +1877,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
                 goto gpuQueryDone;
             Ver654 ver654;
             ver654.f0 = 0x1001c;
-            queryStatusV22 = FUN_009febd8(((RendObj*)FUN_0043c4b0())->NiDX9Renderer_GetDirect3D(), &ver654.f0);
+            queryStatusV22 = FUN_009febd8(((RendObj*)NiXenonRenderer_GetRenderer())->NiDX9Renderer_GetDirect3D(), &ver654.f0);
             if (queryStatusV22 != 0)
             {
                 if (countA23V9 < countB2V25)
@@ -1914,7 +1917,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     {
         BSShaderManager_EnableUseRefractionShader(0);
     }
-    if ((double)FUN_004dc200() / (double)FUN_004dc1f0() == 0.75)
+    if ((double)Renderer_GetScreenHeight() / (double)Renderer_GetScreenWidth() == 0.75)
     {
         DAT_011c70eb = 0;
     }
@@ -2025,7 +2028,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
         FUN_00ec9774(file32, (const char*)&DAT_010212c0,
                      DAT_011f9422 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
         FUN_00ec9774(file32, (const char*)&DAT_010212a4,
-                     FUN_004dc0a0() ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
+                     BSShaderManager_GetUseRefractionShader() ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
         FUN_00ec9774(file32, (const char*)&DAT_01021284,
                      DAT_011f91a3 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
         FUN_00ec9774(file32, (const char*)&DAT_01021268,
@@ -2042,7 +2045,7 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
         FUN_00ec9774(file32, (const char*)&DAT_010211c0,
                      DAT_011f9421 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
         FUN_00ec9774(file32, (const char*)&DAT_010211a4, ShaderBuffer_GetCurrentBufferType());
-        FUN_00ec9774(file32, (const char*)&DAT_01021188, *DAT_011c3ea4.FUN_0043d4d0());
+        FUN_00ec9774(file32, (const char*)&DAT_01021188, *DAT_011c3ea4.Setting_Int());
         FUN_00ec9907(file32);
     }
     DAT_011f9190 = *DAT_011c76c0.FUN_00408d60() ? *DAT_011c7488.Float() : *DAT_011c7170.Float();
@@ -2069,11 +2072,11 @@ int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
     DAT_011f9425 = *DAT_011c7774.FUN_00408d60();
     DAT_011f9428 = *DAT_011c7464.Float();
     DAT_011ad838 = *DAT_011c75e0.Float();
-    DAT_011f91b0 = (*DAT_011c752c.FUN_0043d4d0() >= 0 && *DAT_011c752c.FUN_0043d4d0() <= 3) ? *DAT_011c752c.FUN_0043d4d0() : 3;
+    DAT_011f91b0 = (*DAT_011c752c.Setting_Int() >= 0 && *DAT_011c752c.Setting_Int() <= 3) ? *DAT_011c752c.Setting_Int() : 3;
     DAT_011f9490 = DAT_011c70cc;
     DAT_011f961c =
         NiColorA(*DAT_011c75f8.Float(), *DAT_011c77cc.Float(), *DAT_011c73d0.Float(), 1.0f);
-    SetBSStringCapacity(*DAT_011c76cc.FUN_0043d4d0());
+    SetBSStringCapacity(*DAT_011c76cc.Setting_Int());
     DAT_011f948a = *DAT_011c7308.FUN_00408d60();
     return (int)reinterpret_cast<RendObj*>(DAT_011c73b4.operator unsigned int());
 }

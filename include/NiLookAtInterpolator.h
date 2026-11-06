@@ -29,7 +29,7 @@ class NiLookAtInterpolator : public NiInterpolator
     virtual bool IsPoseValue();
     virtual bool IsTimeVarying();
 
-    void __thiscall FUN_00a4c4b0(NiLookAtInterpolator* pkDest, CloningProcess& kCloning);
+    void __thiscall CopyMembers_00a4c4b0(NiLookAtInterpolator* pkDest, CloningProcess& kCloning);
     void* __thiscall FUN_00a4c5c0(unsigned int flags);
     void SetLookAtName(const NiFixedString& kName);
     bool ResolveTargetObject(NiAVObjectPalette* pkPalette);

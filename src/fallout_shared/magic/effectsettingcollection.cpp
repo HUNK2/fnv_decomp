@@ -58,7 +58,7 @@ EffectSetting* EffectSettingCollection::CreateEffectSetting(unsigned int formID,
     effect->SetEditorID_AtRuntime(editorID);
     ((LowProcess*)effect)->LowProcess::SetPackageObjectType(count);
     effect->UpdateEffectName(fullName);
-    effect->FUN_004ee4b0(cost);
+    effect->BSShaderProperty_SetDepthBias(cost);
     effect->SetAssociatedActorValue(skill);
     ((MiddleHighProcess*)effect)->MiddleHighProcess::AddDeferredHideLimb((ObjectToAcquire*)item);
     ((PlayerQuestData*)effect)->SetLogDate((Date*)resist);
@@ -120,8 +120,8 @@ struct GlobalObject_0045cf30
 };
 extern GlobalObject_0045cf30 g_011de4e8;
 
-TESForm* FUN_004839c0(unsigned int formID);
-void FUN_0040fbe0(const char* format, ...);
+TESForm* TESForm_GetFormByNumericID(unsigned int formID);
+void ProgramFlow(const char* format, ...);
 
 // Computes the save size of the effect setting collection, adding 4/2 bytes for save-load state and 4 bytes per flagged EffectSetting, then logs the result.
 // @fnv 0x00408c30
@@ -131,7 +131,7 @@ unsigned int EffectSettingCollection_GetKnownEffectsSaveSize()
     unsigned int size = 0;
     EffectSetting* mgef;
     unsigned short uiStart = (unsigned short)size;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         size += 4;
         size += 2;
@@ -148,15 +148,15 @@ unsigned int EffectSettingCollection_GetKnownEffectsSaveSize()
         ChangedForm* changed = (ChangedForm*)g_TESSaveLoadGame->FUN_004fd3e0();
         if (changed)
         {
-            TESForm* form = FUN_004839c0(changed->formID);
-            FUN_0040fbe0("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
+            TESForm* form = TESForm_GetFormByNumericID(changed->formID);
+            ProgramFlow("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          size - uiStart, changed->formID, form->GetName(), *(unsigned int*)(&changed->changeType + 1),
                          0x77,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Magic\\EffectSettingCollection.cpp");
         }
         else
         {
-            FUN_0040fbe0("GetSaveSize(): %-5i ending at line %i in file %s", size - uiStart, 0x77,
+            ProgramFlow("GetSaveSize(): %-5i ending at line %i in file %s", size - uiStart, 0x77,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Magic\\EffectSettingCollection.cpp");
         }
     }

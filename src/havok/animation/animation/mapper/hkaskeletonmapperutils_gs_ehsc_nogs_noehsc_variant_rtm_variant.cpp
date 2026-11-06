@@ -493,7 +493,7 @@ void HkStack::deallocateStack(void* p)
 class HkRouter
 {
   public:
-    __declspec(nothrow) static HkRouter& __cdecl FUN_00c85750() throw();
+    __declspec(nothrow) static HkRouter& __cdecl hkMemoryRouter_getInstance() throw();
     inline HkStack& stack()
     {
         return m_aiEntries;
@@ -515,21 +515,21 @@ class HkRouter
 
 template <typename TYPE> __forceinline TYPE* __cdecl hkAllocStack(int n, const char* what = 0)
 {
-    HkRouter& mem = HkRouter::FUN_00c85750();
+    HkRouter& mem = HkRouter::hkMemoryRouter_getInstance();
     return static_cast<TYPE*>(
         mem.stack().allocateStack((((n * HkSizeOf<TYPE>::val) + ((128) - 1)) & (~((128) - 1))), what));
 }
 
 template <typename TYPE> __forceinline void __cdecl hkFreeStack(TYPE* ptr)
 {
-    HkRouter::FUN_00c85750().stack().deallocateStack(static_cast<void*>(ptr));
+    HkRouter::hkMemoryRouter_getInstance().stack().deallocateStack(static_cast<void*>(ptr));
 }
 
 struct HkHeapAllocator
 {
     HkHeap& get(const void*)
     {
-        return HkRouter::FUN_00c85750().heap();
+        return HkRouter::hkMemoryRouter_getInstance().heap();
     }
 };
 

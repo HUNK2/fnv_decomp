@@ -50,7 +50,7 @@ bool TESLevCreature::Load(TESFile* file)
         case 0x444c564c: {
             unsigned char chance = 0;
             file->GetChunkData(&chance, 0);
-            FUN_0042e680(chance);
+            ExtraWeaponModFlags_SetWeaponModFlags(chance);
             break;
         }
         case 0x464c564c:
@@ -137,12 +137,13 @@ namespace LevCreatureCopyImplementation {
 
 struct Entry : public TESLevCreature
 {
-    void FUN_0050b2e0(TESForm*);
+    void TESLevCreature_Copy(TESForm*);
 };
 
 // Casts source to TESLevCreature and, if valid, calls FUN_004851b0 to copy data from it.
 // @fnv 0x0050b2e0
-void Entry::FUN_0050b2e0(TESForm* source)
+// src: XBOX_PDB 0x0050b2e0
+void Entry::TESLevCreature_Copy(TESForm* source)
 {
     TESLevCreature* creature;
     creature = dynamic_cast<TESLevCreature*>(source);
@@ -157,12 +158,13 @@ namespace LevCreatureComparisonImplementation {
 
 struct Entry : public TESLevCreature
 {
-    bool FUN_0050b320(TESForm*);
+    bool TESLevCreature_Compare(TESForm*);
 };
 
 // Returns true if the other form is not a TESLevCreature or if FUN_00485270(creature) is true, otherwise false.
 // @fnv 0x0050b320
-bool Entry::FUN_0050b320(TESForm* other)
+// src: XBOX_PDB 0x0050b320
+bool Entry::TESLevCreature_Compare(TESForm* other)
 {
     TESLevCreature* creature;
     creature = dynamic_cast<TESLevCreature*>(other);

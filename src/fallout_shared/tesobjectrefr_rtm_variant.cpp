@@ -41,8 +41,8 @@ class Owner
     virtual void v16();
     virtual void v17();
     virtual void v18(unsigned int flag);
-    int FUN_007af430();
-    ExtraList* FUN_005d43c0();
+    int BGSSaveFormBuffer_GetForm();
+    ExtraList* BSFile_GetDevice();
     MagicTarget* TESObjectREFR_GetMagicTarget();
 };
 // @fnv 0x00575f30
@@ -50,13 +50,13 @@ class Owner
 MagicTarget* Owner::TESObjectREFR_GetMagicTarget()
 {
     NonActorMagicTarget* p = 0;
-    if (TESMagicTargetForm_CanBeMagicTarget(FUN_007af430()))
+    if (TESMagicTargetForm_CanBeMagicTarget(BGSSaveFormBuffer_GetForm()))
     {
-        p = dynamic_cast<NonActorMagicTarget*>(FUN_005d43c0()->BaseExtraList_GetExtraData(0x33));
+        p = dynamic_cast<NonActorMagicTarget*>(BSFile_GetDevice()->BaseExtraList_GetExtraData(0x33));
         if (!p)
         {
             p = new NonActorMagicTarget(this);
-            FUN_005d43c0()->BaseExtraList_AddExtra(p);
+            BSFile_GetDevice()->BaseExtraList_AddExtra(p);
             v18(0x80000000);
         }
     }

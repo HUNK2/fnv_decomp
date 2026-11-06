@@ -59,7 +59,7 @@ struct FUN_00e34800
 };
 struct CB2FC0Object
 {
-    void __thiscall FUN_00cb2d90(void*);
+    void __thiscall hkRotation_set(void*);
 };
 struct FUN_00e3b4d0_Class
 {
@@ -1234,7 +1234,7 @@ struct FUN_00e3a270 : S_00e3a270_RefObj
     FUN_00e3a270();
     virtual void FUN_vfn0();
 };
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct S_00e3ae70_Item
 {
     int unk00;
@@ -1265,7 +1265,7 @@ struct LinkOwner
     void* unk00;
     void* unk04;
     void* unk08;
-    void __thiscall FUN_00d21ce0(void*);
+    void __thiscall hkpBridgeConstraintAtom_init(void*);
 };
 struct FUN_00e3b060_Class
 {
@@ -1337,7 +1337,7 @@ class FUN_00e3dfb0_cls
     int unk34;
     int m_38;
 
-    int FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
+    int hkxVertexBuffer_getVertexDataPtr(FUN_00e3dfb0_arg* rec);
 };
 struct FUN_00e3ec00_Class
 {
@@ -1386,7 +1386,7 @@ struct S_00e3ed00_Foo
     S_00e3ed00_Foo** children;
     int childCount;
 
-    S_00e3ed00_Result* __thiscall FUN_00c85750();
+    S_00e3ed00_Result* __thiscall hkMemoryRouter_getInstance();
     int __thiscall AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
 };
 void __cdecl ResizeAudioStream(int param1, S_00e3ed00_List* param2, int param3);
@@ -1538,7 +1538,7 @@ struct FUN_00e3df50_Class
 {
     FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
 };
-int __cdecl FUN_00e3dfb0(int param_1, int* param_2);
+int __cdecl hkxVertexBuffer_getVertexDataPtr(int param_1, int* param_2);
 int __cdecl FUN_00e3e020(int param_1, int* param_2);
 struct FNVTreeNode
 {

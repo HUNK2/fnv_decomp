@@ -72,7 +72,8 @@ const char* const* __cdecl NiBoolInterpController_GetRTTI()
 
 void __stdcall FUN_00a57c70(void*);
 // @fnv 0x00a44d20
-void __stdcall FUN_00a44d20(void* stream)
+// src: XBOX_PDB 0x00a44d20
+void __stdcall BSFrustumFOVController_LoadBinary(void* stream)
 {
     NiStream* pStream = static_cast<NiStream*>(stream);
     FUN_00a57c70(pStream);
@@ -125,13 +126,14 @@ NiBoolInterpController* __fastcall ConstructBoolInterpController(NiBoolInterpCon
 }
 
 
-void __stdcall FUN_00a57800(StrArr*);
+void __stdcall NiBoolInterpController_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
 
 // @fnv 0x00a44f40
-void __stdcall FUN_00a44f40(StrArr* pkStrings)
+// src: XBOX_PDB 0x00a44f40
+void __stdcall NiVisController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a57800(pkStrings);
+    NiBoolInterpController_GetViewerStrings(pkStrings);
     char* pcStr = _FUN_00a7d330(g_011f3f08);
     unsigned int uiElementCount = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 8);
@@ -238,7 +240,7 @@ void __fastcall UpdateVisController(NiVisController* controller, void*, NiUpdate
     {
         controller->m_fControllerTime = DAT_01096324;
     }
-    else if (controller->FUN_00a36250(kUpdateData.fTime) &&
+    else if (controller->DontDoUpdate(kUpdateData.fTime) &&
              (!controller->m_spControllerInterpolator.m_pObject || !controller->m_spControllerInterpolator.m_pObject->AlwaysUpdate()))
     {
         return;

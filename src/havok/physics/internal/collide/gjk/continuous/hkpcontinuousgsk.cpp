@@ -157,13 +157,13 @@ void FUN_00db4b50(S_00db4b50_A* a, float f, S_00db4b50_Out* out)
     FUN_00cf1710(a->unk00 + 0x40, b->unk00, t, out);
     FUN_00cf1710(a->unk04 + 0x40, b->unk00, t, &out->unk40);
     void* m = &out->unk80;
-    ((Transform*)m)->FUN_00cb22f0(out, &out->unk40);
-    ((Vec4*)&out->unkc0)->FUN_00c7f700(m, *(const Vec4*)&a->unk20);
-    ((Vec4*)&out->unkd0)->FUN_00c7f640((const Buf40*)m, &a->unk30);
+    ((Transform*)m)->hkTransform_setMulInverseMul(out, &out->unk40);
+    ((Vec4*)&out->unkc0)->hkVector4_setRotatedDir(m, *(const Vec4*)&a->unk20);
+    ((Vec4*)&out->unkd0)->setTransformedPos_00c7f640((const Buf40*)m, &a->unk30);
     out->unkcc = -a->unk14;
     *(__m128*)&out->unk110 = *(__m128*)(a->unk00 + 0x80);
     S_rotInv((const __m128*)&out->unk00, (const __m128*)&a->unk60, 2, (__m128*)&out->unkf0);
-    ((Vec4*)&out->unk120)->FUN_00c7f640((const Buf40*)m, a->unk04 + 0x80);
+    ((Vec4*)&out->unk120)->setTransformedPos_00c7f640((const Buf40*)m, a->unk04 + 0x80);
     ((Vec4*)&out->unke0)->hkVector4_setRotatedInverseDir(*(const Rot*)out, *(const Vec4*)&a->unk50);
 }
 
@@ -258,7 +258,7 @@ struct Shape
     int unk128;
     int unk12c;
     Vec4::Aligned vector130;
-    void FUN_00daad40(void*, void*, Transform*, Vec4*);
+    void hkpGsk_getClosestFeature(void*, void*, Transform*, Vec4*);
 };
 // hkpConvexShape view: m_radius at +0x10 (hkReferencedObject 8 + userData + type); distance = d - radiusA - radiusB
 struct GskConvexShape
@@ -310,8 +310,8 @@ static __declspec(noinline) void FUN_00db52c0(Shape* obj, const Transform* mat, 
     __declspec(align(16)) void* transformStorage[sizeof(Transform) / sizeof(void*)];
     Transform& localTransform = *reinterpret_cast<Transform*>(transformStorage);
     Vec4::Aligned shapeResult(Vec4::Uninitialized);
-    localTransform.FUN_00cb22f0(mat, other);
-    obj->FUN_00daad40(apPairA, apPairB, &localTransform, &shapeResult);
+    localTransform.hkTransform_setMulInverseMul(mat, other);
+    obj->hkpGsk_getClosestFeature(apPairA, apPairB, &localTransform, &shapeResult);
 
     LocalM128 v = reinterpret_cast<const LocalM128&>(shapeResult);
     LocalM128 p = _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), reinterpret_cast<const LocalM128&>(mat->r[1]));
@@ -356,7 +356,7 @@ void emit_function()
 }  // namespace fnv_00db52c0
 
 extern const double DAT_010c9300;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct Table
 {
     void* unk00;
@@ -555,7 +555,7 @@ static __declspec(noinline) void FUN_00db53f0(In* in, Out* out)
     int v = pCtrlA->tab->f2c(pCtrlA);
     out->f10 = v;
     out->f0c = v;
-    unsigned int* pBlockCursor = (unsigned int*)FUN_00c85750();
+    unsigned int* pBlockCursor = (unsigned int*)hkMemoryRouter_getInstance();
     unsigned int uiBlockStart = *pBlockCursor;
     int sz = v * 16;
     sz = sz + 0x7f;

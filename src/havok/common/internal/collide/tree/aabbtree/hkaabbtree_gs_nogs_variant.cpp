@@ -84,7 +84,7 @@ struct FUN_00d9ce00_Class
 };
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
 void __cdecl ResizeAudioStream(void* memory, UnsignedShortArray* buffer, unsigned int count);
-struct Owner { int unknown00, unknown04, unknown08; UnsignedShortArray buffer; hkMemoryRouter* FUN_00c85750(); unsigned short* AppendElement(unsigned short value); };
+struct Owner { int unknown00, unknown04, unknown08; UnsignedShortArray buffer; hkMemoryRouter* hkMemoryRouter_getInstance(); unsigned short* AppendElement(unsigned short value); };
 struct Allocator {
     virtual void v00();
     virtual void v04();
@@ -92,7 +92,7 @@ struct Allocator {
     virtual void v0c();
     virtual void Free(void* p, unsigned int bytes);
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
@@ -108,7 +108,7 @@ struct S_d9bf30_Words {
         m_uiItemCount++;
     }
     __forceinline void refill(unsigned short newSize, int oldCount) {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
 
         unsigned int cap = m_capFlags & 0x3fffffffu;
@@ -155,7 +155,7 @@ struct S_00d9d650_Heap
     virtual void unkVfn3();
     virtual void ReturnMemory(void* p, int numBytes);
 };
-namespace fnvc_adapt { hkMemoryRouter& __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter& __cdecl hkMemoryRouter_getInstance(); }
 void __cdecl hkArrayUtil__reserve(S_00d9d650_Heap& alloc, void* array, int reqCapacity, int sizeElem);
 template <typename T>
 struct S_00d9d650_Array
@@ -165,7 +165,7 @@ struct S_00d9d650_Array
     int m_iCapacityState;
 
     S_00d9d650_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00d9d650_Array() throw() { _clearAndDeallocate(*reinterpret_cast<S_00d9d650_Heap*>(fnvc_adapt::FUN_00c85750().GetAllocator())); }
+    ~S_00d9d650_Array() throw() { _clearAndDeallocate(*reinterpret_cast<S_00d9d650_Heap*>(fnvc_adapt::hkMemoryRouter_getInstance().GetAllocator())); }
 
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     T& operator[](int i) { return m_data[i]; }
@@ -195,7 +195,7 @@ struct S_00d9d650_Array
         GrowArrayCapacity(alloc, n);
         m_iElementCount = n;
     }
-    void SetSizeAndGrow(int n) { _setSize(*reinterpret_cast<S_00d9d650_Heap*>(fnvc_adapt::FUN_00c85750().GetAllocator()), n); }
+    void SetSizeAndGrow(int n) { _setSize(*reinterpret_cast<S_00d9d650_Heap*>(fnvc_adapt::hkMemoryRouter_getInstance().GetAllocator()), n); }
 };
 struct S_00d9d650_Aabb
 {
@@ -423,11 +423,12 @@ struct S00d9c610_AabbTree {
     hkVector4 m_kAabbMaximum;
     hkVector4 m_kAabbScale;
     void FUN_00d9b580(unsigned short insertPointIdx, unsigned short newLeafIdx, unsigned short scratchNodeIdx);
-    unsigned short FUN_00d9c610(const S00d9c610_Aabb& aabb, void* userData);
+    unsigned short hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_add(const S00d9c610_Aabb& aabb, void* userData);
 };
 
 // @fnv 0x00d9c610
-unsigned short S00d9c610_AabbTree::FUN_00d9c610(const S00d9c610_Aabb& aabb, void* userData)
+// src: XBOX_PDB 0x00d9c610
+unsigned short S00d9c610_AabbTree::hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_add(const S00d9c610_Aabb& aabb, void* userData)
 {
     S00d9c610_AabbUint32 qAabb;
     S00d9c610_convertAabbToUint32(aabb, m_kAabbMin, m_kAabbMaximum, m_kAabbScale, qAabb);

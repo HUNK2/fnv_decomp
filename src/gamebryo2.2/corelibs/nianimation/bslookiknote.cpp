@@ -553,8 +553,8 @@ extern const char str_01044a7c[];
 extern const char str_010477f4[];
 extern const char str_010639ec[];
 extern const char str_0102909c[];
-char* __cdecl FUN_00a7d550(const char* fmt, float v);
-char* __cdecl FUN_00a7d5e0(const char* fmt, const char* s);
+char* __cdecl NiGetViewerString_00a7d550(const char* fmt, float v);
+char* __cdecl NiGetViewerString_00a7d5e0(const char* fmt, const char* s);
 
 inline void S_Push(S_00a441f0_arg* p, char* s)
 {
@@ -571,14 +571,14 @@ void BSLookIKNote::GetViewerStrings(NiViewerStringsArray* strings)
 {
     BSAnimNote::GetViewerStrings(strings);
     S_00a441f0_arg* p = reinterpret_cast<S_00a441f0_arg*>(strings);
-    S_Push(p, FUN_00a7d550(str_01097d24, m_fDistanceScale));
+    S_Push(p, NiGetViewerString_00a7d550(str_01097d24, m_fDistanceScale));
     switch (eState)
     {
     case 1:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_010477f4));
+        S_Push(p, NiGetViewerString_00a7d5e0(str_01044a7c, str_010477f4));
     case 2:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_010639ec));
+        S_Push(p, NiGetViewerString_00a7d5e0(str_01044a7c, str_010639ec));
     default:
-        S_Push(p, FUN_00a7d5e0(str_01044a7c, str_0102909c));
+        S_Push(p, NiGetViewerString_00a7d5e0(str_01044a7c, str_0102909c));
     }
 }

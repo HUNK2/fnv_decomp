@@ -89,7 +89,7 @@ int __cdecl hkPackedNiTriStripsShape_getType()
 
 struct Allocator
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern Allocator DAT_011f6238;
 struct Special
@@ -105,7 +105,7 @@ Special* Special::FUN_00ca2aa0(unsigned int flags)
     if ((flags & 1) && this)
     {
         unsigned char shift = *((unsigned char*)this - 1);
-        DAT_011f6238.FUN_00aa4060((char*)this - shift);
+        DAT_011f6238.MemoryManager_Deallocate((char*)this - shift);
     }
     return this;
 }
@@ -126,7 +126,7 @@ struct MemoryAllocator
     virtual void* allocateBuffer(int& bytes);
     virtual void freeBuffer(void* buffer, int bytes);
 };
-extern "C" hkMemoryRouter& FUN_00c85750();
+extern "C" hkMemoryRouter& hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(MemoryAllocator*, void*, int, int);
 const char* __cdecl hkString_strDup_00cb1410(const char*);
 extern "C" void FUN_00ec8d5f(char*, unsigned int, const char*, unsigned int);
@@ -394,7 +394,7 @@ struct ContainerHeapAllocator
 {
     __forceinline MemoryAllocator& get(const void*) const
     {
-        return ((MemoryAllocator&)FUN_00c85750().heap());
+        return ((MemoryAllocator&)hkMemoryRouter_getInstance().heap());
     }
 };
 template <class T> struct HavokArrayBase
@@ -481,7 +481,7 @@ static __forceinline void resizeBones(HavokArray<BoneName>& bones, int count)
 typedef hkReferencedObject RigBase;
 __forceinline void* __cdecl hkaSkeleton::operator new(unsigned int n)
 {
-    RigBase* memory = (RigBase*)((MemoryAllocator&)FUN_00c85750().heap()).allocate(n);
+    RigBase* memory = (RigBase*)((MemoryAllocator&)hkMemoryRouter_getInstance().heap()).allocate(n);
     memory->m_usMemSizeAndFlags = (unsigned short)n;
     return memory;
 }
@@ -582,11 +582,11 @@ struct IndexArrayBase
 };
 struct IndexArray : IndexArrayBase
 {
-    __forceinline IndexArray(int count) : IndexArrayBase(IndexArrayBase::allocate(((MemoryAllocator&)FUN_00c85750().heap()), count))
+    __forceinline IndexArray(int count) : IndexArrayBase(IndexArrayBase::allocate(((MemoryAllocator&)hkMemoryRouter_getInstance().heap()), count))
     {}
     __forceinline ~IndexArray()
     {
-        MemoryAllocator* heap = &((MemoryAllocator&)FUN_00c85750().heap());
+        MemoryAllocator* heap = &((MemoryAllocator&)hkMemoryRouter_getInstance().heap());
         if ((capacity & 0x80000000u) == 0)
             heap->freeBuffer(data, (capacity & 0x3fffffff) * 4);
     }
@@ -1646,7 +1646,7 @@ bool Manager::bhkRagdollPenetrationUtil_Initialize(void* source, unsigned int fl
         else
         {
             entry->FUN_00ca2020();
-            DAT_011f6238.FUN_00aa4060(entry);
+            DAT_011f6238.MemoryManager_Deallocate(entry);
         }
     }
     for (inner = 0; (unsigned int)inner < storageCount(); ++inner)
@@ -1667,7 +1667,7 @@ bool Manager::bhkRagdollPenetrationUtil_Initialize(void* source, unsigned int fl
             if (p)
             {
                 p->FUN_00ca2020();
-                DAT_011f6238.FUN_00aa4060(p);
+                DAT_011f6238.MemoryManager_Deallocate(p);
             }
         }
     }

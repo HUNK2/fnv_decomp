@@ -54,7 +54,7 @@ public:
     void UpdateSaveTimestamp();
     static void BuildAutosaveName(char*);
     void* ReadHeaderFromFile(const char*, int, int, int);
-    bool FUN_00424940();
+    bool InterfaceManager_GetMenuMode();
     void CloseSaveFile(SaveLoadHeader*, int);
     void CloseSaveFile(SaveLoadFile*, bool);
     bool SaveGame_008503b0(const char*, int, bool);
@@ -73,14 +73,14 @@ public:
     void Quicksave_008509a0();
     void StartSaveGame();
     void EndSaveGame();
-    void FUN_00850ea0(void*);
-    void FUN_00850ea0(SaveLoadFile*);
+    void SaveGameHeader_00850ea0(void*);
+    void SaveGameHeader_00850ea0(SaveLoadFile*);
     bool FUN_00851a60(const char*);
     bool FUN_00851b00(const char*);
     bool FUN_00850fe0(bool);
     void BGSSaveLoadManager_SetupSavesList();
     void BGSSaveLoadManager_FreeSavesList();
-    SaveLoadFile* FUN_00850030(const char*, int, int, int);
+    SaveLoadFile* OpenSaveFile_00850030(const char*, int, int, int);
     void BuildWeaponPath(const char*, char*, bool);
     void AddFileToList(char*, int, int);
 };

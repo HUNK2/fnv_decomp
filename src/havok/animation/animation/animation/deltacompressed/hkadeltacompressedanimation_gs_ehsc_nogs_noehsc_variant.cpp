@@ -131,7 +131,7 @@ struct StreamHolder
 {
     Stream* m_pBinaryStream;
 };
-static void FUN_00e34ab0(Source* src, int a, StreamHolder* h, int count);
+static void releaseToCache_00e34ab0(Source* src, int a, StreamHolder* h, int count);
 void Caller_00e34ab0(Source* src, int a, StreamHolder* h, int count);
 struct S00e34c10_Block
 {
@@ -395,12 +395,12 @@ struct ScratchAllocator
 {
     char* current;
 };
-extern "C" ScratchAllocator* FUN_00c85750();
+extern "C" ScratchAllocator* hkMemoryRouter_getInstance();
 void __cdecl AnalyzeTrackWithZeroCount(const hkUint16*, const hkUint16*, unsigned int, unsigned int, TrackStatistics*);
-void __cdecl FUN_00e4f640(const RecomposeParameters*, hkQsTransform*, float*);
+void __cdecl hkaTrackAnalysis_recompose(const RecomposeParameters*, hkQsTransform*, float*);
 void __cdecl DecodeQuantizedBlock(const hkUint8*, const Quantization*, float*, int);
 void __cdecl PrefixSum(float*, int);
-int __cdecl FUN_00e51da0(int, const Quantization*);
+int __cdecl hkCalcQuantizedSize(int, const Quantization*);
 // src: HAVOK_LIB 0x00e349c0
 static void _decompress_00e349c0(float* output, DecodeParameters parameters)
 {
@@ -415,7 +415,7 @@ static void _decompress_00e349c0(float* output, DecodeParameters parameters)
         DecodeQuantizedBlock(parameters.data + byteOffset, &quantization, output, parameters.numValues);
         PrefixSum(output, parameters.numValues);
         output += parameters.blockSize;
-        byteOffset += FUN_00e51da0(parameters.numValues, &quantization);
+        byteOffset += hkCalcQuantizedSize(parameters.numValues, &quantization);
     }
 }
 __forceinline void UpdateBlockTail(unsigned int f, const int& step, int total, int& result)

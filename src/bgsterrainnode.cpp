@@ -161,7 +161,7 @@ BGSTerrainNode::BGSTerrainNode(BGSTerrainManager* pManagerArg, BGSTerrainNode* p
 
 struct FUN_00485b60
 {
-    unsigned int FUN_00485bc0();
+    unsigned int TESForm_GetFormIDWithoutIndex();
     TESFile* GetFile(int);
     unsigned int Go();
 };
@@ -172,10 +172,10 @@ unsigned int FUN_00485b60::Go()
     char flag;
     unsigned int result;
     TESFile* file;
-    result = FUN_00485bc0();
+    result = TESForm_GetFormIDWithoutIndex();
     flag = 0;
     file = GetFile(0);
-    if (!file->FUN_00464df0()->IsEmpty())
+    if (!file->GetMasterList_00464df0()->IsEmpty())
         flag = 1;
     result |= flag << 24;
     return result;
@@ -369,7 +369,7 @@ typedef void (__thiscall* TerrainSetBoolFunction)(NiNode*, int, int, int);
 namespace fnv_006ff2c0 {
 struct Chunk
 {
-    int FUN_006fabc0(int i);
+    int BGSTerrainChunk_GetTexture(int i);
 };
 struct Holder
 {
@@ -395,9 +395,9 @@ void FUN_006ff2c0_shell::UpdateTileFromChunk()
     int c;
     NiNode* b;
     int a;
-    c = holder->chunk->FUN_006fabc0(0);
-    a = holder->chunk->FUN_006fabc0(1);
-    b = reinterpret_cast<NiNode*>(tile->FUN_0056c7f0());
+    c = holder->chunk->BGSTerrainChunk_GetTexture(0);
+    a = holder->chunk->BGSTerrainChunk_GetTexture(1);
+    b = reinterpret_cast<NiNode*>(tile->GetModel_0056c7f0());
     if (b)
     {
         SetTerrainNodeBool(b, 0, 1, c);
@@ -424,7 +424,7 @@ void FUN_006ff380_shell::BGSTerrainNode_EndFade()
 {
     NiNode* node;
     flag = 0;
-    node = tile->FUN_0056c7f0();
+    node = tile->GetModel_0056c7f0();
     if (node)
     {
         node->BSShaderPPLightingProperty_SetLODTexParams(0.0f, 0.0f, 1.0f);
@@ -529,18 +529,18 @@ void FUN_006ff3f0_shell::BGSTerrainNode_UpdateFadeParameters()
     unsigned int section = g_timeGlobal.GetSection();
     delta = section - f50;
 
-    if (!tile || !tile->FUN_0056c7f0())
+    if (!tile || !tile->GetModel_0056c7f0())
         return;
 
-    if (delta > (unsigned int)*g_011d8740.FUN_0043d4d0())
+    if (delta > (unsigned int)*g_011d8740.Setting_Int())
     {
         BGSTerrainNode_EndFade();
     }
     else
     {
-        float f = (double)delta / (unsigned int)*g_011d8740.FUN_0043d4d0();
+        float f = (double)delta / (unsigned int)*g_011d8740.Setting_Int();
         NiPoint2 pt = ((FUN_006ff210_shell*)this)->BGSTerrainNode_SetFloatPairForLinkID();
-        tile->FUN_0056c7f0()->BSShaderPPLightingProperty_SetLODTexParams(pt.x, pt.y, f);
+        tile->GetModel_0056c7f0()->BSShaderPPLightingProperty_SetLODTexParams(pt.x, pt.y, f);
     }
 }
 
@@ -675,7 +675,7 @@ struct SceneUpdate
     virtual void v46() = 0;
     virtual void Refresh() = 0;
     void SetTaskFlag2000(bool);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00450f90(bool);
 };
 struct TerrainMgrUpdate
@@ -686,12 +686,12 @@ struct ChunkUpdate
 {
     int f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
     ChunkUpdate(TerrainUpdate*, unsigned int, short, short);
-    bool FUN_00759d80();
+    bool AnimatingText_IsDisplayFinished();
     bool GetInitialized();
     void BGSTerrainChunk_Attach();
     void BGSTerrainChunk_Show();
     SceneUpdate* GetRoot();
-    SceneUpdate* FUN_0056c7f0();
+    SceneUpdate* GetModel_0056c7f0();
     SceneUpdate* GetMenuRoot();
     SceneUpdate* GetObject3D();
 };
@@ -740,7 +740,7 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
     AutoMemContext context4((MEM_CONTEXT)35, true, kBGSTerrainNodeFileLabel, 284);
     bool below2 = manager->GetDaysPassed() < level;
     bool splitNow2 = BGSTerrainNode_ShouldSplit(arg);
-    if (splitNow2 && GetByteAtOffset5C() && chunk && !chunk->FUN_00759d80())
+    if (splitNow2 && GetByteAtOffset5C() && chunk && !chunk->AnimatingText_IsDisplayFinished())
         chunk->BGSTerrainChunk_Attach();
     if (below2 || splitNow2)
     {
@@ -773,19 +773,19 @@ void TerrainUpdate::UpdateTerrainNode(void* arg, bool update)
         else
         {
             bool unusedState5 = false;
-            if (chunk->GetInitialized() && chunk->FUN_00759d80() && GetByteAtOffset5C())
+            if (chunk->GetInitialized() && chunk->AnimatingText_IsDisplayFinished() && GetByteAtOffset5C())
                 chunk->BGSTerrainChunk_Show();
-            if (chunk->GetInitialized() && !chunk->FUN_00759d80() && (!parent || parent->BGSTerrainNode_CheckMeshSolidUnderMe(true)))
+            if (chunk->GetInitialized() && !chunk->AnimatingText_IsDisplayFinished() && (!parent || parent->BGSTerrainNode_CheckMeshSolidUnderMe(true)))
             {
                 chunk->BGSTerrainChunk_Attach();
-                chunk->FUN_0056c7f0()->FUN_00507700((float)((level / 4.0) * g_011d86f8.Float()->f));
+                chunk->GetModel_0056c7f0()->NiCamera_SetMaxFarNearRatio((float)((level / 4.0) * g_011d86f8.Float()->f));
                 SceneUpdate* root7 = Get()->GetMenuRoot();
                 root7->SetTaskFlag2000(false);
                 root7->Refresh();
                 root7->SetTaskFlag2000(true);
             }
         }
-        if (chunk->FUN_00759d80() && childrenLoaded)
+        if (chunk->AnimatingText_IsDisplayFinished() && childrenLoaded)
         {
             for (int unloadIndex4 = 0; unloadIndex4 < 4; unloadIndex4++)
                 if (children[unloadIndex4])
@@ -1023,7 +1023,7 @@ void Node006f::UpdateBlock(int a, bool abFlag)
 
 struct NodeObj
 {
-    bool FUN_00557d30();
+    bool PathingRequestCover_GetSortDistanceFromTarget();
 };
 struct GridObj
 {
@@ -1099,7 +1099,7 @@ void FeeNode::BGSTerrainNode_UpdateBlockVisibility(int a)
                                 int idx4 = count * i + j_;
                                 NodeObj* node = reinterpret_cast<NodeObj*>(getter5->GetCellAtGridPosition(x4, y3));
                                 if (!grid->FUN_006ff0a0(idx4) && DAT_011dea10->FUN_004511e0(reinterpret_cast<TESObjectCELL*>(node), 1) &&
-                                    node->FUN_00557d30())
+                                    node->PathingRequestCover_GetSortDistanceFromTarget())
                                 {
                                     grid->DisableEntry(idx4);
                                 }

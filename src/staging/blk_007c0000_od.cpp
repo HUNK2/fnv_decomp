@@ -94,7 +94,7 @@ void FUN_007cabb0()
 {
     if (DAT_011daa38 && *(unsigned char*)((unsigned char*)DAT_011daa38 + 0x54))
     {
-        ((BookMenu*)DAT_011daa38)->FUN_007c9dc0(1);
+        ((BookMenu*)DAT_011daa38)->TurnPage(1);
         ((BookMenu*)DAT_011daa38)->InvokeCallbacksForSlot();
     }
 }
@@ -107,7 +107,7 @@ void FUN_007cabf0()
 {
     if (DAT_011daa38 && *(unsigned char*)((char*)DAT_011daa38 + 0x54))
     {
-        ((BookMenu*)DAT_011daa38)->FUN_007c9dc0(0);
+        ((BookMenu*)DAT_011daa38)->TurnPage(0);
         ((BookMenu*)DAT_011daa38)->InvokeCallbacksForSlot();
     }
 }
@@ -173,11 +173,11 @@ void BSSimpleArray<StartMenuVideoRes>::_InitialSetup(unsigned int uiRequestedSiz
 }
 
 extern StartMenu* DAT_011daac0;
-bool __cdecl FUN_004b71d0();
+bool __cdecl InterfaceManager_Has360Controller();
 void __cdecl Controls_EnableRumble(char);
 void __cdecl HandleBackAction();
 
-int __cdecl FUN_00408b20(char const* a, char const* b);
+int __cdecl BSstrcmp(char const* a, char const* b);
 struct AVH
 {
     static char const* GetActorValueName(ActorValue::Index index);
@@ -193,12 +193,12 @@ int CompareActorValueNames(FUN_007da270_T* apLeft, FUN_007da270_T* apRight)
 {
     char const* nameA = AVH::GetActorValueName(apLeft->index);
     char const* nameB6 = AVH::GetActorValueName(apRight->index);
-    int result = FUN_00408b20(nameA, nameB6);
+    int result = BSstrcmp(nameA, nameB6);
     return result;
 }
 
 
-int __fastcall FUN_00794d80(void* value);
+int __fastcall SPECIALBookMenu_GetTotalPointsUsed(void* value);
 
 struct FUN_007ca530_CallbackBase
 {
@@ -343,7 +343,7 @@ struct FUN_007ca530_Params
 void DispatchStateCallback(FUN_007ca530_Params* params)
 {
     int state = *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x58) -
-                FUN_00794d80(reinterpret_cast<void*>(DAT_011daa38));
+                SPECIALBookMenu_GetTotalPointsUsed(reinterpret_cast<void*>(DAT_011daa38));
 
     if (state > 1)
     {
@@ -516,7 +516,7 @@ struct FUN_007ca5f0_Argument
     LodObject* field10;
 };
 
-int __fastcall FUN_00794d80(void*);
+int __fastcall SPECIALBookMenu_GetTotalPointsUsed(void*);
 
 // @fnv 0x007ca5f0
 void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
@@ -524,7 +524,7 @@ void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
     if (!p->field4 || !p->field8)
         return;
 
-    int difference = reinterpret_cast<GameGlobal*>(DAT_011daa38)->timestamp - FUN_00794d80(DAT_011daa38);
+    int difference = reinterpret_cast<GameGlobal*>(DAT_011daa38)->timestamp - SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38);
 
     if (difference == 0)
     {
@@ -556,16 +556,16 @@ void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
 // The shared header lacks this no-argument member. Its only argument is this in ECX.
 void __fastcall BSAudio_PauseWorldVoices(BSAudio*);
 
-int __fastcall FUN_00794d80(void* object);
-void __cdecl FUN_007c6120();
+int __fastcall SPECIALBookMenu_GetTotalPointsUsed(void* object);
+void __cdecl SPECIALBookMenu_Close();
 
 // If DAT_011daa38 is set and FUN_00794d80 returns its element 22, calls FUN_007c6120; otherwise plays the "UIActivateNothing" sound via BSAudio.
 // @fnv 0x007cac30
 void __cdecl FUN_007cac30()
 {
-    if (DAT_011daa38 && FUN_00794d80(DAT_011daa38) == DAT_011daa38[22])
+    if (DAT_011daa38 && SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) == DAT_011daa38[22])
     {
-        FUN_007c6120();
+        SPECIALBookMenu_Close();
     }
     else
     {
@@ -589,7 +589,8 @@ BSSimpleArray<StartMenu::Option*>::BSSimpleArray()
 }
 
 // @fnv 0x007c6110
-int __cdecl FUN_007c6110()
+// src: XBOX_PDB 0x007c6110
+int __cdecl SPECIALBookMenu_GetClassStatic()
 {
     return (int)1060u;
 }
@@ -619,7 +620,7 @@ struct FUN_00559450_Owner
     FUN_00450f90_Obj* FUN_00559450(int flag);
 };
 
-bool __cdecl FUN_004b71d0();
+bool __cdecl InterfaceManager_Has360Controller();
 
 // @fnv 0x007ca700
 void __cdecl FUN_007ca700(void* pObject)
@@ -633,7 +634,7 @@ void __cdecl FUN_007ca700(void* pObject)
     {
         ((FUN_00559450_Owner*)((char*)pObject + 8))->FUN_00559450(1)->FUN_00450f90();
     }
-    if (FUN_004b71d0())
+    if (InterfaceManager_Has360Controller())
     {
         if (*(int*)((char*)DAT_011daa38 + 0x48) == 8)
         {
@@ -745,7 +746,7 @@ struct FUN_007ca8e0_Params
 // @fnv 0x007ca8e0
 void __cdecl DispatchSourceCallback(FUN_007ca8e0_Params* params)
 {
-    if (FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58))
+    if (SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58))
     {
         params->callback->FUN_000000f0(0, 0, ((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1d0))->FUN_00559450());
     }
@@ -763,7 +764,7 @@ struct Callback
 struct CallbackCollection
 {
     unsigned int FUN_0044ddc0();
-    Callback** FUN_006a7ad0(unsigned int index);
+    Callback** BSSimpleArray_NiAVObject_1024_GetAt(unsigned int index);
 };
 // @fnv 0x007cacd0
 void BookMenu::InvokeCallbacksForSlot()
@@ -779,11 +780,11 @@ void BookMenu::InvokeCallbacksForSlot()
             (*reinterpret_cast<CallbackCollection*>(
                   reinterpret_cast<char*>(this) + 0x70 +
                   (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                  ->FUN_006a7ad0(i))
+                  ->BSSimpleArray_NiAVObject_1024_GetAt(i))
                 ->onPrimary(*reinterpret_cast<CallbackCollection*>(
                                  reinterpret_cast<char*>(this) + 0x70 +
                                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                 ->FUN_006a7ad0(i));
+                                 ->BSSimpleArray_NiAVObject_1024_GetAt(i));
         }
         for (unsigned int uiSecondaryIndex = 0;
              uiSecondaryIndex < reinterpret_cast<CallbackCollection*>(
@@ -795,23 +796,23 @@ void BookMenu::InvokeCallbacksForSlot()
             (*reinterpret_cast<CallbackCollection*>(
                   reinterpret_cast<char*>(this) + 0x60 +
                   (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                  ->FUN_006a7ad0(uiSecondaryIndex))
+                  ->BSSimpleArray_NiAVObject_1024_GetAt(uiSecondaryIndex))
                 ->onSecondary(*reinterpret_cast<CallbackCollection*>(
                                    reinterpret_cast<char*>(this) + 0x60 +
                                    (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))
-                                   ->FUN_006a7ad0(uiSecondaryIndex));
+                                   ->BSSimpleArray_NiAVObject_1024_GetAt(uiSecondaryIndex));
         }
     }
 }
 
 extern int DAT_011daab4;
 extern char DAT_01070244;
-void* __cdecl FUN_00a00940(const char*, int);
+void* __cdecl Tile_AddUserTrait(const char*, int);
 void __cdecl ourMemset(void*, int, unsigned);
 // @fnv 0x007cb330
 StartMenu::StartMenu() : unk1b8(0)
 {
-    unk1d0 = FUN_00a00940(&DAT_01070244, -1);
+    unk1d0 = Tile_AddUserTrait(&DAT_01070244, -1);
     ourMemset(m_pTiles, 0, 0x5c);
     uiFlags = 0;
     m_pUserOption = 0;
@@ -833,8 +834,8 @@ void __cdecl UpdateStartMenuTile()
 {
     if (DAT_011daac0)
     {
-        ((Tile*)DAT_011daac0->FUN_00726070())->Set(0x1009, FUN_004b71d0());
-        Controls_EnableRumble(FUN_004b71d0());
+        ((Tile*)DAT_011daac0->FUN_00726070())->Set(0x1009, InterfaceManager_Has360Controller());
+        Controls_EnableRumble(InterfaceManager_Has360Controller());
         if (DAT_011daac0->IsFlagSet(0x1000))
             HandleBackAction();
     }
@@ -873,7 +874,8 @@ bool __cdecl ShouldHideMenuBehindPauseMenu(int id)
 }
 
 // @fnv 0x007cc6d0
-int __cdecl FUN_007cc6d0()
+// src: XBOX_PDB 0x007cc6d0
+int __cdecl TutorialMenu_GetClassStatic()
 {
     return (int)1059u;
 }
@@ -939,10 +941,11 @@ struct FUN_007df120_Class
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_007df120(int a);
+    void Tile_SetName(int a);
 };
 // @fnv 0x007df120
-void FUN_007df120_Class::FUN_007df120(int aiValue)
+// src: XBOX_PDB 0x007df120
+void FUN_007df120_Class::Tile_SetName(int aiValue)
 {
     ((FUN_00501c10_Class*)((char*)this + 0x20))->CallAndReturnSelf(aiValue);
 }
@@ -1022,10 +1025,10 @@ struct FUN_00a712f0
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
     void FUN_00712e60(const NiColorA&);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(const NiFrustum&);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00a59c60(NiUpdateData&);
+    void NiAVObject_SetTranslate_004bc1f0(float, float, float);
+    void NiAVObject_Update(NiUpdateData&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
     void NiCamera_SetMinNearPlaneDist(float);
     void AssignFixedString(const NiFixedString&);
@@ -1098,7 +1101,7 @@ struct Renderer
     virtual void slot63();
     virtual float GetScale();
 };
-Renderer* FUN_0045c670();
+Renderer* Main_GetWorldSceneGraph();
 struct SettingFloat
 {
     float* Float();
@@ -1108,9 +1111,9 @@ extern SettingFloat DAT_01203150;
 extern bool DAT_011f9426;
 extern int DAT_011f9434;
 extern NiColorA DAT_011ad840;
-int FUN_004dc200();
-int FUN_004dc1f0();
-float FUN_0057dd70(float);
+int Renderer_GetScreenHeight();
+int Renderer_GetScreenWidth();
+float tan_0057dd70(float);
 
 // Allocates a camera object, configures its viewport, frustum, aspect ratio, transform and name, and returns it.
 // @fnv 0x007c99c0
@@ -1125,21 +1128,21 @@ void* BookMenu::CreateSurgery3DCamera()
     distance->FUN_00712e60(viewport);
     NiFrustum angle;
     angle.Init(false);  // Perspective frustum.
-    angle.farPlane = FUN_0045c670()->GetScale();
+    angle.farPlane = Main_GetWorldSceneGraph()->GetScale();
     angle.nearPlane = *DAT_01203144.Float();
-    distance->FUN_00507700(angle.farPlane / angle.nearPlane);
-    frustum = float(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    distance->NiCamera_SetMaxFarNearRatio(angle.farPlane / angle.nearPlane);
+    frustum = float(DAT_011f9426 ? DAT_011f9434 : Renderer_GetScreenHeight()) / Renderer_GetScreenWidth();
     float camera = 0.75f;  // Frustum scale.
     float update = *DAT_01203150.Float() * 0.01745329238474369 * 0.15000000596046448;
-    angle.left = -FUN_0057dd70(update) * camera;
-    angle.right = FUN_0057dd70(update) * camera;
-    angle.bottom = -FUN_0057dd70(update) * frustum * camera;
-    angle.top = FUN_0057dd70(update) * frustum * camera;
+    angle.left = -tan_0057dd70(update) * camera;
+    angle.right = tan_0057dd70(update) * camera;
+    angle.bottom = -tan_0057dd70(update) * frustum * camera;
+    angle.top = tan_0057dd70(update) * frustum * camera;
     angle.ortho = false;
     distance->FUN_00a6faf0(angle);
-    distance->FUN_004bc1f0(0.0f, 0.0f, 1.0f);
+    distance->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.0f);
     NiUpdateData aspect(0.0f, false, false);  // Initial scene update.
-    distance->FUN_00a59c60(aspect);
+    distance->NiAVObject_Update(aspect);
     distance->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
     distance->NiCamera_SetMinNearPlaneDist(1.0f);
     distance->AssignFixedString(NiFixedString("Surgery3DCamera"));
@@ -1442,7 +1445,7 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
 {
     int iValue = param_1->unk24;
     if (((CsVObj*)(DAT_011dea3c + 0xa4))->vf07(iValue) < 10 &&
-        (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
+        (DAT_011daa38 == 0 || SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
     {
         param_1->sub08.FUN_00559450(0)->FUN_00450f90();
     }
@@ -1451,7 +1454,7 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
         param_1->sub08.FUN_00559450(1)->FUN_00450f90();
     }
 
-    if (FUN_004b71d0() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
+    if (InterfaceManager_Has360Controller() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
     {
         if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
         {
@@ -1945,12 +1948,12 @@ void __cdecl StartMenu_CreateMenuElements()
 
 struct BookInterface
 {
-    Tile* FUN_00586150();
+    Tile* CombatController_GetCombatState();
 };
 BookInterface* InterfaceManager_GetSingleton();
-int FUN_007c6110();
+int SPECIALBookMenu_GetClassStatic();
 void Warning_005b5e40(const char*, ...);
-void FUN_007037e0();
+void Interface_EmergencyCloseAllMenusAndBreakStuff();
 void HUDMainMenu_SetAutoDisplayObjectives(bool);
 struct BookNodePointer
 {
@@ -1962,9 +1965,9 @@ extern BookNodePointer DAT_011daa9c;
 // src: COMMUNITY 0x007c5fc0
 extern "C" void SPECIALBookMenu_Create(int value)
 {
-    Tile* menu = InterfaceManager_GetSingleton()->FUN_00586150()->FUN_00a01b00("Data\\Menus\\CharGen\\SPECIALBookMenu.xml");
+    Tile* menu = InterfaceManager_GetSingleton()->CombatController_GetCombatState()->Tile_ReadFile("Data\\Menus\\CharGen\\SPECIALBookMenu.xml");
     BookMenu* tile = static_cast<BookMenu*>(menu->Tile_GetMenu());
-    if (tile && tile->GetClass() == FUN_007c6110())
+    if (tile && tile->GetClass() == SPECIALBookMenu_GetClassStatic())
     {
         tile->SetTileMenu(reinterpret_cast<TileMenu*>(menu), false);
         DAT_011daa38 = reinterpret_cast<int*>(tile);
@@ -1973,7 +1976,7 @@ extern "C" void SPECIALBookMenu_Create(int value)
         {
             Warning_005b5e40("MENUS:  Special book menu creation failed... Missing index = #%d", index);
             delete menu;
-            FUN_007037e0();
+            Interface_EmergencyCloseAllMenusAndBreakStuff();
             return;
         }
         // The SPECIAL book menu extends BookMenu with its value at 0x58.
@@ -1989,13 +1992,13 @@ extern "C" void SPECIALBookMenu_Create(int value)
     }
 }
 
-int __cdecl FUN_00647b70(int a, int b);
+int __cdecl BSMAX_00647b70(int a, int b);
 
 struct FUN_007ca960_Owner
 {
     int unk00[41];
     FUN_007ca700_Virt kSub;
-    void FUN_0093a7c0(int a, int b);
+    void PlayerCharacter_SetActorBaseValue(int a, int b);
 };
 
 // @fnv 0x007ca960
@@ -2013,7 +2016,7 @@ void __cdecl FUN_007ca960(void* apSelf)
             kSound = BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialNumber", 0x121);
             kSound.Play(false);
         }
-        ((FUN_007ca960_Owner*)DAT_011dea3c)->FUN_0093a7c0(m_uiSoundID, FUN_00647b70(iCount - 1, 1));
+        ((FUN_007ca960_Owner*)DAT_011dea3c)->PlayerCharacter_SetActorBaseValue(m_uiSoundID, BSMAX_00647b70(iCount - 1, 1));
     }
     ((BookMenu*)DAT_011daa38)->InvokeCallbacksForSlot();
 }

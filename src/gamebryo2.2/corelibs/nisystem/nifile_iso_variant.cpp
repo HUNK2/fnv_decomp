@@ -16,11 +16,12 @@ struct FileTransferCallbacks
     unsigned int bytesProcessed;
     void(__cdecl* readFunction)();
     void(__cdecl* writeFunction)();
-    void FUN_00aa1b30(bool enableSwap);
+    void NiFile_SetEndianSwap(bool enableSwap);
 };
 
 // @fnv 0x00aa1b30
-void FileTransferCallbacks::FUN_00aa1b30(bool enableSwap)
+// src: XBOX_PDB 0x00aa1b30
+void FileTransferCallbacks::NiFile_SetEndianSwap(bool enableSwap)
 {
     if (enableSwap)
     {
@@ -67,7 +68,7 @@ void __cdecl NiFile_SetFileCreateFunc(::NiFile*(__cdecl* replacement)(const char
 }
 
 extern int EmptyFS;
-bool __cdecl FUN_00aa1ab0(const char*);
+bool __cdecl NiFile_DirectoryExists(const char*);
 bool __cdecl NiFile_CreateDirectoryRecursive(const char*);
 
 struct ProgramCacheDirectoryState
@@ -83,11 +84,12 @@ struct ProgramCacheDirectoryState
 };
 
 // @fnv 0x00ee8d20
-extern "C" bool __fastcall FUN_00ee8d20(ProgramCacheDirectoryState* cache, int)
+// src: XBOX_PDB 0x00ee8d20
+extern "C" bool __fastcall NiGPUProgramCache_ValidateDirectory(ProgramCacheDirectoryState* cache, int)
 {
     if (cache->workingDirectory != reinterpret_cast<const char*>(EmptyFS))
     {
-        if (FUN_00aa1ab0(cache->workingDirectory))
+        if (NiFile_DirectoryExists(cache->workingDirectory))
             return true;
         const char* directory = cache->workingDirectory;
         bool created = NiFile_CreateDirectoryRecursive(directory);
@@ -204,7 +206,8 @@ bool __cdecl NiFile_CreateDirectoryRecursive(const char* pcPath)
 namespace fnv_00aa1a30 {
 extern void(__cdecl* DAT_011ac228)(const char*, NiFile::OpenMode);
 // @fnv 0x00aa1a30
-void __cdecl FUN_00aa1a30(const char* name, NiFile::OpenMode mode)
+// src: XBOX_PDB 0x00aa1a30
+void __cdecl NiFile_Access(const char* name, NiFile::OpenMode mode)
 {
     DAT_011ac228(name, mode);
 }

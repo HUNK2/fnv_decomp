@@ -112,7 +112,8 @@ void BSRotAccumTransfInterpolator::UpdateRotValue(int a)
 
 void __cdecl FUN_00a3f7b0();
 // @fnv 0x00a43a70
-void __cdecl FUN_00a43a70()
+// src: XBOX_PDB 0x00a43a70
+void __cdecl BSRotAccumTransfInterpolator_LoadBinary()
 {
     FUN_00a3f7b0();
 }
@@ -120,14 +121,16 @@ void __cdecl FUN_00a43a70()
 extern void __cdecl FUN_00a3f870();
 
 // @fnv 0x00a43a80
-void __cdecl FUN_00a43a80()
+// src: XBOX_PDB 0x00a43a80
+void __cdecl BSRotAccumTransfInterpolator_RegisterStreamables()
 {
     FUN_00a3f870();
 }
 
 void __cdecl FUN_00a3f8a0();
 // @fnv 0x00a43a90
-void __cdecl FUN_00a43a90()
+// src: XBOX_PDB 0x00a43a90
+void __cdecl BSRotAccumTransfInterpolator_SaveBinary()
 {
     FUN_00a3f8a0();
 }
@@ -135,7 +138,8 @@ void __cdecl FUN_00a43a90()
 extern void FUN_00a3f8d0();
 
 // @fnv 0x00a43aa0
-void FUN_00a43aa0()
+// src: XBOX_PDB 0x00a43aa0
+void BSRotAccumTransfInterpolator_IsEqual()
 {
     FUN_00a3f8d0();
 }
@@ -198,7 +202,7 @@ NiPoint3 __cdecl FUN_00a27490(float, void*, int, unsigned int, unsigned int&, un
 QuaternionValue __cdecl FUN_00a28740(float, void*, int, unsigned int, unsigned int&, unsigned char);
 float __cdecl InterpolateKey(float, void*, int, unsigned int, unsigned int&, unsigned char);
 void* FUN_00a3f990(unsigned int*, int*, unsigned char*);
-void* FUN_0058cb00(unsigned int*, int*, unsigned char*);
+void* NiTransformInterpolator_GetRotData(unsigned int*, int*, unsigned char*);
 void* NiTransformInterpolator_GetScaleData(unsigned int*, int*, unsigned char*);
 typedef void* (__thiscall *GetTransformKeys)(NiTransformInterpolator*, unsigned int*, int*, unsigned char*);
 // Evaluates position, rotation and scale keys at time, applies rotation delta to object matrix, and stores the result in result.
@@ -229,7 +233,7 @@ bool BSRotAccumTransfInterpolator::UpdateTransform(float time, NiObjectNET* targ
         AssignPosition(*(NiPoint3*)&m_kDefaultTransform.x, FUN_00a27490(time, keys, type, count, index, stride));
         m_usLastRotationKeyIndex = (unsigned short)index;
     }
-    keys = ((GetTransformKeys)FUN_0058cb00)(this, &count, &type, &stride);
+    keys = ((GetTransformKeys)NiTransformInterpolator_GetRotData)(this, &count, &type, &stride);
     if (count > 0)
     {
         index = m_usLastPositionKeyIndex;

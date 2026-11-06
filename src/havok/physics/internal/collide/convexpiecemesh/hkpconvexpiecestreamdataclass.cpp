@@ -16,7 +16,7 @@ struct Holder
     int unk0c;
     Manager* manager;
 };
-Holder* FUN_00c85750();
+Holder* hkMemoryRouter_getInstance();
 struct Record
 {
     int unk00;
@@ -31,7 +31,7 @@ Record* Record::FUN_00dffd50(unsigned int flags)
     FUN_00dffca0();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = hkMemoryRouter_getInstance();
         holder->manager->Notify(this, value);
     }
     return this;
@@ -71,7 +71,7 @@ struct FUN_00dffca0_cls : BufferOwnerBase
 
 static void ReleaseOwnedBuffer(OwnedBuffer& buf)
 {
-    Holder* holder = FUN_00c85750();
+    Holder* holder = hkMemoryRouter_getInstance();
     BufAllocator* allocator = reinterpret_cast<BufAllocator*>(holder->manager);
     unsigned int flags = buf.flags;
     buf.unk04 = 0;

@@ -178,10 +178,10 @@ struct FnvCpu_FUN_00cdf530_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cdf530_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 __forceinline void hkReferencedObject::operator delete(void* block)
 {
-    FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = FUN_00c85750();
+    FnvCpu_FUN_00cdf530_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
     holder->allocator->Invoke(block, static_cast<hkReferencedObject*>(block)->m_usMemSizeAndFlags);
 }
 
@@ -315,7 +315,7 @@ extern const LocalM128 DAT_010c71e0;
 struct Quat
 {
     LocalM128 m_vec;
-    void FUN_00cb2450(const LocalM128* axis, float angle);
+    void hkQuaternion_setAxisAngle(const LocalM128* axis, float angle);
 };
 
 __forceinline void Vec4::setCross(const Vec4& a, const Vec4& b)
@@ -355,7 +355,7 @@ void hkpRagdollConstraintData::setPlaneAngularLimit(float afStart, float afEnd)
     float& m_halfRange = m_kBridgeAtoms.m_kConeLimit.m_fMaxAngle;
     float center = (afStart + afEnd) * 0.5;
     Quat q;
-    q.FUN_00cb2450(&m_kAxisEndPoints.getQuad(), -center);
+    q.hkQuaternion_setAxisAngle(&m_kAxisEndPoints.getQuad(), -center);
     m_dir.SetRotatedDirection(q, m_dir);
     // Access through the byte view preserves the original post-rotation reload.
     const unsigned int frameBOffset = offsetof(hkpRagdollConstraintData, m_kBridgeAtoms)

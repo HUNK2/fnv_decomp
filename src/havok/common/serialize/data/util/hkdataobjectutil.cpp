@@ -117,11 +117,12 @@ struct DC3CC0Map
     int m_iPairCount;
 
     void ResizeStorage(DC3CC0Allocator& alloc, int capacity);
-    void FUN_00dc3cc0(DC3CC0Allocator& alloc, int numElements);
+    void hkMapBase_hkDataObject_Handle_void_Copier_HandleOps_resizeTable(DC3CC0Allocator& alloc, int numElements);
 };
 
 // @fnv 0x00dc3cc0
-void DC3CC0Map::FUN_00dc3cc0(DC3CC0Allocator& alloc, int numElements)
+// src: XBOX_PDB 0x00dc3cc0
+void DC3CC0Map::hkMapBase_hkDataObject_Handle_void_Copier_HandleOps_resizeTable(DC3CC0Allocator& alloc, int numElements)
 {
     int minCap = numElements * 2;
     int cap = 8;
@@ -216,14 +217,15 @@ struct Temp
     int f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11;
     Temp* __thiscall Construct(void* a2, int one, void* a1, void* a3) throw();
     ~Temp() throw();
-    int __thiscall FUN_00dc4710() throw();
+    int __thiscall Copier_toObject() throw();
 };
 
 // @fnv 0x00dc32c0
-int __cdecl FUN_00dc32c0(void* a1, void* a2, void* a3)
+// src: XBOX_PDB 0x00dc32c0
+int __cdecl hkDataObjectUtil_toObjectWithRegistry(void* a1, void* a2, void* a3)
 {
     Temp temp;
-    return temp.Construct(a2, 1, a1, a3)->FUN_00dc4710();
+    return temp.Construct(a2, 1, a1, a3)->Copier_toObject();
 }
 
 struct GlobalObj_cls
@@ -237,7 +239,7 @@ struct GlobalObj_cls
 
 extern GlobalObj_cls* DAT_01268b08;
 
-extern "C" int __cdecl FUN_00dc32c0(int a1, int a2, int a3);
+extern "C" int __cdecl hkDataObjectUtil_toObjectWithRegistry(int a1, int a2, int a3);
 
 // Calls v0c on DAT_01268b08, then passes a1, obj->v10() and that result to FUN_00dc32c0 and returns its result.
 // @fnv 0x00dc3500
@@ -245,13 +247,13 @@ int __cdecl FUN_00dc3500(int a1)
 {
     GlobalObj_cls* obj = DAT_01268b08;
     int r1 = DAT_01268b08->v0c();
-    return FUN_00dc32c0(a1, obj->v10(), r1);
+    return hkDataObjectUtil_toObjectWithRegistry(a1, obj->v10(), r1);
 }
 
 namespace fnv_00dc3530 {
 extern int DAT_01268b08;
 
-int __cdecl FUN_00dc3300(int a1, int a2);
+int __cdecl hkDataObjectUtil_toResourceWithRegistry(int a1, int a2);
 
 struct SvcHolder_b0466
 {
@@ -267,7 +269,7 @@ int __cdecl FUN_00dc3530(int a1)
 {
     SvcHolder_b0466* svc = (SvcHolder_b0466*)DAT_01268b08;
     int r = svc->unk10();
-    return FUN_00dc3300(a1, r);
+    return hkDataObjectUtil_toResourceWithRegistry(a1, r);
 }
 }  // namespace fnv_00dc3530
 
@@ -312,7 +314,7 @@ struct CT
     Handle f2;
 };
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x00dc3550
 int FUN_00dc3550(CT ct)
@@ -323,13 +325,13 @@ int FUN_00dc3550(CT ct)
     home.slt.m0 = 0;
     home.slt.m4 = 0;
     home.slt.m8 = -1;
-    void* mgr = FUN_00c85750();
+    void* mgr = hkMemoryRouter_getInstance();
     home.slt.FUN_00dc3bd0(((void**)mgr)[4], 0);
     (void)home.f1.p;  // keep
     home.CloneObject(&ct.f1, home.f2->V7(&ct.f2));
     ct.f1.FUN_00dba7f0();
     ct.f2.FUN_00dba7f0();
-    mgr = FUN_00c85750();
+    mgr = hkMemoryRouter_getInstance();
     home.slt.FreeStorage(((void**)mgr)[4]);
     return 0;
 }
@@ -531,7 +533,7 @@ inline DC43A0Allocator& GetHeap(hkMemoryRouter& holder)
     return *(DC43A0Allocator*)holder.m_heap;
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct DC43A0ReferencedObject
 {
@@ -559,7 +561,7 @@ struct DC43A0MapA
     void ClearAndRelease(DC43A0Allocator& alloc);
     ~DC43A0MapA()
     {
-        ClearAndRelease(GetHeap(FUN_00c85750()));
+        ClearAndRelease(GetHeap(hkMemoryRouter_getInstance()));
     }
 };
 
@@ -572,7 +574,7 @@ struct DC43A0MapB
     void ClearAndRelease(DC43A0Allocator& alloc);
     ~DC43A0MapB()
     {
-        ClearAndRelease(GetHeap(FUN_00c85750()));
+        ClearAndRelease(GetHeap(hkMemoryRouter_getInstance()));
     }
 };
 
@@ -588,7 +590,7 @@ template<> __forceinline hkArray<fnv_00dc43a0::DC43A0Pair>::~hkArray()
 {
     using namespace fnv_00dc43a0;
 
-        DC43A0Allocator& alloc = GetHeap(fnv_00dc43a0::FUN_00c85750());
+        DC43A0Allocator& alloc = GetHeap(fnv_00dc43a0::hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(DC43A0Pair));
@@ -619,7 +621,7 @@ FUN_00dc43a0::~FUN_00dc43a0() throw()
 
 namespace fnv_00dc4f20 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct ObjectRef
 {
@@ -633,7 +635,7 @@ struct SubRecord
     int m_i08;
 
     void EnsureCapacity(int aiValue, int aiZero);
-    void FUN_00dc3cc0(int aiValue, int aiZero);
+    void hkMapBase_hkDataObject_Handle_void_Copier_HandleOps_resizeTable(int aiValue, int aiZero);
 };
 
 struct FUN_00dc4f20_cls
@@ -666,15 +668,15 @@ FUN_00dc4f20_cls* FUN_00dc4f20_cls::Construct(ObjectRef* apRef, int aiSecond)
     pSub->m_i00 = 0;
     pSub->m_i04 = 0;
     pSub->m_i08 = -1;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     pSub->EnsureCapacity((int)pHolder->m_heap, 0);
 
     SubRecord* pSub2 = &m_sub18;
     pSub2->m_i00 = 0;
     pSub2->m_i04 = 0;
     pSub2->m_i08 = -1;
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
-    pSub2->FUN_00dc3cc0((int)pHolder2->m_heap, 0);
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
+    pSub2->hkMapBase_hkDataObject_Handle_void_Copier_HandleOps_resizeTable((int)pHolder2->m_heap, 0);
 
     unk24 = 0;
     unk28 = 0;
@@ -697,7 +699,7 @@ inline S_00dc58a0_Alloc& GetBufferAllocator(hkMemoryRouter& holder)
     return *(S_00dc58a0_Alloc*)holder.m_temp;
 }
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct S_00dc58a0_Obj
 {
@@ -734,7 +736,7 @@ struct S_00dc58a0_Arr
 struct FUN_00dc58a0_cls
 {
     void FUN_00dc56f0(S_00dc58a0_Arr& out, const S_00dc58a0_Obj& a, const S_00dc58a0_Obj& b) throw();
-    void FUN_00dc4210(S_00dc58a0_Src* a, S_00dc58a0_Src* b, S_00dc58a0_Item* item) throw();
+    void Cloner_copyValue(S_00dc58a0_Src* a, S_00dc58a0_Src* b, S_00dc58a0_Item* item) throw();
     void ProcessSourcePair(S_00dc58a0_Src* a, S_00dc58a0_Src* b) throw();
 };
 
@@ -749,8 +751,8 @@ void FUN_00dc58a0_cls::ProcessSourcePair(S_00dc58a0_Src* pSourceA, S_00dc58a0_Sr
     arr.m_iCapacityState = 0x80000000;
     FUN_00dc56f0(arr, ha, pSourceB->GetObjectValue());
     for (int i = 0; i < arr.m_iElementCount; i++)
-        FUN_00dc4210(pSourceA, pSourceB, &arr.m_data[i]);
-    arr.ClearAndRelease(GetBufferAllocator(*FUN_00c85750()));
+        Cloner_copyValue(pSourceA, pSourceB, &arr.m_data[i]);
+    arr.ClearAndRelease(GetBufferAllocator(*hkMemoryRouter_getInstance()));
 }
 }  // namespace fnv_00dc58a0
 
@@ -1044,7 +1046,7 @@ struct ValueQ
     float FUN_00dbaa00() const throw();
     const float* DispatchToInterface(int n) const throw();
     S_00dc5970_Object FUN_00dba9d0() const throw();
-    const char* FUN_00dba9c0() const throw();
+    const char* hkDataObject_Value_asString() const throw();
     void FUN_00dbaa30(int i) throw();
     void DispatchFloatToVtbl(float r) throw();
     void FUN_00dbab10(const float* v, int n) throw();
@@ -1078,7 +1080,7 @@ void Cloner::CopyValue(ValueQ dst, const ValueQ& src) throw()
         dst.DispatchToObject(CloneObject(src.FUN_00dba9d0()));
         break;
     case 10:
-        dst.FUN_00dbab30(src.FUN_00dba9c0());
+        dst.FUN_00dbab30(src.hkDataObject_Value_asString());
         break;
     }
 }
@@ -1210,7 +1212,7 @@ struct DKlass
 struct DObj
 {
     int unk00;
-    int FUN_00dba980() throw();
+    int hkDataObject_isNull() throw();
     void FUN_00dba7f0() throw();
     __forceinline ~DObj() throw()
     {
@@ -1253,8 +1255,8 @@ struct DAllocator
 };
 
 
-__declspec(restrict) void* __cdecl FUN_00c85750() throw();
-extern "C" void __cdecl FUN_00cb1280(void* p, int v, int n) throw();
+__declspec(restrict) void* __cdecl hkMemoryRouter_getInstance() throw();
+extern "C" void __cdecl hkString_memSet(void* p, int v, int n) throw();
 
 struct DOutArray
 {
@@ -1281,7 +1283,7 @@ struct DTracker
 
 template <class T> __forceinline T* AllocElems(int& count)
 {
-    hkMemoryRouter* mem = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* mem = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     DAllocator& heap = *(DAllocator*)mem->m_heap;
     T* p;
     {
@@ -1304,7 +1306,7 @@ struct DReader
     DTracker* unk04;
     int unk08;
 
-    DKlass* FUN_00dc3a80(DMember* member, DObj& obj) throw();
+    DKlass* Copier_getMemberClassAndCheck(DMember* member, DObj& obj) throw();
     int ReadObject(void* p, DObj& obj) throw();
     DVariant FUN_00dc4430(DObj& obj, int flag) throw();
     int ReadValue(char** p, int type, DValue& v, int unk, int flag) throw();
@@ -1540,18 +1542,18 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         break;
     }
     case 25: {
-        DKlass* pClassInfo = FUN_00dc3a80(member, apArray->FUN_00dbabb0(0).CreateValueInto());
+        DKlass* pClassInfo = Copier_getMemberClassAndCheck(member, apArray->FUN_00dbabb0(0).CreateValueInto());
         if (pClassInfo)
         {
             out->unk04 = apArray->FUN_00dbac00();
             int totalBytes = pClassInfo->FUN_00d470d0() * out->unk04;
-            hkMemoryRouter* mem = (hkMemoryRouter*)FUN_00c85750();
+            hkMemoryRouter* mem = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             {
                 int numBytes = totalBytes;
                 out->unk00 = CopyClassBytes(*(DAllocator*)mem->m_heap, numBytes);
             }
             elemSize = pClassInfo->FUN_00d470d0();
-            FUN_00cb1280(out->unk00, 0, pClassInfo->FUN_00d470d0() * apArray->FUN_00dbac00());
+            hkString_memSet(out->unk00, 0, pClassInfo->FUN_00d470d0() * apArray->FUN_00dbac00());
             for (int i = 0; i < apArray->FUN_00dbac00(); i++)
             {
                 if (result != 0)
@@ -1574,11 +1576,11 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<void*>(out->unk04);
         elemSize = 4;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 4);
+        hkString_memSet(out->unk00, 0, out->unk04 * 4);
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = apArray->FUN_00dbabb0(i).CreateValueInto();
-            if (!o.FUN_00dba980())
+            if (!o.hkDataObject_isNull())
             {
                 DVariant v = FUN_00dc4430(o, flag);
                 if (v.unk00 == 0)
@@ -1597,11 +1599,11 @@ int DReader::ReadArray(DOutArray* out, DMember* member, DArray* apArray) throw()
         out->unk04 = apArray->FUN_00dbac00();
         out->unk00 = AllocElems<DVariant>(out->unk04);
         elemSize = 8;
-        FUN_00cb1280(out->unk00, 0, out->unk04 * 8);
+        hkString_memSet(out->unk00, 0, out->unk04 * 8);
         for (int i = 0; i < apArray->FUN_00dbac00(); i++)
         {
             DObj o = apArray->FUN_00dbabb0(i).CreateValueInto();
-            if (!o.FUN_00dba980())
+            if (!o.hkDataObject_isNull())
             {
                 DVariant v = FUN_00dc4430(o, flag);
                 if (v.unk00 == 0)
@@ -1949,7 +1951,7 @@ typedef ::__m128 LocalM128;
 struct S_00dc4fa0_Reader
 {
     void* __thiscall DispatchToInterface(int count) throw();
-    const char* __thiscall FUN_00dba9c0() throw();
+    const char* __thiscall hkDataObject_Value_asString() throw();
     float __thiscall FUN_00dbaa00() throw();
     int __thiscall FUN_00dba990() throw();
     S_00dc5970_Object __thiscall FUN_00dba9d0() throw();
@@ -2114,9 +2116,9 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
             return 1;
         }
         char* copy;
-        if (reader->FUN_00dba9c0())
+        if (reader->hkDataObject_Value_asString())
         {
-            copy = hkString_strDup_00cb1410(reader->FUN_00dba9c0());
+            copy = hkString_strDup_00cb1410(reader->hkDataObject_Value_asString());
             unk04->m_pStringFunctions.pushBack(copy);
         }
         else
@@ -2128,9 +2130,9 @@ int __thiscall S_00dc4fa0::FUN_00dc4fa0(void* out, int type, S_00dc4fa0_Reader* 
     }
     case 33: {
         int val;
-        if (reader->FUN_00dba9c0())
+        if (reader->hkDataObject_Value_asString())
         {
-            char* copy = hkString_strDup_00cb1410(reader->FUN_00dba9c0());
+            char* copy = hkString_strDup_00cb1410(reader->hkDataObject_Value_asString());
             unk04->m_pStringFunctions.pushBack(copy);
             val = (int)copy;
         }
@@ -2207,7 +2209,7 @@ struct DCIterator
     ~DCIterator() throw();
     DCIterator SetShiftedValue() throw();
     int FUN_00dba670() throw();
-    DCNode* FUN_00dba680() throw();
+    DCNode* hkDataClass_getName() throw();
     void FillOutFromInterface(void*) throw();
 };
 struct DCEntry
@@ -2264,13 +2266,13 @@ S_00dc5970_ClassImpl* Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcClass) throw
         return (S_00dc5970_ClassImpl*)result;
     {
         DCArray a = {0, 0, (int)0x80000000};
-        hkMemoryRouter* r = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* r = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         a.reserve((DCAlloc*)r->m_temp, 10);
         DCNode* node = arg;
         while (node && !((DCWorld*)&m_kSourceWorld)->find(node))
         {
             DCIterator it(((DCWorld*)unk4)->find(node));
-            r = (hkMemoryRouter*)FUN_00c85750();
+            r = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             if (a.size == (a.cap & 0x3fffffff))
                 ResizeAudioStream((DCAlloc*)r->m_temp, &a, 24);
             DCEntry* e = a.data + a.size;
@@ -2283,7 +2285,7 @@ S_00dc5970_ClassImpl* Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcClass) throw
             DCEntry* out = a.data + a.size;
             a.size++;
             it.FillOutFromInterface(out);
-            node = it.SetShiftedValue().FUN_00dba670() ? 0 : it.SetShiftedValue().FUN_00dba680();
+            node = it.SetShiftedValue().FUN_00dba670() ? 0 : it.SetShiftedValue().hkDataClass_getName();
         }
         for (int i = a.size - 1; i >= 0; --i)
             ((DCWorld*)&m_kSourceWorld)->add(a.data + i);
@@ -2299,14 +2301,14 @@ S_00dc5970_ClassImpl* Cloner::FUN_00dc5440(S_00dc5970_ClassImpl* srcClass) throw
                 FUN_00dc5440((S_00dc5970_ClassImpl*)((DCNode*)member.x[3])->get());
         }
         srcClass = (S_00dc5970_ClassImpl*)((DCWorld*)&m_kSourceWorld)->find(arg);
-        DCAlloc* heap = (DCAlloc*)((hkMemoryRouter*)FUN_00c85750())->m_temp;
+        DCAlloc* heap = (DCAlloc*)((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_temp;
         if (a.size > 0)
         {
             int* cap = &a.data->cap;
             int i = a.size;
             do
             {
-                hkMemoryRouter* r = (hkMemoryRouter*)FUN_00c85750();
+                hkMemoryRouter* r = (hkMemoryRouter*)hkMemoryRouter_getInstance();
                 clearPart(cap[0], cap, (DCAlloc*)r->m_heap);
                 cap += 6;
             } while (--i);
@@ -2498,9 +2500,9 @@ struct Member355
     {
         return name;
     }
-    int FUN_00d86940() throw();
+    int getCstyleArraySize() throw();
     int FUN_00d86980() throw();
-    void* FUN_00d86920() throw();
+    void* getClass() throw();
 };
 struct Class355
 {
@@ -2512,7 +2514,7 @@ struct Class355
 struct ClassHandle355
 {
     void* impl;
-    void* FUN_00dba680() throw();
+    void* hkDataClass_getName() throw();
     void FUN_00dba660() throw();
 };
 struct Object355;
@@ -2573,7 +2575,7 @@ struct NativeObjectCopier
     int ReadValue(char* destination, int type, Value355* value, void* metadata, int owned) throw();
     int ReadArray(char* destination, Member355* member, Array355* array) throw();
     int FUN_00dc1bf0(char* destination, Member355* member, Value355* value, Class355* type) throw();
-    Class355* FUN_00dc3a80(Member355* member, Object355* object) throw();
+    Class355* Copier_getMemberClassAndCheck(Member355* member, Object355* object) throw();
 };
 // Deserializes an Object355 into destination by iterating class members and dispatching on member type, returning 1 on failure.
 // @fnv 0x00dc2d60
@@ -2581,7 +2583,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
 {
     int result = 0;
     ClassHandle355 classHandle;
-    void* name = object->GetObjectValue(&classHandle)->FUN_00dba680();
+    void* name = object->GetObjectValue(&classHandle)->hkDataClass_getName();
     classHandle.FUN_00dba660();
     Class355* type = registry->find(name);
     if (!type)
@@ -2599,7 +2601,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                 continue;
             }
             Value355 value = object->FUN_00dba870(member->getName());
-            int count = member->FUN_00d86940();
+            int count = member->getCstyleArraySize();
             if (!count)
                 count = 1;
             int stride = member->FUN_00d86980() / count;
@@ -2633,7 +2635,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
             case 33:
                 if (count == 1)
                 {
-                    result = FUN_00dc4fa0(output, kind, &value, member->FUN_00d86920(), owned);
+                    result = FUN_00dc4fa0(output, kind, &value, member->getClass(), owned);
                 }
                 else
                 {
@@ -2641,7 +2643,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                     for (int i = 0; i < array.FUN_00dbac00() && !result; ++i, output += stride)
                     {
 
-                        result = ReadValue(output, kind, &array.FUN_00dbab90(i), member->FUN_00d86920(), owned);
+                        result = ReadValue(output, kind, &array.FUN_00dbab90(i), member->getClass(), owned);
                     }
                 }
                 break;
@@ -2673,7 +2675,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                     if (count == 1)
                     {
 
-                        result = FUN_00dc4fa0(output, kind, &value, FUN_00dc3a80(member, &value.FUN_00dba9d0()), owned);
+                        result = FUN_00dc4fa0(output, kind, &value, Copier_getMemberClassAndCheck(member, &value.FUN_00dba9d0()), owned);
                     }
                     else
                     {
@@ -2682,7 +2684,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                         {
 
                             result = ReadValue(output, kind, &array.FUN_00dbab90(i),
-                                               FUN_00dc3a80(member, &array.FUN_00dbab90(i).CreateValueInto()), owned);
+                                               Copier_getMemberClassAndCheck(member, &array.FUN_00dbab90(i).CreateValueInto()), owned);
                         }
                     }
                 }
@@ -2697,14 +2699,14 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                 Array355 array = value.GetResult();
 
                 Sequence355* sequence = (Sequence355*)output;
-                sequence->elementClass = FUN_00dc3a80(member, &array.FUN_00dbab90(0).CreateValueInto());
+                sequence->elementClass = Copier_getMemberClassAndCheck(member, &array.FUN_00dbab90(0).CreateValueInto());
 
                 sequence->count = array.FUN_00dbac00();
                 int elementSize = sequence->elementClass->FUN_00d470d0();
                 {
                     int bytes = sequence->count * elementSize;
                     sequence->data = AllocElems<char>(bytes);
-                    FUN_00cb1280(sequence->data, 0, bytes);
+                    hkString_memSet(sequence->data, 0, bytes);
                 }
                 tracker->AddEntry((int)sequence->data, sequence->count * elementSize, 6);
                 int i = 0;
@@ -2745,10 +2747,10 @@ inline S_Heap& GetObjectAllocator(hkMemoryRouter& holder)
     return *(S_Heap*)holder.m_heap;
 }
 
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 inline S_Heap& S_heap()
 {
-    return GetObjectAllocator(*(hkMemoryRouter*)FUN_00c85750());
+    return GetObjectAllocator(*(hkMemoryRouter*)hkMemoryRouter_getInstance());
 }
 struct S_Blk
 {
@@ -2796,7 +2798,7 @@ struct S_Map
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00cb1870(S_Heap* h, int v, const char* k) throw();
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_Heap* h, int v, const char* k) throw();
 };
 struct S_Obj
 {
@@ -2806,7 +2808,7 @@ struct S_Obj
     int m8;
     int unk0c;
     S_Map m10;
-    S_Obj* FUN_00e05700();
+    S_Obj* hkPackfileData_hkPackfileData();
     void FUN_00e05100(int a, const char* b) throw();
     void FUN_00c90510() throw();
     void FUN_00c905b0() throw();
@@ -2829,10 +2831,10 @@ struct S_X
 struct S_PH
 {
     S_X* p;
-    int FUN_00dba980();
+    int hkDataObject_isNull();
     S_PH* GetObjectValue(S_PH* out);
-    S_X* FUN_00dba6c0();
-    const char* FUN_00dba680();
+    S_X* hkDataClass_getWorld();
+    const char* hkDataClass_getName();
     void FUN_00dba660() throw();
     void FUN_00dba7f0() throw();
 };
@@ -2891,18 +2893,18 @@ struct S_Ctx
 __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
 {
     S_Obj* result = 0;
-    if (!object->FUN_00dba980())
+    if (!object->hkDataObject_isNull())
     {
         S_Obj* resource = (S_Obj*)S_heap().alloc(0x64);
         ((S_Blk*)resource)->sz = 0x64;
-        S_Obj* replacement = resource->FUN_00e05700();
+        S_Obj* replacement = resource->hkPackfileData_hkPackfileData();
         context->m4 = replacement;
         S_T2 target;
         context->FUN_00dc4430(&target, object, 0);
         if (target.f0 && target.f4)
         {
             S_PH temporary;
-            S_X* x = object->GetObjectValue(&temporary)->FUN_00dba6c0();
+            S_X* x = object->GetObjectValue(&temporary)->hkDataClass_getWorld();
             temporary.FUN_00dba660();
             int index = context->m18.FUN_00dc35e0();
             while (index <= context->m18.m8)
@@ -2911,14 +2913,14 @@ __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
                 S_PH value;
                 x->v10(&value, &key);
                 S_PH text;
-                const char* name = value.GetObjectValue(&text)->FUN_00dba680();
+                const char* name = value.GetObjectValue(&text)->hkDataClass_getName();
                 text.FUN_00dba660();
                 S_Str* string = context->m0->v4(name);
                 int number = context->m18.getValue(index);
                 S_Obj* owner = context->m4;
                 const char* keyName = string->FUN_00d46d40();
                 S_Heap& heap = S_heap();
-                owner->m10.FUN_00cb1870(&heap, number, keyName);
+                owner->m10.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(&heap, number, keyName);
                 value.FUN_00dba7f0();
                 index = context->m18.next(index);
             }
@@ -2937,7 +2939,8 @@ __forceinline S_Obj* S_toResource(S_Ctx* context, S_PH* object) throw()
 
 // Constructs a context from domain and delegates to S_toResource to build an S_Obj from object.
 // @fnv 0x00dc3300
-S_Obj* __cdecl FUN_00dc3300(S_PH* object, S_Dom* domain) throw()
+// src: XBOX_PDB 0x00dc3300
+S_Obj* __cdecl hkDataObjectUtil_toResourceWithRegistry(S_PH* object, S_Dom* domain) throw()
 {
     S_Ctx context;
     S_Ctx* ctx = context.Construct(domain, 0);
@@ -3023,7 +3026,7 @@ struct S_00dc4710_Ref
     void removeReference() throw();  // FUN_00c905b0
     static void* operator new(unsigned int n)
     {
-        void* p = GetReferenceAllocator(*(hkMemoryRouter*)FUN_00c85750()).AllocateMemoryBlock(n);
+        void* p = GetReferenceAllocator(*(hkMemoryRouter*)hkMemoryRouter_getInstance()).AllocateMemoryBlock(n);
         ((S_00dc4710_Ref*)p)->m_iElementCount = (short)n;
         return p;
     }
@@ -3163,7 +3166,7 @@ struct S_00dc4710_Class
     S_00dc4710_ClassImpl* m_pClassImpl;
     ~S_00dc4710_Class() throw();                        // FUN_00dba660
     S_00dc4710_ClassImpl* getImplementation() throw();  // FUN_00dba680
-    struct S_00dc4710_World* FUN_00dba6c0() throw();
+    struct S_00dc4710_World* hkDataClass_getWorld() throw();
 };
 struct S_00dc4710_ObjImpl;
 struct S_00dc4710_Obj
@@ -3223,8 +3226,8 @@ struct S_00dc4710_Result : S_00dc4710_Ref
     int unk10;
     int unk14;
     S_00dc4710_Result(const S_00dc4710_Ret& r) throw();  // Initialize
-    void FUN_00e04eb0(S_00dc4710_Owner* o) throw();
-    void FUN_00e04ee0(S_00dc4710_Sink* s) throw();
+    void hkObjectResource_setClassNameRegistry(S_00dc4710_Owner* o) throw();
+    void hkObjectResource_setTypeInfoRegistry(S_00dc4710_Sink* s) throw();
 };
 struct S_00dc4710_Map
 {
@@ -3241,19 +3244,20 @@ struct S_00dc4710_Cls
     S_00dc4710_Map m_map;
     hkMap_dc4710<S_00dc4710_Key, unsigned short*> m_entries;
     S_00dc4710_Ret FUN_00dc4430(S_00dc4710_Obj* a1, int one) throw();
-    S_00dc4710_Result* FUN_00dc4710(S_00dc4710_Obj* a1, S_00dc4710_Sink* a2) throw();
+    S_00dc4710_Result* Copier_toObject(S_00dc4710_Obj* a1, S_00dc4710_Sink* a2) throw();
 };
 
 // Creates a Result from a1, updates m_entries via m_map and m_pOwnerObject, and reports unregistered classes through DAT_01268360.
 // @fnv 0x00dc4710
-S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc4710_Sink* apSink) throw()
+// src: XBOX_PDB 0x00dc4710
+S_00dc4710_Result* S_00dc4710_Cls::Copier_toObject(S_00dc4710_Obj* apObj, S_00dc4710_Sink* apSink) throw()
 {
     S_00dc4710_Thing* t = new S_00dc4710_Thing;
     if (m_thing && m_thing != t)
         m_thing->removeReference();
     m_thing = t;
     S_00dc4710_Ret ret = FUN_00dc4430(apObj, 1);
-    S_00dc4710_World* world = apObj->GetObjectValue().FUN_00dba6c0();
+    S_00dc4710_World* world = apObj->GetObjectValue().hkDataClass_getWorld();
     if (ret.p == 0)
     {
         m_thing->unk30 = 0;
@@ -3293,8 +3297,8 @@ S_00dc4710_Result* S_00dc4710_Cls::FUN_00dc4710(S_00dc4710_Obj* apObj, S_00dc471
         }
     }
     S_00dc4710_Result* pResult = new S_00dc4710_Result(ret);
-    pResult->FUN_00e04eb0(m_pOwnerObject);
-    pResult->FUN_00e04ee0(apSink);
+    pResult->hkObjectResource_setClassNameRegistry(m_pOwnerObject);
+    pResult->hkObjectResource_setTypeInfoRegistry(apSink);
     S_00dc4710_Thing* pThing = m_thing;
     pThing->unk30 = 0;
     pThing->unk38 = 0;
@@ -3362,7 +3366,7 @@ inline DAllocator& GetTemporaryHeap(hkMemoryRouter& holder) throw()
     return *(DAllocator*)holder.m_temp;
 }
 
-__declspec(restrict) void* __cdecl FUN_00c85750();
+__declspec(restrict) void* __cdecl hkMemoryRouter_getInstance();
 // hkMemoryAllocator::_bufAlloc<T>: the allocator may round the request up, the element count is updated
 template <class T> __forceinline T* AllocateBufferWithSize(DAllocator& a, int& reqNumInOut) throw()
 {
@@ -3385,7 +3389,7 @@ struct DMembers
     int capacity;
     __forceinline DMembers(int n) throw() : data(0), size(0), capacity(0x80000000)
     {
-        DAllocator& alloc = GetTemporaryHeap(*(hkMemoryRouter*)FUN_00c85750());
+        DAllocator& alloc = GetTemporaryHeap(*(hkMemoryRouter*)hkMemoryRouter_getInstance());
         DMember* p = n ? AllocateBufferWithSize<DMember>(alloc, n) : 0;
         int cap = n ? n : 0x80000000;
         data = p;
@@ -3400,7 +3404,7 @@ struct DMembers
     }
     __forceinline ~DMembers() throw()
     {
-        DAllocator& a = GetTemporaryHeap(*(hkMemoryRouter*)FUN_00c85750());
+        DAllocator& a = GetTemporaryHeap(*(hkMemoryRouter*)hkMemoryRouter_getInstance());
         size = 0;
         if ((capacity & 0x80000000) == 0)
             a.ReturnMemory(data, (capacity & 0x3fffffff) * sizeof(DMember));
@@ -3439,11 +3443,12 @@ struct DCloner
 {
     DObj CloneObject(const DObj& o) throw();
     void FUN_00dc37f0(DValue dst, const DValue& src) throw();
-    void FUN_00dc3d40(DArray& destination, const DArray& src, int n) throw();
+    void Cloner_copyArray(DArray& destination, const DArray& src, int n) throw();
 };
 // Copies n elements from source array to destination array, dispatching on element type to clone scalars, vectors, objects, classes, or strings.
 // @fnv 0x00dc3d40
-void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCount) throw()
+// src: XBOX_PDB 0x00dc3d40
+void DCloner::Cloner_copyArray(DArray& destination, const DArray& source, int aiCount) throw()
 {
     DArray& src = const_cast<DArray&>(source);
     switch (src.FUN_00dbac10())
@@ -3492,7 +3497,7 @@ void DCloner::FUN_00dc3d40(DArray& destination, const DArray& source, int aiCoun
                         int iLength = (member.type & 0x10) ? dstMember.FUN_00dbab90(i).FUN_00dbacd0().FUN_00dbac00()
                                                            : member.tupleSize;
                         DArray dstNested = dstMember.FUN_00dbab90(i).FUN_00dbacd0();
-                        FUN_00dc3d40(dstNested, srcMember.FUN_00dbab90(i).FUN_00dbacd0(), iLength);
+                        Cloner_copyArray(dstNested, srcMember.FUN_00dbab90(i).FUN_00dbacd0(), iLength);
                     }
                 }
                 else
@@ -3550,7 +3555,7 @@ struct FUN_00dba660
 {
     void* m_pClassImpl;
     ~FUN_00dba660() throw();
-    DataWorld* FUN_00dba6c0() const throw();
+    DataWorld* hkDataClass_getWorld() const throw();
 };
 
 struct DataValue
@@ -3571,9 +3576,9 @@ struct DataObject
 
 struct ValueCloner
 {
-    void FUN_00dc3d40(FUN_00dbab70& dst, const FUN_00dbab70& src, int n) throw();
+    void Cloner_copyArray(FUN_00dbab70& dst, const FUN_00dbab70& src, int n) throw();
     void CopyValue(DataValue dst, const DataValue& src) throw();
-    void FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, const MemberInfo& minfo) throw();
+    void Cloner_copyValue(DataObject& dstObj, const DataObject& srcObj, const MemberInfo& minfo) throw();
 };
 
 template <class T> struct CheckedReference
@@ -3590,7 +3595,8 @@ template <class T> struct CheckedReference
 };
 // Clones a data member from srcObj to dstObj based on minfo.m_type, handling arrays and plain values.
 // @fnv 0x00dc4210
-void ValueCloner::FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, const MemberInfo& minfo) throw()
+// src: XBOX_PDB 0x00dc4210
+void ValueCloner::Cloner_copyValue(DataObject& dstObj, const DataObject& srcObj, const MemberInfo& minfo) throw()
 {
     DataValue v;
 
@@ -3602,17 +3608,17 @@ void ValueCloner::FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, con
                 .FUN_00dba890(&v, minfo.m_name)
                 ->GetResult();
         FUN_00dbab70 dstArray;
-        dstArray.FUN_00dbab50(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo));
+        dstArray.FUN_00dbab50(dstObj.GetObjectValue().hkDataClass_getWorld()->m_ppNewArray(dstObj, minfo));
         dstArray.FUN_00dbabe0(minfo.m_uiItemCount);
-        FUN_00dc3d40(dstArray, srcArray, minfo.m_uiItemCount);
+        Cloner_copyArray(dstArray, srcArray, minfo.m_uiItemCount);
     }
     else if (minfo.m_type & 0x10)
     {
         FUN_00dbab70 srcArray = srcObj.FUN_00dba890(&v, minfo.m_name)->GetResult();
         FUN_00dbab70 dstArray;
-        dstArray.FUN_00dbab50(dstObj.GetObjectValue().FUN_00dba6c0()->m_ppNewArray(dstObj, minfo));
+        dstArray.FUN_00dbab50(dstObj.GetObjectValue().hkDataClass_getWorld()->m_ppNewArray(dstObj, minfo));
         dstArray.FUN_00dbabe0(srcArray.FUN_00dbac00());
-        FUN_00dc3d40(dstArray, srcArray, srcArray.FUN_00dbac00());
+        Cloner_copyArray(dstArray, srcArray, srcArray.FUN_00dbac00());
     }
     else
     {
@@ -3623,7 +3629,7 @@ void ValueCloner::FUN_00dc4210(DataObject& dstObj, const DataObject& srcObj, con
 
 extern "C" void _ReadWriteBarrier();
 struct AllocatorVtbl;
-__declspec(restrict) void* __cdecl FUN_00c85750() throw();
+__declspec(restrict) void* __cdecl hkMemoryRouter_getInstance() throw();
 __forceinline S_00dc3ce0_Allocator& GetMapAllocator(hkMemoryRouter& holder) throw()
 {
     return *(S_00dc3ce0_Allocator*)holder.m_heap;
@@ -3666,7 +3672,7 @@ struct DObjWrap
     void* m_ptr;
     ~DObjWrap() throw();
     int FUN_00dba670() throw();
-    int FUN_00dba680() throw();
+    int hkDataClass_getName() throw();
     int FUN_00dba690() throw();
 };
 
@@ -3688,7 +3694,7 @@ struct ObjA
 
 struct Arg1
 {
-    int FUN_00dba980() throw();
+    int hkDataObject_isNull() throw();
     DObjWrap GetObjectValue() throw();
     Key64* GetSourcePair(Key64* out) throw();
 };
@@ -3728,7 +3734,7 @@ struct KeyArrayLocalForm
 
     __forceinline void pushBack(const Key64& e) throw()
     {
-        pushBack(GetMapAllocator(*(hkMemoryRouter*)FUN_00c85750()), e);
+        pushBack(GetMapAllocator(*(hkMemoryRouter*)hkMemoryRouter_getInstance()), e);
     }
 
     __forceinline void popBack() throw()
@@ -3820,10 +3826,10 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
 
     _ReadWriteBarrier();
     result.second = 0;
-    if (!apArg->FUN_00dba980())
+    if (!apArg->hkDataObject_isNull())
     {
 
-        if (apArg->GetObjectValue().FUN_00dba670() || !apArg->GetObjectValue().FUN_00dba680())
+        if (apArg->GetObjectValue().FUN_00dba670() || !apArg->GetObjectValue().hkDataClass_getName())
         {
             result.second = 0;
             return result;
@@ -3843,14 +3849,14 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
         }
 
         ObjA* world = m_obj00;
-        ObjB* pClassInfo = world->v10(apArg->GetObjectValue().FUN_00dba680());
+        ObjB* pClassInfo = world->v10(apArg->GetObjectValue().hkDataClass_getName());
 
         result.first = m_map18.Lookup(apArg->GetSourcePair(&key)->val, 0);
         if (result.first == 0)
         {
             (apArg->GetObjectValue().FUN_00dba690(), pClassInfo->FUN_00d47120());
             int mem = pClassInfo->FUN_00d470d0();
-            hkMemoryRouter* memory = (hkMemoryRouter*)FUN_00c85750();
+            hkMemoryRouter* memory = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             AllocatorVtbl* heap = (AllocatorVtbl*)memory->m_heap;
             result.first = heap->allocate(mem);
             m_obj04->AddEntry((int)result.first, mem, 6);
@@ -3860,7 +3866,7 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
             Key64* __restrict pReturnedKey = apArg->GetSourcePair(&temp);
             Key64* __restrict destination = &key;
             *destination = *pReturnedKey;
-            m_map18.InsertKeyValue(GetMapAllocator(*(hkMemoryRouter*)FUN_00c85750()), key.val, result.first);
+            m_map18.InsertKeyValue(GetMapAllocator(*(hkMemoryRouter*)hkMemoryRouter_getInstance()), key.val, result.first);
 
             if (ReadObject(result.first, apArg) == 1)
             {
@@ -3876,7 +3882,7 @@ RetDC4430 DC4430_Class::FUN_00dc4430(Arg1* apArg, int aiFlag) throw()
 
                 if (pClassInfo->GetLastNodeFlag() && g_01268748.hkClass_isSuperClass(pClassInfo))
                 {
-                    int b = m_map0c.FUN_00cb1f40(GetMapAllocator(*(hkMemoryRouter*)FUN_00c85750()), result.first, 0);
+                    int b = m_map0c.FUN_00cb1f40(GetMapAllocator(*(hkMemoryRouter*)hkMemoryRouter_getInstance()), result.first, 0);
                     m_map0c.m_kPrimitiveElement[b].val++;
                 }
             }
@@ -3908,7 +3914,7 @@ struct DKlass_dc3a80
 struct DClass_dc3a80
 {
     void* m_pClassImpl;
-    const char* FUN_00dba680() const throw();
+    const char* hkDataClass_getName() const throw();
     void FUN_00dba660() throw();
     __forceinline ~DClass_dc3a80() throw()
     {
@@ -3918,7 +3924,7 @@ struct DClass_dc3a80
 struct DObj_dc3a80
 {
     int unk00;
-    int FUN_00dba980() const throw();
+    int hkDataObject_isNull() const throw();
     DClass_dc3a80 GetObjectValue() const throw();
 };
 struct DAttribute_dc3a80
@@ -3934,7 +3940,7 @@ struct DMember_dc3a80
     unsigned char unk0D;
     unsigned short unk0E;
     unsigned short unk10;
-    DKlass_dc3a80* FUN_00d86920() const throw();
+    DKlass_dc3a80* getClass() const throw();
     DAttribute_dc3a80* getAttribute_00d86960(const char* name) const throw();
 };
 struct DWorld_dc3a80
@@ -3951,16 +3957,17 @@ struct DReader_dc3a80
     DWorld_dc3a80* unk00;
     void* unk04;
     int unk08;
-    DKlass_dc3a80* FUN_00dc3a80(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw();
+    DKlass_dc3a80* Copier_getMemberClassAndCheck(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw();
 };
 // Resolves the DKlass for a DMember by comparing the object's class name against the expected class and the hk.DataObjectType attribute.
 // @fnv 0x00dc3a80
-DKlass_dc3a80* DReader_dc3a80::FUN_00dc3a80(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw()
+// src: XBOX_PDB 0x00dc3a80
+DKlass_dc3a80* DReader_dc3a80::Copier_getMemberClassAndCheck(const DMember_dc3a80* member, const DObj_dc3a80& obj) throw()
 {
-    if (obj.FUN_00dba980())
+    if (obj.hkDataObject_isNull())
         return 0;
-    DKlass_dc3a80* pExpectedClass = member->FUN_00d86920();
-    const char* name = obj.GetObjectValue().FUN_00dba680();
+    DKlass_dc3a80* pExpectedClass = member->getClass();
+    const char* name = obj.GetObjectValue().hkDataClass_getName();
     DKlass_dc3a80* pActualClass = name ? unk00->GetClassFromName(name) : 0;
     if (!pExpectedClass)
         return pActualClass;

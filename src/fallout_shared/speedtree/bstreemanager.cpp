@@ -32,7 +32,7 @@ class LockFreeMap_TESObjectREFR___BSTreeNode___;
 extern BSTreeManager* DAT_011d5c48;
 extern TES* g_TES;
 void BSTreeManager_Destroy_();
-void* FUN_00664840(bool);
+void* BSTreeManager_GetInstance(bool);
 void SetGlobalValue(bool);
 void SetGlobalFloatFromUInt(unsigned int);
 void ClampAndStoreValue(float);
@@ -59,9 +59,9 @@ void BSTreeManager::Create(bool create)
 // @fnv 0x00665860
 void BSTreeManager::UpdateTreeInstances()
 {
-    if (((NiPointer<NiAVObject>*)((char*)FUN_00664840(true) + 4))->operator NiAVObject*())
+    if (((NiPointer<NiAVObject>*)((char*)BSTreeManager_GetInstance(true) + 4))->operator NiAVObject*())
     {
-        ((NiPointer<NiNode>*)((char*)FUN_00664840(true) + 4))->operator=(0);
+        ((NiPointer<NiNode>*)((char*)BSTreeManager_GetInstance(true) + 4))->operator=(0);
         SetGlobalValue(false);
         g_TES->LoadCanopyShadowTexture("Data\\Textures\\Trees\\CanopyShadow.dds", 0);
     }
@@ -69,7 +69,8 @@ void BSTreeManager::UpdateTreeInstances()
 
 // Returns DAT_011d5c48, creating the BSTreeManager first when create is true and it is not yet set.
 // @fnv 0x00664840
-void* FUN_00664840(bool create)
+// src: XBOX_PDB 0x00664840
+void* BSTreeManager_GetInstance(bool create)
 {
     if (!DAT_011d5c48 && create)
         BSTreeManager::Create(false);
@@ -233,11 +234,12 @@ struct I1_665b80
 };
 struct C665b80
 {
-    void FUN_00665b80(int, I2_665b80*);
+    void BSTreeManager_AddBackgroundLoadedTree(int, I2_665b80*);
 };
 // Calls Foo on the object at this+0x1c; if it returns false, calls Func(1) on b when b is non-null.
 // @fnv 0x00665b80
-void C665b80::FUN_00665b80(int aiValue, I2_665b80* pObject)
+// src: XBOX_PDB 0x00665b80
+void C665b80::BSTreeManager_AddBackgroundLoadedTree(int aiValue, I2_665b80* pObject)
 {
     I2_665b80* p1;
     I2_665b80* p2;
@@ -263,14 +265,14 @@ struct B006815c0
     float y;
     float z;
 };
-NiPoint3* __fastcall FUN_0045bb80(NiAVObject*);
+NiPoint3* __fastcall NiAVObject_GetWorldTranslate(NiAVObject*);
 struct Twin_0084d030
 {
     float GetStoredFloatValue();
 };
 extern GameTimerRecord g_timeGlobal;
 extern float DAT_011d5dd4;
-void FUN_00b07060(float);
+void CSpeedTreeRT_SetTime(float);
 void CSpeedTreeRT_SetCamera(float*, float*);
 struct CP_008c48d0
 {
@@ -292,7 +294,8 @@ extern Setting g_011d5d98;
 extern Setting g_011d5d4c;
 
 // @fnv 0x006652e0
-void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
+// src: XBOX_PDB 0x006652e0
+void BSTreeManager_Update(NiAVObject* apCamera, bool abMenuMode)
 {
     B006815c0 vecTemp;
     float fcamDir[3];
@@ -300,13 +303,13 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     if (!abMenuMode)
     {
         DAT_011d5dd4 += ((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue();
-        FUN_00b07060(DAT_011d5dd4);
+        CSpeedTreeRT_SetTime(DAT_011d5dd4);
     }
     if (apCamera)
     {
-        fcamLoc[0] = FUN_0045bb80(apCamera)->x;
-        fcamLoc[1] = FUN_0045bb80(apCamera)->y;
-        fcamLoc[2] = FUN_0045bb80(apCamera)->z;
+        fcamLoc[0] = NiAVObject_GetWorldTranslate(apCamera)->x;
+        fcamLoc[1] = NiAVObject_GetWorldTranslate(apCamera)->y;
+        fcamLoc[2] = NiAVObject_GetWorldTranslate(apCamera)->z;
         vecTemp = (const B006815c0&)NiPosData::ComputePositionAtTime(-1.0f, apCamera->GetWorldTranslation());
         fcamDir[0] = vecTemp.x;
         fcamDir[1] = vecTemp.y;
@@ -330,7 +333,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
                            ->GetName();
                 ((FUN_004534f0_shell*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->FUN_004534f0((unsigned int)&col);
                 ((FUN_004534f0_shell*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->FUN_004534f0((unsigned int)&col);
-                ((NiProperty*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->FUN_004bc450(&col);
+                ((NiProperty*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->NiMaterialProperty_SetEmittance(&col);
             }
         }
         ((FUN_006658b0_shell*)_FUN_00664840(1))->Update();
@@ -421,13 +424,14 @@ struct C665be0_shell
     void* unk18;
     FUN_00665be0_interface* unk1c;
 
-    void FUN_00665be0(int value);
+    void BSTreeManager_RemoveBackgroundLoadedTree(int value);
 };
 
 extern "C" void __cdecl _free(void*);
 
 // @fnv 0x00665be0
-void C665be0_shell::FUN_00665be0(int value)
+// src: XBOX_PDB 0x00665be0
+void C665be0_shell::BSTreeManager_RemoveBackgroundLoadedTree(int value)
 {
     void* result = 0;
 
@@ -589,7 +593,7 @@ class TreeReference : public TESObjectREFR
 {
   public:
     unsigned int TESObjectREFR_GetSpeedTreeSeed();
-    float FUN_00567400();
+    float TESObjectREFR_GetScale_00567400();
 };
 class LockFreeMap_TESObjectREFR___BSTreeNode___
 {
@@ -629,7 +633,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     unsigned int node = 1;
     if (reference)
         node = reference->TESObjectREFR_GetSpeedTreeSeed();
-    ((TreeModelManager*)FUN_00664840(true))->GetOrCreateModel(tree, node, scale);
+    ((TreeModelManager*)BSTreeManager_GetInstance(true))->GetOrCreateModel(tree, node, scale);
     if (!(BSTreeModel*)scale)
         return 0;
     if (((BSTreeModel*)scale)->FUN_00726070() > 2)
@@ -649,7 +653,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     }
     float key = 1.0f;
     if (reference)
-        key = reference->FUN_00567400();
+        key = reference->TESObjectREFR_GetScale_00567400();
     NiAVObject* instanceModel = model->CreateInstance(key);
     if (instanceModel)
         instanceModel->SetName(NiFixedString(tree->GetModelFilePath()));
@@ -675,28 +679,29 @@ struct TextureFormatPrefs
     unsigned int mipmapped;
 };
 extern const TextureFormatPrefs DAT_011a9598;
-NiSourceTexture* FUN_00a5ff10(NiPixelData* pixels, const char* name, const TextureFormatPrefs& preferences);
+NiSourceTexture* NiSourceTexture_Create(NiPixelData* pixels, const char* name, const TextureFormatPrefs& preferences);
 
 // Ensures the tree state's shadow texture is loaded from CanopyShadow.dds or generated as a 16x16 white NiPixelData, then returns it.
 // @fnv 0x00665610
-NiSourceTexture* FUN_00665610()
+// src: XBOX_PDB 0x00665610
+NiSourceTexture* BSTreeManager_GetCanopyShadow()
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeManager.cpp", 629);
-    if (!((TreeTextureState*)FUN_00664840(true))->shadow.operator NiSourceTexture*())
+    if (!((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator NiSourceTexture*())
     {
         if (g_TES)
             ((TextureLoader*)g_TES)
                 ->FUN_004568c0("Data\\Textures\\Trees\\CanopyShadow.dds",
-                               ((TreeTextureState*)FUN_00664840(true))->shadow, true, false);
+                               ((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow, true, false);
         else
-            ((TreeTextureState*)FUN_00664840(true))->shadow.operator=(0);
-        SetGlobalValue((unsigned int)((TreeTextureState*)FUN_00664840(true))->shadow.operator NiSourceTexture*());
+            ((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator=(0);
+        SetGlobalValue((unsigned int)((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator NiSourceTexture*());
     }
-    if (!((TreeTextureState*)FUN_00664840(true))->shadow.operator NiSourceTexture*())
+    if (!((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator NiSourceTexture*())
     {
         NiPixelData* pixels = new NiPixelData(16, 16, &DAT_011aa2e8, 1, 1);
-        unsigned char* pPixelBytes = pixels->FUN_0064dac0(0u, 0u);
+        unsigned char* pPixelBytes = pixels->NiPixelData_GetPixels(0u, 0u);
         for (unsigned int y = 0; y < 16; ++y)
         {
             for (unsigned int x = 0; x < 16; ++x)
@@ -707,11 +712,11 @@ NiSourceTexture* FUN_00665610()
             }
         }
         pixels->FUN_004f31b0();
-        ((TreeTextureState*)FUN_00664840(true))
-            ->shadow.operator=(FUN_00a5ff10(pixels, NiFixedString("CanopyShadowTexture"), DAT_011a9598));
-        SetGlobalValue((unsigned int)((TreeTextureState*)FUN_00664840(true))->shadow.operator NiSourceTexture*());
+        ((TreeTextureState*)BSTreeManager_GetInstance(true))
+            ->shadow.operator=(NiSourceTexture_Create(pixels, NiFixedString("CanopyShadowTexture"), DAT_011a9598));
+        SetGlobalValue((unsigned int)((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator NiSourceTexture*());
     }
-    return ((TreeTextureState*)FUN_00664840(true))->shadow.operator NiSourceTexture*();
+    return ((TreeTextureState*)BSTreeManager_GetInstance(true))->shadow.operator NiSourceTexture*();
 }
 }  // namespace fnv_00665610
 
@@ -732,16 +737,17 @@ struct Map664
 };
 struct Timer664
 {
-    void FUN_004538a0(int);
+    void BSCriticalSection_Enter(int);
     void FUN_004538c0();
 };
 extern "C" char DAT_011d5cc0;
 struct Entry664
 {
-    static void FUN_00664cd0(bool);
+    static void BSTreeManager_ClearModelCache(bool);
 };
 // @fnv 0x00664cd0
-void Entry664::FUN_00664cd0(bool partial)
+// src: XBOX_PDB 0x00664cd0
+void Entry664::BSTreeManager_ClearModelCache(bool partial)
 {
     NiPointer<BSTreeModel>* p;
     void* h;
@@ -755,7 +761,7 @@ void Entry664::FUN_00664cd0(bool partial)
     Map664 *k, *ba, *j, *e;
     if (!*(Map664**)_FUN_00664840(true))
         return;
-    ((Timer664*)&DAT_011d5cc0)->FUN_004538a0(0);
+    ((Timer664*)&DAT_011d5cc0)->BSCriticalSection_Enter(0);
     if (partial)
     {
         h = (*(Map664**)_FUN_00664840(true))->FUN_004b9ba0();

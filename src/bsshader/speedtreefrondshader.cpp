@@ -137,7 +137,7 @@ struct ShaderProgram
     const char* defines[18];
 };
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 extern int DAT_011f91c0;
 struct BranchShader
 {
@@ -197,7 +197,7 @@ void BranchShader::SpeedTreeBranchShader_LoadVertexShaders()
         if (shaderPrograms1x[i].file)
         {
             FUN_00be0c00(shaderPrograms1x[i].file, shaderPath);
-            FUN_00406d00(name, 260, "STB1%03i.vso", i);
+            BSsprintf(name, 260, "STB1%03i.vso", i);
             vertexShaders1[i] = FUN_00be0fe0(shaderPath, shaderPrograms1x[i].defines, "vs_1_1", name);
         }
         else
@@ -210,7 +210,7 @@ void BranchShader::SpeedTreeBranchShader_LoadVertexShaders()
         for (int i = 0; i < 20; ++i)
         {
             FUN_00be0c00(shaderPrograms2x[i].file, shaderPath);
-            FUN_00406d00(name, 260, "STB2%03i.vso", i);
+            BSsprintf(name, 260, "STB2%03i.vso", i);
             vertexShaders2[i] = FUN_00be0fe0(shaderPath, shaderPrograms2x[i].defines, "vs_2_0", name);
         }
     }

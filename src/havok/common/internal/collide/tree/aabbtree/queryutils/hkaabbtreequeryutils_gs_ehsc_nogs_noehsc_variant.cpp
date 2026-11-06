@@ -38,7 +38,7 @@ struct S_00d1bcb0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00d1bcb0_Router* FUN_00c85750();
+S_00d1bcb0_Router* hkMemoryRouter_getInstance();
 void ResizeAudioStream(S_00d1bcb0_Allocator& alloc, void* array, int sizeElem);
 struct S_00d1bcb0_Entry
 {
@@ -55,12 +55,13 @@ struct S_00d1bcb0
 extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
 int __cdecl CallWithDefaults(void* arg0, int arg1, int arg2);
 int __cdecl FUN_00d1c560(void* a, void* b, int c, int d, void* e, void* f);
-int __cdecl FUN_00d1d4d0(void* a, void* b, void* e, void* f);
+int __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb(void* a, void* b, void* e, void* f);
 extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
-int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2);
+int __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb_00d1d500(void* arg0, int arg1, int arg2);
 extern "C" void* __cdecl FUN_00d1ce50(void* p, int a, int b, int c, int d, int e);
 // @fnv 0x00d1d540
-extern "C" void* __cdecl FUN_00d1d540(void* p, int a, int d, int e)
+// src: XBOX_PDB 0x00d1d540
+extern "C" void* __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_queryAabb(void* p, int a, int d, int e)
 {
     if (!p)
         return 0;
@@ -134,7 +135,7 @@ struct hkArrayIntD1CLocalForm
     }
     void pushBack(int e)
     {
-        S_00d1bcb0_Allocator& alloc = FUN_00c85750()->heap();
+        S_00d1bcb0_Allocator& alloc = hkMemoryRouter_getInstance()->heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(alloc, this, sizeof(int));
         construct(m_data + m_iElementCount, 1, e);
@@ -298,7 +299,7 @@ void hkArrayUtil__reserve(S_00d1bcb0_Allocator* alloc, void* arr, int cap, int e
 // src: XBOX_PDB (hkInplaceArray<...::NodePair,64,hkContainerHeapAllocator> family).
 // Exe 0x00d1d890: 64 inline node pairs, grown and released with the heap allocator.
 template <> __forceinline void hkArray<Pair,hkContainerHeapAllocator>::setSize(int n) {
-        S_00d1bcb0_Router* router = FUN_00c85750();
+        S_00d1bcb0_Router* router = hkMemoryRouter_getInstance();
         S_00d1bcb0_Allocator* alloc = router->m_pStreamAllocator;
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
@@ -311,7 +312,7 @@ template <> __forceinline void hkArray<Pair,hkContainerHeapAllocator>::setSize(i
         m_iElementCount = n;
     }
 template <> __forceinline hkArray<Pair,hkContainerHeapAllocator>::~hkArray() {
-        S_00d1bcb0_Router* router = FUN_00c85750();
+        S_00d1bcb0_Router* router = hkMemoryRouter_getInstance();
         HkAllocator* alloc = (HkAllocator*)router->m_pStreamAllocator;
         int flags = m_iCapacityState;
         m_iElementCount = 0;

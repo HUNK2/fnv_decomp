@@ -12,12 +12,13 @@ int __cdecl FUN_00d68260() {
 }
 
 struct Built { int field00; short field04; int field08; int __thiscall hkpToiContactPointViewer_hkpToiContactPointViewer(int); };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 // Allocates a 0x2c-byte Built via the global allocator, sets its field04 to 0x2c, calls FUN_00d682d0(arg), and returns result+8 or 0.
 // @fnv 0x00d686b0
-int __cdecl FUN_00d686b0(int arg)
+// src: XBOX_PDB 0x00d686b0
+int __cdecl hkpToiContactPointViewer_create(int arg)
 {
-    hkMemoryRouter* global = FUN_00c85750();
+    hkMemoryRouter* global = hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(global->m_heap);
     typedef void* (__thiscall* AllocateFunction)(hkMemoryAllocator*, int);
     Built* pBuilt = (Built*)(*reinterpret_cast<AllocateFunction**>(allocator))[1](allocator, 0x2c);
@@ -272,7 +273,7 @@ extern const char str_010d1ea0[];
 // @fnv 0x00d686f0
 void DispatchStateHandler()
 {
-    g_stateResult = g_stateTarget->Dispatch(str_010d1ea0, FUN_00d686b0);
+    g_stateResult = g_stateTarget->Dispatch(str_010d1ea0, hkpToiContactPointViewer_create);
 }
 
 struct FUN_00d68270_Base0 {
@@ -390,7 +391,7 @@ Derived::Derived()
 }  // namespace fnv_00d68730
 
 namespace fnv_00d68740 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00d68740 {
     unsigned short m_u04;
@@ -399,7 +400,7 @@ struct FUN_00d68740 {
     virtual ~FUN_00d68740();
     static void operator delete(void* apMemory)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         unsigned int uiSize = ((FUN_00d68740*)apMemory)->m_u04;
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         // This allocator frees through vtable slot 2; the shared Free declaration is nonvirtual.
@@ -510,7 +511,8 @@ __forceinline LocalM128 splat(float s) {
 }
 
 // @fnv 0x00d683b0
-static __declspec(noinline) void FUN_00d683b0(Handler* self, hkVector4* from, hkVector4* dir, int color, int id, int tag) {
+// src: XBOX_PDB 0x00d683b0
+static __declspec(noinline) void hkToiContactPointViewer_displayArrow(Handler* self, hkVector4* from, hkVector4* dir, int color, int id, int tag) {
     float lenSq;
 
     _mm_store_ss(&lenSq, lengthSquared3(dir->v));
@@ -577,7 +579,7 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, hkVector4* from, hk
 }
 
 void RenderLine(Handler* handler, hkVector4* direction, hkVector4* origin, int color, int id, int tag) {
-    FUN_00d683b0(handler, origin, direction, color, id, tag);
+    hkToiContactPointViewer_displayArrow(handler, origin, direction, color, id, tag);
 }
 
 extern int DAT_01269004;
@@ -629,19 +631,20 @@ struct S00d68670_WorldViewerBase {
 };
 
 struct S00d68670_ContactListener {
-    virtual void FUN_00d68670(const S00d68670_ContactPointEvent& event);
+    virtual void hkpToiContactPointViewer_contactPointCallback(const S00d68670_ContactPointEvent& event);
 };
 
 struct S00d68670_ToiContactPointViewer : S00d68670_WorldViewerBase, S00d68670_ContactListener {
-    virtual void FUN_00d68670(const S00d68670_ContactPointEvent& event);
+    virtual void hkpToiContactPointViewer_contactPointCallback(const S00d68670_ContactPointEvent& event);
 };
 
 // @fnv 0x00d68670
-void S00d68670_ToiContactPointViewer::FUN_00d68670(const S00d68670_ContactPointEvent& event)
+// src: XBOX_PDB 0x00d68670
+void S00d68670_ToiContactPointViewer::hkpToiContactPointViewer_contactPointCallback(const S00d68670_ContactPointEvent& event)
 {
     if (event.isToi())
     {
         const S00d68670_Collidable* collidable = event.m_apEntities[0]->getCollidable();
-        FUN_00d683b0(m_pDisplayHandler, (hkVector4*)&event.m_vContactPoint->getPosition(), (hkVector4*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
+        hkToiContactPointViewer_displayArrow(m_pDisplayHandler, (hkVector4*)&event.m_vContactPoint->getPosition(), (hkVector4*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
     }
 }

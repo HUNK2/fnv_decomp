@@ -24,10 +24,11 @@ extern double DAT_01017cf8;
 struct FUN_004a0c10_s
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 // @fnv 0x004a0c10
-void FUN_004a0c10_s::FUN_004a0c10()
+// src: XBOX_PDB 0x004a0c10
+void FUN_004a0c10_s::Unitize_004a0c10()
 {
     float len = ((NiPoint3*)this)->Length();
     if (len > DAT_01017cf8)

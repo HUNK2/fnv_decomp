@@ -112,13 +112,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -159,11 +159,12 @@ public:
 
 struct FUN_00821620_Class
 {
-    void __thiscall FUN_00821620(float value);
+    void __thiscall BoltShaderProperty_SetBoltsRadius(float value);
 };
 
 // @fnv 0x00821620
-void __thiscall FUN_00821620_Class::FUN_00821620(float value)
+// src: XBOX_PDB 0x00821620
+void __thiscall FUN_00821620_Class::BoltShaderProperty_SetBoltsRadius(float value)
 {
     *(float*)((char*)this + 0x130) = value;
 }
@@ -201,11 +202,12 @@ struct FUN_00827200_class
 {
     void __thiscall _ref_006815c0();
     void __thiscall FUN_00cb26e0(int);
-    FUN_00827200_class* __thiscall FUN_00827200(int a);
+    FUN_00827200_class* __thiscall hkQuaternion_hkQuaternion(int a);
 };
 // Calls _ref_006815c0, then FUN_00cb26e0 with a, and returns this.
 // @fnv 0x00827200
-FUN_00827200_class* __thiscall FUN_00827200_class::FUN_00827200(int a)
+// src: XBOX_PDB 0x00827200
+FUN_00827200_class* __thiscall FUN_00827200_class::hkQuaternion_hkQuaternion(int a)
 {
     _ref_006815c0();
     FUN_00cb26e0(a);
@@ -396,7 +398,8 @@ extern int DAT_011dd87c[];
 
 // Returns the entry at index from DAT_011dd87c if non-zero, otherwise the entry at index from DAT_011a1888.
 // @fnv 0x008374b0
-int __cdecl FUN_008374b0(int index)
+// src: XBOX_PDB 0x008374b0
+int __cdecl ImpactMixer_GetMaterialSoundName(int index)
 {
     if (DAT_011dd87c[index])
         return DAT_011dd87c[index];
@@ -449,10 +452,11 @@ struct S7010
 };
 struct FUN_0083dea0_class
 {
-    unsigned int FUN_0083dea0();
+    unsigned int TESTopic_HasDummyPrompt();
 };
 // @fnv 0x0083dea0
-unsigned int FUN_0083dea0_class::FUN_0083dea0()
+// src: XBOX_PDB 0x0083dea0
+unsigned int FUN_0083dea0_class::TESTopic_HasDummyPrompt()
 {
     return 0 < ((S7010*)((char*)this + 0x34))->Length();
 }
@@ -1391,7 +1395,7 @@ struct SecondaryBase_b5774
 
 struct GlobalMgr_b5774
 {
-    bool FUN_004226e0();
+    bool TESDataHandler_GetClearingData();
 };
 
 extern GlobalMgr_b5774* DAT_011c3f2c;
@@ -1413,7 +1417,7 @@ class FUN_00825b60 : public PrimaryBase_b5774, public SecondaryBase_b5774
 // @fnv 0x00825b60
 FUN_00825b60::~FUN_00825b60()
 {
-    if (!DAT_011c3f2c->FUN_004226e0())
+    if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
     {
         if (m_20 != 0)
         {
@@ -1471,9 +1475,9 @@ int CopySoundPath(char* dest, unsigned int size, const char* src);
 bool GetSoundPathAndFlags(unsigned int formID, char* path, unsigned int* flags, TESSound** outSound)
 {
     TESSound* sound = g_dataHandler->LookupSound(formID);
-    if (sound && sound->FUN_00511840() && path)
+    if (sound && sound->TESSound_GetFilename() && path)
     {
-        CopySoundPath(path, 0x104, sound->FUN_00511840());
+        CopySoundPath(path, 0x104, sound->TESSound_GetFilename());
     }
     else
     {
@@ -1524,7 +1528,7 @@ extern "C" void* __cdecl FUN_00afdf20(const char*, int, int, int);
 struct FNVHandle
 {
     virtual ~FNVHandle();
-    bool FUN_008905f0();
+    bool TESAnimGroup_GetDecal();
 };
 struct FUN_0082f240
 {
@@ -1561,7 +1565,7 @@ FUN_0082f010::FUN_0082f010(const char* pathName)
     counter = 0;
     FUN_00406d30(path, 0x104, pathName);
     handle = (FNVHandle*)FUN_00afdf20(path, 0, 0x4000, 8);
-    if (!handle || !handle->FUN_008905f0())
+    if (!handle || !handle->TESAnimGroup_GetDecal())
     {
         if (handle)
         {
@@ -1580,7 +1584,7 @@ struct ProbeTarget
     virtual void v0C();
     virtual void v10();
     virtual void v14(int a, int b);
-    bool FUN_008905f0();
+    bool TESAnimGroup_GetDecal();
 };
 class FUN_0082f310_cls
 {
@@ -1669,7 +1673,7 @@ class FUN_0082f310_cls
 // src: COMMUNITY 0x0082f310
 int FUN_0082f310_cls::CBSAStream_Seek(__int64 value)
 {
-    if (value < 0 || value > this->m_128 || this->m_108 == 0 || this->m_108->FUN_008905f0() == 0)
+    if (value < 0 || value > this->m_128 || this->m_108 == 0 || this->m_108->TESAnimGroup_GetDecal() == 0)
     {
         return 1;
     }
@@ -1799,7 +1803,7 @@ int ArchiveStream::CBSAStream_Read(void* buffer, unsigned int count, int unused,
 
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
-void __cdecl FUN_0040fca0(int milliseconds);
+void __cdecl BSSleep(int milliseconds);
 
 struct FUN_00aa63c0
 {
@@ -1835,7 +1839,7 @@ FUN_0082f6c0::~FUN_0082f6c0()
     unk3C &= 0xFFFFFFFE;
     CopyAndSleep(&unk34);
     while (unk3C & 2)
-        FUN_0040fca0(10);
+        BSSleep(10);
     CloseHandle(unk30);
 }
 
@@ -1896,7 +1900,7 @@ struct Entry
 };
 struct Weap
 {
-    TESSound* __thiscall FUN_005215a0(bool v);
+    TESSound* __thiscall TESObjectWEAP_GetAttackSound(bool v);
     void* __thiscall GetPointerByFlag(bool v);
     TESSound* __thiscall GetValueByFlag(bool v);
 };
@@ -2122,14 +2126,14 @@ struct Player
 };
 struct ListObj
 {
-    LocalVec3* __thiscall FUN_0045bb80();
+    LocalVec3* __thiscall NiAVObject_GetWorldTranslate();
 };
 struct SettingObj
 {
-    float* __thiscall FUN_00403e20();
+    float* __thiscall Setting_Float_00403e20();
 };
 bool __cdecl ImpactMixer_GetGunshotsInitialized();
-bool __fastcall FUN_00524d10(void* p);
+bool __fastcall PlayerCharacter_IsActually3rdPerson(void* p);
 unsigned int __cdecl Cmd_GetSessionTime_Execute();
 bool __cdecl FUN_0082eca0(void* snd, LocalVec3 pos, float v);
 extern Player* DAT_011dea3c;
@@ -2150,7 +2154,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
     LocalVec3 jvec = DAT_011f426c;
     bool ib15 = false;
     int iflags = 0;
-    bool kb52 = !FUN_00524d10(DAT_011dea3c);
+    bool kb52 = !PlayerCharacter_IsActually3rdPerson(DAT_011dea3c);
     bool b83d = false;
     ::NiPoint3 cpt;
     float ef60 = DAT_01016970;
@@ -2173,10 +2177,10 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         {
             if (!DAT_011dea3c->FUN_008d6f30()->FUN_00454b10())
             {
-                cf38 = *DAT_011dd008.FUN_00403e20();
-                if68 = *DAT_011dd034.FUN_00403e20();
-                yf50 = *DAT_011dd0ac.FUN_00403e20();
-                cf4c = *DAT_011dcff4.FUN_00403e20();
+                cf38 = *DAT_011dd008.Setting_Float_00403e20();
+                if68 = *DAT_011dd034.Setting_Float_00403e20();
+                yf50 = *DAT_011dd0ac.Setting_Float_00403e20();
+                cf4c = *DAT_011dcff4.Setting_Float_00403e20();
             }
         }
     }
@@ -2220,14 +2224,14 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         if (!a3 && apListObj != 0)
         {
             // Use the shared point layout for the original trivial 12-byte copy.
-            reinterpret_cast<::NiPoint3&>(jvec) = reinterpret_cast<const ::NiPoint3&>(*apListObj->FUN_0045bb80());
+            reinterpret_cast<::NiPoint3&>(jvec) = reinterpret_cast<const ::NiPoint3&>(*apListObj->NiAVObject_GetWorldTranslate());
         }
         else if (apSource->VCall1d0() != 0)
         {
             reinterpret_cast<::NiPoint3&>(jvec) =
-                reinterpret_cast<const ::NiPoint3&>(*((ListObj*)apSource->VCall1d0())->FUN_0045bb80());
+                reinterpret_cast<const ::NiPoint3&>(*((ListObj*)apSource->VCall1d0())->NiAVObject_GetWorldTranslate());
         }
-        if (apWeapon->FUN_005215a0(b83d) != 0)
+        if (apWeapon->TESObjectWEAP_GetAttackSound(b83d) != 0)
         {
             TESSound* sndA = 0;
             TESSound* sndB = 0;
@@ -2237,7 +2241,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
             }
             else
             {
-                sndA = apWeapon->FUN_005215a0(b83d);
+                sndA = apWeapon->TESObjectWEAP_GetAttackSound(b83d);
                 sndB = apWeapon->GetValueByFlag(b83d);
             }
             bool a86 = FUN_0082eca0(sndA, jvec, yf50);
@@ -2250,7 +2254,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                 sndB = 0;
             // The audio header still names the old point type; use the shared return layout.
             cpt = jvec -
-                  (BSAudio::FUN_00453a70()->*reinterpret_cast<::NiPoint3 (BSAudio::*)()>(&BSAudio::BSAudio_GetListenerPosition))();
+                  (BSAudio::BSAudio_QInstance()->*reinterpret_cast<::NiPoint3 (BSAudio::*)()>(&BSAudio::BSAudio_GetListenerPosition))();
             ef60 = cpt.x * cpt.x + cpt.y * cpt.y + cpt.z * cpt.z;
             int ai;
             for (ai = 0; ai < 20; ai++)
@@ -2310,9 +2314,9 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                     aentry140->ch0.Stop();
                     // Adapt the legacy BSAudio return declaration to the shared 12-byte handle.
                     aentry140->ch0 =
-                        (BSAudio::FUN_00453a70()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
+                        (BSAudio::BSAudio_QInstance()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
                             static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
-                                sndA->FUN_00511840(), (unsigned int)iflags, (unsigned int)sndA);
+                                sndA->TESSound_GetFilename(), (unsigned int)iflags, (unsigned int)sndA);
                     gb31 = (unsigned char)sndA->GetByteAtOffset44();
                     cg59 = sndA->GetField45();
                 }
@@ -2321,9 +2325,9 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                     aentry140->ch1.SetVolume(0.0f);
                     aentry140->ch1.Stop();
                     aentry140->ch1 =
-                        (BSAudio::FUN_00453a70()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
+                        (BSAudio::BSAudio_QInstance()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
                             static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
-                                sndB->FUN_00511840(), (unsigned int)iflags, (unsigned int)sndB);
+                                sndB->TESSound_GetFilename(), (unsigned int)iflags, (unsigned int)sndB);
                     qb75 = (unsigned char)sndB->GetByteAtOffset44();
                     sb0d = sndB->GetField45();
                 }
@@ -2400,13 +2404,13 @@ struct S_0083d130_Str
 struct S_0083d130_Obj
 {
     S_0083d130_Str* ref_006815c0();
-    S_0083d130_Str* __thiscall FUN_00460140();
+    S_0083d130_Str* __thiscall TESDataHandler_GetWorldSpaceList();
 };
 struct S_0083d130_Node
 {
     S_0083d130_Obj** ref_006815c0();
 };
-unsigned int __cdecl FUN_0044a670(const char* s);
+unsigned int __cdecl BSstrlen(const char* s);
 bool __fastcall FUN_008256d0(S_0083d130_Node*);
 S_0083d130_Node* __fastcall FUN_00726070(S_0083d130_Node*);
 
@@ -2423,9 +2427,9 @@ void S_0083d130_Class::ProcessNodeChain()
     {
         if ((*node->ref_006815c0())->ref_006815c0()->FUN_00559450())
         {
-            if (FUN_0044a670((*node->ref_006815c0())->ref_006815c0()->FUN_00559450()) > 1)
+            if (BSstrlen((*node->ref_006815c0())->ref_006815c0()->FUN_00559450()) > 1)
             {
-                BSAudio::FUN_00453a70()->Precache_00ad8100((unsigned int)(*node->ref_006815c0())->FUN_00460140()->FUN_00559450(), 0x20100001, 0);
+                BSAudio::BSAudio_QInstance()->Precache_00ad8100((unsigned int)(*node->ref_006815c0())->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), 0x20100001, 0);
             }
         }
         node = FUN_00726070(node);
@@ -2461,15 +2465,15 @@ struct EffectHandle
 struct SpellTimes
 {
     float FUN_009a7c40();
-    float FUN_00759450();
+    float NiPSysSpawnModifier_GetLifeSpan();
 };
 struct EffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     unsigned int FUN_0044ddc0();
-    EffectHandle* FUN_006a7ad0(unsigned int);
+    EffectHandle* BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
 };
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 struct FUN_008216c0_shell
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
@@ -2487,7 +2491,7 @@ void FUN_008216c0_shell::UpdateEffectTimes()
 {
     float value = 0.0f;
     if (active.FUN_00559450())
-        value = FUN_00404010(active.FUN_00559450()->time38, active.FUN_00559450()->time48);
+        value = BSMAX_00404010(active.FUN_00559450()->time38, active.FUN_00559450()->time48);
     if (reset)
     {
         value = 0.0f;
@@ -2495,11 +2499,11 @@ void FUN_008216c0_shell::UpdateEffectTimes()
         active.FUN_00559450()->time48 = 0.0f;
     }
     if (value < spell->FUN_009a7c40())
-        time = spell->FUN_00759450() * (value / spell->FUN_009a7c40());
+        time = spell->NiPSysSpawnModifier_GetLifeSpan() * (value / spell->FUN_009a7c40());
     else
-        time = spell->FUN_00759450();
+        time = spell->NiPSysSpawnModifier_GetLifeSpan();
     for (unsigned int i = 0; i < effects.FUN_0044ddc0(); ++i)
-        effects.FUN_006a7ad0(i)->FUN_00559450()->AdvanceParticleTimes(time);
+        effects.BSSimpleArray_NiAVObject_1024_GetAt(i)->FUN_00559450()->AdvanceParticleTimes(time);
 }
 
 // Minimal declarations for the process list and its polymorphic entries.
@@ -2521,31 +2525,31 @@ struct CasterUpdate : BE, BCaster_S
 void CasterUpdate::UpdateCasters()
 {
     MobileObjectProcessArray* pProcessList = DAT_011e0e80.FUN_00717e50();
-    for (unsigned int i = 0; i < pProcessList->FUN_005be5c0(0); ++i)
+    for (unsigned int i = 0; i < pProcessList->ProcessArray_GetProcessLevelTail(0); ++i)
     {
         MagicProjectile* object;
-        MobileObject* pMobileObject = pProcessList->FUN_00968670(i);
+        MobileObject* pMobileObject = pProcessList->ProcessArray_GetItem(i);
         Actor* actor = pMobileObject && pMobileObject->IsActor() ? static_cast<Actor*>(pMobileObject) : 0;
         object =
             pMobileObject && pMobileObject->IsProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject) : 0;
         if (actor)
-            actor->FUN_008c4f10(this);
+            actor->Actor_CheckDeletedCaster(this);
         else if (object)
             object->UpdateCaster(this);
     }
-    for (unsigned int j = pProcessList->FUN_005de0f0(1); j < pProcessList->FUN_005be5c0(1); ++j)
+    for (unsigned int j = pProcessList->ProcessArray_GetProcessLevelHead(1); j < pProcessList->ProcessArray_GetProcessLevelTail(1); ++j)
     {
-        MobileObject* pMobileObject2 = pProcessList->FUN_00968670(j);
+        MobileObject* pMobileObject2 = pProcessList->ProcessArray_GetItem(j);
         Actor* actor2 = pMobileObject2 && pMobileObject2->IsActor() ? static_cast<Actor*>(pMobileObject2) : 0;
         MagicProjectile* pMagicProjectile2 =
             pMobileObject2 && pMobileObject2->IsProjectile() ? dynamic_cast<MagicProjectile*>(pMobileObject2) : 0;
         if (actor2)
-            actor2->FUN_008c4f10(this);
+            actor2->Actor_CheckDeletedCaster(this);
         else if (pMagicProjectile2)
             pMagicProjectile2->UpdateCaster(this);
     }
     if (g_thePlayer)
-        g_thePlayer->FUN_008c4f10(this);
+        g_thePlayer->Actor_CheckDeletedCaster(this);
 }
 
 namespace fnv_0082cf80 {
@@ -3539,7 +3543,7 @@ void SoundTimer::RadioEntry_Data_Save(BGSSaveFormBuffer* buffer)
         }
         node3 = node3->Next();
     }
-    buffer->FUN_00865ff0(count, position);
+    buffer->SaveVariableSizedValue_00865ff0(count, position);
     bool hasQueue7 = (bool)(m_queue != 0);
     buffer->SaveData(&hasQueue7, 1u, 0);
     if (hasQueue7)
@@ -3604,7 +3608,7 @@ class FUN_00822920 : public FUN_0081dd00
   public:
     FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, NiPoint3 kPoint1, NiPoint3 kPoint2);
     virtual ~FUN_00822920();
-    void FUN_00930c70();
+    void MobileObject_InitHavok();
 };
 
 // @fnv 0x00822920
@@ -3612,7 +3616,7 @@ FUN_00822920::FUN_00822920(int iParam1, int iParam2, int iParam3, int iParam4, N
                            NiPoint3 kPoint2)
     : FUN_0081dd00(iParam1, iParam2, iParam3, iParam4, kPoint1, kPoint2)
 {
-    FUN_00930c70();
+    MobileObject_InitHavok();
 }
 
 class List8321E0

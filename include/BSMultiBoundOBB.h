@@ -21,7 +21,7 @@ public:
     void GetCorners(NiPoint3* corners);
     void BSMultiBoundOBB_GetVertices(NiPoint3* corners);
     void BSMultiBoundOBB_GetVertices(NiPoint3OB* corners);
-    bool FUN_00c37050(const NiFrustumPlanes& frustum);
+    bool BSMultiBoundOBB_CompletelyWithinFrustum(const NiFrustumPlanes& frustum);
     void FUN_004a7130();
     void* FUN_004a7100(unsigned int flags);
 

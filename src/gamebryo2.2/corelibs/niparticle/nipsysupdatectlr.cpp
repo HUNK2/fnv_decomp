@@ -58,12 +58,13 @@ struct FUN_00c27160_cls
     float m_14;
     float m_18;
     void FUN_00a6cfe0(void* obj, unsigned int a1);
-    void* FUN_00c27160(unsigned int a1);
+    void* NiPSysUpdateCtlr_CreateClone(unsigned int a1);
 };
 
 // Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
 // @fnv 0x00c27160
-void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
+// src: XBOX_PDB 0x00c27160
+void* FUN_00c27160_cls::NiPSysUpdateCtlr_CreateClone(unsigned int a1)
 {
     FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
     if (p != 0)
@@ -178,7 +179,8 @@ struct GlobalObjectO2_00a7b610
 
 // Appends the string returned by FUN_00a7d330(g_01202690.m_pcName) to pkStrings, growing it via SetSize when full and storing at index m_usSize.
 // @fnv 0x00c27300
-void __stdcall FUN_00c27300(StrArr* pkStrings)
+// src: XBOX_PDB 0x00c27300
+void __stdcall NiPSysUpdateCtlr_GetViewerStrings(StrArr* pkStrings)
 {
     FUN_00a6d830(pkStrings);
     char* str = NiViewerStrings_NiGetViewerString_Title(g_01202690.m_pcName);
@@ -443,7 +445,7 @@ struct SpawnedOwner
 
 struct S00a36250
 {
-    bool FUN_00a36250(float v);
+    bool DontDoUpdate(float v);
 };
 
 struct SpawnedController
@@ -461,7 +463,7 @@ struct SpawnedController
     float m_24;
     float m_28;
     SpawnedOwner* m_2C;
-    void FUN_00c271c0(const float* pos);
+    void NiPSysUpdateCtlr_Update(const float* pos);
 };
 
 struct KindRtti
@@ -498,7 +500,8 @@ __forceinline bool StaticIsKindOf(const KindRtti* rtti, SpawnedItem* obj)
 }
 
 // @fnv 0x00c271c0
-void SpawnedController::FUN_00c271c0(const float* apPosition)
+// src: XBOX_PDB 0x00c271c0
+void SpawnedController::NiPSysUpdateCtlr_Update(const float* apPosition)
 {
     unsigned short flags = m_08;
     m_14 = g_01015f5c;
@@ -527,7 +530,7 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
             }
         }
     }
-    bool handled = reinterpret_cast<S00a36250*>(this)->FUN_00a36250(*apPosition);
+    bool handled = reinterpret_cast<S00a36250*>(this)->DontDoUpdate(*apPosition);
     m_18 = 0.0f;
     m_14 = 0.0f;
     SpawnedOwner* owner = m_2C;

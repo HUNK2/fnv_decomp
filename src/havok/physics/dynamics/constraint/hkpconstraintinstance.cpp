@@ -355,8 +355,8 @@ struct Matrix4f;
 struct CVector
 {
     LocalM128 m;
-    void FUN_00c7f640(Matrix4f*, CVector*);
-    void FUN_00c7f700(Matrix4f*, CVector*);
+    void setTransformedPos_00c7f640(Matrix4f*, CVector*);
+    void hkVector4_setRotatedDir(Matrix4f*, CVector*);
 };
 struct __declspec(align(16)) Matrix4f
 {
@@ -383,7 +383,7 @@ struct ConstraintReference : ConstraintReferencedBase
     unsigned unk1c;
     Matrix4f a, b, c, d;
     unsigned unk120;
-    ConstraintReference* FUN_00cdf6c0();
+    ConstraintReference* hkpMalleableConstraintData_getWrappedConstraintData();
     void FUN_00d541b0(CVector*, CVector*);
     void FUN_00cbe400(CVector*, CVector*, CVector*, CVector*);
     void FUN_00cb8da0(CVector*, CVector*, CVector*, CVector*, CVector*, CVector*);
@@ -417,11 +417,11 @@ struct CInstance
 };
 static __forceinline void point(CVector& v, Matrix4f* t)
 {
-    v.FUN_00c7f640(t, &v);
+    v.setTransformedPos_00c7f640(t, &v);
 }
 static __forceinline void rotate(CVector& v, Matrix4f* t)
 {
-    v.FUN_00c7f700(t, &v);
+    v.hkVector4_setRotatedDir(t, &v);
 }
 static __forceinline CVector getVector(const CVector& s)
 {
@@ -450,7 +450,7 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
             p = p->child18;
             break;
         case 13:
-            p = p->FUN_00cdf6c0();
+            p = p->hkpMalleableConstraintData_getWrappedConstraintData();
             break;
         case 0:
             point(p->a.c1, apTransform);
@@ -548,7 +548,7 @@ struct TargetObj
 
 struct ReceiverObj
 {
-    void FUN_00c7f640(void* pTarget, hkVector4* pVec);
+    void setTransformedPos_00c7f640(void* pTarget, hkVector4* pVec);
 };
 
 class FUN_00cf3c90_cls
@@ -560,19 +560,20 @@ class FUN_00cf3c90_cls
     TargetObj* m_target14;
     TargetObj* m_target18;
 
-    void FUN_00cf3c90(ReceiverObj* first, ReceiverObj* second);
+    void hkpConstraintInstance_getPivotsInWorld(ReceiverObj* first, ReceiverObj* second);
 };
 
 // Copies two vectors obtained from m_obj0C, then calls FUN_00c7f640 on first and second with m_target14->unk18 and m_target18->unk18 and the matching vector.
 // @fnv 0x00cf3c90
-void FUN_00cf3c90_cls::FUN_00cf3c90(ReceiverObj* apFirstReceiver, ReceiverObj* apSecondReceiver)
+// src: XBOX_PDB 0x00cf3c90
+void FUN_00cf3c90_cls::hkpConstraintInstance_getPivotsInWorld(ReceiverObj* apFirstReceiver, ReceiverObj* apSecondReceiver)
 {
     LocalM128 vFirstVec = *(LocalM128*)GetDispatchTarget(m_obj0C);
     LocalM128 vSecondVec = *(LocalM128*)GetShapeData(m_obj0C);
 
     void* pSecondTargetPtr = m_target18->unk18;
-    apFirstReceiver->FUN_00c7f640(m_target14->unk18, reinterpret_cast<hkVector4*>(&vFirstVec));
-    apSecondReceiver->FUN_00c7f640(pSecondTargetPtr, reinterpret_cast<hkVector4*>(&vSecondVec));
+    apFirstReceiver->setTransformedPos_00c7f640(m_target14->unk18, reinterpret_cast<hkVector4*>(&vFirstVec));
+    apSecondReceiver->setTransformedPos_00c7f640(pSecondTargetPtr, reinterpret_cast<hkVector4*>(&vSecondVec));
 }
 
 union FUN_00cf3d00_Vec4

@@ -26,7 +26,7 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
+S_Router* hkMemoryRouter_getInstance();
 int hkString_strLen(const char* s);
 
 struct S_Arr
@@ -60,10 +60,10 @@ struct S_Out
     int unkc;
     S_Out* FUN_00dda690(S_Arr* a);
     S_Out* FUN_00dda6e0(const char* name);
-    void FUN_00d605d0(unsigned v);
+    void hkOArchive_write8u(unsigned v);
     void WriteInt(unsigned v);
     void WriteUInt16(unsigned v);
-    void FUN_00d607b0(const void* p, int n);
+    void hkOArchive_writeRaw(const void* p, int n);
     void FUN_00d60590();
 };
 struct S_Str : S_Arr
@@ -116,14 +116,14 @@ int WriteCompilerInfo(const char* name)
     buffer.cap = 0x80000000;
     S_Out outStream;
     outStream.FUN_00dda690(&buffer);
-    outStream.FUN_00d605d0(0x90);
+    outStream.hkOArchive_write8u(0x90);
     outStream.WriteInt(DAT_011b5dc0);
     outStream.WriteInt(DAT_011b5dbc);
     int n = hkString_strLen("PC_32");
     if (n > 0xffff)
         n = 0xffff;
     outStream.WriteUInt16(n);
-    outStream.FUN_00d607b0("PC_32", n);
+    outStream.hkOArchive_writeRaw("PC_32", n);
     S_Str versionStr;
     versionStr.InitBuffer();
     hkStringBuf_printf(&versionStr, "%s:%i", "MSVC", 1500);
@@ -131,14 +131,14 @@ int WriteCompilerInfo(const char* name)
     if (iVersionLen > 0xffff)
         iVersionLen = 0xffff;
     outStream.WriteUInt16(iVersionLen);
-    outStream.FUN_00d607b0(versionStr.data, iVersionLen);
+    outStream.hkOArchive_writeRaw(versionStr.data, iVersionLen);
     S_Out f;
     f.FUN_00dda6e0(name);
     f.WriteInt(buffer.size);
-    f.FUN_00d607b0(buffer.data, buffer.size);
+    f.hkOArchive_writeRaw(buffer.data, buffer.size);
     f.FUN_00d60590();
-    versionStr.clear(FUN_00c85750()->temp());
+    versionStr.clear(hkMemoryRouter_getInstance()->temp());
     outStream.FUN_00d60590();
-    buffer.clear(FUN_00c85750()->heap());
+    buffer.clear(hkMemoryRouter_getInstance()->heap());
     return 0;
 }

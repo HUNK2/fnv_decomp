@@ -127,7 +127,7 @@ TESRegionList* TESObjectCELL::GetRegionList(bool create)
     TESRegionList* result = 0;
     if (IsCellInterior())
         return 0;
-    result = reinterpret_cast<TESRegionPointList_CellExtraList*>(formData + 4)->FUN_0041bce0();
+    result = reinterpret_cast<TESRegionPointList_CellExtraList*>(formData + 4)->ExtraDataList_GetRegionList();
     if (!result && create)
     {
         result = new TESRegionList(0);
@@ -436,8 +436,8 @@ bool PointList::TESRegionPointList_SelfIntersects(bool closed)
 }
 
 #include <string.h>
-void FUN_00485910(unsigned int chunk, unsigned int value);
-void FUN_00485710(unsigned int chunk, void* data, unsigned int points);
+void TESForm_AddChunk_00485910(unsigned int chunk, unsigned int value);
+void TESForm_AddChunkArray_00485710(unsigned int chunk, void* data, unsigned int points);
 struct RegionPointAccess : RegionPoint
 {
     NiPoint2& FUN_006815c0();
@@ -456,7 +456,7 @@ struct FUN_004f77c0_shell : RegionPointList
 // src: COMMUNITY 0x004f77c0
 void FUN_004f77c0_shell::TESRegionPointList_Save()
 {
-    FUN_00485910(0x494c5052, m_uiDistanceInsideAtMax);
+    TESForm_AddChunk_00485910(0x494c5052, m_uiDistanceInsideAtMax);
     RegionNode* node = reinterpret_cast<RegionNode*>(this);
     if (!node->FUN_008256d0())
     {
@@ -480,7 +480,7 @@ void FUN_004f77c0_shell::TESRegionPointList_Save()
             node = node->FUN_00726070();
         }
         if (points)
-            FUN_00485710(0x444c5052, blocks, points * 2);
+            TESForm_AddChunkArray_00485710(0x444c5052, blocks, points * 2);
         delete[] blocks;
     }
 }

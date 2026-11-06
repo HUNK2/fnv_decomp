@@ -236,7 +236,7 @@ class ExtraLock
 class TeleportableReference
 {
   public:
-    TESObjectCELL* FUN_0043a2b0();
+    TESObjectCELL* DoorTeleportData_GetTeleportCell();
     TESWorldSpace* GetTeleportWorldspace();
     NiPoint3* GetPosition();
     NiPoint3* GetRotation();
@@ -324,7 +324,7 @@ class TESObjectREFR : public TESForm
     void RefreshReference();
     void SetLocationOnReference(NiPoint3*);
     void SetReferenceAngle(float);
-    void FUN_00575770(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
     bool IsCellInterior();
     static void SetParentCellAndWorldspace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
 };
@@ -759,7 +759,7 @@ class BSAudio
     static BSAudio* GetSingleton();
     BSSoundHandle GetSoundHandleByFormID(unsigned int, unsigned int);
     BSSoundHandle GetSoundHandleByEditorID(const char*, unsigned int);
-    bool FUN_005bb4d0();
+    bool TESRegionData_GetPriority();
     void Update(bool);
 };
 class TESSound : public TESForm
@@ -801,7 +801,7 @@ class TESObjectDOOR : public TESBoundAnimObject,
     bool Load(TESFile*);
     bool IsTeleportDoor();
     bool Activate(TESObjectREFR*, TESObjectREFR*, bool, TESBoundObject*, int);
-    bool FUN_005194d0();
+    bool IsRandomDoor();
     TESObjectREFR* FindRandomTeleportTarget(TESObjectREFR*, TESObjectREFR*);
     void QueueDoorTeleport(TESObjectREFR*);
     TESSound* GetOpenSound();
@@ -834,11 +834,11 @@ extern TESBoundObject* g_pLockpickItem;
 extern TESObjectREFR* DAT_011c9350;
 extern Setting DAT_011c9384, DAT_011d276c, DAT_011d5110;
 extern const float DAT_010162c0;
-void FUN_00519810(TESObjectREFR*, TESObjectREFR*);
-void FUN_00600900(TESBoundObject*);
-void FUN_00600920(int);
-void FUN_00600940(bool);
-void FUN_00705830(TESObjectREFR*, int, int);
+void TESObjectDOOR_LinkRandomTeleportDoors(TESObjectREFR*, TESObjectREFR*);
+void TESIdleManager_SetUsedItem(TESBoundObject*);
+void TESIdleManager_SetUsedItemLevel(int);
+void TESIdleManager_SetUsedItemActivate(bool);
+void Interface_CreateLockPickMenu(TESObjectREFR*, int, int);
 void ApplyPerkModifiers(int, Actor*, float*);
 int Warning(const char*, ...);
 extern "C" void* _alloca(unsigned int);

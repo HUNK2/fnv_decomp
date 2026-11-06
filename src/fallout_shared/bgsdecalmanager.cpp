@@ -30,7 +30,7 @@ void BGSDecalManager::RenderDecals()
 {
     if (reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)->GetSize() > 0)
     {
-        FUN_0043c4b0()->StartScene();
+        NiXenonRenderer_GetRenderer()->StartScene();
         struct IteratorState
         {
             unsigned int previous;
@@ -61,13 +61,13 @@ void BGSDecalManager::RenderDecals()
                         if (decal->m_uiTextureReferenceCount > 0)
                         {
                             if (*DAT_011c5904.FUN_00408d60())
-                                Warning(DAT_0101e1c8, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->FUN_004a0330()->GetLinkToList())->FUN_0043b1b0());
+                                Warning(DAT_0101e1c8, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->BSTempEffectSimpleDecal_GetDecalParent()->GetLinkToList())->FUN_0043b1b0());
                             reinterpret_cast<DecalVtableCall*>(decal)->vfn_8c();
                         }
                         else
                         {
                             if (*DAT_011c5904.FUN_00408d60())
-                                Warning(DAT_0101e19c, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->FUN_004a0330()->GetLinkToList())->FUN_0043b1b0());
+                                Warning(DAT_0101e19c, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->BSTempEffectSimpleDecal_GetDecalParent()->GetLinkToList())->FUN_0043b1b0());
                             decal->bWasPlaying = true;
                         }
                     }
@@ -86,7 +86,7 @@ void BGSDecalManager::RenderDecals()
                     {
                         ++DAT_011c57ec;
                         if (*DAT_011c5904.FUN_00408d60())
-                            Warning(DAT_0101e174, DAT_011c57ec, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->FUN_004a0330()->GetLinkToList())->FUN_0043b1b0());
+                            Warning(DAT_0101e174, DAT_011c57ec, reinterpret_cast<FirstPointerStringView_0043b1b0*>(decal->BSTempEffectSimpleDecal_GetDecalParent()->GetLinkToList())->FUN_0043b1b0());
 
                         if (DAT_011c57f4 & 1)
                         {
@@ -118,12 +118,13 @@ void BGSDecalManager::RenderDecals()
                 }
             }
         }
-        FUN_0043c4b0()->FinishScene();
+        NiXenonRenderer_GetRenderer()->FinishScene();
     }
 }
 
 // @fnv 0x00460140
-int __fastcall FUN_00460140(int apBase)
+// src: XBOX_PDB 0x00460140
+int __fastcall TESDataHandler_GetWorldSpaceList(int apBase)
 {
     return apBase + 0x10;
 }
@@ -147,7 +148,8 @@ void __fastcall NiCriticalSection_Lock(void*);
 int __fastcall CallNestedAtOffset80(void*);
 
 // @fnv 0x004a0370
-void __fastcall FUN_004a0370(char* pThis)
+// src: XBOX_PDB 0x004a0370
+void __fastcall NiXenonRenderer_LockRenderer(char* pThis)
 {
     NiCriticalSection_Lock(pThis + 0x80);
     if (CallNestedAtOffset80(pThis) == 1)
@@ -164,10 +166,11 @@ struct Date
 struct DD : Date
 {
     int CallNestedAtOffset80();
-    void FUN_004a03c0();
+    void NiXenonRenderer_UnlockRenderer();
 };
 // @fnv 0x004a03c0
-void DD::FUN_004a03c0()
+// src: XBOX_PDB 0x004a03c0
+void DD::NiXenonRenderer_UnlockRenderer()
 {
     if (CallNestedAtOffset80() == 1)
         Date::~Date();
@@ -213,10 +216,11 @@ void FUN_004a0fd0_shell::BSCullingProcess_SetAccumulator(NiNode* apNode)
 
 struct BSA_
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
 };
 // @fnv 0x004a1020
-void BSA_::FUN_004a1020(void* p)
+// src: XBOX_PDB 0x004a1020
+void BSA_::BSShaderAccumulator_SetShadowSceneNode(void* p)
 {
     *(void**)((char*)this + 0x194) = p;
 }
@@ -256,7 +260,8 @@ bool Fake_FUN_004a2020::GetFlag(unsigned int aiFlag) const
 #include "../../include/BGSTerrainManager.h"
 // Returns 0 for a null pointer, otherwise returns whether GetMinLevel() is between 1 and 12.
 // @fnv 0x004a2c20
-int __cdecl FUN_004a2c20(BGSTerrainManager* apShaderProp)
+// src: XBOX_PDB 0x004a2c20
+int __cdecl BSSM_ShaderPropertyIsLighting(BGSTerrainManager* apShaderProp)
 {
     if (!apShaderProp)
     {
@@ -275,7 +280,8 @@ struct NiPoint3_local
 
 // Reads components 0, 1 and 2 of arhkV into arNiP.x, arNiP.y and arNiP.z and returns arNiP.
 // @fnv 0x004a3970
-NiPoint3_local& __cdecl FUN_004a3970(NiPoint3_local& arNiPoint, const hkVector4& arHkVector)
+// src: XBOX_PDB 0x004a3970
+NiPoint3_local& __cdecl HK2NINS(NiPoint3_local& arNiPoint, const hkVector4& arHkVector)
 {
     __declspec(align(16)) char t0[16], t1[16], t2[16];
     arNiPoint.x = arHkVector.hkVector4_getSimdAt(*reinterpret_cast<hkSimdReal*>(t0), 0).getReal();
@@ -309,12 +315,13 @@ struct CFilter
 typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a39f0_shell : public CFilter
 {
-    void FUN_004a39f0(int);
+    void CFilter_SetLayer(int);
 };
 
 // Clears the low 7 bits of iFilter and stores the low 7 bits of aeLayer into them.
 // @fnv 0x004a39f0
-void FUN_004a39f0_shell::FUN_004a39f0(int aeLayer)
+// src: XBOX_PDB 0x004a39f0
+void FUN_004a39f0_shell::CFilter_SetLayer(int aeLayer)
 {
     iFilter &= ~0x7f;
     iFilter |= (aeLayer & 0x7f);
@@ -346,11 +353,12 @@ struct CFilter
 typedef char _sizecheck_CFilter[sizeof(CFilter) == 4 ? 1 : -1];
 struct FUN_004a3a20_shell : public CFilter
 {
-    unsigned int FUN_004a3a20();
+    unsigned int CFilter_GetGroup();
 };
 
 // @fnv 0x004a3a20
-unsigned int FUN_004a3a20_shell::FUN_004a3a20()
+// src: XBOX_PDB 0x004a3a20
+unsigned int FUN_004a3a20_shell::CFilter_GetGroup()
 {
     return (iFilter >> 16) & 0xFFFF;
 }
@@ -359,12 +367,13 @@ unsigned int FUN_004a3a20_shell::FUN_004a3a20()
 
 // Returns the flags of apRef, or 0 when apRef is null.
 // @fnv 0x004a3a40
-unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
+// src: XBOX_PDB 0x004a3a40
+unsigned int __cdecl bhkShape_Getbhk(TESObjectREFR* apRef)
 {
     return apRef ? apRef->GetFlags() : 0;
 }
 
-void __fastcall FUN_004a3b70(void*);
+void __fastcall hkpAllRayHitCollector_reset(void*);
 
 struct Base_004a3b30
 {
@@ -390,7 +399,7 @@ struct FUN_004a3a70 : Base_004a3b30
 // @fnv 0x004a3a70
 FUN_004a3a70::FUN_004a3a70() : m(0)
 {
-    FUN_004a3b70(this);
+    hkpAllRayHitCollector_reset(this);
 }
 
 class NiAVObject;
@@ -488,29 +497,30 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3da0_shell : public BhkPickData
 {
-    void FUN_004a3da0(void*);
+    void bhkPickData_SetFrom(void*);
 };
 
 
 struct FUN_0056d340_helper
 {
-    void FUN_0056d340(hkVector4&);
+    void bhkPickData_SetFrom_0056d340(hkVector4&);
 };
 
-hkVector4& __cdecl FUN_004a3e00(hkVector4&, NiPoint3 const&);
+hkVector4& __cdecl NI2HK(hkVector4&, NiPoint3 const&);
 
 // Converts the NiPoint3 at arFrom into a hkVector4 and passes it to FUN_0056d340 on this object.
 // @fnv 0x004a3da0
-void FUN_004a3da0_shell::FUN_004a3da0(void* arFrom)
+// src: XBOX_PDB 0x004a3da0
+void FUN_004a3da0_shell::bhkPickData_SetFrom(void* arFrom)
 {
     // Raw storage preserves the original initialization call and stack protection.
     __declspec(align(16)) char hkv[16];
     reinterpret_cast<hkVector4*>(hkv)->FUN_006815c0();
-    ((FUN_0056d340_helper*)this)->FUN_0056d340(FUN_004a3e00(*reinterpret_cast<hkVector4*>(hkv), *(const NiPoint3*)arFrom));
+    ((FUN_0056d340_helper*)this)->bhkPickData_SetFrom_0056d340(NI2HK(*reinterpret_cast<hkVector4*>(hkv), *(const NiPoint3*)arFrom));
 }
 }  // namespace fnv_004a3da0
 
-void* FUN_00458b20();
+void* hkVector4_getZero();
 struct T_
 {
     void FUN_004a3f10(void*);
@@ -518,13 +528,14 @@ struct T_
 struct PD_
 {
     void ForwardToSubObject(void*);
-    void FUN_004a3f40(void*);
+    void bhkPickData_SetTo_004a3f40(void*);
 };
 // Calls ForwardToSubObject with the result of FUN_00458b20, then forwards p to FUN_004a3f10 on the object at this+0x10.
 // @fnv 0x004a3f40
-void PD_::FUN_004a3f40(void* p)
+// src: XBOX_PDB 0x004a3f40
+void PD_::bhkPickData_SetTo_004a3f40(void* p)
 {
-    ForwardToSubObject(FUN_00458b20());
+    ForwardToSubObject(hkVector4_getZero());
     ((T_*)((char*)this + 0x10))->FUN_004a3f10(p);
 }
 
@@ -534,7 +545,8 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x004a3f70
-void __fastcall FUN_004a3f70(char* self, Flt f)
+// src: XBOX_PDB 0x004a3f70
+void __fastcall bhkPickData_SetFilter(char* self, Flt f)
 {
     *(unsigned int*)(self + 0x24) = (unsigned int)f;
 }
@@ -628,11 +640,12 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_004a3fb0_shell : public BhkPickData
 {
-    void FUN_004a3fb0(hkpAllRayHitCollector*);
+    void bhkPickData_SetAllCollector(hkpAllRayHitCollector*);
 };
 
 // @fnv 0x004a3fb0
-void FUN_004a3fb0_shell::FUN_004a3fb0(hkpAllRayHitCollector* apCollector)
+// src: XBOX_PDB 0x004a3fb0
+void FUN_004a3fb0_shell::bhkPickData_SetAllCollector(hkpAllRayHitCollector* apCollector)
 {
     m_pAllCollector = apCollector;
     m_pClosestCollector = 0;
@@ -686,11 +699,12 @@ struct ConsoleManager
 typedef char _sizecheck_MenuConsole[sizeof(ConsoleManager) == 2324 ? 1 : -1];
 struct FUN_004a4020_shell : public ConsoleManager
 {
-    bool FUN_004a4020();
+    bool MenuConsole_IsVisible();
 };
 
 // @fnv 0x004a4020
-bool FUN_004a4020_shell::FUN_004a4020()
+// src: XBOX_PDB 0x004a4020
+bool FUN_004a4020_shell::MenuConsole_IsVisible()
 {
     return cVisible > 0;
 }
@@ -706,10 +720,11 @@ void NiMatrix3::SetCol(unsigned int uiIndex, float afValue0, float afValue1, flo
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_0056d340(unsigned int f);
+    bool bhkPickData_SetFrom_0056d340(unsigned int f);
 };
 // @fnv 0x0056d340
-bool S3e60::FUN_0056d340(unsigned int auiFlag)
+// src: XBOX_PDB 0x0056d340
+bool S3e60::bhkPickData_SetFrom_0056d340(unsigned int auiFlag)
 {
     return GetFlag(auiFlag);
 }
@@ -804,11 +819,12 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
 struct FUN_008cdd90_shell : public BhkPickData
 {
-    hkpAllRayHitCollector* FUN_008cdd90();
+    hkpAllRayHitCollector* DialoguePackage_GetCurrentDialogItem();
 };
 
 // @fnv 0x008cdd90
-hkpAllRayHitCollector* FUN_008cdd90_shell::FUN_008cdd90()
+// src: XBOX_PDB 0x008cdd90
+hkpAllRayHitCollector* FUN_008cdd90_shell::DialoguePackage_GetCurrentDialogItem()
 {
     return m_pAllCollector;
 }
@@ -910,7 +926,8 @@ struct GlobalObject_0044f440
 GlobalObject_0044f440 g_011c7588;
 
 // @fnv 0x004a1a00
-void __cdecl FUN_004a1a00()
+// src: XBOX_PDB 0x004a1a00
+void __cdecl Renderer_GetSkinnedDecalLODStart()
 {
     g_011c7588.FUN_00450410();
 }
@@ -925,7 +942,8 @@ void __fastcall FUN_004a1a30(int __this)
 }
 
 // @fnv 0x004a3b50
-void __fastcall FUN_004a3b50(void* thisPtr)
+// src: XBOX_PDB 0x004a3b50
+void __fastcall hkpRayHitCollector_reset(void* thisPtr)
 {
     ((float*)thisPtr)[1] = 1.0f;
 }
@@ -993,7 +1011,7 @@ void FUN_004a3ae0_shell::FUN_004a3ae0()
 }
 
 extern int DAT_0101e594;
-void __fastcall FUN_004a3b50(void*);
+void __fastcall hkpRayHitCollector_reset(void*);
 
 struct FUN_004a3b30_shell
 {
@@ -1005,18 +1023,19 @@ struct FUN_004a3b30_shell
 void* __thiscall FUN_004a3b30_shell::InitializeVftable()
 {
     m_vftable = &DAT_0101e594;
-    FUN_004a3b50(this);
+    hkpRayHitCollector_reset(this);
     return this;
 }
 
-void __fastcall FUN_00626870(void* p);
-void __fastcall FUN_004a3b50(void* p);
+void __fastcall hkArrayBase_hkpRootCdBodyPair_clear(void* p);
+void __fastcall hkpRayHitCollector_reset(void* p);
 
 // @fnv 0x004a3b70
-void __fastcall FUN_004a3b70(void* p)
+// src: XBOX_PDB 0x004a3b70
+void __fastcall hkpAllRayHitCollector_reset(void* p)
 {
-    FUN_00626870((char*)p + 0x10);
-    FUN_004a3b50(p);
+    hkArrayBase_hkpRootCdBodyPair_clear((char*)p + 0x10);
+    hkpRayHitCollector_reset(p);
 }
 
 namespace fnv_004a3f90 {
@@ -1043,11 +1062,12 @@ struct MersenneTwister
 
 struct FUN_004a3fe0_shell
 {
-    void __thiscall FUN_004a3fe0(void* a, int b, char c);
+    void __thiscall TESObjectCELL_AddDecal(void* a, int b, char c);
 };
 
 // @fnv 0x004a3fe0
-void __thiscall FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
+// src: XBOX_PDB 0x004a3fe0
+void __thiscall FUN_004a3fe0_shell::TESObjectCELL_AddDecal(void* pObject, int b, char c)
 {
     if (*(int*)((char*)pObject + 0x48) == 0)
     {
@@ -1115,10 +1135,11 @@ void* BSCullingProcess::FUN_004a0ff0(unsigned int flags)
 void __cdecl SetSelectionMask(int, int, int);
 struct Unk
 {
-    void __thiscall FUN_004a1a10(int, unsigned char);
+    void __thiscall DecalCaster_SetCollision(int, unsigned char);
 };
 // @fnv 0x004a1a10
-void __thiscall Unk::FUN_004a1a10(int aiArg, unsigned char b)
+// src: XBOX_PDB 0x004a1a10
+void __thiscall Unk::DecalCaster_SetCollision(int aiArg, unsigned char b)
 {
     SetSelectionMask(0x27, aiArg, b);
 }
@@ -1176,24 +1197,25 @@ char FUN_004a0350_shell::GetByteAt2D()
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_004a19d0_shell
 {
-    void FUN_004a19d0();
+    void NiAVObject_GetNoDecals();
 };
 
 // @fnv 0x004a19d0
-void FUN_004a19d0_shell::FUN_004a19d0()
+// src: XBOX_PDB 0x004a19d0
+void FUN_004a19d0_shell::NiAVObject_GetNoDecals()
 {
-    reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x400);
+    reinterpret_cast<FUN_00456630_helper*>(this)->NiAVObject_GetBit(0x400);
 }
 
 namespace fnv_004a1a50 {
 struct M788
 {
-    void FUN_004ed8c0(void*);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(void*);
 };
 struct bsrandom_singleton
 {
@@ -1207,7 +1229,7 @@ struct bsrandom_singleton
 void __cdecl BGSDecalManager_AddEmitter(void* apEmitter)
 {
     if (apEmitter)
-        ((M788*)((char*)bsrandom_singleton::MersenneTwister::GetRandomGenerator() + 0x14))->FUN_004ed8c0(&apEmitter);
+        ((M788*)((char*)bsrandom_singleton::MersenneTwister::GetRandomGenerator() + 0x14))->NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(&apEmitter);
 }
 }  // namespace fnv_004a1a50
 
@@ -1221,11 +1243,12 @@ struct FUN_004a0330_shell
 {
     char pad[0x10c];
     Flt f;
-    unsigned int FUN_004a0330();
+    unsigned int BSTempEffectSimpleDecal_GetDecalParent();
 };
 
 // @fnv 0x004a0330
-unsigned int FUN_004a0330_shell::FUN_004a0330()
+// src: XBOX_PDB 0x004a0330
+unsigned int FUN_004a0330_shell::BSTempEffectSimpleDecal_GetDecalParent()
 {
     return static_cast<unsigned int>(f);
 }
@@ -1256,7 +1279,7 @@ void FUN_004a2c00_shell::AssignGo(void* arg)
 
 struct FUN_004a3cc0_Class
 {
-    FUN_004a3cc0_Class* FUN_004a3cc0(void);
+    FUN_004a3cc0_Class* hkpWorldRayCastInput_hkpWorldRayCastInput(void);
 };
 
 struct Holder
@@ -1264,8 +1287,8 @@ struct Holder
     void FUN_004a3c90(Holder*);
 };
 
-void* __fastcall FUN_004a3d00(void*);
-void* __cdecl FUN_00458b20(void);
+void* __fastcall hkpWorldRayCastOutput_hkpWorldRayCastOutput(void*);
+void* __cdecl hkVector4_getZero(void);
 
 struct FUN_004a3c20
 {
@@ -1277,9 +1300,9 @@ struct FUN_004a3c20
 // @fnv 0x004a3c20
 FUN_004a3c20::FUN_004a3c20()
 {
-    ((FUN_004a3cc0_Class*)((char*)this + 0x00))->FUN_004a3cc0();
-    FUN_004a3d00((char*)this + 0x30);
-    ((Holder*)((char*)this + 0x90))->FUN_004a3c90((Holder*)FUN_00458b20());
+    ((FUN_004a3cc0_Class*)((char*)this + 0x00))->hkpWorldRayCastInput_hkpWorldRayCastInput();
+    hkpWorldRayCastOutput_hkpWorldRayCastOutput((char*)this + 0x30);
+    ((Holder*)((char*)this + 0x90))->FUN_004a3c90((Holder*)hkVector4_getZero());
     *(int*)((char*)this + 0xa0) = 0;
     *(int*)((char*)this + 0xa4) = 0;
     *(int*)((char*)this + 0xa8) = 0;
@@ -1288,8 +1311,8 @@ FUN_004a3c20::FUN_004a3c20()
 
 struct StatefulObject
 {
-    void FUN_004a2d50();
-    bool FUN_004f1540();
+    void BGSDecalEmitter_Update();
+    bool TESRegionData_GetOverride();
     ~StatefulObject();
 };
 
@@ -1305,7 +1328,7 @@ struct BGSDecalEmitterList
     DecalEmitterNode* tail;
     unsigned int count;
     DecalEmitterNode* FUN_00559450();
-    StatefulObject** FUN_0057cbe0(DecalEmitterNode** cursor);
+    StatefulObject** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(DecalEmitterNode** cursor);
     void FUN_0049f590(DecalEmitterNode** cursor);
 };
 
@@ -1333,11 +1356,11 @@ void DecalCleanupOwner::CleanupDecalEmitters()
     while (cursor != 0)
     {
         DecalEmitterNode* previous = cursor;
-        StatefulObject* emitter = *decalEmitters.FUN_0057cbe0(&cursor);
+        StatefulObject* emitter = *decalEmitters.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&cursor);
         if (emitter != 0)
         {
-            emitter->FUN_004a2d50();
-            if (emitter->FUN_004f1540())
+            emitter->BGSDecalEmitter_Update();
+            if (emitter->TESRegionData_GetOverride())
             {
                 decalEmitters.FUN_0049f590(&previous);
                 delete emitter;
@@ -1430,7 +1453,7 @@ struct Matrix
     void FUN_00476930(int, NiPoint3&);
     void FUN_004769c0(int, const NiPoint3&);
 };
-void FUN_00c4b600(Matrix*, NiPoint3);
+void BSUtilities_GetRotationZToVector(Matrix*, NiPoint3);
 struct Frustum
 {
     float left, right, top, bottom, nearValue, farValue;
@@ -1453,7 +1476,7 @@ struct Name
 };
 struct Ref
 {
-    float FUN_008d01e0();
+    float NiAVObject_GetWorldScale();
     Name* FUN_00413f40();
 };
 struct Query
@@ -1471,18 +1494,18 @@ struct Input
     Query* query;
     NiPoint3 BSTempEffectSimpleDecal_GetDirection();
     NiPoint3 BSTempEffectSimpleDecal_GetOrigin();
-    float FUN_004e3d00();
+    float Animation_GetGlobalTimeMultiplier();
     float FUN_00507b20();
     float GetField11C();
     float GetFloatAt120();
-    Ref* FUN_004a0330();
+    Ref* BSTempEffectSimpleDecal_GetDecalParent();
 };
 struct Scene
 {
-    void FUN_00440460(const NiPoint3&);
-    void FUN_0043fa80(const Matrix&);
+    void NiAVObject_SetTranslate(const NiPoint3&);
+    void SetRotate_0043fa80(const Matrix&);
     void FUN_00a6faf0(const Frustum&);
-    void FUN_00a59c60(Update*);
+    void NiAVObject_Update(Update*);
     NiPoint3 FUN_0045bba0();
     void* TESDataHandler_GetImpactDataSetList();
 };
@@ -1493,7 +1516,7 @@ struct ScenePtr
 };
 struct Node
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
     void FUN_004a1040(int);
 };
 struct NodePtr
@@ -1522,7 +1545,7 @@ struct Resource
 {
     void NiRenderer_SetScreenSpaceCameraData();
 };
-Resource* __stdcall FUN_0043c4b0(void*);
+Resource* __stdcall NiXenonRenderer_GetRenderer(void*);
 void* FUN_00450b80(int);
 struct Cull
 {
@@ -1589,7 +1612,7 @@ extern float DAT_0101b268, DAT_0101e2bc, DAT_01018f5c;
 extern double DAT_01011590, DAT_0101e2c0;
 extern char DAT_0101e298, DAT_0101e274, DAT_0101e24c, DAT_0101e1f8;
 void Warning_005b5e40(const char*, ...);
-void* FUN_004b3890(const NiPoint3&, const Color&, const NiPoint3&, const Color&, int);
+void* MakeLine(const NiPoint3&, const Color&, const NiPoint3&, const Color&, int);
 struct World
 {
     void FUN_00458e20(void*, float);
@@ -1607,14 +1630,14 @@ struct Camera
 void Camera::UpdateCamera(Input* input)
 {
     NiPoint3 directionSlot1Slot0 = input->BSTempEffectSimpleDecal_GetDirection();
-    directionSlot1Slot0.FUN_004a0c10();
+    directionSlot1Slot0.Unitize_004a0c10();
     directionSlot1Slot0.FUN_00439180(DAT_0101b268);
     NiPoint3 originSlot13 = input->BSTempEffectSimpleDecal_GetOrigin().FUN_00439e90(directionSlot1Slot0);
     Matrix rotationSlot17Slot12;
-    FUN_00c4b600(&rotationSlot17Slot12, directionSlot1Slot0.FUN_004a0bd0());
+    BSUtilities_GetRotationZToVector(&rotationSlot17Slot12, directionSlot1Slot0.FUN_004a0bd0());
     Matrix scaleSlot22Slot0Slot10;
     scaleSlot22Slot0Slot10.FUN_006815c0();
-    scaleSlot22Slot0Slot10.FUN_004a0c90(input->FUN_004e3d00());
+    scaleSlot22Slot0Slot10.FUN_004a0c90(input->Animation_GetGlobalTimeMultiplier());
     rotationSlot17Slot12 = scaleSlot22Slot0Slot10.FUN_0043f8d0(rotationSlot17Slot12);
     NiPoint3 column0Slot30Slot0;
     NiPoint3 column1Slot41Slot18;
@@ -1628,8 +1651,8 @@ void Camera::UpdateCamera(Input* input)
     basisSlot28Slot36.FUN_004769c0(2, column1Slot41Slot18);
     NiPoint3 startSlot14Slot30;
     NiPoint3 endSlot11;
-    float widthSlot15Slot25 = (input->FUN_00507b20() / DAT_01011590) * (1.0f / input->FUN_004a0330()->FUN_008d01e0());
-    float heightSlot21 = (input->GetField11C() / DAT_01011590) * (1.0f / input->FUN_004a0330()->FUN_008d01e0());
+    float widthSlot15Slot25 = (input->FUN_00507b20() / DAT_01011590) * (1.0f / input->BSTempEffectSimpleDecal_GetDecalParent()->NiAVObject_GetWorldScale());
+    float heightSlot21 = (input->GetField11C() / DAT_01011590) * (1.0f / input->BSTempEffectSimpleDecal_GetDecalParent()->NiAVObject_GetWorldScale());
     float farPlaneSlot12Slot43 = input->GetFloatAt120() + DAT_0101e2c0;
     Frustum frustumSlot18Slot39(0);
     frustumSlot18Slot39.ortho = true;
@@ -1639,24 +1662,24 @@ void Camera::UpdateCamera(Input* input)
     frustumSlot18Slot39.top = heightSlot21;
     frustumSlot18Slot39.bottom = -heightSlot21;
     frustumSlot18Slot39.farValue = farPlaneSlot12Slot43;
-    scene.FUN_00559450()->FUN_00440460(originSlot13);
-    scene.FUN_00559450()->FUN_0043fa80(basisSlot28Slot36);
+    scene.FUN_00559450()->NiAVObject_SetTranslate(originSlot13);
+    scene.FUN_00559450()->SetRotate_0043fa80(basisSlot28Slot36);
     scene.FUN_00559450()->FUN_00a6faf0(frustumSlot18Slot39);
     Update updateSlot12(0.0f, 0, 0);
-    scene.FUN_00559450()->FUN_00a59c60(&updateSlot12);
+    scene.FUN_00559450()->NiAVObject_Update(&updateSlot12);
     void* lineSlot0Slot21;
     if (DAT_011c57f4 & 4)
     {
         startSlot14Slot30 = originSlot13;
         endSlot11 = originSlot13.FUN_00439e90(scene.FUN_00559450()->FUN_0045bba0().ApplyScaled(farPlaneSlot12Slot43));
         lineSlot0Slot21 =
-            FUN_004b3890(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
+            MakeLine(startSlot14Slot30, Color(0.0f, 0.0f, 1.0f, 1.0f), endSlot11, Color(1.0f, 0.0f, 0.0f, 1.0f), 1);
         DAT_011dea10->FUN_00458e20(lineSlot0Slot21, DAT_01018f5c);
     }
     if (*DAT_011c5904.FUN_00408d60())
     {
         NiPoint3 look = scene.FUN_00559450()->FUN_0045bba0();
-        Warning_005b5e40(&DAT_0101e298, input->FUN_004a0330()->FUN_00413f40()->FUN_0043b1b0());
+        Warning_005b5e40(&DAT_0101e298, input->BSTempEffectSimpleDecal_GetDecalParent()->FUN_00413f40()->FUN_0043b1b0());
         Warning_005b5e40(&DAT_0101e274, originSlot13.x, originSlot13.y, originSlot13.z);
         Warning_005b5e40(&DAT_0101e24c, look.x, look.y, look.z);
         Warning_005b5e40(&DAT_0101e1f8, farPlaneSlot12Slot43, -widthSlot15Slot25, widthSlot15Slot25, heightSlot21,
@@ -1670,12 +1693,12 @@ void Camera::UpdateCamera(Input* input)
         BSRenderedTexture_StartOffscreen(0, render.FUN_00559450()->FUN_00b6b260());
     input->query = new Query;
     input->query->BSOcclusionQuery_Begin();
-    FUN_0043c4b0(scene.FUN_00559450()->TESDataHandler_GetImpactDataSetList())->NiRenderer_SetScreenSpaceCameraData();
+    NiXenonRenderer_GetRenderer(scene.FUN_00559450()->TESDataHandler_GetImpactDataSetList())->NiRenderer_SetScreenSpaceCameraData();
     Cull cullSlot18Slot33(0);
     cullSlot18Slot33.BSCullingProcess_SetAccumulator(node.FUN_00559450());
-    node.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
+    node.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
     node.FUN_00559450()->FUN_004a1040(15);
-    BSShaderUtil_AccumulateScene(scene.FUN_00559450(), input->FUN_004a0330(), &cullSlot18Slot33);
+    BSShaderUtil_AccumulateScene(scene.FUN_00559450(), input->BSTempEffectSimpleDecal_GetDecalParent(), &cullSlot18Slot33);
     FUN_00b6c0d0(scene.FUN_00559450(), node.FUN_00559450(), 0);
     cullSlot18Slot33.BSCullingProcess_SetAccumulator(0);
     input->query->BSOcclusionQuery_End();
@@ -1716,7 +1739,7 @@ struct DecalPoint
     DecalPoint FUN_00439ef0(const DecalPoint& arOther) const;
     DecalPoint FUN_00439e90(const DecalPoint& arOther) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     DecalPoint ApplyScaled(float afScale) const;
 };
 
@@ -1748,9 +1771,9 @@ struct DecalNode
     virtual void v01();
     virtual void v02();
     virtual DecalNode* GetNode();
-    bool FUN_004a19d0();
-    DecalBound* FUN_0043d450();
-    void* FUN_004543c0();
+    bool NiAVObject_GetNoDecals();
+    DecalBound* NiAVObject_GetWorldBound();
+    void* TESObjectCELL_GetbhkWorld();
 };
 
 struct DecalHolder
@@ -2028,14 +2051,14 @@ struct DecalHitList
     DecalHitList();
     ~DecalHitList();
     int FUN_0049c680(DecalNode** appNode, int aiFlags);
-    void FUN_0076b660(DecalNode** appNode);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_AddHead(DecalNode** appNode);
     void FUN_004ed900();
 };
 
 struct DecalEmitter
 {
-    void FUN_004a1a10(int aiFlag, int aiValue);
-    void FUN_006231a0(void* apNode);
+    void DecalCaster_SetCollision(int aiFlag, int aiValue);
+    void DecalCaster_Add(void* apNode);
     int DecalCaster_Pick(DecalRequest* apRequest, const DecalPoint& arPos, float afRange);
     DecalNode* GetCollisionFlags(int aiIndex);
     void SetTileSetValues(int aiIndex, DecalPoint* apPos, DecalPoint* apNormal);
@@ -2054,7 +2077,7 @@ struct DecalBoolSetting
 };
 struct DecalIntSetting
 {
-    unsigned int* FUN_0043d4d0();
+    unsigned int* Setting_Int();
 };
 
 extern DecalPlayer* DAT_011dea3c;
@@ -2068,13 +2091,13 @@ extern DecalEmitter* DAT_011c57e0;
 extern DecalRotation DAT_011a9484;
 
 float __cdecl Display_fDecalLOD0_Get();
-float __cdecl FUN_004a1a00();
+float __cdecl Renderer_GetSkinnedDecalLODStart();
 int __cdecl Warning_005b5e40(const char* apFormat, ...);
-int __cdecl FUN_00406d00(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
-void __cdecl FUN_0040fbe0(const char* apText, int aiFlags);
-float __cdecl FUN_00404010(float a, float b);
+int __cdecl BSsprintf(char* apBuffer, unsigned int auiSize, const char* apFormat, ...);
+void __cdecl ProgramFlow(const char* apText, int aiFlags);
+float __cdecl BSMAX_00404010(float a, float b);
 DecalEmitter* __cdecl FUN_00622a70(float afSize, int aiFlags);
-void* __cdecl FUN_0056f930(DecalNode* apNode);
+void* __cdecl TESObjectREFR_FindReferenceFor3D(DecalNode* apNode);
 bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
 
 static const char s_szSourceFile[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSDecalManager.cpp";
@@ -2087,8 +2110,8 @@ struct DecalManager
     int iPad00;
     bool m_bDecalsEnabled;
 
-    void FUN_004a1a70(DecalRequest* apRequest);
-    void FUN_004a2070(DecalRequest* apRequest);
+    void BGSDecalManager_AddGeometryDecalRecurse(DecalRequest* apRequest);
+    void BGSDecalManager_AddProjectedDecalRecurse(DecalRequest* apRequest);
     void AddGeometryDecal(DecalRequest* apRequest, int aiType, bool abForce);
 };
 
@@ -2108,7 +2131,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
     switch (aiType)
     {
     case 1:
-        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->NiAVObject_GetNoDecals())
         {
             kCameraIn = *DAT_011dea3c->GetPos();
             fDistance = apRequest->kPos.FUN_00439ef0(kCameraIn).FUN_00457990();
@@ -2127,67 +2150,67 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             {
                 if (*DAT_011c5904.FUN_00408d60())
                     Warning_005b5e40(s_szSimpleDecal);
-                FUN_004a1a70(apRequest);
+                BGSDecalManager_AddGeometryDecalRecurse(apRequest);
             }
             if (*DAT_011c5884.FUN_00408d60())
             {
                 QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&llEnd));
                 llTicks = llEnd - kStartNext.QuadPart;
-                FUN_00406d00(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
-                FUN_0040fbe0(acBuffer, 0);
+                BSsprintf(acBuffer, 0xff, s_szTiming, llTicks, llTicks / dFrequency);
+                ProgramFlow(acBuffer, 0);
             }
         }
         break;
     case 4:
-        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*DAT_011c5834.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->NiAVObject_GetNoDecals())
         {
             apRequest->bRefresh = 1;
-            FUN_004a1a70(apRequest);
+            BGSDecalManager_AddGeometryDecalRecurse(apRequest);
         }
         break;
     case 2:
-        if (*DAT_011c58bc.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->FUN_004a19d0())
+        if (*DAT_011c58bc.FUN_00408d60() && apRequest->pTarget && !apRequest->pTarget->NiAVObject_GetNoDecals())
         {
             DecalPoint kEyeOut = *DAT_011dea3c->GetPos();
-            DecalBound kBound = *apRequest->pTarget->FUN_0043d450();
+            DecalBound kBound = *apRequest->pTarget->NiAVObject_GetWorldBound();
             float fBoundDistance = kBound.FUN_006815c0()->FUN_00439ef0(kEyeOut).FUN_00457990() - kBound.FUN_0084d030();
-            if ((FUN_004a1a00() >= fBoundDistance && DAT_011c57f0 < *DAT_011c58e4.FUN_0043d4d0()) || abForce)
-                FUN_004a2070(apRequest);
-            else if (DAT_011c57f0 >= *DAT_011c58e4.FUN_0043d4d0() && *DAT_011c5904.FUN_00408d60())
-                Warning_005b5e40(s_szSkinLimit, *DAT_011c58e4.FUN_0043d4d0());
+            if ((Renderer_GetSkinnedDecalLODStart() >= fBoundDistance && DAT_011c57f0 < *DAT_011c58e4.Setting_Int()) || abForce)
+                BGSDecalManager_AddProjectedDecalRecurse(apRequest);
+            else if (DAT_011c57f0 >= *DAT_011c58e4.Setting_Int() && *DAT_011c5904.FUN_00408d60())
+                Warning_005b5e40(s_szSkinLimit, *DAT_011c58e4.Setting_Int());
         }
         else if (*DAT_011c58bc.FUN_00408d60() && apRequest->pHolder)
         {
             DecalPoint kViewerNew = *DAT_011dea3c->GetPos();
-            DecalBound kHolderBoundCur = *apRequest->pHolder->Get3D()->FUN_0043d450();
+            DecalBound kHolderBoundCur = *apRequest->pHolder->Get3D()->NiAVObject_GetWorldBound();
             float fHolderDistance = kHolderBoundCur.FUN_006815c0()->FUN_00439ef0(kViewerNew).FUN_00457990() -
                                     kHolderBoundCur.FUN_0084d030();
             DecalNode* pObject = apRequest->pHolder->Get3D();
             DecalNode* pNode = pObject ? pObject->GetNode() : 0;
-            if (pNode && !pObject->FUN_004a19d0())
+            if (pNode && !pObject->NiAVObject_GetNoDecals())
             {
                 apRequest->pTarget = pNode;
-                if ((FUN_004a1a00() >= fHolderDistance && DAT_011c57f0 < *DAT_011c58e4.FUN_0043d4d0()) || abForce)
-                    FUN_004a2070(apRequest);
-                else if (DAT_011c57f0 >= *DAT_011c58e4.FUN_0043d4d0() && *DAT_011c5904.FUN_00408d60())
-                    Warning_005b5e40(s_szSkinLimit, *DAT_011c58e4.FUN_0043d4d0());
+                if ((Renderer_GetSkinnedDecalLODStart() >= fHolderDistance && DAT_011c57f0 < *DAT_011c58e4.Setting_Int()) || abForce)
+                    BGSDecalManager_AddProjectedDecalRecurse(apRequest);
+                else if (DAT_011c57f0 >= *DAT_011c58e4.Setting_Int() && *DAT_011c5904.FUN_00408d60())
+                    Warning_005b5e40(s_szSkinLimit, *DAT_011c58e4.Setting_Int());
             }
         }
         else if (*DAT_011c5834.FUN_00408d60())
         {
-            apRequest->kWorldPosition.FUN_004a0c10();
+            apRequest->kWorldPosition.Unitize_004a0c10();
             if (!DAT_011c57e0)
-                DAT_011c57e0 = FUN_00622a70(FUN_00404010(apRequest->m_fGlyphExtent, apRequest->m_fGlyphWidthInPixels), 1);
-            DAT_011c57e0->FUN_004a1a10(8, 0);
-            DAT_011c57e0->FUN_004a1a10(0x1d, 0);
-            DAT_011c57e0->FUN_006231a0(apRequest->pParent->FUN_004543c0());
+                DAT_011c57e0 = FUN_00622a70(BSMAX_00404010(apRequest->m_fGlyphExtent, apRequest->m_fGlyphWidthInPixels), 1);
+            DAT_011c57e0->DecalCaster_SetCollision(8, 0);
+            DAT_011c57e0->DecalCaster_SetCollision(0x1d, 0);
+            DAT_011c57e0->DecalCaster_Add(apRequest->pParent->TESObjectCELL_GetbhkWorld());
             int iCount = DAT_011c57e0->DecalCaster_Pick(
                 apRequest, apRequest->kPos.FUN_00439e90(apRequest->kWorldPosition.ApplyScaled(80.0f)), 32.0f);
             if (iCount == 0)
             {
                 DecalPoint kNewDir =
                     apRequest->kWorldPosition.FUN_00439e90(DAT_011a9484.FUN_004a0bd0().ApplyScaled(2.0f));
-                kNewDir.FUN_004a0c10();
+                kNewDir.Unitize_004a0c10();
                 apRequest->kWorldPosition = kNewDir;
                 iCount = DAT_011c57e0->DecalCaster_Pick(apRequest, apRequest->kPos.FUN_00439e90(kNewDir.ApplyScaled(80.0f)),
                                                     32.0f);
@@ -2203,9 +2226,9 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                 if (pHitTmp)
                 {
                     DAT_011c57e0->SetTileSetValues(i, &kHitPos, &kHitNormal);
-                    kHitNormal.FUN_004a0c10();
-                    void* m_pShaderGeometry = FUN_0056f930(pHitTmp);
-                    if (pHitTmp->FUN_004a19d0() || !m_pShaderGeometry ||
+                    kHitNormal.Unitize_004a0c10();
+                    void* m_pShaderGeometry = TESObjectREFR_FindReferenceFor3D(pHitTmp);
+                    if (pHitTmp->NiAVObject_GetNoDecals() || !m_pShaderGeometry ||
                         !IsAcousticSpaceFormTypeAllowed(m_pShaderGeometry, 1))
                         continue;
                     if (!kHits.FUN_0049c680(&pHitTmp, 0))
@@ -2213,8 +2236,8 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                         apRequest->kPos = kHitPos;
                         apRequest->kWorldPosition = kHitNormal;
                         apRequest->pTarget = pHitTmp;
-                        FUN_004a1a70(apRequest);
-                        kHits.FUN_0076b660(&pHitTmp);
+                        BGSDecalManager_AddGeometryDecalRecurse(apRequest);
+                        kHits.NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_AddHead(&pHitTmp);
                     }
                 }
             }
@@ -2278,7 +2301,7 @@ struct XNode
     virtual void v1();
     virtual void v2();
     virtual int v3();
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     XNet* FUN_0050d100();
     unsigned int FUN_0043b480();
     XNode* GetAt(unsigned int idx);
@@ -2351,11 +2374,11 @@ struct XMgr
     unsigned char m4;
     char pad5[3];
     XNL m8;
-    bool FUN_004a1a70(XRef* ref);
+    bool BGSDecalManager_AddGeometryDecalRecurse(XRef* ref);
 };
 
-bool FUN_0043b300(const void* rtti, XNode* obj);
-bool FUN_0045bad0(const void* name, XNode* obj);
+bool NiObject_IsKindOf(const void* rtti, XNode* obj);
+bool NiObject_IsExactKindOf(const void* name, XNode* obj);
 struct NiPoint3Sq : NiPoint3
 {
 };
@@ -2363,7 +2386,8 @@ NiPoint3Sq MultiplyComponents(const NiPoint3& a, const NiPoint3& b);
 
 // Checks conditions on ref and related nodes, may construct an XDoor, and calls FUN_0057c590 when ref->m48 is non-null.
 // @fnv 0x004a1a70
-bool XMgr::FUN_004a1a70(XRef* ref)
+// src: XBOX_PDB 0x004a1a70
+bool XMgr::BGSDecalManager_AddGeometryDecalRecurse(XRef* ref)
 {
     const char* pName4;
     XNode* p9;
@@ -2392,7 +2416,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                             FUN_00ec8a19(pName4, DAT_0101e474, 7) == 0 || FUN_00ec8a19(pName4, DAT_0101e468, 9) == 0 ||
                             FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
-        if (FUN_0043b300(&DAT_011f4a20, ref->m28) && !ref->m28->FUN_00456610())
+        if (NiObject_IsKindOf(&DAT_011f4a20, ref->m28) && !ref->m28->GetAppCulled_00456610())
         {
             p9 = ref->m28;
             if (p9 != 0)
@@ -2411,7 +2435,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                     av_ = info2->GetAt(i5);
                     if (av_ != 0)
                     {
-                        if (FUN_0045bad0(&DAT_011c7d34, av_))
+                        if (NiObject_IsExactKindOf(&DAT_011c7d34, av_))
                         {
                             foundVal = true;
                             hit2 = av_;
@@ -2467,7 +2491,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
             XNode* n2 = ref->m28;
             unsigned int _i2;
             XNode* child8;
-            if (n2 != 0 && n2->FUN_00456610())
+            if (n2 != 0 && n2->GetAppCulled_00456610())
                 return true;
             _i2 = 0;
             while (_i2 < n2->FUN_0043b480())
@@ -2476,7 +2500,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                 if (child8 != 0)
                 {
                     ref->m28 = child8;
-                    FUN_004a1a70(ref);
+                    BGSDecalManager_AddGeometryDecalRecurse(ref);
                 }
                 _i2++;
             }
@@ -2564,16 +2588,16 @@ struct DObj
     virtual void Unk36();
     virtual void Virtualdc(DObj*, bool);
     CStringProvider* FUN_00413f40();
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     DProp* FUN_00a59d30(unsigned);
-    void* FUN_004030b0();
-    void* FUN_0043fad0();
+    void* CombatController_GetTarget();
+    void* NiGeometry_GetSkinInstance();
     DArray* NiAVObject_GetParent();
-    unsigned FUN_00453470();
+    unsigned NiNode_GetChildCount();
     int FUN_0059e300();
     void AssignGo(DObj*);
     void AssignFixedString(CStringProvider*);
-    void FUN_00a59c60(DUpdate&);
+    void NiAVObject_Update(DUpdate&);
 };
 struct CStringProvider
 {
@@ -2598,7 +2622,7 @@ struct DProp
 // Exe 0x004a2070: unit-local DList view; declarations and layout are preserved.
 struct BgsdecalmanagerDListView
 {
-    void FUN_00631540(const DPtr&);
+    void BSSimpleList_NiPointer_bhkAction_AddHead(const DPtr&);
 };
 struct DNode : DObj
 {
@@ -2850,8 +2874,8 @@ struct DArg
 };
 struct DSetting
 {
-    float* FUN_00403e20();
-    int* FUN_0043d4d0();
+    float* Setting_Float_00403e20();
+    int* Setting_Int();
     bool* FUN_00408d60();
     float FUN_00450410();
 };
@@ -2860,25 +2884,26 @@ extern int DAT_011c57e8, DAT_011c57f0;
 extern unsigned DAT_011f444c, DAT_011c7d34;
 struct DManager
 {
-    void FUN_00973fd0(DObj*);
+    void ProcessLists_AddTempEffect(DObj*);
 };
 extern DManager DAT_011e0e80;
-bool FUN_0043b300(const void*, DObj*);
-bool FUN_0045bad0(const void*, DObj*);
+bool NiObject_IsKindOf(const void*, DObj*);
+bool NiObject_IsExactKindOf(const void*, DObj*);
 void Warning_005b5e40(const char*, ...);
-CStringProvider* FUN_004a2c60();
-int FUN_004a2c20(DProp*);
+CStringProvider* FixedStrings_QSkinnedDecalNode();
+int BSSM_ShaderPropertyIsLighting(DProp*);
 struct DWork
 {
-    bool FUN_004a2070(DArg*);
+    bool BGSDecalManager_AddProjectedDecalRecurse(DArg*);
 };
 // Checks limits and object conditions, may create decal effects, and returns a status.
 // @fnv 0x004a2070
-bool DWork::FUN_004a2070(DArg* arg)
+// src: XBOX_PDB 0x004a2070
+bool DWork::BGSDecalManager_AddProjectedDecalRecurse(DArg* arg)
 {
-    if (*DAT_011c5874.FUN_00403e20() <= 0.0)
+    if (*DAT_011c5874.Setting_Float_00403e20() <= 0.0)
         return false;
-    if (DAT_011c57e8 >= *DAT_011c5858.FUN_0043d4d0())
+    if (DAT_011c57e8 >= *DAT_011c5858.Setting_Int())
     {
         if (*DAT_011c5904.FUN_00408d60())
             Warning_005b5e40("DECAL: Reached max skinned decals per frame. Ignoring decal.");
@@ -2890,7 +2915,7 @@ bool DWork::FUN_004a2070(DArg* arg)
         DPtr p(0);
         arg->parent->interface30.Get(0, p);
         DObj* parent = p.FUN_00559450();
-        if (FUN_0043b300(&DAT_011f444c, parent))
+        if (NiObject_IsKindOf(&DAT_011f444c, parent))
             original.FUN_0066b0d0(parent);
     }
     if (!original.FUN_00559450())
@@ -2904,7 +2929,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                 !strncmp(name, "BSFaceGen", 9) || !strncmp(name, "Hair", 4))
                 return true;
         }
-        if (arg->object->FUN_00456610())
+        if (arg->object->GetAppCulled_00456610())
             return true;
         if (arg->object->IsGeometry())
         {
@@ -2912,18 +2937,18 @@ bool DWork::FUN_004a2070(DArg* arg)
             if (arg->tries <= 0)
             {
                 DProp* data = geometry->FUN_00a59d30(3);
-                void* prop = geometry->FUN_004030b0();
+                void* prop = geometry->CombatController_GetTarget();
                 if (data && prop)
                 {
                     DPtr effect(0);
-                    if (geometry->FUN_0043fad0())
+                    if (geometry->NiGeometry_GetSkinInstance())
                     {
                         DArray* array = arg->object->NiAVObject_GetParent();
                         DNode* selected = 0;
                         for (unsigned i = 0; i < array->FUN_0043b480(); ++i)
                         {
                             DObj* child = array->FUN_0043b4a0(i);
-                            if (child && FUN_0045bad0(&DAT_011c7d34, child))
+                            if (child && NiObject_IsExactKindOf(&DAT_011c7d34, child))
                             {
                                 selected = (DNode*)child;
                                 break;
@@ -2933,7 +2958,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             selected = new DNode(array, true);
                         else
                         {
-                            if (selected->FUN_00453470() >= (unsigned)*DAT_011c589c.FUN_0043d4d0())
+                            if (selected->NiNode_GetChildCount() >= (unsigned)*DAT_011c589c.Setting_Int())
                                 return true;
                         }
                         ++DAT_011c57e8;
@@ -2948,7 +2973,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             if (!arg->skin)
                             {
                                 arg->skin = new DSkin(0);
-                                arg->skin->AssignFixedString(FUN_004a2c60());
+                                arg->skin->AssignFixedString(FixedStrings_QSkinnedDecalNode());
                                 selected->Virtualdc((DObj*)arg->skin, true);
                                 ++DAT_011c57f0;
                                 if (*DAT_011c5904.FUN_00408d60())
@@ -2956,10 +2981,10 @@ bool DWork::FUN_004a2070(DArg* arg)
                             }
                             arg->skin->Virtualdc(decal.FUN_00559450()->Virtual98(true));
                             decal.FUN_00559450()->AssignGo((DObj*)arg->skin);
-                            selected->effects->FUN_00631540(decal.FUN_00559450());
+                            selected->effects->BSSimpleList_NiPointer_bhkAction_AddHead(decal.FUN_00559450());
                             DUpdate update(0.0f, false, false);
-                            selected->FUN_00a59c60(update);
-                            DAT_011e0e80.FUN_00973fd0(decal.FUN_00559450());
+                            selected->NiAVObject_Update(update);
+                            DAT_011e0e80.ProcessLists_AddTempEffect(decal.FUN_00559450());
                             effect.FUN_0066b0d0(decal.FUN_00559450());
                         }
                         else
@@ -2994,14 +3019,14 @@ bool DWork::FUN_004a2070(DArg* arg)
                         if (a)
                         {
                             DProp* data2 = a->FUN_00a59d30(3);
-                            void* prop2 = a->FUN_004030b0();
+                            void* prop2 = a->CombatController_GetTarget();
                             if (data2 && prop2)
                             {
-                                DProp* shader = FUN_004a2c20(data2) ? data2 : 0;
+                                DProp* shader = BSSM_ShaderPropertyIsLighting(data2) ? data2 : 0;
                                 if (shader)
                                 {
                                     DPtr additional(0);
-                                    if (geometry->FUN_0043fad0())
+                                    if (geometry->NiGeometry_GetSkinInstance())
                                     {
                                         DEffect* pRawEffect =
                                             new DEffect(arg->flags, DAT_011c5874.FUN_00450410(), arg, a, arg->origin,
@@ -3010,7 +3035,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                                         pRawEffect->Virtual8c();
                                     }
                                     if (additional.FUN_00559450())
-                                        DAT_011e0e80.FUN_00973fd0(additional.FUN_00559450());
+                                        DAT_011e0e80.ProcessLists_AddTempEffect(additional.FUN_00559450());
                                 }
                             }
                         }
@@ -3037,7 +3062,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                 if (child)
                 {
                     arg->object = child;
-                    bool result = FUN_004a2070(arg);
+                    bool result = BGSDecalManager_AddProjectedDecalRecurse(arg);
                     if (!result && arg->object)
                     {
                         if (arg->skin)
@@ -3047,7 +3072,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             for (unsigned d = 0; d < array->FUN_0043b480(); ++d)
                             {
                                 DObj* entry = array->FUN_0043b4a0(d);
-                                if (entry && FUN_0045bad0(&DAT_011c7d34, entry))
+                                if (entry && NiObject_IsExactKindOf(&DAT_011c7d34, entry))
                                 {
                                     selected = (DNode*)entry;
                                     break;

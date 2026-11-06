@@ -675,7 +675,8 @@ void __fastcall NiDX9Renderer_CalculateBoneMatrices(void* this_ptr, int edx_unus
 
 // If arg3 is non-null, calls FUN_00e6fe30 then invokes renderer vtable slot 0x78 with fields from this_ptr, arg2 and arg3, returning 0.
 // @fnv 0x00bc8f20
-int __fastcall FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
+// src: XBOX_PDB 0x00bc8f20
+int __fastcall BSShaderNoLighting_SetupBoneMatrices(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
                             int arg6, int arg7, int arg8)
 {
     if (arg3)
@@ -745,7 +746,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_01202040;
 
 // @fnv 0x00bc7710
-GlobalObjectO2_00a7b610* __cdecl FUN_00bc7710()
+// src: XBOX_PDB 0x00bc7710
+GlobalObjectO2_00a7b610* __cdecl BSShaderNoLighting_GetRTTI()
 {
     return &g_01202040;
 }
@@ -1502,10 +1504,11 @@ void TechniqueShader::SetPass(unsigned int uiTechnique)
 
 struct BSShaderNoLightingShell : BSShaderNoLighting
 {
-    void FUN_00bc8d30();
+    void BSShaderNoLighting_ReloadShaders();
 };
 // @fnv 0x00bc8d30
-void BSShaderNoLightingShell::FUN_00bc8d30()
+// src: XBOX_PDB 0x00bc8d30
+void BSShaderNoLightingShell::BSShaderNoLighting_ReloadShaders()
 {
     InitializeShaderData();
     BSShaderNoLighting_LoadStagesAndPasses();
@@ -1551,11 +1554,12 @@ class NoLightingShaderBuild
     NiD3DShaderConstantMap* m34;
     char pad2[0x170 - 0x38];
     int m170, m174, m178, m17c, m180;
-    void FUN_00bc9cc0();
+    void BSShaderNoLighting_CreateConstantMaps();
 };
 // Lazily creates and populates the pixel and vertex constant maps with shader constant values and stores their indices in m170-m180.
 // @fnv 0x00bc9cc0
-void NoLightingShaderBuild::FUN_00bc9cc0()
+// src: XBOX_PDB 0x00bc9cc0
+void NoLightingShaderBuild::BSShaderNoLighting_CreateConstantMaps()
 {
     if (!m30)
     {

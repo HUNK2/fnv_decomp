@@ -90,13 +90,14 @@ template <class T> struct AlphaPrimitiveArray
     void __thiscall SetSize(unsigned int);
     void __thiscall SetAt(unsigned int, T&);
 };
-void __stdcall FUN_00a576c0(AlphaPrimitiveArray<char*>*);
+void __stdcall NiFloatInterpController_GetViewerStrings(AlphaPrimitiveArray<char*>*);
 char* __cdecl _FUN_00a7d330(const char*);
 // Grows pkStrings if full, then appends the string returned by _FUN_00a7d330(g_011f4084) at the current size index.
 // @fnv 0x00a56b60
-void __stdcall FUN_00a56b60(AlphaPrimitiveArray<char*>* pkStrings)
+// src: XBOX_PDB 0x00a56b60
+void __stdcall NiAlphaController_GetViewerStrings(AlphaPrimitiveArray<char*>* pkStrings)
 {
-    FUN_00a576c0(pkStrings);
+    NiFloatInterpController_GetViewerStrings(pkStrings);
     char* pszStr = _FUN_00a7d330((const char*)g_011f4084);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -166,7 +167,7 @@ void __fastcall UpdateAlpha(NiAlphaController* self, void*, UpdateData& kData)
     {
         self->m_fControllerTime = kInvalidTime;
     }
-    else if (self->FUN_00a36250(kData.m_fTime) &&
+    else if (self->DontDoUpdate(kData.m_fTime) &&
              (!self->m_spControllerInterpolator.m_pObject ||
               !reinterpret_cast<FloatInterpolator*>(self->m_spControllerInterpolator.m_pObject)->AlwaysUpdate()))
     {

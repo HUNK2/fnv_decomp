@@ -13,8 +13,8 @@
 #include "../../include/NiRefObject.h"
 struct FUN_00ac5340_class
 {
-    void FUN_00ac5220(int a, int b, int c);
-    void FUN_00ac5340(int a, int b, int c);
+    void FutBinaryFileC_writeHeader(int a, int b, int c);
+    void FutBinaryFileC_write(int a, int b, int c);
 };
 void __cdecl _fclose(void*);
 struct FUN_00ac5ed0_This
@@ -148,7 +148,7 @@ struct FUN_00ad5730_Class
 {
     void* __thiscall FUN_00ad5730(int flags);
 };
-void __fastcall FUN_00adc160(void* p);
+void __fastcall BSAudioManager_SetRadioVolume(void* p);
 struct FUN_00ad87d0_Class
 {
     void BSAudioManager_ClearSecondaryVolumes();
@@ -174,8 +174,8 @@ struct FUN_00ac1120_Class
 };
 struct FUN_00ac52b0_class
 {
-    void FUN_00ac52b0(int a, int b, int c);
-    void FUN_00ac5370(int a, int b, int c);
+    void FutBinaryFileC_readHeader(int a, int b, int c);
+    void FutBinaryFileC_read(int a, int b, int c);
 };
 unsigned __int64 __cdecl __time64(unsigned __int64*);
 void __cdecl FUN_00ecada6(unsigned int);
@@ -239,7 +239,7 @@ struct FUN_00ad3f90_Class
 };
 struct FUN_00ad56e0_class
 {
-    int FUN_00ad56e0(void* a, void* b, void* c, void* d);
+    int std_codecvt_char_char_int_do_unshift(void* a, void* b, void* c, void* d);
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ac0460_cls
@@ -646,7 +646,7 @@ struct FgBinaryFile
     int unk38;
     int unk3C;
     FgBinaryStream* m_pBinaryStream;
-    bool FUN_00ac5cf0(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
+    bool BSFaceGenBinaryFile_read(void* pvBuffer, unsigned int uiSize, unsigned int ItemUpdateArray);
 };
 extern int DAT_010a2480;
 class FUN_00ac5e90_Target
@@ -1808,7 +1808,7 @@ void* __cdecl FUN_00ad53d0(unsigned int n)
 
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 struct FUN_00ac05b0
@@ -1821,7 +1821,7 @@ inline void Del(FUN_00ac05b0* p, unsigned int f)
 {
     p->FUN_0065edd0();
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -6824,7 +6824,7 @@ struct BxLengthError : public BxLogicError
 struct GvHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
 {
@@ -6857,7 +6857,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -7954,7 +7954,7 @@ struct BxLengthError : public BxLogicError
 struct GvHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
 {
@@ -7987,7 +7987,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -13455,7 +13455,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -13576,7 +13576,7 @@ template <class T> struct AsAlloc
     {}
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((AsHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((AsHeap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     pointer allocate(unsigned int _Count)
     {
@@ -16462,7 +16462,7 @@ struct BxLengthError : public BxLogicError
 struct GvHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
 {
@@ -16495,7 +16495,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -17105,7 +17105,7 @@ template <class T> struct GvVector : GvVectorVal<T>
 };
 struct GvFileHandle;
 extern "C" GvFileHandle* __cdecl fopen(const char* _Filename, const char* _Mode);
-void FUN_00ac6430(int code, BxString message);
+void futSetLastError(int code, BxString message);
 }
 using namespace bfopen;
 struct GvBinaryFile
@@ -17114,30 +17114,30 @@ struct GvBinaryFile
     BxString kMagic;
     GvFileHandle* pFile;
     virtual void v00();
-    void FUN_00ac5430();
-    bool FUN_00ac52b0(char* data, unsigned int count, bool exact);
+    void FutBinaryFileC_close();
+    bool FutBinaryFileC_readHeader(char* data, unsigned int count, bool exact);
     bool FUN_00ac4f00(const BxString& path);
 };
 // @fnv 0x00ac4f00
 bool GvBinaryFile::FUN_00ac4f00(const BxString& path)
 {
-    FUN_00ac5430();
+    FutBinaryFileC_close();
     pFile = fopen(path.c_str(), "a+b");
     if (pFile == 0)
     {
-        FUN_00ac6430(4, path);
+        futSetLastError(4, path);
         return false;
     }
     GvVector<char> kBuffer(kMagic.size() + 1);
-    if (!FUN_00ac52b0(&kBuffer[0], kMagic.size(), true))
+    if (!FutBinaryFileC_readHeader(&kBuffer[0], kMagic.size(), true))
     {
         return false;
     }
     kBuffer[5] = kMagic[5];
     if (kMagic != &kBuffer[0])
     {
-        FUN_00ac6430(2, path);
-        FUN_00ac5430();
+        futSetLastError(2, path);
+        FutBinaryFileC_close();
         return false;
     }
     kPath = path;
@@ -17666,11 +17666,11 @@ unsigned char* __cdecl FUN_00ac61c0(_Vector_const_iteratorS<unsigned char> _Firs
 struct Str
 {
     char buf[28];
-    void __thiscall FUN_0044a730(int a, int b);
+    void __thiscall fopen_0044a730(int a, int b);
     Str(int a, int b);
     __forceinline ~Str()
     {
-        FUN_0044a730(1, 0);
+        fopen_0044a730(1, 0);
     }
 };
 void __cdecl FUN_00ac6540(Str* obj);
@@ -18161,7 +18161,7 @@ struct FnvString : FnvStringBase
     char m_smallString[16];
     unsigned int m_fRestLength;
     unsigned int m_pRayCursor;
-    void FUN_0044a730(bool release, unsigned int numLines);
+    void fopen_0044a730(bool release, unsigned int numLines);
     void FUN_0044a4c0(const char* text);
     void FUN_0044a500(const FnvString* other);
     __forceinline unsigned int size() const
@@ -18192,7 +18192,7 @@ struct FnvString : FnvStringBase
     }
     __forceinline FnvString() : FnvStringBase(FnvAllocator())
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     FnvString* FUN_0044a7f0(const char* text, unsigned int count);
     inline FnvString* AssignCString(const char* text)
@@ -18223,13 +18223,13 @@ struct FnvString : FnvStringBase
     }
     inline FnvString(const char* text) : FnvStringBase(FnvAllocator())
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignCString(text);
     }
     __declspec(noinline) FnvString(const FnvString& other);
     __forceinline ~FnvString()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
     __forceinline bool equal(const FnvString& other) const
     {
@@ -18319,7 +18319,8 @@ __forceinline void PadTail36()
     int pad36[9];
 }
 // @fnv 0x00ac7aa0
-bool __cdecl FUN_00ac7aa0(FnvInput* input, FnvMap* output, FnvString* exclude, int limit)
+// src: XBOX_PDB 0x00ac7aa0
+bool __cdecl FutPairParser(FnvInput* input, FnvMap* output, FnvString* exclude, int limit)
 {
     FnvString line;
     int numLines = 0;
@@ -18367,7 +18368,7 @@ bool __cdecl FUN_00ac7aa0(FnvInput* input, FnvMap* output, FnvString* exclude, i
 
 __declspec(noinline) FnvString::FnvString(const FnvString& other) : FnvStringBase(other)
 {
-    FUN_0044a730(false, 0);
+    fopen_0044a730(false, 0);
     AssignSubstring(&other, 0, DAT_010173f0);
 }
 
@@ -23189,10 +23190,10 @@ unsigned int __cdecl FUN_00ec7c56();
 struct StrQ
 {
     int m[7];
-    void FUN_0044a730(bool b, unsigned int n);
+    void fopen_0044a730(bool b, unsigned int n);
     ~StrQ()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 };
 struct ElemQ
@@ -26726,10 +26727,10 @@ class Sub_b7137
     unsigned int m_10;
     unsigned int m_14;
     unsigned int m_18;
-    void FUN_0044a730(int, int);
+    void fopen_0044a730(int, int);
     __forceinline ~Sub_b7137()
     {
-        FUN_0044a730(1, 0);
+        fopen_0044a730(1, 0);
     }
 };
 
@@ -28070,7 +28071,8 @@ template <class E, class A> class Str : public Val<E, A>
     {
         Tr<E>::assign(data()[mysize = n], E());
     }
-    void FUN_0044a730(bool built = false, size_type neu = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built = false, size_type neu = 0)
     {
         if (!built)
             ;
@@ -28105,13 +28107,13 @@ template <class E, class A> class Str : public Val<E, A>
             }
             catch (...)
             {
-                FUN_0044a730(true);
+                fopen_0044a730(true);
                 throw;
             }
         }
         if (0 < oldlen)
             th::copy_s<Tr<E> >(p, newres + 1, data(), oldlen);
-        FUN_0044a730(true);
+        fopen_0044a730(true);
         bx.ptr = p;
         myres = newres;
         eos(oldlen);
@@ -28123,7 +28125,7 @@ template <class E, class A> class Str : public Val<E, A>
         if (myres < newsize)
             copy(newsize, mysize);
         else if (trim && newsize < 16)
-            FUN_0044a730(true, newsize < mysize ? newsize : mysize);
+            fopen_0044a730(true, newsize < mysize ? newsize : mysize);
         else if (newsize == 0)
             eos(0);
         return (0 < newsize);
@@ -28159,12 +28161,12 @@ template <class E, class A> class Str : public Val<E, A>
     }
     Str(const Str& r) : Val<E, A>(r)
     {
-        FUN_0044a730();
+        fopen_0044a730();
         assign(r, 0, npos);
     }
     ~Str()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
 };
 template <class T1, class T2> inline void FUN_00ad6990(T1* p, const T2& v)
@@ -29979,15 +29981,16 @@ template <> inline NiPointer<NiAVObject>::~NiPointer()
         reinterpret_cast<NiRefObject*>(m_pObject)->DecRefCount();
 }
 extern NiPoint3 DAT_011f426c;
-BSAudioManager* __cdecl FUN_00ad9060();
+BSAudioManager* __cdecl BSAudioManager_QInstance_00ad9060();
 struct FUN_00ad8650_cls
 {
-    void FUN_00ad8650();
+    void BSAudio_ExitDialogue();
 };
 // @fnv 0x00ad8650
-void FUN_00ad8650_cls::FUN_00ad8650()
+// src: XBOX_PDB 0x00ad8650
+void FUN_00ad8650_cls::BSAudio_ExitDialogue()
 {
-    FUN_00ad9060()->FUN_00adb1a0(0xd, 0, 0, 0, 0, DAT_011f426c);
+    BSAudioManager_QInstance_00ad9060()->BSAudioManager_ComposeMessage(0xd, 0, 0, 0, 0, DAT_011f426c);
 }
 
 namespace fnv_00ac2060 {
@@ -31119,17 +31122,17 @@ struct Str8Q : StrValQ
     } _Bx;
     unsigned int _Mysize;
     unsigned int _Myres;
-    void FUN_0044a730(bool _Built, unsigned int _Newsize);
+    void fopen_0044a730(bool _Built, unsigned int _Newsize);
     Str8Q& FUN_00ad0360(unsigned int _Count, char _Ch);
     Str8Q& AppendChars(unsigned int _Count, char _Ch);
     Str8Q(unsigned int _Count, char _Ch)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         FUN_00ad0360(_Count, _Ch);
     }
     ~Str8Q()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
     char* _Myptr()
     {
@@ -32023,7 +32026,7 @@ void FUN_00acb1a0_cls::FUN_00acf0b0(void* p)
 namespace fnv_00ac2540 {
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 inline void* operator new(unsigned int, void* p)
@@ -32042,7 +32045,7 @@ inline void Del(FUN_00ac0530* p, unsigned int f)
 {
     p->FUN_0065ed70();
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -32973,7 +32976,7 @@ SB3030* __cdecl FUN_00ac3030(SB3030* _First, SB3030* _Last, SB3030* _Dest, rando
 namespace fnv_00ac3ac0 {
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 inline void* operator new(unsigned int, void* p)
@@ -32985,7 +32988,7 @@ inline void operator delete(void*, void*)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct CopyFromSource
 {
@@ -32995,9 +32998,9 @@ struct CopyFromSource
 };
 inline void Del(CopyFromSource* p, unsigned int f)
 {
-    p->s.FUN_0044a730(true, 0);
+    p->s.fopen_0044a730(true, 0);
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -33048,7 +33051,7 @@ CopyFromSource* FUN_00ac3ac0(CopyFromSource* first, CopyFromSource* last, CopyFr
 namespace fnv_00ac3bd0 {
 struct PoolX
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
 inline void* operator new(unsigned int, void* p)
@@ -33067,7 +33070,7 @@ inline void Del(FUN_00ac0530* p, unsigned int f)
 {
     p->FUN_0065ed70();
     if (f & 1)
-        g_pool_011f6238.FUN_00aa4060(p);
+        g_pool_011f6238.MemoryManager_Deallocate(p);
 }
 inline void DeadX()
 {
@@ -33135,14 +33138,14 @@ unsigned int __cdecl FUN_00ec7c56();
 
 struct PoolAdapter : FUN_00ac1720_pool
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 
 struct Alloc43B0
 {
     void deallocate(void* p, unsigned int)
     {
-        static_cast<PoolAdapter&>(DAT_011f6238).FUN_00aa4060(p);
+        static_cast<PoolAdapter&>(DAT_011f6238).MemoryManager_Deallocate(p);
     }
 };
 
@@ -33187,23 +33190,23 @@ struct Str43B0
     u32 m_Mysize;
     u32 m_Myres;
 
-    void FUN_0044a730(bool _Built, u32 _Newsize);
+    void fopen_0044a730(bool _Built, u32 _Newsize);
     Str43B0& AssignSubstring(Str43B0 const& _Right, u32 _Roff, u32 _Count);
     int FUN_00ac6100(u32 a1, u32 a2, char* a3, u32 a4);
 
     Str43B0()
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     Str43B0(Str43B0 const& _Right);
     Str43B0(Str43B0 const& _Right, u32 _Roff)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(_Right, _Roff, DAT_010173f0);
     }
     ~Str43B0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 
     char* _Myptr()
@@ -33315,7 +33318,7 @@ struct Buf43B0 : VecVal43B0
     }
 };
 
-void __cdecl FUN_00ac6430(int level, Str43B0 msg);
+void __cdecl futSetLastError(int level, Str43B0 msg);
 
 struct C43B0
 {
@@ -33324,37 +33327,38 @@ struct C43B0
     Str43B0 m_str20;
     void* m_file;
 
-    void FUN_00ac5430();
-    bool FUN_00ac52b0(void* pv, unsigned int size, unsigned int count);
-    bool FUN_00ac43b0(Str43B0 name);
+    void FutBinaryFileC_close();
+    bool FutBinaryFileC_readHeader(void* pv, unsigned int size, unsigned int count);
+    bool FutBinaryFileC_openForRead(Str43B0 name);
 };
 
 // @fnv 0x00ac43b0
-bool C43B0::FUN_00ac43b0(Str43B0 name)
+// src: XBOX_PDB 0x00ac43b0
+bool C43B0::FutBinaryFileC_openForRead(Str43B0 name)
 {
-    FUN_00ac5430();
+    FutBinaryFileC_close();
     m_file = fopen(name._Myptr(), "rb");
     if (!m_file)
     {
-        FUN_00ac6430(4, Str43B0(name, 0));
+        futSetLastError(4, Str43B0(name, 0));
         return false;
     }
     Buf43B0 v(m_str20.size() + 1);
     Pad43B0x();
-    if (!FUN_00ac52b0(v.begin(), m_str20.size(), 1))
+    if (!FutBinaryFileC_readHeader(v.begin(), m_str20.size(), 1))
         return false;
     Buf43B0 w(v);
     w[5] = m_str20[5];
     if ((bool)(int)!(bool)(int)(m_str20.compare(w.begin()) == 0))
     {
-        FUN_00ac6430(2, Str43B0(name, 0));
-        FUN_00ac5430();
+        futSetLastError(2, Str43B0(name, 0));
+        FutBinaryFileC_close();
         return false;
     }
     if (v[5] > '0' && m_str20[5] != v[5])
     {
-        FUN_00ac6430(4, Str43B0(name, 0));
-        FUN_00ac5430();
+        futSetLastError(4, Str43B0(name, 0));
+        FutBinaryFileC_close();
         return false;
     }
     m_str20[5] = v[5];
@@ -38391,7 +38395,7 @@ namespace ac3_signature {
 using ucpyac15::BxString;
 using ucpyac15::GvVector;
 extern "C" _iobuf* __cdecl fopen(const char*, const char*);
-void FUN_00ac6430(int code, BxString message);
+void futSetLastError(int code, BxString message);
 
 extern "C" unsigned int __cdecl fread(void* _DstBuf, unsigned int _ElementSize, unsigned int _Count, _iobuf* _File);
 using ::fclose;
@@ -38424,14 +38428,14 @@ struct FileGuard
 bool FutBinaryFileC::FUN_00ac3fe0(const ::BxString& path)
 {
     using ac3_signature::FileGuard;
-    using ac3_signature::FUN_00ac6430;
+    using ac3_signature::futSetLastError;
     using ac3_signature::fopen;
     using ac3_signature::fread;
     using ucpyac15::GvVector;
     FileGuard file(fopen(reinterpret_cast<const ucpyac15::BxString&>(path)._Myptr(), "rb"));
     if (!file.fp)
     {
-        FUN_00ac6430(4, reinterpret_cast<const ucpyac15::BxString&>(path));
+        futSetLastError(4, reinterpret_cast<const ucpyac15::BxString&>(path));
         return false;
     }
     // The original checker reads the second string, at 0x20 (the shared path member).
@@ -38439,7 +38443,7 @@ bool FutBinaryFileC::FUN_00ac3fe0(const ::BxString& path)
     if (ac3_signature::fread(&buffer2[0], reinterpret_cast<ucpyac15::BxString&>(this->path).size(), 1, file.get()) != 1)
     {
         file.Close();
-        FUN_00ac6430(1, reinterpret_cast<const ucpyac15::BxString&>(path));
+        futSetLastError(1, reinterpret_cast<const ucpyac15::BxString&>(path));
         return false;
     }
     buffer2[reinterpret_cast<ucpyac15::BxString&>(this->path).size()] = 0;
@@ -39955,7 +39959,7 @@ struct BxLengthError : public BxLogicError
 struct GvHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
 {
@@ -39988,7 +39992,7 @@ template <class T> struct GvAlloc
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(_Ptr);
+        ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(_Ptr);
     }
     void destroy(pointer _Ptr)
     {
@@ -40599,7 +40603,7 @@ template <class T> struct GvVector : GvVectorVal<T>
 };
 struct GvFileHandle;
 extern "C" GvFileHandle* __cdecl fopen(const char* _Filename, const char* _Mode);
-void FUN_00ac6430(int code, BxString message);
+void futSetLastError(int code, BxString message);
 }
 namespace bfopenrw {
 
@@ -40609,23 +40613,23 @@ struct GvBinaryFile
     BxString kMagic;
     GvFileHandle* pFile;
     virtual void v00();
-    void FUN_00ac5430();
-    bool FUN_00ac52b0(char* data, unsigned int count, bool exact);
+    void FutBinaryFileC_close();
+    bool FutBinaryFileC_readHeader(char* data, unsigned int count, bool exact);
     bool FUN_00ac4b00(const BxString& path);
 };
 
 // @fnv 0x00ac4b00
 bool GvBinaryFile::FUN_00ac4b00(const BxString& path)
 {
-    FUN_00ac5430();
+    FutBinaryFileC_close();
     pFile = fopen(path.c_str(), "r+b");
     if (pFile == 0)
     {
-        FUN_00ac6430(4, path);
+        futSetLastError(4, path);
         return false;
     }
     GvVector<char> rawHeader(kMagic.size() + 1);
-    if (!FUN_00ac52b0(&rawHeader[0], kMagic.size(), true))
+    if (!FutBinaryFileC_readHeader(&rawHeader[0], kMagic.size(), true))
     {
         return false;
     }
@@ -40633,8 +40637,8 @@ bool GvBinaryFile::FUN_00ac4b00(const BxString& path)
     checkedHeader[5] = kMagic[5];
     if (kMagic != &checkedHeader[0])
     {
-        FUN_00ac6430(2, path);
-        FUN_00ac5430();
+        futSetLastError(2, path);
+        FutBinaryFileC_close();
         return false;
     }
     kMagic[5] = '0';
@@ -40670,7 +40674,8 @@ struct S5540_String : S5540_StringVal
     {
         staging_std::char_traits<char>::assign(_Myptr()[_Mysize = newsize], char());
     }
-    __declspec(noinline) void FUN_0044a730(bool built, unsigned int newsize)
+// src: XBOX_PDB 0x0044a730
+    __declspec(noinline) void fopen_0044a730(bool built, unsigned int newsize)
     {
         if (!built)
             ;
@@ -40719,12 +40724,12 @@ struct S5540_String : S5540_StringVal
     int FUN_00ac6100(unsigned int off, unsigned int n0, const char* ptr, unsigned int count) const;
     S5540_String(const S5540_String& right) : S5540_StringVal(right._Alval)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(right, 0, DAT_010173f0);
     }
     ~S5540_String()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
     S5540_String& assign(const S5540_String& right)
     {
@@ -40779,11 +40784,11 @@ inline bool operator!=(const S5540_String& left, const char* right)
 
 inline void __cdecl S5540_Free(void* p)
 {
-    ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(p);
+    ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(p);
 }
 inline void __cdecl operator delete(void* p)
 {
-    ((GvHeap*)&DAT_011f6238)->FUN_00aa4060(p);
+    ((GvHeap*)&DAT_011f6238)->MemoryManager_Deallocate(p);
 }
 struct S5540_AuxCont
 {
@@ -40903,7 +40908,7 @@ struct S5540_Buffer : S5540_VectorVal
     }
 };
 
-void __cdecl FUN_00ac6430(int code, S5540_String msg);
+void __cdecl futSetLastError(int code, S5540_String msg);
 void* __cdecl FUN_00afdf20(const char* name, int a, int b, int c);
 
 struct S5540_File
@@ -40914,7 +40919,7 @@ struct S5540_File
     char m_0c;
     char m_0d;
     void LoadedFile_IncRefCount();
-    void FUN_0044b180();
+    void LoadedFile_DecRefCount();
     struct MarkUsed
     {
         MarkUsed(char& used)
@@ -40950,7 +40955,7 @@ struct S5540_FilePtr
     ~S5540_FilePtr()
     {
         if (m_p)
-            m_p->FUN_0044b180();
+            m_p->LoadedFile_DecRefCount();
     }
 };
 
@@ -40963,7 +40968,7 @@ struct S5540_Stream
     void* m_40;
     S5540_File* m_44;
     bool BSFaceGenBinaryFile_readHeader(char* buf, unsigned int len, bool flag);
-    bool FUN_00ac5540(S5540_String name, bool flag);
+    bool BSFaceGenBinaryFile_openForRead(S5540_String name, bool flag);
 };
 
 // These dead inline locals retain the scratch space of the original STL
@@ -40983,7 +40988,8 @@ static __forceinline void HeaderCleanupScratch()
 }
 
 // @fnv 0x00ac5540
-bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
+// src: XBOX_PDB 0x00ac5540
+bool S5540_Stream::BSFaceGenBinaryFile_openForRead(S5540_String name, bool flag)
 {
     int archive = 1;
     if (flag)
@@ -41001,7 +41007,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     }
     if (m_40 == 0)
     {
-        FUN_00ac6430(4, name);
+        futSetLastError(4, name);
         return false;
     }
     S5540_Buffer flags(m_20.size() + 1);
@@ -41012,7 +41018,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     vec[5] = m_20[5];
     if (m_20 != &vec[0])
     {
-        FUN_00ac6430(2, name);
+        futSetLastError(2, name);
         ((FUN_00ac5c00_cls*)this)->ClearHolders();
         return false;
     }
@@ -41020,7 +41026,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     {
         if (m_20[5] != flags[5])
         {
-            FUN_00ac6430(4, name);
+            futSetLastError(4, name);
             ((FUN_00ac5c00_cls*)this)->ClearHolders();
             return false;
         }
@@ -41396,40 +41402,41 @@ struct BlkMapView : Tree<String>
 {
 };
 }
-void FUN_00ac6430(int, parser839::String);
-bool FUN_00ac7aa0(parser839::Input<char, parser839::Traits<char> >&, parser839::BlkMapView&, const parser839::String&, bool);
+void futSetLastError(int, parser839::String);
+bool FutPairParser(parser839::Input<char, parser839::Traits<char> >&, parser839::BlkMapView&, const parser839::String&, bool);
 // @fnv 0x00ac8390
-bool FUN_00ac8390(const char* buffer, const parser839::String& name, parser839::BlkMapView& output)
+// src: XBOX_PDB 0x00ac8390
+bool FutBufferPairParser(const char* buffer, const parser839::String& name, parser839::BlkMapView& output)
 {
     if (!buffer)
     {
-        FUN_00ac6430(11, "Input buffer is empty.");
+        futSetLastError(11, "Input buffer is empty.");
         return false;
     }
     parser839::Stream stream(buffer);
     if (stream.fail())
     {
-        FUN_00ac6430(11, "Unable to create string stream for buffer.");
+        futSetLastError(11, "Unable to create string stream for buffer.");
         return false;
     }
     output.ResetListSentinel();
     if (name != &DAT_01011584)
     {
-        if (!FUN_00ac7aa0(stream, output, "//", true))
+        if (!FutPairParser(stream, output, "//", true))
         {
-            FUN_00ac6430(11, "Unable to parse string stream.");
+            futSetLastError(11, "Unable to parse string stream.");
             return false;
         }
         if (output.FUN_00acb200(name) == output.end())
         {
-            FUN_00ac6430(2, "string stream buffer");
+            futSetLastError(2, "string stream buffer");
             return false;
         }
     }
     output.ResetListSentinel();
-    if (!FUN_00ac7aa0(stream, output, "//", false))
+    if (!FutPairParser(stream, output, "//", false))
     {
-        FUN_00ac6430(4, "string stream buffer");
+        futSetLastError(4, "string stream buffer");
         return false;
     }
     else
@@ -41454,7 +41461,7 @@ struct FUN_0044a4c0 : PackString87
         unsigned length = _Mysize;
         return ComparePart(0, length, s._Myptr(), s.size());
     }
-    void FUN_0044a730(bool, unsigned);
+    void fopen_0044a730(bool, unsigned);
     __forceinline FUN_0044a4c0& AssignChars(const char* p, unsigned n)
     {
         if (_Inside(p))
@@ -41477,7 +41484,7 @@ struct FUN_0044a4c0 : PackString87
     {}
     FUN_0044a4c0(const char* s)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         Assign(s);
     }
     __forceinline FUN_0044a4c0& Assign(const char* s)
@@ -41490,19 +41497,19 @@ struct FUN_0044a500 : FUN_0044a4c0
 {
     FUN_0044a500()
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     FUN_0044a500(const char* s) : FUN_0044a4c0(s)
     {}
     FUN_0044a500(const FUN_0044a500& s);
     FUN_0044a500(const FUN_0044a500& s, unsigned off) : FUN_0044a4c0(s)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         assign(s, off, DAT_010173f0);
     }
     ~FUN_0044a500()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 };
 
@@ -41722,8 +41729,8 @@ template <class T> class Table87 : public TreeData87<T>
 
 typedef Table87<int> List87b0;
 
-void FUN_00ac6430(int kind, QString s);
-unsigned char FUN_00ac7aa0(Stream87b0* stream, List87b0* a3, const QString& sep, int flag);
+void futSetLastError(int kind, QString s);
+unsigned char FutPairParser(Stream87b0* stream, List87b0* a3, const QString& sep, int flag);
 
 // @fnv 0x00ac87b0
 bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
@@ -41732,24 +41739,24 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
     Stream87b0 stream(pStr->_Myptr(), 1, 0x40);
     if (stream.IsBinary())
     {
-        FUN_00ac6430(4, QString(*pStr, 0u));
+        futSetLastError(4, QString(*pStr, 0u));
         return false;
     }
     a3->ResetListSentinel();
-    if (!FUN_00ac7aa0(&stream, a3, "//", 1))
+    if (!FutPairParser(&stream, a3, "//", 1))
     {
-        FUN_00ac6430(4, QString(*pStr, 0u));
+        futSetLastError(4, QString(*pStr, 0u));
         return false;
     }
     if (a3->FUN_00acb200(a2) == a3->End())
     {
-        FUN_00ac6430(2, QString(*pStr, 0u));
+        futSetLastError(2, QString(*pStr, 0u));
         return false;
     }
     a3->ResetListSentinel();
-    if (!FUN_00ac7aa0(&stream, a3, "//", 0))
+    if (!FutPairParser(&stream, a3, "//", 0))
     {
-        FUN_00ac6430(4, *pStr);
+        futSetLastError(4, *pStr);
         return false;
     }
     else
@@ -41822,7 +41829,7 @@ struct StrC9F0
     C9Size m_Mysize;
     C9Size m_Myres;
 
-    void FUN_0044a730(bool _Built, C9Size _Newsize);
+    void fopen_0044a730(bool _Built, C9Size _Newsize);
     StrC9F0& FUN_00ad0360(C9Size _Count, char _Ch);
     StrC9F0& AppendChars(C9Size _Count, char _Ch);
 
@@ -41832,12 +41839,12 @@ struct StrC9F0
         char _ch;
         char* _ptr;
         _ptr = &_ch;
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         FUN_00ad0360(_Count, _Ch);
     }
     ~StrC9F0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 
     char* _Myptr()
@@ -42083,14 +42090,15 @@ template <class T> struct StringImpl : StringBase
     unsigned _Mysize, _Myres;
     __forceinline StringImpl() : StringBase()
     {
-        FUN_0044a730();
+        fopen_0044a730();
     }
     __forceinline ~StringImpl()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
     static char* copy_s(char*, unsigned, const char*, unsigned);
-    void FUN_0044a730(bool _Built = false, unsigned _Newsize = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool _Built = false, unsigned _Newsize = 0)
     {
         if (!_Built)
             ;
@@ -45341,10 +45349,10 @@ struct E39_String
     int u10;
     int u14;
     int u18;
-    void __thiscall FUN_0044a730(int built, unsigned int size);
+    void __thiscall fopen_0044a730(int built, unsigned int size);
     ~E39_String()
     {
-        FUN_0044a730(1, 0);
+        fopen_0044a730(1, 0);
     }
 };
 
@@ -45354,7 +45362,7 @@ struct E39_Element
     E39_String str;
     void operator delete(void* p)
     {
-        reinterpret_cast<fnv_00ac43b0::PoolAdapter*>(&DAT_011f6238)->FUN_00aa4060(p);
+        reinterpret_cast<fnv_00ac43b0::PoolAdapter*>(&DAT_011f6238)->MemoryManager_Deallocate(p);
     }
 };
 

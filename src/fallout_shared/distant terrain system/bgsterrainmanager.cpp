@@ -58,7 +58,8 @@ void BGSTerrainManager::ResetMultiBoundResults()
 void __cdecl SetSoundListFlag(bool);
 
 // @fnv 0x006fd1f0
-void __cdecl FUN_006fd1f0(bool abEnable)
+// src: XBOX_PDB 0x006fd1f0
+void __cdecl BGSTerrainManager_EnableLODWaterProcessing(bool abEnable)
 {
     SetSoundListFlag(abEnable);
 }
@@ -79,7 +80,8 @@ struct FUN_006fd980_shell
 
 // If the root node is non-null, calls FUN_006fd980(7) on it.
 // @fnv 0x006fce00
-void __thiscall BGSTerrainManager::FUN_006fce00()
+// src: XBOX_PDB 0x006fce00
+void __thiscall BGSTerrainManager::UnloadAll_006fce00()
 {
     if (pRootTerrainNode != 0)
         ((FUN_006fd980_shell*)pRootTerrainNode)->BGSTerrainNode_UnloadDataRecurse(7);
@@ -87,7 +89,7 @@ void __thiscall BGSTerrainManager::FUN_006fce00()
 
 struct BGSTerrainChunk
 {
-    int __thiscall FUN_006fabc0(int);
+    int __thiscall BGSTerrainChunk_GetTexture(int);
 };
 
 // @fnv 0x006fce30
@@ -97,7 +99,7 @@ NiTexture* BGSTerrainManager::GetDiffuseTextureForPoint(void* point)
     BGSTerrainChunk* obj = GetChunkForPoint(point);
     if (obj)
     {
-        result = (NiTexture*)obj->FUN_006fabc0(0);
+        result = (NiTexture*)obj->BGSTerrainChunk_GetTexture(0);
     }
     return result;
 }
@@ -158,7 +160,7 @@ NiTexture* BGSTerrainManager::GetNormalTextureForPoint(void* a1)
     NiTexture* result = 0;
     BGSTerrainChunk* chunk = GetChunkForPoint(a1);
     if (chunk)
-        result = (NiTexture*)chunk->FUN_006fabc0(1);
+        result = (NiTexture*)chunk->BGSTerrainChunk_GetTexture(1);
     return result;
 }
 
@@ -177,14 +179,14 @@ BGSTerrainChunk* BGSTerrainManager::GetChunkForPoint(void* a1)
 
 struct FUN_006fed30_Callee
 {
-    int __thiscall FUN_006fed30(int);
+    int __thiscall BGSTerrainNode_GetTreeBlockForPoint(int);
 };
 // @fnv 0x006fcef0
 BGSDistantTreeBlock* BGSTerrainManager::GetDistantTreeBlockForPoint(void* a)
 {
     int unused = 0;
     if (pRootTerrainNode)
-        return (BGSDistantTreeBlock*)((FUN_006fed30_Callee*)pRootTerrainNode)->FUN_006fed30((int)a);
+        return (BGSDistantTreeBlock*)((FUN_006fed30_Callee*)pRootTerrainNode)->BGSTerrainNode_GetTreeBlockForPoint((int)a);
     return 0;
 }
 
@@ -201,7 +203,7 @@ void BGSTerrainManager::AddTerrainReference(TESObjectREFR* a1)
 
 struct S_00587f40_Lock
 {
-    void FUN_004538a0(int a);
+    void BSCriticalSection_Enter(int a);
     void FUN_004538c0();
 };
 extern S_00587f40_Lock DAT_011ca60c;
@@ -254,7 +256,7 @@ struct S_00587f40
 // @fnv 0x00587f40
 void S_00587f40::ClearAllLists()
 {
-    DAT_011ca60c.FUN_004538a0(0);
+    DAT_011ca60c.BSCriticalSection_Enter(0);
     m_kNode.RemoveAll();
     void* pos = m_map.GetFirstPos();
     while (pos)
@@ -317,7 +319,7 @@ struct RefArray
     unsigned int FUN_0044ddc0();
     void FUN_008454f0(bool);
     void FUN_006f2290(unsigned int, bool);
-    void FUN_0047a110(unsigned int, TESObjectREFR* const&);
+    void BSSimpleArray_TESAmmo_1024_SetAt(unsigned int, TESObjectREFR* const&);
 };
 
 struct LocalRefArray
@@ -330,13 +332,14 @@ struct LocalRefArray
     ~LocalRefArray();
     unsigned int FUN_0044ddc0();
     void FUN_007cb2e0(TESObjectREFR* const&);
-    TESObjectREFR*& FUN_006a7ad0(unsigned int);
+    TESObjectREFR*& BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
 };
 
 extern BGSTerrainManager* DAT_011d8670;
 
 // @fnv 0x006fca90
-void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
+// src: XBOX_PDB 0x006fca90
+void BGSTerrainManager::Update_006fca90(const NiPoint3& arPos, int aiFlags)
 {
     if (DAT_0119f188 && *g_011d86ac.Bool())
     {
@@ -349,10 +352,10 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
         {
             BGSTerrainManager* pOld = DAT_011d8670;
             DAT_011d8670 = this;
-            pOld->FUN_006fce00();
+            pOld->UnloadAll_006fce00();
             if (DAT_011d86bc)
             {
-                ((NiNode*)DAT_011d86bc)->FUN_00572160();
+                ((NiNode*)DAT_011d86bc)->DetachAllChildren_00572160();
             }
         }
         DAT_011d8670 = this;
@@ -399,7 +402,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                         ((RefArray*)&kTerrainReferences)->FUN_006f2290(keptCount, true);
                         for (unsigned int j = 0; j < keptCount; j++)
                         {
-                            ((RefArray*)&kTerrainReferences)->FUN_0047a110(j, kept.FUN_006a7ad0(j));
+                            ((RefArray*)&kTerrainReferences)->BSSimpleArray_TESAmmo_1024_SetAt(j, kept.BSSimpleArray_NiAVObject_1024_GetAt(j));
                         }
                     }
                 }

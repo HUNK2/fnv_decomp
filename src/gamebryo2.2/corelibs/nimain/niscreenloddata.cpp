@@ -459,13 +459,14 @@ class A960A0Data : public A960A0Object
     unsigned int m_uiCount;
     int* m_piIndices;
 
-    void FUN_00a960a0(A960A0Stream& kStream);
+    void NiScreenLODData_SaveBinary(A960A0Stream& kStream);
 };
 
 // SaveBinary
 // Saves the base object, both bounding spheres, the index count and each index to the stream.
 // @fnv 0x00a960a0
-void A960A0Data::FUN_00a960a0(A960A0Stream& kStream)
+// src: XBOX_PDB 0x00a960a0
+void A960A0Data::NiScreenLODData_SaveBinary(A960A0Stream& kStream)
 {
     A960A0Object::SaveBinary(kStream);
     m_kBoundA.SaveBinary(reinterpret_cast<NiStream&>(kStream));
@@ -830,14 +831,14 @@ struct FUN_00a961d0_cls
     NiBound m_18;
     unsigned int m_uiItemCount;
     unsigned int* m_iSlotIds;
-    void FUN_00a88a40(StreamOwner* owner);
+    void BSTextureSet_LoadBinary(StreamOwner* owner);
     void SetProportionCount(unsigned int size);
     void LoadFromStream(StreamOwner* owner);
 };
 // @fnv 0x00a961d0
 void FUN_00a961d0_cls::LoadFromStream(StreamOwner* owner)
 {
-    FUN_00a88a40(owner);
+    BSTextureSet_LoadBinary(owner);
     m_08.LoadBinary(reinterpret_cast<NiStream*>(owner));
     m_18.LoadBinary(reinterpret_cast<NiStream*>(owner));
     unsigned int numberOfValues;
@@ -903,7 +904,7 @@ struct StrArray
     }
 };
 char* NiViewerStrings_NiGetViewerString_Title(const char* p);
-void* FUN_00aa1070(unsigned int size);
+void* _NiMalloc_00aa1070(unsigned int size);
 int FUN_00a305b0(char* buf, unsigned int size, const char* fmt, ...);
 struct Obj96270
 {
@@ -913,18 +914,19 @@ struct Obj96270
     NiBound m_18;
     unsigned int m_28;
     float* m_2c;
-    void FUN_00a96270(StrArray* pkStrings);
+    void NiScreenLODData_GetViewerStrings(StrArray* pkStrings);
 };
 // Adds the global string, Bound and World Bound strings, and one formatted proportion string per m_28 entry into pkStrings.
 // @fnv 0x00a96270
-void Obj96270::FUN_00a96270(StrArray* pkStrings)
+// src: XBOX_PDB 0x00a96270
+void Obj96270::NiScreenLODData_GetViewerStrings(StrArray* pkStrings)
 {
     pkStrings->AddCall(NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_011f5ee8));
-    pkStrings->AddCall(m_08.FUN_00a7fb20("Bound"));
-    pkStrings->AddCall(m_18.FUN_00a7fb20("World Bound"));
+    pkStrings->AddCall(m_08.GetViewerString_00a7fb20("Bound"));
+    pkStrings->AddCall(m_18.GetViewerString_00a7fb20("World Bound"));
     for (unsigned int i = 0; i < m_28; i++)
     {
-        char* pBuffer = (char*)FUN_00aa1070(0x80);
+        char* pBuffer = (char*)_NiMalloc_00aa1070(0x80);
         FUN_00a305b0(pBuffer, 0x80, "Proportion[%d] = %g", i, m_2c[i]);
         pkStrings->Add(pBuffer);
     }
@@ -1010,11 +1012,12 @@ struct WorkerScreen
     float radius;
     unsigned int count;
     float* thresholds;
-    unsigned int FUN_00a95de0(WorkerCamera*, int);
+    unsigned int NiScreenLODData_GetLODLevel(WorkerCamera*, int);
 };
 // Computes a camera-scaled extent from the radius and returns the first threshold value less than or equal to it.
 // @fnv 0x00a95de0
-unsigned int WorkerScreen::FUN_00a95de0(WorkerCamera* camera, int unused)
+// src: XBOX_PDB 0x00a95de0
+unsigned int WorkerScreen::NiScreenLODData_GetLODLevel(WorkerCamera* camera, int unused)
 {
     NiPoint3 delta = position - camera->position;
     float squared = delta.x * delta.x + delta.y * delta.y + delta.z * delta.z;

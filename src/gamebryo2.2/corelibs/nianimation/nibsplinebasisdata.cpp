@@ -74,7 +74,8 @@ struct ArrX
     unsigned short m_usGrowBy;
 };
 // @fnv 0x00a52c90
-void __stdcall FUN_00a52c90(ArrX* pArray)
+// src: XBOX_PDB 0x00a52c90
+void __stdcall NiBSplineBasisData_GetViewerStrings(ArrX* pArray)
 {
     AppendCameraPathEntries(pArray);
     ActorCombatGroup* pObject = NiViewerStrings_NiGetViewerString_Title(g_011f403c);

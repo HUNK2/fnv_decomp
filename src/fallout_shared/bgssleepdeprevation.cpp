@@ -23,7 +23,7 @@ void BGSSleepDeprevationStage::InitItem()
         FUN_0050f9a0(dynamic_cast<SpellItem*>(TESForm::GetFormByID(formID)));
     }
     SetInitializationState(true);
-    FUN_00402550(this);
+    BGSSleepDeprevationStage_AddStage(this);
 }
 
 struct RemoveStageLocals
@@ -147,7 +147,8 @@ struct AddLocals
 };
 // Inserts stage into the global sleep-deprivation-stage array in descending order of FUN_00500940 value, reallocating the array and updating the count.
 // @fnv 0x00402550
-void FUN_00402550(BGSSleepDeprevationStage* stage)
+// src: XBOX_PDB 0x00402550
+void BGSSleepDeprevationStage_AddStage(BGSSleepDeprevationStage* stage)
 {
     AddLocals locals;
     locals.newCount = (unsigned char)(_DAT_011c31b0 + 1);
@@ -233,7 +234,8 @@ void BGSSleepDeprevationStage::CopyFromSleepDeprivationStage(TESForm* apCopy)
 extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int uiSize);
 
 // @fnv 0x00402310
-bool BGSSleepDeprevationStage::FUN_00402310(TESForm* pkForm)
+// src: XBOX_PDB 0x00402310
+bool BGSSleepDeprevationStage::Compare_00402310(TESForm* pkForm)
 {
     BGSSleepDeprevationStage* pkOther = dynamic_cast<BGSSleepDeprevationStage*>(pkForm);
     if (!pkOther)

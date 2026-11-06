@@ -23,14 +23,14 @@ public:
 class HighlightTile_levelupmenu
 {
 public:
-    HighlightTile_levelupmenu* FUN_00a03da0(const char* name);
-    void FUN_0071aa60(bool value);
+    HighlightTile_levelupmenu* Tile_GetChildByName(const char* name);
+    void SetSpeechChallengeFailure_0071aa60(bool value);
     void Tile_SetChangeFlag(int flags);
     bool GetSpeechChallengeFailure();
     float FUN_00a011b0(int trait);
-    void FUN_00a012d0(int trait, float value, bool propagate);
+    void Tile_Set(int trait, float value, bool propagate);
     void SetTraitAndReset(int trait, float value);
-    HighlightValue_levelupmenu* FUN_00a00f30(int property);
+    HighlightValue_levelupmenu* Tile_GetValue(int property);
     bool FUN_0071aa80();
     HighlightTile_levelupmenu* GetValue(int trait);
     void Link(int trait, HighlightTile_levelupmenu* tile, int sourceTrait);
@@ -54,7 +54,7 @@ public:
     NiPointer<NiNode> pData;
 
     __declspec(noinline) bool GetBooleanValue();
-    void FUN_008d5270();
+    void CharacterProgression_FinishLevelUp();
 };
 #include "../../../../include/StatsMenu.h"
 #include "../../../../include/Setting.h"
@@ -149,23 +149,23 @@ int __cdecl LevelUpMenu_GetMenuID_0()
 namespace fnv_007851d0 {
 struct PC7d
 {
-    NiNodeBooleanState_levelupmenu* FUN_00464e10();
+    NiNodeBooleanState_levelupmenu* GetCharacterProgressionInfo();
 };
 extern PC7d* g_thePlayer;
 extern int DAT_011d9fdc;
 extern "C" void __cdecl UpdateStatsMenuLevelText();
-void __cdecl FUN_0077da30();
-void __cdecl FUN_008d5270();
+void __cdecl HUDMainMenu_ClearXPMeterFinishedMoving();
+void __cdecl CharacterProgression_FinishLevelUp();
 void __cdecl LevelUpMenu_IncreaseSelectedPerkRank(Tile*, ActorValue::Index);
 // @fnv 0x007851d0
 void __cdecl UpdateLevelUpMenu()
 {
-    FUN_0077da30();
+    HUDMainMenu_ClearXPMeterFinishedMoving();
     if (DAT_011d9fdc != 0)
     {
-        g_thePlayer->FUN_00464e10()->FUN_008d5270();
+        g_thePlayer->GetCharacterProgressionInfo()->CharacterProgression_FinishLevelUp();
         ((ListBox_enum_ActorValue__Index_*)((int)DAT_011d9fdc + 0x94))->Traverse(LevelUpMenu_IncreaseSelectedPerkRank, 0, 0x7fffffff);
-        if (g_thePlayer->FUN_00464e10()->GetBooleanValue())
+        if (g_thePlayer->GetCharacterProgressionInfo()->GetBooleanValue())
             ((Actor*)g_thePlayer)->ConfigureActorState(true, false);
         UpdateStatsMenuLevelText();
         StatsMenu::UpdateStatusEffects();
@@ -210,14 +210,15 @@ struct S
     virtual void d();
     virtual void e();
     virtual int f(int);
-    int FUN_0071ae60(int);
-    int FUN_007315b0();
+    int ListBox_ItemChange_NumUnfiltered(int);
+    int ListBox_ItemChange_GetLastItem();
 };
 // Calls FUN_0071ae60(0), subtracts 1 from the result, and passes it to f, returning f's result.
 // @fnv 0x007315b0
-int S::FUN_007315b0()
+// src: XBOX_PDB 0x007315b0
+int S::ListBox_ItemChange_GetLastItem()
 {
-    return f(FUN_0071ae60(0) - 1);
+    return f(ListBox_ItemChange_NumUnfiltered(0) - 1);
 }
 
 struct FUN_00784bc0_shell
@@ -373,11 +374,12 @@ void LevelUpMenu_SetPerkAlphaIfRequirementsNotMet(Tile* tile, TESObjectREFR* ref
 struct FUN_00787760_shell
 {
     void SetTileSelection(int, int);
-    void FUN_00787760(int a);
+    void ListBox_BGSPerk_Select(int a);
 };
 
 // @fnv 0x00787760
-void FUN_00787760_shell::FUN_00787760(int aiValue)
+// src: XBOX_PDB 0x00787760
+void FUN_00787760_shell::ListBox_BGSPerk_Select(int aiValue)
 {
     SetTileSelection(aiValue, 0);
 }
@@ -385,11 +387,12 @@ void FUN_00787760_shell::FUN_00787760(int aiValue)
 struct FUN_00787c40_shell
 {
     void SetTileSelection(int a1, int a2);
-    void FUN_00787780(int arg);
+    void ListBox_BGSPerk_ToggleSelection(int arg);
 };
 
 // @fnv 0x00787780
-void __thiscall FUN_00787c40_shell::FUN_00787780(int aiValue)
+// src: XBOX_PDB 0x00787780
+void __thiscall FUN_00787c40_shell::ListBox_BGSPerk_ToggleSelection(int aiValue)
 {
     SetTileSelection(aiValue, 2);
 }
@@ -487,13 +490,14 @@ struct FUN_00785990_shell
     int m_iPointsUsed[2];
     int m_iPointsRemaining[2];
 
-    void FUN_00785990();
+    void LevelUpMenu_UpdatePointCounter();
 };
 
 int __cdecl _sprintf_s(char*, unsigned int, char const*, ...);
 
 // @fnv 0x00785990
-void FUN_00785990_shell::FUN_00785990()
+// src: XBOX_PDB 0x00785990
+void FUN_00785990_shell::LevelUpMenu_UpdatePointCounter()
 {
     const char* strcounterStrings[2];
     int ipointsLeft;
@@ -547,7 +551,7 @@ template <class T> class ListBoxItem
 
 extern int DAT_011d9ff4;
 
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 // @fnv 0x007865d0
 int __cdecl ComparePerkListItems(ListBoxItem<BGSPerk*>* apItem1, ListBoxItem<BGSPerk*>* apItem2)
@@ -576,7 +580,7 @@ int __cdecl ComparePerkListItems(ListBoxItem<BGSPerk*>* apItem1, ListBoxItem<BGS
         }
         else
         {
-            iresult = FUN_00408b20(apItem1->m_pInventoryEntryData->GetString(0xfc4),
+            iresult = BSstrcmp(apItem1->m_pInventoryEntryData->GetString(0xfc4),
                                    apItem2->m_pInventoryEntryData->GetString(0xfc4));
         }
     }
@@ -593,7 +597,7 @@ struct TGF
 
 int __cdecl _sprintf_s(char*, unsigned int, char const*, ...);
 int __cdecl MinInt(int, int);
-int __cdecl FUN_00647b70(int, int);
+int __cdecl BSMAX_00647b70(int, int);
 int GetTileValueID(char const*, int);
 
 extern int DAT_011d9fe4;
@@ -613,7 +617,7 @@ void FUN_007866e0_shell::UpdateDisplayValue(Tile* apTile)
     int idisplayValue = static_cast<int>(apTile->GetFloat(DAT_011d9fe4) + apTile->GetFloat(DAT_011d9fec) +
                                          apTile->GetFloat(DAT_011d9ff0));
 
-    idisplayValue = MinInt(FUN_00647b70(idisplayValue, 0), 100);
+    idisplayValue = MinInt(BSMAX_00647b70(idisplayValue, 0), 100);
 
     char strtemp[16];
     _sprintf_s(strtemp, 16, str_01020764, idisplayValue);
@@ -656,7 +660,7 @@ struct FUN_00786bb0 : public ObjBase, public ObjSub
     unsigned short m_w2c;
 
     FUN_00786bb0();
-    void FUN_007a1950(int a, int b);
+    void ListBox_ItemChange_SetFlag(int a, int b);
 };
 
 // Initializes the object's integer, float and short fields to zero, calls FUN_007a1950(0, 1), then AddToHeadList(this).
@@ -672,31 +676,32 @@ FUN_00786bb0::FUN_00786bb0()
     m_f28 = 0.0f;
     m_f24 = 0.0f;
     m_f20 = 0.0f;
-    FUN_007a1950(0, 1);
+    ListBox_ItemChange_SetFlag(0, 1);
     AddToHeadList(this);
 }
 
 extern int DAT_01071b64;
-void* __cdecl FUN_00a00940(const void* data, int flags);
+void* __cdecl Tile_AddUserTrait(const void* data, int flags);
 struct LevelOption
 {
     bool __thiscall IsTraitNonZero(void* data);
 };
 struct FUN_007877a0_Object
 {
-    bool FUN_007877a0(LevelOption* option);
+    bool ListBox_BGSPerk_IsSelected(LevelOption* option);
 };
 // @fnv 0x007877a0
-bool FUN_007877a0_Object::FUN_007877a0(LevelOption* option)
+// src: XBOX_PDB 0x007877a0
+bool FUN_007877a0_Object::ListBox_BGSPerk_IsSelected(LevelOption* option)
 {
-    static void* cached = FUN_00a00940(&DAT_01071b64, -1);
+    static void* cached = Tile_AddUserTrait(&DAT_01071b64, -1);
     return cached != 0 && option != 0 && option->IsTraitNonZero(cached);
 }
 
 struct LevelValue
 {
     float __thiscall FUN_00a011b0(unsigned int property);
-    void __thiscall FUN_00a012d0(int property, float value, int doUpdate);
+    void __thiscall Tile_Set(int property, float value, int doUpdate);
     void __thiscall FUN_00700320(int property, int value);
 };
 struct FUN_007879f0_helper
@@ -706,9 +711,9 @@ struct FUN_007879f0_helper
 extern const double DAT_01012060;
 extern char str_0106f90c[];
 extern char str_0106f8f8[];
-extern "C" int __cdecl FUN_00a01860(const char*);
+extern "C" int __cdecl Tile_TextToTrait(const char*);
 extern "C" float __cdecl FUN_004e4430(float);
-extern "C" int __cdecl FUN_00647b70(int, int);
+extern "C" int __cdecl BSMAX_00647b70(int, int);
 struct LevelMenuView
 {
     int unk00;
@@ -720,10 +725,11 @@ struct LevelMenuView
     int unk18;
     int unk1c;
     float maximum20;
-    void __thiscall FUN_007880a0();
+    void __thiscall ListBox_BGSPerk_SetTotalListHeight();
 };
 // @fnv 0x007880a0
-void LevelMenuView::FUN_007880a0()
+// src: XBOX_PDB 0x007880a0
+void LevelMenuView::ListBox_BGSPerk_SetTotalListHeight()
 {
     if (meter0c)
     {
@@ -734,7 +740,7 @@ void LevelMenuView::FUN_007880a0()
             if (maximum20 > current)
             {
                 count =
-                    FUN_00647b70((int)FUN_004e4430(((float)(unsigned int)((FUN_007879f0_helper*)this)->FUN_007879f0() *
+                    BSMAX_00647b70((int)FUN_004e4430(((float)(unsigned int)((FUN_007879f0_helper*)this)->FUN_007879f0() *
                                                     (maximum20 - current)) /
                                                    maximum20) +
                                      1,
@@ -742,12 +748,12 @@ void LevelMenuView::FUN_007880a0()
             }
             if (count > 1)
             {
-                meter0c->FUN_00a012d0(FUN_00a01860(str_0106f90c), (maximum20 - current) / (count - 1), 1);
+                meter0c->Tile_Set(Tile_TextToTrait(str_0106f90c), (maximum20 - current) / (count - 1), 1);
             }
         }
         if (count14)
         {
-            count14->FUN_00700320(FUN_00a01860(str_0106f8f8), count);
+            count14->FUN_00700320(Tile_TextToTrait(str_0106f8f8), count);
         }
     }
 }
@@ -833,11 +839,12 @@ struct LevelView
     int unk60;
     SkillList skills;
     SkillList perks;
-    void FUN_00785280(int, ViewTile*);
+    void LevelUpMenu_DoEnter(int, ViewTile*);
 };
 // Handles hover for ids 11-14: fills the skill or perk name/description tiles, toggles their visibility and notifies, or selects the parent skill list.
 // @fnv 0x00785280
-void LevelView::FUN_00785280(int id, ViewTile* tile)
+// src: XBOX_PDB 0x00785280
+void LevelView::LevelUpMenu_DoEnter(int id, ViewTile* tile)
 {
     char description[512];
     switch (id)
@@ -881,7 +888,7 @@ struct SkillTile
 {
     void SetName(const char*);
     void FUN_00700320(int, int);
-    void FUN_00a012d0(int, float, int);
+    void Tile_Set(int, float, int);
 };
 struct SkillList
 {
@@ -1253,7 +1260,7 @@ struct PlayerSkills
 };
 struct PerkName
 {
-    const char* FUN_00408da0();
+    const char* TESModel_GetModel();
 };
 struct Perk
 {
@@ -1264,7 +1271,7 @@ struct Perk
     int unk10;
     int unk14;
     PerkName name;
-    unsigned char FUN_005d4ee0();
+    unsigned char BGSPerk_GetNumRanks();
 };
 struct FallbackSetting
 {
@@ -1279,10 +1286,10 @@ int FUN_0066ec10(int, unsigned char);
 const char* FUN_0066e950(int);
 void CompareActorValueNames();
 int MinInt(int, int);
-bool FUN_00406d70(int, unsigned int);
+bool ActorValue_IsFlagSet(int, unsigned int);
 int strcpy_s(char*, unsigned int, const char*);
-int FUN_00406d00(char*, unsigned int, const char*, ...);
-unsigned int FUN_0044a670(const char*);
+int BSsprintf(char*, unsigned int, const char*, ...);
+unsigned int BSstrlen(const char*);
 struct SkillsMenu
 {
     int unk00;
@@ -1325,12 +1332,12 @@ void SkillsMenu::UpdateSkillsAndPerks()
     for (unsigned int i = 0; i < FUN_0066ecf0(2); ++i)
     {
         int iSkillId = FUN_0066ec10(2, (unsigned char)i);
-        if (!FUN_00406d70(iSkillId, 0x2000))
+        if (!ActorValue_IsFlagSet(iSkillId, 0x2000))
         {
             SkillTile* tile = skills.AddListEntry(iSkillId, FUN_0066e950(iSkillId), 0, 0);
             tile->SetName(FUN_0066e950(iSkillId));
             tile->FUN_00700320(0xfaa, 11);
-            tile->FUN_00a012d0(DAT_011d9ff0, 0.0f, 1);
+            tile->Tile_Set(DAT_011d9ff0, 0.0f, 1);
             tile->FUN_00700320(DAT_011d9fe4,
                               ((ActorValueOwner*)&DAT_011dea3c->values)->GetPermanentActorValue((ActorValue::Index)iSkillId));
             iTotalSkillValue +=
@@ -1339,7 +1346,7 @@ void SkillsMenu::UpdateSkillsAndPerks()
         }
     }
     skills.Sort(CompareActorValueNames);
-    points = FUN_00647b70(MinInt(points, count * 100 - iTotalSkillValue), 0);
+    points = BSMAX_00647b70(MinInt(points, count * 100 - iTotalSkillValue), 0);
     perks.FUN_0075a0d0(perkRoot, str_01073db8);
     for (LBNode* node = &availablePerks; node && *node->_ref_006815c0(); node = node->_ref_00726070())
     {
@@ -1348,11 +1355,11 @@ void SkillsMenu::UpdateSkillsAndPerks()
             int iPerkRank = DAT_011dea3c->GetPerkRank(*node->_ref_006815c0(), 0);
             {
                 SkillTile* perkTile = 0;
-                strcpy_s(acPerkLabel, 64, ((Perk*)*node->_ref_006815c0())->name.FUN_00408da0());
-                if (!FUN_0044a670(acPerkLabel))
+                strcpy_s(acPerkLabel, 64, ((Perk*)*node->_ref_006815c0())->name.TESModel_GetModel());
+                if (!BSstrlen(acPerkLabel))
                     strcpy_s(acPerkLabel, 64, DAT_011d35b8.FUN_00403df0());
-                if (((Perk*)*node->_ref_006815c0())->FUN_005d4ee0() > 1 && iPerkRank > 0)
-                    FUN_00406d00(acPerkLabel, 64, str_0106eb00, acPerkLabel, iPerkRank + 1);
+                if (((Perk*)*node->_ref_006815c0())->BGSPerk_GetNumRanks() > 1 && iPerkRank > 0)
+                    BSsprintf(acPerkLabel, 64, str_0106eb00, acPerkLabel, iPerkRank + 1);
                 perkTile = perks.AddItemTile(*node->_ref_006815c0(), acPerkLabel, 0, 0);
                 perkTile->FUN_00700320(0xfaa, 12);
                 perkTile->FUN_00700320(DAT_011d9ff8, iPerkRank + 1);
@@ -1362,7 +1369,7 @@ void SkillsMenu::UpdateSkillsAndPerks()
 }
 }  // namespace fnv_00785540
 
-int FUN_00a01860(const char*);
+int Tile_TextToTrait(const char*);
 void UpdateLevelUpMenu();
 void LevelUpMenu_SetPerkAlphaIfRequirementsNotMet(const char*);
 void ComparePerkListItems(const char*);
@@ -1396,7 +1403,7 @@ struct OptionList
     int unk24;
     int unk28;
     int unk2c;
-    void FUN_007314c0(void (*)(const char*), int, int);
+    void ListBox_ItemChange_Traverse(void (*)(const char*), int, int);
     void FUN_007312e0();
     void ListBox_enum_ActorValue_Index_RestoreListState(bool);
     void UpdateScrollTile(bool);
@@ -1428,13 +1435,13 @@ struct Target
     int second[2];
     OptionList listA, listB;
     RootTile* FUN_00726070();
-    void FUN_00785990();
+    void LevelUpMenu_UpdatePointCounter();
     void SetPage(int);
 };
 // @fnv 0x00785830
 void Target::SetPage(int page)
 {
-    if (page > FUN_00726070()->FUN_00a011b0(FUN_00a01860("_EndPage")))
+    if (page > FUN_00726070()->FUN_00a011b0(Tile_TextToTrait("_EndPage")))
     {
         UpdateLevelUpMenu();
     }
@@ -1444,16 +1451,16 @@ void Target::SetPage(int page)
         FUN_00726070()->Set(DAT_011d9fe8, page);
         FUN_00726070()->Set(DAT_011d9fd8, first[page]);
         FUN_00726070()->Set(DAT_011d9fd4, second[page]);
-        FUN_00785990();
+        LevelUpMenu_UpdatePointCounter();
         switch (unk28)
         {
         case 0:
-            listA.FUN_007314c0(FUN_00786550, 0, 0x7fffffff);
+            listA.ListBox_ItemChange_Traverse(FUN_00786550, 0, 0x7fffffff);
             listB.FUN_007312e0();
             listA.ListBox_enum_ActorValue_Index_RestoreListState(true);
             break;
         case 1:
-            listB.FUN_007314c0(LevelUpMenu_SetPerkAlphaIfRequirementsNotMet, 0, 0x7fffffff);
+            listB.ListBox_ItemChange_Traverse(LevelUpMenu_SetPerkAlphaIfRequirementsNotMet, 0, 0x7fffffff);
             listB.Apply(ComparePerkListItems);
             listA.FUN_007312e0();
             listB.UpdateScrollTile(true);
@@ -1761,13 +1768,14 @@ extern int DAT_011dea3c;
 extern int DAT_011d9ff0;
 
 // @fnv 0x00786170
-void __cdecl FUN_00786170(Tile* apTile, int a2)
+// src: XBOX_PDB 0x00786170
+void __cdecl LevelUpMenu_ResetSkillsFunc(Tile* apTile, int a2)
 {
     bool flag = false;
     reinterpret_cast<VT_b9166*>(DAT_011dea3c)
         ->v229(a2, (float)(reinterpret_cast<VT_b9166*>(DAT_011dea3c)->v291(a2, flag) -
                            (double)apTile->FUN_00a011b0(DAT_011d9ff0)));
-    apTile->FUN_00a012d0(DAT_011d9ff0, 0.0f, 1);
+    apTile->Tile_Set(DAT_011d9ff0, 0.0f, 1);
     reinterpret_cast<FUN_007866e0_shell*>(DAT_011d9fdc)->UpdateDisplayValue((const char*)apTile);
 }
 
@@ -1826,7 +1834,7 @@ struct TravObj
     int t24;
     int t28;
     int t2c;
-    void FUN_007314c0(void (*cb)(Tile*, int), int a, int b);
+    void ListBox_ItemChange_Traverse(void (*cb)(Tile*, int), int a, int b);
 };
 
 struct HolderThis
@@ -1863,7 +1871,7 @@ struct HolderThis
 extern int DAT_011d9ff8;
 extern GlobalObj DAT_011da050;
 
-void FUN_00786240(Tile* tile, int idx);
+void LevelUpMenu_PerkUpdateFunc(Tile* tile, int idx);
 
 // @fnv 0x007867a0
 void Holder::UpdateTileEffects(Tile* tile)
@@ -1910,7 +1918,7 @@ void Holder::UpdateTileEffects(Tile* tile)
             DAT_011da050.AppendMember(&recVal);
         }
     }
-    ((HolderThis*)this)->trav.FUN_007314c0(FUN_00786240, 0, 0x7fffffff);
+    ((HolderThis*)this)->trav.ListBox_ItemChange_Traverse(LevelUpMenu_PerkUpdateFunc, 0, 0x7fffffff);
 }
 
 // Destructor: clear the model list, unregister from the global tracker, then the list member is destroyed.
@@ -1989,10 +1997,10 @@ struct LBItemListBox
     int unk14;
     const char* templateName;
     unsigned short itemCount;
-    bool FUN_007242c0(unsigned int a);
+    bool ListBox_unsigned_int_GetFlag(unsigned int a);
     void Sort();
     void AccumulateTileHeight(LBTile* tile);
-    void FUN_007880a0();
+    void ListBox_BGSPerk_SetTotalListHeight();
     int GetNumVisible();
     LBTile* AddItemTile(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* templ);
 };
@@ -2012,16 +2020,16 @@ LBTile* LBItemListBox::AddItemTile(int item, const char* text, int (*sortFunc)(L
         if (sortFunc)
         {
             list.Insert(new LBItem(tile, &item), sortFunc);
-            if (FUN_007242c0(0))
+            if (ListBox_unsigned_int_GetFlag(0))
                 Sort();
         }
         else
         {
             list.AddTail(new LBItem(tile, &item));
-            if (FUN_007242c0(0))
+            if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                FUN_007880a0();
+                ListBox_BGSPerk_SetTotalListHeight();
             }
             tile->Set(0xfac, itemCount++);
         }
@@ -2084,8 +2092,8 @@ struct LBListBox
     unsigned short usUnk1C;
     float fScroll;
 
-    bool FUN_007242c0(unsigned int auiFlag);
-    void FUN_007880a0();
+    bool ListBox_unsigned_int_GetFlag(unsigned int auiFlag);
+    void ListBox_BGSPerk_SetTotalListHeight();
     void UpdateHighlight();
     void ClearItems();
 };
@@ -2098,7 +2106,7 @@ void LBListBox::ClearItems()
         LBListNode* pNext = pHeadNext->GetNext();
         if (!s_bAllowDetach)
             delete (*pHeadNext->GetItem())->pTile;
-        if (FUN_007242c0(true))
+        if (ListBox_unsigned_int_GetFlag(true))
             delete (*pHeadNext->GetItem())->pObject;
         delete *pHeadNext->GetItem();
         pHeadNext->SetItem(0);
@@ -2109,7 +2117,7 @@ void LBListBox::ClearItems()
     {
         if (!s_bAllowDetach)
             delete pHeadItem->pTile;
-        if (FUN_007242c0(true))
+        if (ListBox_unsigned_int_GetFlag(true))
             delete pHeadItem->pObject;
         delete pHeadItem;
     }
@@ -2117,14 +2125,14 @@ void LBListBox::ClearItems()
     usUnk1C = 0;
     fScroll = 0.0f;
     if (m_pHighlightedTile)
-        m_pHighlightedTile->Set(FUN_00a01860("_num_filtered"), 0.0f, true);
-    FUN_007880a0();
+        m_pHighlightedTile->Set(Tile_TextToTrait("_num_filtered"), 0.0f, true);
+    ListBox_BGSPerk_SetTotalListHeight();
     iUnk10 = 0;
     UpdateHighlight();
 }
 }  // namespace fnv_00786f90
 
-int __cdecl FUN_00a00940(const char* pcName, int iDefault);
+int __cdecl Tile_AddUserTrait(const char* pcName, int iDefault);
 
 class ListBox787
 {
@@ -2145,7 +2153,7 @@ class ListBox787
 // @fnv 0x007871f0
 bool ListBox787::SelectTile(Tile* pkTile)
 {
-    if (IsActive() && (!pkTile || (Contains(pkTile) && pkTile->IsTraitNonZero(FUN_00a00940("_enabled", -1)))))
+    if (IsActive() && (!pkTile || (Contains(pkTile) && pkTile->IsTraitNonZero(Tile_AddUserTrait("_enabled", -1)))))
     {
         m_pkSelected = pkTile;
         UpdateSelection();
@@ -2158,13 +2166,13 @@ bool ListBox787::SelectTile(Tile* pkTile)
 }
 
 struct InterfaceManager;
-int FUN_00a01860(const char* apName);
-float FUN_0040ebd0(float afA, float afB);
+int Tile_TextToTrait(const char* apName);
+float BSMIN(float afA, float afB);
 InterfaceManager* InterfaceManager_GetSingleton();
-bool FUN_004b71d0();
+bool InterfaceManager_Has360Controller();
 struct IMStandIn
 {
-    void FUN_00715860(int aiA, int aiB, int aiC);
+    void InterfaceManager_SetCurrentFocusTarget(int aiA, int aiB, int aiC);
 };
 struct FUN_00787600_shell
 {
@@ -2190,12 +2198,12 @@ void FUN_00787600_shell::UpdateScrollTile(bool abFlag)
     Tile* pTile = 0;
     if (m_pFourthMenuObject && pScrollTile)
     {
-        pScrollTile->FUN_00a012d0(FUN_00a01860("_current_value"), fValue, false);
-        pScrollTile->SetTraitFloat(FUN_00a01860("_SetInCode"), 1.0f);
-        pTile = Unk_05((unsigned int)FUN_0040ebd0(fScrollPos, (float)FUN_007879f0(0) - 1.0));
-        ((IMStandIn*)InterfaceManager_GetSingleton())->FUN_00715860((int)pTile, 0xfc3, abFlag);
+        pScrollTile->Tile_Set(Tile_TextToTrait("_current_value"), fValue, false);
+        pScrollTile->SetTraitFloat(Tile_TextToTrait("_SetInCode"), 1.0f);
+        pTile = Unk_05((unsigned int)BSMIN(fScrollPos, (float)FUN_007879f0(0) - 1.0));
+        ((IMStandIn*)InterfaceManager_GetSingleton())->InterfaceManager_SetCurrentFocusTarget((int)pTile, 0xfc3, abFlag);
         Unk_00(pTile);
-        if (!FUN_004b71d0())
+        if (!InterfaceManager_Has360Controller())
         {
             if (pTile)
             {
@@ -2219,11 +2227,12 @@ class FUN_00787850_cls
   public:
     int pad;
     LBNode first;
-    void FUN_00787850(unsigned char flag);
+    void ListBox_BGSPerk_DeselectAll(unsigned char flag);
 };
 
 // @fnv 0x00787850
-void FUN_00787850_cls::FUN_00787850(unsigned char abSkipFlagged)
+// src: XBOX_PDB 0x00787850
+void FUN_00787850_cls::ListBox_BGSPerk_DeselectAll(unsigned char abSkipFlagged)
 {
     for (LBNode* node = this ? &this->first : 0; node != 0 && *node->_ref_006815c0() != 0; node = node->_ref_00726070())
     {
@@ -2249,7 +2258,7 @@ struct TileCallees787aa0
 struct Callees787aa0
 {
     void AccumulateTileHeight(Tile* t);
-    void FUN_007880a0();
+    void ListBox_BGSPerk_SetTotalListHeight();
     void UpdateHighlight();
 };
 
@@ -2283,7 +2292,7 @@ void FUN_00787aa0_cls::ResetAndProcessTiles()
             AccumulateTileHeight((*pNode->_ref_006815c0())->tile);
         }
     }
-    FUN_007880a0();
+    ListBox_BGSPerk_SetTotalListHeight();
     UpdateHighlight();
 }
 
@@ -2317,7 +2326,7 @@ extern GlobalObject_009c6a30 g_011f2250;
 
 struct FUN_00525430_Class
 {
-    bool FUN_00525430();
+    bool VATS_IsInVats();
 };
 bool __cdecl IsStartMenuFlag1Set(void);
 
@@ -2327,9 +2336,9 @@ void LevelUpMenu::PlayLevelUpSuccessSound()
 {
     if (m_eFadeState == 4)
     {
-        if (!((FUN_00525430_Class*)&g_011f2250)->FUN_00525430() && !IsStartMenuFlag1Set())
+        if (!((FUN_00525430_Class*)&g_011f2250)->VATS_IsInVats() && !IsStartMenuFlag1Set())
         {
-            BSAudio::FUN_00453a70()->GetSoundHandleByEditorID("MUSSuccess", 0x901).Play(false);
+            BSAudio::BSAudio_QInstance()->GetSoundHandleByEditorID("MUSSuccess", 0x901).Play(false);
             ((Menu*)this)->FUN_00a1dc20(false);
         }
     }
@@ -2342,15 +2351,16 @@ struct FUN_00787b70_cls
     int m_04;
     int m_08;
     Tile* m_0c;
-    bool FUN_00787b70();
+    bool ListBox_BGSPerk_IsEnabled();
 };
 
-int __cdecl FUN_00a00940(const char* s, int n);
+int __cdecl Tile_AddUserTrait(const char* s, int n);
 
 // @fnv 0x00787b70
-bool FUN_00787b70_cls::FUN_00787b70()
+// src: XBOX_PDB 0x00787b70
+bool FUN_00787b70_cls::ListBox_BGSPerk_IsEnabled()
 {
-    static void* sKey = (void*)FUN_00a00940("_enabled", -1);
+    static void* sKey = (void*)Tile_AddUserTrait("_enabled", -1);
     return (m_0c != 0 && m_0c->IsTraitNonZero((int)sKey)) ? 1 : 0;
 }
 
@@ -2771,9 +2781,9 @@ void LevelUpButtonHandler::OnButtonPressed(int aiButton, Tile* tile)
             fn_726070()->FUN_00700320(g_11d9fd8, (&unk54)[unk28]);
             if (g_11dea3c->fn_884350()->fn_5a5f40(avTmp))
             {
-                delta *= *g_11cd6c0.FUN_0043d4d0();
+                delta *= *g_11cd6c0.Setting_Int();
             }
-            tile->FUN_0045cd60()->FUN_00a012d0(g_11d9ff0, tile->FUN_0045cd60()->FUN_00a011b0(g_11d9ff0) + delta, true);
+            tile->FUN_0045cd60()->Tile_Set(g_11d9ff0, tile->FUN_0045cd60()->FUN_00a011b0(g_11d9ff0) + delta, true);
             bOut = false;
             g_11dea3c->vf229(avTmp, g_11dea3c->vf291(avTmp, &bOut) + delta);
             fn_7866e0(tile->FUN_0045cd60());
@@ -2782,11 +2792,11 @@ void LevelUpButtonHandler::OnButtonPressed(int aiButton, Tile* tile)
         break;
     case 7:
         fn_785830(unk28 + 1);
-        unk48->FUN_00a012d0(0xfc3, 0.0f, true);
+        unk48->Tile_Set(0xfc3, 0.0f, true);
         break;
     case 8:
         fn_785830(unk28 - 1);
-        unk4c->FUN_00a012d0(0xfc3, 0.0f, true);
+        unk4c->Tile_Set(0xfc3, 0.0f, true);
         break;
     case 6:
         if ((&unk54)[unk28] > 0)
@@ -2870,8 +2880,8 @@ void ScrollBar::ListBox_enum_ActorValue_Index_RestoreListState(bool abSound)
     ScrollTile* pTile = 0;
     if (parent0c && tile14)
     {
-        tile14->SetFloat(FUN_00a01860("_current_value"), currentValue28, false);
-        tile14->SetFloatNoProp(FUN_00a01860("_SetInCode"), 1.0f);
+        tile14->SetFloat(Tile_TextToTrait("_current_value"), currentValue28, false);
+        tile14->SetFloatNoProp(Tile_TextToTrait("_SetInCode"), 1.0f);
         pTile = GetItemTile((unsigned int)ScrollMin(maxValue24, (float)(GetCount(0) - 1.0)));
         GetScrollIM()->PlayScroll(pTile, 0xfc3, abSound);
         Update(pTile);
@@ -2892,8 +2902,8 @@ struct LBTile
     double FUN_00a011b0(int traitID);
     bool IsTraitNonZero(int traitID);
 };
-int __cdecl FUN_00a01860(const char* name);
-int __cdecl FUN_00a00940(const char* name, int fallback);
+int __cdecl Tile_TextToTrait(const char* name);
+int __cdecl Tile_AddUserTrait(const char* name, int fallback);
 float __cdecl FUN_004bd510(float value, float step);
 
 struct LBItem
@@ -2926,7 +2936,7 @@ struct LBItemListBox : LBItemList
     int unk14;
     const char* templateName;
     unsigned short itemCount;
-    bool FUN_00787b70();
+    bool ListBox_BGSPerk_IsEnabled();
     LBTile* FUN_00787260(int key);
 };
 
@@ -2950,18 +2960,18 @@ LBTile* LBItemListBox::FUN_00787260(int key)
         break;
     case 15:
         delta3 = parentTile ? (int)FUN_004bd510((float)(-parentTile->FUN_00a011b0(0xfb0) /
-                                                        parentTile->FUN_00a011b0(FUN_00a01860("_scroll_delta"))),
+                                                        parentTile->FUN_00a011b0(Tile_TextToTrait("_scroll_delta"))),
                                                 1.0f)
                             : 0;
         break;
     case 16:
         delta3 = parentTile ? (int)FUN_004bd510((float)(parentTile->FUN_00a011b0(0xfb0) /
-                                                        parentTile->FUN_00a011b0(FUN_00a01860("_scroll_delta"))),
+                                                        parentTile->FUN_00a011b0(Tile_TextToTrait("_scroll_delta"))),
                                                 1.0f)
                             : 0;
         break;
     }
-    if (FUN_00787b70() && delta3 && itemCount)
+    if (ListBox_BGSPerk_IsEnabled() && delta3 && itemCount)
     {
         last2 = itemCount - 1;
         if (selectedTile)
@@ -2987,13 +2997,13 @@ LBTile* LBItemListBox::FUN_00787260(int key)
                 if ((*node->FUN_006815c0())->tile->FUN_00a011b0(0xfac) == index)
                     found7 = (*node->FUN_006815c0())->tile;
             }
-            if (found7 && !found7->IsTraitNonZero(FUN_00a00940("_enabled", -1)))
+            if (found7 && !found7->IsTraitNonZero(Tile_AddUserTrait("_enabled", -1)))
             {
                 found7 = 0;
                 if (delta3 > 0 && ++index > last2)
                 {
                     index = last2 - 1;
-                    while ((!found7 || !found7->IsTraitNonZero(FUN_00a00940("_enabled", -1))) && index >= 0)
+                    while ((!found7 || !found7->IsTraitNonZero(Tile_AddUserTrait("_enabled", -1))) && index >= 0)
                     {
                         found7 = GetItemTile(index--, false);
                     }
@@ -3002,7 +3012,7 @@ LBTile* LBItemListBox::FUN_00787260(int key)
                 else if (delta3 < 0 && --index < 0)
                 {
                     index = 1;
-                    while ((!found7 || !found7->IsTraitNonZero(FUN_00a00940("_enabled", -1))) && index <= last2)
+                    while ((!found7 || !found7->IsTraitNonZero(Tile_AddUserTrait("_enabled", -1))) && index <= last2)
                     {
                         found7 = GetItemTile(index++, false);
                     }
@@ -3037,24 +3047,25 @@ struct Base_007878d0
 
 struct Counter_007878d0 : Base_007878d0, ListNode_007878d0
 {
-    bool FUN_007877a0(int iKey);
-    int FUN_007878d0();
+    bool ListBox_BGSPerk_IsSelected(int iKey);
+    int ListBox_BGSPerk_NumSelected();
 };
 
 // Traverses the linked list and counts items for which FUN_007877a0 returns true.
 // @fnv 0x007878d0
-int Counter_007878d0::FUN_007878d0()
+// src: XBOX_PDB 0x007878d0
+int Counter_007878d0::ListBox_BGSPerk_NumSelected()
 {
     int iCount = 0;
     for (ListNode_007878d0* pkNode = this; pkNode && pkNode->FUN_006815c0(); pkNode = pkNode->FUN_00726070())
     {
-        if (FUN_007877a0(pkNode->FUN_006815c0()->iKey))
+        if (ListBox_BGSPerk_IsSelected(pkNode->FUN_006815c0()->iKey))
             iCount++;
     }
     return iCount;
 }
 
-HighlightTile_levelupmenu* __cdecl FUN_00a08b20(HighlightTile_levelupmenu*, const char*);
+HighlightTile_levelupmenu* __cdecl Tile_GetTileByName(HighlightTile_levelupmenu*, const char*);
 struct SkillHighlight
 {
     int unk00;
@@ -3068,63 +3079,63 @@ struct SkillHighlight
 // @fnv 0x00787d80
 void SkillHighlight::UpdateHighlight()
 {
-    static int highlightY = (int)FUN_00a00940("_highlight_y", -1);
-    static int selectedHeight = (int)FUN_00a00940("_selected_height", -1);
+    static int highlightY = (int)Tile_AddUserTrait("_highlight_y", -1);
+    static int selectedHeight = (int)Tile_AddUserTrait("_selected_height", -1);
     if (tile)
     {
         if (selected)
         {
-            HighlightValue_levelupmenu* highlightYValue = tile->FUN_00a00f30(highlightY);
-            HighlightValue_levelupmenu* heightValue = tile->FUN_00a00f30(selectedHeight);
+            HighlightValue_levelupmenu* highlightYValue = tile->Tile_GetValue(highlightY);
+            HighlightValue_levelupmenu* heightValue = tile->Tile_GetValue(selectedHeight);
             highlightYValue->Tile_Value_AddRefValueAction(2000, selected, 4002);
             highlightYValue->Tile_Value_SetFloat(0);
             heightValue->Tile_Value_AddRefValueAction(2000, selected, 4016);
             heightValue->Tile_Value_SetFloat(0);
             if (selected->FUN_0071aa80())
             {
-                HighlightTile_levelupmenu* box = FUN_00a08b20(tile, "lb_highlight_box");
+                HighlightTile_levelupmenu* box = Tile_GetTileByName(tile, "lb_highlight_box");
                 if (box)
                 {
-                    HighlightTile_levelupmenu* edge = box->FUN_00a03da0("top");
+                    HighlightTile_levelupmenu* edge = box->Tile_GetChildByName("top");
                     if (edge)
                     {
-                        edge->FUN_0071aa60(true);
+                        edge->SetSpeechChallengeFailure_0071aa60(true);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("bottom");
-                        edge->FUN_0071aa60(true);
+                        edge = box->Tile_GetChildByName("bottom");
+                        edge->SetSpeechChallengeFailure_0071aa60(true);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("left");
-                        edge->FUN_0071aa60(true);
+                        edge = box->Tile_GetChildByName("left");
+                        edge->SetSpeechChallengeFailure_0071aa60(true);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("right");
-                        edge->FUN_0071aa60(true);
+                        edge = box->Tile_GetChildByName("right");
+                        edge->SetSpeechChallengeFailure_0071aa60(true);
                         edge->Tile_SetChangeFlag(8);
                     }
-                    box->FUN_0071aa60(true);
+                    box->SetSpeechChallengeFailure_0071aa60(true);
                     box->Tile_SetChangeFlag(8);
                 }
             }
             else
             {
-                HighlightTile_levelupmenu* box = FUN_00a08b20(tile, "lb_highlight_box");
+                HighlightTile_levelupmenu* box = Tile_GetTileByName(tile, "lb_highlight_box");
                 if (box)
                 {
-                    HighlightTile_levelupmenu* edge = box->FUN_00a03da0("top");
+                    HighlightTile_levelupmenu* edge = box->Tile_GetChildByName("top");
                     if (edge)
                     {
-                        edge->FUN_0071aa60(false);
+                        edge->SetSpeechChallengeFailure_0071aa60(false);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("bottom");
-                        edge->FUN_0071aa60(false);
+                        edge = box->Tile_GetChildByName("bottom");
+                        edge->SetSpeechChallengeFailure_0071aa60(false);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("left");
-                        edge->FUN_0071aa60(false);
+                        edge = box->Tile_GetChildByName("left");
+                        edge->SetSpeechChallengeFailure_0071aa60(false);
                         edge->Tile_SetChangeFlag(8);
-                        edge = box->FUN_00a03da0("right");
-                        edge->FUN_0071aa60(false);
+                        edge = box->Tile_GetChildByName("right");
+                        edge->SetSpeechChallengeFailure_0071aa60(false);
                         edge->Tile_SetChangeFlag(8);
                     }
-                    box->FUN_0071aa60(false);
+                    box->SetSpeechChallengeFailure_0071aa60(false);
                     box->Tile_SetChangeFlag(8);
                 }
             }
@@ -3445,11 +3456,11 @@ struct ActorV
 };
 struct ResourceProvider
 {
-    Tile* FUN_00586150(const char*);
+    Tile* CombatController_GetCombatState(const char*);
 };
 struct TileB
 {
-    void* FUN_00a01b00();
+    void* Tile_ReadFile();
 };
 struct TileMenuO
 {
@@ -3461,12 +3472,12 @@ struct InventoryMenuSetting
 };
 struct MgrObj
 {
-    void FUN_00718630(int, int, int);
+    void InterfaceManager_TutorialManager_ShowMessage(int, int, int);
 };
 struct TileF
 {
-    void FUN_00a01350(int, const char*, int);
-    void FUN_00a01350(int, int, int);
+    void Tile_Set_00a01350(int, const char*, int);
+    void Tile_Set_00a01350(int, int, int);
 };
 struct DatObj
 {
@@ -3512,16 +3523,16 @@ extern int DAT_011d1fec;
 extern int DAT_011da034;
 extern int DAT_011c3f2c;
 extern int DAT_011cd074;
-void* FUN_00a09030(int);
+void* Tile_GetMenuByClass(int);
 void* InterfaceManager_GetSingleton();
 int Warning_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
-int FUN_00406d00(char*, int, const char*, ...);
+int BSsprintf(char*, int, const char*, ...);
 struct Dummy648bc0;
 int GamePlayFormulas_GetLevelUpSkillPoints_0(Dummy648bc0*);
 int FUN_005e58f0(int, int, float*);
-unsigned short __fastcall FUN_0087f9f0(void*);
-int& __fastcall FUN_0043d4d0(int*);
+unsigned short __fastcall GetLevel_0087f9f0(void*);
+int& __fastcall Setting_Int(int*);
 struct ContNode;
 ContNode* __fastcall FUN_00726070(ContNode*);
 char __fastcall GetByteAtOffset56(char*);
@@ -3531,7 +3542,7 @@ struct ConditionList_t
 };
 struct FUN_00460fb0_class
 {
-    void* FUN_00460fb0();
+    void* InterfaceManager_GetHUDEffects();
 };
 struct FUN_006aabf0_shell
 {
@@ -3539,7 +3550,7 @@ struct FUN_006aabf0_shell
 };
 struct FUN_005d4ee0Class
 {
-    char FUN_005d4ee0();
+    char BGSPerk_GetNumRanks();
 };
 struct FUN_005eb5e0_t
 {
@@ -3553,7 +3564,7 @@ struct ByteO
 {
     unsigned char* FUN_00408d60();
 };
-int FUN_00a01860(const char*);
+int Tile_TextToTrait(const char*);
 struct HeadO
 {
     void FUN_00700320(int, int);
@@ -3567,14 +3578,15 @@ static const char s_curpage[] = "_CurrentPage";
 static const char s_endpage[] = "_EndPage";
 // Loads levelup_menu.xml, initialises the menu, sets up condition lists, and returns the menu pointer or 0 on failure.
 // @fnv 0x00784c80
-int FUN_00784c80()
+// src: XBOX_PDB 0x00784c80
+int LevelUpMenu_Create()
 {
-    void* objB = FUN_00a09030(0x403);
+    void* objB = Tile_GetMenuByClass(0x403);
     void* menu;
     void* objA = InterfaceManager_GetSingleton();
     if (objB)
         delete (DelObj*)objB;
-    menu = ((TileB*)((ResourceProvider*)objA)->FUN_00586150(s_xml))->FUN_00a01b00();
+    menu = ((TileB*)((ResourceProvider*)objA)->CombatController_GetCombatState(s_xml))->Tile_ReadFile();
     DAT_011d9fdc = (int)(void*)((Tile*)menu)->Tile_GetMenu();
     if (DAT_011d9fdc && ((Menu*)(void*)(unsigned int)DAT_011d9fdc)->GetClass() == LevelUpMenu_GetMenuID_0())
     {
@@ -3586,24 +3598,24 @@ int FUN_00784c80()
         }
         if (((TileMenuO*)menu)->FUN_00a011b0(0xfa7) == 6006.0 || ((TileMenuO*)menu)->FUN_00a011b0(0xfa7) == 102.0)
         {
-            ((Tile*)menu)->FUN_00a012d0(0xfad, FUN_00a01530(1));
+            ((Tile*)menu)->Tile_Set(0xfad, FUN_00a01530(1));
         }
-        ((MgrObj*)((char*)InterfaceManager_GetSingleton() + 0x4d4))->FUN_00718630(0x10, LevelUpMenu_GetMenuID_0(), 0x200);
+        ((MgrObj*)((char*)InterfaceManager_GetSingleton() + 0x4d4))->InterfaceManager_TutorialManager_ShowMessage(0x10, LevelUpMenu_GetMenuID_0(), 0x200);
         {
             char buf[64];
-            FUN_00406d00(buf, 0x40, ((InventoryMenuSetting*)&DAT_011d4048)->FUN_00403df0(),
-                         (int)FUN_0087f9f0((void*)(unsigned int)DAT_011dea3c));
-            ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->f2c->FUN_00a01350(0xfc4, buf, 1);
+            BSsprintf(buf, 0x40, ((InventoryMenuSetting*)&DAT_011d4048)->FUN_00403df0(),
+                         (int)GetLevel_0087f9f0((void*)(unsigned int)DAT_011dea3c));
+            ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->f2c->Tile_Set_00a01350(0xfc4, buf, 1);
         }
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f44->FUN_00a01350(0xfc4, ((InventoryMenuSetting*)&DAT_011d33d8)->FUN_00403df0(), 1);
+            ->f44->Tile_Set_00a01350(0xfc4, ((InventoryMenuSetting*)&DAT_011d33d8)->FUN_00403df0(), 1);
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f48->FUN_00a01350(FUN_00a01860(s_title0), (int)((InventoryMenuSetting*)&DAT_011d3564)->FUN_00403df0(), 1);
+            ->f48->Tile_Set_00a01350(Tile_TextToTrait(s_title0), (int)((InventoryMenuSetting*)&DAT_011d3564)->FUN_00403df0(), 1);
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f48->FUN_00a01350(FUN_00a01860(s_title1), (int)((InventoryMenuSetting*)&DAT_011d35c4)->FUN_00403df0(), 1);
-        ((Tile*)menu)->SetTraitFloat(FUN_00a01860(s_curpage), 1.0f);
+            ->f48->Tile_Set_00a01350(Tile_TextToTrait(s_title1), (int)((InventoryMenuSetting*)&DAT_011d35c4)->FUN_00403df0(), 1);
+        ((Tile*)menu)->SetTraitFloat(Tile_TextToTrait(s_curpage), 1.0f);
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)
-            ->f4c->FUN_00a01350(0xfc4, ((InventoryMenuSetting*)&DAT_011d1fec)->FUN_00403df0(), 1);
+            ->f4c->Tile_Set_00a01350(0xfc4, ((InventoryMenuSetting*)&DAT_011d1fec)->FUN_00403df0(), 1);
         {
             float f =
                 (float)GamePlayFormulas_GetLevelUpSkillPoints_0((Dummy648bc0*)(DAT_011dea3c ? (char*)(void*)(unsigned int)DAT_011dea3c + 0xa4 : 0));
@@ -3611,17 +3623,17 @@ int FUN_00784c80()
             ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->f54 = 0;
             ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->f5c = (int)f;
         }
-        if (FUN_0087f9f0((void*)(unsigned int)DAT_011dea3c) % FUN_0043d4d0(&DAT_011cd074) == 0)
+        if (GetLevel_0087f9f0((void*)(unsigned int)DAT_011dea3c) % Setting_Int(&DAT_011cd074) == 0)
         {
             ContNode* node;
-            for (node = (ContNode*)((FUN_00460fb0_class*)(void*)(unsigned int)DAT_011c3f2c)->FUN_00460fb0();
+            for (node = (ContNode*)((FUN_00460fb0_class*)(void*)(unsigned int)DAT_011c3f2c)->InterfaceManager_GetHUDEffects();
                  node && *((ConditionList_t*)node)->FUN_006815c0(); node = FUN_00726070(node))
             {
                 TESConditionItem* item = *((ConditionList_t*)node)->FUN_006815c0();
                 if ((char)((FUN_006aabf0_shell*)item)->GetByteAt39() > 0)
                 {
                     if (((ActorV*)(void*)(unsigned int)DAT_011dea3c)->FUN_v4a0(item, 0) <
-                            (int)(unsigned char)((FUN_005d4ee0Class*)item)->FUN_005d4ee0() &&
+                            (int)(unsigned char)((FUN_005d4ee0Class*)item)->BGSPerk_GetNumRanks() &&
                         !(unsigned char)GetByteAtOffset56((char*)item) && ((ItemO*)item)->IsPerkAttainable(DAT_011dea3c) &&
                         ((FUN_005eb5e0_t*)item)->CheckPlayerConditions())
                     {
@@ -3630,7 +3642,7 @@ int FUN_00784c80()
                             (!((FUN_00785150_This*)item)
                                   ->BGSPerk_IsPerkAvailable((TESObjectREFR*)(void*)(unsigned int)DAT_011dea3c) ||
                              (char)((FUN_006aabf0_shell*)item)->GetByteAt39() >
-                                 (int)FUN_0087f9f0((void*)(unsigned int)DAT_011dea3c)))
+                                 (int)GetLevel_0087f9f0((void*)(unsigned int)DAT_011dea3c)))
                             flag = 0;
                         if (flag)
                             ((ListObj*)((char*)(void*)(unsigned int)DAT_011d9fdc + 0xc4))->FUN_00905820((void**)&item);
@@ -3643,7 +3655,7 @@ int FUN_00784c80()
         if (!((ListObj*)((char*)(void*)(unsigned int)DAT_011d9fdc + 0xc4))->FUN_005ae380())
         {
             ((HeadO*)FUN_00726070((ContNode*)(void*)(unsigned int)DAT_011d9fdc))
-                ->FUN_00700320(FUN_00a01860(s_endpage), 0);
+                ->FUN_00700320(Tile_TextToTrait(s_endpage), 0);
         }
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->UpdateSkillsAndPerks();
         ((DatObj*)(void*)(unsigned int)DAT_011d9fdc)->SetPage(0);
@@ -3669,9 +3681,9 @@ struct TileValue
 // @fnv 0x00787c40
 bool ListBox_int_::SetTileSelection(Tile* pkTile, int eMode)
 {
-    if (((FUN_00787b70_cls*)this)->FUN_00787b70() && pkTile && ContainsKey(pkTile))
+    if (((FUN_00787b70_cls*)this)->ListBox_BGSPerk_IsEnabled() && pkTile && ContainsKey(pkTile))
     {
-        static int s_iSelectedTrait = (int)FUN_00a00940("_selected", -1);
+        static int s_iSelectedTrait = (int)Tile_AddUserTrait("_selected", -1);
         bool bSelected = ((TileValue*)pkTile)->IsTraitNonZero(s_iSelectedTrait);
         switch (eMode)
         {
@@ -3721,7 +3733,8 @@ extern GlobalObject_00788300 g_011da050;
 
 // Finds the matching item, adjusts its stored value against tile bounds and overflow, then updates a tile trait.
 // @fnv 0x00786240
-void __cdecl FUN_00786240(LevelValue* apTile, int aiMatchValue)
+// src: XBOX_PDB 0x00786240
+void __cdecl LevelUpMenu_PerkUpdateFunc(LevelValue* apTile, int aiMatchValue)
 {
     for (unsigned int i = 0; i < g_011da050.GetCount(); ++i)
     {
@@ -3729,29 +3742,29 @@ void __cdecl FUN_00786240(LevelValue* apTile, int aiMatchValue)
         {
             int total = (int)(apTile->FUN_00a011b0(DAT_011d9fe4) + apTile->FUN_00a011b0(DAT_011d9fec) +
                               apTile->FUN_00a011b0(DAT_011d9ff0));
-            int overflowTrait2 = FUN_00a01860("_OverflowValue");
+            int overflowTrait2 = Tile_TextToTrait("_OverflowValue");
             if (apTile->FUN_00a011b0(overflowTrait2) != DAT_01012060)
             {
                 g_011da050.GetItem(i)->unk00 += (int)apTile->FUN_00a011b0(overflowTrait2);
-                apTile->FUN_00a012d0(overflowTrait2, 0.0f, 1);
+                apTile->Tile_Set(overflowTrait2, 0.0f, 1);
             }
 
-            if (total + g_011da050.GetItem(i)->unk00 > apTile->FUN_00a011b0(FUN_00a01860("_MaxValue")))
+            if (total + g_011da050.GetItem(i)->unk00 > apTile->FUN_00a011b0(Tile_TextToTrait("_MaxValue")))
             {
                 int diff =
-                    (int)((total + g_011da050.GetItem(i)->unk00) - apTile->FUN_00a011b0(FUN_00a01860("_MaxValue")));
-                apTile->FUN_00700320(FUN_00a01860("_OverflowValue"), diff);
+                    (int)((total + g_011da050.GetItem(i)->unk00) - apTile->FUN_00a011b0(Tile_TextToTrait("_MaxValue")));
+                apTile->FUN_00700320(Tile_TextToTrait("_OverflowValue"), diff);
                 g_011da050.GetItem(i)->unk00 -= diff;
             }
-            else if (total + g_011da050.GetItem(i)->unk00 < apTile->FUN_00a011b0(FUN_00a01860("_MinValue")))
+            else if (total + g_011da050.GetItem(i)->unk00 < apTile->FUN_00a011b0(Tile_TextToTrait("_MinValue")))
             {
                 int diff =
-                    (int)((total + g_011da050.GetItem(i)->unk00) - apTile->FUN_00a011b0(FUN_00a01860("_MinValue")));
-                apTile->FUN_00700320(FUN_00a01860("_OverflowValue"), diff);
+                    (int)((total + g_011da050.GetItem(i)->unk00) - apTile->FUN_00a011b0(Tile_TextToTrait("_MinValue")));
+                apTile->FUN_00700320(Tile_TextToTrait("_OverflowValue"), diff);
                 g_011da050.GetItem(i)->unk00 -= diff;
             }
 
-            apTile->FUN_00a012d0(DAT_011d9fec,
+            apTile->Tile_Set(DAT_011d9fec,
                                  (float)(apTile->FUN_00a011b0(DAT_011d9fec) + g_011da050.GetItem(i)->unk00), 1);
         }
     }
@@ -3759,9 +3772,9 @@ void __cdecl FUN_00786240(LevelValue* apTile, int aiMatchValue)
 
 struct LevelGamepadTile
 {
-    LevelGamepadTile* FUN_00a03eb0(int id);
+    LevelGamepadTile* Tile_GetChildByID(int id);
     bool IsTraitNonZero(int trait);
-    void FUN_00a0b110(int trait);
+    void Tile_PlayTileSound(int trait);
 };
 
 struct LevelGamepadList
@@ -3798,7 +3811,7 @@ class LevelGamepadView
     virtual void vfunc11();
     virtual void vfunc12();
     virtual void vfunc13();
-    virtual bool FUN_00785ed0(int code, float val);
+    virtual bool LevelUpMenu_DoGamepad(int code, float val);
 
     int unk04;
     int unk08;
@@ -3830,7 +3843,8 @@ class LevelGamepadView
 
 // Processes gamepad button codes to select and activate level-up tiles, returning whether the input was handled.
 // @fnv 0x00785ed0
-bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
+// src: XBOX_PDB 0x00785ed0
+bool LevelGamepadView::LevelUpMenu_DoGamepad(int aiButtonCode, float afValue)
 {
     bool bHandled = false;
     switch (aiButtonCode)
@@ -3838,10 +3852,10 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
     case 4:
         if (this->unk28 == 0 && this->list64.GetSelectedTile())
         {
-            LevelGamepadTile* pTile1 = this->list64.GetSelectedTile()->FUN_00a03eb0(13);
+            LevelGamepadTile* pTile1 = this->list64.GetSelectedTile()->Tile_GetChildByID(13);
             if (pTile1->IsTraitNonZero(0xfa3))
             {
-                pTile1->FUN_00a0b110(0xfcb);
+                pTile1->Tile_PlayTileSound(0xfcb);
                 this->HandleClick(13, pTile1);
             }
             bHandled = true;
@@ -3850,10 +3864,10 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
     case 3:
         if (this->unk28 == 0 && this->list64.GetSelectedTile())
         {
-            LevelGamepadTile* pTile2 = this->list64.GetSelectedTile()->FUN_00a03eb0(14);
+            LevelGamepadTile* pTile2 = this->list64.GetSelectedTile()->Tile_GetChildByID(14);
             if (pTile2->IsTraitNonZero(0xfa3))
             {
-                pTile2->FUN_00a0b110(0xfcb);
+                pTile2->Tile_PlayTileSound(0xfcb);
                 this->HandleClick(14, pTile2);
             }
             bHandled = true;
@@ -3862,25 +3876,25 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
     case 9:
         if (this->unk28 == 1 && this->list94.GetSelectedTile())
         {
-            this->list94.GetSelectedTile()->FUN_00a0b110(0xfcb);
+            this->list94.GetSelectedTile()->Tile_PlayTileSound(0xfcb);
             this->HandleClick(12, this->list94.GetSelectedTile());
             bHandled = true;
         }
         else if (this->unk28 == 0)
         {
-            bHandled = this->FUN_00785ed0(3, 1.0f);
+            bHandled = this->LevelUpMenu_DoGamepad(3, 1.0f);
         }
         break;
     case 10:
         if (this->unk28 == 1)
         {
-            this->tile4C->FUN_00a0b110(0xfcb);
+            this->tile4C->Tile_PlayTileSound(0xfcb);
             this->HandleClick(8, 0);
             bHandled = true;
         }
         else if (this->unk28 == 0)
         {
-            bHandled = this->FUN_00785ed0(4, 1.0f);
+            bHandled = this->LevelUpMenu_DoGamepad(4, 1.0f);
         }
         break;
     }

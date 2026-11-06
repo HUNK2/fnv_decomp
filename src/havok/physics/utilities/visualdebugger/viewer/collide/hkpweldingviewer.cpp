@@ -288,13 +288,13 @@ struct Viewer
     void* ctor0d626b0(void* arg);
 };
 
-extern "C" void* __cdecl FUN_00c85750();
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
 
 // Allocates a 0x2c-byte Viewer from the manager's pool, sets its size field, constructs it with arg, and returns a pointer offset by 8 or null.
 // @fnv 0x00d62e20
 void* __cdecl FUN_00d62e20_impl(void* arg)
 {
-    Manager* pManager = (Manager*)FUN_00c85750();
+    Manager* pManager = (Manager*)hkMemoryRouter_getInstance();
     Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
     pViewer->unk04 = 0x2c;
     void* pResult = pViewer->ctor0d626b0(arg);
@@ -312,7 +312,7 @@ int __cdecl FUN_00d62e80()
 }
 
 namespace fnv_00d62ec0 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d62ec0_cls
 {
@@ -333,7 +333,7 @@ FUN_00d62ec0_cls* FUN_00d62ec0_cls::Destroy(unsigned char acFlags)
     FUN_00d62720();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }

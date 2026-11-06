@@ -12,7 +12,7 @@
 extern BSTreeManager* DAT_011d5c48;
 extern TES* g_TES;
 void BSTreeManager_Destroy_();
-void* FUN_00664840(bool);
+void* BSTreeManager_GetInstance(bool);
 void SetGlobalValue(bool);
 void SetGlobalFloatFromUInt(unsigned int);
 void ClampAndStoreValue(float);

@@ -196,7 +196,8 @@ __declspec(noinline) __declspec(nothrow) NiStaticGeometryGroup::NiStaticGeometry
 
 namespace fnv_00e94c00 {
 // @fnv 0x00e94c00
-NiStaticGeometryGroup* __cdecl FUN_00e94c00()
+// src: XBOX_PDB 0x00e94c00
+NiStaticGeometryGroup* __cdecl NiStaticGeometryGroup_Create()
 {
     return new NiStaticGeometryGroup;
 }
@@ -331,7 +332,7 @@ struct S_00e948f0_Y
 extern S_00e948f0_Rtti DAT_011f4a88;
 extern S_00e948f0_Rtti DAT_011f4a70;
 extern unsigned int DAT_011bf558;
-bool __cdecl FUN_0043b300(const S_00e948f0_Rtti* r, S_00e948f0_Obj* o);
+bool __cdecl NiObject_IsKindOf(const S_00e948f0_Rtti* r, S_00e948f0_Obj* o);
 
 // The shared group has no declaration for the buffer-registration helper.
 void __cdecl RegisterStaticGeometryBuffer();
@@ -371,7 +372,7 @@ void __fastcall InitStaticGeometryData(NiStaticGeometryGroup* group, void*, S_00
         {
             d->m_eRequestType = 4;
         }
-        else if (FUN_0043b300(&DAT_011f4a70, apObj))
+        else if (NiObject_IsKindOf(&DAT_011f4a70, apObj))
         {
             d->m_eRequestType = 5;
         }

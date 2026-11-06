@@ -350,7 +350,7 @@ struct S_00cb5d00_Router
 {
     S_00cb5d00_Stack m_aiEntries;
     S_00cb5d00_Heap* m_pStreamAllocator;
-    static S_00cb5d00_Router& FUN_00c85750() throw();
+    static S_00cb5d00_Router& hkMemoryRouter_getInstance() throw();
     S_00cb5d00_Stack& stack() throw()
     {
         return m_aiEntries;
@@ -374,7 +374,7 @@ template <class T> struct S_00cb5d00_Array
     {}
     __forceinline ~S_00cb5d00_Array() throw()
     {
-        _clearAndDeallocate(*S_00cb5d00_Router::FUN_00c85750().m_pStreamAllocator);
+        _clearAndDeallocate(*S_00cb5d00_Router::hkMemoryRouter_getInstance().m_pStreamAllocator);
     }
     void _clearAndDeallocate(S_00cb5d00_Heap& alloc) throw()
     {
@@ -390,7 +390,7 @@ template <class T> struct S_00cb5d00_LocalArray : S_00cb5d00_Array<T>
     T* m_pStackAllocation;
     __forceinline S_00cb5d00_LocalArray(int capacity) throw()
     {
-        this->m_data = (T*)S_00cb5d00_Router::FUN_00c85750().stack().allocateStack(capacity * sizeof(T));
+        this->m_data = (T*)S_00cb5d00_Router::hkMemoryRouter_getInstance().stack().allocateStack(capacity * sizeof(T));
         this->m_iCapacityState = capacity | 0x80000000;
         m_pStackAllocation = this->m_data;
     }
@@ -399,7 +399,7 @@ template <class T> struct S_00cb5d00_LocalArray : S_00cb5d00_Array<T>
         T* mem = m_pStackAllocation;
         if (mem == this->m_data)
             this->m_iElementCount = 0;
-        S_00cb5d00_Router::FUN_00c85750().stack().deallocateStack(mem);
+        S_00cb5d00_Router::hkMemoryRouter_getInstance().stack().deallocateStack(mem);
     }
 };
 struct S_00cb5d00_Source
@@ -735,7 +735,7 @@ class S_00dd7d00_Bool
 };
 struct S_00dd7d00_Item;
 typedef S_00dd7d00_Bool(__cdecl* S_00dd7d00_Less)(S_00dd7d00_Item* a, S_00dd7d00_Item* b);
-void FUN_00dd7d00(S_00dd7d00_Item** apItems, int aiLow, int aiHigh, S_00dd7d00_Less apfnLess);
+void hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(S_00dd7d00_Item** apItems, int aiLow, int aiHigh, S_00dd7d00_Less apfnLess);
 struct S_00c6aca0_Tls
 {
     int unk000;
@@ -951,7 +951,7 @@ struct S_00c6aca0_Router
         return *m10;
     }
 };
-S_00c6aca0_Router* FUN_00c85750() throw();
+S_00c6aca0_Router* hkMemoryRouter_getInstance() throw();
 struct S_00c6aca0_Item
 {
     virtual ~S_00c6aca0_Item();
@@ -975,7 +975,7 @@ struct S_00c6aca0_Arr4
     }
     __forceinline ~S_00c6aca0_Arr4() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
     }
 };
 struct S_00c6aca0_Arr8
@@ -994,7 +994,7 @@ struct S_00c6aca0_Arr8
     }
     __forceinline ~S_00c6aca0_Arr8() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
     }
 };
 struct S_00c6aca0_Cont
@@ -1008,7 +1008,7 @@ struct S_00c6aca0_Cont
 };
 struct S_00c6aca0_Mm
 {
-    void FUN_00aa4060(int p);
+    void MemoryManager_Deallocate(int p);
 };
 extern S_00c6aca0_Mm DAT_011f6238;
 extern int DAT_012677a4;
@@ -1022,7 +1022,7 @@ struct S_00c6aca0_Base
     int unk08;
     int unk0c;
     virtual ~S_00c6aca0_Base();
-    void FUN_00c876a0();
+    void bhkSerializable_Kill();
     virtual void vfn_04();
     virtual void vfn_08();
     virtual void vfn_0c();
@@ -1229,7 +1229,7 @@ struct ObjA
     int unk8C;
     int unk90;
     int m_94;
-    void FUN_00c91160(void* p);
+    void hkpWorld_queueOperation(void* p);
 };
 struct ObjB
 {
@@ -2350,7 +2350,7 @@ template <class T> inline int hkArrayNative<T>::getCapacity() const
 }
 template <class T> inline void hkArrayNative<T>::reserve(int n)
 {
-    S_00c6aca0_Heap& a = FUN_00c85750()->heap();
+    S_00c6aca0_Heap& a = hkMemoryRouter_getInstance()->heap();
     const int cap = getCapacity();
     if (cap < n)
     {
@@ -2361,7 +2361,7 @@ template <class T> inline void hkArrayNative<T>::reserve(int n)
 }
 template <class T> inline void hkArrayNative<T>::AddBack(const T& t)
 {
-    S_00c6aca0_Router* r = FUN_00c85750();
+    S_00c6aca0_Router* r = hkMemoryRouter_getInstance();
     if (count == getCapacity())
         ResizeAudioStream(&r->heap(), this, sizeof(T));
     S00cb4c60_copy(data + count, 1, t);
@@ -2509,11 +2509,11 @@ template <class T> struct Cb4890_LocalBuffer
     int m_iElementCount;
     __forceinline Cb4890_LocalBuffer(int n) throw()
     {
-        m_p = (T*)((Cb4890_Stack*)FUN_00c85750())->allocateStack(n * (int)sizeof(T));
+        m_p = (T*)((Cb4890_Stack*)hkMemoryRouter_getInstance())->allocateStack(n * (int)sizeof(T));
     }
     __forceinline ~Cb4890_LocalBuffer() throw()
     {
-        ((Cb4890_Stack*)FUN_00c85750())->deallocateStack(m_p);
+        ((Cb4890_Stack*)hkMemoryRouter_getInstance())->deallocateStack(m_p);
     }
     __forceinline T& operator[](int i) throw()
     {
@@ -2858,7 +2858,7 @@ struct S00cb5100_Arr
     hkpSimulationIsland* pick(int* n, hkpSimulationIsland** b, int k);
     void AddBack(hkpSimulationIsland* const& e)
     {
-        S_00c6aca0_Router* r = FUN_00c85750();
+        S_00c6aca0_Router* r = hkMemoryRouter_getInstance();
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ResizeAudioStream(r->m10, this, 4);
         hkpSimulationIsland** out = m_data + m_iElementCount;
@@ -3154,7 +3154,7 @@ struct C6A870_Heap
 };
 __forceinline C6A870_Heap& c6a870Heap()
 {
-    return *(C6A870_Heap*)&FUN_00c85750()->heap();
+    return *(C6A870_Heap*)&hkMemoryRouter_getInstance()->heap();
 }
 template <typename T> __forceinline void c6a870Copy(T* dst, const T* src, int n)
 {
@@ -3310,7 +3310,7 @@ struct C6A870_Self
     virtual void v90();
     virtual C6A870_World* getWorld();
 
-    void FUN_00c6a870();
+    void bhkWorld_DeactivateAllIslands();
 };
 struct Motion4120
 {
@@ -3851,7 +3851,7 @@ struct HeadC
 };
 static __forceinline void FreeVec(void** dataP, int* sizeP, int* capP, int elem)
 {
-    S_00c6aca0_Router* m = FUN_00c85750();
+    S_00c6aca0_Router* m = hkMemoryRouter_getInstance();
     void* fo = m->m10;
     int cap = *capP;
     *sizeP = 0;
@@ -4111,7 +4111,7 @@ struct MotionBase : RefHeader31
     float FUN_00c86430();
     __forceinline static void* operator new(unsigned int nbytes)
     {
-        S_00c6aca0_Heap& h = FUN_00c85750()->heap();
+        S_00c6aca0_Heap& h = hkMemoryRouter_getInstance()->heap();
         RefHeader31* b = static_cast<RefHeader31*>(((AllocObj*)&h)->v01(static_cast<int>(nbytes)));
         b->m_04 = static_cast<unsigned short>(nbytes);
         return b;
@@ -4483,9 +4483,9 @@ struct Node4
     char m_305;
     char m_306;
     char m_307;
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
 };
-void __cdecl FUN_00cb1280(void* p, int a, int b);
+void __cdecl hkString_memSet(void* p, int a, int b);
 template <typename T> __forceinline T* __cdecl S00cb4230_AddByteOffset(T* base, long offset)
 {
     return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
@@ -4749,7 +4749,7 @@ struct S00cb3ee0_Holder
 };
 struct S00cb3ee0_Sub
 {
-    S00cb3ee0_Holder* FUN_00d081e0();
+    S00cb3ee0_Holder* hkpLinkedCollidable_getCollisionEntriesDeterministicUnchecked_00d081e0();
 };
 int PickIslandByValue(int a, int b, int c);
 void CloneRecord(int a, int b);
@@ -4943,9 +4943,9 @@ struct SplitIsland_Alloc
 };
 __forceinline int* SplitIsland_cursor()
 {
-    return &FUN_00c85750()->unk00;
+    return &hkMemoryRouter_getInstance()->unk00;
 }
-void FUN_00cb1280(void* p, int a, int b);
+void hkString_memSet(void* p, int a, int b);
 void hkArrayUtil__reserve(void* alloc, void* vec, int cap, int elemsz);
 void ResizeAudioStream(void* alloc, void* vec, int elemsz);
 void hkArrayUtil__reduce(void* alloc, void* vec, int elemsz, void* p, int n);
@@ -5764,7 +5764,7 @@ void hkpWorldOperationUtil_splitSimulationIsland(hkpSimulationIsland* a0, SplitI
         }
         else
         {
-            FUN_00cb1280(states.data, 0, groups.f04 + 1);
+            hkString_memSet(states.data, 0, groups.f04 + 1);
         }
     }
     int arrays;

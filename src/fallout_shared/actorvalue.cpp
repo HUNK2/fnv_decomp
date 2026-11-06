@@ -192,12 +192,12 @@ float ActorValue::ClampValue(Index index, float value)
     float result = value;
     if (GetFlag(index, 0x10))
     {
-        result = FUN_00404010(0.0f, FUN_0040ebd0(result, 100.0f));
+        result = BSMAX_00404010(0.0f, BSMIN(result, 100.0f));
     }
     else if (GetFlag(index, 8))
     {
         float minimum = GetFlag(index, 0x8000) ? 1.0f : 0.0f;
-        result = FUN_00404010(minimum, FUN_0040ebd0(result, 10.0f));
+        result = BSMAX_00404010(minimum, BSMIN(result, 10.0f));
     }
     return result;
 }
@@ -346,7 +346,7 @@ bool ActorValue::HasActorValueChangedCallback(Index index)
 // @fnv 0x0066ef20
 int ActorValueOwner::GetActorValueAsInteger(ActorValue::Index index)
 {
-    return (int)FUN_00406ce0(GetActorValueFloatByIndex(index));
+    return (int)floorf(GetActorValueFloatByIndex(index));
 }
 
 // @fnv 0x0066fe40
@@ -420,7 +420,8 @@ void ActorValueInfo::SetEnumerated(int count, ...)
 
 // Returns true when index is one of the actor value indices 18-20, 52, or 58-61, otherwise false.
 // @fnv 0x0066eba0
-bool FUN_0066eba0(ActorValue::Index aeActorValue)
+// src: XBOX_PDB 0x0066eba0
+bool ActorValue_IsResistance(ActorValue::Index aeActorValue)
 {
     bool result = false;
     switch (aeActorValue)
@@ -442,7 +443,7 @@ bool FUN_0066eba0(ActorValue::Index aeActorValue)
 // @fnv 0x0066fd20
 ActorValue::Section ActorValue::GetSection(Index index)
 {
-    if (FUN_005d1260(index))
+    if (ActorValue_IsAttribute(index))
         return ATTRIBUTE;
     if (IsDerivedAttribute(index))
         return DERIVED_ATTRIBUTE;
@@ -509,7 +510,8 @@ bool ActorValue::IsAIAttribute(Index index)
 
 // Returns the pointer stored at index aiIndex in the g_011d61c8 array if aiIndex is in [0, 0x4d), otherwise returns null.
 // @fnv 0x0066e920
-void* __cdecl FUN_0066e920(int aiIndex)
+// src: XBOX_PDB 0x0066e920
+void* __cdecl ActorValue_GetActorValueInfo(int aiIndex)
 {
     void* pinfo = 0;
     if (aiIndex >= 0 && aiIndex < 0x4d)
@@ -521,7 +523,8 @@ void* __cdecl FUN_0066e920(int aiIndex)
 
 // Returns the full name of the ActorValueInfo for the given actor value index, or null if no info exists.
 // @fnv 0x0066e9f0
-const char* __cdecl FUN_0066e9f0(ActorValue::Index aeActorValue)
+// src: XBOX_PDB 0x0066e9f0
+const char* __cdecl ActorValue_GetActorValueIcon(ActorValue::Index aeActorValue)
 {
     ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(aeActorValue);
     if (pinfo)
@@ -531,7 +534,8 @@ const char* __cdecl FUN_0066e9f0(ActorValue::Index aeActorValue)
 }
 
 // @fnv 0x0066eac0
-const char* __cdecl FUN_0066eac0(ActorValue::Index index)
+// src: XBOX_PDB 0x0066eac0
+const char* __cdecl ActorValue_GetActorValueScriptName(ActorValue::Index index)
 {
     char* presult = 0;
     ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(index);
@@ -541,7 +545,8 @@ const char* __cdecl FUN_0066eac0(ActorValue::Index index)
 }
 
 // @fnv 0x0066eb00
-const char* __cdecl FUN_0066eb00(ActorValue::Index aiIndex)
+// src: XBOX_PDB 0x0066eb00
+const char* __cdecl ActorValue_GetActorValueAbbreviation(ActorValue::Index aiIndex)
 {
     const char* presult = 0;
     ActorValueInfo* pinfo = ActorValue::GetActorValueInfo(aiIndex);
@@ -601,16 +606,16 @@ const char* __cdecl GetWeaponSkillIconPath(int aiSkillIndex)
     return path;
 }
 
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 // @fnv 0x006703b0
 void ActorValueInfo::Save()
 {
     TESForm::FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     TESDescription::Save_00482cb0();
     TESTexture::Save(0x4e4f4349);
     if (m_cAbbreviation.Length())
-        FUN_004856f0(0x4d414e41, (void*)m_cAbbreviation.operator const char*(), m_cAbbreviation.Length() + 1);
+        TESForm_AddChunkArray(0x4d414e41, (void*)m_cAbbreviation.operator const char*(), m_cAbbreviation.Length() + 1);
     TESForm::FUN_00485680();
 }
 
@@ -627,7 +632,7 @@ const char* GetActorValueDescription(ActorValue::Index aiIndex)
 }
 
 extern double DAT_01012060;
-bool __cdecl FUN_00406d70(int, unsigned int);
+bool __cdecl ActorValue_IsFlagSet(int, unsigned int);
 
 // @fnv 0x0066eea0
 // src: COMMUNITY 0x0066eea0
@@ -637,7 +642,7 @@ float __cdecl Actor_CheckClampDamageModifier(ActorValueOwner* object, int index,
 
     if (value < DAT_01012060)
     {
-        if (FUN_00406d70(index, 0x20))
+        if (ActorValue_IsFlagSet(index, 0x20))
         {
             float total = static_cast<float>((double)object->GetBaseActorValueFloat((ActorValue::Index)index) + (double)object->GetTemporaryActorValue((ActorValue::Index)index));
             if (total < -value)

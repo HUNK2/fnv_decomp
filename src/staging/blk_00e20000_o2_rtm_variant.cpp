@@ -67,7 +67,7 @@ struct FUN_00e34800
 };
 struct CB2FC0Object
 {
-    void __thiscall FUN_00cb2d90(void*);
+    void __thiscall hkRotation_set(void*);
 };
 struct FUN_00e3b4d0_Class
 {
@@ -1237,7 +1237,7 @@ struct FUN_00e3a270 : hkReferencedObject
     FUN_00e3a270();
     virtual void FUN_vfn0();
 };
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct S_00e3ae70_Item
 {
     int unk00;
@@ -1262,7 +1262,7 @@ struct LinkOwner
     void* unk00;
     void* unk04;
     void* unk08;
-    void __thiscall FUN_00d21ce0(void*);
+    void __thiscall hkpBridgeConstraintAtom_init(void*);
 };
 struct FUN_00e3b060_Class
 {
@@ -1334,7 +1334,7 @@ class FUN_00e3dfb0_cls
     int unk34;
     int m_38;
 
-    int FUN_00e3dfb0(FUN_00e3dfb0_arg* rec);
+    int hkxVertexBuffer_getVertexDataPtr(FUN_00e3dfb0_arg* rec);
 };
 struct FUN_00e3ec00_Class
 {
@@ -1383,7 +1383,7 @@ struct S_00e3ed00_Foo
     S_00e3ed00_Foo** children;
     int childCount;
 
-    S_00e3ed00_Result* __thiscall FUN_00c85750();
+    S_00e3ed00_Result* __thiscall hkMemoryRouter_getInstance();
     int __thiscall AppendToTraversalList(S_00e3ed00_Foo* param1, S_00e3ed00_List* param2);
 };
 void __cdecl ResizeAudioStream(int param1, S_00e3ed00_List* param2, int param3);
@@ -1542,7 +1542,7 @@ struct FUN_00e3df50_Class
 {
     FUN_00e3df50_Class* __thiscall FUN_00e3df50(int param);
 };
-int __cdecl FUN_00e3dfb0(int param_1, int* param_2);
+int __cdecl hkxVertexBuffer_getVertexDataPtr(int param_1, int* param_2);
 int __cdecl FUN_00e3e020(int param_1, int* param_2);
 struct FNVTreeNode
 {
@@ -1683,7 +1683,8 @@ unsigned char __cdecl hkaSplineCompressedAnimation_isStatic(S00e311f0_PA a, S00e
 namespace se34af0 {
 
 // @fnv 0x00e34af0
-float FUN_00e34af0(float fValue)
+// src: XBOX_PDB 0x00e34af0
+float delta_hkConvertEndianF32(float fValue)
 {
     union
     {
@@ -1703,7 +1704,7 @@ float FUN_00e34af0(float fValue)
 
 }
 extern "C" unsigned short stub_val_e34b20(void);
-static unsigned short FUN_00e34b20(unsigned short v);
+static unsigned short delta_hkConvertEndianU16(unsigned short v);
 unsigned short call_e34b20();
 #include <xmmintrin.h>
 struct WheelComponentParamsX
@@ -1756,7 +1757,7 @@ struct S3b010Links
     int unk04;
     int unk08;
 
-    void FUN_00d21ce0(void* arg);
+    void hkpBridgeConstraintAtom_init(void* arg);
 };
 struct S3b010Obj
 {
@@ -1956,7 +1957,7 @@ hkpTyremarksInfo::~hkpTyremarksInfo() throw()
     for (int i = 0; i < m_kTyremarksWheels.m_iElementCount; i++)
         m_kTyremarksWheels.m_data[i]->removeReference();
 
-    hkMemoryAllocator& kAlloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& kAlloc = hkMemoryRouter_getInstance()->heap();
     m_kTyremarksWheels.m_iElementCount = 0;
     if ((m_kTyremarksWheels.m_iCapacityState & 0x80000000) == 0)
         kAlloc.bufFree(m_kTyremarksWheels.m_data,
@@ -2035,7 +2036,7 @@ struct __declspec(align(16)) CastCollector
     int unk7c;
 };
 extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
-void __cdecl FUN_00d98ca0(void*, void*, S_00df8990_Obj*, void*, void*);
+void __cdecl hkKdTreeUtils_castRayIterative(void*, void*, S_00df8990_Obj*, void*, void*);
 void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
 void __cdecl nullsub_334();
 void FUN_00e2cfd0();
@@ -2147,7 +2148,7 @@ struct SplitInput
     int unk14, unk18;
     PlaneList nodes;
 };
-hkMemoryRouter* FUN_00e4e3f0() throw();
+hkMemoryRouter* hkStackMemory_getInstance() throw();
 void FUN_00e2c100(SplitInput*, PackedPlane*, PackedPlane*, int, int, int, int, int, float*, int*, int, int, int, int,
                   int*, int*, int*, int*, PackedPlane*, PackedPlane*) throw();
 struct WorkStack

@@ -53,7 +53,8 @@ void __stdcall AppendCameraPathEntries(NiTPrimitiveArray<char*>*);
 char* _FUN_00a7d330(const char*);
 // Appends the string returned by _FUN_00a7d330(g_011f36fc_arg1) to pkStrings, growing the array when full.
 // @fnv 0x00a570b0
-void __stdcall FUN_00a570b0(NiTPrimitiveArray<char*>* pkStrings)
+// src: XBOX_PDB 0x00a570b0
+void __stdcall NiInterpolator_GetViewerStrings(NiTPrimitiveArray<char*>* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pcString = _FUN_00a7d330(g_011f36fc_arg1);
@@ -129,7 +130,8 @@ class NiAnimTarget
 extern "C" void* __cdecl FUN_00a5d680();
 
 // @fnv 0x00a57050
-NiAnimTarget* __stdcall FUN_00a57050(int a, int b)
+// src: XBOX_PDB 0x00a57050
+NiAnimTarget* __stdcall NiInterpolator_GetSequenceInterpolator(int a, int b)
 {
     NiAnimTarget* p = (NiAnimTarget*)FUN_00a5d680();
     p->v52();

@@ -14,14 +14,14 @@
 #include "../../../include/NiNode.h"
 #include "../../../include/NiPoint3.h"
 
-void __cdecl FUN_004a3e00(Vec4* out, const NiPoint3& in);
+void __cdecl NI2HK(Vec4* out, const NiPoint3& in);
 
 struct Filter
 {
     int v;
     Filter();
-    int __thiscall FUN_0043b4d0();
-    int __thiscall FUN_006240b0();
+    int __thiscall CFilter_GetLayer();
+    int __thiscall CFilter_GetBipedPart();
 };
 
 struct Shape;
@@ -90,21 +90,21 @@ struct WorldObj
     virtual void slot3b();
     virtual void slot3c();
     virtual void GetTransform(EObj*);
-    Shape* __thiscall FUN_004ae6a0();
+    Shape* __thiscall bhkWorldObject_GetShape();
     Filter __thiscall bhkWorldObject_GetCollisionFilter();
-    bool __thiscall FUN_008cffa0();
+    bool __thiscall bhkWorldObject_IsAddedToWorld();
     void* __thiscall FUN_00436aa0();
     void* __thiscall FUN_00891170();
 };
 
 struct CollObj
 {
-    WorldObj* __thiscall FUN_006fa820();
+    WorldObj* __thiscall bhkNiCollisionObject_GetWorldObject();
     float __thiscall FUN_004a7bd0();
 };
 
 CollObj* __cdecl FUN_0043b610(void* p);
-bool __cdecl FUN_0043b300(const void* rtti, void* obj);
+bool __cdecl NiObject_IsKindOf(const void* rtti, void* obj);
 extern char RTTI_01267e64;
 extern char RTTI_012683c8;
 
@@ -116,7 +116,7 @@ struct EObj
     };
     RawVector storage[4];
     EObj();
-    void __thiscall FUN_00cb2240(void* g, void* f);
+    void __thiscall hkTransform_setMul(void* g, void* f);
     void __thiscall hkTransform_set(void* x, void* y);
 };
 
@@ -135,7 +135,7 @@ void __cdecl FUN_0056df80(EObj* e, void* child);
 struct CSub
 {
     __m128 quad;
-    void __thiscall FUN_00c7f690(EObj* e, Vec4* v);
+    void __thiscall hkVector4_setTransformedInversePos(EObj* e, Vec4* v);
 };
 
 struct __declspec(align(16)) CObj
@@ -166,7 +166,7 @@ struct __declspec(align(16)) DObj
     int m_uiExtraInfo, unk18, unk1c;
     unsigned int shapeKeys[8];
     void* rootCollidable;
-    void __thiscall FUN_004a3d20();
+    void __thiscall hkpShapeRayCastOutput_hkpShapeRayCastOutput();
     Sub2* __thiscall hkpShapeRayCastCollectorOutput_hasHit(Sub2* b);
 };
 
@@ -181,7 +181,7 @@ struct P1Obj
     virtual void slot01();
     virtual void slot02();
     virtual NiNode* getNode();
-    void* __thiscall FUN_00461130();
+    void* __thiscall NiAVObject_GetWorldRotate();
 };
 
 // @fnv 0x008cfbc0
@@ -194,41 +194,41 @@ void* __cdecl ArrowProjectile_PickSceneGraph(void* p1, NiPoint3 a, NiPoint3 b, f
         CollObj* coll = FUN_0043b610(p1);
         if (coll)
         {
-            WorldObj* world = coll->FUN_006fa820();
-            Shape* shape = world ? world->FUN_004ae6a0() : 0;
+            WorldObj* world = coll->bhkNiCollisionObject_GetWorldObject();
+            Shape* shape = world ? world->bhkWorldObject_GetShape() : 0;
             if (shape)
             {
-                if (world->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 8)
+                if (world->bhkWorldObject_GetCollisionFilter().CFilter_GetLayer() == 8)
                 {
-                    if (world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 0x12)
+                    if (world->bhkWorldObject_GetCollisionFilter().CFilter_GetBipedPart() != 0x12)
                     {
-                        if (world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 0x13)
+                        if (world->bhkWorldObject_GetCollisionFilter().CFilter_GetBipedPart() != 0x13)
                         {
-                            if (!p5 || world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 1)
+                            if (!p5 || world->bhkWorldObject_GetCollisionFilter().CFilter_GetBipedPart() != 1)
                             {
                                 Vec4 va;
-                                FUN_004a3e00(&va, a);
+                                NI2HK(&va, a);
                                 Vec4 vb;
-                                FUN_004a3e00(&vb, a.FUN_00439e90(b.ApplyScaled(*p4)));
+                                NI2HK(&vb, a.FUN_00439e90(b.ApplyScaled(*p4)));
                                 CObj oc;
                                 oc.hkpShapeRayCastInput_hkpShapeRayCastInput();
                                 DObj od;
-                                od.FUN_004a3d20();
+                                od.hkpShapeRayCastOutput_hkpShapeRayCastOutput();
                                 EObj oe;
-                                if (FUN_0043b300(&RTTI_01267e64, coll))
+                                if (NiObject_IsKindOf(&RTTI_01267e64, coll))
                                 {
                                     CollObj* scaledColl = coll;
-                                    if (!world->FUN_008cffa0() || scaledColl->FUN_004a7bd0() == 1.0)
+                                    if (!world->bhkWorldObject_IsAddedToWorld() || scaledColl->FUN_004a7bd0() == 1.0)
                                     {
-                                        FUN_0056df80(&oe, ((P1Obj*)p1)->FUN_00461130());
-                                        if (FUN_0043b300(&RTTI_012683c8, world))
+                                        FUN_0056df80(&oe, ((P1Obj*)p1)->NiAVObject_GetWorldRotate());
+                                        if (NiObject_IsKindOf(&RTTI_012683c8, world))
                                         {
                                             WorldObj* transformedWorld = world;
                                             EObj of;
                                             GObj og(&oe);
                                             of.hkTransform_set(transformedWorld->FUN_00891170(),
                                                             transformedWorld->FUN_00436aa0());
-                                            oe.FUN_00cb2240(&og, &of);
+                                            oe.hkTransform_setMul(&og, &of);
                                         }
                                     }
                                     else
@@ -240,8 +240,8 @@ void* __cdecl ArrowProjectile_PickSceneGraph(void* p1, NiPoint3 a, NiPoint3 b, f
                                 {
                                     world->GetTransform(&oe);
                                 }
-                                oc.m0.FUN_00c7f690(&oe, &va);
-                                oc.m1.FUN_00c7f690(&oe, &vb);
+                                oc.m0.hkVector4_setTransformedInversePos(&oe, &va);
+                                oc.m1.hkVector4_setTransformedInversePos(&oe, &vb);
                                 Sub2 bt;
                                 shape->FUN_004ae750()->ForwardToV8(&bt, &oc, &od);
                                 Sub2 bt2;

@@ -62,8 +62,8 @@ struct Manager
     Allocator* allocator;
 };
 
-extern "C" Manager* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
+extern "C" Manager* __cdecl hkMemoryRouter_getInstance();
+extern "C" void __cdecl hkPredGskAgent3_sepNormal(void*, void*, void*, void*);
 extern double DAT_010cf218;
 
 struct Node
@@ -183,7 +183,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             FNVObject** slot;
             slot = slots[i];
             ExtendedRecord* record = (ExtendedRecord*)(*slot)->record;
-            Manager* pManager = FUN_00c85750();
+            Manager* pManager = hkMemoryRouter_getInstance();
             Node* node = pManager->allocator->allocate(0x40);
             node->unk04 = 0x40;
             float v = record->unk10;
@@ -214,7 +214,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
     local_flags.Init(pFirstRecord, pSecondRecord, (char*)source + 0x20);
 
     FNVResult result;
-    FUN_00d41930(&local_source, apArg, &local_flags, &result);
+    hkPredGskAgent3_sepNormal(&local_source, apArg, &local_flags, &result);
 
     for (int i = 0; i < 2; ++i)
     {
@@ -380,7 +380,7 @@ static __declspec(noinline) void replaceCylindersWithCapsulesInCdBodies(int* a, 
         if (a[i] != 0)
         {
             D40A10Shape* shape = (D40A10Shape*)list[i]->record->unknown0;
-            D40A10Node* node = (D40A10Node*)((D40A10Holder*)FUN_00c85750())->heap().allocate(0x40);
+            D40A10Node* node = (D40A10Node*)((D40A10Holder*)hkMemoryRouter_getInstance())->heap().allocate(0x40);
             node->unk04 = 0x40;
             float t = shape->unk10;
             float val = t + shape->FUN_00d571a0() + DAT_010cf218;

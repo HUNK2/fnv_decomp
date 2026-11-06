@@ -136,34 +136,38 @@ bool BSBlendTreadTransfInterpolator::UpdateAccumulatedTransform(float time, NiOb
     return true;
 }
 
-void __cdecl FUN_00a36f80();
+void __cdecl NiBlendInterpolator_RegisterStreamables();
 // @fnv 0x00a40a00
-void __cdecl FUN_00a40a00()
+// src: XBOX_PDB 0x00a40a00
+void __cdecl BSBlendTreadTransfInterpolator_RegisterStreamables()
 {
-    FUN_00a36f80();
+    NiBlendInterpolator_RegisterStreamables();
 }
 
-void __cdecl FUN_00a37ec0();
+void __cdecl NiBlendInterpolator_SaveBinary();
 // @fnv 0x00a40a10
-void __cdecl FUN_00a40a10()
+// src: XBOX_PDB 0x00a40a10
+void __cdecl BSBlendTreadTransfInterpolator_SaveBinary()
 {
-    FUN_00a37ec0();
+    NiBlendInterpolator_SaveBinary();
 }
 
-void __cdecl FUN_00a37980();
+void __cdecl NiBlendInterpolator_LoadBinary();
 
 // @fnv 0x00a42fc0
-void __cdecl FUN_00a42fc0()
+// src: XBOX_PDB 0x00a42fc0
+void __cdecl BSBlendTreadTransfInterpolator_LoadBinary()
 {
-    FUN_00a37980();
+    NiBlendInterpolator_LoadBinary();
 }
 
-void __cdecl FUN_00a36fd0();
+void __cdecl NiBlendInterpolator_IsEqual();
 
 // @fnv 0x00a42fd0
-void __cdecl FUN_00a42fd0()
+// src: XBOX_PDB 0x00a42fd0
+void __cdecl BSBlendTreadTransfInterpolator_IsEqual()
 {
-    FUN_00a36fd0();
+    NiBlendInterpolator_IsEqual();
 }
 
 extern float DAT_0109696c;

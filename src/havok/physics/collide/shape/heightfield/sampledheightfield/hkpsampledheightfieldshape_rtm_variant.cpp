@@ -54,7 +54,7 @@ public:
     hkInfoD260* m_info;
 };
 struct FUN_00d24b50_Obj {
-    void __thiscall FUN_00d24b50(void* object, int flags, hkBool flag2, float f, hkCollectorD260* collector);
+    void __thiscall hkpSampledHeightFieldShape_castRayInternal(void* object, int flags, hkBool flag2, float f, hkCollectorD260* collector);
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:
@@ -92,7 +92,7 @@ struct Val1 {
     Val1(const Val1& o) : m_00(o.m_00) {}
 };
 struct Host {
-    void FUN_00d24b50(int a1, int a2, Val1 v, float f, Local12* pLocal);
+    void hkpSampledHeightFieldShape_castRayInternal(int a1, int a2, Val1 v, float f, Local12* pLocal);
     void hkpSampledHeightFieldShape_castRayWithCollectorImpl(int a1, int a2, const Arg3* a3);
 };
 struct __declspec(align(16)) RayData {
@@ -117,7 +117,7 @@ struct Obj {
     int unk20;
     float unk24;
 
-    void FUN_00d24b50(RayData* data, void* arg2, hkBool arg3, float arg4, void* arg5);
+    void hkpSampledHeightFieldShape_castRayInternal(RayData* data, void* arg2, hkBool arg3, float arg4, void* arg5);
     void hkpSampledHeightFieldShape_castSphere(Input* input, void* arg2, void* arg3);
 };
 extern "C" LocalM128 _mm_mul_ps(LocalM128, LocalM128);
@@ -137,7 +137,7 @@ struct SampledHeightField : hkpSampledHeightFieldShape {
     virtual float getHeightAt(int x, int z);
     void hkpSampledHeightFieldShape_getAabbImpl(hkUlong transform, float tolerance, hkUlong aabb);
 };
-void __cdecl FUN_00d26230(hkUlong, const hkVector4&, const hkVector4&, float, hkUlong);
+void __cdecl hkAabbUtil_calcAabb_00d26230(hkUlong, const hkVector4&, const hkVector4&, float, hkUlong);
 
 inline void* operator new(unsigned int,void* p) throw() { return p; }
 extern "C" { LocalM128 _mm_set_ps(float,float,float,float); LocalM128 _mm_setr_ps(float,float,float,float); LocalM128 _mm_mul_ps(LocalM128,LocalM128); LocalM128 _mm_load_ss(const float*); LocalM128 _mm_shuffle_ps(LocalM128,LocalM128,int); }

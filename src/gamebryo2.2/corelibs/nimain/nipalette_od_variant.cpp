@@ -133,11 +133,12 @@ struct FNV_MemoryManager
     void FNV_releaseAlias(void* block, int flag);
     FNV_Heap* FNV_heapForPointer(void* block);
 
-    void FUN_00aa4060(void* block);
+    void MemoryManager_Deallocate(void* block);
 };
 
 // @fnv 0x00aa4060
-void FNV_MemoryManager::FUN_00aa4060(void* block)
+// src: XBOX_PDB 0x00aa4060
+void FNV_MemoryManager::MemoryManager_Deallocate(void* block)
 {
     if (!block)
         return;

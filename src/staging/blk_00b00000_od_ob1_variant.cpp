@@ -28,7 +28,7 @@ struct FUN_00b00860_shell
 extern int DAT_010a47b3;
 struct FUN_00b008e0_class
 {
-    int* __thiscall FUN_00b008e0();
+    int* __thiscall BSContentPackage_FileName();
 };
 struct FUN_00b00950
 {
@@ -1209,7 +1209,7 @@ void FUN_00b0dc10_Vector::FUN_00b0dc10()
 
 struct DceAux;
 
-DceAux* __cdecl FUN_0044d670(unsigned int count, DceAux* hint);
+DceAux* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int count, DceAux* hint);
 void __cdecl operator delete(void* p);
 
 inline void* __cdecl operator new(unsigned int, void* where) throw()
@@ -1266,7 +1266,7 @@ struct DceAllocAux
     {}
     DceAux* allocate(unsigned int count)
     {
-        return FUN_0044d670(count, (DceAux*)0);
+        return std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, (DceAux*)0);
     }
     void deallocate(DceAux* pointer, unsigned int)
     {
@@ -3827,12 +3827,13 @@ inline void DeadEnd()
 }
 struct Effect
 {
-    void FUN_00b13100(ParentNode*, float, unsigned int, const CVec3&, float, const FloatMatrix3&, const CVec3&, int,
+    void CIdvBranch_ComputeBud(ParentNode*, float, unsigned int, const CVec3&, float, const FloatMatrix3&, const CVec3&, int,
                       float, int);
     void FUN_00b13c10(const CVec3&, float, Effect*, const CVec3&, const CVec3&, float, int, int);
 };
 // @fnv 0x00b13100
-void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, const CVec3& position, float time,
+// src: XBOX_PDB 0x00b13100
+void Effect::CIdvBranch_ComputeBud(ParentNode* node, float amount, unsigned int index, const CVec3& position, float time,
                           const FloatMatrix3& rotation, const CVec3& axis, int flags, float speed, int mode)
 {
     Config* profile = DAT_011f8c58[index];
@@ -7884,7 +7885,7 @@ void __cdecl FUN_00b17d10(NodeD10** _First, int _Hole, int _Top, NodeD10* _Val, 
 }
 
 namespace fnv_00b17db0 {
-void* __cdecl FUN_0044d670(unsigned int count, int hint);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int count, int hint);
 void __cdecl operator delete(void*);
 inline void* __cdecl operator new(unsigned int, void* place)
 {
@@ -7908,7 +7909,7 @@ struct AllocB
     {}
     void* allocate(unsigned int count)
     {
-        return FUN_0044d670(count, 0);
+        return std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, 0);
     }
     void deallocate(void* ptr, unsigned int)
     {

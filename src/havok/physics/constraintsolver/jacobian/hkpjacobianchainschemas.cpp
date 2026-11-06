@@ -17,13 +17,15 @@ struct DD13C0Object
 };
 
 // @fnv 0x00dd13c0
-int* __cdecl FUN_00dd13c0(DD13C0Object* object)
+// src: XBOX_PDB 0x00dd13c0
+int* __cdecl hkJacobianBallSocketChainSchema_getJacobians(DD13C0Object* object)
 {
     return &object->m_data;
 }
 
 // @fnv 0x00dd13b0
-int __cdecl FUN_00dd13b0(unsigned int arg0)
+// src: XBOX_PDB 0x00dd13b0
+int __cdecl hkJacobianStiffSpringChainSchema_getJacobians(unsigned int arg0)
 {
     return (int)(arg0 + 16u);
 }

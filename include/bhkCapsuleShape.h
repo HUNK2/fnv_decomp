@@ -26,8 +26,8 @@ public:
     virtual void vf41();
     virtual unsigned int slotA8();
     virtual MoppCodeHeader* slotB4(char* pAllocated);
-    virtual void FUN_00c84df0(void* object, ArgB* arg);
-    virtual void FUN_00ca6b60(NiNode* parent, int arg);
+    virtual void bhkShape_CopyMembers(void* object, ArgB* arg);
+    virtual void BuildDisplayGeometry_00ca6b60(NiNode* parent, int arg);
 
     hkpCapsuleShape* Gethk();
     hkpCapsuleShape* operator*();

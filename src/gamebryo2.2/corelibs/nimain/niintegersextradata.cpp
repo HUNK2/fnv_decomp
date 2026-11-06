@@ -124,10 +124,11 @@ struct FUN_00a7b290_shell
 };
 struct FUN_00c54150_shell
 {
-    void __thiscall FUN_00c54150(int param_1);
+    void __thiscall BSFurnitureMarker_RegisterStreamables(int param_1);
 };
 // @fnv 0x00c54150
-void __thiscall FUN_00c54150_shell::FUN_00c54150(int param_1)
+// src: XBOX_PDB 0x00c54150
+void __thiscall FUN_00c54150_shell::BSFurnitureMarker_RegisterStreamables(int param_1)
 {
     ((FUN_00a7b290_shell*)this)->FUN_00a7b290(param_1);
 }
@@ -135,17 +136,18 @@ void __thiscall FUN_00c54150_shell::FUN_00c54150(int param_1)
 struct C00c541e0
 {
     bool FUN_00a7b3d0(int);
-    bool FUN_00c541e0(int);
+    bool BSFurnitureMarker_IsEqual(int);
 };
 // Calls FUN_00a7b3d0 with the given int and returns its bool result.
 // @fnv 0x00c541e0
-bool C00c541e0::FUN_00c541e0(int a)
+// src: XBOX_PDB 0x00c541e0
+bool C00c541e0::BSFurnitureMarker_IsEqual(int a)
 {
     bool b = FUN_00a7b3d0(a);
     return b;
 }
 
-void __cdecl FUN_00a303a0(NiStream&, unsigned short*);
+void __cdecl NiStreamSaveBinary_unsigned_short(NiStream&, unsigned short*);
 void __cdecl FUN_00a29550(NiStream&, unsigned char*);
 struct FUN_00c54660_shell
 {
@@ -158,7 +160,7 @@ struct FUN_00c54660_shell
 void __thiscall FUN_00c54660_shell::FUN_00c54660(NiStream& aStream)
 {
     color.SaveBinary(aStream);
-    FUN_00a303a0(aStream, &fldC);
+    NiStreamSaveBinary_unsigned_short(aStream, &fldC);
     FUN_00a29550(aStream, &fldE);
     FUN_00a29550(aStream, &fldE);
 }
@@ -205,17 +207,18 @@ void __thiscall S::FUN_00c54810()
 }
 
 struct NiStream;
-void __cdecl FUN_0044adf0(NiStream&, unsigned const&);
+void __cdecl NiStreamSaveBinary_unsigned_int(NiStream&, unsigned const&);
 struct NiExtraDataSaveHelperShell : NiExtraData
 {
-    void FUN_00c54170(NiStream&);
+    void BSFurnitureMarker_SaveBinary(NiStream&);
 };
 // @fnv 0x00c54170
-void NiExtraDataSaveHelperShell::FUN_00c54170(NiStream& stream)
+// src: XBOX_PDB 0x00c54170
+void NiExtraDataSaveHelperShell::BSFurnitureMarker_SaveBinary(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
     unsigned int count = *(unsigned short*)((char*)this + 0x18);
-    FUN_0044adf0(stream, count);
+    NiStreamSaveBinary_unsigned_int(stream, count);
     for (unsigned int i = 0; i < count; ++i)
         (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].FUN_00c54660(stream);
 }
@@ -248,7 +251,7 @@ class NiStream;
 struct FUN_00c54040_cls
 {
     unsigned int baseData[3];
-    void FUN_00a7b330(NiStream&, unsigned int);
+    void CopyMembers_00a7b330(NiStream&, unsigned int);
     unsigned int unk0c;
     char* entries;
     unsigned int unk14;
@@ -264,7 +267,7 @@ void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, unsigned int flags)
     unsigned char pad[0x58];
     unsigned int i;
     unsigned int n;
-    FUN_00a7b330(stream, flags);
+    CopyMembers_00a7b330(stream, flags);
     n = count;
     for (i = 0; i < n; i++)
     {
@@ -275,11 +278,12 @@ void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, unsigned int flags)
 struct S_00c54130
 {
     void FUN_00a7b3b0(int a);
-    void FUN_00c54130(int a);
+    void BSFurnitureMarker_LinkObject(int a);
 };
 
 // @fnv 0x00c54130
-void S_00c54130::FUN_00c54130(int a)
+// src: XBOX_PDB 0x00c54130
+void S_00c54130::BSFurnitureMarker_LinkObject(int a)
 {
     FUN_00a7b3b0(a);
 }
@@ -295,11 +299,12 @@ struct S_00c54550_Foo
     int unk08;
     unsigned short unk0c;
 
-    void __thiscall FUN_00c54550(float param_1);
+    void __thiscall FurnitureMark_SetHeading(float param_1);
 };
 
 // @fnv 0x00c54550
-void __thiscall S_00c54550_Foo::FUN_00c54550(float param_1)
+// src: XBOX_PDB 0x00c54550
+void __thiscall S_00c54550_Foo::FurnitureMark_SetHeading(float param_1)
 {
     while (param_1 < DAT_01012060)
         param_1 += DAT_012031cc;
@@ -314,8 +319,8 @@ class NiStream;
 
 extern double DAT_01017b70;
 
-void __cdecl FUN_00a30370(NiStream&, void*);
-void __cdecl FUN_00a643b0(NiStream&, void*);
+void __cdecl NiStreamLoadBinary_unsigned_short(NiStream&, void*);
+void __cdecl NiStreamLoadBinary_char_00a643b0(NiStream&, void*);
 
 struct FUN_00c545d0_cls
 {
@@ -323,7 +328,7 @@ struct FUN_00c545d0_cls
     void __thiscall FUN_00a59be0(NiStream&);
     unsigned short fldC;
     unsigned short fldE;
-    void __thiscall FUN_00c54550(float);
+    void __thiscall FurnitureMark_SetHeading(float);
     void __thiscall FurnitureMark_LoadBinary(NiStream& s);
 };
 
@@ -333,14 +338,14 @@ void FUN_00c545d0_cls::FurnitureMark_LoadBinary(NiStream& aStream)
 {
     unsigned char flag;
     FUN_00a59be0(aStream);
-    FUN_00a30370(aStream, &fldC);
-    FUN_00a643b0(aStream, &fldE);
-    FUN_00a643b0(aStream, &flag);
+    NiStreamLoadBinary_unsigned_short(aStream, &fldC);
+    NiStreamLoadBinary_char_00a643b0(aStream, &fldE);
+    NiStreamLoadBinary_char_00a643b0(aStream, &flag);
     short sValue = (short)fldC;
     if (sValue < 0)
     {
         float fScaled = (float)((double)sValue / DAT_01017b70);
-        FUN_00c54550(fScaled);
+        FurnitureMark_SetHeading(fScaled);
     }
 }
 
@@ -472,17 +477,18 @@ struct FUN_00c542a0_shell : NiExtraData
     unsigned short count;
 
     void FUN_00a7b580(ViewerStringsArray*);
-    void FUN_00c542a0(ViewerStringsArray*);
+    void BSFurnitureMarker_GetViewerStrings(ViewerStringsArray*);
 };
 
 extern int g_012031c4;
 extern char* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
-extern char* __cdecl FUN_00a7d510(char const*, unsigned int);
-extern char* __cdecl FUN_00a7d550(char const*, float);
+extern char* __cdecl NiGetViewerString_00a7d510(char const*, unsigned int);
+extern char* __cdecl NiGetViewerString_00a7d550(char const*, float);
 
 // Appends marker count and per-marker number, position, and heading strings to the viewer strings array.
 // @fnv 0x00c542a0
-void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
+// src: XBOX_PDB 0x00c542a0
+void FUN_00c542a0_shell::BSFurnitureMarker_GetViewerStrings(ViewerStringsArray* strings)
 {
     unsigned long iMarkers;
     unsigned int aIndex;
@@ -503,24 +509,24 @@ void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
     strings->AddFirstEmpty(aRtti);
 
     iMarkers = count;
-    pMark = FUN_00a7d510("iMarks", iMarkers);
+    pMark = NiGetViewerString_00a7d510("iMarks", iMarkers);
     strings->AddFirstEmpty(pMark);
 
     for (aIndex = 0; aIndex < iMarkers; ++aIndex)
     {
-        aPMarker = FUN_00a7d510("Mark", aIndex);
+        aPMarker = NiGetViewerString_00a7d510("Mark", aIndex);
         strings->AddFirstEmpty(aPMarker);
 
         marker = &entries[aIndex];
         val.numberValue = marker->number;
-        animationType = FUN_00a7d510(" Number", val.numberValue);
+        animationType = NiGetViewerString_00a7d510(" Number", val.numberValue);
         strings->AddFirstEmpty(animationType);
 
-        aCurrentPos = marker->pos.FUN_00a59af0(" Pos");
+        aCurrentPos = marker->pos.GetViewerString_00a59af0(" Pos");
         strings->AddFirstEmpty(aCurrentPos);
 
         val.headingValue = (float)(marker->heading / 1000.0);
-        aHeadingY = FUN_00a7d550(" Heading", val.headingValue);
+        aHeadingY = NiGetViewerString_00a7d550(" Heading", val.headingValue);
         strings->AddFirstEmpty(aHeadingY);
     }
 }

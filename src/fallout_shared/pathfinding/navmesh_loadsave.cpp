@@ -133,7 +133,7 @@ void NavMesh::ForceSetFormID(unsigned int formID)
 void NavMesh::InitItem()
 {
     if (GetDisabled())
-        ((TESForm*)FUN_0068efb0())->SetCollisionDisabled(true);
+        ((TESForm*)GetNavMeshInfo_0068efb0())->SetCollisionDisabled(true);
     if (IsDeleted())
     {
         bool altered = g_TES->GetActiveCell()->FUN_00460340();
@@ -183,7 +183,8 @@ bool NavMeshTriangle::HasFlag40()
 }
 
 // @fnv 0x00693b90
-bool NavMeshTriangle::FUN_00693b90()
+// src: XBOX_PDB 0x00693b90
+bool NavMeshTriangle::IsNoLargeCreature()
 {
     return FUN_00691140(0x10);
 }
@@ -445,7 +446,7 @@ void* FUN_006950a0_shell::FUN_006950a0(unsigned int flags)
 namespace fnv_00694b10 {
 struct S5460
 {
-    void FUN_006a2770(unsigned int, unsigned int);
+    void BSSimpleArray_NiPoint2_1024_ReallocateBuffer(unsigned int, unsigned int);
 };
 struct GlobalObject_00869f00
 {
@@ -484,7 +485,7 @@ void FUN_00694b10_shell::BSSimpleArray_EdgeExtraInfo_1024_SetSize(unsigned int s
         }
         else
         {
-            ((S5460*)this)->FUN_006a2770(size, allocated);
+            ((S5460*)this)->BSSimpleArray_NiPoint2_1024_ReallocateBuffer(size, allocated);
             capacity = size;
         }
         ((FUN_00692320_shell*)this)->ConstructEntries((char*)p + allocated * 0xc, size - allocated);
@@ -496,7 +497,7 @@ void FUN_00694b10_shell::BSSimpleArray_EdgeExtraInfo_1024_SetSize(unsigned int s
         allocated = size;
         if (abShrink && size <= capacity / 4)
         {
-            ((S5460*)this)->FUN_006a2770(size, size);
+            ((S5460*)this)->BSSimpleArray_NiPoint2_1024_ReallocateBuffer(size, size);
             capacity = size;
         }
     }
@@ -650,11 +651,11 @@ TESForm* GetFormByID(unsigned int);
 
 struct SeqObj
 {
-    void FUN_00401970();
+    void NiRefObject_DecRefCount();
 };
 struct G00559a40
 {
-    void FUN_0040f6e0();
+    void NiRefObject_IncRefCount();
 };
 // Exe 0x00692950: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct NavmeshOffset08View
@@ -702,7 +703,7 @@ struct DoorS
 {
     unsigned int DoorRef;
     unsigned short m_usTriangleIdentifier;
-    void FUN_004141e0();
+    void CHUNK_Endian();
 };
 struct DoorArr
 {
@@ -712,13 +713,13 @@ struct DoorArr
 struct TriS
 {
     bool HasFlag40();
-    bool FUN_00693b90();
+    bool IsNoLargeCreature();
     void NavMeshTriangle_ToggleLargeActor();
     void NavMeshTriangle_endianSwap();
     void NavMeshTriangle_SetObjectCount(int);
     bool NavMeshTriangle_HasEdgeExtraInfo();
     bool IsEdgeFlagSet(int);
-    unsigned short FUN_0068f2c0(int);
+    unsigned short GetEdgeExtraInfo_0068f2c0(int);
 };
 struct TriArr
 {
@@ -742,7 +743,7 @@ struct InfoMapS
     void FUN_006b6990(unsigned int);
 };
 unsigned int EdgeExtraInfo_GetSizeOfV0();
-TESForm* __fastcall FUN_00690830(const NavMeshInfo*);
+TESForm* __fastcall NavMeshInfo_GetParentSpace(const NavMeshInfo*);
 extern TESObjectCELL* DAT_011c3f30;
 extern ProcessListsView g_011d6ca8;
 
@@ -755,7 +756,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
         0x2e, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Pathfinding\\NavMesh_LoadSave.cpp", 0x113);
     if (((TESForm*)this)->IsDeleted())
     {
-        ((SeqObj*)((char*)this + 0x1c))->FUN_00401970();
+        ((SeqObj*)((char*)this + 0x1c))->NiRefObject_DecRefCount();
         return false;
     }
     unsigned char formid;
@@ -851,7 +852,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                 for (int i = 0; i < isize; ++i)
                 {
                     if (apFile->QEndian())
-                        ((DoorArr*)((char*)this + 0x58))->GetElement(i)->FUN_004141e0();
+                        ((DoorArr*)((char*)this + 0x58))->GetElement(i)->CHUNK_Endian();
                     unsigned int idoorID = ((DoorArr*)((char*)this + 0x58))->GetElement(i)->DoorRef;
                     TESForm::RemapFormIDForFile(idoorID, apFile);
                     TESObjectREFR* pdoor = (TESObjectREFR*)GetFormByID(idoorID);
@@ -969,7 +970,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
     }
     if (((TESForm*)this)->IsDeleted())
     {
-        ((G00559a40*)((char*)this + 0x1c))->FUN_0040f6e0();
+        ((G00559a40*)((char*)this + 0x1c))->NiRefObject_IncRefCount();
         ((InfoMapS*)g_TES->GetActiveCell())->FUN_006b6990(((TESForm*)this)->GetFormID());
         return false;
     }
@@ -1018,7 +1019,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
             for (unsigned int i = 0; i < isize; ++i)
             {
                 TriS* ptri = reinterpret_cast<TriS*>(FUN_005582f0((unsigned short)i));
-                if (ptri->FUN_00693b90())
+                if (ptri->IsNoLargeCreature())
                     ptri->NavMeshTriangle_ToggleLargeActor();
             }
         }
@@ -1034,7 +1035,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
         }
         else
         {
-            if (!FUN_00690830(*(NavMeshInfo**)((char*)this + 0x104)))
+            if (!NavMeshInfo_GetParentSpace(*(NavMeshInfo**)((char*)this + 0x104)))
                 *(unsigned int*)((char*)*(NavMeshInfo**)((char*)this + 0x104) + 4) =
                     GetDoorForm()->GetFormID();
             ((TESRecipe*)*(NavMeshInfo**)((char*)this + 0x104))->SetCategory((unsigned int)this);
@@ -1051,7 +1052,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
             }
             if (*(NavMeshInfo**)((char*)this + 0x104) && isize)
                 ((ActiveEffect*)*(NavMeshInfo**)((char*)this + 0x104))
-                    ->FUN_00693d50((float)ipreferredTris / (float)isize);
+                    ->BaseProcess_SetLastTimeProcessed((float)ipreferredTris / (float)isize);
         }
         if (ifileVersionNumber < 11)
         {
@@ -1068,7 +1069,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
                         if (!ptri->IsEdgeFlagSet(e))
                             continue;
                         EdgeExtraInfo* pinfo;
-                        unsigned short extraInfoIndex = ptri->FUN_0068f2c0(e);
+                        unsigned short extraInfoIndex = ptri->GetEdgeExtraInfo_0068f2c0(e);
                         pinfo = reinterpret_cast<EdgeExtraInfo*>(GetEdge(extraInfoIndex));
                         if (!*(NavMeshInfo**)((char*)this + 0x104))
                             continue;
@@ -1292,11 +1293,11 @@ struct FUN_00693f30_cls
     char pad[0x38];
     FUN_00693f30_count triCount;
     FUN_00693f30_obj* FUN_0059bb30();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void PrintNavMeshInfo(void* a1);
 };
 
-int FUN_00406f60(void*, const char*, ...);
+int BSStringT_char_SPrintF(void*, const char*, ...);
 
 // Builds a name via the nav object's vfn_90 and prints the navmesh id, triangle count and cell name through FUN_00406f60.
 // @fnv 0x00693f30
@@ -1311,7 +1312,7 @@ void FUN_00693f30_cls::PrintNavMeshInfo(void* a1)
             nav->vfn_90(&name);
         }
     }
-    FUN_00406f60(a1, "NavMesh (%08X) with %d Triangles in Cell %s", FUN_0084e3a0(), triCount.FUN_0044ddc0(),
+    BSStringT_char_SPrintF(a1, "NavMesh (%08X) with %d Triangles in Cell %s", GetHavokWorldObjectCountInSceneGraph_0084e3a0(), triCount.FUN_0044ddc0(),
                  name.c_str());
 }
 
@@ -1389,12 +1390,13 @@ struct FUN_00693fe0_cls
     void* GetC();
     void* GetD();
 
-    void FUN_00693fe0(unsigned char arg);
+    void NavMesh_SetDelete(unsigned char arg);
 };
 
 // If arg differs from GetA, updates state via Foo and v32 based on GetB(0)->Test(); when arg is non-zero, calls Bar(GetC()) and Fin() on the active TES navmesh map.
 // @fnv 0x00693fe0
-void FUN_00693fe0_cls::FUN_00693fe0(unsigned char arg)
+// src: XBOX_PDB 0x00693fe0
+void FUN_00693fe0_cls::NavMesh_SetDelete(unsigned char arg)
 {
     bool flag;
     if (arg != GetA())
@@ -1495,7 +1497,7 @@ struct PathingService
     virtual void UnknownVirtual_42();
     virtual void UnknownVirtual_43();
     virtual unsigned char DispatchAction(NavMeshAction* action, unsigned char enabled, unsigned char option);
-    unsigned char FUN_00485be0(unsigned int triangleIndex);
+    unsigned char TESForm_FormIDMatchesWithoutIndex(unsigned int triangleIndex);
 };
 struct NavMeshActionController
 {
@@ -1522,7 +1524,7 @@ unsigned char NavMeshActionController::ProcessNavMeshAction(NavMeshAction* apAct
         case 8:
         case 9: {
             unsigned char valid = 0;
-            if (service->FUN_00485be0(apAction->triangleIndex))
+            if (service->TESForm_FormIDMatchesWithoutIndex(apAction->triangleIndex))
                 valid = 1;
             if (valid)
             {
@@ -1668,7 +1670,7 @@ void FUN_006947e0_cls::NiTMapBase_DFALL_NiTMapItem_unsigned_short_NiPointer_Obst
 struct Mesh69
 {
     bool FUN_00440da0();
-    void FUN_00484af0(bool);
+    void TESForm_SetDisabled(bool);
     void LinkMatchingEdges();
 };
 struct Info69
@@ -1704,7 +1706,7 @@ bool __cdecl NavMesh_SetDisableNavMesh(unsigned int uiNavMeshId, bool disabled)
         }
         else if (reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->FUN_00440da0() != disabled)
         {
-            reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->FUN_00484af0(disabled);
+            reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->TESForm_SetDisabled(disabled);
             info->FUN_00693ef0(disabled);
             if (!disabled)
                 reinterpret_cast<Mesh69*>(navMeshPtr.FUN_00559450())->LinkMatchingEdges();

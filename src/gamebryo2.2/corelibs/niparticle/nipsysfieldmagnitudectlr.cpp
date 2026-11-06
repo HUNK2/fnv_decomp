@@ -35,12 +35,13 @@ void __thiscall NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
     ((float*)m_pkTargetModifier)[7] = value;
 }
 
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00c2b1b0
-void __stdcall FUN_00c2b1b0(StrArr* pkStrings)
+// src: XBOX_PDB 0x00c2b1b0
+void __stdcall NiPSysFieldMagnitudeCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcStr = NiViewerStrings_NiGetViewerString_Title((const char*)g_01202718);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiCap = pkStrings->m_usMaxSize;
@@ -68,11 +69,12 @@ struct Node : Base
 struct Owner
 {
     void FUN_00c32de0(Node* node, int arg);
-    Node* FUN_00c2b160(int arg);
+    Node* NiPSysFieldMagnitudeCtlr_CreateClone(int arg);
 };
 
 // @fnv 0x00c2b160
-Node* Owner::FUN_00c2b160(int arg)
+// src: XBOX_PDB 0x00c2b160
+Node* Owner::NiPSysFieldMagnitudeCtlr_CreateClone(int arg)
 {
     Node* node = new Node();
     FUN_00c32de0(node, arg);

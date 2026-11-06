@@ -320,7 +320,7 @@ hkResultD273 hkBufferedStreamD273::hkBufferedStreamWriter_seek(int offset, int w
     return res;
 }
 
-extern "C" void __cdecl FUN_00cb1280(void* pvDest, int iValue, int iCount) throw();
+extern "C" void __cdecl hkString_memSet(void* pvDest, int iValue, int iCount) throw();
 
 class FUN_00d274c0 : public hkReferencedObject
 {
@@ -344,7 +344,7 @@ FUN_00d274c0::FUN_00d274c0(void* pvMem, int aiSize, char bMemoryIsString) throw(
     m_iCapacity = bMemoryIsString ? aiSize - 1 : aiSize;
     m_overflowed = false;
     if (bMemoryIsString)
-        FUN_00cb1280(pvMem, 0, aiSize);
+        hkString_memSet(pvMem, 0, aiSize);
 }
 
 // Compatibility view: hkStreamWriter.h lacks hkBool seekTellSupported() const at slot 6.
@@ -414,7 +414,7 @@ int FUN_00d273f0_cls::hkBufferedStreamWriter_tell() const
 }
 
 namespace hkRouterD274 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void* __cdecl hkMemoryRouter_alignedAlloc(hkMemoryAllocator& alloc, int iSize, int iAlign) throw();
 class hkBufStreamWriterD274 : public hkStreamWriter
@@ -435,7 +435,7 @@ hkBufStreamWriterD274::hkBufStreamWriterD274(hkStreamWriter* apStream, int aiBuf
 {
     if (m_stream)
         m_stream->addReference();
-    m_buf = (char*)hkMemoryRouter_alignedAlloc(hkRouterD274::FUN_00c85750().heap(), aiBufferSize, 0x40);
+    m_buf = (char*)hkMemoryRouter_alignedAlloc(hkRouterD274::hkMemoryRouter_getInstance().heap(), aiBufferSize, 0x40);
     m_bufSize = aiBufferSize;
     m_iBufferPosition = 0;
 }

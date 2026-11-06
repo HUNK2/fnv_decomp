@@ -70,7 +70,8 @@ hkpCharacterContext* hkpCharacterContext::Initialize(void* arg0, int arg1)
 }
 
 // @fnv 0x00ca9600
-int __fastcall FUN_00ca9600(hkpCharacterContext* context)
+// src: XBOX_PDB 0x00ca9600
+int __fastcall hkpCharacterContext_getState(hkpCharacterContext* context)
 {
     return context->unk10;
 }
@@ -126,7 +127,7 @@ struct FnvCpu_FUN_00ca9810_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ca9810_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00ca9810_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00ca9810_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 // Calls FUN_00ca95e0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00ca9810
 hkpCharacterContext* __fastcall Destroy(hkpCharacterContext* context, void*, unsigned int flags)
@@ -134,7 +135,7 @@ hkpCharacterContext* __fastcall Destroy(hkpCharacterContext* context, void*, uns
     FUN_00ca95e0(context);
     if (flags & 1)
     {
-        FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00ca9810_CpuAllocatorHolder* pAllocatorHolder = hkMemoryRouter_getInstance();
         pAllocatorHolder->allocator->Invoke(context, context->m_usMemSizeAndFlags);
     }
     return context;

@@ -85,7 +85,7 @@ struct PoolAlloc_00c25b30
 };
 extern PoolAlloc_00c25b30 DAT_011f6238;
 // Builds the array of 20-byte link records (lives in another unit of the game).
-void* __cdecl FUN_00c25990(unsigned int count);
+void* __cdecl NiTNewInterface_NiPSysUpdateTask_Allocate(unsigned int count);
 // The link-id set: { items, capacity, size, head }.
 struct LinkIDSet_00c25b30
 {
@@ -121,7 +121,8 @@ inline void* NiPSysUpdateTask::operator new[](unsigned int size, unsigned int co
 }
 
 // @fnv 0x00c25990
-void* __cdecl FUN_00c25990(unsigned int count)
+// src: XBOX_PDB 0x00c25990
+void* __cdecl NiTNewInterface_NiPSysUpdateTask_Allocate(unsigned int count)
 {
     return new (count) NiPSysUpdateTask[count];
 }

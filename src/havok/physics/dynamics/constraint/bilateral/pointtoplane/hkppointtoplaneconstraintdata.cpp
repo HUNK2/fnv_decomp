@@ -7,7 +7,8 @@
 
 // Sets b[0] and b[1] to 8 and 1 when a is nonzero, otherwise to 0 and 0.
 // @fnv 0x00d84780
-void __stdcall FUN_00d84780(unsigned char a, int* pData)
+// src: XBOX_PDB 0x00d84780
+void __stdcall hkpPointToPlaneConstraintData_getRuntimeInfo(unsigned char a, int* pData)
 {
     if (a)
     {

@@ -8,28 +8,31 @@
 struct FUN_00d87210_class
 {
     char* m_p;
-    char* __thiscall FUN_00d87210(int index);
+    char* __thiscall hkClassMemberAccessor_asPointer(int index);
 };
 
 // @fnv 0x00d87210
-char* __thiscall FUN_00d87210_class::FUN_00d87210(int index)
+// src: XBOX_PDB 0x00d87210
+char* __thiscall FUN_00d87210_class::hkClassMemberAccessor_asPointer(int index)
 {
     return m_p + index * 4;
 }
 
 // @fnv 0x00d87220
-char* __fastcall FUN_00d87220(char* self, int edx, int index)
+// src: XBOX_PDB 0x00d87220
+char* __fastcall hkClassMemberAccessor_asCstring(char* self, int edx, int index)
 {
     return *(char**)self + index * 4;
 }
 
 struct FUN_00d87260_cls
 {
-    char* __thiscall FUN_00d87260(int a);
+    char* __thiscall hkClassMemberAccessor_asHalf(int a);
 };
 
 // @fnv 0x00d87260
-char* __thiscall FUN_00d87260_cls::FUN_00d87260(int a)
+// src: XBOX_PDB 0x00d87260
+char* __thiscall FUN_00d87260_cls::hkClassMemberAccessor_asHalf(int a)
 {
     return *reinterpret_cast<char**>(this) + a * 2;
 }
@@ -76,7 +79,8 @@ void* __fastcall FUN_00d87310(void* self, int, int index)
 }
 
 // @fnv 0x00d87350
-int __fastcall FUN_00d87350(int* self, int, int idx)
+// src: XBOX_PDB 0x00d87350
+int __fastcall hkClassMemberAccessor_asHomogeneousArray(int* self, int, int idx)
 {
     int base = *self;
     return base + idx * 12;
@@ -143,10 +147,11 @@ int CpuObject::FUN_00d872e0(int amount)
 struct FUN_00d87360_class
 {
     char* m_p;
-    char* FUN_00d87360(int index);
+    char* hkClassMemberAccessor_asVariant(int index);
 };
 // @fnv 0x00d87360
-char* FUN_00d87360_class::FUN_00d87360(int index)
+// src: XBOX_PDB 0x00d87360
+char* FUN_00d87360_class::hkClassMemberAccessor_asVariant(int index)
 {
     return m_p + index * 8;
 }
@@ -205,7 +210,8 @@ template<> char& hkArrayBase<char>::FUN_00d87240(int i)
 typedef hkArrayBase<int> D87250Array;
 
 // @fnv 0x00d87250
-template<> int& hkArrayBase<int>::FUN_00d87250(int i)
+// src: XBOX_PDB 0x00d87250
+template<> int& hkArrayBase<int>::hkClassMemberAccessor_asReal(int i)
 {
     return m_data[i];
 }
@@ -249,11 +255,12 @@ struct FUN_00d87340_cls
 {
     Pair* m_p;
 
-    Pair* FUN_00d87340(int index);
+    Pair* hkClassMemberAccessor_asSimpleArray(int index);
 };
 
 // @fnv 0x00d87340
-Pair* FUN_00d87340_cls::FUN_00d87340(int index)
+// src: XBOX_PDB 0x00d87340
+Pair* FUN_00d87340_cls::hkClassMemberAccessor_asSimpleArray(int index)
 {
     return m_p + index;
 }
@@ -272,11 +279,12 @@ int FnvCpu_FUN_00d871f0_CpuObject::FUN_00d871f0()
 struct FUN_00d87200_cls
 {
     void* m_data;
-    void* FUN_00d87200();
+    void* hkClassMemberAccessor_getAddress();
 };
 
 // @fnv 0x00d87200
-void* FUN_00d87200_cls::FUN_00d87200()
+// src: XBOX_PDB 0x00d87200
+void* FUN_00d87200_cls::hkClassMemberAccessor_getAddress()
 {
     return m_data;
 }
@@ -285,11 +293,12 @@ struct D87370Obj
 {
     void* unk00;
     int unk04;
-    int __thiscall FUN_00d87370();
+    int __thiscall hkClassMemberAccessor_getClassMember();
 };
 
 // @fnv 0x00d87370
-int __thiscall D87370Obj::FUN_00d87370()
+// src: XBOX_PDB 0x00d87370
+int __thiscall D87370Obj::hkClassMemberAccessor_getClassMember()
 {
     return unk04;
 }
@@ -297,11 +306,12 @@ int __thiscall D87370Obj::FUN_00d87370()
 struct StringMemberAccessor
 {
     int* values;
-    int* FUN_00d87230(int index);
+    int* hkClassMemberAccessor_asStringPtr(int index);
 };
 
 // @fnv 0x00d87230
-int* StringMemberAccessor::FUN_00d87230(int index)
+// src: XBOX_PDB 0x00d87230
+int* StringMemberAccessor::hkClassMemberAccessor_asStringPtr(int index)
 {
     return values + index;
 }

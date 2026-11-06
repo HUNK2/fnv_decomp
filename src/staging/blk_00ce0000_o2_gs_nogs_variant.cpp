@@ -130,7 +130,7 @@ struct FnvSpawnedObject
 bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj);
 void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
 void __cdecl hkaSkeletonMapper_mapExtractedMotion(int param_1, int param_2, int param_3);
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(int a1, int a2, int a3, int a4, int a5, int a6);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4);
 struct FnvKeyRec
 {
@@ -159,14 +159,14 @@ struct FUN_00ce5480_cls
     int m_uiItemCount;
 };
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
-void __cdecl FUN_00d86160(void* stream, void* self);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(void* stream, void* self);
 struct FUN_00cf4490_cls
 {
     char unk00[0x14];
     unsigned int m_14;
     unsigned int m_18;
     unsigned char m_1c;
-    void FUN_00cf4490(void* stream);
+    void bhkVelocityConstraintMotor_SaveBinary(void* stream);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
@@ -176,7 +176,7 @@ struct SerializedObject
     int base00, base04, base08, base0C, base10, word14, word18;
     void __thiscall SerializeToStream(int source);
 };
-extern "C" void __cdecl FUN_00d86160(int, SerializedObject*);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(int, SerializedObject*);
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
 extern __declspec(thread) int g_iCF4BC0AllocTag;
 struct CF4BC0AllocTagScope
@@ -227,10 +227,10 @@ class CF4BC0Saver
     void SetObject(CF4BC0Object* pkObject);
 };
 CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
-void __cdecl FUN_00cf4bc0(NiStream& kStream, CF4BC0Object* pkObject);
+void __cdecl bhkConstraintManager_SaveBinary(NiStream& kStream, CF4BC0Object* pkObject);
 extern int DAT_010cc2fc;
 extern int DAT_0102e388;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct SubObject_b3813
 {
     int unk00;
@@ -705,7 +705,7 @@ static inline void WriteData(Stream* s, void* data, int size)
     int count = size;
     s->pos += s->io(s, data, size, &count, 1);
 }
-void FUN_00cf09a0(StreamOwner* owner, Record* rec);
+void bhkPoseArray_bhkPose_SaveBinary(StreamOwner* owner, Record* rec);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct ArrayData
 {
@@ -750,12 +750,12 @@ struct FUN_00cf4190 : FUN_00cdf560
 };
 extern int DAT_01268730;
 int* bhkPositionConstraintMotor_GetRTTI();
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(void* view, void* object);
 struct SerializedRecord
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     unsigned int m_14, m_18, m_1c, m_20;
-    void FUN_00cf41c0(NiStream* view);
+    void bhkPositionConstraintMotor_LoadBinary(NiStream* view);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
@@ -765,7 +765,7 @@ template <class T> inline void NiStreamSaveBinaryCF46(NiBinaryStream& kStream, c
     unsigned int uiSize = sizeof(T);
     kStream.BinaryWrite(&kValue, sizeof(T), &uiSize, 1);
 }
-void __cdecl FUN_00d86100(NiStream* ar, void* obj);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream* ar, void* obj);
 class hkObjCF46
 {
   public:
@@ -1036,7 +1036,7 @@ template <class T> inline void NiStreamLoadBinaryCF42(NiBinaryStream& kStream, T
     kStream.BinaryRead(&kValue, sizeof(T), &uiSize, 1);
 }
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStream& kStream, SerializableCF42* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(NiStream& kStream, SerializableCF42* pkObject);
 class SerializableCF42
 {
   public:
@@ -1046,7 +1046,7 @@ class SerializableCF42
     unsigned int m_uiValue1C;
     unsigned int m_uiValue20;
 
-    void FUN_00cf4260(NiStream& kStream);
+    void bhkPositionConstraintMotor_SaveBinary(NiStream& kStream);
 };
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
@@ -1076,7 +1076,7 @@ template <class T> inline void NiStreamLoadBinaryCF44(NiBinaryStream& kStream, T
     kStream.BinaryRead(&kValue, sizeof(T), &uiSize, 1);
 }
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStream& kStream, SerializableCF44* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream& kStream, SerializableCF44* pkObject);
 class SerializableCF44
 {
   public:
@@ -1085,7 +1085,7 @@ class SerializableCF44
     unsigned int m_uiValue18;
     unsigned char m_ucValue1C;
 
-    void FUN_00cf4400(NiStream& kStream);
+    void bhkVelocityConstraintMotor_LoadBinary(NiStream& kStream);
 };
 class CF4BC0SaverLoader
 {
@@ -1118,7 +1118,7 @@ struct AllocScope
         g_iCF4BC0AllocTag = saved;
     }
 };
-hkReferencedObject* __cdecl FUN_00cf4af0(NiStream& kStream);
+hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream);
 void FUN_00cf6d10();
 class hkRefObjCF70 : public hkBaseObject
 {
@@ -1207,7 +1207,7 @@ void CallerX(hkVector4* a, hkVector4* b)
 struct SubMatrix
 {
     __m128 m_row[4];
-    void FUN_00cb2d90(const float* pQuat);
+    void hkRotation_set(const float* pQuat);
 };
 
 struct TransformOwner
@@ -1296,7 +1296,7 @@ extern "C" __m128* cf8b60_quat(void);
 static __declspec(noinline) void FUN_00cf8b60(TransformOwner* self, __m128* pQuat)
 {
     SubMatrix* m = &self->m_matrix;
-    m->FUN_00cb2d90((const float*)pQuat);
+    m->hkRotation_set((const float*)pQuat);
     __m128 q = self->m_quat170;
     __m128 v = _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(1, 1, 1, 1)), m->m_row[1]);
     v = _mm_add_ps(v, _mm_mul_ps(_mm_shuffle_ps(q, q, _MM_SHUFFLE(0, 0, 0, 0)), m->m_row[0]));

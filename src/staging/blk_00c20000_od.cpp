@@ -17,13 +17,14 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char __thiscall BSMultiBoundRoom_IsEqual(void* arg);
     char __thiscall IsSameAs(void* arg);
 };
 
 // Calls IsSameAs with arg and returns its result unchanged.
 // @fnv 0x00c3a090
-char __thiscall FUN_00c3a090_Class::FUN_00c3a090(void* arg)
+// src: XBOX_PDB 0x00c3a090
+char __thiscall FUN_00c3a090_Class::BSMultiBoundRoom_IsEqual(void* arg)
 {
     char result = IsSameAs(arg);
     return result;
@@ -136,7 +137,7 @@ extern int DAT_010c14fc;
 struct FUN_00c3d930_Class
 {
     void* vftable;
-    void __thiscall FUN_00c3d980(int);
+    void __thiscall BSSimpleArray_NiPointer_QueuedFile_1024_Clear(int);
     void __thiscall FUN_00c3d930();
 };
 
@@ -146,7 +147,7 @@ void __thiscall FUN_00c3d930_Class::FUN_00c3d930()
 {
     char buf[0x18];
     vftable = &DAT_010c14fc;
-    FUN_00c3d980(1);
+    BSSimpleArray_NiPointer_QueuedFile_1024_Clear(1);
 }
 
 struct FUN_00c3f6f0_Class
@@ -226,7 +227,7 @@ void* FUN_00c3a080_Class::BSMultiBoundRoom_CreateClone(int arg)
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 struct FUN_00c3a0c0_Class
 {
-    void* __thiscall FUN_00c46e70(unsigned int a);
+    void* __thiscall BSMultiBoundNode_GetViewerStrings(unsigned int a);
     void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
 };
 // @fnv 0x00c3a0c0
@@ -238,7 +239,7 @@ void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
         unsigned int u;
     } locals;
     char pad[12];
-    FUN_00c46e70(pArray);
+    BSMultiBoundNode_GetViewerStrings(pArray);
     locals.p = g_01202828;
     locals.u = (unsigned int)NiViewerStrings_NiGetViewerString_Title(locals.p);
     ((NiTPrimitiveArray<unsigned int>*)pArray)->AddFirstEmpty(locals.u);
@@ -303,7 +304,8 @@ void* FUN_00c3a140_Class::FUN_00c3a140(unsigned int flags)
 
 // Calls UpdateDownwardPass with data and flags, then invokes the object's virtual method at vtable slot 47 on this.
 // @fnv 0x00c3a5b0
-void __thiscall BSMultiBoundNode::FUN_00c3a5b0(NiUpdateData& aUpdateData, unsigned int flags)
+// src: XBOX_PDB 0x00c3a5b0
+void __thiscall BSMultiBoundNode::UpdateDownwardPass_00c3a5b0(NiUpdateData& aUpdateData, unsigned int flags)
 {
     NiNode::UpdateDownwardPass(aUpdateData, flags);
     UpdateWorldBound();
@@ -500,7 +502,7 @@ void* __thiscall FUN_00c3fe00_Class::LockFreeMapInterface_LockFreeMapInterface(i
     return this;
 }
 
-void __fastcall FUN_0044dd60(void*);
+void __fastcall BSTask_int64_DecRefCount(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
@@ -533,7 +535,7 @@ bool FUN_00c3fe80_Class::LockFreeMapInterface_GetAt(int aiArg1, int aiArg2, int 
                                 if (*ppOut != *src)
                                 {
                                     if (*ppOut)
-                                        FUN_0044dd60(*ppOut);
+                                        BSTask_int64_DecRefCount(*ppOut);
                                     *ppOut = *src;
                                     if (*ppOut)
                                     {
@@ -566,7 +568,8 @@ bool FUN_00c3fe80_Class::LockFreeMapInterface_GetAt(int aiArg1, int aiArg2, int 
 }
 
 // @fnv 0x00c33090
-int __cdecl FUN_00c33090(const char* p)
+// src: XBOX_PDB 0x00c33090
+int __cdecl Setting_DataType_00c33090(const char* p)
 {
     int result = 9;
     if (p)
@@ -1081,12 +1084,13 @@ class FUN_00c39a80_cls
         unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4,
         unkb8, unkbc;
     Mid m_c0;
-    void FUN_00c39a80(unsigned int a1);
+    void BSMultiBoundRoom_AddOccluder(unsigned int a1);
 };
 
 // If a1 is nonzero, acquires a Node from m_c0's Sub08, stores a1 in its m_08, and passes it to m_c0.Consume.
 // @fnv 0x00c39a80
-void FUN_00c39a80_cls::FUN_00c39a80(unsigned int auiValue)
+// src: XBOX_PDB 0x00c39a80
+void FUN_00c39a80_cls::BSMultiBoundRoom_AddOccluder(unsigned int auiValue)
 {
     Scratch18 scratch;
     Node* n;
@@ -1167,7 +1171,7 @@ struct FUN_00c3a4b0_node
 struct FUN_00c3a4b0_sub
 {
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0045cee0(FUN_00c3a4b0_node* p);
+    void __thiscall NiTPointerAllocator_unsigned_int_Deallocate(FUN_00c3a4b0_node* p);
 };
 
 struct FUN_00c3a4b0_cls
@@ -1194,7 +1198,7 @@ unsigned int FUN_00c3a4b0_cls::FUN_00c3a4b0()
     }
     unsigned int uiValue = pRemoved->m_08;
     pRemoved->m_08 = 0;
-    this->m_08.FUN_0045cee0(pRemoved);
+    this->m_08.NiTPointerAllocator_unsigned_int_Deallocate(pRemoved);
     this->m_08.m_uiItemCount = this->m_08.m_uiItemCount - 1;
     return uiValue;
 }
@@ -1458,8 +1462,8 @@ void __cdecl MessageHandler_Init(unsigned char ucParam1, unsigned char ucParam2,
     DAT_011f6388 = DAT_01202d74;
 }
 
-int* __cdecl FUN_00c3bb80();
-int __cdecl FUN_00aff0b0(const char* p);
+int* __cdecl MessageHandler_GetWarningFileName();
+int __cdecl BSSystemFile_DeleteFileA(const char* p);
 int __cdecl GetFileSize(int* buf, int* out);
 
 
@@ -1467,10 +1471,10 @@ int __cdecl GetFileSize(int* buf, int* out);
 MessageHandler::~MessageHandler()
 {
     int info[9];
-    if (GetFileSize(FUN_00c3bb80(), &info[7]) == 0)
+    if (GetFileSize(MessageHandler_GetWarningFileName(), &info[7]) == 0)
     {
         if (info[7] == 0x46 && info[8] == 0)
-            FUN_00aff0b0((const char*)FUN_00c3bb80());
+            BSSystemFile_DeleteFileA((const char*)MessageHandler_GetWarningFileName());
     }
     if (MessageHandler::pHandler == this)
         MessageHandler::pHandler = 0;
@@ -1483,7 +1487,8 @@ int FUN_00c3be40()
 }
 
 // @fnv 0x00c3c220
-int __cdecl FUN_00c3c220()
+// src: XBOX_PDB 0x00c3c220
+int __cdecl MessageHandler_Output()
 {
     return 0;
 }
@@ -1619,7 +1624,7 @@ struct C3CAE0TaskArray
 class C3CAE0Manager
 {
   public:
-    void FUN_00c3df40(void* pvTask, int iStatus);
+    void IOManager_RequeueTask(void* pvTask, int iStatus);
 };
 
 extern C3CAE0Manager* g_pkC3CAE0Manager;
@@ -1655,7 +1660,7 @@ void C3CAE0Request::NotifyTasks(int iStatus)
                 pkTask->Notify(iStatus);
         }
     }
-    g_pkC3CAE0Manager->FUN_00c3df40(this, iStatus);
+    g_pkC3CAE0Manager->IOManager_RequeueTask(this, iStatus);
 }
 
 struct C3D3E0Heap
@@ -1836,16 +1841,17 @@ struct FUN_00c3df40_Param1
 
 struct FUN_00c3df40_Class
 {
-    void __thiscall FUN_00c3e690(FUN_00c3df40_Param1* a1, __int64 a2);
-    void __thiscall FUN_00c3df40(FUN_00c3df40_Param1* a1, int a2);
+    void __thiscall BSTaskManager_int64_RequeueTask(FUN_00c3df40_Param1* a1, __int64 a2);
+    void __thiscall IOManager_RequeueTask(FUN_00c3df40_Param1* a1, int a2);
 };
 
 // @fnv 0x00c3df40
-void __thiscall FUN_00c3df40_Class::FUN_00c3df40(FUN_00c3df40_Param1* pParam, int iValue)
+// src: XBOX_PDB 0x00c3df40
+void __thiscall FUN_00c3df40_Class::IOManager_RequeueTask(FUN_00c3df40_Param1* pParam, int iValue)
 {
     __int64 val = pParam->unk10;
     val = (val & 0xFFFFFFFFFF00FFFFULL) + ((__int64)iValue << 16);
-    this->FUN_00c3e690(pParam, val);
+    this->BSTaskManager_int64_RequeueTask(pParam, val);
 }
 
 struct FUN_00c3f650_cls
@@ -1909,7 +1915,7 @@ struct FUN_00c3fa70_elem
 
 struct DynamicMemoryAllocator
 {
-    void FUN_00aa4060(void* apPtr);
+    void MemoryManager_Deallocate(void* apPtr);
 };
 
 extern "C" DynamicMemoryAllocator DAT_011f6238;
@@ -1960,9 +1966,9 @@ FUN_00c3fa70_cls::~FUN_00c3fa70_cls()
         (eTmp != 0) ? eTmp->vDtor(1) : 0;
     }
     void* pItems = m_ppItems50;
-    DAT_011f6238.FUN_00aa4060(pItems);
+    DAT_011f6238.MemoryManager_Deallocate(pItems);
     void* pTail2 = m_p54;
-    DAT_011f6238.FUN_00aa4060(pTail2);
+    DAT_011f6238.MemoryManager_Deallocate(pTail2);
 }
 
 struct BoundShape
@@ -2091,11 +2097,12 @@ struct MultiBoundNodeStandIn
     int unkC8;
     BoundShape* pBound;
 
-    void FUN_00c39890(NiCullingProcess& kCuller);
+    void BSMultiBoundRoom_OnVisible(NiCullingProcess& kCuller);
 };
 
 // @fnv 0x00c39890
-void MultiBoundNodeStandIn::FUN_00c39890(NiCullingProcess& kCuller)
+// src: XBOX_PDB 0x00c39890
+void MultiBoundNodeStandIn::BSMultiBoundRoom_OnVisible(NiCullingProcess& kCuller)
 {
     CullerData* pProcB = 0;
     int bVis;
@@ -2185,13 +2192,13 @@ void __cdecl nullsub_344()
 void __cdecl nullsub_345()
 {}
 
-int __cdecl FUN_00c33090(const char* p);
-unsigned int __cdecl FUN_00a7d370(const char* buf, bool v);
+int __cdecl Setting_DataType_00c33090(const char* p);
+unsigned int __cdecl NiGetViewerString(const char* buf, bool v);
 unsigned int __cdecl FormatStringAssignment(const char* buf, char v);
-unsigned int __cdecl FUN_00a7d4d0(const char* buf, int v);
-unsigned int __cdecl FUN_00a7d510(const char* buf, unsigned int v);
-unsigned int __cdecl FUN_00a7d550(const char* buf, float v);
-char* __cdecl FUN_00a7d5e0(const char* buf, const char* v);
+unsigned int __cdecl NiGetViewerString_00a7d4d0(const char* buf, int v);
+unsigned int __cdecl NiGetViewerString_00a7d510(const char* buf, unsigned int v);
+unsigned int __cdecl NiGetViewerString_00a7d550(const char* buf, float v);
+char* __cdecl NiGetViewerString_00a7d5e0(const char* buf, const char* v);
 
 union SettingValue
 {
@@ -2209,12 +2216,13 @@ struct FUN_00c33280_Class
     unsigned int m_00;
     SettingValue value;
     const char* m_08;
-    void __thiscall FUN_00c33280(NiTPrimitiveArray<unsigned int>* arr);
+    void __thiscall Setting_GetViewerStrings(NiTPrimitiveArray<unsigned int>* arr);
 };
 
 // Builds two spaces plus m_08 in a 256-byte buffer, formats value by the type from FUN_00c33090(m_08), and adds the helper's result to arr via AddFirstEmpty.
 // @fnv 0x00c33280
-void __thiscall FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray<unsigned int>* arr)
+// src: XBOX_PDB 0x00c33280
+void __thiscall FUN_00c33280_Class::Setting_GetViewerStrings(NiTPrimitiveArray<unsigned int>* arr)
 {
     char aBuf[256];
     unsigned int ai;
@@ -2246,11 +2254,11 @@ void __thiscall FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray<unsigned int>
     strcpy_s(aBuf, 256, "  ");
     da = m_08;
     strcat_s(aBuf, 256, da);
-    switch (FUN_00c33090(m_08))
+    switch (Setting_DataType_00c33090(m_08))
     {
     case 0:
         d4 = this ? &value.boolean : (DAT_01202800.boolean = false, &DAT_01202800.boolean);
-        bi = FUN_00a7d370(aBuf, *d4);
+        bi = NiGetViewerString(aBuf, *d4);
         arr->AddFirstEmpty(bi);
         break;
     case 1:
@@ -2260,12 +2268,12 @@ void __thiscall FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray<unsigned int>
         arr->AddFirstEmpty(gf);
     case 3:
         ap = this ? &value.integer : (DAT_01202800.integer = 0, &DAT_01202800.integer);
-        fl = FUN_00a7d4d0(aBuf, *ap);
+        fl = NiGetViewerString_00a7d4d0(aBuf, *ap);
         arr->AddFirstEmpty(fl);
         break;
     case 5:
         ff = this ? &value.real : (DAT_01202800.real = 0.0f, &DAT_01202800.real);
-        eh = FUN_00a7d550(aBuf, *ff);
+        eh = NiGetViewerString_00a7d550(aBuf, *ff);
         arr->AddFirstEmpty(eh);
         break;
     case 6:
@@ -2273,13 +2281,13 @@ void __thiscall FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray<unsigned int>
             em = value.string;
         else
             em = 0;
-        dt = (unsigned int)FUN_00a7d5e0(aBuf, em);
+        dt = (unsigned int)NiGetViewerString_00a7d5e0(aBuf, em);
         arr->AddFirstEmpty(dt);
         break;
     case 4:
     default:
         cb = this ? &value.unsignedInteger : (DAT_01202800.unsignedInteger = 0, &DAT_01202800.unsignedInteger);
-        dg = FUN_00a7d510(aBuf, *cb);
+        dg = NiGetViewerString_00a7d510(aBuf, *cb);
         arr->AddFirstEmpty(dg);
         break;
     }
@@ -2295,12 +2303,13 @@ struct FUN_00c39ad0_Class
     int unk00[0x30];
     FUN_00c3a250_Class m_c0;
 
-    void FUN_00c39ad0(int a);
+    void BSMultiBoundRoom_RemoveOccluder(int a);
 };
 
 // If a is non-zero, forwards it to m_c0.FUN_00c3a250.
 // @fnv 0x00c39ad0
-void FUN_00c39ad0_Class::FUN_00c39ad0(int a)
+// src: XBOX_PDB 0x00c39ad0
+void FUN_00c39ad0_Class::BSMultiBoundRoom_RemoveOccluder(int a)
 {
     int pad0[10];
     int pad1[9];
@@ -2326,7 +2335,7 @@ struct S00c3a2e0_Node
 struct S00c3a2e0_Alloc
 {
     void* unk00;
-    void FUN_0045cee0(void* value);
+    void NiTPointerAllocator_unsigned_int_Deallocate(void* value);
 };
 
 struct S00c3a2e0_Cls
@@ -2356,7 +2365,7 @@ void S00c3a2e0_Cls::FUN_00c3a2e0()
         pNext = p;
         p = p->unk00;
         pNext->unk08.FUN_0066b0d0(0);
-        this->unk08.FUN_0045cee0(pNext);
+        this->unk08.NiTPointerAllocator_unsigned_int_Deallocate(pNext);
     }
     this->unk08.unk00 = 0;
     this->unk00 = 0;
@@ -2380,7 +2389,7 @@ struct C3BEFile
     int m_00, m_04, m_08, m_0c, m_10;
     C3BEFile(const char*, int, int, int);
     ~C3BEFile();
-    int FUN_00afede0(const char*, unsigned __int64, unsigned __int64*);
+    int BSSystemFile_DoWrite(const char*, unsigned __int64, unsigned __int64*);
     int BSSystemFile_DoFlush();
 };
 // Returns true immediately; the unreachable code after it writes text to path through a file object, recursing once with a message under a critical section.
@@ -2410,11 +2419,11 @@ bool __cdecl MessageHandler_WriteFile(const char* path, const char* text, bool f
     {
         unsigned __int64 written = strlen(text);
         unsigned __int64 length;
-        file.m_00 = file.FUN_00afede0(text, written, &length);
+        file.m_00 = file.BSSystemFile_DoWrite(text, written, &length);
         if (!DAT_01202d90 && success && (text[written - 2] != '\r' || text[written - 1] != '\n'))
         {
             written = 2;
-            file.m_00 = file.FUN_00afede0(DAT_0101f520, written, &length);
+            file.m_00 = file.BSSystemFile_DoWrite(DAT_0101f520, written, &length);
         }
         if (flush)
             file.m_00 = file.BSSystemFile_DoFlush();
@@ -2428,7 +2437,7 @@ bool __cdecl MessageHandler_WriteFile(const char* path, const char* text, bool f
 void __cdecl nullsub_341()
 {}
 
-void __fastcall FUN_0044dd60(void*);
+void __fastcall BSTask_int64_DecRefCount(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long* value);
 
 struct Obj090
@@ -2484,7 +2493,7 @@ void FUN_00c42b60_class::FUN_00c3f090(Node090* node)
     if (Dir3->ptr != 0)
     {
         if (Dir3->ptr)
-            FUN_0044dd60(Dir3->ptr);
+            BSTask_int64_DecRefCount(Dir3->ptr);
         Dir3->ptr = 0;
         if (Dir3->ptr)
         {

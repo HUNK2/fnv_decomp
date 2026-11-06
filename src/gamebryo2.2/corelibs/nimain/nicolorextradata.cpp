@@ -56,12 +56,13 @@ static __forceinline NiColorExtraData* InitializeColorExtraData(NiColorExtraData
 
 static __forceinline void CopyColorExtraData(NiColorExtraData* self, NiColorExtraData* pkDest, CloningProcess& kCloning)
 {
-    self->NiExtraData::FUN_00a7b330(pkDest, &kCloning);
+    self->NiExtraData::CopyMembers_00a7b330(pkDest, &kCloning);
     pkDest->m_kFogTint = self->m_kFogTint;
 }
 
 // @fnv 0x00a893d0
-void NiColorExtraData::FUN_00a893d0(NiStream& kStream)
+// src: XBOX_PDB 0x00a893d0
+void NiColorExtraData::SaveBinary_00a893d0(NiStream& kStream)
 {
     NiExtraData::SaveBinary(kStream);
     m_kFogTint.SaveBinary(kStream);

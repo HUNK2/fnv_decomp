@@ -26,14 +26,14 @@ void Precipitation::Load(const char* path)
             model->UpdateDownwardPass(kUpdateData, 0);
             m_pPrecipitationNode = new NiSortAdjustNode(0);
             fEmissionRate = 0.0f;
-            for (unsigned int index = 0; index < model->FUN_00453470(); ++index)
+            for (unsigned int index = 0; index < model->NiNode_GetChildCount(); ++index)
             {
                 NiAVObject* m_pShaderGeometry = model->FUN_0043b4a0(index)->IsSceneNode();
                 SkyShaderProperty* pShaderProperty =
-                    m_pShaderGeometry ? FUN_00653270(&DAT_012024e0, m_pShaderGeometry->FUN_0045bc00(false)) : 0;
+                    m_pShaderGeometry ? NiObject_DynamicCast(&DAT_012024e0, m_pShaderGeometry->NiNode_GetAtChecked(false)) : 0;
                 if (!pShaderProperty)
                     continue;
-                NiAVObject* precipParticle = CreateParticleShape(pShaderProperty, pParent->FUN_00461130(bIsSnow));
+                NiAVObject* precipParticle = CreateParticleShape(pShaderProperty, pParent->NiAVObject_GetWorldRotate(bIsSnow));
                 if (precipParticle)
                     static_cast<NiNode*>(m_pPrecipitationNode)->AttachChildInAvailableSlot(precipParticle, true);
             }
@@ -91,7 +91,7 @@ struct PrecipQueuedObject
 
 struct PrecipManager
 {
-    void FUN_00444040(void* object);
+    void ModelLoader_QueueModel_00444040(void* object);
 };
 
 extern PrecipManager* DAT_011c3b3c;
@@ -104,7 +104,7 @@ void Precipitation::QueuePrecipitationObject(PrecipQueuedObject* object)
 
     if (object != 0 && object->FUN_0048cee0() != 0)
     {
-        DAT_011c3b3c->FUN_00444040(object->vfn_0014(0, 0, 0, 0, 0, 0));
+        DAT_011c3b3c->ModelLoader_QueueModel_00444040(object->vfn_0014(0, 0, 0, 0, 0, 0));
         m_pPrecipitationData = object;
     }
     else

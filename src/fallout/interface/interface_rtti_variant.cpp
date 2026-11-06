@@ -11,25 +11,25 @@
 
 const char kMeshesFolder[] = "Meshes";
 unsigned int NiVertexColorProperty_GetType();
-bool FUN_00705100();
+bool DialogMenu_IsDialogActive();
 unsigned int HudMainMenu_GetMenuID();
-bool FUN_00707b50();
+bool Renderer_GetWidescreen();
 
 class InterfaceManagerKey
 {
   public:
-    bool FUN_009373f0();
+    bool TESTextureList_GetTextureCount();
 };
-Tile* __cdecl FUN_00a09030(unsigned int eLine);
+Tile* __cdecl Tile_GetMenuByClass(unsigned int eLine);
 void __cdecl VATSMenu_Create();
 
 // @fnv 0x00705640
 // src: COMMUNITY 0x00705640
 void __cdecl Interface_CreateVATSMenu()
 {
-    if (InterfaceManager_GetSingleton() && ((InterfaceManagerKey*)InterfaceManager_GetSingleton())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManagerKey*)InterfaceManager_GetSingleton())->TESTextureList_GetTextureCount())
     {
-        const Tile* pkTileMenu = FUN_00a09030(1056u);
+        const Tile* pkTileMenu = Tile_GetMenuByClass(1056u);
         VATSMenu* pkMenu = pkTileMenu ? dynamic_cast<VATSMenu*>(pkTileMenu->GetMenu()) : 0;
         if (pkMenu)
             delete pkMenu;
@@ -37,21 +37,21 @@ void __cdecl Interface_CreateVATSMenu()
     }
 }
 
-Tile* FUN_00a09030(int);
+Tile* Tile_GetMenuByClass(int);
 class Iface2
 {
   public:
-    bool FUN_009373f0();
+    bool TESTextureList_GetTextureCount();
 };
-void FUN_007c01b0();
+void SleepWaitMenu_Close();
 // @fnv 0x007055c0
 void FUN_007055c0()
 {
-    if (InterfaceManager_GetSingleton() && ((Iface2*)InterfaceManager_GetSingleton())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((Iface2*)InterfaceManager_GetSingleton())->TESTextureList_GetTextureCount())
     {
-        const Tile* a = FUN_00a09030(0x3f4);
+        const Tile* a = Tile_GetMenuByClass(0x3f4);
         SleepWaitMenu* b = a ? dynamic_cast<SleepWaitMenu*>(a->GetMenu()) : 0;
         if (b)
-            FUN_007c01b0();
+            SleepWaitMenu_Close();
     }
 }

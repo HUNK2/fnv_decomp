@@ -9,7 +9,7 @@
 
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
+    void hkTransform_set4x4ColumnMajor(void* src);
 };
 struct SourceBlockCDF
 {
@@ -36,7 +36,7 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
+    void hkMatrix3_setMul(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {
@@ -82,7 +82,7 @@ struct FUN_00de8da0_Class
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00de8da0(void* dst, const float* src);
+    void hkMatrix4_setMul(void* dst, const float* src);
 };
 __declspec(noinline) void FUN_00de8910_Class::FUN_00de8910(float s)
 {
@@ -227,7 +227,7 @@ class S00de92d0_Matrix3
         getColumn(1).set(r0(1), r1(1), r2(1));
         getColumn(2).set(r0(2), r1(2), r2(2));
     }
-    S00de92d0_Result FUN_00cd4f10(float epsilon);
+    S00de92d0_Result invert_00cd4f10(float epsilon);
     __forceinline void multiplyVector(const S00de92d0_Vector4& v, S00de92d0_Vector4& resultOut) const
     {
         S00de92d0_Vector4 xb;
@@ -261,7 +261,7 @@ bool __cdecl S00de92d0_GeometryProcessing::FUN_00de92d0(const S00de92d0_Vector4&
     S00de92d0_Vector4 d;
     d.set(-p0.getSimdAt(3), -p1.getSimdAt(3), -p2.getSimdAt(3), 0.0f);
     m.setRows(p0, p1, p2);
-    if (m.FUN_00cd4f10(1.192092896e-07f) == S00de92d0_SUCCESS)
+    if (m.invert_00cd4f10(1.192092896e-07f) == S00de92d0_SUCCESS)
     {
         m.multiplyVector(d, intersection);
         return true;

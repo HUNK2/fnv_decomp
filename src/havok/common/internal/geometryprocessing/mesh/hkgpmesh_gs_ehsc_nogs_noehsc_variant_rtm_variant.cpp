@@ -65,7 +65,7 @@ public:
     PacketCallLocal_00e19d60(float x, float y, float z, float w);
     PacketCallLocal_00e19d60(const __m128& vector);
 
-    PacketCallLocal_00e19d60* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00e19d60* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00e19d60* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00e19d60* vector);
     PacketCallLocal_00e19d60& FUN_00e531a0(int parameter);
@@ -248,7 +248,7 @@ struct Allocator
     virtual void v0c();
     __declspec(nothrow) virtual void freeBlock(void*, int);
 };
-__declspec(nothrow) hkMemoryRouter& __cdecl FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 struct VectorArray
 {
     PacketCallLocal_00e19d60* data;
@@ -284,7 +284,7 @@ struct FUN_00d76ca0
     }
     static void* operator new(unsigned int bytes)
     {
-        return allocate(reinterpret_cast<Allocator&>(FUN_00c85750().heap()), bytes);
+        return allocate(reinterpret_cast<Allocator&>(hkMemoryRouter_getInstance().heap()), bytes);
     }
     __declspec(nothrow) void hkgpConvexHull_build(PacketCallLocal_00e19d60*, int, const Options&);
     __declspec(nothrow) int FUN_00d74e10();
@@ -350,7 +350,7 @@ struct Hull
     unsigned int unke0;
     FUN_00d76ca0* builder;
     __declspec(nothrow) void ReleaseSubobject();
-    __declspec(nothrow) void FUN_00e12640(VectorArray&);
+    __declspec(nothrow) void hkgpMesh_fetchPositions(VectorArray&);
     bool BuildHull();
 };
 void __cdecl __debugbreak();
@@ -1023,7 +1023,7 @@ struct Triple
 {
     Components first, second, third;
 };
-int __cdecl FUN_00deab10(void*, const Triple*);
+int __cdecl hkGeometryProcessing_checkTrianglesIntersection(void*, const Triple*);
 struct FUN_00e22270_Class
 {
     int unk00;
@@ -1957,7 +1957,7 @@ class CC0280Writer
 };
 struct BSAudio;
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 }
 struct FUN_00d9be30_cls
 {
@@ -2091,7 +2091,7 @@ struct CastBody
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     CastTri* m_tri;
 };
-bool __cdecl FUN_00dea6b0(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
+bool __cdecl hkGeometryProcessing_checkPointInsideTriangle(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
 static inline MeshSimdReal Dot3(__m128 a, __m128 b)
 {
     const __m128 m = _mm_mul_ps(a, b);
@@ -2141,7 +2141,7 @@ struct SceneSet
     SceneBone* m_0c;
     SceneBone* m_10;
 };
-void __cdecl FUN_00cbeb70(void* v, int count, void* p);
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(void* v, int count, void* p);
 typedef unsigned int BufferAddress138;
 struct FUN_00e227f0_cls
 {
@@ -2215,7 +2215,7 @@ struct S_00e12260_Collector : S_00e12260_CollectorBase
     }
     virtual void AddHit(int hit);
 };
-void FUN_00cbeb70(const PacketCallLocal_00e19d60* verts, int numVerts, S_00e12260_Aabb& aabbOut);
+void hkAabbUtil_calcAabb_00cbeb70(const PacketCallLocal_00e19d60* verts, int numVerts, S_00e12260_Aabb& aabbOut);
 void FUN_00d1d570(void* tree, const S_00e12260_Aabb& aabb, S_00e12260_Collector* collector);
 struct S_00e12260
 {
@@ -2396,7 +2396,7 @@ struct FUN_00e221e0_Input
     int unk1C;
     FUN_00e221e0_Triangle* unk20;
 };
-float __cdecl FUN_00de9f10(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest,
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToTriangle(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest,
                            Float4* weights);
 struct FUN_00e221e0_Collector
 {
@@ -2461,7 +2461,7 @@ template <class T> struct ArrAB
 struct FUN_00e22f90_cls
 {
     ArrAB<PoolBlockAB*> m_kBlocks;
-    void FUN_00e22f90(PoolItemAB* item);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(PoolItemAB* item);
 };
 extern int DAT_010eade0;
 struct FUN_00e121c0_probe
@@ -2504,7 +2504,7 @@ struct TrianglePool
     TriangleNode* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(void* p);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(void* p);
     __forceinline void remove(TriangleNode* t)
     {
         TriangleNode* next = t->m_next;
@@ -2516,7 +2516,7 @@ struct TrianglePool
         else
             m_pFirstNode = next;
         m_uiItemCount--;
-        FUN_00e22f90(t);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(t);
     }
 };
 static __forceinline void bind(S_00e13910_Edge a, S_00e13910_Edge b)
@@ -2608,7 +2608,7 @@ struct FUN_00e21d40_cls
     hkVector4 m_10;
     hkVector4 m_20;
 
-    void FUN_00e21d40(const hkVector4* dir, hkVector4* out);
+    void hkgpMesh_LineShape_getSupportingVertex(const hkVector4* dir, hkVector4* out);
 };
 static float DotProduct3(__m128 a, __m128 b)
 {
@@ -2684,7 +2684,7 @@ struct GpPool
 
     static void operator delete(void* p, unsigned int size)
     {
-        ((BlockAllocAB*)&reinterpret_cast<Allocator&>(FUN_00c85750().heap()))->ReleaseBlock(p, size);
+        ((BlockAllocAB*)&reinterpret_cast<Allocator&>(hkMemoryRouter_getInstance().heap()))->ReleaseBlock(p, size);
     }
 };
 struct GpPoolAllocator
@@ -2940,12 +2940,13 @@ struct S00e19d60_Mesh
 {
     S00e19d60_Edge FUN_00e191a0(S00e19d60_Edge e, const PacketCallLocal_00e19d60& p, bool b);
     void FUN_00e19200(S00e19d60_Triangle* t, const PacketCallLocal_00e19d60& p, bool b);
-    static bool __cdecl FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Triangle* triA, S00e19d60_Mesh* meshB,
+    static bool __cdecl hkgpMesh_clipTriangles(S00e19d60_Mesh* meshA, S00e19d60_Triangle* triA, S00e19d60_Mesh* meshB,
                                      S00e19d60_Triangle* triB, float minDistance);
 };
 
 // @fnv 0x00e19d60
-bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Triangle* triA, S00e19d60_Mesh* meshB,
+// src: XBOX_PDB 0x00e19d60
+bool __cdecl S00e19d60_Mesh::hkgpMesh_clipTriangles(S00e19d60_Mesh* meshA, S00e19d60_Triangle* triA, S00e19d60_Mesh* meshB,
                                           S00e19d60_Triangle* triB, float minDistance)
 {
     const float sqDistance = minDistance * minDistance;
@@ -3049,7 +3050,7 @@ bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Trian
                     PacketCallLocal_00e19d60 x;
                     MeshVector_setInterpolate4(x, a, b, t);
                     if (MeshVector_distanceToSquared3(x, a) > sqDistance && MeshVector_distanceToSquared3(x, b) > sqDistance &&
-                        ::FUN_00dea6b0((const ::Vec4f*)&x, (const ::Vec4f&)vertices[0], (const ::Vec4f&)vertices[1],
+                        ::hkGeometryProcessing_checkPointInsideTriangle((const ::Vec4f*)&x, (const ::Vec4f&)vertices[0], (const ::Vec4f&)vertices[1],
                                        (const ::Vec4f&)vertices[2], -1.1920929e-07f))
                     {
                         meshes[j]->FUN_00e191a0(e, x, false);

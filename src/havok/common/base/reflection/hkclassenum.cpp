@@ -89,7 +89,7 @@ struct hkMemoryRouterXdb76f0
 };
 
 namespace hkRouterXdb76f0 {
-extern "C" hkMemoryRouterXdb76f0& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouterXdb76f0& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -106,7 +106,7 @@ template <class T> class hkArrayXdb76f0LocalForm
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXdb76f0& router = hkRouterXdb76f0::FUN_00c85750();
+        hkMemoryRouterXdb76f0& router = hkRouterXdb76f0::hkMemoryRouter_getInstance();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedXdb76f0<sizeof(T)>(m_data + m_iElementCount, &e);

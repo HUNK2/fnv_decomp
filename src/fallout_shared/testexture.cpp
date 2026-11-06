@@ -12,7 +12,7 @@ public:
     static void CopyStringToBuffer(char* destination, unsigned int size, const char* source);
 };
 
-char* __cdecl FUN_0040ab30(char* string, int character);
+char* __cdecl strrchr_0040ab30(char* string, int character);
 
 #include <malloc.h>
 #include <stdio.h>
@@ -29,7 +29,7 @@ void TESTexture::InitializeComponent()
 void TESTexture::ConvertTexturePath(const char* path, char* output)
 {
     TaskQueueInterface::CopyStringToBuffer(output, 0x104, path);
-    char* extension = FUN_0040ab30(output, '.');
+    char* extension = strrchr_0040ab30(output, '.');
     if (extension)
     {
         unsigned int prefixLength = extension - output;
@@ -78,7 +78,7 @@ const char* TESTexture::NormalizeTextureFilePath(BSStringT<char>& result, const 
         if (!path)
             return 0;
         TaskQueueInterface::CopyStringToBuffer(sourcePath, 260, path);
-        extension = FUN_0040ab30(sourcePath, '.');
+        extension = strrchr_0040ab30(sourcePath, '.');
         if (!extension)
             return 0;
         *extension = 0;
@@ -117,7 +117,7 @@ bool __cdecl IsChunkTypeIcon(int aChunk)
 void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
 {
     TaskQueueInterface::CopyStringToBuffer(dest, 0x104, source);
-    char* dot = FUN_0040ab30(dest, '.');
+    char* dot = strrchr_0040ab30(dest, '.');
     if (dot != 0)
     {
         int offset = dot - dest;
@@ -166,24 +166,27 @@ const char* TESTexture_shell::TESTexture_GetDefaultPath()
 }
 
 // @fnv 0x005fc1b0
-void TESEyes::FUN_005fc1b0()
+// src: XBOX_PDB 0x005fc1b0
+void TESEyes::InitializeData_005fc1b0()
 {
     cFlags = 0;
 }
 
 struct FUN_005fdc30_shell
 {
-    void FUN_005fdc30();
+    void TESHair_InitializeData();
 };
 
 // @fnv 0x005fdc30
-void FUN_005fdc30_shell::FUN_005fdc30()
+// src: XBOX_PDB 0x005fdc30
+void FUN_005fdc30_shell::TESHair_InitializeData()
 {
     ((char*)this)[0x48] = 0;
 }
 
 // @fnv 0x00617e80
-void TESSkill::FUN_00617e80()
+// src: XBOX_PDB 0x00617e80
+void TESSkill::InitializeData_00617e80()
 {
     ResetData();
 }
@@ -232,17 +235,18 @@ struct FNStub
 {
     char const* GetFullName();
 };
-void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
+void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 struct FUN_0048e370_shell
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 // If the model length is non-zero, calls FUN_004856f0 with the texture ID, the full name, and the model length plus one.
 // @fnv 0x0048e370
-void FUN_0048e370_shell::FUN_0048e370(unsigned int aeTextureID)
+// src: XBOX_PDB 0x0048e370
+void FUN_0048e370_shell::TESTexture_Save(unsigned int aeTextureID)
 {
     if (((TESModel*)this)->GetModelLength())
-        FUN_004856f0(aeTextureID, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
+        TESForm_AddChunkArray(aeTextureID, (void*)((FNStub*)this)->GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
 }
 }  // namespace fnv_0048e370
 
@@ -304,7 +308,7 @@ int __cdecl FUN_00ec43fb(FUN_00480ef0_obj* owner, int zero, char* name, char* ta
 
 struct FUN_00480ef0_sub
 {
-    int FUN_00408da0();
+    int TESModel_GetModel();
 };
 
 struct FUN_00480ef0_obj
@@ -312,11 +316,12 @@ struct FUN_00480ef0_obj
     int FUN_00401170();
     int FUN_005f0cc0();
     int FUN_00481230(int value);
-    FUN_00480ef0_obj* FUN_00567790();
+    FUN_00480ef0_obj* TESObjectREFR_GetOwner();
 };
 
 // @fnv 0x00480ef0
-int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
+// src: XBOX_PDB 0x00480ef0
+int __cdecl TESBipedModelForm_GetIcon(FUN_00480ef0_obj* pOwner, int param)
 {
     FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, DAT_01183028, DAT_01183978, 0);
     if (found == 0)
@@ -325,9 +330,9 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     }
     if (param == 0)
     {
-        return ((FUN_00480ef0_sub*)((char*)found + 0x8c))->FUN_00408da0();
+        return ((FUN_00480ef0_sub*)((char*)found + 0x8c))->TESModel_GetModel();
     }
-    FUN_00480ef0_obj* ref = ((FUN_00480ef0_obj*)param)->FUN_00567790();
+    FUN_00480ef0_obj* ref = ((FUN_00480ef0_obj*)param)->TESObjectREFR_GetOwner();
     int valueX = 0;
     if (ref != 0 && ref->FUN_00401170() == 0x2a)
     {

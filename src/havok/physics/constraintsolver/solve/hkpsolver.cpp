@@ -43,6 +43,7 @@ extern "C" void __cdecl SubtractScalarFloat(LocalM128* pResult, const LocalM128*
 // FUN_00d892d0: single-ret __cdecl void function. Body is empty; the claimed
 // 17-byte extent is 15 int3 padding bytes plus the next function's ret.
 // @fnv 0x00d892d0
-void FUN_00d892d0()
+// src: XBOX_PDB 0x00d892d0
+void hkSolveUpload()
 {
 }

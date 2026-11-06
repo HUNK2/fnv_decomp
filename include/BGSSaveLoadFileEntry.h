@@ -41,7 +41,7 @@ public:
     NiPointer<NiTexture> spScreenshot;
 
     void ReadTypedData();
-    char* FUN_007d5140();
+    char* GetPlayerTitle();
     NiTexture* TileImage_GetShaderProp();
     bool IsAutoSave();
     bool IsSaveEntryValid();

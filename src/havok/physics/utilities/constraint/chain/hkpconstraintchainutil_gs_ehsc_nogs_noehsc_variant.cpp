@@ -19,7 +19,7 @@ struct SearchObject
 {
     int FUN_00e5c420(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct DispatchTarget
 {
     void CallWithFlag(void* aValue, int aZero, void* aOut);
@@ -58,7 +58,7 @@ __declspec(align(16)) struct XfOut_cls
 };
 struct FUN_00c7f690_cls
 {
-    void FUN_00c7f690(const __m128* m, const __m128* v);
+    void hkVector4_setTransformedInversePos(const __m128* m, const __m128* v);
 };
 struct XfSub_cls
 {
@@ -158,8 +158,8 @@ struct ListB
     void AddReferencedObject(unsigned int key);
     void hkpConstraintChainInstance_insertEntityAtFront(unsigned int key);
 };
-int FUN_00e5ad40(KeyOwnerA* a, Tmp16* p, Tmp16* q);
-int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
+int hkpConstraintUtils_getConstraintPivots(KeyOwnerA* a, Tmp16* p, Tmp16* q);
+int hkpConstraintChainUtil_addConstraintToChain(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -303,7 +303,7 @@ struct Record
 };
 inline void* allocateObject(unsigned int size)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     void* memory = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockAlloc(size);
     static_cast<RefObject*>(memory)->sizeFlags = (unsigned short)size;
     return memory;
@@ -320,7 +320,7 @@ struct FUN_00e3b8f0 : RefObject
     {
         return allocateObject(size);
     }
-    void FUN_00e3b850(const V4*, const V4*, const V4*, Body*, Body*, Body*);
+    void addConstraintInfoInBodySpace(const V4*, const V4*, const V4*, Body*, Body*, Body*);
 };
 struct FUN_00dd0530 : Edge
 {
@@ -360,7 +360,7 @@ static const char* const filename = ".\\Constraint\\Chain\\hkpConstraintChainUti
 static const char unordered[] =
     "Constraints are not ordered properly ! Two consecutive constraint share no common hkpEntity.";
 static const char nomotors[] = "No motors extracted from the original constraint.";
-int __cdecl FUN_00e5ad40(const Edge*, V4&, V4&);
+int __cdecl hkpConstraintUtils_getConstraintPivots(const Edge*, V4&, V4&);
 void __cdecl GetConstraintMotorValues(const void*, Body*&, Body*&, Body*&);
 struct Buffer
 {
@@ -389,7 +389,8 @@ inline void __fastcall SetRelativeRotation(V4* result, void*, const V4* left, co
 }
 
 // @fnv 0x00e5b510
-FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
+// src: XBOX_PDB 0x00e5b510
+FUN_00dd0530* __cdecl hkpConstraintChainUtil_buildPoweredChain(Edges& edges, ByteFlag clone)
 {
     FUN_00e3b8f0* chain = new FUN_00e3b8f0;
     FUN_00dd0530* result = new FUN_00dd0530(chain);
@@ -412,7 +413,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
         };
         V4 first;
         V4 second;
-        if (FUN_00e5ad40(edges[i], first, second) == 1)
+        if (hkpConstraintUtils_getConstraintPivots(edges[i], first, second) == 1)
         {
             validationStream.FUN_00cb1600(buffer, 512);
             validationStream.FUN_00cc01c0(unsupported);
@@ -461,7 +462,7 @@ FUN_00dd0530* __cdecl FUN_00e5b510(Edges& edges, ByteFlag clone)
             b = b->v0c();
             c = c->v0c();
         }
-        chain->FUN_00e3b850(&first, &second, &rotation, a, b, c);
+        chain->addConstraintInfoInBodySpace(&first, &second, &rotation, a, b, c);
         if (edges[i]->getA() == result->nodes.back())
         {
             chain->records[chain->count - 1].reversed = 1;
@@ -484,7 +485,7 @@ enum S5ba30_Result
 
 inline hkMemoryRouter& GetAudioHolder()
 {
-    return *FUN_00c85750();
+    return *hkMemoryRouter_getInstance();
 }
 
 inline hkMemoryAllocator& GetAudioHolderAllocator(hkMemoryRouter& holder)
@@ -710,7 +711,7 @@ struct S5ba30_MapBase
         return i <= m_iPairCount;
     }
     Iterator FindSlot(unsigned long key) const;
-    int FUN_00cb1870(hkMemoryAllocator& a, unsigned long key, unsigned long val);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator& a, unsigned long key, unsigned long val);
     void ProcessArgument(hkMemoryAllocator& a);
     void EnsureCapacity(hkMemoryAllocator& a, int numElements);
     __forceinline Iterator findKey(unsigned long key) const
@@ -731,7 +732,7 @@ struct S5ba30_Map : public S5ba30_MapBase
     }
     __forceinline int insert(unsigned long key, unsigned long val)
     {
-        return FUN_00cb1870(S5ba30_HeapAllocator().get(this), key, val);
+        return hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S5ba30_HeapAllocator().get(this), key, val);
     }
     __forceinline void reserve(int numElements)
     {
@@ -826,7 +827,8 @@ struct S5ba30_EntityInfo
 }
 
 // @fnv 0x00e5ba30
-S5ba30_Result __cdecl FUN_00e5ba30(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
+// src: XBOX_PDB 0x00e5ba30
+S5ba30_Result __cdecl hkpConstraintChainUtil_findConstraintLinkBetweenEntities(const S5ba30_Array<S5ba30_ConstraintInstance*>& allConstraints,
                                    S5ba30_Entity* entityA, S5ba30_Entity* entityB,
                                    S5ba30_Array<S5ba30_Entity*>& entitiesOut,
                                    S5ba30_Array<S5ba30_ConstraintInstance*>& constraintsOut)

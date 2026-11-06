@@ -31,7 +31,8 @@ int BookMenu::GetClass_0073acf0()
 
 // Returns true if both tile pointers are non-zero, otherwise false.
 // @fnv 0x0073af60
-bool __thiscall BookMenu::FUN_0073af60()
+// src: XBOX_PDB 0x0073af60
+bool __thiscall BookMenu::IsWellFormedMenu()
 {
     if (m_pHighlightedTile && m_pObject)
         return true;
@@ -90,20 +91,21 @@ struct FUN_0073b020_shell : public InterfaceManager
     int InterfaceManager_GetCursorY();
 };
 
-float __cdecl FUN_00715da0();
+float __cdecl InterfaceManager_GetScreenHeight();
 // @fnv 0x0073b020
 // src: COMMUNITY 0x0073b020
 int FUN_0073b020_shell::InterfaceManager_GetCursorY()
 {
-    return (int)(FUN_00715da0() - (FUN_00715da0() / 2.0 + *(float*)((char*)this + 0x34)));
+    return (int)(InterfaceManager_GetScreenHeight() - (InterfaceManager_GetScreenHeight() / 2.0 + *(float*)((char*)this + 0x34)));
 }
 
 struct FUN_0073b460_shell
 {
-    bool __thiscall FUN_0073b460();
+    bool __thiscall TESObjectBOOK_GetCantTake();
 };
 // @fnv 0x0073b460
-bool __thiscall FUN_0073b460_shell::FUN_0073b460()
+// src: XBOX_PDB 0x0073b460
+bool __thiscall FUN_0073b460_shell::TESObjectBOOK_GetCantTake()
 {
     return (unsigned char)((char*)this)[0xc0] & 2;
 }
@@ -130,7 +132,8 @@ InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 
 // For tile ID 12, stores the difference between the current tile's value and the interface manager's value.
 // @fnv 0x0073afd0
-void BookMenu::FUN_0073afd0(int aiID, Tile* apTarget)
+// src: XBOX_PDB 0x0073afd0
+void BookMenu::DoDownClick(int aiID, Tile* apTarget)
 {
     InterfaceManager* pim;
     if (aiID == 12)
@@ -166,7 +169,7 @@ void __thiscall Holder73b430::CallInnerFoo()
 }
 
 Tile* __cdecl FindMenuById(int);
-void __cdecl FUN_00717280(int);
+void __cdecl InterfaceManager_PlayMenuSound(int);
 
 // Gets tile 0x402, sets it to 0x1772/1, invokes its menu, then calls FUN_00717280 with 0x19 or 0x1b depending on FUN_00409700.
 // @fnv 0x0073b480
@@ -177,10 +180,10 @@ void BookMenu::UpdateMenuTile()
     {
         ptile->Set(0x1772, 1);
         ptile->GetMenu()->LoadMenuData();
-        if (reinterpret_cast<TESObject*>(unk34)->FUN_00409700())
-            FUN_00717280(0x19);
+        if (reinterpret_cast<TESObject*>(unk34)->TESObjectBOOK_GetScroll())
+            InterfaceManager_PlayMenuSound(0x19);
         else
-            FUN_00717280(0x1b);
+            InterfaceManager_PlayMenuSound(0x1b);
     }
 }
 
@@ -203,7 +206,8 @@ FUN_0073b020_shell* __cdecl _FUN_004b7210();
 int __cdecl __ftol2_sse(double);
 
 // @fnv 0x0073b050
-void BookMenu::FUN_0073b050(int aiID, Tile* apTarget)
+// src: XBOX_PDB 0x0073b050
+void BookMenu::DoStillDown(int aiID, Tile* apTarget)
 {
     float imarker;
     FUN_0073b020_shell* pim;
@@ -229,11 +233,11 @@ void BookMenu::FUN_0073ad30()
 
 struct Res_0073b0f0
 {
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct Obj30_0073b0f0
 {
-    Res_0073b0f0* FUN_005d43c0(int);
+    Res_0073b0f0* BSFile_GetDevice(int);
 };
 struct VT_0073b0f0
 {
@@ -496,28 +500,28 @@ void __thiscall BookMenu::HandleMessage(int msg, int unused)
     if (msg == 0x20)
     {
 
-        DAT_011dea3c->vSlot(reinterpret_cast<Obj30_0073b0f0*>(unk30), reinterpret_cast<Obj30_0073b0f0*>(unk30)->FUN_005d43c0(0)->FUN_00418770());
+        DAT_011dea3c->vSlot(reinterpret_cast<Obj30_0073b0f0*>(unk30), reinterpret_cast<Obj30_0073b0f0*>(unk30)->BSFile_GetDevice(0)->ExtraDataList_GetCount());
         UpdateMenuTile();
     }
 }
 
 struct BookInput
 {
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
     const char* CallInnerFoo();
-    bool FUN_0073b460();
+    bool TESObjectBOOK_GetCantTake();
 };
 // Updates the book menu tile: sets tile 0x1004 from input state, sets tile 0x1006 text, stores value in unk30, and sets tile 0x1007 and 0x100a.
 // @fnv 0x0073b2f0
 void BookMenu::UpdateBookMenu(BookInput* input, int value)
 {
-    if (input->FUN_00409700())
+    if (input->TESObjectBOOK_GetScroll())
         static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x1004, 0);
     else
         static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x1004, 1);
-    static_cast<Tile*>(FUN_00726070())->FUN_00a01350(0x1006, input->CallInnerFoo(), true);
+    static_cast<Tile*>(FUN_00726070())->Tile_Set_00a01350(0x1006, input->CallInnerFoo(), true);
     unk30 = value;
-    if (!value || input->FUN_0073b460())
+    if (!value || input->TESObjectBOOK_GetCantTake())
         static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x1007, 0);
     else
         static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x1007, 1);
@@ -526,7 +530,7 @@ void BookMenu::UpdateBookMenu(BookInput* input, int value)
     static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x100a, 0);
 }
 
-void __cdecl FUN_00717280(int);
+void __cdecl InterfaceManager_PlayMenuSound(int);
 
 // @fnv 0x0073b150
 void BookMenu::HandleScrollInput(int a1, int a2)
@@ -562,7 +566,7 @@ void BookMenu::HandleScrollInput(int a1, int a2)
             if (iVar5 != 0)
             {
                 InterfaceManager::Instance();
-                FUN_00717280(iVar5);
+                InterfaceManager_PlayMenuSound(iVar5);
             }
         }
     }
@@ -581,14 +585,14 @@ void BookMenu::LoadBookFile()
     BSStringT<char> text6;
     unsigned int length = 0;
     file.FUN_00aff300(false, false);
-    if (!file.FUN_008905f0())
+    if (!file.TESAnimGroup_GetDecal())
     {
         Interface_PrintLine(DAT_01070f84, path2.String());
         return;
     }
     file.FUN_00aff7c0(&text6, -1);
     length = text6.Length();
-    static_cast<Tile*>(FUN_00726070())->FUN_00a01350(0x1006, text6.String(), true);
+    static_cast<Tile*>(FUN_00726070())->Tile_Set_00a01350(0x1006, text6.String(), true);
     static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x100a, -99999);
     static_cast<Tile*>(FUN_00726070())->FUN_00700320(0x100a, 0);
 }

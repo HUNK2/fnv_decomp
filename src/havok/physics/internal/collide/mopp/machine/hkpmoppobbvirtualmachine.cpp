@@ -146,7 +146,7 @@ struct CodeData {
  union {unsigned char* code;unsigned char* p20;};
 };
 struct AllocatorContext { int field00, field04, field08, field0c; void* allocator; };
-extern AllocatorContext* __cdecl FUN_00c85750();
+extern AllocatorContext* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl ResizeAudioStream(void*, void*, int);
 extern unsigned char DAT_01269cbc;
 extern void __cdecl ValidateHavokKeyCode(unsigned char*);
@@ -171,7 +171,7 @@ struct VirtualMachine {
  union {int primitiveMask;int m34;};
  void Execute(const QueryState*,unsigned char*,int);
  __forceinline void AddHit(int value) {
-  HitArray* out=hits;AllocatorContext* context=FUN_00c85750();
+  HitArray* out=hits;AllocatorContext* context=hkMemoryRouter_getInstance();
   if(out->size==(out->capacity&0x3fffffff)) ResizeAudioStream(context->allocator,out,4);
   int* destination=&reinterpret_cast<int*>(out->data)[out->size]; ++out->size; *destination=value; }
 };

@@ -79,7 +79,8 @@ struct Node
     Matrix rows;
 };
 // @fnv 0x00cfe1d0
-Entry* __cdecl FUN_00cfe1d0(Entry* h, Entry* out, hkVector4* b, unsigned int n, unsigned char* c)
+// src: XBOX_PDB 0x00cfe1d0
+Entry* __cdecl hkAgentMachine_processTransformedShapes(Entry* h, Entry* out, hkVector4* b, unsigned int n, unsigned char* c)
 {
     Node* node = h->node;
     if (node->type == 0xf)

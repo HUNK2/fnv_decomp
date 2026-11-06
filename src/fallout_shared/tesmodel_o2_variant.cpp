@@ -9,7 +9,7 @@
 typedef char _sizecheck_TESTextureList[sizeof(FileEntryList) == 8 ? 1 : -1];
 struct FUN_008c1be0_shell
 {
-    void FUN_008c1be0(int param_1);
+    void bhkTTNode_TESObjectREFR_GetFlags(int param_1);
 };
 struct FUN_004898c0_shell
 {

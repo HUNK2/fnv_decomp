@@ -19,7 +19,8 @@ const hkVariant* hkClassMember::getAttribute_00d86960(const char* name) const th
 extern char DAT_011b6ab0;
 
 // @fnv 0x00d868a0
-char* __cdecl FUN_00d868a0(int index)
+// src: XBOX_PDB 0x00d868a0
+char* __cdecl hkClassMember_getClassMemberTypeProperties(int index)
 {
     return &DAT_011b6ab0 + index * 12;
 }
@@ -68,7 +69,8 @@ __declspec(noinline) const hkClass* hkClassMember::GetClass() const
 }
 
 // @fnv 0x00d86920
-const hkClass* hkClassMember::FUN_00d86920() const throw()
+// src: XBOX_PDB 0x00d86920
+const hkClass* hkClassMember::getClass() const throw()
 {
     return m_class;
 }
@@ -185,7 +187,8 @@ void formatTypeName(TypeNameOutput* output, const char* detail, int type)
 }
 
 // @fnv 0x00d86940
-__declspec(noinline) int hkClassMember::FUN_00d86940() const throw()
+// src: XBOX_PDB 0x00d86940
+__declspec(noinline) int hkClassMember::getCstyleArraySize() const throw()
 {
     return m_iArraySize;
 }
@@ -240,18 +243,18 @@ int __fastcall GetMemberSize(const hkClassMember* member)
     case hkClassMember::TYPE_ULONG:
     case hkClassMember::TYPE_HALF:
     case hkClassMember::TYPE_STRINGPTR: {
-        int nelem = member->FUN_00d86940() ? member->FUN_00d86940() : 1;
+        int nelem = member->getCstyleArraySize() ? member->getCstyleArraySize() : 1;
         size = nelem * typeProps_d869()[member->m_type].m_iElementCount;
     }
     break;
     case hkClassMember::TYPE_ENUM:
     case hkClassMember::TYPE_FLAGS: {
-        int nelem = member->FUN_00d86940() ? member->FUN_00d86940() : 1;
+        int nelem = member->getCstyleArraySize() ? member->getCstyleArraySize() : 1;
         size = nelem * typeProps_d869()[member->m_eSubtype].m_iElementCount;
     }
     break;
     case hkClassMember::TYPE_STRUCT: {
-        int nelem = member->FUN_00d86940() ? member->FUN_00d86940() : 1;
+        int nelem = member->getCstyleArraySize() ? member->getCstyleArraySize() : 1;
         size = nelem * GetObjectSize(member->GetClass());
     }
     break;

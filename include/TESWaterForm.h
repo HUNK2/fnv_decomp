@@ -42,11 +42,11 @@ public:
     void SetTexture(NiSourceTexture* apTexture);
     int __thiscall _FNV_GetFormType();
     WaterShaderSettings* GetShaderSettings();
-    WaterShaderSettings* FUN_0057eef0();
+    WaterShaderSettings* Sky_GetStarsColor();
     bool HasFlag1();
     bool IsDangerous();
-    void __thiscall FUN_00580680(int);
-    void FUN_0057f890(SpellItem*);
+    void __thiscall TESWaterForm_SetRemappedWaterForm(int);
+    void SetSpellItem_0057f890(SpellItem*);
     unsigned int GetMember();
     const char* GetMaterialName();
     void SetMaterialName(const char*);
@@ -55,13 +55,13 @@ public:
     void SetNP(void*);
     void GetNoiseTexture(NiPointer<NiTexture>&);
     float GetOpacity_00580100();
-    BGSPlaceableWater* FUN_00580130();
-    BGSPlaceableWater* FUN_00580330();
+    BGSPlaceableWater* GetPlaceableAutoWater();
+    BGSPlaceableWater* GetPlaceableLODWater();
     void SaveWaterForm();
-    void FUN_0057fde0(TESForm*);
-    bool FUN_0057ff10(TESForm*);
-    void FUN_005806e0(BGSSaveFormBuffer*);
-    void FUN_00580730(BGSLoadFormBuffer*);
+    void Copy_0057fde0(TESForm*);
+    bool Compare_0057ff10(TESForm*);
+    void SaveGame_005806e0(BGSSaveFormBuffer*);
+    void LoadGame_00580730(BGSLoadFormBuffer*);
     void Revert_005807a0(BGSLoadFormBuffer*);
 
     bool m_bNeedsUpdate;

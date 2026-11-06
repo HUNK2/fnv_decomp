@@ -9,7 +9,7 @@ typedef ::__m128 LocalM128;
 #include "../../../../../../include/hkMemoryAllocator.h"
 #include "../../../../../../include/hkReferencedObject.h"
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 typedef ::__m128 LocalM128;
 
@@ -101,7 +101,7 @@ struct Instance : hkReferencedObject
 
 inline void* hkAlloc(int size)
 {
-    hkReferencedObject* p = (hkReferencedObject*)FUN_00c85750()->heap().blockAlloc(size);
+    hkReferencedObject* p = (hkReferencedObject*)hkMemoryRouter_getInstance()->heap().blockAlloc(size);
     p->m_usMemSizeAndFlags = (unsigned short)size;
     return p;
 }
@@ -216,7 +216,8 @@ class FnvHolder
 
 // Reads the inner constraint's kind and copies two __m128 vectors into a1/a2, or logs an unsupported-type error and returns 1.
 // @fnv 0x00e5ad40
-int FUN_00e5ad40(FnvHolder* pHolder, LocalM128* pOutA, LocalM128* pOutB)
+// src: XBOX_PDB 0x00e5ad40
+int hkpConstraintUtils_getConstraintPivots(FnvHolder* pHolder, LocalM128* pOutA, LocalM128* pOutB)
 {
     FnvInner* inner = pHolder->m_0c;
 

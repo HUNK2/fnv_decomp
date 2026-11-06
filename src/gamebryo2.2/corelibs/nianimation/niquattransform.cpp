@@ -170,12 +170,13 @@ struct ViewerStrings
 
 struct QXformViewer : QXform
 {
-    void FUN_00a38cb0(ViewerStrings* pkStrings);
+    void NiQuatTransform_GetViewerStrings(ViewerStrings* pkStrings);
 };
 
 // Appends the class name and, when valid, the translate, rotate and scale members to the viewer string list.
 // @fnv 0x00a38cb0
-void QXformViewer::FUN_00a38cb0(ViewerStrings* pkStrings)
+// src: XBOX_PDB 0x00a38cb0
+void QXformViewer::NiQuatTransform_GetViewerStrings(ViewerStrings* pkStrings)
 {
     char* pcString = GetViewerStringName("NiQuatTransform");
     pkStrings->Add(pcString);
@@ -395,7 +396,7 @@ struct NiMatrix3_QuatPointView : public NiMatrix3
 };
 struct QuatRotate
 {
-    void FUN_004f0180(NiMatrix3& kRot) const;
+    void NiQuaternion_ToRotation(NiMatrix3& kRot) const;
 };
 extern char DAT_011a9448;
 static const double DAT_010241b0 = -3.4028234663852886e+38;
@@ -428,7 +429,7 @@ void FUN_00a386a0_shell::Inverse(NiQuatTransform& kDest)
     {
         *(LocalQuaternionConjugateValue*)&kDest.qx =
             NiQuaternionConjugate(*(LocalQuaternionConjugateValue*)&qx);
-        ((QuatRotate*)&kDest.qx)->FUN_004f0180(kRot);
+        ((QuatRotate*)&kDest.qx)->NiQuaternion_ToRotation(kRot);
     }
     if (x == DAT_010241b0)
     {

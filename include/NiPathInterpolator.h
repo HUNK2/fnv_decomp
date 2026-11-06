@@ -37,7 +37,7 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
     virtual unsigned char GetColorKeySize(unsigned short usChannel) const;
     virtual void vf61(unsigned short usChannel);
 
-    void FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
+    void GuaranteeTimeRange_00a3dc50(float m_fStartTime, float m_fMaximumDistance);
     void* GetKeyCount(short idx);
     int GetValueByIndex(short arg);
     int GetKeyArray(short arg);
@@ -45,16 +45,16 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
     int GetChannelIndex(unsigned short usChannel);
     void* GenPathInterp(void* pData, int i1, int i2, float fTime);
     NiPoint3 GenPathInterp(int i1, int i2, float fTime);
-    void FUN_00a3dc80(CloningProcess& kCloning);
-    bool FUN_00a3dcc0(void* pkStream);
+    void ProcessClone_00a3dc80(CloningProcess& kCloning);
+    bool RegisterStreamables_00a3dcc0(void* pkStream);
     void GetRange(float* pfMin, float* pfMax);
     void ReadFromStream(NiStream* source);
     void WriteToStream(NiStream* pStream);
     void AppendString(StrArr* pkStrings);
     void CopyMemberData(NiPathInterpolator* pDest, CloningProcess& kCloning);
-    void FUN_00a3f2f0(NiPathInterpolator* pDest, CloningProcess& kCloning);
+    void CopyMembers_00a3f2f0(NiPathInterpolator* pDest, CloningProcess& kCloning);
     void LinkObject_00a3ee80(NiStream& stream);
-    bool FUN_00a3e7b0(NiObject* pkObject);
+    bool IsEqual_00a3e7b0(NiObject* pkObject);
     bool BaseIsEqual(NiObject* pkObject);
     bool PartialLengthsEqual(NiPathInterpolator* pkPath);
     int GetPathKeys(int& uiNumKeys, int& eType, char& ucSize);
@@ -62,7 +62,7 @@ class NiPathInterpolator : public NiKeyBasedInterpolator
         unsigned char& stride) const;
     float CalcTotalLength();
     float GetAccumulatedValue();
-    float FUN_00a3e680(int i1, int i2, float t);
+    float NiPathInterpolator_PathLength(int i1, int i2, float t);
     float SampleLength(int i1, int i2, float t);
     void GetPercentLoc(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);
     void FindKeyPair(float fTime, unsigned int& i1, unsigned int& i2, float& fNormTime);

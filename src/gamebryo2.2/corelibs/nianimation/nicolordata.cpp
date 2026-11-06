@@ -205,7 +205,7 @@ void ColorDataBinarySaver::SaveColorKeys(NiStream* pStream)
 extern void* DAT_011f3750;
 
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
-void* __cdecl FUN_00a7d510(const char* s, unsigned int count);
+void* __cdecl NiGetViewerString_00a7d510(const char* s, unsigned int count);
 
 struct FUN_00a3d490_arr
 {
@@ -238,7 +238,7 @@ void ColorDataViewerStrings::CollectViewerStrings(FUN_00a3d490_arr* arr)
     }
     arr->FUN_0096ae90(index, &item);
 
-    item = FUN_00a7d510("m_uiNumKeys", m_uiNumKeys);
+    item = NiGetViewerString_00a7d510("m_uiNumKeys", m_uiNumKeys);
     index = arr->m_usElementCount;
     if (index >= arr->m_usCap)
     {

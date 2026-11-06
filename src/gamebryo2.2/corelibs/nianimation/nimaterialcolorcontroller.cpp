@@ -52,14 +52,15 @@ struct GlobalObjectO2_00a7b610
     char const* m_str;
 };
 extern GlobalObjectO2_00a7b610 g_011f3f88;
-void __stdcall FUN_00a57d10(StrArr*);
+void __stdcall NiPoint3InterpController_GetViewerStrings(StrArr*);
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 
 // Appends the controller name, growing the string array when needed.
 // @fnv 0x00a4b880
-void __stdcall FUN_00a4b880(StrArr* pkStrings)
+// src: XBOX_PDB 0x00a4b880
+void __stdcall NiMaterialColorController_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00a57d10(pkStrings);
+    NiPoint3InterpController_GetViewerStrings(pkStrings);
     char* pStr = NiViewerStrings_NiGetViewerString_Title(g_011f3f88.m_str);
     unsigned int len = pkStrings->m_usSize;
     unsigned int cnt = pkStrings->m_usMaxSize;
@@ -74,7 +75,8 @@ void __stdcall FUN_00a4b880(StrArr* pkStrings)
 extern "C" void* g_01201f74;
 
 // @fnv 0x00bc29d0
-void* __cdecl FUN_00bc29d0()
+// src: XBOX_PDB 0x00bc29d0
+void* __cdecl BSClearZNode_GetRTTI()
 {
     return &g_01201f74;
 }
@@ -242,7 +244,7 @@ void __fastcall UpdateMaterialColor(NiMaterialColorController* self, void*, NiUp
     {
         self->m_fControllerTime = DAT_01096324;
     }
-    else if (self->FUN_00a36250(kUpdateData.fTime) &&
+    else if (self->DontDoUpdate(kUpdateData.fTime) &&
              (!((NiPoint3Interpolator*)self->m_spControllerInterpolator.m_pObject) || !((NiPoint3Interpolator*)self->m_spControllerInterpolator.m_pObject)->AlwaysUpdate()))
     {
         return;
@@ -382,12 +384,13 @@ FUN_00bc2980::FUN_00bc2980() : NiNode(0)
     m_ac = 0;
 }
 
-void __cdecl FUN_00a5ea70();
+void __cdecl NiNode_GetViewerStrings();
 
 // @fnv 0x00bc29c0
-void __cdecl FUN_00bc29c0()
+// src: XBOX_PDB 0x00bc29c0
+void __cdecl BSClearZNode_GetViewerStrings()
 {
-    FUN_00a5ea70();
+    NiNode_GetViewerStrings();
 }
 
 extern void __fastcall FUN_00a5e930(NiMaterialColorController*);

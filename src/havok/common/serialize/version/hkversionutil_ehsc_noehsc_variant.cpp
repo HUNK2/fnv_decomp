@@ -33,7 +33,7 @@ struct FUN_00e049d0_Class : Object
     FUN_00e049d0_Class* FUN_00e049d0(int flags);
 };
 extern "C" char str_010cf830[];
-void* __cdecl FUN_00dc0fb0();
+void* __cdecl hkVersionUtil_getCurrentVersion();
 struct FUN_00d86980_Class
 {
     int FUN_00d86980();
@@ -46,10 +46,10 @@ struct FUN_00d871a0
     FUN_00d871a0(void*, int);
     bool& FUN_00d871e0(bool&);
     void* FUN_00d871f0();
-    FUN_00d86980_Class* FUN_00d87370();
+    FUN_00d86980_Class* hkClassMemberAccessor_getClassMember();
 };
-extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
-void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4);
+extern "C" void* __cdecl hkString_memCpy(void*, const void*, unsigned int);
+void __cdecl hkVersionUtil_renameMember(void* a1, int a2, void* a3, int a4);
 struct FUN_00d46d40_s
 {
     const char* FUN_00d46d40() const throw();
@@ -152,7 +152,7 @@ class SectionsDC10
     EntryDC10* getMember(int i) throw();
     void InvokeTarget(int i, FUN_00d27520* pkWriter) throw();
 };
-void __cdecl FUN_00dc1070(void* pvBuf, SetDC10* pkSet, SectionsDC10* pkSections);
+void __cdecl hkVersionUtil_copyDefaults(void* pvBuf, SetDC10* pkSet, SectionsDC10* pkSections);
 struct S00dc15a0_Buffer
 {
     virtual void vf00();
@@ -235,7 +235,7 @@ struct OffsetMap
     int size;
     int capacity;
     void EnsureCapacity(CopyAllocator*, int);
-    void FUN_00cb1870(CopyAllocator*, void*, int);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(CopyAllocator*, void*, int);
     void ProcessArgument(CopyAllocator*);
     void FUN_00a29680();
     ~OffsetMap()
@@ -387,7 +387,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
         void* entryObject = object->object;
         hkMemoryRouter* entryRouter = (&hkMemoryRouter::getInstance());
         _ReadWriteBarrier();
-        map.FUN_00cb1870(reinterpret_cast<CopyAllocator*>(entryRouter->m_heap), entryObject, entryOffset);
+        map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(reinterpret_cast<CopyAllocator*>(entryRouter->m_heap), entryObject, entryOffset);
         writer.hkObjectCopier_copyObject(object->object, object->type, (int)stream.writer, type, &fixups);
     }
     int size = buffer.size;
@@ -397,7 +397,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
         _ReadWriteBarrier();
         char* result = reinterpret_cast<CopyAllocator*>(allocationRouter->m_heap)->allocate(size);
         listener->AddMemoryChunk(result, buffer.size, 5);
-        FUN_00cb1260(result, buffer.data, buffer.size);
+        hkString_memCpy(result, buffer.data, buffer.size);
         for (i = 0; i < indices->size; ++i)
         {
             offsetInput.p->data[indices->data[i]].offset += (int)result;

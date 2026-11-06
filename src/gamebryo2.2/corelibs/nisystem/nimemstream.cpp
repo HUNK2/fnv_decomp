@@ -139,7 +139,7 @@ void __cdecl NiMemStream_WriteNoSwap(NiMemStream* pThis, const void* pData, unsi
 
 struct NiAlloc
 {
-    void __thiscall FUN_00aa4060(void* ptr);
+    void __thiscall MemoryManager_Deallocate(void* ptr);
 };
 extern NiAlloc DAT_011f6238;
 void __cdecl _NiFree_00aa10f0(void* ptr);
@@ -157,6 +157,6 @@ void* __fastcall DestroyNiMemStream(NiMemStream* stream, void*, unsigned int fla
     }
     stream->NiBinaryStream::~NiBinaryStream();
     if (flags & 1)
-        DAT_011f6238.FUN_00aa4060(stream);
+        DAT_011f6238.MemoryManager_Deallocate(stream);
     return stream;
 }

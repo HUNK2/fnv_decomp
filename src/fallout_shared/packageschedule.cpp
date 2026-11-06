@@ -168,7 +168,7 @@ void FUN_0067fdb0_shell::PackageSchedule_SetStartDayOfWeek(bool abValue)
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 1) = abValue;  // bReserved (+0x1); the shared CombatCoverPointData_packageschedule names no fields
 }
 
-extern "C" unsigned char __cdecl FUN_00401500();
+extern "C" unsigned char __cdecl TESForm_QEndianSwapOnSave();
 extern "C" void __cdecl AppendChunk(int, void*, int);
 
 struct FUN_0067fec0_shell
@@ -179,10 +179,10 @@ struct FUN_0067fec0_shell
 // @fnv 0x0067fec0
 void FUN_0067fec0_shell::Save()
 {
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<QuestData*>(this)->Endian();
     AppendChunk(0x54445350, this, 8);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<QuestData*>(this)->Endian();
 }
 
@@ -232,7 +232,7 @@ struct BoundHolder
 struct DurationData : BoundHolder
 {
     int GetSecondByte();
-    char FUN_00678ce0();
+    char Main_GameReset();
     char FUN_0086a460();
     int _ref_00726070();
     char FUN_0067fe10(DurationData* other);
@@ -247,7 +247,7 @@ char DurationData::FUN_0067fe10(DurationData* other)
         return 1;
     if (GetBoundingRadius() != other->GetBoundingRadius())
         return 1;
-    if (FUN_00678ce0() != other->FUN_00678ce0())
+    if (Main_GameReset() != other->Main_GameReset())
         return 1;
     if (FUN_0086a460() != other->FUN_0086a460())
         return 1;

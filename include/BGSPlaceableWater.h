@@ -19,7 +19,7 @@ public:
     bool Load(TESFile* file);
 
     void ResetFormData();
-    PlaceableWaterData* FUN_00624700();
+    PlaceableWaterData* GetExtraPartList();
     void BGSPlaceableWater_SetReflectionEnabled(bool value);
     void BGSPlaceableWater_SetReflectsLand(bool value);
     void BGSPlaceableWater_SetReflectsLODLand(bool value);
@@ -43,5 +43,5 @@ public:
     bool GetReflectsLODTrees();
     bool GetReflectionEnabled();
     void GetObjectTexCoordsEnabled();
-    bool FUN_00452440();
+    bool BGSPlaceableWater_IsAutomaticWater();
 };

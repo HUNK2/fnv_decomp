@@ -25,7 +25,8 @@ extern "C" bool __cdecl _FUN_004b71d0();
 
 // Returns pageIndex + 4 when pageIndex is between 1 and 8, adding 4 more for slot 8 if _FUN_004b71d0() is true; otherwise returns -1.
 // @fnv 0x007ca030
-int SPECIALBookMenu::FUN_007ca030()
+// src: XBOX_PDB 0x007ca030
+int SPECIALBookMenu::GetCurrentStatesActorValue()
 {
     if (this->pageIndex > 0 && this->pageIndex < 9)
     {
@@ -39,12 +40,12 @@ int SPECIALBookMenu::FUN_007ca030()
     return -1;
 }
 
-extern "C" int __cdecl FUN_007c6110();
+extern "C" int __cdecl SPECIALBookMenu_GetClassStatic();
 // NiNode.h does not declare this cleanup helper; fastcall passes the node in ECX.
 void __fastcall RemoveSpecialBookSceneChildren(NiNode* node);
 struct ModelLoader
 {
-    void FUN_0045a5e0(const char*);
+    void ModelLoader_ReleaseFile(const char*);
 };
 struct GlobalObject_00633c90
 {
@@ -60,15 +61,16 @@ extern GlobalObject_00633c90 g_011daa9c;
 Menu* __cdecl FindMenuById(int);
 
 // @fnv 0x007c6120
-void __cdecl FUN_007c6120()
+// src: XBOX_PDB 0x007c6120
+void __cdecl SPECIALBookMenu_Close()
 {
     int i;
-    Menu* menu5 = FindMenuById(FUN_007c6110());
+    Menu* menu5 = FindMenuById(SPECIALBookMenu_GetClassStatic());
     if (!menu5)
         return;
-    g_modelLoader->FUN_0045a5e0("Meshes\\Terminals\\Babybook02.NIF");
+    g_modelLoader->ModelLoader_ReleaseFile("Meshes\\Terminals\\Babybook02.NIF");
     RemoveSpecialBookSceneChildren(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1));
-    NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->FUN_00b5d180();
+    NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->RemoveAllLights();
     *(int*)((char*)DAT_011daa38 + 0x5c) = 0;
     ((GO*)&g_011daa9c)->operator=(0);
     i = 0;
@@ -87,7 +89,8 @@ void __cdecl FUN_007c6120()
 
 // Returns selectedStat + 4 when pageIndex is 8 and _FUN_004b71d0() is true, pageIndex + 4 when pageIndex is between 1 and 7, otherwise -1.
 // @fnv 0x00794d30
-int SPECIALBookMenu::FUN_00794d30()
+// src: XBOX_PDB 0x00794d30
+int SPECIALBookMenu::LoveTesterMenu_GetCurrentStatesActorValue()
 {
     if (pageIndex == 8)
     {
@@ -151,7 +154,7 @@ struct MenuInput
 };
 struct MenuOS
 {
-    MenuInput* FUN_00877720();
+    MenuInput* Main_GetControls();
 };
 struct MenuLocale
 {
@@ -168,21 +171,22 @@ extern bool DAT_011a0854;
 extern const char* DAT_011a0858[];
 extern const char* DAT_011a0878[];
 extern int DAT_011f36bc;
-bool __cdecl FUN_00702450(int);
-int __cdecl FUN_00408b20(const char*, const char*);
-NiTimeController* __cdecl FUN_00653270(const int*, NiTimeController*);
+bool __cdecl Interface_IsTopMenuID(int);
+int __cdecl BSstrcmp(const char*, const char*);
+NiTimeController* __cdecl NiObject_DynamicCast(const int*, NiTimeController*);
 // Checks a key press to trigger Handle(4,0), otherwise advances the scene's controller sequence by elapsed time and updates the scene.
 // @fnv 0x007c6200
-void SPECIALBookMenu::FUN_007c6200()
+// src: XBOX_PDB 0x007c6200
+void SPECIALBookMenu::DoIdle_007c6200()
 {
-    if (!FUN_00702450(0x424))
+    if (!Interface_IsTopMenuID(0x424))
         return;
-    MenuInput* pInput = g_osGlobals->FUN_00877720();
+    MenuInput* pInput = g_osGlobals->Main_GetControls();
     {
         NiTimeController* pController;
         {
             int scanCode = 30;
-            if (FUN_00408b20(g_011c3cb4.FUN_00403df0(), "FRENCH") == 0)
+            if (BSstrcmp(g_011c3cb4.FUN_00403df0(), "FRENCH") == 0)
                 scanCode = 16;
             if (pInput->Controls_GetKeyboardButton(scanCode, 1))
             {
@@ -195,13 +199,13 @@ void SPECIALBookMenu::FUN_007c6200()
                 NiTimeController* manager = pController;
                 NiControllerSequence* sequence = 0;
                 if (!DAT_011a0854 || pageIndex > 0)
-                    sequence = manager->FUN_0047a520(
+                    sequence = manager->NiControllerManager_GetSequenceByName(
                         NiFixedString(DAT_011a0854 ? DAT_011a0878[pageIndex] : DAT_011a0858[pageIndex]));
                 elapsed += g_timeGlobal.FUN_0084d030();
                 if (sequence)
                 {
                     sequence->Update(elapsed, true);
-                    if (sequence->FUN_00508120() < sequence->FUN_00508100() && pageIndex > 0)
+                    if (sequence->NiControllerSequence_GetLastTime() < sequence->GetEndKeyTime_00508100() && pageIndex > 0)
                         finished = false;
                     else
                         finished = true;
@@ -212,7 +216,7 @@ void SPECIALBookMenu::FUN_007c6200()
                 }
                 for (; pController; pController = pController->GetNext())
                 {
-                    NiTimeController* castController = FUN_00653270(&DAT_011f36bc, pController);
+                    NiTimeController* castController = NiObject_DynamicCast(&DAT_011f36bc, pController);
                     if (castController)
                     {
                         NiUpdateData updateData(elapsed, false, false);
@@ -227,7 +231,7 @@ void SPECIALBookMenu::FUN_007c6200()
     }
 }
 
-bool __cdecl FUN_00702450(unsigned int);
+bool __cdecl Interface_IsTopMenuID(unsigned int);
 struct Values6440
 {
     virtual void v0();
@@ -288,9 +292,9 @@ extern Player6440* g_thePlayer;
 // @fnv 0x007c6440
 bool SPECIALBookMenu::HandleSpecialBookKey(unsigned int key, int unused)
 {
-    if (FUN_00702450(0x424))
+    if (Interface_IsTopMenuID(0x424))
     {
-        int index = FUN_007ca030();
+        int index = GetCurrentStatesActorValue();
         switch (key)
         {
         case 4:
@@ -300,7 +304,7 @@ bool SPECIALBookMenu::HandleSpecialBookKey(unsigned int key, int unused)
             return true;
         case 3:
         case 9:
-            if (index != -1 && FUN_00794d80() < limit && g_thePlayer->values.GetValue(index) < 10)
+            if (index != -1 && SPECIALBookMenu_GetTotalPointsUsed() < limit && g_thePlayer->values.GetValue(index) < 10)
                 HandleSelection(2, 0);
             return true;
         }
@@ -406,7 +410,7 @@ struct G_011dea10_cls
 
 extern G_011dea10_cls* g_011dea10;
 
-void __cdecl FUN_00406d00(char* dst, int size, const char* a, const char* b, const char* c, ...);
+void __cdecl BSsprintf(char* dst, int size, const char* a, const char* b, const char* c, ...);
 
 void __cdecl FUN_00406d30(char* dst, int n, const char* src);
 
@@ -472,7 +476,7 @@ void SPECIALBookMenu::LoadBBTextures()
     for (auStack_110 = 0; auStack_110 < 0xb; auStack_110++)
     {
 
-        FUN_00406d00(auStack_220, 0x104, str_01074c4c, str_01076cc0, str_01074c6c, auStack_110);
+        BSsprintf(auStack_220, 0x104, str_01074c4c, str_01076cc0, str_01074c6c, auStack_110);
 
         FUN_004b7240(auStack_220, auStack_218, 0x104);
 
@@ -482,7 +486,7 @@ void SPECIALBookMenu::LoadBBTextures()
     for (iStack_228 = 1; iStack_228 < 5; iStack_228++)
     {
 
-        FUN_00406d00(auStack_220, 0x104, str_01074c4c, str_01076ca4, str_01074c40, iStack_228);
+        BSsprintf(auStack_220, 0x104, str_01074c4c, str_01076ca4, str_01074c40, iStack_228);
 
         FUN_004b7240(auStack_220, auStack_218, 0x104);
 
@@ -497,53 +501,53 @@ void SPECIALBookMenu::LoadBBTextures()
 
         FUN_00406d30(iStack_224, 5, str_0101fd24);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c38);
+    BSsprintf(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c38);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1c0, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c24);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c24);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1bc, 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c1c);
+    BSsprintf(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c1c);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1c4, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c14);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074c14);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1c8, 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c00);
+    BSsprintf(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074c00);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1cc, 0, 0);
 
-    FUN_00406d00(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074bf8);
+    BSsprintf(auStack_218, 0x104, str_01076c94, str_01076cc0, iStack_224, str_01074bf8);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1d0, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074be8);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074be8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1d4, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bd8);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bd8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1d8, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bc8);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bc8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
     g_011dea10->FUN_004568c0(auStack_218, &m1dc, 0, 0);
 
-    FUN_00406d00(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bb8);
+    BSsprintf(auStack_220, 0x104, str_01074c08, str_01076cc0, str_01074bb8);
 
     FUN_004b7240(auStack_220, auStack_218, 0x104);
 
@@ -564,7 +568,8 @@ extern const char* DAT_011a0878[8];
 
 
 // @fnv 0x007c9dc0
-bool SPECIALBookMenu::FUN_007c9dc0(bool forward)
+// src: XBOX_PDB 0x007c9dc0
+bool SPECIALBookMenu::TurnPage(bool forward)
 {
     bool turned = false;
     if (forward)
@@ -662,11 +667,11 @@ struct BkLight
     static void* operator new(unsigned int size);
     static void operator delete(void*, unsigned int);
     BkLight();
-    void FUN_00440460(const BkColor& c);
+    void NiAVObject_SetTranslate(const BkColor& c);
     void SetEffectColor(const BkColor& c);
     void FUN_0050dd50(const BkColor& c);
-    void FUN_0050dd20(float f);
-    void FUN_00a59c60(const BkPoint3& p);
+    void NiLight_SetDimmer(float f);
+    void NiAVObject_Update(const BkPoint3& p);
 };
 struct BkScene
 {
@@ -731,7 +736,7 @@ struct BkScene
 };
 struct BkLoader
 {
-    NiNode* FUN_00447080(const char* path, int a, int b, int c, int d, int e);
+    NiNode* ModelLoader_LoadFile(const char* path, int a, int b, int c, int d, int e);
 };
 
 struct BkItemBase
@@ -771,8 +776,8 @@ struct BkDisplay : BkItemBase
 extern BkLoader* DAT_011c3b3c;
 extern BkTimer DAT_011f6394;
 void __cdecl FUN_004b7660(NiNode* node);
-void __cdecl FUN_00a6d2d0(NiNode* node);
-void* __cdecl FUN_00653270(void* rtti, NiTimeController* obj);
+void __cdecl NiTimeController_StartAnimations(NiNode* node);
+void* __cdecl NiObject_DynamicCast(void* rtti, NiTimeController* obj);
 BkScene* __cdecl FUN_00450b80(int a);
 
 
@@ -794,10 +799,10 @@ void SPECIALBookMenu::InitMenu()
     BkDisplay* kMsg;
 
     DAT_011daa38->m_pReferencedNode =
-        DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\Babybook02.NIF", 0, 1, 0, 0, 0);
+        DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\Babybook02.NIF", 0, 1, 0, 0, 0);
     FUN_004b7660(DAT_011daa38->m_pReferencedNode);
-    DAT_011daa38->m_pReferencedNode->FUN_00440490(0.05f);
-    DAT_011daa38->m_pReferencedNode->FUN_004bc1f0(0.0f, 0.0f, -60.0f);
+    DAT_011daa38->m_pReferencedNode->NiAVObject_SetScale(0.05f);
+    DAT_011daa38->m_pReferencedNode->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -60.0f);
     DAT_011daa38->m_pReferencedNode->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     akStart.Init(0.0f, 0, 0);
     DAT_011daa38->m_pReferencedNode->Update((NiUpdateData&)akStart);
@@ -806,7 +811,7 @@ void SPECIALBookMenu::InitMenu()
     if (aPCtrl)
     {
         NiControllerManager* mgr5 = (NiControllerManager*)aPCtrl;
-        NiControllerSequence* pForwardSequence = mgr5->FUN_0047a520(NiFixedString("Forward"));
+        NiControllerSequence* pForwardSequence = mgr5->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
         if (pForwardSequence)
         {
             mgr5->FUN_0048fef0(0.0f);
@@ -815,10 +820,10 @@ void SPECIALBookMenu::InitMenu()
             SetNegatedGlobal(pForwardSequence);
         }
     }
-    FUN_00a6d2d0(m_pReferencedNode);
+    NiTimeController_StartAnimations(m_pReferencedNode);
     for (; aPCtrl; aPCtrl = aPCtrl->GetNext())
     {
-        void* pMatch = FUN_00653270(&DAT_011f36bc, aPCtrl);
+        void* pMatch = NiObject_DynamicCast(&DAT_011f36bc, aPCtrl);
         if (pMatch)
         {
             BkPoint3 pT4;
@@ -829,18 +834,18 @@ void SPECIALBookMenu::InitMenu()
     }
     pos.Init(0.0f, 0, 0);
     m_pReferencedNode->Update((NiUpdateData&)pos);
-    aScale = DAT_011daa38->m_pReferencedNode->FUN_0043d450()->FUN_0084d030() * 20.0;
+    aScale = DAT_011daa38->m_pReferencedNode->NiAVObject_GetWorldBound()->FUN_0084d030() * 20.0;
     found = FUN_00450b80(1)->FUN_00b5ca70(DAT_011daa38->m_pReferencedNode->IsSceneNode(), aScale);
     if (found == 0)
     {
         BkLight* apTargetLight = new BkLight();
-        apTargetLight->FUN_00440460(BkColor(0.0f, 0.0f, 0.0f));
+        apTargetLight->NiAVObject_SetTranslate(BkColor(0.0f, 0.0f, 0.0f));
         apTargetLight->SetEffectColor(BkColor(0.85f, 0.85f, 0.85f));
         apTargetLight->FUN_0050dd50(BkColor(aScale, 0.0f, 0.0f));
-        apTargetLight->FUN_0050dd20(1.0f);
+        apTargetLight->NiLight_SetDimmer(1.0f);
         BkPoint3 kLightPos;
         kLightPos.Init(0.0f, 0, 0);
-        apTargetLight->FUN_00a59c60(kLightPos);
+        apTargetLight->NiAVObject_Update(kLightPos);
         FUN_00450b80(1)->AttachChildInAvailableSlot(apTargetLight, 1);
         FUN_00450b80(1)->FUN_00b5c940(apTargetLight, 0);
     }
@@ -1031,17 +1036,17 @@ void SPECIALBookMenu::InitMenu()
     {
         for (unsigned int iItem = 0; iItem < m_groups[iGroup].displays.FUN_0044ddc0(); iItem++)
         {
-            m_groups[iGroup].displays.FUN_006a7ad0(iItem)->m_cb(m_groups[iGroup].displays.FUN_006a7ad0(iItem));
+            m_groups[iGroup].displays.BSSimpleArray_NiAVObject_1024_GetAt(iItem)->m_cb(m_groups[iGroup].displays.BSSimpleArray_NiAVObject_1024_GetAt(iItem));
         }
         for (unsigned int iButton = 0; iButton < m_groups[iGroup].buttons.FUN_0044ddc0(); iButton++)
         {
-            m_groups[iGroup].buttons.FUN_006a7ad0(iButton)->m_cb4(m_groups[iGroup].buttons.FUN_006a7ad0(iButton));
+            m_groups[iGroup].buttons.BSSimpleArray_NiAVObject_1024_GetAt(iButton)->m_cb4(m_groups[iGroup].buttons.BSSimpleArray_NiAVObject_1024_GetAt(iButton));
         }
     }
 }
 
 int __cdecl MinInt(int, int);
-int __cdecl FUN_00647b70(int, int);
+int __cdecl BSMAX_00647b70(int, int);
 
 struct StatValues
 {
@@ -1098,7 +1103,7 @@ struct BookPlayer
     int unk9c;
     int unka0;
     StatValues values;
-    void FUN_0093a7c0(int stat, int value);
+    void PlayerCharacter_SetActorBaseValue(int stat, int value);
 };
 struct RawBookPtr
 {
@@ -1114,13 +1119,13 @@ struct BookButton
 };
 struct BookInterface
 {
-    float FUN_009a9350();
-    float FUN_00792760();
+    float TESCombatStyle_GetWeaponMinRangeMult();
+    float QueuedModel_GetOverriddenVisualDistance();
 };
 BookInterface* __cdecl InterfaceManager_GetSingleton();
 struct RenderBuffer
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct BookRenderer
 {
@@ -1179,7 +1184,7 @@ struct BookRenderer
     virtual void v52();
     virtual RenderBuffer* GetBuffer();
 };
-BookRenderer* __cdecl FUN_0043c4b0();
+BookRenderer* __cdecl NiXenonRenderer_GetRenderer();
 extern bool DAT_011f9426;
 extern float DAT_011ad84c;
 extern float DAT_011ad848;
@@ -1191,7 +1196,7 @@ struct FUN_006815c0
 class PickRecord
 {
 public:
-    void* FUN_00968670();
+    void* ProcessArray_GetItem();
 };
 struct BookScene
 {
@@ -1206,8 +1211,8 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
     switch (key)
     {
     case 4:
-        if (FUN_00794d80() == limit)
-            FUN_007c6120();
+        if (SPECIALBookMenu_GetTotalPointsUsed() == limit)
+            SPECIALBookMenu_Close();
         else
             reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("UIActivateNothing", 0x121)).Play(false);
         break;
@@ -1216,9 +1221,9 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (finished)
         {
             if (key == 0)
-                turned = FUN_007c9dc0(true);
+                turned = TurnPage(true);
             else
-                turned = FUN_007c9dc0(false);
+                turned = TurnPage(false);
             InvokeCallbacksForSlot();
         }
         break;
@@ -1226,19 +1231,19 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
     case 3: {
         int oldValue9 = 0;
         int newValue = 0;
-        if (FUN_007ca030() != -1)
+        if (GetCurrentStatesActorValue() != -1)
         {
-            oldValue9 = ((BookPlayer*)g_thePlayer)->values.GetBaseValue(FUN_007ca030());
+            oldValue9 = ((BookPlayer*)g_thePlayer)->values.GetBaseValue(GetCurrentStatesActorValue());
             if (key == 2)
             {
-                if (FUN_00794d80() < limit)
-                    ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(FUN_007ca030(), MinInt(oldValue9 + 1, 10));
+                if (SPECIALBookMenu_GetTotalPointsUsed() < limit)
+                    ((BookPlayer*)g_thePlayer)->PlayerCharacter_SetActorBaseValue(GetCurrentStatesActorValue(), MinInt(oldValue9 + 1, 10));
             }
             else
             {
-                ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(FUN_007ca030(), FUN_00647b70(oldValue9 - 1, 1));
+                ((BookPlayer*)g_thePlayer)->PlayerCharacter_SetActorBaseValue(GetCurrentStatesActorValue(), BSMAX_00647b70(oldValue9 - 1, 1));
             }
-            newValue = ((BookPlayer*)g_thePlayer)->values.GetValue(FUN_007ca030());
+            newValue = ((BookPlayer*)g_thePlayer)->values.GetValue(GetCurrentStatesActorValue());
         }
         else if (_FUN_004b71d0() && pageIndex == 8)
         {
@@ -1246,12 +1251,12 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
             oldValue9 = ((BookPlayer*)g_thePlayer)->values.GetBaseValue(stat);
             if (key == 2)
             {
-                if (FUN_00794d80() < limit)
-                    ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(stat, MinInt(oldValue9 + 1, 10));
+                if (SPECIALBookMenu_GetTotalPointsUsed() < limit)
+                    ((BookPlayer*)g_thePlayer)->PlayerCharacter_SetActorBaseValue(stat, MinInt(oldValue9 + 1, 10));
             }
             else
             {
-                ((BookPlayer*)g_thePlayer)->FUN_0093a7c0(stat, FUN_00647b70(oldValue9 - 1, 1));
+                ((BookPlayer*)g_thePlayer)->PlayerCharacter_SetActorBaseValue(stat, BSMAX_00647b70(oldValue9 - 1, 1));
             }
             newValue = ((BookPlayer*)g_thePlayer)->values.GetValue(stat);
         }
@@ -1268,18 +1273,18 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (pageIndex < 9)
         {
             BookInterface* interfaceManager3 = InterfaceManager_GetSingleton();
-            int mouseX = (int)interfaceManager3->FUN_009a9350();
-            int mouseY = (int)interfaceManager3->FUN_00792760();
+            int mouseX = (int)interfaceManager3->TESCombatStyle_GetWeaponMinRangeMult();
+            int mouseY = (int)interfaceManager3->QueuedModel_GetOverriddenVisualDistance();
             if (DAT_011f9426)
                 mouseY = (int)(mouseY * (DAT_011ad848 - DAT_011ad84c) +
-                               FUN_0043c4b0()->GetBuffer()->FUN_0084e3a0() * DAT_011ad84c);
+                               NiXenonRenderer_GetRenderer()->GetBuffer()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() * DAT_011ad84c);
             for (unsigned int i = 0; i < groups[pageIndex].buttons.FUN_0044ddc0(); i++)
             {
                 FUN_006815c0 origin20;
                 FUN_006815c0 direction1;
                 NiPick pick(0, 8);
                 pick.SetByteAtOffset17(1);
-                pick.FUN_00705fc0(groups[pageIndex].buttons.FUN_006a7ad0(i)->object.FUN_00559450());
+                pick.SetTarget_00705fc0(groups[pageIndex].buttons.BSSimpleArray_NiAVObject_1024_GetAt(i)->object.FUN_00559450());
                 pick.FUN_006ecd40(0);
                 pick.SetByteAtOffset30(1);
                 ((BookScene*)((RawBookPtr*)&g_011daa9c)->FUN_00559450())
@@ -1287,10 +1292,10 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
                 if (pick.FUN_00e98e20((const NiPoint3&)origin20, (const NiPoint3&)direction1, 0))
                 {
                     unsigned int resultIndex = 0;
-                    void* hit = pick.FUN_00500940(resultIndex)->FUN_00968670();
+                    void* hit = pick.FUN_00500940(resultIndex)->ProcessArray_GetItem();
                     if (hit)
                     {
-                        groups[pageIndex].buttons.FUN_006a7ad0(i)->activate(groups[pageIndex].buttons.FUN_006a7ad0(i));
+                        groups[pageIndex].buttons.BSSimpleArray_NiAVObject_1024_GetAt(i)->activate(groups[pageIndex].buttons.BSSimpleArray_NiAVObject_1024_GetAt(i));
                         break;
                     }
                 }

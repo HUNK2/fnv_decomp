@@ -111,7 +111,7 @@ struct FUN_00d2ce90_class
     void hkCpuJobThreadPool_waitForCompletion();
 };
 
-int __fastcall FUN_00d04380(void*);
+int __fastcall hkSemaphore_acquire(void*);
 
 // @fnv 0x00d2ce90
 // src: HAVOK_LIB 0x00d2ce90
@@ -121,7 +121,7 @@ void FUN_00d2ce90_class::hkCpuJobThreadPool_waitForCompletion()
     {
         for (int i = 0; i < m_uiItemCount; ++i)
         {
-            FUN_00d04380(&m_uiFilterValue);
+            hkSemaphore_acquire(&m_uiFilterValue);
         }
 
         m_running = false;
@@ -168,7 +168,7 @@ struct hkMemoryRouterXd2d3b0
     }
 };
 
-extern "C" hkMemoryRouterXd2d3b0& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouterXd2d3b0& __cdecl hkMemoryRouter_getInstance() throw();
 
 class hkObjd2d3b0 : public FUN_00d2cf00
 {
@@ -177,7 +177,7 @@ class hkObjd2d3b0 : public FUN_00d2cf00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -288,7 +288,7 @@ void ClsD2C::FUN_00d2cf00()
     }
     for (int j = 0; j < m_uiItemCount; ++j)
     {
-        FUN_00d04380(&ArrBaseD2C::m_threads[5].m_pTail);
+        hkSemaphore_acquire(&ArrBaseD2C::m_threads[5].m_pTail);
     }
     hkReferencedObject_setLockMode(0);
     ArrBaseD2C::m_threads[5].m_pTail.FUN_00d04370();
@@ -429,7 +429,7 @@ struct hkMonitorTlsD2
 };
 extern hkMonitorTlsD2 DAT_0126835c;
 void __cdecl ResizeBuffer(hkMonitorStreamD2* pStream, int iSize);
-void __cdecl FUN_00cb0da0(hkMonitorStreamD2* pStream);
+void __cdecl hkMonitorStream_reset(hkMonitorStreamD2* pStream);
 
 struct hkMemoryRouterD2
 {
@@ -463,8 +463,8 @@ class hkMemorySystemD2
     virtual void InitializeThreadRouter(hkMemoryRouterD2& router, const char* name, hkMemorySystemFlagsD2 flags);
     virtual void ThreadQuit(hkMemoryRouterD2& router, hkMemorySystemFlagsD2 flags);
 };
-hkMemorySystemD2* __cdecl FUN_00cbbfc0();
-void __cdecl FUN_00cbb930(hkMemoryRouterD2* router);
+hkMemorySystemD2* __cdecl hkMemorySystem_getInstance();
+void __cdecl hkBaseSystem_initThread(hkMemoryRouterD2* router);
 void __cdecl hkBaseSystem_quitThread();
 
 struct hkSemaphoreD2
@@ -472,7 +472,7 @@ struct hkSemaphoreD2
     void FUN_00d04390(int count);
     void* m_pCompletionSemaphore;
 };
-int __fastcall FUN_00d04380(void*);
+int __fastcall hkSemaphore_acquire(void*);
 
 struct hkJobQueueD2
 {
@@ -518,8 +518,8 @@ void* __cdecl CpuJobThreadMain(void* apThreadData)
     SetThreadIdealProcessor(GetCurrentThread(), threadData.m_iOffset1C);
 
     hkMemoryRouterD2 memoryRouter;
-    FUN_00cbbfc0()->InitializeThreadRouter(memoryRouter, "hkCpuJobThreadPool", hkMemorySystemFlagsD2(3));
-    FUN_00cbb930(&memoryRouter);
+    hkMemorySystem_getInstance()->InitializeThreadRouter(memoryRouter, "hkCpuJobThreadPool", hkMemorySystemFlagsD2(3));
+    hkBaseSystem_initThread(&memoryRouter);
 
     if (threadPool->m_iThreadPriority > 0)
     {
@@ -529,23 +529,23 @@ void* __cdecl CpuJobThreadMain(void* apThreadData)
     threadData.m_pOffset28 = DAT_0126835c.getData()->GetStreamStart();
     threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
 
-    FUN_00d04380(&threadData.m_pCompletionSemaphore);
+    hkSemaphore_acquire(&threadData.m_pCompletionSemaphore);
     while (!threadData.m_ucState)
     {
         if (threadData.m_bOffset21)
         {
-            FUN_00cb0da0(DAT_0126835c.getData());
+            hkMonitorStream_reset(DAT_0126835c.getData());
             threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
             threadData.m_bOffset21 = false;
         }
         threadPool->m_kQueues->hkJobQueue_processAllJobs();
         threadData.m_pOffset2C = DAT_0126835c.getData()->GetStreamEnd();
         threadPool->m_kWorkerSemaphore.FUN_00d04390(1);
-        FUN_00d04380(&threadData.m_pCompletionSemaphore);
+        hkSemaphore_acquire(&threadData.m_pCompletionSemaphore);
     }
 
     hkBaseSystem_quitThread();
-    FUN_00cbbfc0()->ThreadQuit(memoryRouter, hkMemorySystemFlagsD2(3));
+    hkMemorySystem_getInstance()->ThreadQuit(memoryRouter, hkMemorySystemFlagsD2(3));
     threadPool->m_kWorkerSemaphore.FUN_00d04390(1);
     return 0;
 }
@@ -734,6 +734,6 @@ void WorkerThreadPoolViewD2::hkCpuJobThreadPool_removeThread()
     WorkerThreadRecordD2& worker = pool->m_workers[pool->m_sharedData.m_iHardwareInfoValue];
     worker.m_ucState = true;
     worker.m_pCompletionSemaphore.FUN_00d04390(1);
-    FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore);
+    hkSemaphore_acquire(&pool->m_sharedData.m_kWorkerSemaphore);
     worker.m_iThreadHandle.hkThread_stopThread();
 }

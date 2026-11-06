@@ -32,18 +32,18 @@ inline void* operator new(unsigned int, void* p)
     return p;
 }
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 // This unit's reserve helper is nonthrowing; hkArrayUtil::_reserve is not.
 void __cdecl ReserveResourceArray(hkMemoryAllocator&, void*, int, int) throw();
 
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+    return *reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
 }
 inline hkMemoryAllocator& hkContainerTempAllocator::get(void*)
 {
-    return *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_temp);
+    return *reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_temp);
 }
 
 template <typename T> __forceinline void hkArrayUtil::constructWithCopy(T* p, int n, const T& item, hkTypeIsPod)
@@ -177,12 +177,13 @@ struct FUN_00e2df80_obj
 
 struct FUN_00e2df80_class
 {
-    int __thiscall FUN_00e2df80(void* a, int* out);
+    int __thiscall hkContainerResourceMap_findObjectByName(void* a, int* out);
 };
 
 // Clears *out, looks up an object via the helper at this+4, and if found stores its v1c() result in *out and returns its v18() result.
 // @fnv 0x00e2df80
-int __thiscall FUN_00e2df80_class::FUN_00e2df80(void* apKey, int* piOut)
+// src: XBOX_PDB 0x00e2df80
+int __thiscall FUN_00e2df80_class::hkContainerResourceMap_findObjectByName(void* apKey, int* piOut)
 {
     if (piOut)
         *piOut = 0;
@@ -400,8 +401,8 @@ struct Entry
     virtual void m30();
     virtual void process(int);
 };
-void __stdcall FUN_00e2e2e0(hkArrayBase<Entry*>*);
-hkMemoryRouter* __cdecl FUN_00c85750();
+void __stdcall hkResourceContainer_findAllResourceRecursively(hkArrayBase<Entry*>*);
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00e2e960
 // src: HAVOK_SRC 0x00e2e960
 void __stdcall hkMemoryResourceContainer_tryToResolveLinks(int aiValue)
@@ -410,10 +411,10 @@ void __stdcall hkMemoryResourceContainer_tryToResolveLinks(int aiValue)
     a.m_data = 0;
     a.m_iElementCount = 0;
     a.m_iCapacityState = 0x80000000;
-    FUN_00e2e2e0(&a);
+    hkResourceContainer_findAllResourceRecursively(&a);
     for (int i = 0; i < a.m_iElementCount; ++i)
         a.m_data[i]->process(aiValue);
-    hkMemoryRouter* pRouter = FUN_00c85750();
+    hkMemoryRouter* pRouter = hkMemoryRouter_getInstance();
     int cap = a.m_iCapacityState;
     {
         MemoryManager* m = reinterpret_cast<MemoryManager*>(pRouter->m_heap);
@@ -439,7 +440,7 @@ struct MemoryAllocator
     virtual void Slot0c();
     virtual void Free(void* address, unsigned int bytes);
 };
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 struct AnimationResource
 {
     int* m_ppVirtualMethodTable;
@@ -458,7 +459,7 @@ struct AnimationResource
 void AnimationResource::ClearItems()
 {
     m_ppVirtualMethodTable = &DAT_010eb2c4;
-    hkMemoryRouter* router = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* router = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     int count = m_secondCount;
     MemoryAllocator* allocator = reinterpret_cast<MemoryAllocator*>(router->m_heap);
     hkReferencedObject** items = m_secondItems;
@@ -477,7 +478,7 @@ void AnimationResource::ClearItems()
         allocator->Free(m_secondItems, (capacity & 0x3fffffff) * sizeof(hkReferencedObject*));
     m_secondItems = 0;
     m_secondCapacity = 0x80000000;
-    router = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    router = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     int iFirstCount = m_firstCount;
     allocator = reinterpret_cast<MemoryAllocator*>(router->m_heap);
     hkReferencedObject** pFirstItems = m_firstItems;
@@ -509,7 +510,7 @@ inline hkMemoryAllocator& ResourceTempAllocator(hkMemoryRouter* router)
 __forceinline hkStringBuf::hkStringBuf() throw()
     : m_string(reinterpret_cast<char*>(m_storage), 0, 128)
 {
-    m_string._setSize(ResourceTempAllocator(FUN_00c85750()), 1);
+    m_string._setSize(ResourceTempAllocator(hkMemoryRouter_getInstance()), 1);
     m_string[0] = 0;
 }
 
@@ -536,7 +537,7 @@ class hkNamedTypeE2F0
 
 template <> __forceinline hkArray<fnv_00e2f090::hkNamedTypeE2F0*>::~hkArray()
 {
-    hkMemoryAllocator& alloc = fnv_00e2f090::HeapAllocator(FUN_00c85750());
+    hkMemoryAllocator& alloc = fnv_00e2f090::HeapAllocator(hkMemoryRouter_getInstance());
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(m_data[0]));
@@ -549,7 +550,7 @@ namespace fnv_00e2f090 {
 class hkTypeSourceE2F0
 {
   public:
-    void FUN_00e2e2e0(hkArray<hkNamedTypeE2F0*>& kTypesOut) const throw();
+    void hkResourceContainer_findAllResourceRecursively(hkArray<hkNamedTypeE2F0*>& kTypesOut) const throw();
 };
 
 class FUN_00d87790
@@ -561,7 +562,7 @@ class FUN_00d87790
     int m_0c;
 
     FUN_00d87790(hkBool bIsValid) throw();
-    void FUN_00d874d0(const char* pcKey, const void* pvValue) throw();
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* pcKey, const void* pvValue) throw();
 };
 
 template <typename V> class hkStringMapE2F0
@@ -573,7 +574,7 @@ template <typename V> class hkStringMapE2F0
     {}
     void insert(const char* pcKey, V val)
     {
-        m_map.FUN_00d874d0(pcKey, val);
+        m_map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(pcKey, val);
     }
 };
 
@@ -591,7 +592,7 @@ class FUN_00e2f090
 FUN_00e2f090::FUN_00e2f090(const hkTypeSourceE2F0* pkSource) throw()
 {
     hkArray<hkNamedTypeE2F0*> kTypes;
-    pkSource->FUN_00e2e2e0(kTypes);
+    pkSource->hkResourceContainer_findAllResourceRecursively(kTypes);
     for (int i = 0; i < kTypes.GetLogicalSize(); i++)
     {
         hkNamedTypeE2F0* pkType = kTypes[i];
@@ -610,7 +611,7 @@ FUN_00e2f090::FUN_00e2f090(const hkTypeSourceE2F0* pkSource) throw()
 // it, as in the original pointer-array append; hkArray::pushBack loads it early.
 template <class T> __forceinline void AppendResourceNode(hkArray<T>& out, const T& item)
 {
-    hkMemoryRouter& router = *FUN_00c85750();
+    hkMemoryRouter& router = *hkMemoryRouter_getInstance();
     if (out.m_iElementCount == (out.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router.m_heap, &out, sizeof(T));
     hkArrayUtil::constructWithCopy(out.m_data + out.m_iElementCount, 1, item, hkTypeIsPod());
@@ -619,7 +620,7 @@ template <class T> __forceinline void AppendResourceNode(hkArray<T>& out, const 
 
 template <class T> __forceinline void AppendResourceReference(hkArray<T>& out, const T& item) throw()
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (out.m_iElementCount == (out.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router->m_heap, &out, sizeof(T));
     new (&out.m_data[out.m_iElementCount]) T(item);
@@ -644,15 +645,16 @@ class hkNodeE2E2
     virtual void vfn_30();
     virtual hkNodeE2E2* vfn_34(int a, hkNodeE2E2* prev);
 
-    void FUN_00e2e2e0(hkArray<hkNodeE2E2*>& out);
+    void hkResourceContainer_findAllResourceRecursively(hkArray<hkNodeE2E2*>& out);
 };
 
 // Recursively visits nodes returned by vfn_34 and appends nodes returned by vfn_20 to out.
 // @fnv 0x00e2e2e0
-void hkNodeE2E2::FUN_00e2e2e0(hkArray<hkNodeE2E2*>& apOutNodes)
+// src: XBOX_PDB 0x00e2e2e0
+void hkNodeE2E2::hkResourceContainer_findAllResourceRecursively(hkArray<hkNodeE2E2*>& apOutNodes)
 {
     for (hkNodeE2E2* child = vfn_34(0, 0); child; child = vfn_34(0, child))
-        child->FUN_00e2e2e0(apOutNodes);
+        child->hkResourceContainer_findAllResourceRecursively(apOutNodes);
     for (hkNodeE2E2* item = vfn_20(0, 0, 0); item; item = vfn_20(0, 0, item))
         AppendResourceNode(apOutNodes, item);
 }
@@ -675,16 +677,17 @@ class hkNodeE2E3
     virtual void vfn_30();
     virtual hkNodeE2E3* vfn_34(int a, hkNodeE2E3* prev);
 
-    void FUN_00e2e380(hkArray<hkNodeE2E3*>& out);
+    void hkResourceContainer_findAllContainersRecursively(hkArray<hkNodeE2E3*>& out);
 };
 
 // Appends this node to out, then recursively appends all descendant child nodes via vfn_34.
 // @fnv 0x00e2e380
-void hkNodeE2E3::FUN_00e2e380(hkArray<hkNodeE2E3*>& out)
+// src: XBOX_PDB 0x00e2e380
+void hkNodeE2E3::hkResourceContainer_findAllContainersRecursively(hkArray<hkNodeE2E3*>& out)
 {
     AppendResourceNode(out, this);
     for (hkNodeE2E3* child = vfn_34(0, 0); child; child = vfn_34(0, child))
-        child->FUN_00e2e380(out);
+        child->hkResourceContainer_findAllContainersRecursively(out);
 }
 
 struct S00e2e3f0_Pair
@@ -996,7 +999,7 @@ struct Resource_e2ef
     Container_e2ef* m_parent;
     static void* operator new(unsigned int nbytes) throw()
     {
-        Resource_e2ef* p = (Resource_e2ef*)ResourceHeap(*FUN_00c85750()).AllocateMemoryBlock(nbytes);
+        Resource_e2ef* p = (Resource_e2ef*)ResourceHeap(*hkMemoryRouter_getInstance()).AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1138,7 +1141,7 @@ struct FUN_00c85750_Object
 
 extern int DAT_01063cbc;
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Calls vf24 and vf10, sends two values to the object at param, then conditionally calls allocator->vf10.
 // @fnv 0x00e2eae0
@@ -1161,7 +1164,7 @@ void __thiscall FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
     target->FUN_00d61df0(&DAT_01063cbc);
     target->FUN_00d61df0(value);
 
-    FUN_00c85750_Object* allocator = reinterpret_cast<FUN_00c85750_Object*>(FUN_00c85750()->m_temp);
+    FUN_00c85750_Object* allocator = reinterpret_cast<FUN_00c85750_Object*>(hkMemoryRouter_getInstance()->m_temp);
     int handle = local.m_string.m_iCapacityState;
     local.m_string.m_iElementCount = 0;
     if ((handle & 0x80000000u) == 0)
@@ -1193,7 +1196,7 @@ struct ExternalLinkHandle : hkResourceHandle
 void ExternalLinkHandle::hkMemoryResourceHandle_addExternalLink(const char* memberName, const char* externalId)
 {
     hkArray<ExternalLinkPair>* links = &references;
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (links->m_iElementCount == (links->m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(reinterpret_cast<MemoryManager*>(router->m_heap), links, sizeof(ExternalLinkPair));
     ExternalLinkPair* link = &links->m_data[links->m_iElementCount];
@@ -1234,14 +1237,14 @@ struct FUN_00e2ed00_class
 // src: HAVOK_SRC 0x00e2ed00
 ObjQ_e2e9e0* FUN_00e2ed00_class::hkMemoryResourceContainer_createResource(void* p0, void* apArg1, void* apArg2)
 {
-    ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)ResourceHeap(*FUN_00c85750()).AllocateMemoryBlock(0x1c);
+    ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)ResourceHeap(*hkMemoryRouter_getInstance()).AllocateMemoryBlock(0x1c);
     obj->m_usMemSizeAndFlags = 0x1c;
     obj = (ObjQ_e2e9e0*)obj->Ctor();
     obj->FUN_00e2e9e0_v14(p0);
     obj->FUN_00e2e9e0_v20(apArg1, apArg2);
     ((hkReferencedObject*)obj)->addReference();
     hkArray<ObjQ_e2e9e0*>* arr = &this->unk10;
-    hkMemoryRouter& audio2 = *FUN_00c85750();
+    hkMemoryRouter& audio2 = *hkMemoryRouter_getInstance();
     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(audio2.m_heap, arr, 4);
     ObjQ_e2e9e0** slot = arr->m_data + arr->m_iElementCount;

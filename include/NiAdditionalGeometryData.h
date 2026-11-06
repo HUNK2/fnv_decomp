@@ -26,7 +26,7 @@ class NiAdditionalGeometryData : public NiObject
 
     void* NiAdditionalGeometryData_LockDataBlock(unsigned int, unsigned int*);
     void* NiAdditionalGeometryData_UnlockDataBlock(unsigned int);
-    bool __thiscall FUN_00a727f0(const NiAdditionalGeometryData*);
+    bool __thiscall NiAdditionalGeometryData_IsEqual(const NiAdditionalGeometryData*);
     bool NiAdditionalGeometryData_GetDataStream(unsigned int uiIndex, char** ppcData, void** ppvStream, unsigned short* pusVertexCount,
                       int* piFormat, int* piStride, int* piUsage);
     void* FUN_00537cb0(unsigned int flags);

@@ -140,11 +140,11 @@ void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorAr
     char* buf = FUN_00c85690(allocator, count * 16);
     float r = a20 / angle;
     __declspec(align(16)) hkQuaternion q1;
-    q1.FUN_00cb2450((void*)(__m128*)a14, angle);
+    q1.hkQuaternion_setAxisAngle((void*)(__m128*)a14, angle);
     __declspec(align(16)) hkQuaternion q2;
     float ang2 = (float)(DAT_0101ff48 / (double)count);
     __m128* direction = a10;
-    q2.FUN_00cb2450(direction, ang2);
+    q2.hkQuaternion_setAxisAngle(direction, ang2);
     __m128 v = RotateInitial(q1, *direction);
     __m128* center = base;
     __m128* out = (__m128*)buf;
@@ -221,9 +221,9 @@ void PlaneDrawObject::FUN_00e11180(const hkVector4* p1, int p2, const hkVector4*
     __m128 splat = _mm_shuffle_ps(t, t, 0);
     *(__m128*)&L = _mm_mul_ps(splat, *(const __m128*)p3);
     hkQuaternion D1;
-    D1.FUN_00cb2450((void*)p2, DAT_0101ff38);
+    D1.hkQuaternion_setAxisAngle((void*)p2, DAT_0101ff38);
     hkQuaternion D2;
-    D2.FUN_00cb2450((void*)p2, DAT_01064f60);
+    D2.hkQuaternion_setAxisAngle((void*)p2, DAT_01064f60);
 
     L.m_vComponents = PlaneDrawRotate(*(__m128*)&D2, L.m_vComponents);
     P1v.m_vComponents = p1->m_vComponents;

@@ -234,7 +234,7 @@ FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
     }
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedItem
 {
@@ -353,7 +353,7 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
             m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
         }
     }
-    hkMemoryRouter* pAudioHolder = FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAudioHolder->m_heap);
     SpawnedItem* p = m_pData;
     if (m_iField30 > 0)
@@ -380,7 +380,7 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
 }
 
 namespace fnv_00d6ad00 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -407,7 +407,7 @@ struct SpawnedObject
 // src: COMMUNITY 0x00d6ad00
 int hkpBroadphaseViewer_Create(int arg)
 {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAllocHolder->m_heap);
     SpawnedObject* pObject = (SpawnedObject*)(*reinterpret_cast<void* (__thiscall**)(hkMemoryAllocator*, int)>(
         *reinterpret_cast<char**>(pAllocator) + 4))(pAllocator, 0x38);
@@ -505,7 +505,7 @@ D6AD90Object::D6AD90Object()
 {}
 
 namespace fnv_00d6ada0 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& Heap(hkMemoryRouter* holder)
 {
@@ -525,7 +525,7 @@ struct S_00d6ada0_ReferencedObject
     void operator delete(void* p, unsigned int)
     {
         S_00d6ada0_ReferencedObject* b = static_cast<S_00d6ada0_ReferencedObject*>(p);
-        ReleaseBlock(Heap(FUN_00c85750()), p, b->m_usMemSizeAndFlags);
+        ReleaseBlock(Heap(hkMemoryRouter_getInstance()), p, b->m_usMemSizeAndFlags);
     }
     virtual ~S_00d6ada0_ReferencedObject()
     {}

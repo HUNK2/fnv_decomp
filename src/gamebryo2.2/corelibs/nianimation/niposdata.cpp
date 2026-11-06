@@ -242,7 +242,7 @@ void NiPosDataOperations::SaveToStream(NiStream& kStream)
 extern char str_01097164[];
 extern int DAT_011f3f68;
 extern int __cdecl NiViewerStrings_NiGetViewerString_Title(int);
-extern int __cdecl FUN_00a7d510(char*, int);
+extern int __cdecl NiGetViewerString_00a7d510(char*, int);
 
 struct FUN_0096ad30_param
 {
@@ -271,7 +271,7 @@ void NiPosDataOperations::AddViewerEntries(FUN_0096ad30_param* param)
         param->FUN_0096ad30((unsigned int)param->unk0E + index);
     }
     param->FUN_0096ae90(index, &value);
-    value = FUN_00a7d510(str_01097164, m_uiNumKeys);
+    value = NiGetViewerString_00a7d510(str_01097164, m_uiNumKeys);
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {
@@ -281,7 +281,7 @@ void NiPosDataOperations::AddViewerEntries(FUN_0096ad30_param* param)
 }
 
 
-void FUN_00a3d630(int, int, int, int, float, float, unsigned int*, unsigned int*);
+void NiAnimationKey_CopySequence(int, int, int, int, float, float, unsigned int*, unsigned int*);
 
 
 // @fnv 0x00a49140
@@ -301,7 +301,7 @@ void NiPosDataOperations::CopyKeyRange(float a1, float a2, NiPosDataOperations**
     {
         uiOut1 = 0;
         uiOut2 = 0;
-        FUN_00a3d630(1, m_eRequestType, (int)m_pKeyArray, (int)m_uiNumKeys, a1, a2, &uiOut1, &uiOut2);
+        NiAnimationKey_CopySequence(1, m_eRequestType, (int)m_pKeyArray, (int)m_uiNumKeys, a1, a2, &uiOut1, &uiOut2);
         p->SetColorKeys((PositionKeyInterpolator*)uiOut1, uiOut2, m_eRequestType);
     }
     NiPosDataOperations* old = *apObj;

@@ -12,7 +12,7 @@ extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
-    int __cdecl FUN_00ce9e90(void*);
+    int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
 // @fnv 0x00cea7c0
@@ -23,7 +23,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* 
         return 1;
     if (FUN_00ce9db0(p2, p3))
         return 1;
-    if (FUN_00ce9e90(p2))
+    if (alignConstraintSpacesToChildren(p2))
         return 1;
     return 0;
 }
@@ -81,7 +81,7 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
+SpawnedGlobal* __cdecl hkMemoryRouter_getInstance() throw();
 struct SpawnedObject
 {
     int unk00;
@@ -226,7 +226,7 @@ template <class T> struct ArrayLocalForm
     }
     void reserve(int count) throw()
     {
-        SpawnedGlobal* holder = FUN_00c85750();
+        SpawnedGlobal* holder = hkMemoryRouter_getInstance();
         reserve(holder->m_pAllocator, count);
     }
     void resize(int count) throw()
@@ -285,7 +285,7 @@ struct Skeleton : SkeletonHeader
     {}
     __forceinline void* operator new(unsigned int bytes)
     {
-        SpawnedGlobal* holder = FUN_00c85750();
+        SpawnedGlobal* holder = hkMemoryRouter_getInstance();
         SpawnedAllocator* allocator = holder->m_pAllocator;
         Skeleton* result = static_cast<Skeleton*>(allocator->allocate(bytes));
         result->memorySize = static_cast<unsigned short>(bytes);

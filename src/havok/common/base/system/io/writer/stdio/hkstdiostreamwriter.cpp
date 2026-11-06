@@ -30,12 +30,13 @@ extern int DAT_0102e388;
 struct FUN_00d2bfb0_class
 {
     int* vtbl;
-    void FUN_00d2bfb0();
+    void fclose_00d2bfb0();
     void __thiscall FUN_00d2be50();
 };
 
 // @fnv 0x00d2bfb0
-void __thiscall FUN_00d2bfb0_class::FUN_00d2bfb0()
+// src: XBOX_PDB 0x00d2bfb0
+void __thiscall FUN_00d2bfb0_class::fclose_00d2bfb0()
 {
     vtbl = &DAT_010ce6f4;
     FUN_00d2be50();

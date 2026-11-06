@@ -49,7 +49,7 @@ struct S93ba0_Mem {
     __forceinline S93ba0_Alloc* getBlockAlloc() { return AllocateMemoryBlock; }
 };
 
-extern "C" S93ba0_Mem* __cdecl FUN_00c85750();
+extern "C" S93ba0_Mem* __cdecl hkMemoryRouter_getInstance();
 
 struct S93ba0_Stream {
     int unk00;
@@ -96,7 +96,7 @@ struct S93ba0_LocalArray {
 
     __forceinline S93ba0_LocalArray(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        S93ba0_Mem* mem = FUN_00c85750();
+        S93ba0_Mem* mem = hkMemoryRouter_getInstance();
         char* p = mem->lifoCursor;
         mem->lifoCursor = p + ((n * 8 + 127) & ~127);
         m_data = (S93ba0_Pair*)p;
@@ -112,8 +112,8 @@ struct S93ba0_LocalArray {
     {
         S93ba0_Pair* local = m_pTrailingData;
         if (local == m_data) m_iElementCount = 0;
-        FUN_00c85750()->lifoCursor = (char*)local;
-        S93ba0_Alloc* a = FUN_00c85750()->getBlockAlloc();
+        hkMemoryRouter_getInstance()->lifoCursor = (char*)local;
+        S93ba0_Alloc* a = hkMemoryRouter_getInstance()->getBlockAlloc();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000u) == 0)
             a->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * 8);
@@ -423,7 +423,7 @@ struct S93ba0_Device {
     int unk338;
     int pairCapacity;
     void FUN_00c911d0(int v);
-    void FUN_00c91210(int v);
+    void hkpWorld_unlockIslandForConstraintUpdate(int v);
 };
 
 struct S93ba0_Builder {
@@ -631,7 +631,7 @@ void* __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(S93ba0_Owner* owner
             total = 0;
             for (S93ba0_Chunk* c = block->chunks; c; c = c->next)
                 total += c->count;
-            S93ba0_Mem* mem = FUN_00c85750();
+            S93ba0_Mem* mem = hkMemoryRouter_getInstance();
             copy = mem->lifoCursor;
             mem->lifoCursor = copy + ((total * 16 + 127) & ~127);
             index = 0;
@@ -642,7 +642,7 @@ void* __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(S93ba0_Owner* owner
                 index += c->count;
             }
             hkpWorldCallbackUtil_fireContactImpulseLimitBreached(owner->device, copy, total);
-            FUN_00c85750()->lifoCursor = copy;
+            hkMemoryRouter_getInstance()->lifoCursor = copy;
         }
         *marker = 2;
     } else {
@@ -666,14 +666,14 @@ void* __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(S93ba0_Owner* owner
             device->FUN_00c911d0((*conn)->lockId);
             device->stager->FUN_00cf70f0(second.m_data, second.m_iElementCount);
             const int needed = first.m_iElementCount;
-            if (!FUN_00c85750()->getBlockAlloc()->hasSpace(needed << 10)) {
-                device->FUN_00c91210((*conn)->lockId);
+            if (!hkMemoryRouter_getInstance()->getBlockAlloc()->hasSpace(needed << 10)) {
+                device->hkpWorld_unlockIslandForConstraintUpdate((*conn)->lockId);
             } else {
                 S93ba0_timer( str_010cc5d8);
                 char* extra = device->extra;
                 device->stager->hkpTypedBroadPhaseDispatcher_addPairs(
                     first.m_data, first.m_iElementCount, extra ? extra + 8 : 0);
-                device->FUN_00c91210((*conn)->lockId);
+                device->hkpWorld_unlockIslandForConstraintUpdate((*conn)->lockId);
             }
         }
         S93ba0_timer( str_01076f38);
@@ -683,32 +683,32 @@ void* __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(S93ba0_Owner* owner
         while (block->bigNodes) {
             S93ba0_Node* n = block->bigNodes;
             block->bigNodes = n->next;
-            FUN_00c85750()->getBlockAlloc()->ReleaseBlock(n, 0x1000);
+            hkMemoryRouter_getInstance()->getBlockAlloc()->ReleaseBlock(n, 0x1000);
         }
         while (block->smallNodes) {
             S93ba0_Node* n = block->smallNodes;
             block->smallNodes = n->next;
-            FUN_00c85750()->getBlockAlloc()->ReleaseBlock(n, 0x30);
+            hkMemoryRouter_getInstance()->getBlockAlloc()->ReleaseBlock(n, 0x30);
         }
         void* buffer = block->buffer;
         if (buffer) {
             int bufferSize = block->bufferSize;
-            FUN_00c85750()->solver().ReturnMemory(buffer,bufferSize);
+            hkMemoryRouter_getInstance()->solver().ReturnMemory(buffer,bufferSize);
             block->buffer = 0;
         }
         if (block->numThreads > 1) {
             int tableCount = block->tableCount;
             void* table = block->table;
-            FUN_00c85750()->getBlockAlloc()->ReturnMemory(table, tableCount * 4);
+            hkMemoryRouter_getInstance()->getBlockAlloc()->ReturnMemory(table, tableCount * 4);
             block->table = 0;
         }
-        S93ba0_Alloc* a = FUN_00c85750()->getBlockAlloc();
+        S93ba0_Alloc* a = hkMemoryRouter_getInstance()->getBlockAlloc();
         block->arrSize = 0;
         if ((block->arrCapacityAndFlags & 0x80000000u) == 0)
             a->ReturnMemory(block->arrData, (block->arrCapacityAndFlags & 0x3fffffff) * 4);
         block->arrData = 0;
         block->arrCapacityAndFlags = 0x80000000;
-        FUN_00c85750()->getBlockAlloc()->ReleaseBlock(block, 0x80);
+        hkMemoryRouter_getInstance()->getBlockAlloc()->ReleaseBlock(block, 0x80);
     }
 
 

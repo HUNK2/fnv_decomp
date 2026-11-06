@@ -68,7 +68,7 @@ extern "C"
 #include "../../include/hkpPhysicsContext.h"
 #include "../../include/hkMemoryRouter.h"
 #include "../../include/hkStackMemory.h"
-void __cdecl FUN_00d687c0(void);
+void __cdecl hkpInactiveContactPointViewer_create(void);
 struct Registry_00dd9380
 {
     void* Register(char const*, void(__cdecl*)(void));
@@ -115,14 +115,14 @@ struct FnvCpu_FUN_00d687c0_CpuHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d687c0_CpuAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d687c0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d687c0_CpuBlock* Construct(unsigned int value);
 };
-void* __cdecl FUN_00d687c0(unsigned int value);
+void* __cdecl hkpInactiveContactPointViewer_create(unsigned int value);
 extern "C" int DAT_010d203c;
 extern "C" int DAT_010d201c;
 extern "C" int DAT_010d200c;
@@ -297,12 +297,12 @@ struct FUN_00d61470_Class
 {
     void* FUN_00d61470();
 };
-char* __cdecl FUN_00cb1130(char* pcHaystack, const char* pcNeedle);
+char* __cdecl hkString_strStr(char* pcHaystack, const char* pcNeedle);
 inline char toLowerD614(char c)
 {
     return (c >= 'A' && c <= 'Z') ? c - 'A' + 'a' : c;
 }
-int __cdecl FUN_00cb1130(int a1, int a2);
+int __cdecl hkString_strStr(int a1, int a2);
 struct FUN_00d61520_cls
 {
     int unk00;
@@ -381,11 +381,11 @@ struct hkMathD618
 };
 __forceinline hkMemoryAllocator& hkContainerTempAllocator::get(void*)
 {
-    return static_cast<hkMemoryRouter*>(FUN_00c85750())->temp();
+    return static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->temp();
 }
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return static_cast<hkMemoryRouter*>(FUN_00c85750())->heap();
+    return static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->heap();
 }
 template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
 {
@@ -412,7 +412,7 @@ template <typename T, typename Allocator> __forceinline hkArray<T, Allocator>::~
     clearAndDeallocate();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+void __cdecl hkString_memCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 template <class T, int N> class hkInplaceArrayD61B
 {
   public:
@@ -448,7 +448,7 @@ template <class T, int N> class hkInplaceArrayD61B
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(static_cast<hkMemoryRouter*>(FUN_00c85750())->temp(), n);
+        reserve(static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->temp(), n);
         m_iElementCount = n;
     }
 };
@@ -460,7 +460,7 @@ class FUN_00d61b10
     FUN_00d61b10(const char* pcString, int iLength) throw();
 };
 int __cdecl hkString_strLen(int);
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d62630_Obj
 {
     void FUN_00d62630(int a1, int a2, int a3, int a4);
@@ -472,17 +472,17 @@ struct FUN_00d61df0_cls
     FUN_00d61df0_cls* FUN_00d61df0(int arg);
 };
 int __cdecl hkString_strLen(const char* pcString) throw();
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+void __cdecl hkString_memCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 namespace hkRouterD620 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-void __cdecl FUN_00d2caa0(void* pvDst, void* pvSrc, unsigned int uiNumBytes);
+void __cdecl hkMemUtil_memCpy_00d2caa0(void* pvDst, void* pvSrc, unsigned int uiNumBytes);
 int __cdecl hkString_strLen(int value);
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(int value1, int value2, int value3, int value4);
-void __cdecl FUN_00d2caa0(void* value1, unsigned int value2, unsigned int value3);
+void __cdecl hkMemUtil_memCpy_00d2caa0(void* value1, unsigned int value2, unsigned int value3);
 struct D62080_Audio
 {
     int unk00;
@@ -747,7 +747,7 @@ class FUN_00d63370_class
 };
 extern int DAT_01268fc8;
 int __cdecl FUN_00d63420();
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 class FUN_00d63340
 {
   public:
@@ -757,7 +757,7 @@ class FUN_00d63340
 
     static void operator delete(void* p) throw()
     {
-        ((hkMemoryRouter*)FUN_00c85750())
+        ((hkMemoryRouter*)hkMemoryRouter_getInstance())
             ->heap()
             .blockFree(p, static_cast<FUN_00d63340*>(p)->m_usMemSizeAndFlags);
     }
@@ -830,14 +830,14 @@ struct FnvCpu_FUN_00d645f0_CpuHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d645f0_CpuAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d645f0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d645f0_CpuBlock* FUN_00d64260(unsigned int value);
 };
-void* __cdecl FUN_00d645f0(unsigned int value);
+void* __cdecl hkpSweptTransformDisplayViewer_create(unsigned int value);
 struct FUN_00d65250_cls
 {
     int unk00;
@@ -995,7 +995,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     void FUN_00d65290(unsigned char arg0);
 };
 void __cdecl nullsub_103();
-extern "C" void __cdecl FUN_00d72e90();
+extern "C" void __cdecl hkMathUtil_decompose4x4ColTransform();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0
 {
@@ -1078,7 +1078,7 @@ struct S
     R IsLessThan(int other) const;
 };
 namespace hkRouterD619 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl ResizeAudioStream(hkMemoryAllocator& kAlloc, void* pArray, int iElemSize);
 template <class T> __forceinline void constructWithCopyD619(T* p, int n, const T& t)
@@ -1112,7 +1112,7 @@ namespace fnvc_adapt {
 char* __cdecl hkString_strLen(int value);
 }
 void __cdecl hkArrayUtil__reserve(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
-void __cdecl FUN_00cb1260(int* data, int value, char* source);
+void __cdecl hkString_memCpy(int* data, int value, char* source);
 template <class T> __forceinline void hkArrayCopyD61B8(T* pDst, const T* pSrc, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -1134,7 +1134,7 @@ template <class T, int N> class hkInplaceArrayD61B8
     __forceinline hkInplaceArrayD61B8(const hkInplaceArrayD61B8& kOther) throw()
         : m_data(m_kStorage), m_iElementCount(0), m_iCapacityState(N | 0x80000000)
     {
-        hkMemoryAllocator& kAlloc = static_cast<hkMemoryRouter*>(FUN_00c85750())->temp();
+        hkMemoryAllocator& kAlloc = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->temp();
         if (getCapacity() < kOther.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
@@ -1185,11 +1185,11 @@ struct FUN_00d61cc0_t
 };
 void __cdecl ArrayReserveImpl(void*, void*, int, int);
 namespace hkRouterD61F {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 namespace hkRouterD62 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 // 0x00d62f20 returns the +8 process interface of the world snapshot viewer (ctor 0x00d62ef0), not a collision agent.
 class WorldSnapshotProcessInterface
@@ -1308,13 +1308,13 @@ struct FUN_00d74dc0_cls
     void* FUN_00d74dc0();
 };
 #include <stdarg.h>
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* getRouterD624()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-int __cdecl FUN_00cb0f50(char* pcBuf, int iBufSize, const char* pcFormat, va_list kArgs) throw();
+int __cdecl hkString_vsnprintf(char* pcBuf, int iBufSize, const char* pcFormat, va_list kArgs) throw();
 // 0x00d62420 formats text then calls string-buffer append 0x00d62080 (also bound to InlineStorageString).
 class FormattedStringBuffer
 {
@@ -1840,7 +1840,7 @@ __forceinline void hkStackMemory::deallocateStack(void* p)
 }
 __forceinline hkMemoryRouter& hkRouterInstance()
 {
-    return *static_cast<hkMemoryRouter*>(FUN_00c85750());
+    return *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 }
 
 template <typename T> class HkDynamicArray
@@ -1934,7 +1934,7 @@ static __declspec(noinline) void FUN_00d6b510(const hkQsTransform* poseLocalSpac
             worldFromParentBody.m_rotation = parentBody->getRotation();
             hkQsTransform blended;
             blended.SetProduct(worldFromParentBody, poseLocalSpace[i]);
-            rotation.FUN_00cb2850(rotation, blended.getRotation(), hierarchyGain);
+            rotation.D3D_ComputeClearColor(rotation, blended.getRotation(), hierarchyGain);
             position.setInterpolate4(position, blended.getTranslation(), hierarchyGain);
         }
         hkpRigidBody* rigidBody = body.m_ppRigidBodies[i];
@@ -2108,7 +2108,7 @@ __declspec(noinline) void __cdecl hkaKeyFrameHierarchyUtility_applyKeyFrame(hkRe
             angularNew.add4(snapVelocity);
         }
         if (!rigidBody->getAngularVelocity().equals4(angularNew, 0.001f))
-            rigidBody->FUN_00561800(angularNew);
+            rigidBody->hkpRigidBody_setAngularVelocity(angularNew);
     }
     matrixCache.destroy();
 }
@@ -2483,7 +2483,7 @@ struct BoolD72
 struct Matrix3D72
 {
     LocalM128 x, y, z;
-    void FUN_00cd4f10(float tolerance);
+    void invert_00cd4f10(float tolerance);
     void FUN_00cd4b60();
     void FUN_00cd5140(const Matrix3D72& other);
     void FUN_00cd4d40(const LocalM128& factor, const Matrix3D72& other);
@@ -2539,7 +2539,7 @@ struct Matrix4D72
     };
     __declspec(noalias) void CopyFromFloats(const float* source);
     __declspec(noalias) void hkMatrix4_resetFourthRow();
-    __declspec(noalias) void FUN_00de8da0(const Matrix4D72& left, const Matrix4D72& right);
+    __declspec(noalias) void hkMatrix4_setMul(const Matrix4D72& left, const Matrix4D72& right);
 };
 struct DecompositionD72
 {
@@ -2614,7 +2614,8 @@ struct OutputD72
     {}
 };
 // @fnv 0x00d72e90
-void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
+// src: XBOX_PDB 0x00d72e90
+void __cdecl hkMathUtil_decompose4x4ColTransform(const float* source, OutputD72 output)
 {
     ColumnMajorTransformImporter transform;
     transform.ImportColumnMajor(source);
@@ -2634,7 +2635,7 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
             copyMatrix(previous, current);
             Matrix3D72 inverse;
             copyMatrix(inverse, current);
-            inverse.FUN_00cd4f10(DAT_0104da4c);
+            inverse.invert_00cd4f10(DAT_0104da4c);
             inverse.FUN_00cd4b60();
             Matrix3D72 sum;
             copyMatrix(sum, previous);
@@ -2677,7 +2678,7 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
     }
     inverseMatrix.hkMatrix4_resetFourthRow();
     Matrix4D72* scaleSkew = &result->scaleSkew;
-    scaleSkew->FUN_00de8da0(inverseMatrix, original);
+    scaleSkew->hkMatrix4_setMul(inverseMatrix, original);
     Matrix4D72* skew = &result->skew;
     result->scale = _mm_setr_ps(result->scaleSkew.xx, result->scaleSkew.yy, result->scaleSkew.zz, DAT_01011d78);
     LocalM128 one = _mm_load_ss(&DAT_01012068);
@@ -2688,7 +2689,7 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
     *flagAddress = (_mm_movemask_ps(_mm_cmple_ps(_mm_and_ps(delta, DAT_01017d10), tolerance)) & 7) != 7;
     Matrix4D72 inverseScale;
     diagD72(inverseScale, result->scaleX, result->scaleY, result->scaleZ);
-    skew->FUN_00de8da0(inverseScale, *scaleSkew);
+    skew->hkMatrix4_setMul(inverseScale, *scaleSkew);
     LocalM128 dz = _mm_and_ps(_mm_sub_ps(skew->z, DAT_0126a3e0.z), DAT_01017d10);
     LocalM128 dw = _mm_and_ps(_mm_sub_ps(skew->w, DAT_0126a3e0.w), DAT_01017d10);
     LocalM128 dx = _mm_and_ps(_mm_sub_ps(skew->x, DAT_0126a3e0.x), DAT_01017d10);

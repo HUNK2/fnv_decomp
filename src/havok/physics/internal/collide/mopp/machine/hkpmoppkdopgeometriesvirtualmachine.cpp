@@ -213,7 +213,7 @@ S_00e65e70* S_00e65e70::Reset()
     return this;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00e65ea0_cls
 {
@@ -241,7 +241,7 @@ struct FUN_00e65ea0_cls
 // @fnv 0x00e65ea0
 void FUN_00e65ea0_cls::ClearArray()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
@@ -275,7 +275,7 @@ struct ItemList
     }
     void AddBack(void* const& value)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         if (count == (int)(capacity & 0x3fffffff))
             ResizeAudioStream(holder->m_heap, this, 4);
         CopyConstruct(data + count, 1, value);
@@ -868,7 +868,7 @@ append:
 
     MoppResults* output = results;
 
-    hkMemoryRouter* memory = FUN_00c85750();
+    hkMemoryRouter* memory = hkMemoryRouter_getInstance();
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 

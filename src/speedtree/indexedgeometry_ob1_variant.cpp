@@ -102,13 +102,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -3634,7 +3634,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 class FUN_00b30730_Tree
 {
   public:
-    int* FUN_00b30730(unsigned short usIndex);
+    int* CIndexedGeometry_GetStripsPointer(unsigned short usIndex);
     int unk00;
     int unk04;
     int unk08;
@@ -3661,7 +3661,8 @@ class FUN_00b30730_Tree
 };
 
 // @fnv 0x00b30730
-int* FUN_00b30730_Tree::FUN_00b30730(unsigned short usIndex)
+// src: XBOX_PDB 0x00b30730
+int* FUN_00b30730_Tree::CIndexedGeometry_GetStripsPointer(unsigned short usIndex)
 {
     return m_kLists[usIndex].size() ? &m_kLists[usIndex][0] : 0;
 }
@@ -3750,7 +3751,8 @@ struct GeometryProcessor
     DataVector<U32> extraB8, extraD0, extraE8, extra100, extra118, extra130, extra148;
     DataVector<float> blendFactors;
     DataVector<unsigned char> transformIndices;
-    inline U16 FUN_00b0a9a0(short index)
+// src: XBOX_PDB 0x00b0a9a0
+    inline U16 CIndexedGeometry_GetNumStrips(short index)
     {
         return index > -1 ? (U16)vertexIndices[index].indices.size() : 0;
     }
@@ -3787,7 +3789,7 @@ unsigned char GeometryProcessor::CIndexedGeometry_ComputeWindEffect(U16 index)
         InitializeOrigin(transformed);
         LocalVec3 _interpolatedPosition;
         InitializeOrigin(_interpolatedPosition);
-        for (int group4 = 0; group4 < FUN_00b0a9a0(index); ++group4)
+        for (int group4 = 0; group4 < CIndexedGeometry_GetNumStrips(index); ++group4)
         {
             for (int kEntry = 0; kEntry < vertexCounts[index].counts[group4]; ++kEntry)
             {
@@ -4306,7 +4308,7 @@ struct Target
     int unkf4, unkf8, unkfc, unk100, unk104;
     int mode;
     void BuildBranchLods();
-    void FUN_00b2c890(float);
+    void CTreeEngine_BuildLeafLods(float);
     void CTreeEngine_Compute(float);
 };
 // @fnv 0x00b2af80
@@ -4347,7 +4349,7 @@ void Target::CTreeEngine_Compute(float elapsed)
     }
     BuildBranchLods();
     if (!flag)
-        FUN_00b2c890(elapsed);
+        CTreeEngine_BuildLeafLods(elapsed);
     srand((unsigned)_time64(0));
 }
 }  // namespace fnv_00b2af80
@@ -4787,10 +4789,11 @@ struct Target
     int unkf4;
     int unkf8;
     float parameter;
-    void FUN_00b2c890(float step);
+    void CTreeEngine_BuildLeafLods(float step);
 };
 // @fnv 0x00b2c890
-void Target::FUN_00b2c890(float step)
+// src: XBOX_PDB 0x00b2c890
+void Target::CTreeEngine_BuildLeafLods(float step)
 {
     float maximum = -1.0f;
     {

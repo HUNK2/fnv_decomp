@@ -25,7 +25,7 @@ struct NiPSysEmitterSpeedCtlr : NiPSysModifierFloatCtlr
     void FUN_00c2b370(float& rfValue);
     void FUN_00c29fa0(float fValue);
     void FUN_00c32de0(void* obj, unsigned int a1);
-    void* FUN_00c2b380(unsigned int a1);
+    void* CreateClone_00c2b380(unsigned int a1);
 };
 
 // @fnv 0x00c2b370
@@ -40,12 +40,13 @@ void NiPSysEmitterSpeedCtlr::FUN_00c29fa0(float fValue)
 {
     static_cast<NiPSysEmitter*>(m_pkTargetModifier)->m_fEmissionSpeed = fValue;
 }
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 char* __cdecl _FUN_00a7d330(const void*);
 // @fnv 0x00c2b3d0
-void __stdcall FUN_00c2b3d0(StrArr* pkStrings)
+// src: XBOX_PDB 0x00c2b3d0
+void __stdcall NiPSysEmitterSpeedCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_01202728);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
@@ -58,7 +59,8 @@ extern char DAT_010bf654[];
 
 // Allocates a 0x40-byte object, runs its base constructor and sets its vtable, then passes it to FUN_00c32de0 with a1 and returns it.
 // @fnv 0x00c2b380
-void* NiPSysEmitterSpeedCtlr::FUN_00c2b380(unsigned int a1)
+// src: XBOX_PDB 0x00c2b380
+void* NiPSysEmitterSpeedCtlr::CreateClone_00c2b380(unsigned int a1)
 {
     NiPSysEmitterSpeedCtlr* p = (NiPSysEmitterSpeedCtlr*)FUN_00aa13e0(0x40);
     if (p != 0)

@@ -47,7 +47,7 @@ struct Audio
     }
 };
 
-extern "C" Audio* __cdecl FUN_00c85750();
+extern "C" Audio* __cdecl hkMemoryRouter_getInstance();
 
 class Handler
 {
@@ -67,7 +67,7 @@ extern "C" void __cdecl EmitStringWithHash(int* pValue, const char* pString, Han
     if (pString)
     {
         int len = hkString_strLen(pString) + 1;
-        int hash = FUN_00c85750()->GetHasher().Hash(pString, len);
+        int hash = hkMemoryRouter_getInstance()->GetHasher().Hash(pString, len);
         pHandler->Emit(1, *pValue, pString, len, hash);
     }
 }
@@ -121,7 +121,7 @@ struct S_00cf6080_Router
         return unk10;
     }
 };
-S_00cf6080_Router* FUN_00c85750();
+S_00cf6080_Router* hkMemoryRouter_getInstance();
 
 struct S_00cf6080_Listener
 {
@@ -137,7 +137,7 @@ struct S_00cf6080_Listener
 // src: HAVOK_LIB 0x00cf6080
 void hkStatisticsCollectorUtil__addArrayData(int a, void* p, int aiOldCount, int newCount, int elemSize, S_00cf6080_Listener* listener)
 {
-    void* result = FUN_00c85750()->heap()->vfn_2C(p, newCount * elemSize);
+    void* result = hkMemoryRouter_getInstance()->heap()->vfn_2C(p, newCount * elemSize);
     listener->vfn_14(3, a, p, aiOldCount * elemSize, result);
 }
 }  // namespace fnv_00cf6080
@@ -152,7 +152,7 @@ struct TypeInfo
     short m_sValue;
 };
 
-TypeInfo* __cdecl FUN_00d868a0(int aiType);
+TypeInfo* __cdecl hkClassMember_getClassMemberTypeProperties(int aiType);
 
 // Reads the type from apThing, looks up its TypeInfo, and returns m_sValue if positive, else the result of FUN_00d470d0 for kind 0x19, otherwise -1.
 // @fnv 0x00cf61c0
@@ -162,7 +162,7 @@ __declspec(noinline) int __cdecl GetThingValue(const hkClassMember* apThing)
     if (ucType == 0)
         return -1;
 
-    TypeInfo* pInfo = FUN_00d868a0(ucType);
+    TypeInfo* pInfo = hkClassMember_getClassMemberTypeProperties(ucType);
     short sValue = pInfo->m_sValue;
     if (sValue > 0)
         return sValue;
@@ -463,10 +463,10 @@ struct Access64
     void* data;
     const hkClassMember* member;
     Access64(void*, const hkClassMember*);
-    char** FUN_00d87220(int);
-    const char* FUN_00d87230(int);
-    Pair64* FUN_00d87340(int);
-    Homogeneous64* FUN_00d87350(int);
+    char** hkClassMemberAccessor_asCstring(int);
+    const char* hkClassMemberAccessor_asStringPtr(int);
+    Pair64* hkClassMemberAccessor_asSimpleArray(int);
+    Homogeneous64* hkClassMemberAccessor_asHomogeneousArray(int);
 };
 struct Writer64
 {
@@ -508,10 +508,10 @@ void __cdecl WriteReflectedMembers(void* base, const hkClass* apMeta, Writer64* 
             Access64 value(base, m);
             int n = GetCArraySize(m);
             if (n <= 1)
-                EmitStringWithHash(m, *value.FUN_00d87220(0), writer);
+                EmitStringWithHash(m, *value.hkClassMemberAccessor_asCstring(0), writer);
             else
                 for (int j = 0; j < n; ++j)
-                    EmitStringWithHash(m, *value.FUN_00d87220(j), writer);
+                    EmitStringWithHash(m, *value.hkClassMemberAccessor_asCstring(j), writer);
             break;
         }
         case 33: {
@@ -520,13 +520,13 @@ void __cdecl WriteReflectedMembers(void* base, const hkClass* apMeta, Writer64* 
             if (n <= 1)
             {
                 const char* name = m->m_name;
-                writer->EmitString(name, value.FUN_00d87230(0));
+                writer->EmitString(name, value.hkClassMemberAccessor_asStringPtr(0));
             }
             else
                 for (int j = 0; j < n; ++j)
                 {
                     const char* name = m->m_name;
-                    writer->EmitString(name, value.FUN_00d87230(j));
+                    writer->EmitString(name, value.hkClassMemberAccessor_asStringPtr(j));
                 }
             break;
         }
@@ -556,7 +556,7 @@ void __cdecl WriteReflectedMembers(void* base, const hkClass* apMeta, Writer64* 
         }
         case 26: {
             Access64 value(base, m);
-            Pair64 a = *value.FUN_00d87340(0);
+            Pair64 a = *value.hkClassMemberAccessor_asSimpleArray(0);
             void* data = a.data;
             int length = a.count;
             int size = GetThingValue(m);
@@ -570,7 +570,7 @@ void __cdecl WriteReflectedMembers(void* base, const hkClass* apMeta, Writer64* 
         }
         case 27: {
             Access64 value(base, m);
-            Homogeneous64 a = *value.FUN_00d87350(0);
+            Homogeneous64 a = *value.hkClassMemberAccessor_asHomogeneousArray(0);
             const hkClass* itemClass = a.pClassInfo;
             void* data = a.data;
             int length = a.count;
@@ -681,12 +681,12 @@ static __declspec(noinline) const char* _findObjectName(const hkClass* pClassInf
             switch (m->m_type)
             {
             case 0x21: {
-                TaggedString64* slot = (TaggedString64*)access.FUN_00d87230(0);
+                TaggedString64* slot = (TaggedString64*)access.hkClassMemberAccessor_asStringPtr(0);
                 const char* name = (const char*)(slot->bits & ~1u);
                 return name ? name : DAT_010cc458;
             }
             case 0x1d: {
-                const char* name = *access.FUN_00d87220(0);
+                const char* name = *access.hkClassMemberAccessor_asCstring(0);
                 return name ? name : DAT_010cc458;
             }
             }

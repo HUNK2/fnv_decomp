@@ -29,7 +29,7 @@ class TimedFloatKey : public TimedAnimationKey
     float m_fValue;
     TimedFloatKey();
     ~TimedFloatKey();
-    void FUN_0052ce20(float);
+    void TESRegionPoint_SetX(float);
     void FUN_004f5d90(float);
 };
 class ColorAnimationKey
@@ -43,8 +43,8 @@ class AlphaColor : public ColorAnimationKey
   public:
     AlphaColor();
     ~AlphaColor();
-    void FUN_0052ce20(float);
-    void FUN_0052cfc0(const NiColorA&);
+    void TESRegionPoint_SetX(float);
+    void NiColorKey_SetColor(const NiColorA&);
 };
 class TESImageSpaceColorDataPointer
 {
@@ -59,7 +59,7 @@ extern float DAT_0118aba8[2];
 
 extern float DAT_011c96fc;
 extern const float DAT_01018f98;
-void FUN_005330e0(float&, float, float);
+void BSClamp_float(float&, float, float);
 extern TESImageSpaceModifier DAT_011c9750;
 int __cdecl Warning(const char*, ...);
 // Loads an IMAD record: reads the header, EDID/OBND/DNAM chunks and per-chunk arrays of entries, converting endianness and filling the linked lists.
@@ -318,7 +318,7 @@ void TESImageSpaceModifier::ResetFormData()
             pEffectEntryTable[i][j] = new TimedFloatKey[2];
             for (kKey = 0; kKey < 2; ++kKey)
             {
-                pEffectEntryTable[i][j][kKey].FUN_0052ce20(DAT_0118aba0[kKey]);
+                pEffectEntryTable[i][j][kKey].TESRegionPoint_SetX(DAT_0118aba0[kKey]);
                 pEffectEntryTable[i][j][kKey].FUN_004f5d90(DAT_0118aba8[j]);
             }
             m_akFloatInterpolators[i][j].SetAnimationKeys(
@@ -328,8 +328,8 @@ void TESImageSpaceModifier::ResetFormData()
     pFirstEffectRecordArray = new AlphaColor[2];
     for (i = 0; i < 2; ++i)
     {
-        pFirstEffectRecordArray[i].FUN_0052ce20(DAT_0118aba0[i]);
-        pFirstEffectRecordArray[i].FUN_0052cfc0(NiColorA(1.0f, 1.0f, 1.0f, 0.0f));
+        pFirstEffectRecordArray[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
+        pFirstEffectRecordArray[i].NiColorKey_SetColor(NiColorA(1.0f, 1.0f, 1.0f, 0.0f));
     }
     m_kColorInterpolatorOne.SetAnimationKeys(pFirstEffectRecordArray, Data.m_uiEffectEntryCountFirst,
                                              NiAnimationKey::LINKEY);
@@ -337,8 +337,8 @@ void TESImageSpaceModifier::ResetFormData()
     pSecondEffectRecordArray = new AlphaColor[2];
     for (i = 0; i < 2; ++i)
     {
-        pSecondEffectRecordArray[i].FUN_0052ce20(DAT_0118aba0[i]);
-        pSecondEffectRecordArray[i].FUN_0052cfc0(NiColorA(1.0f, 1.0f, 1.0f, 0.0f));
+        pSecondEffectRecordArray[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
+        pSecondEffectRecordArray[i].NiColorKey_SetColor(NiColorA(1.0f, 1.0f, 1.0f, 0.0f));
     }
     m_kColorInterpolatorTwo.SetAnimationKeys(pSecondEffectRecordArray, Data.m_uiEffectEntryCountTwelfth,
                                              NiAnimationKey::LINKEY);
@@ -346,7 +346,7 @@ void TESImageSpaceModifier::ResetFormData()
     pSecondEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pSecondEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pSecondEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pSecondEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorOne.SetAnimationKeys(pSecondEffectEntries, Data.m_uiEffectEntryCountSecond,
@@ -355,7 +355,7 @@ void TESImageSpaceModifier::ResetFormData()
     pThirdEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pThirdEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pThirdEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pThirdEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorTwo.SetAnimationKeys(pThirdEffectEntries, Data.m_uiEffectEntryCountThird, NiAnimationKey::LINKEY);
@@ -363,7 +363,7 @@ void TESImageSpaceModifier::ResetFormData()
     pTenthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pTenthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pTenthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pTenthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorNine.SetAnimationKeys(pTenthEffectEntries, Data.m_uiEffectEntryCountFourth,
@@ -372,7 +372,7 @@ void TESImageSpaceModifier::ResetFormData()
     pEleventhEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pEleventhEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pEleventhEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pEleventhEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorTen.SetAnimationKeys(pEleventhEffectEntries, Data.m_uiEffectEntryCountFifth,
@@ -381,7 +381,7 @@ void TESImageSpaceModifier::ResetFormData()
     pTwelfthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pTwelfthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pTwelfthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pTwelfthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorEleven.SetAnimationKeys(pTwelfthEffectEntries, Data.m_uiEffectEntryCountSixth,
@@ -390,7 +390,7 @@ void TESImageSpaceModifier::ResetFormData()
     pFourthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pFourthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pFourthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pFourthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorThree.SetAnimationKeys(pFourthEffectEntries, Data.m_uiEffectEntryCountTenth,
@@ -399,7 +399,7 @@ void TESImageSpaceModifier::ResetFormData()
     pFifthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pFifthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pFifthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pFifthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorFour.SetAnimationKeys(pFifthEffectEntries, Data.m_uiEffectEntryCountEleventh,
@@ -408,7 +408,7 @@ void TESImageSpaceModifier::ResetFormData()
     pSeventhEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pSeventhEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pSeventhEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pSeventhEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorFive.SetAnimationKeys(pSeventhEffectEntries, Data.m_uiEffectEntryCountSeventh,
@@ -417,7 +417,7 @@ void TESImageSpaceModifier::ResetFormData()
     pEighthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pEighthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pEighthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pEighthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorSix.SetAnimationKeys(pEighthEffectEntries, Data.m_uiEffectEntryCountEighth,
@@ -426,7 +426,7 @@ void TESImageSpaceModifier::ResetFormData()
     pNinthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pNinthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pNinthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pNinthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorSeven.SetAnimationKeys(pNinthEffectEntries, Data.m_uiEffectEntryCountNinth,
@@ -435,7 +435,7 @@ void TESImageSpaceModifier::ResetFormData()
     pSixthEffectEntries = new TimedFloatKey[2];
     for (i = 0; i < 2; ++i)
     {
-        pSixthEffectEntries[i].FUN_0052ce20(DAT_0118aba0[i]);
+        pSixthEffectEntries[i].TESRegionPoint_SetX(DAT_0118aba0[i]);
         pSixthEffectEntries[i].FUN_004f5d90(0.0f);
     }
     m_kFloatInterpolatorEight.SetAnimationKeys(pSixthEffectEntries, Data.m_uiEffectEntryCountThirteenth,
@@ -452,8 +452,8 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
         effectTime = (DAT_011c96fc - startTime) / Data.fDuration;
     else
         effectTime = 0.0f;
-    FUN_005330e0(effectTime, 0.0f, 1.0f);
-    ImageSpaceManager* pManager = ImageSpaceManager::FUN_004e3270();
+    BSClamp_float(effectTime, 0.0f, 1.0f);
+    ImageSpaceManager* pManager = ImageSpaceManager::BSShaderManager_GetImageSpaceManager();
     float pfParameterValues[2];
     for (int i = 0; i < 21; ++i)
     {
@@ -469,11 +469,11 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
     NiColorA kCurrentColor(0.0f, 0.0f, 0.0f, 0.0f);
     m_kColorInterpolatorOne.UpdateColorA(effectTime, 0, kCurrentColor);
     kCurrentColor.a *= strength;
-    FUN_005330e0(kCurrentColor.a, 0.0f, 1.0f);
+    BSClamp_float(kCurrentColor.a, 0.0f, 1.0f);
     pManager->FUN_00b8b540(kCurrentColor);
     m_kColorInterpolatorTwo.UpdateColorA(effectTime, 0, kCurrentColor);
     kCurrentColor.a *= strength;
-    FUN_005330e0(kCurrentColor.a, 0.0f, 1.0f);
+    BSClamp_float(kCurrentColor.a, 0.0f, 1.0f);
     pManager->FUN_00b8b610(kCurrentColor);
     float interpolatedBlur;
     m_kFloatInterpolatorOne.UpdateFloat(effectTime, 0, interpolatedBlur);
@@ -498,15 +498,15 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
     float motionBlurSample;
     m_kFloatInterpolatorEight.UpdateFloat(effectTime, 0, motionBlurSample);
     interpolatedBlur *= strength;
-    FUN_005330e0(interpolatedBlur, 0.0f, DAT_01018f98);
+    BSClamp_float(interpolatedBlur, 0.0f, DAT_01018f98);
     pManager->RaiseHighestBlurRadius(interpolatedBlur);
     pManager->ApplyDoubleVisionParamModifier_00b8afb0(localDouble * strength);
     if (Data.m_bUseRadialBlur && target)
     {
         target->UpdateWorldBound();
-        pManager->FUN_00b8b760(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult,
+        pManager->ApplyRadialBlurParamModifier(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult,
                                radialBlurStartOutput, fRadialBlurRampDownSample, radialBlurDownStartParameter,
-                               target->FUN_0043d450());
+                               target->NiAVObject_GetWorldBound());
     }
     else if (Data.m_bUseRadialBlur)
         pManager->SetRadialBlurParameters(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult,
@@ -520,7 +520,7 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
     {
         target->UpdateWorldBound();
         pManager->SetDistanceEffect(sampledDepthOfFieldStrength * strength, Data.m_ucEffectMode, 0.0f,
-                                    target->FUN_0043d450());
+                                    target->NiAVObject_GetWorldBound());
     }
     else if (Data.m_bUseEffectEntries)
         pManager->SetDepthOfFieldParameters(sampledDepthOfFieldStrength * strength, Data.m_ucEffectMode, 0.0f, 0.0f,
@@ -539,7 +539,7 @@ void TESImageSpaceModifier::EvaluateInterpolators(float startTime, float strengt
         effectTime = (DAT_011c96fc - startTime) / Data.fDuration;
     else
         effectTime = 0.0f;
-    ImageSpaceManager* pManager = ImageSpaceManager::FUN_004e3270();
+    ImageSpaceManager* pManager = ImageSpaceManager::BSShaderManager_GetImageSpaceManager();
     float pfParameterValues[2];
     for (int i = 0; i < 21; ++i)
     {
@@ -760,7 +760,8 @@ void* ImageSpaceColorData::Destroy(unsigned int flags)
 
 // Clamps the float pointed to by aVal to the range [aMin, aMax], writing the bound back when it is out of range.
 // @fnv 0x005330e0
-void __cdecl FUN_005330e0(float* aVal, float aMin, float aMax)
+// src: XBOX_PDB 0x005330e0
+void __cdecl BSClamp_float(float* aVal, float aMin, float aMax)
 {
     if (*aVal > aMax)
         *aVal = aMax;
@@ -1195,9 +1196,9 @@ extern "C" void __fastcall CacheObjectValues(TESImageSpaceModifier* modifier)
     modifier->pSixthEffectEntries = (TimedFloatKey*)modifier->m_kFloatInterpolatorEight.GetChannelKeys(0);
 }
 
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 void AppendChunk(unsigned int, void*, unsigned int);
-void FUN_00485910(unsigned int, unsigned int);
+void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void* __memcpy(void*, const void*, unsigned int);
 // Serializes the image space modifier: writes a header, then each data array (endian-swapped when needed) with its tag, plus intro/outro sound form IDs.
 // @fnv 0x0052f250
@@ -1205,17 +1206,17 @@ void TESImageSpaceModifier::Save()
 {
     TESForm::FUN_004855a0();
     CacheObjectValues(this);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     AppendChunk(0x4d414e44, &Data, 0xf4);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     {
         unsigned int size = 8;
         unsigned int count = size * Data.m_uiEffectEntryCountSecond / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pSecondEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e42, dataTmp, count * 4);
@@ -1226,7 +1227,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountThird / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pThirdEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e56, dataTmp, count * 4);
@@ -1237,7 +1238,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountFirst / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pFirstEffectRecordArray, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e54, dataTmp, count * 4);
@@ -1248,7 +1249,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountTwelfth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pSecondEffectRecordArray, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x334d414e, dataTmp, count * 4);
@@ -1259,7 +1260,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountFourth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pTenthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e52, dataTmp, count * 4);
@@ -1270,7 +1271,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountFifth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pEleventhEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e53, dataTmp, count * 4);
@@ -1281,7 +1282,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountSixth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pTwelfthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e55, dataTmp, count * 4);
@@ -1292,7 +1293,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountTenth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pFourthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x314d414e, dataTmp, count * 4);
@@ -1303,7 +1304,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountEleventh / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pFifthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x324d414e, dataTmp, count * 4);
@@ -1314,7 +1315,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountSeventh / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pSeventhEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e57, dataTmp, count * 4);
@@ -1325,7 +1326,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountEighth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pEighthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e58, dataTmp, count * 4);
@@ -1336,7 +1337,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountNinth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pNinthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x4d414e59, dataTmp, count * 4);
@@ -1347,7 +1348,7 @@ void TESImageSpaceModifier::Save()
         unsigned int count = size * Data.m_uiEffectEntryCountThirteenth / 4;
         unsigned int* dataTmp = new unsigned int[count];
         __memcpy(dataTmp, pSixthEffectEntries, count * 4);
-        if (FUN_00401500())
+        if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
         AppendChunk(0x344d414e, dataTmp, count * 4);
@@ -1361,7 +1362,7 @@ void TESImageSpaceModifier::Save()
             unsigned int count2 = size * Data.m_auiKeyframeCountsByTypeAndChannel[i][j] / 4;
             unsigned int* dataTmp = new unsigned int[count2];
             __memcpy(dataTmp, pEffectEntryTable[i][j], count2 * 4);
-            if (FUN_00401500())
+            if (TESForm_QEndianSwapOnSave())
                 for (unsigned int idx = 0; idx < count2; idx++)
                     BSEndian(dataTmp + idx, EndianSizeTag<4>());
             AppendChunk(tag, dataTmp, count2 * 4);
@@ -1370,12 +1371,12 @@ void TESImageSpaceModifier::Save()
     if (pIntroSound)
     {
         unsigned int intro = pIntroSound->GetFormID();
-        FUN_00485910(0x44534452, intro);
+        TESForm_AddChunk_00485910(0x44534452, intro);
     }
     if (pOutroSound)
     {
         unsigned int outro = pOutroSound->GetFormID();
-        FUN_00485910(0x49534452, outro);
+        TESForm_AddChunk_00485910(0x49534452, outro);
     }
     TESForm::FUN_00485680();
 }
@@ -1386,7 +1387,7 @@ struct PassPtr
 {
     TESImageSpaceModifier* value;
 };
-extern "C" void __fastcall FUN_004851b0(TESImageSpaceModifier*, PassPtr);
+extern "C" void __fastcall TESForm_CopyAllComponents(TESImageSpaceModifier*, PassPtr);
 // Looks up a TESImageSpaceModifier by form, clears this object's data, then copies its sounds, Data struct and all list arrays into newly allocated storage.
 // @fnv 0x00530160
 void TESImageSpaceModifier::Copy(TESForm* form)
@@ -1396,7 +1397,7 @@ void TESImageSpaceModifier::Copy(TESForm* form)
     if (!source)
         return;
     CacheObjectValues(source);
-    FUN_004851b0(this, *(PassPtr*)&source);
+    TESForm_CopyAllComponents(this, *(PassPtr*)&source);
     ClearData();
     pIntroSound = source->pIntroSound;
     pOutroSound = source->pOutroSound;
@@ -1496,7 +1497,7 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     if (!pNextModifier)
         pNextModifier = TESImageSpaceModifier::QDefault();
     float time = 0.0f;
-    ImageSpaceManager* manager4 = ImageSpaceManager::FUN_004e3270();
+    ImageSpaceManager* manager4 = ImageSpaceManager::BSShaderManager_GetImageSpaceManager();
     float strength_15 = previousStrength + blend * (nextStrength - previousStrength);
     float values[2];
     for (int i = 0; i < 21; ++i)
@@ -1520,13 +1521,13 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     pNextModifier->m_kColorInterpolatorOne.UpdateColorA(time, 0, (NiColorA&)secondColor);
     color = aFirstColor.AddDelta(FUN_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
     color.a *= strength_15;
-    FUN_005330e0(color.a, 0.0f, 1.0f);
+    BSClamp_float(color.a, 0.0f, 1.0f);
     manager4->FUN_00b8b540((NiColorA&)color);
     pPreviousModifier->m_kColorInterpolatorTwo.UpdateColorA(time, 0, (NiColorA&)aFirstColor);
     pNextModifier->m_kColorInterpolatorTwo.UpdateColorA(time, 0, (NiColorA&)secondColor);
     color = aFirstColor.AddDelta(FUN_00532f40(blend, secondColor.FUN_00532ec0(aFirstColor)));
     color.a *= strength_15;
-    FUN_005330e0(color.a, 0.0f, 1.0f);
+    BSClamp_float(color.a, 0.0f, 1.0f);
     manager4->FUN_00b8b610((NiColorA&)color);
     float firstValue, secondValue3;
     pPreviousModifier->m_kFloatInterpolatorOne.UpdateFloat(time, 0, firstValue);
@@ -1562,19 +1563,19 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     pNextModifier->m_kFloatInterpolatorEight.UpdateFloat(time, 0, secondValue3);
     float motion_24 = firstValue + blend * (secondValue3 - firstValue);
     blur2 *= strength_15;
-    FUN_005330e0(blur2, 0.0f, 7.0f);
+    BSClamp_float(blur2, 0.0f, 7.0f);
     manager4->RaiseHighestBlurRadius(blur2);
     manager4->ApplyDoubleVisionParamModifier_00b8afb0(doubleVision * strength_15);
     BlendPoint aFirstCenter(0.5f, 0.5f), secondCenter5(0.5f, 0.5f), center7;
     if (pPreviousModifier->Data.m_bUseRadialBlur && previousTarget)
     {
         previousTarget->UpdateWorldBound();
-        manager4->GetRadialBlurCenterFromWorldBound((void*)&previousTarget->FUN_0043d450(), (NiPoint2*)&aFirstCenter);
+        manager4->GetRadialBlurCenterFromWorldBound((void*)&previousTarget->NiAVObject_GetWorldBound(), (NiPoint2*)&aFirstCenter);
     }
     if (pNextModifier->Data.m_bUseRadialBlur && nextTarget)
     {
         previousTarget->UpdateWorldBound();
-        manager4->GetRadialBlurCenterFromWorldBound((void*)&nextTarget->FUN_0043d450(), (NiPoint2*)&secondCenter5);
+        manager4->GetRadialBlurCenterFromWorldBound((void*)&nextTarget->NiAVObject_GetWorldBound(), (NiPoint2*)&secondCenter5);
     }
     if (!pPreviousModifier->Data.m_bUseRadialBlur)
         aFirstCenter = (const BlendPoint&)pPreviousModifier->Data.m_kRadialBlurCenter;
@@ -1587,12 +1588,12 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     if (pPreviousModifier->Data.m_bUseEffectEntries && previousTarget)
     {
         previousTarget->UpdateWorldBound();
-        manager4->GetDepthOfFieldParamsFromWorldBound((void*)&previousTarget->FUN_0043d450(), (NiPoint2*)&firstDepthB);
+        manager4->GetDepthOfFieldParamsFromWorldBound((void*)&previousTarget->NiAVObject_GetWorldBound(), (NiPoint2*)&firstDepthB);
     }
     if (pNextModifier->Data.m_bUseEffectEntries && nextTarget)
     {
         nextTarget->UpdateWorldBound();
-        manager4->GetDepthOfFieldParamsFromWorldBound((void*)&nextTarget->FUN_0043d450(), (NiPoint2*)&secondDepth);
+        manager4->GetDepthOfFieldParamsFromWorldBound((void*)&nextTarget->NiAVObject_GetWorldBound(), (NiPoint2*)&secondDepth);
     }
     if (!pPreviousModifier->Data.m_bUseEffectEntries)
         firstDepthB = BlendPoint(firstDepthDistance_, firstDepthRange_2);

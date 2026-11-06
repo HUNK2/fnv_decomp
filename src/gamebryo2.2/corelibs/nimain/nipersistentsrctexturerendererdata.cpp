@@ -74,7 +74,8 @@ void NiPersistentSrcTextureRendererData::LinkPalette(NiStream& kStream)
 
 // Registers the object's streamables with kStream, then registers m_spPalette's streamables if it is set; returns false on failure.
 // @fnv 0x00a98170
-bool NiPersistentSrcTextureRendererData::FUN_00a98170(NiStream& kStream)
+// src: XBOX_PDB 0x00a98170
+bool NiPersistentSrcTextureRendererData::RegisterStreamables_00a98170(NiStream& kStream)
 {
     if (!NiObject::RegisterStreamables(kStream))
         return false;
@@ -204,7 +205,8 @@ inline NiObject* PaletteObject(NiPalette* const& palette)
 }
 
 // @fnv 0x00a982f0
-bool NiPersistentSrcTextureRendererData::FUN_00a982f0(NiObject* pkObject)
+// src: XBOX_PDB 0x00a982f0
+bool NiPersistentSrcTextureRendererData::IsEqual_00a982f0(NiObject* pkObject)
 {
     if (!IsKindOf_s(&ms_kRTTI, pkObject))
         return false;
@@ -275,8 +277,8 @@ struct ViewerArray
 };
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d510(const char*, unsigned int);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
+char* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
 extern const char* DAT_011f5f04;
 
 inline unsigned int NiPersistentSrcTextureRendererData::GetWidth(unsigned int level) const
@@ -311,42 +313,42 @@ void NiPersistentSrcTextureRendererData::AppendToStrings(ViewerArray* strings)
     NiObject::AddViewerStrings((NiViewerStringsArray*)strings);
     char* value = NiViewerStrings_NiGetViewerString_Title(DAT_011f5f04);
     strings->Add(value);
-    value = FUN_00a7d510("Width", GetWidth());
+    value = NiGetViewerString_00a7d510("Width", GetWidth());
     strings->Add(value);
-    value = FUN_00a7d510("Height", GetHeight());
+    value = NiGetViewerString_00a7d510("Height", GetHeight());
     strings->Add(value);
-    value = FUN_00a7d510("MipmapLevels", GetMipmapLevels());
+    value = NiGetViewerString_00a7d510("MipmapLevels", GetMipmapLevels());
     strings->Add(value);
-    value = FUN_00a7d510("Faces", GetFaces());
+    value = NiGetViewerString_00a7d510("Faces", GetFaces());
     strings->Add(value);
-    value = FUN_00a7d510("TotalSizeInBytes", GetTotalSizeInBytes());
+    value = NiGetViewerString_00a7d510("TotalSizeInBytes", GetTotalSizeInBytes());
     strings->Add(value);
-    value = FUN_00a7d510("FaceSizeInBytes", GetFaceSizeInBytes());
+    value = NiGetViewerString_00a7d510("FaceSizeInBytes", GetFaceSizeInBytes());
     strings->Add(value);
     switch (m_iPaletteFormat)
     {
     case 0: {
-        value = FUN_00a7d5e0("TargetPlatform", "NI_ANY - Generic (default)");
+        value = NiGetViewerString_00a7d5e0("TargetPlatform", "NI_ANY - Generic (default)");
         strings->FUN_0096a610(&value);
         break;
     }
     case 3: {
-        value = FUN_00a7d5e0("TargetPlatform", "NI_DX9");
+        value = NiGetViewerString_00a7d5e0("TargetPlatform", "NI_DX9");
         strings->FUN_0096a610(&value);
         break;
     }
     case 1: {
-        value = FUN_00a7d5e0("TargetPlatform", "NI_XENON");
+        value = NiGetViewerString_00a7d5e0("TargetPlatform", "NI_XENON");
         strings->FUN_0096a610(&value);
         break;
     }
     case 2: {
-        value = FUN_00a7d5e0("TargetPlatform", "NI_PS3");
+        value = NiGetViewerString_00a7d5e0("TargetPlatform", "NI_PS3");
         strings->FUN_0096a610(&value);
         break;
     }
     default:
-        value = FUN_00a7d5e0("TargetPlatform", "UNKNOWN!");
+        value = NiGetViewerString_00a7d5e0("TargetPlatform", "UNKNOWN!");
         strings->Add(value);
         break;
     }
@@ -593,7 +595,7 @@ inline void NiFree(void* p) throw()
 
 extern "C" void __cdecl FUN_00aa1460(void*, unsigned int) throw();
 extern "C" void __cdecl RunRegistryHandlers() throw();
-extern "C" int __cdecl FUN_00e819f0() throw();
+extern "C" int __cdecl NiD3DShaderInterface_ShutdownShaderSystem() throw();
 extern "C" void __cdecl NiDX9AdditionalDepthStencilBufferData_ShutdownAll() throw();
 extern "C" void __cdecl ReleaseShaderNodes(void*) throw();
 extern "C" void __cdecl NiStream_UnregisterLoader(const char*) throw();
@@ -1715,7 +1717,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
 
     RunRegistryHandlers();
     NiDX9Renderer_PurgeAllD3DShaders();
-    FUN_00e819f0();
+    NiD3DShaderInterface_ShutdownShaderSystem();
     NiDX9AdditionalDepthStencilBufferData_ShutdownAll();
     m_kMap8cc.RemoveAll();
     m_kMap8dc.RemoveAll();
@@ -1842,7 +1844,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
 }
 }  // namespace fnv_00e75a70
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 
 
 // Allocates a pixel buffer and sets m_puiWidth, m_puiHeight, and m_puiOffsetInBytes for a mip map with uiLevels and uiFaces.
@@ -1851,7 +1853,7 @@ void NiPersistentSrcTextureRendererData::AllocateMipMap(unsigned int uiLevels, u
 {
     unsigned int uiStride = (uiBytes + 3) & ~3;
     unsigned int uiTotal = *(volatile unsigned int*)&uiFaces * uiStride;
-    m_pucPixels = (unsigned char*)FUN_00aa1070(uiTotal + uiLevels * 12 + 4);
+    m_pucPixels = (unsigned char*)_NiMalloc_00aa1070(uiTotal + uiLevels * 12 + 4);
     m_puiWidth = (unsigned int*)(m_pucPixels + uiTotal);
     m_puiHeight = m_puiWidth + uiLevels;
     m_puiOffsetInBytes = m_puiHeight + uiLevels;

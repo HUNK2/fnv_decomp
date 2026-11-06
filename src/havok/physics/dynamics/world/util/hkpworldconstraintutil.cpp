@@ -69,7 +69,7 @@ struct S_00d27820_A
     unsigned char unk24;
     unsigned char flags;
 };
-void __cdecl FUN_00cb1270(int a, int b, char* c);
+void __cdecl hkString_memMove(int a, int b, char* c);
 
 // Removes the record p->m_pConstraintInternal from its node lists, shifts the following records down, adjusts buffer sizes and counts, and calls FUN_00c905b0.
 // @fnv 0x00d27820
@@ -107,7 +107,7 @@ void DetachRecord(hkpConstraintInstance* p)
         delta = -(int)pRec->sz;
         int iTotal = pRec->sz + pRec->cnt;
         S_00d27820_Buf* pBuf = &d->buf;
-        FUN_00cb1270(pRec->cnt, iTotal, pBuf->data + (pBuf->size - iTotal));
+        hkString_memMove(pRec->cnt, iTotal, pBuf->data + (pBuf->size - iTotal));
         pBuf->size -= pRec->sz;
         pRec->cnt = 0;
     }
@@ -361,7 +361,7 @@ unsigned char hkpModifierConstraintAtom_addAllModifierDataToConstraintInfo(hkpCo
 extern unsigned short DAT_010cb7a8[];
 void hkArrayUtil__reserve(void*, ByteArray*, int, int);
 void ResizeAudioStream(void*, ConstraintArray*, int);
-void FUN_00cb1270(void*, const void*, int);
+void hkString_memMove(void*, const void*, int);
 // Initializes a ConstraintInternal entry, inserts it into the master entity's constraint array, allocates runtime memory, and registers the constraint as a slave.
 // @fnv 0x00d27ac0
 // src: HAVOK_LIB 0x00d27ac0
@@ -479,7 +479,7 @@ ConstraintPointer* hkpWorldConstraintUtil_addConstraint(void* unused, hkpConstra
             }
         }
         int tailSize = (int)storage.size - (int)(position + internal->runtimeSize - master->runtime.data);
-        FUN_00cb1270(position + internal->runtimeSize, position, tailSize);
+        hkString_memMove(position + internal->runtimeSize, position, tailSize);
         displacement += internal->runtimeSize;
         internal->runtime = position;
         for (++i; i < (int)array.size; ++i)

@@ -91,26 +91,26 @@ struct Built
     int field08;
     void __thiscall FUN_00d2f980(int);
 };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 // Allocates a 0x40-byte Built from the global allocator, sets its field04 to 0x40, and calls FUN_00d2f980 with arg4.
 // @fnv 0x00d2f9d0
 // src: HAVOK_LIB 0x00d2f9d0
 void __cdecl hkpBvTreeAgent_createShapeBvAgent(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
 {
-    hkMemoryRouter* global = FUN_00c85750();
+    hkMemoryRouter* global = hkMemoryRouter_getInstance();
     Built* pBuilt = (Built*)global->m_heap->blockAlloc(0x40);
     pBuilt->field04 = 0x40;
     pBuilt->FUN_00d2f980(arg4);
 }
 
-void __cdecl FUN_00d30f50(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth);
 
 // Calls FUN_00d30f50, passing along all five arguments unchanged.
 // @fnv 0x00d315a0
 // src: HAVOK_SRC 0x00d315a0
 void __stdcall hkpBvTreeAgent_linearCast(void* apFirst, void* apSecond, void* apThird, void* apFourth, void* apFifth)
 {
-    FUN_00d30f50(apFirst, apSecond, apThird, apFourth, apFifth);
+    hkpBvTreeAgent_staticLinearCast(apFirst, apSecond, apThird, apFourth, apFifth);
 }
 
 extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* arg0, void* arg1, void* arg2, void* arg3);
@@ -137,7 +137,7 @@ struct D2FA00Allocator
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 class D2FA00ReferencedObject
@@ -146,7 +146,7 @@ class D2FA00ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         D2FA00ReferencedObject* b =
-            static_cast<D2FA00ReferencedObject*>(reinterpret_cast<D2FA00Allocator*>((&fnvc_adapt::FUN_00c85750().heap()))->AllocateMemoryBlock(nbytes));
+            static_cast<D2FA00ReferencedObject*>(reinterpret_cast<D2FA00Allocator*>((&fnvc_adapt::hkMemoryRouter_getInstance().heap()))->AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -628,7 +628,7 @@ struct CollisionAgent
                                       ConstraintOwner& owner);
 };
 
-CollisionAgent* __cdecl FUN_00d107a0();
+CollisionAgent* __cdecl hkpNullAgent_getNullAgent();
 
 struct CollisionAgentMapRecord
 {
@@ -669,7 +669,7 @@ void ShapeCollectionAgent::hkpBvTreeAgent_updateShapeCollectionFilter(const CdBo
 
         if (input.m_iFilter->IsCollisionEnabled(input, bodyA, bodyB, *shapeContainer, m_pAgents[i].m_key))
         {
-            if (m_pAgents[i].m_pCollisionAgent == FUN_00d107a0())
+            if (m_pAgents[i].m_pCollisionAgent == hkpNullAgent_getNullAgent())
             {
                 m_pAgents[i].m_pCollisionAgent =
                     input.m_pCollisionDispatcher->getNewCollisionAgent(bodyA, newOperandB, input, m_pContactManager);
@@ -681,10 +681,10 @@ void ShapeCollectionAgent::hkpBvTreeAgent_updateShapeCollectionFilter(const CdBo
         }
         else
         {
-            if (m_pAgents[i].m_pCollisionAgent != FUN_00d107a0())
+            if (m_pAgents[i].m_pCollisionAgent != hkpNullAgent_getNullAgent())
             {
                 m_pAgents[i].m_pCollisionAgent->cleanup(constraintOwner);
-                m_pAgents[i].m_pCollisionAgent = FUN_00d107a0();
+                m_pAgents[i].m_pCollisionAgent = hkpNullAgent_getNullAgent();
             }
         }
     }
@@ -825,7 +825,7 @@ struct S_00d30f50_Heap
 };
 
 namespace fnv_linear_cast {
-hkMemoryRouter& __cdecl FUN_00c85750();
+hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 
 template <class T> struct S_00d30f50_ArrayLocalForm
@@ -861,7 +861,7 @@ template <class T> struct S_00d30f50_ArrayLocalForm
     }
     ~S_00d30f50_ArrayLocalForm() throw()
     {
-        _clearAndDeallocate(*reinterpret_cast<S_00d30f50_Heap*>((&fnv_linear_cast::FUN_00c85750().heap())));
+        _clearAndDeallocate(*reinterpret_cast<S_00d30f50_Heap*>((&fnv_linear_cast::hkMemoryRouter_getInstance().heap())));
     }
 };
 
@@ -1093,16 +1093,17 @@ struct S_00d30f50_LinearCastInput
     S_00d30f50_Dispatcher* m_pCollisionDispatcher;
 };
 
-void __cdecl FUN_00d2f690(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
+void __cdecl hkpBvTreeAgent_calcAabbLinearCast(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_Aabb& aabbOut);
 
-void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
+void __cdecl hkpBvTreeAgent_staticLinearCast(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_CdPointCollector& collector,
                           S_00d30f50_CdPointCollector* startCollector) throw();
 
 // Performs a linear cast against a BvTree shape by querying AABB hits and dispatching narrow-phase linear cast for each hit shape.
 // @fnv 0x00d30f50
-void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
+// src: XBOX_PDB 0x00d30f50
+void __cdecl hkpBvTreeAgent_staticLinearCast(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBody& bodyB,
                           const S_00d30f50_LinearCastInput& input, S_00d30f50_CdPointCollector& collector,
                           S_00d30f50_CdPointCollector* startCollector) throw()
 {
@@ -1110,7 +1111,7 @@ void __cdecl FUN_00d30f50(const S_00d30f50_CdBody& bodyA, const S_00d30f50_CdBod
     S_00d30f50_TimerBeginList("LtBvTree", "StQueryTree", timerTmp);
 
     S_00d30f50_Aabb aabb;
-    FUN_00d2f690(bodyA, bodyB, input, aabb);
+    hkpBvTreeAgent_calcAabbLinearCast(bodyA, bodyB, input, aabb);
 
     const S_00d30f50_BvTreeShape* pBvTreeShapeB = static_cast<const S_00d30f50_BvTreeShape*>(bodyB.getShape());
     S_00d30f50_InplaceArray<unsigned int, 128> hitList;
@@ -1206,7 +1207,7 @@ struct SpawnedObject
     SpawnedObject* FUN_00d2f980(int arg);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // Allocates a 0x40-byte object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
 // @fnv 0x00d2fa40
@@ -1217,13 +1218,13 @@ SpawnedObject* hkpBvTreeAgent_createBvBvAgent(FloatOwner* apFirstOwner, FloatOwn
     FloatSub* pSecondSub = apSecondOwner->m_08;
     if (pFirstSub->m_a0 < pSecondSub->m_a0)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         SlotAllocator* alloc = (SlotAllocator*)holder->m_heap;
         SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
         obj->m_04 = 0x40;
         return obj->FUN_00d2f980(a4);
     }
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     SlotAllocator* alloc = (SlotAllocator*)holder->m_heap;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x40);
     obj->m_04 = 0x40;
@@ -1258,7 +1259,7 @@ extern "C" void FUN_00d2e9f0();
 extern "C" void hkpBvTreeAgent_createShapeBvAgent();
 extern "C" void hkpBvTreeAgent_staticGetPenetrations();
 extern "C" void hkpBvTreeAgent_staticGetClosestPoints();
-extern "C" void FUN_00d30f50();
+extern "C" void hkpBvTreeAgent_staticLinearCast();
 extern "C" void hkpBvTreeAgent_createBvBvAgent();
 
 // Sets up three DescRecord entries with function pointers and flags, then passes each to self->FUN_00cfbbe0 with different index pairs.
@@ -1278,7 +1279,7 @@ void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
     desc.fn0 = hkpBvTreeAgent_createShapeBvAgent;
     desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
     desc.fn2 = hkpBvTreeAgent_staticGetClosestPoints;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, -1, 8);
@@ -1286,7 +1287,7 @@ void hkpBvTreeAgent_registerAgent(SpawnedObject* self)
     desc.fn0 = hkpBvTreeAgent_createBvBvAgent;
     desc.fn1 = hkpBvTreeAgent_staticGetPenetrations;
     desc.fn2 = hkpBvTreeAgent_staticGetClosestPoints;
-    desc.fn3 = FUN_00d30f50;
+    desc.fn3 = hkpBvTreeAgent_staticLinearCast;
     desc.flagA = 0;
     desc.flagB = 1;
     self->FUN_00cfbbe0(&desc, 8, 8);
@@ -1496,7 +1497,7 @@ extern "C" void __cdecl hkpBvTreeAgent_staticGetClosestPoints(void* apBodyA, voi
         }
     }
 
-    hkMemoryRouter* g = FUN_00c85750();
+    hkMemoryRouter* g = hkMemoryRouter_getInstance();
     int iCapFlags = hits.m_capFlags;
     S00d31110_Free* pAllocator = (S00d31110_Free*)g->m_heap;
     hits.m_iElementCount = 0;

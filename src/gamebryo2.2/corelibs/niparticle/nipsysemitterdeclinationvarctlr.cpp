@@ -31,13 +31,14 @@ void NiPSysEmitterDeclinationVarCtlr::FUN_00c2b8c0(float& fValue)
     fValue = *(float*)((char*)m_pkTargetModifier + 0x24);
 }
 
-void __stdcall FUN_00c32f60(StrArr* pArr);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr* pArr);
 char* NiViewerStrings_NiGetViewerString_Title(char* s);
 
 // @fnv 0x00c2b920
-void __stdcall FUN_00c2b920(StrArr* pStringArray)
+// src: XBOX_PDB 0x00c2b920
+void __stdcall NiPSysEmitterDeclinationVarCtlr_GetViewerStrings(StrArr* pStringArray)
 {
-    FUN_00c32f60(pStringArray);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pStringArray);
     char* s = NiViewerStrings_NiGetViewerString_Title((char*)g_01202750);
     unsigned int uiIndex = pStringArray->m_usSize;
     if (uiIndex >= pStringArray->m_usMaxSize)
@@ -75,11 +76,12 @@ struct FUN_00c2b8d0_cls
 {
     void FUN_00c32de0(SpawnedObject* obj, void* arg);
 
-    SpawnedObject* FUN_00c2b8d0(void* arg);
+    SpawnedObject* NiPSysEmitterDeclinationVarCtlr_CreateClone(void* arg);
 };
 
 // @fnv 0x00c2b8d0
-SpawnedObject* FUN_00c2b8d0_cls::FUN_00c2b8d0(void* arg)
+// src: XBOX_PDB 0x00c2b8d0
+SpawnedObject* FUN_00c2b8d0_cls::NiPSysEmitterDeclinationVarCtlr_CreateClone(void* arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
     if (obj != 0)

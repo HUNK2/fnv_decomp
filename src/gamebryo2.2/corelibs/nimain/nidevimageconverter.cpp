@@ -513,7 +513,8 @@ int __fastcall IsPalettizedFormat(const NiPixelFormat* format, void*)
 }
 
 // @fnv 0x00a7b0a0
-void* NiDevImageConverter::FUN_00a7b0a0()
+// src: XBOX_PDB 0x00a7b0a0
+void* NiDevImageConverter::GetImageReaderList()
 {
     return &m_kImageReaderList;
 }
@@ -784,7 +785,8 @@ static inline bool IsPal_a78a50(const NiPixelFormat& kFmt)
 }
 
 // @fnv 0x00a78a50
-const NiPixelFormat* NiDevImageConverter::FUN_00a78a50(const NiTexture::TextureFormatPreferences& kPrefs, const NiPixelFormat& kSrcFmt,
+// src: XBOX_PDB 0x00a78a50
+const NiPixelFormat* NiDevImageConverter::FindClosestPixelFormatPS3(const NiTexture::TextureFormatPreferences& kPrefs, const NiPixelFormat& kSrcFmt,
                                             const NiPixelFormat& kDestFmt)
 {
     bool bAlpha;
@@ -898,7 +900,8 @@ inline NiImageReader* const& NiDevImageConverter::GetNext(NiTListItem<NiImageRea
 }
 
 // @fnv 0x00a77d10
-NiPixelData* NiDevImageConverter::FUN_00a77d10(const char* pcFilename, NiPixelData* pkOptDest, NiFile* pkIstr)
+// src: XBOX_PDB 0x00a77d10
+NiPixelData* NiDevImageConverter::ReadImageFile_00a77d10(const char* pcFilename, NiPixelData* pkOptDest, NiFile* pkIstr)
 {
     NiTListItem<NiImageReader*>* pkPos = m_kImageReaderList.m_pkHead;
     char acStandardFilename[260];
@@ -1134,7 +1137,7 @@ const NiPixelFormat* NiDevImageConverter::SelectFormat(const NiTexture::TextureF
     return &DAT_011aaac8;
 }
 
-void* __cdecl FUN_00aa1070(unsigned);
+void* __cdecl _NiMalloc_00aa1070(unsigned);
 void __cdecl _NiFree_00aa10f0(void*);
 // Expands 4-bit paletted source pixels into a 32-bit color buffer using the palette and bit-shift masks, then frees the temporary buffer.
 // @fnv 0x00a790a0
@@ -1143,7 +1146,7 @@ void __cdecl ExpandPalettedImage(unsigned width, unsigned height, unsigned unuse
                                  const unsigned char* src, const NiDevImageConverter::PixelFormatBitLayout& srcBits)
 {
     const NiPalette::PaletteColorEntry* entries = reinterpret_cast<NiPalette::PaletteColorEntry*>(palette->unk14);
-    unsigned char* expanded = (unsigned char*)FUN_00aa1070(width * height);
+    unsigned char* expanded = (unsigned char*)_NiMalloc_00aa1070(width * height);
     unsigned count = (width >> 1) * height;
     unsigned char* saved = expanded;
     for (unsigned i = 0; i < count; ++i)
@@ -1170,7 +1173,7 @@ void __cdecl ExpandPalettedImage(unsigned width, unsigned height, unsigned unuse
     _NiFree_00aa10f0(saved);
 }
 
-void* FUN_00aa1070(unsigned int uiSize);
+void* _NiMalloc_00aa1070(unsigned int uiSize);
 void NiFree(void* pvMem);
 
 struct Format_a79310
@@ -1186,7 +1189,7 @@ void __cdecl FUN_00a79310(unsigned int uiWidth, unsigned int uiHeight, unsigned 
                           NiPalette* pkPalette, Format_a79310* pkFormat, const unsigned char* pSrc)
 {
     NiPalette::PaletteColorEntry* pkEntries = reinterpret_cast<NiPalette::PaletteColorEntry*>(pkPalette->unk14);
-    unsigned char* pucOut = (unsigned char*)FUN_00aa1070(uiWidth * uiHeight);
+    unsigned char* pucOut = (unsigned char*)_NiMalloc_00aa1070(uiWidth * uiHeight);
     unsigned int uiBytes = (uiWidth >> 1) * uiHeight;
     unsigned char* pucIndices = pucOut;
     for (unsigned int i = 0; i < uiBytes; i++)
@@ -1420,7 +1423,8 @@ template <class TAlloc, class T> inline T& NiTPointerListBase<TAlloc, T>::GetNex
 
 // Copies the path, normalizes it, then tries each registered image reader's extension match and opens the file to test readability.
 // @fnv 0x00a77ae0
-bool NiDevImageConverter::FUN_00a77ae0(const char* pcFilename)
+// src: XBOX_PDB 0x00a77ae0
+bool NiDevImageConverter::CanReadImageFile(const char* pcFilename)
 {
     char acStandardFilename[0x104];
     NiTListIterator kIter = m_kImageReaderList.m_pkHead;
@@ -1509,7 +1513,8 @@ inline unsigned PixelDataFaces(const NiPixelData& k)
 }
 // Converts kSrc to the destination pixel format, returning a new NiPixelData or a pointer to kSrc if no conversion is needed.
 // @fnv 0x00a78570
-NiPixelData* NiDevImageConverter::FUN_00a78570(int a1, int a2, const NiPixelData& kSrc, int a4)
+// src: XBOX_PDB 0x00a78570
+NiPixelData* NiDevImageConverter::ConvertForPlatform(int a1, int a2, const NiPixelData& kSrc, int a4)
 {
     typedef const NiPixelFormat* (__thiscall* DestinationFn)(NiDevImageConverter*, int, int, const NiPixelFormat&, int);
     const NiPixelFormat* pkFmt = ((DestinationFn)(*(void***)this)[15])(this, a1, a2, kSrc.m_kPixelFormat, a4);
@@ -1528,7 +1533,8 @@ NiPixelData* NiDevImageConverter::FUN_00a78570(int a1, int a2, const NiPixelData
 
 // Allocates destination pixel data and fills it using differences between neighboring source bytes.
 // @fnv 0x00a78be0
-NiPixelData* __stdcall FUN_00a78be0(const NiPixelData& src, const NiPixelFormat& fmt)
+// src: XBOX_PDB 0x00a78be0
+NiPixelData* __stdcall NiDevImageConverter_GenerateBumpMap(const NiPixelData& src, const NiPixelFormat& fmt)
 {
     unsigned width = src.m_puiWidth[0], height = src.m_puiHeight[0];
     unsigned levels = src.m_uiMipmapLevels;
@@ -1662,7 +1668,8 @@ struct PixelDataRef
 
 // Queries the first file's properties, allocates a NiPixelData buffer, and copies each mipmap level from the source files into it.
 // @fnv 0x00a7ae60
-NiPixelData* NiDevImageConverter::FUN_00a7ae60(const char** ppcFileNames, unsigned uiNumLevels, NiPixelData* pkCurrentObject)
+// src: XBOX_PDB 0x00a7ae60
+NiPixelData* NiDevImageConverter::GenerateMipmapPyramidFromFiles(const char** ppcFileNames, unsigned uiNumLevels, NiPixelData* pkCurrentObject)
 {
     if (!ppcFileNames[0])
         return 0;
@@ -2069,7 +2076,8 @@ struct ConverterTable
 
 // Converts source pixel data to a destination format, optionally expanding compressed data, generating mipmaps, and converting to bump maps.
 // @fnv 0x00a7a280
-NiPixelData* NiDevImageConverter::FUN_00a7a280(const NiPixelData& kSrc, const NiPixelFormat& kDstFmt,
+// src: XBOX_PDB 0x00a7a280
+NiPixelData* NiDevImageConverter::ConvertPixelData(const NiPixelData& kSrc, const NiPixelFormat& kDstFmt,
                                                  NiPixelData* pkDst, bool bWithMipmaps) throw()
 {
     ImageConverterPointer<NiPixelData> spExpanded;

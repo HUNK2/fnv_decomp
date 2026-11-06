@@ -12,7 +12,7 @@ struct DecalcasterOffset08View
 {
     unsigned int GetFlags();
 };
-const void* __fastcall FUN_004b59d0(const char*);
+const void* __fastcall hkpCollidable_getOwner(const char*);
 struct DecalCaster
 {
     const RootContactPoint* DecalCaster_GetCollision(unsigned int);
@@ -31,7 +31,7 @@ unsigned int DecalCaster::GetCollisionFlags(unsigned int aiIndex)
         {
             {
                 bhkNiCollisionObject* pCollisionObject;
-                pCollisionObject = (bhkNiCollisionObject*)FUN_004b59d0((const char*)pEntry->m_pRootCollidableB);
+                pCollisionObject = (bhkNiCollisionObject*)hkpCollidable_getOwner((const char*)pEntry->m_pRootCollidableB);
                 {
                     NiAVObject* pObject;
                     pObject = NiShader::DynamicCast((NiAVObject*)pCollisionObject);

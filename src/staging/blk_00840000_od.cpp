@@ -98,12 +98,13 @@ struct FUN_00844560_class
 {
     int a;
     int b;
-    FUN_00844560_class* FUN_00844560(int x);
+    FUN_00844560_class* ReconstructFormData_ReconstructFormData(int x);
 };
 
 // Sets the first field to 0 and stores x in the second field, then returns this.
 // @fnv 0x00844560
-FUN_00844560_class* FUN_00844560_class::FUN_00844560(int x)
+// src: XBOX_PDB 0x00844560
+FUN_00844560_class* FUN_00844560_class::ReconstructFormData_ReconstructFormData(int x)
 {
     a = 0;
     b = x;
@@ -165,27 +166,27 @@ bool FUN_00848cf0_Class::IsFlag80Set() const
     return (*(const int*)((const char*)this + 0x244) & 0x80) ? true : false;
 }
 
-void __cdecl FUN_0084bfb0(unsigned int, unsigned int);
+void __cdecl BGSSaveLoadGlobalData_InitGlobalDataRange(unsigned int, unsigned int);
 
 // @fnv 0x00848d10
 // src: COMMUNITY 0x00848d10
 void __cdecl BGSSaveLoadGlobalData_InitGlobalData_0()
 {
-    FUN_0084bfb0(0, 0xc);
+    BGSSaveLoadGlobalData_InitGlobalDataRange(0, 0xc);
 }
 
-extern "C" void __cdecl FUN_0084c110(int, int);
+extern "C" void __cdecl BGSSaveLoadGlobalData_FinishLoadGlobalDataRange(int, int);
 
 // @fnv 0x00848d30
 // src: COMMUNITY 0x00848d30
 void __cdecl BGSSaveLoadGlobalData_FinishLoadGlobalData_0()
 {
-    FUN_0084c110(0, 0xc);
+    BGSSaveLoadGlobalData_FinishLoadGlobalDataRange(0, 0xc);
 }
 
 struct SM7d6
 {
-    void FUN_0075f6f0(int, int);
+    void StartMenu_SetFlag(int, int);
 };
 extern SM7d6* DAT_011daac0;
 
@@ -194,7 +195,7 @@ extern SM7d6* DAT_011daac0;
 void StartMenu_SetMissingContentFlag(unsigned char arg)
 {
     if (DAT_011daac0)
-        DAT_011daac0->FUN_0075f6f0(0x20000000, arg);
+        DAT_011daac0->StartMenu_SetFlag(0x20000000, arg);
 }
 
 struct FUN_0084b450_Class
@@ -212,11 +213,12 @@ unsigned char FUN_0084b450_Class::BGSUnloadedFormBuffer_GetVersion()
 struct MapH
 {
     bool RemoveAt(unsigned int);
-    bool FUN_0084b470(unsigned int index);
+    bool BGSSaveLoadReferencesMap_RemoveMovedReference(unsigned int index);
 };
 
 // @fnv 0x0084b470
-bool MapH::FUN_0084b470(unsigned int index)
+// src: XBOX_PDB 0x0084b470
+bool MapH::BGSSaveLoadReferencesMap_RemoveMovedReference(unsigned int index)
 {
     return RemoveAt(index);
 }
@@ -228,12 +230,13 @@ struct FUN_00852a10_shell
 
 struct FUN_0084b490_class
 {
-    void FUN_0084b490(unsigned int a, unsigned int b);
+    void BGSSaveLoadReferencesMap_RemoveReference(unsigned int a, unsigned int b);
 };
 
 // Forwards the two arguments to RemoveReference on the object at offset 0x10 of this instance.
 // @fnv 0x0084b490
-void __thiscall FUN_0084b490_class::FUN_0084b490(unsigned int a, unsigned int b)
+// src: XBOX_PDB 0x0084b490
+void __thiscall FUN_0084b490_class::BGSSaveLoadReferencesMap_RemoveReference(unsigned int a, unsigned int b)
 {
     ((FUN_00852a10_shell*)((char*)this + 0x10))->RemoveReference(a, b);
 }
@@ -259,7 +262,7 @@ extern "C" void* DAT_0107f4b4;
 struct AX
 {
     void* vfn;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     AX* BSSimpleArray_BGSLoadFormBuffer_1024_BSSimpleArray_BGSLoadFormBuffer_1024();
 };
 
@@ -268,7 +271,7 @@ struct AX
 AX* AX::BSSimpleArray_BGSLoadFormBuffer_1024_BSSimpleArray_BGSLoadFormBuffer_1024()
 {
     this->vfn = &DAT_0107f4b4;
-    this->FUN_006b3eb0(0, 0);
+    this->BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -305,11 +308,12 @@ void* __thiscall FUN_0084b630::Reallocate(void* p, int aiCount)
 
 struct FUN_0084ba50_Class
 {
-    void __thiscall FUN_0084ba50();
+    void __thiscall NiTMap_int64_int_NewItem();
     void __thiscall AllocateObject();
 };
 // @fnv 0x0084ba50
-void __thiscall FUN_0084ba50_Class::FUN_0084ba50()
+// src: XBOX_PDB 0x0084ba50
+void __thiscall FUN_0084ba50_Class::NiTMap_int64_int_NewItem()
 {
     ((FUN_0084ba50_Class*)((char*)this + 0xc))->AllocateObject();
 }
@@ -321,12 +325,13 @@ struct Unk6b
 
 struct FUN_0084ba70_Cls
 {
-    void FUN_0084ba70(void* arg);
+    void NiTMap_int64_int_DeleteItem(void* arg);
 };
 
 // Sets the int at offset 0x10 of arg to 0, then calls FreeMemory on the object at this+0xc with arg.
 // @fnv 0x0084ba70
-void FUN_0084ba70_Cls::FUN_0084ba70(void* arg)
+// src: XBOX_PDB 0x0084ba70
+void FUN_0084ba70_Cls::NiTMap_int64_int_DeleteItem(void* arg)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(arg) + 0x10) = 0;
     reinterpret_cast<Unk6b*>(reinterpret_cast<char*>(this) + 0xc)->FreeMemory(arg);
@@ -413,11 +418,12 @@ struct FUN_0084e3a0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 // @fnv 0x0084e3a0
-int FUN_0084e3a0_Class::FUN_0084e3a0()
+// src: XBOX_PDB 0x0084e3a0
+int FUN_0084e3a0_Class::GetHavokWorldObjectCountInSceneGraph_0084e3a0()
 {
     return m_iThirdValue;
 }
@@ -1314,7 +1320,7 @@ void* __thiscall FUN_0084d480_Class::FUN_0084d480(unsigned int flags)
 
 struct FUN_00846d20_shell
 {
-    unsigned int FUN_00846d20(unsigned int a);
+    unsigned int BGSSaveLoadFormIDMap_GetFormID(unsigned int a);
 };
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
@@ -1334,7 +1340,7 @@ void FUN_0084e340_Class::CellInitialData_Initialize_CHAR(const char* p)
     m_iWordAt04 = (short)p[2];
     m_8 = (short)p[3];
     m_iThirdValue = *(int*)(p + 4);
-    m_iWordAt00 = ((FUN_00846d20_shell*)g_BGSSaveLoadGame->FUN_0084e3a0())->FUN_00846d20(*(unsigned short*)p);
+    m_iWordAt00 = ((FUN_00846d20_shell*)g_BGSSaveLoadGame->GetHavokWorldObjectCountInSceneGraph_0084e3a0())->BGSSaveLoadFormIDMap_GetFormID(*(unsigned short*)p);
 }
 
 struct FUN_0084e420_class
@@ -1540,13 +1546,14 @@ void* FUN_00853440_class::FUN_008534d0(unsigned int flags)
 
 struct FUN_00854b80_class
 {
-    void __thiscall FUN_00854b80(const char* p);
+    void __thiscall BGSSaveLoadStatsMap_WriteFile(const char* p);
 };
 // @fnv 0x00854b80
-void __thiscall FUN_00854b80_class::FUN_00854b80(const char* pcString)
+// src: XBOX_PDB 0x00854b80
+void __thiscall FUN_00854b80_class::BGSSaveLoadStatsMap_WriteFile(const char* pcString)
 {
     if (*(int*)((char*)this + 0x18))
-        ((BSFile*)*(int*)((char*)this + 0x18))->FUN_00473180(pcString, BSStringLength(pcString));
+        ((BSFile*)*(int*)((char*)this + 0x18))->NiBinaryStream_Write(pcString, BSStringLength(pcString));
 }
 
 extern "C" void __cdecl Deallocate(void*);
@@ -1641,7 +1648,7 @@ void TESSaveLoadGame::QueueFormForFinalization(TESForm* actor)
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #pragma intrinsic(memcpy)
 
-unsigned int __fastcall FUN_00853500(void*);
+unsigned int __fastcall BGSNumericIDIndex_GetNumericID(void*);
 
 struct FUN_0084e460_t
 {
@@ -1660,7 +1667,7 @@ struct FUN_0084e460_t
 // src: COMMUNITY 0x0084e460
 void FUN_0084e460_t::ReferenceInitialData_Initialize_LOCATION(unsigned int auiData)
 {
-    a = FUN_00853500((void*)auiData);
+    a = BGSNumericIDIndex_GetNumericID((void*)auiData);
     b = 0;
     c = 0;
     d = 0;
@@ -1670,7 +1677,7 @@ void FUN_0084e460_t::ReferenceInitialData_Initialize_LOCATION(unsigned int auiDa
     flag = 0;
 }
 
-unsigned int __fastcall FUN_00853500(void* p);
+unsigned int __fastcall BGSNumericIDIndex_GetNumericID(void* p);
 
 
 struct FUN_0084e580_t
@@ -1695,9 +1702,9 @@ struct FUN_0084e580_class
 // src: COMMUNITY 0x0084e580
 void __thiscall FUN_0084e580_class::ReferenceInitialData_Initialize_MOVED(void* p)
 {
-    ((FUN_0084e580_t*)this)->a = FUN_00853500(p);
+    ((FUN_0084e580_t*)this)->a = BGSNumericIDIndex_GetNumericID(p);
     ((FUN_0084e580_t*)this)->b = 0;
-    ((FUN_0084e580_t*)this)->c = FUN_00853500((char*)p + 0x1b);
+    ((FUN_0084e580_t*)this)->c = BGSNumericIDIndex_GetNumericID((char*)p + 0x1b);
     ((FUN_0084e580_t*)this)->d = *(short*)((char*)p + 0x1e);
     ((FUN_0084e580_t*)this)->e = *(short*)((char*)p + 0x20);
     memcpy(&((FUN_0084e580_t*)this)->f, (char*)p + 3, sizeof(NiPoint3));
@@ -1800,7 +1807,7 @@ unsigned int TESSaveLoadGame::ConvertNumericID(unsigned int auiPacked)
 
 
 
-extern "C" TESForm* __cdecl FUN_004839c0(unsigned int);
+extern "C" TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 void __cdecl Deallocate(void*);
 extern TESObjectREFR* g_thePlayer;
 // @fnv 0x0085f070
@@ -1814,7 +1821,7 @@ void TESSaveLoadGame::LoadAnimations()
         void* value2;
         reinterpret_cast<NiTMap<unsigned int, void*>*>(m_pAnimationBufferMap)->GetNext(pos2, key, value2);
         if (key)
-            ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(key));
+            ref = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(key));
         else
             ref = g_thePlayer;
         if (ref)
@@ -2231,11 +2238,12 @@ void TESSaveLoadGame::LoadHavokDataForReference(TESObjectREFR* apTarget, void* a
 
 struct FUN_0085f810_shell
 {
-    void* __thiscall FUN_0085f810();
+    void* __thiscall ArrowProjectile_GetAttachedRef();
 };
 // Returns the pointer at offset 0x28 of the object stored at offset 0x88, or null if that object is absent.
 // @fnv 0x0085f810
-void* FUN_0085f810_shell::FUN_0085f810()
+// src: XBOX_PDB 0x0085f810
+void* FUN_0085f810_shell::ArrowProjectile_GetAttachedRef()
 {
     return *(void**)((char*)this + 0x88) ? *(void**)((char*)*(void**)((char*)this + 0x88) + 0x28) : 0;
 }
@@ -2251,13 +2259,13 @@ struct FUN_00978420_class
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 
 struct FUN_00c6a870_class
 {
-    void FUN_00c6a870();
+    void bhkWorld_DeactivateAllIslands();
 };
 
 
@@ -2279,14 +2287,14 @@ void TESSaveLoadGame::LoadQueuedData(bool arg)
     if (arg)
     {
         DAT_011e0e80.ProcessLists_LoadUpdateAnimation(0.0f, 0);
-        g_TES->FUN_00453550(0.0f);
+        g_TES->TES_UpdateCellAnimations(0.0f);
 
         int cullResult = _g_thePlayer->GetCullResult();
         if (cullResult)
         {
             bhkWorld* room = reinterpret_cast<ExtraDataList*>(cullResult)->GetRoomId();
             if (room)
-                reinterpret_cast<FUN_00c6a870_class*>(room)->FUN_00c6a870();
+                reinterpret_cast<FUN_00c6a870_class*>(room)->bhkWorld_DeactivateAllIslands();
         }
     }
 
@@ -2322,11 +2330,12 @@ class B844520Queue
     int unk08;
     B844520List m_kUnsortedGeometryList;
 
-    void FUN_00844520(B844520Item* pkItem);
+    void NiTMap_unsigned_int_ReconstructFormData_DeleteItem(B844520Item* pkItem);
 };
 
 // @fnv 0x00844520
-void B844520Queue::FUN_00844520(B844520Item* pkItem)
+// src: XBOX_PDB 0x00844520
+void B844520Queue::NiTMap_unsigned_int_ReconstructFormData_DeleteItem(B844520Item* pkItem)
 {
     B844520Stamp kStamp(0);
     pkItem->m_kStamp = kStamp;
@@ -2545,7 +2554,7 @@ struct FUN_0084d310_class
     FUN_0084d310_entry** m_buckets;
     unsigned int m_uiItemCount;
 
-    void FUN_0084d310(int key, unsigned char value);
+    void NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt(int key, unsigned char value);
 };
 
 struct FUN_0084d310_entry
@@ -2556,7 +2565,8 @@ struct FUN_0084d310_entry
 };
 
 // @fnv 0x0084d310
-void FUN_0084d310_class::FUN_0084d310(int key, unsigned char value)
+// src: XBOX_PDB 0x0084d310
+void FUN_0084d310_class::NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt(int key, unsigned char value)
 {
     int index = FUN_0084d310_lookup(key);
     FUN_0084d310_entry* entry = m_buckets[index];
@@ -2608,11 +2618,11 @@ struct SaveEntryData
 };
 struct ItemRef
 {
-    unsigned int FUN_00846d20();
+    unsigned int BGSSaveLoadFormIDMap_GetFormID();
 };
 struct ItemManager
 {
-    ItemRef* FUN_0084e3a0(unsigned int resourceId);
+    ItemRef* GetHavokWorldObjectCountInSceneGraph_0084e3a0(unsigned int resourceId);
 };
 struct FUN_0084e3c0_Class
 {
@@ -2629,7 +2639,7 @@ void FUN_0084e3c0_Class::LoadFromSaveEntry(const SaveEntryData* pEntry)
     row = pEntry->row;
     column = pEntry->column;
     flags = *reinterpret_cast<const unsigned int*>(&pEntry->flagsLow);
-    handle = reinterpret_cast<ItemManager*>(g_BGSSaveLoadGame)->FUN_0084e3a0(pEntry->resourceId)->FUN_00846d20();
+    handle = reinterpret_cast<ItemManager*>(g_BGSSaveLoadGame)->GetHavokWorldObjectCountInSceneGraph_0084e3a0(pEntry->resourceId)->BGSSaveLoadFormIDMap_GetFormID();
 }
 
 struct FUN_0084e4f0_triple
@@ -2658,8 +2668,8 @@ class FUN_0084e4f0_cls
 // src: COMMUNITY 0x0084e4f0
 void FUN_0084e4f0_cls::ReferenceInitialData_Initialize_CREATED(void* pSource)
 {
-    m_00 = FUN_00853500(pSource);
-    m_04 = FUN_00853500((char*)pSource + 0x1c);
+    m_00 = BGSNumericIDIndex_GetNumericID(pSource);
+    m_04 = BGSNumericIDIndex_GetNumericID((char*)pSource + 0x1c);
     m_08 = 0;
     m_0c = 0;
     m_10 = 0;
@@ -2843,7 +2853,7 @@ unsigned int __thiscall FUN_00859120_cls::ClearRefrFlag(TESForm* pForm, unsigned
 {
     TESObjectREFR* a;
     TESObjectCELL* b;
-    if (DAT_011c3f2c->FUN_00469860(pForm->FUN_0084e3a0()) != 0)
+    if (DAT_011c3f2c->FUN_00469860(pForm->GetHavokWorldObjectCountInSceneGraph_0084e3a0()) != 0)
     {
         a = dynamic_cast<TESObjectREFR*>(pForm);
         if (a != 0)
@@ -2870,7 +2880,7 @@ struct BinaryRecord36
     void* value04;
     void* value08;
     unsigned int value0c, value10, value14, value18, value1c, value20;
-    void FUN_008572c0();
+    void CreatedReferenceData_CreatedReferenceData();
 };
 struct BinaryRecord44
 {
@@ -2899,8 +2909,8 @@ struct SourceTracker
 struct SaveGameReferenceReconstruction : public TESSaveLoadGame
 {
     void* FUN_00861c00(void*);
-    TESForm* FUN_00859a90(unsigned int key, BinaryRecord36* data);
-    TESForm* FUN_00859f20(unsigned int key, BinaryRecord44* data);
+    TESForm* TESSaveLoadGame_CreateReference(unsigned int key, BinaryRecord36* data);
+    TESForm* TESSaveLoadGame_CreateReferenceFromFile(unsigned int key, BinaryRecord44* data);
     void TESSaveLoadGame_LoadForm(TESForm*);
     void ProcessSourceItem(unsigned int key);
 };
@@ -2918,12 +2928,12 @@ void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
             {
                 TESForm* pCreated;
                 BinaryRecord36 record;
-                record.FUN_008572c0();
+                record.CreatedReferenceData_CreatedReferenceData();
                 bytes += 4;
                 memcpy(&record, bytes, sizeof(record));
                 record.value04 = FUN_00861c00(record.value04);
                 record.value08 = FUN_00861c00(record.value08);
-                pCreated = FUN_00859a90(key, &record);
+                pCreated = TESSaveLoadGame_CreateReference(key, &record);
                 if (pCreated != 0)
                 {
                     MagicProjectile* asSpecial = dynamic_cast<MagicProjectile*>(pCreated);
@@ -2947,7 +2957,7 @@ void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
                 memcpy(&record2, bytes2, sizeof(record2));
                 record2.value00 = FUN_00861c00(record2.value00);
                 record2.value10 = FUN_00861c00(record2.value10);
-                TESForm* newObject2 = FUN_00859f20(key, &record2);
+                TESForm* newObject2 = TESSaveLoadGame_CreateReferenceFromFile(key, &record2);
                 if (newObject2 != 0)
                     TESSaveLoadGame_LoadForm(newObject2);
                 reinterpret_cast<SourceTracker*>(&m_kChangedReferenceIDList)->FUN_00905330(&key);
@@ -2963,7 +2973,7 @@ void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
 struct SavedReferenceData
 {
     void LoadFromSave(TESObjectREFR*);
-    char* FUN_00491040(char*);
+    char* Animation_GetCurrentSequence(char*);
 };
 
 struct PlayerSaveAccess : TESObjectREFR
@@ -3005,7 +3015,7 @@ void TESSaveLoadGame::LoadAnimationForReference(TESObjectREFR* reference, unsign
     int oldMode = (int)m_pBuffer;
     m_pBuffer = (char*)newMode;
     int index;
-    static_cast<TESSaveLoadGame*>(DAT_011de45c)->FUN_008579e0(&index, 2);
+    static_cast<TESSaveLoadGame*>(DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&index, 2);
     if (dataB)
         dataB->LoadFromSave(reference);
     m_pBuffer = (char*)oldMode;
@@ -3014,7 +3024,7 @@ void TESSaveLoadGame::LoadAnimationForReference(TESObjectREFR* reference, unsign
         if (token)
         {
             char* start = token - 8;
-            token = dataB->FUN_00491040(start);
+            token = dataB->Animation_GetCurrentSequence(start);
         }
         static_cast<BaseProcess*>(process)->SetAnimAction(static_cast<ProcessAnimationAction>(savedState4), reinterpret_cast<BSAnimGroupSequence*>(token));
     }
@@ -3033,7 +3043,7 @@ struct FnvQueue
 };
 struct FnvRefMethod
 {
-    int FUN_0043fcd0();
+    int TESObjectREFR_Get3D();
 };
 // @fnv 0x0085f5d0
 void TESSaveLoadGame::LoadHavokData()
@@ -3044,10 +3054,10 @@ void TESSaveLoadGame::LoadHavokData()
         unsigned int key;
         void* data;
         reinterpret_cast<FnvMap*>(m_pHavokDataBufferMap)->FUN_006b7f20(cursor, key, data);
-        TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(FUN_004839c0(key));
+        TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(key));
         if (refObject)
         {
-            if (!reinterpret_cast<FnvRefMethod*>(refObject)->FUN_0043fcd0())
+            if (!reinterpret_cast<FnvRefMethod*>(refObject)->TESObjectREFR_Get3D())
             {
                 if (reinterpret_cast<FnvQueue*>(m_pAlternateChangesMap))
                     reinterpret_cast<FnvQueue*>(m_pAlternateChangesMap)->GetOrCreateNode(refObject, 0);
@@ -4068,7 +4078,7 @@ struct ProbeTarget
     int Probe(int a, unsigned __int64 key, int* out);
 };
 
-unsigned int __cdecl FUN_0044a670(int value);
+unsigned int __cdecl BSstrlen(int value);
 
 struct FUN_00856300_cls
 {
@@ -4083,7 +4093,7 @@ struct FUN_00856300_cls
 bool FUN_00856300_cls::SaveDataDebugInfo_Write(ProbeTarget* target, int value)
 {
     bool result = false;
-    unsigned __int64 key = FUN_0044a670(value);
+    unsigned __int64 key = BSstrlen(value);
     int out[3];
     result = !target->Probe(value, key, out);
     return result;
@@ -4093,21 +4103,21 @@ bool FUN_00856300_cls::SaveDataDebugInfo_Write(ProbeTarget* target, int value)
 class Controller
 {
   public:
-    bool FUN_005c0860();
-    void FUN_005620e0(NiPoint3*);
+    bool bhkCharacterController_QIsFlying();
+    void SetPosition_005620e0(NiPoint3*);
 };
 class Node
 {
   public:
-    void FUN_00440460(const NiPoint3&);
-    void FUN_0043fa80(const NiMatrix3&);
-    void FUN_00a59c60(NiUpdateData&);
+    void NiAVObject_SetTranslate(const NiPoint3&);
+    void SetRotate_0043fa80(const NiMatrix3&);
+    void NiAVObject_Update(NiUpdateData&);
 };
 class Extra
 {
   public:
     void* GetExtraData(unsigned char);
-    TESForm* FUN_0041b320();
+    TESForm* ExtraDataList_GetStartingWorldOrCell();
 };
 // The shared return type of FUN_0056fa00 is incomplete in this unit.
 // The shared declaration returns an incomplete Matrix type in this unit.
@@ -4122,14 +4132,14 @@ class MobileAccess : public MobileObject
   public:
     Controller* FUN_009306d0();
 };
-void FUN_00573800(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
-void FUN_00c6bd00(Node*, bool);
+void TESObjectREFR_MoveRefToNewSpace(TESObjectREFR*, TESObjectCELL*, TESWorldSpace*);
+void bhkNiCollisionObject_ResetSim(Node*, bool);
 // Position helpers not yet declared by the shared class. No additional layout.
 class SaveGamePositionAccess : public TESSaveLoadGame
 {
   public:
     unsigned char GetVersion();
-    void FUN_008a8150(unsigned char);
+    void ExtraDismemberedLimbs_SetEaten(unsigned char);
     void FUN_004534f0(unsigned int);
 };
 // Restores the reference's saved location or extra-data position, updates its 3D and controller, and returns whether anything changed.
@@ -4137,7 +4147,7 @@ class SaveGamePositionAccess : public TESSaveLoadGame
 bool TESSaveLoadGame::ResetReferencePosition(TESObjectREFR* ref, bool process)
 {
     unsigned char version3 = static_cast<SaveGamePositionAccess*>(this)->GetVersion();
-    static_cast<SaveGamePositionAccess*>(this)->FUN_008a8150(0);
+    static_cast<SaveGamePositionAccess*>(this)->ExtraDismemberedLimbs_SetEaten(0);
     bool changed = false;
     TESObjectREFR* mobileX = 0;
     if (reinterpret_cast<bool (__thiscall*)(TESObjectREFR*)>((*reinterpret_cast<void***>(ref))[0x40])(ref))
@@ -4152,30 +4162,30 @@ bool TESSaveLoadGame::ResetReferencePosition(TESObjectREFR* ref, bool process)
             ref->SetReferenceAngle(mobileX->vfn_16c().z);
             if (process)
                 static_cast<SaveGamePositionAccess*>(this)->FUN_004534f0(1);
-            FUN_00573800(ref, cell6, world);
+            TESObjectREFR_MoveRefToNewSpace(ref, cell6, world);
             if (process)
                 static_cast<SaveGamePositionAccess*>(this)->FUN_004534f0(0);
             changed = true;
         }
     }
-    else if (ref->FUN_005d43c0())
+    else if (ref->BSFile_GetDevice())
     {
-        if (ref->FUN_005d43c0()->GetExtraData(15))
+        if (ref->BSFile_GetDevice()->GetExtraData(15))
         {
             NiPoint3 position3 = ref->GetEditorPosition();
             const NiPoint3 rotation = ref->vfn_16c();
             ref->SetLocationOnReference(reinterpret_cast<const NiPoint3&>(position3));
-            static_cast<Actor*>(ref)->FUN_00575700(rotation);
+            static_cast<Actor*>(ref)->TESObjectREFR_SetAngleOnReference(rotation);
             changed = true;
         }
-        TESForm* form7 = reinterpret_cast<Extra*>(ref->FUN_005d43c0())->FUN_0041b320();
+        TESForm* form7 = reinterpret_cast<Extra*>(ref->BSFile_GetDevice())->ExtraDataList_GetStartingWorldOrCell();
         if (form7)
         {
             TESObjectCELL* savedCell7 = dynamic_cast<TESObjectCELL*>(form7);
             TESWorldSpace* savedWorld6 = dynamic_cast<TESWorldSpace*>(form7);
             if (savedCell7 || savedWorld6)
             {
-                FUN_00573800(ref, savedCell7, savedWorld6);
+                TESObjectREFR_MoveRefToNewSpace(ref, savedCell7, savedWorld6);
                 changed = true;
             }
         }
@@ -4190,17 +4200,17 @@ bool TESSaveLoadGame::ResetReferencePosition(TESObjectREFR* ref, bool process)
             if (objectA)
             {
                 Controller* controller = ((MobileAccess*)objectA)->FUN_009306d0();
-                if (controller && !controller->FUN_005c0860())
-                    controller->FUN_005620e0(&location9);
+                if (controller && !controller->bhkCharacterController_QIsFlying())
+                    controller->SetPosition_005620e0(&location9);
             }
-            node6->FUN_00440460(location9);
-            node6->FUN_0043fa80(static_cast<ReferenceRotationAccess*>(ref)->TESObjectREFR_GetOrientation());
-            FUN_00c6bd00(node6, true);
+            node6->NiAVObject_SetTranslate(location9);
+            node6->SetRotate_0043fa80(static_cast<ReferenceRotationAccess*>(ref)->TESObjectREFR_GetOrientation());
+            bhkNiCollisionObject_ResetSim(node6, true);
             NiUpdateData update6(0.0f, false, false);
-            node6->FUN_00a59c60(update6);
+            node6->NiAVObject_Update(update6);
         }
     }
-    static_cast<SaveGamePositionAccess*>(this)->FUN_008a8150(version3);
+    static_cast<SaveGamePositionAccess*>(this)->ExtraDismemberedLimbs_SetEaten(version3);
     return changed;
 }
 
@@ -4228,7 +4238,7 @@ struct Map859
 struct Cell859
 {
     bool FUN_00425fd0();
-    unsigned FUN_0084e3a0();
+    unsigned GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     Cell859* FUN_0054ddd0();
     int FUN_00544c30();
     int FUN_00544c60();
@@ -4239,10 +4249,11 @@ struct SaveGameCellReconstruction : public TESSaveLoadGame
     bool FUN_0047c850();
     bool TESSaveLoadGame_LoadForm(Cell859*);
     void ProcessSourceItem(unsigned);
-    bool FUN_00859690(Cell859* cell);
+    bool TESSaveLoadGame_LoadCell(Cell859* cell);
 };
 // @fnv 0x00859690
-bool SaveGameCellReconstruction::FUN_00859690(Cell859* cell)
+// src: XBOX_PDB 0x00859690
+bool SaveGameCellReconstruction::TESSaveLoadGame_LoadCell(Cell859* cell)
 {
     bool result5 = false;
     if (!FUN_0047c850())
@@ -4251,7 +4262,7 @@ bool SaveGameCellReconstruction::FUN_00859690(Cell859* cell)
     if (cell->FUN_00425fd0())
     {
         List859* list8;
-        bool found8 = reinterpret_cast<Map859*>(m_pInteriorCellNewReferencesMap)->FUN_00853130(cell->FUN_0084e3a0(), list8);
+        bool found8 = reinterpret_cast<Map859*>(m_pInteriorCellNewReferencesMap)->FUN_00853130(cell->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), list8);
         if (!found8)
             return result5;
         List859* node2 = list8;
@@ -4265,14 +4276,14 @@ bool SaveGameCellReconstruction::FUN_00859690(Cell859* cell)
             }
             node2 = node2->FUN_00726070();
         }
-        reinterpret_cast<Map859*>(m_pInteriorCellNewReferencesMap)->RemoveKey(cell->FUN_0084e3a0());
+        reinterpret_cast<Map859*>(m_pInteriorCellNewReferencesMap)->RemoveKey(cell->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         list8->FUN_00470470();
         delete list8;
     }
     else
     {
         List859* listExterior;
-        bool foundExterior = reinterpret_cast<Map859*>(m_pExteriorCellNewReferencesMap1)->FUN_00853130(cell->FUN_0054ddd0()->FUN_0084e3a0(), listExterior);
+        bool foundExterior = reinterpret_cast<Map859*>(m_pExteriorCellNewReferencesMap1)->FUN_00853130(cell->FUN_0054ddd0()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), listExterior);
         if (!foundExterior)
             return result5;
         List859* nodeExterior8 = listExterior;
@@ -4303,7 +4314,7 @@ bool SaveGameCellReconstruction::FUN_00859690(Cell859* cell)
         }
         if (listExterior->FUN_008256d0())
         {
-            reinterpret_cast<Map859*>(m_pExteriorCellNewReferencesMap1)->RemoveKey(cell->FUN_0054ddd0()->FUN_0084e3a0());
+            reinterpret_cast<Map859*>(m_pExteriorCellNewReferencesMap1)->RemoveKey(cell->FUN_0054ddd0()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             delete listExterior;
         }
     }
@@ -4450,12 +4461,12 @@ struct RestoredObject
     virtual void slot7c();
     virtual RestoreVector* Position();
     RestoreVector* FUN_00430830();
-    RestoreAction FUN_005d43c0(RestoredObject*, RestoreVector);
+    RestoreAction BSFile_GetDevice(RestoredObject*, RestoreVector);
 };
 struct RestoreForm;
 struct RestoreRef
 {
-    bool FUN_004734d0(RestoreForm*);
+    bool FindForm(RestoreForm*);
     unsigned int FUN_00472660();
 };
 struct RestoreLink
@@ -4483,22 +4494,23 @@ extern const char DAT_01080958[], DAT_01080900[];
 extern void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 
 extern bool __cdecl HasFormInGroup(RestoreRef*, unsigned int);
-extern RestoredObject* __cdecl FUN_00564480(unsigned char, int);
+extern RestoredObject* __cdecl TESObjectREFR_CreateReference(unsigned char, int);
 extern void __cdecl FUN_004601d0(RestoredObject*, RestoreRef*);
 extern int __cdecl FloatToInt(float);
 extern void __cdecl Warning_005b5e40(const char*, ...);
 struct ObjectRestorer
 {
-    RestoredObject* FUN_00859f20(unsigned int, RestoreLocation*);
+    RestoredObject* TESSaveLoadGame_CreateReferenceFromFile(unsigned int, RestoreLocation*);
 };
 // @fnv 0x00859f20
-RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* location)
+// src: XBOX_PDB 0x00859f20
+RestoredObject* ObjectRestorer::TESSaveLoadGame_CreateReferenceFromFile(unsigned int id, RestoreLocation* location)
 {
     RestoredObject* object5 = 0;
     unsigned int parent = location->id;
     if (!parent)
         parent = location->alternate;
-    void* form2 = FUN_004839c0(parent);
+    void* form2 = TESForm_GetFormByNumericID(parent);
     RestoreForm* cellTmp = (RestoreForm*)FUN_00ec43fb(form2, 0, &DAT_01183028, &DAT_01183fb4, 0);
     RestoreForm* world = (RestoreForm*)FUN_00ec43fb(form2, 0, &DAT_01183028, &DAT_01183fd0, 0);
     int x6 = 0, y4 = 0;
@@ -4510,10 +4522,10 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
         for (i = 0; i < count9; ++i)
         {
             RestoreRef* reference = cellTmp->FUN_00484e60(i)->FUN_004739b0();
-            if (reference->FUN_004734d0(cellTmp) && HasFormInGroup(reference, id))
+            if (reference->FindForm(cellTmp) && HasFormInGroup(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
-                object5 = FUN_00564480((unsigned char)type, 1);
+                object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
                 FUN_004601d0(object5, reference);
             }
         }
@@ -4529,7 +4541,7 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
             if (world->SeekToCellInWorld(reference, x6, y4) && HasFormInGroup(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
-                object5 = FUN_00564480((unsigned char)type, 1);
+                object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
                 FUN_004601d0(object5, reference);
             }
         }
@@ -4549,8 +4561,8 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
         actor->SetPlacement(world, cellTmp, object5->Position(), object5->FUN_00430830()->z);
     else
     {
-        object5->FUN_005d43c0(object5, *object5->Position()).SetPositionExtraData();
-        object5->FUN_005d43c0(object5, *object5->FUN_00430830()).SetStartingPosition();
+        object5->BSFile_GetDevice(object5, *object5->Position()).SetPositionExtraData();
+        object5->BSFile_GetDevice(object5, *object5->FUN_00430830()).SetStartingPosition();
     }
     return object5;
 }
@@ -4732,11 +4744,12 @@ FUN_00854d50::~FUN_00854d50()
 
 struct FUN_00858aa0_shell
 {
-    void* FUN_00858aa0(unsigned short*, unsigned int, unsigned int);
+    void* LoadFormHeader_LoadFormHeader(unsigned short*, unsigned int, unsigned int);
 };
 // Stores b and c into the object and copies bytes from a into offsets 4, 9 and 10, returning this.
 // @fnv 0x00858aa0
-void* FUN_00858aa0_shell::FUN_00858aa0(unsigned short* a, unsigned int b, unsigned int c)
+// src: XBOX_PDB 0x00858aa0
+void* FUN_00858aa0_shell::LoadFormHeader_LoadFormHeader(unsigned short* a, unsigned int b, unsigned int c)
 {
     *(unsigned int*)this = b;
     *(unsigned int*)((char*)this + 5) = c;
@@ -4755,10 +4768,10 @@ void TESSaveLoadGame::LoadAttachedAnimations()
         unsigned int uiID;
         void* pData_zbax;
         reinterpret_cast<FnvMap*>(m_pAttachedAnimationBufferMap)->FUN_006b7f20(pIterator, uiID, pData_zbax);
-        TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiID));
+        TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(uiID));
         if (pRef_zaxvzc)
         {
-            if (!((FnvRefMethod*)pRef_zaxvzc)->FUN_0043fcd0())
+            if (!((FnvRefMethod*)pRef_zaxvzc)->TESObjectREFR_Get3D())
             {
                 if (reinterpret_cast<FnvQueue*>(m_pAlternateChangesMap))
                     reinterpret_cast<FnvQueue*>(m_pAlternateChangesMap)->GetOrCreateNode(pRef_zaxvzc, 0);
@@ -4831,7 +4844,7 @@ enum
 struct CellView
 {
     bool FUN_00425fd0();
-    void FUN_0054ca90(TESObjectREFR* pkRef);
+    void TESObjectCELL_RemoveReference(TESObjectREFR* pkRef);
 };
 
 struct WorldView
@@ -4982,10 +4995,10 @@ class RefView
     virtual void v224();
     virtual void SetParentCell(TESObjectCELL* pkCell);
 
-    void FUN_00575700(NiPoint3 kAngle);
-    void FUN_00575830(const NiPoint3& kPos);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3 kAngle);
+    void TESObjectREFR_SetLocationOnReference(const NiPoint3& kPos);
     TESObjectCELL* FUN_008d6f30();
-    bool FUN_005653d0();
+    bool TESObjectREFR_GetRefPersists_005653d0();
 };
 
 struct MoveRecord
@@ -5029,7 +5042,7 @@ struct DataHandler
 // DAT_011c3b3c is a pointer global, not the ProcessLists singleton object at 0x011e0e80; only its 0x00445570 call is known
 struct RefQueueView_00445570
 {
-    void FUN_00445570(TESObjectREFR* pkRef);
+    void ModelLoader_CancelReference(TESObjectREFR* pkRef);
 };
 
 extern TESSaveLoadGame* DAT_011de45c;
@@ -5038,14 +5051,14 @@ extern RefQueueView_00445570* DAT_011c3b3c;
 extern TESObjectREFR* DAT_011dea3c;
 
 int FloatToInt(float fValue);
-void FUN_00573800(TESObjectREFR* pkRef, TESObjectCELL* pkCell, TESWorldSpace* pkWorld);
+void TESObjectREFR_MoveRefToNewSpace(TESObjectREFR* pkRef, TESObjectCELL* pkCell, TESWorldSpace* pkWorld);
 void Warning_005b5e40(const char* pcFormat, ...);
 
 struct RefLoader
 {
     void FUN_00857bd0(unsigned int uiState);
     unsigned int FUN_00861c00(unsigned int uiID);
-    void FUN_008624e0(TESObjectREFR* pkRef);
+    void TESSaveLoadGame_SafetyCheckReferencePositionAndAngle(TESObjectREFR* pkRef);
     void LoadChange(TESForm* pkForm, unsigned int uiChangeFlags);
 };
 
@@ -5078,18 +5091,18 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
     else if (uiChangeFlags & kChange_Move)
     {
         MoveRecord kMoveData;
-        DAT_011de45c->FUN_008579e0(&kMoveData, 0x24);
+        DAT_011de45c->TESSaveLoadGame_LoadGameDataOLD(&kMoveData, 0x24);
         kMoveData.m_uiBaseID = FUN_00861c00(kMoveData.m_uiBaseID);
         kMoveData.m_uiCellID = FUN_00861c00(kMoveData.m_uiCellID);
-        TESForm* pkLocation = FUN_004839c0(kMoveData.m_uiCellID);
+        TESForm* pkLocation = TESForm_GetFormByNumericID(kMoveData.m_uiCellID);
         TESObjectCELL* pkCell = dynamic_cast<TESObjectCELL*>(pkLocation);
         TESWorldSpace* pkWorld = dynamic_cast<TESWorldSpace*>(pkLocation);
         if (kMoveData.m_iType != 2)
         {
-            TESBoundObject* pkBase = dynamic_cast<TESBoundObject*>(FUN_004839c0(kMoveData.m_uiBaseID));
+            TESBoundObject* pkBase = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(kMoveData.m_uiBaseID));
             DAT_011c3f2c->PlaceObjectReference(pkBase, &kMoveData.m_kPos, &kMoveData.m_kAngle, pkCell, pkWorld, pkRef,
                                                0, 0);
-            FUN_008624e0(pkRef);
+            TESSaveLoadGame_SafetyCheckReferencePositionAndAngle(pkRef);
         }
         else
         {
@@ -5101,9 +5114,9 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
             }
             if (pkCell)
                 ((RefView*)pkRef)->SetParentCell(pkCell);
-            ((RefView*)pkRef)->FUN_00575830(kMoveData.m_kPos);
-            ((RefView*)pkRef)->FUN_00575700(kMoveData.m_kAngle);
-            FUN_008624e0(pkRef);
+            ((RefView*)pkRef)->TESObjectREFR_SetLocationOnReference(kMoveData.m_kPos);
+            ((RefView*)pkRef)->TESObjectREFR_SetAngleOnReference(kMoveData.m_kAngle);
+            TESSaveLoadGame_SafetyCheckReferencePositionAndAngle(pkRef);
         }
     }
     else if (uiChangeFlags & kChange_Position)
@@ -5112,28 +5125,28 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
         if (uiChangeFlags & kChange_Persistent)
         {
             FullPositionRecord kFull;
-            DAT_011de45c->FUN_008579e0(&kFull, 0x2c);
+            DAT_011de45c->TESSaveLoadGame_LoadGameDataOLD(&kFull, 0x2c);
             kFull.m_uiID = FUN_00861c00(kFull.m_uiID);
             kFull.m_kPathOffset.m_uiCellID = FUN_00861c00(kFull.m_kPathOffset.m_uiCellID);
             kPosition = kFull.m_kPathOffset;
         }
         else
         {
-            DAT_011de45c->FUN_008579e0(&kPosition, 0x1c);
+            DAT_011de45c->TESSaveLoadGame_LoadGameDataOLD(&kPosition, 0x1c);
             kPosition.m_uiCellID = FUN_00861c00(kPosition.m_uiCellID);
         }
-        ((RefView*)pkRef)->FUN_00575700(kPosition.m_kAngle);
+        ((RefView*)pkRef)->TESObjectREFR_SetAngleOnReference(kPosition.m_kAngle);
         if (pkRef != DAT_011dea3c)
         {
-            ((RefView*)pkRef)->FUN_00575830(kPosition.m_kPos);
-            FUN_008624e0(pkRef);
-            TESForm* pkLocation = FUN_004839c0(kPosition.m_uiCellID);
+            ((RefView*)pkRef)->TESObjectREFR_SetLocationOnReference(kPosition.m_kPos);
+            TESSaveLoadGame_SafetyCheckReferencePositionAndAngle(pkRef);
+            TESForm* pkLocation = TESForm_GetFormByNumericID(kPosition.m_uiCellID);
             TESObjectCELL* pkCell2 = dynamic_cast<TESObjectCELL*>(pkLocation);
             TESWorldSpace* pkWorld2 = dynamic_cast<TESWorldSpace*>(pkLocation);
             if (pkCell2)
             {
                 if (pkCell2 != ((RefView*)pkRef)->FUN_008d6f30())
-                    s85ac30::FUN_00573800(pkRef, pkCell2, 0);
+                    s85ac30::TESObjectREFR_MoveRefToNewSpace(pkRef, pkCell2, 0);
             }
             else if (pkWorld2)
             {
@@ -5143,22 +5156,22 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
                 if ((((RefView*)pkRef)->FUN_008d6f30() &&
                      ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->FUN_00425fd0()) ||
                     ((RefView*)pkRef)->FUN_008d6f30() != pkCell2)
-                    s85ac30::FUN_00573800(pkRef, 0, pkWorld2);
-                else if (!pkCell2 && !((RefView*)pkRef)->FUN_005653d0())
+                    s85ac30::TESObjectREFR_MoveRefToNewSpace(pkRef, 0, pkWorld2);
+                else if (!pkCell2 && !((RefView*)pkRef)->TESObjectREFR_GetRefPersists_005653d0())
                     Warning_005b5e40("SAVELOAD: Trying to load non-persistent ref into non-existent cell.");
             }
             else
             {
-                if (!((RefView*)pkRef)->FUN_005653d0())
+                if (!((RefView*)pkRef)->TESObjectREFR_GetRefPersists_005653d0())
                 {
                     Warning_005b5e40("SAVELOAD: Trying to put non-persistent reference in non-existent cell.");
                 }
                 else
                 {
                     if (((RefView*)pkRef)->FUN_008d6f30())
-                        ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->FUN_0054ca90(pkRef);
+                        ((CellView*)((RefView*)pkRef)->FUN_008d6f30())->TESObjectCELL_RemoveReference(pkRef);
                     ((RefView*)pkRef)->SetParentCell(0);
-                    DAT_011c3b3c->FUN_00445570(pkRef);
+                    DAT_011c3b3c->ModelLoader_CancelReference(pkRef);
                     ((RefView*)pkRef)->Update3D(0, 1);
                 }
             }
@@ -5340,7 +5353,7 @@ struct FUN_0085fed0_Class
     void TESSaveLoadGame_GetSaveGameDisplayData(FUN_0085fed0_Object* object, int value, char* buffer, char const* suffix, unsigned int flag);
 };
 
-char* __cdecl FUN_0040ab30(char*, int);
+char* __cdecl strrchr_0040ab30(char*, int);
 char* __cdecl FUN_004812f0(char const*, char const*);
 unsigned int __cdecl _BSStringLength(char const*);
 int __cdecl __strnicmp(char const*, char const*, unsigned int);
@@ -5384,7 +5397,7 @@ void FUN_0085fed0_Class::TESSaveLoadGame_GetSaveGameDisplayData(FUN_0085fed0_Obj
         else
         {
             bool isSave = false;
-            char* name = FUN_0040ab30(object->GetName(), 0x5c) + 1;
+            char* name = strrchr_0040ab30(object->GetName(), 0x5c) + 1;
 
             if (__strnicmp(name, str_010806a8, 5))
                 isSave = true;
@@ -5457,7 +5470,7 @@ void TESSaveLoadGame::LoadCharControllers()
         unsigned int data;
         void* object;
         reinterpret_cast<FnvMap*>(m_pCharControllerBufferMap)->FUN_006b7f20(pos, data, object);
-        MobileObject* id = dynamic_cast<MobileObject*>(FUN_004839c0(data));
+        MobileObject* id = dynamic_cast<MobileObject*>(TESForm_GetFormByNumericID(data));
         if (id)
         {
             HighProcess* process = dynamic_cast<HighProcess*>(id->FUN_008d8520());
@@ -5466,14 +5479,14 @@ void TESSaveLoadGame::LoadCharControllers()
                 int saved = (int)m_pBuffer;
                 m_pBuffer = (char*)object;
                 int mode;
-                ((TESSaveLoadGame*)DAT_011de45c)->FUN_008579e0(&mode, 2);
+                ((TESSaveLoadGame*)DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&mode, 2);
                 if (static_cast<BaseProcess*>(process)->GetPhysicsCharacterController())
                     ((CharControllerProcess*)process)->HighProcess_LoadCharController(id);
                 else if (!id->FUN_00440d80() || !id->FUN_00440da0())
                 {
                     Warning_005b5e40(
                         "SAVELOAD: (LoadCharControllers()) Mob %s %08X does not have a character controller to load.",
-                        static_cast<const TESForm*>(id)->GetName(), ((FUN_0084e3a0_Class*)id)->FUN_0084e3a0());
+                        static_cast<const TESForm*>(id)->GetName(), ((FUN_0084e3a0_Class*)id)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 }
                 m_pBuffer = (char*)saved;
             }
@@ -5611,12 +5624,12 @@ struct VObj
     virtual void w7b();
     virtual void w7c();
     virtual NiPoint3* GetPos();
-    int FUN_00950bb0(int);
+    int PlayerCharacter_Get3D_00950bb0(int);
 };
 
 struct CellX
 {
-    void FUN_0054cfd0(NiPoint3*, NiPoint3*);
+    void TESObjectCELL_GetCOCPlacementInfo(NiPoint3*, NiPoint3*);
 };
 struct Entry
 {
@@ -5628,7 +5641,7 @@ struct Entry
 struct EntryListNode
 {
     virtual ~EntryListNode();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     Entry** FUN_00877a30(unsigned int);
     void ClearItems();
 };
@@ -5646,26 +5659,26 @@ struct ActorList
 };
 struct Mgr98
 {
-    void FUN_008495b0();
+    void IOManager_ForceHighestPriority();
     void IOManager_LoadAllQueuedPriorities();
 };
 struct Node3d
 {
-    void FUN_00c66300();
-    void FUN_00c6b540(int);
+    void bhkWorld_StartBatchingAdds();
+    void bhkWorld_StopBatchingAdds(int);
 };
 struct Sub10
 {
-    Node3d* FUN_004543c0();
+    Node3d* TESObjectCELL_GetbhkWorld();
 };
 struct Mgr10
 {
     Sub10* FUN_005f36f0();
-    void FUN_00459920();
+    void TES_QueueReferencesForAttachedCells();
 };
 struct Mgr3c
 {
-    void FUN_00444850(Actor*, int, int);
+    void ModelLoader_QueueReference(Actor*, int, int);
 };
 struct Owner
 {
@@ -5676,10 +5689,10 @@ extern Mgr10* DAT_011dea10;
 extern Mgr3c* DAT_011c3b3c;
 extern NiPoint3 DAT_011f426c;
 extern NiPoint3 DAT_011a9478;
-void FUN_00573800(Actor*, TESObjectCELL*, int);
-Node3d* FUN_00451010();
-void FUN_00451590(int);
-void FUN_0057d0a0(NiPoint3, NiPoint3, float);
+void TESObjectREFR_MoveRefToNewSpace(Actor*, TESObjectCELL*, int);
+Node3d* TESObjectCELL_ExteriorWorld();
+void TallGrassShaderProperty_SetUseBackgroundLoading(int);
+void TESTerrainLODManager_UpdateGrass(NiPoint3, NiPoint3, float);
 void __cdecl operator delete(void*);
 
 struct ActorList2
@@ -5700,20 +5713,21 @@ struct SaveGameInitForms : public TESSaveLoadGame
 {
     bool FUN_0047c850();
     void FUN_004534f0(int);
-    void FUN_00861ee0(unsigned char);
+    void TESSaveLoadGame_SetCurrentVersion(unsigned char);
     void CopyByteToOffset80();
-    void FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset);
+    void TESSaveLoadGame_InitForms(EntryListNode* list, Entry* ctx, bool reset);
 };
 
 // Calls Enter on ctx and each listed form, repositions the owned actors, optionally resets scene nodes and camera, then calls Leave and frees the list.
 // @fnv 0x00858af0
-void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
+// src: XBOX_PDB 0x00858af0
+void SaveGameInitForms::TESSaveLoadGame_InitForms(EntryListNode* list, Entry* ctx, bool reset)
 {
     if (!FUN_0047c850())
         return;
     FUN_004534f0(1);
     if (reset)
-        DAT_01202d98->FUN_008495b0();
+        DAT_01202d98->IOManager_ForceHighestPriority();
     bool own = true;
     if (!list)
     {
@@ -5725,18 +5739,18 @@ void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset
     ActorList2 actors;
     if (list)
     {
-        unsigned int n = list->FUN_0084e3a0();
+        unsigned int n = list->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         for (unsigned int i = 0; i < n; i++)
         {
             Entry* e = *list->FUN_00877a30(i);
             if (e && e->form != (TESForm*)DAT_011dea3c)
             {
-                FUN_00861ee0(e->flag);
+                TESSaveLoadGame_SetCurrentVersion(e->flag);
                 ((VObj*)e->form)->Enter(e->a, e->b);
                 if (own)
                 {
                     Actor* a = dynamic_cast<Actor*>(e->form);
-                    if (a && !a->FUN_008d6f30() && !a->FUN_00575d70())
+                    if (a && !a->FUN_008d6f30() && !a->TESObjectREFR_GetWorldSpace())
                         actors.list.FUN_005ae3d0(&a);
                 }
                 CopyByteToOffset80();
@@ -5749,24 +5763,24 @@ void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset
         while (it && !it->FUN_008256d0())
         {
             Actor* a = *it->FUN_006815c0();
-            a->FUN_00893340(0);
+            a->Actor_InitPackageLocations(0);
             reinterpret_cast<Owner*>(m_pChangesMap)->GetOrCreateNode(a, 2);
-            if (!a->FUN_008d6f30() && !a->FUN_00575d70())
+            if (!a->FUN_008d6f30() && !a->TESObjectREFR_GetWorldSpace())
             {
                 unsigned int id = 0;
-                TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(FUN_004839c0(id));
+                TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(TESForm_GetFormByNumericID(id));
                 if (cell)
                 {
                     NiPoint3 pos = DAT_011f426c;
                     NiPoint3 rot = DAT_011f426c;
-                    ((CellX*)cell)->FUN_0054cfd0(&pos, &rot);
-                    a->FUN_00575830(&pos);
-                    a->FUN_00575700(rot);
-                    FUN_00573800(a, cell, 0);
+                    ((CellX*)cell)->TESObjectCELL_GetCOCPlacementInfo(&pos, &rot);
+                    a->TESObjectREFR_SetLocationOnReference(&pos);
+                    a->TESObjectREFR_SetAngleOnReference(rot);
+                    TESObjectREFR_MoveRefToNewSpace(a, cell, 0);
                 }
                 else
                 {
-                    a->FUN_00484af0(1);
+                    a->TESForm_SetDisabled(1);
                 }
             }
             it = it->FUN_00726070();
@@ -5777,24 +5791,24 @@ void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset
     {
         // The saved camera position has no default-constructor call in the original.
         float cameraPositionStorage[3];
-        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->FUN_004543c0() : 0;
+        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->TESObjectCELL_GetbhkWorld() : 0;
         if (node1)
-            node1->FUN_00c66300();
-        if (FUN_00451010())
-            FUN_00451010()->FUN_00c66300();
-        DAT_011dea10->FUN_00459920();
-        if (!((VObj*)DAT_011dea3c)->FUN_00950bb0(0))
-            DAT_011c3b3c->FUN_00444850((Actor*)DAT_011dea3c, 0, 0);
+            node1->bhkWorld_StartBatchingAdds();
+        if (TESObjectCELL_ExteriorWorld())
+            TESObjectCELL_ExteriorWorld()->bhkWorld_StartBatchingAdds();
+        DAT_011dea10->TES_QueueReferencesForAttachedCells();
+        if (!((VObj*)DAT_011dea3c)->PlayerCharacter_Get3D_00950bb0(0))
+            DAT_011c3b3c->ModelLoader_QueueReference((Actor*)DAT_011dea3c, 0, 0);
         DAT_01202d98->IOManager_LoadAllQueuedPriorities();
-        DAT_01202d98->FUN_008495b0();
+        DAT_01202d98->IOManager_ForceHighestPriority();
         if (node1)
-            node1->FUN_00c6b540(0);
-        if (FUN_00451010())
-            FUN_00451010()->FUN_00c6b540(0);
+            node1->bhkWorld_StopBatchingAdds(0);
+        if (TESObjectCELL_ExteriorWorld())
+            TESObjectCELL_ExteriorWorld()->bhkWorld_StopBatchingAdds(0);
         reinterpret_cast<NiPoint3&>(cameraPositionStorage) = *((VObj*)DAT_011dea3c)->GetPos();
-        FUN_00451590(0);
-        FUN_0057d0a0(reinterpret_cast<NiPoint3&>(cameraPositionStorage), DAT_011a9478, 1.0f);
-        FUN_00451590(1);
+        TallGrassShaderProperty_SetUseBackgroundLoading(0);
+        TESTerrainLODManager_UpdateGrass(reinterpret_cast<NiPoint3&>(cameraPositionStorage), DAT_011a9478, 1.0f);
+        TallGrassShaderProperty_SetUseBackgroundLoading(1);
     }
     if (ctx && ((Actor*)DAT_011dea3c)->FUN_008d6f30())
         ((Actor*)DAT_011dea3c)->FUN_00483710();
@@ -5802,13 +5816,13 @@ void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset
         ((VObj*)DAT_011dea3c)->Leave(ctx->a, ctx->b);
     if (list)
     {
-        unsigned int n = list->FUN_0084e3a0();
+        unsigned int n = list->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         for (unsigned int i = 0; i < n; i++)
         {
             Entry* e = *list->FUN_00877a30(i);
             if (e)
             {
-                FUN_00861ee0(e->flag);
+                TESSaveLoadGame_SetCurrentVersion(e->flag);
                 ((VObj*)e->form)->Leave(e->a, e->b);
                 CopyByteToOffset80();
                 delete e;
@@ -5823,16 +5837,16 @@ void SaveGameInitForms::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset
     }
     if (reset)
     {
-        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->FUN_004543c0() : 0;
+        Node3d* node1 = DAT_011dea10->FUN_005f36f0() ? DAT_011dea10->FUN_005f36f0()->TESObjectCELL_GetbhkWorld() : 0;
         if (node1)
-            node1->FUN_00c66300();
-        if (FUN_00451010())
-            FUN_00451010()->FUN_00c66300();
+            node1->bhkWorld_StartBatchingAdds();
+        if (TESObjectCELL_ExteriorWorld())
+            TESObjectCELL_ExteriorWorld()->bhkWorld_StartBatchingAdds();
         DAT_01202d98->IOManager_LoadAllQueuedPriorities();
         if (node1)
-            node1->FUN_00c6b540(0);
-        if (FUN_00451010())
-            FUN_00451010()->FUN_00c6b540(0);
+            node1->bhkWorld_StopBatchingAdds(0);
+        if (TESObjectCELL_ExteriorWorld())
+            TESObjectCELL_ExteriorWorld()->bhkWorld_StopBatchingAdds(0);
     }
     FUN_004534f0(0);
 }

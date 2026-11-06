@@ -445,7 +445,7 @@ struct D45480MemoryRouter
     }
 };
 
-extern "C" D45480MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D45480MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class D45480ReferencedObject
 {
@@ -453,7 +453,7 @@ class D45480ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         D45480ReferencedObject* b =
-            static_cast<D45480ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<D45480ReferencedObject*>(hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1969,7 +1969,7 @@ struct SpawnedHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-extern SpawnedHolder* __cdecl FUN_00c85750();
+extern SpawnedHolder* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedBase
 {
@@ -1995,7 +1995,7 @@ inline void* __cdecl operator new(unsigned int, void* p) throw()
 // src: HAVOK_LIB 0x00d45f30
 void* __cdecl hkpBvAgent_createShapeBvAgent(int a1, int a2, int a3, int a4)
 {
-    SpawnedHolder* pHolder = FUN_00c85750();
+    SpawnedHolder* pHolder = hkMemoryRouter_getInstance();
     SpawnedAllocator* pAlloc = pHolder->m_pAllocator;
     SpawnedObject* pObj = (SpawnedObject*)pAlloc->v1(0x14);
     pObj->m_iElementCount = 0x14;

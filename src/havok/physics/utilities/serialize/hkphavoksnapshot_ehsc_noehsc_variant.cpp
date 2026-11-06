@@ -16,10 +16,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // The TLS getter is 0x00c85750 and the heap is at +0x10; hkMemoryRouter.h is not available yet.
 #include "../../../../../include/hkMemoryRouter.h"
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* getRouter()
 {
-    return FUN_00c85750();
+    return hkMemoryRouter_getInstance();
 }
 
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);

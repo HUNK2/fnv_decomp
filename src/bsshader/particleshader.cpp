@@ -83,18 +83,20 @@ void* __fastcall AssignNiD3DPass(void* pThis, int, void* param)
 extern "C" void* g_012003f8;
 
 // @fnv 0x00ba5730
-void* __cdecl FUN_00ba5730()
+// src: XBOX_PDB 0x00ba5730
+void* __cdecl ParticleShader_GetRTTI()
 {
     return &g_012003f8;
 }
 
 struct FUN_00ba6ce0_shell
 {
-    char __thiscall FUN_00ba6ce0(int value);
+    char __thiscall ParticleShaderProperty_SetupGeometry(int value);
 };
 
 // @fnv 0x00ba6ce0
-char __thiscall FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
+// src: XBOX_PDB 0x00ba6ce0
+char __thiscall FUN_00ba6ce0_shell::ParticleShaderProperty_SetupGeometry(int value)
 {
     *(int*)((char*)this + 0x12c) = value;
     return 1;
@@ -105,11 +107,12 @@ struct FUN_00ba52f0_shell
     char _pad[0x74];
     void* _a;
     void* _b;
-    void __thiscall FUN_00ba52f0();
+    void __thiscall ParticleShader_ClearPassStages();
 };
 // Calls the virtual function at vtable slot 74 twice, passing _a and then _b.
 // @fnv 0x00ba52f0
-void __thiscall FUN_00ba52f0_shell::FUN_00ba52f0()
+// src: XBOX_PDB 0x00ba52f0
+void __thiscall FUN_00ba52f0_shell::ParticleShader_ClearPassStages()
 {
     typedef void(__thiscall * Fn)(FUN_00ba52f0_shell*, void*);
     (*(Fn**)this)[74](this, _a);
@@ -575,18 +578,19 @@ struct ArgObj
     NiBound* bound;
 };
 
-NiObject* __cdecl FUN_00ba64e0();
+NiObject* __cdecl ParticleShader_GetParticleGeometry();
 void __cdecl FUN_00b57e30(NiObject*, int, int);
 
 // @fnv 0x00ba68d0
-NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
+// src: XBOX_PDB 0x00ba68d0
+NiProperty* __cdecl ParticleShader_Start(NiAVObject* apObject, ArgObj* apArg)
 {
     if (apObject)
     {
         NiNode* obj = apObject->IsSceneNode();
         if (obj)
         {
-            NiObject* pPrototype = FUN_00ba64e0();
+            NiObject* pPrototype = ParticleShader_GetParticleGeometry();
             NiAVObject* clone = (NiAVObject*)pPrototype->Clone();
             // The clone is geometry; its data pointer follows the NiAVObject base.
             BoundHolder* holder = *(BoundHolder**)((char*)clone + 0xb8);
@@ -618,7 +622,7 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
             {
                 typedef void (__thiscall *SetGeometry)(NiProperty*, NiObject*);
                 (*(SetGeometry**)pKeptProperty)[0x9c / 4](pKeptProperty, clone);
-                FUN_00ba64e0();
+                ParticleShader_GetParticleGeometry();
                 ++DAT_012003f0;
             }
             return pKeptProperty;
@@ -869,7 +873,7 @@ struct Q64_Top : Q64_Obj
     Q64_Sub* sub;
     int unkbc;
     int unkc0;
-    void __thiscall FUN_00439410(Q64_Ren* a);
+    void __thiscall NiAVObject_AttachProperty(Q64_Ren* a);
     Q64_Top(Q64_Geo* geo);
 };
 
@@ -888,7 +892,8 @@ struct RefObj : ComTarget
 using ::NiPointer;
 // Builds and caches a Q64_Top containing repeated quad geometry with vertices, UVs, and a renderer.
 // @fnv 0x00ba64e0
-NiObject* __cdecl FUN_00ba64e0()
+// src: XBOX_PDB 0x00ba64e0
+NiObject* __cdecl ParticleShader_GetParticleGeometry()
 {
     if (!DAT_011f91c0)
         return 0;
@@ -951,7 +956,7 @@ NiObject* __cdecl FUN_00ba64e0()
     sub->bound.m_kCenter = kBound.m_kCenter;
 
     Q64_Ren* ren = new Q64_Ren;
-    top->FUN_00439410(ren);
+    top->NiAVObject_AttachProperty(ren);
 
     if (DAT_012003f4 != (ComTarget*)top)
     {

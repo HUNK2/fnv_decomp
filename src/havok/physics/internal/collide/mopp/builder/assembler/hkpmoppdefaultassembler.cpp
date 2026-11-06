@@ -707,7 +707,7 @@ struct Allocator
     virtual void* unk04(void* p);
     virtual void __thiscall ReleaseBlock(void* p, unsigned short size);
 };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
@@ -721,7 +721,7 @@ FUN_00e09640_class* __thiscall FUN_00e09640_class::FUN_00e09640(int flags)
     DestroyAudioBuffer();
     if (flags & 1)
     {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         ((Allocator*)router->m_heap)->ReleaseBlock(this, unk04);
     }
     return this;
@@ -1444,7 +1444,7 @@ struct Handler
     Entry* unk10;
     void __thiscall hkpMoppDefaultAssembler_fixScale(Entry*);
     int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
+    void __thiscall hkpMoppDefaultAssembler_findPlanes(Entry*, Entry*, Entry**, Entry**);
     void __thiscall hkpMoppDefaultAssembler_addSplit(Entry*, Entry*, int, int, int);
     void __thiscall WriteSize(int);
     void __thiscall hkpMoppDefaultAssembler_checkAndAddProperties(Entry*, Entry*, Entry*);
@@ -1461,7 +1461,7 @@ int __thiscall Handler::hkpMoppDefaultAssembler_assembleNonTerminalCommand(Entry
     int previous = unk10->unk0c;
     int value = ClassifyVec3Region(originalFirst->unk60);
     Entry* originalThird = third;
-    FUN_00e07880(originalFirst, originalThird, &first, &third);
+    hkpMoppDefaultAssembler_findPlanes(originalFirst, originalThird, &first, &third);
     hkpMoppDefaultAssembler_addSplit(third, first, value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
     int difference = originalThird->unk34 - second->unk34;
     if (difference != 0)
@@ -1585,7 +1585,7 @@ struct S_00e07da0_Tree
     void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
     void hkpMoppDefaultAssembler_recalcRescale(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
     int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
+    void hkpMoppDefaultAssembler_findPlanes(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
 
 // Recursively builds a region for node from parent and region, merging child bounds and states into node->info.
@@ -1610,7 +1610,7 @@ void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* pare
     int axis = ClassifyVec3Region(node->unk60);
     {
         int lo, hi;
-        FUN_00e07880(node, region, &lo, &hi);
+        hkpMoppDefaultAssembler_findPlanes(node, region, &lo, &hi);
     }
 
     S_00e07da0_Node* first = node->child74;
@@ -1735,7 +1735,7 @@ struct FUN_00e09450_cls
 void FUN_00e09450_cls::DestroyAudioBuffer()
 {
     m_vptr00 = (int)&DAT_010ea5dc;
-    hkMemoryRouter* pAudioHolder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAudioAllocator = reinterpret_cast<hkMemoryAllocator*>(pAudioHolder->m_heap);
     m_iArrayLength = 0;
     unsigned int uCapacityBits = m_uCapBits;
@@ -2343,7 +2343,8 @@ struct FUN_00e07b90_vector
 };
 // Stores the minimum corner of bounds into result and sets result->w to a scale factor derived from the largest axis extent.
 // @fnv 0x00e07b90
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
+// src: XBOX_PDB 0x00e07b90
+void __stdcall hkpMoppDefaultAssembler_getScaleInfo(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result)
 {
     __m128 minCorner = _mm_setr_ps(bounds->minimumX, bounds->minimumY, bounds->minimumZ, 0.0f);
     _mm_store_ps(&result->x, minCorner);
@@ -2431,7 +2432,7 @@ static __declspec(noinline) void copyJumpCommandInfo(hkArrayBase<Pair>* srcp, hk
     hkArrayBase<Pair>* src = *pp;
     for (int i = 0; i < src->m_iElementCount; i++)
     {
-        hkMemoryRouter* h = FUN_00c85750();
+        hkMemoryRouter* h = hkMemoryRouter_getInstance();
         if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(h->m_heap, dst, 8);
         int n = dst->m_iElementCount;
@@ -2458,11 +2459,11 @@ struct BvAllocator
 void __cdecl ResizeAudioStream(void*, void*, int);
 inline BvAllocator& GetHeap()
 {
-    return *(BvAllocator*)FUN_00c85750()->m_heap;
+    return *(BvAllocator*)hkMemoryRouter_getInstance()->m_heap;
 }
 inline hkMemoryRouter* GetBvRouter()
 {
-    return FUN_00c85750();
+    return hkMemoryRouter_getInstance();
 }
 template <class T>
 static __forceinline void BvArray_clear(hkArrayBase<T>& self);
@@ -2608,7 +2609,7 @@ struct BvRange
 };
 
 void __stdcall hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
+void* __cdecl hkString_memCpy(void*, const void*, int);
 // src: HAVOK_LIB 0x00e08320
 static void copyJumpCommandInfo(hkArrayBase<BvFixup>* destination, hkArrayBase<BvFixup>* source, int adjustment)
 {
@@ -2633,16 +2634,16 @@ static int copyCodeAndEmbedTerminals(BvTree* tree, FUN_00e065f0* source, hkArray
     {
         int bytes = tree->m_converter->ConvertReferences(refs->m_data, refs->m_iElementCount);
         destination->FillWithPattern(bytes);
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         unsigned char* temporary = static_cast<unsigned char*>(router->m_stack.m_next.m_storage);
         router->m_stack.m_next.m_storage = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
-        FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        FUN_00c85750()->m_stack.m_next.m_storage = temporary;
+        hkString_memCpy(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
+        hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = temporary;
     }
     int before = destination->m_offset;
     destination->FillWithPattern(source->m_offset + padding);
-    FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
+    hkString_memCpy(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
     source->nullsub_26();
     copyJumpCommandInfo(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
@@ -2713,7 +2714,7 @@ void BvBuilder::hkpMoppDefaultAssembler_assembleSubNodeIntoChunks(BvNode* node, 
     {
         hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(node, parent, stack);
         const int& index = node->m_info->m_uiEdgeIndex;
-        BvArray_AddBack((*(refs)), *FUN_00c85750(), index);
+        BvArray_AddBack((*(refs)), *hkMemoryRouter_getInstance(), index);
         return;
     }
 
@@ -2754,7 +2755,7 @@ struct P154Array
     void Search(hkMemoryAllocator*, int, int*, int);
     void append(const int& v)
     {
-        hkMemoryRouter* s = FUN_00c85750();
+        hkMemoryRouter* s = hkMemoryRouter_getInstance();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream((hkMemoryAllocator*)s->m_heap, this, 4);
         constructCopy(data + count, 1, v);
@@ -2762,13 +2763,13 @@ struct P154Array
     }
     void insert(int* src, int pos, int n)
     {
-        hkMemoryRouter* r = FUN_00c85750();
+        hkMemoryRouter* r = hkMemoryRouter_getInstance();
         hkMemoryAllocator* a = (hkMemoryAllocator*)r->m_heap;
         Search(a, pos, src, n);
     }
     void clear()
     {
-        hkMemoryRouter* r = FUN_00c85750();
+        hkMemoryRouter* r = hkMemoryRouter_getInstance();
         hkMemoryAllocator* a = (hkMemoryAllocator*)r->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
@@ -2784,7 +2785,7 @@ struct P154PairArray
     unsigned capacity;
     Pair& grow()
     {
-        hkMemoryRouter* s = FUN_00c85750();
+        hkMemoryRouter* s = hkMemoryRouter_getInstance();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream((hkMemoryAllocator*)s->m_heap, this, 8);
         for (int i = 0; i < 1; ++i)
@@ -2988,7 +2989,7 @@ struct PairList
 };
 
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* allocator, PairList* list, unsigned int elemSize);
 
 struct SlotPair
@@ -3089,7 +3090,7 @@ int FUN_00e08240_cls::hkpMoppDefaultAssembler_calcTerminalIdsForChunks(Node* apN
             SlotPair* slot = apNode->m_60;
             slot->m_10 = slot->m_00;
             PairList* list = &this->m_14->m_kNode;
-            hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+            hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffff))
             {
                 fnv_00e08240::ResizeAudioStream(holder->m_heap, list, 8);
@@ -3208,7 +3209,7 @@ int __thiscall S_00e08470_Class::hkpMoppDefaultAssembler_assembleJumpChunkComman
 
     S_00e08470_Vector* vector = (S_00e08470_Vector*)((char*)this->unk10 + 0x14);
 
-    hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
 
     if (vector->unk04 == (vector->unk08 & 0x3fffffff))
     {
@@ -3246,16 +3247,16 @@ static __declspec(noinline) int copyCodeAndEmbedTerminals(BvTree* tree, CodeCopy
         int count = refs->m_iElementCount;
         int bytes = tree->m_converter->ConvertReferences(data, count);
         destination->FillWithPattern(bytes);
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         unsigned char* temporary = static_cast<unsigned char*>(router->m_stack.m_next.m_storage);
         router->m_stack.m_next.m_storage = temporary + ((bytes + 127) & ~127);
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
-        FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        FUN_00c85750()->m_stack.m_next.m_storage = temporary;
+        hkString_memCpy(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
+        hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = temporary;
     }
     int before = destination->m_offset;
     destination->FillWithPattern(source->m_offset + padding);
-    FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
+    hkString_memCpy(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
     source->nullsub_26();
     copyJumpCommandInfo(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
@@ -3331,7 +3332,7 @@ struct MyArray
     }
     __forceinline ~MyArray() throw()
     {
-        hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
@@ -3339,7 +3340,7 @@ struct MyArray
     }
     __forceinline void ClearAndRelease() throw()
     {
-        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(((hkMemoryRouter*)FUN_00c85750())->m_heap);
+        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap);
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if (!(cap & 0x80000000))
@@ -3529,7 +3530,7 @@ void Tree::hkpMoppDefaultAssembler_assemble(S_00e07da0_Node* node, int arg2, int
     node->info.unk8 = 0;
     {
         EntryArray& entries = this->m_pAssemblerHelper->m_entries;
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         if (entries.m_iElementCount == (entries.m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router->m_heap, &entries, 8);
         entries.m_iElementCount++;

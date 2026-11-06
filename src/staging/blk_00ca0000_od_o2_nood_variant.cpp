@@ -117,7 +117,7 @@ void ShapeCa36a0::hkPackedNiTriStripsShape_CalcWorldAabb(const hkTransform& t)
         v.m128_f32[3] = 0.0f;
         v = _mm_mul_ps(m_vScale.m_vComponents, v);
         __m128 tv;
-        reinterpret_cast<hkVector4&>(tv).FUN_00c7f640(t, reinterpret_cast<const hkVector4&>(v));
+        reinterpret_cast<hkVector4&>(tv).setTransformedPos_00c7f640(t, reinterpret_cast<const hkVector4&>(v));
         m_cachedMin.m_vComponents = _mm_min_ps(m_cachedMin.m_vComponents, tv);
         m_cachedMax.m_vComponents = _mm_max_ps(m_cachedMax.m_vComponents, tv);
     }
@@ -185,11 +185,12 @@ class ShapeCa37e0
     hkVector4 m_vScale;
     float m_fSphereRadius;
 
-    void FUN_00ca37e0(const hkTransform& t, float tolerance, hkAabb& out);
+    void hkPackedNiTriStripsShape_getAabb(const hkTransform& t, float tolerance, hkAabb& out);
 };
 
 // @fnv 0x00ca37e0
-void ShapeCa37e0::FUN_00ca37e0(const hkTransform& t, float tolerance, hkAabb& out)
+// src: XBOX_PDB 0x00ca37e0
+void ShapeCa37e0::hkPackedNiTriStripsShape_getAabb(const hkTransform& t, float tolerance, hkAabb& out)
 {
     if (m_cachedMin.getX() != 3.402820018375656e+38 && m_pAccessManager.hkTransform_isApproximatelyEqual(t, 0.001f))
     {
@@ -212,7 +213,7 @@ void ShapeCa37e0::FUN_00ca37e0(const hkTransform& t, float tolerance, hkAabb& ou
         v.m128_f32[3] = 0.0f;
         v = _mm_mul_ps(m_vScale.m_vComponents, v);
         __m128 tv;
-        reinterpret_cast<hkVector4&>(tv).FUN_00c7f640(t, reinterpret_cast<const hkVector4&>(v));
+        reinterpret_cast<hkVector4&>(tv).setTransformedPos_00c7f640(t, reinterpret_cast<const hkVector4&>(v));
         out.m_kMinimumCorner.m_vComponents = _mm_min_ps(out.m_kMinimumCorner.m_vComponents, tv);
         out.m_kMaximumCorner.m_vComponents = _mm_max_ps(out.m_kMaximumCorner.m_vComponents, tv);
     }
@@ -442,11 +443,12 @@ class Picker_ca3b
     __m128 m_kPoint;
     float m_fHitDistance;
 
-    void FUN_00ca3b20(PickResult_ca3b* pkResult);
+    void hkPackedNiTriStripsShape_CopyCinfo(PickResult_ca3b* pkResult);
 };
 
 // @fnv 0x00ca3b20
-void Picker_ca3b::FUN_00ca3b20(PickResult_ca3b* pkResult)
+// src: XBOX_PDB 0x00ca3b20
+void Picker_ca3b::hkPackedNiTriStripsShape_CopyCinfo(PickResult_ca3b* pkResult)
 {
     pkResult->m_fHitDistance = m_fHitDistance;
     pkResult->m_kPoint = m_kPoint;
@@ -718,25 +720,26 @@ struct MassInfo_ca5360
 };
 struct Shape_ca5360
 {
-    void FUN_00ca3b20(MassInfo_ca5360* pkInfo);
+    void hkPackedNiTriStripsShape_CopyCinfo(MassInfo_ca5360* pkInfo);
 };
 struct Base_ca5360
 {
-    void FUN_00c84e20(MassInfo_ca5360* pkInfo);
+    void bhkShape_CopyCinfo(MassInfo_ca5360* pkInfo);
 };
 struct FUN_00ca5360_cls : Base_ca5360
 {
     int unk00;
     int unk04;
     Shape_ca5360* m_pShape;
-    void FUN_00ca5360(MassInfo_ca5360* pkInfo);
+    void bhkPackedNiTriStripsShape_CopyCinfo(MassInfo_ca5360* pkInfo);
 };
 // @fnv 0x00ca5360
-void FUN_00ca5360_cls::FUN_00ca5360(MassInfo_ca5360* pkInfo)
+// src: XBOX_PDB 0x00ca5360
+void FUN_00ca5360_cls::bhkPackedNiTriStripsShape_CopyCinfo(MassInfo_ca5360* pkInfo)
 {
-    Base_ca5360::FUN_00c84e20(pkInfo);
+    Base_ca5360::bhkShape_CopyCinfo(pkInfo);
     if (this != 0 && m_pShape != 0)
-        m_pShape->FUN_00ca3b20(pkInfo);
+        m_pShape->hkPackedNiTriStripsShape_CopyCinfo(pkInfo);
     else
     {
         pkInfo->m_fMass = 0.0f;
@@ -881,11 +884,12 @@ struct CacObj
     int unk08;
     int unk0c;
     hkVector4 v4;
-    void FUN_00cac960(const hkVector4* pv);
+    void hkpCharacterProxy_setLinearVelocity(const hkVector4* pv);
 };
 
 // @fnv 0x00cac960
-void CacObj::FUN_00cac960(const hkVector4* pv)
+// src: XBOX_PDB 0x00cac960
+void CacObj::hkpCharacterProxy_setLinearVelocity(const hkVector4* pv)
 {
     v4.m_vComponents = pv->m_vComponents;
 }
@@ -1122,10 +1126,11 @@ struct F7_Clone
     int unk00;
     F7_Shape* shape;
     void ReleaseObject(F7_Shape*, F7_Params*);
-    void FUN_00cbdb70(F7_Shape* dest, F7_Params* params);
+    void hkHingeConstraintCinfo_CloneData(F7_Shape* dest, F7_Params* params);
 };
 // @fnv 0x00cbdb70
-void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
+// src: XBOX_PDB 0x00cbdb70
+void F7_Clone::hkHingeConstraintCinfo_CloneData(F7_Shape* dest, F7_Params* params)
 {
     F7_Scope scope;
     F7_Shape* src = shape;
@@ -1168,7 +1173,8 @@ static __forceinline void Load3(LocalM128& v, const float* p)
 }
 
 // @fnv 0x00cbeaf0
-void FUN_00cbeaf0(const float* vertexArray, int numVertices, int striding, hkAabb& aabbOut)
+// src: XBOX_PDB 0x00cbeaf0
+void hkAabbUtil_calcAabb(const float* vertexArray, int numVertices, int striding, hkAabb& aabbOut)
 {
     LocalM128 v;
     Load3(v, vertexArray);
@@ -1287,13 +1293,13 @@ struct MaterialArray
     MaterialEntry* data;
     unsigned capacity, size, occupied, growth;
     void Resize(unsigned);
-    void FUN_00ca49a0(unsigned, MaterialEntry&);
+    void NiTLargeArray_hkNiTriStripsData_NiTMallocInterface_hkNiTriStripsData_SetAt(unsigned, MaterialEntry&);
     void Append(MaterialEntry& value)
     {
         unsigned index = size;
         if (index >= capacity)
             Resize(index + growth);
-        FUN_00ca49a0(index, value);
+        NiTLargeArray_hkNiTriStripsData_NiTMallocInterface_hkNiTriStripsData_SetAt(index, value);
     }
 };
 struct RuntimeMesh
@@ -1375,12 +1381,13 @@ struct MeshShape
     unsigned references, field08, field0c;
     int material;
     void ReadGroup(NiStream&);
-    void FUN_00c84d00(NiStream&);
-    void FUN_00ca7a70(NiStream&);
+    void bhkShape_LoadBinary(NiStream&);
+    void bhkNiTriStripsShape_LoadBinary(NiStream&);
 };
 
 // @fnv 0x00ca7a70
-void MeshShape::FUN_00ca7a70(NiStream& stream)
+// src: XBOX_PDB 0x00ca7a70
+void MeshShape::bhkNiTriStripsShape_LoadBinary(NiStream& stream)
 {
     unsigned char allocated;
     RuntimeMesh* mesh = GetRuntime(&allocated);
@@ -1443,7 +1450,7 @@ void MeshShape::FUN_00ca7a70(NiStream& stream)
     }
     else
     {
-        FUN_00c84d00(stream);
+        bhkShape_LoadBinary(stream);
         stream.ReadUnsignedInteger();
         unsigned count = 0;
         StreamReader(stream)->ReadScalar(&count, sizeof(count));

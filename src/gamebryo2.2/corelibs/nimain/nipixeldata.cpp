@@ -293,7 +293,7 @@ void NiPixelData::LoadBinary(NiStream& kStream)
 }
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
-char* __cdecl FUN_00a7d510(const char* pcName, unsigned int uiValue);
+char* __cdecl NiGetViewerString_00a7d510(const char* pcName, unsigned int uiValue);
 inline void StrArr::AppendReference(char*& element)
 {
     unsigned int uiIndex = m_usSize;
@@ -322,17 +322,17 @@ void NiPixelData::GetViewerStrings(NiViewerStringsArray* strings)
     ((Base00a5d6e0*)this)->AppendCameraPathEntries(pkStrings);
     char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_011f4a90);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("Width", GetWidth());
+    pcString = NiGetViewerString_00a7d510("Width", GetWidth());
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("Height", GetHeight());
+    pcString = NiGetViewerString_00a7d510("Height", GetHeight());
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("m_uiMipmapLevels", m_uiMipmapLevels);
+    pcString = NiGetViewerString_00a7d510("m_uiMipmapLevels", m_uiMipmapLevels);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("m_uiFaces", m_uiFaces);
+    pcString = NiGetViewerString_00a7d510("m_uiFaces", m_uiFaces);
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("TotalSizeInBytes", PixelTotalSize(this));
+    pcString = NiGetViewerString_00a7d510("TotalSizeInBytes", PixelTotalSize(this));
     pkStrings->AppendReference(pcString);
-    pcString = FUN_00a7d510("FaceSizeInBytes", PixelFaceSize(this));
+    pcString = NiGetViewerString_00a7d510("FaceSizeInBytes", PixelFaceSize(this));
     pkStrings->AppendReference(pcString);
 }
 

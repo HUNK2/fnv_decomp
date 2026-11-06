@@ -15,7 +15,7 @@ void AddMiscStat(MiscStatManager::MiscStat eStat, int delta)
     {
         DAT_011c6d50[eStat]->value += delta;
         ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE_CHALLENGE_TYPE_MISC_STAT, delta, 0, 0, (unsigned short)eStat, 0, 0);
-        StatsMenu* menu = (StatsMenu*)((Tile*)Tile::FindMenuById(FUN_004d5e00()))->GetMenu();
+        StatsMenu* menu = (StatsMenu*)((Tile*)Tile::FindMenuById(StatsMenu_GetClassStatic()))->GetMenu();
         if (menu)
             menu->RefreshMiscStat(eStat);
     }

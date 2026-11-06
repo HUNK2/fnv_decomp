@@ -153,13 +153,13 @@ struct S00d9db60_Router
         return *m_pStreamAllocator;
     }
 };
-S00d9db60_Router* __cdecl FUN_00c85750();
+S00d9db60_Router* __cdecl hkMemoryRouter_getInstance();
 
 struct S00d9db60_HeapAllocator
 {
     __forceinline S00d9db60_Allocator& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return hkMemoryRouter_getInstance()->heap();
     }
 };
 
@@ -279,7 +279,7 @@ struct S00d9db60_SparseWriter
     LocalM128 m_kVectorBuffer[BUFFER_SIZE];
     int m_uiEdgeIndex;
     void FUN_00df3110();  // constructor
-    void FUN_00df3160();  // flush, from the inline destructor
+    void hkKdTreeBuilderSparseWriter_flush();  // flush, from the inline destructor
 };
 
 struct S00d9db60_BuildRecursiveInput
@@ -302,7 +302,7 @@ void __cdecl FillAabbArray(S00d9db60_Mediator*, int, int, S00d9db60_ProjectedEnt
 void __cdecl MixChannels(S00d9db60_WorkingSet&, S00d9db60_Node*, S00d9db60_ProjectedEntry*, int, int, int, int&);
 void __cdecl FUN_00df37b0(const S00d9db60_WorkingSet&, S00d9db60_Node*, int, int, S00d9db60_BuildRecursiveInput*, int*,
                           S00d9db60_ProjectedEntry&);
-int __cdecl FUN_00df56a0(const S00d9db60_BuildRecursiveInput&, S00d9db60_TreeStream*, S00d9db60_ProjectedEntry*, int*,
+int __cdecl hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict_0_buildTreeRecursive(const S00d9db60_BuildRecursiveInput&, S00d9db60_TreeStream*, S00d9db60_ProjectedEntry*, int*,
                          int*);
 void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(S00d9db60_KdTree*, int, int*, int*);
 
@@ -379,9 +379,9 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
         numPrimitivesPerSubTree[i] += emptyNodesPerSubTree[i] + (emptyNodesPerSubTree[i] & 1);
         currentNodeIdx += numPrimitivesPerSubTree[i];
 
-        subTreeDepths[i] = FUN_00df56a0(input, &stream, tree->getProjectedEntries(), &depth, &emptyNodesPerSubTree[i]);
+        subTreeDepths[i] = hkKdTreeBuilder_hkKdTreeProjectedEntry_const_hkKdTreeProjectedEntry_restrict_0_buildTreeRecursive(input, &stream, tree->getProjectedEntries(), &depth, &emptyNodesPerSubTree[i]);
         subTreeDepths[i] += 2;
-        writer.FUN_00df3160();
+        writer.hkKdTreeBuilderSparseWriter_flush();
     }
 
     hkKdTreeBuildingUtils_completeDistributedBuild(tree, mediator.GetNumEntries(), subTreeDepths, numPrimitivesPerSubTree);

@@ -207,11 +207,12 @@ extern NiGPUProgram* DAT_012021e4;
 
 struct FUN_00bcbc90_shell
 {
-    NiGPUProgram* FUN_00bcbc90(void* obj, void* extra);
+    NiGPUProgram* GeometryDecalShader_GetShaderDecl(void* obj, void* extra);
 };
 
 // @fnv 0x00bcbc90
-NiGPUProgram* __thiscall FUN_00bcbc90_shell::FUN_00bcbc90(void* obj, void* extra)
+// src: XBOX_PDB 0x00bcbc90
+NiGPUProgram* __thiscall FUN_00bcbc90_shell::GeometryDecalShader_GetShaderDecl(void* obj, void* extra)
 {
     return *(NiGPUProgram**)((char*)obj + 0xbc) ? DAT_012021e4 : DAT_012021e0;
 }
@@ -222,11 +223,12 @@ extern NiGPUProgram* DAT_012021e4;
 struct FUN_00bcbc70_shell : public GeometryDecalShader
 {
     void __thiscall CreateDecalShaders();
-    void __thiscall FUN_00bcbc70();
+    void __thiscall GeometryDecalShader_ReloadShaders();
 };
 
 // @fnv 0x00bcbc70
-void __thiscall FUN_00bcbc70_shell::FUN_00bcbc70()
+// src: XBOX_PDB 0x00bcbc70
+void __thiscall FUN_00bcbc70_shell::GeometryDecalShader_ReloadShaders()
 {
     CreateDecalShaders();
     void(__thiscall * fn)(FUN_00bcbc70_shell*) = *(void(__thiscall**)(FUN_00bcbc70_shell*))(*(char**)this + 0x13c);

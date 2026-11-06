@@ -106,7 +106,7 @@ void FUN_00dc6020_cls::FreeAllBlocks()
     return FUN_00dd91f0();
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& readerHeap(hkMemoryRouter& router)
 {
@@ -123,7 +123,7 @@ template <class T> __forceinline void constructWithCopyDC5D(T* p, int n, const T
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return readerHeap(FUN_00c85750());
+    return readerHeap(hkMemoryRouter_getInstance());
 }
 
 template <class T> __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocator& kAlloc, const T& t)
@@ -142,7 +142,7 @@ char* hkBinaryTagfileReader::ReadString()
     int iLen = FUN_00dc5bd0();
     if (iLen > 0)
     {
-        char* pcString = AllocateWithHeader(&readerHeap(FUN_00c85750()), iLen + 1);
+        char* pcString = AllocateWithHeader(&readerHeap(hkMemoryRouter_getInstance()), iLen + 1);
         FUN_00dd90d0(pcString, iLen);
         pcString[iLen] = 0;
         m_pStringFunctions.pushBack(pcString);
@@ -431,7 +431,7 @@ struct FUN_00dc5d50_Local
     void* unk34;
     void* unk38;
 
-    void FUN_00dc5f30(unsigned int, unsigned int);
+    void Reader_Reader(unsigned int, unsigned int);
     void FUN_00dc6e50(unsigned int);
     void FreeAllBlocks();
 };
@@ -441,7 +441,7 @@ struct FUN_00dc5d50_Local
 unsigned int __stdcall hkBinaryTagfileReader_load(unsigned int a, unsigned int b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
-    local.FUN_00dc5f30(b, c);
+    local.Reader_Reader(b, c);
     local.FUN_00dc6e50(a);
     local.FreeAllBlocks();
     return a;
@@ -488,12 +488,13 @@ struct S00dc5f30_Obj
 
     void Init(int, S00dc5f30_Tag);
 
-    S00dc5f30_Obj* FUN_00dc5f30(int a0, int a1);
+    S00dc5f30_Obj* Reader_Reader(int a0, int a1);
 };
 
 // Initializes the object with a0 and a1, sets m_p10 and m_n14, and adds three entries to the m_hl18 and m_hl24 lists.
 // @fnv 0x00dc5f30
-S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
+// src: XBOX_PDB 0x00dc5f30
+S00dc5f30_Obj* S00dc5f30_Obj::Reader_Reader(int a0, int a1)
 {
     Init(a0, S00dc5f30_Tag());
     m_p10 = (void*)a1;
@@ -510,7 +511,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     m_hl30.m_uiValueCount = 0;
     m_hl30.m_flags = 0x80000000;
 
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     if (pFirstList->m_uiValueCount == (pFirstList->m_flags & 0x3fffffff))
     {
         ResizeAudioStream(r.m_heap, pFirstList, 4);
@@ -520,7 +521,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     new (pSlot) void * (0);
     ++pFirstList->m_uiValueCount;
 
-    hkMemoryRouter& r2 = FUN_00c85750();
+    hkMemoryRouter& r2 = hkMemoryRouter_getInstance();
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ResizeAudioStream(r2.m_heap, pSecondList, 4);
@@ -530,7 +531,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     new (pSlot2) void*(&DAT_01011584);
     pSecondList->m_uiValueCount += 1;
 
-    hkMemoryRouter& r3 = FUN_00c85750();
+    hkMemoryRouter& r3 = hkMemoryRouter_getInstance();
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ResizeAudioStream(r3.m_heap, pSecondList, 4);
@@ -559,7 +560,7 @@ template <typename T> struct hkArrayTFLocalForm
     {}
     __forceinline void clearStorage()
     {
-        hkMemoryAllocator& kAlloc = readerHeap(FUN_00c85750());
+        hkMemoryAllocator& kAlloc = readerHeap(hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -580,7 +581,7 @@ template <typename T> struct hkArrayTFLocalForm
     }
     __forceinline void AddBack(const T& t)
     {
-        hkMemoryAllocator& kAlloc = readerHeap(FUN_00c85750());
+        hkMemoryAllocator& kAlloc = readerHeap(hkMemoryRouter_getInstance());
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&kAlloc, this, sizeof(T));
         ConstructWithCopyTF(m_data + m_iElementCount, 1, t);
@@ -599,7 +600,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTFLocalForm<T>
 {
     __forceinline hkLocalArrayTF(int n)
     {
-        hkMemoryRouter& kRouter = FUN_00c85750();
+        hkMemoryRouter& kRouter = hkMemoryRouter_getInstance();
         T* pLocal = (T*)kRouter.m_stack.m_next.m_storage;
         kRouter.m_stack.m_next.m_storage = (void*)((int)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f)));
         this->m_data = pLocal;
@@ -611,7 +612,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTFLocalForm<T>
         T* pLocal = m_pStackAllocation;
         if (pLocal == this->m_data)
             this->m_iElementCount = 0;
-        FUN_00c85750().m_stack.m_next.m_storage = (void*)((int)pLocal);
+        hkMemoryRouter_getInstance().m_stack.m_next.m_storage = (void*)((int)pLocal);
     }
     T* m_pStackAllocation;
 };
@@ -695,7 +696,7 @@ class hkDataObjectTF
   public:
     hkDataObjectTF(hkDataObjectImplTF* pkImpl)
     {
-        FUN_00dba760(pkImpl);
+        hkDataObject_hkDataObject(pkImpl);
     }
     hkDataObjectTF(const hkDataObjectTF& kOther)
     {
@@ -716,7 +717,7 @@ class hkDataObjectTF
     {
         FUN_00dba7f0();
     }
-    void FUN_00dba760(hkDataObjectImplTF* pkImpl);
+    void hkDataObject_hkDataObject(hkDataObjectImplTF* pkImpl);
     void AssignRef(const hkDataObjectTF& kOther);
     void FUN_00dba7f0();
     ValueRawTF* FUN_00dba870(ValueRawTF* out, const char* pcName);
@@ -814,7 +815,7 @@ hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
 
 __forceinline hkMemoryRouter* getTagRouter()
 {
-    return &FUN_00c85750();
+    return &hkMemoryRouter_getInstance();
 }
 template <class T> struct TagArray
 {
@@ -1066,7 +1067,7 @@ struct Item20
 struct RefA
 {
     void* object;
-    void FUN_00dba760(void*);
+    void hkDataObject_hkDataObject(void*);
     void FUN_00dba7f0();
 };
 struct RefB
@@ -1118,7 +1119,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     RefA owner;
     if (item->flags & 0x20)
     {
-        owner.FUN_00dba760(value.object);
+        owner.hkDataObject_hkDataObject(value.object);
         void* created = reinterpret_cast<ValueWorld*>(m_p10)->vtable_14(&owner, item);
         RefB reference;
         reference.FUN_00dbab50(created);
@@ -1137,7 +1138,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
             int objectIndex = FUN_00dc5bd0(this);
             local.objectClass = m_kTrackedObjects.m_data[objectIndex];
         }
-        owner.FUN_00dba760(value.object);
+        owner.hkDataObject_hkDataObject(value.object);
         void* created = reinterpret_cast<ValueWorld*>(m_p10)->vtable_14(&owner, &local);
         RefB reference;
         reference.FUN_00dbab50(created);

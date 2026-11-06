@@ -257,7 +257,7 @@ void HfShape_e49530::Collide(const HfInput_e49530& input, HfVec_e49530* outputAr
     HfCollide_e49530(*this, input, outputArray);
 }
 
-extern "C" void* __cdecl FUN_00c85750();
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void* alloc, void* array, int capacity, int elemSize);
 extern int DAT_010e901c;
 
@@ -317,7 +317,7 @@ static __forceinline void Arr16_e499__setSize(hkArrayBase<hkUint16>& self, Alloc
 
 static __forceinline void Arr16_e499_reserve(hkArrayBase<hkUint16>& self, int n)
 {
-        Holder_e499* h = (Holder_e499*)FUN_00c85750();
+        Holder_e499* h = (Holder_e499*)hkMemoryRouter_getInstance();
         Alloc_e499* alloc = h->m_alloc;
         int c = self.m_iCapacityState & 0x3fffffff;
         if (c < n)

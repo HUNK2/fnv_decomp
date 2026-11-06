@@ -101,11 +101,12 @@ BSFadeNode* NiScreenElements_CreateObject()
 }
 
 struct FUN_00a87900_class {
-    void FUN_00a87900();
+    void NiScreenElementsData_UpdateBound();
 };
 
 // @fnv 0x00a87900
-void FUN_00a87900_class::FUN_00a87900()
+// src: XBOX_PDB 0x00a87900
+void FUN_00a87900_class::NiScreenElementsData_UpdateBound()
 {
     *(unsigned char*)((char*)this + 0x6e) = 0;
     if (*(unsigned short*)((char*)this + 8) > 0) {
@@ -291,7 +292,7 @@ struct FUN_00a99c40_shell : public NiExtraData {
 // src: GAMEBRYO_LIB 0x00a99c40
 void FUN_00a99c40_shell::NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp)
 {
-    FUN_00a7b330(dst, cp);
+    CopyMembers_00a7b330(dst, cp);
     *(void**)((char*)dst + 0xc) = *(void**)((char*)this + 0xc);
 }
 
@@ -626,10 +627,11 @@ struct FUN_00a94c00_shell {
     float m_108;
     float m_10c;
     float m_110;
-    void FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp);
+    void NiSpotLight_CopyMembers(NiDirectionalLight* dst, CloningProcess& cp);
 };
 // @fnv 0x00a94c00
-void FUN_00a94c00_shell::FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp)
+// src: XBOX_PDB 0x00a94c00
+void FUN_00a94c00_shell::NiSpotLight_CopyMembers(NiDirectionalLight* dst, CloningProcess& cp)
 {
     reinterpret_cast<void (__thiscall*)(NiDirectionalLight*, NiDirectionalLight*, CloningProcess&)>(FUN_00a7d6a0)((NiDirectionalLight*)this, dst, cp);
     FUN_00a94c00_shell* d = (FUN_00a94c00_shell*)dst;
@@ -729,9 +731,10 @@ void FUN_00a8f810_class::FUN_00a8f810()
 
 struct CloningProcess;
 // @fnv 0x00a81430
-void NiCullingProperty::FUN_00a81430(void* dst, CloningProcess& proc)
+// src: XBOX_PDB 0x00a81430
+void NiCullingProperty::NiShadeProperty_CopyMembers(void* dst, CloningProcess& proc)
 {
-    FUN_00a5d7a0(dst, proc);
+    NiProperty_CopyMembers(dst, proc);
     static_cast<NiCullingProperty*>(dst)->m_usFlags = m_usFlags;
 }
 
@@ -827,7 +830,7 @@ void NiCullingProperty::NiFogProperty_CopyMembers(
 {
     NiCullingProperty* dest = static_cast<NiCullingProperty*>(destination);
 
-    FUN_00a5d7a0(destination, cloningProcess);
+    NiProperty_CopyMembers(destination, cloningProcess);
     dest->m_usFlags = m_usFlags;
     *(float*)((char*)dest + 0x1c) = *(float*)((char*)this + 0x1c);
     *(NiCullingData*)((char*)dest + 0x20) = *(NiCullingData*)((char*)this + 0x20);
@@ -1383,7 +1386,7 @@ struct BaseCls {
     void __thiscall FUN_00a67b20(int, int, int, int, int, int, int);
 };
 
-extern "C" void* __cdecl FUN_00aa1070(int);
+extern "C" void* __cdecl _NiMalloc_00aa1070(int);
 
 extern int DAT_0109f23c;
 
@@ -1417,7 +1420,7 @@ void* FUN_00a8a680_cls::InitWithBuffer(int ausLength, int a1, int a2, int a3, in
         m_40 = (void*)apBuffer;
     } else {
         unsigned short usLength = (unsigned short)ausLength;
-        m_40 = FUN_00aa1070(usLength);
+        m_40 = _NiMalloc_00aa1070(usLength);
         for (unsigned short i = 0; i < usLength; i++) {
             ((unsigned char*)m_40)[i] = (unsigned char)((~i) & 1);
         }
@@ -1628,14 +1631,14 @@ struct FUN_00a910f0_class {
     FUN_00a910f0_class* FUN_00a910f0(unsigned char flags);
 };
 struct FUN_00aa4060_class {
-    void FUN_00aa4060(void* object);
+    void MemoryManager_Deallocate(void* object);
 };
 extern FUN_00aa4060_class DAT_011f6238;
 // @fnv 0x00a910f0
 FUN_00a910f0_class* FUN_00a910f0_class::FUN_00a910f0(unsigned char flags) {
     vft = &DAT_0109f9bc;
     ReleaseObjectArray(buffer);
-    if (flags & 1) DAT_011f6238.FUN_00aa4060(this);
+    if (flags & 1) DAT_011f6238.MemoryManager_Deallocate(this);
     return this;
 }
 
@@ -1664,7 +1667,7 @@ struct S_a91120 {
     unsigned int unk04;
     unsigned int unk08;
     S_a91120_Blk* unk0c;
-    void FUN_00a311e0(unsigned int n);
+    void NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(unsigned int n);
     void AppendItems(unsigned int n);
 };
 // Allocates a block of n items, appends each item pointer to unk00, growing via FUN_00a311e0 when full, then links the block into unk0c.
@@ -1674,7 +1677,7 @@ void S_a91120::AppendItems(unsigned int n) {
     for (unsigned int i = 0; i < n; i++) {
         unsigned char* item = pBlock->GetAt(i);
         if (unk08 == unk04)
-            FUN_00a311e0(unk04 > 0 ? unk04 * 2 : 1);
+            NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(unk04 > 0 ? unk04 * 2 : 1);
         unk00[unk08] = item;
         unk08++;
     }
@@ -1931,7 +1934,7 @@ RefCountedPair* RefCountedPair::Assign(const RefCountedPair* other)
 
 namespace fnv_00a9fda0 {
 struct FUN_00a9fda0_holder {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 
 struct FUN_00a9fda0_pair {
@@ -1961,7 +1964,7 @@ void DestroyPairArrays()
                 }
             } while (--i >= 0);
         }
-        DAT_011f6238.FUN_00aa4060((void*)((char*)arr - 4));
+        DAT_011f6238.MemoryManager_Deallocate((void*)((char*)arr - 4));
     }
     FUN_00a9fda0_pair* arr2 = DAT_011f6024;
     DAT_011f602c = 0;
@@ -1977,7 +1980,7 @@ void DestroyPairArrays()
                 }
             } while (--i >= 0);
         }
-        DAT_011f6238.FUN_00aa4060((void*)((char*)arr2 - 4));
+        DAT_011f6238.MemoryManager_Deallocate((void*)((char*)arr2 - 4));
     }
     DAT_011f6024 = 0;
 }
@@ -2811,23 +2814,26 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
 void __stdcall nullsub_2(int, int, int, int, int, int, int, int) {
 }
 
-extern void __cdecl FUN_00a98ea0();
+extern void __cdecl NiParticleMeshes_LoadBinary();
 // @fnv 0x00a877d0
-void __cdecl FUN_00a877d0() {
-    FUN_00a98ea0();
+// src: XBOX_PDB 0x00a877d0
+void __cdecl NiScreenElements_LoadBinary() {
+    NiParticleMeshes_LoadBinary();
 }
 
-extern "C" void __cdecl FUN_00a71d10();
+extern "C" void __cdecl NiParticleMeshes_SaveBinary();
 
 // @fnv 0x00a877e0
-void __cdecl FUN_00a877e0()
+// src: XBOX_PDB 0x00a877e0
+void __cdecl NiScreenElements_SaveBinary()
 {
-    FUN_00a71d10();
+    NiParticleMeshes_SaveBinary();
 }
 
 extern "C" void __cdecl ReadGroup();
 // @fnv 0x00a88a40
-void __cdecl FUN_00a88a40()
+// src: XBOX_PDB 0x00a88a40
+void __cdecl BSTextureSet_LoadBinary()
 {
     ReadGroup();
 }
@@ -2958,7 +2964,7 @@ void ImageConverter::ReadPixels(S_00a8d8b0* stream)
     if (inputCapacity < (unsigned int)pixelCount * 4) {
         inputCapacity = (unsigned int)pixelCount * 4;
         NiFree(inputBuffer);
-        inputBuffer = (unsigned char*)FUN_00aa1070(inputCapacity);
+        inputBuffer = (unsigned char*)_NiMalloc_00aa1070(inputCapacity);
     }
     unsigned char* out = (unsigned char*)outputBuffer;
     switch (bitsPerPixel) {
@@ -3035,11 +3041,12 @@ FUN_00a8f490::~FUN_00a8f490() {
 }
 
 struct FUN_00a923a0_class {
-    unsigned short __thiscall FUN_00a923a0();
+    unsigned short __thiscall NiParticlesData_GetActiveVertexCount();
 };
 
 // @fnv 0x00a923a0
-unsigned short __thiscall FUN_00a923a0_class::FUN_00a923a0()
+// src: XBOX_PDB 0x00a923a0
+unsigned short __thiscall FUN_00a923a0_class::NiParticlesData_GetActiveVertexCount()
 {
     return *reinterpret_cast<unsigned short*>(this + 0x50);
 }

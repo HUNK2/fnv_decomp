@@ -33,7 +33,7 @@ public:
     void* GetSrc(unsigned int index);
     void __thiscall AttachTexture(void* texture, unsigned int index);
     void __thiscall CopyMembers_00a4f920(NiAlphaController* clone, CloningProcess& process);
-    bool __thiscall FUN_00a4f350(NiStream& stream);
+    bool __thiscall RegisterStreamables_00a4f350(NiStream& stream);
     void* CreateFlipController(CloningProcess& process);
     void __thiscall GetFloatValue(float* value);
     unsigned char __thiscall IsEqual_00a4f290(NiFlipController* object);

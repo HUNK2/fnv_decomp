@@ -51,7 +51,7 @@ struct FUN_00e4dde0
     int unk8C;
     FUN_00e4dde0();
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00e4e3c0
 {
     int m_i04;
@@ -98,7 +98,7 @@ struct FUN_00e4e3c0
 
     static void operator delete(void* apMemory)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         // The game dispatches Free through vtable slot 2.
         typedef void (__thiscall* FreeFunction)(hkMemoryAllocator*, void*, unsigned int);

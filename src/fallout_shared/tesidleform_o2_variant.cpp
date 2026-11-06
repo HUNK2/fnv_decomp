@@ -20,7 +20,7 @@ struct FUN_005ff190_shell
 {
     char pad[0x38];
     unsigned char m_0x38;
-    void FUN_005ff190(bool set);
+    void TESIdleForm_SetIdleAnimGroupSection(bool set);
 };
 struct FUN_005ff1d0_shell : public TESIdleForm
 {

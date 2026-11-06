@@ -45,15 +45,16 @@ struct CStringArgument
     BSSimpleList<ScriptReferencedObject*> refVars;
     void* currentScript;
     BSSimpleList<void*> lines;
-    BSSimpleList<ScriptReferencedObject*>* FUN_005d43c0();
-    bool FUN_005afad0(ScriptToken*, bool, bool);
+    BSSimpleList<ScriptReferencedObject*>* BSFile_GetDevice();
+    bool ScriptCompileData_GetReferencedObject(ScriptToken*, bool, bool);
 };
 TESForm* FUN_00483a00(const char*);
-TESForm* FUN_004839c0(unsigned int);
-unsigned int FUN_005afe10(const char*, char**, int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
+unsigned int BSstrtoul(const char*, char**, int);
 void ReportScriptError(CStringArgument*, const char*, ...);
 // @fnv 0x005afad0
-bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allowUnknown)
+// src: XBOX_PDB 0x005afad0
+bool CStringArgument::ScriptCompileData_GetReferencedObject(ScriptToken* token, bool variable, bool allowUnknown)
 {
     bool result = false;
     unsigned int index = 1;
@@ -100,10 +101,10 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
             if (!result)
             {
                 char* end = 0;
-                unsigned int formID = FUN_005afe10(token->name, &end, 16);
+                unsigned int formID = BSstrtoul(token->name, &end, 16);
                 if (formID && end && !*end)
                 {
-                    reference->pForm = FUN_004839c0(formID);
+                    reference->pForm = TESForm_GetFormByNumericID(formID);
                     if (reference->pForm)
                         result = true;
                 }
@@ -111,7 +112,7 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
             if (result && runtimeMode != 1)
             {
                 TESObjectREFR* refr = dynamic_cast<TESObjectREFR*>(reference->pForm);
-                if (refr && !refr->FUN_005653d0())
+                if (refr && !refr->TESObjectREFR_GetRefPersists_005653d0())
                 {
                     ReportScriptError(this, "Non-persistent reference '%s' cannot be used in a script.", token->name);
                     result = false;
@@ -133,7 +134,7 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
             }
             reinterpret_cast<::BSStringT<char>*>(&reference->m_kFormName)->Set(token->name, 0);
             info.m_uiReferenceID++;
-            FUN_005d43c0()->AddTail(reference);
+            BSFile_GetDevice()->AddTail(reference);
             token->refIndex = info.m_uiReferenceID;
         }
         else
@@ -193,7 +194,7 @@ struct CompileState
     unsigned variableCount;
     bool partial;
     CompileVariables* FUN_005a8080();
-    bool FUN_005afad0(CompileWord*, bool, bool);
+    bool ScriptCompileData_GetReferencedObject(CompileWord*, bool, bool);
     ScriptReferencedObject* GetNodeValue(unsigned);
 };
 
@@ -233,7 +234,7 @@ extern unsigned DAT_011cadbc;
 
 extern const char* DAT_0118c594[];
 
-int FUN_005af5f0(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
+int ScriptCompiler_GetNextWord(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
 
 int BSstricmp(const char*, const char*);
 
@@ -249,7 +250,7 @@ bool ScriptCompiler_IsValidVariableName(const char*);
 
 bool ScriptCompiler_CheckParentheses(const char*, unsigned);
 
-void FUN_005b1b60(const char*, unsigned*);
+void ScriptCompiler_SkipWhiteSpace(const char*, unsigned*);
 
 CompileCommand* FUN_005b1120(int);
 
@@ -310,7 +311,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
         break;
 
     case 16:
-        if (FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 0, 0))
+        if (ScriptCompiler_GetNextWord(compiler, &word6, line->input, &line->inputOffset, 0, 0))
         {
             int i;
             bool found7 = false;
@@ -413,7 +414,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
     case 19:
     case 20:
     case 31:
-        if (FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 0, 0))
+        if (ScriptCompiler_GetNextWord(compiler, &word6, line->input, &line->inputOffset, 0, 0))
         {
             const char* variableName1 = word6.text;
 
@@ -441,7 +442,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
             if (line->kind == 31)
             {
                 word6.variableID = variableInfo0->id;
-                compiler->FUN_005afad0(&word6, true, false);
+                compiler->ScriptCompileData_GetReferencedObject(&word6, true, false);
             }
         }
         else
@@ -452,7 +453,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
         break;
 
     case 21: {
-        if (!FUN_005af5f0(compiler, &word6, line->input, &line->inputOffset, 1, 1))
+        if (!ScriptCompiler_GetNextWord(compiler, &word6, line->input, &line->inputOffset, 1, 1))
         {
             ReportScriptError(compiler, "Missing variable name in set command.");
             return false;
@@ -464,7 +465,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
         }
         CompileWord setWord20;
 
-        FUN_005af5f0(compiler, &setWord20, line->input, &line->inputOffset, 0, 0);
+        ScriptCompiler_GetNextWord(compiler, &setWord20, line->input, &line->inputOffset, 0, 0);
 
         if (tolower(setWord20.text[0]) != 't' || tolower(setWord20.text[1]) != 'o')
         {
@@ -498,7 +499,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
             ReportScriptError(compiler, "Syntax Error.  Mismatched parentheses in set command.");
             return false;
         }
-        FUN_005b1b60(line->input, &line->inputOffset);
+        ScriptCompiler_SkipWhiteSpace(line->input, &line->inputOffset);
 
         char setText20[512];
         ourMemset(setText20, 0, 512);
@@ -535,7 +536,7 @@ bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileStat
             ReportScriptError(compiler, "Mismatched parentheses.");
             return false;
         }
-        FUN_005b1b60(line->input, &offset_2);
+        ScriptCompiler_SkipWhiteSpace(line->input, &offset_2);
 
         char branchText7[512];
         ourMemset(branchText7, 0, 512);

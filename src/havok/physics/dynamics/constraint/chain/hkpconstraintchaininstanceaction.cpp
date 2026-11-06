@@ -39,12 +39,12 @@ struct FnvMemoryRouter
     void* unk0c;
     FnvAllocator* allocator;
 };
-extern "C" FnvMemoryRouter* __cdecl FUN_00c85750();
+extern "C" FnvMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00e063f0
 void __fastcall CopyEntityArray(hkpConstraintChainInstanceAction* self, void* unusedEdx, hkArray<hkpEntity*>* output)
 {
     hkArray<hkpEntity*>* source = &self->m_pConstraintChainInstance->m_ppRigidBodies;
-    FnvAllocator* allocator = FUN_00c85750()->allocator;
+    FnvAllocator* allocator = hkMemoryRouter_getInstance()->allocator;
     int capacity = output->m_iCapacityState & 0x3fffffff;
     if (capacity < source->m_iElementCount)
     {

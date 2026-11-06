@@ -8,7 +8,7 @@ extern "C" void* g_011f5b40;
 void* __cdecl BSSegmentedTriShape_GetRTTI();
 void __cdecl FinalizeEntries();
 void __cdecl FUN_00a745c0();
-void __cdecl FUN_00a87120();
+void __cdecl BSSegmentedTriShape_RenderImmediate();
 struct FUN_00a86ff0_shell
 {
     void SetEntryActive(unsigned int index);
@@ -23,7 +23,7 @@ extern PointerSource* g_011dea10;
 
 struct ScreenSize
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 extern ScreenSize g_011c63cc;
 
@@ -42,9 +42,9 @@ bool HitRect::BGSTerrainNode_CheckIntersectsLoadedRange()
 {
     int y;
     int x;
-    x = g_011dea10->FUN_0059bb30() - (int)((unsigned int)*g_011c63cc.FUN_0043d4d0() >> 1);
-    y = g_011dea10->FUN_0045cd60() - (int)((unsigned int)*g_011c63cc.FUN_0043d4d0() >> 1);
-    if (x + *g_011c63cc.FUN_0043d4d0() >= left && x <= left + extent && y + *g_011c63cc.FUN_0043d4d0() >= top &&
+    x = g_011dea10->FUN_0059bb30() - (int)((unsigned int)*g_011c63cc.Setting_Int() >> 1);
+    y = g_011dea10->FUN_0045cd60() - (int)((unsigned int)*g_011c63cc.Setting_Int() >> 1);
+    if (x + *g_011c63cc.Setting_Int() >= left && x <= left + extent && y + *g_011c63cc.Setting_Int() >= top &&
         y <= top + extent)
     {
         return true;

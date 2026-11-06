@@ -48,7 +48,8 @@ int C00be0ad0::NiRenderTargetGroup_GetBufferCount()
 }
 
 // @fnv 0x00eea510
-void* __fastcall FUN_00eea510(void* thisptr)
+// src: XBOX_PDB 0x00eea510
+void* __fastcall NiMaterialResource_GetVariable(void* thisptr)
 {
     return (char*)thisptr + 0x14;
 }

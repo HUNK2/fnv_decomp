@@ -17,7 +17,8 @@ NiAnimationKey::KeyContent __stdcall NiQuaternionInterpolator::FUN_00a487e0()
 }
 
 // @fnv 0x00a48960
-void NiQuaternionInterpolator::FUN_00a48960(float m_fStartTime, float m_fMaximumDistance)
+// src: XBOX_PDB 0x00a48960
+void NiQuaternionInterpolator::GuaranteeTimeRange_00a48960(float m_fStartTime, float m_fMaximumDistance)
 {
     NiRotData* p = m_spQuaternionData.m_pObject;
     if (p)
@@ -274,7 +275,7 @@ struct Stream
 };
 
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(const void* value);
-void* __cdecl FUN_00a7d5a0(const void* key, void* value);
+void* __cdecl NiGetViewerString_00a7d5a0(const void* key, void* value);
 
 // The shared base does not declare its viewer-string override.
 void GetKeyBasedViewerStrings();
@@ -297,7 +298,7 @@ void NiQuaternionInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
     stream->FUN_0096ae90(index, &value);
 
     void* payload = m_spQuaternionData.m_pObject;
-    value = FUN_00a7d5a0(&DAT_010987ec, payload);
+    value = NiGetViewerString_00a7d5a0(&DAT_010987ec, payload);
     index = stream->unk0a;
     if (index >= stream->unk08)
         stream->FUN_0096ad30(index + stream->unk0e);

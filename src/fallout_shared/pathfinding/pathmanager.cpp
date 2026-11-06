@@ -145,20 +145,21 @@ void PathingTaskData::Process()
 
 struct G00559a40
 {
-    void FUN_0040f6e0();
+    void NiRefObject_IncRefCount();
 };
 struct S00559a40
 {
     G00559a40* p;
-    S00559a40* FUN_00559a40(S00559a40* o);
+    S00559a40* NiPointer_PathingSolution_NiPointer_PathingSolution(S00559a40* o);
 };
 // Copies the pointer from o into this object's p and, if non-null, calls FUN_0040f6e0 on it, then returns this.
 // @fnv 0x00559a40
-S00559a40* S00559a40::FUN_00559a40(S00559a40* apOther)
+// src: XBOX_PDB 0x00559a40
+S00559a40* S00559a40::NiPointer_PathingSolution_NiPointer_PathingSolution(S00559a40* apOther)
 {
     p = apOther->p;
     if (p)
-        p->FUN_0040f6e0();
+        p->NiRefObject_IncRefCount();
     return this;
 }
 
@@ -382,13 +383,13 @@ struct FUN_006eb7b0_shell : public PathManagerImpl
     void PathManagerImpl_TaskUnlock();
 };
 
-void __fastcall FUN_00aa62c0(void* pThis);
+void __fastcall BSReadWriteLock_UnlockRead(void* pThis);
 
 // @fnv 0x006eb7b0
 // src: COMMUNITY 0x006eb7b0
 void FUN_006eb7b0_shell::PathManagerImpl_TaskUnlock()
 {
-    FUN_00aa62c0((char*)this + 0xc2c);
+    BSReadWriteLock_UnlockRead((char*)this + 0xc2c);
 }
 
 struct PathingTaskMessage
@@ -418,39 +419,42 @@ void FUN_006eb7f0_shell::DispatchPathingMessage(void* aMsg)
 
 struct FUN_006ebc70_shell : public PathManager
 {
-    void FUN_006ebc70();
+    void PathManager_Pause();
 };
 
 void __fastcall PathManagerImpl_Pause(void*);
 
 // @fnv 0x006ebc70
-void FUN_006ebc70_shell::FUN_006ebc70()
+// src: XBOX_PDB 0x006ebc70
+void FUN_006ebc70_shell::PathManager_Pause()
 {
     PathManagerImpl_Pause(*reinterpret_cast<void**>(this));
 }
 
 struct FUN_006ebc90_shell : public PathManager
 {
-    bool FUN_006ebc90();
+    bool PathManager_QPaused();
 };
 
-bool __fastcall FUN_006eb390(void*);
+bool __fastcall PathManagerImpl_QPaused(void*);
 
 // @fnv 0x006ebc90
-bool FUN_006ebc90_shell::FUN_006ebc90()
+// src: XBOX_PDB 0x006ebc90
+bool FUN_006ebc90_shell::PathManager_QPaused()
 {
-    return FUN_006eb390(*reinterpret_cast<void**>(this));
+    return PathManagerImpl_QPaused(*reinterpret_cast<void**>(this));
 }
 
 struct FUN_006ebcd0_shell : public PathManager
 {
-    void FUN_006ebcd0();
+    void PathManager_Resume();
 };
 
 void __fastcall PathManagerImpl_Resume(void*);
 
 // @fnv 0x006ebcd0
-void FUN_006ebcd0_shell::FUN_006ebcd0()
+// src: XBOX_PDB 0x006ebcd0
+void FUN_006ebcd0_shell::PathManager_Resume()
 {
     PathManagerImpl_Resume(*reinterpret_cast<void**>(this));
 }
@@ -475,7 +479,7 @@ struct G006ebf30
 {
     char pad[0x14];
     char r;
-    void FUN_0040f6e0();
+    void NiRefObject_IncRefCount();
 };
 struct S006ebf30
 {
@@ -488,7 +492,7 @@ S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
 {
     p = apSource->p;
     if (p)
-        ((G006ebf30*)((char*)p + 0x14))->FUN_0040f6e0();
+        ((G006ebf30*)((char*)p + 0x14))->NiRefObject_IncRefCount();
     return this;
 }
 
@@ -498,7 +502,7 @@ S006ebf30* S006ebf30::FUN_006ebf30(S006ebf30* apSource)
 void __fastcall FUN_006ebf90(char** apObjectPtr)
 {
     if (*apObjectPtr)
-        ((NiAVObject*)(*apObjectPtr + 0x14))->FUN_00401970();
+        ((NiAVObject*)(*apObjectPtr + 0x14))->NiRefObject_DecRefCount();
 }
 
 void __cdecl Deallocate(void*);
@@ -540,22 +544,24 @@ void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
 
 struct FUN_006ea330_shell
 {
-    void FUN_006ea330();
+    void BSTaskletData_TaskYield();
 };
 
 // @fnv 0x006ea330
-void FUN_006ea330_shell::FUN_006ea330()
+// src: XBOX_PDB 0x006ea330
+void FUN_006ea330_shell::BSTaskletData_TaskYield()
 {
     *(unsigned char*)(((unsigned char*)this) + 4) = 1;
 }
 
 struct FUN_006eb390_shell
 {
-    bool __thiscall FUN_006eb390();
+    bool __thiscall PathManagerImpl_QPaused();
 };
 
 // @fnv 0x006eb390
-bool __thiscall FUN_006eb390_shell::FUN_006eb390()
+// src: XBOX_PDB 0x006eb390
+bool __thiscall FUN_006eb390_shell::PathManagerImpl_QPaused()
 {
     return ((int*)this)[0xc24 / 4] == 2;
 }
@@ -615,11 +621,12 @@ void __thiscall FUN_006ebdc0_shell::SetVtable()
 struct FUN_006ebde0_shell
 {
     unsigned char c0c;
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
 };
 
 // @fnv 0x006ebde0
-bool FUN_006ebde0_shell::FUN_006ebde0()
+// src: XBOX_PDB 0x006ebde0
+bool FUN_006ebde0_shell::LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished()
 {
     return ((unsigned char*)this)[0xc] & 2;
 }
@@ -647,7 +654,7 @@ void FUN_006ebec0_shell::FUN_006ebec0()
 struct AX
 {
     void* vtable;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 
 extern int DAT_0106d664;
@@ -663,7 +670,7 @@ struct FUN_006ebee0_shell : AX
 AX* FUN_006ebee0_shell::BSSimpleArray_RayCastPath_1024_BSSimpleArray()
 {
     vtable = &DAT_0106d664;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -733,13 +740,13 @@ void* __thiscall FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
 }
 }  // namespace fnv_006ebe60
 
-extern "C" void __cdecl FUN_006b3eb0(unsigned int, unsigned int);
+extern "C" void __cdecl BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 extern void* DAT_0106d650;
 
 struct FUN_006ebe90_shell
 {
     void* vtable;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     FUN_006ebe90_shell* BSSimpleArray_RayCastPathRequest_1024_BSSimpleArray();
 };
 
@@ -749,7 +756,7 @@ struct FUN_006ebe90_shell
 FUN_006ebe90_shell* FUN_006ebe90_shell::BSSimpleArray_RayCastPathRequest_1024_BSSimpleArray()
 {
     vtable = &DAT_0106d650;
-    FUN_006b3eb0(0, false);
+    BSSimpleArray_float_1024_InitialSetup(0, false);
     return this;
 }
 
@@ -958,20 +965,21 @@ void* Class_006ebe30::FUN_006ebe30(unsigned int flags)
 namespace fnv_006ebf60 {
 struct G00559a40
 {
-    void FUN_0040f6e0();
+    void NiRefObject_IncRefCount();
 };
 struct S006ebf60
 {
     int f;
-    S006ebf60* FUN_006ebf60(int);
+    S006ebf60* NiPointer_ActorPathingMessageQueue_NiPointer_ActorPathingMessageQueue(int);
 };
 // Stores a into f and, when a is non-zero, calls FUN_0040f6e0 on the object at a+0x14; returns this.
 // @fnv 0x006ebf60
-S006ebf60* S006ebf60::FUN_006ebf60(int aiValue)
+// src: XBOX_PDB 0x006ebf60
+S006ebf60* S006ebf60::NiPointer_ActorPathingMessageQueue_NiPointer_ActorPathingMessageQueue(int aiValue)
 {
     f = aiValue;
     if (f != 0)
-        ((G00559a40*)(f + 0x14))->FUN_0040f6e0();
+        ((G00559a40*)(f + 0x14))->NiRefObject_IncRefCount();
     return this;
 }
 }  // namespace fnv_006ebf60
@@ -997,7 +1005,7 @@ struct FUN_006c5e70
     ~FUN_006c5e70();
     int a, b;
 };
-FUN_006c5e70 __fastcall FUN_006c5e40();
+FUN_006c5e70 __fastcall BSTasklet_BSTasklet();
 int __fastcall FUN_00559450(int*);
 struct Queue_006eac70
 {
@@ -1013,7 +1021,7 @@ struct PathManagerImpl_t
 {
     char pad[0x1480];
     Queue_006eac70 kQueue;
-    bool FUN_006c5ec0(FUN_006c5e70*, int);
+    bool BSTaskletGroup_AttachTask(FUN_006c5e70*, int);
     bool QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMessageQueue);
 };
 
@@ -1022,10 +1030,10 @@ struct PathManagerImpl_t
 bool PathManagerImpl_t::QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMessageQueue)
 {
     BSTaskletData* ptaskData = new FUN_006e9cc0(aspRequest, aspMessageQueue);
-    FUN_006c5e70 task = FUN_006c5e40();
+    FUN_006c5e70 task = BSTasklet_BSTasklet();
     ((TESRaceForm*)&task)->Initialize((unsigned int)ptaskData);
     kQueue.Add(FUN_00559450((int*)&aspRequest), &ptaskData, 1);
-    if (!FUN_006c5ec0(&task, 0))
+    if (!BSTaskletGroup_AttachTask(&task, 0))
     {
         kQueue.Remove(FUN_00559450((int*)&aspRequest));
         delete ptaskData;
@@ -1081,8 +1089,8 @@ struct SearchLock
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_0040fbf0(const char*);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(const char*);
+    void BSSpinLock_Unlock();
 };
 struct ManagerView
 {
@@ -1104,7 +1112,7 @@ struct ManagerView
 int ManagerView::PathingTaskData_ComputeRayCasts()
 {
     int total = 0;
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < first.FUN_0044ddc0(); i++)
     {
         if (second.FUN_00877a30(i)->flags == 0)
@@ -1116,7 +1124,7 @@ int ManagerView::PathingTaskData_ComputeRayCasts()
                 break;
         }
     }
-    lock.FUN_0040fba0();
+    lock.BSSpinLock_Unlock();
     return total;
 }
 
@@ -5623,7 +5631,7 @@ struct Host17
     Spin17 spin;
     Arr40_17 arr40;
     Arr50_17 arr50;
-    void FUN_006ea330();
+    void BSTaskletData_TaskYield();
     void Notify(int arg);
     int FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, int a3);
 };
@@ -5652,7 +5660,7 @@ int Host17::FindOrAddPathingEntry(PathingLocation17& a1, PathingLocation17& a2, 
                         arr50.GetAt(i2)->sub8.Activate(iActivateArg);
                         break;
                     case 0:
-                        FUN_006ea330();
+                        BSTaskletData_TaskYield();
                         break;
                     default:
                         result = 2;
@@ -5723,7 +5731,7 @@ struct RequestManager
     SearchLock lock;
     RequestArray<FUN_006cb3a0> requests;
     RequestArray<FUN_006cb480> statuses;
-    void FUN_006ea330();
+    void BSTaskletData_TaskYield();
     void FUN_0060d4b0(int changed);
 };
 // Locks the manager, searches statuses for a matching type and location, updates or creates the request/status entries, unlocks, and returns the status.
@@ -5731,7 +5739,7 @@ struct RequestManager
 unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, int a3, int bTypeFlag)
 {
     unsigned int status = 0;
-    ((RequestManager*)this)->lock.FUN_0040fbf0(0);
+    ((RequestManager*)this)->lock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < ((RequestManager*)this)->statuses.FUN_0044ddc0(); i++)
     {
         if (((RequestManager*)this)->statuses.FUN_00877a30(i)->type == !(unsigned char)bTypeFlag &&
@@ -5746,12 +5754,12 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
                 ((RequestManager*)this)->statuses.FUN_00877a30(i)->shape.BSSimpleArray_CopyTo_0(a3);
                 break;
             case 0:
-                ((RequestManager*)this)->FUN_006ea330();
+                ((RequestManager*)this)->BSTaskletData_TaskYield();
                 break;
             default:
                 status = 2;
             }
-            ((RequestManager*)this)->lock.FUN_0040fba0();
+            ((RequestManager*)this)->lock.BSSpinLock_Unlock();
             return status;
         }
     }
@@ -5765,7 +5773,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
     request->status = 0;
     ((RequestManager*)this)->requests.FUN_007cb2e0(entry);
     ((RequestManager*)this)->statuses.FUN_007cb2e0(request);
-    ((RequestManager*)this)->lock.FUN_0040fba0();
+    ((RequestManager*)this)->lock.BSSpinLock_Unlock();
     ((RequestManager*)this)->FUN_0060d4b0(1);
     return status;
 }

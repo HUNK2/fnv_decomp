@@ -343,7 +343,7 @@ struct Manager
     Allocator* allocator;
     void* unk10;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
+extern "C" Manager* __cdecl hkMemoryRouter_getInstance();
 struct NodeListEx;
 struct NodeEx
 {
@@ -398,7 +398,7 @@ struct Arg2
     int unk00;
     int unk04;
     int unk08;
-    void FUN_00cb1870(void* unk10, NodeListEx* list, int zero);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* unk10, NodeListEx* list, int zero);
     int FindSlot(NodeListEx* sublist);
     ByteBool Valid(int i) const
     {
@@ -417,7 +417,7 @@ struct Array
     void CallWithFlag(Allocator* allocator, int index, NodeListEx* const& item);
     void Free()
     {
-        Manager* mgr = FUN_00c85750();
+        Manager* mgr = hkMemoryRouter_getInstance();
         Allocator* alloc = mgr->allocator;
         int cap = m_pRayCursor;
         m_iElementCount = 0;
@@ -431,8 +431,8 @@ struct Array
 // @fnv 0x00dc1960
 void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
 {
-    Manager* i = FUN_00c85750();
-    visited.FUN_00cb1870(i->unk10, (&root), 0);
+    Manager* i = hkMemoryRouter_getInstance();
+    visited.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(i->unk10, (&root), 0);
     if (0 != arg3)
     {
         int fallback = root.FUN_00d46f00();
@@ -463,7 +463,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     while (pNodeList)
     {
         NodeListEx* pCurrent = pNodeList;
-        Manager* m = FUN_00c85750();
+        Manager* m = hkMemoryRouter_getInstance();
         nodeArray.CallWithFlag(m->allocator, 0, pCurrent);
         pNodeList = const_cast<NodeListEx*>(pNodeList->FUN_00d46d50());
     }

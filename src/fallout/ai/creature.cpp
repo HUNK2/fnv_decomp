@@ -321,7 +321,7 @@ extern int DAT_011dffe4;
 
 struct bhkCollisionObject;
 
-bhkCollisionObject* __cdecl FUN_004a8b00(NiNode*);
+bhkCollisionObject* __cdecl bhkNiCollisionObject_GetbhkNiCollisionObject(NiNode*);
 
 struct FUN_008d4ab0_shell
 {
@@ -337,7 +337,7 @@ bool FUN_008d4ab0_shell::Creature_FindRagDoll(NiAVObject* apObject)
     {
         return false;
     }
-    bhkCollisionObject* collision = FUN_004a8b00(reinterpret_cast<NiNode*>(apObject));
+    bhkCollisionObject* collision = bhkNiCollisionObject_GetbhkNiCollisionObject(reinterpret_cast<NiNode*>(apObject));
     ++DAT_011dffe4;
     if (collision)
     {
@@ -348,7 +348,7 @@ bool FUN_008d4ab0_shell::Creature_FindRagDoll(NiAVObject* apObject)
         NiAVObject* parent = apObject ? apObject->IsSceneNode() : 0;
         if (parent)
         {
-            bHasCollision = Creature_FindRagDoll(reinterpret_cast<NiNode*>(parent)->FUN_0045bc00(0));
+            bHasCollision = Creature_FindRagDoll(reinterpret_cast<NiNode*>(parent)->NiNode_GetAtChecked(0));
         }
     }
     --DAT_011dffe4;
@@ -360,7 +360,7 @@ extern double _gModifierZero;
 
 struct ShellH
 {
-    void FUN_00422750(bool, float);
+    void ExtraDataList_SetRefractionPropertyExtra(bool, float);
 };
 
 struct XActor
@@ -738,7 +738,7 @@ struct VProc
     virtual float vfunc_5b4();
 };
 
-void __cdecl FUN_00b68770(void*, bool, float, int, float, int);
+void __cdecl BSShaderPPLightingProperty_SetRefractionRecurse(void*, bool, float, int, float, int);
 
 struct FUN_008c50f0_shell
 {
@@ -767,12 +767,12 @@ void FUN_008c50f0_shell::ApplyModifier(bool abEnabled, float afModifier)
     }
 
     typedef void*(__thiscall * VFunc_1d0)(void*);
-    FUN_00b68770(((VFunc_1d0)(*(void***)this)[0x1d0 / 4])(this), b, f, 0, 0.0f, 0);
+    BSShaderPPLightingProperty_SetRefractionRecurse(((VFunc_1d0)(*(void***)this)[0x1d0 / 4])(this), b, f, 0, 0.0f, 0);
 
     val = ((XActor*)this)->GetExtra();
     if (val)
     {
-        val->FUN_00422750(b, afModifier);
+        val->ExtraDataList_SetRefractionPropertyExtra(b, afModifier);
     }
 }
 }  // namespace fnv_008c50f0
@@ -879,12 +879,12 @@ float FUN_008d4db0_shell::Creature_GetArmorDamageThreshold()
 
 struct ActorAnimData
 {
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* GetControllerManager_00496940();
 };
-NiFixedString* FUN_008a30f0();
+NiFixedString* FixedStrings_QBip01Head();
 NiFixedString* FixedStrings_GetBip01_L_UpperArm();
 NiFixedString* FixedStrings_GetBip01_R_UpperArm();
-void FUN_0062bc10(NiAVObject* obj);
+void TESHavokUtilities_RemoveHavokFromSceneGraph(NiAVObject* obj);
 struct XActorQ
 {
     virtual void vx000();
@@ -1022,23 +1022,23 @@ void XActorQ::Creature_CheckMissingLimbs()
     ActorAnimData* pAnimData = GetAnimData();
     if (pAnimData)
     {
-        if (!pAnimData->FUN_00496940())
+        if (!pAnimData->GetControllerManager_00496940())
             return;
-        NiAVObjectPalette* pManager = pAnimData->FUN_00496940()->GetStringAtOffset();
+        NiAVObjectPalette* pManager = pAnimData->GetControllerManager_00496940()->GetStringAtOffset();
         if (static_cast<const TESCreature*>(pCreature)->GetNoLeftArm())
         {
             NiAVObject* pObject = pManager->FindAVObject(static_cast<const NiFixedString&>(*FixedStrings_GetBip01_L_UpperArm()));
-            FUN_0062bc10(pObject);
+            TESHavokUtilities_RemoveHavokFromSceneGraph(pObject);
         }
         if (static_cast<const TESCreature*>(pCreature)->GetNoRightArm())
         {
             NiAVObject* pObject = pManager->FindAVObject(static_cast<const NiFixedString&>(*FixedStrings_GetBip01_R_UpperArm()));
-            FUN_0062bc10(pObject);
+            TESHavokUtilities_RemoveHavokFromSceneGraph(pObject);
         }
         if (static_cast<const TESCreature*>(pCreature)->GetNoHead())
         {
-            NiAVObject* pObject = pManager->FindAVObject(static_cast<const NiFixedString&>(*FUN_008a30f0()));
-            FUN_0062bc10(pObject);
+            NiAVObject* pObject = pManager->FindAVObject(static_cast<const NiFixedString&>(*FixedStrings_QBip01Head()));
+            TESHavokUtilities_RemoveHavokFromSceneGraph(pObject);
         }
     }
 }

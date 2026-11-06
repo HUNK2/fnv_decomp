@@ -197,14 +197,14 @@ struct S_00d44e20_Collector
     {}
 };
 
-void FUN_00d445e0(void* b, void* a, void* c, S_00d44e20_Collector* collector);
+void hkpMultiSphereAgent_staticGetClosestPoints(void* b, void* a, void* c, S_00d44e20_Collector* collector);
 
 // Constructs a collector with the given filter and runs FUN_00d445e0 over b, a and c with it.
 // @fnv 0x00d44e20
 void FUN_00d44e20(void* apFirst, void* apSecond, void* apThird, int filter)
 {
     S_00d44e20_Collector collector(filter);
-    FUN_00d445e0(apSecond, apFirst, apThird, &collector);
+    hkpMultiSphereAgent_staticGetClosestPoints(apSecond, apFirst, apThird, &collector);
 }
 
 extern char DAT_010ce81c;
@@ -283,12 +283,12 @@ struct SpawnedObject
     void Init(int a, int b, int c, int d);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // @fnv 0x00d44d00
 void* FUN_00d44d00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     Allocator* pAllocator = reinterpret_cast<Allocator*>(pAllocHolder->m_heap);
     SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
     obj->m_iElementCount = 0x38;
@@ -318,7 +318,7 @@ void FUN_00d44e20();
 void FUN_00d44e60();
 void FUN_00d44cc0();
 void FUN_00d449f0();
-void FUN_00d445e0();
+void hkpMultiSphereAgent_staticGetClosestPoints();
 void ProcessMultiSphereCollision();
 
 // Fills a FnTable with four function pointers and two flags, registers it with (-1, 0x15), then fills it with another set and registers it with (0x15, -1).
@@ -336,7 +336,7 @@ void RegisterTwoTables(RegistryOwner* apOwner)
 
     table.m_fn00 = FUN_00d44cc0;
     table.m_fn04 = FUN_00d449f0;
-    table.m_fn08 = FUN_00d445e0;
+    table.m_fn08 = hkpMultiSphereAgent_staticGetClosestPoints;
     table.m_fn0C = ProcessMultiSphereCollision;
     table.m_flag10 = 0;
     table.m_flag11 = 1;
@@ -361,7 +361,7 @@ void __cdecl FUN_00d44de0(void* apArg1, void* apArg2, void* apArg3, unsigned int
 }
 
 namespace fnv_00d450f0 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 extern int DAT_0102e388;
 
 struct FUN_00d450f0_cls
@@ -381,7 +381,7 @@ struct FUN_00d450f0_cls
 // @fnv 0x00d450f0
 FUN_00d450f0_cls* FUN_00d450f0_cls::Destroy(unsigned char acFlags)
 {
-    hkMemoryRouter* pAudioHolder = FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAudioHolder->m_heap);
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;
@@ -394,7 +394,7 @@ FUN_00d450f0_cls* FUN_00d450f0_cls::Destroy(unsigned char acFlags)
     m_vptr00 = (int)&DAT_0102e388;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder2 = FUN_00c85750();
+        hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, m_uSize);
     }
@@ -497,7 +497,7 @@ void SphereDispatch::ProcessSpheres(const hkpCdBody& aBody, const hkpCdBody& aOt
 // @fnv 0x00d44cc0
 void FUN_00d44cc0(int a1, int a2, int a3, int a4)
 {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     SpawnedObject* obj = (SpawnedObject*)pAllocHolder->m_heap->blockAlloc(0x38);
     obj->m_iElementCount = 0x38;
     obj->Init(a1, a2, a3, a4);
@@ -888,7 +888,7 @@ FUN_00d44b00::FUN_00d44b00(const hkpCdBody& src, const hkpCdBody& pb, const S_00
 {
     const hkpMultiSphereShape* mesh = (const hkpMultiSphereShape*)src.getShape();
     int n = mesh->m_iSphereCount;
-    arr.reserve(((LocalHolder*)FUN_00c85750())->heap(), n);
+    arr.reserve(((LocalHolder*)hkMemoryRouter_getInstance())->heap(), n);
     LocalM128 shapeStorage[(sizeof(hkpSphereShape) + sizeof(LocalM128) - 1) / sizeof(LocalM128)];
     InitSphereShape((hkpSphereShape*)shapeStorage, 0.0f);
     hkpSphereShape& shape = *(hkpSphereShape*)shapeStorage;
@@ -982,7 +982,8 @@ typedef void(__cdecl* GetPenetrationsFunc)(const hkpCdBody& a, const hkpCdBody& 
 
 // Iterates over each sphere of a multi-sphere shape, transforms it into world space, and dispatches penetration queries against bodyB.
 // @fnv 0x00d445e0
-void FUN_00d445e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
+// src: XBOX_PDB 0x00d445e0
+void hkpMultiSphereAgent_staticGetClosestPoints(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionAgentContext& input,
                   hkpCdBodyPairCollector& collector)
 {
     const hkpMultiSphereShape* msA = static_cast<const hkpMultiSphereShape*>(bodyA.getShape());

@@ -118,7 +118,8 @@ void* __cdecl NiBlendQuaternionInterpolator_CreateObject()
 
 // Returns whether the given NiInterpolator supports quaternion values.
 // @fnv 0x00a55450
-bool __stdcall FUN_00a55450(NiInterpolator* pkInterpolator)
+// src: XBOX_PDB 0x00a55450
+bool __stdcall NiBlendQuaternionInterpolator_InterpolatorIsCorrectType(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsQuaternionValueSupported();
 }

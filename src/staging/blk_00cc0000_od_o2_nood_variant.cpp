@@ -127,7 +127,7 @@ __forceinline AutoMemContext::~AutoMemContext()
     tls_memContext = m_eMemoryContext;
 }
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct TransformObj
 {
@@ -157,7 +157,7 @@ struct TransformObj
 
     static void* operator new(unsigned int nbytes)
     {
-        TransformObj* p = (TransformObj*)FUN_00c85750()->heap().blockAlloc(nbytes);
+        TransformObj* p = (TransformObj*)hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -172,11 +172,12 @@ struct TransformOwner
     TransformObj* m_pSource;
 
     void ReleaseObject(TransformObj* pkObj, int iArg);
-    void FUN_00cc85b0(TransformObj* pkObj, int iArg);
+    void hkHingeLimitsConstraintCinfo_CloneData(TransformObj* pkObj, int iArg);
 };
 
 // @fnv 0x00cc85b0
-void TransformOwner::FUN_00cc85b0(TransformObj* pkObj, int iArg)
+// src: XBOX_PDB 0x00cc85b0
+void TransformOwner::hkHingeLimitsConstraintCinfo_CloneData(TransformObj* pkObj, int iArg)
 {
     AutoMemContext kGuard(0x10);
     TransformObj* pkSource = m_pSource;
@@ -215,7 +216,7 @@ struct ScratchStack
     hkMemoryAllocator* heap;
 };
 
-ScratchStack* FUN_00c85750();
+ScratchStack* hkMemoryRouter_getInstance();
 
 struct Info2
 {
@@ -285,15 +286,15 @@ struct ScratchBuf
     unsigned int count;
     ScratchBuf(unsigned int n)
     {
-        ScratchStack* ss = FUN_00c85750();
+        ScratchStack* ss = hkMemoryRouter_getInstance();
         data = (Mat*)ss->top;
         ss->top = (char*)data + ((n * sizeof(Mat) + 0x7f) & ~0x7f);
         count = n | 0x80000000;
     }
     void Release()
     {
-        FUN_00c85750()->top = (char*)data;
-        hkMemoryAllocator* h = FUN_00c85750()->heap;
+        hkMemoryRouter_getInstance()->top = (char*)data;
+        hkMemoryAllocator* h = hkMemoryRouter_getInstance()->heap;
         if (!(count & 0x80000000))
         {
             count &= 0x3fffffff;
@@ -332,7 +333,7 @@ void Obj::hkaRagdollRigidBodyController_driveToPose(float t, Mat* src, const Mat
 
 namespace fnv_00cc6830 {
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void FUN_00c8b4f0(void* p, int nbytes);
 
 class CloneableMotionReference : public hkReferencedObject
@@ -407,7 +408,7 @@ class Cc6830Motion
 
     static void* operator new(unsigned int nbytes)
     {
-        Cc6830Motion* p = (Cc6830Motion*)FUN_00c85750()->heap().blockAlloc(nbytes);
+        Cc6830Motion* p = (Cc6830Motion*)hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -442,12 +443,13 @@ class Cc6830Self
     int unk00;
     Cc6830Motion* m_pMotionState;
 
-    void FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src);
+    void hkRagdollConstraintCinfo_CloneData(Cc6830Motion* dst, const Cc6830Src* src);
     void ReleaseObject(Cc6830Motion* m, const Cc6830Src* src);
 };
 
 // @fnv 0x00cc6830
-void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
+// src: XBOX_PDB 0x00cc6830
+void Cc6830Self::hkRagdollConstraintCinfo_CloneData(Cc6830Motion* dst, const Cc6830Src* src)
 {
     Cc6830Motion* m = m_pMotionState;
     if (!dst)
@@ -495,11 +497,11 @@ struct hkVector4Pair
     hkVector4 m_kPointB;
 };
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 __forceinline hkMemoryAllocator& containerHeap()
 {
-    return static_cast<hkMemoryRouter*>(FUN_00c85750())->heap();
+    return static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->heap();
 }
 
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);
@@ -580,11 +582,12 @@ struct BaseB
 
 struct FUN_00cc91c0_cls : public BaseA, public BaseB
 {
-    void FUN_00cc91c0(VectorOutput* out);
+    void bhkBallSocketConstraintChain_CopyCinfo(VectorOutput* out);
 };
 
 // @fnv 0x00cc91c0
-void FUN_00cc91c0_cls::FUN_00cc91c0(VectorOutput* out)
+// src: XBOX_PDB 0x00cc91c0
+void FUN_00cc91c0_cls::bhkBallSocketConstraintChain_CopyCinfo(VectorOutput* out)
 {
     CopyContainerKeysToInfo(out);
     SourceHolder* holder = this ? m_holder : 0;
@@ -602,7 +605,7 @@ void FUN_00cc91c0_cls::FUN_00cc91c0(VectorOutput* out)
 }
 }  // namespace fnv_00cc91c0
 
-bool __stdcall FUN_00c84ec0(void* key);
+bool __stdcall bhkShape_CanShare(void* key);
 
 struct Cd2Target
 {
@@ -698,14 +701,15 @@ class Cd2Owner
     {
         return this ? m_pShapeCollection : 0;
     }
-    bool FUN_00cd2f10(void* key);
+    bool bhkShapeCollection_CanShare(void* key);
 };
 
 // @fnv 0x00cd2f10
-bool Cd2Owner::FUN_00cd2f10(void* key)
+// src: XBOX_PDB 0x00cd2f10
+bool Cd2Owner::bhkShapeCollection_CanShare(void* key)
 {
     __declspec(align(16)) char buffer[512];
-    bool ok = FUN_00c84ec0(key);
+    bool ok = bhkShape_CanShare(key);
     if (ok)
     {
         for (int i = GetCollection()->m_items.GetFirst(); i != -1 && ok; i = GetCollection()->m_items.GetNext(i))
@@ -1000,7 +1004,7 @@ struct FUN_00d4f2a0
     {}
     static __forceinline void* operator new(unsigned int size) throw()
     {
-        hkMemoryRouter* h = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         void* p = h->m_heap->blockAlloc(size);
         ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
         return p;
@@ -1012,12 +1016,13 @@ struct FUN_00cc5f30_cls
     int unk00;
     FUN_00d4f2a0* m_pSrc;
 
-    void FUN_00cc5f30(FUN_00d4f2a0* dst, int a2);
+    void hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2);
     void ReleaseObject(FUN_00d4f2a0* dst, int a2);
 };
 
 // @fnv 0x00cc5f30
-void FUN_00cc5f30_cls::FUN_00cc5f30(FUN_00d4f2a0* dst, int a2)
+// src: XBOX_PDB 0x00cc5f30
+void FUN_00cc5f30_cls::hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2)
 {
     FUN_00d4f2a0* src = m_pSrc;
     if (dst == 0)
@@ -1123,14 +1128,15 @@ struct S_00ccbce0_Owner
     int unk10;
     S_00ccbce0_Ref* unk14;
 
-    void __thiscall FUN_00c84e20(S_00ccbce0_Output* value);
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
+    void __thiscall bhkShape_CopyCinfo(S_00ccbce0_Output* value);
+    void __thiscall bhkExtendedMeshShape_CopyCinfo(S_00ccbce0_Output* value);
 };
 
 // @fnv 0x00ccbce0
-void S_00ccbce0_Owner::FUN_00ccbce0(S_00ccbce0_Output* value)
+// src: XBOX_PDB 0x00ccbce0
+void S_00ccbce0_Owner::bhkExtendedMeshShape_CopyCinfo(S_00ccbce0_Output* value)
 {
-    this->FUN_00c84e20(value);
+    this->bhkShape_CopyCinfo(value);
 
     S_00ccbce0_Source* source = this ? this->unk08 : (S_00ccbce0_Source*)0;
 
@@ -1186,7 +1192,7 @@ struct EntityObj
     char unk5C, unk5D;
     static void* operator new(unsigned int nbytes)
     {
-        EntityObj* p = (EntityObj*)FUN_00c85750()->heap().blockAlloc(nbytes);
+        EntityObj* p = (EntityObj*)hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1245,10 +1251,11 @@ struct EntityOwner
     virtual void v45();
     virtual void v46();
     virtual int AddCinfo(EntityCinfo* info);
-    int FUN_00cc3050(EntityCinfo* info);
+    int bhkSpringAction_Init(EntityCinfo* info);
 };
 // @fnv 0x00cc3050
-int EntityOwner::FUN_00cc3050(EntityCinfo* info)
+// src: XBOX_PDB 0x00cc3050
+int EntityOwner::bhkSpringAction_Init(EntityCinfo* info)
 {
     AutoMemContext guard(0x10);
     EntityObj* entity = new EntityObj(info->unk04, info->unk08, 0);
@@ -1663,7 +1670,7 @@ struct ShapeObj
 
     static void* operator new(unsigned int nbytes)
     {
-        ShapeObj* p = (ShapeObj*)FUN_00c85750()->heap().blockAlloc(nbytes);
+        ShapeObj* p = (ShapeObj*)hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1723,11 +1730,12 @@ struct ShapeOwner
     virtual void vf45();
     virtual void vf46();
     virtual void finish(struct IntegerBlock18* pkInfo);
-    void FUN_00cc3710(IntegerBlock18* pkInfo);
+    void bhkMotorAction_Init(IntegerBlock18* pkInfo);
 };
 
 // @fnv 0x00cc3710
-void ShapeOwner::FUN_00cc3710(IntegerBlock18* pkInfo)
+// src: XBOX_PDB 0x00cc3710
+void ShapeOwner::bhkMotorAction_Init(IntegerBlock18* pkInfo)
 {
     AutoMemContext kGuard(0x10);
     ShapeObj* pkObj =
@@ -1757,7 +1765,7 @@ struct S00cc4610_Out
     S00cc4610_Out(int a, int b, int c);
     void* operator new(unsigned int n)
     {
-        hkMemoryAllocator& a = FUN_00c85750()->heap();
+        hkMemoryAllocator& a = hkMemoryRouter_getInstance()->heap();
         void* p = a.blockAlloc(n);
         ((S00cc4610_Out*)p)->m_iElementCount = (unsigned short)n;
         return p;
@@ -1833,11 +1841,12 @@ struct S00cc4610_Self
     virtual void v45();
     virtual void v46();
     virtual void v47(S00cc4610_In* i);
-    void FUN_00cc4610(S00cc4610_In* in);
+    void bhkAngularDashpotAction_Init(S00cc4610_In* in);
 };
 
 // @fnv 0x00cc4610
-void S00cc4610_Self::FUN_00cc4610(S00cc4610_In* in)
+// src: XBOX_PDB 0x00cc4610
+void S00cc4610_Self::bhkAngularDashpotAction_Init(S00cc4610_In* in)
 {
     AutoMemContext scope(0x10);
 
@@ -1888,7 +1897,7 @@ struct Cc7Tmp
 {
     Cc7Vector column0, column1, column2;
     Cc7Vector translation;
-    void FUN_00cb22f0(void* base, void* arg);
+    void hkTransform_setMulInverseMul(void* base, void* arg);
 };
 
 extern const float g_011c5c70_arg1;
@@ -1906,19 +1915,20 @@ struct Cc7Owner
     char* m10;
     void* m14;
     void* m18;
-    void FUN_00cc7fe0(void* arg);
+    void hkFixedConstraintCinfo_Fix(void* arg);
 };
 
 // @fnv 0x00cc7fe0
-void Cc7Owner::FUN_00cc7fe0(void* arg)
+// src: XBOX_PDB 0x00cc7fe0
+void Cc7Owner::hkFixedConstraintCinfo_Fix(void* arg)
 {
     v10();
     Cc7Local kit;
     kit.InitFromHelper(m04);
     char* base = m10;
     Cc7Tmp first, second;
-    first.FUN_00cb22f0(m0c + 0xf0, arg);
-    second.FUN_00cb22f0(base + 0xf0, arg);
+    first.hkTransform_setMulInverseMul(m0c + 0xf0, arg);
+    second.hkTransform_setMulInverseMul(base + 0xf0, arg);
     kit.FUN_00d52000(&first.translation);
     kit.FUN_00d51c30(&first);
     m14 = kit.FUN_00d520a0(&second.translation);
@@ -1972,11 +1982,12 @@ struct LunaArgument
 };
 struct LunaTarget
 {
-    unsigned int FUN_00cca360(LunaArgument* argument);
+    unsigned int bhkMoppBvTreeShape_Init(LunaArgument* argument);
 };
 extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 // @fnv 0x00cca360
-unsigned int LunaTarget::FUN_00cca360(LunaArgument* argument)
+// src: XBOX_PDB 0x00cca360
+unsigned int LunaTarget::bhkMoppBvTreeShape_Init(LunaArgument* argument)
 {
     AutoMemContext scope(0x10);
     LunaAction action;
@@ -2034,26 +2045,27 @@ class PositionText525
 {
   public:
     float x, y, z;
-    char* FUN_00a59af0(const char*);
+    char* GetViewerString_00a59af0(const char*);
 };
 extern void* DAT_01268670;
 extern const char DAT_0101c29c[];
 extern const char DAT_010ca6a4[];
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
-char* __cdecl FUN_00a7d550(const char*, float);
+char* __cdecl NiGetViewerString_00a7d550(const char*, float);
 void __cdecl FUN_00458620(PositionText525*, const Quaternion525*);
 struct RotationOwner525
 {
     unsigned int unk00, unk04;
     RotationSource525* source;
-    void FUN_00d54ed0(StringArray525*);
-    void FUN_00ccb810(StringArray525*);
+    void bhkHeightFieldShape_GetViewerStrings(StringArray525*);
+    void bhkPlaneShape_GetViewerStrings(StringArray525*);
 };
 // @fnv 0x00ccb810
-void RotationOwner525::FUN_00ccb810(StringArray525* stream)
+// src: XBOX_PDB 0x00ccb810
+void RotationOwner525::bhkPlaneShape_GetViewerStrings(StringArray525* stream)
 {
     AutoMemContext guard(16);
-    FUN_00d54ed0(stream);
+    bhkHeightFieldShape_GetViewerStrings(stream);
     char* value = NiViewerStrings_NiGetViewerString_Title(DAT_01268670);
     stream->append(value);
     // The SDK quaternion default constructor does not initialize its value.
@@ -2063,9 +2075,9 @@ void RotationOwner525::FUN_00ccb810(StringArray525* stream)
         rotation = source->rotation;
     PositionText525 position;
     FUN_00458620(&position, &rotation);
-    value = position.FUN_00a59af0(DAT_0101c29c);
+    value = position.GetViewerString_00a59af0(DAT_0101c29c);
     stream->append(value);
-    value = FUN_00a7d550(DAT_010ca6a4, rotation.value.m128_f32[3]);
+    value = NiGetViewerString_00a7d550(DAT_010ca6a4, rotation.value.m128_f32[3]);
     stream->append(value);
 }
 
@@ -2284,8 +2296,8 @@ struct Holder
     CachedObj* unk0c;
     int unk10;
     int unk14;
-    void FUN_00ccbce0(void* p);
-    CachedObj* FUN_00ccbfa0(bool* created);
+    void bhkExtendedMeshShape_CopyCinfo(void* p);
+    CachedObj* bhkExtendedMeshShape_CreateCinfo(bool* created);
 };
 
 inline void* AllocAligned(unsigned int size)
@@ -2298,7 +2310,8 @@ inline void* AllocAligned(unsigned int size)
 }
 
 // @fnv 0x00ccbfa0
-CachedObj* Holder::FUN_00ccbfa0(bool* created)
+// src: XBOX_PDB 0x00ccbfa0
+CachedObj* Holder::bhkExtendedMeshShape_CreateCinfo(bool* created)
 {
     AutoMemContext ctx(0x10);
     bool bCreated = (unk0c == 0);
@@ -2313,7 +2326,7 @@ CachedObj* Holder::FUN_00ccbfa0(bool* created)
         o->unk10 = CinfoVector(_mm_set_ps1(1.0f)).value.m_vComponents;
         unk0c = o;
         if (unk08 != 0)
-            FUN_00ccbce0(o);
+            bhkExtendedMeshShape_CopyCinfo(o);
     }
     return unk0c;
 }
@@ -2703,10 +2716,11 @@ struct Subject
 {
     int unk00, unk04;
     Body* body;
-    void FUN_00ccf150(ConvexShapeNode*, void*);
+    void bhkConvexTransformShape_BuildDisplayGeometry(ConvexShapeNode*, void*);
 };
 // @fnv 0x00ccf150
-void Subject::FUN_00ccf150(ConvexShapeNode* parent, void* arg)
+// src: XBOX_PDB 0x00ccf150
+void Subject::bhkConvexTransformShape_BuildDisplayGeometry(ConvexShapeNode* parent, void* arg)
 {
     Context context;
     const Transform* src = this && body ? &body->transform : &identity;
@@ -2818,7 +2832,7 @@ void BoundsOwner::FUN_00cda610(BoundsBox* out)
 extern __declspec(thread) int DAT_tls_field;
 
 namespace Memory306 {
-extern "C" hkMemoryRouter* FUN_00c85750();
+extern "C" hkMemoryRouter* hkMemoryRouter_getInstance();
 }
 struct S00cc2530_Source306
 {
@@ -2925,13 +2939,13 @@ struct S00cc2530_FUN_00d4ce10
     void removeReference();
     static void* operator new(unsigned int n)
     {
-        void* p = Memory306::FUN_00c85750()->heap().blockAlloc(n);
+        void* p = Memory306::hkMemoryRouter_getInstance()->heap().blockAlloc(n);
         static_cast<S00cc2530_FUN_00d4ce10*>(p)->memorySize = (unsigned short)n;
         return p;
     }
     static void operator delete(void* p)
     {
-        Memory306::FUN_00c85750()->heap().blockFree(p, 0x170);
+        Memory306::hkMemoryRouter_getInstance()->heap().blockFree(p, 0x170);
     }
 };
 __forceinline LocalM128* BuildTransform306(S00cc2530_Source306* src, LocalM128* t)
@@ -2993,10 +3007,11 @@ struct S00cc2530_Owner306
     virtual void slotb4();
     virtual void slotb8();
     virtual void OnSource(S00cc2530_Source306*);
-    void FUN_00cc2530(S00cc2530_Source306*);
+    void bhkCachingShapePhantom_Init(S00cc2530_Source306*);
 };
 // @fnv 0x00cc2530
-void S00cc2530_Owner306::FUN_00cc2530(S00cc2530_Source306* src)
+// src: XBOX_PDB 0x00cc2530
+void S00cc2530_Owner306::bhkCachingShapePhantom_Init(S00cc2530_Source306* src)
 {
     AutoMemContext heap(0x10);
     union
@@ -3054,7 +3069,7 @@ struct Shape : RefCountedObject
     unsigned char kind;
     static void* operator new(unsigned int bytes)
     {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         Shape* result = static_cast<Shape*>(router->heap().blockAlloc(bytes));
         result->size = (unsigned short)bytes;
         return result;
@@ -3082,7 +3097,7 @@ struct FUN_00cc9d00 : RefCountedObject
     FUN_00cc9d00(ObjectType* type, Shape* shape, SourceGeometry* geometry);
     static void* operator new(unsigned int bytes)
     {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router->heap().blockAlloc(bytes));
         result->size = (unsigned short)bytes;
         return result;
@@ -3092,14 +3107,15 @@ struct FUN_00cc9d00 : RefCountedObject
 
 struct OutputHandler
 {
-    void FUN_00cca6f0(InitializePathingRequestFromPosition* request);
+    void bhkMoppBvTreeShape_Init_00cca6f0(InitializePathingRequestFromPosition* request);
 };
 
 typedef void(__thiscall* OutputMethod)(OutputHandler*, void*);
 typedef void(__thiscall* RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
 
 // @fnv 0x00cca6f0
-void OutputHandler::FUN_00cca6f0(InitializePathingRequestFromPosition* request)
+// src: XBOX_PDB 0x00cca6f0
+void OutputHandler::bhkMoppBvTreeShape_Init_00cca6f0(InitializePathingRequestFromPosition* request)
 {
     AutoMemContext scope(0x10);
 
@@ -3359,14 +3375,14 @@ struct __declspec(align(16)) Blk
 struct TagObj
 {
     float x, y, z;
-    unsigned int FUN_00a59af0(const char* s);
+    unsigned int GetViewerString_00a59af0(const char* s);
 };
 
 unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 namespace fnvc_adapt {
-unsigned int __cdecl FUN_00a7d550(const char* s, float f);
+unsigned int __cdecl NiGetViewerString_00a7d550(const char* s, float f);
 }
-void __cdecl FUN_004a3970(TagObj* t, const LocalM128* v);
+void __cdecl HK2NINS(TagObj* t, const LocalM128* v);
 
 extern const char g_011d3e74_arg1[];
 extern const char str_010ca918[];
@@ -3377,8 +3393,8 @@ class NamedShape
   public:
     unsigned int unk00;
     void WriteLimitedHingeData(Blk* b);
-    void FUN_00c9fc50(NameArr* arr);
-    void FUN_00ccd960(NameArr* arr);
+    void bhkConvexShape_GetViewerStrings(NameArr* arr);
+    void bhkCylinderShape_GetViewerStrings(NameArr* arr);
 };
 
 static void AddName(NameArr* arr, const unsigned int& v)
@@ -3392,10 +3408,11 @@ static void AddName(NameArr* arr, const unsigned int& v)
 }
 
 // @fnv 0x00ccd960
-void NamedShape::FUN_00ccd960(NameArr* arr)
+// src: XBOX_PDB 0x00ccd960
+void NamedShape::bhkCylinderShape_GetViewerStrings(NameArr* arr)
 {
     TlsFlagGuard guard;
-    FUN_00c9fc50(arr);
+    bhkConvexShape_GetViewerStrings(arr);
     unsigned int item = NiViewerStrings_NiGetViewerString_Title(DAT_01268694);
     AddName(arr, item);
 
@@ -3413,18 +3430,18 @@ void NamedShape::FUN_00ccd960(NameArr* arr)
     b.w2 = 0.0f;
     b.w3 = 0.0f;
     WriteLimitedHingeData(&b);
-    item = fnvc_adapt::FUN_00a7d550(g_011d3e74_arg1, b.z0);
+    item = fnvc_adapt::NiGetViewerString_00a7d550(g_011d3e74_arg1, b.z0);
     AddName(arr, item);
 
     hkVec4 v1;
     *reinterpret_cast<LocalM128*>(&v1) = _mm_setr_ps(b.v0, b.v1, b.v2, b.v3);
-    FUN_004a3970(&t1, reinterpret_cast<const LocalM128*>(&v1));
-    item = t1.FUN_00a59af0(str_010ca918);
+    HK2NINS(&t1, reinterpret_cast<const LocalM128*>(&v1));
+    item = t1.GetViewerString_00a59af0(str_010ca918);
     AddName(arr, item);
 
     *reinterpret_cast<LocalM128*>(&v1) = _mm_setr_ps(b.w0, b.w1, b.w2, b.w3);
-    FUN_004a3970(&t1, reinterpret_cast<const LocalM128*>(&v1));
-    item = t1.FUN_00a59af0(str_010ca914);
+    HK2NINS(&t1, reinterpret_cast<const LocalM128*>(&v1));
+    item = t1.GetViewerString_00a59af0(str_010ca914);
     AddName(arr, item);
 }
 
@@ -3585,7 +3602,7 @@ struct ShapeInfo_SI
 
 __forceinline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
-    hkReferencedObject* p = (hkReferencedObject*)FUN_00c85750()->heap().blockAlloc(nbytes);
+    hkReferencedObject* p = (hkReferencedObject*)hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
     p->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return p;
 }
@@ -3683,11 +3700,12 @@ struct ShapeOwner_SI
     virtual void vf45();
     virtual void vf46();
     virtual void finish(ShapeInfo_SI* pkInfo);
-    void FUN_00ccaee0(ShapeInfo_SI* pkInfo);
+    void bhkTriangleShape_Init(ShapeInfo_SI* pkInfo);
 };
 
 // @fnv 0x00ccaee0
-void ShapeOwner_SI::FUN_00ccaee0(ShapeInfo_SI* pkInfo)
+// src: XBOX_PDB 0x00ccaee0
+void ShapeOwner_SI::bhkTriangleShape_Init(ShapeInfo_SI* pkInfo)
 {
     const float& fRadius = pkInfo->m_fBoundRadius;
     AutoMemContext kGuard(0x10);
@@ -3759,10 +3777,11 @@ class CylinderInitOwner
     virtual void v46();
     virtual void v47(ParamSrc*);
     void __thiscall CreateAndDispatchObject(const LocalM128& lo, const LocalM128& hi, float f);
-    void __thiscall FUN_00ccd8c0(ParamSrc*);
+    void __thiscall bhkCylinderShape_Init(ParamSrc*);
 };
 // @fnv 0x00ccd8c0
-void CylinderInitOwner::FUN_00ccd8c0(ParamSrc* p)
+// src: XBOX_PDB 0x00ccd8c0
+void CylinderInitOwner::bhkCylinderShape_Init(ParamSrc* p)
 {
     hkVec4 hi;
     hi.m_vComponents = _mm_setr_ps(p->m_20, p->m_24, p->m_28, p->m_2c);
@@ -4100,11 +4119,12 @@ struct ExtendedMeshBuilder
 
     virtual void Apply(Result*);
 
-    void FUN_00ccc980(ExtendedMeshInput*);
+    void bhkExtendedMeshShape_Init_00ccc980(ExtendedMeshInput*);
 };
 
 // @fnv 0x00ccc980
-void ExtendedMeshBuilder::FUN_00ccc980(ExtendedMeshInput* input)
+// src: XBOX_PDB 0x00ccc980
+void ExtendedMeshBuilder::bhkExtendedMeshShape_Init_00ccc980(ExtendedMeshInput* input)
 {
 
     AutoMemContext context(16);
@@ -4318,14 +4338,15 @@ struct FUN_00ccea00Holder
     int unk04;
     FUN_00ccea00Inner* m_08;
 
-    void FUN_00c9fb70(FUN_00ccea00Out* out);
-    void FUN_00ccea00(FUN_00ccea00Out* out);
+    void bhkConvexShape_CopyCinfo(FUN_00ccea00Out* out);
+    void bhkConvexTransformShape_CopyCinfo(FUN_00ccea00Out* out);
 };
 
 // @fnv 0x00ccea00
-void FUN_00ccea00Holder::FUN_00ccea00(FUN_00ccea00Out* out)
+// src: XBOX_PDB 0x00ccea00
+void FUN_00ccea00Holder::bhkConvexTransformShape_CopyCinfo(FUN_00ccea00Out* out)
 {
-    this->FUN_00c9fb70(out);
+    this->bhkConvexShape_CopyCinfo(out);
 
     out->unk08 = (this != 0 && m_08 != 0) ? m_08->unk18 : 0;
 
@@ -4395,14 +4416,15 @@ class ShapeClonerC97
 {
   public:
     ShapeC97* ReleaseObject(ShapeC97* shape, ShapeCinfoC97* cinfo);
-    ShapeC97* FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo);
+    ShapeC97* hkBallAndSocketConstraintCinfo_CloneData(ShapeC97* dst, ShapeCinfoC97* cinfo);
 
     int unk00;
     ShapeC97* m_pCollisionShape;
 };
 
 // @fnv 0x00cc9790
-ShapeC97* ShapeClonerC97::FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo)
+// src: XBOX_PDB 0x00cc9790
+ShapeC97* ShapeClonerC97::hkBallAndSocketConstraintCinfo_CloneData(ShapeC97* dst, ShapeCinfoC97* cinfo)
 {
     ::AutoMemContext kContext(0x10);
     ShapeC97* src = m_pCollisionShape;
@@ -4509,11 +4531,12 @@ class Ccb5d0Self
     virtual void v46();
     virtual void finish(const Ccb5d0Source* source);
 
-    void FUN_00ccb5d0(const Ccb5d0Source* source);
+    void bhkPlaneShape_Init(const Ccb5d0Source* source);
 };
 
 // @fnv 0x00ccb5d0
-void Ccb5d0Self::FUN_00ccb5d0(const Ccb5d0Source* source)
+// src: XBOX_PDB 0x00ccb5d0
+void Ccb5d0Self::bhkPlaneShape_Init(const Ccb5d0Source* source)
 {
     ::AutoMemContext guard(16);
     FUN_00d55240_cls* shape =
@@ -4621,14 +4644,14 @@ struct FUN_00d569c0
 
     static void* operator new(unsigned int nbytes)
     {
-        FUN_00d569c0* p = (FUN_00d569c0*)(::FUN_00c85750)()->heap().blockAlloc(nbytes);
+        FUN_00d569c0* p = (FUN_00d569c0*)(::hkMemoryRouter_getInstance)()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
     static void operator delete(void* p, unsigned int nbytes);
 
     FUN_00d569c0(float fRadius, int iCount);
-    void FUN_00d554c0(const ::hkVec4* pkVector);
+    void hkpExtendedMeshShape_setScaling(const ::hkVec4* pkVector);
     void FUN_00c905b0();
 
     int unk08;
@@ -4748,17 +4771,18 @@ struct MeshInitOwner
     int unk10;
     MeshInitEntryList* m_kNode;
 
-    void FUN_00ccc080(MeshInitInput* pkInput);
+    void bhkExtendedMeshShape_Init(MeshInitInput* pkInput);
 };
 
 // @fnv 0x00ccc080
-void MeshInitOwner::FUN_00ccc080(MeshInitInput* pkInput)
+// src: XBOX_PDB 0x00ccc080
+void MeshInitOwner::bhkExtendedMeshShape_Init(MeshInitInput* pkInput)
 {
     ::AutoMemContext kGuard(0x10);
     FUN_00d569c0* pkShape = new FUN_00d569c0(DAT_011b153c, 12);
     pkShape->m_flags = 15;
     pkShape->m_uiFilterValue = pkInput->m_uiFilterValue;
-    pkShape->FUN_00d554c0(&pkInput->m_vector);
+    pkShape->hkpExtendedMeshShape_setScaling(&pkInput->m_vector);
     MeshInitEntryList* pkList = pkInput->m_kNode;
     for (unsigned int i = 0; i < pkList->m_iElementCount; i++)
     {
@@ -4886,7 +4910,7 @@ void __cdecl hkpResponseModifier_setInvMassScalingForContact_0(FNVSoftContactSou
     FNVEffectRec* rec = (FNVEffectRec*)FindModifierConstraintAtom(p, 0x18);
     if (rec == 0)
     {
-        hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkMemoryAllocator* alloc = holder->m_heap;
         FNVEffectRec* fresh = (FNVEffectRec*)alloc->blockAlloc(0x40);
         if (fresh != 0)
@@ -4960,7 +4984,7 @@ void __cdecl hkpResponseModifier_setCenterOfMassDisplacementForContact(FNVSoftCo
     FNVEffectRec* rec = (FNVEffectRec*)FindModifierConstraintAtom(p, 0x1c);
     if (rec == 0)
     {
-        hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkMemoryAllocator* alloc = holder->m_heap;
         FNVEffectRec* fresh = (FNVEffectRec*)alloc->blockAlloc(0x40);
         if (fresh != 0)
@@ -5044,7 +5068,7 @@ class WorldObjectCC3
         return 0.0f;
     }
     void WriteScriptTargetInfo(PropertiesCC3* pkOut);
-    void FUN_00cc3a50(PropertiesCC3* pkOut);
+    void bhkDashpotAction_CopyCinfo(PropertiesCC3* pkOut);
 
     void* m_ppVirtualMethodTable;
     int m_unk04;
@@ -5052,7 +5076,8 @@ class WorldObjectCC3
 };
 
 // @fnv 0x00cc3a50
-void WorldObjectCC3::FUN_00cc3a50(PropertiesCC3* pkOut)
+// src: XBOX_PDB 0x00cc3a50
+void WorldObjectCC3::bhkDashpotAction_CopyCinfo(PropertiesCC3* pkOut)
 {
     WriteScriptTargetInfo(pkOut);
     // The original vector wrapper contains a byte buffer, so retain its /GS protection.
@@ -5161,7 +5186,7 @@ struct FUN_00d58510
 
     static void* operator new(unsigned int nbytes)
     {
-        FUN_00d58510* p = (FUN_00d58510*)::FUN_00c85750()->heap().blockAlloc(nbytes);
+        FUN_00d58510* p = (FUN_00d58510*)::hkMemoryRouter_getInstance()->heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -5230,11 +5255,12 @@ struct CylinderDisplayOwner
     virtual void vf55(void* pkA, void* pkResult, void* pkB, const char* pcName);
 
     void WriteLimitedHingeData(ShapeCinfo* pkInfo);
-    void FUN_00ccd6f0(void* pkA, void* pkB);
+    void bhkCylinderShape_BuildDisplayGeometry(void* pkA, void* pkB);
 };
 
 // @fnv 0x00ccd6f0
-void CylinderDisplayOwner::FUN_00ccd6f0(void* pkA, void* pkB)
+// src: XBOX_PDB 0x00ccd6f0
+void CylinderDisplayOwner::bhkCylinderShape_BuildDisplayGeometry(void* pkA, void* pkB)
 {
     ::AutoMemContext guard(16);
     ShapeCinfo info;

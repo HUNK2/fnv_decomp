@@ -241,7 +241,8 @@ void __cdecl j_j_j_j_nullsub_3()
 void __cdecl SaveToStream();
 
 // @fnv 0x00a52d00
-void __cdecl FUN_00a52d00()
+// src: XBOX_PDB 0x00a52d00
+void __cdecl NiBoolTimelineInterpolator_SaveBinary()
 {
     SaveToStream();
 }
@@ -249,22 +250,25 @@ void __cdecl FUN_00a52d00()
 extern void FUN_00a53600();
 
 // @fnv 0x00a52ce0
-void FUN_00a52ce0()
+// src: XBOX_PDB 0x00a52ce0
+void NiBoolTimelineInterpolator_LoadBinary()
 {
     FUN_00a53600();
 }
 
-extern void FUN_00a3c5b0();
+extern void RegisterStreamables_00a3c5b0();
 
 // @fnv 0x00a52cf0
-void FUN_00a52cf0()
+// src: XBOX_PDB 0x00a52cf0
+void NiBoolTimelineInterpolator_RegisterStreamables()
 {
-    FUN_00a3c5b0();
+    RegisterStreamables_00a3c5b0();
 }
 
 bool __cdecl FUN_00a53220();
 // @fnv 0x00a52d10
-bool NiBoolTimelineInterpolator::FUN_00a52d10()
+// src: XBOX_PDB 0x00a52d10
+bool NiBoolTimelineInterpolator::IsEqual_00a52d10()
 {
     typedef bool (__thiscall* IsEqualBase)(NiBoolInterpolator*);
     return reinterpret_cast<IsEqualBase>(&FUN_00a53220)(this);
@@ -272,7 +276,8 @@ bool NiBoolTimelineInterpolator::FUN_00a52d10()
 
 // Allocates a timeline interpolator and copies its base state into the clone.
 // @fnv 0x00a52f80
-NiBoolTimelineInterpolator* NiBoolTimelineInterpolator::FUN_00a52f80(CloningProcess& cloning)
+// src: XBOX_PDB 0x00a52f80
+NiBoolTimelineInterpolator* NiBoolTimelineInterpolator::CreateClone_00a52f80(CloningProcess& cloning)
 {
     NiBoolTimelineInterpolator* p = new NiBoolTimelineInterpolator;
     NiBoolInterpolator::CopyMemberData(p, cloning);

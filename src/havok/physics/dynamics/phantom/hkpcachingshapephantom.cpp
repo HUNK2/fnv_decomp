@@ -235,9 +235,9 @@ void hkpCachingShapePhantom::AddToCollector(hkStatisticsCollector* pkCollector,
     EndAgentCollection(pkCollector);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
-__forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*) { return FUN_00c85750().heap(); }
+__forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*) { return hkMemoryRouter_getInstance().heap(); }
 
 template <typename T> T* hkMemoryAllocator::_bufAlloc(int& requested)
 {
@@ -252,7 +252,7 @@ template <typename T> void hkMemoryAllocator::_bufFree(void* p, int count)
 }
 template <typename T, typename A> __forceinline hkArray<T, A>& hkArray<T, A>::operator=(const hkArray& other)
 {
-    hkMemoryAllocator& alloc = FUN_00c85750().heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance().heap();
     if (getCapacity() < other.GetLogicalSize())
     {
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -284,7 +284,7 @@ __forceinline void CopyWorldObjectEntries(hkpWorldObject* object, const hkpWorld
 
 __forceinline void* hkpCachingShapePhantom::operator new(unsigned int uiSize) throw()
 {
-    hkpWorldObject* p = (hkpWorldObject*)FUN_00c85750().heap().blockAlloc(uiSize);
+    hkpWorldObject* p = (hkpWorldObject*)hkMemoryRouter_getInstance().heap().blockAlloc(uiSize);
     p->m_usMemSizeAndFlags = (hkUint16)uiSize;
     return p;
 }
@@ -353,7 +353,7 @@ hkpCachingShapePhantom* hkpCachingShapePhantom::DeleteStorage(unsigned int flags
 {
     ReleaseCollisionAgents();
     if (flags & 1)
-        FUN_00c85750().heap().blockFree(this, m_usMemSizeAndFlags);
+        hkMemoryRouter_getInstance().heap().blockFree(this, m_usMemSizeAndFlags);
     return this;
 }
 
@@ -468,7 +468,7 @@ struct hkpProcessCollisionInput : public hkpCollisionInput
     ~hkpProcessCollisionInput() throw()
     {
         if (m_pAgent1nSector)
-            FUN_00c85750().heap().blockFree(m_pAgent1nSector, 0x200);
+            hkMemoryRouter_getInstance().heap().blockFree(m_pAgent1nSector, 0x200);
     }
     void FUN_00cfa7d0(const hkpProcessCollisionInput& kOther);
 };

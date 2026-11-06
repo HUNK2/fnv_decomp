@@ -71,7 +71,7 @@ void* __fastcall DeleteIntegerExtraData(NiIntegerExtraData* data, void*, unsigne
 extern "C" void __cdecl FUN_00a7b580();
 
 void* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d4d0(char const*, int);
+char* __cdecl NiGetViewerString_00a7d4d0(char const*, int);
 
 // Appends the base viewer strings plus a formatted "m_iValue" entry to the string array, growing it as needed.
 // @fnv 0x00a99d70
@@ -87,7 +87,7 @@ void __fastcall GetIntegerExtraDataViewerStrings(NiIntegerExtraData* data, void*
         apViewerStrings->SetSize(index + apViewerStrings->m_usGrowBy);
     apViewerStrings->SetAt(index, pString);
 
-    pString = FUN_00a7d4d0("m_iValue", data->m_iValue);
+    pString = NiGetViewerString_00a7d4d0("m_iValue", data->m_iValue);
 
     index = apViewerStrings->m_usSize;
     if (index >= apViewerStrings->m_usMaxSize)
@@ -112,7 +112,7 @@ NiIntegerExtraData* __fastcall CreateIntegerExtraData(NiIntegerExtraData* data, 
     {
         result = 0;
     }
-    data->FUN_00a7b330(result, reinterpret_cast<void*>(argument));
+    data->CopyMembers_00a7b330(result, reinterpret_cast<void*>(argument));
     result->m_iValue = data->m_iValue;
     return result;
 }

@@ -85,7 +85,7 @@ extern void* g_01202508;
 
 void __stdcall FUN_00c31db0(StrArr*);
 char* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d550(char const*, float);
+char* __cdecl NiGetViewerString_00a7d550(char const*, float);
 
 // @fnv 0x00c1fd00
 void NiPSysCylinderEmitter::AppendShapeParams(StrArr* pkStrings)
@@ -98,13 +98,13 @@ void NiPSysCylinderEmitter::AppendShapeParams(StrArr* pkStrings)
         pkStrings->SetSize(index + pkStrings->m_usGrowBy);
     pkStrings->SetAt(index, string);
 
-    string = FUN_00a7d550("Radius", m_fCylinderRadius);
+    string = NiGetViewerString_00a7d550("Radius", m_fCylinderRadius);
     index = pkStrings->m_usSize;
     if (!(index < pkStrings->m_usMaxSize))
         pkStrings->SetSize(index + pkStrings->m_usGrowBy);
     pkStrings->SetAt(index, string);
 
-    string = FUN_00a7d550("Height", m_fCylinderHeight);
+    string = NiGetViewerString_00a7d550("Height", m_fCylinderHeight);
     index = pkStrings->m_usSize;
     if (!(index < pkStrings->m_usMaxSize))
         pkStrings->SetSize(index + pkStrings->m_usGrowBy);
@@ -143,7 +143,8 @@ inline void NiSinCos(float fAngleDifference, float& fSin, float& fCos)
 
 // Fills kPosition with a random point inside the cylinder and rotates both kPosition and kMotionVelocity by kRotate.
 // @fnv 0x00c1fa50
-void NiPSysCylinderEmitter::FUN_00c1fa50(NiTransform& kEmitterToPSys, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
+// src: XBOX_PDB 0x00c1fa50
+void NiPSysCylinderEmitter::ComputeVolumeInitialPositionAndVelocity(NiTransform& kEmitterToPSys, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
     using namespace fnv_00c1fa50;
     float fRadius = m_fCylinderRadius * RandomFloat0To1();

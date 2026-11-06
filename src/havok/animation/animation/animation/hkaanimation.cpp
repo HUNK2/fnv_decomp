@@ -114,7 +114,7 @@ int LocalhkaAnimation::CountAnnotationsInRange(float from, float delta)
 // Retained locally because include/hkMemoryRouter.h is not available.
 #include "../../../../../include/hkMemoryRouter.h"
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 inline void* operator new(unsigned int, void* pvWhere)
 {
@@ -152,7 +152,7 @@ __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& kAlloc, 
 template <class T, class Allocator>
 __forceinline hkArray<T, Allocator>& hkArray<T, Allocator>::operator=(const hkArray& a)
 {
-    hkMemoryAllocator& kAlloc = FUN_00c85750().heap();
+    hkMemoryAllocator& kAlloc = hkMemoryRouter_getInstance().heap();
     const int iOldSize = m_iElementCount;
     const int iNewSize = a.m_iElementCount;
     int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;

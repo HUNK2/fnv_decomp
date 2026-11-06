@@ -31,7 +31,8 @@ void ProcessEntryPair();
 void hkAgent1nMachine_VisitAllAgents(int, int, void*);
 
 // @fnv 0x00da48e0
-void FUN_00da48e0(int b, int a)
+// src: XBOX_PDB 0x00da48e0
+void hkAgent1nMachine_UpdateShapeCollectionFilter(int b, int a)
 {
     hkAgent1nMachine_VisitAllAgents(b, a, (void*)&ProcessEntryPair);
 }
@@ -58,7 +59,7 @@ struct BlockPoolMemoryRouter
     }
 };
 
-extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
+extern "C" BlockPoolMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
@@ -120,9 +121,9 @@ struct BlockPoolArrayLocalForm
 void __cdecl InitBlockPool(BlockPoolArrayLocalForm* blocks)
 {
     blocks->m_iElementCount = 0;
-    blocks->GrowArrayCapacity(FUN_00c85750().heap(), 4);
-    blocks->_expandOne(FUN_00c85750().heap());
-    BlockPoolBlock* block = new (FUN_00c85750().heap().AllocateMemoryBlock(0x200)) BlockPoolBlock();
+    blocks->GrowArrayCapacity(hkMemoryRouter_getInstance().heap(), 4);
+    blocks->_expandOne(hkMemoryRouter_getInstance().heap());
+    BlockPoolBlock* block = new (hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(0x200)) BlockPoolBlock();
     blocks->m_data[0] = block;
     block->unk13 = 0x10;
     block->unk10 = 1;
@@ -1790,7 +1791,7 @@ struct S_00da40e0_Input
     S_00da40e0_ConstraintOwner* m_pConstraintOwner;
 };
 
-const S_00da40e0_CdBody* __cdecl FUN_00cfe1d0(const S_00da40e0_CdBody* cdBody, S_00da40e0_CdBody* newCdBodies,
+const S_00da40e0_CdBody* __cdecl hkAgentMachine_processTransformedShapes(const S_00da40e0_CdBody* cdBody, S_00da40e0_CdBody* newCdBodies,
                                               S_00da40e0_MotionState* newMotionStates, int numSlots,
                                               unsigned char& changeCounter);
 
@@ -1829,8 +1830,8 @@ S_00da40e0_Entry* __cdecl ProcessCollisionEntry(const S_00da40e0_Input& aInput, 
             if (entry->m_ucAgentType & 8)
             {
                 unsigned char ucChangeCounter = 0;
-                pBodyB = FUN_00cfe1d0(pBodyB, newCdBodiesB, newMotionStatesB, 4, ucChangeCounter);
-                pBodyA = FUN_00cfe1d0(pBodyA, newCdBodiesA, newMotionStatesA, 4, ucChangeCounter);
+                pBodyB = hkAgentMachine_processTransformedShapes(pBodyB, newCdBodiesB, newMotionStatesB, 4, ucChangeCounter);
+                pBodyA = hkAgentMachine_processTransformedShapes(pBodyA, newCdBodiesA, newMotionStatesA, 4, ucChangeCounter);
             }
 
             unsigned char command = (unsigned char)(entry->m_ucAgentType & 7);
@@ -1898,7 +1899,7 @@ S_00da40e0_Entry* __cdecl ProcessEntryPair(const S_00da40e0_Input& in, S_00da40e
                 unsigned char changeCounter = 0;
                 S_00da40e0_MotionState motionStates[4];
                 S_00da40e0_CdBody cdBodies[4];
-                pBodyB = FUN_00cfe1d0(pBodyB, cdBodies, motionStates, 4, changeCounter);
+                pBodyB = hkAgentMachine_processTransformedShapes(pBodyB, cdBodies, motionStates, 4, changeCounter);
             }
             unsigned char command = entry->m_ucAgentType & 7;
             if (command == 3 || command == 5)
@@ -2164,12 +2165,13 @@ struct BlockPoolHeap : BlockPoolAllocator
 
 __forceinline BlockPoolHeap& fullHeap()
 {
-    return static_cast<BlockPoolHeap&>(FUN_00c85750().heap());
+    return static_cast<BlockPoolHeap&>(hkMemoryRouter_getInstance().heap());
 }
 
 // Iterates over all agent entries in the block pool, dispatches their destroy functions, then releases the blocks and resets the array.
 // @fnv 0x00da42b0
-void FUN_00da42b0(BlockPoolArrayLocalForm* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr,
+// src: XBOX_PDB 0x00da42b0
+void hkAgent1nMachine_Destroy(BlockPoolArrayLocalForm* blocks, S_00da40e0_Dispatcher* dispatcher, S_00da40e0_ContactMgr* mgr,
                   S_00da40e0_ConstraintOwner& owner)
 {
     BlockPoolBlock** sectors = blocks->m_data;
@@ -2284,7 +2286,7 @@ void hkAgent1nMachine_VisitAllAgents(int apBlocks, int apHeader, void* apTransfo
     int outIndex = 0;
     BlockPoolBlock* input = blocks->m_data[0];
     BlockPoolBlock* previous = 0;
-    BlockPoolBlock* output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
+    BlockPoolBlock* output = new (hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
     unsigned char* cursor = (unsigned char*)input + 16;
     unsigned char* out = (unsigned char*)output + 16;
     int inIndex = 1;
@@ -2318,7 +2320,7 @@ process:
     if (cursor == end)
     {
         if (previous)
-            ((StreamAllocator*)&FUN_00c85750().heap())->ReleaseBlock(previous, 512);
+            ((StreamAllocator*)&hkMemoryRouter_getInstance().heap())->ReleaseBlock(previous, 512);
         previous = input;
         if (inIndex >= blocks->m_iElementCount)
             goto finish;
@@ -2352,7 +2354,7 @@ process:
     output->unk00 = used;
     if (outIndex >= inIndex)
     {
-        BlockPoolAllocator& alloc = FUN_00c85750().heap();
+        BlockPoolAllocator& alloc = hkMemoryRouter_getInstance().heap();
         int count = inIndex;
         inIndex = blocks->m_iElementCount + 1;
         int tail = -(count - blocks->m_iElementCount);
@@ -2368,7 +2370,7 @@ process:
         previous = 0;
     }
     else
-        output = new (FUN_00c85750().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
+        output = new (hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(512)) BlockPoolBlock;
     out = (unsigned char*)output + 16;
     limit = (unsigned char*)output + 512;
     if (staging)
@@ -2389,11 +2391,11 @@ finish:
     }
     output->unk00 = used;
     int newCount = outIndex + 1;
-    blocks->GrowArrayCapacity(FUN_00c85750().heap(), newCount);
+    blocks->GrowArrayCapacity(hkMemoryRouter_getInstance().heap(), newCount);
     blocks->m_iElementCount = newCount;
     blocks->m_data[outIndex] = output;
     if (previous)
-        ((StreamAllocator*)&FUN_00c85750().heap())->ReleaseBlock(previous, 512);
+        ((StreamAllocator*)&hkMemoryRouter_getInstance().heap())->ReleaseBlock(previous, 512);
 }
 
 extern "C"

@@ -56,22 +56,22 @@ public:
                            float& hitFractionOut, hkVector4& normalWSOut);
 
     void* FUN_00c7de30(unsigned int);
-    void FUN_00c75580(unsigned char enabled);
-    void FUN_00c7d630(float);
-    void FUN_00c7d630(int);
-    void FUN_00c7d810();
+    void bhkRagdollController_SetLookIKActive(unsigned char enabled);
+    void bhkRagdollController_DoRagdollAnim(float);
+    void bhkRagdollController_DoRagdollAnim(int);
+    void bhkRagdollController_SyncRagdollTo3D();
     void bhkRagdollController_GetSGPoseLocalSpace();
     void bhkRagdollController_UpdateDebugLines(int);
-    void FUN_00c76350(void*);
+    void bhkRagdollController_DoFootIK(void*);
     void bhkRagdollController_DoGrabIK(void*);
-    void FUN_00c7aa60(void*);
+    void bhkRagdollController_DoLookAtIK(void*);
     void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
-    void FUN_00c7d030(void*);
-    void FUN_00c7d030(int);
+    void bhkRagdollController_UpdateRagdollRigidBodies(void*);
+    void bhkRagdollController_UpdateRagdollRigidBodies(int);
     void bhkRagdollController_DoRagdollFeedback();
     void bhkRagdollController_SetSGPoseLocalSpace();
-    void FUN_00c7b6a0(int);
-    void FUN_00c7ba10(bool);
+    void bhkRagdollController_SetRagdollFeedbackActive(int);
+    void bhkRagdollController_EnableRagdollFeedback(bool);
     void bhkRagdollController_GetEyeAngles(float*, float*);
     void SetFloats(float, float);
     // Head-look limits Actor::m_pRagdollController (+0xAC) receives in TESNPC::UpdateActorFaceGen (0x00607420):

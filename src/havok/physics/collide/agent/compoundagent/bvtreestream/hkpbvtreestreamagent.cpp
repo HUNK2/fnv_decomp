@@ -34,21 +34,21 @@ __declspec(noinline) void hkpBvTreeStreamAgent::getClosestPoints(const hkpCdBody
     hkpBvTreeAgent_staticGetClosestPoints((void*)&apArg1, (void*)&apArg2, (void*)&apArg3, &apArg4);
 }
 
-void __cdecl FUN_00d30f50(void*, void*, void*, void*, void*);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void*, void*, void*, void*, void*);
 // Forwards all five arguments to FUN_00d30f50.
 // @fnv 0x00d2dd70
 __declspec(noinline) void hkpBvTreeStreamAgent::linearCast(const hkpCdBody& a, const hkpCdBody& b, const ShapeSweepParameters& c, hkpCdPointCollector& d, hkpCdPointCollector* e)
 {
-    FUN_00d30f50((void*)&a, (void*)&b, (void*)&c, &d, e);
+    hkpBvTreeAgent_staticLinearCast((void*)&a, (void*)&b, (void*)&c, &d, e);
 }
 
 
-extern void __cdecl FUN_00da42b0(void*, int, int, int);
+extern void __cdecl hkAgent1nMachine_Destroy(void*, int, int, int);
 // Cleans up the agent track, then invokes the deleting destructor through its virtual slot.
 // @fnv 0x00d2dda0
 void hkpBvTreeStreamAgent::cleanup(hkpConstraintOwner& value)
 {
-    FUN_00da42b0(&m_kAgentNnTrack, (int)m_pCollisionDispatcher, (int)m_pContactManager, (int)&value);
+    hkAgent1nMachine_Destroy(&m_kAgentNnTrack, (int)m_pCollisionDispatcher, (int)m_pContactManager, (int)&value);
     typedef void (__thiscall* DeleteFunc)(hkpBvTreeStreamAgent*, int);
     (*(DeleteFunc**)this)[0](this, 1);
 }
@@ -62,10 +62,10 @@ void hkpBvTreeStreamAgent::WarpTime(hkTime a, hkTime b, const CollisionAgentCont
 }
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 struct RefObj
@@ -102,7 +102,7 @@ void FUN_00d2e9f0();
 void hkpBvTreeStreamAgent_createShapeBvAgent();
 
 void hkpBvTreeAgent_staticGetClosestPoints();
-void FUN_00d30f50();
+void hkpBvTreeAgent_staticLinearCast();
 struct Conversion
 {
     void (*convert)();
@@ -117,7 +117,8 @@ struct Registry
     void FUN_00cfbbe0(Conversion*, int, int);
 };
 // @fnv 0x00d2e760
-void FUN_00d2e760(Registry* registry)
+// src: XBOX_PDB 0x00d2e760
+void hkpBvTreeStreamAgent_registerMultiRayAgent(Registry* registry)
 {
     Conversion conversionEntry;
     conversionEntry.convert = hkpBvTreeStreamAgent_createBvTreeShapeAgent;
@@ -130,7 +131,7 @@ void FUN_00d2e760(Registry* registry)
     conversionEntry.convert = hkpBvTreeStreamAgent_createShapeBvAgent;
     conversionEntry.create = (void (*)())hkpBvTreeAgent_staticGetPenetrations;
     conversionEntry.copy = hkpBvTreeAgent_staticGetClosestPoints;
-    conversionEntry.destroy = FUN_00d30f50;
+    conversionEntry.destroy = hkpBvTreeAgent_staticLinearCast;
     conversionEntry.enabled = false;
     conversionEntry.supported = true;
     registry->FUN_00cfbbe0(&conversionEntry, 24, 8);
@@ -147,7 +148,7 @@ void FUN_00d2e9b0(void*, void*, void*, void*);
 void FUN_00d2e9f0(void*, void*, void*, void*, void*);
 void* hkpBvTreeStreamAgent_dispatchConvexListBvTree(void*, void*, void*, void*);
 void hkpBvTreeAgent_staticGetClosestPoints(void*, void*, void*, void*);
-void FUN_00d30f50(void*, void*, void*, void*, void*);
+void hkpBvTreeAgent_staticLinearCast(void*, void*, void*, void*, void*);
 
 struct S_00d2e8e0_AgentFuncs
 {
@@ -180,7 +181,7 @@ void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher)
     f.m_pCreateFunc = hkpBvTreeStreamAgent_dispatchConvexListBvTree;
     f.m_pQueryPenetrationsFunc = (S_00d2e8e0_GetPenetrationsFunc)hkpBvTreeAgent_staticGetPenetrations;
     f.m_pGetPenetrationsFunc = hkpBvTreeAgent_staticGetClosestPoints;
-    f.m_pLinearCastFunc = FUN_00d30f50;
+    f.m_pLinearCastFunc = hkpBvTreeAgent_staticLinearCast;
     f.m_bIsFlipped = false;
     f.m_bIsPredictive = true;
     dispatcher->FUN_00cfbbe0(f, 0x16, 8);
@@ -407,7 +408,7 @@ void __thiscall FUN_00d43cd0_class::FUN_00d2ed90(void* a1, void* a2, void* a3, v
 }
 
 #include <xmmintrin.h>
-extern "C" void __cdecl FUN_00da48e0(void* a, void* b);
+extern "C" void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void* a, void* b);
 
 struct FUN_00d2de20_obj
 {
@@ -445,7 +446,7 @@ void __fastcall hkpBvTreeStreamAgent_updateShapeCollectionFilter(hkpBvTreeStream
     args.m_14 = (int)self->m_pContactManager;
     args.m_0C = r;
     args.m_18 = a3;
-    FUN_00da48e0(&self->m_kAgentNnTrack, &args);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(&self->m_kAgentNnTrack, &args);
 }
 
 extern int DAT_010ce838;
@@ -454,7 +455,8 @@ extern "C" void __cdecl InitBlockPool(void* p);
 // Raw constructor entry: initialize the shared fields without implicit base or hkAabb constructor calls.
 // EDX is unused, preserving the original constructor's ECX and stack calling convention.
 // @fnv 0x00d2def0
-hkpBvTreeStreamAgent* __fastcall FUN_00d2def0(hkpBvTreeStreamAgent* self, void*, void* a1, void* apUnused, int* piSource, int a4)
+// src: XBOX_PDB 0x00d2def0
+hkpBvTreeStreamAgent* __fastcall hkpBvTreeStreamAgent_hkpBvTreeStreamAgent(hkpBvTreeStreamAgent* self, void*, void* a1, void* apUnused, int* piSource, int a4)
 {
     self->m_sReferenceCount = 1;
     self->m_pContactManager = (hkpContactMgr*)a4;
@@ -502,7 +504,7 @@ struct Record_d2e9
     int m_uiFilterValue;
 };
 
-void __cdecl FUN_00d30f50(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
+void __cdecl hkpBvTreeAgent_staticLinearCast(int a1, int a2, Input_d2e9* input, Record_d2e9* rec, Record_d2e9* optRec);
 
 // Copies input, XORs its m_vComponents with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d30f50 with an optional second record when a5 is non-zero.
 // @fnv 0x00d2e9f0
@@ -524,11 +526,11 @@ void __cdecl FUN_00d2e9f0(int a2, int a1, const Input_d2e9* input, int aiRecordV
         rec2.m_fScalar = DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalRecordValue;
-        FUN_00d30f50(a1, a2, &local, &rec, &rec2);
+        hkpBvTreeAgent_staticLinearCast(a1, a2, &local, &rec, &rec2);
     }
     else
     {
-        FUN_00d30f50(a1, a2, &local, &rec, 0);
+        hkpBvTreeAgent_staticLinearCast(a1, a2, &local, &rec, 0);
     }
 }
 
@@ -808,7 +810,7 @@ struct Allocator
 
 namespace fnv_00d2e5a0 {
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct Dispatch
 {
@@ -852,14 +854,14 @@ void* hkpBvTreeStreamAgent_dispatchConvexListBvTree(void* a1, void* a2, void* a3
         {
         case 0:
         case 2: {
-            hkMemoryRouter* holder = FUN_00c85750();
+            hkMemoryRouter* holder = hkMemoryRouter_getInstance();
             Allocator* pAllocator = reinterpret_cast<Allocator*>(holder->m_heap);
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
             obj->m_iElementCount = 0x40;
             return (::new (obj) hkpBvTreeStreamAgent(a1, a2, a3, a4));
         }
         case 1: {
-            hkMemoryRouter* holder = FUN_00c85750();
+            hkMemoryRouter* holder = hkMemoryRouter_getInstance();
             Allocator* pAllocator = reinterpret_cast<Allocator*>(holder->m_heap);
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x38);
             obj->m_iElementCount = 0x38;
@@ -870,7 +872,7 @@ void* hkpBvTreeStreamAgent_dispatchConvexListBvTree(void* a1, void* a2, void* a3
         }
     }
 
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     Allocator* pAllocator = reinterpret_cast<Allocator*>(holder->m_heap);
     SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
     obj->m_iElementCount = 0x40;
@@ -908,7 +910,7 @@ template <class Agent> struct SymmetricAgentLocal_hkpbvtreestreamagent : Agent
 // src: HAVOK_LIB 0x00d2e680
 SymmetricAgentLocal_hkpbvtreestreamagent<hkpBvTreeStreamAgent>* __cdecl hkpBvTreeStreamAgent_createBvTreeShapeAgent(void* a, void* b, void* c, void* d)
 {
-    GlobalOwner* owner = (GlobalOwner*)FUN_00c85750();
+    GlobalOwner* owner = (GlobalOwner*)hkMemoryRouter_getInstance();
     void* object = owner->allocator->Allocate(0x40);
     *(unsigned short*)((char*)object + 4) = 0x40;
     return ::new (object) SymmetricAgentLocal_hkpbvtreestreamagent<hkpBvTreeStreamAgent>(a, b, c, d);
@@ -939,7 +941,7 @@ extern "C"
 
     void hkpBvTreeStreamAgent_createShapeBvAgent();
     void hkpBvTreeAgent_staticGetClosestPoints();
-    void FUN_00d30f50();
+    void hkpBvTreeAgent_staticLinearCast();
 }
 
 // Fills a RegEntry with four function pointers and two flags and passes it to obj->FUN_00cfbbe0 with (8, 0x12), then again with different pointers and (0x12, 8).
@@ -959,7 +961,7 @@ void __cdecl hkpBvTreeStreamAgent_registerAgent(TargetClass* obj)
     entry.fn0 = (void*)hkpBvTreeStreamAgent_createShapeBvAgent;
     entry.fn1 = (void*)hkpBvTreeAgent_staticGetPenetrations;
     entry.fn2 = (void*)hkpBvTreeAgent_staticGetClosestPoints;
-    entry.fn3 = (void*)FUN_00d30f50;
+    entry.fn3 = (void*)hkpBvTreeAgent_staticLinearCast;
     entry.b0 = false;
     entry.b1 = true;
     obj->FUN_00cfbbe0(&entry, 0x12, 8);
@@ -1012,7 +1014,7 @@ struct AgentManagerHolder
     AgentHandler* unk10;
 };
 
-extern "C" AgentManagerHolder* __cdecl FUN_00c85750();
+extern "C" AgentManagerHolder* __cdecl hkMemoryRouter_getInstance();
 
 }  // namespace fnv_00d2eae0
 
@@ -1023,7 +1025,7 @@ void* __thiscall hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
     using namespace fnv_00d2eae0;
     *(const VTable**)this = &g_vtblAgent;
 
-    AgentManagerHolder* holder = fnv_00d2eae0::FUN_00c85750();
+    AgentManagerHolder* holder = fnv_00d2eae0::hkMemoryRouter_getInstance();
     AgentHandler* handler = holder->unk10;
 
     int count = m_kAgentNnTrack.m_kSectors.m_iCapacityState;
@@ -1037,7 +1039,7 @@ void* __thiscall hkpBvTreeStreamAgent::FUN_00d2eae0(unsigned int flags)
 
     if (flags & 1)
     {
-        AgentManagerHolder* holder2 = fnv_00d2eae0::FUN_00c85750();
+        AgentManagerHolder* holder2 = fnv_00d2eae0::hkMemoryRouter_getInstance();
         holder2->unk10->release(this, m_usMemSizeAndFlags);
     }
 

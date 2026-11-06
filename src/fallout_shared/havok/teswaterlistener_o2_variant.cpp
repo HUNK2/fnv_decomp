@@ -33,28 +33,29 @@ struct FUN_005631e0_shell
     int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
-float __cdecl FUN_004a3e90(float);
+float __cdecl NI2HK_004a3e90(float);
 struct FUN_0062e710_shell
 {
     void __thiscall SetValueAt(float f, int a, int b);
 };
 struct BSSimpleList_Ragdoll
 {
-    void* __thiscall FUN_006310e0();
+    void* __thiscall hkpMotion_getCenterOfMassInWorld();
 };
 struct FUN_006310c0_shell
 {
-    void __thiscall FUN_006310c0();
+    void __thiscall hkpRigidBody_getCenterOfMassInWorld();
 };
 
 struct FUN_00c9a460_shell
 {
     void __thiscall AddObject(int a);
-    void __thiscall FUN_00c9a600(int a);
+    void __thiscall bhkEntityListener_entityAddedCallback(int a);
 };
 
 // @fnv 0x00c9a600
-void __thiscall FUN_00c9a460_shell::FUN_00c9a600(int a)
+// src: XBOX_PDB 0x00c9a600
+void __thiscall FUN_00c9a460_shell::bhkEntityListener_entityAddedCallback(int a)
 {
     int r = ((int(__thiscall*)(void*, int))(*reinterpret_cast<void***>(this))[9])(this, a);
     AddObject(r);

@@ -11,7 +11,8 @@ NavMeshTriangle* NavMesh::GetTriangle(unsigned short index)
     return &Triangles.GetAt(static_cast<unsigned int>(index));
 }
 // @fnv 0x006a78d0
-NavMeshTriangle* NavMeshTriangleReference::FUN_006a78d0() const
+// src: XBOX_PDB 0x006a78d0
+NavMeshTriangle* NavMeshTriangleReference::NavMeshSearchNode_GetTriangle() const
 {
     return m_pLocationNavMesh->GetTriangle(m_usTriangleIdentifier);
 }

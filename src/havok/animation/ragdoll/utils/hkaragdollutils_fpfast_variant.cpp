@@ -12,7 +12,7 @@ extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
-    int __cdecl FUN_00ce9e90(void*);
+    int __cdecl alignConstraintSpacesToChildren(void*);
 }
 int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* p3);
 struct Item
@@ -69,7 +69,7 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
+SpawnedGlobal* __cdecl hkMemoryRouter_getInstance() throw();
 struct SpawnedObject
 {
     int unk00;
@@ -415,7 +415,8 @@ static __declspec(noinline) Vec4* _accessConstraintPivotA(Obj* obj) throw()
 }
 
 extern Qs* g_pivotXf;
-static __declspec(noinline) int FUN_00ce9880(Qs* xf, Shape* shape) throw()
+// src: XBOX_PDB 0x00ce9880
+static __declspec(noinline) int moveRigidBodyPivot(Qs* xf, Shape* shape) throw()
 {
     g_pivotXf = xf;
     int s = shape->v0();
@@ -487,7 +488,7 @@ int __cdecl FUN_00ce9db0(A1W constraints, void* warnOnAlignment)
         childFromConstraint.m_vTranslation = pivotInA;
         if (childFromConstraint.m_vTranslation.lengthSquared3() > DAT_010959f4)
         {
-            if (FUN_00ce9880((Qs*)&childFromConstraint, shape) != 0)
+            if (moveRigidBodyPivot((Qs*)&childFromConstraint, shape) != 0)
                 result = 1;
         }
     }

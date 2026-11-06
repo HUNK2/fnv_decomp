@@ -631,7 +631,8 @@ struct BadAlloc
 };
 // Clamps n to zero, throws BadAlloc if n*4 overflows, and returns a 4-byte-per-element allocation of n*4 bytes.
 // @fnv 0x0044d670
-int* FUN_0044d670(unsigned int n)
+// src: XBOX_PDB 0x0044d670
+int* std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int n)
 {
     if (n <= 0)
         n = 0;
@@ -698,7 +699,8 @@ struct FUN_0044a4c0_Str
 
 // Formats variadic arguments into a local buffer using fmt, then assigns the result to out and returns out.
 // @fnv 0x00b18860
-FUN_0044a4c0_Str* __cdecl FUN_00b18860(FUN_0044a4c0_Str* out, char const* fmt, ...)
+// src: XBOX_PDB 0x00b18860
+FUN_0044a4c0_Str* __cdecl IdvFormatString(FUN_0044a4c0_Str* out, char const* fmt, ...)
 {
     FmtCtx ctx;
     char buf2[0x400];

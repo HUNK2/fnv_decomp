@@ -114,7 +114,7 @@ void EscortActorPackageData::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
     apSaveGameBuffer->SerializeFormData(pPackage, 0);
 
     unsigned int isaveGameCount = 0;
-    unsigned int isaveGameBufferPos = apSaveGameBuffer->FUN_00865f20();
+    unsigned int isaveGameBufferPos = apSaveGameBuffer->StartVariableSizedValue();
     void* pCurrentElementNext = (void*)&m_kActorList;
     while (pCurrentElementNext)
     {
@@ -126,7 +126,7 @@ void EscortActorPackageData::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
         }
         pCurrentElementNext = _ref_00726070(pCurrentElementNext);
     }
-    apSaveGameBuffer->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+    apSaveGameBuffer->SaveVariableSizedValue_00865ff0(isaveGameCount, isaveGameBufferPos);
 }
 
 

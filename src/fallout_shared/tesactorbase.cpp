@@ -122,9 +122,9 @@ void Reset3DMobIterator::operator()(Actor* actor)
 bool TESActorBase::ShouldUseDefaultAppearance(TESObjectREFR* ref)
 {
     bool result = true;
-    if (g_BGSSaveLoadGame->FUN_0042ce10())
+    if (g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
     {
-        if (static_cast<Actor*>(ref)->FUN_00576d30() &&
+        if (static_cast<Actor*>(ref)->TESForm_IsStillLoading() &&
             g_BGSSaveLoadGame->HasFormChangeFlags(reinterpret_cast<TESForm*>(ref), 0x08000020))
             result = false;
     }
@@ -148,14 +148,16 @@ struct VTableHolder_005f0b00
 };
 
 // @fnv 0x005f0b00
-int TESActorBase::FUN_005f0b00()
+// src: XBOX_PDB 0x005f0b00
+int TESActorBase::GetHealth_005f0b00()
 {
     return ((VTableHolder_005f0b00*)((char*)this + 0xb0))->vfn_4();
 }
 
 
 // @fnv 0x005f0b50
-bool TESActorBase::FUN_005f0b50()
+// src: XBOX_PDB 0x005f0b50
+bool TESActorBase::DoesSwim()
 {
     if (static_cast<const TESForm*>(this)->GetFormType() == 0x2b)
     {
@@ -170,7 +172,8 @@ bool TESActorBase::FUN_005f0b50()
 
 
 // @fnv 0x005f0c80
-bool TESActorBase::FUN_005f0c80()
+// src: XBOX_PDB 0x005f0c80
+bool TESActorBase::IsImmobile()
 {
     if (static_cast<const TESForm*>(this)->GetFormType() == 0x2b)
     {
@@ -202,9 +205,10 @@ void TESActorBase::SetHealth_005f0b30(int aiValue)
 
 
 // @fnv 0x005f0ba0
-bool TESActorBase::FUN_005f0ba0()
+// src: XBOX_PDB 0x005f0ba0
+bool TESActorBase::FightsInWater()
 {
-    if (!FUN_005f0b50())
+    if (!DoesSwim())
         return false;
     if (static_cast<const TESForm*>(this)->GetFormType() == 0x2b)
     {
@@ -234,7 +238,8 @@ char __thiscall FUN_005f0f50_shell::HasFlag80000()
 
 // Returns true if this form is an actor base (type 0x2B) whose actor base data has flag 0x20 set; otherwise false.
 // @fnv 0x005f0c40
-bool TESActorBase::FUN_005f0c40()
+// src: XBOX_PDB 0x005f0c40
+bool TESActorBase::DoesFly()
 {
     if (static_cast<const TESForm*>(this)->GetFormType() == 0x2B)
     {
@@ -251,7 +256,8 @@ struct TESForm_Hack
     void MarkAsUnmodified(unsigned int);
 };
 // @fnv 0x005f1690
-void TESActorBase::FUN_005f1690(int aiChangeFlags)
+// src: XBOX_PDB 0x005f1690
+void TESActorBase::RemoveChange(int aiChangeFlags)
 {
     if (g_dataHandler->FormIDExists(GetFormID()) && g_BGSSaveLoadGame->IsFormChanged(this))
         ((TESActorBaseData*)((char*)this + 0x30))->ClearChangeFlags(aiChangeFlags);
@@ -272,7 +278,8 @@ struct FUN_0048e040_holder
     void TESSpellList_SaveGameBGS(unsigned int);
 };
 // @fnv 0x005f1f30
-void TESActorBase::FUN_005f1f30(unsigned int buffer)
+// src: XBOX_PDB 0x005f1f30
+void TESActorBase::SaveGame_005f1f30(unsigned int buffer)
 {
     ((FUN_00484d60_holder*)this)->SaveIfChanged(buffer);
     ((TESActorBaseData*)((char*)this + 0x30))->SaveGame((BGSSaveFormBuffer*)buffer);
@@ -288,7 +295,8 @@ void TESActorBase::FUN_005f1f30(unsigned int buffer)
 
 // Returns true unless the form type is 0x2B and neither the 0x40 nor the 1 flag is set in abd.
 // @fnv 0x005f0bf0
-bool TESActorBase::FUN_005f0bf0()
+// src: XBOX_PDB 0x005f0bf0
+bool TESActorBase::DoesWalk()
 {
     if (((const TESForm*)this)->GetFormType() == 0x2B)
     {
@@ -309,16 +317,17 @@ struct ComponentTarget
 };
 struct ItemTarget
 {
-    float FUN_004be060();
-    float FUN_004be180();
+    float TESObjectARMO_GetArmorRating();
+    float TESObjectARMO_GetDamageThreshold();
 };
 int __cdecl FUN_004873d0(void*);
-float __cdecl FUN_00644ce0(void*, void*, float, float, int, int, int, int);
+float __cdecl CombatFormulas_CalcWeaponDamage(void*, void*, float, float, int, int, int, int);
 float __cdecl ConvertUIntToFloat(unsigned int);
 double __cdecl FUN_00646360(unsigned short, float);
 // Looks up a form by type and returns a value derived from the matching item, component or constant, defaulting to 0.0f.
 // @fnv 0x005f0d60
-float TESActorBase::FUN_005f0d60(TESForm* form)
+// src: XBOX_PDB 0x005f0d60
+float TESActorBase::GetDesirability(TESForm* form)
 {
     float result = 0.0f;
     if (form)
@@ -340,7 +349,7 @@ float TESActorBase::FUN_005f0d60(TESForm* form)
                 {
                     actorComponentOffset = 0x100
                 };
-                result = FUN_00644ce0(this ? reinterpret_cast<char*>(this) + actorComponentOffset : 0, item, condition,
+                result = CombatFormulas_CalcWeaponDamage(this ? reinterpret_cast<char*>(this) + actorComponentOffset : 0, item, condition,
                                       1.0f, 0, 0, 0, 0);
             }
             break;
@@ -365,7 +374,7 @@ float TESActorBase::FUN_005f0d60(TESForm* form)
             {
                 float condition = 1.0f;
                 result =
-                    FUN_00646360(static_cast<unsigned short>(item->FUN_004be060()), condition) + item->FUN_004be180();
+                    FUN_00646360(static_cast<unsigned short>(item->TESObjectARMO_GetArmorRating()), condition) + item->TESObjectARMO_GetDamageThreshold();
             }
             break;
         }
@@ -491,11 +500,12 @@ struct SaveSizeContainer
 
 // Accumulates the save size of the actor base's parts and optionally logs the total with the current form's ID and editor ID.
 // @fnv 0x005f16f0
-unsigned short TESActorBase::FUN_005f16f0(unsigned int changeFlags)
+// src: XBOX_PDB 0x005f16f0
+unsigned short TESActorBase::GetSaveSize_005f16f0(unsigned int changeFlags)
 {
     unsigned short totalSize = 0;
     unsigned short startSize = totalSize;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         totalSize += 4;
         totalSize += 2;
@@ -563,8 +573,8 @@ struct SaveList
 };
 struct SaveFormAccess
 {
-    void FUN_00484c20(unsigned int);
-    void FUN_00484ce0(const void*, int);
+    void TESForm_SaveGame(unsigned int);
+    void TESForm_SaveGameDataOLD(const void*, int);
 };
 struct SaveForm
 {
@@ -646,15 +656,16 @@ struct SaveForm
     virtual void vfn_12c();
     virtual const char* Describe();
 };
-SaveForm* FUN_004839c0(unsigned int);
-unsigned int FUN_0044a670(const char*);
-void FUN_0040fbe0(const char*, ...);
+SaveForm* TESForm_GetFormByNumericID(unsigned int);
+unsigned int BSstrlen(const char*);
+void ProgramFlow(const char*, ...);
 void FNV_Warning(const char*, ...);
 
 }  // namespace fnv_005f18c0
 
 // @fnv 0x005f18c0
-void TESActorBase::FUN_005f18c0(unsigned int flags)
+// src: XBOX_PDB 0x005f18c0
+void TESActorBase::SaveGame_005f18c0(unsigned int flags)
 {
     using namespace fnv_005f18c0;
     unsigned short size = 0;
@@ -662,15 +673,15 @@ void TESActorBase::FUN_005f18c0(unsigned int flags)
     unsigned int offset2 = fnv_005f18c0::g_TESSaveLoadGame->GetTimeStamp();
     if (*fnv_005f18c0::g_011de4e8.Bool())
         offset2 = fnv_005f18c0::g_TESSaveLoadGame->GetTimeStamp();
-    if (fnv_005f18c0::g_TESSaveLoadGame->FUN_00862110())
+    if (fnv_005f18c0::g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int tag = 0x424c4f4b;
-        fnv_005f18c0::g_TESSaveLoadGame->FUN_008579b0(&tag, 4);
+        fnv_005f18c0::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&tag, 4);
         pos2 = (unsigned short*)fnv_005f18c0::g_TESSaveLoadGame->GetTimeStamp();
-        fnv_005f18c0::g_TESSaveLoadGame->FUN_008579b0(&size, 2);
+        fnv_005f18c0::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&size, 2);
     }
     if (fnv_005f18c0::g_TESSaveLoadGame->FUN_008df040() >= 109)
-        ((SaveFormAccess*)this)->FUN_00484c20(flags);
+        ((SaveFormAccess*)this)->TESForm_SaveGame(flags);
     ((TESAttributes*)((char*)this + 0xb8))->SaveGame(flags);
     ((TESActorBaseData*)((char*)this + 0x30))->SaveGame(flags);
     ((SaveInventory*)((char*)this + 0x7c))->SaveSpellList(flags);
@@ -678,15 +689,15 @@ void TESActorBase::FUN_005f18c0(unsigned int flags)
     if (flags & 0)
     {
         unsigned int first = ((SaveList*)((char*)this + 0xb0))->FUN_00726070();
-        ((SaveFormAccess*)this)->FUN_00484ce0(&first, 4);
+        ((SaveFormAccess*)this)->TESForm_SaveGameDataOLD(&first, 4);
     }
     if (flags & 0x20)
     {
         const char* data = ((FNStub*)((char*)this + 0xd0))->GetFullName();
-        unsigned char pos = (unsigned char)FUN_0044a670(data);
-        ((SaveFormAccess*)this)->FUN_00484ce0(&pos, 1);
+        unsigned char pos = (unsigned char)BSstrlen(data);
+        ((SaveFormAccess*)this)->TESForm_SaveGameDataOLD(&pos, 1);
         if (pos)
-            ((SaveFormAccess*)this)->FUN_00484ce0(data, pos);
+            ((SaveFormAccess*)this)->TESForm_SaveGameDataOLD(data, pos);
     }
     if (*fnv_005f18c0::g_011de4e8.Bool())
     {
@@ -694,18 +705,18 @@ void TESActorBase::FUN_005f18c0(unsigned int flags)
         SaveRecord* record = (SaveRecord*)fnv_005f18c0::g_TESSaveLoadGame->GetHitSound();
         if (record)
         {
-            fnv_005f18c0::SaveForm* form = fnv_005f18c0::FUN_004839c0(record->formID);
-            FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
+            fnv_005f18c0::SaveForm* form = fnv_005f18c0::TESForm_GetFormByNumericID(record->formID);
+            ProgramFlow("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          end - offset2, record->formID, form->Describe(), *(unsigned int*)&record->flagsLow, 587,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp");
         }
         else
         {
-            FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", end - offset2, 587,
+            ProgramFlow("SaveGame(): %-5i ending at line %i in file %s", end - offset2, 587,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp");
         }
     }
-    if (fnv_005f18c0::g_TESSaveLoadGame->FUN_00862110())
+    if (fnv_005f18c0::g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int current = fnv_005f18c0::g_TESSaveLoadGame->GetTimeStamp();
         unsigned int block = (unsigned int)pos2;
@@ -813,7 +824,7 @@ struct FormName
     virtual const char* GetName();
 };
 
-FormName* __cdecl FUN_004839c0(unsigned int);
+FormName* __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 
@@ -835,15 +846,16 @@ struct SubD0
 
 struct LoadFormAccess
 {
-    void FUN_00484c50(unsigned int, unsigned int);
-    void FUN_00484d00(void*, int);
+    void TESForm_LoadGame(unsigned int, unsigned int);
+    void TESForm_LoadGameDataOLD(void*, int);
 };
 
 // Reads the actor base block from the save stream, dispatches to sub-structs, and verifies the block boundary against the expected end position.
 }  // namespace fnv_005f1b30
 
 // @fnv 0x005f1b30
-void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
+// src: XBOX_PDB 0x005f1b30
+void TESActorBase::LoadGame_005f1b30(unsigned int aiFlags, unsigned int a2)
 {
     using namespace fnv_005f1b30;
     FormName* form5;
@@ -853,15 +865,15 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
     unsigned short usVarZ;
     usVarZ = 0;
     curPosC = 0;
-    if (fnv_005f1b30::g_TESSaveLoadGame->FUN_00862110())
+    if (fnv_005f1b30::g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
-        fnv_005f1b30::g_TESSaveLoadGame->FUN_008579e0(&hdrWord, 4);
+        fnv_005f1b30::g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&hdrWord, 4);
         if (hdrWord != 0x424c4f4b)
         {
-            hdrB = (LoadHdr*)fnv_005f1b30::g_TESSaveLoadGame->FUN_004fd3c0();
+            hdrB = (LoadHdr*)fnv_005f1b30::g_TESSaveLoadGame->BGSProjectile_GetExplosion();
             if (hdrB != 0)
             {
-                form5 = FUN_004839c0(hdrB->id);
+                form5 = TESForm_GetFormByNumericID(hdrB->id);
                 Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 596, hdrB->id,
@@ -876,10 +888,10 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
             }
         }
         curPosC = fnv_005f1b30::g_TESSaveLoadGame->FUN_00825c00();
-        fnv_005f1b30::g_TESSaveLoadGame->FUN_008579e0(&usVarZ, 2);
+        fnv_005f1b30::g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&usVarZ, 2);
     }
     if (fnv_005f1b30::g_TESSaveLoadGame->FUN_008df040() >= 0x6d)
-        ((LoadFormAccess*)this)->FUN_00484c50(aiFlags, a2);
+        ((LoadFormAccess*)this)->TESForm_LoadGame(aiFlags, a2);
     ((TESAttributes*)((char*)this + 0xb8))->LoadGame(aiFlags, a2);
     ((TESActorBaseData*)((char*)this + 0x30))->LoadGame(aiFlags, a2);
     ((Sub7C*)((char*)this + 0x7c))->LoadSpellList(aiFlags, a2);
@@ -887,7 +899,7 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
     if (aiFlags & 0)
     {
         void* scriptVal;
-        ((LoadFormAccess*)this)->FUN_00484d00(&scriptVal, 4);
+        ((LoadFormAccess*)this)->TESForm_LoadGameDataOLD(&scriptVal, 4);
         ((SubB0*)((char*)this + 0xb0))->FUN_006ecd40(scriptVal);
     }
     if (aiFlags & 0x20)
@@ -895,21 +907,21 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
         unsigned char flagByte;
         char nameBuf[0x104];
         fnv_005f1b30::memset(nameBuf, 0, 0x104);
-        ((LoadFormAccess*)this)->FUN_00484d00(&flagByte, 1);
+        ((LoadFormAccess*)this)->TESForm_LoadGameDataOLD(&flagByte, 1);
         if (flagByte != 0)
-            ((LoadFormAccess*)this)->FUN_00484d00(nameBuf, flagByte);
+            ((LoadFormAccess*)this)->TESForm_LoadGameDataOLD(nameBuf, flagByte);
         ((SubD0*)((char*)this + 0xd0))->FUN_00489100(nameBuf);
     }
-    if (fnv_005f1b30::g_TESSaveLoadGame->FUN_00862110())
+    if (fnv_005f1b30::g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         FormName* form25;
         unsigned int endPos0;
         LoadHdr* hdr2A;
         endPos0 = fnv_005f1b30::g_TESSaveLoadGame->FUN_00825c00();
-        hdr2A = (LoadHdr*)fnv_005f1b30::g_TESSaveLoadGame->FUN_004fd3c0();
+        hdr2A = (LoadHdr*)fnv_005f1b30::g_TESSaveLoadGame->BGSProjectile_GetExplosion();
         if (hdr2A != 0)
         {
-            form25 = FUN_004839c0(hdr2A->id);
+            form25 = TESForm_GetFormByNumericID(hdr2A->id);
             if (endPos0 > usVarZ + curPosC)
             {
                 Warning_005b5e40(

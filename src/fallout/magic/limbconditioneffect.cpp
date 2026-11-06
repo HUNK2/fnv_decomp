@@ -82,10 +82,11 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 }  // namespace fnv_0082ba30
 
 // @fnv 0x0082ba30
-void ValueModifierEffect::FUN_0082ba30(Actor* apActor)
+// src: XBOX_PDB 0x0082ba30
+void ValueModifierEffect::LimbConditionEffect_SaveGame(Actor* apActor)
 {
     FUN_00802db0(apActor);
-    fnv_0082ba30::g_TESSaveLoadGame->FUN_008579b0((int*)((char*)this + 0x4C), 4);
+    fnv_0082ba30::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((int*)((char*)this + 0x4C), 4);
 }
 
 using ::SettingT;

@@ -34,7 +34,7 @@ extern int DAT_011dd878;
 void ImpactMixer_SetGunshotsInitialized(bool b);
 extern int DAT_011a17f8[0x24];
 int GetTypeValue(int aiType);
-void FUN_00837520();
+void ImpactMixer_PlayHitSound();
 extern int DAT_01000000;
 struct DummyFlags
 {
@@ -89,15 +89,15 @@ struct NavQueryResult
 };
 struct CellNavInfo
 {
-    void FUN_0053b550(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
-    MaterialRecord* FUN_0053a630(unsigned char ucA, unsigned short usB);
+    void TESObjectLAND_GetCoordData(NavQueryResult* pkResult, NiPoint3* pkPos, int iFlag);
+    MaterialRecord* TESObjectLAND_GetMainTexture_0053a630(unsigned char ucA, unsigned short usB);
 };
 struct FootstepCell
 {
     bool FUN_00425fd0();
     bool FUN_004518e0();
-    CellNavInfo* FUN_00546fb0();
-    bool FUN_005547c0(NiPoint3* pkPos, float* pfHeight);
+    CellNavInfo* TESObjectCELL_GetLand();
+    bool TESObjectCELL_GetLandHeight(NiPoint3* pkPos, float* pfHeight);
 };
 struct TESStandIn
 {
@@ -120,7 +120,7 @@ extern const char g_szFootstepEnd[] = "";
 void __cdecl PlayFootstepImpact(Actor* pActor, int iMaterial);
 struct SetObj
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 struct StrObj
 {
@@ -215,7 +215,7 @@ static const char kStr_PHYChainlink[] = "PHYChainlink";
 static const char kStr_PHYTile[] = "PHYTile";
 static const char kStr_PHYCarpet[] = "PHYCarpet";
 static const char kStr_PHYTumbleweed[] = "PHYTumbleweed";
-int __cdecl FUN_00839e00(int type, float fA, float fB);
+int __cdecl ImpactMixer_GetSoundForType(int type, float fA, float fB);
 struct Point3;
 class TESSound;
 struct S_0083a930_EntryData
@@ -310,7 +310,7 @@ struct S_0083a930_Process
 };
 struct S_0083a930_Setting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern S_0083a930_Setting DAT_011dd900;
 extern Actor* DAT_011dea3c;
@@ -346,14 +346,14 @@ struct FootstepQuery
 };
 struct NavOps
 {
-    void FUN_0053b550(FootstepQuery*, NiPoint3*, int);
+    void TESObjectLAND_GetCoordData(FootstepQuery*, NiPoint3*, int);
 };
 extern const char armorPowerRightName[];
 extern const char armorPowerLeftName[];
 extern const char armorRightName[];
 extern const char armorLeftName[];
-bool FUN_00702360();
-bool FUN_00525420();
+bool Interface_IsInMenuMode();
+bool Main_GetSceneIsComplex();
 struct PointOps : NiPoint3
 {
     NiPoint3& Subtract(const NiPoint3&);
@@ -369,8 +369,8 @@ struct ListenerOps
 struct SoundOps
 {
     unsigned char GetField45();
-    BGSSoundDescriptor* FUN_0084e3a0(int);
-    const char* FUN_00511840();
+    BGSSoundDescriptor* GetHavokWorldObjectCountInSceneGraph_0084e3a0(int);
+    const char* TESSound_GetFilename();
 };
 struct MaterialOps
 {
@@ -652,8 +652,8 @@ struct FootstepEntry
 };
 extern FootstepEntry DAT_011dd650[];
 void PlayFootstepSound(Actor* ref, int foot);
-float FUN_0040ebd0(float a, float b);
-float FUN_00404010(float a, float b);
+float BSMIN(float a, float b);
+float BSMAX_00404010(float a, float b);
 void PlayBlockSound(int aUnused, TESObjectWEAP* a1, float x0, float y0, float z0, float x1, float y1, float z1);
 
 inline void* operator new(unsigned int, void* location)

@@ -531,7 +531,7 @@ struct S_Cfca40_Router
         return *m_manager;
     }
 };
-S_Cfca40_Router* FUN_00c85750();
+S_Cfca40_Router* hkMemoryRouter_getInstance();
 struct S_Cfca40_Element
 {
     void* m_ppVirtualMethodTable;
@@ -553,7 +553,7 @@ void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_C
 {
     void* firstData = apFirstSource->GetAdjustedData();
     void* secondData = apSecondSource->GetAdjustedData();
-    S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(FUN_00c85750()->heap().Allocate(28));
+    S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(hkMemoryRouter_getInstance()->heap().Allocate(28));
     pElement->m_allocatedBytes = 28;
     pElement->FUN_00cfc5a0(m_iValueAtOffset0C, firstData, secondData);
 }

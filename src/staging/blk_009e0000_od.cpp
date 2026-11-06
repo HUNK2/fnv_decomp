@@ -55,7 +55,7 @@ struct FUN_009f2970_Class
 void FUN_009f2970_Class::GuardActorPackageData_SetTarget(void* arg)
 {
     m_8 = arg;
-    ((TESObjectREFR*)m_8)->FUN_00564db0(true);
+    ((TESObjectREFR*)m_8)->TESObjectREFR_SetTargeted(true);
 }
 
 extern "C" void* DAT_01093614;
@@ -256,7 +256,7 @@ struct Host9f6340
     int iDataLength;
     virtual void v0();
     virtual int Write(unsigned int);
-    void FUN_009f6460(int, int);
+    void BSSimpleArray_SandBoxChoiceListItem_1024_ConstructItems(int, int);
     void ResetAndWrite(unsigned int requested, unsigned int savedSize);
 };
 
@@ -275,7 +275,7 @@ void Host9f6340::ResetAndWrite(unsigned int requested, unsigned int savedSize)
     }
     if (savedSize > 0)
     {
-        FUN_009f6460(iSize, savedSize);
+        BSSimpleArray_SandBoxChoiceListItem_1024_ConstructItems(iSize, savedSize);
         iPosition = savedSize;
     }
 }
@@ -441,11 +441,12 @@ int FUN_009e99a0_cls::BSSimpleArray_DetailedActorPathHandler_ActorAvoidanceData_
 class FUN_009eb620_cls
 {
   public:
-    int FUN_009eb620();
+    int ProcessLists_GetCrimeNumber();
 };
 
 // @fnv 0x009eb620
-int FUN_009eb620_cls::FUN_009eb620()
+// src: XBOX_PDB 0x009eb620
+int FUN_009eb620_cls::ProcessLists_GetCrimeNumber()
 {
     return (*(int*)((char*)this + 0x103b8))++;
 }
@@ -454,11 +455,11 @@ struct S_009eb8a0_Time
 {
     int FUN_00867d20();
     char FUN_00867d60();
-    int FUN_00867c60();
+    int Calendar_GetYear();
 };
 struct S_009eb8a0_Setting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 extern S_009eb8a0_Time DAT_011de7b8;
 extern S_009eb8a0_Setting DAT_011cd39c;
@@ -482,9 +483,9 @@ struct S_009eb8a0_Cls
 // src: COMMUNITY 0x009eb8a0
 bool S_009eb8a0_Cls::Crime_ShouldCrimeBeRemoved()
 {
-    int now4 = (DAT_011de7b8.FUN_00867d20() << 9) | DAT_011de7b8.FUN_00867d60() | (DAT_011de7b8.FUN_00867c60() << 13);
+    int now4 = (DAT_011de7b8.FUN_00867d20() << 9) | DAT_011de7b8.FUN_00867d60() | (DAT_011de7b8.Calendar_GetYear() << 13);
     bool result5 = false;
-    if (now4 - unk30 >= *DAT_011cd39c.FUN_0043d4d0())
+    if (now4 - unk30 >= *DAT_011cd39c.Setting_Int())
     {
         result5 = true;
     }
@@ -970,7 +971,7 @@ struct GameReference
     virtual void unknownVirtual_109();
     virtual void unknownVirtual_10a();
     virtual GameReference* GetLinkedReference();
-    void FUN_00564db0(bool enabled);
+    void TESObjectREFR_SetTargeted(bool enabled);
 };
 struct ReferenceLinkController
 {
@@ -989,9 +990,9 @@ void ReferenceLinkController::SetSourceReference(GameReference* apSource)
     linked = apSource->GetLinkedReference();
     enabled = true;
     hasLinkedReference = linked != 0;
-    source->FUN_00564db0(true);
+    source->TESObjectREFR_SetTargeted(true);
     if (linked)
-        linked->FUN_00564db0(true);
+        linked->TESObjectREFR_SetTargeted(true);
     SpectatorThreatInfo_Update();
 }
 
@@ -1212,14 +1213,14 @@ struct SrcCls
     virtual void unknownVirtual_62();
     virtual void unknownVirtual_63();
     virtual bool VCall100();
-    MidCls* FUN_005d43c0();
+    MidCls* BSFile_GetDevice();
 };
 struct ItemCls
 {
     void FUN_0047eb90(int);
-    bool FUN_008a61b0();
-    void FUN_00881680(int);
-    MidCls* FUN_005d43c0();
+    bool Actor_IsAlarmed();
+    void Actor_EndInterruptPackage(int);
+    MidCls* BSFile_GetDevice();
 };
 // Exe 0x009eb660: unit-local ListNode view; declarations and layout are preserved.
 struct BlkListNodeView
@@ -1247,7 +1248,7 @@ struct ListMember
 };
 struct DHCls
 {
-    bool FUN_004226e0();
+    bool TESDataHandler_GetClearingData();
 };
 struct GlobalCls
 {
@@ -1277,7 +1278,7 @@ struct FUN_009eb660
 // @fnv 0x009eb660
 FUN_009eb660::~FUN_009eb660()
 {
-    if (DAT_011c3f2c != 0 && !DAT_011c3f2c->FUN_004226e0())
+    if (DAT_011c3f2c != 0 && !DAT_011c3f2c->TESDataHandler_GetClearingData())
     {
         SrcCls* pACopy;
         BlkListNodeView* pA3;
@@ -1291,8 +1292,8 @@ FUN_009eb660::~FUN_009eb660()
         DAT_011e0e80.ProcessLists_RemoveCrimeGlobalCrimeList(this);
         if (f08 != 0)
         {
-            if (f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList() != 0)
-                f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList()->FUN_00905330(this);
+            if (f08->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList() != 0)
+                f08->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList()->FUN_00905330(this);
         }
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
@@ -1308,7 +1309,7 @@ FUN_009eb660::~FUN_009eb660()
             if (pACopy->VCall100())
             {
                 destA8 = pACopy;
-                itemB = destA8->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
+                itemB = destA8->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList();
                 if (itemB != 0)
                     itemB->FUN_00905330(this);
             }
@@ -1317,9 +1318,9 @@ FUN_009eb660::~FUN_009eb660()
         while (pA3 != 0)
         {
             item6 = (ItemCls*)*pA3->FUN_006815c0();
-            if (item6->FUN_008a61b0())
-                item6->FUN_00881680(0);
-            destB_ = item6->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
+            if (item6->Actor_IsAlarmed())
+                item6->Actor_EndInterruptPackage(0);
+            destB_ = item6->BSFile_GetDevice()->ExtraDataList_GetPlayerCrimeList();
             if (destB_ != 0)
                 destB_->FUN_00905330(this);
         }
@@ -1332,7 +1333,7 @@ FUN_009eb660::~FUN_009eb660()
     m1c.FUN_00470470();
 }
 
-void FUN_006d7110(void*, void*, NiPoint3*, float, NiPoint3*);
+void Pathing_FindPointOnNavMesh(void*, void*, NiPoint3*, float, NiPoint3*);
 // @fnv 0x009ed380
 // src: COMMUNITY 0x009ed380
 NiPoint3 BackUpPackage_CalculateBackUpPointInterior(TESObjectREFR* source, TESObjectREFR* target)
@@ -1344,11 +1345,11 @@ NiPoint3 BackUpPackage_CalculateBackUpPointInterior(TESObjectREFR* source, TESOb
         NiPoint3 distance = *static_cast<const TESObjectREFR*>(source)->GetPos();
         float targetPos = 300.0f;
         NiPoint3 sourcePos = distance - cell;
-        sourcePos.FUN_004a0c10();
+        sourcePos.Unitize_004a0c10();
         sourcePos = distance + sourcePos * targetPos;
         result = sourcePos;
         void* direction = source->GetParentCellStub();
-        FUN_006d7110(source->FUN_00575d70(), direction, &sourcePos, 200.0f, &result);
+        Pathing_FindPointOnNavMesh(source->TESObjectREFR_GetWorldSpace(), direction, &sourcePos, 200.0f, &result);
     }
     return result;
 }
@@ -1356,7 +1357,7 @@ NiPoint3 BackUpPackage_CalculateBackUpPointInterior(TESObjectREFR* source, TESOb
 namespace fnv_009ed4b0 {
 
 
-void __cdecl FUN_006d7110(TESWorldSpace* ws, ParentCellStub* cell, NiPoint3* pos, float radius, NiPoint3* out);
+void __cdecl Pathing_FindPointOnNavMesh(TESWorldSpace* ws, ParentCellStub* cell, NiPoint3* pos, float radius, NiPoint3* out);
 
 // @fnv 0x009ed4b0
 NiPoint3 __cdecl ComputeAdjustedTargetPosition(TESObjectREFR* target, TESObjectREFR* source)
@@ -1372,7 +1373,7 @@ NiPoint3 __cdecl ComputeAdjustedTargetPosition(TESObjectREFR* target, TESObjectR
         _dir = targetPosX + _dir * distance2;
         result5 = _dir;
         ParentCellStub* cellB = target->GetParentCellStub();
-        FUN_006d7110(target->FUN_00575d70(), cellB, &_dir, 200.0f, &result5);
+        Pathing_FindPointOnNavMesh(target->TESObjectREFR_GetWorldSpace(), cellB, &_dir, 200.0f, &result5);
         if (result5.FUN_004390c0(_dir))
         {
         }
@@ -1412,12 +1413,12 @@ struct Waypoint
 };
 struct Route
 {
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     unsigned FUN_0044ddc0();
     Waypoint& FUN_009a3280(unsigned);
 };
 NiPoint3 __cdecl RandomOffsetVectorFromOrigin(NiPoint3, float, float, int);
-void __cdecl FUN_006d7110(void*, void*, const NiPoint3*, float, NiPoint3*);
+void __cdecl Pathing_FindPointOnNavMesh(void*, void*, const NiPoint3*, float, NiPoint3*);
 struct Pather
 {
     int unk000;
@@ -1531,12 +1532,12 @@ NiPoint3 Pather::GetPathPoint(TESObjectREFR* ref)
     if (destination.FUN_004390c0(NiPoint3::ZERO))
     {
         destination = RandomOffsetVectorFromOrigin(*static_cast<const TESObjectREFR*>(ref)->GetPos(), 800.0f, 1000.0f, 0);
-        FUN_006d7110(ref->FUN_00575d70(), ref->GetParentCellStub(), static_cast<const TESObjectREFR*>(ref)->GetPos(), 300.0f, &destination);
+        Pathing_FindPointOnNavMesh(ref->TESObjectREFR_GetWorldSpace(), ref->GetParentCellStub(), static_cast<const TESObjectREFR*>(ref)->GetPos(), 300.0f, &destination);
         return destination;
     }
-    if (route.FUN_0076b610())
-        BuildPathRequest(*static_cast<const TESObjectREFR*>(ref)->GetPos(), destination, ref->GetParentCellStub(), ref->FUN_00575d70());
-    if (!route.FUN_0076b610() && index < route.FUN_0044ddc0())
+    if (route.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
+        BuildPathRequest(*static_cast<const TESObjectREFR*>(ref)->GetPos(), destination, ref->GetParentCellStub(), ref->TESObjectREFR_GetWorldSpace());
+    if (!route.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty() && index < route.FUN_0044ddc0())
     {
         Waypoint waypoint(route.FUN_009a3280(index));
         index = index + 1;
@@ -1545,7 +1546,7 @@ NiPoint3 Pather::GetPathPoint(TESObjectREFR* ref)
     else
     {
         result = RandomOffsetVectorFromOrigin(destination, 800.0f, 300.0f, 0);
-        FUN_006d7110(ref->FUN_00575d70(), ref->GetParentCellStub(), &result, 300.0f, &result);
+        Pathing_FindPointOnNavMesh(ref->TESObjectREFR_GetWorldSpace(), ref->GetParentCellStub(), &result, 300.0f, &result);
     }
     return result;
 }
@@ -1558,7 +1559,7 @@ struct FUN_0041ce10_Holder
 {
     void ClearScript(void* obj);
 };
-FUN_0041ce10_Holder* __fastcall FUN_005d43c0(FUN_004f2770_Class* player);
+FUN_0041ce10_Holder* __fastcall BSFile_GetDevice(FUN_004f2770_Class* player);
 
 struct FUN_009f9450 : TESPackage
 {
@@ -1571,7 +1572,7 @@ FUN_009f9450::~FUN_009f9450()
 {
     if (_g_thePlayer)
     {
-        FUN_005d43c0(_g_thePlayer)->ClearScript(this);
+        BSFile_GetDevice(_g_thePlayer)->ClearScript(this);
     }
 }
 

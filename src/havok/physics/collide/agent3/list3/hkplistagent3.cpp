@@ -28,7 +28,7 @@ struct DA6E60Input
     int m_unk1C;
 };
 
-void __cdecl FUN_00da48e0(int context, DA6E60Input* input);
+void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(int context, DA6E60Input* input);
 
 // Reads the collidable's shape type, fills a DA6E60Input from the arguments, and passes it to FUN_00da48e0 with the context.
 // @fnv 0x00da6e60
@@ -42,7 +42,7 @@ void __cdecl FUN_00da6e60(int unused, int context, int a, DA6E60Collidable* coll
     input.m_unk14 = c;
     input.m_iType = shapeType;
     input.m_unk18 = d;
-    FUN_00da48e0(context, &input);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(context, &input);
 }
 
 void __cdecl _hkAgent1nMachine_WarpTime(int a1, float a2, float a3, int a4);

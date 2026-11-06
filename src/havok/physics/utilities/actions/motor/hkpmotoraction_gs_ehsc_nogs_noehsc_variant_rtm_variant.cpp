@@ -123,8 +123,8 @@ void MotorAction::hkpMotorAction_applyAction(const TimeInterval& stepInfo)
     __declspec(align(16)) hkMatrix3 worldInertia;
     reinterpret_cast<const Motion*>(&rb->m_pMotionState)->GetInertiaLocal(worldInertia);
 
-    angularDelta.FUN_00c7f750(worldInertia, angularDelta);
-    angularDelta.FUN_00c7f700(rotation, angularDelta);
+    angularDelta.hkVector4_setMul3(worldInertia, angularDelta);
+    angularDelta.hkVector4_setRotatedDir(rotation, angularDelta);
 
     StepMotion(rb, stepInfo.m_fTimeStep, angularDelta);
 }

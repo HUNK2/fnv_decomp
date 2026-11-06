@@ -230,14 +230,14 @@ struct hkMemoryRouterXcf4e30
 };
 
 namespace hkRouterXcf4e30 {
-extern "C" hkMemoryRouterXcf4e30& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouterXcf4e30& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
 static __forceinline void hkArrayXcf4e30_AddBack(hkArrayBase<T>& self, const T& e)
 {
-        hkMemoryRouterXcf4e30& router = hkRouterXcf4e30::FUN_00c85750();
+        hkMemoryRouterXcf4e30& router = hkRouterXcf4e30::hkMemoryRouter_getInstance();
         if (self.m_iElementCount == self.getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, (&self), sizeof(T));
         memCpyOneAlignedXcf4e30<sizeof(T)>(self.m_data + self.m_iElementCount, &e);

@@ -105,9 +105,9 @@ public:
                               const NiRenderTargetGroup* group);
 
     void NiDX9Renderer_PerformPrecache();
-    void FUN_004a0370();
-    void FUN_004a03c0();
-    Direct3DDeviceInterface* FUN_004dc020();
+    void NiXenonRenderer_LockRenderer();
+    void NiXenonRenderer_UnlockRenderer();
+    Direct3DDeviceInterface* NiXenonRenderer_GetD3DDevice();
     int FUN_004e9530();
     unsigned int FUN_004dee70();
     unsigned int FUN_004dee10();

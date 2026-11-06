@@ -176,7 +176,7 @@ struct FnvCpu_FUN_00cdf530_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cdf530_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00cdf530_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00cdf530_CpuObject
 {
     unsigned int unk00;

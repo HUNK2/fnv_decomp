@@ -71,7 +71,7 @@ public:
     PacketCallLocal_00e38140(float x, float y, float z, float w);
     PacketCallLocal_00e38140(const __m128& vector);
 
-    PacketCallLocal_00e38140* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00e38140* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00e38140* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00e38140* vector);
     PacketCallLocal_00e38140& FUN_00e531a0(int parameter);
@@ -168,7 +168,7 @@ extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern unsigned long DAT_0126835c;
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 
 
 struct VUC_Mon
@@ -310,7 +310,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
     FUN_00e39400 breakingInfo;
     {
         int n = m_data->m_iWheelCount;
-        char** cur = (char**)FUN_00c85750();
+        char** cur = (char**)hkMemoryRouter_getInstance();
         char* p = *cur;
         *cur = p + ((n * 4 + 0x7f) & ~0x7f);
         transmission.m_pGearRatios = (float*)p;
@@ -335,7 +335,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
 
     {
         char* p = (char*)transmission.m_pGearRatios;
-        *(char**)FUN_00c85750() = p;
+        *(char**)hkMemoryRouter_getInstance() = p;
     }
 
     {
@@ -768,7 +768,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     hkpVehicleInstance* vehicle = reinterpret_cast<hkpVehicleInstance*>(this);
     VUC_RealArray& rFixedArray = output.m_kSecondRealArray;
     int count = vehicle->m_kSecondRealArray.m_iElementCount;
-    hkMemoryRouter* router = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* router = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* alloc = router->m_heap;
     int capacity = rFixedArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
@@ -780,7 +780,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     }
     rFixedArray.m_iElementCount = count;
     count = vehicle->m_kSecondRealArray.m_iElementCount;
-    router = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    router = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     alloc = router->m_heap;
     capacity = output.m_kFirstRealArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
@@ -809,7 +809,7 @@ template <typename T> void hkMemoryAllocator::_bufFree(void* p, int aiNumElement
 
 template <typename T, typename A> __forceinline hkArray<T, A>::~hkArray()
 { __if_exists(A::destroy) { A::destroy(*this); } __if_not_exists(A::destroy) {
-    hkMemoryAllocator& kAlloc = ((hkMemoryRouter*)FUN_00c85750())->heap();
+    hkMemoryAllocator& kAlloc = ((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         kAlloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -830,7 +830,7 @@ template <typename T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMem
 
 hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return ((hkMemoryRouter*)FUN_00c85750())->heap();
+    return ((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap();
 }
 
 template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
@@ -880,7 +880,7 @@ struct VUC_AeroOutput
 
 static inline void VUC_ReleaseArray(VUC_RealArray& a)
 {
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = router->m_heap;
     a.m_iElementCount = 0;
     if ((a.m_iCapacityState & 0x80000000) == 0)
@@ -897,7 +897,7 @@ struct VUC_StepLocals
 
 struct VUC_StepInstance : VUC_Instance
 {
-    void FUN_00e385e0(const VUC_StepInfo& stepInfo, const VUC_AeroOutput& aero,
+    void hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& stepInfo, const VUC_AeroOutput& aero,
                       const VUC_RealArray& suspensionForceAtWheel,
                       const VUC_RealArray& totalLinearForceAtWheel) throw();
     void hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(const VUC_StepInfo& stepInfo, void* det);
@@ -930,7 +930,7 @@ void VUC_StepInstance::hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(con
 
     UpdateVehicleComponents(stepInfo, det, &stepLocals.aerodynamicsInfo, stepLocals.suspensionForceAtWheel,
                             totalLinearForceAtWheel);
-    FUN_00e385e0(stepInfo, stepLocals.aerodynamicsInfo, stepLocals.suspensionForceAtWheel, totalLinearForceAtWheel);
+    hkpVehicleInstance_simulateVehicle(stepInfo, stepLocals.aerodynamicsInfo, stepLocals.suspensionForceAtWheel, totalLinearForceAtWheel);
 
     mon = (VUC_Mon*)TlsGetValue(DAT_0126835c);
     if (mon->m_kRayEnd < mon->m_capMinus16)
@@ -947,7 +947,7 @@ void VUC_StepInstance::hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(con
     VUC_ReleaseArray(stepLocals.suspensionForceAtWheel);
 }
 
-void* FUN_00c85750() throw();
+void* hkMemoryRouter_getInstance() throw();
 
 struct VehicleStepInfo
 {
@@ -993,7 +993,7 @@ struct VehicleInstance
     void* m_pSuspension;
     void* m_pAerodynamics;
     VehicleWheelCollide* m_pWheelCollide;
-    void FUN_00e37940();
+    void hkpVehicleInstance_updateBeforeCollisionDetection();
     void hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(const VehicleStepInfo* stepInfo, void* scratch);
     void hkpVehicleInstance_stepVehicle(const VehicleStepInfo* stepInfo);
 };
@@ -1002,9 +1002,9 @@ struct VehicleInstance
 // src: HAVOK_LIB 0x00e39190
 void VehicleInstance::hkpVehicleInstance_stepVehicle(const VehicleStepInfo* stepInfo)
 {
-    FUN_00e37940();
+    hkpVehicleInstance_updateBeforeCollisionDetection();
     int wheelCount = m_data->m_iWheelCount;
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     char* originalTop = static_cast<char*>(router->m_stack.m_next.m_storage);
     float deltaTime = stepInfo->m_fTimeStep;
     router->m_stack.m_next.m_storage = originalTop + (((wheelCount * 3 << 5) + 127) & ~127);
@@ -1012,8 +1012,8 @@ void VehicleInstance::hkpVehicleInstance_stepVehicle(const VehicleStepInfo* step
 
     m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
     hkpVehicleInstance_stepVehicleUsingWheelCollideOutput(stepInfo, originalTop);
-    ((hkMemoryRouter*)FUN_00c85750())->m_stack.m_next.m_storage = originalTop;
-    hkMemoryAllocator* allocator = ((hkMemoryRouter*)FUN_00c85750())->m_heap;
+    ((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_stack.m_next.m_storage = originalTop;
+    hkMemoryAllocator* allocator = ((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap;
     if (!(capacityAndFlags & 0x80000000))
     {
         allocator->bufFree(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
@@ -1092,7 +1092,7 @@ class FUN_00e38b20
     void* operator new(unsigned int nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
-            static_cast<hkMemoryRouter*>(FUN_00c85750())->heap().blockAlloc(nbytes));
+            static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1525,12 +1525,13 @@ struct VehStep_Vehicle
     void FUN_00e380c0(VehStep_Accumulator& chassis);
     void FUN_00e38140(float dt, VehStep_FrictionParams& params, VehStep_Ground& ground);
     void FUN_00e38310(float dt, VehStep_Ground& ground, VehStep_FrictionParams& params);
-    void FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3);
+    void hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3);
 };
 
 // Calls motion slots 5c and 60 with out's transforms, applies velocity damping, then runs the axle and friction helpers between two timer samples.
 // @fnv 0x00e385e0
-void VehStep_Vehicle::FUN_00e385e0(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3)
+// src: XBOX_PDB 0x00e385e0
+void VehStep_Vehicle::hkpVehicleInstance_simulateVehicle(const VUC_StepInfo& stepInfo, VehStep_Output* out, void* a2, void* a3)
 {
     volatile unsigned int ticks;
     {
@@ -1923,11 +1924,12 @@ struct WheelInit
     __declspec(align(16)) PacketCallLocal_00e38140 ma0;
     __declspec(align(16)) PacketCallLocal_00e38140 mb0;
     float mc0, mc4, mc8, mcc, md0, md4;
-    void FUN_00e370b0();
+    void hkpVehicleInstance_WheelInfo_init();
 };
 // Loads preset vectors into m00, m10 and mb0, sets m90 to (1,0,0,0), m28 to -1 and m10.w to 1, and zeroes the other fields it touches.
 // @fnv 0x00e370b0
-void WheelInit::FUN_00e370b0()
+// src: XBOX_PDB 0x00e370b0
+void WheelInit::hkpVehicleInstance_WheelInfo_init()
 {
     __m128 normal = DAT_010c7190;
     reinterpret_cast<__m128&>(m00.m_vComponents) = DAT_01267e30;
@@ -1988,7 +1990,7 @@ void __stdcall hkpVehicleInstance_handleFixedGroundAccum(int, FnvVehicleState* s
 // @fnv 0x00e39400
 FUN_00e39400::~FUN_00e39400() throw()
 {
-    hkMemoryRouter* m = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* m = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* alloc = m->m_heap;
     int c = m_kSecondRealArray.m_iCapacityState;
     m_kSecondRealArray.m_iElementCount = 0;
@@ -1996,7 +1998,7 @@ FUN_00e39400::~FUN_00e39400() throw()
         alloc->bufFree(m_kSecondRealArray.m_data, c & 0x3fffffff);
     m_kSecondRealArray.m_data = 0;
     m_kSecondRealArray.m_iCapacityState = 0x80000000;
-    m = (hkMemoryRouter*)FUN_00c85750();
+    m = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     alloc = m->m_heap;
     c = m_kFirstRealArray.m_iCapacityState;
     m_kFirstRealArray.m_iElementCount = 0;

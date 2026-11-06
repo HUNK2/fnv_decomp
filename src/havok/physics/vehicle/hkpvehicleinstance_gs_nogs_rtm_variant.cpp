@@ -35,7 +35,7 @@ using ::DAT_01011d78;
 struct __declspec(align(16)) WheelUpdateVector
 {
     float x, y, z, w;
-    void FUN_00c7f700(hkRotation* rot, WheelUpdateVector* dir) throw();
+    void hkVector4_setRotatedDir(hkRotation* rot, WheelUpdateVector* dir) throw();
 };
 
 class WheelUpdateEntity
@@ -182,7 +182,7 @@ void hkpVehicleInstance::UpdateVehicle(hkReal dt, const hkpVehicleWheelCollide::
             result = ::_mm_add_ps(result, result);
             WheelUpdateVector spin;
             *(WheelUpdateSimd*)&spin = result;
-            ((WheelUpdateVector*)&wheel->unka0)->FUN_00c7f700(chassisRot, &spin);
+            ((WheelUpdateVector*)&wheel->unka0)->hkVector4_setRotatedDir(chassisRot, &spin);
             ++ci;
             ++i;
         } while (i < ((VUC_Data*)self->m_data)->m_iWheelCount);

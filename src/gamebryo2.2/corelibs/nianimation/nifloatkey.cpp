@@ -53,7 +53,8 @@ inline NiBinaryStream* NiStream::GetBinaryStream()
 }
 // Reads 4 bytes from the stream's input into pValue and advances the input position by the bytes read.
 // @fnv 0x00a26df0
-void FUN_00a26df0(NiStream* pkStream, void* pValue)
+// src: XBOX_PDB 0x00a26df0
+void NiStreamLoadBinary_float(NiStream* pkStream, void* pValue)
 {
     pkStream->GetBinaryStream()->Read(pValue);
 }

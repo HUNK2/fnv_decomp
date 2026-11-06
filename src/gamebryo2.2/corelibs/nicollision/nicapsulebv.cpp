@@ -182,7 +182,8 @@ struct S_00e9f400_Obj
 };
 
 // @fnv 0x00e9f400
-bool __cdecl FUN_00e9f400(float p1, int p2, int p3, int p4, int p5, float* p6, S_00e9f400_P3* p7, bool abWantNormal,
+// src: XBOX_PDB 0x00e9f400
+bool __cdecl NiCapsuleBV_CapsuleSphereFindIntersect(float p1, int p2, int p3, int p4, int p5, float* p6, S_00e9f400_P3* p7, bool abWantNormal,
                           S_00e9f400_P3* p9, S_00e9f400_P3* p10)
 {
     S_00e9f400_Obj obj;
@@ -230,7 +231,7 @@ extern float DAT_011f426c;
 extern float DAT_011f4270;
 extern float DAT_011f4274;
 
-float __cdecl FUN_00eaf310(const S_Seg* a, const S_Seg* b, float* s, float* t);
+float __cdecl NiSqrDistance_Compute(const S_Seg* a, const S_Seg* b, float* s, float* t);
 float __cdecl DistanceSquaredToSegment(const S_Vec3* p, const S_Seg* b, float* s);
 
 // @fnv 0x00e9f620
@@ -253,7 +254,7 @@ bool __cdecl SweepSphereAgainstCapsule(float t, NiCapsuleBV* apCapsule, const S_
         d.z *= t;
         sweepSeg.p = apSphere->pos;
         sweepSeg.d = d;
-        fDistSq = FUN_00eaf310(&sweepSeg, reinterpret_cast<const S_Seg*>(apCapsule->_pad), &s, &fSegParam2);
+        fDistSq = NiSqrDistance_Compute(&sweepSeg, reinterpret_cast<const S_Seg*>(apCapsule->_pad), &s, &fSegParam2);
     }
     else
     {
@@ -466,7 +467,8 @@ struct IsectObj
 extern float DAT_010141cc;
 extern float DAT_01017d00;
 // @fnv 0x00e9f510
-bool __cdecl FUN_00e9f510(float p1, int p2, int p3, int p4, int p5, float* p6, Vec3e* p7, bool abWantNormal, Vec3e* p9,
+// src: XBOX_PDB 0x00e9f510
+bool __cdecl NiCapsuleBV_CapsuleCapsuleFindIntersect(float p1, int p2, int p3, int p4, int p5, float* p6, Vec3e* p7, bool abWantNormal, Vec3e* p9,
                           Vec3e* p10)
 {
     IsectObj o;
@@ -542,7 +544,7 @@ bool __cdecl IsCapsuleSweptHit(float fTime, NiCapsuleBV* pkCapsule0, const S_Vec
     }
     else
     {
-        fSqrDist = FUN_00eaf310(reinterpret_cast<const S_Seg*>(pkCapsule0->_pad), reinterpret_cast<const S_Seg*>(pkCapsule1->_pad), &fSqrDist, &fParam1);
+        fSqrDist = NiSqrDistance_Compute(reinterpret_cast<const S_Seg*>(pkCapsule0->_pad), reinterpret_cast<const S_Seg*>(pkCapsule1->_pad), &fSqrDist, &fParam1);
     }
 
     float fRadiusSum = pkCapsule0->m_fBoundRadius + pkCapsule1->m_fBoundRadius;
@@ -776,7 +778,8 @@ inline S_Vec3 cross3(const S_Vec3& a, const S_Vec3& b)
 
 // Computes the squared distance between segments a and b and writes the closest-point parameters s and t.
 // @fnv 0x00eaf310
-float __cdecl FUN_00eaf310(const S_Seg& a, const S_Seg& b, float& s, float& t)
+// src: XBOX_PDB 0x00eaf310
+float __cdecl NiSqrDistance_Compute(const S_Seg& a, const S_Seg& b, float& s, float& t)
 {
     float edge;
     S_Vec3 vDelta = a.p - b.p;
@@ -1024,7 +1027,7 @@ float __cdecl FUN_00eaf310(const S_Seg& a, const S_Seg& b, float& s, float& t)
 }
 
 #include <string.h>
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
 struct S_00ea0730_Arr
 {
@@ -1042,7 +1045,7 @@ struct S_00ea0730_Arr
 void __stdcall AddCapsuleBV(const char* name, S_00ea0730_Arr* arr)
 {
     unsigned int n = strlen(name) + 14;
-    char* buf = (char*)FUN_00aa1070(n);
+    char* buf = (char*)_NiMalloc_00aa1070(n);
     FUN_00a305b0(buf, n, "%s = CAPSULE_BV", name);
     unsigned int i = arr->esize;
     if (i >= arr->size)
@@ -1124,7 +1127,8 @@ struct DistanceData
 };
 // Tests a moving capsule against a triangle for static overlap and swept collision, returning contact time, point, and normal.
 // @fnv 0x00e9fdc0
-bool __cdecl FUN_00e9fdc0(float afTime, NiCapsuleBV* apCapsule, NiPoint3* a2, const NiPoint3* apTriA, NiPoint3* apTriB, NiPoint3* apTriC,
+// src: XBOX_PDB 0x00e9fdc0
+bool __cdecl NiCapsuleBV_CapsuleTriFindIntersect(float afTime, NiCapsuleBV* apCapsule, NiPoint3* a2, const NiPoint3* apTriA, NiPoint3* apTriB, NiPoint3* apTriC,
                           NiPoint3* a6, float* a7, NiPoint3* apPoint, bool abNormal, NiPoint3* apNormal, NiPoint3* apNormal2)
 {
     DistanceData collisionData;

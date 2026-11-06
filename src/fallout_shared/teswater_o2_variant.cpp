@@ -203,11 +203,12 @@ class B9F30Owner
     int unk148;
     B9F30Property* m_pkProperty;
 
-    B9F30Property* FUN_00b69f30(B9F30Geometry* pkGeometry);
+    B9F30Property* WaterShaderProperty_GetWaterPass(B9F30Geometry* pkGeometry);
 };
 
 // @fnv 0x00b69f30
-B9F30Property* B9F30Owner::FUN_00b69f30(B9F30Geometry* pkGeometry)
+// src: XBOX_PDB 0x00b69f30
+B9F30Property* B9F30Owner::WaterShaderProperty_GetWaterPass(B9F30Geometry* pkGeometry)
 {
     if (!m_pkProperty)
     {

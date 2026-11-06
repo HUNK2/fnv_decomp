@@ -1105,7 +1105,7 @@ struct Holder
     void __thiscall AppendBoundInfo(StrArr* strings);
 };
 
-char* __cdecl FUN_00a7d490(char const* name, unsigned short value);
+char* __cdecl NiGetViewerString_00a7d490(char const* name, unsigned short value);
 
 // Appends the pLocalBound string and the instance count string to the given string array, growing it as needed.
 // @fnv 0x00c1a5a0
@@ -1121,7 +1121,7 @@ void Holder::AppendBoundInfo(StrArr* strings)
 
     strings->SetAt(index, value);
 
-    value = FUN_00a7d490("instance count", m_instanceCount);
+    value = NiGetViewerString_00a7d490("instance count", m_instanceCount);
     index = strings->m_usSize;
 
     if (index >= strings->m_usMaxSize)
@@ -1151,7 +1151,7 @@ struct Caller74690
     void __thiscall FUN_00a74690(StrArr* value);
 };
 
-char* __cdecl FUN_00a7d490(char const* text, unsigned short value);
+char* __cdecl NiGetViewerString_00a7d490(char const* text, unsigned short value);
 
 
 struct FUN_00c1a740_class
@@ -1178,7 +1178,7 @@ void __thiscall FUN_00c1a740_class::SetLocalBoundAndInstanceCount(StrArr* pStrAr
 
     pStrArr->SetAt(index, text);
 
-    text = FUN_00a7d490("instance count", m_c4);
+    text = NiGetViewerString_00a7d490("instance count", m_c4);
 
     index = pStrArr->m_usSize;
     if (index >= pStrArr->m_usMaxSize)
@@ -1539,7 +1539,7 @@ struct Handle
 
 struct HandlePool
 {
-    void FUN_00aa4060(Handle* handle);
+    void MemoryManager_Deallocate(Handle* handle);
 };
 extern HandlePool DAT_011f6238;
 
@@ -1615,7 +1615,7 @@ FUN_00c03580::~FUN_00c03580()
         if (handle)
         {
             handle->FUN_00ba3a00();
-            DAT_011f6238.FUN_00aa4060(handle);
+            DAT_011f6238.MemoryManager_Deallocate(handle);
         }
         int cleared = 0;
         m_handles.FUN_00ba3aa0(2, &cleared);
@@ -1627,7 +1627,7 @@ FUN_00c03580::~FUN_00c03580()
         if (handle)
         {
             handle->FUN_00ba3a00();
-            DAT_011f6238.FUN_00aa4060(handle);
+            DAT_011f6238.MemoryManager_Deallocate(handle);
         }
         int cleared = 0;
         m_handles.FUN_00ba3aa0(3, &cleared);
@@ -1818,12 +1818,13 @@ struct ShaderOwner
 
     ShaderObj* CreateVertexShader(char* path, int* desc, void* p, char* name);
     ShaderObj* CreatePixelShader(char* path, int* desc, void* p, char* name);
-    void FUN_00c03ae0(ShaderDesc* vsDesc, ShaderDesc* psDesc, const char* name, void* vsArg, void* psArg);
+    void ImageSpaceShader_LoadShaders(ShaderDesc* vsDesc, ShaderDesc* psDesc, const char* name, void* vsArg, void* psArg);
 };
 
 // Builds vertex and pixel shader paths and names, creates the vertex shader, and creates the pixel shader only when psArg is non-null.
 // @fnv 0x00c03ae0
-void ShaderOwner::FUN_00c03ae0(ShaderDesc* pVertexDesc, ShaderDesc* pPixelDesc, const char* name, void* pVertexArg,
+// src: XBOX_PDB 0x00c03ae0
+void ShaderOwner::ImageSpaceShader_LoadShaders(ShaderDesc* pVertexDesc, ShaderDesc* pPixelDesc, const char* name, void* pVertexArg,
                                void* pPixelArg)
 {
     char path[0x104];
@@ -4675,7 +4676,7 @@ void __cdecl ReleaseObjectArray(int aiValue);
 class FUN_00c1d980_pool
 {
   public:
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern FUN_00c1d980_pool DAT_011f6238;
 
@@ -4695,7 +4696,7 @@ FUN_00c1d980_cls* FUN_00c1d980_cls::FUN_00c1d980(unsigned char acFlags)
     ReleaseObjectArray(value);
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -4708,7 +4709,7 @@ void __cdecl ReleaseObjectArray(int aiValue);
 class FUN_00c1d9b0_pool
 {
   public:
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern FUN_00c1d9b0_pool DAT_011f6238;
 
@@ -4728,7 +4729,7 @@ FUN_00c1d9b0_cls* FUN_00c1d9b0_cls::FUN_00c1d9b0(unsigned char acFlags)
     ReleaseObjectArray(value);
     if (acFlags & 1)
     {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -4743,11 +4744,12 @@ struct FUN_00c1f4e0_cls
     int unk10;
     unsigned char m_b14;
 
-    void __thiscall FUN_00c1f4e0(unsigned char value);
+    void __thiscall NiPSysModifier_SetActive(unsigned char value);
 };
 
 // @fnv 0x00c1f4e0
-void FUN_00c1f4e0_cls::FUN_00c1f4e0(unsigned char value)
+// src: XBOX_PDB 0x00c1f4e0
+void FUN_00c1f4e0_cls::NiPSysModifier_SetActive(unsigned char value)
 {
     m_b14 = value;
 }
@@ -5756,7 +5758,7 @@ struct FUN_00ba8cd0
     ~FUN_00ba8cd0();
 };
 FUN_00ba8cd0 __cdecl FUN_00ba8ec0(RenderGeometry*, int, int, int, int);
-void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
+void __cdecl BSBatchRenderer_RenderPassImmediately(void*, unsigned short, int, int, int);
 
 // Sets up the geometry's owner, settings and mode, applies clear color and render target, runs the 0x2f6 pass, and restores the previous clear color.
 // @fnv 0x00c03d80
@@ -5804,7 +5806,7 @@ void RenderSecondary::RenderSecondaryGeometry(RenderGeometry* geometry, int unus
         DAT_011f4748->ApplyColor(color);
     effect->SetMode(0x2f6);
     FUN_00ba8cd0 pass = FUN_00ba8ec0(geometry, 0x2f6, 1, 0, 0);
-    FUN_00b994f0(&pass, 0x2f6, 0, 0, 0);
+    BSBatchRenderer_RenderPassImmediately(&pass, 0x2f6, 0, 0, 0);
     if (texture.m_pObject && restore)
     {
         NiRenderTargetGroup* group = DAT_011f4748->GetCurrentGroup();
@@ -9837,16 +9839,16 @@ struct P440Shader
         unsigned int bit = (unsigned int)index % 32;
         return ((word == 0 ? flags : flags2) & (1u << bit)) > 0;
     }
-    void FUN_00441130(int, bool);
+    void BSShaderProperty_SetFlag(int, bool);
     void EnsureNewObj(int);
     void EnsureBa9740Obj(int);
     void EnsureAllocated(int);
     void CreateSpawnedObjectIfMissing(int);
     void FUN_00ba95e0(int);
-    void FUN_00ba8ab0(float);
+    void BSShaderProperty_SetAlpha(float);
     void SortShadowSceneLights(P440Position*);
     P440Light* FUN_00b70590(void**);
-    P440Light* FUN_00b70680(void**);
+    P440Light* BSShaderLightingProperty_GetNextActiveLight(void**);
     P440Light* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void**);
     P440Light* BSShaderLightingProperty_GetNextActiveNonShadowLight(void**);
     P440List* GetPasses(P440Geometry*, unsigned int, int, unsigned int, P440Renderer*, int);
@@ -9855,7 +9857,7 @@ extern P440Renderer* DAT_011f4748;
 extern float DAT_011f9458, DAT_011f9460, DAT_011f9468, DAT_011f946c;
 extern float DAT_011f9470;
 extern unsigned char DAT_011f91a7;
-P440Renderer* __cdecl FUN_00b4f5c0();
+P440Renderer* __cdecl BSShaderManager_GetAccumulator();
 bool __cdecl IsParticleShaderRendererEnabled();
 int __cdecl GetGlobalFloatAsUInt();
 bool __cdecl BSShaderManager_GetShadows();
@@ -9979,8 +9981,8 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
         delta.y = bound.y - cameraPosition.y;
         delta.z = bound.z - cameraPosition.z;
         distance = delta.FUN_00457990() - bound.r;
-        if (FUN_00b4f5c0()->active)
-            distance *= FUN_00b4f5c0()->active->scale;
+        if (BSShaderManager_GetAccumulator()->active)
+            distance *= BSShaderManager_GetAccumulator()->active->scale;
         if (distance != previousDistance)
         {
             if (fade20000)
@@ -10029,7 +10031,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
         }
         else
             value = opacity;
-        FUN_00ba8ab0(value);
+        BSShaderProperty_SetAlpha(value);
         if (value < 1.0f)
             translucent = true;
     }
@@ -10041,7 +10043,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
     void* lightIterator;
     if (cacheKey == uiCacheKey && dirty)
     {
-        P440Light* defaultLight = FUN_00b4f5c0()->camera->defaultLight;
+        P440Light* defaultLight = BSShaderManager_GetAccumulator()->camera->defaultLight;
         for (unsigned int i = 0; i < passes->count; ++i)
         {
             P440Pass* pass = passes->passes[i];
@@ -10128,7 +10130,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
     bool isNear = FUN_004a2020(0) && (int)(uiCacheKey & 8) > 0 && fadeNear;
     bool hasAlpha = translucent || (geometry->properties.flags->unk18 & 1);
     bool environment = IsParticleShaderRendererEnabled() && !FUN_004a2020(0xd) && GetGlobalFloatAsUInt() &&
-                       FUN_00b4f5c0()->camera->mode != 1 && FUN_00b4f5c0()->camera->mode != 3;
+                       BSShaderManager_GetAccumulator()->camera->mode != 1 && BSShaderManager_GetAccumulator()->camera->mode != 3;
     if (geometry->material->skinned || FUN_004a2020(0x25))
         skinned = true;
     if (extra)
@@ -10149,7 +10151,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
         passes->FUN_00ba9ee0(geometry, 0x1d1 + (flag1 ? 1 : 0), 1, 0, 0, 0, 0, 0);
         passes->passes[passes->count - 1]->blend = 7;
     }
-    P440Light* defaultLight = FUN_00b4f5c0()->camera->defaultLight;
+    P440Light* defaultLight = BSShaderManager_GetAccumulator()->camera->defaultLight;
     passes->FUN_00ba9ee0(geometry, 0, 1, 0, 0, 0, 0, 0);
     P440Pass* pass = passes->passes[passes->count - 1];
     pass->count = 1;
@@ -10158,7 +10160,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
     {
         if (!light->special)
             pass->count++;
-        light = FUN_00b70680(&lightIterator);
+        light = BSShaderLightingProperty_GetNextActiveLight(&lightIterator);
     }
     if (pass->count > 0)
     {
@@ -10175,13 +10177,13 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
         {
             if (!light->special)
                 pass->lights[lightIndex++] = light;
-            light = FUN_00b70680(&lightIterator);
+            light = BSShaderLightingProperty_GetNextActiveLight(&lightIterator);
         }
         pass->count = lightIndex;
     }
     else
         pass->lights = 0;
-    FUN_00441130(0x1e, false);
+    BSShaderProperty_SetFlag(0x1e, false);
     if (FUN_004a2020(0x12))
     {
         if (isNear)
@@ -10481,7 +10483,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
                 else if (FUN_004a2020(0x1b))
                     pass->blend = FUN_004a2020(0x35) ? 1 : 5;
             }
-            light = FUN_00b70680(&lightIterator);
+            light = BSShaderLightingProperty_GetNextActiveLight(&lightIterator);
         }
     }
     if (extra && extra->enabled)

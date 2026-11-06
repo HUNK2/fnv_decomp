@@ -26,8 +26,8 @@ class NiScreenElements : public NiTriShape
     NiScreenElementsData* GetData();
     void* DestroyIfRequested(bool requested);
 
-    void FUN_00a5a040();
-    void FUN_00a59c60(NiUpdateData* data);
+    void UpdateProperties();
+    void NiAVObject_Update(NiUpdateData* data);
     void NiScreenElements_Draw(ScreenSink* sink);
     void __fastcall FUN_00a89760();
     NiScreenElements* __thiscall FUN_00a87830(unsigned int flags);

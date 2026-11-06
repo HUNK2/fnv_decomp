@@ -23,7 +23,7 @@ struct FUN_00ce2430_Class
     unsigned char pad[0x2c];
     FUN_00ce2430_Data* data;
 
-    void FUN_00ce2150(int, float, void*);
+    void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int, float, void*);
     void ApplyValueToTransforms(float, FUN_00ce2430_Transform*);
 };
 struct MemoryManager
@@ -67,7 +67,7 @@ struct ArrayRouter
     void* unk0c;
     ArrayAllocator* m_pStreamAllocator;
 };
-ArrayRouter* __cdecl FUN_00c85750();
+ArrayRouter* __cdecl hkMemoryRouter_getInstance();
 template <class T> struct ObjectArray
 {
     T* m_data;
@@ -79,7 +79,7 @@ template <class T> struct ObjectArray
     }
     __forceinline void assign(const ObjectArray& source)
     {
-        ArrayAllocator* heap = FUN_00c85750()->m_pStreamAllocator;
+        ArrayAllocator* heap = hkMemoryRouter_getInstance()->m_pStreamAllocator;
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < source.m_iElementCount)
         {
@@ -108,7 +108,7 @@ struct RagdollInstance : hkReferencedObject
 };
 struct FUN_00ce26f0_ObjectC
 {
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
 };
 struct FUN_00ce26f0_ObjectB
 {
@@ -339,7 +339,7 @@ struct RouterRef_ce24
     {
         return *m_pStreamAllocator;
     }
-    static RouterRef_ce24& __cdecl FUN_00c85750() throw();
+    static RouterRef_ce24& __cdecl hkMemoryRouter_getInstance() throw();
 };
 template <class T> struct hkArray_ce24
 {
@@ -358,7 +358,7 @@ template <class T> struct hkArray_ce24
     }
     void SetSizeAndGrow(int n)
     {
-        ArrayAllocator& heap = RouterRef_ce24::FUN_00c85750().heap();
+        ArrayAllocator& heap = RouterRef_ce24::hkMemoryRouter_getInstance().heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -402,7 +402,7 @@ struct Vec4x3
     __m128 r1;
     __m128 r2;
 };
-void __cdecl FUN_00ce2f40(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4);
+void __cdecl hkaSkeletonMapper_additivePoseFromCombinedPoseAndReferencePose(unsigned int arg0, unsigned int arg1, unsigned int arg2, int count, unsigned int arg4);
 extern float DAT_01267e30;
 extern float DAT_01017d00;
 extern float DAT_01017d10;

@@ -365,7 +365,7 @@ struct S_e07c50_Item
     int unk58;
     int m_kRayEnd;
 };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
@@ -709,7 +709,7 @@ struct Handler
     Entry* unk10;
     void __thiscall hkpMoppDefaultAssembler_fixScale(Entry*);
     int __thiscall ClassifyVec3Region(int);
-    void __thiscall FUN_00e07880(Entry*, Entry*, Entry**, Entry**);
+    void __thiscall hkpMoppDefaultAssembler_findPlanes(Entry*, Entry*, Entry**, Entry**);
     void __thiscall hkpMoppDefaultAssembler_addSplit(Entry*, Entry*, int, int, int);
     void __thiscall WriteSize(int);
     void __thiscall hkpMoppDefaultAssembler_checkAndAddProperties(Entry*, Entry*, Entry*);
@@ -821,7 +821,7 @@ struct S_00e07da0_Tree
     void ComputeNodeBounds(S_00e07da0_Node* node, S_00e07da0_Region* region);
     void hkpMoppDefaultAssembler_recalcRescale(S_00e07da0_Region* parent, S_00e07da0_Region* region, S_00e07da0_Result* out);
     int ClassifyVec3Region(void* p);
-    void FUN_00e07880(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
+    void hkpMoppDefaultAssembler_findPlanes(S_00e07da0_Node* node, S_00e07da0_Region* region, int* lo, int* hi);
 };
 struct BSAudio;
 extern int DAT_010ea5dc;
@@ -1159,7 +1159,7 @@ struct FUN_00e07b90_vector
 {
     float x, y, z, w;
 };
-void __stdcall FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
+void __stdcall hkpMoppDefaultAssembler_getScaleInfo(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
 struct S_00e07d60_Info
 {
     float x;
@@ -1217,11 +1217,11 @@ void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta);
 void __cdecl ResizeAudioStream(void*, void*, int);
 inline hkMemoryAllocator& GetHeap()
 {
-    return *(hkMemoryAllocator*)FUN_00c85750()->m_heap;
+    return *(hkMemoryAllocator*)hkMemoryRouter_getInstance()->m_heap;
 }
 inline hkMemoryRouter* GetBvRouter()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 template <class T>
 static __forceinline void BvArray_clear(hkArrayBase<T>& self)
@@ -1350,7 +1350,7 @@ struct BvRange
     int unk10;
 };
 void __stdcall hkpMoppDefaultAssembler_assembleCutAndTerminalCommand(struct BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack);
-void* __cdecl FUN_00cb1260(void*, const void*, int);
+void* __cdecl hkString_memCpy(void*, const void*, int);
 // src: HAVOK_LIB 0x00e08320
 static void copyJumpCommandInfo(hkArrayBase<BvFixup>* destination, hkArrayBase<BvFixup>* source, int adjustment)
 {
@@ -1408,7 +1408,7 @@ struct P154Array
     void Search(hkMemoryAllocator*, int, int*, int);
     void append(const int& v)
     {
-        hkMemoryRouter* s = FUN_00c85750();
+        hkMemoryRouter* s = hkMemoryRouter_getInstance();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(s->m_heap), this, 4);
         constructCopy(data + count, 1, v);
@@ -1416,13 +1416,13 @@ struct P154Array
     }
     void insert(int* src, int pos, int n)
     {
-        hkMemoryRouter* r = FUN_00c85750();
+        hkMemoryRouter* r = hkMemoryRouter_getInstance();
         hkMemoryAllocator* a = reinterpret_cast<hkMemoryAllocator*>(r->m_heap);
         Search(a, pos, src, n);
     }
     void clear()
     {
-        hkMemoryRouter* r = FUN_00c85750();
+        hkMemoryRouter* r = hkMemoryRouter_getInstance();
         hkMemoryAllocator* a = reinterpret_cast<hkMemoryAllocator*>(r->m_heap);
         count = 0;
         if (!(capacity & 0x80000000))
@@ -1442,7 +1442,7 @@ struct P154PairArray
     unsigned capacity;
     P154Pair& grow()
     {
-        hkMemoryRouter* s = FUN_00c85750();
+        hkMemoryRouter* s = hkMemoryRouter_getInstance();
         if (count == int(capacity & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(s->m_heap), this, 8);
         for (int i = 0; i < 1; ++i)

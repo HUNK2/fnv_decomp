@@ -9,7 +9,7 @@
 FNV_STATIC_ASSERT(sizeof(NiRTTI) == 0x8);
 
 extern const char DAT_0104d448[];
-void __cdecl FUN_004ede70(const void*);
+void __cdecl NiTMallocInterface_unsigned_int_Deallocate(const void*);
 struct RTTIEntry
 {
     const void* name;
@@ -20,5 +20,5 @@ struct RTTIEntry
 void RTTIEntry::FUN_0061bcf0()
 {
     name = DAT_0104d448;
-    FUN_004ede70(base);
+    NiTMallocInterface_unsigned_int_Deallocate(base);
 }

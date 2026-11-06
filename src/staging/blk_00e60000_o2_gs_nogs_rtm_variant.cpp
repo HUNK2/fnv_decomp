@@ -323,7 +323,7 @@ struct FUN_00e611d0_Object
     int unk18;
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl AppendIndexSequence(int, int, int, int, int);
 void __cdecl AppendIndices(int, int, int, int, int);
 void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, int value);
@@ -4026,7 +4026,7 @@ struct IndexAllocator
 };
 struct IndexArray;
 void __cdecl hkArrayUtil__reserve(IndexAllocator* alloc, IndexArray* arr, int newCap, int elemSize);
-void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int n);
+void* __cdecl hkString_memCpy(void* dst, const void* src, unsigned int n);
 struct IndexArray
 {
     unsigned short* data;
@@ -4045,7 +4045,7 @@ struct HeapAlloc
 
 inline hkMemoryRouter* getRouter() throw()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 void __cdecl ResizeAudioStream(HeapAlloc* alloc, void* arr, int elemSize);
 template <class T> inline void construct(T* p, int n, const T& t)
@@ -4213,9 +4213,9 @@ void __cdecl hkArrayUtil__reserve(void*, IndexArray*, int, int);
 void __cdecl AppendIndexSequence(int type, int count, int start, IndexArray* output, void* allocator);
 
 namespace HavokHeapAccess {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
-void* __cdecl FUN_00cb1260(void* pDst, const void* pSrc, int iNumBytes);
+void* __cdecl hkString_memCpy(void* pDst, const void* pSrc, int iNumBytes);
 
 void __cdecl FUN_00e60f50(int iType, const int* piIndices, int iNumIndices, int iOffset, hkArray<int>& kOut);
 extern "C" double DAT_010229b8;
@@ -5063,7 +5063,7 @@ class GlobalObject_0096a2d0
 extern BlkListNodeView* DAT_011c5f58;
 extern GlobalObject_0096a2d0 g_011c5f80;
 extern unsigned int DAT_011c5f84;
-void __cdecl FUN_0043a080();
+void __cdecl NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
 struct ItemList168
 {
 
@@ -5288,7 +5288,7 @@ static __forceinline void IntArrayX_GrowArrayCapacity(hkArrayBase<int>& self, He
 
 static __forceinline int* IntArrayX_expandBy(hkArrayBase<int>& self, int n)
 {
-        HeapAlloc& alloc = *reinterpret_cast<HeapAlloc*>(((hkMemoryRouter*)FUN_00c85750())->m_heap);
+        HeapAlloc& alloc = *reinterpret_cast<HeapAlloc*>(((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap);
         int oldSize = self.m_iElementCount;
         IntArrayX_GrowArrayCapacity(self, alloc, oldSize + n);
         self.m_iElementCount += n;
@@ -5907,7 +5907,7 @@ int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSr
 void __cdecl NiPath_Standardize(char* pcPath);
 int __cdecl FUN_00aa1360(const char* s1, const char* s2);
 NiFile* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
-void* __cdecl FUN_00aa1070(unsigned int uiSize);
+void* __cdecl _NiMalloc_00aa1070(unsigned int uiSize);
 void __cdecl _NiFree_00aa10f0(void* pvMem);
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
 long __stdcall D3DXGetImageInfoFromFileInMemory_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
@@ -6016,7 +6016,7 @@ struct SpinLk
 {
     int owner;
     unsigned int count;
-    void FUN_0040fbf0(const char* name = 0) throw();
+    void BSSpinLock_Lock(const char* name = 0) throw();
     void Unlock() throw()
     {
         if (--count == 0)
@@ -6039,9 +6039,9 @@ struct PoolAlloc
 {
     static ListItem* Allocate() throw()
     {
-        DAT_011c5f80.FUN_0040fbf0();
+        DAT_011c5f80.BSSpinLock_Lock();
         if (!NiTAbstractPoolAllocator_unsigned_int_instance.head)
-            FUN_0043a080();
+            NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
         ListItem* p = NiTAbstractPoolAllocator_unsigned_int_instance.head;
         ListItem*& next = ((NiTAbstractPoolAllocator_unsigned_int_instance.head)->next);
         NiTAbstractPoolAllocator_unsigned_int_instance.head = next;

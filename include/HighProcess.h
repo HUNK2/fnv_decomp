@@ -191,27 +191,27 @@ public:
     void ClearAndDeleteList();
     bool ClearProcessState(Actor*);
     void ProcessActorWithFlag(Actor*, bool);
-    bool FUN_008ff080();
-    void FUN_008e5730(Actor*);
+    bool HighProcess_DoesFadeProhibitAction();
+    void EvaluateBoneLod(Actor*);
     void HighProcess_FadeAndDisable(Actor*);
-    void FUN_009bec10(float);
-    void FUN_009ae580(float);
-    void FUN_008fe960(Actor*, int, int);
+    void Projectile_ProcessMovement(float);
+    void ProcessMovement(float);
+    void HighProcess_FadeOut(Actor*, int, int);
     // called non-virtually by Update (0x008eeec0), addresses from the original's call targets
-    void FUN_008db240(Actor*);                  // 0x008db240
+    void ProcessWarning(Actor*);                  // 0x008db240
     void SelectTarget(Actor*);                  // 0x008db4f0
     void ProcessAlertSearch(Actor*);                  // 0x008dd8e0
-    void FUN_008dd980(Actor*);                  // 0x008dd980
+    void ProcessSearchforTarget(Actor*);                  // 0x008dd980
     void UpdatePathing(Actor*);                 // 0x008df060
     bool ShouldWaitForEscortTarget(Actor*, Actor*, void*, bool*); // 0x008df1e0
     void ProcessActorMovement(Actor*);          // 0x008e7c70
-    bool FUN_008f21a0();                        // 0x008f21a0
-    void FUN_008f21f0(Actor*);                  // 0x008f21f0
-    void FUN_00901740(Actor*);                  // 0x00901740
-    bool FUN_00915ef0(Actor*);                  // 0x00915ef0
+    bool HighProcess_GetSkippedLastUpdate();                        // 0x008f21a0
+    void ProcessTakeBackItem(Actor*);                  // 0x008f21f0
+    void HighProcess_SayGoodBye(Actor*);                  // 0x00901740
+    bool MiddleHighProcess_DidPathingFail(Actor*);                  // 0x00915ef0
     bool UpdateFurnitureAlignment(Actor*);      // 0x00921350
-    void FUN_00929960(Actor*, bool);            // 0x00929960
-    void FUN_0092c680();                        // 0x0092c680 (ProcessActivate 0x008e9640)
+    void MiddleHighProcess_PickPackageIdles(Actor*, bool);            // 0x00929960
+    void MiddleHighProcess_ClearFurnitureMarker();                        // 0x0092c680 (ProcessActivate 0x008e9640)
     // overrides defined in highprocess.cpp (slots from the RTTI vftable)
     virtual bool IsValidCombatTarget(Actor* apActor, Actor* apTarget); // RTTI slot 129                               // 0x00904c80
     virtual bool IsActorDetected(Actor* apActor, Actor* apTarget, DetectionListType aeType); // RTTI slot 180   // 0x008f68f0
@@ -233,8 +233,8 @@ public:
     virtual int GetDetectionCount(Actor* apTarget, DetectionListType aeType) const; // RTTI slot 181   // 0x008f6990 (slot 181)
     virtual void ClearPackageData(); // RTTI slot 400                                                // 0x009010f0 (slot 400)
     virtual void ProcessActorReferences(Actor* apActor, Actor* apTarget, Actor* apAlly); // RTTI slot 387                    // 0x00904000 (slot 387)
-    void FUN_008f9180(Actor*);                                              // 0x008f9180
-    void FUN_0092bf20(Actor*);                                              // 0x0092bf20
+    void CleanUpAfterProcessUseWeapon(Actor*);                                              // 0x008f9180
+    void MiddleHighProcess_ClearShootingAction(Actor*);                                              // 0x0092bf20
     bool FUN_008e7c00();                                                    // 0x008e7c00
     virtual void UpdateActorPackage(Actor* apActor, bool abFlag, unsigned int aeMoveMode, bool abPursuit); // RTTI slot 166              // 0x008e0f80 (slot 166)
     virtual bool vfn_840(Actor*); // RTTI slot 528                                                   // 0x008e8600 (slot 528)
@@ -246,7 +246,7 @@ public:
     virtual void ProcessCannibal(Actor* apActor);                           // slot 32 override, 0x00904da0
     virtual int GetActorReferenceState(Actor* apActor, TESObjectREFR* apTarget);   // slot 185 override, 0x008f6ef0
     void ClearNode();                                                       // 0x008e56b0
-    int FUN_00962620();                                                     // 0x00962620
+    int PlayerCharacter_GetNumberOfFollowers();                                                     // 0x00962620
     virtual void FinishDying(Actor* apActor); // RTTI slot 213                                               // 0x008f7350 (slot 213)
     void SelectMoveTarget(Actor*, void*, bool);                             // 0x009026c0
     void HighProcess_SayGuardWarning(Actor*, void*);                                       // 0x00902bd0
@@ -394,14 +394,14 @@ public:
     void RefreshProcessState(Actor*, TESObjectREFR*, float, float, float);
     void SetMaxAlpha(float fAlpha);
     virtual void* vf540();
-    unsigned char FUN_008ff0b0(Actor* actor, int param, Actor* target);   // 0x008ff0b0
+    unsigned char FindSpecialIdletoPlay(Actor* actor, int param, Actor* target);   // 0x008ff0b0
     virtual void SetActorProcessTime(Actor* apActor, float afTimeDelta);   // slot 184: 0x00900830 (RTTI HighProcess vftable 0x01087864)
     virtual void vfn_800(Actor* apTarget);   // slot 512: 0x00900020 (RTTI HighProcess vftable 0x01087864)
     virtual bool ProcessUseWeapon(Actor* apActor);   // slot 503: 0x008f7730 (RTTI HighProcess vftable 0x01087864)
     bool UpdateCombatTarget(Actor* apActor, TESObjectREFR* apTarget, bool abForce);   // 0x008f74c0
     void UpdateActorBehavior(Actor* apActor);                                         // 0x008f9180
     virtual void ProcessFleeNonCombat(Actor* apActor); // slot 505: 0x008ddac0
-    InventoryStackRecord* FUN_008eebf0(Actor*, unsigned int); // 0x008eebf0
+    InventoryStackRecord* CreateWeaponAcquireList(Actor*, unsigned int); // 0x008eebf0
     virtual void RefreshActorMovement(Actor*, bool); // slot 119: 0x008f7070
     virtual void ProcessSandman(Actor*); // slot 31: 0x00904f50
     virtual bool CanPerformActorAction(Actor*, float); // slot 29: 0x008f3940
@@ -411,7 +411,7 @@ public:
     void HandleActorInteraction(Actor*); // 0x008ec460
     void UpdateDialogue(Actor*, TopicX*, TESObjectREFR*, bool, bool, bool); // 0x008dbe30
     void UpdatePackageExecution(Actor*); // 0x008dddf0
-    void FUN_008f4020(Actor*, float); // 0x008f4020
+    void Update_008f4020(Actor*, float); // 0x008f4020
     void HighProcess_ProcessAccombanyOneHour(Actor*, float); // 0x008e0ad0
     void FUN_0090dc60(Actor*, int, int, int); // 0x0090dc60: folded stack arguments
     void FUN_008f3fe0(Actor*, float); // 0x008f3fe0
@@ -419,7 +419,7 @@ public:
     void FUN_008f36c0(Actor*, float); // 0x008f36c0
     bool HighProcess_ProcessSleepOneHour(Actor*, float); // 0x008f3550
     bool FUN_008f3600(Actor*, float); // 0x008f3600
-    void FUN_008f4000(Actor*, float); // 0x008f4000
+    void HighProcess_ProcessPatrolOneHour(Actor*, float); // 0x008f4000
     void ChangeWeapon(Actor* apActor, TESObjectWEAP* apWeapon);                       // 0x009037e0
 };
 #pragma pack(pop)

@@ -31,14 +31,14 @@ extern "C" LocalM128 _mm_set_ps1(float a);
 typedef float hkReal;
 typedef signed char hkInt8;
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 // Shared hkMemoryRouter.h is not available; this unit uses its heap pointer at +0x10.
 #include "../../../../../include/hkMemoryRouter.h"
 
 __forceinline hkMemoryRouter* getRouter()
 {
-    return reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    return reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 }
 
 __forceinline void* hkGeometry::operator new(size_t nbytes) throw()

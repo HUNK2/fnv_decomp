@@ -24,7 +24,8 @@ struct Flt
 };
 
 // @fnv 0x0061f6c0
-unsigned int PlayerCharacter::FUN_0061f6c0()
+// src: XBOX_PDB 0x0061f6c0
+unsigned int PlayerCharacter::QCameraRigidBody()
 {
     return *reinterpret_cast<const Flt*>(reinterpret_cast<const char*>(this) + 0xDEC);
 }
@@ -54,23 +55,23 @@ struct W_0043b4f0
 {
     unsigned int GetSourceFilesFromObject();
 };
-TESObjectREFR* __cdecl FUN_0062b4e0(void*);
+TESObjectREFR* __cdecl TESHavokUtilities_FindCollidableRef(void*);
 // @fnv 0x0061f7b0
 bool BGSAcousticSpaceListener::CheckAcousticSpaceListener(RootContactPoint* pPoint)
 {
     TESObjectREFR* apTestRef = 0;
-    if (_g_thePlayer->FUN_004eaf60())
+    if (_g_thePlayer->PlayerCharacter_Is3rdPerson())
     {
         if (pPoint->m_pRootCollidableB ==
-            reinterpret_cast<void*>(reinterpret_cast<W_0043b4f0*>(_g_thePlayer->FUN_0061f6c0())
+            reinterpret_cast<void*>(reinterpret_cast<W_0043b4f0*>(_g_thePlayer->QCameraRigidBody())
                 ->GetSourceFilesFromObject()))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_pRootCollidableA);
+            apTestRef = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableA);
     }
     else
     {
-        TESObjectREFR* pAcousticSpaceLeft = FUN_0062b4e0((void*)pPoint->m_pRootCollidableB);
+        TESObjectREFR* pAcousticSpaceLeft = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableB);
         if (pAcousticSpaceLeft == reinterpret_cast<TESObjectREFR*>(_g_thePlayer))
-            apTestRef = FUN_0062b4e0((void*)pPoint->m_pRootCollidableA);
+            apTestRef = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableA);
     }
     if (apTestRef)
     {
@@ -123,15 +124,15 @@ void BGSAcousticSpaceListener::CheckPlayerReference(TESObjectREFR* apEntity)
 {
     if (!_g_thePlayer)
         return;
-    if (_g_thePlayer->FUN_004eaf60())
+    if (_g_thePlayer->PlayerCharacter_Is3rdPerson())
     {
         if (((TgtOps*)apEntity)->GetSourceFiles() ==
-            (void*)((W_0043b4f0*)(_g_thePlayer->FUN_0061f6c0()))->GetSourceFilesFromObject())
+            (void*)((W_0043b4f0*)(_g_thePlayer->QCameraRigidBody()))->GetSourceFilesFromObject())
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0(((TgtOps*)apEntity)->GetSourceFiles());
+        TESObjectREFR* apTestRef = TESHavokUtilities_FindCollidableRef(((TgtOps*)apEntity)->GetSourceFiles());
         if (apTestRef == (TESObjectREFR*)_g_thePlayer)
             SoundPlaybackManager::ResetAcousticSpace(0);
     }
@@ -152,25 +153,25 @@ bool __thiscall BGSAcousticSpaceListener::CheckAcousticSpaceEntered(RootContactP
 {
     TESObjectREFR* pAcousticSpaceRef = 0;
 
-    if (_g_thePlayer->FUN_004eaf60())
+    if (_g_thePlayer->PlayerCharacter_Is3rdPerson())
     {
-        if (pPoint->m_pRootCollidableB == reinterpret_cast<void*>(reinterpret_cast<W_0043b4f0*>(_g_thePlayer->FUN_0061f6c0())->GetSourceFilesFromObject()))
+        if (pPoint->m_pRootCollidableB == reinterpret_cast<void*>(reinterpret_cast<W_0043b4f0*>(_g_thePlayer->QCameraRigidBody())->GetSourceFilesFromObject()))
         {
-            pAcousticSpaceRef = FUN_0062b4e0((void*)pPoint->m_pRootCollidableA);
+            pAcousticSpaceRef = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableA);
         }
     }
     else
     {
-        TESObjectREFR* apTestRef = FUN_0062b4e0((void*)pPoint->m_pRootCollidableB);
+        TESObjectREFR* apTestRef = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableB);
         if (apTestRef == reinterpret_cast<TESObjectREFR*>(_g_thePlayer))
         {
-            pAcousticSpaceRef = FUN_0062b4e0((void*)pPoint->m_pRootCollidableA);
+            pAcousticSpaceRef = TESHavokUtilities_FindCollidableRef((void*)pPoint->m_pRootCollidableA);
         }
     }
 
     if (pAcousticSpaceRef)
     {
-        if (!m_ucState || !FUN_0061f890(pAcousticSpaceRef, false))
+        if (!m_ucState || !BGSAcousticSpaceListener_DequeueRemoval(pAcousticSpaceRef, false))
         {
             FUN_0082eae0_shell::SetAcousticSpace(
                 reinterpret_cast<FNV_GetObjectReference_shell*>(pAcousticSpaceRef)->_FNV_GetObjectReference());

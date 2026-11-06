@@ -37,7 +37,7 @@ struct FUN_00a744a0 { void Init(); };
 extern const void* DAT_0109e984;
 BSFadeNode* NiScreenElements_CreateObject();
 struct FUN_00a87900_class {
-    void FUN_00a87900();
+    void NiScreenElementsData_UpdateBound();
 };
 extern int DAT_011f5b84;
 void __cdecl InitializeGameSystems();
@@ -245,7 +245,7 @@ struct FUN_00a94c00_shell {
     float m_108;
     float m_10c;
     float m_110;
-    void FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp);
+    void NiSpotLight_CopyMembers(NiDirectionalLight* dst, CloningProcess& cp);
 };
 extern MemoryManager g_memoryManager;
 extern char* DAT_010a05e4;
@@ -622,7 +622,7 @@ struct FUN_00a89760_cls : FUN_00a89760_base {
 struct BaseCls {
     void __thiscall FUN_00a67b20(int, int, int, int, int, int, int);
 };
-extern "C" void* __cdecl FUN_00aa1070(int);
+extern "C" void* __cdecl _NiMalloc_00aa1070(int);
 extern int DAT_0109f23c;
 struct FUN_00a8a680_cls {
     void* m_vft;
@@ -732,7 +732,7 @@ struct FUN_00a910f0_class {
     FUN_00a910f0_class* FUN_00a910f0(unsigned char flags);
 };
 struct FUN_00aa4060_class {
-    void FUN_00aa4060(void* object);
+    void MemoryManager_Deallocate(void* object);
 };
 extern FUN_00aa4060_class DAT_011f6238;
 struct NiParticleBase {
@@ -1344,12 +1344,12 @@ struct RleDecoder {
  void Decode(NiBinaryStream& stream, unsigned char* dest,unsigned int unused);
 };
 void __stdcall nullsub_2(int, int, int, int, int, int, int, int);
-extern void __cdecl FUN_00a98ea0();
-void __cdecl FUN_00a877d0();
-extern "C" void __cdecl FUN_00a71d10();
-void __cdecl FUN_00a877e0();
+extern void __cdecl NiParticleMeshes_LoadBinary();
+void __cdecl NiScreenElements_LoadBinary();
+extern "C" void __cdecl NiParticleMeshes_SaveBinary();
+void __cdecl NiScreenElements_SaveBinary();
 extern "C" void __cdecl ReadGroup();
-void __cdecl FUN_00a88a40();
+void __cdecl BSTextureSet_LoadBinary();
 void __stdcall nullsub_3(int);
 struct S_00a8d8b0;
 void __cdecl AdvancePosition(S_00a8d8b0*, void*, unsigned int);
@@ -1475,7 +1475,7 @@ public:
     StringHandle_a8f m_08;
 };
 struct FUN_00a923a0_class {
-    unsigned short __thiscall FUN_00a923a0();
+    unsigned short __thiscall NiParticlesData_GetActiveVertexCount();
 };
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 #include <math.h>

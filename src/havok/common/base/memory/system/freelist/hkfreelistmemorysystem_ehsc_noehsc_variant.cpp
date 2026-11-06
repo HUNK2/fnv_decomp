@@ -10,7 +10,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00cd06c0_t
 {
-    void __thiscall FUN_00cd06c0(int v);
+    void __thiscall hkFreeListMemorySystem_setAllocator(int v);
 };
 extern int DAT_010cacd0;
 struct FUN_00cd06a0
@@ -46,7 +46,7 @@ struct Outer
     Inner inner;
     void hkFreeListMemorySystem_garbageCollect();
 };
-void __cdecl FUN_00d2cab0(void*, int, unsigned int);
+void __cdecl hkMemUtil_memSet(void*, int, unsigned int);
 struct FUN_00cd0940_record
 {
     virtual void slot00() = 0;
@@ -74,7 +74,7 @@ struct FUN_00cd0940_shell
 {
     void __thiscall ResetRecordState(int* param, unsigned char mode);
 };
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct PtrArrayMember
 {
     void** m_ppData;
@@ -83,7 +83,7 @@ struct PtrArrayMember
 
     ~PtrArrayMember() throw()
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;

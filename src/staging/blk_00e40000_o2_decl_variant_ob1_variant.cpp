@@ -111,7 +111,7 @@ struct FUN_00e426f0_class
 };
 struct FUN_00e61480_class
 {
-    void FUN_00e61480(int);
+    void hkxMeshSection_collectVertexPositions(int);
 };
 struct FUN_00e4ab50_class
 {
@@ -185,7 +185,7 @@ struct HolderStub
     int unk0c;
     void* m_pAllocator;
 };
-HolderStub* __cdecl FUN_00c85750();
+HolderStub* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
 struct ValueArray
 {
@@ -1349,7 +1349,7 @@ struct ExtendedListeners
 
     static void* operator new(size_t sz)
     {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = hkMemoryRouter_getInstance();
         return ((AllocationHeap*)mgr->m_pAllocator)->Allocate(sz);
     }
 };
@@ -1509,7 +1509,7 @@ template <typename T> struct HkArray
 
     void ClearAndRelease()
     {
-        HolderStub* mgr = FUN_00c85750();
+        HolderStub* mgr = hkMemoryRouter_getInstance();
         AllocationHeap* heap = (AllocationHeap*)mgr->m_pAllocator;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
@@ -1568,7 +1568,7 @@ struct Ref
 {
     void FUN_00c90510();
 };
-int FUN_00e60cb0(unsigned char, int);
+int hkMeshPrimitiveUtil_calculateNumIndices(unsigned char, int);
 struct Entry
 {
     Ref* name;
@@ -1586,16 +1586,16 @@ struct Entry
     int length() const
     {
         int t = type;
-        return FUN_00e60cb0(t, count);
+        return hkMeshPrimitiveUtil_calculateNumIndices(t, count);
     }
 };
 struct Allocator
 {
 };
 hkMemoryRouter* getRouter();
-int FUN_00e60cb0(unsigned char type, int count);
+int hkMeshPrimitiveUtil_calculateNumIndices(unsigned char type, int count);
 extern "C" void hkArrayUtil__reserve(Allocator*, void*, int, int);
-void FUN_00cb1260(void*, const void*, int);
+void hkString_memCpy(void*, const void*, int);
 struct String
 {
     void* value;

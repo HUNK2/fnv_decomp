@@ -25,7 +25,7 @@ struct FUN_00dee6b0_Class
     float FUN_00dee6b0(int testFlag);
 };
 extern int DAT_010cd664;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -164,7 +164,8 @@ void __cdecl ResizeAudioStream(void* allocator, Vec4Array* arr, int elemSize);
 extern Vec4 DAT_01267e30;
 
 // @fnv 0x00dedbb0
-bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
+// src: XBOX_PDB 0x00dedbb0
+bool __cdecl hkGeometryProcessingInternals_generateRandomDistribution(Owner* self, int count, Vec4Array* out, Obj* obj)
 {
     // Preserve the original uninitialized SIMD storage without invoking Vec4 constructors.
     __m128 pairStorage[2];
@@ -197,7 +198,7 @@ bool __cdecl FUN_00dedbb0(Owner* self, int count, Vec4Array* out, Obj* obj)
         if (flag != 0)
         {
             cur.w = 1.0f;
-            hkMemoryRouter* holder = FUN_00c85750();
+            hkMemoryRouter* holder = hkMemoryRouter_getInstance();
             if (out->m_04 == (int)(out->m_08 & 0x3fffffff))
             {
                 ResizeAudioStream(holder->m_heap, out, 0x10);

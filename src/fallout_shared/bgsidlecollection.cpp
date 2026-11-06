@@ -172,7 +172,8 @@ struct SArgs
 };
 // Stores the value pointed to by a.v into the element of self at index a.i.
 // @fnv 0x0047a110
-void __fastcall FUN_0047a110(Arr* self, SArgs aArgs)
+// src: XBOX_PDB 0x0047a110
+void __fastcall BSSimpleArray_TESAmmo_1024_SetAt(Arr* self, SArgs aArgs)
 {
     *self->GetAt(aArgs.i) = *aArgs.v;
 }

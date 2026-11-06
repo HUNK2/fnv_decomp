@@ -84,8 +84,8 @@ void* NiPSysEmitterCtlrData::Destroy(unsigned int flags)
 
 void __stdcall AppendCameraPathEntries(StrArr*);
 void* __cdecl _FUN_00a7d330(void*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
-char* __cdecl FUN_00a7d5e0(char const*, char const*);
+char* __cdecl NiGetViewerString_00a7d510(char const*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d5e0(char const*, char const*);
 
 // @fnv 0x00c2bf00
 void NiPSysEmitterCtlrData::AppendBirthRateKeys(StrArr* pkStrings)
@@ -104,7 +104,7 @@ void NiPSysEmitterCtlrData::AppendBirthRateKeys(StrArr* pkStrings)
     }
     pkStrings->SetAt(uiIndex, pcValue);
 
-    pcValue = FUN_00a7d510("Num Birth Rate Keys", m_uiNumBirthRateKeys);
+    pcValue = NiGetViewerString_00a7d510("Num Birth Rate Keys", m_uiNumBirthRateKeys);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
     {
@@ -128,7 +128,7 @@ void NiPSysEmitterCtlrData::AppendBirthRateKeys(StrArr* pkStrings)
         break;
     }
 
-    pcValue = FUN_00a7d5e0("Birth Rate Key Type", pcKeyTypeName);
+    pcValue = NiGetViewerString_00a7d5e0("Birth Rate Key Type", pcKeyTypeName);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
     {
@@ -136,7 +136,7 @@ void NiPSysEmitterCtlrData::AppendBirthRateKeys(StrArr* pkStrings)
     }
     pkStrings->SetAt(uiIndex, pcValue);
 
-    pcValue = FUN_00a7d510("Num Emitter Active Keys", m_uiNumEmitterActiveKeys);
+    pcValue = NiGetViewerString_00a7d510("Num Emitter Active Keys", m_uiNumEmitterActiveKeys);
     uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
     {

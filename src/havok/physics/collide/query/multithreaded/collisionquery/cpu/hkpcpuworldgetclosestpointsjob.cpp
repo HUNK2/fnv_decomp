@@ -420,7 +420,8 @@ inline QueryPoint* allocateResults(PairCommand* command, const QueryCollector& c
 
 // Iterates over PairCommand entries, dispatches collision queries via the dispatcher, and copies resulting QueryPoints into each command's output buffer.
 // @fnv 0x00df6e00
-void FUN_00df6e00(const QueryJob* job, const QueryInput* source, PairCommand* commands, int count)
+// src: XBOX_PDB 0x00df6e00
+void hkCpuPairGetClosestPointsImplementation(const QueryJob* job, const QueryInput* source, PairCommand* commands, int count)
 {
     QueryPoint buffer[16];
     QueryCollector collector(buffer, 1);

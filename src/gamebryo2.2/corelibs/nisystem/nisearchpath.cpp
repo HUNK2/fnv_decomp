@@ -6,7 +6,8 @@
 #include "../../../../include/NiSearchPath.h"
 
 // @fnv 0x00aa2500
-void NiSearchPath::FUN_00aa2500()
+// src: XBOX_PDB 0x00aa2500
+void NiSearchPath::Reset_00aa2500()
 {
     m_uiSearchPathValue = 0;
 }

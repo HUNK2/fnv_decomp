@@ -32,7 +32,7 @@ struct FUN_00d2ce90_class
 
     void hkCpuJobThreadPool_waitForCompletion();
 };
-int __fastcall FUN_00d04380(void*);
+int __fastcall hkSemaphore_acquire(void*);
 struct FUN_00d2d380
 {
     int m0;
@@ -74,7 +74,7 @@ struct hkMemoryRouterXd2d3b0
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterXd2d3b0& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouterXd2d3b0& __cdecl hkMemoryRouter_getInstance() throw();
 class hkObjd2d3b0 : public FUN_00d2cf00
 {
   public:
@@ -82,7 +82,7 @@ class hkObjd2d3b0 : public FUN_00d2cf00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

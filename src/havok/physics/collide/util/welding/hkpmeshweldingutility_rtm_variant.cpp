@@ -81,7 +81,7 @@ struct S_00ddecf0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddecf0_Router* FUN_00c85750();
+S_00ddecf0_Router* hkMemoryRouter_getInstance();
 struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
@@ -256,7 +256,7 @@ __declspec(align(16)) struct QueryBuffer
     unsigned int unk1F8;
     unsigned int unk1FC;
 };
-int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* hkArrayUtil__reserve(void* alloc, void* arr, int numElems, int elemSize);
 void hkMemUtil_memMove(void* dst, const void* src, int numBytes);
@@ -310,7 +310,7 @@ struct LocalBuffer
 };
 char* IsDegenerateTriangle(char* out, const hkVector4* v0, const hkVector4* v1, const hkVector4* v2,
                            float eps);
-int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
 extern "C" LocalM128 _mm_sub_ps(LocalM128 a, LocalM128 b);
 extern "C" LocalM128 _mm_and_ps(LocalM128 a, LocalM128 b);
@@ -461,7 +461,7 @@ struct S_00ddecf0_Heap
     }
 };
 extern const double DAT_010290b8;
-__declspec(nothrow) S_00ddecf0_Router* FUN_00c85750();
+__declspec(nothrow) S_00ddecf0_Router* hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 struct KeyLess
 {
@@ -483,7 +483,7 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 // hkArray bodies (allocator = the memory router's heap).
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap());
+    return reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap());
 }
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 {
@@ -585,8 +585,8 @@ struct S00dde760_ScratchVector
     char* originalCursor;
 };
 extern "C" Matrix44 DAT_01268370;
-extern "C" void __cdecl FUN_00dddcd0(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
-void __cdecl FUN_00dde760(int a, int b, int c, int d);
+extern "C" void __cdecl hkpMeshWeldingUtility_computeWeldingInfoMultiShape(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
+void __cdecl hkpMeshWeldingUtility_computeWeldingInfo(int a, int b, int c, int d);
 
 extern "C" ::LocalM128(_mm_setr_ps)(float, float, float, float);
 extern "C" ::LocalM128(_mm_add_ps)(::LocalM128, ::LocalM128);
@@ -684,7 +684,7 @@ struct S00dde4c0_Array
     }
     __forceinline void finish()
     {
-        release(::FUN_00c85750()->heap());
+        release(::hkMemoryRouter_getInstance()->heap());
     }
     __forceinline void release(::S_00ddecf0_Heap& a)
     {
@@ -721,7 +721,8 @@ int __cdecl FUN_00ddd6f0(const Vec4* tri, const void* shape, int idx, S00dde4c0_
 unsigned int __cdecl hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int f, unsigned int idx, unsigned int v);
 
 // @fnv 0x00dde4c0
-int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int idx, int checkWinding,
+// src: XBOX_PDB 0x00dde4c0
+int __cdecl hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int idx, int checkWinding,
                          unsigned short* flags)
 {
     const Vec4* verts = tri->v;

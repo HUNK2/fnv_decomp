@@ -413,7 +413,7 @@ struct FUN_00e11d60_class
 #include "../../include/hkMemoryAllocator.h"
 #include "../../include/hkMemoryRouter.h"
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern int DAT_0102e388;
 struct FUN_00e00000_cls
 {
@@ -732,7 +732,7 @@ struct S_00e00830_Router
     int unk8;
     int unkC;
     S_00e00830_Allocator* m_pStreamAllocator;
-    static S_00e00830_Router& FUN_00c85750();
+    static S_00e00830_Router& hkMemoryRouter_getInstance();
     S_00e00830_Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -804,7 +804,7 @@ template <typename T> struct S_00e00830_Array
     }
     __forceinline ~S_00e00830_Array() throw()
     {
-        _clearAndDeallocate(S_00e00830_Router::FUN_00c85750().heap());
+        _clearAndDeallocate(S_00e00830_Router::hkMemoryRouter_getInstance().heap());
     }
 };
 struct S_00e00830_Base

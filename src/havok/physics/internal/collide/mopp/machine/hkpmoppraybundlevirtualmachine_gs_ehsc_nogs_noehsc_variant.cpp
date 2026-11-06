@@ -165,7 +165,7 @@ public:
     const ShapeContainer* m_pShapeCollection;
     int m_iCurrentChunkId;
 
-    void FUN_00dd3210(const MachineVectorIndexRecord* query, const unsigned char* pc, PointBundlePairAndVector* fQuery, int chunkId);
+    void hkpMoppRayBundleVirtualMachine_queryRayOnTree(const MachineVectorIndexRecord* query, const unsigned char* pc, PointBundlePairAndVector* fQuery, int chunkId);
     __forceinline void querySub(const TreeCode* code, const RayBundleInput& input, const Vec4Comp& mask);
     Vec4Comp FUN_00dd4870(const ShapeContainer* collection, const TreeCode* code, const RayBundleInput& input, RayBundleOutput& rayResult, const Vec4Comp& mask);
 };
@@ -215,7 +215,7 @@ inline void BundleMachine::querySub(const TreeCode* code, const RayBundleInput& 
 
     m_iCurrentChunkId = (programCounter[0] != 0x0d) - 1;
 
-    FUN_00dd3210(&query, programCounter, &fQuery, 0);
+    hkpMoppRayBundleVirtualMachine_queryRayOnTree(&query, programCounter, &fQuery, 0);
 }
 
 // @fnv 0x00dd4870

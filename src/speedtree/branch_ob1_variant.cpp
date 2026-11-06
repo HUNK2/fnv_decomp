@@ -823,7 +823,7 @@ struct FUN_00b10dc0
                       float, int);
     void CIdvBranch_ComputeBranchNormals(BranchMesh*, unsigned short);
     void FindSegment(BranchChild*, float);
-    void FUN_00b13100(FUN_00b10dc0*, float, int, BranchPoint*, float, const BranchMatrix*, FUN_00b130a0*, void*, float,
+    void CIdvBranch_ComputeBud(FUN_00b10dc0*, float, int, BranchPoint*, float, const BranchMatrix*, FUN_00b130a0*, void*, float,
                       unsigned int);
     void CIdvBranch_ComputeVolume();
     void CIdvBranch_Compute(unsigned int, float, int, const BranchPoint&, float, float, const BranchMatrix&,
@@ -1115,7 +1115,7 @@ void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level,
                     qxWmVch = (qDdzMIp - material->lower) / (material->upper - material->lower);
                 if (qzzQr)
                 {
-                    FUN_00b13100(this, scale, level, &qJDuOZ, qxWmVch, &entries[qHVMR.idx].matrix, &entries[qHVMR.idx],
+                    CIdvBranch_ComputeBud(this, scale, level, &qJDuOZ, qxWmVch, &entries[qHVMR.idx].matrix, &entries[qHVMR.idx],
                                  context, qQMZREG, id);
                 }
                 else
@@ -2682,10 +2682,10 @@ struct B13970Tmp
     int unk10;
     int unk14;
     int unk18;
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
     ~B13970Tmp()
     {
-        FUN_0044a730(1, 0);
+        fopen_0044a730(1, 0);
     }
 };
 struct FUN_00b37660

@@ -18,7 +18,7 @@ struct Manager
     int unk00, unk04, unk08, unk0C;
     Allocator* unk10;
 };
-extern Manager* __cdecl FUN_00c85750();
+extern Manager* __cdecl hkMemoryRouter_getInstance();
 struct Owner
 {
     virtual void V();
@@ -37,7 +37,7 @@ void* Owner::Destroy(unsigned int flags)
     FUN_00e3eaa0();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = hkMemoryRouter_getInstance();
         Allocator* allocator = manager->unk10;
         unsigned short size = unk04;
         allocator->Free(this, size);

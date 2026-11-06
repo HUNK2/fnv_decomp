@@ -351,7 +351,7 @@ struct FUN_00c1a480_class
 };
 struct FUN_00a7fb20_class
 {
-    char* __thiscall FUN_00a7fb20(char const* name);
+    char* __thiscall GetViewerString_00a7fb20(char const* name);
 };
 struct Holder
 {
@@ -363,7 +363,7 @@ struct Holder
     void __thiscall AppendString(StrArr* strings);
     void __thiscall AppendBoundInfo(StrArr* strings);
 };
-char* __cdecl FUN_00a7d490(char const* name, unsigned short value);
+char* __cdecl NiGetViewerString_00a7d490(char const* name, unsigned short value);
 struct NiTransformDummy
 {
     int pad[4];
@@ -579,7 +579,7 @@ struct Handle
 };
 struct HandlePool
 {
-    void FUN_00aa4060(Handle* handle);
+    void MemoryManager_Deallocate(Handle* handle);
 };
 extern HandlePool DAT_011f6238;
 struct RefMapEntries
@@ -765,7 +765,7 @@ struct ShaderOwner
 
     ShaderObj* CreateVertexShader(char* path, int* desc, void* p, char* name);
     ShaderObj* CreatePixelShader(char* path, int* desc, void* p, char* name);
-    void FUN_00c03ae0(ShaderDesc* vsDesc, ShaderDesc* psDesc, const char* name, void* vsArg, void* psArg);
+    void ImageSpaceShader_LoadShaders(ShaderDesc* vsDesc, ShaderDesc* psDesc, const char* name, void* vsArg, void* psArg);
 };
 // FUN_00c03d70 : copies a member into a global and returns.
 //   mov eax,[ecx+0x5c] / mov [0x126f74c],eax / ret 4
@@ -2718,7 +2718,7 @@ struct FUN_00c1f4e0_cls
     int unk10;
     unsigned char m_b14;
 
-    void __thiscall FUN_00c1f4e0(unsigned char value);
+    void __thiscall NiPSysModifier_SetActive(unsigned char value);
 };
 struct DecompPass266
 {
@@ -4665,16 +4665,16 @@ struct P440Shader
         unsigned int bit = (unsigned int)index % 32;
         return ((word == 0 ? flags : flags2) & (1u << bit)) > 0;
     }
-    void FUN_00441130(int, bool);
+    void BSShaderProperty_SetFlag(int, bool);
     void EnsureNewObj(int);
     void EnsureBa9740Obj(int);
     void EnsureAllocated(int);
     void CreateSpawnedObjectIfMissing(int);
     void FUN_00ba95e0(int);
-    void FUN_00ba8ab0(float);
+    void BSShaderProperty_SetAlpha(float);
     void SortShadowSceneLights(P440Position*);
     P440Light* FUN_00b70590(void**);
-    P440Light* FUN_00b70680(void**);
+    P440Light* BSShaderLightingProperty_GetNextActiveLight(void**);
     P440Light* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void**);
     P440Light* BSShaderLightingProperty_GetNextActiveNonShadowLight(void**);
     P440List* GetPasses(P440Geometry*, unsigned int, int, unsigned int, P440Renderer*, int);
@@ -4683,7 +4683,7 @@ extern P440Renderer* DAT_011f4748;
 extern float DAT_011f9458, DAT_011f9460, DAT_011f9468, DAT_011f946c;
 extern float DAT_011f9470;
 extern unsigned char DAT_011f91a7;
-P440Renderer* __cdecl FUN_00b4f5c0();
+P440Renderer* __cdecl BSShaderManager_GetAccumulator();
 bool __cdecl IsParticleShaderRendererEnabled();
 int __cdecl GetGlobalFloatAsUInt();
 bool __cdecl BSShaderManager_GetShadows();

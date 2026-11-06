@@ -10,7 +10,7 @@ public:
     void XGamerProfile_SetPlayingFlag(bool);
     bool XGamerProfile_GetRumbleDefault();
     bool XGamerProfile_RedeemCode(char*);
-    bool FUN_00a26020(char const*);
+    bool XGamerProfile_IsCodeRedeemed(char const*);
     void XGamerProfile_RevokeCode(char*);
 };
 #include "../../../../include/ListBoxBase.h"
@@ -28,9 +28,9 @@ void GetIsControllerDisabled();
 #include <stdio.h>
 struct MainMenuAudioAccess
 {
-    void FUN_00ad84e0(int, bool);
+    void BSAudio_KillAllOfType(int, bool);
 };
-BSAudio* __cdecl FUN_00453a70();
+BSAudio* __cdecl BSAudio_QInstance();
 struct MainMenuResetAccess
 {
     void kMainMenuFromIngameMenuRetnAddr();
@@ -45,11 +45,11 @@ typedef int (__thiscall* PlayerMediaAccessor)(PlayerCharacter*);
 class TES;
 void __cdecl PlayAudioMedia(int, const char*, unsigned int, bool, bool, float, unsigned int);
 void __cdecl FUN_008304c0();
-void __cdecl FUN_00703610();
-void __cdecl FUN_00706320(int);
+void __cdecl Interface_HideMenus();
+void __cdecl Interface_CloseAllSupportMenus(int);
 void __cdecl FalloutAudio_SetMainMenuMusic(bool);
 void __cdecl ResetTaskQueueGlobals();
-BGSSaveLoadUI_startmenu_rtm_variant* __cdecl FUN_00a25920();
+BGSSaveLoadUI_startmenu_rtm_variant* __cdecl XGamerProfile_Instance();
 extern StartMenu* DAT_011daac0;
 extern bool DAT_011daacd;
 extern OSGlobals* g_osGlobals;
@@ -57,22 +57,23 @@ extern TES* g_TES;
 extern PlayerCharacter* g_thePlayer;
 
 // @fnv 0x007d0a70
-void FUN_007d0a70()
+// src: XBOX_PDB 0x007d0a70
+void StartMenu_ChooseMainMenu()
 {
     char acMusicPath[64];
     delete DAT_011daac0;
-    FUN_00703610();
-    FUN_00706320(0);
-    ((MainMenuAudioAccess*)FUN_00453a70())->FUN_00ad84e0(-1, false);
+    Interface_HideMenus();
+    Interface_CloseAllSupportMenus(0);
+    ((MainMenuAudioAccess*)BSAudio_QInstance())->BSAudio_KillAllOfType(-1, false);
     ResetTaskQueueGlobals();
     {
         int bIsChild = ((PlayerMediaAccessor)&GetMediaLocationController)(g_thePlayer);
         bIsChild = 0;
     }
-    if (FUN_00a25920())
+    if (XGamerProfile_Instance())
     {
-        FUN_00a25920()->XGamerProfile_SetPlayingFlag(false);
-        FUN_00a25920()->XGamerProfile_ForcePresenceUpdate();
+        XGamerProfile_Instance()->XGamerProfile_SetPlayingFlag(false);
+        XGamerProfile_Instance()->XGamerProfile_ForcePresenceUpdate();
     }
     DAT_011daacd = true;
     ((MainMenuResetAccess*)g_osGlobals)->kMainMenuFromIngameMenuRetnAddr();

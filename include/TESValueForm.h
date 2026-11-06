@@ -41,10 +41,10 @@ public:
     void Save(unsigned long changedFlags);
     void Load(unsigned long changedFlags);
 
-    void FUN_0048e7f0(BaseFormComponent* component);
+    void CopyComponent(BaseFormComponent* component);
     unsigned short FUN_0048e9b0(unsigned int aiFlags);
-    void FUN_0048e9e0(unsigned int flags);
-    void FUN_0048ea10(unsigned int a, unsigned int b);
+    void SaveGame_0048e9e0(unsigned int flags);
+    void LoadGame_0048ea10(unsigned int a, unsigned int b);
     void SaveGameBGS_0048ea40(BGSSaveFormBuffer* buffer);
 
     union

@@ -90,7 +90,7 @@ struct CharacterBufferState
     int u00, u04, u08, u0c;
     void* owner;
 };
-extern CharacterBufferState* FUN_00c85750();
+extern CharacterBufferState* hkMemoryRouter_getInstance();
 extern void hkArrayUtil__reserve(void* owner, hkArrayBase<void*>* arr, int newCap, int stride);
 extern int PackBytesBigEndian(int a, int b, int c, int d);
 struct Renderer
@@ -298,7 +298,7 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
 {
     Vec4* columnBase1 = src->rows50;
     Vec4* columnBase2 = src->rows10;
-    ((Vec4*)&geometry.v80)->FUN_00c7f700(&self->unk90, src->rows50[src->indexEF]);
+    ((Vec4*)&geometry.v80)->hkVector4_setRotatedDir(&self->unk90, src->rows50[src->indexEF]);
 
     {
         __m128 zeroRaw, threeRaw, halfRaw;
@@ -322,9 +322,9 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
             prod5 = _mm_andnot_ps(isZero, prod5);
             prod5 = _mm_shuffle_ps(prod5, prod5, 0);
             _mm_store_ps((float*)&geometry.out70, _mm_mul_ps(prod5, cr));
-            ((Vec4*)&geometry.out70)->FUN_00c7f700(&self->unk90, *(Vec4*)&geometry.out70);
+            ((Vec4*)&geometry.out70)->hkVector4_setRotatedDir(&self->unk90, *(Vec4*)&geometry.out70);
         }
-        ((Vec4*)&geometry.v60)->FUN_00c7f700(&self->unk90, *(Vec4*)((unsigned int)columnBase1 + (src->index118 << 4)));
+        ((Vec4*)&geometry.v60)->hkVector4_setRotatedDir(&self->unk90, *(Vec4*)((unsigned int)columnBase1 + (src->index118 << 4)));
         // Transform the second normalized cross product.
         {
             int offset117 = src->index117 << 4;
@@ -343,10 +343,10 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
             prod5 = _mm_andnot_ps(isZero, prod5);
             prod5 = _mm_shuffle_ps(prod5, prod5, 0);
             _mm_store_ps((float*)&geometry.outB0, _mm_mul_ps(prod5, cr));
-            ((Vec4*)&geometry.v48)->FUN_00c7f700(&self->unk60, *(Vec4*)&geometry.outB0);
+            ((Vec4*)&geometry.v48)->hkVector4_setRotatedDir(&self->unk60, *(Vec4*)&geometry.outB0);
         }
     }
-    ((Vec4*)&geometry.v30)->FUN_00c7f700(&self->unk60, *(Vec4*)((unsigned int)columnBase2 + (src->indexEF << 4)));
+    ((Vec4*)&geometry.v30)->hkVector4_setRotatedDir(&self->unk60, *(Vec4*)((unsigned int)columnBase2 + (src->indexEF << 4)));
 }
 __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* objectD0, Cls* object160, Cls* object280)
 {
@@ -364,7 +364,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = hkMemoryRouter_getInstance();
         owner = ar->owner;
         int nc;
         cap = zeroArray.m_iCapacityState & 0x3fffffff;
@@ -381,7 +381,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = hkMemoryRouter_getInstance();
         owner = ar->owner;
         int nc;
         cap = threeArray.m_iCapacityState & 0x3fffffff;
@@ -398,7 +398,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         CharacterBufferState* ar;
         int cap;
         void* owner;
-        ar = FUN_00c85750();
+        ar = hkMemoryRouter_getInstance();
         owner = ar->owner;
         int nc;
         cap = halfArray.m_iCapacityState & 0x3fffffff;
@@ -420,7 +420,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     a1->draw(&threeArray, PackBytesBigEndian(0xff, 0, 0xff, 0xff), a2, a3);
 
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = hkMemoryRouter_getInstance();
         void* ow = ar->owner;
         threeArray.m_iElementCount = 0;
         if (!(threeArray.m_iCapacityState & (int)0x80000000))
@@ -432,7 +432,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         threeArray.m_iCapacityState = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = hkMemoryRouter_getInstance();
         void* ow = ar->owner;
         halfArray.m_iElementCount = 0;
         if (!(halfArray.m_iCapacityState & (int)0x80000000))
@@ -444,7 +444,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
         halfArray.m_iCapacityState = (int)0x80000000;
     }
     {
-        CharacterBufferState* ar = FUN_00c85750();
+        CharacterBufferState* ar = hkMemoryRouter_getInstance();
         void* ow = ar->owner;
         zeroArray.m_iElementCount = 0;
         if (!(zeroArray.m_iCapacityState & (int)0x80000000))
@@ -470,8 +470,8 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     ((SubC0*)&unkc0)->hkpPrimitiveDrawer_setDisplayHandler(a1);
     hkpConstraintDrawer_updateCommonParameters(a0, &geometry.tD0, &geometry.t110);
     Vec4* object50 = (Vec4*)(&unk50);
-    object50->FUN_00c7f640((const Buf40*)&geometry.tD0, &srcHome->body.rows50[3]);
-    ((Vec4*)(&unk40))->FUN_00c7f640((const Buf40*)&geometry.t110, &srcHome->body.rows10[3]);
+    object50->setTransformedPos_00c7f640((const Buf40*)&geometry.tD0, &srcHome->body.rows50[3]);
+    ((Vec4*)(&unk40))->setTransformedPos_00c7f640((const Buf40*)&geometry.t110, &srcHome->body.rows10[3]);
     hkpConstraintDrawer_drawPivots(a2, a3);
 
     SourceView* src = &srcHome->body;

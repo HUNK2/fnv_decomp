@@ -734,7 +734,7 @@ class Animation
     bool IsGroupQueued(unsigned short);
     float FUN_00453700();
     void SetAnimationAmount(float);
-    void FUN_004955c0(int, int, int, float, int);
+    void Animation_ForceSection(int, int, int, float, int);
     NiControllerSequence* GetControllerSequence(int);
     void Update(Actor*, float, float);
     void UpdateMovement(Actor*);

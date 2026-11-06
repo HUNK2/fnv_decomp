@@ -6,8 +6,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 unsigned int gm_GetCurrentThreadId();
-int FUN_0043b460(const long* lock, long zero, long owner);
-void FUN_0040fbe0();
+int BSAtomicCompareExchange(const long* lock, long zero, long owner);
+void ProgramFlow();
 
 struct FUN_0078d200_cls
 {
@@ -30,10 +30,10 @@ bool FUN_0078d200_cls::BSSpinLock_TryLock()
     }
     else
     {
-        ok = !FUN_0043b460((const long*)this, 0, (long)tid);
+        ok = !BSAtomicCompareExchange((const long*)this, 0, (long)tid);
         if (ok)
         {
-            FUN_0040fbe0();
+            ProgramFlow();
             m_uiItemCount = 1;
         }
     }

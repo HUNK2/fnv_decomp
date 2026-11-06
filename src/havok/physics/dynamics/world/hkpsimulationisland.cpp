@@ -285,7 +285,7 @@ struct D077D0MemoryRouter
     }
 };
 
-extern "C" D077D0MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D077D0MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct D077D0LocalBuffer
 {
@@ -333,10 +333,10 @@ struct D077D0Object
 bool D077D0Object::hkpSimulationIsland_isFullyConnected()
 {
     D077D0LocalBuffer buffer;
-    buffer.m_data = FUN_00c85750().stackAllocInts(m_iCapacity);
+    buffer.m_data = hkMemoryRouter_getInstance().stackAllocInts(m_iCapacity);
     D077D0BitField bits(buffer.m_data, m_iCapacity);
     bool result = CheckConnectivity(bits);
-    FUN_00c85750().stackFree(buffer.m_data);
+    hkMemoryRouter_getInstance().stackFree(buffer.m_data);
     return result;
 }
 
@@ -646,7 +646,7 @@ bool S_00d074c0_Island::CheckConnectivity(S_00d074c0_UnionFind& aUnionFind) thro
 }
 
 namespace fnvc_adapt {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl ResizeAudioStream(hkMemoryAllocator* apAllocator, void* apContainer, unsigned int auiElemSize);
 
@@ -693,7 +693,7 @@ struct FUN_00d07470_cls
 void FUN_00d07470_cls::AddItem(ListItem* apItem)
 {
     PointerList* pItems = &m_kNode;
-    hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     if (pItems->m_uCount == (pItems->m_uCapFlags & 0x3fffffffu))
     {
         ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap), pItems, 4);
@@ -708,7 +708,7 @@ void FUN_00d07470_cls::AddItem(ListItem* apItem)
 
 namespace fnv_00d07720 {
 namespace fnvc_adapt {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 }
 extern int DAT_010ccf28;
 extern int DAT_0102e388;
@@ -750,7 +750,7 @@ void FUN_00d07720_cls::ResetArrays()
 {
     m_vptr00 = (int)&DAT_010ccf28;
 
-    hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -761,7 +761,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder2 = fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -772,7 +772,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
 
-    hkMemoryRouter* pHolder3 = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder3 = fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator3 = reinterpret_cast<hkMemoryAllocator*>(pHolder3->m_heap);
     unsigned int uCapBits3 = m_uCapBits3;
     m_iCount3 = 0;
@@ -789,7 +789,7 @@ void FUN_00d07720_cls::ResetArrays()
 
 namespace fnv_00d078e0 {
 namespace fnvc_adapt {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 struct FUN_00d078e0_cls
@@ -810,7 +810,7 @@ FUN_00d078e0_cls* FUN_00d078e0_cls::Destroy(unsigned char acFlags)
     ResetArrays();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         FreeAudioMemory(pAllocator, this, m_uSize);
     }
@@ -1035,7 +1035,7 @@ struct ItemList
     unsigned int m_capFlags;  // +0x08 (low 30 bits = capacity)
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, void* list, unsigned int n);
 
 struct FUN_00d07420_cls
@@ -1103,7 +1103,7 @@ void FUN_00d07420_cls::hkpSimulationIsland_internalAddEntity(FUN_00d07420_cls* i
     item->m_cc = this;
     item->m_a8 = (unsigned short)m_kNode.m_uiItemCount;
     ItemList* list = &m_kNode;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     if (list->m_uiItemCount == (int)(list->m_capFlags & 0x3fffffffu))
     {
         ResizeAudioStream(holder->m_heap, list, 4);

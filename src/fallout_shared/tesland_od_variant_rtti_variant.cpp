@@ -64,17 +64,17 @@ struct CellH
 };
 struct FUN_00533fd0_Class
 {
-    int FUN_00533fd0();
+    int TESObjectLAND_GetCellX();
 };
 struct FUN_00534050_Class
 {
-    int FUN_00533fd0();
-    float FUN_00534050();
+    int TESObjectLAND_GetCellX();
+    float TESObjectLAND_GetWorldCellX();
 };
 struct FUN_00534080_Class
 {
     int FUN_00534010();
-    double FUN_00534080();
+    double TESObjectLAND_GetWorldCellY();
 };
 struct TESWorldSpace;
 struct DoorH
@@ -93,7 +93,7 @@ struct FUN_00534140_Class
 };
 struct FUN_00534160_Class
 {
-    void FUN_00534160(bool set);
+    void TESObjectLAND_SetLandRemapped(bool set);
 };
 struct FUN_005341a0_Class
 {
@@ -291,8 +291,8 @@ struct FUN_0053a760_Class
 };
 struct FUN_0053ae30_class
 {
-    int __thiscall FUN_0053a700(unsigned char, unsigned short);
-    float __thiscall FUN_0053a830(unsigned char, unsigned short, unsigned short);
+    int __thiscall TESObjectLAND_GetTexture(unsigned char, unsigned short);
+    float __thiscall TESObjectLAND_GetTexturePercent(unsigned char, unsigned short, unsigned short);
     float __thiscall TESObjectLAND_GetTextureUsePercent(unsigned char type, unsigned short id);
 };
 struct GlobalObject_0044f440
@@ -332,9 +332,9 @@ struct Buf50
 };
 struct Owner
 {
-    bool FUN_0053b550(Buf50*, int, int);
+    bool TESObjectLAND_GetCoordData(Buf50*, int, int);
     bool ComputeTerrainNormalAndTangent(Buf50*, int, int);
-    bool FUN_0053d2e0(int, int, int);
+    bool TESObjectLAND_GetLandNormal(int, int, int);
 };
 struct FUN_0053df00_Class
 {
@@ -366,7 +366,7 @@ struct Tmp53e210
 };
 struct Host53e210
 {
-    bool FUN_0053b550(Tmp53e210* p, int a, int b);
+    bool TESObjectLAND_GetCoordData(Tmp53e210* p, int a, int b);
     bool TESObjectLAND_IsNormalSet(int a, int b);
     bool TESObjectLAND_IsNormalSet_0(int a);
 };
@@ -394,7 +394,7 @@ struct FUN_0053f120_Holder
 {
     unsigned char _pad[0x28];
     NiNode*** fld28;
-    NiAVObject* FUN_0053f120(FUN_0053f120_Param*);
+    NiAVObject* GetGeometry_0053f120(FUN_0053f120_Param*);
 };
 #include "../../include/LandscapeColorData.h"
 struct S_00592cf0
@@ -474,7 +474,7 @@ struct FUN_0053a5a0_Outer
 {
     char pad[40];
     FUN_0053a5a0_Inner* ptr;
-    void* FUN_0053a5a0(unsigned char index);
+    void* TESObjectLAND_GetDefaultTexture(unsigned char index);
 };
 struct FUN_0053a700_Mid
 {
@@ -485,12 +485,12 @@ struct FUN_0053a700_Holder
 {
     unsigned char pad[0x28];
     FUN_0053a700_Mid* p;
-    int FUN_0053a700(unsigned char, unsigned short);
+    int TESObjectLAND_GetTexture(unsigned char, unsigned short);
 };
 extern float DAT_01015f5c;
 struct FUN_0053a630_Class : public FUN_0053ae30_class
 {
-    int FUN_0053a630(unsigned char type, unsigned short id);
+    int TESObjectLAND_GetMainTexture_0053a630(unsigned char type, unsigned short id);
 };
 struct A51BF0Base
 {
@@ -523,7 +523,7 @@ extern int DAT_0102dcd4;
 extern int DAT_0102dccc;
 extern unsigned char DAT_011c9efc;
 extern int DAT_011c9f00;
-void __cdecl FUN_00533420();
+void __cdecl TESObjectLAND_InitializeStatics();
 void __cdecl ourMemset(void* p, int value, unsigned int size);
 struct FUN_00483370
 {
@@ -634,21 +634,21 @@ class FUN_00537d40 : public D40NiObject
     virtual ~FUN_00537d40();
 };
 int TruncateFloatToInt(float value);
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 void __cdecl AppendChunk(unsigned int fourcc, void* buf, unsigned int size);
-void __cdecl FUN_004856f0(unsigned int fourcc, void* buf, unsigned int size);
+void __cdecl TESForm_AddChunkArray(unsigned int fourcc, void* buf, unsigned int size);
 int __cdecl FUN_00ec7d40(int v);
 void __cdecl FNV_Warning(const char* fmt, ...);
 void __cdecl CompressSaveLoadRecord();
 int TESLandTexture_GetDefaultTexture();
-void __fastcall FUN_00503210(void* p);
+void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class
 {
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct FUN_00535aa0_Class
 {
-    void FUN_00535aa0();
+    void OBJ_WEAP_CRITICAL_Endian();
 };
 struct FUN_004855a0_shell
 {
@@ -666,7 +666,7 @@ struct FUN_004a0c10_Class
     float x;
     float y;
     float z;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 // Terrain geometry buffers: vertex/normal/color arrays at 0x04/0x08/0x0C and quadrant arrays through 0x4C exceed Data's 0x10 layout.
 struct LandscapeGeometryBuffers
@@ -722,7 +722,7 @@ struct This538110
     int m_20;
     int m_24;
     LandscapeGeometryBuffers* m_28;
-    void FUN_00538110();
+    void TESObjectLAND_Save();
 };
 struct Base8ef0
 {
@@ -838,12 +838,12 @@ struct S_00539280_Obj
     virtual void vfn42();
     virtual void vfn43();
     virtual bool vfn44(S_00539280_Arg* a, bool b, bool c);
-    bool FUN_00485be0(int id);
+    bool TESForm_FormIDMatchesWithoutIndex(int id);
 };
 struct S_00539280_Owner
 {
-    S_00539280_Obj* FUN_007af430();
-    bool FUN_00539280(S_00539280_Arg* a, bool b, bool c);
+    S_00539280_Obj* BGSSaveFormBuffer_GetForm();
+    bool TESObjectLAND_BelongsInGroup(S_00539280_Arg* a, bool b, bool c);
 };
 struct Mem960
 {
@@ -995,12 +995,12 @@ const char* __cdecl BSShaderManager_GetTexPercTag();
 struct Geometry960
 {
     void NiGeometry_SetAdditionalGeometryData(void*);
-    void FUN_00439410(Property960*);
+    void NiAVObject_AttachProperty(Property960*);
 };
 struct Node960
 {
     void FUN_00a5bc40(const char*, Binary960*);
-    Geometry960* FUN_0045bc00(unsigned);
+    Geometry960* NiNode_GetAtChecked(unsigned);
 };
 void* __cdecl BSShaderManager_CreateTangentSpaceSimple(Geometry960*);
 void __cdecl FUN_00b57e30(Node960*, int, int);
@@ -1070,9 +1070,9 @@ struct LocalObj53a5e0
 };
 struct FUN_0053a5e0_cls
 {
-    bool FUN_0053b550(LocalObj53a5e0* p, int a, int b);
-    int FUN_0053a630(unsigned char type, unsigned short id);
-    int FUN_0053a5e0(int arg);
+    bool TESObjectLAND_GetCoordData(LocalObj53a5e0* p, int a, int b);
+    int TESObjectLAND_GetMainTexture_0053a630(unsigned char type, unsigned short id);
+    int TESObjectLAND_GetMainTexture(int arg);
 };
 struct FUN_0053a7a0_Tbl
 {
@@ -1122,7 +1122,7 @@ struct FUN_0053a830_cls
     int m20;
     int m24;
     FUN_0053a830_Mid* m_28;
-    float FUN_0053a830(unsigned char type, unsigned short id, unsigned short idx);
+    float TESObjectLAND_GetTexturePercent(unsigned char type, unsigned short id, unsigned short idx);
 };
 extern "C" double gModifierZero;
 struct C53A8A0Data
@@ -1201,7 +1201,7 @@ struct FNv53b450_Point
 };
 struct FNv53b450_Source
 {
-    int FUN_00533fd0();
+    int TESObjectLAND_GetCellX();
     int FUN_00534010();
     FNv53b450_Point* TESObjectLAND_GetVertexLocation(FNv53b450_Point* output, unsigned char flags, unsigned short cellIndex, const int* x,
                                   const int* y);
@@ -1262,12 +1262,12 @@ struct TESWorldSpace;
 struct TESObjectCELL;
 struct Obj53
 {
-    bool FUN_0045cb90();
+    bool TESObjectLAND_HasVertices();
     void TESObjectLAND_LoadVertices(int a);
 };
 struct Cell53
 {
-    Obj53* FUN_00546fb0();
+    Obj53* TESObjectCELL_GetLand();
 };
 struct FUN_00461c20_Holder
 {
@@ -1315,7 +1315,7 @@ struct FUN_0053f390_v3
 };
 struct FUN_0053f390_cls
 {
-    void FUN_00534240(int n, int i, FUN_0053f390_v3* out);
+    void TESObjectLAND_GetVertex(int n, int i, FUN_0053f390_v3* out);
     NiPoint2* TESObjectLAND_GetMinMaxBlockHeight(NiPoint2* out, int n);
 };
 struct UVBounds
@@ -1460,7 +1460,7 @@ struct ShaderProperty
 };
 struct QuadNode
 {
-    QuadNode* FUN_0045bc00(int);
+    QuadNode* NiNode_GetAtChecked(int);
     ShaderProperty* FUN_00a59d30(int);
 };
 struct TESFileRecordLoader
@@ -1676,7 +1676,7 @@ struct LandObject : TESObjectLAND
     int unk24;
     LandLoadedData_tesland_od_variant_rtti_variant* m_pRenderData;
     bool IsLoaded();
-    void FUN_00534240(int quadrant, int index, LandPoint3* vertex);
+    void TESObjectLAND_GetVertex(int quadrant, int index, LandPoint3* vertex);
 };
 struct VertPt
 {
@@ -1765,7 +1765,7 @@ struct VertOwner
     int unk24;
     VertTables* tables;
     bool IsLoaded();
-    void FUN_00534390(unsigned int index, unsigned int vert, VertPt& out);
+    void TESObjectLAND_GetNormal(unsigned int index, unsigned int vert, VertPt& out);
 };
 extern NiColorA DAT_011a9be0;
 struct Buffer_5345c0
@@ -1817,9 +1817,9 @@ struct Format_5345c0
 };
 struct Geometry_5345c0
 {
-    unsigned int FUN_004a8030();
+    unsigned int NiGeometry_GetNormals();
     NiColorA* GetNextProc();
-    NiGeometryData* FUN_005495f0();
+    NiGeometryData* NiGeometry_GetModelData();
 };
 struct Node_5345c0
 {
@@ -1845,7 +1845,7 @@ struct FUN_005345c0_shell
     int unk20;
     int unk24;
     Store_5345c0* store;
-    bool FUN_0045cb90();
+    bool TESObjectLAND_HasVertices();
     void TESObjectLAND_GetColorA(unsigned int group, unsigned int index, NiColorA& out);
 };
 struct FUN_00534780_Class
@@ -1884,11 +1884,11 @@ struct LandCopy : TESLandFlagsView
     int unk24;
     LandCopyData_tesland_od_variant_rtti_variant* data;
     void TESObjectLAND_LoadVertices(int);
-    void* FUN_007af430();
+    void* BGSSaveFormBuffer_GetForm();
     void TESObjectLAND_CreateLandscape(LandCopy*);
-    void FUN_00536d80();
+    void TESObjectLAND_UnLoadVertices();
     void TESObjectLAND_MarkLoaded(bool);
-    void FUN_005348c0(TESForm* form);
+    void TESObjectLAND_Copy(TESForm* form);
 };
 struct CleanupMap
 {
@@ -1931,7 +1931,7 @@ struct CleanupOwner
     CleanupData* data;
     void SetLoaded(bool);
     void Finish();
-    bool FUN_00536d80();
+    bool TESObjectLAND_UnLoadVertices();
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl ourMemset(void*, int, unsigned int);
@@ -2030,21 +2030,21 @@ struct Scene
     virtual void vf0();
     virtual void vf4();
     virtual void Attach(int, Shape*);
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     void FUN_00450f90(bool);
     void AttachProperty(void*);
     Model* FUN_006629f0();
     void BSMultiBound_SetHalfExtents(const NiPoint3&);
     void Update(UpdateData&);
-    void FUN_00a5a040();
+    void UpdateProperties();
 };
 struct Shape
 {
-    unsigned short FUN_00456650();
+    unsigned short NiGeometry_GetVertexCount();
     void* FUN_0049ec60();
     Bound* GetSourceFilesFromForm();
-    GeomData* FUN_005495f0();
-    Property* FUN_004030b0();
+    GeomData* NiGeometry_GetModelData();
+    Property* CombatController_GetTarget();
 };
 struct PropPointer
 {
@@ -2115,15 +2115,15 @@ struct Renderer
     virtual void Render(Shape*, int, int, void*);
     void NiDX9Renderer_PerformPrecache();
 };
-Renderer* FUN_0043c4b0();
+Renderer* NiXenonRenderer_GetRenderer();
 struct Cell
 {
-    Scene* FUN_00545cb0();
+    Scene* Get3D_00545cb0();
 };
 struct Mopp
 {
     void Clear();
-    void FUN_00621f60(Shape**, int, float);
+    void CellMopp_Create(Shape**, int, float);
 };
 Mopp* __fastcall GetCellMopp(Cell*);
 struct Scratch
@@ -2152,12 +2152,12 @@ struct Land
     Scene* TESObjectLAND_GetQuadLandNode(int);
     Shape* TESObjectLAND_MakeLandTriStrips(unsigned char);
     Range* TESObjectLAND_GetMinMaxBlockHeight(Range*, int);
-    float FUN_00534050();
-    double FUN_00534080();
+    float TESObjectLAND_GetWorldCellX();
+    double TESObjectLAND_GetWorldCellY();
     void TESObjectLAND_CalculateGrassParams();
     void TESObjectLAND_MergeSameFileTextures();
     void TESObjectLAND_InitLandscape();
-    Other* FUN_007af430();
+    Other* BGSSaveFormBuffer_GetForm();
     bool TESObjectLAND_GetLandRemapped();
     void TESObjectLAND_Attach3D();
 };
@@ -2244,7 +2244,7 @@ struct SceneController
 };
 struct SceneSource
 {
-    SceneController* FUN_004543c0();
+    SceneController* TESObjectCELL_GetbhkWorld();
 };
 struct BoneTransformData
 {
@@ -2353,7 +2353,7 @@ struct FUN_00538c00_Class
 
 {
 
-    char __thiscall FUN_00538c00(const void* source, unsigned int size, Output538c00** result);
+    char __thiscall TESObjectLAND_ReadMoppCodeFromBuffer(const void* source, unsigned int size, Output538c00** result);
 };
 struct Mesh53;
 struct Buffer53
@@ -2384,10 +2384,10 @@ struct Mesh53
     virtual void slot4();
     virtual void slot5();
     virtual Mesh53* AsMesh();
-    unsigned short FUN_00456650();
+    unsigned short NiGeometry_GetVertexCount();
     void* FUN_0049ec60();
     Buffer53* GetSourceFilesFromForm(unsigned short, void*);
-    GeoData53* FUN_005495f0();
+    GeoData53* NiGeometry_GetModelData();
     NiTimeController* FUN_00a59d30(int);
 };
 struct Update53
@@ -2400,9 +2400,9 @@ struct Update53
 };
 struct Node53
 {
-    Mesh53* FUN_0045bc00(int);
-    void FUN_00a59c60(Update53&);
-    void FUN_00a5a040();
+    Mesh53* NiNode_GetAtChecked(int);
+    void NiAVObject_Update(Update53&);
+    void UpdateProperties();
 };
 struct Config53
 {
@@ -2512,7 +2512,7 @@ struct xLand
     double GetBaseX();
     float GetBaseY();
     void GetVertex(int iCell, int iVertex, xPoint3& kOut);
-    bool FUN_0053b550(xCoordData& kData, const xPoint3& kPos, bool bRecurse);
+    bool TESObjectLAND_GetCoordData(xCoordData& kData, const xPoint3& kPos, bool bRecurse);
 };
 struct Grass;
 struct GrassNode
@@ -2745,7 +2745,7 @@ struct NormalPoint
 };
 extern NormalPoint NiPoint3_ZERO;
 extern unsigned short* DAT_011c9ee8;
-void __cdecl FUN_00525340(NormalPoint*);
+void __cdecl NiPoint3_UnitizeVector(NormalPoint*);
 void __cdecl NormalizePoints(NormalPoint*, int, int);
 struct NormalData
 {
@@ -2799,7 +2799,7 @@ public:
 struct LandStandIn
 {
     void GetVertex(int cell, int index, LandVertex* out);
-    bool FUN_0053f1e0(LandCoord_tesland_od_variant_rtti_variant& coord, float& height);
+    bool TESObjectLAND_GetLandHeight(LandCoord_tesland_od_variant_rtti_variant& coord, float& height);
 };
 extern const double DAT_010231b0;
 extern const double DAT_010241b0;
@@ -2815,7 +2815,7 @@ struct FUN_0053f440_shell
     char pad20[8];
     LandData53f* pkData;
 
-    float FUN_0053a550();
+    float TESObjectLAND_GetDefaultWorldHeight();
     NiPoint2 TESObjectLAND_GetMinMaxBlockHeight(int iQuad);
     NiPoint2 TESObjectLAND_GetMinMaxLandHeight();
 };
@@ -2823,7 +2823,7 @@ struct FUN_0053f440_shell
 struct LandFile535d
 {
     LandFile535d* FUN_004739b0();
-    bool FUN_004734d0(void* form);
+    bool FindForm(void* form);
     unsigned char FUN_00472660();
     unsigned int GetOffset();
     bool SetOffset(unsigned int _uBlockOffset);
@@ -2859,18 +2859,18 @@ struct LandHeight535d
     float base;
     signed char delta[1089];
     unsigned char unused445, unused446, unused447;
-    void FUN_00503210();
+    void QuestPerkEntryData_Endian();
 };
 struct LandWeight535d
 {
     unsigned short vertex, unused02;
     float weight;
-    void FUN_00535aa0();
+    void OBJ_WEAP_CRITICAL_Endian();
 };
 struct LandVector535d
 {
     float x, y, z;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 struct LandReference535d
 {
@@ -2899,9 +2899,9 @@ struct LandCell535d
     int FUN_00544c60();
     int FUN_00544c30();
 };
-TESForm* FUN_004839c0(unsigned int);
+TESForm* TESForm_GetFormByNumericID(unsigned int);
 void ResolveFormID(unsigned int*, LandFile535d*);
-void FUN_0043b2b0(bool);
+void MessageHandler_IncDisableWarningCount(bool);
 extern const char DAT_01015890[];
 extern const char DAT_0102e170[], DAT_0102e120[], DAT_0102e0dc[], DAT_0102e088[], DAT_0102e038[], DAT_0102dfe8[];
 extern float DAT_011c9ec4[4], DAT_011c9eb4[4];
@@ -2913,20 +2913,21 @@ struct LandOwner535d : public TESLandFlagsView
     bool TESObjectLAND_GetLandRemapped();
     LandFile535d* GetFile(int index);
     LandWorld535d* TESObjectLAND_GetWorldSpace();
-    int FUN_00533fd0();
+    int TESObjectLAND_GetCellX();
     int FUN_00534010();
-    LandCell535d* FUN_007af430();
-    unsigned int FUN_0084e3a0();
-    void FUN_00538c00(void*, unsigned int, LandReference535d**);
+    LandCell535d* BGSSaveFormBuffer_GetForm();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    void TESObjectLAND_ReadMoppCodeFromBuffer(void*, unsigned int, LandReference535d**);
     void TESObjectLAND_SetGoodMopp(bool);
     void TESObjectLAND_SetTexturePercent(unsigned char, unsigned short, unsigned short, float);
     void TESObjectLAND_AdjustTextureArrays();
-    bool FUN_00535d00();
+    bool TESObjectLAND_LoadVerticesIntoArrays();
 };
 // @fnv 0x00535d00
-bool LandOwner535d::FUN_00535d00()
+// src: XBOX_PDB 0x00535d00
+bool LandOwner535d::TESObjectLAND_LoadVerticesIntoArrays()
 {
-    if (FUN_005394a0())
+    if (TESPackage_GetLockDoorsAtStart())
         return true;
     int quad7 = -1;
     int bPlayerPlayerDead = -1;
@@ -2938,7 +2939,7 @@ bool LandOwner535d::FUN_00535d00()
         if (!(flags & 1) && !(flags & 2) && !(flags & 4))
             return true;
         _fileIndex = GetFile(-1)->FUN_004739b0();
-        if (!_fileIndex->FUN_004734d0(this))
+        if (!_fileIndex->FindForm(this))
             failedActor_2 = true;
         if (!failedActor_2)
         {
@@ -2952,15 +2953,15 @@ bool LandOwner535d::FUN_00535d00()
     else
     {
         LandWorld535d* world = TESObjectLAND_GetWorldSpace();
-        if (!world || !world->FindParentFile(FUN_00533fd0(), FUN_00534010(), &_fileIndex, &_uBlockOffset))
+        if (!world || !world->FindParentFile(TESObjectLAND_GetCellX(), FUN_00534010(), &_fileIndex, &_uBlockOffset))
             return true;
     }
     if (failedActor_2)
     {
-        FUN_0043b2b0(false);
-        FNV_Warning(DAT_0102e170, FUN_0084e3a0(), FUN_007af430()->FUN_00544c30(), FUN_007af430()->FUN_00544c60(),
+        MessageHandler_IncDisableWarningCount(false);
+        FNV_Warning(DAT_0102e170, GetHavokWorldObjectCountInSceneGraph_0084e3a0(), BGSSaveFormBuffer_GetForm()->FUN_00544c30(), BGSSaveFormBuffer_GetForm()->FUN_00544c60(),
                     _fileIndex ? _fileIndex->GetFilename() : DAT_01015890);
-        FUN_0043b2b0(true);
+        MessageHandler_IncDisableWarningCount(true);
         return false;
     }
     LandFile535d* _streamSize = _fileIndex;
@@ -2980,7 +2981,7 @@ bool LandOwner535d::FUN_00535d00()
                 unsigned int loadedFlags;
                 _streamSize->GetChunkData(&loadedFlags, 4);
                 if (_streamSize->FUN_00401680())
-                    FUN_00503210(&loadedFlags);
+                    QuestPerkEntryData_Endian(&loadedFlags);
                 loadedFlags &= 7;
                 flags &= ~7;
                 flags |= loadedFlags;
@@ -2995,7 +2996,7 @@ bool LandOwner535d::FUN_00535d00()
                 data->reference->removeReference();
                 data->reference = 0;
             }
-            FUN_00538c00(buffer, size, &data->reference);
+            TESObjectLAND_ReadMoppCodeFromBuffer(buffer, size, &data->reference);
             if (data->reference)
             {
                 data->reference->FUN_00c90510();
@@ -3010,7 +3011,7 @@ bool LandOwner535d::FUN_00535d00()
                 LandHeight535d record;
                 _streamSize->GetChunkData(&record, sizeof(record));
                 if (_streamSize->FUN_00401680())
-                    record.FUN_00503210();
+                    record.QuestPerkEntryData_Endian();
                 data->heightRange = NiPoint2(DAT_01016970, DAT_01015f5c);
                 float _pMPrev = record.base;
                 float height[1089];
@@ -3062,7 +3063,7 @@ bool LandOwner535d::FUN_00535d00()
                         data->_cNormal[Diff6][ProjectedLoc8].x = record[index].x / 127.0f;
                         data->_cNormal[Diff6][ProjectedLoc8].y = record[index].y / 127.0f;
                         data->_cNormal[Diff6][ProjectedLoc8].z = record[index].z / 127.0f;
-                        data->_cNormal[Diff6][ProjectedLoc8].FUN_004a0c10();
+                        data->_cNormal[Diff6][ProjectedLoc8].Unitize_004a0c10();
                     }
                 }
                 _cNormal = true;
@@ -3094,10 +3095,10 @@ bool LandOwner535d::FUN_00535d00()
                 if (_streamSize->FUN_00401680())
                     record.FUN_00535a60();
                 ResolveFormID(&record.formID, _streamSize);
-                data->baseTextures[record.quad7] = dynamic_cast<TESLandTexture*>(FUN_004839c0(record.formID));
+                data->baseTextures[record.quad7] = dynamic_cast<TESLandTexture*>(TESForm_GetFormByNumericID(record.formID));
                 if (!data->baseTextures[record.quad7])
                 {
-                    FNV_Warning(DAT_0102e120, FUN_00533fd0(), FUN_00534010(), record.formID, record.quad7);
+                    FNV_Warning(DAT_0102e120, TESObjectLAND_GetCellX(), FUN_00534010(), record.formID, record.quad7);
                     loc1ac = true;
                 }
                 else
@@ -3119,7 +3120,7 @@ bool LandOwner535d::FUN_00535d00()
                     record.FUN_00535a60();
                 if (record.bPlayerPlayerDead > 5)
                 {
-                    FNV_Warning(DAT_0102e0dc, FUN_00533fd0(), FUN_00534010(), record.bPlayerPlayerDead, record.quad7);
+                    FNV_Warning(DAT_0102e0dc, TESObjectLAND_GetCellX(), FUN_00534010(), record.bPlayerPlayerDead, record.quad7);
                     record.bPlayerPlayerDead = 5;
                     loc1ac = true;
                 }
@@ -3127,10 +3128,10 @@ bool LandOwner535d::FUN_00535d00()
                 if (record.formID)
                 {
                     ResolveFormID(&record.formID, _streamSize);
-                    _strEyeTexture = dynamic_cast<TESLandTexture*>(FUN_004839c0(record.formID));
+                    _strEyeTexture = dynamic_cast<TESLandTexture*>(TESForm_GetFormByNumericID(record.formID));
                     if (!_strEyeTexture)
                     {
-                        FNV_Warning(DAT_0102e088, FUN_00533fd0(), FUN_00534010(), record.formID, record.quad7);
+                        FNV_Warning(DAT_0102e088, TESObjectLAND_GetCellX(), FUN_00534010(), record.formID, record.quad7);
                         loc1ac = true;
                     }
                 }
@@ -3161,7 +3162,7 @@ bool LandOwner535d::FUN_00535d00()
                         for (unsigned int k = 0; k < count; k++)
                         {
                             if (_streamSize->FUN_00401680())
-                                oldWeightsB[k].FUN_00535aa0();
+                                oldWeightsB[k].OBJ_WEAP_CRITICAL_Endian();
                             TESObjectLAND_SetTexturePercent((unsigned char)quad7, oldWeightsB[k].vertex, (unsigned short)bPlayerPlayerDead,
                                          oldWeightsB[k].weight);
                         }
@@ -3170,7 +3171,7 @@ bool LandOwner535d::FUN_00535d00()
                     }
                     else
                     {
-                        FNV_Warning(DAT_0102e038, FUN_00533fd0(), FUN_00534010(), _streamSize->GetFilename());
+                        FNV_Warning(DAT_0102e038, TESObjectLAND_GetCellX(), FUN_00534010(), _streamSize->GetFilename());
                         loc1ac = true;
                     }
                 }
@@ -3183,6 +3184,6 @@ bool LandOwner535d::FUN_00535d00()
     if (loc1ac)
         TESObjectLAND_AdjustTextureArrays();
     if (_tilesHeight && !_cNormal)
-        FNV_Warning(DAT_0102dfe8, FUN_00533fd0(), FUN_00534010(), _streamSize->GetFilename());
+        FNV_Warning(DAT_0102dfe8, TESObjectLAND_GetCellX(), FUN_00534010(), _streamSize->GetFilename());
     return true;
 }

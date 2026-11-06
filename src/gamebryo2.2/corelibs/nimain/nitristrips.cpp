@@ -165,14 +165,16 @@ NiTriStrips* __fastcall CreateTriStripsObject(NiTriStrips* self, void*, int valu
 void __cdecl FUN_00a80400();
 
 // @fnv 0x00a9b140
-void __cdecl FUN_00a9b140()
+// src: XBOX_PDB 0x00a9b140
+void __cdecl NiParticleMeshes_CopyMembers()
 {
     FUN_00a80400();
 }
 
-void __cdecl FUN_00a9b180();
+void __cdecl NiLines_LoadBinary();
 // @fnv 0x00a98ea0
-void __cdecl FUN_00a98ea0()
+// src: XBOX_PDB 0x00a98ea0
+void __cdecl NiParticleMeshes_LoadBinary()
 {
-    FUN_00a9b180();
+    NiLines_LoadBinary();
 }

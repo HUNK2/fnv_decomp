@@ -11,7 +11,7 @@ static __forceinline void FreeAudioArray(hkMemoryAllocator* pAllocator, void* pM
     (*reinterpret_cast<FreeArrayFunction**>(pAllocator))[4](pAllocator, pMemory, uiSize);
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00dfd380_cls
 {
@@ -39,7 +39,7 @@ struct FUN_00dfd380_cls
 // @fnv 0x00dfd380
 void FUN_00dfd380_cls::FUN_00dfd380()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -50,7 +50,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -61,7 +61,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    hkMemoryRouter* pHolder3 = FUN_00c85750();
+    hkMemoryRouter* pHolder3 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator3 = reinterpret_cast<hkMemoryAllocator*>(pHolder3->m_heap);
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -72,7 +72,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
     m_pDataC = 0;
     m_uCapC = 0x80000000u;
 
-    hkMemoryRouter* pHolder4 = FUN_00c85750();
+    hkMemoryRouter* pHolder4 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator4 = reinterpret_cast<hkMemoryAllocator*>(pHolder4->m_heap);
     unsigned int uCapD = m_uCapD;
     m_iCountD = 0;
@@ -86,7 +86,7 @@ void FUN_00dfd380_cls::FUN_00dfd380()
 
 namespace fnv_00dfd440 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00dfd440_cls
 {
@@ -111,7 +111,7 @@ struct FUN_00dfd440_cls
 // @fnv 0x00dfd440
 void FUN_00dfd440_cls::FUN_00dfd440()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -122,7 +122,7 @@ void FUN_00dfd440_cls::FUN_00dfd440()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -133,7 +133,7 @@ void FUN_00dfd440_cls::FUN_00dfd440()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    hkMemoryRouter* pHolder3 = FUN_00c85750();
+    hkMemoryRouter* pHolder3 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator3 = reinterpret_cast<hkMemoryAllocator*>(pHolder3->m_heap);
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;

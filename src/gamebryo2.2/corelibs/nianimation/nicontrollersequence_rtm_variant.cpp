@@ -24,7 +24,7 @@ extern float DAT_01096548;
 extern double DAT_010231b0;
 extern unsigned char DAT_01096968;
 extern unsigned int DAT_01096688;
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 struct LegacyStream
 {
     unsigned int unk00;
@@ -232,7 +232,7 @@ void NiControllerSequence::LinkObject(NiStream& stream)
         names.capacity = (unsigned short)n;
         names.length = 0;
         if (names.capacity > 0)
-            names.data = (char**)FUN_00aa1070(names.capacity * 4);
+            names.data = (char**)_NiMalloc_00aa1070(names.capacity * 4);
         else
             names.data = 0;
         LegacyArray controllers;
@@ -250,7 +250,7 @@ void NiControllerSequence::LinkObject(NiStream& stream)
             {
                 const char* name = ((LegacyTag*)m_pkIDTags)[i].name;
                 unsigned int bytes = strlen(name) + 1;
-                char* copy = (char*)FUN_00aa1070(bytes);
+                char* copy = (char*)_NiMalloc_00aa1070(bytes);
                 FUN_00ec65a6(copy, bytes, name);
                 if (i >= names.length)
                     names.length = (unsigned short)(i + 1);

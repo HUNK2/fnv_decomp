@@ -43,7 +43,7 @@ extern double DAT_01012070;
 
 struct FUN_00b3d720_String
 {
-    void __thiscall FUN_0044a730(bool a, unsigned int b);
+    void __thiscall fopen_0044a730(bool a, unsigned int b);
     int unk00;
     int unk04;
     int unk08;
@@ -70,7 +70,7 @@ struct FUN_00b3d720_Class
     float unk4C;
     float unk50;
 
-    FUN_00b3d720_Class* __thiscall FUN_00b3d720();
+    FUN_00b3d720_Class* __thiscall SIdvLeafTexture_SIdvLeafTexture();
 };
 extern float DAT_01030ff0;
 extern float DAT_0101df44;
@@ -162,16 +162,16 @@ struct SptString : SptStringBase
     unsigned int capacity;
     SptString(const char* text) : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         assign(text);
     }
     SptString() : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     SptString(const SptString& rhs) : SptStringBase(SptAllocator())
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         assign(rhs, 0, DAT_010173f0);
     }
     void range_error();
@@ -206,7 +206,7 @@ struct SptString : SptStringBase
     SptString& AppendChars(unsigned int, char);
     ~SptString()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
     SptString& FUN_0044a4c0(const char*);
     void deallocate(char*, unsigned int);
@@ -218,7 +218,8 @@ struct SptString : SptStringBase
     {
         pointer()[length = n] = char();
     }
-    void FUN_0044a730(bool built, unsigned int n)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built, unsigned int n)
     {
         if (!built)
         {
@@ -300,7 +301,7 @@ struct SptError : SptRuntimeError
 
 inline CTreeEngine::SptFilename::~SptFilename()
 {
-    FUN_0044a730(true, 0);
+    fopen_0044a730(true, 0);
 }
 __forceinline void CTreeEngine::SptFilename::operator=(const SptFilename& rhs)
 {
@@ -353,7 +354,8 @@ struct CTreeFileAccessImpl : ElementIterator
 };
 
 // @fnv 0x00b2b550
-bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
+// src: XBOX_PDB 0x00b2b550
+bool CTreeEngine::Parse_00b2b550(CTreeFileAccessImpl* file)
 {
     bool bSuccess = false;
 
@@ -375,10 +377,10 @@ bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
         switch (strBuf9)
         {
         case 0x3ea:
-            FUN_00b2bde0(file);
+            ParseTreeInfo(file);
             break;
         case 0x3ec:
-            m_sub94.FUN_00b3d1b0(file);
+            m_sub94.SIdvLeafInfo_Parse(file);
             break;
         case 0x3f3:
             m_sub10c.SIdvWindInfo_Parse(file);
@@ -392,7 +394,7 @@ bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
     if (!((CTreeFileAccessImpl*)file)->EndOfFile() && ((CTreeFileAccessImpl*)file)->GetElementAtOffset() == 0x1b58)
     {
         static_cast<ElementIterator*>(file)->GetNextElement();
-        FUN_00b2cbc0(file);
+        ParseLeafCluster(file);
     }
 
     m_pcFileName = m_pcFileName;
@@ -1386,15 +1388,15 @@ struct S2bde0_Str
     S2bde0_Str(const char* s);
     __forceinline S2bde0_Str(const S2bde0_Str& r)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(r, 0, DAT_010173f0);
     }
     inline S2bde0_Str(struct S2bde0_RStr s);
     __forceinline ~S2bde0_Str()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
     S2bde0_Str& AssignSubstring(const S2bde0_Str& r, unsigned o, unsigned n);
     __forceinline S2bde0_Str& operator=(const S2bde0_Str& r)
     {
@@ -1412,7 +1414,7 @@ struct S2bde0_Name : S2bde0_Str
 };
 inline S2bde0_Str::S2bde0_Str(S2bde0_RStr s)
 {
-    FUN_0044a730(false, 0);
+    fopen_0044a730(false, 0);
     AssignSubstring(s, 0, DAT_010173f0);
 }
 struct S2bde0_ExBase
@@ -1526,7 +1528,8 @@ inline void S2bde0_Reset()
 }
 
 // @fnv 0x00b2bde0
-void CTreeEngine::FUN_00b2bde0(ElementIterator* p)
+// src: XBOX_PDB 0x00b2bde0
+void CTreeEngine::ParseTreeInfo(ElementIterator* p)
 {
     int iCount;
     int iToken = ((ElementIterator*)p)->GetNextElement();
@@ -1907,9 +1910,9 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -1936,7 +1939,7 @@ struct Parser
     ByteVec kData;
     int GetNextElement();
 };
-int __cdecl FUN_00b405c0(Parser* p);
+int __cdecl CBillboardLeaf_Parse(Parser* p);
 struct LodQ
 {
     int ai[6];
@@ -1953,7 +1956,8 @@ inline void DeadTop()
 } // namespace fnv_00b2cbc0
 
 // @fnv 0x00b2cbc0
-void CTreeEngine::FUN_00b2cbc0(ElementIterator* p)
+// src: XBOX_PDB 0x00b2cbc0
+void CTreeEngine::ParseLeafCluster(ElementIterator* p)
 {
     using namespace fnv_00b2cbc0;
     using fnv_00b2cbc0::FUN_00b09480;
@@ -1975,7 +1979,7 @@ void CTreeEngine::FUN_00b2cbc0(ElementIterator* p)
         {
             if (iTok != 0x1b5c)
                 throw FUN_00b09480("malformed leaf lod data", false);
-            (*(LodQ**)&unkec)[iCount].FUN_00b15390(FUN_00b405c0((Parser*)p));
+            (*(LodQ**)&unkec)[iCount].FUN_00b15390(CBillboardLeaf_Parse((Parser*)p));
             iTok = p->GetNextElement();
         }
         iCount++;
@@ -2022,7 +2026,8 @@ inline IdvFileError::IdvFileError(const std::string& strMessage, bool bUseErrno)
 {}
 
 // @fnv 0x00b2d090
-void CTreeEngine::FUN_00b2d090(TreeFileAccess* pFile)
+// src: XBOX_PDB 0x00b2d090
+void CTreeEngine::ParseTextureControls(TreeFileAccess* pFile)
 {
     using namespace fnv_00b2d090;
     for (unsigned int i = 0; i < (*(std::vector<TextureControlB2D090*>*)&unk60).size(); ++i)
@@ -2073,7 +2078,8 @@ struct Flare
 } // namespace fnv_00b2d2e0
 
 // @fnv 0x00b2d2e0
-void CTreeEngine::FUN_00b2d2e0(Reader* reader)
+// src: XBOX_PDB 0x00b2d2e0
+void CTreeEngine::ParseFlareInfo(Reader* reader)
 {
     using namespace fnv_00b2d2e0;
     for (unsigned int index = 0; index < (*(std::vector<Flare*>*)&unk60).size(); ++index)
@@ -2354,9 +2360,9 @@ struct FUN_0044a4c0
     FUN_0044a4c0(const FUN_0044a4c0& r);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct FUN_00b096a0
 {
@@ -2387,7 +2393,8 @@ inline void DeadTop()
 }
 
 // @fnv 0x00b2ceb0
-void __thiscall CTreeEngine::FUN_00b2ceb0(ElementIterator* a)
+// src: XBOX_PDB 0x00b2ceb0
+void __thiscall CTreeEngine::ParseLodInfo(ElementIterator* a)
 {
     DeadTop();
     int token = a->GetNextElement();

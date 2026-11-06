@@ -22,11 +22,12 @@ struct FUN_00d21ce0_cls
     void* m_base;
     void* m_pBridge;
     void* m_pConstraintData;
-    void FUN_00d21ce0(void* data);
+    void hkpBridgeConstraintAtom_init(void* data);
 };
 
 // @fnv 0x00d21ce0
-void FUN_00d21ce0_cls::FUN_00d21ce0(void* data)
+// src: XBOX_PDB 0x00d21ce0
+void FUN_00d21ce0_cls::hkpBridgeConstraintAtom_init(void* data)
 {
     m_pConstraintData = data;
     m_pBridge = (void*)0xd21cc0;

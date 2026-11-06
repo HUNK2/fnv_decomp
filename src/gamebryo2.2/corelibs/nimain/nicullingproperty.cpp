@@ -49,7 +49,8 @@ struct CloningProcess
 };
 // Allocates a NiCullingProperty, initialises its vtable and flags, runs the cloning routine, then copies m_usFlags and returns it.
 // @fnv 0x00a8f530
-NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a8f530
+NiCullingProperty* NiCullingProperty::CreateClone_00a8f530(CloningProcess& kCloning)
 {
     NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
     if (p)
@@ -60,14 +61,15 @@ NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
     }
     else
         p = 0;
-    FUN_00a5d7a0(p, kCloning);
+    NiProperty_CopyMembers(p, kCloning);
     p->m_usFlags = m_usFlags;
     return p;
 }
 
 // Calls NiProperty::LoadBinary then reads 2 bytes from the stream into m_usFlags, advancing the stream position.
 // @fnv 0x00a8f650
-void __thiscall NiCullingProperty::FUN_00a8f650(NiStream& stream)
+// src: XBOX_PDB 0x00a8f650
+void __thiscall NiCullingProperty::LoadBinary_00a8f650(NiStream& stream)
 {
     NiProperty::LoadBinary(stream);
     // NiStream's shared definition keeps this field in opaque storage.
@@ -136,7 +138,8 @@ extern NiCullingProperty* DAT_011f5d28;
 
 // If the global ref-counted object exists, decrements its reference count, destroys it when the count reaches zero, and clears the global pointer.
 // @fnv 0x00a8f620
-void __cdecl FUN_00a8f620()
+// src: XBOX_PDB 0x00a8f620
+void __cdecl NiCullingProperty__SDMShutdown()
 {
     if (DAT_011f5d28 != 0)
     {
@@ -149,7 +152,7 @@ void __cdecl FUN_00a8f620()
     }
 }
 
-void* __cdecl FUN_00aa1070(unsigned int bytes);
+void* __cdecl _NiMalloc_00aa1070(unsigned int bytes);
 
 struct FUN_00a7b690
 {
@@ -192,7 +195,7 @@ struct FNV_A90A50_ArrayBase
         capacity = 4;
         allocated = 0;
         size = 0;
-        data = FUN_00aa1070(16);
+        data = _NiMalloc_00aa1070(16);
     }
 };
 
@@ -236,7 +239,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BA8F690StringArray;
 extern const char* g_pcA8F690Name;
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
-char* __cdecl FUN_00a7d370(const char* pcName, bool bValue);
+char* __cdecl NiGetViewerString(const char* pcName, bool bValue);
 
 // The shared headers lack the viewer-string overrides; forward the unused EDX
 // argument so these file-local entry points retain the original thiscall code.
@@ -249,7 +252,7 @@ void __fastcall NiCullingProperty_GetViewerStrings(NiCullingProperty* property, 
     NiProperty_GetViewerStrings(property, unusedEDX, pkStrings);
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_pcA8F690Name));
     bool bCulled = ((unsigned char)property->m_usFlags & 1) != 0;
-    pkStrings->Add(FUN_00a7d370("bCulled", bCulled));
+    pkStrings->Add(NiGetViewerString("bCulled", bCulled));
 }
 
 extern int DAT_0109f68c;

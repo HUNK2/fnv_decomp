@@ -44,7 +44,7 @@ unsigned char __cdecl TESRenderer_GetFullScreen();
 int __cdecl TESRenderer_GetHWND();
 void __cdecl MessageMenuCallback();
 int __cdecl MessageHandler_GetWarningContext();
-unsigned char __cdecl FUN_00703e80(const char* a1, int a2, int a3, void* a4, int a5, int a6, float a7, float a8,
+unsigned char __cdecl Interface_CreateMessageMenu(const char* a1, int a2, int a3, void* a4, int a5, int a6, float a7, float a8,
                                    const char* a9, const char* a10, const char* a11, int a12);
 
 // @fnv 0x0086a580
@@ -95,7 +95,7 @@ int MessageBoxA_0(const char* text, const char* caption, unsigned int flags)
             }
 
             if (mode == 2 || mode == 0 ||
-                !FUN_00703e80(text, 0, 0, (void*)MessageMenuCallback, a, MessageHandler_GetWarningContext(), 0.0f, 0.0f, c, d, b, 0))
+                !Interface_CreateMessageMenu(text, 0, 0, (void*)MessageMenuCallback, a, MessageHandler_GetWarningContext(), 0.0f, 0.0f, c, d, b, 0))
             {
                 if (!TESRenderer_GetFullScreen() || !TESRenderer_GetHWND())
                 {

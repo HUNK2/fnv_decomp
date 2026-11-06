@@ -273,7 +273,7 @@ struct Iteration
     int unk00;
     unsigned int index;
     unsigned int value;
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
     bool IsFlagSet();
     void FUN_0044de40(bool);
     void FUN_0044de80(bool);
@@ -294,7 +294,7 @@ bool FUN_0044b8d0_Class::ProcessIteration(Iteration* pIteration, unsigned int* p
 {
     lock.Lock(0);
     bool success = false;
-    if (pIteration->FUN_006ebde0())
+    if (pIteration->LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         success = false;
     }

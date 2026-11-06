@@ -12,11 +12,12 @@ struct S008910c0_Vector
 {
     __m128 m_vComponents;
     S008910c0_Vector* hkSimdReal_broadcast(S008910c0_Vector* pOut) const;             // broadcast x
-    void FUN_008910c0(const S008910c0_Vector* a, const S008910c0_Vector* b);  // subMul
+    void hkVector4_subMul4(const S008910c0_Vector* a, const S008910c0_Vector* b);  // subMul
 };
 
 // @fnv 0x008910c0
-void S008910c0_Vector::FUN_008910c0(const S008910c0_Vector* a, const S008910c0_Vector* b)
+// src: XBOX_PDB 0x008910c0
+void S008910c0_Vector::hkVector4_subMul4(const S008910c0_Vector* a, const S008910c0_Vector* b)
 {
     S008910c0_Vector kScale;
     m_vComponents = _mm_sub_ps(m_vComponents, _mm_mul_ps(a->hkSimdReal_broadcast(&kScale)->m_vComponents, b->m_vComponents));

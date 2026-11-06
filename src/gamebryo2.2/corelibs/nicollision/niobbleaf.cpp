@@ -77,7 +77,7 @@ public:
     LocalVec FUN_00439ef0(const LocalVec& v) const;
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     void FUN_006815c0();
     void FUN_00439180(float scale);
     LocalVec& FUN_0063c8a0(const LocalVec& v);
@@ -85,7 +85,7 @@ public:
     float FUN_004a7290() const;
     void FUN_004b4db0(const float* values);
     void FUN_00a38560();
-    void FUN_004f0180(void* value);
+    void NiQuaternion_ToRotation(void* value);
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
@@ -132,12 +132,12 @@ public:
     void normalize();
     void negate(const LocalVec& v);
 
-    void FUN_00c7f640(const void* matrix, const hkVector4& point);
-    void FUN_00c7f640(Mat4* matrix, void* point);
-    void FUN_00c7f640(const void* matrix, const LocalVec* point);
-    void FUN_00c7f640(const void* matrix, const void* point);
-    void FUN_00c7f700(Mat3* matrix, void* point);
-    void FUN_00c7f700(const void* matrix, const LocalVec* point);
+    void setTransformedPos_00c7f640(const void* matrix, const hkVector4& point);
+    void setTransformedPos_00c7f640(Mat4* matrix, void* point);
+    void setTransformedPos_00c7f640(const void* matrix, const LocalVec* point);
+    void setTransformedPos_00c7f640(const void* matrix, const void* point);
+    void hkVector4_setRotatedDir(Mat3* matrix, void* point);
+    void hkVector4_setRotatedDir(const void* matrix, const LocalVec* point);
     void Normalize_00b12790();
     void Diff_00b13040(LocalVec* out, const LocalVec* v);
     LocalVec* ScaleSwizzled(LocalVec* out, float factor);
@@ -267,13 +267,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -495,12 +495,13 @@ struct S_00eb8680_Obj
     {
         return vfn2(p, a2, a3, a4, n, k1, k2);
     }
-    bool FUN_00eb8680(S_00eb8680_Obj* other, unsigned char* a2, unsigned char* a3, void* a4, unsigned count, int k1,
+    bool NiOBBLeaf_TestCollision(S_00eb8680_Obj* other, unsigned char* a2, unsigned char* a3, void* a4, unsigned count, int k1,
                       int k2);
 };
 
 // @fnv 0x00eb8680
-bool S_00eb8680_Obj::FUN_00eb8680(S_00eb8680_Obj* other, unsigned char* pDataA, unsigned char* pDataB, void* a4,
+// src: XBOX_PDB 0x00eb8680
+bool S_00eb8680_Obj::NiOBBLeaf_TestCollision(S_00eb8680_Obj* other, unsigned char* pDataA, unsigned char* pDataB, void* a4,
                                   unsigned count, int k1, int k2)
 {
     if (k1 != unk88)
@@ -597,7 +598,7 @@ struct S_00eb8790_Node
     virtual void v0();
     virtual bool isLeaf();
     virtual void v2();
-    virtual int FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
+    virtual int NiOBBLeaf_FindCollisions(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
                              int a5, int depth, int stampA, int stampB, int a9);
 
     int NiOBBLeaf_FaceFaceCollision(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB, int a9);
@@ -610,7 +611,8 @@ struct S_00eb8790_Node
 };
 
 // @fnv 0x00eb8790
-int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA,
+// src: XBOX_PDB 0x00eb8790
+int S_00eb8790_Node::NiOBBLeaf_FindCollisions(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA,
                                   S_00eb8790_Body* bodyB, int a5, int depth, int stampA, int stampB, int a9)
 {
     if (stampA != m_stamp)
@@ -629,11 +631,11 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
     {
         if (depth && (other->m_childA || other->m_childB))
         {
-            int result = FUN_00eb8790(other->m_childA, a1, a2, bodyA, bodyB, a5, depth - 1, stampA, stampB, a9);
+            int result = NiOBBLeaf_FindCollisions(other->m_childA, a1, a2, bodyA, bodyB, a5, depth - 1, stampA, stampB, a9);
             if (result >= 1)
                 return result;
             S_00eb8790_Node* pChildB = other->m_childB;
-            result = FUN_00eb8790(pChildB, a1, a2, bodyA, bodyB, a5, depth - 1, stampA, stampB, a9);
+            result = NiOBBLeaf_FindCollisions(pChildB, a1, a2, bodyA, bodyB, a5, depth - 1, stampA, stampB, a9);
             if (result >= 1)
                 return result;
             return 0;
@@ -826,12 +828,13 @@ struct Obj5
 
 struct FUN_00eb8930_cls : Owner
 {
-    int FUN_00eb8930(LocalVec3* a1, LocalVec3* a2, Rec* a3, unsigned char* out, Obj5* a5, int a6);
+    int NiOBBLeaf_FindIntersections(LocalVec3* a1, LocalVec3* a2, Rec* a3, unsigned char* out, Obj5* a5, int a6);
 };
 
 // Calls an intersection helper and, on success, stores its returned point and parameter in a node, with an optional triangle normal.
 // @fnv 0x00eb8930
-int FUN_00eb8930_cls::FUN_00eb8930(LocalVec3* a1, LocalVec3* a2, Rec* apRec, unsigned char* pOutHit, Obj5* apObj5, int a6)
+// src: XBOX_PDB 0x00eb8930
+int FUN_00eb8930_cls::NiOBBLeaf_FindIntersections(LocalVec3* a1, LocalVec3* a2, Rec* apRec, unsigned char* pOutHit, Obj5* apObj5, int a6)
 {
     if (a6 != m_88)
     {
@@ -856,7 +859,7 @@ int FUN_00eb8930_cls::FUN_00eb8930(LocalVec3* a1, LocalVec3* a2, Rec* apRec, uns
         LocalVec3 ub = *m_90 - *m_8c;
         LocalVec3 wa = *m_94 - *m_8c;
         LocalVec3 cross = ub.Cross(wa);
-        cross.FUN_004a0c10();
+        cross.Unitize_004a0c10();
         memcpy(&n->m_28, &cross, sizeof(cross));
     }
     return 0;
@@ -1174,11 +1177,11 @@ FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, Ni
     kTargetCenter = (kP0 + kP1 + kMid) / 3.0f;
 
     akAxis[0] = kP1 - kP0;
-    akAxis[0].FUN_004a0c10();
+    akAxis[0].Unitize_004a0c10();
     akAxis[1] = kMid - kP0;
     float projection = akAxis[0] * akAxis[1];
     akAxis[1] -= projection * akAxis[0];
-    akAxis[1].FUN_004a0c10();
+    akAxis[1].Unitize_004a0c10();
     akAxis[2] = akAxis[0].Cross(akAxis[1]);
 
     NiPoint3 minCoord(0.0f, 0.0f, 0.0f);

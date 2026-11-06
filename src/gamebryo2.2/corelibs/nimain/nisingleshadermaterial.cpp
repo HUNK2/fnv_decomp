@@ -115,7 +115,8 @@ int __fastcall NiShader_GetImplementation(NiShader* shader);
 
 // Returns a compatible cached shader, or creates and initializes one through the shader factory.
 // @fnv 0x00aa07a0
-NiShader* NiSingleShaderMaterial::FUN_00aa07a0(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int key)
+// src: XBOX_PDB 0x00aa07a0
+NiShader* NiSingleShaderMaterial::GetCurrentShader(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int key)
 {
     NiShaderFactory* pManager = NiShaderFactory::GetInstance();
     if (m_sp)

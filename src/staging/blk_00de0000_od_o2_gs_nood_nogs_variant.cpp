@@ -137,7 +137,8 @@ static inline void memCpy16(void* dst, const void* src, int numQuads)
 }
 
 // @fnv 0x00df7760
-void FUN_00df7760(const CastSettings* settings, const CollisionAgentContext* in, CastJob* jobs, int numJobs)
+// src: XBOX_PDB 0x00df7760
+void hkCpuPairLinearCastImplementation(const CastSettings* settings, const CollisionAgentContext* in, CastJob* jobs, int numJobs)
 {
     RootContactPoint shapeB[16];
     RootContactPoint idx[16];

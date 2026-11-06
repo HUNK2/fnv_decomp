@@ -90,7 +90,7 @@ bool BSSoundHandle::Release()
         return false;
     }
 
-    bool released = BSAudioManager::GetRandomGenerator().FUN_00adbf50(iSoundID);
+    bool released = BSAudioManager::GetRandomGenerator().BSAudioManager_Release(iSoundID);
     if (released)
     {
         iSoundID = 0xffffffff;
@@ -181,7 +181,8 @@ void BSAudio::OrientListener(NiPoint3 front, NiPoint3 top)
 
 // Calls the synchronization callback, then clears bit 0 of the synchronization flags.
 // @fnv 0x00ad8740
-void BSAudio::FUN_00ad8740()
+// src: XBOX_PDB 0x00ad8740
+void BSAudio::UnPauseSynchTimer()
 {
     if (*reinterpret_cast<void (**)()>(reinterpret_cast<char*>(this) + 0x34))
     {
@@ -276,7 +277,8 @@ inline bool IsAudioActive(BSAudio* audio)
 
 // If audio is enabled, stops multithreaded processing when needed, clears initialization, and resets the manager.
 // @fnv 0x00ad7150
-void __fastcall FUN_00ad7150(BSAudio* audio)
+// src: XBOX_PDB 0x00ad7150
+void __fastcall BSAudio_Shutdown(BSAudio* audio)
 {
     AudioThreadModeScope scope;
     if (IsAudioActive(audio))
@@ -299,7 +301,7 @@ struct FUN_00ad78e0_cls : public BSAudio
 // src: COMMUNITY 0x00ad78e0
 NiPoint3 FUN_00ad78e0_cls::BSAudio_GetListenerPosition()
 {
-    const NiPoint3* p = pListener ? &pListener->FUN_00aeaad0() : &_NiPoint3_ZERO;
+    const NiPoint3* p = pListener ? &pListener->GetPosition_00aeaad0() : &_NiPoint3_ZERO;
     return *p;
 }
 
@@ -309,7 +311,7 @@ void BSAudio::SetMasterVolume(float afVolume)
 {
     BSAudioManager& mgr = BSAudioManager::GetRandomGenerator();
     mgr.fMasterVolume = afVolume;
-    mgr.FUN_00adc160();
+    mgr.BSAudioManager_SetRadioVolume();
 }
 
 // Stores value into the audio manager's field and calls FUN_00adc160 on it.
@@ -319,7 +321,7 @@ void BSAudio::SetFootstepVolume(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fFootVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 // @fnv 0x00ad7b70
@@ -328,7 +330,7 @@ void BSAudio::SetVoiceVolume(float fVoiceVolume)
 {
     BSAudioManager& instance = BSAudioManager::GetRandomGenerator();
     instance.fVoiceVolume = fVoiceVolume;
-    instance.FUN_00adc160();
+    instance.BSAudioManager_SetRadioVolume();
 }
 
 // Stores value into the audio manager's field and calls FUN_00adc160 on it.
@@ -338,7 +340,7 @@ void BSAudio::SetEffectsVolume(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fEffectsVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 // Stores value into the audio manager's field and calls FUN_00adc160 on it.
@@ -348,23 +350,24 @@ void BSAudio::SetMusicVolume(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fMusicVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 // Stores value into the audio manager's field and calls FUN_00adc160 on it.
 // @fnv 0x00ad7c00
-void BSAudio::FUN_00ad7c00(float value)
+// src: XBOX_PDB 0x00ad7c00
+void BSAudio::SetRadioVolume(float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fRadioVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 // @fnv 0x00ad7c30
 // src: COMMUNITY 0x00ad7c30
 void __fastcall BSAudio_VolumeChanged(BSAudio*)
 {
-    BSAudioManager::GetRandomGenerator().FUN_00adc160();
+    BSAudioManager::GetRandomGenerator().BSAudioManager_SetRadioVolume();
 }
 
 // Reads the float at offset 0x15c of the BSAudioManager singleton and returns it.
@@ -422,7 +425,7 @@ void __fastcall BSAudio_SetMasterSecondaryVolume(BSAudio*, float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fMasterSecondaryVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 }  // namespace fnv_00ad7da0
 
@@ -435,7 +438,7 @@ void __fastcall BSWin32Audio_SetFootstepVolumeMult(BSAudio*, float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fFootSecondaryVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 }  // namespace fnv_00ad7dd0
 
@@ -448,7 +451,7 @@ void __fastcall BSWin32Audio_SetVoiceVolumeMult(BSAudio*, float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fVoiceSecondaryVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 }  // namespace fnv_00ad7e00
 
@@ -461,7 +464,7 @@ void __fastcall BSWin32Audio_SetEffectsVolumeMult(BSAudio*, float value)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fEffectsSecondaryVolume = value;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 }  // namespace fnv_00ad7e30
 
@@ -471,7 +474,7 @@ void __fastcall BSWin32Audio_SetMusicVolumeMult(BSAudio*, float v)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fMusicSecondaryVolume = v;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 // @fnv 0x00ad7e90
@@ -480,7 +483,7 @@ void __fastcall BSWin32Audio_SetRadioVolumeMult(BSAudio*, float v)
 {
     BSAudioManager* mgr = &BSAudioManager::GetRandomGenerator();
     mgr->fRadioSecondaryVolume = v;
-    mgr->FUN_00adc160();
+    mgr->BSAudioManager_SetRadioVolume();
 }
 
 void __fastcall BSAudioManager_ClearSecondaryVolumes(BSAudioManager* m);
@@ -828,12 +831,13 @@ struct FUN_00ae5870_t
 // BSAudio.h lacks this four-argument positioned-handle factory.
 struct FUN_00ad7620_t : public BSAudio
 {
-    BSSoundHandle FUN_00ad7620(unsigned int aiFormID, unsigned int aiTypeFlags, NiPoint3 aLoc, unsigned int aiID);
+    BSSoundHandle BSAudio_SpawnSoundReference(unsigned int aiFormID, unsigned int aiTypeFlags, NiPoint3 aLoc, unsigned int aiID);
 };
 
 // Creates a sound handle for the given form and type flags, positions it at aLoc, starts playback, and returns the handle.
 // @fnv 0x00ad7620
-BSSoundHandle FUN_00ad7620_t::FUN_00ad7620(unsigned int aiFormID, unsigned int aiTypeFlags, NiPoint3 aLoc,
+// src: XBOX_PDB 0x00ad7620
+BSSoundHandle FUN_00ad7620_t::BSAudio_SpawnSoundReference(unsigned int aiFormID, unsigned int aiTypeFlags, NiPoint3 aLoc,
                                              unsigned int aiID)
 {
     MemContextScope tempMemContext(11);
@@ -883,7 +887,8 @@ __forceinline BSAudioListener* BSAudioGetListener(BSAudio* pAudio)
 }
 // If a listener is attached, forwards aiEnviroType to SetListenerID.
 // @fnv 0x00ad79b0
-void BSAudio::FUN_00ad79b0(unsigned int aiEnviroType)
+// src: XBOX_PDB 0x00ad79b0
+void BSAudio::SetEnvironment(unsigned int aiEnviroType)
 {
     if (BSAudioGetListener(this))
     {

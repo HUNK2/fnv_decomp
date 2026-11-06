@@ -21,7 +21,8 @@ float ActionPoints::GetActionPoints()
 
 // Returns true for action codes 0-8, 16, 17, 19, 20 and 21, and false for any other code.
 // @fnv 0x0066dde0
-bool FUN_0066dde0(int aeAction)
+// src: XBOX_PDB 0x0066dde0
+bool ActionPoints_IsAttackAction(int aeAction)
 {
     switch (aeAction)
     {

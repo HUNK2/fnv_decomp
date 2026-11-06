@@ -97,7 +97,7 @@ BGSLoadFormBuffer* BGSLoadGameSubBuffer::CreateFormBuffer(TESForm* form)
         {
             char* data = pBuffer;
             reinterpret_cast<TESRecipe*>(result)->SetSkill((int)form);
-            result->FUN_008a8150((unsigned char)*data);
+            result->ExtraDismemberedLimbs_SetEaten((unsigned char)*data);
             offset = 1;
             {
                 unsigned int value;
@@ -202,13 +202,13 @@ void LoadGameSubBufferQueue::ProcessQueuedSubBuffers(QUEUED_SUB_BUFFER_TYPE eSub
                             {
                             case 0:
                                 if (actor)
-                                    reinterpret_cast<BGSLoadGameSubBuffer*>(&subBuffer)->FUN_00435b20();
+                                    reinterpret_cast<BGSLoadGameSubBuffer*>(&subBuffer)->DeleteBuffer();
                                 else if (reference)
                                     reference->GetExtraData()->SetSavedAnimation(
                                         reinterpret_cast<char*>((TESForm*)reinterpret_cast<NiPointer<TESForm>&>(subBuffer)));
                                 break;
                             case 1:
-                                reinterpret_cast<BGSLoadGameSubBuffer*>(&subBuffer)->FUN_00435b20();
+                                reinterpret_cast<BGSLoadGameSubBuffer*>(&subBuffer)->DeleteBuffer();
                                 break;
                             case 2:
                                 if (reference)
@@ -354,7 +354,7 @@ void BGSLoadGameSubBuffer::SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
     padvancedBuffer = pBuffer + 1;
     isize = 0;
     padvancedBuffer += ReadEncodedInteger(padvancedBuffer, isize);
-    apSaveGameBuffer->FUN_00865f60(isize);
+    apSaveGameBuffer->SaveVariableSizedValue(isize);
     apSaveGameBuffer->WriteAtOffset(padvancedBuffer, isize, 1);
 }
 

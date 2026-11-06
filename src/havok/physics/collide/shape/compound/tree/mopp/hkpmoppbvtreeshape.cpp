@@ -98,7 +98,7 @@ struct __declspec(align(16)) FUN_00dd1bf0_Obj
     int unk38;
     int unk3C;
 
-    void __thiscall FUN_00dd1bf0(const hkpMoppCode* code, const hkTransform& transform,
+    void __thiscall hkpMoppObbVirtualMachine_queryObb(const hkpMoppCode* code, const hkTransform& transform,
                                 const hkVector4& extent, hkReal tolerance, hkArray<hkpShapeKey>& hits);
 };
 
@@ -107,7 +107,7 @@ void hkpMoppBvTreeShape::GetObbHits(const hkTransform& transform, const hkVector
                                   hkReal tolerance, hkArray<hkpShapeKey>& hits) const
 {
     FUN_00dd1bf0_Obj local;
-    local.FUN_00dd1bf0(m_pMoppCode, transform, extent, tolerance, hits);
+    local.hkpMoppObbVirtualMachine_queryObb(m_pMoppCode, transform, extent, tolerance, hits);
 }
 
 inline hkpShapeContainer::~hkpShapeContainer() {}
@@ -125,7 +125,7 @@ inline hkMoppBvTreeShapeBase::~hkMoppBvTreeShapeBase() throw()
 // ~hkpMoppBvTreeShape (0x00d543e0) is in hkpmoppbvtreeshape_gs_ehsc_nogs_noehsc_variant.cpp: Havok was built without
 // exceptions, and the original destructor has no EH frame around its removeReference() calls.
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& GetHeapAllocator(hkMemoryRouter& router)
 {
@@ -134,7 +134,7 @@ inline hkMemoryAllocator& GetHeapAllocator(hkMemoryRouter& router)
 
 inline void hkReferencedObject::operator delete(void* p)
 {
-    GetHeapAllocator(FUN_00c85750()).blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
+    GetHeapAllocator(hkMemoryRouter_getInstance()).blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
 // @fnv 0x00d548f0
@@ -393,7 +393,8 @@ struct hkpMoppRayBundleVirtualMachine
 
 // Runs the MOPP ray-bundle virtual machine against the contained shape and returns the per-ray hit mask.
 // @fnv 0x00d54610
-Vector4Comparison hkpMoppBvTreeShape::FUN_00d54610(const ShapeRayBundleCastInput& kInput,
+// src: XBOX_PDB 0x00d54610
+Vector4Comparison hkpMoppBvTreeShape::castRayBundleImpl(const ShapeRayBundleCastInput& kInput,
                                                              ShapeRayCastOutputArray& kResults,
                                                              const Vector4Comparison& kRayMask) const throw()
 {
@@ -502,7 +503,7 @@ struct S00d54720_Vm
     void* unk64;
     void* unk68;
     void* unk6c;
-    void FUN_00dd2ed0(const void* code, const hkpMoppCode* info, const void* input, const S00d54720_Body* body,
+    void hkpMoppLongRayVirtualMachine_queryLongRay(const void* code, const hkpMoppCode* info, const void* input, const S00d54720_Body* body,
                       void* collector);
 };
 struct S00d54720_Frame
@@ -546,7 +547,7 @@ void hkpMoppBvTreeShape::CastRayWithCollector(const ShapeRayCastQuery& input, co
         reinterpret_cast<volatile signed char&>(code->m_eBuildType) = 2;
         frame.body.unk00 = const_cast<hkpShape*>(m_pChildAtom.m_pContainedShape);
         frame.body.unk04 = 0;
-        vm.FUN_00dd2ed0(m_pChildAtom.m_pContainedShape ? static_cast<const hkpShapeContainer*>(static_cast<const hkpShapeCollection*>(m_pChildAtom.m_pContainedShape)) : 0,
+        vm.hkpMoppLongRayVirtualMachine_queryLongRay(m_pChildAtom.m_pContainedShape ? static_cast<const hkpShapeContainer*>(static_cast<const hkpShapeCollection*>(m_pChildAtom.m_pContainedShape)) : 0,
                        code, &input, &frame.body, &collector);
     }
     {
@@ -608,7 +609,8 @@ struct hkMoppObbVirtualMachineD543
 
 // @fnv 0x00d54380
 
-void hkpMoppBvTreeShape::FUN_00d54380(const hkAabb& kAabbIn, hkArray<unsigned int>& kHits) const
+// src: XBOX_PDB 0x00d54380
+void hkpMoppBvTreeShape::hkMoppBvTreeShapeBase_queryAabb(const hkAabb& kAabbIn, hkArray<unsigned int>& kHits) const
 
 {
 

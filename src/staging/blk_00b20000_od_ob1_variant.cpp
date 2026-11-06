@@ -655,7 +655,7 @@ struct FUN_00b3fdd0_class
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
 {
-    void __thiscall FUN_0044a730(int a, int b);
+    void __thiscall fopen_0044a730(int a, int b);
 };
 struct FUN_00b3c3b0_Class
 {
@@ -825,7 +825,8 @@ struct B2EString
     {
         B2ETraits::assign(_Myptr()[m_iElementCount = _Newsize], char());
     }
-    void FUN_0044a730(bool _Built = false, unsigned int _Newsize = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool _Built = false, unsigned int _Newsize = 0)
     {
         if (!_Built)
             ;
@@ -841,7 +842,7 @@ struct B2EString
     }
     ~B2EString()
     {
-        FUN_0044a730(true);
+        fopen_0044a730(true);
     }
 };
 struct B2ESub
@@ -915,7 +916,7 @@ struct B30Owner
 {
     char pad00[0x58];
     B30Vec<B30Vec<void*> > m_kLists;
-    unsigned short FUN_00b0a9a0(unsigned short usType);
+    unsigned short CIndexedGeometry_GetNumStrips(unsigned short usType);
     void CIndexedGeometry_DeleteLodStrip(unsigned short usType);
 };
 // @fnv 0x00b30c80
@@ -927,7 +928,7 @@ void B30Owner::CIndexedGeometry_DeleteLodStrip(unsigned short usType)
     int iA;
     int iB;
     int a1;
-    for (p = 0; p < FUN_00b0a9a0(usType); p++)
+    for (p = 0; p < CIndexedGeometry_GetNumStrips(usType); p++)
     {
         a = m_kLists[usType][p];
         FormHeapFreeAndLog_00401030(a);
@@ -2754,7 +2755,7 @@ inline void operator delete(void*, void*)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct FUN_00b2e740
 {
@@ -2766,7 +2767,7 @@ struct FUN_00b2e740
 inline void Del(FUN_00b2e740* p, unsigned int f)
 {
     StrY* q = &p->s;
-    q->FUN_0044a730(true, 0);
+    q->fopen_0044a730(true, 0);
     if (f & 1)
         FormHeapFreeAndLog_00401030(p);
 }
@@ -5657,7 +5658,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -6449,7 +6450,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -7323,7 +7324,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -8710,9 +8711,9 @@ struct StrQ
     unsigned res;
     ~StrQ()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool, unsigned);
+    void fopen_0044a730(bool, unsigned);
 };
 struct Str2Q : StrQ
 {
@@ -10311,9 +10312,9 @@ struct StrQ
     unsigned res;
     ~StrQ()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool, unsigned);
+    void fopen_0044a730(bool, unsigned);
 };
 struct Str2Q : StrQ
 {
@@ -10585,12 +10586,12 @@ struct B2AE90_NameBase
 struct B2AE90_Name : B2AE90_NameBase
 {
     int m_data[14];
-    void FUN_0044a730(bool a, bool b) throw();
+    void fopen_0044a730(bool a, bool b) throw();
     ~B2AE90_Name()
     {
         int unused[5];
         (void)unused;
-        FUN_0044a730(true, false);
+        fopen_0044a730(true, false);
     }
 };
 struct B2AE90_Allocator
@@ -11681,7 +11682,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -14577,7 +14578,7 @@ struct Proxy31
     explicit Proxy31(const Container31* p) : owner(p)
     {}
 };
-Proxy31* __cdecl FUN_0044d670(unsigned count, Proxy31* hint);
+Proxy31* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned count, Proxy31* hint);
 template <class T> inline T* allocate_storage(unsigned count, T* hint)
 {
     if (count <= 0)
@@ -14588,7 +14589,7 @@ template <class T> inline T* allocate_storage(unsigned count, T* hint)
 }
 inline Proxy31* allocate_storage(unsigned count, Proxy31* hint)
 {
-    return FUN_0044d670(count, hint);
+    return std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, hint);
 }
 template <class T> struct Alloc31
 {
@@ -15081,16 +15082,17 @@ template <class C, class Traits, class A> class basic_string
   public:
     basic_string(const basic_string& rhs)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(rhs, 0, record_model::DAT_010173f0);
     }
     ~basic_string()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 
   protected:
-    void FUN_0044a730(bool built, unsigned count)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built, unsigned count)
     {
         if (!built)
             ;

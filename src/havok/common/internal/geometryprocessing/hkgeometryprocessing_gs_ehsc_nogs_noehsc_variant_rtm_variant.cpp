@@ -30,7 +30,7 @@ struct FUN_00dee6b0_Class
     float FUN_00dee6b0(int testFlag);
 };
 extern int DAT_010cd664;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -113,7 +113,7 @@ static __forceinline void calcEdgeAxis(const hkVector4& a0, const hkVector4& a1,
     eb.setSub4(b1, b0);
     axis.setCross(ea, eb);
 }
-int __cdecl FUN_00deab10(const hkVector4* triA, const hkVector4* triB);
+int __cdecl hkGeometryProcessing_checkTrianglesIntersection(const hkVector4* triA, const hkVector4* triB);
 struct Point4;
 extern Point4 DAT_01267e30;
 struct __declspec(align(16)) Point4
@@ -148,7 +148,7 @@ struct FourPointArray
     int capacity;
 };
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
-void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output);
+void __cdecl hkGeometryProcessing_buildTransposedArray(const VertexArray& vertices, FourPointArray& output);
 
 #include <math.h>
 #include <xmmintrin.h>
@@ -342,7 +342,7 @@ hkVector4 AxisOwner::FUN_00d76d90()
         hkVector4 v;
         v = zero;
         ((float*)&v)[idx] = 1.0f;
-        out.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&rot), &v);
+        out.hkVector4_setRotatedDir(reinterpret_cast<const hkRotation*>(&rot), &v);
         break;
     }
     }

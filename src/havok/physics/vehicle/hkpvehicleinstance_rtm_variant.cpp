@@ -395,7 +395,7 @@ void VehicleVelocityVehicle::FUN_00e37740(const TimeInterval& info, Out37& out)
 
     *(LocalM128*)&out.m_kGravity = m_data->m_vChassisUnitInertiaAndMassInv.m_vComponents;
     out.m_sub150.FUN_00d72030(&out.unkd0);
-    out.m_sub170.FUN_00c7f700(&out.unk120, angVel);
+    out.m_sub170.hkVector4_setRotatedDir(&out.unk120, angVel);
     *(LocalM128*)&out.m_kTranslationalVelocity = *(LocalM128*)&linVel;
 }
 
@@ -403,8 +403,8 @@ extern "C" LocalM128 _mm_load_ss(const float*);
 
 struct VUBCD_Vec {
     LocalM128 m_vComponents;
-    void FUN_00c7f700(const VUBCD_Vec& rot, const VUBCD_Vec& dir) throw();
-    void FUN_00c7f640(const VUBCD_Vec& trans, const VUBCD_Vec& pos) throw();
+    void hkVector4_setRotatedDir(const VUBCD_Vec& rot, const VUBCD_Vec& dir) throw();
+    void setTransformedPos_00c7f640(const VUBCD_Vec& trans, const VUBCD_Vec& pos) throw();
     void setAddMul4(const VUBCD_Vec& a, const VUBCD_Vec& b, const float& r)
     {
         LocalM128 s = _mm_load_ss(&r); m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), b.m_vComponents));
@@ -428,12 +428,13 @@ struct VUBCD_WheelCollide {
     virtual void s00(); virtual void s04(); virtual void s08(); virtual void s0c(); virtual void s10(); virtual void s14();
     virtual void CollideInstance(VUBCD_Instance* inst);
 };
-struct VUBCD_Instance : hkpVehicleInstance { void FUN_00e37940(); };
+struct VUBCD_Instance : hkpVehicleInstance { void hkpVehicleInstance_updateBeforeCollisionDetection(); };
 
 void VUBCD_WheelCollide::CollideInstance(VUBCD_Instance* inst) {}
 
 // @fnv 0x00e37940
-void VUBCD_Instance::FUN_00e37940()
+// src: XBOX_PDB 0x00e37940
+void VUBCD_Instance::hkpVehicleInstance_updateBeforeCollisionDetection()
 {
     VUC_Mon* s = (VUC_Mon*)TlsGetValue(DAT_0126835c);
     VUC_Timer* h = (VUC_Timer*)s->m_kRayEnd;
@@ -450,8 +451,8 @@ void VUBCD_Instance::FUN_00e37940()
     const VUBCD_Vec& carTransform = reinterpret_cast<const VUBCD_Vec&>(m_pEntity->m_pMotionState.m_kMotionState.m_kMotionTransform);
     for (int w = 0; w < m_data->m_iWheelCount; w++) {
         hkpVehicleInstanceWheelInfo& wheelInfo = m_kWheelInfoArray.m_data[w];
-        reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk80).FUN_00c7f700(carTransform, static_cast<VUBCD_Suspension*>(static_cast<void*>(m_pSuspension))->m_kWheelParams[w].m_vDirectionChassisSpace);
-        reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk50).FUN_00c7f640(carTransform, static_cast<VUBCD_Suspension*>(static_cast<void*>(m_pSuspension))->m_kWheelParams[w].m_vHardpointChassisSpace);
+        reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk80).hkVector4_setRotatedDir(carTransform, static_cast<VUBCD_Suspension*>(static_cast<void*>(m_pSuspension))->m_kWheelParams[w].m_vDirectionChassisSpace);
+        reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk50).setTransformedPos_00c7f640(carTransform, static_cast<VUBCD_Suspension*>(static_cast<void*>(m_pSuspension))->m_kWheelParams[w].m_vHardpointChassisSpace);
         const float sum = static_cast<VUBCD_Suspension*>(static_cast<void*>(m_pSuspension))->m_kWheelParams[w].m_fRestLength + m_data->m_kWheelParams.m_data[w].m_fSphereRadius;
                 reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk60).setAddMul4(reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk50), reinterpret_cast<VUBCD_Vec&>(wheelInfo.unk80), sum);
     }

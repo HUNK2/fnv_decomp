@@ -23,7 +23,7 @@ class StateNode
     void ResetCameraState();
 };
 class ImageSpaceModifierInstanceDOF;
-void FUN_005293f0(ImageSpaceModifierInstanceDOF*);
+void ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstanceDOF*);
 struct CameraTargetResetFields
 {
     char pad[12];

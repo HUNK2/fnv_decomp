@@ -690,7 +690,7 @@ void LightView::RenderFaces()
         if (!(unsigned short)(uiFaceBit & uiFaceMask))
         {
             NiUpdateData updateView;
-            FUN_00a59c60(updateView);
+            NiAVObject_Update(updateView);
             if (DAT_011f91b8 != 7)
             {
                 if (unk138)
@@ -702,7 +702,7 @@ void LightView::RenderFaces()
                     BSCullingProcess cullingProcess(static_cast<void*>(0));
                     cullingProcess.m_pkCamera = reinterpret_cast<const NiCamera*>(this);
                     void* list = &m_kViewFrustum;
-                    cullingProcess.FUN_00a694a0(list);
+                    cullingProcess.NiCullingProcess_SetFrustum(list);
                     BSShaderAccumulator* pAccumulator = unk13C;
                     if (cullingProcess.m_acRendererDataA.m_pObject != pAccumulator)
                     {
@@ -935,8 +935,8 @@ inline float ShadowRadius(const NiBound& b)
 {
     return b.radius;
 }
-extern float __cdecl FUN_00404010(float, float);
-extern float __cdecl FUN_0040ebd0(float, float);
+extern float __cdecl BSMAX_00404010(float, float);
+extern float __cdecl BSMIN(float, float);
 extern bool __cdecl BSShaderManager_GetShadows();
 extern BSShaderAccumulator* __cdecl PopNextInt();
 inline void ShadowEnabled(int& result)
@@ -999,7 +999,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             spShadowScene.m_pObject->m_kWorld.m_Translate.y - lightTransform.m_Translate.y,
             spShadowScene.m_pObject->m_kWorld.m_Translate.z -
                 lightTransform.m_Translate.z);
-        a.FUN_004a0c10();
+        a.Unitize_004a0c10();
         ShadowSet(e, -DAT_011a9484.x, -DAT_011a9484.y, -DAT_011a9484.z);
         ShadowCross(a, &b, e);
         if (b.x < DAT_01031148 && b.x > DAT_010b7ea0 && b.y < DAT_01031148 && b.y > DAT_010b7ea0 &&
@@ -1030,9 +1030,9 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             const NiBound* bound = reinterpret_cast<NiBound*>(scene->m_kWorldBound);
             if (!bound)
                 bound = &DAT_011f4288;
-            radius = FUN_0040ebd0(DAT_01032adc, FUN_00404010(float(d.x * DAT_01016ff0),
-                                                             FUN_00404010(float(d.y * DAT_01016ff0),
-                                                                          FUN_00404010(float(d.z * DAT_01016ff0),
+            radius = BSMIN(DAT_01032adc, BSMAX_00404010(float(d.x * DAT_01016ff0),
+                                                             BSMAX_00404010(float(d.y * DAT_01016ff0),
+                                                                          BSMAX_00404010(float(d.z * DAT_01016ff0),
                                                                                        ShadowRadius(*bound)))));
         }
         NiAVObject* light = static_cast<NiAVObject*>(spLight.m_pObject);
@@ -1068,7 +1068,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             reinterpret_cast<NiUpdateData&>(a).pad3 = false;
             reinterpret_cast<NiUpdateData&>(a).pad4 = false;
             reinterpret_cast<NiUpdateData&>(a).pad5 = false;
-            GetShadowCamera()->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(a));
+            GetShadowCamera()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(a));
             memcpy(&b, &spShadowScene.m_pObject->m_kWorld.m_Translate,
                    sizeof(b));
             pExtraData = reinterpret_cast<ShadowExtraData*>(spShadowScene.m_pObject->FUN_00a5bdd0(*reinterpret_cast<const NiFixedString*>(DAT_012031e4)));
@@ -1097,7 +1097,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             reinterpret_cast<NiUpdateData&>(d).pad3 = false;
             reinterpret_cast<NiUpdateData&>(d).pad4 = false;
             reinterpret_cast<NiUpdateData&>(d).pad5 = false;
-            GetShadowCamera()->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(d));
+            GetShadowCamera()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(d));
             float nearPlane = frustum.m_fNearPlane;
             float farPlane = frustum.m_fFarPlane;
             NiAVObject* __restrict boundSource = spShadowScene.m_pObject;
@@ -1221,7 +1221,7 @@ struct PassDebug
 {
     void AddTexture(void*);
 };
-PassDebug* __cdecl FUN_00b55560(int);
+PassDebug* __cdecl BSShaderManager_GetShader(int);
 struct ShadowPass : ShadowSceneLight
 {
     void ShadowSceneLight_MTRenderFrustumDepthMap(BSCullingProcess*, int);
@@ -1302,7 +1302,7 @@ void ShadowPass::ShadowSceneLight_MTRenderFrustumDepthMap(BSCullingProcess* cont
     {
         void* texture =
             (spDynamicShadowMap.m_pObject->*reinterpret_cast<RenderedTextureAt>(&BSRenderedTexture::BSRenderedTexture_GetTexture))(0);
-        PassDebug* debug = FUN_00b55560(9);
+        PassDebug* debug = BSShaderManager_GetShader(9);
         debug->AddTexture(texture);
     }
     bClipSpacePlanesReady = false;
@@ -1327,7 +1327,7 @@ struct RenderContextView_b9e
     NiCamera* object;
 };
 namespace sb9e {
-extern "C" RenderContextView_b9e* __cdecl FUN_00b4f5c0();
+extern "C" RenderContextView_b9e* __cdecl BSShaderManager_GetAccumulator();
 extern "C" int DAT_011f91c0;
 extern "C" char DAT_011f91d8;
 extern "C" float DAT_011f9444, DAT_011f9448, DAT_011f9410, DAT_011ad834;
@@ -1411,8 +1411,8 @@ cullDone:
         delta.y = bound.y - cameraPosition.y;
         delta.z = bound.z - cameraPosition.z;
         float distance = ShadowUpdateSqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z) - bound.r;
-        if (sb9e::FUN_00b4f5c0()->object)
-            distance *= sb9e::FUN_00b4f5c0()->object->m_fLODAdjust;
+        if (sb9e::BSShaderManager_GetAccumulator()->object)
+            distance *= sb9e::BSShaderManager_GetAccumulator()->object->m_fLODAdjust;
         if (distance < sb9e::DAT_011f9444 || sb9e::DAT_011f9448 == 0.0f)
             dimmer = 1.0f;
         else if (sb9e::DAT_011f9448 < distance)

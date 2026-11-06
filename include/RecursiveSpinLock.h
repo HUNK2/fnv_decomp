@@ -28,9 +28,9 @@ public:
     static unsigned int ms_uiFirstValue;
     static unsigned int ms_uiSecondValue;
 
-    void FUN_004538a0(unsigned int threadID);
+    void BSCriticalSection_Enter(unsigned int threadID);
     void FUN_004538c0();
     bool BSSpinLock_TryLock();
-    void FUN_0040fba0();
-    void FUN_0040fbf0(char* name);
+    void BSSpinLock_Unlock();
+    void BSSpinLock_Lock(char* name);
 };

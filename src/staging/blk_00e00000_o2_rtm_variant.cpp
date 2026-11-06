@@ -424,7 +424,7 @@ struct FUN_00e11d60_class
     int m_30;
     void __thiscall hkgpMesh_setPartId(int val);
 };
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern int DAT_0102e388;
 struct FUN_00e00000_cls
 {
@@ -743,7 +743,7 @@ struct S_00e00830_Router
     int unk8;
     int unkC;
     S_00e00830_Allocator* m_pStreamAllocator;
-    static S_00e00830_Router& FUN_00c85750();
+    static S_00e00830_Router& hkMemoryRouter_getInstance();
     S_00e00830_Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -815,7 +815,7 @@ template <typename T> struct S_00e00830_Array
     }
     __forceinline ~S_00e00830_Array() throw()
     {
-        _clearAndDeallocate(S_00e00830_Router::FUN_00c85750().heap());
+        _clearAndDeallocate(S_00e00830_Router::hkMemoryRouter_getInstance().heap());
     }
 };
 struct S_00e00830_Base
@@ -3459,13 +3459,13 @@ struct ExportHeap
 {
     int unk00, unk04, unk08, unk0c;
     void* heap;
-    static ExportHeap& __cdecl FUN_00c85750();
+    static ExportHeap& __cdecl hkMemoryRouter_getInstance();
 };
 struct ExportAlloc
 {
     __forceinline ExportHeap& get(void*) const
     {
-        return ExportHeap::FUN_00c85750();
+        return ExportHeap::hkMemoryRouter_getInstance();
     }
 };
 template <class T> __forceinline void createExportObjects(T* first, int count)
@@ -3516,22 +3516,22 @@ struct PtrMap
         unk00 = 0;
         unk04 = 0;
         unk08 = -1;
-        EnsureCapacity(FUN_00c85750()->GetAlloc(), 0);
+        EnsureCapacity(hkMemoryRouter_getInstance()->GetAlloc(), 0);
     }
     __forceinline void destroy()
     {
-        ProcessArgument(FUN_00c85750()->GetAlloc());
+        ProcessArgument(hkMemoryRouter_getInstance()->GetAlloc());
         FUN_00a29680();
     }
     void EnsureCapacity(Allocator& allocator, int count);
-    void FUN_00cb1870(Allocator& allocator, unsigned int key, unsigned int value);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator& allocator, unsigned int key, unsigned int value);
     unsigned int LookupHashEntry(unsigned int key, unsigned int defaultValue);
-    void FUN_00cb1fb0(unsigned int key);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(unsigned int key);
     void ProcessArgument(Allocator& allocator);
     void FUN_00a29680();
     __forceinline void insert(unsigned int key, unsigned int value)
     {
-        FUN_00cb1870(FUN_00c85750()->GetAlloc(), key, value);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryRouter_getInstance()->GetAlloc(), key, value);
     }
     __forceinline unsigned int FindValueForKey(unsigned int key, unsigned int def)
     {
@@ -3539,7 +3539,7 @@ struct PtrMap
     }
     __forceinline void remove(unsigned int key)
     {
-        FUN_00cb1fb0(key);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(key);
     }
 };
 template <class T> struct ListItem

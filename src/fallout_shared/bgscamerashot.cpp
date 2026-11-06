@@ -58,12 +58,12 @@ void BGSCameraShot::ResetCameraShot()
     ((CameraTargetResetFields*)this)->f18 = 0.0f;
     if (((CameraTargetResetFields*)this)->a)
     {
-        FUN_005293f0(((CameraTargetResetFields*)this)->a);
+        ImageSpaceModifierInstance_Stop(((CameraTargetResetFields*)this)->a);
         ((CameraTargetResetFields*)this)->a = 0;
     }
     if (((CameraTargetResetFields*)this)->b)
     {
-        FUN_005293f0(((CameraTargetResetFields*)this)->b);
+        ImageSpaceModifierInstance_Stop(((CameraTargetResetFields*)this)->b);
         ((CameraTargetResetFields*)this)->b = 0;
     }
 }
@@ -166,7 +166,7 @@ void FUN_0058c2e0_shell::FUN_0058c2e0()
 void* __memcpy(void*, const void*, unsigned int);
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 // Casts apCopy to BGSCameraShot, returns if it fails, then copies the base form and 0x28 bytes from offset 0x38 into this.
 // @fnv 0x0058bfc0
@@ -176,12 +176,13 @@ void BGSCameraShot::CopyFrom(const TESForm* apCopy)
     pcopy = dynamic_cast<BGSCameraShot*>(const_cast<TESForm*>(apCopy));
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0((TESForm*)pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents((TESForm*)pcopy);
     __memcpy(&Data, &pcopy->Data, 0x28);
 }
 
 // @fnv 0x0058d630
-bool BGSCameraShot::FUN_0058d630()
+// src: XBOX_PDB 0x0058d630
+bool BGSCameraShot::IsInitialized()
 {
     if (Data.m_eAction == 3)
         return false;
@@ -194,7 +195,7 @@ bool BGSCameraShot::FUN_0058d630()
 
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 int _memcmp(const void*, const void*, unsigned int);
 // @fnv 0x0058c020
@@ -203,7 +204,7 @@ bool BGSCameraShot::Compare(TESForm* apCompare)
     BGSCameraShot* pCameraShot = dynamic_cast<BGSCameraShot*>(apCompare);
     if (!pCameraShot)
         return true;
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pCameraShot))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pCameraShot))
         return true;
     if (_memcmp(&Data, &pCameraShot->Data, 0x28))
         return true;
@@ -216,9 +217,9 @@ struct FUN_00487450_shell
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
-bool __cdecl FUN_00401500();
+bool __cdecl TESForm_QEndianSwapOnSave();
 
 // The shared class inherits SaveForm but does not declare its override.
 class BGSCameraShotRecordWriter : public BGSCameraShot
@@ -232,10 +233,10 @@ void BGSCameraShotRecordWriter::SaveForm()
 {
     TESForm::FUN_004855a0();
     ((TESModel*)((char*)this + 0x18))->WriteToBuffer(0x4C444F4D, 0x54444F4D);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         Data.FUN_0058c3c0();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x38), 0x28);
-    if (FUN_00401500())
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x38), 0x28);
+    if (TESForm_QEndianSwapOnSave())
         Data.FUN_0058c3c0();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
     TESForm::FUN_00485680();
@@ -286,8 +287,8 @@ struct Rotation
 };
 struct CameraNode
 {
-    const NiPoint3& FUN_0045bb80();
-    Rotation* FUN_006a9540();
+    const NiPoint3& NiAVObject_GetWorldTranslate();
+    Rotation* NiAVObject_GetRotate_006a9540();
 };
 struct NodePointer
 {
@@ -308,13 +309,13 @@ NiPoint3 BGSCameraShot::GetCameraPosition()
     }
     else if (((NodePointer*)&m_pTargetNode)->FUN_00559450())
     {
-        position = ((NodePointer*)&m_pTargetNode)->FUN_00559450()->FUN_0045bb80();
+        position = ((NodePointer*)&m_pTargetNode)->FUN_00559450()->NiAVObject_GetWorldTranslate();
     }
     if (m_bUpdateNodePosition == 1 && ((NodePointer*)&m_spPositionNode)->FUN_00559450())
     {
         ((NodePointer*)&m_spPositionNode)
             ->FUN_00559450()
-            ->FUN_006a9540()
+            ->NiAVObject_GetRotate_006a9540()
             ->DecomposeToEulerAngles(&DAT_011ca738, &DAT_011ca73c, &DAT_011ca740);
     }
     else
@@ -343,15 +344,15 @@ extern int DAT_011f3e50;
 extern int DAT_011f3e48;
 
 int __cdecl Warning_005b5e40(const char*, const char*);
-void* __cdecl FUN_00653270(void*, void*);
+void* __cdecl NiObject_DynamicCast(void*, void*);
 void __cdecl BSUtils_SetPhaseRecurse(void*, float);
 
 struct CamNodeX
 {
     void* NiObjectNET_GetController(void*);
-    void FUN_00a59c60(void*);
-    NiPoint3* FUN_0043c490();
-    int FUN_0045bc00(int);
+    void NiAVObject_Update(void*);
+    NiPoint3* GetTranslate_0043c490();
+    int NiNode_GetAtChecked(int);
 };
 struct NodePtrObj
 {
@@ -361,8 +362,8 @@ struct NodePtrObj
 };
 struct ModelLoader
 {
-    int FUN_00447080(const char*, int, int, int, int, int);
-    int FUN_0045a5e0(const char*);
+    int ModelLoader_LoadFile(const char*, int, int, int, int, int);
+    int ModelLoader_ReleaseFile(const char*);
 };
 extern ModelLoader* g_modelLoader;
 struct LookupObj
@@ -420,8 +421,8 @@ struct LookupObj
 };
 struct Lookup2
 {
-    int FUN_0058cb00(int*, int*, unsigned char*);
-    bool FUN_0058cae0();
+    int NiTransformInterpolator_GetRotData(int*, int*, unsigned char*);
+    bool NiPathInterpolator_GetFollow();
 };
 struct St28
 {
@@ -439,12 +440,12 @@ struct FoundObj
 };
 struct Glob79c
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern Glob79c DAT_011ca79c;
 struct VatsSub
 {
-    bool FUN_0058cba0(int);
+    bool EffectSetting_IsFlagSetAny(int);
 };
 struct VatsState
 {
@@ -457,7 +458,7 @@ struct VatsState
 };
 struct VATSObj
 {
-    VatsState* FUN_009c71c0();
+    VatsState* VATS_GetCurrentAction();
 };
 // PlayerObj_bgscamerashot: local type (was include/PlayerObj.h, which had no evidence of one real class); its methods are 0x00567400 TESObjectREFR::GetScale, 0x008aded0 Actor::PlayPickUpSound, 0x0095edf0 PlayerCharacter::Setup3rdPersonCameraCaster
 class TESBoundObject;
@@ -466,9 +467,9 @@ class PlayerObj_bgscamerashot
 {
 public:
     void ShowStartMenuMessageOnce();
-    void FUN_00953f80();
-    void FUN_0094fd30(int);
-    float FUN_00567400();
+    void PlayerCharacter_SetIsAMurderer();
+    void PlayerCharacter_RewardKarma(int);
+    float TESObjectREFR_GetScale_00567400();
     void PlayActorSound(TESBoundObject* o, int a1, int a2);
     void SyncHolderValue();
 };
@@ -481,10 +482,10 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
     void* myFoundPtr;
     if (TESModel::GetModelLength())
     {
-        ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0((void*)g_modelLoader->FUN_00447080(GetModelFilePath(), 0, 1, 1, 0, 0));
+        ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0((void*)g_modelLoader->ModelLoader_LoadFile(GetModelFilePath(), 0, 1, 1, 0, 0));
     }
     myFoundPtr = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()
-                     ? FUN_00653270(&DAT_011f4a18, (void*)((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_0045bc00(0))
+                     ? NiObject_DynamicCast(&DAT_011f4a18, (void*)((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiNode_GetAtChecked(0))
                      : 0;
     if (!myFoundPtr)
     {
@@ -492,7 +493,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
             "DEFAULT: VATS Camera '%s' doesn't have an NiCamera as the first child. This camera will not be used.",
             GetModelFilePath());
         ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0(0);
-        g_modelLoader->FUN_0045a5e0(GetModelFilePath());
+        g_modelLoader->ModelLoader_ReleaseFile(GetModelFilePath());
     }
     if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450())
     {
@@ -501,7 +502,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         {
             BSUtils_SetPhaseRecurse(((NodePtrObj*)&m_spPositionNode)->FUN_00559450(), -DAT_011f21d4);
         }
-        ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_00a59c60(&auxPtr);
+        ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiAVObject_Update(&auxPtr);
         if ((signed char)m_bUpdateNodePosition == -1 && !m_bFlag75)
         {
             void* queriedVal = ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->NiObjectNET_GetController(&DAT_011f3714);
@@ -509,14 +510,14 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
             {
                 void* clonePtr = queriedVal;
                 int held2 = ((LookupObj*)clonePtr)->vfn_c4(0);
-                void* altObj2Val = FUN_00653270(&DAT_011f3e50, (void*)held2);
+                void* altObj2Val = NiObject_DynamicCast(&DAT_011f3e50, (void*)held2);
                 void* myAltPtr = 0;
                 if (altObj2Val)
                 {
                     int resA;
                     int chkBPtr;
                     unsigned char flagCX;
-                    int answer = ((Lookup2*)altObj2Val)->FUN_0058cb00(&resA, &chkBPtr, &flagCX);
+                    int answer = ((Lookup2*)altObj2Val)->NiTransformInterpolator_GetRotData(&resA, &chkBPtr, &flagCX);
                     (void)answer;
                     if (resA)
                     {
@@ -525,9 +526,9 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
                 }
                 else
                 {
-                    myAltPtr = FUN_00653270(&DAT_011f3e48, (void*)held2);
+                    myAltPtr = NiObject_DynamicCast(&DAT_011f3e48, (void*)held2);
                 }
-                if (myAltPtr && ((Lookup2*)myAltPtr)->FUN_0058cae0())
+                if (myAltPtr && ((Lookup2*)myAltPtr)->NiPathInterpolator_GetFollow())
                 {
                     m_bUpdateNodePosition = 1;
                 }
@@ -537,7 +538,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
                 }
             }
         }
-        if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_0043c490()->FUN_004390c0(NiPoint3_ZERO))
+        if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->GetTranslate_0043c490()->FUN_004390c0(NiPoint3_ZERO))
         {
             Warning_005b5e40("DEFAULT: VATS Camera '%s' doesn't have any position data.", GetModelFilePath());
         }
@@ -555,7 +556,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
     {
     case 0:
         DAT_011ca728 = 1;
-        DAT_011ca734 = *DAT_011ca79c.FUN_00403e20();
+        DAT_011ca734 = *DAT_011ca79c.Setting_Float_00403e20();
         break;
     case 1:
         DAT_011ca728 = 0;
@@ -570,7 +571,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
             }
             else
             {
-                DAT_011ca734 = *DAT_011ca79c.FUN_00403e20();
+                DAT_011ca734 = *DAT_011ca79c.Setting_Float_00403e20();
             }
         }
         break;
@@ -579,14 +580,14 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
     DAT_011ca730 = 0.0f;
     DAT_011ca7a8 = NiPoint3_ZERO;
     DAT_011ca75c = NiPoint3_ZERO;
-    VatsState* vatsPtr2 = ((VATSObj*)&DAT_011f2250)->FUN_009c71c0();
+    VatsState* vatsPtr2 = ((VATSObj*)&DAT_011f2250)->VATS_GetCurrentAction();
     if (vatsPtr2 && !DAT_011ca729 &&
-        (vatsPtr2->sub14->FUN_0058cba0(4) || vatsPtr2->sub14->FUN_0058cba0(8) || vatsPtr2->sub14->FUN_0058cba0(0x10)))
+        (vatsPtr2->sub14->EffectSetting_IsFlagSetAny(4) || vatsPtr2->sub14->EffectSetting_IsFlagSetAny(8) || vatsPtr2->sub14->EffectSetting_IsFlagSetAny(0x10)))
     {
         if (Data.m_eAction == 2)
         {
             DAT_011ca729 = 1;
-            BSSoundHandle camIn2 = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
+            BSSoundHandle camIn2 = BSAudio::BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
             camIn2.Play(false);
         }
     }
@@ -595,7 +596,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         if (DAT_011ca729 && Data.m_eAction != 2)
         {
             DAT_011ca729 = 0;
-            BSSoundHandle bannerOutPtr = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraOut", 0x121);
+            BSSoundHandle bannerOutPtr = BSAudio::BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraOut", 0x121);
             bannerOutPtr.Play(false);
         }
     }
@@ -625,8 +626,8 @@ struct Rot56
 };
 struct Node60
 {
-    const NiPoint3& FUN_0045bb80();
-    Host56* FUN_006a9540();
+    const NiPoint3& NiAVObject_GetWorldTranslate();
+    Host56* NiAVObject_GetRotate_006a9540();
 };
 struct Prop
 {
@@ -643,9 +644,9 @@ struct MidX
 };
 struct Node6c
 {
-    void FUN_00a59c60(const NiUpdateData&);
-    const NiPoint3& FUN_0043c490();
-    Prop* FUN_0045bc00(int);
+    void NiAVObject_Update(const NiUpdateData&);
+    const NiPoint3& GetTranslate_0043c490();
+    Prop* NiNode_GetAtChecked(int);
 };
 struct NiPtr60
 {
@@ -662,8 +663,8 @@ struct Rend
     unsigned int FUN_004dee10();
     unsigned int FUN_004dee70();
 };
-Rend* __cdecl FUN_0043c4b0();
-MidX* __cdecl FUN_0045c670();
+Rend* __cdecl NiXenonRenderer_GetRenderer();
+MidX* __cdecl Main_GetWorldSceneGraph();
 struct GObj
 {
     virtual void w000();
@@ -806,10 +807,10 @@ struct GObj
     virtual void w137();
     virtual void w138();
     virtual bool Check22c(int);
-    void FUN_00950110(int);
-    void FUN_0094a0c0(NiPoint3*, NiPoint3*, int);
+    void PlayerCharacter_SetFirstPerson(int);
+    void PlayerCharacter_UpdateChaseCamera(NiPoint3*, NiPoint3*, int);
 };
-float* __fastcall FUN_00403e20(void*);
+float* __fastcall Setting_Float_00403e20(void*);
 void __cdecl NiMatrix3_TransformVertices(const M3&, void*, int, NiPoint3&, NiPoint3&);
 void __cdecl NiMatrix3_TransformVertices(Host56*, void*, int, NiPoint3&, NiPoint3&);
 extern NiPoint3 DAT_011ca77c;
@@ -832,11 +833,11 @@ void BGSCameraShot::UpdateCamera(float afTime)
     if (!((NiPtr6c*)&m_spPositionNode)->FUN_00559450())
         return;
     NiUpdateData upd(afTime, true, false);
-    ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->FUN_00a59c60(upd);
-    DAT_011ca77c = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->FUN_0043c490();
+    ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->NiAVObject_Update(upd);
+    DAT_011ca77c = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->GetTranslate_0043c490();
     NiPoint3 pt = DAT_011ca77c;
     if (m_bFlag74 && !reinterpret_cast<GObj*>(DAT_011dea3c)->Check22c(0))
-        reinterpret_cast<GObj*>(DAT_011dea3c)->FUN_00950110(1);
+        reinterpret_cast<GObj*>(DAT_011dea3c)->PlayerCharacter_SetFirstPerson(1);
     else
     {
         if (((CameraShotAccess*)this)->IsFlagSet())
@@ -855,7 +856,7 @@ void BGSCameraShot::UpdateCamera(float afTime)
         else if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
         {
             NiPoint3 tmpC = pt;
-            NiMatrix3_TransformVertices(((NiPtr60*)&m_pLocationNode)->FUN_00559450()->FUN_006a9540(), &DAT_011f426c, 1, tmpC, pt);
+            NiMatrix3_TransformVertices(((NiPtr60*)&m_pLocationNode)->FUN_00559450()->NiAVObject_GetRotate_006a9540(), &DAT_011f426c, 1, tmpC, pt);
         }
         if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
         {
@@ -865,14 +866,14 @@ void BGSCameraShot::UpdateCamera(float afTime)
                 DAT_011ca75c = DAT_011e0808;
                 bReset = true;
             }
-            NiPoint3 kPos = ((NiPtr60*)&m_pLocationNode)->FUN_00559450()->FUN_0045bb80();
+            NiPoint3 kPos = ((NiPtr60*)&m_pLocationNode)->FUN_00559450()->NiAVObject_GetWorldTranslate();
             pt.FUN_0063c8a0(kPos);
-            reinterpret_cast<GObj*>(DAT_011dea3c)->FUN_0094a0c0(&pt, &kPos, 0);
+            reinterpret_cast<GObj*>(DAT_011dea3c)->PlayerCharacter_UpdateChaseCamera(&pt, &kPos, 0);
             DAT_011e0808 = pt;
             if (DAT_011ca728)
             {
                 DAT_011ca7a8 = DAT_011e0808 - DAT_011ca75c;
-                if (static_cast<const NiPoint3&>(DAT_011ca7a8).Length() <= *FUN_00403e20(&DAT_011ca76c))
+                if (static_cast<const NiPoint3&>(DAT_011ca7a8).Length() <= *Setting_Float_00403e20(&DAT_011ca76c))
                 {
                     DAT_011ca728 = 0;
                     DAT_011ca72c = 0.0f;
@@ -886,7 +887,7 @@ void BGSCameraShot::UpdateCamera(float afTime)
                 {
                     if (bReset && !DAT_011ca729)
                     {
-                        BSSoundHandle snd = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
+                        BSSoundHandle snd = BSAudio::BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
                         snd.Play(false);
                     }
                     DAT_011ca730 = (1.0f / DAT_011ca734) * (afTime - DAT_011ca72c);
@@ -899,14 +900,14 @@ void BGSCameraShot::UpdateCamera(float afTime)
                         DAT_011e0808 = DAT_011ca75c + DAT_011ca7a8 * DAT_011ca730;
                 }
             }
-            Prop* pCam = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->FUN_0045bc00(0);
+            Prop* pCam = ((NiPtr6c*)&m_spPositionNode)->FUN_00559450()->NiNode_GetAtChecked(0);
             if (pCam)
             {
                 Frus kOrigFrustum = pCam->FUN_0045bbe0();
-                Anim* pMainCamera = FUN_0045c670()->FUN_006629f0();
+                Anim* pMainCamera = Main_GetWorldSceneGraph()->FUN_006629f0();
                 Frus kFrustum = pMainCamera->FUN_0045bbe0();
                 float scale =
-                    (double)FUN_0043c4b0()->FUN_004dee10() / (double)FUN_0043c4b0()->FUN_004dee70() / 1.3333334f;
+                    (double)NiXenonRenderer_GetRenderer()->FUN_004dee10() / (double)NiXenonRenderer_GetRenderer()->FUN_004dee70() / 1.3333334f;
                 kFrustum.left = kOrigFrustum.left * scale;
                 kFrustum.right = kOrigFrustum.right * scale;
                 kFrustum.top = kOrigFrustum.top;
@@ -915,6 +916,6 @@ void BGSCameraShot::UpdateCamera(float afTime)
             }
         }
     }
-    if ((GetCameraPosition() - pt).Length() <= *FUN_00403e20(&DAT_011ca7d0))
+    if ((GetCameraPosition() - pt).Length() <= *Setting_Float_00403e20(&DAT_011ca7d0))
         m_bFlag74 = 1;
 }

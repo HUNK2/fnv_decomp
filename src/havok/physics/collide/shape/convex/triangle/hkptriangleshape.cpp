@@ -66,7 +66,8 @@ extern char const* const g_01268970_arg1;
 void __cdecl hkReferencedObject_calcContentStatistics(char const*, char const* const*);
 
 // @fnv 0x00d1fee0
-void __cdecl FUN_00d1fee0(char const* arg1, char const* const* arg2)
+// src: XBOX_PDB 0x00d1fee0
+void __cdecl hkpTriangleShape_calcContentStatistics(char const* arg1, char const* const* arg2)
 {
     hkReferencedObject_calcContentStatistics(arg1, &g_01268970_arg1);
 }
@@ -158,7 +159,7 @@ void invokeTriangleNormal() { FUN_00d1ff80(inputA, inputB, inputC, outputV); }
 
 struct SimdVector {
     union { LocalM128 value; float component[4]; };
-    void FUN_00c7f640(const void* transform, const SimdVector& vertex);
+    void setTransformedPos_00c7f640(const void* transform, const SimdVector& vertex);
     __forceinline void lower(const SimdVector& a, const SimdVector& b) { value = _mm_min_ps(a.value, b.value); }
     __forceinline void upper(const SimdVector& a, const SimdVector& b) { value = _mm_max_ps(a.value, b.value); }
     __forceinline void sum(const SimdVector& a, const SimdVector& b) { value = _mm_add_ps(a.value, b.value); }
@@ -167,17 +168,18 @@ struct SimdVector {
 };
 // The shared triangle header omits its AABB override; this adapter contains only the method.
 struct TriangleBounds : hkpTriangleShape {
-    void FUN_00d20050(const void* transform, float tolerance, hkAabb& out) const;
+    void hkpTriangleShape_getAabbImpl(const void* transform, float tolerance, hkAabb& out) const;
 };
 // Computes the axis-aligned bounding box of the triangle (and extrusion) under a transform, expanded by the sphere radius plus tolerance.
 // @fnv 0x00d20050
-void TriangleBounds::FUN_00d20050(const void* transform, float tolerance, hkAabb& out) const {
+// src: XBOX_PDB 0x00d20050
+void TriangleBounds::hkpTriangleShape_getAabbImpl(const void* transform, float tolerance, hkAabb& out) const {
     SimdVector extent;
     extent.broadcast(m_fSphereRadius + tolerance);
     SimdVector a, b, c;
-    a.FUN_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexA));
-    b.FUN_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexB));
-    c.FUN_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexC));
+    a.setTransformedPos_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexA));
+    b.setTransformedPos_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexB));
+    c.setTransformedPos_00c7f640(transform, reinterpret_cast<const SimdVector&>(m_kVertexC));
     SimdVector* bounds = reinterpret_cast<SimdVector*>(&out.m_kMinimumCorner.x);
     bounds[0].lower(a,b);
     bounds[1].upper(a,b);
@@ -328,9 +330,9 @@ static __forceinline int getSector(unsigned int code, const LocalM128& face, con
 }
 struct VectorOperations {
     LocalM128 value;
-    void FUN_00c7f700(const hkRotation*, const LocalM128*);
-    void FUN_00c7f690(const hkTransform*, const hkVector4*);
-    void FUN_00c7f640(const hkTransform*, const VectorOperations&);
+    void hkVector4_setRotatedDir(const hkRotation*, const LocalM128*);
+    void hkVector4_setTransformedInversePos(const hkTransform*, const hkVector4*);
+    void setTransformedPos_00c7f640(const hkTransform*, const VectorOperations&);
 };
 // Welding calls the original support callback at vtable +0x44, absent from the common convex declaration.
 struct SupportShape {
@@ -415,16 +417,16 @@ int TriangleWelding::WeldContactPoint(unsigned short* indices, unsigned char* co
         corrected.value = normalized3(_mm_add_ps(
             _mm_mul_ps(cross3(edgeDirection, face), splat(angleSin)),
             _mm_mul_ps(splat(angleCos), face)));
-        corrected.FUN_00c7f700(&transform->m_rotation, &corrected.value);
+        corrected.hkVector4_setRotatedDir(&transform->m_rotation, &corrected.value);
         if (m_ucWeldingPadding) {
             faceTemporary.value = _mm_mul_ps(_mm_load_ps1(DAT_011b3b38 + weldingType), faceTemporary.value);
             VectorOperations localPosition;
-            localPosition.FUN_00c7f690(transform, position);
+            localPosition.hkVector4_setTransformedInversePos(transform, position);
             separation = NiMin(scalar(dot3(_mm_sub_ps(localPosition.value, *(const LocalM128*)&m_kVertexA), faceTemporary.value)), separation);
         } else {
             VectorOperations support;
             source->getSupport(&support);
-            support.FUN_00c7f640(sourceTransform, support);
+            support.setTransformedPos_00c7f640(sourceTransform, support);
             LocalM128 projection = dot3(_mm_sub_ps(*(const LocalM128*)position, support.value), corrected.value);
             if ((_mm_movemask_ps(projection) & 1) == 0) return 0;
         }
@@ -447,7 +449,7 @@ int TriangleWelding::WeldContactPoint(unsigned short* indices, unsigned char* co
             _mm_mul_ps(splat(dot3(edgeDirection, localNormal)), edgeDirection),
             _mm_mul_ps(splat(dot3(correction, localNormal)), correction));
         normalStore.value = normalized3(blend);
-        corrected.FUN_00c7f700(&transform->m_rotation, &normalStore.value);
+        corrected.hkVector4_setRotatedDir(&transform->m_rotation, &normalStore.value);
     }
     *(LocalM128*)output = corrected.value;
     output->w = separation;

@@ -20,9 +20,9 @@ class NiStringsExtraData : public NiExtraData
     void* __thiscall FUN_00a94970(unsigned int flags);
     void __thiscall CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning);
     void LoadStringArray(NiStream* stream);
-    NiStringsExtraData* FUN_00a94990(void* pCloning);
-    void FUN_00a949f0(NiStream& stream);
-    void FUN_00a94ae0(ViewerStringArray* apViewerStrings);
+    NiStringsExtraData* CreateClone_00a94990(void* pCloning);
+    void SaveBinary_00a949f0(NiStream& stream);
+    void GetViewerStrings_00a94ae0(ViewerStringArray* apViewerStrings);
 
     union
     {

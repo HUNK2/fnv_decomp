@@ -6,11 +6,12 @@
 
 struct FUN_00ba3770_struct
 {
-    int __thiscall FUN_00ba3770();
+    int __thiscall ImageSpaceTexture_GetRenderedTexture();
 };
 
 // @fnv 0x00ba3770
-int __thiscall FUN_00ba3770_struct::FUN_00ba3770()
+// src: XBOX_PDB 0x00ba3770
+int __thiscall FUN_00ba3770_struct::ImageSpaceTexture_GetRenderedTexture()
 {
     if (reinterpret_cast<char*>(this)[1])
         return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4);
@@ -301,11 +302,12 @@ class BA3760Object
     int unk08;
     int m_iValue;
 
-    void FUN_00ba3760(int iValue);
+    void NiShader_SetImplementation(int iValue);
 };
 
 // @fnv 0x00ba3760
-void BA3760Object::FUN_00ba3760(int iValue)
+// src: XBOX_PDB 0x00ba3760
+void BA3760Object::NiShader_SetImplementation(int iValue)
 {
     m_iValue = iValue;
 }
@@ -814,7 +816,7 @@ void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
 
 struct TextureRenderedViewB63
 {
-    int FUN_00ba3770();
+    int ImageSpaceTexture_GetRenderedTexture();
 };
 struct TextureSlotB63
 {
@@ -894,19 +896,19 @@ int TextureOwnerB63::ImageSpaceShaderVolumetricFog_GetVolumetricFogTexture()
         container.FUN_00ba3aa0(2, &created);
     }
     OwnerStandIn** getterSlot = &container.node->receiver;
-    if (!reinterpret_cast<TextureRenderedViewB63*>(*getterSlot)->FUN_00ba3770())
+    if (!reinterpret_cast<TextureRenderedViewB63*>(*getterSlot)->ImageSpaceTexture_GetRenderedTexture())
     {
         OwnerStandIn** receiverSlot = &container.node->receiver;
         (*receiverSlot)
             ->ImageSpaceTexture_SetTexture(reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)->BSTextureManager_BorrowRenderedTexture(DAT_011f4748, 32, 0, 0, 0));
     }
     OwnerStandIn** finalSlot = &container.node->receiver;
-    return reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)->FUN_00ba3770();
+    return reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)->ImageSpaceTexture_GetRenderedTexture();
 }
 
 struct RenderedGetterB63D
 {
-    int FUN_00ba3770();
+    int ImageSpaceTexture_GetRenderedTexture();
 };
 struct TextureNodeB63D
 {
@@ -916,7 +918,7 @@ struct TextureNodeB63D
 };
 struct ReturnManagerB63D
 {
-    void FUN_00b6da10(unsigned int);
+    void BSTextureManager_ReturnRenderedTexture(unsigned int);
 };
 struct TextureOwnerB63D
 {
@@ -969,11 +971,11 @@ void TextureOwnerB63D::ImageSpaceShaderVolumetricFog_ReturnVolumetricFogTexture(
     TextureNodeB63D* current = node;
     if (!node->texture)
         return;
-    if (!reinterpret_cast<RenderedGetterB63D*>(current->texture)->FUN_00ba3770())
+    if (!reinterpret_cast<RenderedGetterB63D*>(current->texture)->ImageSpaceTexture_GetRenderedTexture())
         return;
     ReturnManagerB63D* manager = reinterpret_cast<ReturnManagerB63D*>(DAT_011f91a8);
     OwnerStandIn** slot = &node->texture;
-    int rendered = reinterpret_cast<RenderedGetterB63D*>(*slot)->FUN_00ba3770();
-    manager->FUN_00b6da10(rendered);
+    int rendered = reinterpret_cast<RenderedGetterB63D*>(*slot)->ImageSpaceTexture_GetRenderedTexture();
+    manager->BSTextureManager_ReturnRenderedTexture(rendered);
     node->texture->ImageSpaceTexture_SetTexture(0);
 }

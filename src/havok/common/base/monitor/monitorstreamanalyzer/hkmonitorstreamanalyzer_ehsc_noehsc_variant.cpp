@@ -253,9 +253,9 @@ struct S_e0ce00_Router
         return *m_pStreamAllocator;
     }
 };
-S_e0ce00_Router* __cdecl FUN_00c85750();
+S_e0ce00_Router* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(S_e0ce00_Alloc* alloc, void* arr, int elemSize);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
+void __cdecl hkString_memCpy(void* dst, const void* src, int n);
 struct S_e0ce00_Block
 {
     int unk0;
@@ -299,7 +299,7 @@ hkBool S_e0ce00::AppendBlock(const char* begin, const char* end, const S_e0ce00_
     int n = end - begin;
     if ((m_iCapacityState & 0x3fffffff) - m_iElementCount < n)
         return false;
-    S_e0ce00_Alloc& alloc = FUN_00c85750()->heap();
+    S_e0ce00_Alloc& alloc = hkMemoryRouter_getInstance()->heap();
     S_e0ce00_Array& arr = m_arrays[aBlock.unk18];
     S_e0ce00_Block& nb = arr.AllocatePair(alloc);
     nb = aBlock;
@@ -307,7 +307,7 @@ hkBool S_e0ce00::AppendBlock(const char* begin, const char* end, const S_e0ce00_
     nb.unk20 = nb.unk1C + n;
     int off = m_iElementCount;
     m_iElementCount = off + n;
-    FUN_00cb1260(m_buf + off, begin, n);
+    hkString_memCpy(m_buf + off, begin, n);
     return true;
 }
 extern "C" void __cdecl reduceMainTree(void* object, int index, float amount);
@@ -371,7 +371,7 @@ void __cdecl WriteItemStats(void* stream, float totalTime, const S_00e0bfe0_Item
 
     hkOstream_printf(stream, "\n");
 }
-extern "C" void __cdecl FUN_00cb1280(void* dst, int c, int n);
+extern "C" void __cdecl hkString_memSet(void* dst, int c, int n);
 struct E0C150TgaHeader
 {
     unsigned char m_idLength;
@@ -400,7 +400,7 @@ struct E0C150Stream
 bool __cdecl WriteTgaImage(const void* pixels, E0C150Stream* stream, int width, int height)
 {
     E0C150TgaHeader header;
-    FUN_00cb1280(&header, 0, sizeof(header));
+    hkString_memSet(&header, 0, sizeof(header));
     header.m_imageType = 2;
     header.m_height = (unsigned short)height;
     header.m_fMaxFriction = (unsigned short)width;
@@ -644,7 +644,7 @@ struct Singleton
 };
 struct Sink
 {
-    void FUN_00cb1870(void* a, int b, int c);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* a, int b, int c);
 };
 // @fnv 0x00e0cd20
 void __cdecl ProcessRecords(unsigned char* pRecords, unsigned char* end, Sink* sink)
@@ -657,8 +657,8 @@ void __cdecl ProcessRecords(unsigned char* pRecords, unsigned char* end, Sink* s
             pRecords += 4;
             continue;
         }
-        Singleton* pSingleton = (Singleton*)FUN_00c85750();
-        sink->FUN_00cb1870(pSingleton->unk10, (int)v, (int)v);
+        Singleton* pSingleton = (Singleton*)hkMemoryRouter_getInstance();
+        sink->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(pSingleton->unk10, (int)v, (int)v);
         char* s = *(char**)pRecords;
         switch (*s)
         {
@@ -671,15 +671,15 @@ void __cdecl ProcessRecords(unsigned char* pRecords, unsigned char* end, Sink* s
         }
         case 0x4f: {
             int w = *(int*)(pRecords + 0xc);
-            Singleton* g = (Singleton*)FUN_00c85750();
-            sink->FUN_00cb1870(g->unk10, w, w);
+            Singleton* g = (Singleton*)hkMemoryRouter_getInstance();
+            sink->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(g->unk10, w, w);
             pRecords += 0x10;
             break;
         }
         case 0x4c: {
             int w = *(int*)(pRecords + 0xc);
-            Singleton* g = (Singleton*)FUN_00c85750();
-            sink->FUN_00cb1870(g->unk10, w, w);
+            Singleton* g = (Singleton*)hkMemoryRouter_getInstance();
+            sink->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(g->unk10, w, w);
             pRecords += 0x10;
             break;
         }
@@ -758,7 +758,7 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
     for (int i = 0; i < this->m_count04; ++i)
     {
         void* item = hkMonitorStreamAnalyzer_makeStatisticsTreeForMultipleFrames(this, i, S_Flag());
-        S_e0ce00_Router* holder = FUN_00c85750();
+        S_e0ce00_Router* holder = hkMemoryRouter_getInstance();
         if (arr.m_iElementCount == (int)(arr.m_iCapacityState & 0x3fffffffu))
         {
             ResizeAudioStream(holder->m_pStreamAllocator, &arr, 4);
@@ -774,12 +774,12 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
         if (item)
         {
             ((FUN_00e0d0a0_s*)item)->ClearItems();
-            S_e0ce00_Router* holder = FUN_00c85750();
+            S_e0ce00_Router* holder = hkMemoryRouter_getInstance();
             holder->m_pStreamAllocator->v08(item, 0x58);
         }
     }
 
-    S_e0ce00_Router* holder = FUN_00c85750();
+    S_e0ce00_Router* holder = hkMemoryRouter_getInstance();
     S_e0ce00_Alloc* alloc = holder->m_pStreamAllocator;
     arr.m_iElementCount = 0;
     if ((arr.m_iCapacityState & 0x80000000u) == 0)
@@ -1134,7 +1134,7 @@ struct TempArray830
     {}
     void reserve(int count)
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = hkMemoryRouter_getInstance()->heap();
         int cap = capacity & 0x3fffffff;
         if (cap < count)
         {
@@ -1146,7 +1146,7 @@ struct TempArray830
     }
     void release()
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = hkMemoryRouter_getInstance()->heap();
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap.v10(data, (capacity & 0x3fffffff) * 4);
@@ -1176,7 +1176,7 @@ void Owner830::hkMonitorStreamAnalyzer_drawThreadsToTga(void* name, int argument
         if (p)
         {
             p->ClearItems();
-            S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+            S_e0ce00_Alloc& heap = hkMemoryRouter_getInstance()->heap();
             heap.v08(p, 0x58);
         }
     }
@@ -1241,13 +1241,13 @@ struct FUN_00e0d000Total : FUN_00e0d000
 struct FUN_00e0d000Map
 {
     FUN_00e0d000Total* GetValue(const char*, int);
-    void FUN_00d874d0(const char*, FUN_00e0d000Total*);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char*, FUN_00e0d000Total*);
 };
 int __cdecl hkString_strCmp(const char*, const char*);
 void __cdecl hkArrayUtil__reserve(FUN_00e0d000Heap*, FUN_00e0d000Array*, int, int);
 __forceinline FUN_00e0d000& FUN_00e0d000Array::AllocatePair()
 {
-    FUN_00e0d000Heap& heap = static_cast<FUN_00e0d000Router*>(FUN_00c85750())->heapForStats();
+    FUN_00e0d000Heap& heap = static_cast<FUN_00e0d000Router*>(hkMemoryRouter_getInstance())->heapForStats();
     int oldSize = size;
     int count = oldSize + 1;
     int cap = capacity & 0x3fffffff;
@@ -1287,10 +1287,10 @@ void __cdecl hkBuildSizePerName(FUN_00e0d000* node, FUN_00e0d000Map* map)
     if (!total)
     {
         total =
-            new (static_cast<FUN_00e0d000Router*>(FUN_00c85750())->heapForStats().allocate(sizeof(FUN_00e0d000Total)))
+            new (static_cast<FUN_00e0d000Router*>(hkMemoryRouter_getInstance())->heapForStats().allocate(sizeof(FUN_00e0d000Total)))
                 FUN_00e0d000Total;
         total->name = name;
-        map->FUN_00d874d0(name, total);
+        map->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(name, total);
     }
     total->accumulate(*node);
     for (int i = 0; i < node->childCount; ++i)
@@ -1650,12 +1650,12 @@ struct FUN_00e108b0
     }
     void reserve(int n)
     {
-        reserve(((DumpRouter*)FUN_00c85750())->heap(), n);
+        reserve(((DumpRouter*)hkMemoryRouter_getInstance())->heap(), n);
         size = n;
     }
     void append(char c)
     {
-        DumpRouter* r = (DumpRouter*)FUN_00c85750();
+        DumpRouter* r = (DumpRouter*)hkMemoryRouter_getInstance();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream((S_e0ce00_Alloc*)r->allocator, this, 1);
         data[size++] = c;
@@ -1667,7 +1667,7 @@ struct FUN_00e108b0
     }
     void clearAndFree()
     {
-        S_e0ce00_Alloc& a = *((DumpRouter*)FUN_00c85750())->allocator;
+        S_e0ce00_Alloc& a = *((DumpRouter*)hkMemoryRouter_getInstance())->allocator;
         size = 0;
         clearAndFree(a);
     }
@@ -1794,14 +1794,14 @@ void DumpState::hkMonitorStreamAnalyzer_writeRawStatistics(void* stream)
                 case 'p':
                     break;
                 default:
-                    cleanupAllocator = &((DumpRouter*)FUN_00c85750())->heap();
+                    cleanupAllocator = &((DumpRouter*)hkMemoryRouter_getInstance())->heap();
                     indent.size = 0;
                     goto cleanup;
                 }
             }
         }
     }
-    cleanupAllocator = &((DumpRouter*)FUN_00c85750())->heap();
+    cleanupAllocator = &((DumpRouter*)hkMemoryRouter_getInstance())->heap();
     indent.size = 0;
 cleanup:
     if ((indent.capacity & 0x80000000u) == 0)
@@ -1876,7 +1876,7 @@ struct S00e0d180_Node
     void* operator new(unsigned int size)
     {
 
-        return reinterpret_cast<FUN_00e0d000Heap&>(FUN_00c85750()->heap()).allocate(size);
+        return reinterpret_cast<FUN_00e0d000Heap&>(hkMemoryRouter_getInstance()->heap()).allocate(size);
     }
 
     S00e0d180_Node(S00e0d180_Node* parent, const char* name, int flags);
@@ -2098,7 +2098,7 @@ void __cdecl hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(PrintStream* s
             hkMonitorStreamAnalyzer_showCombinedThreadSummaryRec(stream, ((*(i + (node->children)))), depth + 1, threads, spus, cfg);
     }
     line.FUN_00cc00e0();
-    S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+    S_e0ce00_Alloc& heap = hkMemoryRouter_getInstance()->heap();
     pad.size = 0;
     if ((pad.m_iCapacity & 0x80000000u) == 0)
         heap.v10(pad.data, pad.m_iCapacity & 0x3fffffff);
@@ -2216,7 +2216,7 @@ void __cdecl hkMonitorStreamAnalyzer_getTimerLimits(const MonNodeList& threadNod
 
     int n = input.m_iFrameCount;
     {
-        S_e0ce00_Router* router = FUN_00c85750();
+        S_e0ce00_Router* router = hkMemoryRouter_getInstance();
         S_e0ce00_Alloc* heap = router->m_pStreamAllocator;
         int cap = startTimes.m_iCapacityState & 0x3fffffff;
         if (cap < n)
@@ -2336,7 +2336,7 @@ void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetailsToTga(int a1, PixelSo
     if (p != 0)
     {
         WriteTgaImage(p, a4, a2->m_14, q);
-        S_e0ce00_Router* h = FUN_00c85750();
+        S_e0ce00_Router* h = hkMemoryRouter_getInstance();
         hkMemoryRouter_easyFree(h->m_pStreamAllocator, (void*)p);
     }
 }
@@ -2361,8 +2361,8 @@ struct ReportMap
     int mask;
     int flags;
     void FUN_00d87790(ReportFlag);
-    int FUN_00d87410();
-    ReportNode* FUN_00d87440(int);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
+    ReportNode* hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int);
     int FindNextUsedSlot(int);
     void SetBoolFromThreshold(ReportResult*, int);
     bool valid(int i)
@@ -2406,7 +2406,7 @@ struct ReportArray
     {}
     void reserve(int n)
     {
-        ReportHeap& heap = reinterpret_cast<ReportRouter*>(FUN_00c85750())->temp();
+        ReportHeap& heap = reinterpret_cast<ReportRouter*>(hkMemoryRouter_getInstance())->temp();
         int cap = capacity & 0x3fffffff;
         if (cap < n)
         {
@@ -2418,14 +2418,14 @@ struct ReportArray
     }
     void release()
     {
-        ReportHeap& heap = reinterpret_cast<ReportRouter*>(FUN_00c85750())->temp();
+        ReportHeap& heap = reinterpret_cast<ReportRouter*>(hkMemoryRouter_getInstance())->temp();
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap.freeBuffer(data, (capacity & 0x3fffffff) * 4);
     }
 };
 bool __cdecl hkCompareInfosBySize(ReportNode*, ReportNode*);
-void __cdecl FUN_00e10760(ReportNode**, int, int, bool(__cdecl*)(ReportNode*, ReportNode*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(ReportNode**, int, int, bool(__cdecl*)(ReportNode*, ReportNode*));
 void __cdecl hkBuildSizePerName(FUN_00e0d000*, ReportMap*);
 // @fnv 0x00e0fc50
 // src: HAVOK_LIB 0x00e0fc50
@@ -2437,10 +2437,10 @@ static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float
         map.FUN_00d87790(ReportFlag());
         hkBuildSizePerName(root, &map);
         nodes.reserve(map.size);
-        int it = map.FUN_00d87410();
+        int it = map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
         while (map.valid(it))
         {
-            ReportNode* item = map.FUN_00d87440(it);
+            ReportNode* item = map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(it);
             int count = *(volatile int*)&nodes.size;
             ReportNode** data = *(ReportNode * * volatile*)&nodes.data;
             data[count] = item;
@@ -2448,7 +2448,7 @@ static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float
             it = map.FindNextUsedSlot(it);
         }
         if (nodes.size > 1)
-            FUN_00e10760(nodes.data, 0, nodes.size - 1, hkCompareInfosBySize);
+            hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(nodes.data, 0, nodes.size - 1, hkCompareInfosBySize);
         map.FreeBuffer();
     }
     float totalTime = nodes.data[nodes.size - 1]->values[1];
@@ -2476,7 +2476,7 @@ static __declspec(noinline) void printStatisticsByType(FUN_00e0d000* root, float
             }
         }
         node->FUN_00e10930();
-        reinterpret_cast<ReportRouter*>(FUN_00c85750())->stats().freeNode(node, 0x70);
+        reinterpret_cast<ReportRouter*>(hkMemoryRouter_getInstance())->stats().freeNode(node, 0x70);
     }
     nodes.release();
 }
@@ -2502,7 +2502,7 @@ struct Se0e0c0_Heap
 {
     __forceinline Se0e0c0_Allocator& get(const void*)
     {
-        return *(Se0e0c0_Allocator*)&FUN_00c85750()->heap();
+        return *(Se0e0c0_Allocator*)&hkMemoryRouter_getInstance()->heap();
     }
 };
 
@@ -2790,9 +2790,9 @@ void __cdecl hkMonitorStreamAnalyzer_writeStatisticsDetailsToTexture(const Se0e0
     int drawWidth = input.m_iValueAt14 - border;
     int numPixels = (input.m_iValueAt14 + 1) * totalHeight;
 
-    texture = (int*)AllocateWithHeader((Se0e0c0_Allocator*)&FUN_00c85750()->heap(), numPixels * sizeof(int));
+    texture = (int*)AllocateWithHeader((Se0e0c0_Allocator*)&hkMemoryRouter_getInstance()->heap(), numPixels * sizeof(int));
     height = totalHeight;
-    FUN_00cb1280(texture, 0, numPixels * 4);
+    hkString_memSet(texture, 0, numPixels * 4);
     if (sampleInfo)
     {
         sampleInfo->m_fValueAt00 = maxFrameTime;
@@ -2928,7 +2928,7 @@ struct SampleAllocator
 {
     __forceinline S_e0ce00_Alloc& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return hkMemoryRouter_getInstance()->heap();
     }
 };
 
@@ -2994,7 +2994,7 @@ struct ColorMapBase
     int m_mod;
     void EnsureCapacity(S_e0ce00_Alloc*, int);
     int LookupBucketValue(unsigned long key, unsigned long* out) const;
-    int FUN_00cb1870(S_e0ce00_Alloc*, unsigned long key, unsigned long value);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_e0ce00_Alloc*, unsigned long key, unsigned long value);
     void ProcessArgument(S_e0ce00_Alloc*);
     void FUN_00a29680();
     __forceinline ColorMapBase() : m_entries(0), m_iElementCount(0), m_mod(-1)
@@ -3016,7 +3016,7 @@ struct ColorMapStorage : ColorMapBase
     }
     __forceinline int insert(unsigned long key, unsigned long value)
     {
-        return FUN_00cb1870(&SampleAllocator().get(this), key, value);
+        return hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(&SampleAllocator().get(this), key, value);
     }
 };
 struct ColorMap

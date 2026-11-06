@@ -426,7 +426,8 @@ int __cdecl ov_read_00ee8204(void* vf, char* buffer, int length, int bigendianp,
 extern "C" void (*DAT_00fdf398)();
 
 // @fnv 0x00ee820a
-void __cdecl FUN_00ee820a()
+// src: XBOX_PDB 0x00ee820a
+void __cdecl XInputManager_KillRumbles()
 {
     DAT_00fdf398();
 }
@@ -602,11 +603,12 @@ class FUN_00eea4f0_cls
     int unk08;
     int unk0C;
 
-    int* FUN_00eea4f0();
+    int* NiMaterialResource_GetSemantic();
 };
 
 // @fnv 0x00eea4f0
-int* FUN_00eea4f0_cls::FUN_00eea4f0()
+// src: XBOX_PDB 0x00eea4f0
+int* FUN_00eea4f0_cls::NiMaterialResource_GetSemantic()
 {
     return &unk0C;
 }
@@ -618,21 +620,23 @@ struct FUN_00eea500_Holder
     int unk08;
     int unk0C;
     int unk10;
-    int* __thiscall FUN_00eea500();
+    int* __thiscall NiMaterialResource_GetLabel();
 };
 
 // @fnv 0x00eea500
-int* FUN_00eea500_Holder::FUN_00eea500()
+// src: XBOX_PDB 0x00eea500
+int* FUN_00eea500_Holder::NiMaterialResource_GetLabel()
 {
     return &unk10;
 }
 
 struct FnvCpu_FUN_00eea520_CpuObject
 {
-    char* FUN_00eea520();
+    char* NiMaterialResource_GetDefaultValue();
 };
 // @fnv 0x00eea520
-char* FnvCpu_FUN_00eea520_CpuObject::FUN_00eea520()
+// src: XBOX_PDB 0x00eea520
+char* FnvCpu_FUN_00eea520_CpuObject::NiMaterialResource_GetDefaultValue()
 {
     return reinterpret_cast<char*>(this) + 24;
 }

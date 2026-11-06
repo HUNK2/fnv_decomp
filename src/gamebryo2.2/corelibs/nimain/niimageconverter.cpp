@@ -92,7 +92,8 @@ struct VTable_FUN_00a76d40
 };
 
 // @fnv 0x00a76d40
-bool __fastcall FUN_00a76d40(const VTable_FUN_00a76d40* pThis, int, const NiPixelFormat& kSrcFmt)
+// src: XBOX_PDB 0x00a76d40
+bool __fastcall NiDevImageConverter_IsASupportedMipmapGenerationFormat(const VTable_FUN_00a76d40* pThis, int, const NiPixelFormat& kSrcFmt)
 {
     if (pThis->v20(kSrcFmt) || pThis->v24(kSrcFmt))
         return true;

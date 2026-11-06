@@ -273,10 +273,11 @@ void* __thiscall FUN_00b5f980_class::FUN_00b5f980(bool abDelete)
 
 struct FUN_00b57fe0_class
 {
-    void __thiscall FUN_00b57fe0(int value);
+    void __thiscall DistantLODShaderProperty_SetClampNI(int value);
 };
 // @fnv 0x00b57fe0
-void __thiscall FUN_00b57fe0_class::FUN_00b57fe0(int value)
+// src: XBOX_PDB 0x00b57fe0
+void __thiscall FUN_00b57fe0_class::DistantLODShaderProperty_SetClampNI(int value)
 {
     *(int*)((char*)this + 0x84) = value;
 }
@@ -553,7 +554,8 @@ void __cdecl BSShaderManager_ResetNextAvailableShadowMapAccumulator()
 extern int DAT_011f95ec;
 
 // @fnv 0x00b4f5c0
-int FUN_00b4f5c0()
+// src: XBOX_PDB 0x00b4f5c0
+int BSShaderManager_GetAccumulator()
 {
     return DAT_011f95ec;
 }
@@ -699,11 +701,12 @@ struct S_00b57e70_Class
     int unk04;
     int unk08;
 
-    S_00b57e70_Class* __thiscall FUN_00b57e70();
+    S_00b57e70_Class* __thiscall DistantLODShaderProperty_DistantLODParam_DistantLODParam();
 };
 
 // @fnv 0x00b57e70
-S_00b57e70_Class* __thiscall S_00b57e70_Class::FUN_00b57e70()
+// src: XBOX_PDB 0x00b57e70
+S_00b57e70_Class* __thiscall S_00b57e70_Class::DistantLODShaderProperty_DistantLODParam_DistantLODParam()
 {
     unk08 = 0;
     unk04 = 0;
@@ -747,11 +750,12 @@ struct FUN_00b57e80_cls
     int unk7C;
     int unk80;
     int m_84;
-    void FUN_00b57e80(int value);
+    void DistantLODShaderProperty_SetClampD3D(int value);
 };
 
 // @fnv 0x00b57e80
-void FUN_00b57e80_cls::FUN_00b57e80(int value)
+// src: XBOX_PDB 0x00b57e80
+void FUN_00b57e80_cls::DistantLODShaderProperty_SetClampD3D(int value)
 {
     m_84 = (value != 3) ? 3 : 0;
 }
@@ -882,7 +886,8 @@ FUN_00b57f90::FUN_00b57f90() : FUN_00b7c000_Base()
 // FUN_00b57fd0 : a one-line function - getter
 extern int g_target_00b57fd0;
 // @fnv 0x00b57fd0
-void* FUN_00b57fd0()
+// src: XBOX_PDB 0x00b57fd0
+void* DistantLODShaderProperty_GetRTTI()
 {
     return &g_target_00b57fd0;
 }
@@ -1015,10 +1020,11 @@ struct CpuObject
     unsigned int unk78;
     unsigned int unk7c;
     int value;
-    int FUN_00b58090();
+    int SpeedTreeShaderLightingProperty_GetClampNI();
 };
 // @fnv 0x00b58090
-int CpuObject::FUN_00b58090()
+// src: XBOX_PDB 0x00b58090
+int CpuObject::SpeedTreeShaderLightingProperty_GetClampNI()
 {
     return value;
 }
@@ -1079,14 +1085,14 @@ struct FUN_00b58140_Class
     NiRefObject* reference80;
     unsigned int copiedValue84;
     unsigned int copiedValue88;
-    void __thiscall FUN_00b702b0(FUN_00b58140_Class* destination, unsigned int flags);
+    void __thiscall BSShaderLightingProperty_CopyMembers(FUN_00b58140_Class* destination, unsigned int flags);
     void __thiscall CopyTo(FUN_00b58140_Class* destination, unsigned int flags);
 };
 
 // @fnv 0x00b58140
 void FUN_00b58140_Class::CopyTo(FUN_00b58140_Class* destination, unsigned int flags)
 {
-    FUN_00b702b0(destination, flags);
+    BSShaderLightingProperty_CopyMembers(destination, flags);
     if (destination->reference80 != reference80)
     {
         if (destination->reference80)
@@ -1758,7 +1764,7 @@ class BB5F0C0Node : public BB5F0C0Object
 class BB5F0C0Visitor
 {
   public:
-    void FUN_00b5eed0(BB5F0C0Object* pkGeometry);
+    void ShadowSceneNode_RemoveLight(BB5F0C0Object* pkGeometry);
     void FUN_00b5c940(BB5F0C0Object* pkGeometry, bool bFlag);
     void VisitNodeChildren(BB5F0C0Node* pkNode, bool bAttach);
 };
@@ -1775,7 +1781,7 @@ void BB5F0C0Visitor::VisitNodeChildren(BB5F0C0Node* pkNode, bool bAttach)
             if (BB5F0C0IsKindOf(&g_kB5F0C0GeometryRTTI, pkChild))
             {
                 if (bAttach)
-                    FUN_00b5eed0(pkChild);
+                    ShadowSceneNode_RemoveLight(pkChild);
                 else
                     FUN_00b5c940(pkChild, true);
             }
@@ -2601,7 +2607,7 @@ void TextureOwner::ShadowSceneNode_RemoveQueuedLight(const RefPtr_b9fcc0& value)
 }
 
 extern void* __cdecl FUN_00ec61c0(void* dest, int value, unsigned int count);
-extern void* __cdecl FUN_00aa1070(unsigned int size);
+extern void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 
 void* __cdecl NiMallocB58(unsigned int uiSize);
 extern "C" void* __cdecl MemSetB58(void* pvDest, int iValue, unsigned int uiSize);
@@ -2655,7 +2661,7 @@ struct PoolLock
 extern PoolLock g_011c5f80;
 extern unsigned int DAT_011c5f84;
 extern Link* DAT_011c5f58;
-void FUN_0043a080();
+void NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
 struct LinkAllocator
 {
     unsigned count;
@@ -2691,7 +2697,7 @@ struct Pending
             n = DAT_011c5f58;
             if (!n)
             {
-                FUN_0043a080();
+                NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
                 n = DAT_011c5f58;
             }
             DAT_011c5f58 = n->next;
@@ -2740,7 +2746,7 @@ __declspec(noinline) Link* LinkAllocator::AddHead()
 {
     g_011c5f80.Lock(0);
     if (!DAT_011c5f58)
-        FUN_0043a080();
+        NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
     Link* n = DAT_011c5f58;
     DAT_011c5f58 = DAT_011c5f58->next;
     n->data = 0;

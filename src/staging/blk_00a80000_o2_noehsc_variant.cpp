@@ -35,7 +35,7 @@ extern const void* DAT_0109e984;
 BSFadeNode* NiScreenElements_CreateObject();
 struct FUN_00a87900_class
 {
-    void FUN_00a87900();
+    void NiScreenElementsData_UpdateBound();
 };
 extern int DAT_011f5b84;
 void __cdecl InitializeGameSystems();
@@ -255,7 +255,7 @@ struct FUN_00a94c00_shell
     float m_108;
     float m_10c;
     float m_110;
-    void FUN_00a94c00(NiDirectionalLight* dst, CloningProcess& cp);
+    void NiSpotLight_CopyMembers(NiDirectionalLight* dst, CloningProcess& cp);
 };
 extern MemoryManager g_memoryManager;
 extern char* DAT_010a05e4;
@@ -648,7 +648,7 @@ struct BaseCls
 {
     void __thiscall FUN_00a67b20(int, int, int, int, int, int, int);
 };
-extern "C" void* __cdecl FUN_00aa1070(int);
+extern "C" void* __cdecl _NiMalloc_00aa1070(int);
 extern int DAT_0109f23c;
 struct FUN_00a8a680_cls
 {
@@ -782,7 +782,7 @@ struct FUN_00a910f0_class
 };
 struct FUN_00aa4060_class
 {
-    void FUN_00aa4060(void* object);
+    void MemoryManager_Deallocate(void* object);
 };
 extern FUN_00aa4060_class DAT_011f6238;
 struct NiParticleBase
@@ -1167,9 +1167,9 @@ FUN_00a911d0::~FUN_00a911d0()
         m_kEntries.SetAt(i, 0);
         if (pkEntry)
         {
-            DAT_011f6238.FUN_00aa4060(pkEntry->m_pkName0);
-            DAT_011f6238.FUN_00aa4060(pkEntry->m_pkName1);
-            DAT_011f6238.FUN_00aa4060(pkEntry->m_pkName2);
+            DAT_011f6238.MemoryManager_Deallocate(pkEntry->m_pkName0);
+            DAT_011f6238.MemoryManager_Deallocate(pkEntry->m_pkName1);
+            DAT_011f6238.MemoryManager_Deallocate(pkEntry->m_pkName2);
             S911d0_Entry* pkDelete = pkEntry;
             DAT_011f5e50->FindOrAdd(&pkDelete);
         }

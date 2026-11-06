@@ -17,18 +17,19 @@ static const unsigned int kLeveledListOffset =
 // These nonvirtual TESForm helpers are not declared in the shared header yet.
 struct FormHelpers
 {
-    void FUN_004851b0(TESForm*);
-    bool FUN_00485270(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
     void Cleanup();
 };
 // Casts apCopy to TESLevSpell and, if the cast succeeds, calls FUN_004851b0 on apCopy.
 // @fnv 0x0050bcd0
-void TESLevSpell::FUN_0050bcd0(TESForm* apCopy)
+// src: XBOX_PDB 0x0050bcd0
+void TESLevSpell::Copy_0050bcd0(TESForm* apCopy)
 {
     TESLevSpell* pllcopy = dynamic_cast<TESLevSpell*>(apCopy);
     if (!pllcopy)
         return;
-    ((FormHelpers*)this)->FUN_004851b0(apCopy);
+    ((FormHelpers*)this)->TESForm_CopyAllComponents(apCopy);
 }
 
 extern "C" void* __cdecl _alloca(unsigned int);
@@ -105,7 +106,7 @@ bool TESLevSpell::LoadForm(TESFile* apFile)
         case 'DLVL': {
             unsigned char cdata = 0;
             apFile->GetChunkData(&cdata, 0);
-            TESLeveledList::FUN_0042e680(cdata);
+            TESLeveledList::ExtraWeaponModFlags_SetWeaponModFlags(cdata);
             break;
         }
         case 'FLVL':
@@ -238,7 +239,7 @@ struct FUN_0096a2d0
     BGSHeadPart* m_item;
     FUN_0096a2d0* m_pkNext;
     FUN_0096a2d0();
-    bool FUN_005f65d0(BGSHeadPart*& pkItem);
+    bool BSSimpleList_TESLevSpell_IsInList(BGSHeadPart*& pkItem);
     void FUN_005ae3d0(BGSHeadPart*& pkItem);
 };
 int GetMinusOne(int iIndex);
@@ -276,7 +277,7 @@ FUN_0096a2d0* SpellCollectionBuilder::CollectHeadParts(SpellOwner* pkOwner)
                 if (!pkResult)
                     pkResult = new FUN_0096a2d0;
                 else
-                    bAppend = !pkResult->FUN_005f65d0(pkItem);
+                    bAppend = !pkResult->BSSimpleList_TESLevSpell_IsInList(pkItem);
                 if (bAppend)
                     pkResult->FUN_005ae3d0(pkItem);
             }
@@ -315,7 +316,7 @@ struct ListData
 };
 struct FormHandle
 {
-    unsigned int FUN_004065e0();
+    unsigned int EffectItemList_GetAssociatedSkill();
 };
 // @fnv 0x0050bd60
 void TESLevSpell::SelectLeveledSpell(void* desiredForm, unsigned short level, unsigned int* outForm,
@@ -345,7 +346,7 @@ void TESLevSpell::SelectLeveledSpell(void* desiredForm, unsigned short level, un
         TESForm* mapped =
             (TESForm*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
-        if (entry > level || (mapped != 0 && GetSix(((FormHandle*)&mapped->iFormID)->FUN_004065e0()) != desiredForm))
+        if (entry > level || (mapped != 0 && GetSix(((FormHandle*)&mapped->iFormID)->EffectItemList_GetAssociatedSkill()) != desiredForm))
             break;
         if (entry > maxLevel && (maxLevel == 0 || !TESLeveledList::FUN_004877e0()))
         {
@@ -392,12 +393,13 @@ void TESLevSpell::SelectLeveledSpell(void* desiredForm, unsigned short level, un
 
 // Returns true if apCompare is not a TESLevSpell or if FUN_00485270(pcomp) is true, otherwise false.
 // @fnv 0x0050bd10
-bool TESLevSpell::FUN_0050bd10(TESForm* apCompare)
+// src: XBOX_PDB 0x0050bd10
+bool TESLevSpell::Compare_0050bd10(TESForm* apCompare)
 {
     TESLevSpell* pLevSpell = dynamic_cast<TESLevSpell*>(apCompare);
     if (!pLevSpell)
         return true;
-    if (((FormHelpers*)this)->FUN_00485270(pLevSpell))
+    if (((FormHelpers*)this)->TESForm_CompareAllComponents(pLevSpell))
         return true;
     return false;
 }

@@ -36,7 +36,7 @@ public:
 
     void ResetFormData();
     bool Load(TESFile* file);
-    bool FUN_004fd360();
+    bool GetHasExplosion();
     bool GetFlag(unsigned int flag) const;
     bool GetHasExplosionDetonates() const;
     bool GetHasExplosionAltTrigger() const;
@@ -47,13 +47,13 @@ public:
     SoundObj* FUN_004fd3e0();
     bool FUN_00975300();
     float FUN_0045cd80();
-    bool FUN_005de080();
+    bool GetHasExplosionDetonates_005de080();
     bool GetCanTurnOff() const;
     bool GetHasRotation();
-    bool FUN_009bc870();
+    bool GetSupersonic();
     bool GetCanPickup();
-    bool FUN_009a7f80() const;
-    float FUN_00966980();
+    bool GetHitScan() const;
+    float GetGravity_00966980();
     float FUN_009a7c40();
     BGSProjectile* _FNV_GetObjectReference();
     int _FNV_GetFormType();

@@ -11,7 +11,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void CreateObjectFromFactory();
 void FUN_00d3a8c0();
-void FUN_00d3a280();
+void staticGetClosestPoints();
 void FUN_00daf8e0();
 void FUN_00d3ab60(void* apObject);
 void __cdecl CreateAllocatedObject();
@@ -24,7 +24,7 @@ void __cdecl FUN_00d38ac0();
 void __cdecl FUN_00d38ed0();
 void __cdecl FUN_00d3ac80();
 void __cdecl CreateTriAgent();
-void __cdecl FUN_00d38130();
+void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
 void __cdecl FUN_00d386c0();
 void __cdecl FUN_00daf8e0();
 typedef void(__cdecl* S_00d389f0_Func)();
@@ -69,9 +69,9 @@ struct CallbackState
     float m_fFirstLightParameter;
     int m_iValue;
 };
-void __cdecl FUN_00d3a280(void* apFirst, void* apSecond, void* apThird, CallbackState* apState);
+void __cdecl staticGetClosestPoints(void* apFirst, void* apSecond, void* apThird, CallbackState* apState);
 void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue);
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ComputeInverseLengths(void* value, void* self);
 extern char DAT_010ceefc[];
 extern char DAT_010cef38[];
@@ -123,7 +123,7 @@ struct Buffer_d3b260
 struct Agent_d3b260
 {
     void hkpCapsuleTriangleAgent_processCollision(int b, int a, int c, Buffer_d3b260* buf);
-    void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
+    void hkpSymmetricAgentLinearCast_hkpCapsuleTriangleAgent_processCollision(int a, int b, int c, Buffer_d3b260* buf);
 };
 struct __declspec(align(16)) FourWord
 {
@@ -186,13 +186,13 @@ struct FUN_00d3b160_tmp
 struct CallbackHost_d3b160
 {
     void hkpCapsuleTriangleAgent_getPenetrations(void*, void*, void*, void*);
-    void FUN_00d3b160(void*, void*, void*, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpCapsuleTriangleAgent_getPenetrations(void*, void*, void*, unsigned int);
 };
 struct Mat4
 {
     Vec4 row0, row1, row2, row3;
 };
-void __cdecl FUN_00cd6520(void* a, float b, void* c, float d, void* e, float f, int g, int h, int i);
+void __cdecl hkCollideCapsuleUtilCapsVsTri(void* a, float b, void* c, float d, void* e, float f, int g, int h, int i);
 static __forceinline void transform(Vec4* out, const char* shape, int count, const Mat4* m)
 {
     Vec4 p0 = m->row0;
@@ -353,7 +353,7 @@ struct CollisionWorkspace
     __m128 la[2];
     __m128 lb[3];
 };
-int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
+int __cdecl hkpCapsuleTriangleAgent_getClosestPoint(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 #include <windows.h>
 #include "../../../../../../../include/hkMonitorStream.h"
 #include "../../../../../../../include/hkMonitorStream.h"
@@ -393,7 +393,7 @@ struct Context
     __m128 capsule[2];
     __m128 triangle[3];
 };
-extern "C" void __cdecl FUN_00cd6520(void* out1, float fx, void* out2, float fy, void* p, float afDepth, int zero,
+extern "C" void __cdecl hkCollideCapsuleUtilCapsVsTri(void* out1, float fx, void* out2, float fy, void* p, float afDepth, int zero,
                                      HitRec* hit, int zero2);
 struct CollisionInput
 {
@@ -514,7 +514,7 @@ struct ContactResults
 {
     ContactRecord points[3];
 };
-void __cdecl FUN_00cd6520(hkVector4*, float, hkVector4*, float, void*, float, int, ContactResults*, CacheRecord*);
+void __cdecl hkCollideCapsuleUtilCapsVsTri(hkVector4*, float, hkVector4*, float, void*, float, int, ContactResults*, CacheRecord*);
 struct CollisionAgent
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, cache14;
@@ -528,7 +528,7 @@ __declspec(noinline) void FUN_00d3ab60(void* p)
     S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
     s->m_pCreateFunc = (S_00d389f0_Func)CreateObjectFromFactory;
     s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)FUN_00d3a8c0;
-    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)FUN_00d3a280;
+    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)staticGetClosestPoints;
     s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)FUN_00daf8e0;
     s->m_bIsFlipped = 0;
     s->m_bIsPredictive = 0;

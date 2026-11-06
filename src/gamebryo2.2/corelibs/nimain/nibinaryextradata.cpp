@@ -65,7 +65,8 @@ void* NiMalloc(unsigned int size);
 
 // Calls FUN_00a7b4a0, reads m_uiSize from the stream, and if nonzero allocates m_pData and reads m_uiSize bytes into it.
 // @fnv 0x00a7f9a0
-void NiBinaryExtraData::FUN_00a7f9a0(NiStream& stream)
+// src: XBOX_PDB 0x00a7f9a0
+void NiBinaryExtraData::LoadBinary_00a7f9a0(NiStream& stream)
 {
     FUN_00a7b4a0(stream);
     ReadBinaryValue(stream, m_uiSize);
@@ -101,7 +102,8 @@ struct FadeNode
 }  // namespace fnv_00a7fa20
 
 // @fnv 0x00a7fa20
-void NiBinaryExtraData::FUN_00a7fa20(NiStream* apStream)
+// src: XBOX_PDB 0x00a7fa20
+void NiBinaryExtraData::SaveBinary_00a7fa20(NiStream* apStream)
 {
     this->FUN_00a7b2c0(apStream);
     fnv_00a7fa20::FadeNode* node = *reinterpret_cast<fnv_00a7fa20::FadeNode**>(reinterpret_cast<char*>(apStream) + 0x250);
@@ -124,10 +126,11 @@ void NiBinaryExtraData::FUN_00a7fa20(NiStream* apStream)
 extern unsigned int DAT_011f4ab8;
 extern char str_0109df4c[];
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
-void* __cdecl FUN_00a7d510(const char* fmt, void* v);
+void* __cdecl NiGetViewerString_00a7d510(const char* fmt, void* v);
 
 // @fnv 0x00a7fa90
-void NiBinaryExtraData::FUN_00a7fa90(NiStream* pObj)
+// src: XBOX_PDB 0x00a7fa90
+void NiBinaryExtraData::GetViewerStrings_00a7fa90(NiStream* pObj)
 {
     FUN_00a7b580(pObj);
     void* r = NiViewerStrings_NiGetViewerString_Title(DAT_011f4ab8);
@@ -137,7 +140,7 @@ void NiBinaryExtraData::FUN_00a7fa90(NiStream* pObj)
         pObj->FUN_0096ad30(a + *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObj) + 0x0e));
     }
     pObj->FUN_0096ae90(a, reinterpret_cast<const unsigned int*>(&r));
-    r = FUN_00a7d510(str_0109df4c, data);
+    r = NiGetViewerString_00a7d510(str_0109df4c, data);
     a = *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObj) + 0x0a);
     if (a >= *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObj) + 0x08))
     {
@@ -151,14 +154,16 @@ struct FUN_00cb9c70_cls
     bool Check(int);
 };
 // @fnv 0x00a89ae0
-bool NiBinaryExtraData::FUN_00a89ae0(void* a)
+// src: XBOX_PDB 0x00a89ae0
+bool NiBinaryExtraData::RegisterStreamables_00a89ae0(void* a)
 {
     return ((FUN_00cb9c70_cls*)this)->Check(reinterpret_cast<int>(a));
 }
 
 extern void __cdecl FUN_00a7b3b0();
 // @fnv 0x00a9af00
-void __cdecl FUN_00a9af00()
+// src: XBOX_PDB 0x00a9af00
+void __cdecl NiBinaryExtraData_LinkObject()
 {
     FUN_00a7b3b0();
 }
@@ -182,10 +187,11 @@ extern void* __cdecl NiMalloc(unsigned int stSize);
 
 // Creates a new NiBinaryExtraData, copies member data, and duplicates the byte buffer when m_uiSize is non-zero.
 // @fnv 0x00a7f920
-NiExtraData* NiBinaryExtraData::FUN_00a7f920(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a7f920
+NiExtraData* NiBinaryExtraData::CreateClone_00a7f920(CloningProcess& kCloning)
 {
     NiBinaryExtraData* pkClone = (NiBinaryExtraData*)NiBinaryExtraData_CreateObject();
-    FUN_00a7b330(pkClone, &kCloning);
+    CopyMembers_00a7b330(pkClone, &kCloning);
     if (m_uiSize > 0)
     {
         pkClone->m_pByteBuffer = (char*)NiMalloc(m_uiSize);

@@ -8,7 +8,7 @@
 #include "../../../../../../../include/hkMemoryRouter.h"
 #include "../../../../../../../include/hkpSymmetricAgentFlipCollector.h"
 
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
+extern void __cdecl hkpSphereBoxAgent_staticGetPenetrations(int a, int b, int c, int d);
 void __stdcall ForwardToD3C440(int a, int b, int c, int d);
 struct Conversion
 {
@@ -23,17 +23,17 @@ struct Registry
 {
     void FUN_00cfbbe0(Conversion*, int, int);
 };
-void FUN_00d3c400();
+void hkpSphereBoxAgent_createBoxSphereAgent();
 void FUN_00d3cfc0();
 void FlipAndDispatchCollector();
 void FUN_00d3ac80();
 void CreateD3C380Obj();
-void FUN_00d3c440();
-void FUN_00d3cc00();
+void hkpSphereBoxAgent_staticGetPenetrations();
+void hkpSphereBoxAgent_staticGetClosestPoints();
 void FUN_00daf8e0();
 void __cdecl hkpSphereBoxAgent_registerAgent(Registry* registry);
 extern float DAT_0104da48;
-extern void __cdecl FUN_00d3cc00(void*, void*, int, void*);
+extern void __cdecl hkpSphereBoxAgent_staticGetClosestPoints(void*, void*, int, void*);
 void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4);
 struct S_00d3c3c0_Holder
 {
@@ -66,8 +66,8 @@ struct SmallRecord
     unsigned short m_w0C;
 };
 extern char DAT_010cf018[];
-hkMemoryRouter* FUN_00c85750();
-void __cdecl FUN_00d3c400(int a, int b, int c, int d);
+hkMemoryRouter* hkMemoryRouter_getInstance();
+void __cdecl hkpSphereBoxAgent_createBoxSphereAgent(int a, int b, int c, int d);
 class D3CF80CollectorBase
 {
   public:
@@ -92,7 +92,7 @@ class D3CF80Agent
     void ForwardToD3C440(void* pkA, void* pkB, void* pkInput, D3CF80Collector* pkCollector);
     void CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
-extern void __cdecl FUN_00d3c440(int a, int b, int c, int d);
+extern void __cdecl hkpSphereBoxAgent_staticGetPenetrations(int a, int b, int c, int d);
 extern char DAT_010ce81c[];
 struct FlipCollectorLocal
 {
@@ -112,7 +112,7 @@ extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
     void hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
-    void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpSphereBoxAgent_getClosestPoints(void*, void*, unsigned int, unsigned int);
 };
 
 extern "C" void _ReadWriteBarrier(void);
@@ -194,7 +194,7 @@ struct __declspec(align(16)) S_00d3c440_Transform
 
 struct __declspec(align(16)) S_00d3c440_Local : S_00d3c440_Vector4
 {
-    void FUN_00c7f690(const S_00d3c440_Transform* t, const S_00d3c440_Vector4* v);
+    void hkVector4_setTransformedInversePos(const S_00d3c440_Transform* t, const S_00d3c440_Vector4* v);
 };
 
 extern const S_00d3c440_Vector4 DAT_01017d10;
@@ -270,7 +270,8 @@ template <class T> struct S_00d3c440_Pad
 };
 
 // @fnv 0x00d3c440
-void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* bodyB, int c,
+// src: XBOX_PDB 0x00d3c440
+void __cdecl hkpSphereBoxAgent_staticGetPenetrations(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* bodyB, int c,
                           S_00d3c440_Collector* collector)
 {
     S_00d3c440_Timer("TtSphereBox");
@@ -280,7 +281,7 @@ void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* b
     const S_00d3c440_BoxShape* box = (const S_00d3c440_BoxShape*)b->m_pCollisionShape;
 
     S_00d3c440_Local centerInB;
-    centerInB.FUN_00c7f690(b->m_pMotionState, posA);
+    centerInB.hkVector4_setTransformedInversePos(b->m_pMotionState, posA);
 
     const S_00d3c440_Transform* tB = b->m_pMotionState;
     const float boxRadius = box->m_fSphereRadius;

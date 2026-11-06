@@ -82,7 +82,7 @@ struct FakeArray
 struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
-    void FUN_006ac070(void*, unsigned int);
+    void BSSimpleArray_PathingLocation_1024_DestructItems(void*, unsigned int);
 };
 struct ShaderProp
 {
@@ -227,7 +227,7 @@ struct FUN_006f90a0_shell
     void UpdateInstances(FUN_006f90a0_params params);
 };
 unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
-unsigned int __cdecl FUN_00bb6030(void);
+unsigned int __cdecl BSDistantTreeShader_GetMaxInstances(void);
 #include "../../../include/NiMemObject.h"
 struct Obj44 : NiMemObject
 {
@@ -268,7 +268,7 @@ struct InParam
     NavMeshPtr m1c;
 };
 extern const float DAT_01012054;
-float __cdecl FUN_004579e0(float);
+float __cdecl NiSqrt_004579e0(float);
 void BuildNavMeshGeometry(void* param);
 void FNV_Warning(const char* fmt, ...);
 struct TreeInstance
@@ -583,8 +583,8 @@ struct BoundTreeBlock
     TreeGeometryPtr geometry;
     TreePositions instances;
 };
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMIN(float, float);
+float __cdecl BSMAX_00404010(float, float);
 struct TreeBoundsOwner
 {
     NiBound ComputeTreeBounds(BoundTreeBlock* block);
@@ -825,11 +825,12 @@ struct S_00bb6050
     int unk7c;
     int unk80;
 
-    int __thiscall FUN_00bb6050(int arg0, int arg1);
+    int __thiscall BSDistantTreeShader_GetShaderDecl(int arg0, int arg1);
 };
 
 // @fnv 0x00bb6050
-int __thiscall S_00bb6050::FUN_00bb6050(int arg0, int arg1)
+// src: XBOX_PDB 0x00bb6050
+int __thiscall S_00bb6050::BSDistantTreeShader_GetShaderDecl(int arg0, int arg1)
 {
     return this->unk80;
 }

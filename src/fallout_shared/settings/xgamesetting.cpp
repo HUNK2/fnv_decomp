@@ -10,13 +10,13 @@
 bool GameSettingCollection::ReadSetting(Setting& setting)
 {
     bool result = false;
-    if (FUN_004f8960())
+    if (GameSettingCollection_File())
     {
-        TESFile* file = FUN_004f8960();
+        TESFile* file = GameSettingCollection_File();
         file->NextChunk();
         if (file->GetChunkID() == 0x41544144)
         {
-            switch (setting.FUN_004f8940())
+            switch (setting.Setting_DataType())
             {
             case 3:
                 result = file->GetChunkData(&setting.uValue.u);
@@ -42,7 +42,7 @@ bool GameSettingCollection::ReadSetting(TESFile* file, const char* key)
     bool result = false;
     SetField108(file);
     {
-        Setting* setting = FUN_004f8a30(PrepareScriptMessage(key, false));
+        Setting* setting = SettingCollectionMap_Setting_GetPtr(PrepareScriptMessage(key, false));
         if (setting)
             result = ReadSetting(*setting);
     }
@@ -88,12 +88,12 @@ void* S00404b40::DestroyIfFlagged(unsigned int flags)
 }
 
 char* _FUN_00a7d330(char const*);
-char* __cdecl FUN_00a7d510(char const*, unsigned int);
+char* __cdecl NiGetViewerString_00a7d510(char const*, unsigned int);
 // Retained: SettingCollectionMap and GameSettingCollection do not yet declare
 // the viewer-string helpers at 0x00404fd0 and 0x004f8800, respectively.
 struct Base00404fd0
 {
-    unsigned int FUN_00404fd0(NiTPrimitiveArray<unsigned int>*);
+    unsigned int GetViewerStrings_00404fd0(NiTPrimitiveArray<unsigned int>*);
 };
 struct Holder004f8800 : Base00404fd0
 {
@@ -105,8 +105,8 @@ unsigned int Holder004f8800::AddGameSettingsStrings(NiTPrimitiveArray<unsigned i
 {
     unsigned int I;
     apStrings->AddFirstEmpty((unsigned int)_FUN_00a7d330("GameSettings"));
-    I = FUN_00404fd0(apStrings);
-    apStrings->AddFirstEmpty((unsigned int)FUN_00a7d510("Total GameSettings", I));
+    I = GetViewerStrings_00404fd0(apStrings);
+    apStrings->AddFirstEmpty((unsigned int)NiGetViewerString_00a7d510("Total GameSettings", I));
     return I;
 }
 

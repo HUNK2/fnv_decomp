@@ -196,7 +196,7 @@ void Cls_00d5d800::GetAabb(const hkTransform& t, float tol, Aabb_00d5d800& out)
 {
     __declspec(align(16)) ShapeQuad storage[4];
     hkTransform& tmp = reinterpret_cast<hkTransform&>(storage);
-    tmp.FUN_00cb2240(t, m_kMotionTransform);
+    tmp.hkTransform_setMul(t, m_kMotionTransform);
     reinterpret_cast<Shape_00d5d800*>(m_pContainedShape)->getAabb(tmp, tol, out);
 }
 
@@ -415,7 +415,7 @@ void hkpConvexTransformShapeWrapper::hkpConvexTransformShape_castRayWithCollecto
 
     __declspec(align(16)) ShapeQuad storage[4];
     hkTransform& transform = reinterpret_cast<hkTransform&>(storage);
-    transform.FUN_00cb2240(*static_cast<const hkTransform*>(cdBody.m_pMotionState), m_kMotionTransform);
+    transform.hkTransform_setMul(*static_cast<const hkTransform*>(cdBody.m_pMotionState), m_kMotionTransform);
 
     hkpCdBody childCdBody(&cdBody, (const void*)&transform);
     childCdBody.SetCollisionShapeAndKey(m_pContainedShape.m_pContainedShape, 0);

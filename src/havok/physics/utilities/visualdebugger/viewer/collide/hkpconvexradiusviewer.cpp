@@ -21,7 +21,7 @@ inline void* hkThreadMemory::allocateChunk(int size) throw()
     return m_pMemoryAllocator->allocateChunk(size);
 }
 
-void* __cdecl FUN_00d68e00();
+void* __cdecl hkpConvexRadiusViewer_create();
 struct FUN_00dd9380_class
 {
     void* __thiscall hkProcessFactory_registerProcess(const char* name, void* func);
@@ -32,7 +32,7 @@ void* DAT_01269010;
 // @fnv 0x00d68e40
 void* __cdecl RegisterConvexRadius()
 {
-    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->hkProcessFactory_registerProcess("Convex Radius", FUN_00d68e00);
+    DAT_01269010 = ((FUN_00dd9380_class*)DAT_01269cd0)->hkProcessFactory_registerProcess("Convex Radius", hkpConvexRadiusViewer_create);
     return DAT_01269010;
 }
 
@@ -146,7 +146,7 @@ void D68FC0Object::FUN_00d68fc0()
 
 struct Target
 {
-    void FUN_00d68e60();
+    void hkpConvexRadiusViewer_addWorld();
 };
 struct Outer
 {
@@ -155,13 +155,13 @@ struct Outer
 // @fnv 0x00d69000
 void Outer::FUN_00d69000()
 {
-    ((Target*)((char*)this - 0x20))->FUN_00d68e60();
+    ((Target*)((char*)this - 0x20))->hkpConvexRadiusViewer_addWorld();
 }
 
 struct Base
 {
     int FindKeyIndex(int);
-    void FUN_00d69010(int);
+    void hkpConvexRadiusViewer_removeWorld(int);
 };
 struct Sub
 {
@@ -174,7 +174,7 @@ void Sub::FUN_00d69160(int value)
     Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
     int result = base->FindKeyIndex(value);
     if (result >= 0)
-        base->FUN_00d69010(result);
+        base->hkpConvexRadiusViewer_removeWorld(result);
 }
 
 // @fnv 0x00d69180
@@ -207,7 +207,7 @@ struct FUN_00d691d0_Class
     int unk1C;
     FUN_00d691d0_Class* Destroy(unsigned int flags);
 };
-extern hkThreadMemory* FUN_00c85750();
+extern hkThreadMemory* hkMemoryRouter_getInstance();
 // Runs the destructor, and if flags has bit 0 set, frees this object through the holder's allocator using allocationSize.
 // @fnv 0x00d691d0
 FUN_00d691d0_Class* FUN_00d691d0_Class::Destroy(unsigned int flags)
@@ -215,7 +215,7 @@ FUN_00d691d0_Class* FUN_00d691d0_Class::Destroy(unsigned int flags)
     ((Destructor*)this)->FUN_00d690d0();
     if (flags & 1)
     {
-        hkThreadMemory* holder = FUN_00c85750();
+        hkThreadMemory* holder = hkMemoryRouter_getInstance();
         ((Heap*)holder->m_pMemoryAllocator)->free(this, allocationSize);
     }
     return this;
@@ -341,7 +341,7 @@ struct S_B0
 {
     virtual void b0v0();
     int unk04;
-    void FUN_00d69010(int i) throw();
+    void hkpConvexRadiusViewer_removeWorld(int i) throw();
 };
 struct S_B8
 {
@@ -397,8 +397,8 @@ struct FUN_00d690d0 : FUN_00ddcc60, S_D28, S_D2c
 FUN_00d690d0::~FUN_00d690d0() throw()
 {
     for (int i = m30.m_iElementCount - 1; i >= 0; i--)
-        FUN_00d69010(i);
-    m30._clearAndDeallocate(FUN_00c85750()->heap());
+        hkpConvexRadiusViewer_removeWorld(i);
+    m30._clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
 }
 
 struct SubObj
@@ -490,16 +490,17 @@ struct FUN_00d68e60_cls
     SubObj m_2C;
     PairList m_30;
 
-    void FUN_00d68e60(Owner* owner);
+    void hkpConvexRadiusViewer_addWorld(Owner* owner);
 };
 
 // @fnv 0x00d68e60
-void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
+// src: XBOX_PDB 0x00d68e60
+void FUN_00d68e60_cls::hkpConvexRadiusViewer_addWorld(Owner* owner)
 {
     owner->hkpWorld_addEntityListener(this != 0 ? &m_28 : 0);
     owner->hkpWorld_addWorldPostSimulationListener(this != 0 ? &m_2C : 0);
 
-    hkThreadMemory* pAllocHolder = FUN_00c85750();
+    hkThreadMemory* pAllocHolder = hkMemoryRouter_getInstance();
     Record* pRecord = 0;
     Record* pNewRecord = (Record*)((Allocator*)pAllocHolder->m_pMemoryAllocator)->Alloc(16);
     if (pNewRecord != 0)
@@ -512,7 +513,7 @@ void FUN_00d68e60_cls::FUN_00d68e60(Owner* owner)
     pRecord->m_pOwnerObject = owner;
 
     PairList* pList = &m_30;
-    hkThreadMemory* holder = FUN_00c85750();
+    hkThreadMemory* holder = hkMemoryRouter_getInstance();
     if (pList->m_uiItemCount == (int)(pList->m_capBits & 0x3fffffffu))
     {
         ResizeAudioStream((Allocator*)holder->m_pMemoryAllocator, pList, 4);
@@ -626,7 +627,7 @@ FUN_00d68b90::FUN_00d68b90(int arg) : T68Base(arg), m3c(DAT_01269018), m40(DAT_0
 
 inline hkMemoryAllocator& getMemory_d65f()
 {
-    return FUN_00c85750()->heap();
+    return hkMemoryRouter_getInstance()->heap();
 }
 
 inline void memCpy4_d65f(void* dst, const void* src, int nbytes)
@@ -638,7 +639,7 @@ inline void memCpy4_d65f(void* dst, const void* src, int nbytes)
 template <class T, class Allocator>
 __forceinline hkArray<T, Allocator>::~hkArray()
 {
-    hkMemoryAllocator& mem = FUN_00c85750()->heap();
+    hkMemoryAllocator& mem = hkMemoryRouter_getInstance()->heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         mem.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -672,7 +673,7 @@ struct Node_d65f
     hkArray<int> m_items;
     static void operator delete(void* p) throw()
     {
-        (FUN_00c85750()->heap()).blockFree(p, sizeof(Node_d65f));
+        (hkMemoryRouter_getInstance()->heap()).blockFree(p, sizeof(Node_d65f));
     }
 };
 
@@ -696,12 +697,13 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray<Node_d65f*> m_kNodeCollection;
     void FUN_00d68b20(int index);
-    void FUN_00d69010(int index);
+    void hkpConvexRadiusViewer_removeWorld(int index);
 };
 
 // Calls FUN_00c917a0 and ClearValue on the node's collision agent, calls FUN_00d68b20, then deletes the node at index and removes it from m_kNodeCollection.
 // @fnv 0x00d69010
-void Phantom_d65f::FUN_00d69010(int index)
+// src: XBOX_PDB 0x00d69010
+void Phantom_d65f::hkpConvexRadiusViewer_removeWorld(int index)
 {
     m_kNodeCollection[index]->m_pCollisionAgent->hkpWorld_removeEntityListener(this);
     m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
@@ -849,7 +851,7 @@ struct D68970_Owner
     D68970_Entity** entities;
     int entityCount;
 
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
 };
 
 struct D68970_DisplayBase
@@ -902,7 +904,7 @@ void D68970_Listener::hkpConvexRadiusViewer_postSimulationCallback(D68970_Owner*
         for (int bodyIndex = 0; bodyIndex < island->bodyCount; ++bodyIndex)
         {
             D68970_Body* body = island->bodies[bodyIndex];
-            float time = owner->FUN_00c91020();
+            float time = owner->hkpWorld_getCurrentTime();
 
             D68970_TransformObject* transformObject = &body->transformObject;
             D68970_Output output;
@@ -1183,7 +1185,7 @@ struct S_00d68c00_Item
 
 
 
-hkThreadMemory* __cdecl FUN_00c85750() throw();
+hkThreadMemory* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(hkMemoryAllocator* heap, void* arr, int elemSize) throw();
 
 struct S_00d68c00_Obj
@@ -1300,7 +1302,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
     {
         char* name = (char*)a2 + 0x13;
         S_00d68c00_List* list = &item->list;
-        hkThreadMemory* r = FUN_00c85750();
+        hkThreadMemory* r = hkMemoryRouter_getInstance();
         if (list->size == (list->cap & 0x3fffffff))
             ResizeAudioStream(&r->heap(), list, 4);
         char** p = list->data + list->size;
@@ -1319,7 +1321,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
         if (e)
             e->v0(1);
     }
-    hkMemoryAllocator& heap = (FUN_00c85750()->heap());
+    hkMemoryAllocator& heap = (hkMemoryRouter_getInstance()->heap());
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
         heap.bufFree(arr.data, (arr.cap & 0x3fffffff) * 4);
@@ -1327,7 +1329,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
 }  // namespace fnv_00d68c00
 
 namespace fnv_00d68e00 {
-extern "C" hkThreadMemory* __cdecl FUN_00c85750();
+extern "C" hkThreadMemory* __cdecl hkMemoryRouter_getInstance();
 
 struct TargetAgent
 {
@@ -1338,9 +1340,10 @@ struct TargetAgent
 
 // Allocates a 0x44-byte TargetAgent chunk, sets its size field, calls FUN_00d68b90, and returns the result offset by 8 bytes or null.
 // @fnv 0x00d68e00
-void* __cdecl FUN_00d68e00(void* arg1)
+// src: XBOX_PDB 0x00d68e00
+void* __cdecl hkpConvexRadiusViewer_create(void* arg1)
 {
-    TargetAgent* agent = (TargetAgent*)FUN_00c85750()->allocateChunk(0x44);
+    TargetAgent* agent = (TargetAgent*)hkMemoryRouter_getInstance()->allocateChunk(0x44);
     agent->m_usMemSizeAndFlags = 0x44;
     TargetAgent* res = agent->FUN_00d68b90(arg1);
     return res ? (char*)res + 8 : 0;
@@ -1403,7 +1406,7 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
         m_18->v05(item->arr.data[i], DAT_01269010, 0);
     }
     HkArr* a = &item->arr;
-    hkThreadMemory* h = FUN_00c85750();
+    hkThreadMemory* h = hkMemoryRouter_getInstance();
     void* alloc = *(void* volatile*)&h->m_pMemoryAllocator;
     int cap = (int)(a->m_iCapacity & 0x3fffffff);
     if (cap < 0)

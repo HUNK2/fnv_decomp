@@ -117,10 +117,11 @@ struct FileSizeInfo
 // Retained until MemoryManagerFile declares the size method at 0x00878590.
 struct FUN_00878590_shell : FileSizeInfo
 {
-    int __thiscall FUN_00878590();
+    int __thiscall MemoryManagerFile_Size();
 };
 // @fnv 0x00878590
-int __thiscall FUN_00878590_shell::FUN_00878590()
+// src: XBOX_PDB 0x00878590
+int __thiscall FUN_00878590_shell::MemoryManagerFile_Size()
 {
     unsigned __int64 size;
     ((FileSizeInfo*)((char*)this + 4))->BSSystemFile_GetSize(size);

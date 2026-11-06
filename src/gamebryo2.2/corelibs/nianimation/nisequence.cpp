@@ -195,7 +195,7 @@ void FUN_00a47470_cls::SetItem(unsigned int aiIndex, RefObject** appValue)
     }
 }
 
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 struct AHNameArray
@@ -274,7 +274,7 @@ unsigned int AHSeqOwner::AddSeq(const char* pcName, S_00a47ae0_Rc* pkSeq)
 {
     unsigned int uiIndex = m_kNames.GetSize();
     unsigned int uiLen = strlen(pcName) + 1;
-    char* pcCopy = (char*)FUN_00aa1070(uiLen);
+    char* pcCopy = (char*)_NiMalloc_00aa1070(uiLen);
     strcpy_s(pcCopy, uiLen, pcName);
     m_kNames.SetAtGrow(uiIndex, (char*)pcCopy);
     m_kSeqs.SetAtGrow(uiIndex, pkSeq);

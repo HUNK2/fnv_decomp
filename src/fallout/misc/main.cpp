@@ -167,17 +167,18 @@ struct Node
 };
 struct FUN_004ed8c0_shell
 {
-    Node* FUN_0049fa80();
-    void FUN_00559a70(Node*);
-    void FUN_004ed8c0(int* e);
+    Node* NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_NewItem();
+    void NiTListBase_NiTPointerAllocator_unsigned_int_BSFaceGenKeyframe_AddNodeTail(Node*);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(int* e);
 };
 // Gets a Node via FUN_0049fa80, stores the int pointed to by e into its v field, then passes the node to FUN_00559a70.
 // @fnv 0x004ed8c0
-void FUN_004ed8c0_shell::FUN_004ed8c0(int* piValue)
+// src: XBOX_PDB 0x004ed8c0
+void FUN_004ed8c0_shell::NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(int* piValue)
 {
-    Node* n = FUN_0049fa80();
+    Node* n = NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_NewItem();
     n->v = *piValue;
-    FUN_00559a70(n);
+    NiTListBase_NiTPointerAllocator_unsigned_int_BSFaceGenKeyframe_AddNodeTail(n);
 }
 
 struct BGSAddonNode;
@@ -287,10 +288,10 @@ class GlobalObject_0045cf30
 {
 };
 
-void __cdecl FUN_005c5a60(int);
+void __cdecl BSShaderManager_SetShaderErrorCallback(int);
 void __cdecl BSShaderManager_CalculateTime();
-void __cdecl FUN_0086bff0(void(__cdecl*)());
-void __cdecl FUN_0086c000(unsigned char);
+void __cdecl BSShaderManager_SetTimerFunc(void(__cdecl*)());
+void __cdecl BSShaderManager_SetUseHardDriveCache(unsigned char);
 
 extern GlobalObject_0044f440 g_011deb70;
 extern GlobalObject_0044f440 g_011dec18;
@@ -302,12 +303,13 @@ extern float DAT_011f9480;
 extern float DAT_011f9484;
 
 // @fnv 0x0086bf70
-void __cdecl FUN_0086bf70()
+// src: XBOX_PDB 0x0086bf70
+void __cdecl Main_ShaderInit()
 {
     InterfaceDebug::PrintDebugMessage((BGSLoadGameBuffer*)"Initializing Shader System...");
-    FUN_005c5a60(0);
-    FUN_0086bff0(BSShaderManager_CalculateTime);
-    FUN_0086c000(*reinterpret_cast<ProcessLists*>(&g_011ded68)->GetLifeStateControlFlag());
+    BSShaderManager_SetShaderErrorCallback(0);
+    BSShaderManager_SetTimerFunc(BSShaderManager_CalculateTime);
+    BSShaderManager_SetUseHardDriveCache(*reinterpret_cast<ProcessLists*>(&g_011ded68)->GetLifeStateControlFlag());
     DAT_011f9443 = *reinterpret_cast<ProcessLists*>(&g_011deea8)->GetLifeStateControlFlag();
     DAT_011f9484 = g_011dec18.FUN_00450410();
     DAT_011f9480 = g_011deb70.FUN_00450410();
@@ -405,7 +407,7 @@ using ::NiScreenElementsData;
 // src: COMMUNITY 0x0086e4b0
 void __fastcall NiScreenElements_UpdateBound(NiGeometry* apGeometry)
 {
-    ((NiScreenElementsData*)apGeometry->GetModelData())->FUN_00a87900();
+    ((NiScreenElementsData*)apGeometry->GetModelData())->NiScreenElementsData_UpdateBound();
 }
 }  // namespace fnv_0086e4b0
 
@@ -614,7 +616,7 @@ extern float DAT_011dea30;
 unsigned int __fastcall ReferenceFlags(TESObjectREFR*);
 extern TESObjectREFR DAT_011f2250;
 void __cdecl FUN_00aa4e40();
-bool __cdecl FUN_00525420();
+bool __cdecl Main_GetSceneIsComplex();
 void __cdecl bhkWorld_SetDeltaTime(float, bool, bool);
 void __cdecl BSShaderManager_UpdateTimers();
 struct Mover
@@ -630,7 +632,7 @@ void Mover::TESMain_OnIdle_UpdateTimer()
         FUN_00aa4e40();
     ((GameTimerRecord*)&g_timeGlobal)->Update();
     DAT_011afe60 = *originalRuntimeFloatSetting807.Float();
-    bhkWorld_SetDeltaTime(((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue(), FUN_00525420(), ReferenceFlags(&DAT_011f2250) == 4);
+    bhkWorld_SetDeltaTime(((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue(), Main_GetSceneIsComplex(), ReferenceFlags(&DAT_011f2250) == 4);
     BSShaderManager_UpdateTimers();
     DAT_011dea30 =
         (float)(DAT_011dea2b ? 0.0 : ((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue() * *g_011c5724.Float());
@@ -681,20 +683,20 @@ extern PlayerCharacter* pPlayer;
 unsigned int __fastcall ReferenceFlags(TESObjectREFR*);
 extern TESObjectREFR DAT_011f2250;
 extern TimeGlobal g_timeGlobal;
-HotkeyWheelDisplay* __cdecl FUN_007fdf30();
-bool __cdecl FUN_00709bc0();
+HotkeyWheelDisplay* __cdecl Controls_GetInstance();
+bool __cdecl Interface_IsPipboyOpening();
 // @fnv 0x0086f390
 // src: COMMUNITY 0x0086f390
 void FUN_0086f390_shell::TESMain_OnIdle_PollControls()
 {
-    PollHotkeys_00a23010(FUN_007fdf30());
-    UpdateHotkeys_00a257c0(FUN_007fdf30(), g_timeGlobal.GetSecondsPassed());
+    PollHotkeys_00a23010(Controls_GetInstance());
+    UpdateHotkeys_00a257c0(Controls_GetInstance(), g_timeGlobal.GetSecondsPassed());
     if (!*((unsigned char*)this + 6) && !pPlayer->HasHealth(false))
     {
-        if ((ReferenceFlags(&DAT_011f2250) == 4 && !PlayerCheck_007d1360(pPlayer)) || FUN_00709bc0())
+        if ((ReferenceFlags(&DAT_011f2250) == 4 && !PlayerCheck_007d1360(pPlayer)) || Interface_IsPipboyOpening())
         {
             if (!MainInterfaceView::IsMenuActive((MainInterfaceView::enumMenus)0x3e9, 0) && !PlayerCharacter::UpdatePlayerStatus())
-                ClearHotkeys_00a253d0(FUN_007fdf30());
+                ClearHotkeys_00a253d0(Controls_GetInstance());
         }
     }
 }
@@ -731,7 +733,7 @@ void FUN_0086f640_shell::TESMain_OnIdle_UpdateAudio()
 
 struct FUN_0086f670_shell : public Main
 {
-    void FUN_0086f670();
+    void Main_RunScripts();
 };
 
 extern unsigned char DAT_012682f8;
@@ -740,20 +742,22 @@ extern unsigned char DAT_011dea2a;
 extern TES* g_TES;
 
 void __cdecl Script_ClearCachedValues();
-void __fastcall FUN_00455490(TES* pTES);
+void __fastcall TES_RunScripts(TES* pTES);
 
 // @fnv 0x0086f670
-void FUN_0086f670_shell::FUN_0086f670()
+// src: XBOX_PDB 0x0086f670
+void FUN_0086f670_shell::Main_RunScripts()
 {
     DAT_012682f8 = 0;
     DAT_011df678 = 0;
     DAT_011dea2a = 0;
     Script_ClearCachedValues();
-    FUN_00455490(g_TES);
+    TES_RunScripts(g_TES);
 }
 
 // @fnv 0x0086f840
-bool __fastcall FUN_0086f840(char* pThis)
+// src: XBOX_PDB 0x0086f840
+bool __fastcall FOPipboyManager_GetPipBoyManagerReset(char* pThis)
 {
     return *(bool*)(pThis + 0x16c);
 }
@@ -762,14 +766,15 @@ extern bool* DAT_011d9510;
 
 // Returns the byte at offset 0x131 of the object pointed to by DAT_011d9510, or false if that pointer is null.
 // @fnv 0x0086f860
-bool FUN_0086f860()
+// src: XBOX_PDB 0x0086f860
+bool DialogMenu_GetPaused()
 {
     return DAT_011d9510 ? DAT_011d9510[0x131] : false;
 }
 
 struct FUN_0086f890_shell : public Main
 {
-    void FUN_0086f890();
+    void Main_OnIdle_UpdateProcessLists();
 };
 
 struct GlobalObject2_0040c150
@@ -786,32 +791,33 @@ extern int DAT_011e0e80;
 extern int DAT_011e0fe0;
 extern TESWorldSpace* BGSSaveLoadGlobalDataWorldspacePtr;
 
-void __fastcall FUN_0096eb40(void* pThis);
-void __fastcall FUN_008c94e0(void* pThis);
-void __fastcall FUN_00991dc0(void* pThis);
-void __fastcall FUN_0096d810(void* pThis);
-void __fastcall FUN_00964260(void* pThis);
+void __fastcall ProcessLists_ChangeProcessLevelTempList(void* pThis);
+void __fastcall AITaskManager_UpdateTasks(void* pThis);
+void __fastcall CombatManager_UpdateCombatants(void* pThis);
+void __fastcall ProcessLists_UpdateProcessLists(void* pThis);
+void __fastcall PlayerCharacter_UpdateAutoAimActor(void* pThis);
 
 // @fnv 0x0086f890
-void FUN_0086f890_shell::FUN_0086f890()
+// src: XBOX_PDB 0x0086f890
+void FUN_0086f890_shell::Main_OnIdle_UpdateProcessLists()
 {
     if (*g_011c3ea4.Int() == 1)
     {
-        FUN_0096eb40(&DAT_011e0e80);
+        ProcessLists_ChangeProcessLevelTempList(&DAT_011e0e80);
     }
 
     if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !((unsigned char*)this)[7])
     {
         if (*g_011c3ea4.Int() == 1)
         {
-            FUN_008c94e0(&DAT_011e0fe0);
-            FUN_00991dc0(BGSSaveLoadGlobalDataWorldspacePtr);
+            AITaskManager_UpdateTasks(&DAT_011e0fe0);
+            CombatManager_UpdateCombatants(BGSSaveLoadGlobalDataWorldspacePtr);
         }
-        FUN_0096d810(&DAT_011e0e80);
+        ProcessLists_UpdateProcessLists(&DAT_011e0e80);
     }
     else if (DAT_011dea2b || ((unsigned char*)this)[7])
     {
-        FUN_00964260(pPlayer);
+        PlayerCharacter_UpdateAutoAimActor(pPlayer);
     }
 }
 
@@ -846,9 +852,9 @@ struct GlobalObject2_0040c150
 extern GlobalObject2_0040c150 g_011c3ea4;
 
 void __fastcall TESMain_OnIdle_UpdateAudio(void* pThis);
-void __fastcall FUN_0086f890(void* pThis);
+void __fastcall Main_OnIdle_UpdateProcessLists(void* pThis);
 void __cdecl TESObjectCELL_RunQueuedParticleUpdates();
-void __fastcall FUN_0086f670(void* pThis);
+void __fastcall Main_RunScripts(void* pThis);
 
 // Calls FUN_0086f640, FUN_0086f890, then FUN_00552570 if *g_011c3ea4.Int() > 1, and finally FUN_0086f670 on pThis.
 // @fnv 0x008705d0
@@ -856,12 +862,12 @@ void __fastcall FUN_0086f670(void* pThis);
 void __fastcall TESMain_PostSwapProcess(void* pThis)
 {
     TESMain_OnIdle_UpdateAudio(pThis);
-    FUN_0086f890(pThis);
+    Main_OnIdle_UpdateProcessLists(pThis);
     if (*g_011c3ea4.Int() > 1)
     {
         TESObjectCELL_RunQueuedParticleUpdates();
     }
-    FUN_0086f670(pThis);
+    Main_RunScripts(pThis);
 }
 }  // namespace fnv_008705d0
 
@@ -913,7 +919,7 @@ void FUN_00870610_shell::TESMain_OnIdle_PostThreadsProcess()
 }
 }  // namespace fnv_00870610
 
-void __cdecl FUN_00706320(int);
+void __cdecl Interface_CloseAllSupportMenus(int);
 
 // If the byte at offset 0x4cc is set, calls FUN_00706320(0) and clears that byte.
 // @fnv 0x00870680
@@ -922,7 +928,7 @@ void __fastcall InterfaceManager_UpdateQueuedMenuClosings(int param_1)
 {
     if (*(unsigned char*)(param_1 + 0x4cc))
     {
-        FUN_00706320(0);
+        Interface_CloseAllSupportMenus(0);
         *(unsigned char*)(param_1 + 0x4cc) = 0;
     }
 }
@@ -931,7 +937,7 @@ namespace fnv_008706b0 {
 bool __fastcall GetWireframe(::ShadowSceneNode*);
 struct FUN_008706b0_shell : public Main
 {
-    void FUN_008706b0(BSRenderedTexture*, bool, bool);
+    void Main_DrawWorld(BSRenderedTexture*, bool, bool);
 };
 
 using ::NiPoint3;
@@ -955,20 +961,21 @@ struct MainInterfaceView
 struct MainStub
 {
     void TESMain_DrawWorldRenderedMenu(BSRenderedTexture*, bool);
-    void FUN_00870a00(BSRenderedTexture*, bool);
+    void Main_DrawWorldWireframe(BSRenderedTexture*, bool);
     void TESMain_DrawWorldStandard(BSRenderedTexture*, bool);
 };
-BSFaceGenNiNode* __cdecl FUN_0045c670();
+BSFaceGenNiNode* __cdecl Main_GetWorldSceneGraph();
 // @fnv 0x008706b0
-void FUN_008706b0_shell::FUN_008706b0(BSRenderedTexture* pTexture, bool bCheckMenu, bool bFlag)
+// src: XBOX_PDB 0x008706b0
+void FUN_008706b0_shell::Main_DrawWorld(BSRenderedTexture* pTexture, bool bCheckMenu, bool bFlag)
 {
     bool f = GetWireframe(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0));
     SetEyePosition(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0),
-        AnimationPosition_0045bb80(FUN_0045c670()->::BSFaceGenNiNode::GetAnimationData()));
+        AnimationPosition_0045bb80(Main_GetWorldSceneGraph()->::BSFaceGenNiNode::GetAnimationData()));
     if (bCheckMenu && !MainInterfaceView::IsMenuActive((MainInterfaceView::enumMenus)0x3f5, 0))
         ((MainStub*)this)->TESMain_DrawWorldRenderedMenu(pTexture, f);
     else if (f)
-        ((MainStub*)this)->FUN_00870a00(pTexture, bFlag);
+        ((MainStub*)this)->Main_DrawWorldWireframe(pTexture, bFlag);
     else
         ((MainStub*)this)->TESMain_DrawWorldStandard(pTexture, bFlag);
 }
@@ -1017,7 +1024,7 @@ bool ScreenCustomSplatter_IsActiveSplatter()
 {
     if (!(::NiNode*)g_011c7810)
         return false;
-    return ((::NiNode*)g_011c7810)->FUN_00453470() > 0;
+    return ((::NiNode*)g_011c7810)->NiNode_GetChildCount() > 0;
 }
 
 namespace fnv_00871a10 {
@@ -1062,9 +1069,9 @@ struct TimeGlobal
 };
 extern GlobalObject_0045cf30 g_011deed8;
 extern TimeGlobal g_timeGlobal;
-HotkeyWheelDisplay* FUN_007fdf30();
+HotkeyWheelDisplay* Controls_GetInstance();
 void __fastcall Controls_ClearKeystrokes(HotkeyWheelDisplay*);
-void __fastcall FUN_00a253d0(HotkeyWheelDisplay*);
+void __fastcall Controls_ClearUserActions(HotkeyWheelDisplay*);
 void __fastcall BSTimer_Disable(TimeGlobal*);
 struct FUN_00871c90_shell
 {
@@ -1078,11 +1085,11 @@ void FUN_00871c90_shell::TESMain_SetActive(bool abEnabled)
 {
     if (*((FlagGetterView*)&g_011deed8)->GetLifeStateControlFlag())
         abEnabled = 1;
-    if (FUN_007fdf30())
+    if (Controls_GetInstance())
     {
-        Controls_ClearKeystrokes(FUN_007fdf30());
-        PollHotkeys_00a23010(FUN_007fdf30());
-        FUN_00a253d0(FUN_007fdf30());
+        Controls_ClearKeystrokes(Controls_GetInstance());
+        PollHotkeys_00a23010(Controls_GetInstance());
+        Controls_ClearUserActions(Controls_GetInstance());
     }
     if (abEnabled)
         ((GameTimerRecord*)&g_timeGlobal)->Enable();
@@ -1223,7 +1230,8 @@ void ::BSCullingProcess::SetCompoundFrustum(TaskArg1* apFrustum)
 }
 
 // @fnv 0x00874480
-int __fastcall FUN_00874480(char* pThis)
+// src: XBOX_PDB 0x00874480
+int __fastcall Projectile_GetShooter(char* pThis)
 {
     return *(int*)(pThis + 0xfc);
 }
@@ -1300,7 +1308,7 @@ struct FUN_00874b50_shell : public Main
 struct NiRenderTargetGroup;
 
 bool __cdecl BSRenderedTexture_IsOutsideFrame(void);
-ImageSpaceManager* __cdecl FUN_004e3270(void);
+ImageSpaceManager* __cdecl BSShaderManager_GetImageSpaceManager(void);
 void* __cdecl BSShaderManager_GetRenderer(void);
 void __cdecl BSRenderedTexture_StartOffscreen(unsigned int, NiRenderTargetGroup*);
 
@@ -1311,7 +1319,7 @@ void FUN_00874b50_shell::TESMain_DrawWorld_RestartRenderTexture(BSRenderedTextur
 {
     if (BSRenderedTexture_IsOutsideFrame())
     {
-        ImageSpaceManager* apImagespaceManager = FUN_004e3270();
+        ImageSpaceManager* apImagespaceManager = BSShaderManager_GetImageSpaceManager();
         void* apRenderer = BSShaderManager_GetRenderer();
         BSRenderedTexture_StartOffscreen(auiClearMode, apRenderTexture->GetGroup());
     }
@@ -1427,7 +1435,7 @@ struct StrG
 extern StrG g_011ded3c;
 extern bool DAT_011dea29;
 using ::ImageSpaceManager;
-ImageSpaceManager* __cdecl FUN_004e3270();
+ImageSpaceManager* __cdecl BSShaderManager_GetImageSpaceManager();
 BSTextureManager* __stdcall BSShaderManager_GetTextureManager(const char*);
 // @fnv 0x00877430
 // src: COMMUNITY 0x00877430
@@ -1437,8 +1445,8 @@ void FUN_00877430_shell::TESMain_KillMenuBGTexture()
     {
         BSShaderManager_GetTextureManager((const char*)g_011ded3c)->AddRenderedTexture();
         *(NiPointer<NiNode>*)&g_011ded3c = (NiNode*)0;
-        FUN_004e3270()->SetMenuBGBlendValue(0.0f);
-        FUN_004e3270()->SetMenuBGBlendEnabled(false);
+        BSShaderManager_GetImageSpaceManager()->SetMenuBGBlendValue(0.0f);
+        BSShaderManager_GetImageSpaceManager()->SetMenuBGBlendEnabled(false);
     }
     DAT_011dea29 = false;
 }
@@ -1447,15 +1455,16 @@ void FUN_00877430_shell::TESMain_KillMenuBGTexture()
 struct Controls;
 struct FUN_00877720_shell : public Main
 {
-    Controls* FUN_00877720();
+    Controls* Main_GetControls();
 };
 
-Controls* __cdecl FUN_007fdf30();
+Controls* __cdecl Controls_GetInstance();
 
 // @fnv 0x00877720
-Controls* FUN_00877720_shell::FUN_00877720()
+// src: XBOX_PDB 0x00877720
+Controls* FUN_00877720_shell::Main_GetControls()
 {
-    return FUN_007fdf30();
+    return Controls_GetInstance();
 }
 
 struct FUN_00936aa0_shell
@@ -1516,10 +1525,11 @@ struct MainStandIn
 {
     char pad[7];
     bool flag7;
-    void FUN_0086fbe0();
+    void Main_OnIdle_UpdateCurrentGridCell();
 };
 // @fnv 0x0086fbe0
-void MainStandIn::FUN_0086fbe0()
+// src: XBOX_PDB 0x0086fbe0
+void MainStandIn::Main_OnIdle_UpdateCurrentGridCell()
 {
     if (!DAT_011dea2b && !DAT_011d8907 && !flag7)
     {
@@ -1583,7 +1593,7 @@ struct MainInterfaceView
 {
     static VATSEffect* __cdecl GetVATSEffect();
 };
-NiRenderer* __cdecl FUN_0043c4b0();
+NiRenderer* __cdecl NiXenonRenderer_GetRenderer();
 BSTextureManager* __stdcall BSShaderManager_GetTextureManager();
 extern NP_0081c630 g_011deb38;
 
@@ -1596,7 +1606,7 @@ bool __fastcall TESMain_DrawWorld_VATSOcclusionQuery(void* self)
     {
         if (!(unsigned int)*(Flt*)&g_011deb38)
         {
-            g_011deb38 = BSShaderManager_GetTextureManager()->CreateRenderTargetTexture(reinterpret_cast<::NiRenderer*>(FUN_0043c4b0()), 0x2f, 0, 0, 0);
+            g_011deb38 = BSShaderManager_GetTextureManager()->CreateRenderTargetTexture(reinterpret_cast<::NiRenderer*>(NiXenonRenderer_GetRenderer()), 0x2f, 0, 0, 0);
         }
         if (!(unsigned int)*(Flt*)MainInterfaceView::GetVATSEffect() && (unsigned int)*(Flt*)&g_011deb38 &&
             ((KFModel*)MainInterfaceView::GetVATSEffect())->GetControllerSequence() &&
@@ -1860,7 +1870,7 @@ extern SettingFloat g_011ded8c;
 extern SettingFloat g_011ded98;
 extern SettingFloat g_011deddc;
 extern SettingFloat g_011dee54;
-bool __cdecl FUN_00525420();
+bool __cdecl Main_GetSceneIsComplex();
 bool __fastcall FUN_00425fd0(TESObjectCELL* cell);
 void __cdecl BSFadeNode_SetLODFadeOutObjectMult(float);
 void __cdecl BSFadeNode_SetLODFadeOutItemMult(float);
@@ -1868,13 +1878,14 @@ void __cdecl BSFadeNode_SetLODFadeOutActorMult(float);
 
 struct FUN_0086efe0_t
 {
-    void FUN_0086efe0();
+    void Main_OnIdle_ScaleLOD();
 };
 
 // @fnv 0x0086efe0
-void FUN_0086efe0_t::FUN_0086efe0()
+// src: XBOX_PDB 0x0086efe0
+void FUN_0086efe0_t::Main_OnIdle_ScaleLOD()
 {
-    if (FUN_00525420())
+    if (Main_GetSceneIsComplex())
     {
         BSFadeNode_SetLODFadeOutObjectMult(*g_011dec24.Float());
         BSFadeNode_SetLODFadeOutItemMult(*g_011deb10.Float());
@@ -1931,7 +1942,8 @@ void BSFadeNode_SetLODFadeOutActorMult(float value)
 extern float DAT_011c40ec;
 
 // @fnv 0x0086f830
-void FUN_0086f830(float value)
+// src: XBOX_PDB 0x0086f830
+void BGSDestructibleObjectForm_SetLastUpdateTime(float value)
 {
     DAT_011c40ec = value;
 }
@@ -1939,7 +1951,8 @@ void FUN_0086f830(float value)
 extern unsigned char DAT_011dcfa6;
 
 // @fnv 0x0086fba0
-void FUN_0086fba0(unsigned char value)
+// src: XBOX_PDB 0x0086fba0
+void FalloutAudio_DisableRegionSoundUpdates(unsigned char value)
 {
     DAT_011dcfa6 = value;
 }
@@ -1948,7 +1961,8 @@ class BGSAcousticSpace;
 extern BGSAcousticSpace* DAT_011dcfb8;
 
 // @fnv 0x0086fbb0
-void FUN_0086fbb0(BGSAcousticSpace* value)
+// src: XBOX_PDB 0x0086fbb0
+void FalloutAudio_SetNextAcousticSpace(BGSAcousticSpace* value)
 {
     DAT_011dcfb8 = value;
 }
@@ -1958,7 +1972,7 @@ using ::NiUpdateData;
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_0086fc60_shell : public Main
 {
-    void FUN_0086fc60();
+    void Main_OnIdle_UpdateAnimationsAndEffects();
 };
 
 extern bool DAT_011dea2b;
@@ -1977,7 +1991,7 @@ struct Twin_0084d030
 extern Twin_0084d030 g_timeGlobal;
 struct ProcessListsH
 {
-    void FUN_009746c0(float afTimeDelta);
+    void ProcessLists_UpdateTempEffectsParallel(float afTimeDelta);
     void FUN_00974420(float afTimeDelta);
 };
 extern ProcessListsH DAT_011e0e80;
@@ -1990,15 +2004,16 @@ struct SceneGraphH
 {
     void BSParticleSystemManager_UpdateParallel(NiUpdateData* apUpdateData);
 };
-SceneGraphH* __cdecl FUN_0045a190();
+SceneGraphH* __cdecl Main_GetMasterParticleSystemManager();
 // @fnv 0x0086fc60
-void FUN_0086fc60_shell::FUN_0086fc60()
+// src: XBOX_PDB 0x0086fc60
+void FUN_0086fc60_shell::Main_OnIdle_UpdateAnimationsAndEffects()
 {
     if ((!DAT_011dea2b || DAT_011dea2c || DAT_011dea2d) && !*((bool*)this + 7))
     {
         if (*g_011c3ea4.Int() > 1)
         {
-            DAT_011e0e80.FUN_009746c0(g_timeGlobal.GetStoredFloatValue());
+            DAT_011e0e80.ProcessLists_UpdateTempEffectsParallel(g_timeGlobal.GetStoredFloatValue());
         }
         else
         {
@@ -2015,11 +2030,11 @@ void FUN_0086fc60_shell::FUN_0086fc60()
         NiUpdateData UpdateData(DAT_011dea30, true, false);
         if (*g_011c3ea4.Int() > 1)
         {
-            FUN_0045a190()->BSParticleSystemManager_UpdateParallel(&UpdateData);
+            Main_GetMasterParticleSystemManager()->BSParticleSystemManager_UpdateParallel(&UpdateData);
         }
         else
         {
-            FUN_0045a190()->BSParticleSystemManager_UpdateParallel(&UpdateData);
+            Main_GetMasterParticleSystemManager()->BSParticleSystemManager_UpdateParallel(&UpdateData);
         }
     }
 }
@@ -2058,9 +2073,9 @@ struct Controls
 {
     int Controls_IsMouseInBackground();
 };
-Controls* __cdecl FUN_007fdf30();
-int __cdecl FUN_004dc1f0();
-int __cdecl FUN_004dc200();
+Controls* __cdecl Controls_GetInstance();
+int __cdecl Renderer_GetScreenWidth();
+int __cdecl Renderer_GetScreenHeight();
 void __cdecl Interface_SetCursorPos(float x, float y);
 void __cdecl Interface_SetSurgeryCursorPos(int x, int y);
 
@@ -2075,10 +2090,10 @@ bool FUN_00871d10_t::TESMain_HandleMouseMove(int x, int y)
 {
     if (GetForegroundWindow() != *(HWND__**)((char*)this + 8))
         return false;
-    if (!InterfaceH_main::IsSaveLoadActive() || !FUN_007fdf30()->Controls_IsMouseInBackground())
+    if (!InterfaceH_main::IsSaveLoadActive() || !Controls_GetInstance()->Controls_IsMouseInBackground())
         return false;
     if (!InterfaceH_main::GetSelectedTargetIndex(0x41e))
-        Interface_SetCursorPos((float)(x / (double)FUN_004dc1f0()), (float)(y / (double)FUN_004dc200()));
+        Interface_SetCursorPos((float)(x / (double)Renderer_GetScreenWidth()), (float)(y / (double)Renderer_GetScreenHeight()));
     else
         Interface_SetSurgeryCursorPos(x, y);
     return true;
@@ -2106,7 +2121,7 @@ struct FUN_004e2120_s
 };
 struct FUN_004e2190_shell
 {
-    FUN_004e2120_s* FUN_004e2190();
+    FUN_004e2120_s* Main_QDrawWorldAccum();
 };
 struct MTRenderingSystem_Helper
 {
@@ -2118,7 +2133,7 @@ struct TaskThreadManager : MTRenderingSystem_Helper
     static TaskThreadManager* GetSingleton();
 };
 bool __cdecl TESObjectCELL_IsNodeCulled(int);
-BSFaceGenAnimationData* __cdecl FUN_00524c90();
+BSFaceGenAnimationData* __cdecl Main_WorldRootCamera();
 using ::TESWaterSystem;
 extern int DAT_011a9608;
 extern FlagGetterView g_011c7adc;
@@ -2141,14 +2156,14 @@ void FUN_008727d0_shell::TESMain_DrawWorld_UpdateWater()
             ShadowSceneNode* pscene = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
             bool bwasLightUpdateDisabled = SceneCheck_005f9ad0(pscene);
             pscene->SetCreatureType(1);
-            ((TESWaterSystem*)g_TES->GetActorScale())->TESWaterSystem_UpdateWaterSystem(FUN_00524c90(), pscene);
+            ((TESWaterSystem*)g_TES->GetActorScale())->TESWaterSystem_UpdateWaterSystem(Main_WorldRootCamera(), pscene);
             pscene->SetCreatureType(bwasLightUpdateDisabled);
         }
         else
         {
             DAT_011ff104 = false;
             ((TESWaterSystem*)g_TES->GetActorScale())->m_uiPathPointIndex = 0;
-            g_osGlobals->FUN_004e2190()->f(false);
+            g_osGlobals->Main_QDrawWorldAccum()->f(false);
             DAT_011ff8c4 = false;
             ((TESWaterSystem*)g_TES->GetActorScale())->TESWaterSystem_SetIsUnderWater(0);
         }
@@ -2276,7 +2291,7 @@ void MainRenderTargetOwner_008748d0::ImageSpaceEffectDepthOfField_BorrowMaskText
     ((ImageSpaceTexture*)((char*)this + 0x7c))->GetRenderedTexture();
 }
 
-BSFaceGenNiNode* __cdecl FUN_0045c670();
+BSFaceGenNiNode* __cdecl Main_GetWorldSceneGraph();
 
 struct FUN_00874920_t
 {
@@ -2290,8 +2305,8 @@ void FUN_00874920_t::TESMain_DrawWorld_Refraction(::BSShaderAccumulator* apShade
 {
     BSFaceGenNiNode* pscene;
     AutoMemHelper tempMemContext(0x27, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0x20d5);
-    pscene = FUN_0045c670();
-    apShaderAccum->FUN_00b64570(pscene->::BSFaceGenNiNode::GetAnimationData(), (::BSRenderedTexture*)apRenderTexture);
+    pscene = Main_GetWorldSceneGraph();
+    apShaderAccum->BSShaderAccumulator_RenderNormals(pscene->::BSFaceGenNiNode::GetAnimationData(), (::BSRenderedTexture*)apRenderTexture);
 }
 
 struct FUN_00a235d0_class
@@ -2320,12 +2335,13 @@ int __thiscall FUN_00a236b0_Class::Controls_GetButtonCount(int index)
 
 struct FUN_0086ba60_Class
 {
-    bool FUN_0086ba60(void* a1, void* a2);
+    bool NiRenderer_Check_FrameState(void* a1, void* a2);
 };
 
 // Returns true if the pointer stored at offset 0x200 of this object equals a2.
 // @fnv 0x0086ba60
-bool FUN_0086ba60_Class::FUN_0086ba60(void* apUnused, void* a2)
+// src: XBOX_PDB 0x0086ba60
+bool FUN_0086ba60_Class::NiRenderer_Check_FrameState(void* apUnused, void* a2)
 {
     if (*(void**)((char*)this + 0x200) == a2)
         return true;
@@ -2441,11 +2457,12 @@ bool __fastcall PlayerCharacter_StopHeartbeatSound(::BSSoundHandle* self)
 
 struct FUN_0086ef70_Class
 {
-    char FUN_0086ef70();
+    char TES_CellTestRunning2();
 };
 
 // @fnv 0x0086ef70
-char FUN_0086ef70_Class::FUN_0086ef70()
+// src: XBOX_PDB 0x0086ef70
+char FUN_0086ef70_Class::TES_CellTestRunning2()
 {
     return *(char*)((char*)this + 0x52);
 }
@@ -2457,7 +2474,8 @@ struct RegionSoundFlagArgument
 };
 
 // @fnv 0x0086fbc0
-void __fastcall FUN_0086fbc0(::PlayerCharacter* self, RegionSoundFlagArgument flag)
+// src: XBOX_PDB 0x0086fbc0
+void __fastcall PlayerCharacter_SetAcousticSpaceTransition(::PlayerCharacter* self, RegionSoundFlagArgument flag)
 {
     *reinterpret_cast<char*>(&self->regionSoundsEnabled) = flag.value;
 }
@@ -2504,7 +2522,7 @@ unsigned int __thiscall FUN_00875bd0_Class::FOPipboyManager_GetPipboyLightGlow(i
 
 struct FUN_00456630_helper
 {
-    bool FUN_00456630(unsigned int);
+    bool NiAVObject_GetBit(unsigned int);
     void NiAVObject_GetAlwaysDraw();
 };
 
@@ -2512,7 +2530,7 @@ struct FUN_00456630_helper
 // src: COMMUNITY 0x00876810
 void FUN_00456630_helper::NiAVObject_GetAlwaysDraw()
 {
-    FUN_00456630(0x800);
+    NiAVObject_GetBit(0x800);
 }
 
 
@@ -2745,7 +2763,7 @@ struct blob48
 };
 struct FUN_0086f6a0_shell : public Main
 {
-    void FUN_0086f6a0();
+    void Main_UpdateNonRenderSafeAITasks();
 };
 
 template <int N> struct FUN_0086f6a0_vs : FUN_0086f6a0_vs<N - 1>
@@ -2779,7 +2797,7 @@ struct TaskQueueInterface
 };
 struct FUN_0087a6b0_shell
 {
-    void FUN_0087a6b0();
+    void TaskQueueInterface_ThreadBeginInput();
 };
 struct FUN_0087a6d0_shell
 {
@@ -2801,7 +2819,7 @@ struct Twin_0084d030
 };
 struct FUN_0096c970_shell
 {
-    void FUN_0096c970();
+    void ProcessLists_ParallelUpdateAnimationScenegraph();
 };
 struct FUN_00991600_t
 {
@@ -2810,11 +2828,11 @@ struct FUN_00991600_t
 using ::GameTimerRecord;
 void TESObjectCELL_PerformQueuedChildAttaches();
 void TESObjectCELL_RunQueuedParticleUpdates();
-FUN_0086f6a0_mob* FUN_007624d0();
-void FUN_0086f830(float);
-bool __fastcall FUN_0086f840(char*);
-bool FUN_0086f860();
-void __fastcall FUN_0096c710(ProcessLists*);
+FUN_0086f6a0_mob* DialogMenu_GetDialogSpeaker();
+void BGSDestructibleObjectForm_SetLastUpdateTime(float);
+bool __fastcall FOPipboyManager_GetPipBoyManagerReset(char*);
+bool DialogMenu_GetPaused();
+void __fastcall ProcessLists_ReconcileDetectionDataForActor(ProcessLists*);
 extern float DAT_011c3c08;
 extern GlobalObject_0045cfe0 g_011c3ea4;
 extern GlobalObject2_0040c150 g_011d10d4;
@@ -2825,14 +2843,15 @@ extern FUN_00991600_t* BGSSaveLoadGlobalDataWorldspacePtr;
 extern GameTimerRecord g_timeGlobal;
 
 // @fnv 0x0086f6a0
-void FUN_0086f6a0_shell::FUN_0086f6a0()
+// src: XBOX_PDB 0x0086f6a0
+void FUN_0086f6a0_shell::Main_UpdateNonRenderSafeAITasks()
 {
     FOPipboyManager* ppipboy;
     FUN_0086f6a0_mob* pmob;
     FUN_0086f6a0_act* pact;
-    if (DialogH::IsInDialog() && !MainInterfaceView::IsConsoleActive() && !FUN_0086f860())
+    if (DialogH::IsInDialog() && !MainInterfaceView::IsConsoleActive() && !DialogMenu_GetPaused())
     {
-        pmob = FUN_007624d0();
+        pmob = DialogMenu_GetDialogSpeaker();
         if (pmob && pmob->IsSlot64())
         {
             pact = (FUN_0086f6a0_act*)pmob;
@@ -2841,13 +2860,13 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
     }
     DAT_011e0e80.UpdateMagicTempEffects(0.0f);
     if (*g_011c3ea4.Int() > 1)
-        ((FUN_0096c970_shell*)&DAT_011e0e80)->FUN_0096c970();
+        ((FUN_0096c970_shell*)&DAT_011e0e80)->ProcessLists_ParallelUpdateAnimationScenegraph();
     else
-        DAT_011e0e80.FUN_0096c860();
-    FUN_0096c710(&DAT_011e0e80);
-    DAT_011e0e80.FUN_009781d0(((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue());
+        DAT_011e0e80.ProcessLists_UpdateAnimationScenegraph();
+    ProcessLists_ReconcileDetectionDataForActor(&DAT_011e0e80);
+    DAT_011e0e80.ProcessLists_UpdateNonRenderSafeStuff(((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue());
     ppipboy = MainInterfaceView::GetPipboyManagerInstance();
-    if (FUN_0086f840((char*)ppipboy))
+    if (FOPipboyManager_GetPipBoyManagerReset((char*)ppipboy))
         UpdatePipboy_007fa990(ppipboy);
     if (*g_011c3ea4.Int() > 1)
     {
@@ -2855,8 +2874,8 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
         ((FUN_0087a6d0_shell*)TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadEndInput();
         TaskQueueInterface::GetInstance()->TaskQueueInterface_ProcessQueue();
         TESObjectCELL_RunQueuedParticleUpdates();
-        FUN_0086f830(DAT_011c3c08);
-        ((FUN_0087a6b0_shell*)TaskQueueInterface::GetInstance())->FUN_0087a6b0();
+        BGSDestructibleObjectForm_SetLastUpdateTime(DAT_011c3c08);
+        ((FUN_0087a6b0_shell*)TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadBeginInput();
     }
     TaskQueueInterface::ThreadProcessInput(*((GlobalObject_0045cfe0*)&g_011d10d4)->Int());
     TaskQueueInterface::ThreadProcessSecondaryInput();
@@ -2868,7 +2887,7 @@ namespace fnv_0086fd90 {
 float __fastcall TimerSeconds_0084d030(::GameTimerRecord*);
 struct FUN_0086fd90_shell : public Main
 {
-    void FUN_0086fd90(bool);
+    void Main_OnIdle_UpdateImageSpace(bool);
 };
 
 struct Twin_0084d030
@@ -2882,7 +2901,7 @@ void __fastcall ISM_00b8b500(::ImageSpaceManager*);
 void __fastcall ISM_00b8aea0(::ImageSpaceManager*);
 void __fastcall ISM_00b8ccb0(::ImageSpaceManager*);
 void __fastcall ISM_00b8d020(::ImageSpaceManager*);
-ImageSpaceManager* __cdecl FUN_004e3270();
+ImageSpaceManager* __cdecl BSShaderManager_GetImageSpaceManager();
 unsigned char __cdecl TESImageSpaceModifier_GetEnable();
 void __cdecl TESImageSpaceModifier_AdvanceCurrentTime(float);
 struct ISMI_0086fd90
@@ -2941,10 +2960,11 @@ struct ISMList_0086fd90
 using ::TES;
 extern TES* g_TES;
 // @fnv 0x0086fd90
-void FUN_0086fd90_shell::FUN_0086fd90(bool abAdvanceTime)
+// src: XBOX_PDB 0x0086fd90
+void FUN_0086fd90_shell::Main_OnIdle_UpdateImageSpace(bool abAdvanceTime)
 {
-    ISM_00b8b500(FUN_004e3270());
-    FUN_004e3270()->BeginParamModifiers();
+    ISM_00b8b500(BSShaderManager_GetImageSpaceManager());
+    BSShaderManager_GetImageSpaceManager()->BeginParamModifiers();
     if (abAdvanceTime)
         TESImageSpaceModifier_AdvanceCurrentTime(TimerSeconds_0084d030(&g_timeGlobal));
     ISMList_0086fd90* pModifierList = (ISMList_0086fd90*)g_TES->GetActiveImageSpaceModifierList();
@@ -2973,13 +2993,13 @@ void FUN_0086fd90_shell::FUN_0086fd90(bool abAdvanceTime)
         if (iActiveCount == 4)
         {
             if (!iactiveWeatherCount)
-                ISM_00b8aea0(FUN_004e3270());
-            ISM_00b8ccb0(FUN_004e3270());
+                ISM_00b8aea0(BSShaderManager_GetImageSpaceManager());
+            ISM_00b8ccb0(BSShaderManager_GetImageSpaceManager());
             iActiveCount = 0;
         }
     }
-    ISM_00b8d020(FUN_004e3270());
-    FUN_004e3270()->ApplyCurrentParameterData(false);
+    ISM_00b8d020(BSShaderManager_GetImageSpaceManager());
+    BSShaderManager_GetImageSpaceManager()->ApplyCurrentParameterData(false);
 }
 }  // namespace fnv_0086fd90
 
@@ -3003,7 +3023,7 @@ struct TextureOwnerView_008748d0
 };
 struct S4
 {
-    TextureOwnerView_008748d0* FUN_004ebbc0(int);
+    TextureOwnerView_008748d0* GetEffect_004ebbc0(int);
 };
 using ::MiddleLowProcess;
 using ::BSFaceGenNiNode;
@@ -3013,7 +3033,7 @@ struct PC_00605d70
 };
 struct FUN_008bbc10_shell
 {
-    bool FUN_008bbc10();
+    bool Actor_GetIronSights();
 };
 struct Flt
 {
@@ -3022,9 +3042,9 @@ struct Flt
 using ::BSShaderManager;
 // NiRenderer slots 43-45 are the two background setters and the background getter.
 using ::NiRenderer;
-S4* __cdecl FUN_004e3270();
+S4* __cdecl BSShaderManager_GetImageSpaceManager();
 NiRenderer* __cdecl BSShaderManager_GetRenderer();
-BSFaceGenNiNode* __cdecl FUN_0045c670();
+BSFaceGenNiNode* __cdecl Main_GetWorldSceneGraph();
 void __cdecl BSShaderUtil_AccumulateScene(void*, ::NiAVObject*, ::BSCullingProcess*);
 void __cdecl BSRenderState_RestoreColorWriteEnable(unsigned int);
 float __fastcall PlayerCharacter_Get1stPersonFOV(PC_00605d70*);
@@ -3034,17 +3054,17 @@ extern NiColor DAT_011f4998;
 // src: COMMUNITY 0x008746d0
 void FUN_008746d0_shell::TESMain_DrawWorld_Add1stPersonToDepthBuffer(BSRenderedTexture* apRenderTexture)
 {
-    S4* pimagespacemanager = FUN_004e3270();
+    S4* pimagespacemanager = BSShaderManager_GetImageSpaceManager();
     NiRenderer* prenderer = BSShaderManager_GetRenderer();
     NiNode* pscenegraph = ((PC_00605d70*)g_thePlayer)->GetNode(true);
-    BSFaceGenNiNode* p1stperson3d = FUN_0045c670();
+    BSFaceGenNiNode* p1stperson3d = Main_GetWorldSceneGraph();
     ::BSCullingProcess* pculler = (::BSCullingProcess*)((MiddleLowProcess*)p1stperson3d)->MiddleLowProcess::GetProcessInteger();
-    bool m_kFieldAfterWeaponFlags = ((FUN_008bbc10_shell*)g_thePlayer)->FUN_008bbc10();
+    bool m_kFieldAfterWeaponFlags = ((FUN_008bbc10_shell*)g_thePlayer)->Actor_GetIronSights();
     BSRenderedTexture* p1stpersonBuffer = 0;
     NiColorA savedBackground(0.0f, 0.0f, 0.0f, 0.0f);
     if (m_kFieldAfterWeaponFlags)
     {
-        p1stpersonBuffer = pimagespacemanager->FUN_004ebbc0(4)->ImageSpaceEffectDepthOfField_BorrowMaskTexture();
+        p1stpersonBuffer = pimagespacemanager->GetEffect_004ebbc0(4)->ImageSpaceEffectDepthOfField_BorrowMaskTexture();
         BSRenderedTexture::EndAllAndResetRendererState();
         prenderer->GetBackgroundColor(reinterpret_cast<NiVector4*>(&savedBackground));
         prenderer->SetBackgroundColor(DAT_011f4998);
@@ -3088,7 +3108,7 @@ struct MainOffset08View
     unsigned int GetFlags();
 };
 extern MainOffset08View DAT_011f2250;
-unsigned int __cdecl FUN_0045c670(void);
+unsigned int __cdecl Main_GetWorldSceneGraph(void);
 struct NiObjectCopyInfo
 {
     int a, b, c, d;
@@ -3129,14 +3149,15 @@ using ::BSShaderManager;
 using ::BSShaderAccumulator;
 struct FUN_00875e40_shell
 {
-    void FUN_00875e40(BSShaderAccumulator* pAccum, BSRenderedTexture* pTexture);
+    void Main_DrawWorld_DoDepth(BSShaderAccumulator* pAccum, BSRenderedTexture* pTexture);
 };
 
 // Clones the scene graph's animation data as a camera, sets FOV and depth via pAccum->SetupDepth, then deletes the cloned camera.
 // @fnv 0x00875e40
-void FUN_00875e40_shell::FUN_00875e40(BSShaderAccumulator* pAccum, BSRenderedTexture* pTexture)
+// src: XBOX_PDB 0x00875e40
+void FUN_00875e40_shell::Main_DrawWorld_DoDepth(BSShaderAccumulator* pAccum, BSRenderedTexture* pTexture)
 {
-    BSFaceGenNiNode* pkSceneGraph = (BSFaceGenNiNode*)FUN_0045c670();
+    BSFaceGenNiNode* pkSceneGraph = (BSFaceGenNiNode*)Main_GetWorldSceneGraph();
     if (DAT_011f2250.GetFlags() != 4)
         pkSceneGraph->SceneGraph_SetCameraFOV(PlayerCharacter_GetWorldFOV((FUN_00710ab0_Class*)g_thePlayer), 0, 0, 0);
     BSShaderManager::SetFOV(PlayerCharacter_GetWorldFOV((FUN_00710ab0_Class*)g_thePlayer));
@@ -3153,7 +3174,7 @@ void FUN_00875e40_shell::FUN_00875e40(BSShaderAccumulator* pAccum, BSRenderedTex
 }  // namespace fnv_00875e40
 
 namespace fnv_00875fa0 {
-unsigned int __cdecl FUN_0045c670(void);
+unsigned int __cdecl Main_GetWorldSceneGraph(void);
 using ::BSFaceGenNiNode;
 struct Param00875fa0
 {
@@ -3168,7 +3189,7 @@ struct Outer00875fa0
 // src: COMMUNITY 0x00875fa0
 void Outer00875fa0::TESMain_DrawWorld_DoVolumetricFog(Param00875fa0* pParam, void* b)
 {
-    BSFaceGenNiNode* tmp = (BSFaceGenNiNode*)FUN_0045c670();
+    BSFaceGenNiNode* tmp = (BSFaceGenNiNode*)Main_GetWorldSceneGraph();
     pParam->BSShaderAccumulator_RenderVolumetricFog(tmp->::BSFaceGenNiNode::GetAnimationData(), b);
 }
 }  // namespace fnv_00875fa0
@@ -3355,13 +3376,13 @@ struct FUN_00b630c0_s
 {
     void BSShaderAccumulator_ClearBloodSplatter();
 };
-unsigned int __cdecl FUN_0045c670();
+unsigned int __cdecl Main_GetWorldSceneGraph();
 void* __cdecl BSShaderManager_GetRenderer();
 BSTextureManager* __stdcall BSShaderManager_GetTextureManager();
 struct S5;
 struct S4
 {
-    S5* FUN_004ebbc0(int);
+    S5* GetEffect_004ebbc0(int);
 };
 struct FUN_00876a00_Class
 {
@@ -3369,7 +3390,7 @@ struct FUN_00876a00_Class
 };
 struct FUN_00642890_Class
 {
-    void FUN_00642890();
+    void Sun_StopSunOcclusion();
 };
 using ::BSFaceGenNiNode;
 using ::GO;
@@ -3402,10 +3423,10 @@ void FUN_00876850_shell::TESMain_DrawWorld_End(BSRenderedTexture* apRenderTextur
     Dev9* pd3ddevice;
     int apCuller;
     unsigned int apSceneGraph;
-    apSceneGraph = FUN_0045c670();
+    apSceneGraph = Main_GetWorldSceneGraph();
     apCuller = ((MiddleLowProcess*)apSceneGraph)->MiddleLowProcess::GetProcessInteger();
     if (apSun)
-        ((FUN_00642890_Class*)apSun)->FUN_00642890();
+        ((FUN_00642890_Class*)apSun)->Sun_StopSunOcclusion();
     BSShaderProperty_PreviousTransform_SaveCamera(((BSFaceGenNiNode*)apSceneGraph)->::BSFaceGenNiNode::GetAnimationData());
     if (apRenderTexture)
         BSShaderManager_GetTextureManager()->AddRenderedTexture(reinterpret_cast<::BSRenderedTexture*>(apRenderTexture));
@@ -3413,10 +3434,10 @@ void FUN_00876850_shell::TESMain_DrawWorld_End(BSRenderedTexture* apRenderTextur
     ((FUN_00b630c0_s*)(unsigned int)*(Flt*)((char*)this + 0x94))->BSShaderAccumulator_ClearBloodSplatter();
     BSShaderManager_ReturnSceneDepthTexture();
     BSShaderManager_ReturnVelocityBuffers();
-    ((FUN_00876a00_Class*)((S4*)apImagespaceManager)->FUN_004ebbc0(4))->ImageSpaceEffectDepthOfField_ReturnMaskTexture();
+    ((FUN_00876a00_Class*)((S4*)apImagespaceManager)->GetEffect_004ebbc0(4))->ImageSpaceEffectDepthOfField_ReturnMaskTexture();
     if (DAT_011f9440)
         ImageSpaceEffectHDR_ClearAdaptedLight();
-    pd3ddevice = (Dev9*)((::NiRenderer*)BSShaderManager_GetRenderer())->FUN_004dc020();
+    pd3ddevice = (Dev9*)((::NiRenderer*)BSShaderManager_GetRenderer())->NiXenonRenderer_GetD3DDevice();
     pd3ddevice->v104(0);
     pd3ddevice->v100(0, 0, 0, 0);
     if (NiParallelUpdateTaskManager_Get())
@@ -3450,8 +3471,8 @@ using ::TESObjectREFR;
 using ::NiMatrix3;
 struct V3;
 using ::NiAVObject;
-::NiAVObject* __fastcall FUN_00558310(NiNode*);
-unsigned int __cdecl FUN_0045c670();
+::NiAVObject* __fastcall BSSceneGraph_GetCameraRoot(NiNode*);
+unsigned int __cdecl Main_GetWorldSceneGraph();
 struct FUN_0056fa00_S
 {
     NiMatrix3 TESObjectREFR_GetOrientation();
@@ -3469,7 +3490,7 @@ extern GlobalObject_0045cfe0 g_011c63cc;
 extern int g_TES;
 struct FUN_0054cfd0_S
 {
-    bool FUN_0054cfd0(::NiPoint3* apPos, ::NiPoint3* apRot);
+    bool TESObjectCELL_GetCOCPlacementInfo(::NiPoint3* apPos, ::NiPoint3* apRot);
 };
 struct FUN_00548230_S
 {
@@ -3492,7 +3513,7 @@ struct FUN_00b5cbd0_S
 };
 struct FUN_00565730_S
 {
-    void FUN_00565730();
+    void TESObjectREFR_InitScript();
 };
 class PlayerVT
 {
@@ -3679,7 +3700,8 @@ class PlayerVT
 extern PlayerVT* _g_thePlayer;
 
 // @fnv 0x00877260
-void __cdecl FUN_00877260(::NiPoint3 apos)
+// src: XBOX_PDB 0x00877260
+void __cdecl Main_InitPlayerStart(::NiPoint3 apos)
 {
     TESObjectCELL* pcell = (TESObjectCELL*)((CP_008c48d0*)g_TES)->GetPrevPath();
     ::NiPoint3 rot = ::NiPoint3::ZERO;
@@ -3690,7 +3712,7 @@ void __cdecl FUN_00877260(::NiPoint3 apos)
     }
     if (pcell)
     {
-        ((FUN_0054cfd0_S*)pcell)->FUN_0054cfd0(&apos, &rot);
+        ((FUN_0054cfd0_S*)pcell)->TESObjectCELL_GetCOCPlacementInfo(&apos, &rot);
     }
     _g_thePlayer->SetZRotV(rot.z);
     _g_thePlayer->SetPositionV(&apos);
@@ -3704,11 +3726,11 @@ void __cdecl FUN_00877260(::NiPoint3 apos)
         ((FUN_00b5cbd0_S*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))
             ->FUN_00b5cbd0(((PC_00605d70*)_g_thePlayer)->GetNode(false));
     }
-    ((FUN_00565730_S*)_g_thePlayer)->FUN_00565730();
-    FUN_00558310((NiNode*)FUN_0045c670())->FUN_00440460(reinterpret_cast<const ::NiPoint3&>(apos));
-    FUN_00558310((NiNode*)FUN_0045c670())->SetLocalRotation((const ::NiMatrix3&)((FUN_0056fa00_S*)_g_thePlayer)->TESObjectREFR_GetOrientation());
+    ((FUN_00565730_S*)_g_thePlayer)->TESObjectREFR_InitScript();
+    BSSceneGraph_GetCameraRoot((NiNode*)Main_GetWorldSceneGraph())->NiAVObject_SetTranslate(reinterpret_cast<const ::NiPoint3&>(apos));
+    BSSceneGraph_GetCameraRoot((NiNode*)Main_GetWorldSceneGraph())->SetLocalRotation((const ::NiMatrix3&)((FUN_0056fa00_S*)_g_thePlayer)->TESObjectREFR_GetOrientation());
     NiUpdateData UpdateData(0.0f, false, false);
-    ((NiNode*)FUN_00558310((NiNode*)FUN_0045c670()))->Update(UpdateData);
+    ((NiNode*)BSSceneGraph_GetCameraRoot((NiNode*)Main_GetWorldSceneGraph()))->Update(UpdateData);
 }
 }  // namespace fnv_00877260
 
@@ -3795,8 +3817,8 @@ struct MainInterfaceView
     static bool __cdecl IsMenuActive(enumMenus menuID, unsigned int parameter);
 };
 
-::NiRenderer* __cdecl FUN_0043c4b0(void);
-ImageSpaceManager* __cdecl FUN_004e3270(void);
+::NiRenderer* __cdecl NiXenonRenderer_GetRenderer(void);
+ImageSpaceManager* __cdecl BSShaderManager_GetImageSpaceManager(void);
 bool __cdecl TESRenderer_GetMultiSampleEnabled(void);
 unsigned char __cdecl BSShaderManager_GetImageSpaceEffects(void);
 
@@ -3818,14 +3840,15 @@ struct MainTarget
     void TESMain_DrawWorld_StopRenderTarget(bool bmultiSampleEnabled, BSRenderedTexture* apDestination);
     void TESMain_DrawWorld_End(int result, ImageSpaceManager* pimagespacemanager, ::NiRenderer* prenderer, int parameter);
 
-    void FUN_00872940(BSRenderedTexture* apDestination);
+    void Main_DrawWorldMenu3D(BSRenderedTexture* apDestination);
 };
 
 // @fnv 0x00872940
-void MainTarget::FUN_00872940(BSRenderedTexture* apDestination)
+// src: XBOX_PDB 0x00872940
+void MainTarget::Main_DrawWorldMenu3D(BSRenderedTexture* apDestination)
 {
-    ::NiRenderer* prenderer = FUN_0043c4b0();
-    ImageSpaceManager* pimagespacemanager = FUN_004e3270();
+    ::NiRenderer* prenderer = NiXenonRenderer_GetRenderer();
+    ImageSpaceManager* pimagespacemanager = BSShaderManager_GetImageSpaceManager();
     const bool bmultiSampleEnabled = TESRenderer_GetMultiSampleEnabled();
     int result;
 
@@ -3892,12 +3915,13 @@ class FUN_004505a0_cls
     int unk20;
     int unk24;
     FUN_004505a0_target* m_28;
-    int FUN_004505a0();
+    int Sky_GetLight();
 };
 
 // Returns the result of calling Get on m_28 if it is non-null, otherwise returns 0.
 // @fnv 0x004505a0
-int FUN_004505a0_cls::FUN_004505a0()
+// src: XBOX_PDB 0x004505a0
+int FUN_004505a0_cls::Sky_GetLight()
 {
     return (m_28 != 0) ? m_28->Get() : 0;
 }
@@ -4130,14 +4154,15 @@ struct OffScreenFrameHost
     int unk1F8;
     int unk1FC;
     int m_200;
-    bool FUN_0086ba60(const char* name, int flags);
-    bool FUN_0086ba90();
+    bool NiRenderer_Check_FrameState(const char* name, int flags);
+    bool NiXenonRenderer_EndOffScreenFrame();
 };
 // Calls FUN_0086ba60 with "EndOffScreenFrame" and flags 2, then v60; on success clears m_200 and returns true.
 // @fnv 0x0086ba90
-bool OffScreenFrameHost::FUN_0086ba90()
+// src: XBOX_PDB 0x0086ba90
+bool OffScreenFrameHost::NiXenonRenderer_EndOffScreenFrame()
 {
-    if (!FUN_0086ba60("EndOffScreenFrame", 2))
+    if (!NiRenderer_Check_FrameState("EndOffScreenFrame", 2))
     {
         return false;
     }
@@ -4376,11 +4401,12 @@ extern "C" __declspec(dllimport) void __stdcall DebugBreak();
 
 struct FUN_00872ed0_shell
 {
-    void FUN_00872ed0(int param_1);
+    void NiCullingProcess_AppendVirtual(int param_1);
 };
 
 // @fnv 0x00872ed0
-void FUN_00872ed0_shell::FUN_00872ed0(int aiUnused)
+// src: XBOX_PDB 0x00872ed0
+void FUN_00872ed0_shell::NiCullingProcess_AppendVirtual(int aiUnused)
 {
     DebugBreak();
 }
@@ -4391,7 +4417,7 @@ struct ScaleSource
     NiPoint3 GetScale3() const;
 };
 
-NiPoint3* __fastcall FUN_0045bb80(ScaleSource* pObj);
+NiPoint3* __fastcall NiAVObject_GetWorldTranslate(ScaleSource* pObj);
 
 extern NiPoint3 DAT_011a9490;
 extern bool DAT_012003cc;
@@ -4409,7 +4435,7 @@ void __cdecl ImageSpaceEffectFullScreenBlur_CheckCamera(ScaleSource* apScaleSour
         DAT_012003cc = false;
         return;
     }
-    NiPoint3 kCurA = *FUN_0045bb80(apScaleSource);
+    NiPoint3 kCurA = *NiAVObject_GetWorldTranslate(apScaleSource);
     NiPoint3 kCurB = apScaleSource->GetScale3();
     NiPoint3 kDiffA_2 = kCurA - DAT_012003e0;
     NiPoint3 kDiffB5 = kCurB - DAT_012003d4;
@@ -5077,16 +5103,17 @@ class TileList
 };
 InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 extern "C" bool s_bAllowDetach;
-void __cdecl FUN_007c6120();
-void __cdecl FUN_007917a0();
+void __cdecl SPECIALBookMenu_Close();
+void __cdecl LoveTesterMenu_Close();
 bool __cdecl IsStartMenuFlag1Set();
 
 // Enables detach, walks the root tile's children and removes tiles by menu ID, calling handlers for the book and love tester menus, then disables detach.
 // @fnv 0x00706320
-void __cdecl FUN_00706320(int)
+// src: XBOX_PDB 0x00706320
+void __cdecl Interface_CloseAllSupportMenus(int)
 {
     s_bAllowDetach = true;
-    ::Tile* root = InterfaceManager_GetSingleton()->FUN_00586150();
+    ::Tile* root = InterfaceManager_GetSingleton()->CombatController_GetCombatState();
     {
         void* position = reinterpret_cast<TileList&>(root->m_kChildTileList).GetHeadPos();
         while (position)
@@ -5108,14 +5135,14 @@ void __cdecl FUN_00706320(int)
                 case 1060: {
                     SPECIALBookMenu* pBookMenu = tile ? dynamic_cast<SPECIALBookMenu*>(tile->GetMenu()) : 0;
                     if (pBookMenu)
-                        FUN_007c6120();
+                        SPECIALBookMenu_Close();
                     delete reinterpret_cast<TileList&>(root->m_kChildTileList).Remove(tile);
                     break;
                 }
                 case 1074: {
                     LoveTesterMenu* pLoveMenu = tile ? dynamic_cast<LoveTesterMenu*>(tile->GetMenu()) : 0;
                     if (pLoveMenu)
-                        FUN_007917a0();
+                        LoveTesterMenu_Close();
                     delete reinterpret_cast<TileList&>(root->m_kChildTileList).Remove(tile);
                     break;
                 }
@@ -5169,7 +5196,7 @@ struct Receiver86
     Receiver86* FUN_007005d0();
 
     void FUN_0066b0d0(int);
-    void FUN_00b6da10(int);
+    void BSTextureManager_ReturnRenderedTexture(int);
     void CancelAllFiles_00448420();
     void AILinearTaskThreadManager_Kill();
     Receiver86* FUN_008d8520();
@@ -5186,12 +5213,12 @@ struct Receiver86
     int MemoryManager_OutputDebugInfo(void*, int);
 
     void FUN_0086bda0();
-    Receiver86* FUN_00460140();
+    Receiver86* TESDataHandler_GetWorldSpaceList();
     int* FUN_006815c0();
-    void FUN_00458200(int);
+    void TES_SetWorldSpace(int);
     void ClearIdleAnims();
-    void FUN_008a8150(int);
-    void FUN_00970d50();
+    void ExtraDismemberedLimbs_SetEaten(int);
+    void ProcessLists_InitPackageLocations();
     void FUN_004614e0();
     void BGSSaveLoadGame_SetGlobalAllowChanges(int);
     void FUN_00483710();
@@ -5201,31 +5228,31 @@ struct Receiver86
     void MoviePlayer_WaitForSequenceToEnd();
     void IOManager_LoadAllQueuedPriorities();
     int FUN_0044ddc0();
-    unsigned char FUN_00451530();
+    unsigned char TES_CellTestRunning();
     int FUN_00559450();
-    Device86* FUN_004dc020();
-    void FUN_0086ba10();
-    void FUN_0086ba90();
-    void FUN_0086e650();
-    void FUN_00ad8740();
+    Device86* NiXenonRenderer_GetD3DDevice();
+    void NiXenonRenderer_BeginOffScreenFrame();
+    void NiXenonRenderer_EndOffScreenFrame();
+    void Main_OnIdle();
+    void UnPauseSynchTimer();
     void BSWin32Audio_Pause();
     void FUN_00ad7740(int);
     unsigned int TESMain_GetThread();
-    Receiver86* FUN_004e2190();
+    Receiver86* Main_QDrawWorldAccum();
     void BSShaderAccumulator_ClearSunQueries();
     void BGSDecalManager_ClearPendingQueries();
     void VATSEffect_FreeOcclusionQueries();
     bool FUN_005dc960();
-    unsigned char FUN_00678ce0();
-    void FUN_008774a0(int);
+    unsigned char Main_GameReset();
+    void Main_PerformGameReset(int);
 
     void BSFileCache_SetFileCacheList(const char*, const char*);
-    void FUN_004a0370();
+    void NiXenonRenderer_LockRenderer();
     void NiDX9Renderer_AddLostDeviceNotificationFunc(void*, int);
     void NiDX9Renderer_AddResetNotificationFunc(void*, int);
-    void FUN_004a03c0();
+    void NiXenonRenderer_UnlockRenderer();
     void MoviePlayer_StartSequence(const char*, int, int, int, int, float);
-    void FUN_0086cf20(Receiver86*);
+    void Main_InitTES(Receiver86*);
     int FUN_006629f0();
     void FUN_006eb8c0();
     void NavMeshObstacleManager_CreateListeners();
@@ -5334,7 +5361,7 @@ int __cdecl FUN_004b7920(...);
 int __cdecl Menu_InitSDM(...);
 int __cdecl FUN_00bc2940(...);
 int __cdecl TES_InitSDM(...);
-int __cdecl FUN_00404f30(...);
+int __cdecl SetMemContext_00404f30(...);
 int __cdecl BSFadeNode_GetLinkedActorAlpha_Set(...);
 int __cdecl BSFadeNode_GetLinkedActorAlpha(...);
 int __cdecl BSSoundHandle_SetAddMovingSoundCallback(...);
@@ -5349,7 +5376,7 @@ int __cdecl FUN_006ff610(...);
 int __cdecl FUN_00ecc071(...);
 Receiver86* __cdecl SteamAPICallbacks_GetSingleton();
 int __cdecl SteamAPI_SetNoCloud(...);
-Receiver86* __cdecl FUN_00877950(...);
+Receiver86* __cdecl SettingT_RegSettingCollection_QCollection(...);
 int __cdecl j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(...);
 Receiver86* __cdecl FUN_0044f560(...);
 int __cdecl BSUtilities_GetPersonalPath(...);
@@ -5358,7 +5385,7 @@ int __cdecl FUN_00406d50(...);
 Receiver86* __cdecl FUN_004de490(...);
 Receiver86* __cdecl SettingT_RendererSettingCollection_GetCollection(...);
 unsigned char __cdecl ProcessCustomINI();
-int __cdecl FUN_004da4d0(...);
+int __cdecl Renderer_Kill(...);
 Manager86* __cdecl FUN_00b00a00();
 int __cdecl GetInstalledPathRegistryKey(...);
 int __cdecl FUN_00404ee0(...);
@@ -5367,26 +5394,26 @@ Receiver86* __cdecl FUN_00aff100();
 int __cdecl BSFileCache_SetFileCacheList(...);
 
 int __cdecl FileFinder_AddPath_0(...);
-int __cdecl FUN_0040fbe0(...);
+int __cdecl ProgramFlow(...);
 int __cdecl FUN_0086bda0(...);
 int __cdecl SetupArchiveSettings_AndLoadBSAs(...);
 
 int __cdecl TESMain_InitRenderer(...);
-Receiver86* __cdecl FUN_0043c4b0();
-int __cdecl FUN_004a0370(...);
+Receiver86* __cdecl NiXenonRenderer_GetRenderer();
+int __cdecl NiXenonRenderer_LockRenderer(...);
 int __cdecl SUB_005d4a40(...);
 int __cdecl NiDX9Renderer_AddLostDeviceNotificationFunc(...);
 int __cdecl NiDX9Renderer_AddResetNotificationFunc(...);
 int __cdecl TESMain_InitSceneGraph(...);
 int __cdecl FUN_00702250(...);
-int __cdecl FUN_006519f0(...);
+int __cdecl BSFaceGenManager_InitializeSystem(...);
 int __cdecl TESMain_SetActive(...);
 int __cdecl NavMeshRender_InitSingleton(...);
 int __cdecl TESMain_ImagespaceInit(...);
-int __cdecl FUN_004a03c0(...);
+int __cdecl NiXenonRenderer_UnlockRenderer(...);
 int __cdecl BGSMoviePlayer_Create(...);
 int __cdecl MoviePlayer_StartSequence(...);
-int __cdecl FUN_0086cf20(...);
+int __cdecl Main_InitTES(...);
 int __cdecl FUN_006629f0(...);
 int __cdecl BSFaceGenManager_SetWorldCamera(...);
 int __cdecl BSTreeManager_SetCamera(...);
@@ -5400,16 +5427,16 @@ int __cdecl NavMeshObstacleManager_CreateListeners(...);
 int __cdecl FUN_004e0540(...);
 int __cdecl FUN_004deb30(...);
 int __cdecl FUN_00416870(...);
-int __cdecl FUN_00460140(...);
+int __cdecl TESDataHandler_GetWorldSpaceList(...);
 int __cdecl FUN_006815c0(...);
-int __cdecl FUN_00458200(...);
+int __cdecl TES_SetWorldSpace(...);
 int __cdecl ClearIdleAnims(...);
-int __cdecl FUN_008a8150(...);
-int __cdecl FUN_00970d50(...);
+int __cdecl ExtraDismemberedLimbs_SetEaten(...);
+int __cdecl ProcessLists_InitPackageLocations(...);
 int __cdecl FUN_004614e0(...);
 int __cdecl BGSSaveLoadGame_SetGlobalAllowChanges(...);
-int __cdecl FUN_00876dd0(...);
-int __cdecl FUN_00877260(...);
+int __cdecl Main_InitStartCell(...);
+int __cdecl Main_InitPlayerStart(...);
 int __cdecl FUN_007022c0(...);
 int __cdecl FUN_00483710(...);
 int __cdecl FUN_004f15a0(...);
@@ -5421,15 +5448,15 @@ int __cdecl MoviePlayer_WaitForSequenceToEnd(...);
 int __cdecl IOManager_LoadAllQueuedPriorities(...);
 int __cdecl ourMemset(...);
 int __cdecl FUN_0044ddc0(...);
-int __cdecl FUN_00451530(...);
+int __cdecl TES_CellTestRunning(...);
 int __cdecl FUN_00559450(...);
-int __cdecl FUN_004dc020(...);
-int __cdecl FUN_0086ba10(...);
-int __cdecl FUN_0086ba90(...);
-int __cdecl FUN_0086e650(...);
-Receiver86* __cdecl FUN_00453a70();
-int __cdecl FUN_00ad8740(...);
-int __cdecl FUN_00830660(...);
+int __cdecl NiXenonRenderer_GetD3DDevice(...);
+int __cdecl NiXenonRenderer_BeginOffScreenFrame(...);
+int __cdecl NiXenonRenderer_EndOffScreenFrame(...);
+int __cdecl Main_OnIdle(...);
+Receiver86* __cdecl BSAudio_QInstance();
+int __cdecl UnPauseSynchTimer(...);
+int __cdecl FalloutAudioMedia_MediaMenuUnPause(...);
 int __cdecl FUN_00832ad0(...);
 int __cdecl FUN_00ad7740(...);
 unsigned char __cdecl TESRenderer_GetFullScreen();
@@ -5438,20 +5465,20 @@ int __cdecl TESMain_GetThread(...);
 int __cdecl FUN_0078cfc0(...);
 int __cdecl BSWin32Audio_Pause(...);
 int __cdecl FalloutAudioMedia_MediaMenuPause(...);
-int __cdecl FUN_004e2190(...);
+int __cdecl Main_QDrawWorldAccum(...);
 int __cdecl BSShaderAccumulator_ClearSunQueries(...);
 Receiver86* __cdecl FUN_0049fef0();
 int __cdecl BGSDecalManager_ClearPendingQueries(...);
-Receiver86* __cdecl FUN_00705910();
+Receiver86* __cdecl Interface_GetVATSEffect();
 int __cdecl VATSEffect_FreeOcclusionQueries(...);
 int __cdecl FUN_005dc960(...);
-int __cdecl FUN_00678ce0(...);
-int __cdecl FUN_008774a0(...);
+int __cdecl Main_GameReset(...);
+int __cdecl Main_PerformGameReset(...);
 int __cdecl FUN_006ff620(...);
-int __cdecl FUN_00703610(...);
-int __cdecl FUN_00706320(...);
+int __cdecl Interface_HideMenus(...);
+int __cdecl Interface_CloseAllSupportMenus(...);
 Receiver86* __cdecl BSShaderManager_GetTextureManager();
-int __cdecl FUN_00b6da10(...);
+int __cdecl BSTextureManager_ReturnRenderedTexture(...);
 int __cdecl FUN_0066b0d0(...);
 int __cdecl TaskQueueInterface_SetActive(...);
 int __cdecl NiParallelUpdateTaskManager_Get(...);
@@ -5497,7 +5524,7 @@ int __cdecl FreeNiNodeBlocks(...);
 int __cdecl FUN_00a1c790(...);
 int __cdecl NiStaticDataManager_Shutdown(...);
 int __cdecl FUN_008783c0(...);
-Receiver86* __cdecl FUN_00401020();
+Receiver86* __cdecl MemoryManager_Instance();
 int __cdecl MemoryManager_OutputDebugInfo(...);
 int __cdecl FUN_008784d0(...);
 
@@ -5660,7 +5687,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 Menu_InitSDM();
                 FUN_00bc2940();
                 TES_InitSDM();
-                FUN_00404f30(0x3b);
+                SetMemContext_00404f30(0x3b);
                 BSFadeNode_GetLinkedActorAlpha_Set(BSFadeNode_GetLinkedActorAlpha);
                 BSSoundHandle_SetAddMovingSoundCallback(&UNK_00b4dfb0);
                 NiSourceTexture_SetDestroyAppDataFlag(1);
@@ -5690,7 +5717,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                     }
                     main_win32::LocalFree(arguments5);
                 }
-                FUN_00877950()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(&UNK_01082990);
+                SettingT_RegSettingCollection_QCollection()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(&UNK_01082990);
                 FUN_0044f560()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(path2);
                 FUN_00406d30(path2, 0x104, BSUtilities_GetPersonalPath());
                 FUN_00406d50(path2, 0x104, _DAT_011a2ff0);
@@ -5705,7 +5732,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 }
                 if (ProcessCustomINI())
                 {
-                    FUN_004da4d0(1);
+                    Renderer_Kill(1);
                     FUN_00b00a00()->Stop();
                     GetInstalledPathRegistryKey(launchPath0, 0x104);
                     FUN_00406d50(launchPath0, 0x104, &UNK_01082978);
@@ -5730,7 +5757,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 MessageHandler_SetProgrammerOutputFileName(&UNK_01082a10);
                 MessageHandler_SetCrashTraceFileName(&UNK_01082a00);
                 memoryContext11.FUN_00404f00(0x18, 1, &UNK_010829c4, 0x992);
-                FUN_0040fbe0();
+                ProgramFlow();
                 FUN_00aff100()->FUN_0086bda0();
                 memoryContext11.FUN_00404f70();
                 memoryContext11.FUN_00404f00(0x13, 1, &UNK_010829c4, 0x99c);
@@ -5763,26 +5790,26 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 newInterface17 = interfaceAllocation2 ? interfaceAllocation2->FUN_007005d0() : 0;
                 _DAT_011d8804 = (unsigned int)newInterface17;
                 memoryContext11.FUN_00404f70();
-                FUN_0040fbe0(&UNK_0108295c);
+                ProgramFlow(&UNK_0108295c);
                 ((Receiver86*)_DAT_011dea0c)->TESMain_InitRenderer();
                 DAT_011f4509 = 1;
-                FUN_0043c4b0()->FUN_004a0370();
-                FUN_0043c4b0()->NiDX9Renderer_AddLostDeviceNotificationFunc(&SUB_005d4a40, 0);
-                FUN_0043c4b0()->NiDX9Renderer_AddResetNotificationFunc(&UNK_00872570, 0);
-                FUN_0086bf70();
+                NiXenonRenderer_GetRenderer()->NiXenonRenderer_LockRenderer();
+                NiXenonRenderer_GetRenderer()->NiDX9Renderer_AddLostDeviceNotificationFunc(&SUB_005d4a40, 0);
+                NiXenonRenderer_GetRenderer()->NiDX9Renderer_AddResetNotificationFunc(&UNK_00872570, 0);
+                Main_ShaderInit();
                 ((Receiver86*)_DAT_011dea0c)->TESMain_InitSceneGraph();
                 FUN_00702250(1);
-                FUN_006519f0();
+                BSFaceGenManager_InitializeSystem();
                 ((Receiver86*)_DAT_011dea0c)->TESMain_SetActive(1);
                 NavMeshRender_InitSingleton();
                 TESMain_ImagespaceInit();
-                FUN_0043c4b0()->FUN_004a03c0();
+                NiXenonRenderer_GetRenderer()->NiXenonRenderer_UnlockRenderer();
                 BGSMoviePlayer_Create();
                 DAT_0126fac4->MoviePlayer_StartSequence(g_011de72c.FUN_00403df0(), 0, -1, 1, 1, 0.0f);
                 memoryContext11.FUN_00404f70();
-                ((Receiver86*)_DAT_011dea0c)->FUN_0086cf20((Receiver86*)FUN_0045c670());
-                BSFaceGenManager_SetWorldCamera(((Receiver86*)FUN_0045c670())->FUN_006629f0());
-                BSTreeManager_SetCamera(((Receiver86*)FUN_0045c670())->FUN_006629f0());
+                ((Receiver86*)_DAT_011dea0c)->Main_InitTES((Receiver86*)Main_GetWorldSceneGraph());
+                BSFaceGenManager_SetWorldCamera(((Receiver86*)Main_GetWorldSceneGraph())->FUN_006629f0());
+                BSTreeManager_SetCamera(((Receiver86*)Main_GetWorldSceneGraph())->FUN_006629f0());
                 if (*g_011c3ea4.Int() > 1)
                 {
                     AILinearTaskThreadManager_GetSingleton()->FUN_008c7290();
@@ -5798,17 +5825,17 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 startupState3 = 0;
                 startupFlags3 = 0;
                 position25.FUN_00416870(_DAT_01018bfc, _DAT_01018bfc, _DAT_0101e704);
-                ((Receiver86*)_DAT_011dea10)->FUN_00458200(*g_dataHandler->FUN_00460140()->FUN_006815c0());
+                ((Receiver86*)_DAT_011dea10)->TES_SetWorldSpace(*g_dataHandler->TESDataHandler_GetWorldSpaceList()->FUN_006815c0());
                 ((Receiver86*)_DAT_011dea3c)->ClearIdleAnims();
-                g_TESSaveLoadGame->FUN_008a8150(1);
-                FUN_0040fbe0(&UNK_0108293c);
-                ((Receiver86*)&DAT_011e0e80)->FUN_00970d50();
+                g_TESSaveLoadGame->ExtraDismemberedLimbs_SetEaten(1);
+                ProgramFlow(&UNK_0108293c);
+                ((Receiver86*)&DAT_011e0e80)->ProcessLists_InitPackageLocations();
                 g_dataHandler->FUN_004614e0();
                 g_BGSSaveLoadGame->BGSSaveLoadGame_SetGlobalAllowChanges(1);
-                FUN_0040fbe0(&UNK_01082924);
-                FUN_00876dd0(startupFlags3, &position25);
-                FUN_0040fbe0(&UNK_01082910);
-                FUN_00877260(position25);
+                ProgramFlow(&UNK_01082924);
+                Main_InitStartCell(startupFlags3, &position25);
+                ProgramFlow(&UNK_01082910);
+                Main_InitPlayerStart(position25);
                 FUN_007022c0();
                 ((Receiver86*)_DAT_011dea3c)->FUN_00483710();
                 ((Receiver86*)_DAT_011dea0c)->FUN_004f15a0(1);
@@ -5816,17 +5843,17 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 if (!((Receiver86*)_DAT_011dea3c)->FUN_008d6f30())
                 {
                     g_dataHandler->FUN_004650a0(-1);
-                    FUN_0040fbe0();
+                    ProgramFlow();
                     Interface_CreateMainMenu();
                     DAT_0126fac4->MoviePlayer_WaitForSequenceToEnd();
-                    FUN_0040fbe0();
+                    ProgramFlow();
                 }
                 else
                 {
                     DAT_0126fac4->MoviePlayer_WaitForSequenceToEnd();
                 }
                 ((Receiver86*)_DAT_01202d98)->IOManager_LoadAllQueuedPriorities();
-                FUN_0040fbe0(&UNK_010828fc);
+                ProgramFlow(&UNK_010828fc);
                 ourMemset(&message0, 0, 0x1c);
                 gameWindow3 = ((Receiver86*)_DAT_011dea0c)->FUN_0044ddc0();
                 paused1 = '\0';
@@ -5837,33 +5864,33 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                         main_win32::TranslateMessage(&message0);
                         main_win32::DispatchMessageA(&message0);
                     }
-                    if ((int)GetForegroundWindow() == gameWindow3 || ((Receiver86*)_DAT_011dea10)->FUN_00451530() ||
+                    if ((int)GetForegroundWindow() == gameWindow3 || ((Receiver86*)_DAT_011dea10)->TES_CellTestRunning() ||
                         g_011deb30.FUN_00559450() || *g_011deed8.FUN_00408d60())
                     {
-                        deviceStatus13 = FUN_0043c4b0()->FUN_004dc020()->TestCooperativeLevel();
+                        deviceStatus13 = NiXenonRenderer_GetRenderer()->NiXenonRenderer_GetD3DDevice()->TestCooperativeLevel();
                         if (deviceStatus13 < 0)
                         {
-                            FUN_0043c4b0()->FUN_0086ba10();
-                            FUN_0043c4b0()->FUN_0086ba90();
+                            NiXenonRenderer_GetRenderer()->NiXenonRenderer_BeginOffScreenFrame();
+                            NiXenonRenderer_GetRenderer()->NiXenonRenderer_EndOffScreenFrame();
                             main_win32::Sleep(0x32);
                         }
                         else
                         {
-                            ((Receiver86*)_DAT_011dea0c)->FUN_0086e650();
+                            ((Receiver86*)_DAT_011dea0c)->Main_OnIdle();
                         }
                         if (paused1 != '\0')
                         {
                             paused1 = '\0';
-                            FUN_00453a70()->FUN_00ad8740();
-                            FUN_00830660();
+                            BSAudio_QInstance()->UnPauseSynchTimer();
+                            FalloutAudioMedia_MediaMenuUnPause();
                             FUN_00832ad0(0);
-                            FUN_00453a70()->FUN_00ad7740(1);
+                            BSAudio_QInstance()->FUN_00ad7740(1);
                             if (TESRenderer_GetFullScreen())
                             {
                                 activeRect5.left = 0;
                                 activeRect5.top = 0;
-                                activeRect5.right = FUN_004dc1f0();
-                                activeRect5.bottom = FUN_004dc200();
+                                activeRect5.right = Renderer_GetScreenWidth();
+                                activeRect5.bottom = Renderer_GetScreenHeight();
                                 activeStyle1 = 0;
                                 activeStyle1 = main_win32::GetWindowLongA(window1, 0xfffffff0);
                                 main_win32::AdjustWindowRectEx(&activeRect5, activeStyle1, 0, 0);
@@ -5891,19 +5918,19 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                                     *_DAT_011dea0c = '\x01';
                                 }
                             }
-                            FUN_00453a70()->BSWin32Audio_Pause();
+                            BSAudio_QInstance()->BSWin32Audio_Pause();
                             FalloutAudioMedia_MediaMenuPause();
                             FUN_00832ad0(0);
-                            FUN_00453a70()->FUN_00ad7740(1);
-                            ((Receiver86*)_DAT_011dea0c)->FUN_004e2190()->BSShaderAccumulator_ClearSunQueries();
+                            BSAudio_QInstance()->FUN_00ad7740(1);
+                            ((Receiver86*)_DAT_011dea0c)->Main_QDrawWorldAccum()->BSShaderAccumulator_ClearSunQueries();
                             FUN_0049fef0()->BGSDecalManager_ClearPendingQueries();
-                            FUN_00705910()->VATSEffect_FreeOcclusionQueries();
+                            Interface_GetVATSEffect()->VATSEffect_FreeOcclusionQueries();
                             if (TESRenderer_GetFullScreen())
                             {
                                 inactiveRect3.left = 0;
                                 inactiveRect3.top = 0;
-                                inactiveRect3.right = FUN_004dc1f0();
-                                inactiveRect3.bottom = FUN_004dc200();
+                                inactiveRect3.right = Renderer_GetScreenWidth();
+                                inactiveRect3.bottom = Renderer_GetScreenHeight();
                                 inactiveStyle3 = 0;
                                 inactiveStyle3 = main_win32::GetWindowLongA(window1, 0xfffffff0);
                                 main_win32::AdjustWindowRectEx(&inactiveRect3, inactiveStyle3, 0, 0);
@@ -5916,28 +5943,28 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                     }
                     if (((Receiver86*)_DAT_011dea0c)->FUN_005dc960())
                         break;
-                    if (((Receiver86*)_DAT_011dea0c)->FUN_00678ce0())
+                    if (((Receiver86*)_DAT_011dea0c)->Main_GameReset())
                     {
-                        ((Receiver86*)_DAT_011dea0c)->FUN_008774a0(1);
+                        ((Receiver86*)_DAT_011dea0c)->Main_PerformGameReset(1);
                     }
                 }
                 ((Receiver86*)_DAT_011dea0c)->FUN_004f15a0(0);
                 FUN_006ff620();
-                FUN_00703610();
-                FUN_00706320(0);
+                Interface_HideMenus();
+                Interface_CloseAllSupportMenus(0);
                 if (g_011ded3c.FUN_00559450())
                 {
-                    BSShaderManager_GetTextureManager()->FUN_00b6da10(g_011ded3c.FUN_00559450());
+                    BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(g_011ded3c.FUN_00559450());
                     g_011ded3c.FUN_0066b0d0(0);
                 }
                 if (g_011dec64.FUN_00559450())
                 {
-                    BSShaderManager_GetTextureManager()->FUN_00b6da10(g_011dec64.FUN_00559450());
+                    BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(g_011dec64.FUN_00559450());
                     g_011dec64.FUN_0066b0d0(0);
                 }
                 if (g_011deb38.FUN_00559450())
                 {
-                    BSShaderManager_GetTextureManager()->FUN_00b6da10(g_011deb38.FUN_00559450());
+                    BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(g_011deb38.FUN_00559450());
                     g_011deb38.FUN_0066b0d0(0);
                 }
                 TaskQueueInterface_SetActive(0);
@@ -5964,8 +5991,8 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 FalloutRadio_Shutdown();
                 FUN_008304a0();
                 FalloutAudioMedia_Shutdown();
-                ((Manager86*)FUN_00453a70())->Stop();
-                FUN_0040fbe0();
+                ((Manager86*)BSAudio_QInstance())->Stop();
+                ProgramFlow();
                 DecalManager_Destroy_();
                 DecalCaster_ClearInstance();
                 FUN_00626f10();
@@ -5994,12 +6021,12 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 _DAT_011dea0c = (unsigned char*)0x0;
                 ((Manager86*)FUN_00aff100())->Stop();
                 FUN_004de490()->INISettingCollection_SaveAll(FUN_004de490()->FUN_00717e50());
-                FUN_0043c4b0()->FUN_0086bb20(&UNK_00872570);
-                FUN_0043c4b0()->FUN_0086bc10(&SUB_005d4a40);
+                NiXenonRenderer_GetRenderer()->FUN_0086bb20(&UNK_00872570);
+                NiXenonRenderer_GetRenderer()->FUN_0086bc10(&SUB_005d4a40);
                 NavMeshRender_Destroy();
                 BSTexturePalette_Kill();
                 FUN_00bc2960();
-                FUN_004da4d0(1);
+                Renderer_Kill(1);
                 FUN_0086bd00();
                 FUN_0045b050();
                 FUN_00c5d520();
@@ -6007,7 +6034,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 FUN_00a1c790();
                 NiStaticDataManager_Shutdown();
                 shutdownText46.FUN_008783c0(&UNK_010828ec);
-                FUN_00401020()->MemoryManager_OutputDebugInfo(&shutdownText46, 0);
+                MemoryManager_Instance()->MemoryManager_OutputDebugInfo(&shutdownText46, 0);
                 result5 = 0;
                 shutdownText46.FUN_008784d0();
                 memoryContext11.FUN_00404ee0();
@@ -6254,14 +6281,15 @@ struct FUN_0086ba10_fields
 
 struct FUN_0086ba10_target
 {
-    bool FUN_0086ba10();
+    bool NiXenonRenderer_BeginOffScreenFrame();
 };
 
 // Calls FUN_0086ba60 with DAT_01082acc and 0, then unk5f; on success sets unk200 to 2 and returns true.
 // @fnv 0x0086ba10
-bool FUN_0086ba10_target::FUN_0086ba10()
+// src: XBOX_PDB 0x0086ba10
+bool FUN_0086ba10_target::NiXenonRenderer_BeginOffScreenFrame()
 {
-    if (!reinterpret_cast<FUN_0086ba60_Class*>(this)->FUN_0086ba60(&DAT_01082acc, 0))
+    if (!reinterpret_cast<FUN_0086ba60_Class*>(this)->NiRenderer_Check_FrameState(&DAT_01082acc, 0))
         return false;
 
     if (!reinterpret_cast<FUN_0086ba10_virtual*>(this)->unk5f())
@@ -6331,7 +6359,7 @@ extern SkyInit* DAT_011dea20;
 extern int DAT_011dea1c;
 void TESMain_InitSky();
 int TESMain_GetObjectLODRoot();
-ScenePart* FUN_007a1480();
+ScenePart* Main_LandLODNode();
 void LogInit(const char*, ...);
 struct WorldInit
 {
@@ -7548,18 +7576,19 @@ extern TimeInit timeInstance;
 struct BootInit
 {
     bool LoadPlugins(int*, int);
-    void FUN_0086cf20(ScenePart*);
+    void Main_InitTES(ScenePart*);
 };
 // Initializes the game world, plugins, player, terrain, and scripts in sequence, logging each stage.
 // @fnv 0x0086cf20
-void BootInit::FUN_0086cf20(ScenePart* scene)
+// src: XBOX_PDB 0x0086cf20
+void BootInit::Main_InitTES(ScenePart* scene)
 {
     MemScope memory5(10, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0xe4f);
     memory5.Enter(10, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0xe51);
     DAT_011dea20 = SkyInit::GetInstance();
     TESMain_InitSky();
     int mode = TESMain_GetObjectLODRoot();
-    ScenePart* root_2 = FUN_007a1480();
+    ScenePart* root_2 = Main_LandLODNode();
     if (root_2)
     {
         DAT_011dea20->Attach(root_2)->Link();
@@ -7822,21 +7851,21 @@ struct Service
     void TES_ShowLoadingMenu(int, int, int);
     void BSTextureManager_Update(Service*, bool);
     void FUN_007011d0(bool);
-    bool FUN_00451530();
-    bool FUN_0086ef70();
-    void FUN_004556d0(int);
+    bool TES_CellTestRunning();
+    bool TES_CellTestRunning2();
+    void TES_TestAllCells(int);
     Service* FUN_00559450();
     float FUN_0084d030();
     void FUN_00867a40(float);
-    int* FUN_0043d4d0();
+    int* Setting_Int();
     void TES_RunAnimations();
-    void FUN_0040fbf0(int);
+    void BSSpinLock_Lock(int);
     void ProcessLists_RunActorScripts();
     void FUN_009777a0();
-    void FUN_0096eb40();
+    void ProcessLists_ChangeProcessLevelTempList();
     void FUN_0096e9b0();
     void FUN_008d0600(float, int);
-    void FUN_0040fba0();
+    void BSSpinLock_Unlock();
     void MemoryLevelManager_CheckMemoryLevel(bool);
     void BGSDecalManager_UpdateDecals();
     void FUN_00712e60(void*);
@@ -7857,34 +7886,34 @@ struct Service
     void AILinearTaskThreadManager_WaitForThreads();
     void AITaskManager_WaitForTasksDuringRendering();
     bool PlayerCharacter_IsVanityMode();
-    signed char FUN_00424940();
+    signed char InterfaceManager_GetMenuMode();
     void* FUN_008d6f30();
 };
 Service* __cdecl FUN_00af2640();
-bool __cdecl FUN_00702360();
-bool __cdecl FUN_00709bc0();
-bool __cdecl FUN_007050d0();
-bool __cdecl FUN_00703d50();
-void* __cdecl FUN_00707ad0();
-void* __cdecl FUN_00705990();
+bool __cdecl Interface_IsInMenuMode();
+bool __cdecl Interface_IsPipboyOpening();
+bool __cdecl Interface_InDialog();
+bool __cdecl Interface_IsConsoleVisible();
+void* __cdecl Interface_GetCurrentRenderedMenu();
+void* __cdecl Interface_GetPipboy();
 Service* __cdecl InterfaceManager_GetSingleton();
 Service* __cdecl SteamAPICallbacks_GetSingleton();
 bool __cdecl StartMenu_CreditsMenuIsActive();
-bool __cdecl FUN_0070edf0();
+bool __cdecl StartMenu_MainMenuIsActive();
 bool __cdecl FUN_00705ea0();
-Service* __cdecl FUN_00524c90();
+Service* __cdecl Main_WorldRootCamera();
 Service* __cdecl BSShaderManager_GetTextureManager();
 int __cdecl NiParallelUpdateTaskManager_Get();
 Service* __cdecl MemoryLevelManager_GetSingleton();
 bool __cdecl BSTexturePalette_IsPartiallyPurged();
 Service* __cdecl FUN_0049fef0();
-Service* __cdecl FUN_0045c670();
+Service* __cdecl Main_GetWorldSceneGraph();
 Service* __cdecl AILinearTaskThreadManager_GetSingleton();
 Service* __cdecl GetPathManager();
 Service* __cdecl NavMeshRender_GetSingleton();
 Service* __cdecl GetNavMeshObstacleManager();
 bool __cdecl NiParallelUpdateTaskManager_IsActive();
-int __cdecl FUN_007023c0();
+int __cdecl Interface_GetTopMenuID();
 bool __cdecl SleepWaitMenu_UpdateSleeping();
 bool __cdecl TESMain_GetOpenConsole();
 void __cdecl FUN_008782b0();
@@ -7897,7 +7926,7 @@ void __cdecl ScreenSplatter_Update();
 void __cdecl ScreenCustomSplatter_Update();
 void __cdecl NiParallelUpdateTaskManager_BeginUpdate();
 void __cdecl NiParallelUpdateTaskManager_EndUpdate();
-void __cdecl FUN_00a61cd0();
+void __cdecl BSTexturePalette_PurgeUnusedTextures();
 void __cdecl FUN_00868850();
 void __cdecl FUN_00868d10();
 void __cdecl Interface_LastMinuteUpdate();
@@ -7908,12 +7937,12 @@ void __cdecl Interface_OpenConsole();
 void __cdecl FUN_00a29680();
 void __cdecl Script_ClearOptimizations();
 void __cdecl ScriptLocals_ClearOptimizations();
-float __cdecl FUN_006da7c0(void*, void*, int, int);
-void __cdecl FUN_006652e0(Service*, bool);
+float __cdecl Pathing_ProfilePathing(void*, void*, int, int);
+void __cdecl BSTreeManager_Update(Service*, bool);
 void __cdecl FUN_00b54000(float);
 Service* __cdecl FUN_00450b80(int);
 void __cdecl FUN_008c80e0(bool);
-int __cdecl FUN_0047e040(float);
+int __cdecl TESActorBaseData_GetAlignmentForKarma(float);
 void __cdecl TESMain_SetOpenConsole(int);
 void __cdecl MemoryPool_SortFreeBlocks(unsigned int);
 extern Service* DAT_011d8804;
@@ -7946,27 +7975,28 @@ struct MainLoop
     int unk00;
     char unk04, unk05, unk06;
     bool paused;
-    void FUN_0086f940();
+    void Main_OnIdle_UpdatePlayer();
     void TESMain_OnIdle_FixActorBones();
     void FUN_00483710();
     void TESMain_OnIdle_UpdateTimer();
     void TESMain_OnIdle_PollControls();
-    void FUN_0086efe0();
+    void Main_OnIdle_ScaleLOD();
     void FUN_0086f450();
-    void FUN_0086fbe0();
+    void Main_OnIdle_UpdateCurrentGridCell();
     void TESMain_OnIdle_DoInterfaceIdle();
-    void FUN_0086fc60();
-    void FUN_00871dc0();
-    void FUN_0086ff70();
+    void Main_OnIdle_UpdateAnimationsAndEffects();
+    void Main_RenderMenuBackground();
+    void Main_Swap();
     void TESMain_PostSwapProcess();
-    void FUN_0086f6a0();
+    void Main_UpdateNonRenderSafeAITasks();
     void TESMain_OnIdle_PostThreadsProcess();
     void TESObjectREFR_GetIsChildSize(float);
-    void FUN_0086fd90(bool);
-    void FUN_0086e650();
+    void Main_OnIdle_UpdateImageSpace(bool);
+    void Main_OnIdle();
 };
 // @fnv 0x0086e650
-void MainLoop::FUN_0086e650()
+// src: XBOX_PDB 0x0086e650
+void MainLoop::Main_OnIdle()
 {
     TESObjectREFR_GetIsChildSize(DAT_011a3010);
     short key4;
@@ -7978,22 +8008,22 @@ void MainLoop::FUN_0086e650()
             return;
     }
     FUN_00af2640()->Update();
-    DAT_011dea2b = FUN_00702360() || FUN_00709bc0();
-    DAT_011dea2c = FUN_007050d0();
+    DAT_011dea2b = Interface_IsInMenuMode() || Interface_IsPipboyOpening();
+    DAT_011dea2c = Interface_InDialog();
     DAT_011dea2d = DAT_011d8804->FUN_00701450(true);
-    DAT_011dea2e = FUN_00703d50();
-    bool differentMenu = FUN_00707ad0() && FUN_00707ad0() != FUN_00705990();
-    if (InterfaceManager_GetSingleton()->FUN_00424940() == 3 && !differentMenu)
+    DAT_011dea2e = Interface_IsConsoleVisible();
+    bool differentMenu = Interface_GetCurrentRenderedMenu() && Interface_GetCurrentRenderedMenu() != Interface_GetPipboy();
+    if (InterfaceManager_GetSingleton()->InterfaceManager_GetMenuMode() == 3 && !differentMenu)
         FUN_008782b0();
-    FUN_0086f940();
+    Main_OnIdle_UpdatePlayer();
     SteamAPICallbacks_GetSingleton()->SteamAPI_RunCallbacks_();
-    FUN_0086fd90(!DAT_011dea2b && !paused);
-    DAT_011dea2b = FUN_00702360() || FUN_00709bc0();
-    DAT_011dea2c = FUN_007050d0();
+    Main_OnIdle_UpdateImageSpace(!DAT_011dea2b && !paused);
+    DAT_011dea2b = Interface_IsInMenuMode() || Interface_IsPipboyOpening();
+    DAT_011dea2c = Interface_InDialog();
     DAT_011dea2d = DAT_011d8804->FUN_00701450(true);
-    DAT_011dea2e = FUN_00703d50();
+    DAT_011dea2e = Interface_IsConsoleVisible();
     if (DAT_011deefc)
-        FUN_006da7c0(DAT_011dea3c->FUN_008d6f30(), DAT_011dea3c->Position(), 2, 100);
+        Pathing_ProfilePathing(DAT_011dea3c->FUN_008d6f30(), DAT_011dea3c->Position(), 2, 100);
     DAT_011de134->FUN_00851d90();
     bhkWorld_ResetBatchProcessed();
     bhkRagdollController_ResetFootCastTimer();
@@ -8009,13 +8039,13 @@ void MainLoop::FUN_0086e650()
     DAT_01202d98->UpdateQueue();
     if (!StartMenu_CreditsMenuIsActive())
     {
-        if (FUN_0070edf0())
+        if (StartMenu_MainMenuIsActive())
             FUN_0078cfc0();
         else if (FUN_00705ea0())
             DAT_011dea10->TES_ShowLoadingMenu(0, 0, 0);
     }
-    FUN_0086efe0();
-    BSShaderManager_GetTextureManager()->BSTextureManager_Update(FUN_00524c90(), DAT_011dea2b);
+    Main_OnIdle_ScaleLOD();
+    BSShaderManager_GetTextureManager()->BSTextureManager_Update(Main_WorldRootCamera(), DAT_011dea2b);
     FUN_0086f450();
     DAT_011d8804->FUN_007011d0(true);
     if (!DAT_011dea2b && !paused)
@@ -8027,21 +8057,21 @@ void MainLoop::FUN_0086e650()
         NiParallelUpdateTaskManager_BeginUpdate();
     if (!DAT_011dea2b && !paused)
     {
-        if (DAT_011dea10->FUN_00451530() && !DAT_011dea10->FUN_0086ef70())
-            DAT_011dea10->FUN_004556d0(0);
+        if (DAT_011dea10->TES_CellTestRunning() && !DAT_011dea10->TES_CellTestRunning2())
+            DAT_011dea10->TES_TestAllCells(0);
         DAT_011deb7c.FUN_00559450()->Advance(DAT_011f6394.FUN_0084d030());
         DAT_011de7b8.FUN_00867a40(DAT_011f6394.FUN_0084d030());
-        if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
+        if (*DAT_011c3ea4.Setting_Int() == 1)
             DAT_011dea10->TES_RunAnimations();
     }
-    DAT_011f11a0.FUN_0040fbf0(0);
+    DAT_011f11a0.BSSpinLock_Lock(0);
     DAT_011e0e80.ProcessLists_RunActorScripts();
-    if (*DAT_011c3ea4.FUN_0043d4d0() != 1)
+    if (*DAT_011c3ea4.Setting_Int() != 1)
     {
         if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !paused)
         {
             DAT_011e0e80.FUN_009777a0();
-            DAT_011e0e80.FUN_0096eb40();
+            DAT_011e0e80.ProcessLists_ChangeProcessLevelTempList();
             DAT_011e0e80.FUN_0096e9b0();
         }
     }
@@ -8051,25 +8081,25 @@ void MainLoop::FUN_0086e650()
         {
             DAT_011e0e80.FUN_009777a0();
             DAT_011e0e80.FUN_008d0600(0.0f, 0);
-            DAT_011e0e80.FUN_0096eb40();
+            DAT_011e0e80.ProcessLists_ChangeProcessLevelTempList();
             DAT_011e0e80.FUN_0096e9b0();
         }
     }
-    DAT_011f11a0.FUN_0040fba0();
+    DAT_011f11a0.BSSpinLock_Unlock();
     MemoryLevelManager_GetSingleton()->MemoryLevelManager_CheckMemoryLevel(true);
     if (BSTexturePalette_IsPartiallyPurged())
-        FUN_00a61cd0();
+        BSTexturePalette_PurgeUnusedTextures();
     FUN_00868850();
     FUN_00868d10();
-    FUN_006652e0(FUN_00524c90(), DAT_011dea2b || paused);
-    FUN_0086fbe0();
-    if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
+    BSTreeManager_Update(Main_WorldRootCamera(), DAT_011dea2b || paused);
+    Main_OnIdle_UpdateCurrentGridCell();
+    if (*DAT_011c3ea4.Setting_Int() == 1)
         TESMain_OnIdle_DoInterfaceIdle();
     FUN_00483710();
     FUN_0049fef0()->BGSDecalManager_UpdateDecals();
-    FUN_00524c90()->FUN_00712e60(&DAT_011ad840);
+    Main_WorldRootCamera()->FUN_00712e60(&DAT_011ad840);
     if (DAT_011f2250.FUN_0044ddc0() != 4)
-        FUN_0045c670()->SceneGraph_SetCameraFOV(DAT_011dea3c->PlayerCharacter_GetWorldFOV(), 0, 0, true);
+        Main_GetWorldSceneGraph()->SceneGraph_SetCameraFOV(DAT_011dea3c->PlayerCharacter_GetWorldFOV(), 0, 0, true);
     FUN_00b54000(DAT_011dea3c->PlayerCharacter_GetWorldFOV());
     void* sceneB = DAT_011deb7c.FUN_00559450()->FUN_006629f0();
     void* replacement5 = 0;
@@ -8079,7 +8109,7 @@ void MainLoop::FUN_0086e650()
     bool update = (!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !paused;
     if (update)
     {
-        if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+        if (*DAT_011c3ea4.Setting_Int() > 1)
         {
             FUN_008c80e0(true);
             AILinearTaskThreadManager_GetSingleton()->AILinearTaskThreadManager_StartThreads();
@@ -8087,17 +8117,17 @@ void MainLoop::FUN_0086e650()
         else
             DAT_011e0fe0.AITaskManager_StartTasksDuringRendering();
     }
-    FUN_0086fc60();
-    if (*DAT_011c3ea4.FUN_0043d4d0() > 1 && !update)
+    Main_OnIdle_UpdateAnimationsAndEffects();
+    if (*DAT_011c3ea4.Setting_Int() > 1 && !update)
     {
         TESMain_OnIdle_DoInterfaceIdle();
-        if (FUN_00702360())
+        if (Interface_IsInMenuMode())
             Interface_LastMinuteUpdate();
     }
     if (!paused)
         GetPathManager()->FUN_006ebc50();
     NavMeshRender_GetSingleton()->NavMeshRender_Update();
-    if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
+    if (*DAT_011c3ea4.Setting_Int() == 1)
     {
         if (*DAT_011d73e4.FUN_00408d60())
             GetNavMeshObstacleManager()->NavMeshObstacleManager_Update();
@@ -8105,11 +8135,11 @@ void MainLoop::FUN_0086e650()
     }
     if (NiParallelUpdateTaskManager_IsActive())
         NiParallelUpdateTaskManager_EndUpdate();
-    if (FUN_007023c0() == 0x3f4 && SleepWaitMenu_UpdateSleeping())
-        FUN_00871dc0();
+    if (Interface_GetTopMenuID() == 0x3f4 && SleepWaitMenu_UpdateSleeping())
+        Main_RenderMenuBackground();
     CheckWithinMultiBoundTask_DoAttachments();
     ShadowSceneNode_ProcessAllQueuedLights();
-    int mode4 = FUN_0047e040((float)DAT_011dea3c->values.Get(23));
+    int mode4 = TESActorBaseData_GetAlignmentForKarma((float)DAT_011dea3c->values.Get(23));
     if (mode4 > 2)
     {
         if (mode4 == 3)
@@ -8117,7 +8147,7 @@ void MainLoop::FUN_0086e650()
         else
             mode4 = 2;
     }
-    FUN_0086ff70();
+    Main_Swap();
     TESMain_PostSwapProcess();
     if (DAT_011c6fbb)
     {
@@ -8126,12 +8156,12 @@ void MainLoop::FUN_0086e650()
     }
     if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !paused)
     {
-        if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+        if (*DAT_011c3ea4.Setting_Int() > 1)
             AILinearTaskThreadManager_GetSingleton()->AILinearTaskThreadManager_WaitForThreads();
         else
             DAT_011e0fe0.AITaskManager_WaitForTasksDuringRendering();
     }
-    FUN_0086f6a0();
+    Main_UpdateNonRenderSafeAITasks();
     TESMain_OnIdle_PostThreadsProcess();
     if (TESMain_GetOpenConsole())
     {
@@ -8142,7 +8172,7 @@ void MainLoop::FUN_0086e650()
     Script_ClearOptimizations();
     ScriptLocals_ClearOptimizations();
     DAT_011deef8 += DAT_011f6394.FUN_0084d030();
-    if (FUN_00702360() || (DAT_011dea3c && DAT_011dea3c->PlayerCharacter_IsVanityMode()) || DAT_011deef8 >= 45.0)
+    if (Interface_IsInMenuMode() || (DAT_011dea3c && DAT_011dea3c->PlayerCharacter_IsVanityMode()) || DAT_011deef8 >= 45.0)
     {
         DAT_011deef8 = 0.0f;
         MemoryPool_SortFreeBlocks(DAT_011deef5++);
@@ -8172,10 +8202,10 @@ struct RMenu
 {
     RootNode* SkyObject_GetNiNode();
 };
-RMenu* __cdecl FUN_00707ad0();
-::NiRenderer* __cdecl FUN_0043c4b0();
+RMenu* __cdecl Interface_GetCurrentRenderedMenu();
+::NiRenderer* __cdecl NiXenonRenderer_GetRenderer();
 bool __cdecl TESRenderer_GetMultiSampleEnabled();
-bool __cdecl FUN_00705a00();
+bool __cdecl Interface_IsInPipboyMenu();
 unsigned char __cdecl BSShaderManager_GetImageSpaceEffects();
 void __cdecl FUN_008c80e0(int);
 
@@ -8188,10 +8218,10 @@ struct FGen
 {
     FNode* FUN_008d80e0();
 };
-AnimData* __cdecl FUN_00524c90();
+AnimData* __cdecl Main_WorldRootCamera();
 struct SSN
 {
-    void FUN_00b5e870(FNode* n);
+    void ShadowSceneNode_PreOnVisible(FNode* n);
 };
 SSN* __cdecl FUN_00450b80(int);
 
@@ -8235,14 +8265,14 @@ struct RenderMgr
     StrObj name;
 
     void FUN_00872ad0();
-    void FUN_00871290();
+    void Main_DrawWorld_UpdateOffscreenBuffers();
     int TESMain_DrawWorld_InitRenderTexture(::NiRenderer* r, int p1, bool p2, bool b);
     void TESMain_DrawWorld_CopyMenuBG(ISMgr* m, ::NiRenderer* r, bool b, int p1);
-    void FUN_00874c10();
+    void Main_DrawWorld_MTSetup1stPerson();
     void TESMain_DrawWorld_MTRender1stPerson(::NiRenderer* r, RootNode* root, int z, int res);
     void TESMain_DrawWorld_RenderedMenuScene();
     void TESMain_DrawWorld_ImageSpace(bool b, int res, ::NiRenderer* r, int p1);
-    void FUN_008761e0(RootNode* root, ::NiRenderer* r);
+    void Main_DrawWorld_RenderedMenu(RootNode* root, ::NiRenderer* r);
     void TESMain_DrawWorld_StopRenderTarget(bool b, int p1);
     void TESMain_DrawWorld_End(int res, ISMgr* m, ::NiRenderer* r, int z);
 
@@ -8254,32 +8284,32 @@ struct RenderMgr
 // src: COMMUNITY 0x008707c0
 void RenderMgr::TESMain_DrawWorldRenderedMenu(int p1, bool p2)
 {
-    ISMgr* ism2 = FUN_004e3270();
-    ::NiRenderer* renderer = FUN_0043c4b0();
+    ISMgr* ism2 = BSShaderManager_GetImageSpaceManager();
+    ::NiRenderer* renderer = NiXenonRenderer_GetRenderer();
     bool flag_ = TESRenderer_GetMultiSampleEnabled();
-    RootNode* root2 = FUN_00707ad0() ? FUN_00707ad0()->SkyObject_GetNiNode() : 0;
+    RootNode* root2 = Interface_GetCurrentRenderedMenu() ? Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode() : 0;
     FUN_00872ad0();
     for (int i4 = 1; i4 < 0x11; i4++)
     {
         FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, i4);
         FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, i4);
     }
-    FUN_00871290();
+    Main_DrawWorld_UpdateOffscreenBuffers();
     int res4 = TESMain_DrawWorld_InitRenderTexture(renderer, p1, p2, flag_);
     TESMain_DrawWorld_CopyMenuBG(ism2, renderer, flag_, p1);
     if (*g_011c3ea4.Int() > 1)
         FUN_008c80e0(0);
     FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, 0x15);
     FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, 0x15);
-    if (FUN_00705a00())
+    if (Interface_IsInPipboyMenu())
     {
-        AnimData* anim3 = FUN_00524c90();
-        FGen* fg7 = (FGen*)FUN_0045c670();
+        AnimData* anim3 = Main_WorldRootCamera();
+        FGen* fg7 = (FGen*)Main_GetWorldSceneGraph();
         FNode* pNode = fg7->FUN_008d80e0();
         pNode->BSCullingProcess_SetAccumulator(name);
         pNode->FUN_0041fd00(anim3);
-        FUN_00450b80(0)->FUN_00b5e870(pNode);
-        FUN_00874c10();
+        FUN_00450b80(0)->ShadowSceneNode_PreOnVisible(pNode);
+        Main_DrawWorld_MTSetup1stPerson();
         TESMain_DrawWorld_MTRender1stPerson(renderer, root2, 0, res4);
     }
     else
@@ -8292,7 +8322,7 @@ void RenderMgr::TESMain_DrawWorldRenderedMenu(int p1, bool p2)
     {
         TESMain_DrawWorld_ImageSpace(flag_, res4, renderer, p1);
         if (root2)
-            FUN_008761e0(root2, renderer);
+            Main_DrawWorld_RenderedMenu(root2, renderer);
     }
     else if (p1)
     {
@@ -8308,7 +8338,7 @@ struct TexStub870;
 
 struct AVObjStub870
 {
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
 };
 struct PlayerStub870
 {
@@ -8350,16 +8380,17 @@ struct SceneRendererStub870
     void RenderAlt(bool flag, RTexStub870* rt, ::NiRenderer* renderer, TexStub870* target);
     void RenderImageSpace(RTexStub870* rt, ISManagerStub870* ism, ::NiRenderer* renderer, int unk);
 
-    void FUN_00870a00(TexStub870* target, bool skip);
+    void Main_DrawWorldWireframe(TexStub870* target, bool skip);
 };
 
 // @fnv 0x00870a00
-void SceneRendererStub870::FUN_00870a00(TexStub870* target, bool skip)
+// src: XBOX_PDB 0x00870a00
+void SceneRendererStub870::Main_DrawWorldWireframe(TexStub870* target, bool skip)
 {
     ::NiRenderer* renderer2 = GetRenderer870();
     ISManagerStub870* ism = GetISManager870();
     TexStub870* tex2 = 0;
-    bool nodeFlag4 = ((PlayerStub870*)g_thePlayer)->GetNode(true)->FUN_00456610();
+    bool nodeFlag4 = ((PlayerStub870*)g_thePlayer)->GetNode(true)->GetAppCulled_00456610();
     bool flagVal = IsFlag870();
     SetupState870(1, 1);
     Prepare1();
@@ -8426,16 +8457,16 @@ struct ShadowNode
 {
     int NiAVObject_GetParent();
     ShadowExtra* FUN_00a5bdd0(int);
-    ShadowBound* FUN_0043d450();
-    bool FUN_00456610();
+    ShadowBound* NiAVObject_GetWorldBound();
+    bool GetAppCulled_00456610();
     void FUN_00450f90(bool);
-    const ShadowVector& FUN_0045bb80();
-    void FUN_00a59c60(ShadowUpdate*);
+    const ShadowVector& NiAVObject_GetWorldTranslate();
+    void NiAVObject_Update(ShadowUpdate*);
 };
 struct ShadowView
 {
     void FUN_0041fd00(ShadowTransform*);
-    void FUN_00a694a0(void*);
+    void NiCullingProcess_SetFrustum(void*);
 };
 struct ShadowScene
 {
@@ -8444,7 +8475,7 @@ struct ShadowScene
 };
 struct ShadowMap
 {
-    ShadowNode* FUN_004e6540();
+    ShadowNode* ShadowSceneLight_GetLight();
     ShadowNode* ShadowSceneLight_GetShadowScene();
     bool ShadowSceneLight_IsFadedOut();
     void ShadowSceneLight_SetFadeTarget(float, bool);
@@ -8466,7 +8497,7 @@ struct ShadowSystem
     void FUN_00b5cde0(void*);
     ShadowMap* FUN_00b5afc0();
     ShadowMap* FUN_00b5b010();
-    void* FUN_00454b30();
+    void* ShadowSceneNode_QPortalGraph();
     void FUN_00b5d300(ShadowMap*);
     void FUN_00b5b880(ShadowView*);
 };
@@ -8485,7 +8516,7 @@ struct ShadowEnvironment
 };
 struct ShadowIntSetting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 struct ShadowBoolSetting
 {
@@ -8493,13 +8524,13 @@ struct ShadowBoolSetting
 };
 struct ShadowLock
 {
-    void FUN_0040fbf0(int);
-    void FUN_0040fba0();
+    void BSSpinLock_Lock(int);
+    void BSSpinLock_Unlock();
 };
 struct ShadowActors
 {
     ShadowActor** TESDataHandler_GetFactions();
-    int FUN_00472380();
+    int MissileProjectile_GetImpactResult();
 };
 extern ShadowEnvironment* DAT_011dea10;
 extern ShadowActor* DAT_011dea3c;
@@ -8511,15 +8542,15 @@ extern bool DAT_011def08;
 const double DAT_01021928 = 3.0;
 const double DAT_01082cb0 = 0.05;
 bool BSShaderManager_GetShadows();
-bool FUN_00525420();
+bool Main_GetSceneIsComplex();
 void BSShaderManager_EnableShadows(bool);
 bool TESRenderer_GetDoShadows();
 void BSShaderManager_ResetNextAvailableShadowMapAccumulator();
 ShadowSystem* FUN_00450b80(int);
-void* __stdcall FUN_0043c4b0(int);
+void* __stdcall NiXenonRenderer_GetRenderer(int);
 ShadowRenderer* __stdcall BSShaderManager_GetTextureManager(void*);
-int FUN_0050ea90();
-float FUN_00404010(float, float);
+int BSBound_Tag();
+float BSMAX_00404010(float, float);
 ShadowNode* TESTerrainLODManager_GetGrassNode();
 void BSFadeNode_SetFadeEnabled(bool);
 ShadowTarget* __stdcall FUN_004ea970(int, int);
@@ -8659,90 +8690,91 @@ struct ShadowActor
     virtual void Slot20C();
     virtual void Slot210();
     virtual int GetState();
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     bool PlayerCharacter_IsVanityMode();
-    bool FUN_008c51c0();
-    ShadowNode* FUN_00950bb0(int);
+    bool IsRefractive();
+    ShadowNode* PlayerCharacter_Get3D_00950bb0(int);
     bool Actor_HasShadow();
 };
 struct ShadowHost
 {
-    void FUN_00871290();
+    void Main_DrawWorld_UpdateOffscreenBuffers();
     void TESMain_UpdateOffscreenInterface();
 };
 // Toggles shadow rendering based on two flags, builds the shadow map from actors, renders visible shadow maps up to a limit, and resets unused shadow targets.
 // @fnv 0x00871290
-void ShadowHost::FUN_00871290()
+// src: XBOX_PDB 0x00871290
+void ShadowHost::Main_DrawWorld_UpdateOffscreenBuffers()
 {
-    if (BSShaderManager_GetShadows() && FUN_00525420())
+    if (BSShaderManager_GetShadows() && Main_GetSceneIsComplex())
     {
         DAT_011def08 = BSShaderManager_GetShadows();
         BSShaderManager_EnableShadows(false);
         ShadowSystem* system = FUN_00450b80(0);
         system->ShadowSceneNode_ReleaseAllShadowMaps();
-        BSShaderManager_GetTextureManager(FUN_0043c4b0(0))->ResizeActivePool();
+        BSShaderManager_GetTextureManager(NiXenonRenderer_GetRenderer(0))->ResizeActivePool();
     }
-    else if (DAT_011def08 && !FUN_00525420())
+    else if (DAT_011def08 && !Main_GetSceneIsComplex())
     {
         DAT_011def08 = false;
         BSShaderManager_EnableShadows(true);
-        int limit = DAT_011dea10->FUN_005f36f0() ? *DAT_011c72d8.FUN_0043d4d0() : *DAT_011c72e4.FUN_0043d4d0();
-        BSShaderManager_GetTextureManager(FUN_0043c4b0(limit))->ResizeActivePool();
+        int limit = DAT_011dea10->FUN_005f36f0() ? *DAT_011c72d8.Setting_Int() : *DAT_011c72e4.Setting_Int();
+        BSShaderManager_GetTextureManager(NiXenonRenderer_GetRenderer(limit))->ResizeActivePool();
     }
     if (BSShaderManager_GetShadows() && TESRenderer_GetDoShadows())
     {
         BSShaderManager_ResetNextAvailableShadowMapAccumulator();
         ShadowSystem* system = FUN_00450b80(0);
         system->ShadowSceneNode_DisableAllShadowLights();
-        int limit = DAT_011dea10->FUN_005f36f0() ? *DAT_011c72d8.FUN_0043d4d0() : *DAT_011c72e4.FUN_0043d4d0();
-        BSShaderManager_GetTextureManager(FUN_0043c4b0(limit))->ResizeActivePool();
+        int limit = DAT_011dea10->FUN_005f36f0() ? *DAT_011c72d8.Setting_Int() : *DAT_011c72e4.Setting_Int();
+        BSShaderManager_GetTextureManager(NiXenonRenderer_GetRenderer(limit))->ResizeActivePool();
         if (!limit)
             system->FUN_00b5c3c0();
         else
         {
             void* playerShadow32 = 0;
             int count33 = 0;
-            if ((DAT_011dea3c->FUN_004eaf60() || DAT_011dea3c->PlayerCharacter_IsVanityMode()) && !DAT_011dea3c->FUN_008c51c0())
+            if ((DAT_011dea3c->PlayerCharacter_Is3rdPerson() || DAT_011dea3c->PlayerCharacter_IsVanityMode()) && !DAT_011dea3c->IsRefractive())
             {
-                playerShadow32 = system->FUN_00b5cbd0(DAT_011dea3c->FUN_00950bb0(0));
+                playerShadow32 = system->FUN_00b5cbd0(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0));
                 ++count33;
             }
-            DAT_011f1180.FUN_0040fbf0(0);
+            DAT_011f1180.BSSpinLock_Lock(0);
             ShadowActor** actors8 = ((ShadowActors*)&DAT_011e0e80)->TESDataHandler_GetFactions();
-            int actorCount72 = ((ShadowActors*)&DAT_011e0e80)->FUN_00472380();
+            int actorCount72 = ((ShadowActors*)&DAT_011e0e80)->MissileProjectile_GetImpactResult();
             for (int i = 0; i < actorCount72 && count33 < limit; ++i)
             {
                 ShadowActor* actor = actors8[i];
                 if (actor->Get3D() && actor->Get3D()->NiAVObject_GetParent() && actor->Actor_HasShadow() &&
-                    actor->GetState() != 4 && !actor->FUN_008c51c0())
+                    actor->GetState() != 4 && !actor->IsRefractive())
                 {
-                    ShadowExtra* extra6 = actor->Get3D()->FUN_00a5bdd0(FUN_0050ea90());
+                    ShadowExtra* extra6 = actor->Get3D()->FUN_00a5bdd0(BSBound_Tag());
                     ShadowVector dimensions4 = extra6 ? extra6->FUN_00500940() : DAT_011f426c;
-                    float maximum37 = FUN_00404010(FUN_00404010(dimensions4.x, dimensions4.y), dimensions4.z);
-                    if (maximum37 * DAT_01021928 > actor->Get3D()->FUN_0043d450()->FUN_0084d030())
+                    float maximum37 = BSMAX_00404010(BSMAX_00404010(dimensions4.x, dimensions4.y), dimensions4.z);
+                    if (maximum37 * DAT_01021928 > actor->Get3D()->NiAVObject_GetWorldBound()->FUN_0084d030())
                     {
                         system->FUN_00b5cbd0(actor->Get3D());
                         ++count33;
                     }
                 }
             }
-            DAT_011f1180.FUN_0040fba0();
+            DAT_011f1180.BSSpinLock_Unlock();
             system->FUN_00b5cde0(playerShadow32);
-            ShadowNode* playerNode50 = DAT_011dea3c->FUN_00950bb0(1);
+            ShadowNode* playerNode50 = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1);
             if (playerNode50)
             {
-                ShadowScene* scene9 = (ShadowScene*)FUN_0045c670();
+                ShadowScene* scene9 = (ShadowScene*)Main_GetWorldSceneGraph();
                 ShadowView* view8 = scene9->FUN_008d80e0();
                 view8->FUN_0041fd00(scene9->FUN_006629f0());
-                view8->FUN_00a694a0(scene9->FUN_006629f0()->FUN_0045bbe0());
-                bool playerHidden14 = playerNode50->FUN_00456610();
+                view8->NiCullingProcess_SetFrustum(scene9->FUN_006629f0()->FUN_0045bbe0());
+                bool playerHidden14 = playerNode50->GetAppCulled_00456610();
                 playerNode50->FUN_00450f90(true);
                 ShadowNode* specialNode3 = TESTerrainLODManager_GetGrassNode();
                 BSFadeNode_SetFadeEnabled(false);
                 bool specialHidden29 = false;
                 if (specialNode3)
                 {
-                    specialHidden29 = specialNode3->FUN_00456610();
+                    specialHidden29 = specialNode3->GetAppCulled_00456610();
                     if (!*DAT_011c71dc.FUN_00408d60())
                         specialNode3->FUN_00450f90(true);
                 }
@@ -8750,43 +8782,43 @@ void ShadowHost::FUN_00871290()
                 int rendered62 = 0;
                 while (shadow4)
                 {
-                    if (shadow4->FUN_004e6540() && shadow4->ShadowSceneLight_GetShadowScene())
+                    if (shadow4->ShadowSceneLight_GetLight() && shadow4->ShadowSceneLight_GetShadowScene())
                     {
-                        if (!shadow4->ShadowSceneLight_IsFadedOut() && shadow4->FUN_004e6540()->FUN_00456610())
+                        if (!shadow4->ShadowSceneLight_IsFadedOut() && shadow4->ShadowSceneLight_GetLight()->GetAppCulled_00456610())
                         {
-                            if (shadow4->ShadowSceneLight_GetShadowScene()->FUN_00456610())
+                            if (shadow4->ShadowSceneLight_GetShadowScene()->GetAppCulled_00456610())
                                 shadow4->ShadowSceneLight_SetFadeTarget(0.0f, true);
                             else
                             {
                                 if (rendered62 < limit)
-                                    shadow4->FUN_004e6540()->FUN_00450f90(false);
+                                    shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(false);
                                 shadow4->ShadowSceneLight_SetFadeTarget(0.0f, false);
                             }
                         }
-                        if (rendered62 < limit && !shadow4->FUN_004e6540()->FUN_00456610() &&
-                            !shadow4->ShadowSceneLight_GetShadowScene()->FUN_00456610())
+                        if (rendered62 < limit && !shadow4->ShadowSceneLight_GetLight()->GetAppCulled_00456610() &&
+                            !shadow4->ShadowSceneLight_GetShadowScene()->GetAppCulled_00456610())
                         {
-                            ShadowBound bounds = *shadow4->ShadowSceneLight_GetShadowScene()->FUN_0043d450();
-                            shadow4->UpdateOutputLight(0, shadow4->ShadowSceneLight_GetShadowScene()->FUN_0045bb80());
+                            ShadowBound bounds = *shadow4->ShadowSceneLight_GetShadowScene()->NiAVObject_GetWorldBound();
+                            shadow4->UpdateOutputLight(0, shadow4->ShadowSceneLight_GetShadowScene()->NiAVObject_GetWorldTranslate());
                             shadow4->ShadowSceneLight_TestFrustumCull(view8);
                             if (shadow4->ShadowSceneLight_GetFrustumCull() != 255 && shadow4->GetFirstLightParameter() >= DAT_01082cb0)
                             {
                                 ++rendered62;
                                 ShadowUpdate update53(0.0f, false, false);
-                                shadow4->FUN_004e6540()->FUN_00a59c60(&update53);
+                                shadow4->ShadowSceneLight_GetLight()->NiAVObject_Update(&update53);
                                 shadow4->UpdateShadow(view8, rendered62 - 1);
                                 shadow4->FUN_00b9fba0();
-                                void* renderer12 = FUN_00450b80(0)->FUN_00454b30();
+                                void* renderer12 = FUN_00450b80(0)->ShadowSceneNode_QPortalGraph();
                                 FUN_00450b80(0)->FUN_00b5d300(shadow4);
                                 if (*DAT_011c7664.FUN_00408d60())
                                     shadow4->FUN_00ba0110(shadow4->ShadowSceneLight_GetShadowScene());
                                 shadow4->ShadowSceneLight_RemoveUnusedGeom();
                             }
                             else
-                                shadow4->FUN_004e6540()->FUN_00450f90(true);
+                                shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(true);
                         }
                         else
-                            shadow4->FUN_004e6540()->FUN_00450f90(true);
+                            shadow4->ShadowSceneLight_GetLight()->FUN_00450f90(true);
                     }
                     shadow4 = system->FUN_00b5b010();
                 }
@@ -8815,12 +8847,12 @@ void ShadowHost::FUN_00871290()
 }
 
 namespace fnv_00871a50 {
-extern bool __cdecl FUN_00702360();
-extern bool __cdecl FUN_007079b0();
-extern bool __cdecl FUN_00705a00();
+extern bool __cdecl Interface_IsInMenuMode();
+extern bool __cdecl Interface_IsInRenderedMenu();
+extern bool __cdecl Interface_IsInPipboyMenu();
 extern void __cdecl Interface_LastMinuteUpdate();
 extern bool __cdecl Interface_IsActiveMenuTheRenderedMenu();
-extern bool __cdecl FUN_00702680(unsigned int, int);
+extern bool __cdecl Interface_IsMenuIDVisible(unsigned int, int);
 struct RenderFlag
 {
     bool* FUN_00408d60();
@@ -8828,16 +8860,16 @@ struct RenderFlag
 extern RenderFlag DAT_011db2cc, DAT_011d8ba0;
 struct RenderNode
 {
-    void FUN_007fae70(int);
-    bool FUN_00456610();
+    void SetScreenTexture(int);
+    bool GetAppCulled_00456610();
     void FUN_00450f90(bool);
 };
 struct UiMenu
 {
-    RenderNode* FUN_0056c7f0();
+    RenderNode* GetModel_0056c7f0();
 };
-extern UiMenu* __cdecl FUN_00a09030(unsigned int);
-extern RenderNode* __cdecl FUN_00705990();
+extern UiMenu* __cdecl Tile_GetMenuByClass(unsigned int);
+extern RenderNode* __cdecl Interface_GetPipboy();
 struct UiRenderer
 {
     virtual void slot0();
@@ -8845,7 +8877,7 @@ struct UiRenderer
     virtual void slot2();
     virtual void Draw(RenderNode*, bool, int);
 };
-extern UiRenderer* __cdecl FUN_00707ad0();
+extern UiRenderer* __cdecl Interface_GetCurrentRenderedMenu();
 struct RenderHolder
 {
     RenderNode* FUN_00559450();
@@ -8857,7 +8889,7 @@ struct RenderTextureSource
     RenderNode* BSTextureManager_BorrowRenderedTexture();
 };
 extern RenderTextureSource* __stdcall BSShaderManager_GetTextureManager(void*, int, int, int, int);
-extern void* __cdecl FUN_0043c4b0();
+extern void* __cdecl NiXenonRenderer_GetRenderer();
 extern const char DAT_010829c4[];
 struct HudRenderPass
 {
@@ -8868,35 +8900,35 @@ struct HudRenderPass
 // src: COMMUNITY 0x00871a50
 void HudRenderPass::TESMain_UpdateOffscreenInterface()
 {
-    if (FUN_00702360() && (*DAT_011db2cc.FUN_00408d60() || *DAT_011d8ba0.FUN_00408d60()) && FUN_007079b0())
+    if (Interface_IsInMenuMode() && (*DAT_011db2cc.FUN_00408d60() || *DAT_011d8ba0.FUN_00408d60()) && Interface_IsInRenderedMenu())
     {
         AutoMemHelper kContext(13, true, DAT_010829c4, 0x1ade);
-        bool wasActive = FUN_00705a00();
-        if (FUN_00702360())
+        bool wasActive = Interface_IsInPipboyMenu();
+        if (Interface_IsInMenuMode())
             Interface_LastMinuteUpdate();
         if (!DAT_011dec64.FUN_00559450())
-            DAT_011dec64.FUN_0066b0d0(BSShaderManager_GetTextureManager(FUN_0043c4b0(), 45, 0, 0, 0)->BSTextureManager_BorrowRenderedTexture());
+            DAT_011dec64.FUN_0066b0d0(BSShaderManager_GetTextureManager(NiXenonRenderer_GetRenderer(), 45, 0, 0, 0)->BSTextureManager_BorrowRenderedTexture());
         if (!wasActive)
-            FUN_00705990()->FUN_007fae70(0);
-        bool show = Interface_IsActiveMenuTheRenderedMenu() || FUN_00a09030(1001) || FUN_00a09030(1016) || FUN_00a09030(1059);
-        if (FUN_007079b0() && show)
+            Interface_GetPipboy()->SetScreenTexture(0);
+        bool show = Interface_IsActiveMenuTheRenderedMenu() || Tile_GetMenuByClass(1001) || Tile_GetMenuByClass(1016) || Tile_GetMenuByClass(1059);
+        if (Interface_IsInRenderedMenu() && show)
         {
-            bool hide = wasActive && FUN_00702680(1001, 0);
+            bool hide = wasActive && Interface_IsMenuIDVisible(1001, 0);
             bool previous5 = 0;
             RenderNode* node_2 = 0;
             if (hide)
             {
-                node_2 = FUN_00a09030(1001)->FUN_0056c7f0();
-                previous5 = node_2->FUN_00456610();
+                node_2 = Tile_GetMenuByClass(1001)->GetModel_0056c7f0();
+                previous5 = node_2->GetAppCulled_00456610();
                 node_2->FUN_00450f90(true);
             }
 
-            FUN_00707ad0()->Draw(DAT_011dec64.FUN_00559450(), true, 0);
+            Interface_GetCurrentRenderedMenu()->Draw(DAT_011dec64.FUN_00559450(), true, 0);
             if (hide)
                 node_2->FUN_00450f90(previous5);
         }
     }
-    else if (FUN_00702360())
+    else if (Interface_IsInMenuMode())
         Interface_LastMinuteUpdate();
 }
 }  // namespace fnv_00871a50
@@ -8943,7 +8975,7 @@ struct RenderSurface
     virtual unsigned int Height(unsigned int);
 };
 using ::NiRenderer;
-NiRenderer* FUN_0043c4b0();
+NiRenderer* NiXenonRenderer_GetRenderer();
 struct MTRenderer
 {
     void MTRenderingSystem_StartThreads();
@@ -8952,7 +8984,7 @@ struct MTRenderer
     void MTRenderingSystem_WaitOnThreadStage(int, int);
 };
 MTRenderer* FUN_004ea970();
-void FUN_00a044f0();
+void AutoTileLock_AutoTileLock();
 void FUN_00a04500();
 struct MenuTarget
 {
@@ -8968,7 +9000,7 @@ struct MenuTargetPointer
 extern MenuTargetPointer g_011ded3c;
 struct TextureMgr
 {
-    void FUN_00b6da10(MenuTarget*);
+    void BSTextureManager_ReturnRenderedTexture(MenuTarget*);
     MenuTarget* BSTextureManager_BorrowRenderedTexture(NiRenderer*, int, int, int, int);
 };
 TextureMgr* __stdcall BSShaderManager_GetTextureManager();
@@ -8984,27 +9016,27 @@ struct Camera
 {
     void FUN_00712e60(const Rect&);
 };
-Camera* FUN_00524c90();
+Camera* Main_WorldRootCamera();
 extern Rect DAT_011ad840;
-float FUN_0040ebd0(float, float);
+float BSMIN(float, float);
 struct Modifier;
 InterfaceManager* InterfaceManager_GetSingleton();
-Modifier* FUN_005d2860();
+Modifier* TESImageSpaceModifier_GetGetHit();
 void FUN_00529c90(Modifier*);
 void FUN_005299a0(Modifier*, float, void*);
-bool FUN_00705a00();
-bool FUN_00702680(int, unsigned int);
+bool Interface_IsInPipboyMenu();
+bool Interface_IsMenuIDVisible(int, unsigned int);
 bool IsStartMenuFlag1Set();
 struct RenderMenu
 {
     void* FUN_008b6200();
     void* GetMenuRoot();
 };
-RenderMenu* FUN_00707ad0();
+RenderMenu* Interface_GetCurrentRenderedMenu();
 using ::BSCullingProcess;
 struct SceneObject
 {
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
 };
 void* FUN_00450b80(int);
 void BSShaderUtil_AccumulateScene(void*, void*, BSCullingProcess*);
@@ -9051,12 +9083,13 @@ struct FUN_00871dc0_class
     int unk94;
     MenuTargetPointer unk98;
     bool unk9c;
-    void FUN_0086fd90(int);
-    void FUN_008706b0(MenuTarget*, int, bool);
-    void FUN_00871dc0();
+    void Main_OnIdle_UpdateImageSpace(int);
+    void Main_DrawWorld(MenuTarget*, int, bool);
+    void Main_RenderMenuBackground();
 };
 // @fnv 0x00871dc0
-void FUN_00871dc0_class::FUN_00871dc0()
+// src: XBOX_PDB 0x00871dc0
+void FUN_00871dc0_class::Main_RenderMenuBackground()
 {
     AutoMemHelper modifier(13, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 7193);
     if (!g_thePlayer->GetParentCell() || !g_thePlayer->GetNiNode())
@@ -9064,57 +9097,57 @@ void FUN_00871dc0_class::FUN_00871dc0()
     bool menu = DAT_011ad884;
     DAT_011ad884 = true;
     unk9c = true;
-    FUN_0043c4b0()->FUN_004a0370();
-    FUN_00a044f0();
+    NiXenonRenderer_GetRenderer()->NiXenonRenderer_LockRenderer();
+    AutoTileLock_AutoTileLock();
     FUN_004ea970()->MTRenderingSystem_StartThreads();
     if (g_011ded3c.Get())
-        BSShaderManager_GetTextureManager()->FUN_00b6da10(g_011ded3c.Get());
-    g_011ded3c = BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(FUN_0043c4b0(), 6, 0, 0, 0);
-    if (reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())->Width(0) != g_011ded3c.Get()->BSRenderedTexture_GetWidth(0) ||
-        reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())->Height(0) != g_011ded3c.Get()->BSRenderedTexture_GetHeight(0))
+        BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(g_011ded3c.Get());
+    g_011ded3c = BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(NiXenonRenderer_GetRenderer(), 6, 0, 0, 0);
+    if (reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())->Width(0) != g_011ded3c.Get()->BSRenderedTexture_GetWidth(0) ||
+        reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())->Height(0) != g_011ded3c.Get()->BSRenderedTexture_GetHeight(0))
     {
         float x =
-            FUN_0040ebd0((float)reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())->Width(0) / (float)g_011ded3c.Get()->BSRenderedTexture_GetWidth(0), 1.0f);
+            BSMIN((float)reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())->Width(0) / (float)g_011ded3c.Get()->BSRenderedTexture_GetWidth(0), 1.0f);
         float y =
-            FUN_0040ebd0((float)reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())->Height(0) / (float)g_011ded3c.Get()->BSRenderedTexture_GetHeight(0), 1.0f);
-        FUN_00524c90()->FUN_00712e60(Rect(0, x, y, 0));
+            BSMIN((float)reinterpret_cast<RenderSurface*>(static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())->Height(0) / (float)g_011ded3c.Get()->BSRenderedTexture_GetHeight(0), 1.0f);
+        Main_WorldRootCamera()->FUN_00712e60(Rect(0, x, y, 0));
     }
     else if (DAT_011f9426)
-        FUN_00524c90()->FUN_00712e60(DAT_011ad840);
-    Modifier* mem = (Modifier*)InterfaceManager_GetSingleton()->FUN_00718ab0();
-    FUN_00529c90(FUN_005d2860());
+        Main_WorldRootCamera()->FUN_00712e60(DAT_011ad840);
+    Modifier* mem = (Modifier*)InterfaceManager_GetSingleton()->InterfaceManager_GetCurrentImagespaceMod();
+    FUN_00529c90(TESImageSpaceModifier_GetGetHit());
     if (mem)
     {
         FUN_005299a0(mem, 1.0f, 0);
-        FUN_0086fd90(0);
+        Main_OnIdle_UpdateImageSpace(0);
     }
-    bool old = FUN_00705a00();
-    if (FUN_00702680(0x3f5, 0))
+    bool old = Interface_IsInPipboyMenu();
+    if (Interface_IsMenuIDVisible(0x3f5, 0))
         old = false;
-    FUN_008706b0(g_011ded3c.Get(), 0, old);
-    if (FUN_00702680(0x40c, 0) && IsStartMenuFlag1Set())
+    Main_DrawWorld(g_011ded3c.Get(), 0, old);
+    if (Interface_IsMenuIDVisible(0x40c, 0) && IsStartMenuFlag1Set())
     {
         BSCullingProcess cull((void*)0);
-        void* camera = FUN_00707ad0()->FUN_008b6200();
+        void* camera = Interface_GetCurrentRenderedMenu()->FUN_008b6200();
         cull.SetCamera(camera);
         cull.SetAccumulator((::MenuTarget*)unk98.Get());
-        ((SceneObject*)unk98.Get())->FUN_004a1020(FUN_00450b80(1));
-        BSShaderUtil_AccumulateScene(camera, FUN_00707ad0()->GetMenuRoot(), &cull);
+        ((SceneObject*)unk98.Get())->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(1));
+        BSShaderUtil_AccumulateScene(camera, Interface_GetCurrentRenderedMenu()->GetMenuRoot(), &cull);
         FUN_00b6c0d0(camera, unk98.Get(), 0);
         cull.SetAccumulator((::MenuTarget*)0);
     }
     if (mem)
     {
         FUN_00529c90(mem);
-        FUN_0086fd90(0);
+        Main_OnIdle_UpdateImageSpace(0);
     }
     FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, 0x17);
     FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, 0x17);
     FUN_004ea970()->MTRenderingSystem_WaitForThreads();
     DAT_011dea29 = true;
-    FUN_00524c90()->FUN_00712e60(Rect(0, 1, 1, 0));
+    Main_WorldRootCamera()->FUN_00712e60(Rect(0, 1, 1, 0));
     FUN_00a04500();
-    FUN_0043c4b0()->FUN_004a03c0();
+    NiXenonRenderer_GetRenderer()->NiXenonRenderer_UnlockRenderer();
     unk9c = false;
     DAT_011ad884 = menu;
 }
@@ -9216,7 +9249,7 @@ double dMin(double b, float a);
 void __cdecl BSRenderedTexture_StartOffscreen(unsigned int id, NiRenderTargetGroup* ausAnimationGroup);
 void __cdecl BSRenderedTexture_Start(unsigned int id, NiRenderTargetGroup* ausAnimationGroup);
 
-::BSFaceGenAnimationData* __cdecl FUN_00524c90();
+::BSFaceGenAnimationData* __cdecl Main_WorldRootCamera();
 
 struct Host
 {
@@ -9244,7 +9277,7 @@ BSRenderedTexture* Host::TESMain_DrawWorld_InitRenderTexture(P1* apSource, BSRen
             float fb;
             fb = (float)dMin(
                 (double)apSource->FUN_004dee70() * DAT_01082d20 / (double)((TexObj*)tex)->BSRenderedTexture_GetHeight(0), 1.0f);
-            FUN_00524c90()->FUN_00712e60(&(NiColorA&)NiColorA(0.0f, fa, fb, 0.0f));
+            Main_WorldRootCamera()->FUN_00712e60(&(NiColorA&)NiColorA(0.0f, fa, fb, 0.0f));
         }
         BSRenderedTexture_StartOffscreen(7, tex->GetGroup());
     }
@@ -9272,10 +9305,10 @@ BSRenderedTexture* Host::TESMain_DrawWorld_InitRenderTexture(P1* apSource, BSRen
 
 namespace fnv_00874c10 {
 using ::BSFaceGenNiNode;
-BSFaceGenNiNode* __cdecl FUN_0045c670();
+BSFaceGenNiNode* __cdecl Main_GetWorldSceneGraph();
 
 using ::BSFaceGenAnimationData;
-BSFaceGenAnimationData* __cdecl FUN_00524c90();
+BSFaceGenAnimationData* __cdecl Main_WorldRootCamera();
 
 struct TransformState
 {
@@ -9291,7 +9324,7 @@ struct AnimDataHelper
     float FUN_006447f0();
     void* FUN_0045bbe0();
     void* TESDataHandler_GetImpactDataSetList();
-    TransformState* FUN_00461130();
+    TransformState* NiAVObject_GetWorldRotate();
 };
 
 using ::NiUpdateData;
@@ -9305,32 +9338,32 @@ using ::NiNode;
 
 struct PlayerObjectHelper
 {
-    NiPoint3* FUN_0045bb80();
+    NiPoint3* NiAVObject_GetWorldTranslate();
 };
 
 struct PlayerHelper
 {
-    NiNode* FUN_00950bb0(bool);
+    NiNode* PlayerCharacter_Get3D_00950bb0(bool);
     PlayerObjectHelper* PlayerCharacter_GetWeaponSightingNode();
-    bool FUN_008a8870();
-    bool FUN_00967ae0();
+    bool Actor_IsReloading();
+    bool PlayerCharacter_IsPipboyActive();
 };
 
 struct AudioGlobalHelper
 {
-    bool FUN_005bb4d0();
+    bool TESRegionData_GetPriority();
 };
 extern AudioGlobalHelper* DAT_011dea0c;
 
 struct CameraHelper
 {
-    NiPoint3* FUN_0045bb80();
+    NiPoint3* NiAVObject_GetWorldTranslate();
 };
 extern CameraHelper* DAT_011e07d0;
 
 struct VATSHelper
 {
-    bool FUN_00525430();
+    bool VATS_IsInVats();
 };
 extern VATSHelper DAT_011f2250;
 
@@ -9338,8 +9371,8 @@ using ::BGSBodyPart;
 BGSBodyPart* __fastcall MenuPart_006838b0(::FORenderedMenu*);
 
 using ::FORenderedMenu;
-FORenderedMenu* __cdecl FUN_00705990();
-FORenderedMenu* __cdecl FUN_00707ad0();
+FORenderedMenu* __cdecl Interface_GetPipboy();
+FORenderedMenu* __cdecl Interface_GetCurrentRenderedMenu();
 
 struct MTRenderingSystem_Helper
 {
@@ -9350,12 +9383,12 @@ MTRenderingSystem_Helper* __cdecl FUN_004ea970();
 
 struct ObjectA0
 {
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(void*);
     void FUN_00712e60(void*);
-    void FUN_004f00e0(const NiPoint3&);
+    void NiAVObject_SetWorldTranslate(const NiPoint3&);
     void NiAVObject_SetWorldRotate(TransformState*);
-    NiPoint3* FUN_0045bb80();
+    NiPoint3* NiAVObject_GetWorldTranslate();
 };
 
 struct Object8C
@@ -9376,7 +9409,7 @@ template <class T> struct TargetPointer
 };
 
 using ::NiRenderer;
-NiRenderer* __cdecl FUN_0043c4b0();
+NiRenderer* __cdecl NiXenonRenderer_GetRenderer();
 
 
 void* __cdecl FUN_00450b80(int);
@@ -9430,68 +9463,69 @@ struct MainShell
     int unk9C;
     TargetPointer<ObjectA0> spObjA0;
 
-    void FUN_00874c10();
+    void Main_DrawWorld_MTSetup1stPerson();
 };
 
 // Updates the player's face gen node and render objects, toggling DAT_011de9d1 and submitting spObjA0/spObj8C to the rendering system.
 // @fnv 0x00874c10
-void MainShell::FUN_00874c10()
+// src: XBOX_PDB 0x00874c10
+void MainShell::Main_DrawWorld_MTSetup1stPerson()
 {
     AutoMemHelper memHelper5(0x34, 1, str_010829c4, 0x21b1);
-    BSFaceGenNiNode* pFaceGenNode2 = FUN_0045c670();
-    BSFaceGenAnimationData* pAnimData = FUN_00524c90();
-    NiNode* _pPlayerNode = ((PlayerHelper*)g_thePlayer)->FUN_00950bb0(1);
+    BSFaceGenNiNode* pFaceGenNode2 = Main_GetWorldSceneGraph();
+    BSFaceGenAnimationData* pAnimData = Main_WorldRootCamera();
+    NiNode* _pPlayerNode = ((PlayerHelper*)g_thePlayer)->PlayerCharacter_Get3D_00950bb0(1);
     _pPlayerNode->FUN_00450f90(0);
 
     if (DAT_011f9426)
     {
-        if (static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetCurrentRT() == 0 || static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetCurrentRT() == static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())
+        if (static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetCurrentRT() == 0 || static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetCurrentRT() == static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())
         {
-            FUN_00524c90()->FUN_00712e60(&DAT_011ad840);
+            Main_WorldRootCamera()->FUN_00712e60(&DAT_011ad840);
         }
     }
 
     pFaceGenNode2->SceneGraph_SetCameraFOV(PlayerCharacter_Get1stPersonFOV((const char*)g_thePlayer), 0, 0, 0);
 
-    if (((!((PlayerHelper*)g_thePlayer)->FUN_00950bb0(0)->FUN_00456610() &&
-          !((PlayerHelper*)g_thePlayer)->FUN_00950bb0(1)->FUN_00456610() == 0) ||
-         (!((PlayerHelper*)g_thePlayer)->FUN_00950bb0(0)->FUN_00456610() == 0 &&
-          !((PlayerHelper*)g_thePlayer)->FUN_00950bb0(1)->FUN_00456610())) &&
-        !DAT_011dea0c->FUN_005bb4d0())
+    if (((!((PlayerHelper*)g_thePlayer)->PlayerCharacter_Get3D_00950bb0(0)->GetAppCulled_00456610() &&
+          !((PlayerHelper*)g_thePlayer)->PlayerCharacter_Get3D_00950bb0(1)->GetAppCulled_00456610() == 0) ||
+         (!((PlayerHelper*)g_thePlayer)->PlayerCharacter_Get3D_00950bb0(0)->GetAppCulled_00456610() == 0 &&
+          !((PlayerHelper*)g_thePlayer)->PlayerCharacter_Get3D_00950bb0(1)->GetAppCulled_00456610())) &&
+        !DAT_011dea0c->TESRegionData_GetPriority())
     {
-        NiPoint3 pt_5c3 = reinterpret_cast<const NiPoint3WithNeg&>(_pPlayerNode->FUN_0045bb80()).FUN_004a0bd0();
+        NiPoint3 pt_5c3 = reinterpret_cast<const NiPoint3WithNeg&>(_pPlayerNode->NiAVObject_GetWorldTranslate()).FUN_004a0bd0();
         NiUpdateData updateData7(0.0f, 0, 0);
         DAT_011de9d1 = 1;
 
-        spObjA0->FUN_00507700(((AnimDataHelper*)pAnimData)->FUN_006447f0());
+        spObjA0->NiCamera_SetMaxFarNearRatio(((AnimDataHelper*)pAnimData)->FUN_006447f0());
         spObjA0->FUN_00a6faf0(((AnimDataHelper*)pAnimData)->FUN_0045bbe0());
         spObjA0->FUN_00712e60(((AnimDataHelper*)pAnimData)->TESDataHandler_GetImpactDataSetList());
 
-        TransformState kTransform = *((AnimDataHelper*)pAnimData)->FUN_00461130();
-        spObjA0->FUN_004f00e0(*DAT_011e07d0->FUN_0045bb80() + pt_5c3);
+        TransformState kTransform = *((AnimDataHelper*)pAnimData)->NiAVObject_GetWorldRotate();
+        spObjA0->NiAVObject_SetWorldTranslate(*DAT_011e07d0->NiAVObject_GetWorldTranslate() + pt_5c3);
         spObjA0->NiAVObject_SetWorldRotate(&kTransform);
 
-        if (((PlayerHelper*)g_thePlayer)->PlayerCharacter_GetWeaponSightingNode() && !((PlayerHelper*)g_thePlayer)->FUN_008a8870() &&
-            !DAT_011f2250.FUN_00525430())
+        if (((PlayerHelper*)g_thePlayer)->PlayerCharacter_GetWeaponSightingNode() && !((PlayerHelper*)g_thePlayer)->Actor_IsReloading() &&
+            !DAT_011f2250.VATS_IsInVats())
         {
-            spObjA0->FUN_004f00e0(*((PlayerHelper*)g_thePlayer)->PlayerCharacter_GetWeaponSightingNode()->FUN_0045bb80() + pt_5c3);
+            spObjA0->NiAVObject_SetWorldTranslate(*((PlayerHelper*)g_thePlayer)->PlayerCharacter_GetWeaponSightingNode()->NiAVObject_GetWorldTranslate() + pt_5c3);
         }
 
-        NiPoint3 pt_6c_ = reinterpret_cast<const NiPoint3&>(_pPlayerNode->FUN_0043c490());
-        _pPlayerNode->FUN_00440460(reinterpret_cast<const ::NiPoint3*>(&NiPoint3::ZERO));
+        NiPoint3 pt_6c_ = reinterpret_cast<const NiPoint3&>(_pPlayerNode->GetTranslate_0043c490());
+        _pPlayerNode->NiAVObject_SetTranslate(reinterpret_cast<const ::NiPoint3*>(&NiPoint3::ZERO));
         _pPlayerNode->Update(&updateData7);
-        _pPlayerNode->FUN_00440460(reinterpret_cast<const ::NiPoint3*>(&pt_6c_));
+        _pPlayerNode->NiAVObject_SetTranslate(reinterpret_cast<const ::NiPoint3*>(&pt_6c_));
 
         BGSBodyPart* pBodyPart3 =
-            ((PlayerHelper*)g_thePlayer)->FUN_00967ae0() ? (pBodyPart3 = MenuPart_006838b0(FUN_00705990())) : 0;
+            ((PlayerHelper*)g_thePlayer)->PlayerCharacter_IsPipboyActive() ? (pBodyPart3 = MenuPart_006838b0(Interface_GetPipboy())) : 0;
         _pPlayerNode->NiAVObject_SetAlwaysDraw(1);
 
         if (pBodyPart3)
         {
-            pBodyPart3->FUN_004f00e0(*pBodyPart3->FUN_0045bb80() - reinterpret_cast<const ::NiPoint3&>(pt_5c3));
+            pBodyPart3->NiAVObject_SetWorldTranslate(*pBodyPart3->NiAVObject_GetWorldTranslate() - reinterpret_cast<const ::NiPoint3&>(pt_5c3));
         }
 
-        ShadowSceneNode_SetEyePosition((::ShadowSceneNode*)FUN_00450b80(0), *spObjA0->FUN_0045bb80());
+        ShadowSceneNode_SetEyePosition((::ShadowSceneNode*)FUN_00450b80(0), *spObjA0->NiAVObject_GetWorldTranslate());
         ShadowSceneNode_SetLightingOffset((::ShadowSceneNode*)FUN_00450b80(0), pt_5c3);
     }
     else
@@ -9499,7 +9533,7 @@ void MainShell::FUN_00874c10()
         DAT_011de9d1 = 0;
     }
 
-    if (FUN_00707ad0() && FUN_00707ad0() != FUN_00705990())
+    if (Interface_GetCurrentRenderedMenu() && Interface_GetCurrentRenderedMenu() != Interface_GetPipboy())
     {
     }
     else
@@ -9535,7 +9569,7 @@ struct Guard
 };
 struct VecRef
 {
-    NiPoint3* FUN_0043c490();
+    NiPoint3* GetTranslate_0043c490();
 };
 struct Scene
 {
@@ -9610,25 +9644,25 @@ struct Scene
     void RendererClearBufferHook(int, int);
     void FUN_00712e60(const Rect&);
     void FUN_00a6faf0(void*);
-    void FUN_007fae70(int);
+    void SetScreenTexture(int);
     Scene* SkyObject_GetNiNode();
     Scene* FOPipboyManager_GetPipboyLightGlow(int);
     Scene* FUN_00a59d30(void*);
-    void FUN_0049ed90(int);
-    NiPoint3* FUN_0045bb80();
+    void NiAlphaProperty_SetAlphaBlending(int);
+    NiPoint3* NiAVObject_GetWorldTranslate();
     void* FUN_0045bbe0();
-    void FUN_004f00e0(const NiPoint3&);
+    void NiAVObject_SetWorldTranslate(const NiPoint3&);
     void MobileObject_SetSoundCallBackSuccess(bool);
     void FUN_00a29680();
     void* FUN_00b6b260();
-    void FUN_00b64570(Scene*, Scene*);
-    void FUN_00a59c60(const Update&);
+    void BSShaderAccumulator_RenderNormals(Scene*, Scene*);
+    void NiAVObject_Update(const Update&);
     void NiAVObject_SetAlwaysDraw(int);
     VecRef* NiAVObject_GetParent();
     void ShadowSceneNode_SetEyePosition(NiPoint3);
     void ShadowSceneNode_SetLightingOffset(NiPoint3);
     Scene* NiObjectNET_GetControllers();
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     void FUN_006426a0(int, Scene*, Scene*);
     Context* FUN_008d80e0();
     Scene* FUN_006629f0();
@@ -9815,21 +9849,21 @@ struct List
 };
 struct ListRef
 {
-    List* FUN_0043c490();
+    List* GetTranslate_0043c490();
 };
 struct Mode
 {
-    bool FUN_00525430();
+    bool VATS_IsInVats();
     int FUN_0044ddc0();
 };
 struct Player
 {
-    Scene* FUN_00950bb0(int);
+    Scene* PlayerCharacter_Get3D_00950bb0(int);
     float PlayerCharacter_Get1stPersonFOV();
     float PlayerCharacter_GetWorldFOV();
-    bool FUN_008c51c0();
+    bool IsRefractive();
     Scene* PlayerCharacter_GetWeaponSightingNode();
-    bool FUN_008a8870();
+    bool Actor_IsReloading();
 };
 extern Player* DAT_011dea3c;
 extern bool DAT_011f9426, DAT_011de9d1;
@@ -9841,23 +9875,23 @@ extern Mode DAT_011f2250;
 extern Scene* DAT_011e07d0;
 extern NiPoint3 DAT_011f426c;
 extern Pointer DAT_011deb7c;
-Scene* FUN_0045c670();
+Scene* Main_GetWorldSceneGraph();
 Scene* FUN_004ea970();
-Scene* FUN_0043c4b0();
+Scene* NiXenonRenderer_GetRenderer();
 void FUN_00b54000(float);
-Scene* FUN_00707ad0();
-Scene* FUN_00705990();
-bool FUN_007079b0();
-bool FUN_00705a00();
-void* FUN_0040df90();
+Scene* Interface_GetCurrentRenderedMenu();
+Scene* Interface_GetPipboy();
+bool Interface_IsInRenderedMenu();
+bool Interface_IsInPipboyMenu();
+void* MagicSystem_CheckEffectFlares();
 void BSShaderUtil_AccumulateScene(Scene*, Scene*, Context*);
 void FUN_00b6c0d0(Scene*, Scene*, int);
 void FUN_00b98380(int, int);
 void BSRenderState_RestoreColorWriteEnable(int);
-bool FUN_005b9b00();
+bool BSShaderManager_IsRefractionEnabled();
 void FUN_00b6b790();
 void BSRenderedTexture_StartOffscreen(int, void*);
-Scene* FUN_00524c90();
+Scene* Main_WorldRootCamera();
 Scene* FUN_00450b80(int);
 struct Main
 {
@@ -9905,9 +9939,9 @@ struct Main
 // src: COMMUNITY 0x00875110
 void Main::TESMain_DrawWorld_MTRender1stPerson(Scene* root, Scene* firstPerson, Scene* extra, Scene* pass)
 {
-    Scene* renderSlot52 = FUN_0045c670();
+    Scene* renderSlot52 = Main_GetWorldSceneGraph();
     Context* contextSlot26 = renderSlot52->FUN_008d80e0();
-    Scene* playerSceneSlot0 = DAT_011dea3c->FUN_00950bb0(1);
+    Scene* playerSceneSlot0 = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1);
     playerSceneSlot0->FUN_00450f90(0);
     Scene* viewSlot23 = renderSlot52->FUN_006629f0();
     Scene* aliasSlot0 = playerSceneSlot0;
@@ -9915,7 +9949,7 @@ void Main::TESMain_DrawWorld_MTRender1stPerson(Scene* root, Scene* firstPerson, 
     surface.FUN_00559450()->visible = 0;
     Guard guardSlot1(0x34, 1, DAT_010829c4, 0x221f);
     root->RendererClearBufferHook(0, 4);
-    if (DAT_011f9426 && (!FUN_0043c4b0()->Primary() || FUN_0043c4b0()->Primary() == FUN_0043c4b0()->Secondary()))
+    if (DAT_011f9426 && (!NiXenonRenderer_GetRenderer()->Primary() || NiXenonRenderer_GetRenderer()->Primary() == NiXenonRenderer_GetRenderer()->Secondary()))
         camera.FUN_00559450()->FUN_00712e60(DAT_011ad840);
     else
         camera.FUN_00559450()->FUN_00712e60(Rect(0, 1, 1, 0));
@@ -9924,55 +9958,55 @@ void Main::TESMain_DrawWorld_MTRender1stPerson(Scene* root, Scene* firstPerson, 
     camera.FUN_00559450()->FUN_00a6faf0(viewSlot23->FUN_0045bbe0());
     if (firstPerson)
     {
-        FUN_00707ad0()->FUN_007fae70(0);
+        Interface_GetCurrentRenderedMenu()->SetScreenTexture(0);
         firstPerson->FUN_00450f90(0);
-        if (FUN_007079b0())
+        if (Interface_IsInRenderedMenu())
         {
-            if (FUN_00705a00() && DAT_011dea3c->FUN_008c51c0())
-                FUN_00707ad0()->SkyObject_GetNiNode()->FUN_00450f90(1);
+            if (Interface_IsInPipboyMenu() && DAT_011dea3c->IsRefractive())
+                Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode()->FUN_00450f90(1);
             Pointer tempTextureSlot13(new Output(99, 1, 759));
             contextSlot26->BSCullingProcess_PushCullMode(1);
-            Scene* property = FUN_00707ad0()->SkyObject_GetNiNode()->FUN_00a59d30(FUN_0040df90());
+            Scene* property = Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode()->FUN_00a59d30(MagicSystem_CheckEffectFlares());
             if (property)
-                property->FUN_0049ed90(0);
-            FUN_00707ad0()->FUN_007fae70(0);
+                property->NiAlphaProperty_SetAlphaBlending(0);
+            Interface_GetCurrentRenderedMenu()->SetScreenTexture(0);
             contextSlot26->BSCullingProcess_SetAccumulator(tempTextureSlot13.FUN_00559450());
-            if (FUN_00705a00() && DAT_011dea3c->FUN_008c51c0())
+            if (Interface_IsInPipboyMenu() && DAT_011dea3c->IsRefractive())
             {
-                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(0), contextSlot26);
-                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(1), contextSlot26);
-                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(2), contextSlot26);
+                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(0), contextSlot26);
+                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(1), contextSlot26);
+                BSShaderUtil_AccumulateScene(camera.FUN_00559450(), Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(2), contextSlot26);
             }
-            BSShaderUtil_AccumulateScene(camera.FUN_00559450(), FUN_00707ad0()->SkyObject_GetNiNode(), contextSlot26);
+            BSShaderUtil_AccumulateScene(camera.FUN_00559450(), Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode(), contextSlot26);
             FUN_00b6c0d0(camera.FUN_00559450(), tempTextureSlot13.FUN_00559450(), 0);
             contextSlot26->BSCullingProcess_SetAccumulator(0);
             tempTextureSlot13.FUN_0066b0d0(0);
             contextSlot26->BSCullingProcess_PopCullMode();
-            if (FUN_00705a00() && DAT_011dea3c->FUN_008c51c0())
-                FUN_00707ad0()->SkyObject_GetNiNode()->FUN_00450f90(0);
+            if (Interface_IsInPipboyMenu() && DAT_011dea3c->IsRefractive())
+                Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode()->FUN_00450f90(0);
         }
     }
-    if (FUN_00707ad0() && FUN_00707ad0() != FUN_00705990())
+    if (Interface_GetCurrentRenderedMenu() && Interface_GetCurrentRenderedMenu() != Interface_GetPipboy())
     {
     }
-    else if (!FUN_00705a00() || !DAT_011dea3c->FUN_008c51c0())
+    else if (!Interface_IsInPipboyMenu() || !DAT_011dea3c->IsRefractive())
     {
         FUN_00b98380(15, 1);
         FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, 22);
         FUN_00b6c0d0(camera.FUN_00559450(), surface.FUN_00559450(), 0);
         BSRenderState_RestoreColorWriteEnable(1);
-        List* list = DAT_011e0e80.FUN_0043c490();
+        List* list = DAT_011e0e80.GetTranslate_0043c490();
         if (list && !list->BSSimpleList_NiRefObjectPtr_IsEmpty())
         {
             NiPoint3 offset(0, 0, 0);
-            if (DAT_011dea3c->PlayerCharacter_GetWeaponSightingNode() && !DAT_011dea3c->FUN_008a8870() && !DAT_011f2250.FUN_00525430())
-                offset = DAT_011dea3c->PlayerCharacter_GetWeaponSightingNode()->FUN_0045bb80()->FUN_00439ef0(*DAT_011e07d0->FUN_0045bb80());
-            Scene* render2Slot14 = FUN_0045c670();
+            if (DAT_011dea3c->PlayerCharacter_GetWeaponSightingNode() && !DAT_011dea3c->Actor_IsReloading() && !DAT_011f2250.VATS_IsInVats())
+                offset = DAT_011dea3c->PlayerCharacter_GetWeaponSightingNode()->NiAVObject_GetWorldTranslate()->FUN_00439ef0(*DAT_011e07d0->NiAVObject_GetWorldTranslate());
+            Scene* render2Slot14 = Main_GetWorldSceneGraph();
             Scene* view2Slot10 = render2Slot14->FUN_006629f0();
             Context* context2Slot0 = render2Slot14->FUN_008d80e0();
             Pointer texture2Slot11(texture);
-            NiPoint3 savedPosSlot10 = *view2Slot10->FUN_0045bb80();
-            view2Slot10->FUN_004f00e0(savedPosSlot10.FUN_00439e90(offset));
+            NiPoint3 savedPosSlot10 = *view2Slot10->NiAVObject_GetWorldTranslate();
+            view2Slot10->NiAVObject_SetWorldTranslate(savedPosSlot10.FUN_00439e90(offset));
             context2Slot0->BSCullingProcess_SetAccumulator(texture2Slot11.FUN_00559450());
             texture2Slot11.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(1);
             bool renderedSlot0 = false;
@@ -9993,40 +10027,40 @@ void Main::TESMain_DrawWorld_MTRender1stPerson(Scene* root, Scene* firstPerson, 
             context2Slot0->BSCullingProcess_SetAccumulator(0);
             texture2Slot11.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(0);
             texture2Slot11.FUN_0066b0d0(0);
-            view2Slot10->FUN_004f00e0(savedPosSlot10);
+            view2Slot10->NiAVObject_SetWorldTranslate(savedPosSlot10);
         }
     }
-    if (FUN_005b9b00())
+    if (BSShaderManager_IsRefractionEnabled())
     {
         Guard guard2Slot0(0x27, 1, DAT_010829c4, 0x22b5);
-        if (FUN_00705a00() && FUN_005b9b00() && DAT_011dea3c->FUN_008c51c0())
+        if (Interface_IsInPipboyMenu() && BSShaderManager_IsRefractionEnabled() && DAT_011dea3c->IsRefractive())
         {
             FUN_00b6b790();
             DAT_011f9438->FUN_00a29680();
             BSRenderedTexture_StartOffscreen(6, pass->FUN_00b6b260());
             if (DAT_011f9426)
-                FUN_00524c90()->FUN_00712e60(DAT_011ad840);
+                Main_WorldRootCamera()->FUN_00712e60(DAT_011ad840);
         }
-        Scene* render3Slot0 = FUN_0045c670();
-        surface.FUN_00559450()->FUN_00b64570(camera.FUN_00559450(), pass);
+        Scene* render3Slot0 = Main_GetWorldSceneGraph();
+        surface.FUN_00559450()->BSShaderAccumulator_RenderNormals(camera.FUN_00559450(), pass);
         TESMain_DrawWorld_RestartRenderTexture(pass, 0, 0);
     }
     if (DAT_011de9d1)
     {
         Update update(0.0f, 0, 0);
-        aliasSlot0->FUN_00a59c60(update);
+        aliasSlot0->NiAVObject_Update(update);
         aliasSlot0->NiAVObject_SetAlwaysDraw(0);
-        FUN_00450b80(0)->ShadowSceneNode_SetEyePosition(*viewSlot23->NiAVObject_GetParent()->FUN_0043c490());
+        FUN_00450b80(0)->ShadowSceneNode_SetEyePosition(*viewSlot23->NiAVObject_GetParent()->GetTranslate_0043c490());
         FUN_00450b80(0)->ShadowSceneNode_SetLightingOffset(DAT_011f426c);
     }
     if (DAT_011f2250.FUN_0044ddc0() != 4)
-        FUN_0045c670()->SceneGraph_SetCameraFOV(DAT_011dea3c->PlayerCharacter_GetWorldFOV(), 0, 0, 0);
+        Main_GetWorldSceneGraph()->SceneGraph_SetCameraFOV(DAT_011dea3c->PlayerCharacter_GetWorldFOV(), 0, 0, 0);
     FUN_00b54000(DAT_011dea3c->PlayerCharacter_GetWorldFOV());
-    if (extra && !extra->NiObjectNET_GetControllers()->FUN_00456610())
+    if (extra && !extra->NiObjectNET_GetControllers()->GetAppCulled_00456610())
     {
-        bool previousSlot0 = extra->NiObjectNET_GetControllers()->FUN_00456610();
+        bool previousSlot0 = extra->NiObjectNET_GetControllers()->GetAppCulled_00456610();
         extra->NiObjectNET_GetControllers()->FUN_00450f90(0);
-        Scene* render4Slot20 = FUN_0045c670();
+        Scene* render4Slot20 = Main_GetWorldSceneGraph();
         Scene* view4Slot48 = render4Slot20->FUN_006629f0();
         Context* context4 = render4Slot20->FUN_008d80e0();
         Pointer texture4(texture);
@@ -10049,22 +10083,22 @@ void Main::TESMain_DrawWorld_MTRender1stPerson(Scene* root, Scene* firstPerson, 
 namespace fnv_00875fd0 {
 struct SaveGameRenderState
 {
-    bool FUN_0042ce10();
+    bool BGSSaveLoadGame_GetSaveGameLoading();
     bool FUN_005621d0();
 };
 extern SaveGameRenderState* g_BGSSaveLoadGame;
-bool __cdecl FUN_00705a00();
-bool __cdecl FUN_00702360();
+bool __cdecl Interface_IsInPipboyMenu();
+bool __cdecl Interface_IsInMenuMode();
 bool __cdecl FUN_00705e80();
 void __cdecl Interface_Accumulate();
 void __cdecl FUN_00b6b790();
-bool __cdecl FUN_007079b0();
+bool __cdecl Interface_IsInRenderedMenu();
 struct RenderEffectManager
 {
     void PrepareEffect(void*, BSShaderAccumulator*, int, unsigned char);
     void VATSEffect_ShutdownEffect();
 };
-RenderEffectManager* __cdecl FUN_00705910();
+RenderEffectManager* __cdecl Interface_GetVATSEffect();
 struct AccumulatorPointer
 {
     BSShaderAccumulator* FUN_00559450() const;
@@ -10090,18 +10124,18 @@ struct RenderedMenu
     virtual void UnkVirtual10();
     virtual float GetRenderScale();
 };
-RenderedMenu* __cdecl FUN_00707ad0();
+RenderedMenu* __cdecl Interface_GetCurrentRenderedMenu();
 void __cdecl BSShaderManager_RenderImageSpaceEffects(void*, void*, void*);
 struct TextureReturnManager
 {
-    void FUN_00b6da10(BSShaderAccumulator*);
+    void BSTextureManager_ReturnRenderedTexture(BSShaderAccumulator*);
 };
 TextureReturnManager* __stdcall BSShaderManager_GetTextureManager();
 struct ViewportCamera
 {
     void FUN_00712e60(const NiColorA&);
 };
-ViewportCamera* __cdecl FUN_00524c90();
+ViewportCamera* __cdecl Main_WorldRootCamera();
 struct FrameRenderer
 {
     unsigned int unk00;
@@ -10154,24 +10188,24 @@ void FrameRenderer::TESMain_DrawWorld_ImageSpace(void* unused, void* renderer, v
     AutoMemHelper m_uiMemoryContext(39, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 9058);
     if (!BSRenderedTexture_IsOutsideFrame())
         FUN_00b6b790();
-    if (!FUN_00705a00() && !FUN_00702360() && !FUN_00705e80() && !g_BGSSaveLoadGame->FUN_0042ce10() &&
+    if (!Interface_IsInPipboyMenu() && !Interface_IsInMenuMode() && !FUN_00705e80() && !g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading() &&
         !g_BGSSaveLoadGame->FUN_005621d0() && !bSkipScene)
         Interface_Accumulate();
     if (DAT_011deb38.FUN_00559450())
-        FUN_00705910()->PrepareEffect(renderer, DAT_011deb38.FUN_00559450(), 0, 0);
-    bool menuActive = FUN_007079b0() && !bSkipScene && DAT_011dea29;
+        Interface_GetVATSEffect()->PrepareEffect(renderer, DAT_011deb38.FUN_00559450(), 0, 0);
+    bool menuActive = Interface_IsInRenderedMenu() && !bSkipScene && DAT_011dea29;
     if (menuActive)
     {
         DAT_012005a2 = true;
-        float renderScale = FUN_00707ad0()->GetRenderScale();
+        float renderScale = Interface_GetCurrentRenderedMenu()->GetRenderScale();
         DAT_011add08 = renderScale;
     }
-    DAT_011f917c = FUN_0045c670()->::BSFaceGenNiNode::GetAnimationData();
+    DAT_011f917c = Main_GetWorldSceneGraph()->::BSFaceGenNiNode::GetAnimationData();
     BSShaderManager_RenderImageSpaceEffects(scene, renderer, target);
     if (DAT_011deb38.FUN_00559450())
     {
-        FUN_00705910()->VATSEffect_ShutdownEffect();
-        BSShaderManager_GetTextureManager()->FUN_00b6da10(DAT_011deb38.FUN_00559450());
+        Interface_GetVATSEffect()->VATSEffect_ShutdownEffect();
+        BSShaderManager_GetTextureManager()->BSTextureManager_ReturnRenderedTexture(DAT_011deb38.FUN_00559450());
         DAT_011deb38.FUN_0066b0d0(0);
     }
     if (menuActive)
@@ -10179,7 +10213,7 @@ void FrameRenderer::TESMain_DrawWorld_ImageSpace(void* unused, void* renderer, v
         DAT_012005a2 = false;
         DAT_011add08 = 1.0f;
     }
-    FUN_00524c90()->FUN_00712e60(NiColorA(0.0f, 1.0f, 1.0f, 0.0f));
+    Main_WorldRootCamera()->FUN_00712e60(NiColorA(0.0f, 1.0f, 1.0f, 0.0f));
 }
 }  // namespace fnv_00875fd0
 
@@ -10194,7 +10228,7 @@ struct T876
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
     V876 pos;
     float scale;
-    void FUN_00476a80();
+    void NiTransform_NiTransform();
     void FUN_00a86bf0();
 };
 struct R876
@@ -10204,9 +10238,9 @@ struct R876
 struct Camera876
 {
     bool NiAVObject_GetAlwaysDraw();
-    T876* FUN_006a9540();
-    void FUN_00440460(V876*);
-    void FUN_00a59c60(V876*);
+    T876* NiAVObject_GetRotate_006a9540();
+    void NiAVObject_SetTranslate(V876*);
+    void NiAVObject_Update(V876*);
     void NiAVObject_SetAlwaysDraw(bool);
     Camera876* NiAVObject_GetParent();
     Camera876* FUN_006629f0();
@@ -10214,20 +10248,20 @@ struct Camera876
     Camera876* FUN_005585e0();
     R876* TESDataHandler_GetImpactDataSetList();
     void FUN_00712e60(R876*);
-    Camera876* FUN_0045bb80();
+    Camera876* NiAVObject_GetWorldTranslate();
     V876* FUN_004a0bd0(V876*);
-    void FUN_004fb0b0(bool);
+    void SetImpactDataSet_004fb0b0(bool);
     void FUN_0041fd00(Camera876*);
     void BSCullingProcess_SetAccumulator(void*);
-    void FUN_004a1020(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
     void BSShaderAccumulator_ClearGroupPasses(int);
-    void FUN_0049ed90(bool);
+    void NiAlphaProperty_SetAlphaBlending(bool);
     void NiAlphaProperty_SetSrcBlendMode(int);
     void NiAlphaProperty_SetDestBlendMode(int);
     Camera876* FUN_00a59d30(void*);
-    void FUN_00a5a040();
+    void UpdateProperties();
     Camera876* SkyObject_GetNiNode();
-    void FUN_007fae70(void*);
+    void SetScreenTexture(void*);
     Camera876* FUN_00559450();
     void* BSRenderedTexture_GetTexture(int);
 };
@@ -10238,12 +10272,12 @@ struct Player876
 };
 struct Global876
 {
-    bool FUN_00967ae0();
-    bool FUN_008c51c0();
+    bool PlayerCharacter_IsPipboyActive();
+    bool IsRefractive();
 };
 struct Input876
 {
-    int FUN_00a23a50(int, int);
+    int Controls_GetMouseButton(int, int);
     void RendererClearBufferHook(int, int);
 };
 struct Mode876
@@ -10257,9 +10291,9 @@ extern Camera876 g_011dec64;
 extern V876 DAT_011f426c;
 extern bool DAT_011f9426;
 extern R876 DAT_011ad840;
-Camera876* FUN_00707ad0();
-Mode876* FUN_00705990();
-bool FUN_00705a00();
+Camera876* Interface_GetCurrentRenderedMenu();
+Mode876* Interface_GetPipboy();
+bool Interface_IsInPipboyMenu();
 void Interface_SetQueuedPipboyTab(bool, float, float, int);
 void FUN_00b98380(int, int);
 void BSRenderState_SetZWriteEnable(int, int);
@@ -10267,11 +10301,11 @@ void BSRenderState_SetZEnable(int, int);
 void BSShaderUtil_AccumulateScene(Camera876*, Camera876*, Camera876*);
 void FUN_00b6c0d0(Camera876*, Camera876*, int);
 void BSRenderState_RestoreColorWriteEnable(int);
-void* FUN_0040df90();
+void* MagicSystem_CheckEffectFlares();
 void BSRenderState_RestoreZWriteEnable(int);
 void BSRenderState_RestoreZEnable(int);
 ::ShadowSceneNode* FUN_00450b80(int);
-::NiRenderer* FUN_0043c4b0();
+::NiRenderer* NiXenonRenderer_GetRenderer();
 struct Shell876
 {
     int unk00;
@@ -10315,12 +10349,13 @@ struct Shell876
     Camera876 a98;
     int unk9c;
     Camera876 aa0;
-    Input876* FUN_00877720();
-    void FUN_008761e0(int, Input876*);
+    Input876* Main_GetControls();
+    void Main_DrawWorld_RenderedMenu(int, Input876*);
 };
 // Sets up the player camera and scene nodes, applies camera transforms and render passes, then restores the previous camera state.
 // @fnv 0x008761e0
-void Shell876::FUN_008761e0(int unused, Input876* input)
+// src: XBOX_PDB 0x008761e0
+void Shell876::Main_DrawWorld_RenderedMenu(int unused, Input876* input)
 {
     Player876* p;
     R876 h;
@@ -10338,37 +10373,37 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     float c;
     float e;
     V876 j;
-    p = (Player876*)FUN_0045c670();
+    p = (Player876*)Main_GetWorldSceneGraph();
     s = p->FUN_008d80e0();
-    i = FUN_00707ad0()->FUN_008b6200();
+    i = Interface_GetCurrentRenderedMenu()->FUN_008b6200();
     input->RendererClearBufferHook(0, 4);
-    f = FUN_00707ad0()->FUN_005585e0();
-    s->FUN_004fb0b0(true);
+    f = Interface_GetCurrentRenderedMenu()->FUN_005585e0();
+    s->SetImpactDataSet_004fb0b0(true);
     cf.FUN_0043d410(0.0f, 0, 0);
-    b.FUN_00476a80();
+    b.NiTransform_NiTransform();
     eb = f->NiAVObject_GetAlwaysDraw();
     a = i ? i : p->FUN_006629f0();
 
-    if (DAT_011dea3c->FUN_00967ae0())
+    if (DAT_011dea3c->PlayerCharacter_IsPipboyActive())
     {
-        ba = *f->FUN_006a9540();
-        f->FUN_00440460(&DAT_011f426c);
-        f->FUN_00a59c60(&cf);
-        f->FUN_00440460(&ba.pos);
+        ba = *f->NiAVObject_GetRotate_006a9540();
+        f->NiAVObject_SetTranslate(&DAT_011f426c);
+        f->NiAVObject_Update(&cf);
+        f->NiAVObject_SetTranslate(&ba.pos);
         b.FUN_00a86bf0();
         if (a && a->NiAVObject_GetParent())
         {
-            b = *a->NiAVObject_GetParent()->FUN_006a9540();
-            a->NiAVObject_GetParent()->FUN_00440460((V876*)DAT_011e07d0->FUN_0045bb80());
-            a->NiAVObject_GetParent()->FUN_00a59c60(&cf);
+            b = *a->NiAVObject_GetParent()->NiAVObject_GetRotate_006a9540();
+            a->NiAVObject_GetParent()->NiAVObject_SetTranslate((V876*)DAT_011e07d0->NiAVObject_GetWorldTranslate());
+            a->NiAVObject_GetParent()->NiAVObject_Update(&cf);
         }
 
-        ::ShadowSceneNode_SetLightingOffset(FUN_00450b80(0), *(NiPoint3*)f->FUN_0045bb80()->FUN_004a0bd0(&j));
+        ::ShadowSceneNode_SetLightingOffset(FUN_00450b80(0), *(NiPoint3*)f->NiAVObject_GetWorldTranslate()->FUN_004a0bd0(&j));
     }
-    if (FUN_00705a00())
+    if (Interface_IsInPipboyMenu())
     {
         l = 0;
-        k = FUN_00705990()->CheckOrangeButtonsClicked(FUN_00877720()->FUN_00a23a50(0, 1) > 0, FUN_00877720()->FUN_00a23a50(0, 2) > 0,
+        k = Interface_GetPipboy()->CheckOrangeButtonsClicked(Main_GetControls()->Controls_GetMouseButton(0, 1) > 0, Main_GetControls()->Controls_GetMouseButton(0, 2) > 0,
                                          &e, &c, &l);
         Interface_SetQueuedPipboyTab(k, e, c, l);
     }
@@ -10376,58 +10411,58 @@ void Shell876::FUN_008761e0(int unused, Input876* input)
     if (!i)
         i = aa0.FUN_00559450();
     h = *i->TESDataHandler_GetImpactDataSetList();
-    if (DAT_011f9426 && static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetCurrentRT() == static_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT())
+    if (DAT_011f9426 && static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetCurrentRT() == static_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT())
         i->FUN_00712e60(&DAT_011ad840);
     FUN_00b98380(0, 1);
     s->FUN_0041fd00(i);
     s->BSCullingProcess_SetAccumulator(a8c.FUN_00559450());
-    a8c.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
+    a8c.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
     BSShaderUtil_AccumulateScene(i, f, s);
     FUN_00b6c0d0(i, a8c.FUN_00559450(), 0);
     a8c.FUN_00559450()->BSShaderAccumulator_ClearGroupPasses(6);
     s->BSCullingProcess_SetAccumulator(0);
     BSRenderState_RestoreColorWriteEnable(1);
-    q = FUN_00707ad0()->SkyObject_GetNiNode()->FUN_00a59d30(FUN_0040df90());
+    q = Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode()->FUN_00a59d30(MagicSystem_CheckEffectFlares());
     if (q)
     {
-        q->FUN_0049ed90(true);
+        q->NiAlphaProperty_SetAlphaBlending(true);
         q->NiAlphaProperty_SetSrcBlendMode(6);
         q->NiAlphaProperty_SetDestBlendMode(0);
-        FUN_00707ad0()->SkyObject_GetNiNode()->FUN_00a5a040();
+        Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode()->UpdateProperties();
     }
-    FUN_00707ad0()->FUN_007fae70(g_011dec64.FUN_00559450()->BSRenderedTexture_GetTexture(0));
+    Interface_GetCurrentRenderedMenu()->SetScreenTexture(g_011dec64.FUN_00559450()->BSRenderedTexture_GetTexture(0));
     s->FUN_0041fd00(i);
     s->BSCullingProcess_SetAccumulator(a98.FUN_00559450());
     BSRenderState_SetZWriteEnable(0, 1);
-    if (DAT_011dea3c->FUN_008c51c0() && FUN_00705a00())
+    if (DAT_011dea3c->IsRefractive() && Interface_IsInPipboyMenu())
     {
-        BSShaderUtil_AccumulateScene(i, FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(0), s);
-        BSShaderUtil_AccumulateScene(i, FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(1), s);
-        BSShaderUtil_AccumulateScene(i, FUN_00705990()->FOPipboyManager_GetPipboyLightGlow(2), s);
+        BSShaderUtil_AccumulateScene(i, Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(0), s);
+        BSShaderUtil_AccumulateScene(i, Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(1), s);
+        BSShaderUtil_AccumulateScene(i, Interface_GetPipboy()->FOPipboyManager_GetPipboyLightGlow(2), s);
         BSRenderState_SetZEnable(0, 1);
     }
-    BSShaderUtil_AccumulateScene(i, FUN_00707ad0()->SkyObject_GetNiNode(), s);
+    BSShaderUtil_AccumulateScene(i, Interface_GetCurrentRenderedMenu()->SkyObject_GetNiNode(), s);
     FUN_00b6c0d0(i, a98.FUN_00559450(), 0);
     BSRenderState_RestoreZWriteEnable(1);
-    if (DAT_011dea3c->FUN_008c51c0() && FUN_00705a00())
+    if (DAT_011dea3c->IsRefractive() && Interface_IsInPipboyMenu())
         BSRenderState_RestoreZEnable(1);
     s->BSCullingProcess_SetAccumulator(0);
-    FUN_00707ad0()->FUN_007fae70(0);
+    Interface_GetCurrentRenderedMenu()->SetScreenTexture(0);
     if (q)
-        q->FUN_0049ed90(false);
+        q->NiAlphaProperty_SetAlphaBlending(false);
     i->FUN_00712e60(&h);
-    if (DAT_011dea3c->FUN_00967ae0())
+    if (DAT_011dea3c->PlayerCharacter_IsPipboyActive())
     {
-        f->FUN_00a59c60(&cf);
+        f->NiAVObject_Update(&cf);
         f->NiAVObject_SetAlwaysDraw(eb);
         if (a && a->NiAVObject_GetParent())
         {
-            a->NiAVObject_GetParent()->FUN_00440460(&b.pos);
-            a->NiAVObject_GetParent()->FUN_00a59c60(&cf);
+            a->NiAVObject_GetParent()->NiAVObject_SetTranslate(&b.pos);
+            a->NiAVObject_GetParent()->NiAVObject_Update(&cf);
         }
         ::ShadowSceneNode_SetLightingOffset(FUN_00450b80(0), *(NiPoint3*)&DAT_011f426c);
     }
-    s->FUN_004fb0b0(false);
+    s->SetImpactDataSet_004fb0b0(false);
 }
 }  // namespace fnv_008761e0
 
@@ -10585,7 +10620,8 @@ extern double g_dCellHalfSize;
 
 // Resolves the starting cell from a name or the starting-cell INI settings, positions the player there, and warns if the cell cannot be found.
 // @fnv 0x00876dd0
-void __cdecl FUN_00876dd0(const char* apCellName, SLPoint3* apPos)
+// src: XBOX_PDB 0x00876dd0
+void __cdecl Main_InitStartCell(const char* apCellName, SLPoint3* apPos)
 {
     SLCell* pCell4 = 0;
     bool bWarn = true;
@@ -10768,7 +10804,7 @@ struct FUN_008774a0_node
 
 struct FUN_0054ca90_cell
 {
-    void FUN_0054ca90(void* apRef);
+    void TESObjectCELL_RemoveReference(void* apRef);
 };
 
 struct FUN_008774a0_player
@@ -10891,7 +10927,7 @@ struct FUN_008774a0_player
     virtual void v115(int a1, int a2);
     void PlayerCharacter_StopHeartbeatSound();
     FUN_0054ca90_cell* FUN_008d6f30();
-    FUN_008774a0_node* FUN_00950bb0(bool abFirstPerson);
+    FUN_008774a0_node* PlayerCharacter_Get3D_00950bb0(bool abFirstPerson);
 };
 
 struct FUN_007d6bd0_save
@@ -10902,10 +10938,10 @@ struct FUN_007d6bd0_save
 
 struct FUN_004539a0_tes
 {
-    void FUN_004539a0(int a1, int a2);
+    void TES_ClearAllCells(int a1, int a2);
     void FUN_007037c0(int aiValue);
     void FUN_0061cc40(int aiValue);
-    void FUN_0045ac80();
+    void TES_CleanupTemporaryParticleCache();
 };
 
 struct FUN_00ad8780_audio
@@ -10914,11 +10950,11 @@ struct FUN_00ad8780_audio
 };
 struct FUN_006c09f0_mgr
 {
-    void FUN_006c09f0();
+    void NavMeshObstacleManager_ClearAllObstacles();
 };
 struct FUN_00970d50_lists
 {
-    void FUN_00970d50();
+    void ProcessLists_InitPackageLocations();
 };
 struct FUN_004614e0_dh
 {
@@ -10926,17 +10962,17 @@ struct FUN_004614e0_dh
 };
 struct FUN_00b631d0_obj
 {
-    void FUN_00b631d0();
+    void BSShaderAccumulator_ClearAllQueries();
 };
 
-FUN_00ad8780_audio* FUN_00453a70();
+FUN_00ad8780_audio* BSAudio_QInstance();
 void __cdecl FUN_008324e0(int aiValue);
 FUN_006c09f0_mgr* GetNavMeshObstacleManager();
 void GarbageCollector_ClearAll(int aiValue);
-void FUN_00c459d0(int aiValue);
-FUN_00b631d0_obj* FUN_00b4f5c0();
-void __cdecl FUN_0040fbe0();
-void FUN_00706320(int aiValue);
+void NiObjectGarbage_ClearAll(int aiValue);
+FUN_00b631d0_obj* BSShaderManager_GetAccumulator();
+void __cdecl ProgramFlow();
+void Interface_CloseAllSupportMenus(int aiValue);
 void __cdecl Interface_CreateMainMenu();
 
 extern FUN_008774a0_player* DAT_011dea3c;
@@ -10946,49 +10982,50 @@ extern FUN_004614e0_dh* DAT_011c3f2c;
 
 struct FUN_008774a0_shell
 {
-    bool FUN_004f1540();
+    bool TESRegionData_GetOverride();
     void FUN_004f15a0(int aiValue);
     void FUN_008776e0();
-    void FUN_008774a0(bool abFlag);
+    void Main_PerformGameReset(bool abFlag);
 };
 
 extern FUN_008774a0_shell* DAT_011dea0c;
 
 // @fnv 0x008774a0
-void FUN_008774a0_shell::FUN_008774a0(bool abFlag)
+// src: XBOX_PDB 0x008774a0
+void FUN_008774a0_shell::Main_PerformGameReset(bool abFlag)
 {
-    bool bState = FUN_004f1540();
+    bool bState = TESRegionData_GetOverride();
     FUN_004f15a0(0);
     DAT_011dea3c->PlayerCharacter_StopHeartbeatSound();
     bool bSaveFlag = DAT_011ddf38->BGSSaveLoadGame_SetGlobalAllowChanges(false);
-    FUN_00453a70()->FUN_00ad8780(-1);
+    BSAudio_QInstance()->FUN_00ad8780(-1);
     FUN_008324e0(0);
     if (DAT_011dea3c->FUN_008d6f30())
-        DAT_011dea3c->FUN_008d6f30()->FUN_0054ca90(DAT_011dea3c);
+        DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_RemoveReference(DAT_011dea3c);
 
-    FUN_008774a0_node* pNode = DAT_011dea3c->FUN_00950bb0(true);
+    FUN_008774a0_node* pNode = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(true);
     FUN_008774a0_node* pRoot = pNode ? pNode->v003() : 0;
     if (pRoot && pRoot->NiAVObject_GetParent())
         pRoot->NiAVObject_GetParent()->v058(pNode);
-    pNode = DAT_011dea3c->FUN_00950bb0(false);
+    pNode = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(false);
     pRoot = pNode ? pNode->v003() : 0;
     if (pRoot && pRoot->NiAVObject_GetParent())
         pRoot->NiAVObject_GetParent()->v058(pNode);
 
-    DAT_011dea10->FUN_004539a0(0, 0);
+    DAT_011dea10->TES_ClearAllCells(0, 0);
     DAT_011dea10->FUN_007037c0(0x7fffffff);
     DAT_011dea10->FUN_0061cc40(0x7fffffff);
-    GetNavMeshObstacleManager()->FUN_006c09f0();
+    GetNavMeshObstacleManager()->NavMeshObstacleManager_ClearAllObstacles();
     GarbageCollector_ClearAll(0);
-    FUN_00c459d0(0);
+    NiObjectGarbage_ClearAll(0);
     DAT_011dea3c->v115(0, 0);
     DAT_011ddf38->FUN_0084a840();
-    ((FUN_00970d50_lists*)&DAT_011e0e80)->FUN_00970d50();
+    ((FUN_00970d50_lists*)&DAT_011e0e80)->ProcessLists_InitPackageLocations();
     DAT_011c3f2c->FUN_004614e0();
-    FUN_00b4f5c0()->FUN_00b631d0();
-    FUN_0040fbe0();
-    FUN_00706320(0);
-    DAT_011dea10->FUN_0045ac80();
+    BSShaderManager_GetAccumulator()->BSShaderAccumulator_ClearAllQueries();
+    ProgramFlow();
+    Interface_CloseAllSupportMenus(0);
+    DAT_011dea10->TES_CleanupTemporaryParticleCache();
     if (abFlag)
         Interface_CreateMainMenu();
     DAT_011ddf38->BGSSaveLoadGame_SetGlobalAllowChanges(bSaveFlag);
@@ -11012,8 +11049,8 @@ struct ViewHandle
 struct ViewList
 {
     void* FUN_00559450();
-    ViewHandle* FUN_0057cbe0(void** position);
-    bool FUN_0076b610();
+    ViewHandle* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void** position);
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
 };
 struct ViewNode
 {
@@ -11071,43 +11108,43 @@ struct ViewNode
     bool m_3a;
     ViewNode* FUN_008d80e0();
     ViewNode* FUN_006629f0();
-    ViewNode* FUN_00950bb0(bool);
-    bool FUN_00456610();
+    ViewNode* PlayerCharacter_Get3D_00950bb0(bool);
+    bool GetAppCulled_00456610();
     void FUN_00450f90(bool);
-    ViewNode* FUN_004ebbc0(int);
+    ViewNode* GetEffect_004ebbc0(int);
     bool ImageSpaceEffectDepthOfField_DoDepth();
     void FUN_0041fd00(ViewNode*);
     void* FUN_0045bbe0();
-    void FUN_00a694a0(void*);
+    void NiCullingProcess_SetFrustum(void*);
     void BSCullingProcess_SetAccumulator(ViewNode*);
-    ViewNode* FUN_0045bc00(unsigned int);
+    ViewNode* NiNode_GetAtChecked(unsigned int);
     unsigned int FUN_0043b480();
     ViewNode* FUN_0043b4a0(unsigned int);
     ViewNode* FUN_005f36f0();
     bool ShadowSceneNode_HasVisibleUnboundSpace();
-    ViewNode* FUN_00454b30();
+    ViewNode* ShadowSceneNode_QPortalGraph();
     ViewList* FUN_00436aa0();
-    ViewList* FUN_006ab360();
+    ViewList* TESCombatStyle_GetAdvancedData();
     ViewGeometry* BSPortal_GetSharedGeometry();
     bool BSCullingProcess_AddShared(ViewGeometry*);
-    int FUN_00874480();
-    int FUN_009b4440();
-    ViewNode* FUN_0084e3a0();
+    int Projectile_GetShooter();
+    int Projectile_GetDesiredTarget();
+    ViewNode* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void FUN_00b5ba80(ViewNode*, ViewNode*);
     ViewList* FUN_007d6bb0();
     ViewNode* FUN_00457070();
-    ViewNode* FUN_009d9f20();
+    ViewNode* GetPortalGraph_009d9f20();
     unsigned int BSPortalGraph_GetAlwaysRenderArrayCount();
     ViewNode* BSPortalGraph_GetAlwaysRenderAt(int);
-    void FUN_00b5e870(ViewNode*);
+    void ShadowSceneNode_PreOnVisible(ViewNode*);
     ViewNode* TESDataHandler_GetEffectShaders();
     void BSCompoundFrustum_PrethreadOpList();
-    void FUN_004dc540(ViewNode*);
+    void NiTexturingProperty_Map_SetTexture(ViewNode*);
     void nullsub_3(ViewNode*);
-    void FUN_004fb0b0(bool);
+    void SetImpactDataSet_004fb0b0(bool);
     void Sun_StartSunOcclusion();
     void FUN_006426a0(bool, ViewNode*, ViewNode*);
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 struct ViewGeometry : ViewNode
 {
@@ -11119,7 +11156,7 @@ struct VisibleList
     int unk08;
     VisibleList();
     ~VisibleList();
-    void FUN_004ed8c0(ViewNode* const&);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(ViewNode* const&);
     void FUN_004ed900();
 };
 struct MemoryContext
@@ -11139,12 +11176,12 @@ struct InterfaceSystem
 {
     void FOVATSEffectManager_DrawTargetToTexture(int, int, int, int, int, int);
 };
-ViewNode* FUN_0045c670();
-ViewNode* FUN_004e3270();
+ViewNode* Main_GetWorldSceneGraph();
+ViewNode* BSShaderManager_GetImageSpaceManager();
 ViewNode* FUN_00450b80(int);
-ViewNode* FUN_0043c4b0();
+ViewNode* NiXenonRenderer_GetRenderer();
 RenderSystem* FUN_004ea970();
-InterfaceSystem* FUN_00705910();
+InterfaceSystem* Interface_GetVATSEffect();
 ViewNode* ScreenSplatter_GetCamera();
 ViewNode* ScreenCustomSplatter_GetCamera();
 ViewNode* ScreenCustomSplatter_GetCurrentRoot();
@@ -11220,7 +11257,7 @@ struct MainView
 // src: COMMUNITY 0x00873200
 void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool hide, bool drawInterface)
 {
-    ViewNode* root3 = FUN_0045c670();
+    ViewNode* root3 = Main_GetWorldSceneGraph();
     ViewNode* process = root3->FUN_008d80e0();
     ViewNode* otherProcess;
     ViewNode* cameraX;
@@ -11228,17 +11265,17 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
     DAT_011f9684 = root3->FUN_006629f0();
     if (listener)
         listener->Sun_StartSunOcclusion();
-    bool savedVisibility = DAT_011dea3c->FUN_00950bb0(true)->FUN_00456610();
-    DAT_011dea3c->FUN_00950bb0(true)->FUN_00450f90(true);
+    bool savedVisibility = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(true)->GetAppCulled_00456610();
+    DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(true)->FUN_00450f90(true);
     m_88.FUN_00559450()->m_38 = !hide;
-    ViewNode* imageEffect5 = FUN_004e3270()->FUN_004ebbc0(4);
+    ViewNode* imageEffect5 = BSShaderManager_GetImageSpaceManager()->GetEffect_004ebbc0(4);
     m_88.FUN_00559450()->m_3a = !hide && imageEffect5->ImageSpaceEffectDepthOfField_DoDepth();
     m_8c.FUN_00559450()->m_3a = !hide && imageEffect5->ImageSpaceEffectDepthOfField_DoDepth();
     MemoryContext memory7(15, true, DAT_010829c4, 0x1eb7);
     cameraX = 0;
     cameraX = root3->FUN_006629f0();
     process->FUN_0041fd00(cameraX);
-    process->FUN_00a694a0(cameraX->FUN_0045bbe0());
+    process->NiCullingProcess_SetFrustum(cameraX->FUN_0045bbe0());
     process->BSCullingProcess_SetAccumulator(m_88.FUN_00559450());
     // Partition visible objects between the two culling passes.
     if (DAT_011f94b4)
@@ -11249,33 +11286,33 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
         ViewNode* graph = FUN_00450b80(0);
         ViewNode* node2 = 0;
         ViewNode* branch = 0;
-        node2 = graph->FUN_0045bc00(0);
-        if (node2 && !node2->FUN_00456610())
-            commonList3.FUN_004ed8c0(node2);
-        node2 = graph->FUN_0045bc00(1);
-        if (node2 && !node2->FUN_00456610())
-            commonList3.FUN_004ed8c0(node2);
-        node2 = graph->FUN_0045bc00(2);
-        if (node2 && !node2->FUN_00456610())
+        node2 = graph->NiNode_GetAtChecked(0);
+        if (node2 && !node2->GetAppCulled_00456610())
+            commonList3.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+        node2 = graph->NiNode_GetAtChecked(1);
+        if (node2 && !node2->GetAppCulled_00456610())
+            commonList3.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+        node2 = graph->NiNode_GetAtChecked(2);
+        if (node2 && !node2->GetAppCulled_00456610())
             branch = node2->AsNode();
         if (branch)
         {
-            node2 = branch->FUN_0045bc00(0);
-            if (node2 && !node2->FUN_00456610())
-                leftList2.FUN_004ed8c0(node2);
-            node2 = branch->FUN_0045bc00(1);
-            if (node2 && !node2->FUN_00456610())
-                leftList2.FUN_004ed8c0(node2);
-            node2 = branch->FUN_0045bc00(2);
-            if (node2 && !node2->FUN_00456610())
-                leftList2.FUN_004ed8c0(node2);
+            node2 = branch->NiNode_GetAtChecked(0);
+            if (node2 && !node2->GetAppCulled_00456610())
+                leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+            node2 = branch->NiNode_GetAtChecked(1);
+            if (node2 && !node2->GetAppCulled_00456610())
+                leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+            node2 = branch->NiNode_GetAtChecked(2);
+            if (node2 && !node2->GetAppCulled_00456610())
+                leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
         }
-        node2 = graph->FUN_0045bc00(3);
+        node2 = graph->NiNode_GetAtChecked(3);
         branch = node2->AsNode();
         // Exterior and interior scenes organize their child nodes differently.
         if (!DAT_011dea10->FUN_005f36f0())
         {
-            if (branch && !branch->FUN_00456610())
+            if (branch && !branch->GetAppCulled_00456610())
             {
                 for (int i = 0; i < branch->FUN_0043b480(); ++i)
                 {
@@ -11283,7 +11320,7 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                     if (node2)
                     {
                         ViewNode* section = node2->AsNode();
-                        if (section && !section->FUN_00456610())
+                        if (section && !section->GetAppCulled_00456610())
                         {
                             for (int j = 0; j < section->FUN_0043b480(); ++j)
                             {
@@ -11293,7 +11330,7 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                                     ViewNode* nested = item->AsNode();
                                     if (nested)
                                     {
-                                        if (!nested->FUN_00456610())
+                                        if (!nested->GetAppCulled_00456610())
                                         {
                                             int k = 0;
                                             if (j == 6)
@@ -11301,12 +11338,12 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                                             for (; k < nested->FUN_0043b480(); ++k)
                                             {
                                                 ViewNode* leaf = nested->FUN_0043b4a0(k);
-                                                if (leaf && !leaf->FUN_00456610())
+                                                if (leaf && !leaf->GetAppCulled_00456610())
                                                 {
                                                     if (i % 2)
-                                                        leftList2.FUN_004ed8c0(leaf);
+                                                        leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf);
                                                     else
-                                                        rightList4.FUN_004ed8c0(leaf);
+                                                        rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf);
                                                 }
                                             }
                                         }
@@ -11314,9 +11351,9 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                                     else
                                     {
                                         if (i % 2)
-                                            leftList2.FUN_004ed8c0(item);
+                                            leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(item);
                                         else
-                                            rightList4.FUN_004ed8c0(item);
+                                            rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(item);
                                     }
                                 }
                             }
@@ -11329,17 +11366,17 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
         {
             if (FUN_00450b80(0)->ShadowSceneNode_HasVisibleUnboundSpace())
             {
-                node2 = branch->FUN_0045bc00(0);
-                if (node2 && !node2->FUN_00456610())
-                    rightList4.FUN_004ed8c0(node2);
-                node2 = branch->FUN_0045bc00(1);
-                if (node2 && !node2->FUN_00456610())
-                    leftList2.FUN_004ed8c0(node2);
-                node2 = branch->FUN_0045bc00(2);
+                node2 = branch->NiNode_GetAtChecked(0);
+                if (node2 && !node2->GetAppCulled_00456610())
+                    rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+                node2 = branch->NiNode_GetAtChecked(1);
+                if (node2 && !node2->GetAppCulled_00456610())
+                    leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+                node2 = branch->NiNode_GetAtChecked(2);
                 if (node2)
                 {
                     branch = node2->AsNode();
-                    if (branch && !branch->FUN_00456610())
+                    if (branch && !branch->GetAppCulled_00456610())
                     {
                         for (int outerIndex = 0; outerIndex < branch->FUN_0043b480(); ++outerIndex)
                         {
@@ -11347,7 +11384,7 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                             if (node2 && outerIndex != 4 && outerIndex != 0)
                             {
                                 ViewNode* section2 = node2->AsNode();
-                                if (section2 && !section2->FUN_00456610())
+                                if (section2 && !section2->GetAppCulled_00456610())
                                 {
                                     int childIndex = 0;
                                     if (outerIndex == 6)
@@ -11355,12 +11392,12 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                                     for (; childIndex < section2->FUN_0043b480(); ++childIndex)
                                     {
                                         ViewNode* leaf2 = section2->FUN_0043b4a0(childIndex);
-                                        if (leaf2 && !leaf2->FUN_00456610())
+                                        if (leaf2 && !leaf2->GetAppCulled_00456610())
                                         {
                                             if (childIndex % 2)
-                                                leftList2.FUN_004ed8c0(leaf2);
+                                                leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf2);
                                             else
-                                                rightList4.FUN_004ed8c0(leaf2);
+                                                rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf2);
                                         }
                                     }
                                 }
@@ -11371,13 +11408,13 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
             }
             else
             {
-                node2 = branch->FUN_0045bc00(2);
+                node2 = branch->NiNode_GetAtChecked(2);
                 if (node2)
                 {
                     branch = node2->AsNode();
-                    if (branch && !branch->FUN_00456610())
+                    if (branch && !branch->GetAppCulled_00456610())
                     {
-                        node2 = branch->FUN_0045bc00(7);
+                        node2 = branch->NiNode_GetAtChecked(7);
                         if (node2)
                         {
                             branch = node2->AsNode();
@@ -11386,12 +11423,12 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                                 for (int index3 = 0; index3 < branch->FUN_0043b480(); ++index3)
                                 {
                                     ViewNode* leaf3 = branch->FUN_0043b4a0(index3);
-                                    if (leaf3 && !leaf3->FUN_00456610())
+                                    if (leaf3 && !leaf3->GetAppCulled_00456610())
                                     {
                                         if (index3 % 2)
-                                            leftList2.FUN_004ed8c0(leaf3);
+                                            leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf3);
                                         else
-                                            rightList4.FUN_004ed8c0(leaf3);
+                                            rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(leaf3);
                                     }
                                 }
                             }
@@ -11399,32 +11436,32 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                     }
                 }
             }
-            ViewNode* area = FUN_00450b80(0)->FUN_00454b30();
+            ViewNode* area = FUN_00450b80(0)->ShadowSceneNode_QPortalGraph();
             ViewList* roomsTmp = area ? area->FUN_00436aa0() : 0;
             void* roomPosition4 = roomsTmp ? roomsTmp->FUN_00559450() : 0;
             int visibleCount = 0;
             while (roomPosition4)
             {
-                ViewNode* room = area->FUN_00436aa0()->FUN_0057cbe0(&roomPosition4)->FUN_00559450();
-                if (room && !room->FUN_006ab360()->FUN_0076b610())
+                ViewNode* room = area->FUN_00436aa0()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&roomPosition4)->FUN_00559450();
+                if (room && !room->TESCombatStyle_GetAdvancedData()->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
                 {
-                    void* itemPosition = room->FUN_006ab360()->FUN_00559450();
+                    void* itemPosition = room->TESCombatStyle_GetAdvancedData()->FUN_00559450();
                     while (itemPosition)
                     {
-                        ViewNode* object = room->FUN_006ab360()->FUN_0057cbe0(&itemPosition)->value;
+                        ViewNode* object = room->TESCombatStyle_GetAdvancedData()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&itemPosition)->value;
                         if (object && process->BSCullingProcess_AddShared(object->BSPortal_GetSharedGeometry()))
                         {
                             ViewGeometry* geometry = object->BSPortal_GetSharedGeometry();
                             if (geometry)
                             {
-                                if (object->FUN_00874480() && object->FUN_009b4440())
+                                if (object->Projectile_GetShooter() && object->Projectile_GetDesiredTarget())
                                 {
-                                    FUN_00450b80(0)->FUN_00b5ba80(process->FUN_0084e3a0(), object);
+                                    FUN_00450b80(0)->FUN_00b5ba80(process->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), object);
                                 }
                                 if (visibleCount % 2)
-                                    leftList2.FUN_004ed8c0(geometry);
+                                    leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(geometry);
                                 else
-                                    rightList4.FUN_004ed8c0(geometry);
+                                    rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(geometry);
                                 ++visibleCount;
                             }
                         }
@@ -11436,59 +11473,59 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
                 void* objectPosition = area->FUN_007d6bb0()->FUN_00559450();
                 while (objectPosition)
                 {
-                    ViewNode* object2 = area->FUN_007d6bb0()->FUN_0057cbe0(&objectPosition)->value;
+                    ViewNode* object2 = area->FUN_007d6bb0()->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&objectPosition)->value;
                     if (object2 && process->BSCullingProcess_AddShared(object2->BSPortal_GetSharedGeometry()))
                     {
                         ViewGeometry* geometry2 = object2->BSPortal_GetSharedGeometry();
                         if (geometry2)
                         {
                             if (visibleCount % 2)
-                                leftList2.FUN_004ed8c0(geometry2);
+                                leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(geometry2);
                             else
-                                rightList4.FUN_004ed8c0(geometry2);
+                                rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(geometry2);
                             ++visibleCount;
                         }
                     }
                 }
             }
-            ViewNode* extra6 = DAT_011dea10->FUN_00457070()->FUN_009d9f20();
+            ViewNode* extra6 = DAT_011dea10->FUN_00457070()->GetPortalGraph_009d9f20();
             if (extra6)
             {
                 for (int extraIndex = 0; extraIndex < extra6->BSPortalGraph_GetAlwaysRenderArrayCount(); ++extraIndex)
                 {
                     ViewNode* extraNode = extra6->BSPortalGraph_GetAlwaysRenderAt(extraIndex);
                     if (extraNode)
-                        commonList3.FUN_004ed8c0(extraNode);
+                        commonList3.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(extraNode);
                 }
             }
         }
-        node2 = graph->FUN_0045bc00(4);
-        if (node2 && !node2->FUN_00456610())
-            commonList3.FUN_004ed8c0(node2);
-        node2 = graph->FUN_0045bc00(5);
-        if (node2 && !node2->FUN_00456610())
-            commonList3.FUN_004ed8c0(node2);
-        node2 = graph->FUN_0045bc00(6);
-        if (node2 && !node2->FUN_00456610())
-            leftList2.FUN_004ed8c0(node2);
+        node2 = graph->NiNode_GetAtChecked(4);
+        if (node2 && !node2->GetAppCulled_00456610())
+            commonList3.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+        node2 = graph->NiNode_GetAtChecked(5);
+        if (node2 && !node2->GetAppCulled_00456610())
+            commonList3.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
+        node2 = graph->NiNode_GetAtChecked(6);
+        if (node2 && !node2->GetAppCulled_00456610())
+            leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
         for (int tailIndex = 7; tailIndex < graph->FUN_0043b480(); ++tailIndex)
         {
             node2 = graph->FUN_0043b4a0(tailIndex);
-            if (node2 && !node2->FUN_00456610())
+            if (node2 && !node2->GetAppCulled_00456610())
             {
                 if (tailIndex % 2)
-                    leftList2.FUN_004ed8c0(node2);
+                    leftList2.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
                 else
-                    rightList4.FUN_004ed8c0(node2);
+                    rightList4.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(node2);
             }
         }
         process->FUN_0041fd00(cameraX);
-        FUN_00450b80(0)->FUN_00b5e870(process);
+        FUN_00450b80(0)->ShadowSceneNode_PreOnVisible(process);
         if (FUN_00450b80(0)->TESDataHandler_GetEffectShaders())
             FUN_00450b80(0)->TESDataHandler_GetEffectShaders()->BSCompoundFrustum_PrethreadOpList();
         m_88.FUN_00559450()->SetCamera(cameraX);
         BSShaderManager_SetAccumulator(m_88.FUN_00559450());
-        FUN_0043c4b0()->FUN_004dc540(m_88.FUN_00559450());
+        NiXenonRenderer_GetRenderer()->NiTexturingProperty_Map_SetTexture(m_88.FUN_00559450());
         FUN_004ea970()->MTRenderingSystem_AddAccumTask(cameraX, FUN_00450b80(0)->TESDataHandler_GetEffectShaders(), 0, &leftList2, 0, m_88.FUN_00559450(), 0,
                                      21, true);
         FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, 21);
@@ -11513,7 +11550,7 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
     if (drawInterface)
     {
         FUN_00b98380(0, 1);
-        FUN_00705910()->FOVATSEffectManager_DrawTargetToTexture(0, 2, 1, 0, 0, 0);
+        Interface_GetVATSEffect()->FOVATSEffectManager_DrawTargetToTexture(0, 2, 1, 0, 0, 0);
         BSRenderState_RestoreColorWriteEnable(1);
     }
     BSShaderUtil_RenderScenePostResolveDepth(root3->FUN_006629f0(), m_88.FUN_00559450(), true);
@@ -11526,34 +11563,34 @@ void MainView::TESMain_DrawWorld_DrawScene(ViewNode* listener, int unused, bool 
     BSShaderBloodSplatterProperty_ResetShapeCount();
     // Render the auxiliary scene views through the secondary culling process.
     renderer2 = BSShaderManager_GetRenderer();
-    otherProcess = FUN_0045c670()->FUN_008d80e0();
-    otherProcess->FUN_004fb0b0(true);
+    otherProcess = Main_GetWorldSceneGraph()->FUN_008d80e0();
+    otherProcess->SetImpactDataSet_004fb0b0(true);
     BSShaderBloodSplatter_ComputeScreenSpaceLightLoc(DAT_011deb7c.FUN_00559450()->FUN_006629f0());
     otherProcess->FUN_0041fd00(ScreenSplatter_GetCamera());
     otherProcess->BSCullingProcess_SetAccumulator(m_94.FUN_00559450());
     BSShaderUtil_AccumulateScene(ScreenSplatter_GetCamera(), ScreenSplatter_GetRoot(), otherProcess);
     FUN_00b6c0d0(ScreenSplatter_GetCamera(), m_94.FUN_00559450(), false);
     process->BSCullingProcess_SetAccumulator(0);
-    otherProcess->FUN_004fb0b0(false);
+    otherProcess->SetImpactDataSet_004fb0b0(false);
     BSShaderBloodSplatterProperty_ResetShapeCount();
     renderer2 = BSShaderManager_GetRenderer();
-    otherProcess = FUN_0045c670()->FUN_008d80e0();
-    otherProcess->FUN_004fb0b0(true);
+    otherProcess = Main_GetWorldSceneGraph()->FUN_008d80e0();
+    otherProcess->SetImpactDataSet_004fb0b0(true);
     BSShaderBloodSplatter_ComputeScreenSpaceLightLoc(DAT_011deb7c.FUN_00559450()->FUN_006629f0());
     otherProcess->FUN_0041fd00(ScreenCustomSplatter_GetCamera());
     otherProcess->BSCullingProcess_SetAccumulator(m_94.FUN_00559450());
     BSShaderUtil_AccumulateScene(ScreenCustomSplatter_GetCamera(), ScreenCustomSplatter_GetCurrentRoot(), otherProcess);
     FUN_00b6c0d0(ScreenCustomSplatter_GetCamera(), m_94.FUN_00559450(), false);
     process->BSCullingProcess_SetAccumulator(0);
-    otherProcess->FUN_004fb0b0(false);
-    if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+    otherProcess->SetImpactDataSet_004fb0b0(false);
+    if (*DAT_011c3ea4.Setting_Int() > 1)
         FUN_008c80e0(0);
     if (DAT_011f94a9)
         ImageSpaceEffectFullScreenBlur_CheckCamera(root3->FUN_006629f0());
     if (listener)
         listener->FUN_006426a0(true, m_88.FUN_00559450(), DAT_011deb7c.FUN_00559450()->FUN_006629f0());
     BSShaderAccumulator_SetRunBoundingSphereTests(false, false);
-    DAT_011dea3c->FUN_00950bb0(true)->FUN_00450f90(savedVisibility);
+    DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(true)->FUN_00450f90(savedVisibility);
 }
 }  // namespace fnv_00873200
 
@@ -11593,7 +11630,7 @@ struct ProcObj
 {
     void Sky_Initialize(void* a, void* b);
     void* FUN_0045cd60();
-    void* FUN_004505a0();
+    void* Sky_GetLight();
 };
 extern ProcObj* DAT_011dea20;
 
@@ -11614,7 +11651,7 @@ struct FUN_0049ec80_Property : NiRefObject
     unsigned int unknown1c;
     unsigned int unknown20;
     FUN_0049ec80_Property();
-    void FUN_0049ed90(bool b);
+    void NiAlphaProperty_SetAlphaBlending(bool b);
     void FUN_0049ede0(unsigned int value);
     void FUN_0050f9a0(unsigned int value);
 };
@@ -11689,9 +11726,9 @@ struct ISM2
     void ImageSpaceManager_SetUseSunbeams(bool b);
 };
 
-void FUN_0040fbe0(const char* s);
+void ProgramFlow(const char* s);
 LightShell* FUN_00450b80(unsigned int i);
-ImageSpaceManager* FUN_004e3270();
+ImageSpaceManager* BSShaderManager_GetImageSpaceManager();
 void FUN_00b57e30(void* p, int a, int b);
 
 // @fnv 0x00877730
@@ -11699,23 +11736,23 @@ void FUN_00b57e30(void* p, int a, int b);
 void TESMain_InitSky()
 {
     AutoMemHelper helper8(0x21, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\Main.cpp", 0x26bd);
-    FUN_0040fbe0("Initializing Sky...");
+    ProgramFlow("Initializing Sky...");
     DAT_011dea20->Sky_Initialize(DAT_011deb34.FUN_00559450(), DAT_011deb00.FUN_00559450());
     ((HostV*)g_011deda4.FUN_00559450())->v37(((ModelOps*)(void*)DAT_011dea20->FUN_0045cd60())->NiObjectNET_GetControllers(), 1);
-    ((LightShell*)FUN_00450b80(0))->FUN_00b5aac0((void*)DAT_011dea20->FUN_004505a0());
-    DAT_011deb34.FUN_00559450()->FUN_00a5a040();
-    ((ISM2*)FUN_004e3270())->ImageSpaceManager_SetUseSunbeams(((SettingT<INISettingCollection>*)&g_011deadc)->Bool()[0]);
+    ((LightShell*)FUN_00450b80(0))->FUN_00b5aac0((void*)DAT_011dea20->Sky_GetLight());
+    DAT_011deb34.FUN_00559450()->UpdateProperties();
+    ((ISM2*)BSShaderManager_GetImageSpaceManager())->ImageSpaceManager_SetUseSunbeams(((SettingT<INISettingCollection>*)&g_011deadc)->Bool()[0]);
     if (((SettingT<INISettingCollection>*)&g_011deadc)->Bool()[0])
     {
         NiAlphaProperty* obj = new NiAlphaProperty;
-        ((NiAlphaProperty*)obj)->FUN_0049ed90(true);
+        ((NiAlphaProperty*)obj)->NiAlphaProperty_SetAlphaBlending(true);
         obj->FUN_0049ede0(2);
         obj->FUN_0050f9a0(0xff);
         DAT_011deb34.FUN_00559450()->AttachProperty((::NiObject*)obj);
     }
     NiUpdateData upd1(0.0f, false, false);
     DAT_011deb34.FUN_00559450()->Update(upd1);
-    g_011deda4.FUN_00559450()->FUN_00a5a040();
+    g_011deda4.FUN_00559450()->UpdateProperties();
     NiUpdateData updTmp(0.0f, false, false);
     g_011deda4.FUN_00559450()->Update(updTmp);
     FUN_00b57e30(DAT_011deb34.FUN_00559450(), 0, 0);
@@ -11887,7 +11924,7 @@ using ::BSShaderManager;
 using ::NiAVObject;
 struct CamNode
 {
-    ::NiAVObject* FUN_00558310();
+    ::NiAVObject* BSSceneGraph_GetCameraRoot();
     NiCamera* GetAnimationData();
 };
 struct CamNodePtr
@@ -11974,15 +12011,15 @@ struct MainX
 // @fnv 0x00872b00
 void* MainX::UpdateCamera()
 {
-    ((ISMgr*)FUN_0045c670()->::BSFaceGenNiNode::GetAnimationData())->FUN_00712e60(DAT_011ad840);
+    ((ISMgr*)Main_GetWorldSceneGraph()->::BSFaceGenNiNode::GetAnimationData())->FUN_00712e60(DAT_011ad840);
     if (DAT_011f2250.CallGetFlags() != 4)
     {
-        ((ISHolder*)FUN_0045c670())->SceneGraph_SetCameraFOV(PlayerCharacter_GetWorldFOV(g_thePlayer), 0, 0, true);
+        ((ISHolder*)Main_GetWorldSceneGraph())->SceneGraph_SetCameraFOV(PlayerCharacter_GetWorldFOV(g_thePlayer), 0, 0, true);
     }
     BSShaderManager::SetFOV(PlayerCharacter_GetWorldFOV(g_thePlayer));
     if (bFlag9C)
     {
-        ((ISMgr*)FUN_0045c670()->::BSFaceGenNiNode::GetAnimationData())->FUN_00712e60(NiColorA(0.0f, 1.0f, 1.0f, 0.0f));
+        ((ISMgr*)Main_GetWorldSceneGraph()->::BSFaceGenNiNode::GetAnimationData())->FUN_00712e60(NiColorA(0.0f, 1.0f, 1.0f, 0.0f));
     }
     NiCamera* pCamera = ((CamNode*)g_011deb7c)->GetAnimationData();
     NiCamera* pOverride6 = 0;
@@ -11991,10 +12028,10 @@ void* MainX::UpdateCamera()
         static CamWatcher kWatcher;
         kWatcher.HighActorCuller_Run(pOverride6 ? pOverride6 : pCamera);
     }
-    ((::NiAVObject*)g_011deb34)->FUN_00440460(((CamNode*)g_011deb7c)->FUN_00558310()->FUN_0043c490());
+    ((::NiAVObject*)g_011deb34)->NiAVObject_SetTranslate(((CamNode*)g_011deb7c)->BSSceneGraph_GetCameraRoot()->GetTranslate_0043c490());
     NiUpdateData kData5(0.0f, false, false);
     ((::NiAVObject*)g_011deb34)->Update(kData5);
-    ((::NiAVObject*)g_011deda4)->FUN_00440460(((CamNode*)g_011deb7c)->FUN_00558310()->FUN_0043c490());
+    ((::NiAVObject*)g_011deda4)->NiAVObject_SetTranslate(((CamNode*)g_011deb7c)->BSSceneGraph_GetCameraRoot()->GetTranslate_0043c490());
     NiUpdateData kData2(0.0f, false, false);
     ((::NiAVObject*)g_011deda4)->Update(kData2);
     if (DAT_011f9fc0)
@@ -12018,12 +12055,12 @@ void* MainX::UpdateCamera()
 namespace fnv_0086ff70 {
 struct Main86 : Main
 {
-    void FUN_0086ff70();
-    void FUN_00871dc0();
+    void Main_Swap();
+    void Main_RenderMenuBackground();
     void TESMain_KillMenuBGTexture();
-    void FUN_008706b0(int, int, int);
+    void Main_DrawWorld(int, int, int);
     void TESMain_UpdateOffscreenInterface();
-    void FUN_00872940(int);
+    void Main_DrawWorldMenu3D(int);
     void TESMain_DrawWorld_CopyMenuBG(int);
 };
 struct Extra86
@@ -12149,19 +12186,19 @@ struct PlayerState86
     virtual bool vfn_1c8();
     virtual bool vfn_1cc();
     virtual int vfn_1d0();
-    PlayerState86* FUN_00950bb0(int);
+    PlayerState86* PlayerCharacter_Get3D_00950bb0(int);
 };
 struct PlayerContext86
 {
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     void FUN_00450f90(int);
 };
 struct Core86
 {
-    void FUN_004a0370();
+    void NiXenonRenderer_LockRenderer();
     void FUN_005585e0();
     int FUN_004e9530();
-    void FUN_004a03c0();
+    void NiXenonRenderer_UnlockRenderer();
 };
 struct Input86
 {
@@ -12178,7 +12215,7 @@ struct Engine86
     void TES_ShowLoadingMenu(int, int, int);
     int FUN_005f36f0();
     Engine86* FUN_004fd3e0();
-    const char* FUN_00548210();
+    const char* TESWorldSpace_GetCanopyShadowTextureName();
     Topic86* FUN_0044ddc0();
     void RecreateCanopyShadowMaskTexture();
 };
@@ -12193,7 +12230,7 @@ struct Resource86
 };
 struct Options86
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
     void FUN_0045ce80(int);
 };
 struct Frame86
@@ -12220,12 +12257,12 @@ struct GlobalText86
 };
 struct ControlItem86
 {
-    bool FUN_00a24660();
+    bool Controls_GetUserAction();
     bool Controls_GetKeyboardButton();
 };
 struct Settings86
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 struct Sink86
 {
@@ -12240,19 +12277,19 @@ struct MenuHandler86
     void BSTimer_ClampAt(int);
 };
 struct Receiver86;
-extern Receiver86* __cdecl FUN_0043c4b0();
+extern Receiver86* __cdecl NiXenonRenderer_GetRenderer();
 extern Sound86* __cdecl FUN_004ea970();
 extern Sound86* __stdcall FUN_004ea970(int, int);
-extern char __cdecl FUN_00702680(int, int);
-extern bool __cdecl FUN_0070edf0();
-extern bool __cdecl FUN_007079b0();
-extern bool __cdecl FUN_007079b0(int);
-extern bool __cdecl FUN_00702360();
+extern char __cdecl Interface_IsMenuIDVisible(int, int);
+extern bool __cdecl StartMenu_MainMenuIsActive();
+extern bool __cdecl Interface_IsInRenderedMenu();
+extern bool __cdecl Interface_IsInRenderedMenu(int);
+extern bool __cdecl Interface_IsInMenuMode();
 extern bool __cdecl Cmd_Default_Execute();
 extern void __cdecl BSShaderManager_RenderDebugTexture();
 extern void __cdecl Interface_DrawHUDMenu3D();
 extern void __cdecl FUN_00a29680();
-extern int __cdecl FUN_0040fbe0(...);
+extern int __cdecl ProgramFlow(...);
 extern void __cdecl ApplyGammaRamp();
 extern void __cdecl FUN_0070edf0_unused();
 extern void __cdecl SaveScreenshot(int);
@@ -12260,16 +12297,16 @@ extern void __cdecl NiObjectGarbage_Update();
 extern void __cdecl FUN_00b6b730();
 extern void __cdecl BSSceneGraph_SetCameraScene();
 extern void __cdecl FUN_008c80e0(int);
-extern void __cdecl FUN_00406d00(char*, unsigned int, const char*, int, int);
+extern void __cdecl BSsprintf(char*, unsigned int, const char*, int, int);
 extern "C" __declspec(dllimport) int __stdcall CreateDirectoryA(const char*, void*);
-extern int __stdcall FUN_004e3270(Core86*, int, int);
+extern int __stdcall BSShaderManager_GetImageSpaceManager(Core86*, int, int);
 extern void __cdecl RenderOrFallback(int, int);
 struct SwapMessage86
 {
-    void FUN_00b6da10();
+    void BSTextureManager_ReturnRenderedTexture();
 };
 extern SwapMessage86* __stdcall BSShaderManager_GetTextureManager(int);
-extern void __cdecl FUN_00b6da10();
+extern void __cdecl BSTextureManager_ReturnRenderedTexture();
 extern bool __cdecl TESRenderer_GetMultiSampleEnabled();
 extern int DAT_011e0e80;
 extern void __cdecl NiXAdapaterDesc_GetDeviceCaps();
@@ -12303,25 +12340,25 @@ extern void __cdecl Interface_PreIdleStuff();
 extern void __cdecl FUN_00a29680();
 extern void __cdecl NiObjectGarbage_Update();
 extern void __cdecl FUN_00878660();
-extern int __cdecl FUN_0040fbe0(...);
-extern void __cdecl FUN_004a03c0();
+extern int __cdecl ProgramFlow(...);
+extern void __cdecl NiXenonRenderer_UnlockRenderer();
 extern float __cdecl FUN_00450820();
 extern void __cdecl Interface_PostIdleStuff();
 extern void __cdecl RenderOrFallback(int, int);
 struct Control86
 {
-    int FUN_00a24660();
+    int Controls_GetUserAction();
     int Controls_GetKeyboardButton();
 };
-extern Control86* __stdcall FUN_007fdf30(int, int);
+extern Control86* __stdcall Controls_GetInstance(int, int);
 extern Control86* __cdecl FUN_007fdf30_control(int, int);
 struct Receiver86;
-extern Receiver86* __cdecl FUN_0043c4b0();
+extern Receiver86* __cdecl NiXenonRenderer_GetRenderer();
 extern int __cdecl FUN_004e3270_variant(int, int);
 extern void __cdecl FUN_00450f90_variant(int);
 extern int __cdecl FUN_004dc310_variant(int);
 extern void __cdecl FUN_004ea970_variant();
-extern void __cdecl FUN_00b6da10();
+extern void __cdecl BSTextureManager_ReturnRenderedTexture();
 extern void __cdecl BSSceneGraph_SetCameraScene();
 extern void __cdecl FUN_004e9530_dummy();
 extern int __cdecl FUN_0043c4b0_unused();
@@ -12330,24 +12367,25 @@ extern void __cdecl FUN_007028b0_unused();
 extern int __cdecl FUN_00559450_unused();
 // Runs player, input, audio, and state update calls, then performs frame cleanup and resource updates.
 // @fnv 0x0086ff70
-void Main86::FUN_0086ff70()
+// src: XBOX_PDB 0x0086ff70
+void Main86::Main_Swap()
 {
-    Core86* core = reinterpret_cast<Core86*>(FUN_0043c4b0());
-    core->FUN_004a0370();
+    Core86* core = reinterpret_cast<Core86*>(NiXenonRenderer_GetRenderer());
+    core->NiXenonRenderer_LockRenderer();
     if (DAT_011d890a)
     {
         DAT_011d890a = 0;
-        bool first = reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(1))->FUN_00456610();
-        bool second = reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(0))->FUN_00456610();
-        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(1))->FUN_00450f90(1);
-        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(0))->FUN_00450f90(1);
-        FUN_00871dc0();
-        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(1))->FUN_00450f90(first);
-        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->FUN_00950bb0(0))->FUN_00450f90(second);
+        bool first = reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1))->GetAppCulled_00456610();
+        bool second = reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0))->GetAppCulled_00456610();
+        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1))->FUN_00450f90(1);
+        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0))->FUN_00450f90(1);
+        Main_RenderMenuBackground();
+        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(1))->FUN_00450f90(first);
+        reinterpret_cast<PlayerContext86*>(DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(0))->FUN_00450f90(second);
     }
-    reinterpret_cast<Core86*>(FUN_0043c4b0())->FUN_005585e0();
+    reinterpret_cast<Core86*>(NiXenonRenderer_GetRenderer())->FUN_005585e0();
     FUN_00a29680();
-    FUN_0040fbe0();
+    ProgramFlow();
     FUN_004ea970()->MTRenderingSystem_StartThreads();
     if (DAT_011c6fb8)
         ApplyGammaRamp();
@@ -12356,7 +12394,7 @@ void Main86::FUN_0086ff70()
         if (!DAT_011def04)
         {
             DAT_011dea10->TES_ShowLoadingMenu(0, 0, 0);
-            FUN_0040fbe0();
+            ProgramFlow();
             reinterpret_cast<Extra86*>(&DAT_011e0e80)->ProcessLists_SkipHighListFadeIn();
         }
         DAT_011def00 += DAT_011f6394.FUN_007013e0();
@@ -12380,23 +12418,23 @@ void Main86::FUN_0086ff70()
         DAT_011def04 = 0;
     }
     int eventState = 0;
-    if (!DAT_011dea29 && !FUN_0070edf0() && DAT_011dea3c->vfn_1d0() && !DAT_011d8804->IsFaderActive(1))
+    if (!DAT_011dea29 && !StartMenu_MainMenuIsActive() && DAT_011dea3c->vfn_1d0() && !DAT_011d8804->IsFaderActive(1))
     {
         if (!DAT_011dea10->FUN_005f36f0())
         {
-            if (DAT_011dea10->FUN_004fd3e0()->FUN_00548210()[0] && DAT_011dea10->FUN_0044ddc0())
+            if (DAT_011dea10->FUN_004fd3e0()->TESWorldSpace_GetCanopyShadowTextureName()[0] && DAT_011dea10->FUN_0044ddc0())
             {
                 DAT_011dea10->FUN_0044ddc0();
                 if ((unsigned char)GridCellArray_GetRecreateCanopyShadowMaskTexture())
                     DAT_011dea10->FUN_0044ddc0()->RecreateCanopyShadowMaskTexture();
             }
         }
-        FUN_008706b0(0, 0, 0);
+        Main_DrawWorld(0, 0, 0);
     }
-    else if ((FUN_007079b0() || !FUN_00702360()) && !(unsigned char)FUN_00702680(0x3f5, 0))
+    else if ((Interface_IsInRenderedMenu() || !Interface_IsInMenuMode()) && !(unsigned char)Interface_IsMenuIDVisible(0x3f5, 0))
     {
         if (DAT_011dea3c->vfn_1d0())
-            FUN_008706b0(0, FUN_007079b0(), 0);
+            Main_DrawWorld(0, Interface_IsInRenderedMenu(), 0);
     }
     else
     {
@@ -12406,13 +12444,13 @@ void Main86::FUN_0086ff70()
             FUN_004ea970(1, i)->MTRenderingSystem_WaitOnThreadStage();
         }
         TESMain_UpdateOffscreenInterface();
-        if ((unsigned char)FUN_00702680(0x41e, 0) || (unsigned char)FUN_00702680(0x3f6, 0) ||
-            (unsigned char)FUN_00702680(0x424, 0) || (unsigned char)FUN_00702680(0x432, 0) ||
-            (unsigned char)FUN_00702680(0x438, 0) || (unsigned char)FUN_00702680(0x439, 0) ||
-            (unsigned char)FUN_00702680(0x43a, 0) || (unsigned char)FUN_00702680(0x43b, 0))
-            FUN_00872940(0);
+        if ((unsigned char)Interface_IsMenuIDVisible(0x41e, 0) || (unsigned char)Interface_IsMenuIDVisible(0x3f6, 0) ||
+            (unsigned char)Interface_IsMenuIDVisible(0x424, 0) || (unsigned char)Interface_IsMenuIDVisible(0x432, 0) ||
+            (unsigned char)Interface_IsMenuIDVisible(0x438, 0) || (unsigned char)Interface_IsMenuIDVisible(0x439, 0) ||
+            (unsigned char)Interface_IsMenuIDVisible(0x43a, 0) || (unsigned char)Interface_IsMenuIDVisible(0x43b, 0))
+            Main_DrawWorldMenu3D(0);
         else if (DAT_011ded3c.FUN_00559450())
-            TESMain_DrawWorld_CopyMenuBG(FUN_004e3270(core, TESRenderer_GetMultiSampleEnabled(), 0));
+            TESMain_DrawWorld_CopyMenuBG(BSShaderManager_GetImageSpaceManager(core, TESRenderer_GetMultiSampleEnabled(), 0));
     }
     if (Cmd_Default_Execute() == 1)
         BSShaderManager_RenderDebugTexture();
@@ -12421,23 +12459,23 @@ void Main86::FUN_0086ff70()
     FUN_004ea970()->MTRenderingSystem_WaitForThreads();
     if (DAT_011dec64.FUN_00559450())
     {
-        BSShaderManager_GetTextureManager(DAT_011dec64.FUN_00559450())->FUN_00b6da10();
+        BSShaderManager_GetTextureManager(DAT_011dec64.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
         DAT_011dec64.FUN_0066b0d0(0);
     }
-    if (FUN_007fdf30(0x1e, 1)->FUN_00a24660())
+    if (Controls_GetInstance(0x1e, 1)->Controls_GetUserAction())
     {
-        if (FUN_007fdf30(0x9d, 0)->Controls_GetKeyboardButton() || DAT_011dea40)
+        if (Controls_GetInstance(0x9d, 0)->Controls_GetKeyboardButton() || DAT_011dea40)
         {
             DAT_011dea40 = !DAT_011dea40;
             if (DAT_011dea40)
             {
                 DAT_011dea44 = 0;
-                DAT_011deecc.FUN_0045ce80(*DAT_011deecc.FUN_0043d4d0() + 1);
+                DAT_011deecc.FUN_0045ce80(*DAT_011deecc.Setting_Int() + 1);
                 char outputDirectory[0x104];
-                FUN_00406d00(outputDirectory, 0x104, DAT_01082ca4, DAT_011deb04.FUN_00403df0(),
-                             *DAT_011deecc.FUN_0043d4d0());
+                BSsprintf(outputDirectory, 0x104, DAT_01082ca4, DAT_011deb04.FUN_00403df0(),
+                             *DAT_011deecc.Setting_Int());
                 CreateDirectoryA(outputDirectory, 0);
-                DAT_011f6394.BSTimer_ClampAt(*DAT_011dee00.FUN_0043d4d0());
+                DAT_011f6394.BSTimer_ClampAt(*DAT_011dee00.Setting_Int());
             }
             else
                 DAT_011f6394.BSTimer_ClampAt(0);
@@ -12450,12 +12488,12 @@ void Main86::FUN_0086ff70()
         FUN_00b6b730();
     if (eventState)
     {
-        BSShaderManager_GetTextureManager(eventState)->FUN_00b6da10();
+        BSShaderManager_GetTextureManager(eventState)->BSTextureManager_ReturnRenderedTexture();
         eventState = 0;
     }
     reinterpret_cast<Resource86*>(DAT_011deb7c.FUN_00559450())->BSSceneGraph_SetCameraScene();
-    core->FUN_004a03c0();
-    if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+    core->NiXenonRenderer_UnlockRenderer();
+    if (*DAT_011c3ea4.Setting_Int() > 1)
         FUN_008c80e0(0);
 }
 }  // namespace fnv_0086ff70
@@ -12465,14 +12503,14 @@ struct FUN_00414430;
 using ::NiPoint2;
 struct ImageView;
 struct ProjectionView;
-ImageView* FUN_004e3270();
-ProjectionView* FUN_0045c670();
+ImageView* BSShaderManager_GetImageSpaceManager();
+ProjectionView* Main_GetWorldSceneGraph();
 bool TESRenderer_GetMultiSampleEnabled();
 unsigned char BSShaderManager_GetImageSpaceEffects();
 bool ScreenCustomSplatter_IsActiveSplatter();
 struct RenderNode
 {
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     void FUN_00450f90(bool);
 };
 // 0x0045cd60 returns Sky::m_pSun (+0x28); 0x0043b230 obtains its +0x0c scene object.
@@ -12480,7 +12518,7 @@ struct RenderNode
 NiAVObject* __fastcall SunSceneObject_0043b230(::Sun*);
 struct PlayerView
 {
-    RenderNode* FUN_00950bb0(bool);
+    RenderNode* PlayerCharacter_Get3D_00950bb0(bool);
 };
 // 0x00705910 is Interface::GetVATSEffect; this receiver is the interface effect, not Menu.
 struct VATSEffect
@@ -12566,7 +12604,7 @@ struct EffectView
 };
 struct ImageView
 {
-    EffectView* FUN_004ebbc0(int);
+    EffectView* GetEffect_004ebbc0(int);
     bool FUN_00b8b390(int);
     void ImageSpaceManager_SetSunPosition(const NiPoint2&);
 };
@@ -12596,14 +12634,14 @@ extern CameraHolder* DAT_011dea20;
 extern Setting DAT_011dea8c;
 extern Setting DAT_011deadc;
 extern int DAT_011a9bd0;
-RenderView* FUN_0043c4b0();
-VATSEffect* FUN_00705910();
-bool FUN_00705100();
+RenderView* NiXenonRenderer_GetRenderer();
+VATSEffect* Interface_GetVATSEffect();
+bool DialogMenu_IsDialogActive();
 bool IsEyefinity();
 bool Interface_IsGunScopeVisible();
-bool FUN_005b9b00();
+bool BSShaderManager_IsRefractionEnabled();
 bool ScreenSplatter_IsActiveSplatter();
-bool FUN_00705a00();
+bool Interface_IsInPipboyMenu();
 float FUN_00706e70();
 void BSShaderManager_EnableFullScreenScissor(unsigned, unsigned, unsigned, unsigned);
 ToggleView* __stdcall FUN_004ea970(int, int);
@@ -12619,16 +12657,16 @@ struct RenderCoordinator
     ::Sun* UpdateCamera();
     void TESMain_DrawWorld_UpdateWater();
     bool TESMain_DrawWorld_VATSOcclusionQuery();
-    void FUN_00871290();
+    void Main_DrawWorld_UpdateOffscreenBuffers();
     BSRenderedTexture* TESMain_DrawWorld_InitRenderTexture(RenderView*, int, int, bool);
     void TESMain_DrawWorld_VATS(bool);
     void TESMain_DrawWorld_RestartRenderTexture(BSRenderedTexture*, bool, unsigned);
     void TESMain_DrawWorld_DrawScene(::Sun*, bool, int, bool);
     void TESMain_DrawWorld_Add1stPersonToDepthBuffer(BSRenderedTexture*);
     void TESMain_DrawWorld_Refraction(ShaderView*, BSRenderedTexture*);
-    void FUN_00874c10();
+    void Main_DrawWorld_MTSetup1stPerson();
     void TESMain_DrawWorld_MTRender1stPerson(RenderView*, int, ::Sun*, BSRenderedTexture*);
-    void FUN_00875e40(ShaderView*, BSRenderedTexture*);
+    void Main_DrawWorld_DoDepth(ShaderView*, BSRenderedTexture*);
     void TESMain_DrawWorld_DoVolumetricFog(ShaderView*, BSRenderedTexture*);
     void TESMain_DrawWorld_ImageSpace(bool, BSRenderedTexture*, RenderView*, int);
     void TESMain_DrawWorld_ScreenSplatter(RenderView*);
@@ -12641,20 +12679,20 @@ struct RenderCoordinator
 // src: COMMUNITY 0x00870bd0
 void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
 {
-    RenderView* l = FUN_0043c4b0();
-    ImageView* h = (ImageView*)FUN_004e3270();
+    RenderView* l = NiXenonRenderer_GetRenderer();
+    ImageView* h = (ImageView*)BSShaderManager_GetImageSpaceManager();
     ::Sun* s = 0;
-    bool p = DAT_011dea3c->FUN_00950bb0(true)->FUN_00456610();
+    bool p = DAT_011dea3c->PlayerCharacter_Get3D_00950bb0(true)->GetAppCulled_00456610();
     bool q = TESRenderer_GetMultiSampleEnabled();
     FUN_00872ad0();
     s = UpdateCamera();
     TESMain_DrawWorld_UpdateWater();
     bool i = TESMain_DrawWorld_VATSOcclusionQuery();
-    FUN_00871290();
+    Main_DrawWorld_UpdateOffscreenBuffers();
     BSRenderedTexture* j = TESMain_DrawWorld_InitRenderTexture(l, arg, 0, q);
     TESMain_DrawWorld_VATS(i);
     TESMain_DrawWorld_RestartRenderTexture(j, q, 5);
-    bool cf = !p && !skip && !FUN_00705910()->FUN_005585e0() && !FUN_00705100();
+    bool cf = !p && !skip && !Interface_GetVATSEffect()->FUN_005585e0() && !DialogMenu_IsDialogActive();
     bool a = false;
     if (cf && s)
     {
@@ -12669,7 +12707,7 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
     {
         unsigned j = l->FUN_004dee10();
         unsigned c = l->FUN_004dee70();
-        float l = *DAT_011dea8c.FUN_00403e20() * FUN_00706e70() * 0.5;
+        float l = *DAT_011dea8c.Setting_Float_00403e20() * FUN_00706e70() * 0.5;
         float e = j * l;
         float k = j - e;
         if (eb)
@@ -12678,7 +12716,7 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
     TESMain_DrawWorld_DrawScene(s, cf, 0, i);
     if (cf && s)
         SunSceneObject_0043b230(s)->SetAppCulled(a);
-    EffectView* k = h->FUN_004ebbc0(4);
+    EffectView* k = h->GetEffect_004ebbc0(4);
     bool c = k->ImageSpaceEffectDepthOfField_DoDepth();
     bool j7 = (h->FUN_00b8b390(9) && !DAT_011dea10->FUN_005f36f0() && *DAT_011deadc.FUN_00408d60()) ? true : false;
     const bool ba = false;
@@ -12690,11 +12728,11 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
         TESMain_DrawWorld_Add1stPersonToDepthBuffer(j);
         TESMain_DrawWorld_RestartRenderTexture(j, q, 0);
     }
-    if (FUN_005b9b00() && shaders.FUN_00559450()->SumItemSubValues() > 0)
+    if (BSShaderManager_IsRefractionEnabled() && shaders.FUN_00559450()->SumItemSubValues() > 0)
         TESMain_DrawWorld_Refraction(shaders.FUN_00559450(), j);
     if (cf)
     {
-        FUN_00874c10();
+        Main_DrawWorld_MTSetup1stPerson();
         TESMain_DrawWorld_RestartRenderTexture(j, q, 0);
         if (!b)
             FUN_004ea970(1, 22)->MTRenderingSystem_WaitOnThreadStage();
@@ -12706,22 +12744,22 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
         FUN_004ea970(1, 22)->MTRenderingSystem_WaitOnThreadStage();
     }
     if (c || ba)
-        FUN_00875e40(shaders.FUN_00559450(), j);
+        Main_DrawWorld_DoDepth(shaders.FUN_00559450(), j);
     if (f)
         TESMain_DrawWorld_DoVolumetricFog(shaders.FUN_00559450(), j);
     if (j7 && !DAT_011dea10->FUN_005f36f0() && DAT_011dea20 && DAT_011dea20->FUN_0045cd60())
     {
-        NiPoint3 v = DAT_011dea20->FUN_0045cd60()->v1()->FUN_0045bb80();
+        NiPoint3 v = DAT_011dea20->FUN_0045cd60()->v1()->NiAVObject_GetWorldTranslate();
         float w, u, n;
         w = u = n = 0.0f;
-        ProjectionView* a = (ProjectionView*)FUN_0045c670();
+        ProjectionView* a = (ProjectionView*)Main_GetWorldSceneGraph();
         bool f = a->FUN_006629f0(v, w, u, n, 0.00001f)->ProjectPointToScreen();
-        ((ImageView*)FUN_004e3270())->ImageSpaceManager_SetSunPosition(NiPoint2(w, u));
+        ((ImageView*)BSShaderManager_GetImageSpaceManager())->ImageSpaceManager_SetSunPosition(NiPoint2(w, u));
     }
     if (BSShaderManager_GetImageSpaceEffects())
     {
         TESMain_DrawWorld_ImageSpace(q, j, l, arg);
-        if ((ScreenCustomSplatter_IsActiveSplatter() || ScreenSplatter_IsActiveSplatter()) && !FUN_00705a00())
+        if ((ScreenCustomSplatter_IsActiveSplatter() || ScreenSplatter_IsActiveSplatter()) && !Interface_IsInPipboyMenu())
             TESMain_DrawWorld_ScreenSplatter(l);
     }
     else if (arg)
@@ -12732,18 +12770,18 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
             BSShaderManager_DisableFullScreenScissor();
         if (IsEyefinity())
         {
-            FUN_0043c4b0()->v43(&DAT_011a9bd0);
+            NiXenonRenderer_GetRenderer()->v43(&DAT_011a9bd0);
             FUN_00414430 param(0, 0, 0, 0);
             param.a = 0;
             param.b = 0.33f;
             param.c = 1;
             param.d = 0;
-            FUN_0043c4b0()->RendererClearBufferHook(&param, true);
+            NiXenonRenderer_GetRenderer()->RendererClearBufferHook(&param, true);
             param.a = 0.66f;
             param.b = 1;
             param.c = 1;
             param.d = 0;
-            FUN_0043c4b0()->RendererClearBufferHook(&param, true);
+            NiXenonRenderer_GetRenderer()->RendererClearBufferHook(&param, true);
         }
     }
     TESMain_DrawWorld_End(j, h, l, s);
@@ -12755,7 +12793,7 @@ namespace fnv_00872570 {
 class BGSMoviePlayer_ML
 {
   public:
-    bool FUN_00ec17c0();
+    bool MoviePlayer_GetPlayingSequence();
     void FUN_00ec29b0();
     void MoviePlayer_WaitForSequenceToEnd();
     bool BGSMoviePlayer_IsPlaying();
@@ -12763,9 +12801,9 @@ class BGSMoviePlayer_ML
 };
 struct RenderManager_ML
 {
-    void FUN_00b631d0();
+    void BSShaderAccumulator_ClearAllQueries();
 };
-RenderManager_ML* __cdecl FUN_00b4f5c0();
+RenderManager_ML* __cdecl BSShaderManager_GetAccumulator();
 struct CellState_ML
 {
     int unk00;
@@ -12781,19 +12819,19 @@ struct GridCell_ML
 };
 struct CellGrid_ML
 {
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct WorldAudio_ML
 {
     void ReleaseWaterResources(int, int);
-    void FUN_004e65d0();
+    void TESWaterSystem_EnableWaterSystem();
 };
 class TES_ML
 {
   public:
     CellGrid_ML* FUN_0044ddc0();
-    GridCell_ML* FUN_00457050(int, int);
-    WorldAudio_ML* FUN_0070ec90();
+    GridCell_ML* GetGridCell_00457050(int, int);
+    WorldAudio_ML* DetailedActorPathHandler_GetCurrentNodeIndex();
 };
 class OSGlobals_ML
 {
@@ -12803,9 +12841,9 @@ class OSGlobals_ML
     HWND__* window;
     void TESMain_KillMenuBGTexture();
 };
-void __cdecl FUN_0040fca0(unsigned long);
+void __cdecl BSSleep(unsigned long);
 unsigned char __cdecl TESRenderer_GetFullScreen();
-unsigned char __cdecl FUN_005d2a40();
+unsigned char __cdecl TESWaterSystem_GetWaterEnabled();
 void __cdecl ImageSpaceEffectHDR_ClearAdaptedLight();
 extern unsigned char DAT_011f941e;
 struct WindowRect_ML
@@ -12821,8 +12859,8 @@ extern "C" BGSMoviePlayer_ML* DAT_0126fac4;
 extern "C" TES_ML* DAT_011dea10;
 extern "C" OSGlobals_ML* g_osGlobals;
 extern "C" bool __cdecl LoadingMenuThread_GetByte49();
-extern "C" long __cdecl FUN_004dc1f0();
-extern "C" long __cdecl FUN_004dc200();
+extern "C" long __cdecl Renderer_GetScreenWidth();
+extern "C" long __cdecl Renderer_GetScreenHeight();
 }
 
 // When active, waits for a condition and updates render, cell, and window state; otherwise, it performs audio-related calls.
@@ -12833,24 +12871,24 @@ bool __cdecl TESMain_ResetDeviceCallback(bool active)
     if (active)
     {
         while (!(unsigned char)MainLoopGlobals::LoadingMenuThread_GetByte49())
-            FUN_0040fca0(5);
-        if (MainLoopGlobals::DAT_0126fac4->FUN_00ec17c0())
+            BSSleep(5);
+        if (MainLoopGlobals::DAT_0126fac4->MoviePlayer_GetPlayingSequence())
         {
             MainLoopGlobals::DAT_0126fac4->FUN_00ec29b0();
             MainLoopGlobals::DAT_0126fac4->MoviePlayer_WaitForSequenceToEnd();
         }
         if (MainLoopGlobals::DAT_0126fac4->BGSMoviePlayer_IsPlaying())
             MainLoopGlobals::DAT_0126fac4->MoviePlayer_Stop();
-        RenderManager_ML* renderer = FUN_00b4f5c0();
+        RenderManager_ML* renderer = BSShaderManager_GetAccumulator();
         if (renderer)
-            renderer->FUN_00b631d0();
+            renderer->BSShaderAccumulator_ClearAllQueries();
         {
-            int count = MainLoopGlobals::DAT_011dea10->FUN_0044ddc0()->FUN_0084e3a0();
+            int count = MainLoopGlobals::DAT_011dea10->FUN_0044ddc0()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             for (int x = 0; x < count; ++x)
             {
                 for (int y = 0; y < count; ++y)
                 {
-                    CellUpdate_ML* cell = MainLoopGlobals::DAT_011dea10->FUN_00457050(x, y)->cell;
+                    CellUpdate_ML* cell = MainLoopGlobals::DAT_011dea10->GetGridCell_00457050(x, y)->cell;
                     if (cell)
                     {
                         void* object;
@@ -12869,8 +12907,8 @@ bool __cdecl TESMain_ResetDeviceCallback(bool active)
                     WindowRect_ML rectWindow;
                     rectWindow.left = 0;
                     rectWindow.top = 0;
-                    rectWindow.right = MainLoopGlobals::FUN_004dc1f0();
-                    rectWindow.bottom = MainLoopGlobals::FUN_004dc200();
+                    rectWindow.right = MainLoopGlobals::Renderer_GetScreenWidth();
+                    rectWindow.bottom = MainLoopGlobals::Renderer_GetScreenHeight();
                     style = 0;
                     style = fnv_00872570::GetWindowLongA(MainLoopGlobals::g_osGlobals->window, -16);
                     AdjustWindowRectEx(&rectWindow, style, 0, 0);
@@ -12884,10 +12922,10 @@ bool __cdecl TESMain_ResetDeviceCallback(bool active)
     {
         if (DAT_011f941e)
             ImageSpaceEffectHDR_ClearAdaptedLight();
-        if (MainLoopGlobals::DAT_011dea10->FUN_0070ec90() && FUN_005d2a40())
+        if (MainLoopGlobals::DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex() && TESWaterSystem_GetWaterEnabled())
         {
-            MainLoopGlobals::DAT_011dea10->FUN_0070ec90()->ReleaseWaterResources(1, 0);
-            MainLoopGlobals::DAT_011dea10->FUN_0070ec90()->FUN_004e65d0();
+            MainLoopGlobals::DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->ReleaseWaterResources(1, 0);
+            MainLoopGlobals::DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->TESWaterSystem_EnableWaterSystem();
         }
     }
     return true;
@@ -13372,19 +13410,19 @@ class PlayerUpdate : public TESObjectREFR
 };
 struct PlayerCalls
 {
-    bool FUN_0093bea0();
-    void FUN_009481d0();
-    void FUN_009466d0(float delta, unsigned char mode);
+    bool PlayerCharacter_HandlePositionPlayerRequest();
+    void PlayerCharacter_ForceGrenadeHold();
+    void PlayerCharacter_UpdateFlyCamera(float delta, unsigned char mode);
     NiPoint3* GetAddTopicList();
-    void FUN_0086fbc0(char value);
+    void PlayerCharacter_SetAcousticSpaceTransition(char value);
 };
 struct CellCalls
 {
     bool IsInterior();
     bool FUN_00550200(const NiPoint3& position);
     TESWorldSpace* FUN_0054ddd0();
-    bool FUN_00450fb0();
-    bool FUN_00450ff0();
+    bool TESObjectCELL_GetLoaded();
+    bool TESObjectCELL_GetAttached();
     void AddReference(TESObjectREFR*, bool);
     BGSAcousticSpace* GetAcousticSpace();
 };
@@ -13398,7 +13436,7 @@ class WorldUpdateCalls
 {
   public:
     void FUN_00452580(const NiPoint3&, bool);
-    bool FUN_00451530();
+    bool TES_CellTestRunning();
     void TES_ShowLoadingMenu(int, int, int);
 };
 extern unsigned int _DAT_011dea10;
@@ -13413,39 +13451,40 @@ struct UpdateScale
 };
 extern UpdateScale DAT_011f2250;
 extern unsigned char DAT_011e07a8;
-bool FUN_00709bc0();
+bool Interface_IsPipboyOpening();
 extern bool DAT_011dea2b;
-void FUN_0086fba0(bool);
+void FalloutAudio_DisableRegionSoundUpdates(bool);
 struct RenderManager
 {
-    void FUN_00b655b0();
+    void BSShaderAccumulator_ClearAllBoundVolumes();
 };
-RenderManager* FUN_00b4f5c0();
+RenderManager* BSShaderManager_GetAccumulator();
 struct PlayerUpdateState
 {
     unsigned int updateFlags;
     unsigned short updateState;
     bool specialUpdate;
     unsigned char updateMode;
-    void FUN_0086f940();
+    void Main_OnIdle_UpdatePlayer();
 };
 
 // Updates player state and may transfer the player to a destination cell when the current cell is exterior and a position check fails.
 // @fnv 0x0086f940
-void PlayerUpdateState::FUN_0086f940()
+// src: XBOX_PDB 0x0086f940
+void PlayerUpdateState::Main_OnIdle_UpdatePlayer()
 {
     bool bChanged;
-    if (!reinterpret_cast<PlayerCalls*>(g_thePlayer)->FUN_0093bea0())
+    if (!reinterpret_cast<PlayerCalls*>(g_thePlayer)->PlayerCharacter_HandlePositionPlayerRequest())
     {
-        if (DAT_011dea2b && !FUN_00709bc0())
+        if (DAT_011dea2b && !Interface_IsPipboyOpening())
         {
-            reinterpret_cast<PlayerCalls*>(g_thePlayer)->FUN_009481d0();
+            reinterpret_cast<PlayerCalls*>(g_thePlayer)->PlayerCharacter_ForceGrenadeHold();
         }
         else if (specialUpdate)
         {
             if (g_thePlayer->GetNiNode())
             {
-                reinterpret_cast<PlayerCalls*>(g_thePlayer)->FUN_009466d0(g_timeGlobal.FUN_0084d030(), updateMode);
+                reinterpret_cast<PlayerCalls*>(g_thePlayer)->PlayerCharacter_UpdateFlyCamera(g_timeGlobal.FUN_0084d030(), updateMode);
             }
         }
         else
@@ -13469,25 +13508,25 @@ void PlayerUpdateState::FUN_0086f940()
                                        true);
                 if (destination)
                 {
-                    if (!reinterpret_cast<CellCalls*>(destination)->FUN_00450fb0() &&
-                        !reinterpret_cast<CellCalls*>(destination)->FUN_00450ff0())
+                    if (!reinterpret_cast<CellCalls*>(destination)->TESObjectCELL_GetLoaded() &&
+                        !reinterpret_cast<CellCalls*>(destination)->TESObjectCELL_GetAttached())
                     {
                         reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->FUN_00452580(position, true);
-                        if (reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->FUN_00451530())
+                        if (reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->TES_CellTestRunning())
                         {
                             reinterpret_cast<WorldUpdateCalls*>(_DAT_011dea10)->TES_ShowLoadingMenu(0, 0, 0);
                         }
                     }
-                    FUN_0086fba0(1);
-                    reinterpret_cast<PlayerCalls*>(g_thePlayer)->FUN_0086fbc0(1);
+                    FalloutAudio_DisableRegionSoundUpdates(1);
+                    reinterpret_cast<PlayerCalls*>(g_thePlayer)->PlayerCharacter_SetAcousticSpaceTransition(1);
                     reinterpret_cast<CellCalls*>(destination)->AddReference(g_thePlayer, false);
-                    FUN_0086fbb0(reinterpret_cast<CellCalls*>(destination)->GetAcousticSpace());
-                    reinterpret_cast<PlayerCalls*>(g_thePlayer)->FUN_0086fbc0(0);
-                    FUN_0086fba0(0);
-                    RenderManager* manager = FUN_00b4f5c0();
+                    FalloutAudio_SetNextAcousticSpace(reinterpret_cast<CellCalls*>(destination)->GetAcousticSpace());
+                    reinterpret_cast<PlayerCalls*>(g_thePlayer)->PlayerCharacter_SetAcousticSpaceTransition(0);
+                    FalloutAudio_DisableRegionSoundUpdates(0);
+                    RenderManager* manager = BSShaderManager_GetAccumulator();
                     if (manager)
                     {
-                        manager->FUN_00b655b0();
+                        manager->BSShaderAccumulator_ClearAllBoundVolumes();
                     }
                 }
                 bChanged = true;
@@ -13520,20 +13559,20 @@ struct ResourceObject
     ResourceObject* FUN_006629f0();
     void FUN_00712e60(void*);
     void ShadowSceneNode_SetSceneGraphIndex(int);
-    void FUN_004a1020(void*);
-    ResourceObject* FUN_00558310();
-    void FUN_00a5a040();
-    void FUN_00a59c60(void*);
+    void BSShaderAccumulator_SetShadowSceneNode(void*);
+    ResourceObject* BSSceneGraph_GetCameraRoot();
+    void UpdateProperties();
+    void NiAVObject_Update(void*);
     void AssignFixedString(const NiFixedString&);
     void BSMultiBoundNode_SetCullingMode(int);
     void FUN_005467c0(int);
     void NiAVObject_SetAlwaysDraw(int);
     void SetDepthParams(float);
-    void FUN_0049ed90(int);
-    void FUN_00439410(void*);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_004bc450(void*);
-    void FUN_005b8fc0(int);
+    void NiAlphaProperty_SetAlphaBlending(int);
+    void NiAVObject_AttachProperty(void*);
+    void NiAVObject_SetTranslate_004bc1f0(float, float, float);
+    void NiMaterialProperty_SetEmittance(void*);
+    void SetBaseTexture(int);
     void FUN_0060aeb0(int);
     void FUN_004f3200(int);
     int BSRenderedTexture_GetTexture(int);
@@ -13617,7 +13656,7 @@ struct SceneObject : ModuleRoot
 struct DataObject : ModuleRoot
 {
     DataObject* FUN_00b5e0f0();
-    void FUN_004dc540(void*);
+    void NiTexturingProperty_Map_SetTexture(void*);
 };
 struct InputObject : ModuleRoot
 {
@@ -13634,12 +13673,12 @@ struct InputObject : ModuleRoot
     void NiAVObject_SetAlwaysDraw(int);
     void FUN_005467c0(int);
     void AssignFixedString(const NiFixedString&);
-    void FUN_004bc450(void*);
-    void FUN_005b8fc0(int);
+    void NiMaterialProperty_SetEmittance(void*);
+    void SetBaseTexture(int);
     void FUN_0060aeb0(int);
     void FUN_004f3200(int);
     void SetDepthParams(float);
-    void FUN_0049ed90(int);
+    void NiAlphaProperty_SetAlphaBlending(int);
     void NiScreenElements_Insert(int, int, int);
     void NiScreenElements_SetRectangle(int, float, float, float, float);
     void NiScreenElements_UpdateBound();
@@ -13718,12 +13757,12 @@ extern const char str_01082c28[];
 extern float DAT_0101e704;
 extern int DAT_011a9b7c;
 extern int DAT_011ad840;
-extern NiNode* FUN_004bc3f0();
+extern NiNode* Renderer_GetNIRenderer();
 extern unsigned char TESRenderer_GetDoCanopyShadowPass();
 
 extern void BSShaderManager_SetDefaultShaderPath(const char*);
 extern void InitRenderSystem();
-extern void FUN_00b4f2f0(int, void*);
+extern void BSShaderManager_SetShadowSceneNode(int, void*);
 extern int FUN_00450b80(int);
 
 extern bool Display_bDoAmbientPass_Get();
@@ -13739,12 +13778,12 @@ extern void FUN_00b55540(int, void*);
 extern void TESMain_CreateMenuRootNode();
 extern void FUN_004dc650();
 
-extern void FUN_004bc1f0();
-extern void* FUN_00b4f5c0();
+extern void NiAVObject_SetTranslate_004bc1f0();
+extern void* BSShaderManager_GetAccumulator();
 extern unsigned char TESRenderer_GetDoStaticMenuBackground();
 extern void UpdateTerrainLODMaxRange();
 extern int BSRenderedTexture_GetTexture(int);
-extern DataObject* FUN_0043c4b0();
+extern DataObject* NiXenonRenderer_GetRenderer();
 extern void* __cdecl FUN_00aa13e0(unsigned int);
 struct FUN_00b5e0f0 : NiMemObject
 {
@@ -14212,17 +14251,17 @@ void RenderSystem::TESMain_InitSceneGraph()
     DAT_011deb7c.FUN_0066b0d0(new SceneGraph(str_01082c9c, false, 0));
 
     DataObject* p = (DataObject*)new FUN_00b5e0f0;
-    (BSShaderManager_SetRenderer)(FUN_004bc3f0());
+    (BSShaderManager_SetRenderer)(Renderer_GetNIRenderer());
     BSShaderManager_SetDefaultShaderPath(str_01082c8c);
     InitRenderSystem();
     DAT_011deb7c.FUN_00559450()->FUN_006629f0()->FUN_00712e60(&DAT_011ad840);
     ((ResourceObject*)p)->ShadowSceneNode_SetSceneGraphIndex(0);
-    FUN_00b4f2f0(0, p);
-    this->resource88.FUN_00559450()->FUN_004a1020(p);
-    this->resource8c.FUN_00559450()->FUN_004a1020(p);
-    this->resource90.FUN_00559450()->FUN_004a1020(p);
-    this->resource94.FUN_00559450()->FUN_004a1020(p);
-    this->resource98.FUN_00559450()->FUN_004a1020((void*)FUN_00450b80(1));
+    BSShaderManager_SetShadowSceneNode(0, p);
+    this->resource88.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource8c.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource90.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource94.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode(p);
+    this->resource98.FUN_00559450()->BSShaderAccumulator_SetShadowSceneNode((void*)FUN_00450b80(1));
     BSShaderManager_SetSeparateAmbientLight(0);
     BSShaderManager_SetSeparateSpecularColor(0);
     unsigned int f = (Display_bDoAmbientPass_Get() == 1 ? 1u : 0u);
@@ -14241,7 +14280,7 @@ void RenderSystem::TESMain_InitSceneGraph()
     ((ModuleRoot*)DAT_011deb7c.FUN_00559450())->virtual_dc(p, 1);
 
     DAT_011deb00.FUN_0066b0d0((InputObject*)new BSFogProperty());
-    DAT_011deb00.FUN_00559450()->FUN_0049ed90(1);
+    DAT_011deb00.FUN_00559450()->NiAlphaProperty_SetAlphaBlending(1);
     DAT_011deb00.FUN_00559450()->SetDepthParams(1.0f);
     FUN_00b55540(0, DAT_011deb00.FUN_00559450());
 
@@ -14270,7 +14309,7 @@ void RenderSystem::TESMain_InitSceneGraph()
     s->AssignFixedString(NiFixedString(str_01082c78));
     DAT_011dea14->virtual_dc(s, 1);
 
-    DAT_011ad808 = *DAT_011dedc8.FUN_00403e20();
+    DAT_011ad808 = *DAT_011dedc8.Setting_Float_00403e20();
     s = (InputObject*)new FUN_00a5ecb0(0);
     s->NiAVObject_SetAlwaysDraw(1);
     s->FUN_005467c0(1);
@@ -14301,11 +14340,11 @@ void RenderSystem::TESMain_InitSceneGraph()
     DAT_011ded58.FUN_00559450()->AssignFixedString(NiFixedString(str_01082c28));
     p->virtual_f8(5, DAT_011ded58.FUN_00559450());
 
-    DAT_011deb7c.FUN_00559450()->FUN_00558310()->FUN_004bc1f0(0.0f, 0.0f, DAT_0101e704);
-    DAT_011deb7c.FUN_00559450()->FUN_00a5a040();
+    DAT_011deb7c.FUN_00559450()->BSSceneGraph_GetCameraRoot()->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, DAT_0101e704);
+    DAT_011deb7c.FUN_00559450()->UpdateProperties();
     NiUpdateData i(0.0f, false, false);
-    DAT_011deb7c.FUN_00559450()->FUN_00a59c60(&i);
-    FUN_0043c4b0()->FUN_004dc540(FUN_00b4f5c0());
+    DAT_011deb7c.FUN_00559450()->NiAVObject_Update(&i);
+    NiXenonRenderer_GetRenderer()->NiTexturingProperty_Map_SetTexture(BSShaderManager_GetAccumulator());
     DAT_011dea28 = TESRenderer_GetDoStaticMenuBackground();
 
     if (!DAT_011dec94.FUN_00559450())
@@ -14316,16 +14355,16 @@ void RenderSystem::TESMain_InitSceneGraph()
         DAT_011dec94.FUN_00559450()->NiScreenElements_UpdateBound();
         DAT_011dec94.FUN_00559450()->NiScreenElements_SetTextures(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
         InputObject* p = (InputObject*)new FUN_00a75650();
-        p->FUN_004bc450((void*)&DAT_011a9b7c);
-        DAT_011dec94.FUN_00559450()->FUN_00439410(p);
+        p->NiMaterialProperty_SetEmittance((void*)&DAT_011a9b7c);
+        DAT_011dec94.FUN_00559450()->NiAVObject_AttachProperty(p);
         InputObject* h = (InputObject*)new FUN_00a6aa40();
-        h->FUN_005b8fc0(DAT_011ded3c.FUN_00559450()->BSRenderedTexture_GetTexture(0));
+        h->SetBaseTexture(DAT_011ded3c.FUN_00559450()->BSRenderedTexture_GetTexture(0));
         h->FUN_0060aeb0(0);
         h->FUN_004f3200(0);
-        DAT_011dec94.FUN_00559450()->FUN_00439410(h);
-        DAT_011dec94.FUN_00559450()->FUN_00a5a040();
+        DAT_011dec94.FUN_00559450()->NiAVObject_AttachProperty(h);
+        DAT_011dec94.FUN_00559450()->UpdateProperties();
         NiUpdateData i(0.0f, false, false);
-        DAT_011dec94.FUN_00559450()->FUN_00a59c60(&i);
+        DAT_011dec94.FUN_00559450()->NiAVObject_Update(&i);
     }
     UpdateTerrainLODMaxRange();
 }
@@ -14344,8 +14383,8 @@ struct S00875bf0_Face875
     ::BSCullingProcess* FUN_008d80e0();
 };
 using ::FORenderedMenu;
-FORenderedMenu* FUN_00707ad0();
-FORenderedMenu* FUN_00705990();
+FORenderedMenu* Interface_GetCurrentRenderedMenu();
+FORenderedMenu* Interface_GetPipboy();
 struct S00875bf0_Ptr875
 {
     void* FUN_00559450();
@@ -14407,23 +14446,23 @@ struct S00875bf0_Shell875
 // src: COMMUNITY 0x00875bf0
 void S00875bf0_Shell875::TESMain_DrawWorld_RenderedMenuScene()
 {
-    if (!g_011deb38.FUN_00559450() && FUN_00707ad0() && FUN_00707ad0() != FUN_00705990())
+    if (!g_011deb38.FUN_00559450() && Interface_GetCurrentRenderedMenu() && Interface_GetCurrentRenderedMenu() != Interface_GetPipboy())
     {
-        ::BSFaceGenNiNode* face = (::BSFaceGenNiNode*)FUN_0045c670();
+        ::BSFaceGenNiNode* face = (::BSFaceGenNiNode*)Main_GetWorldSceneGraph();
         ::BSCullingProcess* scene = ((S00875bf0_Face875*)face)->FUN_008d80e0();
         scene->SetCullMode(1);
-        S00875bf0_Cam875* camera = MenuCamera_008b6200(FUN_00707ad0()) ? MenuCamera_008b6200(FUN_00707ad0())
+        S00875bf0_Cam875* camera = MenuCamera_008b6200(Interface_GetCurrentRenderedMenu()) ? MenuCamera_008b6200(Interface_GetCurrentRenderedMenu())
                                                                   : (S00875bf0_Cam875*)face->::BSFaceGenNiNode::GetAnimationData();
         scene->SetCamera(camera);
         scene->SetAccumulator((::MenuTarget*)this->scene.FUN_00559450());
-        ((::BSShaderAccumulator*)this->scene.FUN_00559450())->FUN_004a1020(FUN_00450b80(0));
+        ((::BSShaderAccumulator*)this->scene.FUN_00559450())->BSShaderAccumulator_SetShadowSceneNode(FUN_00450b80(0));
         if (DAT_011f9426 &&
-            (!reinterpret_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetCurrentRT() ||
-             reinterpret_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetCurrentRT() == reinterpret_cast< ::NiDX9Renderer*>(FUN_0043c4b0())->GetDefaultRT()))
+            (!reinterpret_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetCurrentRT() ||
+             reinterpret_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetCurrentRT() == reinterpret_cast< ::NiDX9Renderer*>(NiXenonRenderer_GetRenderer())->GetDefaultRT()))
             camera->FUN_00712e60(DAT_011ad840);
         else
             camera->FUN_00712e60(NiColorA(0.0f, 1.0f, 1.0f, 0.0f));
-        BSShaderUtil_AccumulateScene(camera, FUN_00707ad0()->v2(), scene);
+        BSShaderUtil_AccumulateScene(camera, Interface_GetCurrentRenderedMenu()->v2(), scene);
         ::BSShaderManager::SetRenderMode(15);
         BSRenderState_SetZWriteEnable(0, 1);
         FUN_00b98380(8, 1);
@@ -14431,7 +14470,7 @@ void S00875bf0_Shell875::TESMain_DrawWorld_RenderedMenuScene()
         ::BSShaderManager::SetRenderMode(0);
         BSRenderState_RestoreColorWriteEnable(1);
         BSRenderState_RestoreZWriteEnable(1);
-        BSShaderUtil_AccumulateScene(camera, FUN_00707ad0()->v2(), scene);
+        BSShaderUtil_AccumulateScene(camera, Interface_GetCurrentRenderedMenu()->v2(), scene);
         FUN_00b6c0d0(camera, this->scene.FUN_00559450(), 0);
         scene->SetAccumulator((::MenuTarget*)0);
         RestoreCullMode(scene);

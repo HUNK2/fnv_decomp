@@ -79,7 +79,7 @@ struct FnvCpu_FUN_00cbc520_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cbc520_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cbc520_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00cbc520_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00cbc520_CpuObject
 {
     unsigned int unk00;
@@ -93,7 +93,7 @@ FnvCpu_FUN_00cbc520_CpuObject* FnvCpu_FUN_00cbc520_CpuObject::FUN_00cbc520(unsig
     FUN_00cbc4a0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00cbc520_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00cbc520_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;

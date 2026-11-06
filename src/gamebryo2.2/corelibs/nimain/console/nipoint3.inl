@@ -7,7 +7,7 @@
 // @fnv 0x00457990
 float NiPoint3::ComputeMagnitude() const
 {
-    return FUN_004579e0(x * x + y * y + z * z);
+    return NiSqrt_004579e0(x * x + y * y + z * z);
 }
 
 // @fnv 0x00457910

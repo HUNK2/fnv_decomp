@@ -173,7 +173,7 @@ void BSShaderManager_SetCurrentAccumulator(BSShaderAccumulator* accumulator)
 // The shared renderer lacks this setter; retain only its member-call ABI.
 struct RendererAccumulatorCall
 {
-    void FUN_004dc540(NiRefObject* accumulator);
+    void NiTexturingProperty_Map_SetTexture(NiRefObject* accumulator);
 };
 extern NiRenderer* DAT_011f4748;
 void __cdecl BSShaderManager_SetAccumulator(NiRefObject* pkNode);
@@ -210,7 +210,7 @@ void __cdecl BSShaderUtil_AccumulateSceneList(void* pkCamera, NiTPointerList<voi
         return;
 
     NiPointer<NiRefObject> spRetainedObject = *reinterpret_cast<NiPointer<NiRefObject>*>(&DAT_011f4748->m_spAccum);
-    reinterpret_cast<RendererAccumulatorCall*>(DAT_011f4748)->FUN_004dc540(
+    reinterpret_cast<RendererAccumulatorCall*>(DAT_011f4748)->NiTexturingProperty_Map_SetTexture(
         reinterpret_cast<NiPointer<NiRefObject>&>(pkAccumulator->m_acRendererDataA));
     BSShaderManager_SetAccumulator(reinterpret_cast<NiPointer<NiRefObject>&>(pkAccumulator->m_acRendererDataA));
 
@@ -245,7 +245,7 @@ extern NiTexture::TextureFormatPreferences DAT_011a9598;
 int FUN_00e7bd20(const NiPixelFormat*);
 HRESULT __stdcall D3DXLoadSurfaceFromSurface_00ee6de6(IDirect3DSurface9*, const PALETTEENTRY*, const RECT*, IDirect3DSurface9*,
                                const PALETTEENTRY*, const RECT*, DWORD, D3DCOLOR);
-NiTexture* FUN_00a5ff10(NiPixelData*, void*, NiTexture::TextureFormatPreferences*);
+NiTexture* NiSourceTexture_Create(NiPixelData*, void*, NiTexture::TextureFormatPreferences*);
 
 // Converts a NiTexture to a supported D3D format by copying each mip level and swapping RGB bytes when needed, then builds a new NiTexture from the result.
 // @fnv 0x00b6bbd0
@@ -326,7 +326,7 @@ NiTexture* BSShaderUtil_ConvertTexture(NiTexture* texture, const NiPixelFormat* 
     unsigned char oldFlag = DAT_011f4448;
     DAT_011f4448 = 0;
     void* pvGlobalData = *(void**)DAT_011fa050;
-    NiTexture* pResultTexture = FUN_00a5ff10(pixels, pvGlobalData, &DAT_011a9598);
+    NiTexture* pResultTexture = NiSourceTexture_Create(pixels, pvGlobalData, &DAT_011a9598);
     DAT_011a9595 = levels > 1;
     DAT_011f4448 = oldFlag;
     return pResultTexture;

@@ -102,7 +102,7 @@ struct D97770MemoryRouter
     }
 };
 
-extern "C" D97770MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D97770MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(D97770Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D97770Interval
@@ -145,7 +145,7 @@ struct D97770IntervalArrayLocalForm : hkArrayBase<D97770Interval>
 
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve(hkMemoryRouter_getInstance().heap(), n);
         construct(m_data + m_iElementCount, n - m_iElementCount);
         m_iElementCount = n;
     }
@@ -219,7 +219,7 @@ struct Holder
     Allocator* m_pAllocator;
 };
 
-Holder* FUN_00c85750();
+Holder* hkMemoryRouter_getInstance();
 
 class FUN_00d97850_cls
 {
@@ -242,7 +242,7 @@ class FUN_00d97850_cls
 // @fnv 0x00d97850
 void FUN_00d97850_cls::ClearBuffers()
 {
-    Holder* pAllocHolder = FUN_00c85750();
+    Holder* pAllocHolder = hkMemoryRouter_getInstance();
     Allocator* alloc = pAllocHolder->m_pAllocator;
     unsigned int flags = m_nFlags24;
     m_nCount20 = 0;
@@ -253,7 +253,7 @@ void FUN_00d97850_cls::ClearBuffers()
     m_pBuf1C = 0;
     m_nFlags24 = 0x80000000u;
 
-    pAllocHolder = FUN_00c85750();
+    pAllocHolder = hkMemoryRouter_getInstance();
     alloc = pAllocHolder->m_pAllocator;
     flags = m_nFlags08;
     m_nCount04 = 0;
@@ -281,13 +281,14 @@ __declspec(align(16)) struct FUN_00d976d0_cls
     __m128 m_10;
     __m128 m_20;
 
-    void FUN_00d976d0();
+    void hkKdTreeCinfo_hkKdTreeCinfo();
 };
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadWriteBarrier(void);
 // Sets m_00 to -1, m_04 to 2, and m_05 to 1, then broadcasts the two globals into m_10 and m_20.
 // @fnv 0x00d976d0
-void FUN_00d976d0_cls::FUN_00d976d0()
+// src: XBOX_PDB 0x00d976d0
+void FUN_00d976d0_cls::hkKdTreeCinfo_hkKdTreeCinfo()
 {
     __m128 v = _mm_set1_ps(DAT_0104da48);
     *(volatile int*)&m_00 = -1;
@@ -311,7 +312,7 @@ struct Cinfo_d978
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750().heap());
+    return reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance().heap());
 }
 
 // The former array's helper at 0x00c908c0 is hkArrayUtil::_reserve in other units.
@@ -344,12 +345,13 @@ struct Tree_d978
     __m128 m_kMinimumCorner;
     __m128 m_kMaximumCorner;
     void hkKdTree_initNodeArray(int minSize);
-    void FUN_00d978d0(const Cinfo_d978& cinfo);
+    void hkKdTree_reset(const Cinfo_d978& cinfo);
 };
 
 // Copies bounds and object count from cinfo, computes node capacity and per-split size, then allocates the node collection.
 // @fnv 0x00d978d0
-void Tree_d978::FUN_00d978d0(const Cinfo_d978& cinfo)
+// src: XBOX_PDB 0x00d978d0
+void Tree_d978::hkKdTree_reset(const Cinfo_d978& cinfo)
 {
     m_pTreeNode = -1;
     m_kMinimumCorner = cinfo.m_kMinimumCorner;

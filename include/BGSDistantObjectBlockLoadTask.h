@@ -30,7 +30,7 @@ public:
     virtual unsigned char GetFileIndex();
 
     void BGSDistantObjectBlockLoadTask_GetWaterGeometry(void* destination);
-    void FUN_00c3cb70(void* pState, void* pOwner);
+    void QueuedFile_Cancel(void* pState, void* pOwner);
     void RunOnce(void* apTaskState, void* apTaskOwner);
     void FUN_006f6fe0();
     void* FUN_006f6fb0(unsigned int flags);

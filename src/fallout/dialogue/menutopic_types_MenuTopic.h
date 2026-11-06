@@ -53,7 +53,7 @@ class MenuTopic
     DialogueResponse* GetActiveResponse();
     MenuTopicText* FUN_0045cd60(float);
     BSStringT<char> BSStringT_char_RemoveCurlyContent();
-    void FUN_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
+    void MenuTopic_FillResponseList_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
     void FillResponseList();
     void SaveTopic();
     TESTopicInfo* GetTopicInfo();

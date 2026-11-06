@@ -78,11 +78,12 @@ struct FUN_00a68e30_shell
     PoolAllocatorBase<unsigned int>::LinkedListEntry* m_pkTail;
     unsigned int m_uiCount;
 
-    void FUN_00a68e30();
+    void NiDynamicEffect_DetachAllUnaffectedNodes();
 };
 
 // @fnv 0x00a68e30
-void FUN_00a68e30_shell::FUN_00a68e30()
+// src: XBOX_PDB 0x00a68e30
+void FUN_00a68e30_shell::NiDynamicEffect_DetachAllUnaffectedNodes()
 {
     while (m_uiCount)
     {

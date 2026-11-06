@@ -101,7 +101,7 @@ struct Struct_00ebfd20
 
 struct Standin_011f6238
 {
-    void FUN_00aa4060(void* param_1);
+    void MemoryManager_Deallocate(void* param_1);
 };
 
 extern Standin_011f6238 DAT_011f6238;
@@ -120,7 +120,7 @@ void __cdecl ReleaseInterfaceArray(Struct_00ebfd20* pStruct)
             }
         }
         pStruct->unk40 = 0;
-        DAT_011f6238.FUN_00aa4060(pStruct);
+        DAT_011f6238.MemoryManager_Deallocate(pStruct);
     }
 }
 
@@ -313,7 +313,7 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
                     pitch->unk40[grid] = 0;
                 }
             }
-            DAT_011f6238.FUN_00aa4060(pitch);
+            DAT_011f6238.MemoryManager_Deallocate(pitch);
             return 0;
         }
     }

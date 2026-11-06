@@ -54,7 +54,7 @@ struct CollectorStandIn
     PairArray m_kHits;
 
     void FUN_00de3090();
-    void FUN_00de3520(const char* pInput, const hkTransformf* pTransform, OutputStandIn* pOutput);
+    void hkpConvexRadiusBuilder_buildShapeDisplay(const char* pInput, const hkTransformf* pTransform, OutputStandIn* pOutput);
     void FUN_00de4420(const char* pInput, OutputStandIn* pOutput);
 };
 
@@ -77,5 +77,5 @@ void CollectorStandIn::FUN_00de4420(const char* pInput, OutputStandIn* pOutput)
     *(__m128*)&t.m_vTranslation = _mm_setzero_ps();
     FUN_00de3090();
     pOutput->m_unk04 = 0;
-    FUN_00de3520(pInput, &t, pOutput);
+    hkpConvexRadiusBuilder_buildShapeDisplay(pInput, &t, pOutput);
 }

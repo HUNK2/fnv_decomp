@@ -273,11 +273,12 @@ int __fastcall CallVirtualSlot43(char* self, int)
         self, *reinterpret_cast<int*>(self + 0x1110), 0);
 }
 
-char __stdcall FUN_00a98170(int);
+char __stdcall RegisterStreamables_00a98170(int);
 // @fnv 0x00e91710
-char __stdcall FUN_00e91710(int a)
+// src: XBOX_PDB 0x00e91710
+char __stdcall NiDX9PersistentSrcTextureRendererData_RegisterStreamables(int a)
 {
-    return FUN_00a98170(a) != 0;
+    return RegisterStreamables_00a98170(a) != 0;
 }
 
 struct GlobalObjectO2_00a7b610;
@@ -1020,14 +1021,15 @@ struct Base_E91790
 };
 struct Holder_E91790 : Base_E91790
 {
-    unsigned char FUN_00a982f0(Base_E91790* pk);
-    bool FUN_00e91790(Base_E91790* pk);
+    unsigned char IsEqual_00a982f0(Base_E91790* pk);
+    bool NiDX9PersistentSrcTextureRendererData_IsEqual(Base_E91790* pk);
 };
 // @fnv 0x00e91790
-bool Holder_E91790::FUN_00e91790(Base_E91790* pk)
+// src: XBOX_PDB 0x00e91790
+bool Holder_E91790::NiDX9PersistentSrcTextureRendererData_IsEqual(Base_E91790* pk)
 {
     if (pk && pk->IsKindOfType(&g_0126f9f8))
-        return FUN_00a982f0(pk);
+        return IsEqual_00a982f0(pk);
     return false;
 }
 
@@ -1038,7 +1040,8 @@ char* __cdecl _FUN_00a7d330(const char*);
 extern const char* g_0126f9f8;
 // Calls AppendToStrings, gets a string via _FUN_00a7d330, grows the array if full, then stores the string at the current size index.
 // @fnv 0x00e91a90
-void __stdcall FUN_00e91a90(StrArr* pkStrings)
+// src: XBOX_PDB 0x00e91a90
+void __stdcall NiDX9PersistentSrcTextureRendererData_GetViewerStrings(StrArr* pkStrings)
 {
     AppendToStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_0126f9f8);
@@ -4265,7 +4268,8 @@ char NiDX9DynamicTextureData::IsTextureLocked()
 
 void __cdecl LinkPalette();
 // @fnv 0x00e91700
-void __cdecl FUN_00e91700()
+// src: XBOX_PDB 0x00e91700
+void __cdecl NiDX9PersistentSrcTextureRendererData_LinkObject()
 {
     LinkPalette();
 }
@@ -4273,10 +4277,11 @@ void __cdecl FUN_00e91700()
 struct NiPersistentSrcTextureRendererData_s
 {
     void FUN_00a984b0(NiStream&);
-    void FUN_00e91730(NiStream& stream);
+    void NiDX9PersistentSrcTextureRendererData_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00e91730
-void NiPersistentSrcTextureRendererData_s::FUN_00e91730(NiStream& stream)
+// src: XBOX_PDB 0x00e91730
+void NiPersistentSrcTextureRendererData_s::NiDX9PersistentSrcTextureRendererData_SaveBinary(NiStream& stream)
 {
     FUN_00a984b0(stream);
 }

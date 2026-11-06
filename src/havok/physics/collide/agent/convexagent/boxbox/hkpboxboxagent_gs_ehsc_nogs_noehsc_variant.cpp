@@ -26,12 +26,12 @@ __forceinline hkTransform::hkTransform() {}
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);
+extern "C" void __cdecl hkpBoxBoxAgent_staticGetClosestPoints(void* a, void* b, void* c, void* d);
 // @fnv 0x00d406a0
 // src: HAVOK_SRC 0x00d406a0
 extern "C" void __stdcall hkpBoxBoxAgent_getClosestPoints(void* a, void* b, void* c, void* d)
 {
-    FUN_00d40470(a, b, c, d);
+    hkpBoxBoxAgent_staticGetClosestPoints(a, b, c, d);
 }
 
 __forceinline void setRotatedInverseDir_d409(hkVector4& out, const hkRotation& r, const hkVector4& v)
@@ -107,7 +107,7 @@ struct Job
     int unkBC;
     hkVector4 translationC0, translationD0, translationE0, translationF0;
     hkVector4 axis100, axis110, axis120;
-    void FUN_00db2960(hkpCdBodyPairCollector* callback);
+    void hkpBoxBoxCollisionDetection_calcManifold(hkpCdBodyPairCollector* callback);
 };
 class Manager
 {
@@ -157,7 +157,7 @@ void Manager::hkpBoxBoxAgent_processCollision(hkpCdBody* a, hkpCdBody* b, Parame
     _mm_store_ps(&minB->x, _mm_add_ps(splat(tolerance->getRadius()), tolerance->m_vHalfExtents.m_vComponents));
     hkTransform* __restrict t = &w.t;
     Job* __restrict job = &w.job;
-    t->FUN_00cb22f0(a->m_pMotionState, b->m_pMotionState);
+    t->hkTransform_setMulInverseMul(a->m_pMotionState, b->m_pMotionState);
     const float shapeB = parameters->offset08;
     job->toleranceB0 = shapeB;
     job->epsilonB4 = 0.01f;
@@ -177,7 +177,7 @@ void Manager::hkpBoxBoxAgent_processCollision(hkpCdBody* a, hkpCdBody* b, Parame
     job->tolerance80.m_vComponents = splat(shapeB);
     job->expandedA90.m_vComponents = _mm_add_ps(splat(shapeB), minA->m);
     job->expandedBA0.m_vComponents = _mm_add_ps(splat(shapeB), minB->m);
-    job->FUN_00db2960(&callback10);
+    job->hkpBoxBoxCollisionDetection_calcManifold(&callback10);
     timer("Et");
 }
 
@@ -227,7 +227,8 @@ struct Query
     }
 };
 // @fnv 0x00d406c0
-void __cdecl FUN_00d406c0(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, hkpCdBodyPairCollector* callback)
+// src: XBOX_PDB 0x00d406c0
+void __cdecl hkpBoxBoxAgent_staticGetPenetrations(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, hkpCdBodyPairCollector* callback)
 {
     timer("TtBoxBox");
     const hkpBoxShape* shapeA = static_cast<const hkpBoxShape*>(a->m_pCollisionShape);
@@ -245,7 +246,7 @@ void __cdecl FUN_00d406c0(hkpCdBody* a, hkpCdBody* b, Parameters* parameters, hk
     _mm_store_ps(&minB->x, _mm_add_ps(splat(shapeB->getRadius()), shapeB->m_vHalfExtents.m_vComponents));
     hkTransform* __restrict transform = &work.relative;
     Query* __restrict query = &work.query;
-    transform->FUN_00cb22f0(a->m_pMotionState, b->m_pMotionState);
+    transform->hkTransform_setMulInverseMul(a->m_pMotionState, b->m_pMotionState);
     query->init(a, b, *transform, *minA, *minB, parameters->offset08, 0.01f);
     query->FUN_00d40940();
     if (!query->FUN_00db0ec0(&query->tolerance80))

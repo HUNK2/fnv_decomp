@@ -28,13 +28,13 @@ struct FUN_00ddf020_Class
     void __thiscall FUN_00ddf020();
 };
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 extern "C" void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* arr, int capacity, int elemSize);
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int n);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int n);
 union Swap16
 {
     unsigned short u;
@@ -195,7 +195,7 @@ struct SubBase
 };
 inline hkMemoryRouter* holderGet()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 struct SpawnedHandle
 {

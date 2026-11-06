@@ -62,14 +62,15 @@ struct ObjArray
 
 struct FUN_00c2ba10_class
 {
-    __declspec(nothrow) void FUN_00c32f60(ObjArray* arr);
-    void FUN_00c2ba10(ObjArray* arr);
+    __declspec(nothrow) void NiPSysModifierFloatCtlr_GetViewerStrings(ObjArray* arr);
+    void NiPSysEmitterDeclinationCtlr_GetViewerStrings(ObjArray* arr);
 };
 
 // @fnv 0x00c2ba10
-void FUN_00c2ba10_class::FUN_00c2ba10(ObjArray* pArray)
+// src: XBOX_PDB 0x00c2ba10
+void FUN_00c2ba10_class::NiPSysEmitterDeclinationCtlr_GetViewerStrings(ObjArray* pArray)
 {
-    FUN_00c32f60(pArray);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pArray);
     NiObject* obj = NiViewerStrings_NiGetViewerString_Title(g_01202758);
     pArray->Add(obj);
 }

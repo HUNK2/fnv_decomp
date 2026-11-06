@@ -42,5 +42,5 @@ public:
     unsigned int __thiscall MemWrite(const void* data, unsigned int numBytes);
     void FUN_00aa2fb0(char* buffer, int size);
     void NiMemStream_NiMemStream();
-    char* FUN_00aa2d60();
+    char* NiMemStream_Str();
 };

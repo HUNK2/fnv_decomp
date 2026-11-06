@@ -170,7 +170,8 @@ struct BaseCall
 char* _FUN_00a7d330(const char*);
 
 // @fnv 0x00a46150
-void NiUVController::FUN_00a46150(StrArr* pStrArr)
+// src: XBOX_PDB 0x00a46150
+void NiUVController::GetViewerStrings_00a46150(StrArr* pStrArr)
 {
     ((BaseCall*)this)->FUN_00a6d830(pStrArr);
     char* s = _FUN_00a7d330((const char*)g_011f3f18);
@@ -185,7 +186,8 @@ void NiUVController::FUN_00a46150(StrArr* pStrArr)
 }
 
 // @fnv 0x00a45970
-bool __thiscall NiUVController::FUN_00a45970(void* stream)
+// src: XBOX_PDB 0x00a45970
+bool __thiscall NiUVController::RegisterStreamables_00a45970(void* stream)
 {
     NiStream& kStream = *(NiStream*)stream;
     if (!((Base44*)this)->RegisterStreamables(stream))
@@ -197,7 +199,8 @@ bool __thiscall NiUVController::FUN_00a45970(void* stream)
 }
 
 // @fnv 0x00a45cf0
-void NiUVController::FUN_00a45cf0(NiUpdateData& UpdateData)
+// src: XBOX_PDB 0x00a45cf0
+void NiUVController::Update_00a45cf0(NiUpdateData& UpdateData)
 {
     if (!AdvanceController(UpdateData.fTime))
         m_bUpdateEnabled = 1;
@@ -226,7 +229,7 @@ void __thiscall NiUVController::AssignRefObj(NiUVData* apRefObj)
     m_uiLastIdx2 = 0;
     m_uiLastIdx1 = 0;
     m_uiLastIdx3 = 0;
-    FUN_00a45bc0();
+    ResetKeyTimeExtrema();
 }
 
 // Links the controller to the stream, replacing its UV data pointer with the stream's object and updating reference counts.
@@ -364,7 +367,7 @@ struct OutputWriter
 };
 struct MyStreamWriter : MyStream
 {
-    void FUN_00a645b0();
+    void ReadLinkID();
     OutputWriter* Output()
     {
         return *reinterpret_cast<OutputWriter**>(&_004[0x248]);
@@ -377,7 +380,7 @@ void NiUVController::WriteToStream(MyStreamWriter* stream)
 {
     ((Base44*)this)->FUN_00a6d5e0(stream);
     stream->Output()->Write(&m_usValue, sizeof(m_usValue));
-    stream->FUN_00a645b0();
+    stream->ReadLinkID();
 }
 
 // IsEqual: base comparison, then the type value and the (optional) child object must match.
@@ -449,7 +452,8 @@ extern float DAT_01015f5c;
 
 // Computes the time bounds from the first and last keys of each UV channel.
 // @fnv 0x00a45bc0
-void __thiscall NiUVController::FUN_00a45bc0()
+// src: XBOX_PDB 0x00a45bc0
+void __thiscall NiUVController::ResetKeyTimeExtrema()
 {
     m_fLoKeyTime = DAT_01016970;
     m_fHiKeyTime = DAT_01015f5c;

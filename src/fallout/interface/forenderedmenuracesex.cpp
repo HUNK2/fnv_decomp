@@ -27,7 +27,7 @@ NiColorA* FUN_007feb40_This::GetValueAtC0(NiColorA* pValue)
 
 struct Animation
 {
-    void FUN_008eeaa0(char);
+    void Animation_SkipUpdate(char);
 };
 extern PlayerCharacter* g_thePlayer;
 void _FUN_007037e0();
@@ -40,7 +40,7 @@ bool Menu::FORenderedMenuRaceSex_OnIdle()
         _FUN_007037e0();
         return false;
     }
-    g_thePlayer->GetAnimation(false)->FUN_008eeaa0(23);
+    g_thePlayer->GetAnimation(false)->Animation_SkipUpdate(23);
     g_thePlayer->Unk_78();
     g_thePlayer->UpdateAnimationMovement(g_thePlayer->GetAnimation(false), 0.0f);
     return UpdateScreenEffect();
@@ -54,8 +54,8 @@ extern SettingFloat g_011db520, g_011db464;
 extern float g_011ae600, g_0120081c, g_011ae604, g_01200820, g_01200824, g_011ae608, g_01200828;
 extern NiColorA g_0120082c;
 struct NiRenderer;
-NiRenderer* FUN_0043c4b0();
-ImageSpaceManager* FUN_004e3270();
+NiRenderer* NiXenonRenderer_GetRenderer();
+ImageSpaceManager* BSShaderManager_GetImageSpaceManager();
 struct Effect
 {
     unsigned int unk000;
@@ -148,7 +148,7 @@ struct Effect
     unsigned char state159, state15a, state15b;
     unsigned int unk15c;
     float secondary;
-    float FUN_00507e10();
+    float BGSProjectile_GetMuzzleFlashDuration();
     NiColorA GetValueAtC0();
     void FORenderedMenuRaceSex_DoEffect(void*, void*, void*);
 };
@@ -160,7 +160,7 @@ void Effect::FORenderedMenuRaceSex_DoEffect(void* apArg1, void* apArg2, void* un
     active = false;
     if (active)
     {
-        g_011ae600 = FUN_00507e10();
+        g_011ae600 = BGSProjectile_GetMuzzleFlashDuration();
         g_0120081c = *g_011db520.Float();
         g_011ae604 = *g_011db464.Float();
         g_01200820 = primary;
@@ -186,7 +186,7 @@ void Effect::FORenderedMenuRaceSex_DoEffect(void* apArg1, void* apArg2, void* un
         g_011ae608 = 0.0f;
         g_01200828 = -1.0f;
     }
-    FUN_004e3270()->ImageSpaceManager_RenderEffect(30, FUN_0043c4b0(), apArg1, apArg2, 0, 1);
+    BSShaderManager_GetImageSpaceManager()->ImageSpaceManager_RenderEffect(30, NiXenonRenderer_GetRenderer(), apArg1, apArg2, 0, 1);
 }
 
 struct S_007fb5a0_Point3
@@ -208,7 +208,7 @@ struct S_007fb5a0_UpdateData
 struct S_007fb5a0_Node
 {
     void SetEffectColor(const S_007fb5a0_Point3& pos);
-    void FUN_00a59c60(S_007fb5a0_UpdateData& data);
+    void NiAVObject_Update(S_007fb5a0_UpdateData& data);
 };
 
 struct S_007fb5a0_NodePtr
@@ -220,7 +220,7 @@ struct S_007fb5a0_NodePtr
 
 struct S_007fb5a0_Setting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 
 extern S_007fb5a0_Setting DAT_011db430;
@@ -262,16 +262,16 @@ void S_007fb5a0::UpdateNodePosition(float fTime)
         S_007fb5a0_Point3 kIntersectionOffset = DAT_011f4998;
         if (bApplyOffset)
         {
-            float fA = bUseFirst ? fFirst * *DAT_011db430.FUN_00403e20() : 0.0;
-            float fB = fSecond * *DAT_011db4a4.FUN_00403e20();
-            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *DAT_011db3e8.FUN_00403e20()) + 0.5 : 1.0;
+            float fA = bUseFirst ? fFirst * *DAT_011db430.Setting_Float_00403e20() : 0.0;
+            float fB = fSecond * *DAT_011db4a4.Setting_Float_00403e20();
+            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *DAT_011db3e8.Setting_Float_00403e20()) + 0.5 : 1.0;
             float fD = (fA + fB) * fScaleA;
             kIntersectionOffset = kBase * fD * fOffsetScale;
         }
         S_007fb5a0_Point3 kPos = kBase * m_fThirdCreatureStatCur + kIntersectionOffset;
         m_pController->SetEffectColor(kPos);
         S_007fb5a0_UpdateData kData(0.0f, false, false);
-        m_pController->FUN_00a59c60(kData);
+        m_pController->NiAVObject_Update(kData);
     }
 }
 
@@ -295,9 +295,9 @@ struct S_007fe560_Light
     void FUN_0050c630(float f);
     void FUN_0050c660(float f);
     void FUN_0050c690(float f);
-    void FUN_0050dd20(float f);
+    void NiLight_SetDimmer(float f);
     void FUN_0050dd50(const S_007fe560_Pt3& p);
-    void FUN_00a59c60(const S_007fe560_Upd& u);
+    void NiAVObject_Update(const S_007fe560_Upd& u);
 };
 struct S_007fe560_Base
 {
@@ -337,14 +337,14 @@ void FUN_007fe560_cls::InitTerminalLight()
         light->FUN_0050c630(0.0f);
         light->FUN_0050c660(0.0f);
         light->FUN_0050c690(0.0f);
-        light->FUN_0050dd20(1.0f);
+        light->NiLight_SetDimmer(1.0f);
         light->FUN_0050dd50(*kPos.FUN_00416870(DAT_01017b78, 0.0f, 0.0f));
         kFullColor.FUN_00416870(1.0f, 1.0f, 1.0f);
         FORenderedMenu_SetScreenLightColor(&kFullColor);
         SetIntensity(1.0f);
         FUN_007f99b0(1.0f);
         kNewData.FUN_0043d410(0.0f, false, false);
-        light->FUN_00a59c60(kNewData);
+        light->NiAVObject_Update(kNewData);
     }
 }
 
@@ -358,7 +358,7 @@ struct PickVec
 
 struct PickRecord
 {
-    void* FUN_00968670(unsigned int a1);
+    void* ProcessArray_GetItem(unsigned int a1);
 };
 
 struct GlobalObject_00e98f20
@@ -381,7 +381,7 @@ struct GlobalObject_00e98f20
     void SetByteAtOffset17(int a1);
     void FUN_006ecd40(unsigned int a1);
     void SetByteAtOffset30(int a1);
-    void FUN_00705fc0(NiNode* apRoot);
+    void SetTarget_00705fc0(NiNode* apRoot);
     bool FUN_00e98e20(PickVec* apOrigin, PickVec* apDir, int a3);
     PickRecord* FUN_00500940();
 };
@@ -426,12 +426,12 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
             int iFound = -1;
             for (int j = 0; iFound < 0 && j < 4; j++)
             {
-                pick.FUN_00705fc0(unkD8[j]);
-                GetPickCamera()->MapScreenToRay((int)pInterface->FUN_009a9350(), (int)pInterface->FUN_00792760(),
+                pick.SetTarget_00705fc0(unkD8[j]);
+                GetPickCamera()->MapScreenToRay((int)pInterface->TESCombatStyle_GetWeaponMinRangeMult(), (int)pInterface->QueuedModel_GetOverriddenVisualDistance(),
                                                &origin, &dir, 0);
                 if (pick.FUN_00e98e20(&origin, &dir, 0))
                 {
-                    if (pick.FUN_00500940()->FUN_00968670(0))
+                    if (pick.FUN_00500940()->ProcessArray_GetItem(0))
                         iFound = j;
                 }
             }
@@ -753,15 +753,15 @@ struct xAV
     virtual void v53();
     virtual void v54();
     virtual void AttachChildInAvailableSlot(struct xAV*, bool);
-    void FUN_00440490(float);
-    void FUN_00a59c60(const xUpdateData&);
-    void FUN_0043fa80(const xMat3&);
-    void FUN_004bc1f0(float, float, float);
-    void FUN_00440460(const xPoint3&);
+    void NiAVObject_SetScale(float);
+    void NiAVObject_Update(const xUpdateData&);
+    void SetRotate_0043fa80(const xMat3&);
+    void NiAVObject_SetTranslate_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate(const xPoint3&);
     xAV* FUN_0043b4a0(unsigned int);
-    xBound* FUN_0043d450();
-    void FUN_00a5b230(int);
-    void FUN_00439410(void*);
+    xBound* NiAVObject_GetWorldBound();
+    void NiAVObject_RemoveProperty(int);
+    void NiAVObject_AttachProperty(void*);
 };
 
 struct xCam : xAV
@@ -771,7 +771,7 @@ struct xCam : xAV
     static void operator delete(void*);
     void FUN_00712e60(const NiColorA&);
     void NiCamera_SetMinNearPlaneDist(float);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(const ::NiFrustum&);
     int m_auiShapeKeys[(0x114 - 4) / 4];
 };
@@ -782,7 +782,7 @@ struct xLight : xAV
     static void operator delete(void*);
     void SetEffectColor(const xPoint3&);
     void FUN_0050dd50(const xPoint3&);
-    void FUN_0050dd20(float);
+    void NiLight_SetDimmer(float);
     int m_auiShapeKeys[(0xfc - 4) / 4];
 };
 struct xAlpha : xNiMem
@@ -808,23 +808,23 @@ struct ClockSource
 extern ClockSource xg_timer_11f6394;
 struct xIntSetting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 extern xIntSetting xg_i_11db4f8;
 struct xFltSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern xFltSetting xg_f_11db4d0, xg_f_11db544, xg_f_11db570, xg_f_11db5cc, xg_f_11db594, xg_f_1203144, xg_f_1203150,
     xg_f_11db5ec;
 struct xLoader
 {
-    xAV* FUN_00447080(const char*, int, bool, bool, bool, bool);
+    xAV* ModelLoader_LoadFile(const char*, int, bool, bool, bool, bool);
 };
 extern xLoader* xg_loader_11c3b3c;
 struct xT2
 {
-    const char* FUN_007fd640();
+    const char* RaceSexMenu_GetProjectorFile();
 };
 struct xT1
 {
@@ -940,11 +940,11 @@ struct xRenderedMenu
     bool m_158;
     int m_15c, m_160;
     float m_164, m_168;
-    void FUN_007f7fb0(const NiColorA&);
+    void FORenderedMenu_SetTintColor(const NiColorA&);
     xT1* NiAVObject_GetParent();
-    void FUN_004dc540(xAV*);
-    void FUN_007fae70(int);
-    void FUN_00810530(bool);
+    void NiTexturingProperty_Map_SetTexture(xAV*);
+    void SetScreenTexture(int);
+    void bhkCharacterControllerCinfo_SetAvoidBox(bool);
     void LowProcess_SetEssentialDownTimer(float);
     int FUN_009b6600();
     void SetGo(xCam*);
@@ -961,15 +961,15 @@ void xRenderedMenu::Init()
 {
     float qahtre;
     m_158 = false;
-    m_168 = (double)xg_timer_11f6394.FUN_00825c00() + xRand() % *xg_i_11db4f8.FUN_0043d4d0();
-    m_164 = *xg_f_11db4d0.FUN_00403e20();
+    m_168 = (double)xg_timer_11f6394.FUN_00825c00() + xRand() % *xg_i_11db4f8.Setting_Int();
+    m_164 = *xg_f_11db4d0.Setting_Float_00403e20();
     NiColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
     if (xF718b60()->FUN_00719060(3, qHXYKT))
-        FUN_007f7fb0(qHXYKT);
+        FORenderedMenu_SetTintColor(qHXYKT);
     xAV* qdqWL = 0;
     if (!m_f8.FUN_00559450())
     {
-        qdqWL = xg_loader_11c3b3c->FUN_00447080(NiAVObject_GetParent()->Tile_GetMenu()->FUN_007fd640(), 0, true, false, false,
+        qdqWL = xg_loader_11c3b3c->ModelLoader_LoadFile(NiAVObject_GetParent()->Tile_GetMenu()->RaceSexMenu_GetProjectorFile(), 0, true, false, false,
                                                 false);
         m_f8.FUN_0066b0d0(qdqWL);
         xF4b7660(qdqWL);
@@ -978,11 +978,11 @@ void xRenderedMenu::Init()
     {
         qdqWL = m_f8.FUN_00559450();
     }
-    qdqWL->FUN_00440490(*xg_f_11db544.FUN_00403e20());
-    FUN_004dc540(qdqWL);
+    qdqWL->NiAVObject_SetScale(*xg_f_11db544.Setting_Float_00403e20());
+    NiTexturingProperty_Map_SetTexture(qdqWL);
     xAV* qSuoDt = qdqWL->GetObjectByName(xFixedStr(s_szScreen));
-    FUN_007fae70(0);
-    FUN_00810530(false);
+    SetScreenTexture(0);
+    bhkCharacterControllerCinfo_SetAvoidBox(false);
     m_fc.FUN_0066b0d0(0);
     m_104.FUN_0066b0d0(0);
     m_d8.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szSexBtn)));
@@ -1000,20 +1000,20 @@ void xRenderedMenu::Init()
     xMat3 qjXCGmG;
     qpqRa.FUN_0043f850(1.57f);
     qjXCGmG.FUN_004a0c90(1.57f);
-    qdqWL->FUN_0043fa80(qjXCGmG.FUN_0043f8d0(qpqRa));
+    qdqWL->SetRotate_0043fa80(qjXCGmG.FUN_0043f8d0(qpqRa));
     float qhxpxJd = 0.0f;
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
         qhxpxJd = 80.0f;
     else
-        qhxpxJd = *xg_f_11db570.FUN_00403e20();
+        qhxpxJd = *xg_f_11db570.Setting_Float_00403e20();
     if (!xF707b50() && !xg_b_11f9426)
         qhxpxJd *= 0.75;
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
-        qdqWL->FUN_004bc1f0(qhxpxJd, 0.0f, *xg_f_11db5cc.FUN_00403e20());
+        qdqWL->NiAVObject_SetTranslate_004bc1f0(qhxpxJd, 0.0f, *xg_f_11db5cc.Setting_Float_00403e20());
     else
-        qdqWL->FUN_004bc1f0(qhxpxJd, *xg_f_11db594.FUN_00403e20(), *xg_f_11db5cc.FUN_00403e20());
+        qdqWL->NiAVObject_SetTranslate_004bc1f0(qhxpxJd, *xg_f_11db594.Setting_Float_00403e20(), *xg_f_11db5cc.Setting_Float_00403e20());
     xUpdateData qsSDDgz(0.0f, false, false);
-    qdqWL->FUN_00a59c60(qsSDDgz);
+    qdqWL->NiAVObject_Update(qsSDDgz);
     xCam* qSVM = new xCam();
     NiColorA qrEZrs(0.0f, 1.0f, 1.0f, 0.0f);
     qSVM->FUN_00712e60(qrEZrs);
@@ -1021,45 +1021,45 @@ void xRenderedMenu::Init()
     qbGYp.SetElement(0, 0.0f, 0.0f, 1.0f);
     qbGYp.SetElement(1, 1.0f, 0.0f, 0.0f);
     qbGYp.SetElement(2, 0.0f, 1.0f, 0.0f);
-    qSVM->FUN_0043fa80(xg_m_11a9448);
+    qSVM->SetRotate_0043fa80(xg_m_11a9448);
     qSVM->NiCamera_SetMinNearPlaneDist(1.0f);
     ::NiFrustum qnuVZg;
     qnuVZg.Init(false);
     qnuVZg.m_fFarPlane = xF45c670()->GetFar();
-    qnuVZg.m_fNearPlane = *xg_f_1203144.FUN_00403e20();
-    qSVM->FUN_00507700(qnuVZg.m_fFarPlane / qnuVZg.m_fNearPlane);
+    qnuVZg.m_fNearPlane = *xg_f_1203144.Setting_Float_00403e20();
+    qSVM->NiCamera_SetMaxFarNearRatio(qnuVZg.m_fFarPlane / qnuVZg.m_fNearPlane);
     float qvyWyw = (float)(xg_b_11f9426 ? xg_i_11f9434 : xF4dc200()) / xF4dc1f0();
     float qkbsJ = 0.75f;
-    qahtre = *xg_f_1203150.FUN_00403e20() * 0.01745329238474369 * *xg_f_11db5ec.FUN_00403e20();
+    qahtre = *xg_f_1203150.Setting_Float_00403e20() * 0.01745329238474369 * *xg_f_11db5ec.Setting_Float_00403e20();
     qnuVZg.m_fLeftBound = -xF57dd70(qahtre) * qkbsJ;
     qnuVZg.m_fRightBound = xF57dd70(qahtre) * qkbsJ;
     qnuVZg.m_fBottomBound = -xF57dd70(qahtre) * qvyWyw * qkbsJ;
     qnuVZg.m_fTopBound = xF57dd70(qahtre) * qvyWyw * qkbsJ;
     qnuVZg.m_bOrthographic = false;
     qSVM->FUN_00a6faf0(qnuVZg);
-    xF709d50(qSVM, *xg_f_11db5ec.FUN_00403e20());
+    xF709d50(qSVM, *xg_f_11db5ec.Setting_Float_00403e20());
     xUpdateData qfTOqo(0.0f, false, false);
-    qSVM->FUN_00a59c60(qfTOqo);
+    qSVM->NiAVObject_Update(qfTOqo);
     SetGo(qSVM);
     if (qSuoDt->GetGeom())
         SetScreen(qSuoDt->GetGeom());
     else if (qSuoDt->GetNode())
         SetScreen(qSuoDt->GetNode()->FUN_0043b4a0(0)->GetGeom());
-    FUN_004dc540(qdqWL);
-    SkyObject_GetNiNode()->FUN_00a5b230(xF40df90());
-    SkyObject_GetNiNode()->FUN_00439410(new xAlpha());
-    float qzzQr = qdqWL->FUN_0043d450()->FUN_0084d030() * 3.0;
+    NiTexturingProperty_Map_SetTexture(qdqWL);
+    SkyObject_GetNiNode()->NiAVObject_RemoveProperty(xF40df90());
+    SkyObject_GetNiNode()->NiAVObject_AttachProperty(new xAlpha());
+    float qzzQr = qdqWL->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
     void* qpTd = xF450b80(1)->FUN_00b5ca70(qdqWL, qzzQr);
     if (!qpTd)
     {
         xLight* PLIGHT = new xLight();
         qdqWL->AttachChildInAvailableSlot(PLIGHT, true);
-        PLIGHT->FUN_00440460(xPoint3(0.0f, -50.0f, 0.0f));
+        PLIGHT->NiAVObject_SetTranslate(xPoint3(0.0f, -50.0f, 0.0f));
         PLIGHT->SetEffectColor(xPoint3(0.75f, 0.75f, 0.75f));
         PLIGHT->FUN_0050dd50(xPoint3(1000.0f, 0.0f, 0.0f));
-        PLIGHT->FUN_0050dd20(1.0f);
+        PLIGHT->NiLight_SetDimmer(1.0f);
         xUpdateData UPD3(0.0f, false, false);
-        PLIGHT->FUN_00a59c60(UPD3);
+        PLIGHT->NiAVObject_Update(UPD3);
         xF450b80(1)->FUN_00b5c940(PLIGHT, 0);
         InitTerminalLight();
     }
@@ -1072,7 +1072,7 @@ struct RtTexture;
 struct RtTarget
 {
     RtTexture* BSTextureManager_BorrowRenderedTexture(int iFlags, int a2, int a3, int a4);
-    void FUN_00b6da10();
+    void BSTextureManager_ReturnRenderedTexture();
 };
 struct RtRenderer
 {
@@ -1123,7 +1123,7 @@ struct RtRenderer
     virtual void v044();
     virtual void SetBorderColor(const NiColorA& kColor);
 };
-RtRenderer* __cdecl FUN_0043c4b0();
+RtRenderer* __cdecl NiXenonRenderer_GetRenderer();
 RtTarget* __stdcall BSShaderManager_GetTextureManager(void* pkObject);
 
 template <class T> struct RtPtr
@@ -1155,7 +1155,7 @@ struct RtAccum
 
 struct RtSource
 {
-    RtTexture* FUN_007fd640();
+    RtTexture* RaceSexMenu_GetProjectorFile();
 };
 RtSource* __cdecl InterfaceManager_GetSingleton();
 void __cdecl BSRenderedTexture_StartOffscreen(int i, void* pkData);
@@ -1170,7 +1170,7 @@ struct RenderToTextureImpl
     char pad000[0x104];
     RtPtr<RtNode> m_spScene;
 
-    const NiColorA& FUN_00503650();
+    const NiColorA& GetBackTexture();
     void Render_007fba00(int a1, int a2, RtTexture* pkTexture);
     void FORenderedMenuRaceSex_Draw(int a1, int a2, int a3);
 };
@@ -1182,11 +1182,11 @@ void RenderToTextureImpl::FORenderedMenuRaceSex_Draw(int aiUnk, int aiUnk2, int 
 {
     bool bOverrideTmp = false;
     bOverrideTmp = true;
-    RtRenderer* pkRendererY = FUN_0043c4b0();
-    RtPtr<RtTexture> spTarget5(BSShaderManager_GetTextureManager(FUN_0043c4b0())->BSTextureManager_BorrowRenderedTexture(0x30, 0, 0, 0));
+    RtRenderer* pkRendererY = NiXenonRenderer_GetRenderer();
+    RtPtr<RtTexture> spTarget5(BSShaderManager_GetTextureManager(NiXenonRenderer_GetRenderer())->BSTextureManager_BorrowRenderedTexture(0x30, 0, 0, 0));
     NiColorA kKBorder(0.0f, 0.0f, 0.0f, 0.0f);
     NiColorA kBackgroundVal2(0.0f, 0.0f, 0.0f, 0.0f);
-    kBackgroundVal2 = FUN_00503650();
+    kBackgroundVal2 = GetBackTexture();
     kBackgroundVal2.a = 1.0f;
     if (bOverrideTmp)
         kBackgroundVal2 = NiColorA(0.125f, 0.161f, 0.141f, 1.0f);
@@ -1194,7 +1194,7 @@ void RenderToTextureImpl::FORenderedMenuRaceSex_Draw(int aiUnk, int aiUnk2, int 
     pkRendererY->SetBackgroundColor(kBackgroundVal2);
     BSRenderedTexture_StartOffscreen(7, spTarget5.FUN_00559450()->FUN_00b6b260());
     RtAccum kAccumRes(0);
-    RtPtr<RtTexture> spSource9(InterfaceManager_GetSingleton()->FUN_007fd640());
+    RtPtr<RtTexture> spSource9(InterfaceManager_GetSingleton()->RaceSexMenu_GetProjectorFile());
     kAccumRes.BSCullingProcess_SetAccumulator(spSource9.FUN_00559450());
     kAccumRes.BSCullingProcess_PushCullMode(1);
     BSShaderUtil_AccumulateScene(m_spScene.FUN_00559450(), FUN_00450b80(3), &kAccumRes);
@@ -1204,7 +1204,7 @@ void RenderToTextureImpl::FORenderedMenuRaceSex_Draw(int aiUnk, int aiUnk2, int 
     spSource9.FUN_0066b0d0(0);
     FUN_00b6b790();
     Render_007fba00(aiUnk, 0, spTarget5.FUN_00559450());
-    BSShaderManager_GetTextureManager(spTarget5.FUN_00559450())->FUN_00b6da10();
+    BSShaderManager_GetTextureManager(spTarget5.FUN_00559450())->BSTextureManager_ReturnRenderedTexture();
     spTarget5.FUN_0066b0d0(0);
 }
 }  // namespace fnv_007fe1f0

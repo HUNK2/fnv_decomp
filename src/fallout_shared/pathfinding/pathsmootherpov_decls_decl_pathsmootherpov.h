@@ -23,7 +23,7 @@ class CircularArc
     CircularArc(const SineCosine&, const SineCosine&, ANGLE_DIRECTION);
     CircularArc(const CircularArc&);
     float FUN_006a07a0(float) const;
-    bool FUN_006a0660(const SineCosine&) const;
+    bool AngleSinCosArc_WithinRange(const SineCosine&) const;
 };
 
 class Sphere

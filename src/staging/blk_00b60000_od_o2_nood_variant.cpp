@@ -630,7 +630,7 @@ extern D3DXVECTOR4 DAT_011fd9b8;
 extern D3DXVECTOR4 DAT_011fd9c8;
 extern D3DXVECTOR4 DAT_011fd9d8;
 
-BSFogProperty* FUN_00b55520(int iType);
+BSFogProperty* BSShaderManager_GetFogProperty(int iType);
 
 class BSShaderPass
 {
@@ -679,7 +679,7 @@ void BSShaderPass::ShadowLightShader_SetupPassConstants(unsigned int uiPass)
 
     if (*reinterpret_cast<bool*>(&DAT_011febf8->unk08))
     {
-        BSFogProperty* pkFog = FUN_00b55520(DAT_011f91c4);
+        BSFogProperty* pkFog = BSShaderManager_GetFogProperty(DAT_011f91c4);
         if (pkFog)
         {
             float fNear = pkFog->nearDepth;

@@ -25,7 +25,7 @@ struct GlobalContext
         return heap;
     }
 };
-extern GlobalContext* __cdecl FUN_00c85750();
+extern GlobalContext* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl hkArrayUtil__reserve(void*, VectorArray*, int, int);
 struct Geometry
 {
@@ -69,7 +69,7 @@ struct Geometry
     int unk94;
     int unk98;
     int unk9c;
-    void __thiscall FUN_00de4af0(VectorArray*);
+    void __thiscall hkDisplaySemiCircle_generatePoints(VectorArray*);
     void __thiscall hkDisplaySemiCircle_getWireframeGeometry(VectorArray*, void*);
 };
 // Fills a temporary array via FUN_00de4af0, then writes consecutive pairs (i, i+1) from it into destination, 2*unk9c entries, growing destination as needed.
@@ -78,7 +78,7 @@ struct Geometry
 void __thiscall Geometry::hkDisplaySemiCircle_getWireframeGeometry(VectorArray* destination, void* allocator)
 {
     VectorArray temporary = {0, 0, 0x80000000u};
-    FUN_00de4af0(&temporary);
+    hkDisplaySemiCircle_generatePoints(&temporary);
     int required = unk9c * 2;
     int capacity = destination->capacityAndFlags & 0x3fffffff;
     if (capacity < required)
@@ -95,7 +95,7 @@ void __thiscall Geometry::hkDisplaySemiCircle_getWireframeGeometry(VectorArray* 
         destination->data[outputIndex++] = temporary.data[i];
         destination->data[outputIndex++] = temporary.data[i + 1];
     }
-    Heap* heap = FUN_00c85750()->getHeap();
+    Heap* heap = hkMemoryRouter_getInstance()->getHeap();
     temporary.size = 0;
     if ((temporary.capacityAndFlags & 0x80000000u) == 0)
     {
@@ -127,7 +127,7 @@ struct S_de4d20_Holder
     }
 };
 
-S_de4d20_Holder* FUN_00c85750() throw();
+S_de4d20_Holder* hkMemoryRouter_getInstance() throw();
 void FUN_00c90940(S_de4d20_Heap& h, void* arr, int elemSize) throw();
 
 struct __declspec(align(16)) S_de4d20_Vec
@@ -157,7 +157,7 @@ struct S_de4d20_Grid
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        return hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(n);
     }
 
     static void operator delete(void*)
@@ -216,7 +216,7 @@ struct S_de4d20_Context
     int unk98;
     int m9c;
 
-    void FUN_00de4af0(S_de4d20_Grid* g) throw();
+    void hkDisplaySemiCircle_generatePoints(S_de4d20_Grid* g) throw();
     void hkDisplaySemiCircle_buildGeometry() throw();
 };
 
@@ -227,10 +227,10 @@ void S_de4d20_Context::hkDisplaySemiCircle_buildGeometry() throw()
 {
     S_de4d20_Grid* g = new S_de4d20_Grid;
     m8 = g;
-    FUN_00de4af0(g);
+    hkDisplaySemiCircle_generatePoints(g);
 
     S_de4d20_Grid* arr = m8;
-    S_de4d20_Holder* r = FUN_00c85750();
+    S_de4d20_Holder* r = hkMemoryRouter_getInstance();
 
     if (arr->size == (int)(arr->cap & 0x3fffffff))
         FUN_00c90940(r->heap(), arr, 0x10);

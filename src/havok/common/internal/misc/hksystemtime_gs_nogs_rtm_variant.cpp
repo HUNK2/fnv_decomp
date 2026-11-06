@@ -113,7 +113,7 @@ struct FNV_Ctx
     FNV_MemObj* obj;  // +0x10
 };
 
-extern "C" FNV_Ctx* FUN_00c85750() throw();
+extern "C" FNV_Ctx* hkMemoryRouter_getInstance() throw();
 
 // ---- shell helpers
 struct FUN_00e29920_shell;
@@ -156,13 +156,14 @@ static __forceinline LocalM128 normalizeVector(FNV_Vec4& result, LocalM128 value
 }
 
 // @fnv 0x00e2a010
-void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, float scale, char* a7, E29Out1* a8, int* a9,
+// src: XBOX_PDB 0x00e2a010
+void hkTreeBundleRayCastUtil_autoBundleScanAll(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, float scale, char* a7, E29Out1* a8, int* a9,
                   E29Out2* a10, int* a11)
 {
     float thresh = (float)fabs((float)cos((double)angle));
     E29SrcList list;
     list.count = 0;
-    FNV_Ctx* ctx = FUN_00c85750();
+    FNV_Ctx* ctx = hkMemoryRouter_getInstance();
     E29Src* recs = (E29Src*)ctx->cur;
     ctx->cur = (char*)recs + ((n * 5 * 4 + 0x7f) & ~0x7f);
     int cap = n | 0x80000000;
@@ -228,8 +229,8 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
         } while (i < n);
     }
     FUN_00e29a10(&list, (const LocalM128*)A, (const LocalM128*)B, a7, a8, a9, a10, a11);
-    FUN_00c85750()->cur = recs;
-    FNV_Ctx* holder = FUN_00c85750();
+    hkMemoryRouter_getInstance()->cur = recs;
+    FNV_Ctx* holder = hkMemoryRouter_getInstance();
     FNV_MemObj* allocator = holder->obj;
     if ((list.cap & 0x80000000) == 0)
         allocator->Release(recs, (list.cap & 0x3fffffff) * 5 * 4);

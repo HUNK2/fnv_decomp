@@ -54,18 +54,18 @@ struct UnkHolder
     volatile int mC;
     volatile int m10;
     volatile int m14;
-    UnkRet* FUN_00c85750();
+    UnkRet* hkMemoryRouter_getInstance();
     void FUN_00c72210();
 };
 
 struct bhkRigidBody_shell
 {
-    int FUN_00517630();
-    void* FUN_00560d80();
+    int bhkRigidBody_GetMotionType();
+    void* bhkRigidBody_GetLinearVelocity_00560d80();
     void bhkRigidBody_SetLinearVelocity_00561690(void*);
 };
 bhkCollisionObject* __cdecl FUN_0043b610(NiAVObject*);
-bool __cdecl FUN_00c8cce0(int*);
+bool __cdecl bhkRigidBody_IsMotionTypeDynamic(int*);
 // LocalVec4_0062b930: 16-byte aligned vector stand-in for FUN_0062b930 (ctor 0x006815c0, set 0x004b4d50); it is not
 // bhkUnaryAction, whose constructor is 0x0056d410.
 struct __declspec(align(16)) LocalVec4_0062b930
@@ -73,7 +73,7 @@ struct __declspec(align(16)) LocalVec4_0062b930
     char buf[16];
     LocalVec4_0062b930();
     void Set(float, float, float, float);
-    void FUN_00553f70(void*);
+    void hkVector4_add4(void*);
 };
 struct Vec3Arg
 {
@@ -89,17 +89,17 @@ void __cdecl TESHavokUtilities_AddVelocity_0(NiAVObject* apObject, Vec3Arg* apVe
         bhkCollisionObject* j = FUN_0043b610(apObject);
         if (j)
         {
-            bhkRigidBody_shell* e = (bhkRigidBody_shell*)j->FUN_006fa820();
+            bhkRigidBody_shell* e = (bhkRigidBody_shell*)j->bhkNiCollisionObject_GetWorldObject();
             if (e)
             {
-                int c = e->FUN_00517630();
-                if (FUN_00c8cce0(&c))
+                int c = e->bhkRigidBody_GetMotionType();
+                if (bhkRigidBody_IsMotionTypeDynamic(&c))
                 {
                     LocalVec4_0062b930 l;
                     l.Set(*apVec->FUN_00560d30(0), *apVec->FUN_00560d30(1), *apVec->FUN_00560d30(2), 0.0f);
                     if (!abFlag)
                     {
-                        l.FUN_00553f70(e->FUN_00560d80());
+                        l.hkVector4_add4(e->bhkRigidBody_GetLinearVelocity_00560d80());
                     }
                     e->bhkRigidBody_SetLinearVelocity_00561690(&l);
                 }
@@ -127,7 +127,7 @@ unsigned int xFUN_005dbe10();
 struct xDH;
 struct xCinfoSub
 {
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
     void bhkTransform_NI2HK(xDH*);
     int m_q[12];
 };
@@ -214,7 +214,7 @@ struct xPtr
 };
 struct xDHOwner
 {
-    xDH* FUN_00461130();
+    xDH* NiAVObject_GetWorldRotate();
 };
 struct xRef
 {
@@ -338,7 +338,7 @@ struct xRef
     char m_pad04[0x9c];
     xPtr m_a0;
     xCell* FUN_008d6f30();
-    float FUN_00644930();
+    float Explosion_GetRadius();
     void Explosion_InitHavok();
 };
 
@@ -349,13 +349,13 @@ void xRef::Explosion_InitHavok()
     if (m_a0 == 0 && FUN_008d6f30() && xFUN_004543c0(FUN_008d6f30()))
     {
         xCinfo CINFO;
-        xShape* SHAPE = new xShape(FUN_00644930(), true);
+        xShape* SHAPE = new xShape(Explosion_GetRadius(), true);
         CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
         CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).FUN_00559450();
         if (FUN_1d0())
-            CINFO.m_20.bhkTransform_NI2HK(FUN_1d0()->FUN_00461130());
+            CINFO.m_20.bhkTransform_NI2HK(FUN_1d0()->NiAVObject_GetWorldRotate());
         else
-            CINFO.m_20.FUN_0056e120();
+            CINFO.m_20.bhkTransform_setIdentity();
         m_a0.FUN_0066b0d0(new xBody(&CINFO));
         m_a0->FUN_9c(xFUN_004543c0(FUN_008d6f30()));
     }
@@ -1556,21 +1556,21 @@ extern Setting g_kSettingB9BE;
 extern const float g_fMaxFallDistance9BE;
 extern const float g_fMaxValue9BE;
 
-bhkCollisionObject* __cdecl FUN_004a8b00(NiAVObject* pkNode);
-bhkCollisionObject* __cdecl FUN_004b5260(NiAVObject* pkNode);
+bhkCollisionObject* __cdecl bhkNiCollisionObject_GetbhkNiCollisionObject(NiAVObject* pkNode);
+bhkCollisionObject* __cdecl FindFirstCollisionObject(NiAVObject* pkNode);
 WorldObject9BE* __cdecl bhkEntity_Getbhk(Entity9BE* pkEntity);
-bool __cdecl FUN_00525420();
+bool __cdecl Main_GetSceneIsComplex();
 float __cdecl FUN_00716440();
 void __cdecl NiMatrix3_TransformVertices(const Matrix9BE& kRot, const NiPoint3& kIn, int iFlag, NiPoint3& kA, NiPoint3& kB);
 void __cdecl CopyBlock48(NiAVObject* pkNode, int iFlag);
-void __cdecl FUN_00c6a0b0(NiAVObject* pkNode, int iA, int iB, int iC);
+void __cdecl bhkWorld_EnableCollision(NiAVObject* pkNode, int iA, int iB, int iC);
 void __cdecl SetSelectionValue(NiAVObject* pkNode, float fValue, int iA, int iB);
 void __cdecl ApplyCollisionObjectCount(NiAVObject* pkNode, float fValue, int iA, int iB);
-void __cdecl FUN_00c6a350(NiAVObject* pkNode, int iA, int iB, int iC, int iD);
-void __cdecl FUN_00c6a3d0(NiAVObject* pkNode, unsigned int uiFilterInfo, int iA, int iB);
+void __cdecl bhkWorld_SetMotion(NiAVObject* pkNode, int iA, int iB, int iC, int iD);
+void __cdecl bhkWorld_SetGroup(NiAVObject* pkNode, unsigned int uiFilterInfo, int iA, int iB);
 void __cdecl TraverseObject(NiAVObject* pkNode, int iA, int iB, int iC, int iD);
-void __cdecl FUN_00c69ee0(NiAVObject* pkNode, int iA, int iB);
-void __cdecl FUN_00c69f50(NiAVObject* pkNode, int iA, int iB);
+void __cdecl bhkWorld_RemoveObjects(NiAVObject* pkNode, int iA, int iB);
+void __cdecl bhkWorld_UpdatePosition(NiAVObject* pkNode, int iA, int iB);
 
 // @fnv 0x009be0a0
 // src: COMMUNITY 0x009be0a0
@@ -1585,16 +1585,16 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
     {
         if (IsFlagSet(8))
         {
-            FUN_00c6a0b0(pkNode, 0, 1, 0);
-            FUN_00c6a350(pkNode, 4, 1, 0, 1);
+            bhkWorld_EnableCollision(pkNode, 0, 1, 0);
+            bhkWorld_SetMotion(pkNode, 4, 1, 0, 1);
             return;
         }
-        bhkCollisionObject* pkCollision = FUN_004a8b00(pkNode);
+        bhkCollisionObject* pkCollision = bhkNiCollisionObject_GetbhkNiCollisionObject(pkNode);
         WorldObject9BE* pkWorldObject = 0;
         Entity9BE* pkEntity = 0;
         if (IsFlagSet(4))
         {
-            FUN_00c6a350(Get3D(), 1, 1, 0, 1);
+            bhkWorld_SetMotion(Get3D(), 1, 1, 0, 1);
             if (*g_kSettingA9BE.GetFloat() != 0.0)
             {
                 if (GetBaseObject()->GetScale() > 0.0)
@@ -1610,33 +1610,33 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
                 if (GetOwner()->IsActor())
                 {
                     Target9BE* pkOwner = GetOwner();
-                    FUN_00c6a3d0(pkNode, pkOwner->GetFilter().GetGroup(), 1, 0);
+                    bhkWorld_SetGroup(pkNode, pkOwner->GetFilter().GetGroup(), 1, 0);
                 }
                 else
                 {
-                    bhkCollisionObject* pkOwnerCollision = FUN_004b5260(GetOwner()->Get3D());
-                    WorldObject9BE* pkOwnerObject = pkOwnerCollision ? (WorldObject9BE*)pkOwnerCollision->FUN_006fa820() : 0;
+                    bhkCollisionObject* pkOwnerCollision = FindFirstCollisionObject(GetOwner()->Get3D());
+                    WorldObject9BE* pkOwnerObject = pkOwnerCollision ? (WorldObject9BE*)pkOwnerCollision->bhkNiCollisionObject_GetWorldObject() : 0;
                     if (pkOwnerObject)
-                        FUN_00c6a3d0(pkNode, pkOwnerObject->GetFilter().GetGroup(), 1, 0);
+                        bhkWorld_SetGroup(pkNode, pkOwnerObject->GetFilter().GetGroup(), 1, 0);
                 }
             }
             pkWorld->HandleNode(pkNode, 1, 1, 0, 0);
             if (pkCollision)
             {
-                pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
+                pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->bhkNiCollisionObject_GetWorldObject())->GetEntity());
             }
             else if (pkNode->IsFadeNode())
             {
                 NiNode* pkParent = (NiNode*)pkNode;
-                if (pkParent->FUN_00453470())
+                if (pkParent->NiNode_GetChildCount())
                 {
-                    for (unsigned int i = 0; i < pkParent->FUN_00453470(); i++)
+                    for (unsigned int i = 0; i < pkParent->NiNode_GetChildCount(); i++)
                     {
                         NiAVObject* pkChild = pkParent->FUN_0043b4a0(i);
-                        pkCollision = FUN_004a8b00(pkChild);
+                        pkCollision = bhkNiCollisionObject_GetbhkNiCollisionObject(pkChild);
                         if (pkCollision)
                         {
-                            pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
+                            pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->bhkNiCollisionObject_GetWorldObject())->GetEntity());
                             break;
                         }
                     }
@@ -1648,7 +1648,7 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
                 NiPoint3 kIntersectionOffset(GetBaseObject()->GetX(), GetBaseObject()->GetY(), GetBaseObject()->GetZ());
                 NiPoint3 kMotionVelocity;
                 hkVector4 kHkVelocity;
-                Matrix9BE kRot = reinterpret_cast<const Matrix9BE&>(Get3D()->FUN_00461130());
+                Matrix9BE kRot = reinterpret_cast<const Matrix9BE&>(Get3D()->NiAVObject_GetWorldRotate());
                 NiMatrix3_TransformVertices(kRot, NiPoint3(0.0f, 0.0f, 0.0f), 1, kIntersectionOffset, kMotionVelocity);
                 kHkVelocity.set(kMotionVelocity.x, kMotionVelocity.y, kMotionVelocity.z, 0.0f);
                 pkEntity->SetLinearVelocity(kHkVelocity);
@@ -1680,13 +1680,13 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
             kInfo.SetHeight(m_fGlyphExtent);
             kInfo.SetLayer(6);
             pkController = new Controller9BE(kInfo, this);
-            pkController->SetEnabled(FUN_00525420());
+            pkController->SetEnabled(Main_GetSceneIsComplex());
             pkController->SetMode(1);
             hkVector4 kUp(-g_fMaxValue9BE, 0.0f, 0.0f, 0.0f);
             pkController->SetUp(kUp);
             m_pkProcess->SetController(pkController);
             pkController->SetActor(this);
-            FUN_00c6a0b0(pkNode, 0, 1, 0);
+            bhkWorld_EnableCollision(pkNode, 0, 1, 0);
         }
         if (pkController)
         {
@@ -1706,14 +1706,14 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
                     pkController->SetState(0);
                     CopyBlock48(pkController->GetNode(), 1);
                 }
-                FUN_00c6a350(pkNode, 4, 1, 0, 1);
+                bhkWorld_SetMotion(pkNode, 4, 1, 0, 1);
                 bReset = true;
             }
             NiPoint3 kPos = *GetPos();
             if (pkOldWorld != pkWorld)
             {
                 if (pkOldWorld)
-                    FUN_00c69ee0(pkNode, 1, 0);
+                    bhkWorld_RemoveObjects(pkNode, 1, 0);
                 kPos.z += 8.0;
                 bReset = true;
             }
@@ -1728,7 +1728,7 @@ void ProjectilePhysicsReference::Projectile_InitHavok()
                 }
                 else
                 {
-                    FUN_00c69f50(pkNode, 1, 0);
+                    bhkWorld_UpdatePosition(pkNode, 1, 0);
                 }
             }
         }

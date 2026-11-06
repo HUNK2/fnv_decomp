@@ -207,8 +207,8 @@ void hkpStiffSpringWrapperD4D3::UpdatePivotsAndRestLength(const hkVector4& kPivo
 {
     hkpEntity* pkA = m_pEntityA;
     hkpEntity* pkB = m_pEntityB;
-    m_kPivotInA.FUN_00c7f690(pkA->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotAW);
-    m_kPivotInB.FUN_00c7f690(pkB->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotBW);
+    m_kPivotInA.hkVector4_setTransformedInversePos(pkA->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotAW);
+    m_kPivotInB.hkVector4_setTransformedInversePos(pkB->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotBW);
     hkVector4 kDiff;
     kDiff.setSub4(kPivotAW, kPivotBW);
     m_fSpringRestLength = kDiff.length3();
@@ -239,9 +239,9 @@ void hkpStiffSpringWrapperD4D41::SetPivots(const hkVector4& kPivotA, const hkVec
     m_kPivotInA = kPivotA;
     m_kPivotInB = kPivotB;
     hkVector4 kPivotAW;
-    kPivotAW.FUN_00c7f640(pkA->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotA);
+    kPivotAW.setTransformedPos_00c7f640(pkA->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotA);
     hkVector4 kPivotBW;
-    kPivotBW.FUN_00c7f640(pkB->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotB);
+    kPivotBW.setTransformedPos_00c7f640(pkB->m_pMotionState.m_kMotionState.m_kMotionTransform, kPivotB);
     hkVector4 kDiff;
     kDiff.setSub4(kPivotAW, kPivotBW);
     m_fSpringRestLength = kDiff.length3();

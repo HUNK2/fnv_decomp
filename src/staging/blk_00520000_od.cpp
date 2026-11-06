@@ -47,11 +47,12 @@ unsigned int FUN_005224e0_class::GetField230()
 
 struct FUN_00524b40_class
 {
-    bool FUN_00524b40();
+    bool TESObjectWEAP_IsAutomaticWeapon();
 };
 
 // @fnv 0x00524b40
-bool FUN_00524b40_class::FUN_00524b40()
+// src: XBOX_PDB 0x00524b40
+bool FUN_00524b40_class::TESObjectWEAP_IsAutomaticWeapon()
 {
     return reinterpret_cast<unsigned char*>(this)[0x100] & 2;
 }
@@ -97,7 +98,8 @@ FUN_00527e30::FUN_00527e30() : m(2, 0x25, 0xc)
 {}
 
 // @fnv 0x00528540
-void TESQueuedCellManager::FUN_00528540()
+// src: XBOX_PDB 0x00528540
+void TESQueuedCellManager::ExteriorCellLoader_CancelAllCellLoads()
 {
     SubmitQueuedItems();
 }
@@ -106,11 +108,12 @@ extern "C" int __cdecl sprintf_s(char*, int, const char*, ...);
 
 struct FUN_0052a980_Class
 {
-    int __thiscall FUN_0052a980(char* dst);
+    int __thiscall ImageSpaceModifierInstanceTemp_PrintInfo(char* dst);
 };
 
 // @fnv 0x0052a980
-int __thiscall FUN_0052a980_Class::FUN_0052a980(char* pcBuffer)
+// src: XBOX_PDB 0x0052a980
+int __thiscall FUN_0052a980_Class::ImageSpaceModifierInstanceTemp_PrintInfo(char* pcBuffer)
 {
     return sprintf_s(pcBuffer, 0x800, "  Temp");
 }
@@ -190,7 +193,7 @@ bool FUN_00537b50_shell::TESObjectCELL_HasObjects()
 
 struct Base537
 {
-    void FUN_00537bb0();
+    void hkUnaryActionCinfo_hkUnaryActionCinfo();
     Base537* hkMoppBvTreeShapeCinfo_hkMoppBvTreeShapeCinfo();
     int m_iWordAt00;
     int m_iWordAt04;
@@ -202,7 +205,7 @@ struct Base537
 // src: COMMUNITY 0x00537b80
 Base537* Base537::hkMoppBvTreeShapeCinfo_hkMoppBvTreeShapeCinfo()
 {
-    FUN_00537bb0();
+    hkUnaryActionCinfo_hkUnaryActionCinfo();
     m_8 = 0;
     m_iThirdValue = 1.0f;
     return this;
@@ -242,7 +245,7 @@ void FUN_005278a0::DoIt()
     NiFreeAlias(b);
 }
 
-void __cdecl FUN_0040fca0(unsigned long);
+void __cdecl BSSleep(unsigned long);
 
 // These task-manager signatures are not declared by the shared IOManager yet.
 // The adapter adds declarations only; the shared class supplies the layout.
@@ -258,7 +261,7 @@ class IOManagerTaskCalls : public IOManager
 void __thiscall IOManagerTaskCalls::WaitForTask(void* pObject)
 {
     while (*(int*)((char*)pObject + 0x0c) == 3 || *(int*)((char*)pObject + 0x0c) == 5)
-        FUN_0040fca0(0);
+        BSSleep(0);
 }
 
 void __cdecl Deallocate(void* p);
@@ -528,7 +531,8 @@ struct Caller27f90
 extern TESQueuedCellManager* DAT_011c9618;
 // If the global TESQueuedCellManager exists, calls its FUN_00527f90 with flags 1 and clears the global pointer.
 // @fnv 0x00527f40
-void __cdecl FUN_00527f40()
+// src: XBOX_PDB 0x00527f40
+void __cdecl ExteriorCellLoader_Release()
 {
     TESQueuedCellManager* pManager;
     TESQueuedCellManager* pManagerCopy;
@@ -614,11 +618,12 @@ struct FUN_0052cfc0_Class
 {
     int pad;
     FUN_0052cfc0_Rect rect;
-    void __thiscall FUN_0052cfc0(FUN_0052cfc0_Rect* p);
+    void __thiscall NiColorKey_SetColor(FUN_0052cfc0_Rect* p);
 };
 // Copies the four ints of the passed rect into this object's rect field.
 // @fnv 0x0052cfc0
-void __thiscall FUN_0052cfc0_Class::FUN_0052cfc0(FUN_0052cfc0_Rect* apRect)
+// src: XBOX_PDB 0x0052cfc0
+void __thiscall FUN_0052cfc0_Class::NiColorKey_SetColor(FUN_0052cfc0_Rect* apRect)
 {
     rect = *apRect;
 }
@@ -632,11 +637,12 @@ void __cdecl BSEndian(unsigned short*, EndianSizeTag<1>);
 
 struct FUN_00535aa0_Class
 {
-    void __thiscall FUN_00535aa0();
+    void __thiscall OBJ_WEAP_CRITICAL_Endian();
 };
 
 // @fnv 0x00535aa0
-void __thiscall FUN_00535aa0_Class::FUN_00535aa0()
+// src: XBOX_PDB 0x00535aa0
+void __thiscall FUN_00535aa0_Class::OBJ_WEAP_CRITICAL_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     BSEndian((unsigned short*)((char*)this + 4), EndianSizeTag<1>());
@@ -644,18 +650,19 @@ void __thiscall FUN_00535aa0_Class::FUN_00535aa0()
 
 struct CallCls537
 {
-    void __thiscall FUN_004b5020();
+    void __thiscall hkActionCinfo_hkActionCinfo();
 };
 struct Cl537
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    Cl537* __thiscall FUN_00537bb0();
+    Cl537* __thiscall hkUnaryActionCinfo_hkUnaryActionCinfo();
 };
 // @fnv 0x00537bb0
-Cl537* __thiscall Cl537::FUN_00537bb0()
+// src: XBOX_PDB 0x00537bb0
+Cl537* __thiscall Cl537::hkUnaryActionCinfo_hkUnaryActionCinfo()
 {
-    ((CallCls537*)this)->FUN_004b5020();
+    ((CallCls537*)this)->hkActionCinfo_hkActionCinfo();
     m_iWordAt04 = 0;
     return this;
 }
@@ -914,7 +921,7 @@ struct Query
     char m_iThirdValue;
     Query();
     ~Query();
-    unsigned char FUN_006ebde0();
+    unsigned char LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
 };
 struct Handle
 {
@@ -941,7 +948,7 @@ struct TESQueuedCellManagerRequestCalls : TESQueuedCellManager
 void TESQueuedCellManager::ProcessQueries()
 {
     Query query;
-    while (!query.FUN_006ebde0())
+    while (!query.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         unsigned int x = 0;
         Handle y(0);
@@ -974,7 +981,7 @@ struct Local_cls
     unsigned int unk0c;
     Local_cls();
     ~Local_cls();
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
 };
 
 struct Obj20_cls
@@ -992,7 +999,7 @@ extern IOManager* DAT_01202d98;
 void TESQueuedCellManager::ExteriorCellLoader_WaitForTasks()
 {
     Local_cls a;
-    while (!a.FUN_006ebde0())
+    while (!a.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         int b = 0;
         Obj20_cls o4(0);
@@ -1526,7 +1533,7 @@ struct Ref
     bool HasFlag();
     Form* GetAcousticSpace();
     void* FUN_00726070();
-    Changes* FUN_005d43c0();
+    Changes* BSFile_GetDevice();
 };
 struct Changes
 {
@@ -1685,7 +1692,7 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
                     if (!baseTmp->Accept(ref, state->context, 0))
                         continue;
                 }
-                state->entries = ref->FUN_005d43c0()->GetEntries();
+                state->entries = ref->BSFile_GetDevice()->GetEntries();
                 if (state->entries)
                     state->current = ref;
                 break;
@@ -1736,7 +1743,7 @@ void __thiscall Cls::FUN_00529330()
 }
 
 extern const NiPoint3 DAT_011a9484;
-float FUN_004b1520(float, float);
+float fmodf(float, float);
 struct TerrainInput
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -1748,10 +1755,10 @@ struct TerrainInput
 struct TerrainOwner
 {
     NiPoint3 TESObjectLAND_GetVertexLocation(unsigned char, unsigned short, int*, int*);
-    void FUN_00534240(unsigned int, unsigned int, NiPoint3&);
-    void FUN_00534390(unsigned int, unsigned int, NiPoint3&);
-    float FUN_00534080();
-    float FUN_00534050();
+    void TESObjectLAND_GetVertex(unsigned int, unsigned int, NiPoint3&);
+    void TESObjectLAND_GetNormal(unsigned int, unsigned int, NiPoint3&);
+    float TESObjectLAND_GetWorldCellY();
+    float TESObjectLAND_GetWorldCellX();
     bool ComputeTerrainNormalAndTangent(TerrainInput*, NiPoint3*, NiPoint3*);
 };
 // Computes a terrain normal and tangent at input->position, blending edge/u/c samples by flip flags, and returns true.
@@ -1760,27 +1767,27 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
 {
     NiPoint3 origin;
     NiPoint3 position = TESObjectLAND_GetVertexLocation((unsigned char)input->region, (unsigned short)input->position, 0, 0);
-    FUN_00534240(input->region, input->position, origin);
+    TESObjectLAND_GetVertex(input->region, input->position, origin);
     NiPoint3 location;
-    location = NiPoint3(FUN_00534050() + 2048.0, FUN_00534080() + 2048.0, 0.0f);
+    location = NiPoint3(TESObjectLAND_GetWorldCellX() + 2048.0, TESObjectLAND_GetWorldCellY() + 2048.0, 0.0f);
     NiPoint3 center = origin + location;
     center.z = 0.0f;
     if (center.FUN_004390c0(position))
     {
-        FUN_00534390(input->region, input->position, *normal);
+        TESObjectLAND_GetNormal(input->region, input->position, *normal);
         *tangent = *normal;
     }
     else
     {
-        float blended = FUN_004b1520(position.x, 128.0f) / 128.0;
-        float pointB = FUN_004b1520(position.y, 128.0f) / 128.0;
+        float blended = fmodf(position.x, 128.0f) / 128.0;
+        float pointB = fmodf(position.y, 128.0f) / 128.0;
         NiPoint3 edgeA;
         NiPoint3 u;
         NiPoint3 c;
         NiPoint3 v = DAT_011a9484;
-        FUN_00534390(input->region, input->edgeA, edgeA);
-        FUN_00534390(input->region, input->u, u);
-        FUN_00534390(input->region, input->c, c);
+        TESObjectLAND_GetNormal(input->region, input->edgeA, edgeA);
+        TESObjectLAND_GetNormal(input->region, input->u, u);
+        TESObjectLAND_GetNormal(input->region, input->c, c);
         if (!input->flipA && !input->flipB)
             v = ((1.0f - blended) * u + blended * edgeA) * (1.0f - pointB) + pointB * c;
         if (!input->flipA && input->flipB)
@@ -1790,16 +1797,16 @@ bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3*
         if (input->flipA && input->flipB)
             v = ((1.0f - blended) * c + blended * edgeA) * pointB + (1.0f - pointB) * u;
         *normal = v;
-        normal->FUN_004a0c10();
+        normal->Unitize_004a0c10();
         NiPoint3 a;
         NiPoint3 pointC;
         NiPoint3 edgeB;
         NiPoint3 b;
-        FUN_00534240(input->region, input->edgeA, a);
-        FUN_00534240(input->region, input->u, pointC);
+        TESObjectLAND_GetVertex(input->region, input->edgeA, a);
+        TESObjectLAND_GetVertex(input->region, input->u, pointC);
         a.Subtract(pointC);
-        FUN_00534240(input->region, input->edgeA, edgeB);
-        FUN_00534240(input->region, input->c, b);
+        TESObjectLAND_GetVertex(input->region, input->edgeA, edgeB);
+        TESObjectLAND_GetVertex(input->region, input->c, b);
         edgeB.Subtract(b);
         if ((input->flipA && !input->flipB) || (!input->flipA && input->flipB))
             *tangent = a.FUN_0053d1a0(edgeB);
@@ -1817,7 +1824,7 @@ struct QueryState175
     unsigned char complete;
     QueryState175();
     ~QueryState175();
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
 };
 struct Head175
 {
@@ -1832,7 +1839,7 @@ int TESQueuedCellManager::ExteriorCellLoader_TryCancelTasks()
 {
     int count = 0;
     QueryState175 query;
-    while (!query.FUN_006ebde0())
+    while (!query.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         int currentValue = 0;
         Head175 itemHead(0);
@@ -2045,11 +2052,12 @@ struct AmmoOwner
     int unk9c;
     int unka0;
     BGSAmmoForm ammo;
-    Form* FUN_00525980(AmmoActor* actor);
+    Form* TESObjectWEAP_GetCurrentAmmo(AmmoActor* actor);
 };
 // Returns the right-hand Form if it differs from the left one and passes the dynamic cast; otherwise returns the ammo helper's result.
 // @fnv 0x00525980
-Form* AmmoOwner::FUN_00525980(AmmoActor* actor)
+// src: XBOX_PDB 0x00525980
+Form* AmmoOwner::TESObjectWEAP_GetCurrentAmmo(AmmoActor* actor)
 {
     if (actor && actor->FUN_008d8520() && actor->FUN_008d8520()->GetRight())
     {
@@ -2073,13 +2081,13 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    Obj* FUN_00525980(int arg);
+    Obj* TESObjectWEAP_GetCurrentAmmo(int arg);
     int GetOrFallback(int arg);
 };
 // @fnv 0x00525a90
 int Thing::GetOrFallback(int arg)
 {
-    Obj* result = FUN_00525980(arg);
+    Obj* result = TESObjectWEAP_GetCurrentAmmo(arg);
     if (result != 0)
     {
         int value = result->FUN_008d80e0();

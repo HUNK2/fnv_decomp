@@ -47,8 +47,8 @@ struct ResultData
     char unk0A;
     unsigned char unk0B;
     int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
+    void __thiscall hkpGskCache_initTriangle(void* a, void* b, void* c);
+    void __thiscall hkpGskCache_init(void* a, void* b, void* c);
 };
 // Calls one of two handlers on result based on record->type, clears status[2] and some result flags, then returns result advanced by an aligned size.
 // @fnv 0x00d418d0
@@ -58,9 +58,9 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
     void* table = pObject->vtable;
     InputRecord* record = *input->unk04;
     if (record->type == 3)
-        result->FUN_00dafe70(table, record, &input->unk20);
+        result->hkpGskCache_initTriangle(table, record, &input->unk20);
     else
-        result->FUN_00dafcd0(table, record, &input->unk20);
+        result->hkpGskCache_init(table, record, &input->unk20);
     status[2] = 0;
     result->unk0B &= 0xEF;
     result->unk0C = 0;
@@ -75,7 +75,7 @@ extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
 extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
 extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_sepNormal(int a, int b, int c, int d);
 extern "C" void __cdecl hkPredGskCylinderAgent3_process(int a, int b, int c, int d);
 
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
@@ -118,7 +118,7 @@ void __cdecl RegisterScriptHandlers(void* pScript)
 
     tab.p0 = ConvertPairFlags;
     tab.p7 = hkPredGskCylinderAgent3_process;
-    tab.p6 = FUN_00d41930;
+    tab.p6 = hkPredGskAgent3_sepNormal;
     tab.p2 = FUN_00d41860;
     tab.p3 = RemoveEntryById;
     tab.p4 = InsertSlotId;

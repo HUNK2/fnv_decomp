@@ -85,8 +85,8 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                     pExtra = pChanges->FUN_004bfda0(pForm, 0);
                     if (pExtra)
                     {
-                        pExtra->FUN_0041ab70(false);
-                        pActor->FUN_0088c790(pForm, 1, 0, 1, bSet, 1);
+                        pExtra->ExtraDataList_SetCanNotWear(false);
+                        pActor->QueueUnEquipObject(pForm, 1, 0, 1, bSet, 1);
                         if (pActor == g_thePlayer && iFlag == 0)
                         {
                             BSStringT<char> str;
@@ -95,7 +95,7 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                             TesscriptfunctionsInterfaceView::ShowMessage(str.String(), 0,
                                                    "Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds",
                                                    0, 2.0f, false);
-                            g_thePlayer->FUN_00950030();
+                            g_thePlayer->PlayerCharacter_UpdatePlayer3d();
                             g_thePlayer->GetProcess()->UpdateActorAppearance(true, false, false);
                             Interface_UpdateInventory();
                         }
@@ -108,19 +108,19 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
             InventoryChanges* pChanges2 = InventoryChanges::GetOrAddInventoryChanges(obj);
             if (pChanges2)
             {
-                InventoryStackRecord* pHolder = pChanges2->FUN_004d0650(pForm, 0);
+                InventoryStackRecord* pHolder = pChanges2->InventoryChanges_GetInventoryItem(pForm, 0);
                 if (pHolder)
                 {
                     if (pHolder->FUN_00559450())
                     {
                         if (pHolder->FUN_00559450()->GetItem())
                         {
-                            pHolder->FUN_00559450()->GetItem()->FUN_0041ab70(bSet);
+                            pHolder->FUN_00559450()->GetItem()->ExtraDataList_SetCanNotWear(bSet);
                         }
                         else
                         {
                             ExtraDataList* pNew = new ExtraDataList();
-                            pNew->FUN_0041ab70(bSet);
+                            pNew->ExtraDataList_SetCanNotWear(bSet);
                             pHolder->FUN_00559450()->AddHead(pNew);
                         }
                     }
@@ -128,7 +128,7 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                     {
                         pHolder->m_pExtraDataLists = new BSSimpleList<ExtraDataList*>();
                         ExtraDataList* pNew2 = new ExtraDataList();
-                        pNew2->FUN_0041ab70(bSet);
+                        pNew2->ExtraDataList_SetCanNotWear(bSet);
                         pHolder->FUN_00559450()->AddHead(pNew2);
                     }
                     delete pHolder;

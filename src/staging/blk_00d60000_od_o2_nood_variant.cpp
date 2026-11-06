@@ -243,7 +243,7 @@ void __cdecl hkpCharacterMovementUtil_calculateMovement(const MotionInput* input
         }
         (*reinterpret_cast<__m128*>(&workspace.position)) = _mm_add_ps(movement, (*reinterpret_cast<__m128*>(&workspace.position)));
         Vec4* output = *reinterpret_cast<Vec4* const*>(&outputBits);
-        output->FUN_00c7f700(static_cast<const void*>(&workspace.basis), workspace.position);
+        output->hkVector4_setRotatedDir(static_cast<const void*>(&workspace.basis), workspace.position);
         __m128 translation = _mm_load_ps(reinterpret_cast<const float*>(&input->translation));
         __m128 transformed = _mm_load_ps(reinterpret_cast<const float*>(&output->x));
         _mm_store_ps(reinterpret_cast<float*>(&output->x), _mm_add_ps(translation, transformed));
@@ -325,7 +325,7 @@ struct D6Idx
     unsigned char idx02;
 };
 
-extern "C" void __cdecl FUN_00dcf280(D6Vec3* s, void* d, void* e);
+extern "C" void __cdecl hk1dLinearBilateralConstraintBuildJacobian(D6Vec3* s, void* d, void* e);
 extern "C" Vec4* __cdecl D6GetArray(void);
 
 // @fnv 0x00d6c030
@@ -335,7 +335,7 @@ static __declspec(noinline) void FUN_00d6c030(D6Owner* a, Vec4* b, D6Idx* c, voi
     *(__m128*)&s.ax = *(__m128*)&a->f30;
     *(__m128*)&s.bx = *(__m128*)&b[3];
     *(__m128*)&s.cx = *(__m128*)&b[c->idx02];
-    FUN_00dcf280(&s, d, e);
+    hk1dLinearBilateralConstraintBuildJacobian(&s, d, e);
 }
 
 volatile D6Owner* g_d6Owner;

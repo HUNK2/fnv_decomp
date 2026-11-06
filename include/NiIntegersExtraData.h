@@ -20,9 +20,9 @@ class NiIntegersExtraData : public NiExtraData
     void FUN_00a99950();
     NiIntegersExtraData* NiIntegersExtraData_00a99980(int a, int b);
     NiIntegersExtraData* FUN_00a99a50(int flag);
-    bool FUN_00a998e0(NiIntegersExtraData* pObject);
-    void FUN_00a99870(NiIntegersExtraData* pDest, void* pCloning);
-    NiExtraData* FUN_00a999b0(void* pvProcess);
+    bool IsEqual_00a998e0(NiIntegersExtraData* pObject);
+    void CopyMembers_00a99870(NiIntegersExtraData* pDest, void* pCloning);
+    NiExtraData* CreateClone_00a999b0(void* pvProcess);
     void BaseGetViewerStrings(NiViewerStringsArray* pkStrings);
 
     union

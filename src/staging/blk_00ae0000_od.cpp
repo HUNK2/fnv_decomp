@@ -23,11 +23,12 @@ struct FUN_00af30a0_Class
     int m_iValueAt90;
     char m_cValueAt94;
     char m_cValueAt95;
-    void* FUN_00af30a0();
+    void* BSSystemUtility_BSSystemUtility();
 };
 
 // @fnv 0x00af30a0
-void* FUN_00af30a0_Class::FUN_00af30a0()
+// src: XBOX_PDB 0x00af30a0
+void* FUN_00af30a0_Class::BSSystemUtility_BSSystemUtility()
 {
     vtbl = &DAT_010a42b4;
     m_pObjectAt84 = 0;
@@ -82,11 +83,12 @@ struct FUN_00aea890_Class
     void* vtbl;
     int m_kPointA;
     int m_kPointB;
-    int* FUN_00aea890();
+    int* BSWin32AudioListener_GetPosition();
 };
 
 // @fnv 0x00aea890
-int* FUN_00aea890_Class::FUN_00aea890()
+// src: XBOX_PDB 0x00aea890
+int* FUN_00aea890_Class::BSWin32AudioListener_GetPosition()
 {
     return &m_kPointA;
 }
@@ -350,11 +352,12 @@ void* __thiscall FUN_00aeaa80_Class::FUN_00aeaa80(unsigned int flags)
 struct FUN_00aefcf0_Class
 {
     void* vtbl;
-    void __thiscall FUN_00aefcf0(float a, float b, float c);
+    void __thiscall BSWin32GameSound_SetEmitterPosition_00aefcf0(float a, float b, float c);
 };
 // Forwards three float arguments to the virtual method at vtable index 20 of this object.
 // @fnv 0x00aefcf0
-void __thiscall FUN_00aefcf0_Class::FUN_00aefcf0(float a, float b, float c)
+// src: XBOX_PDB 0x00aefcf0
+void __thiscall FUN_00aefcf0_Class::BSWin32GameSound_SetEmitterPosition_00aefcf0(float a, float b, float c)
 {
     ((void(__thiscall*)(void*, float, float, float))(*((void***)this))[20])(this, a, b, c);
 }
@@ -1789,7 +1792,7 @@ class FUN_00aec530_cls
     bool IsLooping();
     void UpdateFlags();
     void UpdateDistance();
-    void FUN_00aec530();
+    void BSWin32GameSound_Prepare();
 
     int unk04;
     unsigned int m_uiValue1;
@@ -1853,7 +1856,8 @@ class FUN_00aec530_cls
 
 // Creates the DirectSound buffer for the sound, sets up streaming chunks and 3D/reverb parameters, then updates flags.
 // @fnv 0x00aec530
-void FUN_00aec530_cls::FUN_00aec530()
+// src: XBOX_PDB 0x00aec530
+void FUN_00aec530_cls::BSWin32GameSound_Prepare()
 {
     long hr5;
     SndEffectDesc gate;
@@ -2192,11 +2196,12 @@ class FUN_00aed420_cls
     S_Subsys* m_198;
     S_Subsys* m_19c;
     S_Subsys* m_1a0;
-    bool FUN_00aed420();
+    bool BSWin32GameSound_Pause();
 };
 
 // @fnv 0x00aed420
-bool FUN_00aed420_cls::FUN_00aed420()
+// src: XBOX_PDB 0x00aed420
+bool FUN_00aed420_cls::BSWin32GameSound_Pause()
 {
     int hr = (int)0x80004005;
     if (m_19c != 0 && m_198 != 0)
@@ -2381,11 +2386,12 @@ struct AudioSoundStub
     int unk224;
     int* pStatus;
 
-    bool FUN_00aed4c0();
+    bool BSWin32GameSound_Stop();
 };
 
 // @fnv 0x00aed4c0
-bool AudioSoundStub::FUN_00aed4c0()
+// src: XBOX_PDB 0x00aed4c0
+bool AudioSoundStub::BSWin32GameSound_Stop()
 {
     long hr = 0x80004005;
     if (pBuffer && pAudio198)
@@ -2541,11 +2547,12 @@ struct S_00af01e0_Cls
     int unk194;
     int unk198;
     S_00af01e0_Snd* unk19c;
-    int FUN_00af01e0(float f);
+    int BSWin32GameSound_SetFrequency(float f);
 };
 // Scales unk15a by f, clamps the result to 100..200000, and if unk19c and unk198 are set calls unk19c->v44 with it; returns whether the result was non-negative.
 // @fnv 0x00af01e0
-int S_00af01e0_Cls::FUN_00af01e0(float afScale)
+// src: XBOX_PDB 0x00af01e0
+int S_00af01e0_Cls::BSWin32GameSound_SetFrequency(float afScale)
 {
     int hr = 0x80004005;
     unsigned int v = (unsigned int)(unk15a * afScale);
@@ -4098,11 +4105,12 @@ struct SoundObj
     bool is3D;
 
     bool IsPlaying();
-    void FUN_00aefda0(float maxDist, float minDist);
+    void BSWin32GameSound_SetMinMax(float maxDist, float minDist);
 };
 
 // @fnv 0x00aefda0
-void SoundObj::FUN_00aefda0(float maxDist, float minDist)
+// src: XBOX_PDB 0x00aefda0
+void SoundObj::BSWin32GameSound_SetMinMax(float maxDist, float minDist)
 {
     float fScaledValue = maxDist;
     if (minDist != minDistance || maxDist != maxDistance)
@@ -4667,7 +4675,7 @@ struct S_008785e0
     unsigned char m_unk0f;
     void* m_unk10;
 
-    int FUN_00afeef0(int a1, int a2, int a3, int a4);
+    int BSSystemFile_DoSeek(int a1, int a2, int a3, int a4);
     int OpenFile(const char* lpFileName);
 };
 
@@ -4762,7 +4770,7 @@ int S_008785e0::OpenFile(const char* lpFileName)
 
         if (iResult == 0 && this->m_unk08 == 1 && !this->m_unk0c)
         {
-            iResult = this->FUN_00afeef0(0, 0, 2, (int)&fileSize);
+            iResult = this->BSSystemFile_DoSeek(0, 0, 2, (int)&fileSize);
         }
     }
 
@@ -5327,12 +5335,13 @@ struct xGameSound
     bool Finish(bool bSuccess);
     bool TryStream();
     void ResetFile(bool b);
-    bool FUN_00aeb270();
+    bool BSWin32GameSound_Open();
 };
 
 // Opens a WAV file via RIFF mmio, reads fmt and data chunks, allocates a buffer, copies audio data, and optionally reads loop points from an smpl chunk.
 // @fnv 0x00aeb270
-bool xGameSound::FUN_00aeb270()
+// src: XBOX_PDB 0x00aeb270
+bool xGameSound::BSWin32GameSound_Open()
 {
     unsigned int qfTOqo;
     xPCMWAVEFORMAT qsSDDgz;
@@ -5573,7 +5582,7 @@ extern "C" int DAT_010472d0;
 
 struct FUN_009b7940_shell
 {
-    void FUN_006b3eb0(unsigned int a, unsigned int b);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 
 struct FUN_00afe9f0_Class : public FUN_009b7940_shell
@@ -5588,7 +5597,7 @@ void* FUN_00afe9f0_Class::FUN_00afe9f0(unsigned int a)
     int x;
     int y;
     *(int*)this = (int)&DAT_010472d0;
-    FUN_006b3eb0(a, a);
+    BSSimpleArray_float_1024_InitialSetup(a, a);
     return this;
 }
 
@@ -5602,7 +5611,7 @@ struct FUN_00ae8090_Node
 struct FUN_00ae8090_Allocator
 {
     unsigned int count;
-    void FUN_0045cee0(FUN_00ae8090_Node* node);
+    void NiTPointerAllocator_unsigned_int_Deallocate(FUN_00ae8090_Node* node);
 };
 
 struct FUN_00ae8090_Locals
@@ -5664,7 +5673,7 @@ unsigned int FUN_00ae8090_Class::NiTPointerListBase_RemovePos_0(FUN_00ae8090_Nod
 
     unsigned int value = node->value;
     node->value = 0;
-    allocator.FUN_0045cee0(node);
+    allocator.NiTPointerAllocator_unsigned_int_Deallocate(node);
     allocator.count = allocator.count - 1;
     return value;
 }
@@ -5841,11 +5850,12 @@ struct AED080_Cls
     ObjC* m_228;
     bool BSWin32GameSound_Write(int a1, unsigned int a2, unsigned int a3, char* a4);
     void ClearCallback();
-    bool FUN_00aed080(bool p);
+    bool BSWin32GameSound_Play(bool p);
 };
 // Calls Play(0, 0, p) on m_19c and m_1a0, first forcing p and adjusting m_19c's position and m_228 under some m_08 flag bits; then clears the callback.
 // @fnv 0x00aed080
-bool AED080_Cls::FUN_00aed080(bool p)
+// src: XBOX_PDB 0x00aed080
+bool AED080_Cls::BSWin32GameSound_Play(bool p)
 
 {
     int result = (int)0x80004005;
@@ -6380,12 +6390,13 @@ class AudioBuffer
     {
         return (m_flags & 0x4000000) || (m_flags & 0x2000000);
     }
-    void __thiscall FUN_00af0630(AudioBuffer*, bool);
+    void __thiscall BSWin32GameSound_Copy(AudioBuffer*, bool);
 };
 
 // Copies audio data and state from a previous AudioBuffer, creates a new device buffer, and optionally triggers OnCopied.
 // @fnv 0x00af0630
-void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
+// src: XBOX_PDB 0x00af0630
+void __thiscall AudioBuffer::BSWin32GameSound_Copy(AudioBuffer* apSource, bool notify)
 {
     AudioBuffer* source0;
     U32 dst2Bytes3;
@@ -6870,11 +6881,12 @@ extern "C" __declspec(dllimport) int __stdcall WriteFile(void*, const void*, uns
 
 struct SystemFileWriter : Win32ReadFile
 {
-    int FUN_00afede0(void* buf, DWORD len, int unused, unsigned __int64* outRead);
+    int BSSystemFile_DoWrite(void* buf, DWORD len, int unused, unsigned __int64* outRead);
 };
 // Writes len bytes from buf to hFile via WriteFile, mapping GetLastError codes to 0-4 and storing bytes written in outRead on success.
 // @fnv 0x00afede0
-int SystemFileWriter::FUN_00afede0(void* buf, DWORD len, int unused, unsigned __int64* outRead)
+// src: XBOX_PDB 0x00afede0
+int SystemFileWriter::BSSystemFile_DoWrite(void* buf, DWORD len, int unused, unsigned __int64* outRead)
 {
     int rc = 0;
     DWORD nRead = 0;

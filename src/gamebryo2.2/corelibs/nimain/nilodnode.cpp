@@ -70,9 +70,10 @@ void* __cdecl NiLODNode_CreateObject()
 }
 
 // @fnv 0x00a992e0
-bool __thiscall NiLODNode::FUN_00a992e0(NiStream* stream)
+// src: XBOX_PDB 0x00a992e0
+bool __thiscall NiLODNode::RegisterStreamables_00a992e0(NiStream* stream)
 {
-    if (!FUN_00a93c40(stream))
+    if (!NiBSPNode_RegisterStreamables(stream))
         return false;
     NiLODData* node = m_spLODData.m_pObject;
     if (node)
@@ -93,7 +94,8 @@ NiLODNode* __thiscall NiLODNode::FUN_00a99670(unsigned int flags)
 // Updates world data, then the referenced LOD data.
 // NiLODData's vf36 declaration lacks its NiLODNode parameter; retain the call signature here.
 // @fnv 0x00a99110
-void __thiscall NiLODNode::FUN_00a99110(NiUpdateData& UpdateData)
+// src: XBOX_PDB 0x00a99110
+void __thiscall NiLODNode::UpdateWorldData_00a99110(NiUpdateData& UpdateData)
 {
     ((NiAVObject*)this)->NiAVObject::UpdateWorldData(UpdateData);
     NiLODData* p = m_spLODData.m_pObject;
@@ -104,10 +106,11 @@ void __thiscall NiLODNode::FUN_00a99110(NiUpdateData& UpdateData)
 // NiSwitchNode's stream and copy overrides are not declared in the shared header yet.
 extern "C" void FUN_00a94610();
 extern "C" void NiSwitchNode_CopyMembers();
-extern "C" void FUN_00a94570();
+extern "C" void NiSwitchNode_LoadBinary();
 extern "C" void FUN_00a94680();
 // @fnv 0x00a99310
-void NiLODNode::FUN_00a99310(NiStream& kStream)
+// src: XBOX_PDB 0x00a99310
+void NiLODNode::SaveBinary_00a99310(NiStream& kStream)
 {
     reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiStream&)>(&FUN_00a94610)(
         reinterpret_cast<NiSwitchNode*>(this), kStream);
@@ -175,7 +178,8 @@ void NiLODNode::UpdateChildrenWorldData()
 }
 
 // @fnv 0x00a99390
-void NiLODNode::FUN_00a99390(NiSwitchNode* pkDest, CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a99390
+void NiLODNode::CopyMembers_00a99390(NiSwitchNode* pkDest, CloningProcess& kCloning)
 {
     reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiSwitchNode*, CloningProcess&)>(&NiSwitchNode_CopyMembers)(
         this, pkDest, kCloning);
@@ -267,7 +271,7 @@ NiLODNode* NiLODNode::CreateCloneLODNode(CloningProcess& process)
         clone->m_iIndex = 0;
         clone->m_bLODActive = true;
     }
-    FUN_00a99390(reinterpret_cast<NiSwitchNode*>(clone), process);
+    CopyMembers_00a99390(reinterpret_cast<NiSwitchNode*>(clone), process);
     return clone;
 }
 
@@ -284,7 +288,8 @@ inline unsigned int LODAddViewerString(StrArr* strings, const char* const& value
 }
 
 // @fnv 0x00a99760
-void NiLODNode::FUN_00a99760(NiViewerStringsArray* strings)
+// src: XBOX_PDB 0x00a99760
+void NiLODNode::GetViewerStrings_00a99760(NiViewerStringsArray* strings)
 {
     StrArr* pkStrings = reinterpret_cast<StrArr*>(strings);
     reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiViewerStringsArray*)>(&FUN_00a94680)(
@@ -301,12 +306,12 @@ void NiLODNode::FUN_00a99760(NiViewerStringsArray* strings)
     }
 }
 
-void __stdcall FUN_00a9a730(NiStream* stream);
+void __stdcall NiBSPNode_LinkObject(NiStream* stream);
 // @fnv 0x00a99270
 void NiLODNode::LoadRefFromStream(NiStream* stream)
 {
     NiRefObject*& m_ref = reinterpret_cast<NiRefObject*&>(m_spLODData.m_pObject);
-    FUN_00a9a730(stream);
+    NiBSPNode_LinkObject(stream);
     if (LODGetFileVersion(stream) >= 0x0a00010cu)
     {
         NiRefObject* replacement = static_cast<NiRefObject*>(stream->GetLoadedObject());
@@ -324,9 +329,10 @@ void NiLODNode::LoadRefFromStream(NiStream* stream)
 
 // Calls FUN_00a94000, checks m_sp nullness, then compares v02 results and calls v23 when they match.
 // @fnv 0x00a99400
-bool NiLODNode::FUN_00a99400(Holder* other)
+// src: XBOX_PDB 0x00a99400
+bool NiLODNode::IsEqual_00a99400(Holder* other)
 {
-    if (!NiSwitchNode::FUN_00a94000(reinterpret_cast<NiObject*>(other)))
+    if (!NiSwitchNode::IsEqual_00a94000(reinterpret_cast<NiObject*>(other)))
         return false;
     NiObject* pOtherProp = reinterpret_cast<NiObject*>(reinterpret_cast<NiLODNode*>(other)->m_spLODData.m_pObject);
     if ((m_spLODData.m_pObject && !pOtherProp) || (!m_spLODData.m_pObject && pOtherProp))
@@ -372,10 +378,11 @@ inline void NiLODNode::SetLODData(NiRangeLODData* data)
     }
 }
 // @fnv 0x00a994d0
-void __thiscall NiLODNode::FUN_00a994d0(NiStream* pStream)
+// src: XBOX_PDB 0x00a994d0
+void __thiscall NiLODNode::LoadBinary_00a994d0(NiStream* pStream)
 {
     NiStream* stream = (NiStream*)pStream;
-    reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiStream*)>(&FUN_00a94570)(
+    reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiStream*)>(&NiSwitchNode_LoadBinary)(
         reinterpret_cast<NiSwitchNode*>(this), stream);
     if (LODGetFileVersion(stream) <= 0xa00010b)
     {

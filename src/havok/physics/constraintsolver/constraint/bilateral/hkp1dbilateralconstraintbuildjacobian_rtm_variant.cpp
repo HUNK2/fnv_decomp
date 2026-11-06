@@ -223,8 +223,8 @@ static __forceinline LocalM128 S_Rot(LocalM128 v, const S_00dcf100_Body* b)
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0x00), S_Ld(b->col0)));
     return _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), S_Ld(b->col2)));
 }
-void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut);
-void __cdecl FUN_00dcee70();
+void __cdecl hk1dLinearFrictionBuildJacobian(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut);
+void __cdecl hkLoadVelocityAccumulators();
 extern double DAT_010c9300;
 static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
 Jac_dcf880* volatile g_out_dcf460;
@@ -247,7 +247,7 @@ struct Jacobian_dcf5b0
 extern double DAT_010c9300;
 void __cdecl FUN_00dcf5b0(Input_dcf5b0* a1, S_00dcf100_Cfg* a2, Jacobian_dcf5b0** a3, float k);
 extern double DAT_010c9300;
-void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* a2, Jac_dcf880** a3);
+void __cdecl hk1dLinearLimitBuildJacobian(Info_dcf880* a1, S_00dcf100_Cfg* a2, Jac_dcf880** a3);
 extern double DAT_010c9300;
 extern LocalM128 DAT_010c44d0;
 struct Src
@@ -286,7 +286,7 @@ struct Jacobian_dcf280
     hkVector4 angularB;
 };
 extern double DAT_010c9300;
-void __cdecl FUN_00dcf280(Input_dcf280* a1, S_00dcf100_Cfg* a2, Jacobian_dcf280** a3);
+void __cdecl hk1dLinearBilateralConstraintBuildJacobian(Input_dcf280* a1, S_00dcf100_Cfg* a2, Jacobian_dcf280** a3);
 static __forceinline LocalM128 S_00dcf720_cross(const LocalM128& a, const LocalM128& b)
 {
     const LocalM128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
@@ -359,7 +359,7 @@ struct S_00dcf720_Jacobian
         return r;
     }
 };
-void FUN_00dcf720(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_00dcf720_Jacobian* jac, float rhsFactor);
+void hk1dLinearBilateralConstraintBuildJacobianWithCustomRhs_noSchema(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_00dcf720_Jacobian* jac, float rhsFactor);
 // Adapted from an earlier contributor's 2026-10-21 WIP; retain prior credit.
 static const double S00dcee80_kEps = 1.1920928955078125e-07;
 static inline void S_00dcee80_setRotatedDir(hkVector4& out, const hkMatrix3& a, const LocalM128 b)
@@ -453,7 +453,7 @@ struct S_00dcee80_QueryOut
 {
     S_00dcee80_Jacobian* m_jacobians;
 };
-void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_00dcee80_QueryOut& out);
+void hk1dAngularBilateralConstraintBuildJacobian(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_00dcee80_QueryOut& out);
 
 #include <math.h>
 struct Input102
@@ -489,7 +489,8 @@ static void RotateCols(hkVector4& out, const hkVector4& c0, const hkVector4& c1,
     out.m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
 }
 // @fnv 0x00dcfc00
-void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxForce, const Input102* in, Row102* jac)
+// src: XBOX_PDB 0x00dcfc00
+void hkStabilizedBallSocketConstraintBuildJacobian_noSchema(const hkVector4* pivotA, const hkVector4* pivotB, float maxForce, const Input102* in, Row102* jac)
 {
     Accum_dcf880* bodyA = in->bodyA;
     Accum_dcf880* bodyB = in->bodyB;

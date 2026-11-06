@@ -97,11 +97,12 @@ struct FUN_00aa54a0_s
     char* pCurrent;
     char* pCommitEnd;
     Header* pLast;
-    void* FUN_00aa54a0(unsigned int aiSize, unsigned int aAlignment);
+    void* ScrapHeap_Allocate(unsigned int aiSize, unsigned int aAlignment);
 };
 
 // @fnv 0x00aa54a0
-void* FUN_00aa54a0_s::FUN_00aa54a0(unsigned int aiSize, unsigned int aAlignment)
+// src: XBOX_PDB 0x00aa54a0
+void* FUN_00aa54a0_s::ScrapHeap_Allocate(unsigned int aiSize, unsigned int aAlignment)
 {
     void* pmem = 0;
     char* pmemLoc = pCurrent + 8;
@@ -158,11 +159,12 @@ struct SHStub
     char* pCur;
     char* pCommitEnd;
     SHHeader* pLast;
-    void FUN_00aa5610(void* apMem);
+    void ScrapHeap_Deallocate(void* apMem);
 };
 // Marks the block header before apMem as freed, advances pCur past the last live block, and releases half the committed memory when free space exceeds it.
 // @fnv 0x00aa5610
-void SHStub::FUN_00aa5610(void* apMem)
+// src: XBOX_PDB 0x00aa5610
+void SHStub::ScrapHeap_Deallocate(void* apMem)
 {
     SHHeader* pheader;
     unsigned int imemFree;
@@ -447,11 +449,12 @@ void FUN_00aa58b0_holder::FUN_00aa58b0()
 
 struct FUN_00aa5f30_holder
 {
-    void FUN_00aa5f30(char* apBuffer, unsigned int aiCommittedSize);
+    void ScrapHeapManager_FreeBuffer(char* apBuffer, unsigned int aiCommittedSize);
 };
 
 // @fnv 0x00aa5f30
-void FUN_00aa5f30_holder::FUN_00aa5f30(char* apBuffer, unsigned int aiCommittedSize)
+// src: XBOX_PDB 0x00aa5f30
+void FUN_00aa5f30_holder::ScrapHeapManager_FreeBuffer(char* apBuffer, unsigned int aiCommittedSize)
 {
     VirtualFree(apBuffer, 0, 0x8000);
 }
@@ -597,12 +600,13 @@ void ScrapHeap::CheckForLeaks_00aa5770()
 
 struct FUN_00aa5ec0_shell : public ScrapHeapManager
 {
-    char* FUN_00aa5ec0(unsigned int);
+    char* ScrapHeapManager_AllocateBuffer(unsigned int);
 };
 
 // Allocates a 8MB buffer via VirtualAlloc, then retries with aiInitialSize on failure, calling g_memoryManager.HandleAllocationFailure each time.
 // @fnv 0x00aa5ec0
-char* FUN_00aa5ec0_shell::FUN_00aa5ec0(unsigned int aiInitialSize)
+// src: XBOX_PDB 0x00aa5ec0
+char* FUN_00aa5ec0_shell::ScrapHeapManager_AllocateBuffer(unsigned int aiInitialSize)
 {
     char* pbuffer = (char*)VirtualAlloc(0, 0x800000u, 0x2000u, 4);
     int imemoryPass = 0;

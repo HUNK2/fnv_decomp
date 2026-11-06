@@ -268,7 +268,7 @@ void hkpConvexListShape::UpdateCachedAabb(bool bUseCachedAabb) throw()
 
 namespace fnv_00d5e3c0 {
 
-void __cdecl FUN_00d26230(const hkTransform& kLocalToWorld, const hkVector4& m_kPoint2,
+void __cdecl hkAabbUtil_calcAabb_00d26230(const hkTransform& kLocalToWorld, const hkVector4& m_kPoint2,
                           const hkVector4& kTargetCenter, float fExtraRadius, hkAabb& kAabbOut);
 
 // Computes the world-space AABB of a convex list shape, using cached extents when available or merging child shape AABBs otherwise.
@@ -278,7 +278,7 @@ void __fastcall CalculateConvexListAabb(const hkpConvexListShape* self, void*,
 {
     if (self->m_bUseCachedAabb)
     {
-        FUN_00d26230(kLocalToWorld, self->m_kAabbHalfExtents, self->m_kAabbCenter, self->m_fSphereRadius + fTolerance, kOut);
+        hkAabbUtil_calcAabb_00d26230(kLocalToWorld, self->m_kAabbHalfExtents, self->m_kAabbCenter, self->m_fSphereRadius + fTolerance, kOut);
         return;
     }
 

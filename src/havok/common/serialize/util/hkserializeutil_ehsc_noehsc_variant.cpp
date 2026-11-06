@@ -93,8 +93,8 @@ struct GlobalDispatch
     virtual int Dispatch(int, int, int, int, int);
 };
 extern GlobalDispatch* DAT_01269b74;
-int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6);
-extern void* FUN_00d48d30(void* obj_b, int a2, int a3);
+int __cdecl hkSerializeUtil_savePackfile(int a1, int a2, int a3, int a4, int useLocal, int a6);
+extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
@@ -104,7 +104,7 @@ struct CtorBox
     int f4;
     void* b;
 };
-void* __cdecl FUN_00d48ec0(void* a1, int a2, int a3);
+void* __cdecl hkSerializeUtil_load_00d48ec0(void* a1, int a2, int a3);
 struct S_00d49310_Lock
 {
     int unk0;
@@ -118,8 +118,8 @@ struct S_00d49310_Result
     S_00d49310_Result(int v) : m_uiFilterValue(v)
     {}
 };
-void FUN_00d48af0(void* stream, int* out) throw();
-S_00d49310_Result FUN_00d49310(void* stream);
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
+S_00d49310_Result hkSerializeUtil_detectFormat_00d49310(void* stream);
 int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
@@ -177,13 +177,13 @@ struct GlobalObj
 };
 struct Obj5
 {
-    void* FUN_00dba680();
+    void* hkDataClass_getName();
     void FUN_00dba660();
 };
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
-    int FUN_00dba980();
+    int hkDataObject_isNull();
     void FUN_00dba660();
     void GetSourcePair(Pair* apOut);
 };
@@ -232,7 +232,7 @@ struct Pending_cls
 };
 struct Owner_cls
 {
-    int FUN_00dba0d0(int a, int b);
+    int hkVersionPatchManager_applyPatches(int a, int b);
 };
 static int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
 int __cdecl S00d48a90_Entry(int a1);
@@ -296,8 +296,8 @@ extern const char str_010cfacc[];
 extern const char str_010cfab8[];
 extern const char str_010cfa94[];
 int S00d48d30_Finish(int opts);
-void FUN_00d48af0(void* stream, int* out) throw();
-int __cdecl FUN_00dc3300(const S00d48d30_Ref& r, int opts);
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
+int __cdecl hkDataObjectUtil_toResourceWithRegistry(const S00d48d30_Ref& r, int opts);
 static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
@@ -334,7 +334,7 @@ static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Form
     }
     return S00d48d30_Finish(opts);
 }
-int __cdecl FUN_00d48d30(S00d48d30_Stream* s, S00d48d30_Result* out, int opts) throw();
+int __cdecl hkSerializeUtil_load(S00d48d30_Stream* s, S00d48d30_Result* out, int opts) throw();
 struct S00d48680_Arr
 {
     char* m_data;
@@ -356,7 +356,7 @@ struct S00d48680_Sys
         return *heap;
     }
 };
-extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
+extern "C" S00d48680_Sys* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
@@ -378,7 +378,7 @@ void __cdecl S00d48680_Entry(S00d48680_Obj* obj, S00d48680_Arr* arr);
 
 extern int DAT_011b7b88;
 extern "C" int __cdecl hkString_memCmp(const void*, const void*, int);
-extern "C" const char* __cdecl FUN_00dc0fb0();
+extern "C" const char* __cdecl hkVersionUtil_getCurrentVersion();
 extern "C" void* __cdecl CreateResourceFromArray(const void*, int, const void*);
 
 struct ByteBool
@@ -440,7 +440,7 @@ struct TemporaryAllocator
 {
     __forceinline BufferAllocator& get(void*)
     {
-        return *(BufferAllocator*)FUN_00c85750()->heap;
+        return *(BufferAllocator*)hkMemoryRouter_getInstance()->heap;
     }
 };
 struct BufferBase : S00d48680_Arr
@@ -565,7 +565,7 @@ static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const 
     {
         if (hkString_memCmp(&format.pointerSize, &DAT_011b7b88, 4) == 0)
         {
-            if (format.version.Equals(FUN_00dc0fb0()))
+            if (format.version.Equals(hkVersionUtil_getCurrentVersion()))
             {
                 Buffer bytes;
                 FUN_00d48680((S00d48680_Obj*)&input, &bytes);

@@ -27,11 +27,11 @@ inline Allocator& BSAudio::GetAlloc()
     return *reinterpret_cast<Allocator*>(SynchTimer.m_uiValueAt00);
 }
 
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 
 inline void FreeBuffer(void* p)
 {
-    FUN_00c85750()->GetAlloc().Free(p, 0xc00);
+    hkMemoryRouter_getInstance()->GetAlloc().Free(p, 0xc00);
 }
 
 struct Owner
@@ -4019,7 +4019,7 @@ struct S_00cfc550_Router
     int unk8;
     int unkc;
     S_00cfc550_Alloc* m_pStreamAllocator;
-    static S_00cfc550_Router& FUN_00c85750();
+    static S_00cfc550_Router& hkMemoryRouter_getInstance();
     S_00cfc550_Alloc& heap()
     {
         return *m_pStreamAllocator;
@@ -4035,7 +4035,7 @@ struct S_00cfc550_RefObj
     void operator delete(void* p)
     {
         S_00cfc550_RefObj* b = static_cast<S_00cfc550_RefObj*>(p);
-        S_00cfc550_Router::FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        S_00cfc550_Router::hkMemoryRouter_getInstance().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

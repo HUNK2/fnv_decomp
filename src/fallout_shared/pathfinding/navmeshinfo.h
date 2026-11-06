@@ -3,7 +3,7 @@
 // @fnv 0x0069ad00
 bool NavMeshInfo::ResolveNavMesh(NavMeshPtr& out)
 {
-    if (FUN_0068f320())
+    if (NavMeshInfo_GetDisabled())
         return false;
     ProcessWithScopedRef(out, m_pLocationNavMesh);
     return out.FUN_00559450() ? true : false;

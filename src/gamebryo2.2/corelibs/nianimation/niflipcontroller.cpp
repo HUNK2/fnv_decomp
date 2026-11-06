@@ -116,7 +116,8 @@ struct FUN_00a40520
     __declspec(nothrow) FUN_00a40520(bool, float, unsigned char);
 };
 // @fnv 0x00a4f2c0
-FUN_00a40520* __stdcall FUN_00a4f2c0(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
+// src: XBOX_PDB 0x00a4f2c0
+FUN_00a40520* __stdcall NiFlipController_CreateBlendInterpolator(unsigned short usIndex, bool bManagerControlled, bool bAccumulateAnimations,
                                      float fWeightThreshold, unsigned char ucArraySize)
 {
     FUN_00a40520* pkInterp = new FUN_00a40520(bManagerControlled, fWeightThreshold, ucArraySize);
@@ -125,7 +126,8 @@ FUN_00a40520* __stdcall FUN_00a4f2c0(unsigned short usIndex, bool bManagerContro
 }
 
 // @fnv 0x00a4f350
-bool NiFlipController::FUN_00a4f350(NiStream& kStream)
+// src: XBOX_PDB 0x00a4f350
+bool NiFlipController::RegisterStreamables_00a4f350(NiStream& kStream)
 {
     if (!NiFloatInterpController::RegisterStreamables(kStream))
         return false;
@@ -207,7 +209,7 @@ void __thiscall NiFlipController::SaveToStream(NiStream* stream)
     }
 }
 
-char** FUN_005e0ba0(unsigned int ItemUpdateArray) throw();
+char** NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(unsigned int ItemUpdateArray) throw();
 
 template <class T, class A>
 inline NiTArray<T, A>::NiTArray(unsigned int uiMaxSize, unsigned int uiGrowBy)
@@ -217,7 +219,7 @@ inline NiTArray<T, A>::NiTArray(unsigned int uiMaxSize, unsigned int uiGrowBy)
     m_usSize = 0;
     m_usESize = 0;
     if (m_usMaxSize > 0)
-        m_pBase = (T*)FUN_005e0ba0(m_usMaxSize);
+        m_pBase = (T*)NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(m_usMaxSize);
     else
         m_pBase = 0;
 }
@@ -235,7 +237,7 @@ NiFlipController::NiFlipController() : m_kTextureSwapList(1, 1)
     m_pkBuf = 0;
 }
 
-void* FUN_00aa1070(unsigned int uiSize);
+void* _NiMalloc_00aa1070(unsigned int uiSize);
 void* FUN_00ec61c0(void* pDest, int iValue, int iCount);
 
 struct FUN_00a6d220
@@ -263,7 +265,7 @@ struct MapBase_a4d
         m_uiHashSize = uiHashSize;
         m_uiCount = 0;
         unsigned int uiSize = sizeof(void*) * m_uiHashSize;
-        m_ppkHashTable = (void**)FUN_00aa1070(uiSize);
+        m_ppkHashTable = (void**)_NiMalloc_00aa1070(uiSize);
         FUN_00ec61c0(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
     }
     virtual void v00();

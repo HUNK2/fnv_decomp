@@ -24,7 +24,7 @@ public:
     BSShader* CreateShader();
     void InitializeShaderData();
     bool ConfigureShaderPass();
-    void FUN_00b81110(unsigned int);
+    void BSShaderBloodSplatterProperty_SetClampD3D(unsigned int);
     void BSShaderBloodSplatter_InitPass(unsigned int);
     void NiD3DPass_SetPixelShader(NiRefObject*);
     void SetupConstantMaps();

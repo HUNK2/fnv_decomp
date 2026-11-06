@@ -47,11 +47,11 @@ public:
     bool Load(TESFile* file);
     RecipeCraftingInfo* GetData();
     NiPoint3* TESObjectREFR_GetDeltaForAngle(NiPoint3* point, float value);
-    RecipeItemProcessor* FUN_006a9540();
+    RecipeItemProcessor* NiAVObject_GetRotate_006a9540();
     TESForm* FUN_006286d0();
     RecipeData* FUN_00430830();
     BSSimpleList<RecipeItem*>* FUN_005a8080();
-    BSSimpleList<RecipeItem*>* FUN_005d43c0();
+    BSSimpleList<RecipeItem*>* BSFile_GetDevice();
     void SaveAlt_005a8490();
     PerkEntryConditionSet* GetConditions();
     BSSimpleList<QuantityData*>* GetIngredientList();

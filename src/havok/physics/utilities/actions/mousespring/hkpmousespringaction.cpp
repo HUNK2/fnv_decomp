@@ -35,11 +35,12 @@ struct FUN_00cbb1b0_Class
 {
     char pad0[0x48];
     hkReal m_fMaxRelativeForce;
-    void __thiscall FUN_00cbb1b0(hkReal a);
+    void __thiscall hkpMouseSpringAction_setMaxRelativeForce(hkReal a);
 };
 
 // @fnv 0x00cbb1b0
-void FUN_00cbb1b0_Class::FUN_00cbb1b0(hkReal a)
+// src: XBOX_PDB 0x00cbb1b0
+void FUN_00cbb1b0_Class::hkpMouseSpringAction_setMaxRelativeForce(hkReal a)
 {
     m_fMaxRelativeForce = a;
 }
@@ -68,7 +69,7 @@ extern float DAT_0101b2d0;
 extern float DAT_0104da48;
 extern const char str_011b1f3c[];
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct Ms_Sphere
 {
@@ -279,7 +280,7 @@ Ms_cls* Ms_cls::hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* apPos, Loca
     maxRel = 250.0f;
     if (apArr)
     {
-        hkMemoryAllocator& h = *(hkMemoryAllocator*)FUN_00c85750()->m_heap;
+        hkMemoryAllocator& h = *(hkMemoryAllocator*)hkMemoryRouter_getInstance()->m_heap;
         int cap = cb.m_iCapacityState & 0x3fffffff;
         if (cap < apArr->m_iElementCount)
         {
@@ -338,11 +339,11 @@ Ms_cls* Ms_cls::hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* apPos, Loca
 }
 
 namespace fnv_00cbb790 {
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 // 0x00c85750 returns the shared hkMemoryRouter; its heap pointer is at +0x10.
 inline hkMemoryAllocator& heapCBB7()
 {
-    return *(hkMemoryAllocator*)((hkMemoryRouter*)FUN_00c85750())->m_heap;
+    return *(hkMemoryAllocator*)((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap;
 }
 
 template <typename T> inline void copyCBB7(T* pDst, const T* pSrc, int n)
@@ -389,7 +390,7 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     void* operator new(unsigned int uiSize)
     {
-        hkMemoryRouter* pkRouter = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* pkRouter = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkReferencedObject* pkObj = (hkReferencedObject*)((hkMemoryAllocator*)pkRouter->m_heap)->blockAlloc(uiSize);
         pkObj->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return pkObj;
@@ -478,7 +479,7 @@ struct Cls
 // @fnv 0x00cbb8b0
 Cls* Cls::FUN_00cbb8b0(int flags)
 {
-    hkMemoryRouter* tls = FUN_00c85750();
+    hkMemoryRouter* tls = hkMemoryRouter_getInstance();
     hkMemoryAllocator* heap = (hkMemoryAllocator*)tls->m_heap;
     int n = m_5c;
     m_58 = 0;
@@ -489,7 +490,7 @@ Cls* Cls::FUN_00cbb8b0(int flags)
     FUN_00d2b2b0();
     if (flags & 1)
     {
-        hkMemoryRouter* tls2 = FUN_00c85750();
+        hkMemoryRouter* tls2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* heap2 = (hkMemoryAllocator*)tls2->m_heap;
         heap2->blockFree(this, (unsigned short)m_04);
     }

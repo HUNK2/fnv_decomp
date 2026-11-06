@@ -27,7 +27,8 @@ struct Quest
 static const char s_szGetStageDoneFormat[] = "GetStageDone >> %0.2f";
 
 // @fnv 0x0059e490
-bool FUN_0059e490(void* pvThisObj, Quest* pkQuestArg, unsigned int uiStage, double* pdResult)
+// src: XBOX_PDB 0x0059e490
+bool Script_GetStageDoneConditionFunction(void* pvThisObj, Quest* pkQuestArg, unsigned int uiStage, double* pdResult)
 {
     Quest* pkQuest;
     unsigned int uiStageIndex;

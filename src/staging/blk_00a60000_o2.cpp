@@ -144,13 +144,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -302,7 +302,8 @@ void __thiscall FUN_00a7f820_Class::FUN_00a7f820()
 
 // Clamps each of the first three floats in the array to a maximum of 1.0.
 // @fnv 0x00a69690
-void __fastcall FUN_00a69690(float* afValues)
+// src: XBOX_PDB 0x00a69690
+void __fastcall NiColor_Clamp(float* afValues)
 {
     if (afValues[0] > 1.0f)
         afValues[0] = 1.0f;
@@ -479,7 +480,7 @@ struct FUN_00a755f0_Class : NiCullingProperty
 // @fnv 0x00a755f0
 void __thiscall FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
 {
-    FUN_00a5d7a0(dst, proc);
+    NiProperty_CopyMembers(dst, proc);
     char* a = (char*)this;
     char* b = (char*)dst;
     *(int*)(b + 0x1c) = *(int*)(a + 0x1c);
@@ -2101,7 +2102,7 @@ template <class T> inline void BA72DB0SaveBinary(NiStream& kStream, const T& val
 class BA72DB0Data
 {
   public:
-    void FUN_00a72db0(NiStream& kStream);
+    void NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(NiStream& kStream);
 
     bool m_bFlag;
     int m_iValue0;
@@ -2114,7 +2115,8 @@ class BA72DB0Data
 
 // Writes m_iValue0 through m_iValue5 and m_bFlag to kStream via BA72DB0SaveBinary.
 // @fnv 0x00a72db0
-void BA72DB0Data::FUN_00a72db0(NiStream& kStream)
+// src: XBOX_PDB 0x00a72db0
+void BA72DB0Data::NiAdditionalGeometryData_NiAGDDataStream_SaveBinary(NiStream& kStream)
 {
     BA72DB0SaveBinary(kStream, m_iValue0);
     BA72DB0SaveBinary(kStream, m_iValue1);
@@ -2509,12 +2511,13 @@ struct FUN_00a7d1a0_Class
     int m_i10;
     Entry m_entries[4];
 
-    void FUN_00a7d1a0(NiStream& stream);
+    void NiPixelFormat_SaveBinary(NiStream& stream);
 };
 
 // Writes the object's fields and its four Entry records to the given NiStream in a fixed order.
 // @fnv 0x00a7d1a0
-void FUN_00a7d1a0_Class::FUN_00a7d1a0(NiStream& stream)
+// src: XBOX_PDB 0x00a7d1a0
+void FUN_00a7d1a0_Class::NiPixelFormat_SaveBinary(NiStream& stream)
 {
     SerializeValue(stream, m_i4);
     SerializeValue(stream, m_c1);
@@ -2733,7 +2736,7 @@ void __cdecl BSTexturePalette_RemoveAll()
 {
     if (DAT_011f4468 != 0)
     {
-        DAT_011f4480.FUN_0040fbf0(0);
+        DAT_011f4480.BSSpinLock_Lock(0);
         DAT_011f4468->ClearAllBuckets();
         for (unsigned int i = 0; i < 7; i++)
             ((MyPool*)DAT_011f4464)->m_buckets[i].ClearAllSlots();
@@ -2756,7 +2759,8 @@ template <class T> inline void BA643B0LoadBinary(NiStream& kStream, T& value)
 
 // Reads one char from the stream's binary stream into pcValue via BA643B0BinaryStreamLoad.
 // @fnv 0x00a643b0
-void __cdecl FUN_00a643b0(NiStream& kStream, char* pcValue)
+// src: XBOX_PDB 0x00a643b0
+void __cdecl NiStreamLoadBinary_char_00a643b0(NiStream& kStream, char* pcValue)
 {
     BA643B0BinaryStreamLoad(*StreamInput(kStream), pcValue);
 }
@@ -3102,14 +3106,15 @@ struct ControllerA606
     bool m_bUnk40;
     bool m_bUnk41;
     bool m_bUseFirst;
-    void FUN_00a5d7b0(NiStream& kStream);
-    void FUN_00a60600(NiStream& kStream);
+    void NiSequenceStreamHelper_SaveBinary(NiStream& kStream);
+    void NiSourceTexture_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a60600
-void ControllerA606::FUN_00a60600(NiStream& kStream)
+// src: XBOX_PDB 0x00a60600
+void ControllerA606::NiSourceTexture_SaveBinary(NiStream& kStream)
 {
-    FUN_00a5d7b0(kStream);
+    NiSequenceStreamHelper_SaveBinary(kStream);
     bool bNoTargets = !m_pkTarget1 && !m_pkTarget2;
     SerializeValue(kStream, bNoTargets);
     kStream.SerializeString(reinterpret_cast<const char*>(&m_kName));
@@ -3272,24 +3277,26 @@ void* __cdecl FindNodeByObject(A61E60Obj* obj)
     return n;
 }
 
-bool __fastcall FUN_00a5c180(void*, int, NiStream*);
+bool __fastcall NiObjectNET_RegisterStreamables(void*, int, NiStream*);
 // @fnv 0x00a62130
-bool __fastcall FUN_00a62130(void* a, int b, NiStream* s)
+// src: XBOX_PDB 0x00a62130
+bool __fastcall NiSequenceStreamHelper_RegisterStreamables(void* a, int b, NiStream* s)
 {
-    return FUN_00a5c180(a, b, s);
+    return NiObjectNET_RegisterStreamables(a, b, s);
 }
 
 class EqBase
 {
   public:
-    bool __thiscall FUN_00a5c820(void* other);
-    bool __thiscall FUN_00a62140(void* other);
+    bool __thiscall NiObjectNET_IsEqual(void* other);
+    bool __thiscall NiSequenceStreamHelper_IsEqual(void* other);
 };
 
 // @fnv 0x00a62140
-bool __thiscall EqBase::FUN_00a62140(void* other)
+// src: XBOX_PDB 0x00a62140
+bool __thiscall EqBase::NiSequenceStreamHelper_IsEqual(void* other)
 {
-    return FUN_00a5c820(other);
+    return NiObjectNET_IsEqual(other);
 }
 
 class ColorAStandIn
@@ -3317,11 +3324,12 @@ ColorAStandIn ColorAStandIn::Subtract(const ColorAStandIn& c) const
 
 struct FUN_00a727b0_Class
 {
-    unsigned int FUN_00a727b0();
+    unsigned int NiAdditionalGeometryData_GetDataBlockCount();
 };
 
 // @fnv 0x00a727b0
-unsigned int FUN_00a727b0_Class::FUN_00a727b0()
+// src: XBOX_PDB 0x00a727b0
+unsigned int FUN_00a727b0_Class::NiAdditionalGeometryData_GetDataBlockCount()
 {
     return *(unsigned short*)((char*)this + 0x26);
 }
@@ -3329,13 +3337,15 @@ unsigned int FUN_00a727b0_Class::FUN_00a727b0()
 extern void __cdecl FUN_00a8a9b0();
 
 // @fnv 0x00a75f00
-void __cdecl FUN_00a75f00()
+// src: XBOX_PDB 0x00a75f00
+void __cdecl NiPSysData_RegisterStreamables()
 {
     FUN_00a8a9b0();
 }
 
 // @fnv 0x00a75f20
-unsigned short __fastcall FUN_00a75f20(char* p, int)
+// src: XBOX_PDB 0x00a75f20
+unsigned short __fastcall NiTriBasedGeomData_GetActiveTriangleCount(char* p, int)
 {
     return *reinterpret_cast<unsigned short*>(p + 0x40);
 }
@@ -3526,7 +3536,7 @@ enum SourceAlphaFormat
 
 extern bool DAT_011f4780;
 void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void*, void*);
-bool __cdecl FUN_00aa1a30(const char*, int);
+bool __cdecl NiFile_Access(const char*, int);
 
 // Reads texture metadata and file references from a TextureLoadStream, resolving the texture name and registering the texture object.
 // @fnv 0x00a60180
@@ -3605,7 +3615,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
             DAT_011f4780 = true;
             while (stream.GetLastLoadedFilePath(acFileName, 260))
             {
-                if (FUN_00aa1a30(acFileName, 0))
+                if (NiFile_Access(acFileName, 0))
                 {
                     m_kPlatformFilename = static_cast<const char*>(acFileName);
                     stream.SetTexture(this);
@@ -3669,7 +3679,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f444c;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcText);
+char* __cdecl NiGetViewerString_00a7d5e0(const char* pcPrefix, const char* pcText);
 
 inline void StrArr::AppendReference(char*& element)
 {
@@ -3681,7 +3691,7 @@ inline void StrArr::AppendReference(char*& element)
 
 struct FUN_00a62a40_this
 {
-    void FUN_00a62a40(StrArr* pkStrings);
+    void NiTexture_GetViewerStrings(StrArr* pkStrings);
 };
 struct FUN_00a60770_shell : FUN_00a62a40_this
 {
@@ -3705,11 +3715,11 @@ struct FUN_00a60770_shell : FUN_00a62a40_this
 // @fnv 0x00a60770
 void FUN_00a60770_shell::GetFileStrings(StrArr* pkStrings)
 {
-    FUN_00a62a40(pkStrings);
+    NiTexture_GetViewerStrings(pkStrings);
     char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_011f444c);
     pkStrings->AppendReference(pcString);
     const char* pcFile = m_pcFileName;
-    pcString = FUN_00a7d5e0("File:", pcFile);
+    pcString = NiGetViewerString_00a7d5e0("File:", pcFile);
     pkStrings->AppendReference(pcString);
 }
 
@@ -3799,7 +3809,8 @@ void __cdecl ConvertPixelFormat(unsigned int uiWidth, unsigned int uiHeight, uns
 
 void __cdecl FUN_00a8a9a0();
 // @fnv 0x00a7b7d0
-void __cdecl FUN_00a7b7d0()
+// src: XBOX_PDB 0x00a7b7d0
+void __cdecl NiPSysData_LinkObject()
 {
     FUN_00a8a9a0();
 }
@@ -4284,7 +4295,7 @@ bool FUN_00a61a60_cls::GetByKey(unsigned int index, unsigned int key, NiRefObjec
 
 
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl FUN_00ec65a6(char* dst, unsigned int count, const char* src);
 
 // @fnv 0x00a63980
@@ -4295,7 +4306,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned s
     if (m_bCopy)
     {
         unsigned int size = strlen(src) + 1;
-        dst->m_key = (char*)FUN_00aa1070(size);
+        dst->m_key = (char*)_NiMalloc_00aa1070(size);
         FUN_00ec65a6(const_cast<char*>(dst->m_key), size, src);
     }
     else

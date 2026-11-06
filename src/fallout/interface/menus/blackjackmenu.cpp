@@ -71,12 +71,13 @@ int __cdecl FUN_00733f80()
 
 struct FUN_007399d0_shell
 {
-    void FUN_007399d0();
+    void BlackJackMenu_Shuffle();
 };
 
 // Multiplies the value at offset 0xd9c by 0x34 and stores the result at offset 0xda0.
 // @fnv 0x007399d0
-void FUN_007399d0_shell::FUN_007399d0()
+// src: XBOX_PDB 0x007399d0
+void FUN_007399d0_shell::BlackJackMenu_Shuffle()
 {
     ((int*)this)[0xda0 / 4] = ((int*)this)[0xd9c / 4] * 0x34;
 }
@@ -122,7 +123,8 @@ struct DAT_011d9050_S
 };
 extern DAT_011d9050_S* DAT_011d9050;
 // @fnv 0x00731d30
-void FUN_00731d30()
+// src: XBOX_PDB 0x00731d30
+void BlackJackMenu_Close()
 {
     if (DAT_011d9050 != 0)
     {
@@ -263,7 +265,7 @@ struct S148c0
 {
     void RendererClearBufferHook(int, int);
 };
-S148c0* FUN_0043c4b0();
+S148c0* NiXenonRenderer_GetRenderer();
 struct Accum_00733500
 {
     void BSCullingProcess_PushCullMode(int);
@@ -275,10 +277,10 @@ struct Node_00733500
     Accum_00733500* GetProcessInteger();
     AnimIdle* GetAnimationData();
 };
-Node_00733500* FUN_0045c670();
+Node_00733500* Main_GetWorldSceneGraph();
 struct Mgr_00733500
 {
-    AnimIdle* FUN_007fd640();
+    AnimIdle* RaceSexMenu_GetProjectorFile();
 };
 
 void __cdecl UpdateCameraFrustum(AnimIdle*, float);
@@ -291,13 +293,13 @@ extern NiPointer<AnimIdle> g_011d90bc;
 // src: COMMUNITY 0x00733500
 void __cdecl BlackJackMenu_DrawScene()
 {
-    FUN_0043c4b0()->RendererClearBufferHook(0, 4);
-    Node_00733500* pPlayerNode = FUN_0045c670();
+    NiXenonRenderer_GetRenderer()->RendererClearBufferHook(0, 4);
+    Node_00733500* pPlayerNode = Main_GetWorldSceneGraph();
     Accum_00733500* pAccumulator = pPlayerNode->GetProcessInteger();
     pAccumulator->BSCullingProcess_PushCullMode(1);
     AnimIdle* pCamera = g_011d90bc;
     UpdateCameraFrustum(pCamera, g_011db5ec_arg1);
-    NiPointer<AnimIdle> m_pParentNode(((Mgr_00733500*)InterfaceManager_GetSingleton())->FUN_007fd640());
+    NiPointer<AnimIdle> m_pParentNode(((Mgr_00733500*)InterfaceManager_GetSingleton())->RaceSexMenu_GetProjectorFile());
     pAccumulator->BSCullingProcess_SetAccumulator(m_pParentNode);
     AnimIdle* pRenderCamera = pCamera ? pCamera : pPlayerNode->GetAnimationData();
     BSShaderUtil_AccumulateScene(pRenderCamera, FUN_00450b80(1), pAccumulator);
@@ -309,12 +311,13 @@ void __cdecl BlackJackMenu_DrawScene()
 
 struct FUN_00739650_shell : FUN_00734d50_holder
 {
-    bool FUN_00739650(bool bFlag);
+    bool BlackJackMenu_CanDoubleDown(bool bFlag);
 };
 
 // Compares a field at offset 0x74 against sums of fields at 0x6c and 0x70, then calls SetFlag with 0x200 or 0x40 depending on bFlag and returns the result.
 // @fnv 0x00739650
-bool FUN_00739650_shell::FUN_00739650(bool bFlag)
+// src: XBOX_PDB 0x00739650
+bool FUN_00739650_shell::BlackJackMenu_CanDoubleDown(bool bFlag)
 {
     bool bResult = true;
     if (bFlag)
@@ -436,7 +439,7 @@ extern const StartMenu g_011d4e28;
 
 struct FUN_00738c30_shell
 {
-    void __thiscall FUN_00738c30(int, float);
+    void __thiscall BlackJackMenu_SetTileTextAlpha(int, float);
 };
 
 // @fnv 0x00738cc0
@@ -477,31 +480,31 @@ void __cdecl UpdateBetTiles(bool bBetTiles)
             ->SetTraitFloat(0xfc4, 1.0f);
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[4]
             ->Set(0xfc4, g_011d3da8.GetMenuTitle(), true);
-        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->FUN_00738c30(4, 255.0f);
+        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->BlackJackMenu_SetTileTextAlpha(4, 255.0f);
 
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[5]
             ->SetTraitFloat(0xfc4, 1.0f);
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[5]
             ->Set(0xfc4, g_011d3354.GetMenuTitle(), true);
-        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->FUN_00738c30(5, 255.0f);
+        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->BlackJackMenu_SetTileTextAlpha(5, 255.0f);
 
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[6]
             ->SetTraitFloat(0xfc4, 1.0f);
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[6]
             ->Set(0xfc4, g_011d487c.GetMenuTitle(), true);
-        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->FUN_00738c30(6, 255.0f);
+        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->BlackJackMenu_SetTileTextAlpha(6, 255.0f);
 
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[7]
             ->SetTraitFloat(0xfc4, 1.0f);
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[7]
             ->Set(0xfc4, g_011d37f8.GetMenuTitle(), true);
-        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->FUN_00738c30(7, 255.0f);
+        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->BlackJackMenu_SetTileTextAlpha(7, 255.0f);
 
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[8]
             ->SetTraitFloat(0xfc4, 1.0f);
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[8]
             ->Set(0xfc4, g_011d33fc.GetMenuTitle(), true);
-        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->FUN_00738c30(8, 255.0f);
+        reinterpret_cast<FUN_00738c30_shell*>(DAT_011d9050)->BlackJackMenu_SetTileTextAlpha(8, 255.0f);
 
         reinterpret_cast<BlackJackMenu*>(DAT_011d9050)->m_pTiles[3]->Set(0xfa3, 0);
     }
@@ -536,7 +539,7 @@ struct FUN_007393f0_shell
 
     int DrawCard(int a1, int a2, int a3);
     int DrawCard(G2* hand, int a1, int a2);
-    void FUN_00738ff0(G2* hand);
+    void BlackJackMenu_GetHandValue(G2* hand);
 
     void __thiscall DealInitialCards();
 };
@@ -567,7 +570,7 @@ void __thiscall FUN_007393f0_shell::DealInitialCards()
     cardindex = this->DrawCard(this->_playerHand, 1, 0);
     reinterpret_cast<SoundListView*>(this->_playerHand)->AddTail(&this->_deck[cardindex]);
 
-    this->FUN_00738ff0(this->_playerHand);
+    this->BlackJackMenu_GetHandValue(this->_playerHand);
 }
 
 namespace fnv_007395a0 {
@@ -585,11 +588,12 @@ struct FUN_007395a0_shell
     unsigned char _pad78[0xD94 - 0x78];
     BSSimpleList<Padding16ByteBlock*>* m_pSimpleList;
 
-    bool __thiscall FUN_007395a0();
+    bool __thiscall BlackJackMenu_CanSplitHand();
 };
 
 // @fnv 0x007395a0
-bool __thiscall FUN_007395a0_shell::FUN_007395a0()
+// src: XBOX_PDB 0x007395a0
+bool __thiscall FUN_007395a0_shell::BlackJackMenu_CanSplitHand()
 {
     int numCards;
     BSSimpleList<Padding16ByteBlock*>* clist;
@@ -717,7 +721,7 @@ struct SetElem
 
 struct SetMgr
 {
-    void* FUN_007316d0();
+    void* TESCasino_GetChipType();
 };
 
 struct SetMgrB
@@ -734,7 +738,7 @@ extern SetMgr* DAT_011d9058;
 extern SetMgrB* DAT_011dea3c;
 extern void* DAT_011d9044;
 extern void* DAT_011d9048;
-void* __cdecl FUN_00a00940(const char*, int);
+void* __cdecl Tile_AddUserTrait(const char*, int);
 
 class FUN_007315e0 : public SetBase
 {
@@ -775,12 +779,12 @@ class FUN_007315e0 : public SetBase
 // @fnv 0x007315e0
 FUN_007315e0::FUN_007315e0()
 {
-    DAT_011d9044 = FUN_00a00940("_Value", -1);
-    DAT_011d9048 = FUN_00a00940("_x", -1);
+    DAT_011d9044 = Tile_AddUserTrait("_Value", -1);
+    DAT_011d9048 = Tile_AddUserTrait("_x", -1);
     unk28 = 10;
     m7C = 0;
-    if (DAT_011d9058->FUN_007316d0() != 0)
-        m74 = (void*)DAT_011dea3c->FUN_00575610((int)DAT_011d9058->FUN_007316d0());
+    if (DAT_011d9058->TESCasino_GetChipType() != 0)
+        m74 = (void*)DAT_011dea3c->FUN_00575610((int)DAT_011d9058->TESCasino_GetChipType());
     ClearField();
 }
 
@@ -839,7 +843,7 @@ struct PathObj
 };
 struct PathList
 {
-    PathObj* FUN_00504e00(int);
+    PathObj* TESCasino_GetModel(int);
 };
 extern PathList* DAT_011d9058;
 extern int DAT_011d9054;
@@ -847,7 +851,7 @@ extern void* g_d9050;
 
 struct LoaderStub
 {
-    void FUN_0045a5e0(const char*);
+    void ModelLoader_ReleaseFile(const char*);
 };
 extern LoaderStub* g_modelLoader;
 
@@ -912,7 +916,7 @@ struct SSNStub
     virtual void v56();
     virtual void v57();
     virtual void AttachNode(NiNode*);
-    void FUN_00b5d180();
+    void RemoveAllLights();
 };
 
 int strcpy_s(char*, unsigned int, const char*);
@@ -1014,12 +1018,12 @@ FUN_00731800::~FUN_00731800()
 {
     g_thePlayer->SetLastAntiCheatTime();
     g_rootA = 0;
-    g_modelLoader->FUN_0045a5e0(DAT_011d9058->FUN_00504e00(8)->GetPath());
-    g_modelLoader->FUN_0045a5e0(str_010709c0);
-    g_modelLoader->FUN_0045a5e0(str_01070988);
-    g_modelLoader->FUN_0045a5e0(str_01070950);
+    g_modelLoader->ModelLoader_ReleaseFile(DAT_011d9058->TESCasino_GetModel(8)->GetPath());
+    g_modelLoader->ModelLoader_ReleaseFile(str_010709c0);
+    g_modelLoader->ModelLoader_ReleaseFile(str_01070988);
+    g_modelLoader->ModelLoader_ReleaseFile(str_01070950);
     ((SSNStub*)FUN_00450b80(1))->AttachNode(g_rootB);
-    ((SSNStub*)FUN_00450b80(1))->FUN_00b5d180();
+    ((SSNStub*)FUN_00450b80(1))->RemoveAllLights();
     ((NiNode*)g_rootB)->DetachAllChildren();
     g_rootB = 0;
     m_db4 = 0;
@@ -1042,7 +1046,7 @@ FUN_00731800::~FUN_00731800()
     {
         char* ext = 0;
         char buf[0x104];
-        strcpy_s(buf, 0x104, DAT_011d9058->FUN_00504e00(j)->GetPath());
+        strcpy_s(buf, 0x104, DAT_011d9058->TESCasino_GetModel(j)->GetPath());
         for (unsigned int k = 0; k < BSStringLength(buf); k++)
         {
             if (buf[k] == '.')
@@ -1053,8 +1057,8 @@ FUN_00731800::~FUN_00731800()
         }
         if (ext)
             strcpy_s(ext, 0xf, str_01070944);
-        g_modelLoader->FUN_0045a5e0(DAT_011d9058->FUN_00504e00(j)->GetPath());
-        g_modelLoader->FUN_0045a5e0(buf);
+        g_modelLoader->ModelLoader_ReleaseFile(DAT_011d9058->TESCasino_GetModel(j)->GetPath());
+        g_modelLoader->ModelLoader_ReleaseFile(buf);
         m_dc4[j] = 0;
         m_ddc[j] = 0;
     }
@@ -1090,12 +1094,12 @@ struct VObj731
 };
 struct NameObj731
 {
-    char* FUN_00408da0();
+    char* TESModel_GetModel();
 };
 struct GlobObj731
 {
-    char* FUN_00504e60();
-    VObj731* FUN_00504e00(int aIdx);
+    char* TESCasino_GetData();
+    VObj731* TESCasino_GetModel(int aIdx);
     NameObj731* TESCasino_GetNthSlotReel(int aIdx);
 };
 extern GlobObj731* DAT_011d9058;
@@ -1107,7 +1111,7 @@ extern const char str_01070a18[];
 extern const char str_01070a08[];
 extern const char str_010709f8[];
 int __cdecl strcpy_s(char* aDst, unsigned int aSize, const char* aSrc);
-unsigned int __cdecl FUN_0044a670(const char* aStr);
+unsigned int __cdecl BSstrlen(const char* aStr);
 char* __cdecl FUN_004812f0(const char* aStr, const char* aSub);
 extern const char DAT_01013444[];
 void __cdecl FUN_004b7240(char* aDst, char* aSrc, unsigned int aSize);
@@ -1181,18 +1185,18 @@ bool __thiscall This731::LoadCardDeckResources()
         char pathBufVal[0x104];
         char dir3[0x20];
         char nameBuf3[0x104];
-        this->f60 = *(float*)(DAT_011d9058->FUN_00504e60() + 4);
-        this->f64 = *(float*)DAT_011d9058->FUN_00504e60();
-        this->m_d9c = *(int*)(DAT_011d9058->FUN_00504e60() + 0x24);
-        this->b_dac = (unsigned char)DAT_011d9058->FUN_00504e60()[0x34];
-        this->m_db4 = g_modelLoader->LoadFile(DAT_011d9058->FUN_00504e00(8)->GetName(), 0, true, false, false, false);
+        this->f60 = *(float*)(DAT_011d9058->TESCasino_GetData() + 4);
+        this->f64 = *(float*)DAT_011d9058->TESCasino_GetData();
+        this->m_d9c = *(int*)(DAT_011d9058->TESCasino_GetData() + 0x24);
+        this->b_dac = (unsigned char)DAT_011d9058->TESCasino_GetData()[0x34];
+        this->m_db4 = g_modelLoader->LoadFile(DAT_011d9058->TESCasino_GetModel(8)->GetName(), 0, true, false, false, false);
         for (i4 = 0; i4 < 6; i4++)
         {
             this->arrDC4[i4] =
-                g_modelLoader->LoadFile(DAT_011d9058->FUN_00504e00(i4)->GetName(), 0, true, false, false, false);
+                g_modelLoader->LoadFile(DAT_011d9058->TESCasino_GetModel(i4)->GetName(), 0, true, false, false, false);
             pDot9 = 0;
-            strcpy_s(buf4, 0x104, DAT_011d9058->FUN_00504e00(i4)->GetName());
-            for (_j = 0; _j < FUN_0044a670(buf4); _j++)
+            strcpy_s(buf4, 0x104, DAT_011d9058->TESCasino_GetModel(i4)->GetName());
+            for (_j = 0; _j < BSstrlen(buf4); _j++)
             {
                 if (buf4[_j] == '.')
                 {
@@ -1221,7 +1225,7 @@ bool __thiscall This731::LoadCardDeckResources()
         {
             int m9;
             char chOnes;
-            strcpy_s(nameBuf3, 0x104, DAT_011d9058->TESCasino_GetNthSlotReel(j6 + 7)->FUN_00408da0());
+            strcpy_s(nameBuf3, 0x104, DAT_011d9058->TESCasino_GetNthSlotReel(j6 + 7)->TESModel_GetModel());
             pCur = FUN_004812f0(nameBuf3, DAT_01013444);
             pCur++;
             pCur = FUN_004812f0(pCur, DAT_01013444);
@@ -1300,7 +1304,7 @@ struct Local12_cls
 
 struct Tail2_cls
 {
-    void __thiscall FUN_00a59c60();
+    void __thiscall NiAVObject_Update();
 };
 
 struct Tail1_cls
@@ -1325,11 +1329,12 @@ struct FUN_007399f0_cls
     int m_db4;
 
     bool __thiscall HasFlag(int aFlag);
-    void __thiscall FUN_007399f0();
+    void __thiscall BlackJackMenu_HighlightSelectedDeck();
 };
 
 // @fnv 0x007399f0
-void __thiscall FUN_007399f0_cls::FUN_007399f0()
+// src: XBOX_PDB 0x007399f0
+void __thiscall FUN_007399f0_cls::BlackJackMenu_HighlightSelectedDeck()
 {
     Local12_cls tmp;
     NiAVObject* node;
@@ -1350,7 +1355,7 @@ void __thiscall FUN_007399f0_cls::FUN_007399f0()
     }
 
     tmp.FUN_0043d410(0.0f, 0, 0);
-    DAT_011d9098.FUN_00559450(1, &tmp)->FUN_0043b4a0()->FUN_00a59c60();
+    DAT_011d9098.FUN_00559450(1, &tmp)->FUN_0043b4a0()->NiAVObject_Update();
 }
 
 struct RootPtrX
@@ -1373,128 +1378,128 @@ void BlackJackChipsX::UpdateChipPositions()
 {
     if (iBet < 7)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, iBet * 0.18000000000000002);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, iBet * 0.18000000000000002);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet < 40)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, (iBet % 5 + 5) * 0.18000000000000002);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 5 - 1) * 0.18000000000000002);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        iBet > 10 ? apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f) : apChips[7]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet % 5 + 5) * 0.18000000000000002);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 5 - 1) * 0.18000000000000002);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        iBet > 10 ? apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f) : apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet <= 100)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 0.9f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 0.9f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 10 - 3) * 0.18000000000000002);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.9f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.9f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 10 - 3) * 0.18000000000000002);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet <= 300)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 1.44f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, (iBet % 25 / 10 + 5) * 0.18000000000000002);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 25 - 4) * 0.18000000000000002);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        iBet / 25 - 4 ? apChips[9]->FUN_004bc1f0(0.0f, 0.0f, 0.0f)
-                      : apChips[9]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.44f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet % 25 / 10 + 5) * 0.18000000000000002);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 25 - 4) * 0.18000000000000002);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        iBet / 25 - 4 ? apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f)
+                      : apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet <= 500)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 1.44f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 0.9f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 0.36f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 25 - 12) * 0.18000000000000002);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.44f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.9f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.36f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 25 - 12) * 0.18000000000000002);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet < 1000)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 1.62f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, (iBet % 100 / 25 + 6) * 0.18000000000000002);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 100 - 3) * 0.18000000000000002);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        iBet / 100 - 3 ? apChips[10]->FUN_004bc1f0(0.0f, 0.0f, 0.0f)
-                       : apChips[10]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.62f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet % 100 / 25 + 6) * 0.18000000000000002);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 100 - 3) * 0.18000000000000002);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        iBet / 100 - 3 ? apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f)
+                       : apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f);
     }
     else if (iBet < 1500)
     {
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 1.62f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, 0.18f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, (iBet / 100 - 9) * 0.18000000000000002);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[11]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.62f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.18f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, (iBet / 100 - 9) * 0.18000000000000002);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
     }
     else
     {
         int iStackCount = iBet / 500 - 3 > 10 ? 10 : iBet / 500 - 3;
-        apChips[0]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[1]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[2]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[3]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[4]->FUN_004bc1f0(0.0f, 0.0f, 1.8f);
-        apChips[5]->FUN_004bc1f0(0.0f, 0.0f, iStackCount * 0.18000000000000002);
-        apChips[6]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[7]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[8]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[9]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        apChips[10]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
-        iBet == 1500 ? apChips[11]->FUN_004bc1f0(0.0f, 0.0f, -5.0f)
-                     : apChips[11]->FUN_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[0]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[1]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[2]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[3]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[4]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 1.8f);
+        apChips[5]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, iStackCount * 0.18000000000000002);
+        apChips[6]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[7]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[8]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[9]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        apChips[10]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
+        iBet == 1500 ? apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, -5.0f)
+                     : apChips[11]->NiAVObject_SetTranslate_004bc1f0(0.0f, 0.0f, 0.0f);
     }
     const NiUpdateData kData(0.0f, false, false);
     ((NiNode*)xspTableRoot)->Update(kData);
@@ -1511,10 +1516,10 @@ struct PlayerStandIn
 extern PlayerStandIn* g_thePlayer;
 struct FormHolder
 {
-    TESForm* FUN_007316d0();
+    TESForm* TESCasino_GetChipType();
 };
 extern FormHolder* g_formHolder;
-int __cdecl FUN_00a00940(const char*, int);
+int __cdecl Tile_AddUserTrait(const char*, int);
 extern int g_traitValue;
 extern int g_traitX;
 struct FUN_007c06f0 : Menu
@@ -1594,14 +1599,14 @@ struct FUN_007c06f0 : Menu
 // @fnv 0x007c06f0
 FUN_007c06f0::FUN_007c06f0()
 {
-    g_traitValue = FUN_00a00940("_Value", -1);
-    g_traitX = FUN_00a00940("_x", -1);
+    g_traitValue = Tile_AddUserTrait("_Value", -1);
+    g_traitX = Tile_AddUserTrait("_x", -1);
     unk28 = 0;
     unkF4 = 0;
     unk154 = g_thePlayer->GetField630();
     unkFC = 1;
-    if (g_formHolder->FUN_007316d0())
-        unkD4 = g_thePlayer->FUN_00575610(g_formHolder->FUN_007316d0());
+    if (g_formHolder->TESCasino_GetChipType())
+        unkD4 = g_thePlayer->FUN_00575610(g_formHolder->TESCasino_GetChipType());
 }
 }  // namespace fnv_007c06f0
 
@@ -1613,7 +1618,7 @@ struct String90
 };
 struct Controller90
 {
-    void* FUN_0047a520(const String90&);
+    void* NiControllerManager_GetSequenceByName(const String90&);
     void FUN_0048fef0(float);
 };
 struct Bound90
@@ -1696,11 +1701,11 @@ extern Pointer90<NiAVObject> DAT_011d90bc;
 extern int DAT_011f36ac;
 struct Loader90
 {
-    NiNode* FUN_00447080(const char*, int, int, int, int, int);
+    NiNode* ModelLoader_LoadFile(const char*, int, int, int, int, int);
 };
 extern Loader90* DAT_011c3b3c;
 NiAVObject* __cdecl BSUtilities_GetObjectByName(NiAVObject*, const char*);
-void __cdecl FUN_00a6d2d0(NiNode*);
+void __cdecl NiTimeController_StartAnimations(NiNode*);
 struct Menu90
 {
     int unk000;
@@ -2619,16 +2624,16 @@ struct Menu90
     void* anime6c;
     void InitBlackjackScene();
     void UpdateChipPositions();
-    void FUN_00739970(int);
+    void BlackJackMenu_SetSideHandVisibility(int);
     void HideArrowNodes();
     NiAVObject* BlackJackMenu_SetupCamera();
 };
 // @fnv 0x00732540
 void Menu90::InitBlackjackScene()
 {
-    rootdb8 = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand1.NIF", 0, 1, 0, 0, 0);
-    rootdbc = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand2.NIF", 0, 1, 0, 0, 0);
-    rootdc0 = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Dealer.NIF", 0, 1, 0, 0, 0);
+    rootdb8 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand1.NIF", 0, 1, 0, 0, 0);
+    rootdbc = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Hand2.NIF", 0, 1, 0, 0, 0);
+    rootdc0 = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\NV_BlackJack\\NV_Blackjack-Dealer.NIF", 0, 1, 0, 0, 0);
     NiNode* root8 = rootdb4;
     DAT_011d90bc.FUN_0066b0d0(BSUtilities_GetObjectByName(rootdb4, "object1"));
     ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_0066b0d0(new NiNode(0));
@@ -2642,7 +2647,7 @@ void Menu90::InitBlackjackScene()
         ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->AttachChildInAvailableSlot(static_cast<NiAVObject*>(backs[i]), true);
     }
     UpdateChipPositions();
-    FUN_00739970(0);
+    BlackJackMenu_SetSideHandVisibility(0);
     HideArrowNodes();
     const NiUpdateData update110(0.0f, false, false);
     ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->Update(update110);
@@ -2650,56 +2655,56 @@ void Menu90::InitBlackjackScene()
     if (controller158)
     {
         ctrldf4 = controller158;
-        anime04 = ctrldf4->FUN_0047a520(String90("Players_Discard"));
-        anime08 = ctrldf4->FUN_0047a520(String90("Dealers_Discard"));
+        anime04 = ctrldf4->NiControllerManager_GetSequenceByName(String90("Players_Discard"));
+        anime08 = ctrldf4->NiControllerManager_GetSequenceByName(String90("Dealers_Discard"));
         ctrldf4->FUN_0048fef0(0.0f);
-        FUN_00a6d2d0(rootdb4);
+        NiTimeController_StartAnimations(rootdb4);
     }
     Controller90* controller217 = reinterpret_cast<Controller90*>(rootdb8->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller217)
     {
         ctrldf8 = controller217;
-        anime0c = ctrldf8->FUN_0047a520(String90("Hand1_Discard"));
-        anime10 = ctrldf8->FUN_0047a520(String90("Hand1_01"));
-        anime14 = ctrldf8->FUN_0047a520(String90("Hand1_02"));
-        anime18 = ctrldf8->FUN_0047a520(String90("Hand1_03"));
-        anime1c = ctrldf8->FUN_0047a520(String90("Hand1_04"));
-        anime20 = ctrldf8->FUN_0047a520(String90("Hand1_05"));
-        anime24 = ctrldf8->FUN_0047a520(String90("Hand1_06"));
-        anime28 = ctrldf8->FUN_0047a520(String90("Hand1_07"));
+        anime0c = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_Discard"));
+        anime10 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_01"));
+        anime14 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_02"));
+        anime18 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_03"));
+        anime1c = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_04"));
+        anime20 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_05"));
+        anime24 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_06"));
+        anime28 = ctrldf8->NiControllerManager_GetSequenceByName(String90("Hand1_07"));
         ctrldf8->FUN_0048fef0(0.0f);
-        FUN_00a6d2d0(rootdb8);
+        NiTimeController_StartAnimations(rootdb8);
     }
     Controller90* controller321 = reinterpret_cast<Controller90*>(rootdbc->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller321)
     {
         ctrldfc = controller321;
-        anime2c = ctrldfc->FUN_0047a520(String90("Hand2_Discard"));
-        anime30 = ctrldfc->FUN_0047a520(String90("Hand2_01"));
-        anime34 = ctrldfc->FUN_0047a520(String90("Hand2_02"));
-        anime38 = ctrldfc->FUN_0047a520(String90("Hand2_03"));
-        anime3c = ctrldfc->FUN_0047a520(String90("Hand2_04"));
-        anime40 = ctrldfc->FUN_0047a520(String90("Hand2_05"));
-        anime44 = ctrldfc->FUN_0047a520(String90("Hand2_06"));
-        anime48 = ctrldfc->FUN_0047a520(String90("Hand2_07"));
+        anime2c = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_Discard"));
+        anime30 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_01"));
+        anime34 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_02"));
+        anime38 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_03"));
+        anime3c = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_04"));
+        anime40 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_05"));
+        anime44 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_06"));
+        anime48 = ctrldfc->NiControllerManager_GetSequenceByName(String90("Hand2_07"));
         ctrldfc->FUN_0048fef0(0.0f);
-        FUN_00a6d2d0(rootdbc);
+        NiTimeController_StartAnimations(rootdbc);
     }
     Controller90* controller415 = reinterpret_cast<Controller90*>(rootdc0->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac)));
     if (controller415)
     {
         ctrle00 = controller415;
-        anime4c = ctrle00->FUN_0047a520(String90("Dealer_Discard"));
-        anime50 = ctrle00->FUN_0047a520(String90("Dealer_01"));
-        anime54 = ctrle00->FUN_0047a520(String90("Dealer_02"));
-        anime58 = ctrle00->FUN_0047a520(String90("Dealer_03"));
-        anime5c = ctrle00->FUN_0047a520(String90("Dealer_04"));
-        anime60 = ctrle00->FUN_0047a520(String90("Dealer_05"));
-        anime64 = ctrle00->FUN_0047a520(String90("Dealer_06"));
-        anime68 = ctrle00->FUN_0047a520(String90("Dealer_07"));
-        anime6c = ctrle00->FUN_0047a520(String90("Dealer_Reveal"));
+        anime4c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_Discard"));
+        anime50 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_01"));
+        anime54 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_02"));
+        anime58 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_03"));
+        anime5c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_04"));
+        anime60 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_05"));
+        anime64 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_06"));
+        anime68 = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_07"));
+        anime6c = ctrle00->NiControllerManager_GetSequenceByName(String90("Dealer_Reveal"));
         ctrle00->FUN_0048fef0(0.0f);
-        FUN_00a6d2d0(rootdc0);
+        NiTimeController_StartAnimations(rootdc0);
     }
     const NiUpdateData update210(0.0f, false, false);
     ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->Update(update210);
@@ -2714,7 +2719,7 @@ void Menu90::InitBlackjackScene()
     if (property2)
         property2->SetTexture(0, 0, scene.FUN_00559450());
     ((NiNode*)FUN_00450b80(1))->AttachChildInAvailableSlot(static_cast<NiAVObject*>(((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()), true);
-    float scale18 = ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->FUN_0043d450()->FUN_0084d030() * 3.0;
+    float scale18 = ((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450()->NiAVObject_GetWorldBound()->FUN_0084d030() * 3.0;
     ((ShadowSceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Pointer90<NiNode>*)&DAT_011d9098)->FUN_00559450(), scale18);
 }
 
@@ -2741,7 +2746,7 @@ struct Audio129
 {
     BSSoundHandle BSAudio_GetSoundHandleByEditorName(const char*, int);
 };
-Audio129* FUN_00453a70();
+Audio129* BSAudio_QInstance();
 struct Stats129
 {
     int unk00;
@@ -2758,7 +2763,7 @@ struct Stats129
 };
 struct Name129
 {
-    const char* FUN_00408da0();
+    const char* TESModel_GetModel();
 };
 struct Casino129
 {
@@ -2845,10 +2850,10 @@ struct Casino129
     int unk10;
     int unk14;
     Name129 name;
-    int FUN_0084e3a0();
-    Stats129* FUN_00504e60();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    Stats129* TESCasino_GetData();
 };
-Tile* FUN_00a08b20(Tile*, const char*);
+Tile* Tile_GetTileByName(Tile*, const char*);
 struct Mode129
 {
     int FUN_0066ef20(int);
@@ -2909,19 +2914,19 @@ extern const float DAT_010162c0;
 extern const double DAT_010704f0, DAT_010704e8;
 extern const char DAT_01070c58[], DAT_01049638[], DAT_01025cc4[], DAT_01070c38[], DAT_01070be0[], DAT_01070bc0[],
     DAT_01012058[], DAT_01070ba8[];
-Menu* FUN_00a09030(int);
-int FUN_00406d00(char*, unsigned int, const char*, ...);
+Menu* Tile_GetMenuByClass(int);
+int BSsprintf(char*, unsigned int, const char*, ...);
 void DispatchMessageToSink(const char*, int, const char*, int, float, int);
 void Warning_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
-int FUN_0044a670(const char*);
+int BSstrlen(const char*);
 
 // Validates the player's casino entry against limits and required amount, then opens and initializes the casino bet menu, returning its tile or null on failure.
 // @fnv 0x00733630
 // src: COMMUNITY 0x00733630
 Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int required)
 {
-    Menu* oldMenu = FUN_00a09030(0x439);
+    Menu* oldMenu = Tile_GetMenuByClass(0x439);
     InterfaceManager* pInterface = (InterfaceManager*)InterfaceManager_GetSingleton();
     DAT_011d9058 = casino;
     DAT_0119fe40 = minimum;
@@ -2930,7 +2935,7 @@ Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int require
     Node129* node = ((Player129*)DAT_011dea3c)->PlayerCharacter_GetCasinoDataList();
     while (node && *node->FUN_006815c0())
     {
-        if (((Casino129*)DAT_011d9058)->FUN_0084e3a0() == (*node->FUN_006815c0())->id)
+        if (((Casino129*)DAT_011d9058)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == (*node->FUN_006815c0())->id)
         {
             DAT_011d9054 = *node->FUN_006815c0();
             break;
@@ -2942,7 +2947,7 @@ Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int require
     if (!DAT_011d9054)
     {
         FUN_00733f50* entry = new FUN_00733f50;
-        entry->id = ((Casino129*)DAT_011d9058)->FUN_0084e3a0();
+        entry->id = ((Casino129*)DAT_011d9058)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         entry->amount = 0;
         node = ((Player129*)DAT_011dea3c)->PlayerCharacter_GetCasinoDataList();
         if (!node || node->FUN_008256d0())
@@ -2954,39 +2959,39 @@ Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int require
     if (((Player129*)DAT_011dea3c)->IsCasinoAntiCheat())
     {
         char message[260];
-        FUN_00406d00(message, 260, DAT_01070c58, DAT_011d451c.FUN_00403df0(),
+        BSsprintf(message, 260, DAT_01070c58, DAT_011d451c.FUN_00403df0(),
                      ((Player129*)DAT_011dea3c)->GetAntiCheatTimeRemaining());
         DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
         return 0;
     }
-    if (DAT_011d9054->amount >= ((Casino129*)DAT_011d9058)->FUN_00504e60()->limit)
+    if (DAT_011d9054->amount >= ((Casino129*)DAT_011d9058)->TESCasino_GetData()->limit)
     {
         char message[260];
-        FUN_00406d00(message, 260, DAT_011d3abc.FUN_00403df0());
+        BSsprintf(message, 260, DAT_011d3abc.FUN_00403df0());
         DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
         return 0;
     }
-    if (DAT_011dea3c->FUN_00575610((int)DAT_011d9058->FUN_007316d0()) < DAT_0119fe40)
+    if (DAT_011dea3c->FUN_00575610((int)DAT_011d9058->TESCasino_GetChipType()) < DAT_0119fe40)
     {
         char message[260];
-        FUN_00406d00(message, 260, DAT_011d2424.FUN_00403df0());
+        BSsprintf(message, 260, DAT_011d2424.FUN_00403df0());
         DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
         return 0;
     }
     if (DAT_011d9054->amount < required && required != 0)
     {
         char message[260];
-        FUN_00406d00(message, 260, DAT_011d3594.FUN_00403df0());
+        BSsprintf(message, 260, DAT_011d3594.FUN_00403df0());
         DispatchMessageToSink(message, 0, DAT_01049638, 0, DAT_010162c0, 0);
-        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01025cc4, 0x121).Play(false);
         return 0;
     }
     if (oldMenu)
         delete oldMenu;
-    Tile* pTile = pInterface->FUN_00586150()->FUN_00a01b00(DAT_01070c38);
+    Tile* pTile = pInterface->CombatController_GetCombatState()->Tile_ReadFile(DAT_01070c38);
     DAT_011d9050 = (DAT_011d9050_S*)pTile->Tile_GetMenu();
     if (DAT_011d9050 && ((BlackJackMenu*)DAT_011d9050)->GetClass() == FUN_00733f80())
     {
@@ -2997,30 +3002,30 @@ Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int require
             return 0;
         }
         if (pTile->FUN_00a011b0(0xfa7) == DAT_010704f0 || pTile->FUN_00a011b0(0xfa7) == DAT_010704e8)
-            pTile->FUN_00a012d0(0xfad, FUN_00a01530(1));
-        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01070bc0, 0x121).Play(false);
+            pTile->Tile_Set(0xfad, FUN_00a01530(1));
+        BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01070bc0, 0x121).Play(false);
         ((BlackJackMenu*)DAT_011d9050)->setting = ((Player129*)DAT_011dea3c)->mode.FUN_0066ef20(11);
         ((BlackJackMenu*)DAT_011d9050)->bet = DAT_0119fe40;
-        ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00a01350((int)DAT_011d9044, DAT_011d3804.FUN_00403df0(), true);
+        ((BlackJackMenu*)DAT_011d9050)->tile34->Tile_Set_00a01350((int)DAT_011d9044, DAT_011d3804.FUN_00403df0(), true);
         ((BlackJackMenu*)DAT_011d9050)->tile34->SetTraitFloat((int)DAT_011d9048, 1.0f);
         ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, DAT_0119fe40);
-        ((BlackJackMenu*)DAT_011d9050)->tile38->FUN_00a01350((int)DAT_011d9044, DAT_011d3300.FUN_00403df0(), true);
+        ((BlackJackMenu*)DAT_011d9050)->tile38->Tile_Set_00a01350((int)DAT_011d9044, DAT_011d3300.FUN_00403df0(), true);
         ((BlackJackMenu*)DAT_011d9050)->tile38->SetTraitFloat((int)DAT_011d9048, 1.0f);
         ((BlackJackMenu*)DAT_011d9050)
-            ->tile38->FUN_00700320((int)DAT_011d9048, DAT_011dea3c->FUN_00575610((int)DAT_011d9058->FUN_007316d0()));
+            ->tile38->FUN_00700320((int)DAT_011d9048, DAT_011dea3c->FUN_00575610((int)DAT_011d9058->TESCasino_GetChipType()));
         char label[64];
-        if (FUN_0044a670(((Casino129*)DAT_011d9058)->name.FUN_00408da0()))
-            FUN_00406d00(label, 64, DAT_01012058, ((Casino129*)DAT_011d9058)->name.FUN_00408da0(),
+        if (BSstrlen(((Casino129*)DAT_011d9058)->name.TESModel_GetModel()))
+            BSsprintf(label, 64, DAT_01012058, ((Casino129*)DAT_011d9058)->name.TESModel_GetModel(),
                          DAT_011d3e08.FUN_00403df0());
         else
-            FUN_00406d00(label, 64, DAT_01012058, ((Casino129*)DAT_011d9058)->GetName(), DAT_011d3e08.FUN_00403df0());
-        ((BlackJackMenu*)DAT_011d9050)->message->FUN_00a01350((int)DAT_011d9044, label, true);
+            BSsprintf(label, 64, DAT_01012058, ((Casino129*)DAT_011d9058)->GetName(), DAT_011d3e08.FUN_00403df0());
+        ((BlackJackMenu*)DAT_011d9050)->message->Tile_Set_00a01350((int)DAT_011d9044, label, true);
         ((BlackJackMenu*)DAT_011d9050)->message->SetTraitFloat((int)DAT_011d9048, 1.0f);
         ((BlackJackMenu*)DAT_011d9050)->message->FUN_00700320((int)DAT_011d9048, DAT_011d9054->amount);
-        FUN_00a08b20(((BlackJackMenu*)DAT_011d9050)->message, DAT_01070ba8)->FUN_00700320(0xfa3, 0);
+        Tile_GetTileByName(((BlackJackMenu*)DAT_011d9050)->message, DAT_01070ba8)->FUN_00700320(0xfa3, 0);
         ((BlackJackMenu*)DAT_011d9050)->UpdateTileText();
         ((BlackJackMenu*)DAT_011d9050)->tile40->SetTraitFloat(0xfc4, 1.0f);
-        ((BlackJackMenu*)DAT_011d9050)->tile40->FUN_00a01350(0xfc4, DAT_011d4c84.FUN_00403df0(), true);
+        ((BlackJackMenu*)DAT_011d9050)->tile40->Tile_Set_00a01350(0xfc4, DAT_011d4c84.FUN_00403df0(), true);
         if (!((BlackJackMenu*)DAT_011d9050)->LoadCardDeckResources())
             return 0;
         UpdateBetTiles(true);
@@ -3121,7 +3126,7 @@ struct BlackjackButtonMenu
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
     int state;
     bool HasFlag(unsigned int);
-    void FUN_00738c30(int, float);
+    void BlackJackMenu_SetTileTextAlpha(int, float);
     void UpdateButtonState(int);
 };
 // @fnv 0x00738560
@@ -3136,85 +3141,85 @@ void BlackjackButtonMenu::UpdateButtonState(int button)
         {
             if (HasFlag(0x800))
             {
-                FUN_00738c30(3, DAT_0101e704);
-                FUN_00738c30(4, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(3, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
             }
             else
             {
-                FUN_00738c30(3, DAT_01023cd8);
-                HasFlag(0x100) ? FUN_00738c30(4, DAT_01023cd8) : FUN_00738c30(4, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(3, DAT_01023cd8);
+                HasFlag(0x100) ? BlackJackMenu_SetTileTextAlpha(4, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
             }
-            FUN_00738c30(5, DAT_0101e704);
-            FUN_00738c30(7, DAT_0101e704);
-            FUN_00738c30(8, DAT_01023cd8);
-            HasFlag(0x400) ? FUN_00738c30(6, DAT_0101e704) : FUN_00738c30(6, DAT_01023cd8);
+            BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
+            BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704);
+            BlackJackMenu_SetTileTextAlpha(8, DAT_01023cd8);
+            HasFlag(0x400) ? BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(6, DAT_01023cd8);
         }
         else
         {
             if (HasFlag(0x400) || HasFlag(0x20))
             {
-                FUN_00738c30(3, DAT_0101e704);
-                FUN_00738c30(4, DAT_0101e704);
-                FUN_00738c30(5, DAT_0101e704);
-                FUN_00738c30(7, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(3, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704);
             }
             else
             {
-                FUN_00738c30(3, DAT_01023cd8);
-                HasFlag(0x40) ? FUN_00738c30(4, DAT_01023cd8) : FUN_00738c30(4, DAT_0101e704);
-                HasFlag(4) ? FUN_00738c30(5, DAT_01023cd8) : FUN_00738c30(5, DAT_0101e704);
-                HasFlag(1) ? FUN_00738c30(7, DAT_0101e704) : FUN_00738c30(7, DAT_01023cd8);
+                BlackJackMenu_SetTileTextAlpha(3, DAT_01023cd8);
+                HasFlag(0x40) ? BlackJackMenu_SetTileTextAlpha(4, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
+                HasFlag(4) ? BlackJackMenu_SetTileTextAlpha(5, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
+                HasFlag(1) ? BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(7, DAT_01023cd8);
             }
-            HasFlag(0x20) && (!HasFlag(8) || HasFlag(0x800)) ? FUN_00738c30(8, DAT_0101e704)
-                                                             : FUN_00738c30(8, DAT_01023cd8);
-            !HasFlag(0x800) && HasFlag(8) ? FUN_00738c30(6, DAT_01023cd8) : FUN_00738c30(6, DAT_0101e704);
+            HasFlag(0x20) && (!HasFlag(8) || HasFlag(0x800)) ? BlackJackMenu_SetTileTextAlpha(8, DAT_0101e704)
+                                                             : BlackJackMenu_SetTileTextAlpha(8, DAT_01023cd8);
+            !HasFlag(0x800) && HasFlag(8) ? BlackJackMenu_SetTileTextAlpha(6, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704);
         }
         break;
     case 3:
         if (HasFlag(0x10))
         {
-            HasFlag(0x800) ? FUN_00738c30(3, DAT_0101e704) : FUN_00738c30(3, DAT_01023cd8);
+            HasFlag(0x800) ? BlackJackMenu_SetTileTextAlpha(3, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(3, DAT_01023cd8);
         }
         else
         {
-            HasFlag(0x400) ? FUN_00738c30(3, DAT_0101e704) : FUN_00738c30(3, DAT_01023cd8);
+            HasFlag(0x400) ? BlackJackMenu_SetTileTextAlpha(3, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(3, DAT_01023cd8);
         }
         break;
     case 4:
         if (HasFlag(0x10))
         {
-            HasFlag(0x100) ? FUN_00738c30(4, DAT_01023cd8) : FUN_00738c30(4, DAT_0101e704);
+            HasFlag(0x100) ? BlackJackMenu_SetTileTextAlpha(4, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
         }
         else
         {
-            HasFlag(0x40) ? FUN_00738c30(4, DAT_01023cd8) : FUN_00738c30(4, DAT_0101e704);
+            HasFlag(0x40) ? BlackJackMenu_SetTileTextAlpha(4, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
         }
         break;
     case 5:
         if (HasFlag(0x10))
         {
-            FUN_00738c30(5, DAT_0101e704);
+            BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
         }
         else
         {
-            HasFlag(4) ? FUN_00738c30(5, DAT_01023cd8) : FUN_00738c30(5, DAT_0101e704);
+            HasFlag(4) ? BlackJackMenu_SetTileTextAlpha(5, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
         }
         break;
     case 6:
         if (HasFlag(0x10))
         {
-            HasFlag(0x400) ? FUN_00738c30(6, DAT_0101e704) : FUN_00738c30(6, DAT_01023cd8);
+            HasFlag(0x400) ? BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(6, DAT_01023cd8);
         }
         else
         {
-            !HasFlag(0x800) && HasFlag(8) ? FUN_00738c30(6, DAT_01023cd8) : FUN_00738c30(6, DAT_0101e704);
+            !HasFlag(0x800) && HasFlag(8) ? BlackJackMenu_SetTileTextAlpha(6, DAT_01023cd8) : BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704);
         }
         break;
     case 7:
-        HasFlag(1) ? FUN_00738c30(7, DAT_0101e704) : FUN_00738c30(7, DAT_01023cd8);
+        HasFlag(1) ? BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704) : BlackJackMenu_SetTileTextAlpha(7, DAT_01023cd8);
         break;
     case 8:
-        FUN_00738c30(8, DAT_01023cd8);
+        BlackJackMenu_SetTileTextAlpha(8, DAT_01023cd8);
         break;
     }
 }
@@ -3366,7 +3371,7 @@ template <class T> class NiTPointerListView
   public:
     T& AddEight(void* pos) const;
     void* DereferenceIfNotNull(void* pos) const;
-    int* FUN_0073ac90();
+    int* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead();
 };
 }  // namespace blackjack_reference_list
 struct Entry738c
@@ -3382,13 +3387,14 @@ struct Table738c
 
 // Iterates the reference list of entry iIndex in table DAT_011d9050 and calls FUN_00a012d0(0xfa9, fValue, true) on each element.
 // @fnv 0x00738c30
-void FUN_00738c30_shell::FUN_00738c30(int iIndex, float fValue)
+// src: XBOX_PDB 0x00738c30
+void FUN_00738c30_shell::BlackJackMenu_SetTileTextAlpha(int iIndex, float fValue)
 {
     void* pos = (void*)(const char*)*(blackjack_reference_list::BSStringTView<char>*)&((Table738c*)DAT_011d9050)->m_apEntries[iIndex]->m_kList;
     blackjack_reference_list::NiTPointerListView<TESObjectREFR*>* pkList = &((Table738c*)DAT_011d9050)->m_apEntries[iIndex]->m_kList;
-    while (pos && pkList && *pkList->FUN_0073ac90())
+    while (pos && pkList && *pkList->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetHead())
     {
-        ((Tile*)pkList->AddEight(pos))->FUN_00a012d0(0xfa9, fValue, true);
+        ((Tile*)pkList->AddEight(pos))->Tile_Set(0xfa9, fValue, true);
         pos = pkList->DereferenceIfNotNull(pos);
     }
 }
@@ -3467,11 +3473,12 @@ void BlackjackMenuShell::BlackJackMenu_SwapCardTextures(int a1, int aiIndex, Car
 
 struct OwnQ
 {
-    int FUN_00738ff0(Node129* pList);
+    int BlackJackMenu_GetHandValue(Node129* pList);
 };
 // Sums adjusted card values, counts entries with value 12, then subtracts 10 per such entry while total exceeds 21.
 // @fnv 0x00738ff0
-int OwnQ::FUN_00738ff0(Node129* pList)
+// src: XBOX_PDB 0x00738ff0
+int OwnQ::BlackJackMenu_GetHandValue(Node129* pList)
 {
     int iTotal;
     int iAces;
@@ -3555,14 +3562,14 @@ struct InputMenu
     bool HasFlag(int);
     void SetFlag(int, bool);
     int DrawCard(void*, bool, bool);
-    int FUN_00738ff0(CardHand*);
+    int BlackJackMenu_GetHandValue(CardHand*);
     void ClearField();
-    void FUN_00738c30(int, float);
+    void BlackJackMenu_SetTileTextAlpha(int, float);
     void DealInitialCards();
-    bool FUN_00739650(bool);
+    bool BlackJackMenu_CanDoubleDown(bool);
     void UpdateChipPositions();
     void BlackJackMenu_SwapCardTextures(int, int, CardInfo*);
-    void FUN_007399f0();
+    void BlackJackMenu_HighlightSelectedDeck();
 };
 // Dispatches a UI action (hit, double, split, raise, lower, max, stand) to the appropriate blackjack state transition and card logic.
 // @fnv 0x00733ff0
@@ -3574,7 +3581,7 @@ void InputMenu::HandleAction(int action, void* tile)
         {
         case 8:
             if (state == 10)
-                FUN_00731d30();
+                BlackJackMenu_Close();
             else if (state == 4)
             {
                 state = 8;
@@ -3596,7 +3603,7 @@ void InputMenu::HandleAction(int action, void* tile)
                 {
                     hitIndex7 = DrawCard(split, true, false);
                     split->FUN_00905820(&cards[hitIndex7]);
-                    hitTotal7 = FUN_00738ff0(split);
+                    hitTotal7 = BlackJackMenu_GetHandValue(split);
                     if (hitTotal7 >= 21)
                     {
                         SetFlag(0x800, true);
@@ -3621,7 +3628,7 @@ void InputMenu::HandleAction(int action, void* tile)
                 {
                     hitIndex7 = DrawCard(hand, true, false);
                     hand->FUN_00905820(&cards[hitIndex7]);
-                    hitTotal7 = FUN_00738ff0(hand);
+                    hitTotal7 = BlackJackMenu_GetHandValue(hand);
                     if (hitTotal7 >= 21)
                     {
                         SetFlag(0x400, true);
@@ -3654,11 +3661,11 @@ void InputMenu::HandleAction(int action, void* tile)
                 flag78 = false;
                 splitBet = 0;
                 SetFlag(0x40, true);
-                FUN_00738c30(4, DAT_0101e704);
-                FUN_00738c30(5, DAT_0101e704);
-                FUN_00738c30(6, DAT_0101e704);
-                FUN_00738c30(7, DAT_0101e704);
-                FUN_00738c30(8, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(4, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(5, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704);
+                BlackJackMenu_SetTileTextAlpha(8, DAT_0101e704);
                 DealInitialCards();
             }
             else if (state == 4)
@@ -3675,12 +3682,12 @@ void InputMenu::HandleAction(int action, void* tile)
                     doubleIndex = DrawCard(hand, true, false);
                     hand->FUN_00905820(&cards[doubleIndex]);
                     if (!HasFlag(0x400) && HasFlag(0x40))
-                        FUN_00739650(false);
+                        BlackJackMenu_CanDoubleDown(false);
                     state = 2;
                     SetFlag(1, true);
                     ((BlackJackMenu*)DAT_011d9050)->tile34->SetTraitFloat((int)DAT_011d9048, 1.0f);
                     ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, splitBet + bet);
-                    int aDoubleTotal = FUN_00738ff0(hand);
+                    int aDoubleTotal = BlackJackMenu_GetHandValue(hand);
                     if (aDoubleTotal > 21)
                         result = 4;
                     SetFlag(0x40, false);
@@ -3709,7 +3716,7 @@ void InputMenu::HandleAction(int action, void* tile)
                 if (bet > DAT_0119fe3c)
                     bet = DAT_0119fe3c;
                 if (oldIncreaseTmp < bet)
-                    FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01070ca4, 0x121).Play(false);
+                    BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01070ca4, 0x121).Play(false);
                 UpdateChipPositions();
                 ((BlackJackMenu*)DAT_011d9050)->tile34->SetTraitFloat((int)DAT_011d9048, 1.0f);
                 ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
@@ -3735,23 +3742,23 @@ void InputMenu::HandleAction(int action, void* tile)
                     secondNode3->FUN_00726c60(&cards[splitIndex]);
                     splitIndex = DrawCard(split, false, false);
                     split->FUN_00905820(&cards[splitIndex]);
-                    int handTotal8 = FUN_00738ff0(hand);
-                    int splitTotal2 = FUN_00738ff0(hand);
+                    int handTotal8 = BlackJackMenu_GetHandValue(hand);
+                    int splitTotal2 = BlackJackMenu_GetHandValue(hand);
                     if (handTotal8 == 21)
                     {
                         result = 5;
                         SetFlag(0x400, true);
                     }
-                    FUN_00739650(false);
+                    BlackJackMenu_CanDoubleDown(false);
                     if (splitTotal2 == 21)
                     {
                         splitResult = 5;
                         SetFlag(0x800, true);
                     }
-                    FUN_00739650(true);
+                    BlackJackMenu_CanDoubleDown(true);
                     SetFlag(8, true);
                     SetFlag(4, false);
-                    FUN_007399f0();
+                    BlackJackMenu_HighlightSelectedDeck();
                     UpdateButtonState(10);
                     ((BlackJackMenu*)DAT_011d9050)->tile34->SetTraitFloat((int)DAT_011d9048, 1.0f);
                     ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, splitBet + bet);
@@ -3777,7 +3784,7 @@ void InputMenu::HandleAction(int action, void* tile)
                 if (bet < DAT_0119fe40)
                     bet = DAT_0119fe40;
                 if (kOldDecrease > bet)
-                    FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01070c88, 0x121).Play(false);
+                    BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_01070c88, 0x121).Play(false);
                 UpdateChipPositions();
                 ((BlackJackMenu*)DAT_011d9050)->tile34->SetTraitFloat((int)DAT_011d9048, 1.0f);
                 ((BlackJackMenu*)DAT_011d9050)->tile34->FUN_00700320((int)DAT_011d9048, bet);
@@ -3790,7 +3797,7 @@ void InputMenu::HandleAction(int action, void* tile)
                         SetFlag(0x10, false);
                     else if (!HasFlag(0x10) && !HasFlag(0x800))
                         SetFlag(0x10, true);
-                    FUN_007399f0();
+                    BlackJackMenu_HighlightSelectedDeck();
                     text->Set(0xfc4, "", true);
                     UpdateButtonState(10);
                 }

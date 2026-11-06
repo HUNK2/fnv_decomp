@@ -46,7 +46,7 @@ struct E04A00MemoryRouter {
     E04A00Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" E04A00MemoryRouter& __cdecl FUN_00c85750();
+extern "C" E04A00MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct E04A00Entry {
@@ -59,7 +59,7 @@ struct E04A00Entry {
 typedef hkArray<E04A00Entry> E04A00EntryArray;
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-return reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750().heap());
+return reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance().heap());
 }
 template<> __forceinline void hkArrayBase<E04A00Entry>::_pushBack(hkMemoryAllocator& sharedAlloc, E04A00Entry const& e)
 {
@@ -206,8 +206,8 @@ struct VObj
 
 struct Ctx
 {
-    VObj* FUN_00d60800();
-    void FUN_00d607b0(int a, int b);
+    VObj* hkOArchive_getStreamWriter();
+    void hkOArchive_writeRaw(int a, int b);
 };
 
 struct ListEntry
@@ -241,10 +241,10 @@ __declspec(noinline) static void FUN_00e03360(VObj* p, int n)
 // @fnv 0x00e03e20
 static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
 {
-    VObj* value = ctx->FUN_00d60800();
+    VObj* value = ctx->hkOArchive_getStreamWriter();
     FUN_00e03360(value, 2);
-    value = ctx->FUN_00d60800()->v20();
-    E04A00MemoryRouter& router = FUN_00c85750();
+    value = ctx->hkOArchive_getStreamWriter()->v20();
+    E04A00MemoryRouter& router = hkMemoryRouter_getInstance();
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffffu))
     {
         ResizeAudioStream(router.m_pStreamAllocator, list, 8);
@@ -253,7 +253,7 @@ static int AppendListEntry(Ctx* ctx, List* list, int a, int b)
     entry.m_key = b;
     entry.m_uiFilterValue = value;
     list->m_uiItemCount++;
-    ctx->FUN_00d607b0(a, hkString_strLen(a) + 1);
+    ctx->hkOArchive_writeRaw(a, hkString_strLen(a) + 1);
     return 0;
 }
 
@@ -280,8 +280,8 @@ struct FUN_00e04920_cls {
     unsigned int unk0C;
     unsigned int unk10;
     unsigned char m_flag14;
-    unsigned int FUN_00e036b0(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
-    unsigned int FUN_00e03ea0(unsigned int a, unsigned int b, Scratch16* scratch,
+    unsigned int hkObjectCopier_saveBody(unsigned int a, unsigned int b, Scratch16* scratch, unsigned int c);
+    unsigned int hkObjectCopier_saveExtras(unsigned int a, unsigned int b, Scratch16* scratch,
                                 unsigned int c, unsigned int d, unsigned int e, unsigned int f);
     int hkObjectCopier_copyObject(unsigned int a1, unsigned int a2, unsigned int a3,
                      unsigned int a4, unsigned int a5);
@@ -296,9 +296,9 @@ int FUN_00e04920_cls::hkObjectCopier_copyObject(unsigned int a1, unsigned int a2
     Scratch16 scratch;
     VObj* original = reinterpret_cast<VObj*>(a3);
     scratch.FUN_00d60830(a3, static_cast<unsigned int>(m_flag14));
-    unsigned int uiIntermediate = FUN_00e036b0(a1, a2, &scratch, a4);
+    unsigned int uiIntermediate = hkObjectCopier_saveBody(a1, a2, &scratch, a4);
     FUN_00e03360(original, 16);
-    FUN_00e03ea0(a1, a2, &scratch, a4, uiIntermediate, a5, 0);
+    hkObjectCopier_saveExtras(a1, a2, &scratch, a4, uiIntermediate, a5, 0);
     FUN_00e03360(original, 16);
     unsigned char* status = scratch.ForwardValueToObject(&a1);
     unsigned int success = (*status == 0);
@@ -327,7 +327,7 @@ struct MemRouter
     HeapAlloc* m_pStreamAllocator;
 };
 
-inline MemRouter& Router() { return reinterpret_cast<MemRouter&>(FUN_00c85750()); }
+inline MemRouter& Router() { return reinterpret_cast<MemRouter&>(hkMemoryRouter_getInstance()); }
 void __cdecl hkArrayUtil__reserve(HeapAlloc* alloc, void* arr, int cap, int elemSize);
 extern "C" void* __cdecl FUN_00ec61c0(void* dst, int val, int n);
 
@@ -494,9 +494,9 @@ struct Item {
     unsigned short f10; unsigned short f12;
     int getName() const { return f00; }
     int FUN_00d86980();
-    int FUN_00d86940();
+    int getCstyleArraySize();
     void* FUN_00d86930();
-    void* FUN_00d86920();
+    void* getClass();
     int ReadSignedValueBySize(int a);
 };
 struct EbpObj {
@@ -543,12 +543,12 @@ struct StrBuf {
     void FUN_00cb1600(void* a, int n);
 };
 struct StreamObj {
-    EbpObj* FUN_00d60800();
+    EbpObj* hkOArchive_getStreamWriter();
     void WriteInt(int a);
     void FUN_00d60900(int a);
     void FUN_00d605b0(int a);
     void WriteSwapped(const void* data, unsigned int size, unsigned int count);
-    void FUN_00d607b0(const void* data, unsigned int size);
+    void hkOArchive_writeRaw(const void* data, unsigned int size);
     StreamObj* FUN_00d46fe0(int v);
     void* FUN_00d46d40();
 };
@@ -568,8 +568,8 @@ struct Host {
     unsigned char f0c; unsigned char f0d; unsigned char f0e; unsigned char f0f;
     int f10;
     StreamObj* FUN_00d46fe0(int v);
-    void FUN_00e03460(StreamObj* a, Item* it);
-    int FUN_00e036b0(StreamObj* p0, StreamObj* p1, StreamObj* p2, DescriptorList* p3);
+    void hkObjectCopier_writeZero(StreamObj* a, Item* it);
+    int hkObjectCopier_saveBody(StreamObj* p0, StreamObj* p1, StreamObj* p2, DescriptorList* p3);
 };
 extern int DAT_01044c28;
 extern int DAT_010ea4ac;
@@ -580,7 +580,7 @@ int __cdecl FUN_00e049c0(int a, int b);
 int __cdecl FUN_00e03240(DescriptorList* a, Item* it, int i, int e);
 
 static __declspec(noinline) int FUN_00e03100(Item* p) {
-    if (p->FUN_00d86940()) return p->FUN_00d86940();
+    if (p->getCstyleArraySize()) return p->getCstyleArraySize();
     return 1;
 }
 
@@ -662,7 +662,8 @@ struct ValueArray { int* data; int size; int capacity; };
 struct Scratch { DiagnosticWriter bad; int out[2]; int pair[2]; int pair2[2]; int buf4[4]; DiagnosticWriter missing; };
 // Iterates descriptor items, compares matching items, dispatches by type, and writes values through the supplied stream.
 // @fnv 0x00e036b0
-int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, StreamObj* apOutputStream, DescriptorList* apDescriptorList)
+// src: XBOX_PDB 0x00e036b0
+int Host::hkObjectCopier_saveBody(StreamObj* apSourceStream, StreamObj* apLookupStream, StreamObj* apOutputStream, DescriptorList* apDescriptorList)
 {
     struct State0 { void* flagh2; int base; int index; int out40; } state0;
     struct State1 { EbpObj* ebp; int flagq; void* flagh1; LookupResult lookup; } state1;
@@ -671,7 +672,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
     Scratch scratch;
     
     
-    state1.ebp = apOutputStream->FUN_00d60800();
+    state1.ebp = apOutputStream->hkOArchive_getStreamWriter();
     state0.base = state1.ebp->v20();
     for (state0.index = 0; state0.index < apDescriptorList->FUN_00d46f00(); state0.index++) {
         Item* pItem = apDescriptorList->getMember(state0.index);
@@ -679,7 +680,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
         if (pItem->f10 & 0x400) {
             int fl = this->f10;
             if (fl & 2) {
-                this->FUN_00e03460(apOutputStream, pItem);
+                this->hkObjectCopier_writeZero(apOutputStream, pItem);
                 continue;
             }
             if (fl & 1) {
@@ -747,7 +748,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 if (rawCount <= 0) break;
                 count = rawCount;
                 do {
-                    apOutputStream->FUN_00d607b0(scratch.pair, (int)this->f0c);
+                    apOutputStream->hkOArchive_writeRaw(scratch.pair, (int)this->f0c);
                     count--;
                 } while (count != 0);
                 break;
@@ -789,8 +790,8 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 break;
             }
             case 24: {
-                void* h1 = nb->FUN_00d86920();
-                void* h2 = pItem->FUN_00d86920();
+                void* h1 = nb->getClass();
+                void* h2 = pItem->getClass();
                 if (!h1) break;
                 if (!h2) break;
                 int iRemaining = FUN_00e049c0(FUN_00e03100(nb), FUN_00e03100(pItem));
@@ -799,7 +800,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                 do {
                     int v = ((DescriptorList*)h1)->FUN_00d470d0();
                     const char* pElementData = (const char*)iSourceOffset + v * k;
-                    this->FUN_00e036b0((StreamObj*)pElementData, (StreamObj*)h1, apOutputStream, (DescriptorList*)h2);
+                    this->hkObjectCopier_saveBody((StreamObj*)pElementData, (StreamObj*)h1, apOutputStream, (DescriptorList*)h2);
                     k++;
                 } while (k < iRemaining);
                 break;
@@ -856,7 +857,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     }
                     cur += state1.flagq;
                     {
-                        HeapAlloc& heap = *reinterpret_cast<HeapAlloc*>(&FUN_00c85750().heap());
+                        HeapAlloc& heap = *reinterpret_cast<HeapAlloc*>(&hkMemoryRouter_getInstance().heap());
                         work.values.size = 0;
                         if ((work.values.capacity & 0x80000000) == 0)
                             heap.ReleaseBlock(work.values.data, (work.values.capacity & 0x3fffffff) * 4);
@@ -883,7 +884,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
         }
     }
     {
-        EbpObj* e2 = apOutputStream->FUN_00d60800();
+        EbpObj* e2 = apOutputStream->hkOArchive_getStreamWriter();
         e2->v1c(apDescriptorList->FUN_00d470d0() + state0.base, 0);
     }
     return state0.base;

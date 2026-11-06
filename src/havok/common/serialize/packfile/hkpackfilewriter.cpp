@@ -33,7 +33,8 @@ extern "C" void __cdecl Vsnprintf(void*, void*, const char*, int, int, int, cons
 
 // Calls Vsnprintf with a and b and a formatted Havok version string (7.1.0-r1).
 // @fnv 0x00dbda20
-void __cdecl FUN_00dbda20(void* a, void* b)
+// src: XBOX_PDB 0x00dbda20
+void __cdecl hkPackfileWriter_getCurrentVersion(void* a, void* b)
 {
     Vsnprintf(a, b, "Havok-%i.%i.%i-%s", 7, 1, 0, "r1");
 }
@@ -44,7 +45,7 @@ struct FUN_00dbdd40_s
 };
 struct FUN_00d874d0_s
 {
-    void __thiscall FUN_00d874d0(const char*, int);
+    void __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char*, int);
 };
 struct FUN_00dbdf30_s
 {
@@ -58,12 +59,12 @@ void __thiscall FUN_00dbdf30_s::hkPackfileWriter_setSectionForClass(int pNameSou
 {
     int idx = ((FUN_00dbdd40_s*)this)->GetOrAddString(a);
     const char* name = ((const hkClass*)(void*)pNameSource)->getName();
-    ((FUN_00d874d0_s*)((char*)this + 0xa8))->FUN_00d874d0(name, idx);
+    ((FUN_00d874d0_s*)((char*)this + 0xa8))->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(name, idx);
 }
 
 struct DepthLimit
 {
-    void FUN_00cb1870(void*, void*, int);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void*, void*, int);
 };
 struct FUN_00dbdae0
 {
@@ -76,13 +77,13 @@ struct FUN_00dbdae0
 void FUN_00dbdae0::FUN_00dbdae0_0(void* a, int b)
 {
     void* r = (&hkMemoryRouter::getInstance())->m_heap;
-    m_dl.FUN_00cb1870(r, a, b);
+    m_dl.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(r, a, b);
 }
 
 namespace fnv_00dbdf00 {
 struct DepthLimit
 {
-    void __thiscall FUN_00cb1870(void*, void*, int);
+    void __thiscall hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void*, void*, int);
 };
 
 struct FUN_00dbdf00_s
@@ -98,7 +99,7 @@ void FUN_00dbdf00_s::hkPackfileWriter_setSectionForPointer(void* a, int b)
     int result = reinterpret_cast<FUN_00dbdd40_s*>(this)->GetOrAddString(b);
     hkMemoryRouter* router = (&hkMemoryRouter::getInstance());
 
-    reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)->FUN_00cb1870(router->m_heap, a, result);
+    reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(router->m_heap, a, result);
 }
 }  // namespace fnv_00dbdf00
 
@@ -165,10 +166,10 @@ void FUN_00dbda80_s::hkPackfileWriter_addImport(void* key, int value)
         entries[index].state = -2;
 
     hkMemoryRouter* router = (&hkMemoryRouter::getInstance());
-    ((DepthLimit*)&entryIndex)->FUN_00cb1870(router->m_heap, key, -2);
+    ((DepthLimit*)&entryIndex)->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(router->m_heap, key, -2);
 
     hkMemoryRouter* router2 = (&hkMemoryRouter::getInstance());
-    firstDepth.FUN_00cb1870(router2->m_heap, key, value);
+    firstDepth.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(router2->m_heap, key, value);
 }
 
 extern int DAT_0102e388;
@@ -193,7 +194,7 @@ struct FUN_00dc1670_Obj
 
 struct FUN_00e02bb0_Obj
 {
-    void FUN_00e02bb0(void* a);
+    void hkPlatformObjectWriter_hkPlatformObjectWriter(void* a);
 };
 
 struct FUN_00e02ef0_Obj
@@ -212,12 +213,13 @@ struct FUN_00e02c70_Obj
 };
 
 // @fnv 0x00dbdb10
-void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
+// src: XBOX_PDB 0x00dbdb10
+void __cdecl chasePointers(void* apArg1, void* apArg2, void* apArg3)
 {
     FUN_00dbdb10_buf buf;
 
     reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)->hkStructureLayout_hkStructureLayout();
-    reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)->FUN_00e02bb0(&buf);
+    reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)->hkPlatformObjectWriter_hkPlatformObjectWriter(&buf);
     reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04)->FUN_00e02ef0();
     reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)->hkPlatformObjectWriter_writeObject(&buf.unk04, apArg1, apArg2, apArg3);
     buf.unk04 = (int)&DAT_0102e388;
@@ -249,7 +251,8 @@ struct DbSecond
 
 // Calls first->GetLastNodeFlag; if its first character is nonzero, returns second->vf10(arg) or 0; otherwise returns the first pointer.
 // @fnv 0x00dbd9f0
-static __declspec(noinline) unsigned int FUN_00dbd9f0(DbFirst* first, DbSecond* second, unsigned int arg)
+// src: XBOX_PDB 0x00dbd9f0
+static __declspec(noinline) unsigned int getExactClass(DbFirst* first, DbSecond* second, unsigned int arg)
 {
     bool bFlag;
     char* result = first->GetLastNodeFlag(&bFlag);
@@ -270,7 +273,7 @@ unsigned int volatile g_dbd_sink;
 
 void dbd9f0_probe_caller(void)
 {
-    g_dbd_sink = FUN_00dbd9f0((DbFirst*)g_dbd_first, (DbSecond*)g_dbd_second, g_dbd_arg);
+    g_dbd_sink = getExactClass((DbFirst*)g_dbd_first, (DbSecond*)g_dbd_second, g_dbd_arg);
 }
 
 int __cdecl hkStrCmpDB7(const char* pcA, const char* pcB) throw();
@@ -388,8 +391,8 @@ extern "C" char* __cdecl hkString_strDup_00cb1410(const char* str);
 class hkStringMapXdbdd40
 {
   public:
-    int FUN_00d87650(const char* key, int* out);
-    void FUN_00d874d0(const char* key, int value);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(const char* key, int* out);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* key, int value);
 };
 
 class hkStringPoolXdbdd40
@@ -407,18 +410,18 @@ class hkStringPoolXdbdd40
 int hkStringPoolXdbdd40::GetOrAddString(const char* apString)
 {
     int index;
-    if (m_map.FUN_00d87650(apString, &index) == 0)
+    if (m_map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_get(apString, &index) == 0)
         return index;
     char* copy = hkString_strDup_00cb1410(apString);
     int newIndex = m_pStringFunctions.m_iElementCount;
-    m_map.FUN_00d874d0(copy, newIndex);
+    m_map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(copy, newIndex);
     m_pStringFunctions.pushBack(copy);
     return newIndex;
 }
 
 struct S00dbde40_Base
 {
-    int __thiscall FUN_00dbddc0(int a, int b, int c);
+    int __thiscall hkPackfileWriter_findSectionFor(int a, int b, int c);
 };
 
 struct S00dbde40_Entry
@@ -478,7 +481,7 @@ struct S00dbde40_Obj : public S00dbde40_Base
     int unk94;
     int unk98;
 
-    void __thiscall FUN_00dbde40(int a, int b, int c, int d, int e);
+    void __thiscall hkPackfileWriter_addPendingWrite(int a, int b, int c, int d, int e);
 };
 
 void __cdecl ResizeAudioStream(void* a, void* b, int c);
@@ -486,9 +489,10 @@ extern char DAT_0126cae8;
 
 // Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
 // @fnv 0x00dbde40
-void S00dbde40_Obj::FUN_00dbde40(int a, int b, int c, int d, int e)
+// src: XBOX_PDB 0x00dbde40
+void S00dbde40_Obj::hkPackfileWriter_addPendingWrite(int a, int b, int c, int d, int e)
 {
-    int result = this->FUN_00dbddc0(c, d, e);
+    int result = this->hkPackfileWriter_findSectionFor(c, d, e);
     S00dbde40_Entry tmp;
     tmp.unk00 = a;
     tmp.unk04 = b;
@@ -757,12 +761,13 @@ struct S00dbddc0_cls : public S00dbddc0_Base
     S00dbddc0_Sub9C m_sub9c;
     S00dbddc0_SubA8 m_suba8;
 
-    int __thiscall FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
+    int __thiscall hkPackfileWriter_findSectionFor(int a1, S00dbddc0_Node* a2, int a3);
 };
 
 // Looks up a hash entry for a1, then walks the node chain a2 calling GetValue on each key, returning the first hit or calling GetOrAddString(a3).
 // @fnv 0x00dbddc0
-int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, int a3)
+// src: XBOX_PDB 0x00dbddc0
+int S00dbddc0_cls::hkPackfileWriter_findSectionFor(int a1, S00dbddc0_Node* apStartNode, int a3)
 {
     int r = m_sub9c.LookupHashEntry(a1, -1);
     if (r != -1)
@@ -868,11 +873,12 @@ struct Class_00dbe680
     int m_8c;
     int m_90;
 
-    void FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5);
+    void hkPackfileWriter_addObject(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5);
     void hkPackfileWriter_setContentsWithRegistry(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4);
 };
 
-__declspec(noinline) void Class_00dbe680::FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5)
+// src: XBOX_PDB 0x00dbe150
+__declspec(noinline) void Class_00dbe680::hkPackfileWriter_addObject(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5)
 {
     unk00 = a1;
     unk04 = a4;
@@ -892,7 +898,7 @@ void Class_00dbe680::hkPackfileWriter_setContentsWithRegistry(int a1, S00dbe680_
     {
         target = a2;
     }
-    FUN_00dbe150(a1, target, a3, a4, DAT_011b7ae8);
+    hkPackfileWriter_addObject(a1, target, a3, a4, DAT_011b7ae8);
     m_8c = m_hashTable.LookupHashEntry(a1, -1);
     m_90 = m_hashTable.LookupHashEntry((int)target, -1);
 }
@@ -904,12 +910,12 @@ struct FUN_00cb18f0_t
     int unk04;
     int unk08;
     int __thiscall FindSlot(int key);
-    void __thiscall FUN_00cb1870(void* alloc, int key, int value);
+    void __thiscall hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* alloc, int key, int value);
     int __thiscall LookupHashEntry(int key, int def);
     __forceinline void insert(void* key, int value)
     {
         hkMemoryRouter* sg = (&hkMemoryRouter::getInstance());
-        FUN_00cb1870(sg->m_heap, (int)key, value);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(sg->m_heap, (int)key, value);
     }
 };
 struct MapB8E150
@@ -919,7 +925,7 @@ struct MapB8E150
     int unk08;
     FUN_00cb18f0_t indices;
     int __thiscall AllocateSlot();
-    __declspec(noinline) void __thiscall FUN_00dc9ec0(void* a, int* b);
+    __declspec(noinline) void __thiscall hkSerializeMultiMap_hkDataClassDict_hkDataClassDict_insert(void* a, int* b);
 };
 // Fixup links store a pointer key and pointer-encoded index; they do not use Pair.h's Ref operations.
 struct FixupLinkPair
@@ -1146,20 +1152,21 @@ struct OwnerE150
     int ub4;
     MapB8E150 mapb8;
     int __thiscall RegisterObject(void* a, void* b);
-    void __thiscall FUN_00dbde40(void* a, void* b, void* c, void* d, void* e);
-    void __thiscall FUN_00dbe150(void* a1, void* a2, void* a3, void* a4, void* a5);
+    void __thiscall hkPackfileWriter_addPendingWrite(void* a, void* b, void* c, void* d, void* e);
+    void __thiscall hkPackfileWriter_addObject(void* a1, void* a2, void* a3, void* a4, void* a5);
 };
 
 // Processes a1 and a2 using map14, may recurse through buffered entries, and logs a message when FUN_00dbd9f0 returns null.
 // @fnv 0x00dbe150
-void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5)
+// src: XBOX_PDB 0x00dbe150
+void __thiscall OwnerE150::hkPackfileWriter_addObject(void* apKey, void* a2, void* a3, void* a4, void* a5)
 {
     FUN_00cb18f0_t* pMap = &map14;
     if (pMap->FindSlot((int)apKey) <= pMap->unk08)
     {
         return;
     }
-    void* result = (void*)FUN_00dbd9f0((DbFirst*)a2, (DbSecond*)a3, (unsigned int)apKey);
+    void* result = (void*)getExactClass((DbFirst*)a2, (DbSecond*)a3, (unsigned int)apKey);
     if (result)
     {
         void* pResolvedKey = apKey;
@@ -1187,10 +1194,10 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                 pMap->insert(pResolvedKey, unk0c);
                 map58.insert(pResolvedKey, (int)apKey);
             }
-            FUN_00dbde40(pResolvedKey, pResolvedValue, apKey, a2, a5);
+            hkPackfileWriter_addPendingWrite(pResolvedKey, pResolvedValue, apKey, a2, a5);
             BufObjE150 buf;
             buf.FUN_00dbd870();
-            FUN_00dbdb10(pResolvedKey, pResolvedValue, &buf);
+            chasePointers(pResolvedKey, pResolvedValue, &buf);
             int idx = 0;
             if (buf.m_uiItemCount > 0)
             {
@@ -1212,13 +1219,13 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                                 map9cp->insert(k1, iValue);
                             }
                         }
-                        FUN_00dbe150(k1, k2, a3, a4, a5);
+                        hkPackfileWriter_addObject(k1, k2, a3, a4, a5);
                         if (pResolvedKey != k1)
                         {
                             int tmp = pMap->LookupHashEntry((int)k1, -1);
                             if (tmp != -1)
                             {
-                                mapb8.FUN_00dc9ec0(pResolvedKey, &tmp);
+                                mapb8.hkSerializeMultiMap_hkDataClassDict_hkDataClassDict_insert(pResolvedKey, &tmp);
                             }
                         }
                     }
@@ -1226,7 +1233,7 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
                     iOffset += 0x10;
                 } while (idx < buf.m_uiItemCount);
             }
-            FUN_00dbe150(pResolvedValue, (void*)&DAT_0126cae8, a3, a4, (void*)DAT_011b7aec);
+            hkPackfileWriter_addObject(pResolvedValue, (void*)&DAT_0126cae8, a3, a4, (void*)DAT_011b7aec);
             buf.FUN_00e028e0();
         }
         else
@@ -1261,7 +1268,8 @@ void __thiscall OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a
     }
 }
 
-__declspec(noinline) void __thiscall MapB8E150::FUN_00dc9ec0(void* a, int* b)
+// src: XBOX_PDB 0x00dc9ec0
+__declspec(noinline) void __thiscall MapB8E150::hkSerializeMultiMap_hkDataClassDict_hkDataClassDict_insert(void* a, int* b)
 {
     int oldIndex = indices.LookupHashEntry((int)a, -1);
     int index = AllocateSlot();

@@ -22,7 +22,7 @@ struct FUN_00d74dd0_Class
 };
 struct FUN_00d7ac40_class
 {
-    void FUN_00d7ac40(int);
+    void hkgpConvexHullImpl_reset(int);
 };
 struct FUN_00d75850_class
 {
@@ -750,7 +750,7 @@ struct S_00d7a010_Router
     int unk8;
     int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
+    static S_00d7a010_Router& hkMemoryRouter_getInstance() throw();
     S_00d7a010_Alloc& heap() throw()
     {
         return *m_pStreamAllocator;
@@ -832,7 +832,7 @@ struct S_00d7c340_Router
         return unk10;
     }
 };
-S_00d7c340_Router* FUN_00c85750();
+S_00d7c340_Router* hkMemoryRouter_getInstance();
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 struct S_00d7c340_Elem
 {
@@ -1599,7 +1599,7 @@ struct D76250MemoryRouter
     }
 };
 namespace fnvc_adapt {
-extern "C" D76250MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D76250MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 typedef hkArray<hkVector4> D76250VectorArray;
@@ -1641,7 +1641,7 @@ struct D78ea0Arr
     {}
     void clear()
     {
-        D76250Allocator& allocator = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& allocator = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
             allocator.ReturnMemory(m_data, (m_pRayCursor & 0x3fffffff) * 16);
@@ -1709,7 +1709,7 @@ struct FUN_00d76ca0
     FUN_00d76ca0() throw();
     static void* operator new(unsigned int bytes)
     {
-        FUN_00d76ca0* p = (FUN_00d76ca0*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(bytes);
+        FUN_00d76ca0* p = (FUN_00d76ca0*)fnvc_adapt::hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(bytes);
         p->m_iElementCount = (unsigned short)bytes;
         return p;
     }
@@ -1762,7 +1762,7 @@ void* __cdecl hkgpConvexHull_createCompound(int first, ArgPair* apPairs, int cou
             listener = firstChild->v04();
         }
 
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         if ((arr.m_pRayCursor & 0x3fffffff) < sum)
         {
             int cap = arr.m_pRayCursor & 0x3fffffff;

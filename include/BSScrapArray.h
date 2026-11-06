@@ -41,13 +41,13 @@ public:
         unsigned int uiGrowSize;
     };
 
-    void FUN_00822860(unsigned int size, bool freeBuffer);
-    void FUN_006b3eb0(unsigned int size, bool freeBuffer);
+    void BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(unsigned int size, bool freeBuffer);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int size, bool freeBuffer);
 
     unsigned int Add(T& item);
     unsigned int GetTarget();
     void Clear(bool freeBuffer);
     OffsetData* ReallocateBuffer(OffsetData* items, unsigned int count);
     void* __thiscall AllocateElements(unsigned int a1);
-    void* __thiscall FUN_006cf670(unsigned int size);
+    void* __thiscall BSScrapArray_bool_1024_Allocate(unsigned int size);
 };

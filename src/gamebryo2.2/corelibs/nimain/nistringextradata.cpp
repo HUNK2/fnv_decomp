@@ -139,7 +139,7 @@ void* __fastcall NiStringExtraData_CreateCopy(NiStringExtraData* self, void*, in
     {
         esi = 0;
     }
-    self->FUN_00a7b330(esi, reinterpret_cast<void*>(arg));
+    self->CopyMembers_00a7b330(esi, reinterpret_cast<void*>(arg));
     char* edi = self->m_p;
     if (esi->m_p != edi)
     {
@@ -179,7 +179,7 @@ struct NiStrTable
 };
 
 extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* s);
-extern "C" char* __cdecl FUN_00a7d5e0(const char* key, char* value);
+extern "C" char* __cdecl NiGetViewerString_00a7d5e0(const char* key, char* value);
 
 extern "C" void FUN_00a7b580();
 
@@ -189,5 +189,5 @@ void __fastcall NiStringExtraData_GetViewerStrings(NiStringExtraData* self, void
     reinterpret_cast<void (__thiscall*)(NiExtraData*, NiStream&)>(&FUN_00a7b580)(self, stream);
     reinterpret_cast<NiStrTable&>(stream).Add(NiViewerStrings_NiGetViewerString_Title((char*)DAT_011f4a38));
     char* s = self->m_p;
-    reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d5e0("m_kString", s));
+    reinterpret_cast<NiStrTable&>(stream).Add(NiGetViewerString_00a7d5e0("m_kString", s));
 }

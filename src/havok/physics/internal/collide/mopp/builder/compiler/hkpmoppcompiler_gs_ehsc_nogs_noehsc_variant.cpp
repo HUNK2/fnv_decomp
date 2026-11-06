@@ -66,7 +66,7 @@ public:
     PacketCallLocal_00dd4cb0(float x, float y, float z, float w);
     PacketCallLocal_00dd4cb0(const __m128& vector);
 
-    PacketCallLocal_00dd4cb0* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00dd4cb0* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00dd4cb0* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00dd4cb0* vector);
     PacketCallLocal_00dd4cb0& FUN_00e531a0(int parameter);
@@ -207,7 +207,7 @@ struct Allocator
 void* __cdecl FUN_00c85690(Allocator*, int) throw();
 void __cdecl hkMemoryRouter_easyFree(Allocator*, void*) throw();
 void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int) throw();
-void __cdecl FUN_00cb1260(void*, const void*, int) throw();
+void __cdecl hkString_memCpy(void*, const void*, int) throw();
 template <class T> struct MergeArray
 {
     T* data;
@@ -498,7 +498,7 @@ hkpMoppCode* MoppBuilder::FUN_00dd4cb0(PrimitiveSource* source, void* buffer, in
         {
             unsigned char* dest = bytes.data + offsets.data[i];
             hkpMoppCode* part = chunks->at(i).generator->FUN_00e064f0();
-            FUN_00cb1260(dest, part->m_data.m_data, part->m_data.m_iElementCount);
+            hkString_memCpy(dest, part->m_data.m_data, part->m_data.m_iElementCount);
             delete part;
             chunks->at(i).generator->removeReference();
         }

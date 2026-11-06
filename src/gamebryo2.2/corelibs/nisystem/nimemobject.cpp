@@ -5,7 +5,7 @@
 // @fnv 0x004393c0
 void Flag512Receiver::SetFlag512(bool enabled)
 {
-    FUN_00633ba0(enabled, 0x200);
+    NiAlphaProperty_SetBit(enabled, 0x200);
 }
 
 // Initializes the point's x and y components from the two float arguments.

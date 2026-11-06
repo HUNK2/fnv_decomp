@@ -99,25 +99,26 @@ struct ListNodeCalls
 {
     void FUN_006ecd40(int value);
 };
-int __cdecl FUN_00a01860(const char* name);
+int __cdecl Tile_TextToTrait(const char* name);
 extern "C" bool s_bAllowDetach;
 class FUN_007308e0 : public ListBox<ListItemData*>
 {
   public:
-    bool FUN_007242c0(unsigned int flag);
+    bool ListBox_unsigned_int_GetFlag(unsigned int flag);
     void UpdateScrollPages();
-    void FUN_0071a740();
-    void FUN_00730950();
+    void ListBox_ItemChange_UpdateHighlightBoxPos();
+    void ListBox_ItemChange_RemoveAll();
 };
 // @fnv 0x00730950
-void FUN_007308e0::FUN_00730950()
+// src: XBOX_PDB 0x00730950
+void FUN_007308e0::ListBox_ItemChange_RemoveAll()
 {
     while (this->m_pkNext && this->m_pkNext->GetItem())
     {
         BSSimpleList<ListBoxItem<ListItemData*>*>* next = this->m_pkNext->GetNext();
         if (!s_bAllowDetach)
             delete this->m_pkNext->GetItem()->tile;
-        if (FUN_007242c0(1))
+        if (ListBox_unsigned_int_GetFlag(1))
             delete this->m_pkNext->GetItem()->data;
         delete this->m_pkNext->GetItem();
         ((ListNodeCalls*)this->m_pkNext)->FUN_006ecd40(0);
@@ -128,7 +129,7 @@ void FUN_007308e0::FUN_00730950()
     {
         if (!s_bAllowDetach)
             delete this->m_item->tile;
-        if (FUN_007242c0(1))
+        if (ListBox_unsigned_int_GetFlag(1))
             delete this->m_item->data;
         delete this->m_item;
     }
@@ -136,10 +137,10 @@ void FUN_007308e0::FUN_00730950()
     m_usSelectedIndex = 0;
     m_fFirstListValue = 0.0f;
     if (m_pListTile)
-        m_pListTile->FUN_00a012d0(FUN_00a01860("_num_filtered"), 0.0f, true);
+        m_pListTile->Tile_Set(Tile_TextToTrait("_num_filtered"), 0.0f, true);
     UpdateScrollPages();
     m_pSelectedTile = 0;
-    FUN_0071a740();
+    ListBox_ItemChange_UpdateHighlightBoxPos();
 }
 
 template <> class ListBoxItem<unsigned int>
@@ -150,7 +151,7 @@ template <> class ListBoxItem<unsigned int>
     bool m_bFiltered;
 };
 float FUN_004bd510(float value, float step);
-int FUN_00a01860(const char* name);
+int Tile_TextToTrait(const char* name);
 
 struct LB_00730f40 : BSSimpleList<ListBoxItem<unsigned int>*>
 {
@@ -166,12 +167,13 @@ struct LB_00730f40 : BSSimpleList<ListBoxItem<unsigned int>*>
     const char* pTemplateName;
     unsigned short m_usSelectedIndex;
     bool IsEnabled();
-    Tile* FUN_00730f40(int event);
+    Tile* ListBox_ItemChange_GetHighlightTarget(int event);
 };
 
 // Computes a candidate tile from the event and returns it when it differs from the selected tile.
 // @fnv 0x00730f40
-Tile* LB_00730f40::FUN_00730f40(int event)
+// src: XBOX_PDB 0x00730f40
+Tile* LB_00730f40::ListBox_ItemChange_GetHighlightTarget(int event)
 {
     Tile* selected = 0;
     int delta = 0;
@@ -186,13 +188,13 @@ Tile* LB_00730f40::FUN_00730f40(int event)
     case 15:
         delta = m_pListTile
                     ? (int)FUN_004bd510(
-                          -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
+                          -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(Tile_TextToTrait("_scroll_delta")), 1.0f)
                     : 0;
         break;
     case 16:
         delta = m_pListTile
                     ? (int)FUN_004bd510(
-                          m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
+                          m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(Tile_TextToTrait("_scroll_delta")), 1.0f)
                     : 0;
         break;
     }
@@ -348,7 +350,7 @@ struct ClearNode
 };
 extern unsigned char DAT_011d8909;
 extern const char str_0106f8d0[];
-int __cdecl FUN_00a01860(const char*);
+int __cdecl Tile_TextToTrait(const char*);
 void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct Target007a4780
 {
@@ -361,8 +363,8 @@ struct Target007a4780
     const char* unk18;
     unsigned short unk1c;
     float unk20;
-    bool FUN_007242c0(unsigned int);
-    void FUN_007a7d80();
+    bool ListBox_unsigned_int_GetFlag(unsigned int);
+    void ListBox_BGSQuestObjective_SetTotalListHeight();
     void UpdateSelectionState();
     void FUN_007a4780();
 };
@@ -375,7 +377,7 @@ void Target007a4780::FUN_007a4780()
         ClearNode* next = unk08->FUN_00726070();
         if (!DAT_011d8909)
             delete unk08->FUN_006815c0()->unk00;
-        if (FUN_007242c0(1))
+        if (ListBox_unsigned_int_GetFlag(1))
             delete unk08->FUN_006815c0()->unk04;
         delete unk08->FUN_006815c0();
         unk08->FUN_006ecd40(0);
@@ -386,7 +388,7 @@ void Target007a4780::FUN_007a4780()
     {
         if (!DAT_011d8909)
             delete unk04->unk00;
-        if (FUN_007242c0(1))
+        if (ListBox_unsigned_int_GetFlag(1))
             delete unk04->unk04;
         delete unk04;
     }
@@ -394,8 +396,8 @@ void Target007a4780::FUN_007a4780()
     unk1c = 0;
     unk20 = 0.0f;
     if (unk0c)
-        unk0c->FUN_00a012d0(FUN_00a01860(str_0106f8d0), 0.0f, true);
-    FUN_007a7d80();
+        unk0c->Tile_Set(Tile_TextToTrait(str_0106f8d0), 0.0f, true);
+    ListBox_BGSQuestObjective_SetTotalListHeight();
     unk10 = 0;
     UpdateSelectionState();
 }
@@ -434,13 +436,13 @@ Tile* LB_007a4d50::FUN_007a4d50(int event)
     case 15:
         iDelta = m_pListTile
                      ? (int)FUN_004bd510(
-                           -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
+                           -m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(Tile_TextToTrait("_scroll_delta")), 1.0f)
                      : 0;
         break;
     case 16:
         iDelta = m_pListTile
                      ? (int)FUN_004bd510(
-                           m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(FUN_00a01860("_scroll_delta")), 1.0f)
+                           m_pListTile->GetFloat(0xfb0) / m_pListTile->GetFloat(Tile_TextToTrait("_scroll_delta")), 1.0f)
                      : 0;
         break;
     }
@@ -547,14 +549,14 @@ Tile* SomeClass::FUN_007a31e0(int param)
     case 15:
         delta = m_pListTile
                     ? (int)FUN_004bd510(-((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(4016) /
-                                            ((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(FUN_00a01860("_scroll_delta")),
+                                            ((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(Tile_TextToTrait("_scroll_delta")),
                                         1.0f)
                     : 0;
         break;
     case 16:
         delta = m_pListTile
                     ? (int)FUN_004bd510(((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(4016) /
-                                            ((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(FUN_00a01860("_scroll_delta")),
+                                            ((TileListBoxCalls_listbox*)m_pListTile)->GetFloat(Tile_TextToTrait("_scroll_delta")),
                                         1.0f)
                     : 0;
         break;

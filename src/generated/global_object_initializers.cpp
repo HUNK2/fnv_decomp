@@ -9638,13 +9638,14 @@ GlobalObject_00a7b610 g_012043dc(g_012043dc_arg0, g_012043dc_arg1);
 // @fnv 0x00fbc9a0
 GlobalObject_00a7b610 g_012043e4(g_012043e4_arg0, g_012043e4_arg1);
 
-extern void __cdecl FUN_00632e30();
+extern void __cdecl SettingT_BlendSettingCollection_InitCollection();
 extern int DAT_011cc694;
 
 // @fnv 0x00632e20
-int __cdecl FUN_00632e20()
+// src: XBOX_PDB 0x00632e20
+int __cdecl SettingT_BlendSettingCollection_QCollection()
 {
-    FUN_00632e30();
+    SettingT_BlendSettingCollection_InitCollection();
     return DAT_011cc694;
 }
 
@@ -9708,7 +9709,7 @@ void* __thiscall FUN_00869b10_shell::NiTObjectArray_BipedAnim_NiTObjectArray(voi
 struct AX
 {
     void* m_vft;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 extern void* DAT_0106ba6c;
 
@@ -9723,7 +9724,7 @@ struct FUN_00869f00_shell
 void* FUN_00869f00_shell::BSSimpleArray_NavMesh_1024_BSSimpleArray_NavMesh_1024_00869f00(unsigned int a, unsigned int b)
 {
     this->m_vft = &DAT_0106ba6c;
-    ((AX*)this)->FUN_006b3eb0(a, b);
+    ((AX*)this)->BSSimpleArray_float_1024_InitialSetup(a, b);
     return this;
 }
 
@@ -9987,7 +9988,7 @@ class FUN_00632ee0 : public NamedBase
 // @fnv 0x00632ee0
 FUN_00632ee0::FUN_00632ee0(const char* name, float value) : NamedBase(name, value)
 {
-    ((ObjectRegistry*)FUN_00632e20())->Register(this);
+    ((ObjectRegistry*)SettingT_BlendSettingCollection_QCollection())->Register(this);
 }
 }  // namespace fnv_00632ee0
 

@@ -93,8 +93,8 @@ struct GlobalDispatch
     virtual int Dispatch(int, int, int, int, int);
 };
 extern GlobalDispatch* DAT_01269b74;
-int __cdecl FUN_00d484a0(int a1, int a2, int a3, int a4, int useLocal, int a6);
-extern void* FUN_00d48d30(void* obj_b, int a2, int a3);
+int __cdecl hkSerializeUtil_savePackfile(int a1, int a2, int a3, int a4, int useLocal, int a6);
+extern void* hkSerializeUtil_load(void* obj_b, int a2, int a3);
 struct CtorBox
 {
     CtorBox* InitFromValue(void* arg);
@@ -104,7 +104,7 @@ struct CtorBox
     int f4;
     void* b;
 };
-void* __cdecl FUN_00d48ec0(void* a1, int a2, int a3);
+void* __cdecl hkSerializeUtil_load_00d48ec0(void* a1, int a2, int a3);
 struct S_00d49310_Lock
 {
     int unk0;
@@ -118,8 +118,8 @@ struct S_00d49310_Result
     S_00d49310_Result(int v) : m_uiFilterValue(v)
     {}
 };
-void FUN_00d48af0(void* stream, int* out) throw();
-S_00d49310_Result FUN_00d49310(void* stream);
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
+S_00d49310_Result hkSerializeUtil_detectFormat_00d49310(void* stream);
 int hkString_strCmp(const char* a, const char* b);
 static inline int S_00d49350_Compare(const char* a, const char* b)
 {
@@ -177,13 +177,13 @@ struct GlobalObj
 };
 struct Obj5
 {
-    void* FUN_00dba680();
+    void* hkDataClass_getName();
     void FUN_00dba660();
 };
 struct Obj2
 {
     void GetObjectValue(Obj5* apOut);
-    int FUN_00dba980();
+    int hkDataObject_isNull();
     void FUN_00dba660();
     void GetSourcePair(Pair* apOut);
 };
@@ -232,7 +232,7 @@ struct Pending_cls
 };
 struct Owner_cls
 {
-    int FUN_00dba0d0(int a, int b);
+    int hkVersionPatchManager_applyPatches(int a, int b);
 };
 static int FUN_00d48a90(int a1, int esi_in, int edi_in, int ebx_in);
 int __cdecl S00d48a90_Entry(int a1);
@@ -296,8 +296,8 @@ extern const char str_010cfacc[];
 extern const char str_010cfab8[];
 extern const char str_010cfa94[];
 int S00d48d30_Finish(int opts);
-void FUN_00d48af0(void* stream, int* out) throw();
-int __cdecl FUN_00dc3300(const S00d48d30_Ref& r, int opts);
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw();
+int __cdecl hkDataObjectUtil_toResourceWithRegistry(const S00d48d30_Ref& r, int opts);
 static __declspec(noinline) int FUN_00d48a90(S00d48d30_Stream* s, S00d48d30_Reader* reader, S00d48d30_Result* out)
 {
     reader->prepare();
@@ -334,7 +334,7 @@ static __declspec(noinline) int FUN_00d48760(S00d48d30_Stream* s, S00d48d30_Form
     }
     return S00d48d30_Finish(opts);
 }
-int __cdecl FUN_00d48d30(S00d48d30_Stream* s, S00d48d30_Result* out, int opts) throw();
+int __cdecl hkSerializeUtil_load(S00d48d30_Stream* s, S00d48d30_Result* out, int opts) throw();
 struct S00d48680_Arr
 {
     char* m_data;
@@ -356,7 +356,7 @@ struct S00d48680_Sys
         return *heap;
     }
 };
-extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
+extern "C" S00d48680_Sys* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(S00d48680_Alloc* h, S00d48680_Arr* a, int cap, int flag);
 struct S00d48680_Obj
 {
@@ -424,7 +424,7 @@ struct TempAllocator
 {
     HeapApi& get(void*)
     {
-        return reinterpret_cast<HeapView*>(FUN_00c85750())->temp();
+        return reinterpret_cast<HeapView*>(hkMemoryRouter_getInstance())->temp();
     }
 };
 struct CharArrayBase
@@ -483,12 +483,12 @@ inline const char* stringText(const hkStringPtr& s)
 {
     return reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(s.m_pcText) & ~1u);
 }
-void __cdecl FUN_00cb1280(void*, int, int);
+void __cdecl hkString_memSet(void*, int, int);
 struct PackHeader
 {
     PackHeader()
     {
-        FUN_00cb1280(this, -1, sizeof(*this));
+        hkString_memSet(this, -1, sizeof(*this));
         magic[0] = 0x57e0e057;
         magic[1] = 0x10c0c010;
         version[0] = 0;
@@ -518,10 +518,10 @@ struct SmallBool
         return value != 0;
     }
 };
-void __cdecl FUN_00d2cab0(void*, int, int);
-void __cdecl FUN_00d2caa0(void*, const void*, int);
+void __cdecl hkMemUtil_memSet(void*, int, int);
+void __cdecl hkMemUtil_memCpy_00d2caa0(void*, const void*, int);
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-void __cdecl FUN_00cb1280(void*, int, int);
+void __cdecl hkString_memSet(void*, int, int);
 inline unsigned int reverseWord(unsigned int word)
 {
     union WordBytes
@@ -540,9 +540,9 @@ inline SmallBool __cdecl CheckMagicPair(unsigned int a, unsigned int b)
 {
     return ((a == 0xcab00d1e && b == 0xd011face) || (reverseWord(a) == 0xcab00d1e && reverseWord(b) == 0xd011face));
 }
-const char* __cdecl FUN_00cb1130(const char*, const char*);
+const char* __cdecl hkString_strStr(const char*, const char*);
 int __cdecl hkString_strLen(const char*);
-const char* __cdecl FUN_00cb1140(const char*, int);
+const char* __cdecl hkString_strChr(const char*, int);
 int __cdecl CallWithZeroMiddleArg(const char*, int);
 
 static __declspec(noinline) const char* FUN_00d48420(const char* p)
@@ -553,7 +553,7 @@ static __declspec(noinline) const char* FUN_00d48420(const char* p)
 }
 static __declspec(noinline) int ParseQuotedValue(const char* text, const char* key, hkStringPtr& out)
 {
-    const char* first = FUN_00cb1130(text, key);
+    const char* first = hkString_strStr(text, key);
     if (!first)
         return 0;
     first += hkString_strLen(key);
@@ -565,7 +565,7 @@ static __declspec(noinline) int ParseQuotedValue(const char* text, const char* k
     if (*first != '"')
         return 0;
     ++first;
-    const char* last = FUN_00cb1140(first, '"');
+    const char* last = hkString_strChr(first, '"');
     if (!last)
         return 0;
     typedef void (__thiscall* CopySubstring)(hkStringPtr*, const char*, int);
@@ -577,7 +577,7 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
 {
     out.type = 0;
     out.version = 0;
-    FUN_00d2cab0(&out.layout, 0, 4);
+    hkMemUtil_memSet(&out.layout, 0, 4);
     char bytes[128];
     FUN_00ec61c0(bytes, 0, 128);
     reader->mark(128);
@@ -595,13 +595,13 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
     {
         out.type = 2;
         out.version = binary->version;
-        FUN_00d2caa0(&out.layout, binary->layout, 4);
+        hkMemUtil_memCpy_00d2caa0(&out.layout, binary->layout, 4);
     }
-    else if (FUN_00cb1130(bytes, "<hkpackfile ") || FUN_00cb1130(bytes, "<hkpackfile>"))
+    else if (hkString_strStr(bytes, "<hkpackfile ") || hkString_strStr(bytes, "<hkpackfile>"))
     {
         out.type = 3;
         BufferedText header;
-        header.FUN_00d61a50(FUN_00cb1130(bytes, "<hkpackfile"));
+        header.FUN_00d61a50(hkString_strStr(bytes, "<hkpackfile"));
         hkStringPtr version;
         if (ParseQuotedValue(header.cString(), "classversion", version))
         {
@@ -630,7 +630,8 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
     }
 }
 // @fnv 0x00d48af0
-void FUN_00d48af0(void* stream, int* out) throw()
+// src: XBOX_PDB 0x00d48af0
+void hkSerializeUtil_detectFormat(void* stream, int* out) throw()
 {
     detect(static_cast<VersionedDataBlock*>(stream), *reinterpret_cast<FormatInfo*>(out));
 }

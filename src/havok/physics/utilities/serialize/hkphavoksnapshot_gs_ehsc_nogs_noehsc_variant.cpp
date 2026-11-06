@@ -21,7 +21,7 @@ struct State
     int unk0c;
     CallbackInterface* interface10;
 };
-State* __cdecl FUN_00c85750();
+State* __cdecl hkMemoryRouter_getInstance();
 struct Object
 {
     void* unk00;
@@ -151,7 +151,7 @@ struct FUN_00cc08f0_cls
     unsigned int unk04;
     PtrList m_08;
 
-    void FUN_00cc08f0(void** a1, void** a2);
+    void hkpHavokSnapshot_ConvertListener_addObjectCallback(void** a1, void** a2);
 };
 
 #include <windows.h>
@@ -174,11 +174,11 @@ struct DirRouter
     DirAllocator* temporary;
 };
 namespace DirectoryMemory {
-DirRouter& __cdecl FUN_00c85750();
+DirRouter& __cdecl hkMemoryRouter_getInstance();
 }
 __forceinline DirAllocator& tempAllocator()
 {
-    return *DirectoryMemory::FUN_00c85750().temporary;
+    return *DirectoryMemory::hkMemoryRouter_getInstance().temporary;
 }
 void __cdecl reserveDirectoryBuffer(DirAllocator&, void*, int, int);
 
@@ -224,7 +224,7 @@ template <class T> struct DirTempArray : DirArrayBase<T>
     {}
     __forceinline ~DirTempArray()
     {
-        DirRouter* router = &DirectoryMemory::FUN_00c85750();
+        DirRouter* router = &DirectoryMemory::hkMemoryRouter_getInstance();
         DirAllocator* allocator = router->temporary;
         this->count = 0;
         if ((this->capacityFlags & 0x80000000) == 0)

@@ -27,12 +27,12 @@ struct S_00d3ef70_Dispatcher {
     void registerCollisionAgent(S_00d3ef70_AgentFuncs& f, int typeA, int typeB);
 };
 
-S_00d3ef70_Agent* FUN_00d3e2f0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
+S_00d3ef70_Agent* hkpSphereCapsuleAgent_createCapsuleSphereAgent(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
 void FUN_00d3f040(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3f4c0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ac80(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
 S_00d3ef70_Agent* FUN_00d3e270(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, void*);
-void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
+void hkpSphereCapsuleAgent_staticGetPenetrations(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00d3ebe0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 void FUN_00daf8e0(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&, S_00d3ef70_Collector*);
 
@@ -43,7 +43,7 @@ void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher)
 {
     {
         S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = FUN_00d3e2f0;
+        agentFuncs.m_pCreateFunc = hkpSphereCapsuleAgent_createCapsuleSphereAgent;
         agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3f040;
         agentFuncs.m_getClosestPointsFunc = FUN_00d3f4c0;
         agentFuncs.m_pLinearCastFunc = FUN_00d3ac80;
@@ -54,7 +54,7 @@ void hkpSphereCapsuleAgent_registerAgent(S_00d3ef70_Dispatcher* dispatcher)
     {
         S_00d3ef70_AgentFuncs agentFuncs;
         agentFuncs.m_pCreateFunc = FUN_00d3e270;
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3e330;
+        agentFuncs.m_pQueryPenetrationsFunc = hkpSphereCapsuleAgent_staticGetPenetrations;
         agentFuncs.m_getClosestPointsFunc = FUN_00d3ebe0;
         agentFuncs.m_pLinearCastFunc = FUN_00daf8e0;
         agentFuncs.m_bIsFlipped = false;
@@ -116,11 +116,12 @@ struct SmallRecord {
 
 extern char DAT_010cf018[];
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // @fnv 0x00d3e2f0
-void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue) {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+// src: XBOX_PDB 0x00d3e2f0
+void __cdecl hkpSphereCapsuleAgent_createCapsuleSphereAgent(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue) {
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     ObjAllocator* allocator = (ObjAllocator*)pAllocHolder->m_heap;
     SmallRecord* pRecord = (SmallRecord*)allocator->Alloc(0x10);
     pRecord->m_w04 = 0x10;
@@ -130,13 +131,13 @@ void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiVal
     pRecord->m_vptr = DAT_010cf018;
 }
 
-void __cdecl FUN_00d3e330(int a, int b, int c, int d);
+void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(int a, int b, int c, int d);
 
 // @fnv 0x00d3e510
 // src: HAVOK_SRC 0x00d3e510
 void __stdcall hkpSphereCapsuleAgent_getPenetrations(int a, int b, int c, int d)
 {
-    FUN_00d3e330(a, b, c, d);
+    hkpSphereCapsuleAgent_staticGetPenetrations(a, b, c, d);
 }
 
 extern char DAT_010ce81c;
@@ -147,7 +148,7 @@ struct FUN_00d3f040_tmp {
     unsigned int value;
 };
 
-void __cdecl FUN_00d3e330(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
+void __cdecl hkpSphereCapsuleAgent_staticGetPenetrations(unsigned int a, unsigned int b, unsigned int c, FUN_00d3f040_tmp* p);
 
 // Builds a FUN_00d3f040_tmp with value a3, flag 0 and str pointing at DAT_010ce81c, then calls FUN_00d3e330(a1, a0, a2, &t).
 // @fnv 0x00d3f040
@@ -157,7 +158,7 @@ void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, uns
     t.value = uiValue;
     t.flag = 0;
     t.str = &DAT_010ce81c;
-    FUN_00d3e330(a1, a0, a2, &t);
+    hkpSphereCapsuleAgent_staticGetPenetrations(a1, a0, a2, &t);
 }
 
 extern char DAT_010ce81c;
@@ -168,11 +169,12 @@ struct AgentDispatchDescriptor {
 };
 struct CollisionDispatcher {
     void hkpSphereCapsuleAgent_getPenetrations(void* bodyB, void* bodyA, void* input, AgentDispatchDescriptor* descriptor);
-    void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
+    void hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getPenetrations(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
 // Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls FUN_00d3e510 with the bodies swapped.
 // @fnv 0x00d3f000
-void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag)
+// src: XBOX_PDB 0x00d3f000
+void CollisionDispatcher::hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getPenetrations(void* bodyA, void* bodyB, void* volatile input, unsigned int tag)
 {
     AgentDispatchDescriptor descriptor;
     descriptor.tag = tag;
@@ -290,7 +292,8 @@ struct Group2 {
 };
 
 // @fnv 0x00d3e330
-void FUN_00d3e330(const S_00d3ef70_CdBody& bodyA, const S_00d3ef70_CdBody& bodyB, const S_00d3ef70_Input& input, S_00d3ef70_Collector& collector)
+// src: XBOX_PDB 0x00d3e330
+void hkpSphereCapsuleAgent_staticGetPenetrations(const S_00d3ef70_CdBody& bodyA, const S_00d3ef70_CdBody& bodyB, const S_00d3ef70_Input& input, S_00d3ef70_Collector& collector)
 {
     {
         SphCap_Mon* mon = (SphCap_Mon*)TlsGetValue(DAT_0126835c);

@@ -12,7 +12,7 @@
 
 struct FUN_00d65970_stub
 {
-    void FUN_00d65970(int);
+    void hkpShapeDisplayViewer_addWorld(int);
 };
 struct FUN_00d65f70_class
 {
@@ -33,7 +33,7 @@ void FUN_00d65f70_class::FUN_00d65f70()
     if (m_1c)
     {
         for (int i = 0; i < *(int*)(m_1c + 0x70); ++i)
-            ((FUN_00d65970_stub*)((char*)this - 8))->FUN_00d65970(*(*(int**)(m_1c + 0x6c) + i));
+            ((FUN_00d65970_stub*)((char*)this - 8))->hkpShapeDisplayViewer_addWorld(*(*(int**)(m_1c + 0x6c) + i));
     }
 }
 
@@ -177,7 +177,7 @@ struct Allocator
     virtual void reserved();
     virtual void* allocate(unsigned int);
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d657d0_class
 {
     FUN_00d657d0_class* hkpShapeDisplayViewer_hkpShapeDisplayViewer(int);
@@ -187,7 +187,7 @@ struct FUN_00d657d0_class
 // src: HAVOK_LIB 0x00d65910
 void* __cdecl hkpShapeDisplayViewer_create(void* context)
 {
-    hkMemoryRouter* audio = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* audio = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     FUN_00d657d0_class* result = (FUN_00d657d0_class*)audio->m_heap->blockAlloc(0x74);
     *(unsigned short*)((char*)result + 4) = 0x74;
     result = result->hkpShapeDisplayViewer_hkpShapeDisplayViewer((int)context);
@@ -212,7 +212,7 @@ void RegisterShapesProcess()
 
 struct Target
 {
-    void FUN_00d65970();
+    void hkpShapeDisplayViewer_addWorld();
 };
 struct Adjustor
 {
@@ -221,7 +221,7 @@ struct Adjustor
 // @fnv 0x00d65fb0
 void Adjustor::FUN_00d65fb0()
 {
-    ((Target*)((char*)this - 0x20))->FUN_00d65970();
+    ((Target*)((char*)this - 0x20))->hkpShapeDisplayViewer_addWorld();
 }
 
 extern int g_D661D0Value;
@@ -297,7 +297,7 @@ struct FUN_00d66080_cls
     SpawnedBuf m_buf48;
     SpawnedBuf m_buf54;
 
-    void FUN_00d65fc0(int aiIndex);
+    void hkpShapeDisplayViewer_removeWorld(int aiIndex);
     void FUN_00ddcc60();
     void Destroy();
 };
@@ -313,29 +313,29 @@ void FUN_00d66080_cls::Destroy()
 
     for (int i = m_iArrayLength - 1; i >= 0; --i)
     {
-        FUN_00d65fc0(i);
+        hkpShapeDisplayViewer_removeWorld(i);
     }
 
     {
         SpawnedBuf* pBuf = &m_buf54;
-        hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
         pBuf->FUN_00a29680();
     }
     {
         SpawnedBuf* pBuf = &m_buf48;
-        hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
         pBuf->FUN_00a29680();
     }
     {
         SpawnedBuf* pBuf = &m_buf3c;
-        hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         pBuf->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap));
         pBuf->FUN_00a29680();
     }
 
-    hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uiFlags = m_uiObjectFlags;
     m_iArrayLength = 0;
@@ -359,7 +359,7 @@ void FUN_00d66080_cls::Destroy()
 struct OwnerObject
 {
     int FindItemIndex(int);
-    void FUN_00d65fc0(int);
+    void hkpShapeDisplayViewer_removeWorld(int);
 };
 
 struct FUN_00d66160_cls
@@ -383,7 +383,7 @@ void FUN_00d66160_cls::FUN_00d66160(int arg)
     int result = pOwner->FindItemIndex(arg);
     if (result >= 0)
     {
-        pOwner->FUN_00d65fc0(result);
+        pOwner->hkpShapeDisplayViewer_removeWorld(result);
     }
 }
 
@@ -513,7 +513,7 @@ struct PendingNode
     }
     void* operator new(unsigned int size) throw()
     {
-        hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
         return alloc->allocate(size);
     }
@@ -573,7 +573,7 @@ void FUN_00d64650_cls::hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* apOwn
     node->m_pSharedOwner = apOwner;
 
     SpawnList* list = &m_30;
-    hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffffu))
     {
         ResizeAudioStream(holder->m_heap, list, 4);
@@ -732,7 +732,7 @@ extern float DAT_01012054;
 extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 int __cdecl hkString_strCmp(const char* name, void* obj);
 
 struct FUN_00d657d0_cls
@@ -792,7 +792,7 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(
     pShapeSub1->m_04 = 0;
     pShapeSub1->m_08 = -1;
     {
-        void* h1 = FUN_00c85750();
+        void* h1 = hkMemoryRouter_getInstance();
         int val1 = ((int*)h1)[4];
         pShapeSub1->EnsureCapacity(val1, 0);
     }
@@ -801,7 +801,7 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(
     pShapeSub2->m_04 = 0;
     pShapeSub2->m_08 = -1;
     {
-        void* h2 = FUN_00c85750();
+        void* h2 = hkMemoryRouter_getInstance();
         int val2 = ((int*)h2)[4];
         pShapeSub2->EnsureCapacity(val2, 0);
     }
@@ -810,7 +810,7 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(
     pShapeSub3->m_04 = 0;
     pShapeSub3->m_08 = -1;
     {
-        void* h3 = FUN_00c85750();
+        void* h3 = hkMemoryRouter_getInstance();
         int val3 = ((int*)h3)[4];
         pShapeSub3->EnsureCapacity(val3, 0);
     }
@@ -908,12 +908,13 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 {
     hkArray<Node_d65f*> m_kNodeCollection;
     void hkpShapeDisplayViewer_removeAllGeometries(int index);
-    void FUN_00d65fc0(int index);
+    void hkpShapeDisplayViewer_removeWorld(int index);
 };
 
 // Calls FUN_00c917a0 and ClearValue on the node's collision agent with this, calls FUN_00d65750, then deletes the node and removes it from m_kNodeCollection.
 // @fnv 0x00d65fc0
-void Phantom_d65f::FUN_00d65fc0(int index)
+// src: XBOX_PDB 0x00d65fc0
+void Phantom_d65f::hkpShapeDisplayViewer_removeWorld(int index)
 {
     m_kNodeCollection[index]->m_pCollisionAgent->hkpWorld_removeEntityListener(this);
     m_kNodeCollection[index]->m_pCollisionAgent->ClearValue(this);
@@ -1354,7 +1355,7 @@ struct Node
     int unk24;
     Group** m_28;
     int m_2c;
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
 };
 
 class S00d653f0_Obj
@@ -1395,7 +1396,7 @@ class S00d653f0_Obj
 // src: HAVOK_LIB 0x00d653f0
 void S00d653f0_Obj::hkpShapeDisplayViewer_synchronizeTransforms_00d653f0(Visitor* apVisitor, Node* apNode)
 {
-    float f = (m_68 > 0.0f) ? m_68 : apNode->FUN_00c91020();
+    float f = (m_68 > 0.0f) ? m_68 : apNode->hkpWorld_getCurrentTime();
     apVisitor->v18();
     int i = 0;
     if (apNode->m_2c > 0)
@@ -1458,7 +1459,7 @@ struct Singleton
 };
 
 extern void* g_01268fe0;
-Singleton* __cdecl FUN_00c85750();
+Singleton* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(void* a, ArrayStruct* arr, int sz, int elem);
 
 struct Shell
@@ -1491,7 +1492,7 @@ void Shell::hkpShapeDisplayViewer_removeAllGeometries(int index)
         m_pListener->FUN_v5(entry->m_aiIndexedValues.m_pData[i], g_01268fe0, *(int*)nItem);
     }
     ArrayStruct* arr = &entry->m_aiIndexedValues;
-    Singleton* holder = FUN_00c85750();
+    Singleton* holder = hkMemoryRouter_getInstance();
     void* pContext = holder->m_10;
     int iCapacity = arr->m_iCapacity & 0x3fffffff;
     if (iCapacity < 0)
@@ -1517,14 +1518,14 @@ struct AudioVoiceHost
 // The channel that owns a playback buffer.
 struct AudioChannel
 {
-    void FUN_00cb1fb0(int iResult);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int iResult);
 };
 // The playback buffer itself.
 struct AudioBuffer
 {
     int LookupHashEntry(int iResult, int iUnused);
-    void FUN_00cb1870(hkMemoryAllocator* pAlloc, int iResult, int iCount);
-    void FUN_00cb1fb0(int iResult);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator* pAlloc, int iResult, int iCount);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int iResult);
 };
 // One list of played items.
 struct AudioItemList
@@ -1659,13 +1660,13 @@ void AudioNodeSub::hkpShapeDisplayViewer_entityRemovedCallback(AudioParam* pPara
         iCount = iCount - 1;
         if (iCount == 0)
         {
-            self->m_channel.FUN_00cb1fb0(iResult);
-            self->m_buffer.FUN_00cb1fb0(iResult);
+            self->m_channel.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(iResult);
+            self->m_buffer.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(iResult);
         }
         else
         {
-            hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
-            self->m_buffer.FUN_00cb1870(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap), iResult, iCount);
+            hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
+            self->m_buffer.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap), iResult, iCount);
         }
     }
 
@@ -1773,12 +1774,13 @@ struct S_00d65970_B2c
 struct S_00d65970_Obj : S_00d65970_Base0, S_00d65970_B28, S_00d65970_B2c
 {
     hkArray<S_00d65970_Node*> nodes;
-    void FUN_00d65970(S_00d65970_Arg* arg);
+    void hkpShapeDisplayViewer_addWorld(S_00d65970_Arg* arg);
 };
 
 // Creates a node from arg, appends it to the nodes array, and calls vfn1 on all items in arg's element arrays.
 // @fnv 0x00d65970
-void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
+// src: XBOX_PDB 0x00d65970
+void S_00d65970_Obj::hkpShapeDisplayViewer_addWorld(S_00d65970_Arg* arg)
 {
     arg->hkpWorld_addEntityListener(this);
     arg->hkpWorld_addWorldPostSimulationListener(this);

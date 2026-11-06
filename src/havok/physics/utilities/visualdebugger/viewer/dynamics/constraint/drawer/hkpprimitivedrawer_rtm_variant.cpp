@@ -52,7 +52,7 @@ struct ArrowDrawVector
 struct ArrowDrawQuaternion
 {
     float x, y, z, w;
-    void FUN_00cb2450(int axis, float angle);
+    void hkQuaternion_setAxisAngle(int axis, float angle);
 };
 
 struct ArrowDrawTarget
@@ -108,8 +108,8 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const Arro
     p1.m = ArrowDrawMath::_mm_add_ps(ArrowDrawMath::_mm_mul_ps(Hk_e10d50_splat(a4), ((const ArrowDrawVector*)a1)->m),
                                      a0->m);
     ((ArrowDrawTarget*)value)->edge(a0, &p1, a3, a5, a6);
-    q1.FUN_00cb2450((int)a2, DAT_01064f60);
-    q2.FUN_00cb2450((int)a2, DAT_01016b78);
+    q1.hkQuaternion_setAxisAngle((int)a2, DAT_01064f60);
+    q2.hkQuaternion_setAxisAngle((int)a2, DAT_01016b78);
     double na = -a4;
     ArrowDrawMath::LocalM128 r1 = Hk_e10d50_rot(*(ArrowDrawMath::LocalM128*)&q1, ((const ArrowDrawVector*)a1)->m);
     volatile float s = (float)(na * DAT_010c4ab0);

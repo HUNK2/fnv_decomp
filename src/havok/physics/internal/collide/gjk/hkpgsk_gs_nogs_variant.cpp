@@ -48,7 +48,7 @@ struct __declspec(align(16)) SegmentClosestResult
     GskVectorPacketLocal_00da98f0 pointA, pointB;
     float distanceSquared;
 };
-extern void __cdecl FUN_00d22e40(const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, SegmentClosestResult*);
+extern void __cdecl hkLineSegmentUtil_closestLineSegLineSeg(const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, SegmentClosestResult*);
 extern const signed char DAT_010cb440[];
 extern const float DAT_0104da48;
 struct Simplex
@@ -60,10 +60,11 @@ struct Simplex
     GskVectorPacketLocal_00da98f0 verticesB[4];
     GskVectorPacketLocal_00da98f0 supportB[4];
     int FUN_00da8500(const GskVectorPacketLocal_00da98f0*, const GskVectorPacketLocal_00da98f0*, int);
-    void FUN_00da98f0();
+    void hkpGsk_reduceDimensionExtended();
 };
 // @fnv 0x00da98f0
-void Simplex::FUN_00da98f0()
+// src: XBOX_PDB 0x00da98f0
+void Simplex::hkpGsk_reduceDimensionExtended()
 {
     if (countB == 3)
     {
@@ -100,7 +101,7 @@ void Simplex::FUN_00da98f0()
             GskVectorPacketLocal_00da98f0 directionA = _mm_sub_ps(verticesA[DAT_010cb440[i + 2]].quad, verticesA[i].quad);
             GskVectorPacketLocal_00da98f0 directionB = _mm_sub_ps(verticesB[DAT_010cb440[j + 2]].quad, verticesB[j].quad);
             SegmentClosestResult result;
-            FUN_00d22e40(&verticesA[i], &directionA, &verticesB[j], &directionB, &result);
+            hkLineSegmentUtil_closestLineSegLineSeg(&verticesA[i], &directionA, &verticesB[j], &directionB, &result);
             if (result.distanceSquared < bestDistance)
             {
                 bestDistance = result.distanceSquared;
@@ -214,11 +215,12 @@ struct Collision_workspace
     unsigned int unk174;
     unsigned int unk178;
     unsigned int unk17c;
-    int FUN_00daad40(Collision_vcls*, Collision_vcls*, void*, Collision_vector*);
+    int hkpGsk_getClosestFeature(Collision_vcls*, Collision_vcls*, void*, Collision_vector*);
 };
 
 // @fnv 0x00dabca0
-int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, Collision_vector* out2)
+// src: XBOX_PDB 0x00dabca0
+int hkpGsk_getClosestPoint(Collision_ctx* self, Collision_in* in, Collision_vector* out, Collision_vector* out2)
 {
     Collision_vector normal;
     Collision_workspace scratch;
@@ -239,7 +241,7 @@ int FUN_00dabca0(Collision_ctx* self, Collision_in* in, Collision_vector* out, C
     shapeA->v0f((void*)in, (int)scratch.countA, &scratch.vector20);
     shapeB->v0f((void*)((char*)in + scratch.countA * 2), (int)scratch.countB, &scratch.vectore0);
 
-    scratch.FUN_00daad40(self->m_08, self->m_0c, (void*)self->m_vptr, &normal);
+    scratch.hkpGsk_getClosestFeature(self->m_08, self->m_0c, (void*)self->m_vptr, &normal);
     if (scratch.changed != 0)
     {
         ((ThisClass*)&scratch)->hkpGsk_exitAndExportCacheImpl((Dest*)in);

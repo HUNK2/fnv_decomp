@@ -404,10 +404,10 @@ struct FUN_0044a4c0
 {
     int m[7];
     FUN_0044a4c0(const char* s);
-    void FUN_0044a730(bool b, unsigned int n);
+    void fopen_0044a730(bool b, unsigned int n);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 };
 struct FUN_0044a310
@@ -4441,10 +4441,10 @@ struct FUN_0044a4c0
 {
     int m[7];
     FUN_0044a4c0(const char* s);
-    void FUN_0044a730(bool b, unsigned int n);
+    void fopen_0044a730(bool b, unsigned int n);
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 };
 struct FUN_0044a310
@@ -5103,7 +5103,8 @@ struct string
     {
         CharTraits::assign(_Myptr()[_Mysize = _Newsize], char());
     }
-    void FUN_0044a730(bool _Built = false, unsigned int _Newsize = 0)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool _Built = false, unsigned int _Newsize = 0)
     {
         if (!_Built)
             ;
@@ -5148,7 +5149,7 @@ struct string
         if (_Myres < _Newsize)
             _Copy(_Newsize, _Mysize);
         else if (_Trim && _Newsize < 16)
-            FUN_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
+            fopen_0044a730(true, _Newsize < _Mysize ? _Newsize : _Mysize);
         else if (_Newsize == 0)
             _Eos(0);
         return 0 < _Newsize;
@@ -5171,7 +5172,7 @@ struct string
     }
     string(const string& _Right)
     {
-        FUN_0044a730();
+        fopen_0044a730();
         AssignSubstring(_Right, 0, DAT_010173f0);
     }
 };

@@ -42,7 +42,7 @@ void __fastcall TargetClass::hkMemoryAllocator_bufFree(void* a2)
  * the call site hands it a destination, a source and a byte count, which is
  * consistent with a bounded copy (inference, not verified).
  */
-void FUN_00d2caa0(void* dest, void* src, unsigned int count);
+void hkMemUtil_memCpy_00d2caa0(void* dest, void* src, unsigned int count);
 
 /*
  * Block passed as the unit's third parameter.
@@ -115,7 +115,7 @@ void* CFun00cbf280Owner::hkMemoryAllocator_bufRealloc(void* src, int size, SFun0
     if (size < count)
         count = size;
 
-    FUN_00d2caa0(dest, src, (unsigned int)count);
+    hkMemUtil_memCpy_00d2caa0(dest, src, (unsigned int)count);
 
     this->Commit(src, size);
 

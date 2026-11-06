@@ -27,7 +27,7 @@ struct S00d862a0_Router
 };
 
 namespace S00d862a0_Rt {
-extern "C" S00d862a0_Router& __cdecl FUN_00c85750() throw();
+extern "C" S00d862a0_Router& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 class S00d862a0_Base
@@ -53,7 +53,7 @@ class S00d862a0_Ref : public S00d862a0_Base
 
     static void* operator new(unsigned int nbytes)
     {
-        S00d862a0_Ref* b = static_cast<S00d862a0_Ref*>(S00d862a0_Rt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        S00d862a0_Ref* b = static_cast<S00d862a0_Ref*>(S00d862a0_Rt::hkMemoryRouter_getInstance().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

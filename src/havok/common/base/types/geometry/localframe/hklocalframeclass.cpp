@@ -15,7 +15,7 @@ struct FUN_00da0860_manager
     virtual void v1();
     virtual void FUN_00da0860_release(void*, unsigned short);
 };
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 struct FUN_00da0860_class : FUN_00df67d0_Base
 {
     unsigned short unk04;
@@ -27,7 +27,7 @@ FUN_00da0860_class* FUN_00da0860_class::FUN_00da0860(unsigned int flags)
     FUN_00df67d0_Base::FUN_00df67d0();
     if (flags & 1)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = hkMemoryRouter_getInstance();
         ((FUN_00da0860_manager*)audio->pListener)->FUN_00da0860_release(this, unk04);
     }
     return this;
@@ -95,7 +95,7 @@ void* SomeClass::FUN_00da0800(unsigned int flags)
     this->vptr = (void*)&DAT_0102e388;
     if (flags & 1)
     {
-        BSAudio* a = FUN_00c85750();
+        BSAudio* a = hkMemoryRouter_getInstance();
         unsigned short d = this->unk04;
         ((FUN_00da0860_manager*)a->pListener)->FUN_00da0860_release(this, d);
     }

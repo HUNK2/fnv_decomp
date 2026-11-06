@@ -17,7 +17,7 @@ struct FUN_00dd9580_Service
     int unk0c;
     FUN_00dd9580_Interface* unk10;
 };
-FUN_00dd9580_Service* __cdecl FUN_00c85750();
+FUN_00dd9580_Service* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00dd9580_Class
 {
     void* vtable;
@@ -32,7 +32,7 @@ FUN_00dd9580_Class* FUN_00dd9580_Class::FUN_00dd9580(char flags)
     FUN_00dd94c0();
     if (flags & 1)
     {
-        FUN_00dd9580_Service* service = FUN_00c85750();
+        FUN_00dd9580_Service* service = hkMemoryRouter_getInstance();
         service->unk10->notify(this, unk04);
     }
     return this;
@@ -74,7 +74,7 @@ FUN_00dd9460_cls* FUN_00dd9460_cls::Initialize()
     unk0c = 0;
     unk10 = 0;
     unk14 = 0x80000000u;
-    FUN_00dd9580_Service* svc = FUN_00c85750();
+    FUN_00dd9580_Service* svc = hkMemoryRouter_getInstance();
     FUN_00dd9460_Factory* f = reinterpret_cast<FUN_00dd9460_Factory*>(svc->unk10);
     void* pBuffer = f->CreateBuffer(0x18);
     if (pBuffer != 0)
@@ -109,7 +109,7 @@ struct MyInterface
 // @fnv 0x00dd9550
 MyFactory* CreateFactory()
 {
-    FUN_00dd9580_Service* service = FUN_00c85750();
+    FUN_00dd9580_Service* service = hkMemoryRouter_getInstance();
     MyInterface* iface = (MyInterface*)service->unk10;
     MyFactory* factory = iface->v04(0x1c);
     factory->unk04 = 0x1c;
@@ -127,7 +127,7 @@ struct S_00dd94c0_Heap
 };
 inline S_00dd94c0_Heap& S_00dd94c0_GetHeap()
 {
-    return *(S_00dd94c0_Heap*)FUN_00c85750()->unk10;
+    return *(S_00dd94c0_Heap*)hkMemoryRouter_getInstance()->unk10;
 }
 
 struct S_00dd94c0_Entry
@@ -180,7 +180,7 @@ FUN_00dd94c0::~FUN_00dd94c0() throw()
     if (lock)
     {
         DeleteCriticalSection(lock);
-        FUN_00dd9580_Service* sv = FUN_00c85750();
+        FUN_00dd9580_Service* sv = hkMemoryRouter_getInstance();
         sv->unk10->notify(lock, 0x18);
     }
     m_entries._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(S_00dd94c0_GetHeap()));
@@ -264,7 +264,7 @@ struct S_00dd9380_ArrayLocalForm
     }
     S_00dd9380_Entry& AllocatePair()
     {
-        return _expandOne(((S_00dd9380_Router*)FUN_00c85750())->heap());
+        return _expandOne(((S_00dd9380_Router*)hkMemoryRouter_getInstance())->heap());
     }
 };
 

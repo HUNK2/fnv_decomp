@@ -387,7 +387,7 @@ struct FUN_00a69400
     Plane planes[6];
     unsigned activePlanes;
     FUN_00a69400(void*);
-    void FUN_00a694a0(void*);
+    void NiCullingProcess_SetFrustum(void*);
 };
 extern "C" void* DAT_0101e2ec;
 struct CleanupRef
@@ -595,7 +595,7 @@ struct Camera
     void* sceneData;
     Ptr<Scene> scene;
     void BSCubeMapCamera_SetupTransformation(int);
-    void FUN_00a59c60(UpdateData&);
+    void NiAVObject_Update(UpdateData&);
     void CullScene(Water*);
     void BSCubeMapCamera_ClickCubeMapWithMask(int);
 };
@@ -656,7 +656,7 @@ void Camera::BSCubeMapCamera_ClickCubeMapWithMask(int aiFace)
             updateData.flag2 = false;
             updateData.flag3 = false;
             updateData.flag4 = false;
-            FUN_00a59c60(updateData);
+            NiAVObject_Update(updateData);
             if (DAT_011f91b8 != 7)
             {
                 if (sceneData)
@@ -671,7 +671,7 @@ void Camera::BSCubeMapCamera_ClickCubeMapWithMask(int aiFace)
                     scene->flag = true;
                     S00bd7bb0_Cull cull(0);
                     cull.camera = this;
-                    cull.FUN_00a694a0(&unk0dc);
+                    cull.NiCullingProcess_SetFrustum(&unk0dc);
                     cull.BSCullingProcess_SetAccumulator(scene);
                     BSShaderUtil_AccumulateScene(this, sceneData, &cull);
                     FUN_00b6c0d0(this, scene, 0);

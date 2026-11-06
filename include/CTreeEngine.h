@@ -23,7 +23,7 @@ public:
 
         SptFilename(const SptFilename& rhs);
         ~SptFilename();
-        void FUN_0044a730(bool built, unsigned int n);
+        void fopen_0044a730(bool built, unsigned int n);
         SptFilename& AssignFromString(const SptFilename& rhs);
         SptFilename& FUN_00b2b910(const SptFilename& rhs);
         void operator=(const SptFilename& rhs);
@@ -31,7 +31,7 @@ public:
 
     struct Sub94
     {
-        void FUN_00b3d1b0(ElementIterator* a);
+        void SIdvLeafInfo_Parse(ElementIterator* a);
     };
 
     struct SubA4
@@ -113,13 +113,13 @@ public:
     void FUN_00b2bdc0(float a, float b);
     void InitSeed(unsigned int seed);
     void InitSeed(int seed);
-    bool FUN_00b2b550(CTreeFileAccessImpl* file);
-    void FUN_00b2bde0(ElementIterator* a);
-    void FUN_00b2cbc0(ElementIterator* a);
+    bool Parse_00b2b550(CTreeFileAccessImpl* file);
+    void ParseTreeInfo(ElementIterator* a);
+    void ParseLeafCluster(ElementIterator* a);
     void CTreeEngine_ParseFlareSeed(ElementIterator* a);
-    void FUN_00b2ceb0(ElementIterator* a);
+    void ParseLodInfo(ElementIterator* a);
     void FUN_00b2c790(ElementIterator* a);
     void BuildBranchLods();
-    void FUN_00b2d090(TreeFileAccess* file);
-    void FUN_00b2d2e0(Reader* a);
+    void ParseTextureControls(TreeFileAccess* file);
+    void ParseFlareInfo(Reader* a);
 };

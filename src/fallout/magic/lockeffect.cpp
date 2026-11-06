@@ -54,11 +54,11 @@ void ActiveEffect::ApplyLockEffect()
         return;
     }
 
-    pLock = pTarget->GetMagicTargetReference()->FUN_005690a0();
+    pLock = pTarget->GetMagicTargetReference()->TESObjectREFR_AddLock();
     pLock->m_cOwner = (char)GetFloatAtOffset1C();
     pLock->m_iArrayLength = 0;
     pLock->m_cActionFlags = 2;
-    pTarget->GetMagicTargetReference()->FUN_005789b0();
+    pTarget->GetMagicTargetReference()->TESObjectREFR_AddLockChange();
     pTarget->GetMagicTargetReference()->Lock();
 }
 
@@ -76,8 +76,8 @@ bool S_80f580_cls::LockEffect_CheckTarget(MagicTarget* apTarget)
     if (!t || !t->GetMagicTargetReference())
         return false;
     TESObjectDOOR* door =
-        dynamic_cast<TESObjectDOOR*>(t->GetMagicTargetReference()->FUN_007af430());
+        dynamic_cast<TESObjectDOOR*>(t->GetMagicTargetReference()->BGSSaveFormBuffer_GetForm());
     TESObjectCONT* cont_2 =
-        dynamic_cast<TESObjectCONT*>(t->GetMagicTargetReference()->FUN_007af430());
+        dynamic_cast<TESObjectCONT*>(t->GetMagicTargetReference()->BGSSaveFormBuffer_GetForm());
     return door || cont_2;
 }

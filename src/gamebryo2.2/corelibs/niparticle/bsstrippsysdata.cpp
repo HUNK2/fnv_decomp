@@ -98,11 +98,12 @@ struct ParticleStripData : NiPSysData
 };
 struct FUN_00c25cd0_shell : ParticleStripData
 {
-    bool __thiscall FUN_00c25cd0(NiObject* pkObject);
+    bool __thiscall BSStripPSysData_IsEqual(NiObject* pkObject);
 };
 // Compares the base fields and then usMaxPointCount, fStartCapSize, fEndCapSize and bDoZPrePass against another ParticleStripData, returning true if all match.
 // @fnv 0x00c25cd0
-bool __thiscall FUN_00c25cd0_shell::FUN_00c25cd0(NiObject* pkObject)
+// src: XBOX_PDB 0x00c25cd0
+bool __thiscall FUN_00c25cd0_shell::BSStripPSysData_IsEqual(NiObject* pkObject)
 {
     ParticleStripData* pkDest = (ParticleStripData*)pkObject;
     if (NiPSysData::IsEqual(pkObject) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&
@@ -372,7 +373,7 @@ struct S_00c26000_Strip : NiPSysData
     void CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc);
 };
 
-void* FUN_00aa1070(unsigned int size);
+void* _NiMalloc_00aa1070(unsigned int size);
 void* FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 // Copies the base strip and its fields into dest, then allocates and deep-copies the item array from unk7c into dest->unk7c.
@@ -385,7 +386,7 @@ void S_00c26000_Strip::CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc)
     dest->unk88 = unk88;
     dest->unk8c = unk8c;
     unsigned short n = m_usVertices;
-    S_00c26000_Item* items = (S_00c26000_Item*)FUN_00aa1070(n * 32);
+    S_00c26000_Item* items = (S_00c26000_Item*)_NiMalloc_00aa1070(n * 32);
     for (unsigned int i = 0; i < n; i++)
     {
         items[i].unk1c = unk7c[i].unk1c;
@@ -396,7 +397,7 @@ void S_00c26000_Strip::CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc)
         items[i].unk10 = unk7c[i].unk10;
         items[i].unk14 = unk7c[i].unk14;
         items[i].unk18 = unk7c[i].unk18;
-        items[i].unk00 = FUN_00aa1070(items[i].unk10 * 0x84);
+        items[i].unk00 = _NiMalloc_00aa1070(items[i].unk10 * 0x84);
         FUN_00ec44d0(items[i].unk00, unk7c[i].unk00, unk7c[i].unk04 * 0x84);
     }
     dest->unk7c = items;
@@ -574,11 +575,12 @@ class FUN_00c26570_cls : public NiPSysData
     unsigned int m_84;
     unsigned int m_88;
     unsigned int m_8C;
-    void FUN_00c26570(StreamOwner* a1);
+    void BSStripPSysData_SaveBinary(StreamOwner* a1);
 };
 
 // @fnv 0x00c26570
-void FUN_00c26570_cls::FUN_00c26570(StreamOwner* apOwner)
+// src: XBOX_PDB 0x00c26570
+void FUN_00c26570_cls::BSStripPSysData_SaveBinary(StreamOwner* apOwner)
 {
     NiPSysData::SaveBinary(*reinterpret_cast<NiStream*>(apOwner));
     StreamCtx* s = apOwner->m_250;
@@ -677,9 +679,9 @@ struct ArrHdr
 };
 extern "C" void* g_01202680;
 extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
-extern "C" void* __cdecl FUN_00a7d490(const char*, unsigned int);
-extern "C" void* __cdecl FUN_00a7d550(const char*, float);
-extern "C" void* __cdecl FUN_00a7d370(const char*, unsigned int);
+extern "C" void* __cdecl NiGetViewerString_00a7d490(const char*, unsigned int);
+extern "C" void* __cdecl NiGetViewerString_00a7d550(const char*, float);
+extern "C" void* __cdecl NiGetViewerString(const char*, unsigned int);
 extern "C" char str_010be5ec[], str_010be5dc[], str_010be5d0[], str_010be5c4[];
 struct FUN_00c26630_cls : NiPSysData
 {
@@ -687,32 +689,34 @@ struct FUN_00c26630_cls : NiPSysData
     unsigned short m80, unk82;
     float m84, m88;
     unsigned char m8c;
-    void FUN_00c26630(void* p);
+    void BSStripPSysData_GetViewerStrings(void* p);
 };
 // Calls FUN_00c255b0 on the array, then appends entries built from g_01202680, m80, m84, m88 and m8c via the FUN_00a7d3xx/d4xx/d5xx helpers.
 // @fnv 0x00c26630
-void FUN_00c26630_cls::FUN_00c26630(void* pArray)
+// src: XBOX_PDB 0x00c26630
+void FUN_00c26630_cls::BSStripPSysData_GetViewerStrings(void* pArray)
 {
     ArrHdr* a = (ArrHdr*)pArray;
     NiPSysData::GetViewerStrings(reinterpret_cast<NiViewerStringsArray*>(a));
     pArray = NiViewerStrings_NiGetViewerString_Title(g_01202680);
     a->Add(pArray);
-    pArray = FUN_00a7d490(str_010be5ec, m80);
+    pArray = NiGetViewerString_00a7d490(str_010be5ec, m80);
     a->Add(pArray);
-    pArray = FUN_00a7d550(str_010be5dc, m84);
+    pArray = NiGetViewerString_00a7d550(str_010be5dc, m84);
     a->Add(pArray);
-    pArray = FUN_00a7d550(str_010be5d0, m88);
+    pArray = NiGetViewerString_00a7d550(str_010be5d0, m88);
     a->Add(pArray);
-    pArray = FUN_00a7d370(str_010be5c4, m8c);
+    pArray = NiGetViewerString(str_010be5c4, m8c);
     a->Add(pArray);
 }
 
 struct FUN_00a817b0_shell : NiPSysData
 {
-    bool __thiscall FUN_00a817b0(NiStream& a);
+    bool __thiscall BSStripPSysData_RegisterStreamables(NiStream& a);
 };
 // @fnv 0x00a817b0
-bool __thiscall FUN_00a817b0_shell::FUN_00a817b0(NiStream& a)
+// src: XBOX_PDB 0x00a817b0
+bool __thiscall FUN_00a817b0_shell::BSStripPSysData_RegisterStreamables(NiStream& a)
 {
     return NiPSysData::RegisterStreamables(a);
 }
@@ -903,7 +907,7 @@ struct S_00c26410_Elem
 
 // game global: -FLT_MAX
 static float DAT_01015f5c = -FLT_MAX;
-void* __cdecl FUN_00aa1070(unsigned int n);
+void* __cdecl _NiMalloc_00aa1070(unsigned int n);
 
 struct S_00c26410_Mid : NiPSysData
 {
@@ -921,12 +925,13 @@ struct FUN_00c26410_cls : S_00c26410_Mid
     float m_84;
     float m_88;
     unsigned char m_8C;
-    void FUN_00c26410(S_00c26410_Stream* pkStream);
+    void BSStripPSysData_LoadBinary(S_00c26410_Stream* pkStream);
 };
 
 // Reads m_80, m_84, m_88, m_8C from pkStream, allocates m_7C with m_08 elements, and initializes each element's fields from m_80 and DAT_01015f5c.
 // @fnv 0x00c26410
-void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
+// src: XBOX_PDB 0x00c26410
+void FUN_00c26410_cls::BSStripPSysData_LoadBinary(S_00c26410_Stream* pkStream)
 {
     NiPSysData::LoadBinary(*reinterpret_cast<NiStream*>(pkStream));
     S_BinRead(pkStream->m_pkBin, &m_80, 2);
@@ -934,10 +939,10 @@ void FUN_00c26410_cls::FUN_00c26410(S_00c26410_Stream* pkStream)
     S_BinRead(pkStream->m_pkBin, &m_88, 4);
     S_BinRead(pkStream->m_pkBin, &m_8C, 1);
     unsigned short n = m_usVertices;
-    m_7C = (S_00c26410_Elem*)FUN_00aa1070(n * sizeof(S_00c26410_Elem));
+    m_7C = (S_00c26410_Elem*)_NiMalloc_00aa1070(n * sizeof(S_00c26410_Elem));
     for (unsigned int i = 0; i < n; i++)
     {
-        m_7C[i].m_00 = FUN_00aa1070(m_80 * 0x84);
+        m_7C[i].m_00 = _NiMalloc_00aa1070(m_80 * 0x84);
         At(i).m_04 = 0;
         At(i).m_06 = 0;
         At(i).m_10 = m_80;
@@ -965,12 +970,13 @@ struct StripCloneC263 : S_00c26000_Strip
         return FUN_00aa13e0(size);
     }
 
-    StripCloneC263* FUN_00c263b0(S_00c26000_Proc& cloning);
+    StripCloneC263* BSStripPSysData_CreateClone(S_00c26000_Proc& cloning);
 };
 
 // Allocates a new StripCloneC263 and copies the source strip into it via CloneStrip, returning the new object.
 // @fnv 0x00c263b0
-StripCloneC263* StripCloneC263::FUN_00c263b0(S_00c26000_Proc& cloning)
+// src: XBOX_PDB 0x00c263b0
+StripCloneC263* StripCloneC263::BSStripPSysData_CreateClone(S_00c26000_Proc& cloning)
 {
     StripCloneC263* result = new StripCloneC263;
     CloneStrip(result, &cloning);

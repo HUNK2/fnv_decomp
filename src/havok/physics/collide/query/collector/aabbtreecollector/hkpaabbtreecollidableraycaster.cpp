@@ -184,7 +184,7 @@ struct S_00d9a270_Router
     int unk8;
     int unkC;
     S_00d9a270_Heap* m_pStreamAllocator;
-    static S_00d9a270_Router* FUN_00c85750();
+    static S_00d9a270_Router* hkMemoryRouter_getInstance();
     S_00d9a270_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -197,7 +197,7 @@ struct S_00d9a270_Base
     {}
     void operator delete(void* p, unsigned int nbytes)
     {
-        S_00d9a270_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);
+        S_00d9a270_Router::hkMemoryRouter_getInstance()->heap().ReleaseBlock(p, nbytes);
     }
 };
 

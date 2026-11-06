@@ -110,7 +110,8 @@ const char* const* __fastcall NiShader_GetRTTI(void* p, int)
 void NiShaderFactory_ReleaseAllShaders();
 void DestroyProgram();
 // @fnv 0x00e819f0
-int FUN_00e819f0()
+// src: XBOX_PDB 0x00e819f0
+int NiD3DShaderInterface_ShutdownShaderSystem()
 {
     NiD3DShaderFactory* pShaderFactory = NiD3DShaderFactory::GetShaderFactory();
     if (pShaderFactory)

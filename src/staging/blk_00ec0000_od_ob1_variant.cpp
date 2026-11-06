@@ -15,7 +15,7 @@ int __stdcall MoviePlayer_PlaySequenceThread(int a);
 extern MemoryManager g_memoryManager;
 struct FUN_00ec1a40_Class
 {
-    void* FUN_00ec1a40();
+    void* NiTMap_char_const_char_NewItem();
 };
 extern "C" int __cdecl _NiStricmp(const char*, const char*);
 struct FUN_00ec1c90_class
@@ -169,7 +169,7 @@ struct FUN_00ec17c0_Class
     int m_0000;
     int m_0004;
     void* m_0008;
-    bool FUN_00ec17c0();
+    bool MoviePlayer_GetPlayingSequence();
 };
 struct FUN_00ec19a0_Class
 {
@@ -876,11 +876,12 @@ struct MoviePlayerA
         FUN_00fdf1c0(semaphore);
         unk3c = true;
     }
-    void FUN_00ec2760(const char* list);
+    void MoviePlayer_PlaySequence(const char* list);
 };
 
 // @fnv 0x00ec2760
-void MoviePlayerA::FUN_00ec2760(const char* list)
+// src: XBOX_PDB 0x00ec2760
+void MoviePlayerA::MoviePlayer_PlaySequence(const char* list)
 {
     char* ext2;
     int tidTmp3 = g_tlsAllocTag;

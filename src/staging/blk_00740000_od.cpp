@@ -19,11 +19,12 @@
 
 struct FUN_00740960_Class
 {
-    unsigned int FUN_00740960();
+    unsigned int TESDataHandler_GetBarterContainer();
 };
 
 // @fnv 0x00740960
-unsigned int FUN_00740960_Class::FUN_00740960()
+// src: XBOX_PDB 0x00740960
+unsigned int FUN_00740960_Class::TESDataHandler_GetBarterContainer()
 {
     return *(unsigned int*)((char*)this + 0x628);
 }
@@ -48,7 +49,7 @@ extern "C" void* DAT_01071aec;
 
 struct AX
 {
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
+    void __thiscall BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     AX* __thiscall BSSimpleArray_NiAVObject_1024_BSSimpleArray();
 };
 
@@ -58,7 +59,7 @@ struct AX
 AX* __thiscall AX::BSSimpleArray_NiAVObject_1024_BSSimpleArray()
 {
     *(void**)this = &DAT_01071aec;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -98,7 +99,7 @@ void GlobalObject_00869f00::FUN_007530f0()
 namespace fnv_00753110 {
 struct AX
 {
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     AX* FUN_00753110();
 };
 
@@ -109,7 +110,7 @@ extern void* DAT_01071b14;
 AX* AX::FUN_00753110()
 {
     *reinterpret_cast<void**>(this) = &DAT_01071b14;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 }  // namespace fnv_00753110
@@ -137,11 +138,12 @@ void __thiscall FUN_00753210Class::FUN_00753210()
 struct FUN_00754a00_cls
 {
     void __thiscall SetTraitSelected(int a1, int a2);
-    void __thiscall FUN_00754930(int a1);
+    void __thiscall ListBox_enum_ActorValue_Index_ToggleSelection(int a1);
 };
 
 // @fnv 0x00754930
-void __thiscall FUN_00754a00_cls::FUN_00754930(int a1)
+// src: XBOX_PDB 0x00754930
+void __thiscall FUN_00754a00_cls::ListBox_enum_ActorValue_Index_ToggleSelection(int a1)
 {
     SetTraitSelected(a1, 2);
 }
@@ -161,11 +163,12 @@ struct FUN_00759d80_Class
 {
     char m_padded[0x29];
     unsigned char m_flag;
-    unsigned char FUN_00759d80();
+    unsigned char AnimatingText_IsDisplayFinished();
 };
 
 // @fnv 0x00759d80
-unsigned char FUN_00759d80_Class::FUN_00759d80()
+// src: XBOX_PDB 0x00759d80
+unsigned char FUN_00759d80_Class::AnimatingText_IsDisplayFinished()
 {
     return m_flag;
 }
@@ -180,7 +183,7 @@ struct S007530c0
 S007530c0* __thiscall S007530c0::BSSimpleArray_TESCaravanCard_1024_BSSimpleArray()
 {
     *(int*)this = (int)&DAT_01071b00;
-    ((AX*)this)->FUN_006b3eb0(0, 0);
+    ((AX*)this)->BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -258,7 +261,7 @@ struct AnimatingText : public StrMem
 // @fnv 0x00759eb0
 AnimatingText::AnimatingText(const char* s)
 {
-    FUN_006ffe10();
+    AnimatingText_Initialize();
     AssignString(s);
 }
 struct TileProcessor
@@ -483,7 +486,7 @@ int __cdecl CreditsMenu_GetMenuID_()
 
 struct FUN_00752d40_Obj
 {
-    int __thiscall FUN_004036b0();
+    int __thiscall TES_QPlaceableWaterCount();
     int __thiscall FUN_008d80e0();
 };
 struct FUN_00752d40_cls
@@ -561,7 +564,7 @@ int __thiscall FUN_00752d40_cls::CaravanMenu_GetSumCardsB44WithSuit(int group, i
     int count = 0;
     while (i < 7 && slots[group][i].GetSize() > 0)
     {
-        if (slots[group][i].GetAt(0)->FUN_004036b0() == type)
+        if (slots[group][i].GetAt(0)->TES_QPlaceableWaterCount() == type)
             count += slots[group][i].GetAt(0)->FUN_008d80e0();
         i++;
     }
@@ -643,11 +646,11 @@ struct PointerArray
     void** data;
     unsigned int count, capacity;
     unsigned int FUN_0044ddc0();
-    void** FUN_006a7ad0(unsigned int);
+    void** BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
     void** FUN_00877a30(unsigned int);
     int FUN_007cb2e0(void**);
     void BSSimpleArray_Sort(CaravanCompare);
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     void** FUN_006f2270();
     void FUN_00753140();
 };
@@ -1355,7 +1358,7 @@ struct CaravanOwner : Menu
     int unknownde4, unknownde8;
     CaravanTotal laneTotals[6];
     void UpdateHandStats(int);
-    bool FUN_00740f10(unsigned int);
+    bool IsFlagSet_00740f10(unsigned int);
     int CompareToTwentyOneToTwentySix(int);
     int GetRowValue(int, int);
     int FUN_00752cb0(int, int);
@@ -1451,7 +1454,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
         this->UpdateHandStats(local_48Value18);
     }
 
-    if ((this->FUN_00740f10(0x800)))
+    if ((this->IsFlagSet_00740f10(0x800)))
     {
         openingValue36.FUN_00403550(4);
         if (mode < 1)
@@ -1464,7 +1467,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                  local_74Value37 = local_74Value37 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_74Value37))))
+                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_74Value37))))
                          ->FUN_008d80e0()) <= 10)
                 {
                     local_6cValue34 = local_6cValue34 + 1;
@@ -1496,14 +1499,14 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                  local_80Value12 = local_80Value12 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
+                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_80Value12))))
                          ->FUN_008d80e0()) > 5 &&
-                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
+                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_80Value12))))
                          ->FUN_008d80e0()) <= 10)
                 {
                     local_7cValue34 = local_7cValue34 + 1;
                 }
-                else if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_80Value12))))
+                else if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_80Value12))))
                               ->FUN_008d80e0()) < 4)
                 {
                     local_78Value0 = local_78Value0 + 1;
@@ -1519,11 +1522,11 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                      local_88Value23 = local_88Value23 + 1)
                 {
 
-                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                   ->FUN_008d80e0()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                  ->FUN_008d80e0()) == 0xf)
                         {
                             openingValue36.FUN_00600ab0(local_88Value23);
@@ -1535,7 +1538,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_84Value8 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                     ->FUN_008d80e0();
                         }
                         else if (local_84Value8 == 0xc)
@@ -1544,21 +1547,21 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_84Value8 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                     ->FUN_008d80e0();
                         }
                         else if (local_84Value8 == 0xe)
                         {
 
                             if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                                      ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                      ->FUN_008d80e0()) != 0xc)
                             {
                                 openingValue36.FUN_00600ab0(local_88Value23);
 
                                 local_84Value8 =
                                     ((CaravanCard*)(*(
-                                         ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_88Value23))))
+                                         ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_88Value23))))
                                         ->FUN_008d80e0();
                             }
                         }
@@ -1573,11 +1576,11 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                 if (local_7cValue34 > local_78Value0)
                 {
 
-                    if (5 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
+                    if (5 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_8cValue1))))
                                  ->FUN_008d80e0()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
+                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_8cValue1))))
                                  ->FUN_008d80e0()) <= 10)
                         {
                             openingValue36.FUN_00600ab0(local_8cValue1);
@@ -1588,7 +1591,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                 else if (local_78Value0 != 0)
                 {
 
-                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_8cValue1))))
+                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_8cValue1))))
                              ->FUN_008d80e0()) < 4)
                     {
                         openingValue36.FUN_00600ab0(local_8cValue1);
@@ -1605,7 +1608,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                  local_98Value0 = local_98Value0 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_98Value0))))
+                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_98Value0))))
                          ->FUN_008d80e0()) <= 10)
                 {
                     local_90Value13 = local_90Value13 + 1;
@@ -1621,11 +1624,11 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                      local_a0Value29 = local_a0Value29 + 1)
                 {
 
-                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                    if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                   ->FUN_008d80e0()))
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                  ->FUN_008d80e0()) == 0xf)
                         {
                             openingValue36.FUN_00600ab0(local_a0Value29);
@@ -1637,7 +1640,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_9cValue4 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                     ->FUN_008d80e0();
                         }
                         else if (local_9cValue4 == 0xc)
@@ -1646,21 +1649,21 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_9cValue4 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                     ->FUN_008d80e0();
                         }
                         else if (local_9cValue4 == 0xe)
                         {
 
                             if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                                      ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                      ->FUN_008d80e0()) != 0xc)
                             {
                                 openingValue36.FUN_00600ab0(local_a0Value29);
 
                                 local_9cValue4 =
                                     ((CaravanCard*)(*(
-                                         ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a0Value29))))
+                                         ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a0Value29))))
                                         ->FUN_008d80e0();
                             }
                         }
@@ -1670,7 +1673,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
             }
 
             local_94Value52 = FUN_00ec7d40(
-                (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(0))))->FUN_008d80e0()) + -6);
+                (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(0))))->FUN_008d80e0()) + -6);
             openingValue36.FUN_00600ab0(0);
             local_a4Value36 = 0;
             for (; local_a4Value36 < (((PointerArray*)((void*)((int)&hand)))->FUN_0044ddc0());
@@ -1678,14 +1681,14 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
             {
 
                 if ((FUN_00ec7d40(
-                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a4Value36))))
+                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a4Value36))))
                              ->FUN_008d80e0()) +
                         -6)) < local_94Value52)
                 {
                     openingValue36.FUN_00600ab0(local_a4Value36);
 
                     local_94Value52 = FUN_00ec7d40(
-                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_a4Value36))))
+                        (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_a4Value36))))
                              ->FUN_008d80e0()) +
                         -6);
                 }
@@ -1709,11 +1712,11 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                 {
                     currentValue29->FUN_00600ab0(local_b0Value32);
 
-                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
+                    if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_b0Value32))))
                              ->FUN_008d80e0()) > 10)
                     {
 
-                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
+                        if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_b0Value32))))
                                  ->FUN_008d80e0()) == 0xe)
                         {
                             local_b4Value16 = 0;
@@ -1765,7 +1768,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                             continue;
 
                         local_bcValue3 =
-                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_b0Value32))))
+                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_b0Value32))))
                                 ->FUN_008d80e0() +
                             laneTotals[local_a8Value19].total;
 
@@ -1801,7 +1804,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_c8Value6 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_c4Value23))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_c4Value23))))
                                     ->FUN_008d80e0();
                             if (local_c8Value6 > 10)
                             {
@@ -1869,7 +1872,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                                             ((CaravanCard*)(*(
                                                  ((PointerArray*)((
                                                       void*)((int)&lanes[local_a8Value19].rows[local_e0Value0])))
-                                                     ->FUN_006a7ad0(0))))
+                                                     ->BSSimpleArray_NiAVObject_1024_GetAt(0))))
                                                 ->FUN_008d80e0();
                                         if (local_e4Value13 == 1)
                                         {
@@ -1892,7 +1895,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                                                     (((CaravanCard*)(*(
                                                           ((PointerArray*)((void*)((int)&lanes[local_a8Value19]
                                                                                        .rows[local_e0Value0])))
-                                                              ->FUN_006a7ad0(0))))
+                                                              ->BSSimpleArray_NiAVObject_1024_GetAt(0))))
                                                          ->FUN_008d80e0())));
                                             }
                                         }
@@ -2095,13 +2098,13 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_13cValue13 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_138Value1))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_138Value1))))
                                     ->FUN_008d80e0();
                             if (local_13cValue13 > 10)
                             {
 
                                 if ((((CaravanCard*)(*(
-                                          ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_138Value1))))
+                                          ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_138Value1))))
                                          ->FUN_008d80e0()) == 0xe)
                                 {
                                     for (local_140Value41 = 0; local_140Value41 < 7;
@@ -2175,7 +2178,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 
                             local_150Value42 =
                                 ((CaravanCard*)(*(
-                                     ((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_14cValue41))))
+                                     ((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_14cValue41))))
                                     ->FUN_008d80e0();
                             if ((10 < local_150Value42) && (local_150Value42 == 0xc))
                             {
@@ -2218,7 +2221,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
             {
 
                 currentValue29->FUN_00600ab0(local_160Value33);
-                if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_160Value33))))
+                if (10 < (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_160Value33))))
                               ->FUN_008d80e0()))
                 {
 
@@ -2237,7 +2240,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                         }
 
                         switch (
-                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_160Value33))))
+                            ((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_160Value33))))
                                 ->FUN_008d80e0())
                         {
                         case 12: {
@@ -2370,9 +2373,9 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                  local_178Value31 = local_178Value31 + 1)
             {
 
-                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_178Value31))))
+                if ((((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_178Value31))))
                          ->FUN_008d80e0()) >
-                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->FUN_006a7ad0(local_174Value5))))
+                    (((CaravanCard*)(*(((PointerArray*)((void*)((int)&hand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_174Value5))))
                          ->FUN_008d80e0()))
                 {
                     local_174Value5 = local_178Value31;
@@ -2407,7 +2410,7 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
                         {
 
                             if ((((CaravanCard*)(*(
-                                      ((PointerArray*)((void*)((int)&opponentHand)))->FUN_006a7ad0(local_184Value1))))
+                                      ((PointerArray*)((void*)((int)&opponentHand)))->BSSimpleArray_NiAVObject_1024_GetAt(local_184Value1))))
                                      ->FUN_008d80e0()) == 0xc)
                             {
                                 local_180Value40 = local_180Value40 + 1;
@@ -2424,13 +2427,13 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
         }
         ((PointerArray*)(choicesValue1))->BSSimpleArray_Sort(CompareCalendarDays);
 
-        local_3cValue39 = ((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0))))->NiAVObject_GetParent();
+        local_3cValue39 = ((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->BSSimpleArray_NiAVObject_1024_GetAt(0))))->NiAVObject_GetParent();
         local_38Value22 = 0;
         for (local_188Value2 = 0; local_188Value2 < (((PointerArray*)(choicesValue1))->FUN_0044ddc0());
              local_188Value2 = local_188Value2 + 1)
         {
 
-            if ((((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(local_188Value2))))
+            if ((((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->BSSimpleArray_NiAVObject_1024_GetAt(local_188Value2))))
                      ->NiAVObject_GetParent()) == local_3cValue39)
             {
                 local_38Value22 = local_38Value22 + 1;
@@ -2442,10 +2445,10 @@ CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
         }
         local_34Value10 = local_3cValue39;
 
-        local_44Value6 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0));
+        local_44Value6 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->BSSimpleArray_NiAVObject_1024_GetAt(0));
         selectedValue4 = *local_44Value6;
         local_44Value6 = 0;
-        while (!(((PointerArray*)(choicesValue1))->FUN_0076b610()))
+        while (!(((PointerArray*)(choicesValue1))->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty()))
         {
 
             currentValue29 = (CaravanDecision*)*(((PointerArray*)(choicesValue1))->FUN_006f2270());

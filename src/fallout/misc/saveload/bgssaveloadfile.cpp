@@ -59,7 +59,7 @@ unsigned int SaveLoadFile::Read(void* buffer, unsigned int size)
 // @fnv 0x00846400
 unsigned int SaveLoadFile::GetFilePosition()
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
         return m_uiFilePosition;
     return pFile->GetFilePosition();
 }
@@ -67,7 +67,7 @@ unsigned int SaveLoadFile::GetFilePosition()
 // @fnv 0x00846440
 void SaveLoadFile::SetFilePosition(int position)
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
         m_uiFilePosition = position;
     else
         pFile->Seek(position, DAT_010a2480);
@@ -103,7 +103,7 @@ SaveLoadFile::SaveLoadFile(const char* fileName, bool flag, unsigned int size)
     m_uiBufferSize = 0;
     m_uiFilePosition = 0;
     m_cFileName[0] = 0;
-    if (!DAT_011de134->FUN_00424940())
+    if (!DAT_011de134->InterfaceManager_GetMenuMode())
         pFile = new BSFile(fileName, flag ? 1 : 0, size, false);
 }
 
@@ -153,7 +153,7 @@ struct UnknownOwner008463c0
 // src: COMMUNITY 0x008463c0
 bool __fastcall BGSSaveLoadFile_Open(UnknownOwner008463c0* _this)
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
         return true;
     return _this->unk104->Open(false, false);
 }
@@ -173,7 +173,7 @@ struct FUN_00846490_t
 // @fnv 0x00846490
 void FUN_00846490_t::AdvancePosition(int offset)
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
     {
         pos_10c += offset;
     }
@@ -269,7 +269,8 @@ void __fastcall UpdateFileWriteTime(char* pThis)
 
 namespace fnv_00846ad0 {
 // @fnv 0x00846ad0
-bool __fastcall FUN_00846ad0(const char** pThis)
+// src: XBOX_PDB 0x00846ad0
+bool __fastcall BGSSaveLoadFileEntry_IsQuicksave(const char** pThis)
 {
     return DAT_011de134->IsQuickSaveFileName(*pThis);
 }
@@ -330,7 +331,7 @@ struct FUN_00846330_shell
 // @fnv 0x00846330
 unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int aiBytes)
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
     {
         unsigned int ifileSizePositionDiff =
             *(unsigned int*)((char*)this + 0x108) - *(unsigned int*)((char*)this + 0x10c);
@@ -339,7 +340,7 @@ unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int 
         *(unsigned int*)((char*)this + 0x10c) += aiBytes;
         return aiBytes;
     }
-    return (*reinterpret_cast<BSFile**>((char*)this + 0x104))->FUN_00473180((const char*)apBuffer, aiBytes);
+    return (*reinterpret_cast<BSFile**>((char*)this + 0x104))->NiBinaryStream_Write((const char*)apBuffer, aiBytes);
 }
 
 struct FUN_00846710_cls : public BGSSaveLoadFileEntry

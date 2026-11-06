@@ -993,11 +993,12 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d37c10(int a, int b, int c, Simplex* s);
+    void hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 // @fnv 0x00d37c10
-void Agent::FUN_00d37c10(int a, int b, int c, Simplex* s)
+// src: XBOX_PDB 0x00d37c10
+void Agent::hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_processCollision(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -1133,11 +1134,12 @@ struct AgentBase
 
 struct Agent : AgentBase
 {
-    void FUN_00d3f500(int a, int b, int c, Simplex* s);
+    void hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_processCollision(int a, int b, int c, Simplex* s);
 };
 
 // @fnv 0x00d3f500
-void Agent::FUN_00d3f500(int a, int b, int c, Simplex* s)
+// src: XBOX_PDB 0x00d3f500
+void Agent::hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_processCollision(int a, int b, int c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -1282,7 +1284,7 @@ struct Processor
         scalarTolerance = tol;
         constant = 0.01f;
     }
-    void FUN_00db2960(unsigned char*);
+    void hkpBoxBoxCollisionDetection_calcManifold(unsigned char*);
 };
 // @fnv 0x00d3fe90
 // src: COMMUNITY 0x00d3fe90
@@ -1312,7 +1314,7 @@ void* __cdecl hkBoxBoxAgent3_process(Params* p, unsigned char* out, unsigned cha
     CollisionInput* input = p->input;
     float tol = input->tolerance;
     Processor state(*a, *p->b, input, p->unk10, z, p->relative, *a->transform, halfA, *p->b->transform, halfB, tol);
-    state.FUN_00db2960(obj);
+    state.hkpBoxBoxCollisionDetection_calcManifold(obj);
     out[2] = obj[0x21];
     buf = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
     if (buf->current < buf->end)
@@ -1357,7 +1359,8 @@ static __forceinline void Dot3(float& result, LocalM128 u, LocalM128 v)
 }
 
 // @fnv 0x00d231b0
-int FUN_00d231b0(const LocalM128* pa, const LocalM128* pb, const LocalM128* pc, const LocalM128* pd, ClosestPointResult* out)
+// src: XBOX_PDB 0x00d231b0
+int hkLineSegmentUtil_closestPointInfLineInfLine(const LocalM128* pa, const LocalM128* pb, const LocalM128* pc, const LocalM128* pd, ClosestPointResult* out)
 {
     const LocalM128& d = *pd;
     const LocalM128& b = *pb;

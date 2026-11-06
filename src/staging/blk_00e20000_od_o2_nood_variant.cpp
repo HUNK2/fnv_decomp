@@ -383,7 +383,7 @@ public:
 class JobTarget
 {
 public:
-    void FUN_00d04380();
+    void hkSemaphore_acquire();
 };
 
 struct __declspec(align(16)) AutoJob
@@ -556,7 +556,8 @@ template <class T> __forceinline void ArrClearFree(hkArrayBase<T>& arr)
 }
 
 // @fnv 0x00e2a390
-void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc,
+// src: XBOX_PDB 0x00e2a390
+void __cdecl hkTreeBundleRayCastUtil_startWorldRayCastWithAutoBundleJobs(int a, int b, int n, float f1, float f2, JobSource* pSrc,
                           JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto)
 {
     if (bAuto)
@@ -601,7 +602,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
         ProfMark("StWaitThreads");
         pWaiter->Wait();
         ProfMark("lt");
-        pSrc->m_p10->FUN_00d04380();
+        pSrc->m_p10->hkSemaphore_acquire();
         return;
     }
 
@@ -678,7 +679,7 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ProfMark("TtAutoBundleJobs");
     pWaiter->Start(m_pPrimaryTaskProcessor, 0xb);
     pWaiter->Wait();
-    pSrc->m_p10->FUN_00d04380();
+    pSrc->m_p10->hkSemaphore_acquire();
     ProfMark("Et");
 
     ArrFree(pData5, uiCap5);

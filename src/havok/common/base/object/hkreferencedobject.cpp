@@ -448,13 +448,13 @@ void Owner_9bf0::FUN_00c89bf0(Object_9bf0* apObject)
 
 namespace hkRouterC904 {
 // Shared router layout: the heap allocator used by 0x00c85750 is at +0x10.
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 
 inline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
-    hkReferencedObject* b = static_cast<hkReferencedObject*>(hkRouterC904::FUN_00c85750().heap().blockAlloc(nbytes));
+    hkReferencedObject* b = static_cast<hkReferencedObject*>(hkRouterC904::hkMemoryRouter_getInstance().heap().blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return b;
 }
@@ -585,7 +585,7 @@ struct Resource
 struct DeviceOwner;
 struct DeviceSubobject
 {
-    void FUN_00d21ce0(DeviceOwner*);
+    void hkpBridgeConstraintAtom_init(DeviceOwner*);
 };
 struct DeviceOwner
 {
@@ -601,22 +601,22 @@ struct InputObject
         return *reinterpret_cast<DeviceCallback* const*>(reinterpret_cast<const char*>(this) + 0x24c);
     }
 };
-Resource* __cdecl FUN_00cf4af0(InputObject*);
+Resource* __cdecl bhkConstraintManager_LoadBinary(InputObject*);
 struct FUN_00ca9ce0_class
 {
     int unk00;
     DeviceOwner* m_pOwnerObject;
-    void FUN_00c8a230(InputObject*);
+    void hkConstraintCinfo_LoadBinary(InputObject*);
     void ProcessInput(InputObject*);
 };
 // @fnv 0x00ca9ce0
 void FUN_00ca9ce0_class::ProcessInput(InputObject* input)
 {
-    FUN_00c8a230(input);
+    hkConstraintCinfo_LoadBinary(input);
     DeviceOwner* owner = m_pOwnerObject;
-    Resource* resource = FUN_00cf4af0(input);
+    Resource* resource = bhkConstraintManager_LoadBinary(input);
     owner->FUN_00ca9b40(resource);
-    owner->m_subobject.FUN_00d21ce0(owner);
+    owner->m_subobject.hkpBridgeConstraintAtom_init(owner);
     resource->FUN_00c905b0();
     DeviceCallback* callback = input->GetCallback();
     callback->Process(&owner->m_payload);
@@ -1035,7 +1035,7 @@ struct FUN_00cc49b0_class;
 struct FUN_00d21ce0_class
 {
     int unk0c, unk10, unk14;
-    void FUN_00d21ce0(FUN_00cc49b0_class* parent);
+    void hkpBridgeConstraintAtom_init(FUN_00cc49b0_class* parent);
 };
 struct FUN_00cc49b0_class
 {
@@ -1044,7 +1044,7 @@ struct FUN_00cc49b0_class
     FUN_00c90510_class* owner;
     unsigned short state;
     unsigned short substate;
-    void FUN_00cc49b0(FUN_00c90510_class* value);
+    void ahkpBreakableConstraintData_SetChild(FUN_00c90510_class* value);
 };
 struct ScopedThreadState
 {
@@ -1061,7 +1061,8 @@ struct ScopedThreadState
 };
 // Retains value if present, releases owner if present, assigns value, copies two values from vf24, and calls subobject.FUN_00d21ce0(this).
 // @fnv 0x00cc49b0
-void FUN_00cc49b0_class::FUN_00cc49b0(FUN_00c90510_class* apOwner)
+// src: XBOX_PDB 0x00cc49b0
+void FUN_00cc49b0_class::ahkpBreakableConstraintData_SetChild(FUN_00c90510_class* apOwner)
 {
     ScopedThreadState thread;
     if (apOwner)
@@ -1073,7 +1074,7 @@ void FUN_00cc49b0_class::FUN_00cc49b0(FUN_00c90510_class* apOwner)
     owner->vf24(ByteFlag(true), &result);
     state = (unsigned short)result.first;
     substate = (unsigned short)result.second;
-    subobject.FUN_00d21ce0(this);
+    subobject.hkpBridgeConstraintAtom_init(this);
 }
 }  // namespace fnv_00cc49b0
 
@@ -1098,17 +1099,17 @@ class WorldObjectStreamState
     int m_iLayer;
     unsigned char m_ucFlags;
 
-    void FUN_00cc49b0(hkReferencedObject* pkShape) throw();
+    void ahkpBreakableConstraintData_SetChild(hkReferencedObject* pkShape) throw();
 };
 
 class FUN_00d53200_class
 {
   public:
     virtual ~FUN_00d53200_class();
-    void FUN_00c8a230(NiStream& kStream);
+    void hkConstraintCinfo_LoadBinary(NiStream& kStream);
 };
 
-hkReferencedObject* __cdecl FUN_00cf4af0(NiStream& kStream) throw();
+hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream) throw();
 
 // This loader's state pointer is at +0x4; bhkWorldObject's inherited Havok pointer is at +0x8.
 class WorldObjectStreamLoader : public FUN_00d53200_class
@@ -1116,17 +1117,18 @@ class WorldObjectStreamLoader : public FUN_00d53200_class
   public:
     WorldObjectStreamState* m_pPointer;
 
-    void FUN_00cc4e10(NiStream& kStream);
+    void hkBreakableConstraintCinfo_LoadBinary(NiStream& kStream);
 };
 
 // Reads a shape, attaches it to the hkpWorldObject, and deserializes its layer and flags from the stream.
 // @fnv 0x00cc4e10
-void WorldObjectStreamLoader::FUN_00cc4e10(NiStream& kStream)
+// src: XBOX_PDB 0x00cc4e10
+void WorldObjectStreamLoader::hkBreakableConstraintCinfo_LoadBinary(NiStream& kStream)
 {
-    FUN_00c8a230(kStream);
+    hkConstraintCinfo_LoadBinary(kStream);
     WorldObjectStreamState* pkObject = m_pPointer;
-    hkReferencedObject* pkShape = FUN_00cf4af0(kStream);
-    pkObject->FUN_00cc49b0(pkShape);
+    hkReferencedObject* pkShape = bhkConstraintManager_LoadBinary(kStream);
+    pkObject->ahkpBreakableConstraintData_SetChild(pkShape);
     pkShape->removeReference();
     kStream.GetBinaryStream()->Read(pkObject->m_iLayer);
     kStream.GetBinaryStream()->Read(pkObject->m_ucFlags);

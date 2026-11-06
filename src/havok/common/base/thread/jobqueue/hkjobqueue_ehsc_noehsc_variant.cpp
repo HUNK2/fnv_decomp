@@ -594,7 +594,7 @@ struct D049D0World
 
     void SetSimulationEnabled(int enabled);
 };
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 struct __declspec(align(16)) D04B90Object
 {
     int unk00;
@@ -1031,7 +1031,7 @@ struct LunaCallbackItem
     Item payload;
 };
 extern unsigned long DAT_0126835c;
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 struct TimerEntry
 {
     const char* m_name;

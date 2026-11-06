@@ -41,10 +41,10 @@ typedef unsigned int hkUint32;
 
 // hkMemoryRouter is the shared hkMemoryRouter: 0x00c85750 returns it,
 // and the heap allocator pointer is at +0x10 in every use in this unit.
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 
 template <typename T> __forceinline T* hkMemoryAllocator::_bufAlloc(int& n)
@@ -293,7 +293,7 @@ class PhantomClone : public hkpAabbPhantom
   public:
     static __forceinline void* operator new(unsigned int uiSize) throw()
     {
-        hkpWorldObject* p = (hkpWorldObject*)FUN_00c85750().heap().blockAlloc(uiSize);
+        hkpWorldObject* p = (hkpWorldObject*)hkMemoryRouter_getInstance().heap().blockAlloc(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -325,7 +325,7 @@ class PhantomDeletion : public hkpAabbPhantom
   public:
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().blockFree(p, static_cast<hkpAabbPhantom*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter_getInstance().heap().blockFree(p, static_cast<hkpAabbPhantom*>(p)->m_usMemSizeAndFlags);
     }
 
     PhantomDeletion* DestroyAndFree(unsigned int uiFlags) throw();
@@ -368,7 +368,7 @@ struct __declspec(align(16)) ShapeRayCastQuery
 
 struct DummyNormal : public hkVector4
 {
-    void FUN_00c7f700(const void* rot, const void* dir);
+    void hkVector4_setRotatedDir(const void* rot, const void* dir);
 };
 
 struct WorldRayCastOutput
@@ -472,12 +472,13 @@ static inline void SetTransformedPosition(hkVector4& out, const hkTransform* t, 
 class PhantomRayCast : public hkpAabbPhantom
 {
   public:
-    void FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const;
+    void hkpAabbPhantom_castRay_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const;
 };
 
 // Performs a ray cast against overlapping collidables, transforming ray endpoints into local space and recording the hit root collidable.
 // @fnv 0x00cf26b0
-void PhantomRayCast::FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const
+// src: XBOX_PDB 0x00cf26b0
+void PhantomRayCast::hkpAabbPhantom_castRay_00cf26b0(const WorldRayCastInput& input, WorldRayCastOutput& output) const
 {
     hkMonitorStream* pTlsCursor = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     char* cmd = pTlsCursor->m_end.m_storage;
@@ -524,7 +525,7 @@ void PhantomRayCast::FUN_00cf26b0(const WorldRayCastInput& input, WorldRayCastOu
 
     if (output.m_pRootCollidable)
     {
-        output.m_vHitNormal.FUN_00c7f700(output.m_pRootCollidable->m_pMotionState, &output.m_vHitNormal);
+        output.m_vHitNormal.hkVector4_setRotatedDir(output.m_pRootCollidable->m_pMotionState, &output.m_vHitNormal);
     }
 
     hkMonitorStream* hit = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -556,11 +557,12 @@ void PhantomBoundsReader::GetBounds(hkAabb* bounds)
 struct PhantomBounds : public hkpAabbPhantom
 {
     void __thiscall hkpPhantom_updateBroadPhase(hkAabb* bounds);
-    void __thiscall FUN_00cf24a0(const hkAabb& source);
+    void __thiscall hkpAabbPhantom_setAabb(const hkAabb& source);
 };
 // Copies the minimum and maximum corners from source into the embedded hkAabb at offset 0xb0, then calls FUN_00d07ec0 on it.
 // @fnv 0x00cf24a0
-void PhantomBounds::FUN_00cf24a0(const hkAabb& source)
+// src: XBOX_PDB 0x00cf24a0
+void PhantomBounds::hkpAabbPhantom_setAabb(const hkAabb& source)
 {
     hkAabb* target = &m_kBounds;
     _mm_store_ps(&target->m_kMinimumCorner.x, _mm_load_ps(&source.m_kMinimumCorner.x));

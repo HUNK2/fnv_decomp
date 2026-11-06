@@ -6,8 +6,8 @@ struct TESRecordHeader
 {
     unsigned int type, size, flags, formID;
 };
-void FUN_0040fbe0(const char*, ...);
-void FUN_0043b2b0(bool);
+void ProgramFlow(const char*, ...);
+void MessageHandler_IncDisableWarningCount(bool);
 const char* PrepareScriptMessage(const char*, bool);
 class CompileWarningSetting
 {
@@ -24,7 +24,7 @@ class TaskQueueInterface
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
-char* FUN_0040ab30(char*, int);
+char* strrchr_0040ab30(char*, int);
 class Archive;
 class ArchiveManager
 {

@@ -79,12 +79,13 @@ class hkSampleRingE39F
     int m_pRayCursor;
     hkSampleE39F* m_samples;
 
-    void FUN_00e39f50(const hkSampleE39F& sample);
+    void addTyremarkPoint(const hkSampleE39F& sample);
 };
 
 // Copies sample into the slot at m_pFirstNode and advances it with wraparound, unless the sample and the previous slot both give 0 from FUN_00e39e80.
 // @fnv 0x00e39f50
-void hkSampleRingE39F::FUN_00e39f50(const hkSampleE39F& sample)
+// src: XBOX_PDB 0x00e39f50
+void hkSampleRingE39F::addTyremarkPoint(const hkSampleE39F& sample)
 {
     if (sample.FUN_00e39e80() == 0.0f && m_samples[(m_pFirstNode + m_pRayCursor - 1) % m_pRayCursor].FUN_00e39e80() == 0.0f)
         return;

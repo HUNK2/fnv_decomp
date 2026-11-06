@@ -32,8 +32,8 @@ struct BGSListForm;
 
 struct EncodeReferenceView : TESForm
 {
-    void* FUN_0055d310();
-    TESForm* FUN_007af430();
+    void* TESObjectREFR_HasContainer();
+    TESForm* BGSSaveFormBuffer_GetForm();
 };
 
 struct BGSEncounterZone;
@@ -97,7 +97,7 @@ struct EncodeWord
 
 struct EncodeCompiler
 {
-    bool FUN_005afad0(EncodeWord*, bool, bool);
+    bool ScriptCompileData_GetReferencedObject(EncodeWord*, bool, bool);
 };
 
 struct EncodeParameter
@@ -121,7 +121,7 @@ extern TESForm* DAT_011ca224;
 
 bool FUN_00481f30(int);
 
-int FUN_005af5f0(EncodeCompiler*, EncodeWord*, char*, unsigned*, unsigned char, int);
+int ScriptCompiler_GetNextWord(EncodeCompiler*, EncodeWord*, char*, unsigned*, unsigned char, int);
 
 void FUN_005aea90(EncodeCompiler*, const char*, ...);
 
@@ -131,7 +131,7 @@ int BSstricmp(const char*, const char*);
 
 void* FUN_00401460(void*, const void*, unsigned);
 
-int FUN_004b12d0(const char*);
+int IsAFloat(const char*);
 
 int FUN_004b1230(const char*);
 
@@ -192,7 +192,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
         EncodeWord word7;
 
-        int lengthVal = FUN_005af5f0(compiler, &word7, line->cLine, &line->uiElapsedMilliseconds, kindX, 0);
+        int lengthVal = ScriptCompiler_GetNextWord(compiler, &word7, line->cLine, &line->uiElapsedMilliseconds, kindX, 0);
 
         if (!lengthVal)
         {
@@ -218,7 +218,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
         }
 
         if (DAT_0118cdd0[parameters[index4].type].isReference &&
-            (!compiler->FUN_005afad0(&word7, false, false) || !word7.refIndex))
+            (!compiler->ScriptCompileData_GetReferencedObject(&word7, false, false) || !word7.refIndex))
         {
             FUN_005aea90(compiler, "Item '%s' not found for parameter %s.\r\nCompiled script not saved!", &word7,
                          parameters[index4].name);
@@ -291,7 +291,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
                     {
 
                     case 26:
-                        if (!reference->FUN_0055d310())
+                        if (!reference->TESObjectREFR_HasContainer())
                         {
                             FUN_005aea90(
                                 compiler,
@@ -302,7 +302,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
                         break;
 
                     case 24:
-                        if (reference->FUN_007af430() != DAT_011ca224)
+                        if (reference->BGSSaveFormBuffer_GetForm() != DAT_011ca224)
                         {
                             FUN_005aea90(compiler,
                                          "Invalid map marker '%s' for parameter %s.\r\nCompiled script not saved!",
@@ -951,7 +951,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
                     else
                     {
 
-                        if (!FUN_004b12d0(word7.text))
+                        if (!IsAFloat(word7.text))
                         {
                             FUN_005aea90(compiler,
                                          "Unknown variable '%s' for parameter %s.\r\nCompiled script not saved!",

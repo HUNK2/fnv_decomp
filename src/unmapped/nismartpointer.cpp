@@ -4,8 +4,8 @@
 struct KFModel
 {
     unsigned int m_uiObjectRefCount;
-    void FUN_0044b050();
-    void FUN_0044b010();
+    void KFModel_DecRefCount();
+    void KFModel_IncRefCount();
 };
 
 struct NiPointer_KFModel
@@ -20,10 +20,10 @@ NiPointer_KFModel& NiPointer_KFModel::FUN_0044b070(KFModel* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b050();
+            m_pObject->KFModel_DecRefCount();
         m_pObject = pObject;
         if (m_pObject)
-            m_pObject->FUN_0044b010();
+            m_pObject->KFModel_IncRefCount();
     }
     return *this;
 }
@@ -31,7 +31,7 @@ NiPointer_KFModel& NiPointer_KFModel::FUN_0044b070(KFModel* pObject)
 struct LoadedFile
 {
     int BackgroundTask;
-    void FUN_0044b180();
+    void LoadedFile_DecRefCount();
     void IncRefCount();
 };
 struct NiPointer_LoadedFile
@@ -45,7 +45,7 @@ NiPointer_LoadedFile& NiPointer_LoadedFile::FUN_0044b220(LoadedFile* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b180();
+            m_pObject->LoadedFile_DecRefCount();
         m_pObject = pObject;
         if (m_pObject != 0)
             m_pObject->IncRefCount();

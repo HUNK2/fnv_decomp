@@ -29,8 +29,8 @@ public:
 
     void Unused();
     TESPatrolPackageData* __thiscall TESPatrolPackageData_TESPatrolPackageData(PatrolParams aParams);
-    void FUN_0067c4b0(TESPackageData* apCopy);
-    bool FUN_0067c500(TESPackageData* apCompare);
-    void FUN_0067c570();
+    void Copy_0067c4b0(TESPackageData* apCopy);
+    bool Compare_0067c500(TESPackageData* apCompare);
+    void Save_0067c570();
     void LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };

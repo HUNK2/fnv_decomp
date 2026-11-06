@@ -61,7 +61,7 @@ int __cdecl Warning(const char*, ...);
 // This entry point returns a full register value in the original Load call.
 int __fastcall ReadEffectFormType(TESFile* file);
 
-double FUN_00408820(float value);
+double NiAbs_00408820(float value);
 
 #include "../include/PathingRequest.h"
 #include "../include/TESDataHandler.h"
@@ -279,17 +279,18 @@ int EffectSetting::QueueAssociatedItem()
 // @fnv 0x004089c0
 int EffectSetting::NormalizeEffectLoadedCount()
 {
-    m_iActorValue = (int)FUN_00408820((float)m_iActorValue);
+    m_iActorValue = (int)NiAbs_00408820((float)m_iActorValue);
     return m_iActorValue;
 }
 
 struct FUN_004077c0_shell : public TESForm
 {
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
 };
 
 // @fnv 0x004077c0
-bool FUN_004077c0_shell::FUN_004077c0()
+// src: XBOX_PDB 0x004077c0
+bool FUN_004077c0_shell::TESForm_GetTemporary()
 {
     return (*(unsigned int*)((char*)this + 8) & 0x4000) ? true : false;
 }
@@ -302,7 +303,8 @@ void* EffectSetting::TESDataHandler_GetRecipes()
 }
 
 // @fnv 0x00407820
-TESEffectShader* EffectSetting::FUN_00407820()
+// src: XBOX_PDB 0x00407820
+TESEffectShader* EffectSetting::GetEffectShader_00407820()
 {
     return data.m_pEffectShader;
 }
@@ -354,7 +356,8 @@ float __cdecl abs(float);
 }
 
 // @fnv 0x00408820
-double FUN_00408820(float fValue)
+// src: XBOX_PDB 0x00408820
+double NiAbs_00408820(float fValue)
 {
     return std::abs(fValue);
 }
@@ -362,7 +365,8 @@ double FUN_00408820(float fValue)
 double __cdecl _fabs(double);
 
 // @fnv 0x00408860
-float FUN_00408860(float afValue)
+// src: XBOX_PDB 0x00408860
+float fabsf_00408860(float afValue)
 {
     return (float)_fabs((double)afValue);
 }
@@ -370,13 +374,15 @@ float FUN_00408860(float afValue)
 int __cdecl FUN_00ec6da0(const char*, const char*);
 
 // @fnv 0x00408b20
-int __cdecl FUN_00408b20(const char* apString1, const char* apString2)
+// src: XBOX_PDB 0x00408b20
+int __cdecl BSstrcmp(const char* apString1, const char* apString2)
 {
     return FUN_00ec6da0(apString1, apString2);
 }
 
 // @fnv 0x004ee4b0
-void EffectSetting::FUN_004ee4b0(float afBaseCost)
+// src: XBOX_PDB 0x004ee4b0
+void EffectSetting::BSShaderProperty_SetDepthBias(float afBaseCost)
 {
     data.m_fBaseCost = afBaseCost;
 }
@@ -430,7 +436,8 @@ extern "C" short __cdecl FUN_00ec3bda(short);
 
 // Replaces the short value pointed to by p with the result of FUN_00ec3bda applied to it.
 // @fnv 0x00407a90
-void __cdecl FUN_00407a90(short* psValue)
+// src: XBOX_PDB 0x00407a90
+void __cdecl BSEndian_00407a90(short* psValue)
 {
     short* tmp = psValue;
     *tmp = FUN_00ec3bda(*tmp);
@@ -445,7 +452,7 @@ int __fastcall GetEffectCounterCount(EffectSetting* self)
 // @fnv 0x004086a0
 int __fastcall GetEffectFlagMode(EffectSetting* self)
 {
-    return (self->FUN_00403e60(0x2000000) ? 2 : 0) + (self->FUN_00403e60(0x4000000) ? 1 : 0);
+    return (self->IsFlagSet_00403e60(0x2000000) ? 2 : 0) + (self->IsFlagSet_00403e60(0x4000000) ? 1 : 0);
 }
 
 // Steps the int at offset 0xAC one unit toward zero and returns the resulting value.
@@ -463,7 +470,7 @@ int __fastcall ClampEffectCounterTowardZero(EffectSetting* self)
 // @fnv 0x004087e0
 int __fastcall NormalizeEffectCounter(EffectSetting* self)
 {
-    self->m_iEffectID = (int)FUN_00408820((float)self->m_iEffectID);
+    self->m_iEffectID = (int)NiAbs_00408820((float)self->m_iEffectID);
     return self->m_iEffectID;
 }
 
@@ -520,7 +527,7 @@ int __fastcall CompareBSStrings(BSStringT<char>* self, BSStringCompareArguments 
 
 struct IMH
 {
-    int FUN_00586150();
+    int CombatController_GetCombatState();
 };
 
 struct TargetDoorController
@@ -556,7 +563,7 @@ extern DH* g_dataHandler;
 
 struct TESEffectShaderAux
 {
-    float FUN_00644930();
+    float Explosion_GetRadius();
 };
 
 float __fastcall GetField90Float(char* value);
@@ -577,15 +584,15 @@ void EffectSetting::CopyFromBase(BaseFormComponent* component)
     TESForm::CopyFrom(reinterpret_cast<TESForm*>(component));
     reinterpret_cast<LowProcess*>(this)->LowProcess::SetPackageObjectType(
         reinterpret_cast<TESChallenge*>(psetting)->GetThreshold());
-    this->FUN_004ee4b0(reinterpret_cast<TESGrass*>(psetting)->TESGrass::GetLowestAllowedSlope());
+    this->BSShaderProperty_SetDepthBias(reinterpret_cast<TESGrass*>(psetting)->TESGrass::GetLowestAllowedSlope());
     this->SetAssociatedActorValue(
-        reinterpret_cast<IMH*>(psetting)->FUN_00586150());
+        reinterpret_cast<IMH*>(psetting)->CombatController_GetCombatState());
     reinterpret_cast<MiddleHighProcess*>(this)->MiddleHighProcess::AddDeferredHideLimb(
         reinterpret_cast<ObjectToAcquire*>(psetting->GetEffectID()));
     reinterpret_cast<PlayerQuestData*>(this)->SetLogDate(
         reinterpret_cast<Date*>(reinterpret_cast<TES*>(psetting)->GetLogDate()));
     SetEffectField90(this, GetField90Float(reinterpret_cast<char*>(psetting)));
-    SetEffectField94(this, reinterpret_cast<TESEffectShaderAux*>(psetting)->FUN_00644930());
+    SetEffectField94(this, reinterpret_cast<TESEffectShaderAux*>(psetting)->Explosion_GetRadius());
     reinterpret_cast<PathingRequest*>(this)->SetCenterRadius(
         reinterpret_cast<PathingRequest*>(psetting)->GetCenterRadius());
     this->SetEffectID(psetting->GetArchetype());
@@ -671,7 +678,7 @@ bool EffectSetting::CompareWithBase(BaseFormComponent* component)
         return 1;
     if (reinterpret_cast<TESChallenge*>(this)->GetThreshold() != reinterpret_cast<TESChallenge*>(other)->GetThreshold() ||
         !(GetEffectBaseCostForComparison(this) == GetEffectBaseCostForComparison(other)) ||
-        reinterpret_cast<IMH*>(this)->FUN_00586150() != reinterpret_cast<IMH*>(other)->FUN_00586150() ||
+        reinterpret_cast<IMH*>(this)->CombatController_GetCombatState() != reinterpret_cast<IMH*>(other)->CombatController_GetCombatState() ||
         reinterpret_cast<TESChallenge*>(this)->GetInterval() != reinterpret_cast<TESChallenge*>(other)->GetInterval() ||
         GetEffectID() != other->GetEffectID() ||
         reinterpret_cast<TES*>(this)->GetLogDate() != reinterpret_cast<TES*>(other)->GetLogDate() ||

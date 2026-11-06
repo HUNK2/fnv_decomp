@@ -26,12 +26,12 @@ void __thiscall FUN_00865aa0_shell::SetFlags(unsigned int a)
 }
 
 unsigned int __cdecl GetSizeTypeForSize(unsigned int);
-unsigned int __cdecl FUN_00845d70(unsigned int);
+unsigned int __cdecl GetSizeTypeSize(unsigned int);
 // Calls FUN_0084e3a0, passes the result through FUN_00845d40 and FUN_00845d70, then returns that value plus 9.
 // @fnv 0x00865b10
 unsigned int __thiscall BGSSaveFormBuffer::GetSize()
 {
-    unsigned int value = FUN_00845d70(GetSizeTypeForSize(FUN_0084e3a0()));
+    unsigned int value = GetSizeTypeSize(GetSizeTypeForSize(GetHavokWorldObjectCountInSceneGraph_0084e3a0()));
     return value + 9;
 }
 
@@ -97,7 +97,7 @@ void __cdecl WriteValueByType(void*, unsigned int, unsigned int);
 // @fnv 0x00865a30
 void BGSSaveFormBuffer::Save(SaveLoadFile* buffer)
 {
-    unsigned int secondValue = FUN_0084e3a0();
+    unsigned int secondValue = GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     unsigned int firstValue = GetSizeTypeForSize(secondValue);
     reinterpret_cast<FUN_00865aa0_shell*>(&Header.formInfo)->SetFlags(firstValue);
     buffer->WriteToFile(&Header, 9);

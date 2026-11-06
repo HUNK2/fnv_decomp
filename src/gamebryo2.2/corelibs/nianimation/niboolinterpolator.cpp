@@ -31,15 +31,16 @@ NiAnimationKey* NiBoolInterpolator::GetChannelKeys(unsigned short usChannel) con
 }
 
 // These base overrides are not declared by the shared NiKeyBasedInterpolator yet.
-void __cdecl FUN_00aa0ad0();
-void __cdecl FUN_00c85800();
+void __cdecl BSPackedAdditionalGeometryData_RegisterStreamables();
+void __cdecl bhkCharacterProxy_IsEqual();
 void __cdecl NiKeyBasedInterpolator_LinkObject();
 void __cdecl FUN_00a3cbf0();
 
 // @fnv 0x00a3c5b0
-bool __thiscall NiBoolInterpolator::FUN_00a3c5b0(NiStream* kStream)
+// src: XBOX_PDB 0x00a3c5b0
+bool __thiscall NiBoolInterpolator::RegisterStreamables_00a3c5b0(NiStream* kStream)
 {
-    if (!reinterpret_cast<bool (__thiscall*)(NiKeyBasedInterpolator*, NiStream*)>(&FUN_00aa0ad0)(this, kStream))
+    if (!reinterpret_cast<bool (__thiscall*)(NiKeyBasedInterpolator*, NiStream*)>(&BSPackedAdditionalGeometryData_RegisterStreamables)(this, kStream))
         return false;
     NiBoolData* pkBoolData = m_spBoolData.m_pObject;
     if (pkBoolData)
@@ -317,8 +318,8 @@ struct FUN_00a536d0_arr
 };
 
 void* NiViewerStrings_NiGetViewerString_Title(int value);
-void* FUN_00a7d410(const char* fmt, unsigned int value);
-void* FUN_00a7d5a0(const char* fmt, void* value);
+void* NiGetViewerString_00a7d410(const char* fmt, unsigned int value);
+void* NiGetViewerString_00a7d5a0(const char* fmt, void* value);
 extern int DAT_011f404c;
 
 // @fnv 0x00a536d0
@@ -337,7 +338,7 @@ void NiBoolInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
     }
     pArr->FUN_0096ae90(idx, &v);
 
-    v = FUN_00a7d410("m_bBoolValue", m_bBoolValue);
+    v = NiGetViewerString_00a7d410("m_bBoolValue", m_bBoolValue);
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
@@ -346,7 +347,7 @@ void NiBoolInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
     pArr->FUN_0096ae90(idx, &v);
 
     void* pBoolData = m_spBoolData.m_pObject;
-    v = FUN_00a7d5a0("m_spBoolData", pBoolData);
+    v = NiGetViewerString_00a7d5a0("m_spBoolData", pBoolData);
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
@@ -359,7 +360,7 @@ void NiBoolInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
 bool NiBoolInterpolator::IsEqual(NiObject* object) const
 {
     NiBoolInterpolator* other = static_cast<NiBoolInterpolator*>(object);
-    if (!reinterpret_cast<bool (__thiscall*)(const NiKeyBasedInterpolator*, NiObject*)>(&FUN_00c85800)(this, object))
+    if (!reinterpret_cast<bool (__thiscall*)(const NiKeyBasedInterpolator*, NiObject*)>(&bhkCharacterProxy_IsEqual)(this, object))
         return false;
     if (m_bBoolValue != other->m_bBoolValue)
         return false;
@@ -423,12 +424,13 @@ bool NiBoolInterpolator::UpdateBool(float fValue, NiObjectNET* target, bool& out
     return true;
 }
 
-void __cdecl FUN_00aa1000();
+void __cdecl NiCollisionObject_CopyMembers();
 
 // @fnv 0x00aa0ab0
-void __cdecl FUN_00aa0ab0()
+// src: XBOX_PDB 0x00aa0ab0
+void __cdecl NiKeyBasedInterpolator_CopyMembers()
 {
-    FUN_00aa1000();
+    NiCollisionObject_CopyMembers();
 }
 
 namespace ni535 {

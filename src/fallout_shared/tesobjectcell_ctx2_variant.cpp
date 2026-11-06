@@ -13,7 +13,7 @@ NiAVObject* TESMain_GetWeatherRoot();
 class AnimGroup
 {
   public:
-    bool FUN_00759d80();
+    bool AnimatingText_IsDisplayFinished();
     bool GetMaxOfTwoBytes();
     bool GetMaxByte();
 };
@@ -121,7 +121,7 @@ void LockCtx::NiTreeCtrl_AddControllerSequence(int arg1, NiControllerSequence* a
         p = false;
         if (cf)
         {
-            h = reinterpret_cast<AnimGroup*>(cf->GetAnimGroup())->FUN_00759d80();
+            h = reinterpret_cast<AnimGroup*>(cf->GetAnimGroup())->AnimatingText_IsDisplayFinished();
             a = reinterpret_cast<AnimGroup*>(cf->GetAnimGroup())->GetMaxOfTwoBytes();
             p = reinterpret_cast<AnimGroup*>(cf->GetAnimGroup())->GetMaxByte();
         }
@@ -129,16 +129,16 @@ void LockCtx::NiTreeCtrl_AddControllerSequence(int arg1, NiControllerSequence* a
         if (h)
         {
             sprintf_s(eb, 0x100, "%s: %s, Count: %d, Blend: %0.2f", arg2->GetTESPackageList()->a, s,
-                      arg2->FUN_0084e3a0(), (double)h / 30.0);
+                      arg2->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), (double)h / 30.0);
         }
         else if (a || p)
         {
             sprintf_s(eb, 0x100, "%s: %s, Count: %d, BlendIn: %0.2f, BlendOut: %0.2f", arg2->GetTESPackageList()->a,
-                      s, arg2->FUN_0084e3a0(), (double)a / 30.0, (double)p / 30.0);
+                      s, arg2->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), (double)a / 30.0, (double)p / 30.0);
         }
         else
         {
-            sprintf_s(eb, 0x100, "%s: %s, Count: %d", arg2->GetTESPackageList()->a, s, arg2->FUN_0084e3a0());
+            sprintf_s(eb, 0x100, "%s: %s, Count: %d", arg2->GetTESPackageList()->a, s, arg2->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         }
         ba.msg = PrepareScriptMessage(eb, false);
         b.kind = 5;
@@ -168,7 +168,7 @@ struct CellFile
     unsigned char FUN_00472660();
     bool FUN_00471c20();
     void* FUN_00467bb0();
-    int FUN_004726b0();
+    int TESFile_GetTESChunk();
     unsigned int GetField25C();
     void FUN_00472890(void*, unsigned int);
     void ReadChunkInt(void*);
@@ -363,8 +363,8 @@ struct CellExtra
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     void LoadExtraData(CellFile*, CellForm*);
-    FUN_0058efd0* FUN_0041c460();
-    void FUN_0041c390(FUN_0058efd0*);
+    FUN_0058efd0* ExtraDataList_GetImpactSwap();
+    void ExtraDataList_SetImpactSwap(FUN_0058efd0*);
 };
 struct CellString
 {
@@ -373,7 +373,7 @@ struct CellString
 };
 struct CellExterior
 {
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
 struct CellInterior
 {
@@ -429,13 +429,14 @@ struct CellLoader : CellForm, CellFullName
     void ResetCellData();
     bool FUN_00425fd0();
     void SetInteriorDataValue(void*);
-    CellExterior* FUN_005445d0();
-    CellInterior* FUN_00544600();
+    CellExterior* GetExteriorData_005445d0();
+    CellInterior* GetInteriorData_00544600();
     void FUN_00484ab0(bool);
-    bool FUN_005422d0(CellFile* file);
+    bool TESObjectCELL_Load(CellFile* file);
 };
 // @fnv 0x005422d0
-bool CellLoader::FUN_005422d0(CellFile* file)
+// src: XBOX_PDB 0x005422d0
+bool CellLoader::TESObjectCELL_Load(CellFile* file)
 {
     unsigned char formTypeSlot15 = file->FUN_00472660();
     if (formTypeSlot15 != 0x39)
@@ -446,7 +447,7 @@ bool CellLoader::FUN_005422d0(CellFile* file)
     CallWithThis(file);
     do
     {
-        int chunk = file->FUN_004726b0();
+        int chunk = file->TESFile_GetTESChunk();
         switch (chunk)
         {
         case 0x44494445:  // EDID
@@ -554,11 +555,11 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         case 0x46504d49:  // IMPF
         case 0x53504d49:  // IMPS
         {
-            ::FUN_0058efd0* imageSpace = GetExtraDataList()->FUN_0041c460();
+            ::FUN_0058efd0* imageSpace = GetExtraDataList()->ExtraDataList_GetImpactSwap();
             if (!imageSpace)
             {
                 imageSpace = new ::FUN_0058efd0;
-                GetExtraDataList()->FUN_0041c390(imageSpace);
+                GetExtraDataList()->ExtraDataList_SetImpactSwap(imageSpace);
             }
             imageSpace->FUN_0058f180(file);
             break;
@@ -609,20 +610,20 @@ bool CellLoader::FUN_005422d0(CellFile* file)
         }
         case 0x434c4358:  // XCLC
         {
-            CellExterior* exterior = FUN_005445d0();
+            CellExterior* exterior = GetExteriorData_005445d0();
             if (exterior)
             {
                 if (file->FUN_00401680() && file->GetField25C() != 12)
-                    exterior->FUN_00462230();
+                    exterior->TwoValues_Endian();
                 file->FUN_00472890(exterior, 12);
                 if (file->FUN_00401680())
-                    exterior->FUN_00462230();
+                    exterior->TwoValues_Endian();
             }
             break;
         }
         case 0x4c4c4358:  // XCLL
         {
-            CellInterior* interior = FUN_00544600();
+            CellInterior* interior = GetInteriorData_00544600();
             if (interior)
             {
                 if (file->FUN_00401680() && file->GetField25C() != 44)

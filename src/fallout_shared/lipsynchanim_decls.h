@@ -28,7 +28,7 @@ FNV_STATIC_ASSERT(offsetof(LipSyncAnimation, m_ppModifierFrames) == 12);
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);
-float __cdecl FUN_0040ebd0(float, float);
+float __cdecl BSMIN(float, float);
 
 #include "../../include/NiBinaryStream.h"
 extern "C" void* __cdecl memset(void*, int, unsigned int);

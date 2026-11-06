@@ -49,7 +49,7 @@ typedef signed char hkInt8;
 typedef unsigned char hkUint8;
 
 // hkArray.h identifies hkMemoryRouter as the shared hkMemoryRouter layout.
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 union __declspec(align(16)) hkAabbQ
 {
@@ -60,7 +60,7 @@ union __declspec(align(16)) hkAabbQ
 
 inline void* hkpVehicleRayCastWheelCollide::operator new(unsigned int nbytes)
 {
-    hkpVehicleRayCastWheelCollide* b = static_cast<hkpVehicleRayCastWheelCollide*>(FUN_00c85750().heap().blockAlloc(nbytes));
+    hkpVehicleRayCastWheelCollide* b = static_cast<hkpVehicleRayCastWheelCollide*>(hkMemoryRouter_getInstance().heap().blockAlloc(nbytes));
     b->m_usMemSizeAndFlags = (unsigned short)nbytes;
     return b;
 }
@@ -90,7 +90,7 @@ void hkpVehicleRayCastWheelCollide::UpdatePhantom(const hkpVehicleInstance* vehi
 {
     hkAabbQ aabb;
     this->GetWheelAabb(vehicle, &aabb);
-    this->m_pPhantom->FUN_00cf24a0(aabb);
+    this->m_pPhantom->hkpAabbPhantom_setAabb(aabb);
 }
 
 struct FUN_00c92c70_host
@@ -145,7 +145,7 @@ template <typename T> __forceinline void ConstructWithCopy(T* destination, int c
 void hkpVehicleRayCastWheelCollide::AppendPhantom(hkArray<hkpAabbPhantom*>& phantoms)
 {
     hkpAabbPhantom* phantom = m_pPhantom;
-    hkMemoryAllocator& allocator = FUN_00c85750().heap();
+    hkMemoryAllocator& allocator = hkMemoryRouter_getInstance().heap();
     if (phantoms.m_iElementCount == phantoms.getCapacity())
         ResizeAudioStream(&allocator, &phantoms, sizeof(hkpAabbPhantom*));
     ConstructWithCopy(phantoms.m_data + phantoms.m_iElementCount, 1, phantom);
@@ -159,7 +159,7 @@ void hkpVehicleRayCastWheelCollide::CreateWheelPhantom(const hkpVehicleInstance*
 
     this->GetWheelAabb(vehicle, &aabb);
 
-    hkMemoryRouter& host = FUN_00c85750();
+    hkMemoryRouter& host = hkMemoryRouter_getInstance();
 
     hkpAabbPhantom* allocated = reinterpret_cast<hkpAabbPhantom*>(host.heap().blockAlloc(0xe0));
 
@@ -262,7 +262,7 @@ void __thiscall hkpVehicleRayCastWheelCollide::CastWheelRay(const hkpVehicleInst
     *(LocalM128*)&input.m_vTo = *(LocalM128*)((const char*)&wheel + 0x60);
     input.m_uiFilterInfo = m_uiWheelCount;
     input.m_bEnableShapeCollectionFilter = 1;
-    m_pPhantom->FUN_00cf26b0(&input, &output);
+    m_pPhantom->hkpAabbPhantom_castRay_00cf26b0(&input, &output);
 }
 
 // Iterates over vehicle wheels, casts a ray for each, and processes or finalizes the collision output based on whether the ray hit.

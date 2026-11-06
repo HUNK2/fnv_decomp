@@ -204,7 +204,7 @@ char* __fastcall getConstraintSlaves(hkpEntity* self)
     return reinterpret_cast<char*>(&self->m_kSlaveConstraints);
 }
 
-void __cdecl FUN_00d1a330(int a1, int* a2, int a3);
+void __cdecl hkpEntityAabbUtil_entityBatchRecalcAabb(int a1, int* a2, int a3);
 
 // If m_08 and m_10 are set, calls FUN_00d1a330 with m_08->m_78, a pointer to this, and 1.
 // @fnv 0x00c9bfa0
@@ -213,7 +213,7 @@ void __fastcall synchronizeEntity(hkpEntity* self)
     if (self->m_pOwningWorld && self->m_kCollidable.m_pCollisionShape)
     {
         hkpEntity* entity = self;
-        FUN_00d1a330(reinterpret_cast<int*>(self->m_pOwningWorld)[0x78 / 4], (int*)&entity, 1);
+        hkpEntityAabbUtil_entityBatchRecalcAabb(reinterpret_cast<int*>(self->m_pOwningWorld)[0x78 / 4], (int*)&entity, 1);
     }
 }
 
@@ -239,7 +239,7 @@ void __fastcall activateEntity(hkpEntity* self, int)
     {
         hkWorldOperationC9C3 kOp;
         kOp.m_pEntity = self;
-        static_cast<hkpWorld*>(self->m_pOwningWorld)->FUN_00c91160(&kOp);
+        static_cast<hkpWorld*>(self->m_pOwningWorld)->hkpWorld_queueOperation(&kOp);
         return;
     }
     self->activate_00c9c1d0();
@@ -262,7 +262,7 @@ void __fastcall deactivateEntity(hkpEntity* self)
         WorldOp op;
         op.m_pEntity = self;
         op.m_type = 0x22;
-        world->FUN_00c91160(&op);
+        world->hkpWorld_queueOperation(&op);
         return;
     }
     deactivateEntityImmediately(self);
@@ -530,14 +530,14 @@ struct FnvCpu_FUN_00c9d160_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00c9d160_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00c9d160_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00c9d160_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00c9d160
 hkpMotion* __fastcall deleteMotion(hkpMotion* self, int, unsigned int flags)
 {
     self->hkpMotion::~hkpMotion();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(self, self->m_usMemSizeAndFlags);
     }
     return self;
@@ -608,7 +608,7 @@ struct FnvCpu_FUN_00c9d460_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00c9d460_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00c9d460_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00c9d460_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00c9d460_CpuObject
 {
     unsigned int unk00;
@@ -622,7 +622,7 @@ FnvCpu_FUN_00c9d460_CpuObject* FnvCpu_FUN_00c9d460_CpuObject::FUN_00c9d460(unsig
     FUN_00c9d3b0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00c9d460_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d460_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1136,7 +1136,7 @@ void __fastcall addActivationListener(hkpEntity* self, int, hkpEntityActivationL
 {
     if (self->m_pExtendedListeners == 0)
     {
-        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00c9d160_CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         FUN_00c9c700_Allocator* allocator = (FUN_00c9c700_Allocator*)holder->allocator;
         hkpEntityExtendedListeners* array = (hkpEntityExtendedListeners*)allocator->slot04(0x10);
 
@@ -1260,7 +1260,7 @@ struct FnvRouter
     void* d;
     FnvMem* heap;
 };
-extern FnvRouter* __cdecl FUN_00c85750();
+extern FnvRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct FnvRef : hkReferencedObject, hkpContactListener
 {
@@ -1273,7 +1273,7 @@ template <typename Array> __forceinline void clearSmallArray(Array& array, int e
     {
         unsigned c = array.m_iCapacityState & 0x3fff;
         void* d = array.m_data;
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = hkMemoryRouter_getInstance();
         FnvMem* mem = router->heap;
         mem->freeArray(d, c * elementSize);
     }
@@ -1297,7 +1297,7 @@ template <typename T> __forceinline void releaseExtendedArray(hkSmallArray<T>& a
     {
         unsigned c = array.m_capacityAndFlags & 0x3fff;
         void* d = array.m_data;
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = hkMemoryRouter_getInstance();
         FnvMem* mem = router->heap;
         mem->freeArray(d, c * 4);
     }
@@ -1321,7 +1321,7 @@ __forceinline void freeExtendedListeners(hkpEntityExtendedListeners* listeners)
 {
     releaseExtendedArray(listeners->m_entityListeners);
     releaseExtendedArray(listeners->m_activationListeners);
-    FnvRouter* router = FUN_00c85750();
+    FnvRouter* router = hkMemoryRouter_getInstance();
     FnvMem* mem = router->heap;
     mem->freeArray(listeners, 16);
 }
@@ -1339,7 +1339,7 @@ void __fastcall rebuildEntity(hkpEntity* self)
     }
     if (self->m_kCollidable.m_kCollisionEntries.m_iElementCount == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = hkMemoryRouter_getInstance();
         FnvMem* mem = router->heap;
         int f = self->m_kCollidable.m_kCollisionEntries.m_iCapacityState;
         self->m_kCollidable.m_kCollisionEntries.m_iElementCount = 0;
@@ -1352,7 +1352,7 @@ void __fastcall rebuildEntity(hkpEntity* self)
         clearSmallArray(self->m_eSmallArraySerializeOverrideType, 48);
     if (self->m_kSlaveConstraints.m_iElementCount == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = hkMemoryRouter_getInstance();
         FnvMem* mem = router->heap;
         int f = self->m_kSlaveConstraints.m_iCapacityState;
         self->m_kSlaveConstraints.m_iElementCount = 0;
@@ -1363,7 +1363,7 @@ void __fastcall rebuildEntity(hkpEntity* self)
     }
     if (self->m_pByteBuffer.m_iElementCount == 0)
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = hkMemoryRouter_getInstance();
         FnvMem* mem = router->heap;
         int f = self->m_pByteBuffer.m_iCapacityState;
         self->m_pByteBuffer.m_iElementCount = 0;

@@ -72,7 +72,8 @@ void hkOArchive::WriteInt(unsigned int aiValue)
 }
 
 // @fnv 0x00d60960
-void __stdcall FUN_00d60960(const float* p)
+// src: XBOX_PDB 0x00d60960
+void __stdcall hkOArchive_write32u(const float* p)
 {
     WriteSwapped((void*)&p, 4, 1);
 }
@@ -96,7 +97,8 @@ void hkOArchive::WriteUint8(unsigned char value)
 }
 
 // @fnv 0x00d605d0
-void __fastcall FUN_00d605d0(hkOArchive* self, void*, unsigned char value)
+// src: XBOX_PDB 0x00d605d0
+void __fastcall hkOArchive_write8u(hkOArchive* self, void*, unsigned char value)
 {
     self->writer->write(&value, 1);
 }
@@ -171,7 +173,8 @@ struct hkStub
     virtual void vf10(int a);
 };
 // @fnv 0x00d607b0
-void __fastcall FUN_00d607b0(hkOArchive* self, void*, int a)
+// src: XBOX_PDB 0x00d607b0
+void __fastcall hkOArchive_writeRaw(hkOArchive* self, void*, int a)
 {
     reinterpret_cast<hkStub*>(self->writer)->vf10(a);
 }
@@ -182,7 +185,7 @@ void __fastcall FUN_00d607c0(hkOArchive* self, void*, char v)
     self->byteSwap.m_cBooleanValue = v;
 }
 
-extern "C" void* __cdecl FUN_00cb1260(void* dest, const void* src, unsigned int count);
+extern "C" void* __cdecl hkString_memCpy(void* dest, const void* src, unsigned int count);
 
 inline void swapBytes(unsigned char& a, unsigned char& b)
 {
@@ -218,7 +221,7 @@ void hkOArchive::WriteSwapped(const void* data, unsigned int size, unsigned int 
             chunkSize = remBytes;
         }
 
-        FUN_00cb1260(aiBuffer, cur, chunkSize);
+        hkString_memCpy(aiBuffer, cur, chunkSize);
 
         switch (elementSize)
         {
@@ -269,7 +272,8 @@ unsigned char* __fastcall FUN_00d607d0(hkOArchive* self, void*, unsigned char* o
 }
 
 // @fnv 0x00d60800
-void* __fastcall FUN_00d60800(hkOArchive* self, void*)
+// src: XBOX_PDB 0x00d60800
+void* __fastcall hkOArchive_getStreamWriter(hkOArchive* self, void*)
 {
     return self->writer;
 }

@@ -174,13 +174,14 @@ float __thiscall FUN_004a0db0_class::GetFloatAt120()
     return *(float*)((char*)this + 0x120);
 }
 
-void* __fastcall FUN_004a3d20(void* self);
+void* __fastcall hkpShapeRayCastOutput_hkpShapeRayCastOutput(void* self);
 
 // Calls FUN_004a3d20 on self, sets the int at offset 0x50 to 0, and returns self.
 // @fnv 0x004a3d00
-void* __fastcall FUN_004a3d00(void* self)
+// src: XBOX_PDB 0x004a3d00
+void* __fastcall hkpWorldRayCastOutput_hkpWorldRayCastOutput(void* self)
 {
-    FUN_004a3d20(self);
+    hkpShapeRayCastOutput_hkpShapeRayCastOutput(self);
     *(int*)((char*)self + 0x50) = 0;
     return self;
 }
@@ -188,24 +189,26 @@ void* __fastcall FUN_004a3d00(void* self)
 struct FUN_004a3d40_class
 {
     void __thiscall _ref_006815c0();
-    void __thiscall FUN_004a3d60();
-    FUN_004a3d40_class* __thiscall FUN_004a3d40();
+    void __thiscall hkpShapeRayCastCollectorOutput_reset();
+    FUN_004a3d40_class* __thiscall hkpShapeRayCastCollectorOutput_hkpShapeRayCastCollectorOutput();
 };
 // @fnv 0x004a3d40
-FUN_004a3d40_class* __thiscall FUN_004a3d40_class::FUN_004a3d40()
+// src: XBOX_PDB 0x004a3d40
+FUN_004a3d40_class* __thiscall FUN_004a3d40_class::hkpShapeRayCastCollectorOutput_hkpShapeRayCastCollectorOutput()
 {
     _ref_006815c0();
-    FUN_004a3d60();
+    hkpShapeRayCastCollectorOutput_reset();
     return this;
 }
 
 struct FUN_004a3d60_class
 {
-    void FUN_004a3d60();
+    void hkpShapeRayCastCollectorOutput_reset();
 };
 
 // @fnv 0x004a3d60
-void FUN_004a3d60_class::FUN_004a3d60()
+// src: XBOX_PDB 0x004a3d60
+void FUN_004a3d60_class::hkpShapeRayCastCollectorOutput_reset()
 {
     *(float*)((char*)this + 0x10) = 1.0f;
     *(int*)((char*)this + 0x14) = -1;
@@ -213,11 +216,12 @@ void FUN_004a3d60_class::FUN_004a3d60()
 
 struct FUN_004a3d80_Class
 {
-    void __thiscall FUN_004a3d80();
+    void __thiscall hkpShapeRayCastOutput__reset();
 };
 
 // @fnv 0x004a3d80
-void __thiscall FUN_004a3d80_Class::FUN_004a3d80()
+// src: XBOX_PDB 0x004a3d80
+void __thiscall FUN_004a3d80_Class::hkpShapeRayCastOutput__reset()
 {
     *(int*)((char*)this + 0x40) = 0;
     *(int*)((char*)this + 0x20) = -1;
@@ -226,7 +230,8 @@ void __thiscall FUN_004a3d80_Class::FUN_004a3d80()
 extern float runtimeInitializationFloat2123;
 
 // @fnv 0x004a3e90
-float FUN_004a3e90(float value)
+// src: XBOX_PDB 0x004a3e90
+float NI2HK_004a3e90(float value)
 {
     return runtimeInitializationFloat2123 * value;
 }
@@ -238,11 +243,12 @@ struct RegionPoint
 
 struct FUN_004a40a0_Class
 {
-    float FUN_004a40a0();
+    float BGSImpactData_GetDecalMinWidth();
 };
 
 // @fnv 0x004a40a0
-float FUN_004a40a0_Class::FUN_004a40a0()
+// src: XBOX_PDB 0x004a40a0
+float FUN_004a40a0_Class::BGSImpactData_GetDecalMinWidth()
 {
     return ((RegionPoint*)((char*)this + 0x54))->GetX();
 }
@@ -310,13 +316,14 @@ unsigned short FUN_004a4200_class::DecalData_GetParallaxPasses()
 struct MersenneTwister
 {
     static MersenneTwister* GetRandomGenerator();
-    void* FUN_004a4260();
+    void* BSRandom_FloatTwoPi();
 };
 
 // @fnv 0x004a4240
-void* FUN_004a4240()
+// src: XBOX_PDB 0x004a4240
+void* RandomFloatTwoPi()
 {
-    return MersenneTwister::GetRandomGenerator()->FUN_004a4260();
+    return MersenneTwister::GetRandomGenerator()->BSRandom_FloatTwoPi();
 }
 
 struct FUN_004a4440_Class
@@ -331,26 +338,28 @@ void __thiscall FUN_004a4440_Class::FUN_004a4440()
     FUN_004a46d0();
 }
 
-extern "C" BSAudio* __cdecl FUN_00c85750();
+extern "C" BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct FUN_004a4840_class
 {
-    void FUN_004a4840(int unused);
+    void hkContainerHeapAllocator_get(int unused);
 };
 // @fnv 0x004a4840
-void FUN_004a4840_class::FUN_004a4840(int unused)
+// src: XBOX_PDB 0x004a4840
+void FUN_004a4840_class::hkContainerHeapAllocator_get(int unused)
 {
-    FUN_00c85750()->GetAudioBackendData();
+    hkMemoryRouter_getInstance()->GetAudioBackendData();
 }
 
 struct FUN_004a49e0_shell
 {
     void __thiscall Deallocate(void* p);
-    void __thiscall FUN_004a49e0(void* item);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSOcclusionPlane_DeleteItem(void* item);
 };
 
 // Clears the int at offset 8 of item, then calls Deallocate on the object at this+8 to free it.
 // @fnv 0x004a49e0
-void __thiscall FUN_004a49e0_shell::FUN_004a49e0(void* item)
+// src: XBOX_PDB 0x004a49e0
+void __thiscall FUN_004a49e0_shell::NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSOcclusionPlane_DeleteItem(void* item)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(item) + 8) = 0;
     reinterpret_cast<FUN_004a49e0_shell*>(reinterpret_cast<char*>(this) + 8)->Deallocate(item);
@@ -539,7 +548,7 @@ struct FUN_004afba0_class
 // @fnv 0x004afba0
 void FUN_004afba0_class::UnlockAtOffset()
 {
-    ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
+    ((RecursiveSpinLock*)((char*)this + 0x20))->BSSpinLock_Unlock();
 }
 }  // namespace fnv_004afba0
 
@@ -625,12 +634,13 @@ short __cdecl GetShortFromTable(int index)
     return DAT_01188ecc[index];
 }
 
-float __cdecl FUN_004b1520(float, float);
+float __cdecl fmodf(float, float);
 
 // @fnv 0x004b1500
-float __cdecl FUN_004b1500(float a, float b)
+// src: XBOX_PDB 0x004b1500
+float __cdecl fmod_004b1500(float a, float b)
 {
-    return FUN_004b1520(a, b);
+    return fmodf(a, b);
 }
 
 extern int DAT_011aa050;
@@ -685,7 +695,7 @@ extern int DAT_010205b4;
 struct FUN_004b9950_class
 {
     int* p;
-    void FUN_004b99b0(int arg);
+    void NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist(int arg);
     FUN_004b9950_class* NiTMap_unsigned_int_VertexDist_NiTMap(int arg);
 };
 // Calls FUN_004b99b0 with arg, sets p to point at DAT_010205b4, and returns this.
@@ -693,7 +703,7 @@ struct FUN_004b9950_class
 // src: EXE 0x004b9950
 FUN_004b9950_class* FUN_004b9950_class::NiTMap_unsigned_int_VertexDist_NiTMap(int arg)
 {
-    FUN_004b99b0(arg);
+    NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist(arg);
     p = &DAT_010205b4;
     return this;
 }
@@ -770,12 +780,13 @@ extern double g_d100;
 
 struct FUN_004be080_Class
 {
-    float FUN_004be080();
+    float TESObjectARMO_GetCalculatedArmorRating();
 };
 
 // Returns the unsigned short at offset 0x178 divided by g_d100, cast to float.
 // @fnv 0x004be080
-float FUN_004be080_Class::FUN_004be080()
+// src: XBOX_PDB 0x004be080
+float FUN_004be080_Class::TESObjectARMO_GetCalculatedArmorRating()
 {
     return (float)((double)*(unsigned short*)((char*)this + 0x178) / g_d100);
 }
@@ -1163,10 +1174,11 @@ struct FUN_004a3cc0_Class
     Sub6815 b;
     CalleeObj c;
     int d;
-    FUN_004a3cc0_Class* __thiscall FUN_004a3cc0();
+    FUN_004a3cc0_Class* __thiscall hkpWorldRayCastInput_hkpWorldRayCastInput();
 };
 // @fnv 0x004a3cc0
-FUN_004a3cc0_Class* __thiscall FUN_004a3cc0_Class::FUN_004a3cc0()
+// src: XBOX_PDB 0x004a3cc0
+FUN_004a3cc0_Class* __thiscall FUN_004a3cc0_Class::hkpWorldRayCastInput_hkpWorldRayCastInput()
 {
     a._ref_006815c0();
     b._ref_006815c0();
@@ -1182,10 +1194,11 @@ struct UnsignedIntHelper
 };
 struct BSRandomHelper
 {
-    float __thiscall FUN_004a4260();
+    float __thiscall BSRandom_FloatTwoPi();
 };
 // @fnv 0x004a4260
-float __thiscall BSRandomHelper::FUN_004a4260()
+// src: XBOX_PDB 0x004a4260
+float __thiscall BSRandomHelper::BSRandom_FloatTwoPi()
 {
     unsigned int val = ((UnsignedIntHelper*)this)->GetRandomUInt();
     return (float)((double)val * DAT_0101e5a0);
@@ -1202,7 +1215,8 @@ struct FUN_004a4650_ListBase
 };
 // Iterates the linked list from m_pItemHead, deleting each item via DeleteItem, then clears the head, prev and tail pointers.
 // @fnv 0x004a4650
-void __fastcall FUN_004a4650(FUN_004a4650_ListBase* self)
+// src: XBOX_PDB 0x004a4650
+void __fastcall NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll(FUN_004a4650_ListBase* self)
 {
     NiTListItem<NiPointer<ObstacleData> >* item = self->m_pItemHead;
     while (item)
@@ -1220,11 +1234,12 @@ struct FUN_004a4930_class
 {
     char _pad[8];
     FUN_004a49e0_shell _m;
-    void __thiscall FUN_004a4930(void*);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_DeleteItem(void*);
 };
 // Clears the object at p+8 via assignment of 0, then calls _m.Deallocate(p).
 // @fnv 0x004a4930
-void __thiscall FUN_004a4930_class::FUN_004a4930(void* apObject)
+// src: XBOX_PDB 0x004a4930
+void __thiscall FUN_004a4930_class::NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_DeleteItem(void* apObject)
 {
     ((GO*)((char*)apObject + 8))->operator=(0);
     _m.Deallocate(apObject);
@@ -1232,11 +1247,12 @@ void __thiscall FUN_004a4930_class::FUN_004a4930(void* apObject)
 
 struct FUN_004a4960_class
 {
-    void* __thiscall FUN_004a4960(void* a, void* b, unsigned int c);
+    void* __thiscall hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(void* a, void* b, unsigned int c);
 };
 // Stores a, b and c (with the high bit set) into the object's first three fields and returns this.
 // @fnv 0x004a4960
-void* __thiscall FUN_004a4960_class::FUN_004a4960(void* pFirst, void* pSecond, unsigned int c)
+// src: XBOX_PDB 0x004a4960
+void* __thiscall FUN_004a4960_class::hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(void* pFirst, void* pSecond, unsigned int c)
 {
     *(void**)((char*)this) = pFirst;
     *(void**)((char*)this + 4) = pSecond;
@@ -1250,22 +1266,23 @@ struct H_A100
 };
 struct H_004a4a10
 {
-    void FUN_004a4a10(void* a, void* b);
+    void hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(void* a, void* b);
 };
 struct FUN_004a4990_s
 {
     void* p;
     int a;
     int b;
-    void __fastcall FUN_00626870();
-    void __thiscall FUN_004a4990(int arg);
+    void __fastcall hkArrayBase_hkpRootCdBodyPair_clear();
+    void __thiscall hkArrayBase_hkpWorldRayCastOutput_clearAndDeallocate(int arg);
 };
 // @fnv 0x004a4990
-void __thiscall FUN_004a4990_s::FUN_004a4990(int pTarget)
+// src: XBOX_PDB 0x004a4990
+void __thiscall FUN_004a4990_s::hkArrayBase_hkpWorldRayCastOutput_clearAndDeallocate(int pTarget)
 {
-    FUN_00626870();
+    hkArrayBase_hkpRootCdBodyPair_clear();
     if (!(b & 0x80000000))
-        ((H_004a4a10*)pTarget)->FUN_004a4a10(p, ((H_A100*)this)->GetSizeMasked());
+        ((H_004a4a10*)pTarget)->hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(p, ((H_A100*)this)->GetSizeMasked());
     p = 0;
     b = 0x80000000;
 }
@@ -1277,11 +1294,12 @@ struct FUN_004a4a10_Holder
     virtual void v2();
     virtual void v3();
     virtual void __thiscall vf10(int, int);
-    void __thiscall FUN_004a4a10(int, int);
+    void __thiscall hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(int, int);
 };
 // Calls vf10 with a1 and a2 multiplied by 0x60.
 // @fnv 0x004a4a10
-void __thiscall FUN_004a4a10_Holder::FUN_004a4a10(int aiArg1, int aiArg2)
+// src: XBOX_PDB 0x004a4a10
+void __thiscall FUN_004a4a10_Holder::hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(int aiArg1, int aiArg2)
 {
     int v = 0x60;
     vf10(aiArg1, aiArg2 * 0x60);
@@ -1326,7 +1344,8 @@ struct Mid
     virtual unsigned int v14();
 };
 // @fnv 0x004a8b00
-unsigned int FUN_004a8b00(BGSBodyPart* apObject)
+// src: XBOX_PDB 0x004a8b00
+unsigned int bhkNiCollisionObject_GetbhkNiCollisionObject(BGSBodyPart* apObject)
 {
     const char* pc = apObject->GetPartName();
     return pc ? ((Mid*)pc)->v14() : 0;
@@ -1340,11 +1359,12 @@ struct FUN_004a97e0_Class
     unsigned int m_uiItemCount;
     void* m_p;
     unsigned int m_auiShapeKeys;
-    void* __thiscall FUN_004a97e0(unsigned int a);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_NiTexture_TEX_USER_DATA_NiTexture_TEX_USER_DATA_NiTMapBase_DFALL_NiTMapItem_NiTexture_TEX_USER_DATA_NiTexture_TEX_USER_DATA(unsigned int a);
 };
 // Sets the vtable, stores a count, allocates count*4 bytes, zeroes them and stores the pointer in m_p.
 // @fnv 0x004a97e0
-void* __thiscall FUN_004a97e0_Class::FUN_004a97e0(unsigned int a)
+// src: XBOX_PDB 0x004a97e0
+void* __thiscall FUN_004a97e0_Class::NiTMapBase_DFALL_NiTMapItem_NiTexture_TEX_USER_DATA_NiTexture_TEX_USER_DATA_NiTMapBase_DFALL_NiTMapItem_NiTexture_TEX_USER_DATA_NiTexture_TEX_USER_DATA(unsigned int a)
 {
     m_vtbl = &DAT_0101ed2c;
     m_uiItemCount = a;
@@ -1672,25 +1692,27 @@ void __thiscall Helper62d0::AssignNodePointer(const NiPointer<NiNode>& other)
     operator=(reinterpret_cast<void const*>(&other));
 }
 
-unsigned short __cdecl FUN_004b10f0(unsigned short, unsigned short);
+unsigned short __cdecl Date_CalculateDate(unsigned short, unsigned short);
 struct FUN_004b0fc0_Struct
 {
     unsigned short m0;
     unsigned short m1;
-    FUN_004b0fc0_Struct* __thiscall FUN_004b0fc0(unsigned short a, unsigned short b, unsigned short c);
+    FUN_004b0fc0_Struct* __thiscall Date_Date(unsigned short a, unsigned short b, unsigned short c);
 };
 // Sets m0 to the result of FUN_004b10f0(a, b) and m1 to c, then returns this.
 // @fnv 0x004b0fc0
-FUN_004b0fc0_Struct* __thiscall FUN_004b0fc0_Struct::FUN_004b0fc0(unsigned short ausValue, unsigned short ausValue2,
+// src: XBOX_PDB 0x004b0fc0
+FUN_004b0fc0_Struct* __thiscall FUN_004b0fc0_Struct::Date_Date(unsigned short ausValue, unsigned short ausValue2,
                                                                   unsigned short c)
 {
-    m0 = FUN_004b10f0(ausValue, ausValue2);
+    m0 = Date_CalculateDate(ausValue, ausValue2);
     m1 = c;
     return this;
 }
 
 // @fnv 0x004b12d0
-int __cdecl FUN_004b12d0(char* pcString)
+// src: XBOX_PDB 0x004b12d0
+int __cdecl IsAFloat(char* pcString)
 {
     char bDotSeen = 0;
     char c = *pcString;
@@ -1786,11 +1808,11 @@ void* __thiscall Holder_004b9db0::FUN_004b9db0(unsigned int flags)
 
 struct FUN_00418630_Class
 {
-    void* FUN_00418630();
+    void* ExtraDataList_GetOriginalReference();
 };
 struct FUN_00418600_Class
 {
-    void FUN_00418600();
+    void ExtraDataList_RemoveOriginalReferenceExtra();
 };
 struct FUN_004bcbd0_Node
 {
@@ -1809,8 +1831,8 @@ void __thiscall FUN_004bcbd0_Class::ProcessNodes()
     while (node && *node->_ref_006815c0())
     {
         FUN_004bcbd0_Node* item = (FUN_004bcbd0_Node*)*node->_ref_006815c0();
-        if (item && ((FUN_00418630_Class*)item)->FUN_00418630())
-            ((FUN_00418600_Class*)item)->FUN_00418600();
+        if (item && ((FUN_00418630_Class*)item)->ExtraDataList_GetOriginalReference())
+            ((FUN_00418600_Class*)item)->ExtraDataList_RemoveOriginalReferenceExtra();
         node = node->GetNext();
     }
 }
@@ -1893,7 +1915,7 @@ void FUN_004a9b50_Class::CopyBlocks(char* apDest, char* apSource, unsigned int c
     }
 }
 
-char** __cdecl FUN_005e0ba0(unsigned int);
+char** __cdecl NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(unsigned int);
 extern "C" void* DAT_0101fbcc;
 struct FUN_004b0260_shell
 {
@@ -1914,7 +1936,7 @@ FUN_004b0260_shell::FUN_004b0260_shell(unsigned short ausSize, unsigned short b)
     m_kPointA = 0;
     m_iThirdValue = 0;
     if (m_8 > 0)
-        m_p = FUN_005e0ba0(m_8);
+        m_p = NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(m_8);
     else
         m_p = 0;
 }
@@ -1979,14 +2001,14 @@ struct Date
 };
 struct FUN_004a46d0 : Date
 {
-    void __thiscall FUN_004a4810();
+    void __thiscall hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_clearAndDeallocate();
     ~FUN_004a46d0();
 };
 // Destructor that calls FUN_004a4810 before the base Date destructor runs.
 // @fnv 0x004a46d0
 FUN_004a46d0::~FUN_004a46d0()
 {
-    FUN_004a4810();
+    hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_clearAndDeallocate();
 }
 
 struct FUN_004a9e00_Class
@@ -2134,7 +2156,8 @@ void* FUN_004b07e0_Class::PopElement()
 
 extern "C" const short DAT_01188ecc[];
 // @fnv 0x004b10f0
-unsigned short FUN_004b10f0(unsigned short start, unsigned short count)
+// src: XBOX_PDB 0x004b10f0
+unsigned short Date_CalculateDate(unsigned short start, unsigned short count)
 {
     unsigned short value = 0;
     unsigned short firstB = start;
@@ -2248,10 +2271,11 @@ struct FUN_004b9b20_class
     int m_auiShapeKeys;
     FUN_004b9b20_entry** m_entries;
 
-    bool FUN_004b9b20(int arg, FUN_004b9b20_result* result);
+    bool NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_GetAt(int arg, FUN_004b9b20_result* result);
 };
 
-bool FUN_004b9b20_class::FUN_004b9b20(int arg, FUN_004b9b20_result* result)
+// src: XBOX_PDB 0x004b9b20
+bool FUN_004b9b20_class::NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_GetAt(int arg, FUN_004b9b20_result* result)
 {
     int index = this->FUN_004b9b20_GetIndex(arg);
     FUN_004b9b20_entry* entry = this->m_entries[index];
@@ -2280,7 +2304,8 @@ int __cdecl BSShaderManager_GetTextureManager()
 extern "C" int DAT_011c61d0;
 
 // @fnv 0x004a2c60
-int __cdecl FUN_004a2c60()
+// src: XBOX_PDB 0x004a2c60
+int __cdecl FixedStrings_QSkinnedDecalNode()
 {
     return DAT_011c61d0;
 }
@@ -2318,7 +2343,7 @@ struct FUN_00559450_cls
 };
 struct FUN_0057cbe0_cls
 {
-    int* __thiscall FUN_0057cbe0(int* out);
+    int* __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* out);
 };
 struct FUN_004a0490_cls
 {
@@ -2338,13 +2363,13 @@ void __cdecl BGSDecalManager_RemoveAllDecals()
     DAT_011c57ec = 0;
     DAT_011c57f0 = 0;
 
-    FUN_004a4650((FUN_004a4650_ListBase*)((char*)FUN_0049fef0() + 8));
+    NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll((FUN_004a4650_ListBase*)((char*)FUN_0049fef0() + 8));
     char* kObj = (char*)FUN_0049fef0() + 0x14;
 
     int cur_2 = ((FUN_00559450_cls*)kObj)->FUN_00559450();
     while (cur_2 != 0)
     {
-        int a = *((FUN_0057cbe0_cls*)kObj)->FUN_0057cbe0(&cur_2);
+        int a = *((FUN_0057cbe0_cls*)kObj)->NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&cur_2);
         int b = a;
         int c2 = b;
         int r;
@@ -2361,7 +2386,7 @@ void __cdecl BGSDecalManager_RemoveAllDecals()
 }
 
 struct FUN_004a4650_ListBase;
-void __fastcall FUN_004a4650(FUN_004a4650_ListBase* self);
+void __fastcall NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll(FUN_004a4650_ListBase* self);
 struct ObstacleBase
 {
     ~ObstacleBase();
@@ -2374,7 +2399,7 @@ struct FUN_004a44a0 : ObstacleBase
 // @fnv 0x004a44a0
 FUN_004a44a0::~FUN_004a44a0()
 {
-    FUN_004a4650(reinterpret_cast<FUN_004a4650_ListBase*>(this));
+    NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll(reinterpret_cast<FUN_004a4650_ListBase*>(this));
 }
 
 struct S_004a4730_Elem
@@ -2432,7 +2457,7 @@ FUN_004a4730::FUN_004a4730(int a) : S_004a4730_Base(unk10, a, 8)
 struct AudioSource
 {
     bool m_bEnableState;
-    void* __thiscall FUN_004a4840(void* pOwner);
+    void* __thiscall hkContainerHeapAllocator_get(void* pOwner);
 };
 
 // The object that owns the audio source.  The handle produced by the query is
@@ -2442,16 +2467,17 @@ struct AudioOwner
     void* m_pObject;
     int m_iValue;
     int m_iFlags;
-    void __thiscall FUN_004a4990(void* pSource);
-    void __thiscall FUN_004a4810();
+    void __thiscall hkArrayBase_hkpWorldRayCastOutput_clearAndDeallocate(void* pSource);
+    void __thiscall hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_clearAndDeallocate();
 };
 
 // Creates an empty AudioSource, obtains a source via FUN_004a4840 from this owner, and passes it to FUN_004a4990.
 // @fnv 0x004a4810
-void AudioOwner::FUN_004a4810()
+// src: XBOX_PDB 0x004a4810
+void AudioOwner::hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_clearAndDeallocate()
 {
     AudioSource source = {};
-    FUN_004a4990(source.FUN_004a4840(this));
+    hkArrayBase_hkpWorldRayCastOutput_clearAndDeallocate(source.hkContainerHeapAllocator_get(this));
 }
 
 class TESObjectREFR;
@@ -2695,23 +2721,24 @@ class Ref_cls
 class Obj2_cls
 {
   public:
-    void FUN_00b5b1c0(Ref_cls* p);
+    void RemoveObject_00b5b1c0(Ref_cls* p);
 };
 void __cdecl RecursivelyRemoveAllDecals(Ref_cls* p);
 Obj2_cls* __cdecl FUN_00450b80(int a);
-void __cdecl FUN_00c69ee0(Ref_cls* p, int a, int b);
+void __cdecl bhkWorld_RemoveObjects(Ref_cls* p, int a, int b);
 
 // @fnv 0x004ab0c0
-void __cdecl FUN_004ab0c0(Ref_cls* apRef)
+// src: XBOX_PDB 0x004ab0c0
+void __cdecl BipedAnim_RunBiped3DDetach(Ref_cls* apRef)
 {
     Vt_cls* v;
     if (apRef == 0)
         return;
     RecursivelyRemoveAllDecals(apRef);
-    FUN_00450b80(0)->FUN_00b5b1c0(apRef);
+    FUN_00450b80(0)->RemoveObject_00b5b1c0(apRef);
     if (apRef->NiAVObject_GetParent() != 0)
     {
-        FUN_00c69ee0(apRef, 1, 0);
+        bhkWorld_RemoveObjects(apRef, 1, 0);
         v = (Vt_cls*)apRef->NiAVObject_GetParent();
         v->v3a(apRef);
     }
@@ -2826,12 +2853,13 @@ struct FUN_004b0ef0_cls
     int unk00;
     int unk04;
     int unk08;
-    void FUN_004b0ef0();
+    void BSCloneReserver_DecRefCount();
 };
 
 // Calls FUN_004019a0 on unk08; if it returns 0, calls FUN_004b0f40(1) on this as a FUN_004b0f40_Holder.
 // @fnv 0x004b0ef0
-void FUN_004b0ef0_cls::FUN_004b0ef0()
+// src: XBOX_PDB 0x004b0ef0
+void FUN_004b0ef0_cls::BSCloneReserver_DecRefCount()
 {
     if (FUN_004019a0(&unk08) == 0)
     {
@@ -2880,8 +2908,8 @@ NiTriShape* __cdecl MakeTriangle(NiPoint3 kP0, NiPoint3 kP1, NiPoint3 kP2, const
 
 struct FUN_004b4910_Source
 {
-    unsigned short FUN_00456650();
-    int FUN_00461130();
+    unsigned short NiGeometry_GetVertexCount();
+    int NiAVObject_GetWorldRotate();
     int FUN_0049ec60();
 };
 
@@ -2892,12 +2920,12 @@ int __cdecl NiProcessorSpecificCode_ms_pPointsTransform_(unsigned short a1, int 
 NiPoint3* __cdecl CreateElementArray(FUN_004b4910_Source* source)
 {
     NiPoint3* elements = 0;
-    if (!source || !source->FUN_00456650())
+    if (!source || !source->NiGeometry_GetVertexCount())
     {
         return 0;
     }
-    elements = new NiPoint3[source->FUN_00456650()];
-    NiProcessorSpecificCode_ms_pPointsTransform_(source->FUN_00456650(), source->FUN_0049ec60(), (int)elements, source->FUN_00461130());
+    elements = new NiPoint3[source->NiGeometry_GetVertexCount()];
+    NiProcessorSpecificCode_ms_pPointsTransform_(source->NiGeometry_GetVertexCount(), source->FUN_0049ec60(), (int)elements, source->NiAVObject_GetWorldRotate());
     return elements;
 }
 
@@ -2931,7 +2959,7 @@ struct FNVForm
     int __thiscall FUN_00441110();
 };
 
-extern void* __cdecl FUN_00438220();
+extern void* __cdecl NiShadeProperty_GetType();
 
 struct FNVNode
 {
@@ -2974,7 +3002,7 @@ unsigned int __cdecl FindAcceptedForm(FNVNode* root)
         else if (node->IsTerminalNode())
         {
             FNVNode* leaf = node;
-            FNVForm* form = leaf->FUN_00a59d30(FUN_00438220());
+            FNVForm* form = leaf->FUN_00a59d30(NiShadeProperty_GetType());
             if (form != 0)
             {
                 unsigned int accepted =
@@ -2989,7 +3017,7 @@ unsigned int __cdecl FindAcceptedForm(FNVNode* root)
     return found;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl ourMemset(void* p, int fill, unsigned int size);
 extern int DAT_010205d4;
 
@@ -2999,18 +3027,19 @@ struct FUN_004b99b0_cls
     int m_04;
     void* m_08;
     unsigned int m_0C;
-    FUN_004b99b0_cls* FUN_004b99b0(int count);
+    FUN_004b99b0_cls* NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist(int count);
 };
 
 // Initialises the object: stores a global pointer and count, allocates count*4 bytes, zero-fills them and stores the pointer.
 // @fnv 0x004b99b0
-FUN_004b99b0_cls* FUN_004b99b0_cls::FUN_004b99b0(int count)
+// src: XBOX_PDB 0x004b99b0
+FUN_004b99b0_cls* FUN_004b99b0_cls::NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist_NiTMapBase_DFALL_NiTMapItem_unsigned_int_VertexDist_unsigned_int_VertexDist(int count)
 {
     m_00 = (int)&DAT_010205d4;
     m_04 = count;
     m_0C = 0;
     unsigned int size = m_04 << 2;
-    m_08 = FUN_00aa1070(size);
+    m_08 = _NiMalloc_00aa1070(size);
     ourMemset(m_08, 0, m_04 << 2);
     return this;
 }
@@ -3283,7 +3312,7 @@ class FUN_004a4860_cls
     FUN_004a4860_node* m_pTail;
     unsigned int m_uiCount;
 
-    void FUN_004a4930(FUN_004a4860_node* node);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_DeleteItem(FUN_004a4860_node* node);
     NiPointer<NiNode> PopFront();
 };
 
@@ -3301,7 +3330,7 @@ NiPointer<NiNode> FUN_004a4860_cls::PopFront()
         m_pTail = 0;
     }
     NiPointer<NiNode> item(node->m_08);
-    FUN_004a4930(node);
+    NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_DeleteItem(node);
     m_uiCount--;
     return item;
 }
@@ -3361,7 +3390,7 @@ NiTriShape* __cdecl CreateOctahedron(float size, const NiColorA* color, bool lig
     if (lighting)
     {
         BSShaderNoLightingProperty* property = new BSShaderNoLightingProperty;
-        vertices->FUN_00439410((NiObject*)property);
+        vertices->NiAVObject_AttachProperty((NiObject*)property);
         FUN_00b57e30(vertices, 0, 0);
     }
     return vertices;
@@ -3369,7 +3398,7 @@ NiTriShape* __cdecl CreateOctahedron(float size, const NiColorA* color, bool lig
 
 void* operator new[](unsigned int);
 void operator delete[](void*);
-void* FUN_00aa1070(unsigned int);
+void* _NiMalloc_00aa1070(unsigned int);
 void FUN_00b57e30(NiTriShape*, int, int);
 // Builds an 8-vertex box mesh from eight corner positions and a color, with 72 triangle indices, and optionally attaches extra data.
 // @fnv 0x004b2eb0
@@ -3395,7 +3424,7 @@ NiTriShape* CreateBoxMesh(const NiPoint3& aCorner0, const NiPoint3& aCorner1, co
     colors73[5] = color;
     colors73[6] = color;
     colors73[7] = color;
-    unsigned short* indices21 = (unsigned short*)FUN_00aa1070(144);
+    unsigned short* indices21 = (unsigned short*)_NiMalloc_00aa1070(144);
     indices21[0] = 0;
     indices21[1] = 2;
     indices21[2] = 1;
@@ -3472,7 +3501,7 @@ NiTriShape* CreateBoxMesh(const NiPoint3& aCorner0, const NiPoint3& aCorner1, co
     if (extra)
     {
         BSShaderNoLightingProperty* data = new BSShaderNoLightingProperty;
-        mesh1->FUN_00439410(reinterpret_cast<NiObject*>(data));
+        mesh1->NiAVObject_AttachProperty(reinterpret_cast<NiObject*>(data));
         FUN_00b57e30(mesh1, 0, 0);
     }
     return mesh1;
@@ -3535,12 +3564,13 @@ struct FUN_00a746e0 : NiMemObject
     unsigned int unkBC;
     unsigned int unkC0;
     FUN_00a746e0(unsigned short, NiPoint3*, NiColorA*, void*, unsigned int, unsigned int, bool*);
-    void FUN_00439410(BSShaderNoLightingProperty*);
+    void NiAVObject_AttachProperty(BSShaderNoLightingProperty*);
 };
 void FUN_00b57e30(FUN_00a746e0*, unsigned int, unsigned int);
 
 // @fnv 0x004b3890
-FUN_00a746e0* __cdecl FUN_004b3890(const NiPoint3& aStartVertex, const NiColorA& startColor,
+// src: XBOX_PDB 0x004b3890
+FUN_00a746e0* __cdecl MakeLine(const NiPoint3& aStartVertex, const NiColorA& startColor,
                                    const NiPoint3& aEndVertex, const NiColorA& endColor, bool addShader)
 {
     NiPoint3* vertices = new NiPoint3[2];
@@ -3558,7 +3588,7 @@ FUN_00a746e0* __cdecl FUN_004b3890(const NiPoint3& aStartVertex, const NiColorA&
     if (addShader)
     {
         BSShaderNoLightingProperty* shader = new BSShaderNoLightingProperty;
-        connections->FUN_00439410(shader);
+        connections->NiAVObject_AttachProperty(shader);
         FUN_00b57e30(connections, 0, 0);
     }
     return connections;
@@ -3567,7 +3597,7 @@ FUN_00a746e0* __cdecl FUN_004b3890(const NiPoint3& aStartVertex, const NiColorA&
 
 struct Query4a4
 {
-    unsigned char FUN_00c4edf0(unsigned int* puiOut, int iFlag);
+    unsigned char BSOcclusionQuery_GetResult(unsigned int* puiOut, int iFlag);
     ~Query4a4();
 };
 struct Entry4a4
@@ -3583,12 +3613,12 @@ struct List4a4
 {
     unsigned int FUN_0044ddc0();
     void* FUN_00559450();
-    EntryPtr4a4* FUN_0057cbe0(void** ppPos);
+    EntryPtr4a4* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void** ppPos);
 };
 struct Renderer4a4;
-Renderer4a4* FUN_0043c4b0();
-void __fastcall FUN_004a0370(Renderer4a4* p);
-void __fastcall FUN_004a03c0(Renderer4a4* p);
+Renderer4a4* NiXenonRenderer_GetRenderer();
+void __fastcall NiXenonRenderer_LockRenderer(Renderer4a4* p);
+void __fastcall NiXenonRenderer_UnlockRenderer(Renderer4a4* p);
 struct Owner4a4
 {
     void* pad[2];
@@ -3602,21 +3632,21 @@ void Owner4a4::BGSDecalManager_ClearPendingQueries()
 {
     if (m_kNode.FUN_0044ddc0() > 0)
     {
-        FUN_004a0370(FUN_0043c4b0());
+        NiXenonRenderer_LockRenderer(NiXenonRenderer_GetRenderer());
         void* pos = m_kNode.FUN_00559450();
         while (pos)
         {
             void* pPrev = pos;
-            Entry4a4* pkEntry = m_kNode.FUN_0057cbe0(&pos)->FUN_00559450();
+            Entry4a4* pkEntry = m_kNode.NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&pos)->FUN_00559450();
             if (pkEntry && pkEntry->m_pQuery)
             {
                 unsigned int uiOut = 0;
-                pkEntry->m_pQuery->FUN_00c4edf0(&uiOut, 1);
+                pkEntry->m_pQuery->BSOcclusionQuery_GetResult(&uiOut, 1);
                 delete pkEntry->m_pQuery;
                 pkEntry->m_pQuery = 0;
             }
         }
-        FUN_004a03c0(FUN_0043c4b0());
+        NiXenonRenderer_UnlockRenderer(NiXenonRenderer_GetRenderer());
     }
 }
 
@@ -3628,7 +3658,7 @@ struct Target004a4d40
     float __thiscall FUN_004a7bd0() const;
 };
 
-extern void* __cdecl FUN_004a5100(float value, NiColorA* color);
+extern void* __cdecl BGSPrimitive_CreateSphere(float value, NiColorA* color);
 
 // The game fills these aligned color buffers through its output routine;
 // constructing NiColorA here would add initialization calls absent from the original.
@@ -3669,14 +3699,14 @@ void* __cdecl BGSPrimitive_Copy(Target004a4d40* pTarget)
         {
             float cnt[sizeof(NiColorA) / sizeof(float)];
             pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(cnt));
-            bResult = FUN_004a5100(pTarget->FUN_004a7bd0(), reinterpret_cast<NiColorA*>(cnt));
+            bResult = BGSPrimitive_CreateSphere(pTarget->FUN_004a7bd0(), reinterpret_cast<NiColorA*>(cnt));
         }
 
         return bResult;
     }
 }
 
-const NiFixedString& __cdecl FUN_004ab220();
+const NiFixedString& __cdecl FixedStrings_QDVPG();
 
 struct NodeAB;
 struct ExtraAB;
@@ -3703,7 +3733,7 @@ struct NodeAB : AVObjAB
 
 struct GeomAB : AVObjAB
 {
-    void* FUN_0043fad0();
+    void* NiGeometry_GetSkinInstance();
 };
 
 struct ListAB
@@ -3721,26 +3751,27 @@ struct ExtraAB
 struct BipedAB
 {
     AVObjAB* FUN_004ab230(int iIndex);
-    void FUN_004ab130(AVObjAB* pkObject);
+    void BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(AVObjAB* pkObject);
 };
 
 // @fnv 0x004ab130
-void BipedAB::FUN_004ab130(AVObjAB* pkObject)
+// src: XBOX_PDB 0x004ab130
+void BipedAB::BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(AVObjAB* pkObject)
 {
     if (!pkObject)
         return;
     AVObjAB* pkRootNode = FUN_004ab230(1);
-    ExtraAB* pkExtra = pkRootNode->GetExtraData(FUN_004ab220());
+    ExtraAB* pkExtra = pkRootNode->GetExtraData(FixedStrings_QDVPG());
     if (!pkExtra)
         return;
     if (pkObject->GetAsTriBasedGeom())
     {
         GeomAB* pkGeom = (GeomAB*)pkObject;
         ExtraAB* pkList = pkExtra;
-        if (pkGeom->FUN_0043fad0())
+        if (pkGeom->NiGeometry_GetSkinInstance())
         {
             if (pkList->m_kList.Find(pkGeom, 0))
-                pkRootNode->RemoveExtraDataByName(FUN_004ab220());
+                pkRootNode->RemoveExtraDataByName(FixedStrings_QDVPG());
         }
     }
     else
@@ -3749,7 +3780,7 @@ void BipedAB::FUN_004ab130(AVObjAB* pkObject)
         if (pkNode)
         {
             for (unsigned int i = 0; i < pkNode->FUN_0043b480(); i++)
-                FUN_004ab130(pkNode->FUN_0043b4a0(i));
+                BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBone(pkNode->FUN_0043b4a0(i));
         }
     }
 }
@@ -3757,7 +3788,7 @@ void BipedAB::FUN_004ab130(AVObjAB* pkObject)
 struct AGItem
 {
     void* GetExtraLeveledItem();
-    void FUN_00410020(void* p, int n);
+    void BaseExtraList_RemoveExtra(void* p, int n);
     bool FUN_004bca60();
 };
 struct AGNode
@@ -3786,7 +3817,7 @@ void* AGOwner::FUN_004bcd10()
         if (pItem && pItem->GetExtraLeveledItem())
         {
             pResult = pItem->GetExtraLeveledItem();
-            pItem->FUN_00410020(pResult, 0);
+            pItem->BaseExtraList_RemoveExtra(pResult, 0);
             if (pItem->FUN_004bca60())
                 m_pEntries->FUN_00905330(&pItem);
             pNode = m_pEntries;

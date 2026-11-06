@@ -75,12 +75,12 @@ public:
     void FUN_0050f9c0(TESForm* form);
     void BGSSaveFormBuffer_RemoveChange(int value);
     void BGSSaveFormBuffer_RemoveChange(unsigned int value);
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void FUN_00865db0(unsigned int value, int flags);
     void FUN_00865db0(unsigned int value, unsigned int flags);
     void FUN_00865df0(void* form, int flags = 0);
     void FUN_00865e50(void* data, unsigned int size, int flags = 0);
-    unsigned int FUN_00865f20();
-    void FUN_00865f60(unsigned int value);
-    void FUN_00865ff0(int count, unsigned int position);
+    unsigned int StartVariableSizedValue();
+    void SaveVariableSizedValue(unsigned int value);
+    void SaveVariableSizedValue_00865ff0(int count, unsigned int position);
 };

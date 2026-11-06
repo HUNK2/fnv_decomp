@@ -535,7 +535,8 @@ struct NiAVObjectVirt
 
 // If apObject is non-null, gets its node via vfunc3 and, when that node exists, passes it to ProcessNodeChildren on thisptr.
 // @fnv 0x00b5b1c0
-void ShadowSceneNode::FUN_00b5b1c0(NiAVObject* apObject)
+// src: XBOX_PDB 0x00b5b1c0
+void ShadowSceneNode::RemoveObject_00b5b1c0(NiAVObject* apObject)
 {
     if (apObject)
     {
@@ -547,7 +548,8 @@ void ShadowSceneNode::FUN_00b5b1c0(NiAVObject* apObject)
 
 // Walks the linked list from self->head and returns the first item whose key equals key, or null if none matches.
 // @fnv 0x00b5b4a0
-ShadowSceneLight* __fastcall FUN_00b5b4a0(ShadowSceneNode* self, int unused, int key)
+// src: XBOX_PDB 0x00b5b4a0
+ShadowSceneLight* __fastcall ShadowSceneNode_GetLight(ShadowSceneNode* self, int unused, int key)
 {
     ShadowListItem* n = self->lLightList.head;
     while (n)
@@ -638,7 +640,7 @@ void __fastcall UpdateLightObjects(ShadowSceneNode* self, int, bool a, bool b)
                 reinterpret_cast<void (__thiscall*)(ShadowSceneNode*, ShadowSceneLight*)>(&RemoveLightObjects)(self, it);
         }
         if (!b)
-            self->FUN_00b5d180();
+            self->RemoveAllLights();
     }
 }
 
@@ -649,7 +651,8 @@ struct GlobalObjectO2_00a7b610
 GlobalObjectO2_00a7b610 g_011f9e80;
 
 // @fnv 0x00b5e590
-GlobalObjectO2_00a7b610* FUN_00b5e590()
+// src: XBOX_PDB 0x00b5e590
+GlobalObjectO2_00a7b610* ShadowSceneNode_GetRTTI()
 {
     return &g_011f9e80;
 }
@@ -758,7 +761,7 @@ struct FUN_00a693e0
 struct FUN_00a69400 : FUN_00a693e0
 {
     FUN_00a69400(void* pkVisibleSet);
-    void FUN_00a694a0(void* pkFrustum);
+    void NiCullingProcess_SetFrustum(void* pkFrustum);
 };
 struct SSNode
 {
@@ -796,7 +799,7 @@ void __fastcall UpdatePortalVisibility(ShadowSceneNode* self, int, SSCamera* pkC
     {
         FUN_00a69400 kCuller(0);
         kCuller.m_pkAccumulationCamera = pkCamera;
-        kCuller.FUN_00a694a0(&pkCamera->m_kViewFrustum);
+        kCuller.NiCullingProcess_SetFrustum(&pkCamera->m_kViewFrustum);
         SSListNode* pkPos = reinterpret_cast<SSListOwner*>(self->pBSPortalGraph)->GetHeadPos();
         SSCullData kData;
         while (pkPos)
@@ -976,11 +979,11 @@ inline unsigned int StrArr::Add(char*& element)
 namespace fnv_00b5c7d0 {
 struct FUN_00c51570_Class
 {
-    void* FUN_00a5ea70(void*);
+    void* NiNode_GetViewerStrings(void*);
 };
 char* NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d490(const char*, unsigned short);
-char* __cdecl FUN_00a7d4d0(const char*, int);
+char* __cdecl NiGetViewerString_00a7d490(const char*, unsigned short);
+char* __cdecl NiGetViewerString_00a7d4d0(const char*, int);
 extern const char* g_011f9e80;
 
 struct LightNode
@@ -1016,10 +1019,10 @@ class ShadowSceneViewer : public ShadowSceneNode
 // @fnv 0x00b5c7d0
 void ShadowSceneViewer::AppendLightStats(StrArr* pkStrings)
 {
-    reinterpret_cast<FUN_00c51570_Class*>(this)->FUN_00a5ea70(pkStrings);
+    reinterpret_cast<FUN_00c51570_Class*>(this)->NiNode_GetViewerStrings(pkStrings);
     char* s = NiViewerStrings_NiGetViewerString_Title(g_011f9e80);
     (pkStrings->*static_cast<unsigned int (StrArr::*)(char*&)>(&StrArr::Add))(s);
-    s = FUN_00a7d490("light count", CountLights());
+    s = NiGetViewerString_00a7d490("light count", CountLights());
     (pkStrings->*static_cast<unsigned int (StrArr::*)(char*&)>(&StrArr::Add))(s);
     int iShadowLightCount = 0;
     unsigned int ItemUpdateArray = CountLights();
@@ -1028,7 +1031,7 @@ void ShadowSceneViewer::AppendLightStats(StrArr* pkStrings)
         if (GetLightAt((unsigned short)i)[0xec])
             iShadowLightCount++;
     }
-    s = FUN_00a7d4d0("shadow light count", iShadowLightCount);
+    s = NiGetViewerString_00a7d4d0("shadow light count", iShadowLightCount);
     (pkStrings->*static_cast<unsigned int (StrArr::*)(char*&)>(&StrArr::Add))(s);
 }
 }  // namespace fnv_00b5c7d0
@@ -2015,7 +2018,8 @@ extern CriticalLockB5D g_kMultiBoundLockB5D;
 
 void __fastcall RefreshShadowLights(ShadowSceneNode*, int);
 // @fnv 0x00b5d180
-void ShadowSceneNode::FUN_00b5d180()
+// src: XBOX_PDB 0x00b5d180
+void ShadowSceneNode::RemoveAllLights()
 {
     void* pkPos = reinterpret_cast<NiTPointerList<NiPointer<ShadowSceneLight> >&>(lLightList).m_pkHead;
     while (pkPos)
@@ -2428,10 +2432,10 @@ static __forceinline hkMemoryAllocator& RouterHeap(hkMemoryRouter& router)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(router.m_heap);
 }
-hkMemoryRouter& FUN_00c85750();
+hkMemoryRouter& hkMemoryRouter_getInstance();
 __forceinline void* __cdecl hkReferencedObject::operator new(std::size_t amount)
 {
-    void* result = RouterHeap(FUN_00c85750()).blockAlloc(amount);
+    void* result = RouterHeap(hkMemoryRouter_getInstance()).blockAlloc(amount);
     static_cast<hkReferencedObject*>(result)->m_usMemSizeAndFlags = (unsigned short)amount;
     return result;
 }
@@ -2451,14 +2455,14 @@ struct InterfaceArray
     {}
     __forceinline ~InterfaceArray()
     {
-        hkMemoryAllocator* heap = &RouterHeap(FUN_00c85750());
+        hkMemoryAllocator* heap = &RouterHeap(hkMemoryRouter_getInstance());
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap->bufFree(data, (capacity & 0x3fffffff) * 4);
     }
     __forceinline void AddBack(InterfacePart* value)
     {
-        hkMemoryAllocator* heap = &RouterHeap(FUN_00c85750());
+        hkMemoryAllocator* heap = &RouterHeap(hkMemoryRouter_getInstance());
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(heap, this, 4);
         data[size++] = value;
@@ -2541,7 +2545,7 @@ struct Process : hkReferencedObject
     Process(InterfaceArray&, int);
     void SetValue(int);
 };
-void FUN_00cd1ed0();
+void hkpPhysicsContext_registerAllPhysicsProcesses();
 struct Root
 {
     virtual void f0();
@@ -2596,7 +2600,7 @@ void Root::SetProcessEnabled(bool enable)
         if (!process)
         {
             InterfaceArray array;
-            FUN_00cd1ed0();
+            hkpPhysicsContext_registerAllPhysicsProcesses();
             WorldContext* item = new WorldContext;
             item->SetWorld(GetWorld());
             array.AddBack(item);
@@ -3185,7 +3189,8 @@ bool __cdecl CheckBoundAndChildren(Obj5* obj, ShadowSceneNode* a2, SceneLightBou
 
 // With flag set, filters child candidates by the object's bound, sorts matches, and calls CheckBoundAndChildren; otherwise dispatches based on Predicate().
 // @fnv 0x00b5dac0
-bool __cdecl FUN_00b5dac0(Obj5* obj, ShadowSceneNode* apList, bool a3, bool abTestBound)
+// src: XBOX_PDB 0x00b5dac0
+bool __cdecl ShadowSceneNode_UpdateQueuedObjectLightingStart(Obj5* obj, ShadowSceneNode* apList, bool a3, bool abTestBound)
 {
     if (obj == 0)
         return true;
@@ -3298,7 +3303,7 @@ struct ArrOps
 struct LocalLock
 {
     unsigned owner, count;
-    void FUN_0040fbf0(char*);
+    void BSSpinLock_Lock(char*);
     void unlock()
     {
         if (--count == 0)
@@ -3707,8 +3712,8 @@ void __fastcall SetPortalGraph(ShadowSceneNode* self, int, LocalContext* apConte
 {
     if (apContext != reinterpret_cast<LocalContext*&>(self->pBSPortalGraph))
     {
-        DAT_011f9ea0.FUN_0040fbf0(0);
-        DAT_011f9ec0.FUN_0040fbf0(0);
+        DAT_011f9ea0.BSSpinLock_Lock(0);
+        DAT_011f9ec0.BSSpinLock_Lock(0);
         self->bAllowLightRemoveQueues = false;
         RemoveShadowList(&self->lLightQueueAdd);
         RemoveShadowList(&self->lLightQueueRemove);
@@ -3754,7 +3759,7 @@ void __fastcall SetPortalGraph(ShadowSceneNode* self, int, LocalContext* apConte
         self->bAllowLightRemoveQueues = true;
         DAT_011f9ea0.unlock();
         DAT_011f9ec0.unlock();
-        self->FUN_00b5d180();
+        self->RemoveAllLights();
     }
     reinterpret_cast<LocalContext*&>(self->pBSPortalGraph) = apContext;
 }
@@ -4034,7 +4039,7 @@ struct LightOwnerB
     unsigned int count;
 };
 
-SceneGraph* FUN_00b4f5c0();
+SceneGraph* BSShaderManager_GetAccumulator();
 
 extern ShadowSceneNode* DAT_011f91c8;
 
@@ -4083,7 +4088,7 @@ bool ShadowSceneNode_UpdateQueuedObjectLighting(S00b5b260_Geom* geom, ShadowScen
         if (!scene)
         {
             // The shared SceneGraph does not yet expose the PC shadow-scene pointer.
-            scene = *reinterpret_cast<ShadowSceneNode**>(reinterpret_cast<char*>(FUN_00b4f5c0()) + 0x194);
+            scene = *reinterpret_cast<ShadowSceneNode**>(reinterpret_cast<char*>(BSShaderManager_GetAccumulator()) + 0x194);
             if (!scene)
                 scene = DAT_011f91c8;
         }
@@ -4131,7 +4136,7 @@ inline float maximum(float a, float b)
 struct WeightVec
 {
     float x, y, z;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void Unitize_004a0c10();
     WeightVec operator*(float s) const
     {
         WeightVec r;
@@ -4250,8 +4255,8 @@ float __fastcall CalculateWeightedLighting(ShadowSceneNode* self, int, WeightVec
     color.x = target.x - position.x;
     color.y = target.y - position.y;
     color.z = target.z - position.z;
-    color.FUN_004a0c10();
-    direction.FUN_004a0c10();
+    color.Unitize_004a0c10();
+    direction.Unitize_004a0c10();
     target = color * 0.75f;
     float factor = target.Dot(direction);
     factor += 0.25;
@@ -4713,7 +4718,7 @@ struct S00b5d9f0_Lock
     unsigned int m_pOwnerObject;
     int m_uiItemCount;
 
-    void __thiscall FUN_0040fbf0(int spin);
+    void __thiscall BSSpinLock_Lock(int spin);
 };
 
 extern S00b5d9f0_Lock DAT_011f9ec0;
@@ -4758,7 +4763,7 @@ void __fastcall QueueObjectUpdate(ShadowSceneNode* self, int, S00b5d9f0_Obj* obj
     if (obj == 0)
         return;
 
-    DAT_011f9ec0.FUN_0040fbf0(0);
+    DAT_011f9ec0.BSSpinLock_Lock(0);
 
     switch (!flag)
     {
@@ -5219,8 +5224,8 @@ class ShadowSceneUpdater : public ShadowSceneNode
   public:
     __declspec(noinline) void RemoveLightFromNode(RefPtr_b9fcc0&, void*&);
     void FUN_00b5d270(ShadowSceneLight*);
-    unsigned int FUN_00a5dbe0(void*);
-    unsigned int FUN_00b5e870(ParamObj*);
+    unsigned int NiNode_OnVisible(void*);
+    unsigned int ShadowSceneNode_PreOnVisible(ParamObj*);
 };
 void __fastcall UpdateSceneLight(ShadowSceneLight*, int, void*);
 __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& p)
@@ -5295,7 +5300,8 @@ __declspec(noinline) void ShadowSceneUpdater::RemoveLightFromNode(RefPtr_b9fcc0&
 
 // Processes entries in reinterpret_cast<List_b9fcc0&>(lLightList), updates globals from arg and reinterpret_cast<Obj134*>(spFog.m_pObject), and returns a value derived from reinterpret_cast<Obj134*>(spFog.m_pObject) or FUN_00a5dbe0.
 // @fnv 0x00b5e870
-unsigned int ShadowSceneUpdater::FUN_00b5e870(ParamObj* arg)
+// src: XBOX_PDB 0x00b5e870
+unsigned int ShadowSceneUpdater::ShadowSceneNode_PreOnVisible(ParamObj* arg)
 
 {
 
@@ -5352,7 +5358,7 @@ unsigned int ShadowSceneUpdater::FUN_00b5e870(ParamObj* arg)
     if (DAT_011f91c0 == 0)
     {
 
-        return FUN_00a5dbe0(arg);
+        return NiNode_OnVisible(arg);
     }
 
     if (1 == DAT_011f91a7)
@@ -5960,8 +5966,8 @@ struct CullScratch
 };
 struct CullHeap
 {
-    void* FUN_00aa54a0(unsigned int, unsigned int);
-    void FUN_00aa5610(void*);
+    void* ScrapHeap_Allocate(unsigned int, unsigned int);
+    void ScrapHeap_Deallocate(void*);
 };
 struct CullMemoryManager
 {
@@ -5969,22 +5975,23 @@ struct CullMemoryManager
 };
 extern CullMemoryManager DAT_011f6238;
 extern unsigned int DAT_010a2720;
-NiRefObject* FUN_00b4f5c0();
+NiRefObject* BSShaderManager_GetAccumulator();
 
 // Culls scene objects and lights by iterating group lists and calling Cull on visible entries, using a saved flags buffer to track state changes.
 class ShadowSceneCuller : public ShadowSceneNode
 {
   public:
-    void FUN_00b5e870(CullProcess*);
-    void FUN_00a5dbe0(CullProcess*);
+    void ShadowSceneNode_PreOnVisible(CullProcess*);
+    void NiNode_OnVisible(CullProcess*);
     void FUN_00b5ba80(void*, CullEntry*);
-    void FUN_00b5f9b0(CullProcess*);
+    void ShadowSceneNode_OnVisible(CullProcess*);
 };
 // @fnv 0x00b5f9b0
-void ShadowSceneCuller::FUN_00b5f9b0(CullProcess* process)
+// src: XBOX_PDB 0x00b5f9b0
+void ShadowSceneCuller::ShadowSceneNode_OnVisible(CullProcess* process)
 {
-    FUN_00b5e870(process);
-    NiPointer<NiRefObject> context(FUN_00b4f5c0());
+    ShadowSceneNode_PreOnVisible(process);
+    NiPointer<NiRefObject> context(BSShaderManager_GetAccumulator());
     unsigned int rc = context->m_uiRefCount;
     if (rc == 1)
         context->IncRefCount();
@@ -5994,7 +6001,7 @@ void ShadowSceneCuller::FUN_00b5f9b0(CullProcess* process)
         bool* pSavedFlags = 0;
         if (reinterpret_cast<CullManager*>(pBSPortalGraph)->BSPortalGraph_GetAlwaysRenderArrayCount() > 0)
         {
-            pSavedFlags = (bool*)heap->FUN_00aa54a0(reinterpret_cast<CullManager*>(pBSPortalGraph)->BSPortalGraph_GetAlwaysRenderArrayCount(), DAT_010a2720);
+            pSavedFlags = (bool*)heap->ScrapHeap_Allocate(reinterpret_cast<CullManager*>(pBSPortalGraph)->BSPortalGraph_GetAlwaysRenderArrayCount(), DAT_010a2720);
             FUN_00ec61c0(pSavedFlags, 0, reinterpret_cast<CullManager*>(pBSPortalGraph)->BSPortalGraph_GetAlwaysRenderArrayCount());
         }
         for (unsigned int i = 0; i < reinterpret_cast<CullManager*>(pBSPortalGraph)->BSPortalGraph_GetAlwaysRenderArrayCount(); ++i)
@@ -6050,7 +6057,7 @@ void ShadowSceneCuller::FUN_00b5f9b0(CullProcess* process)
         }
         else
         {
-            FUN_00a5dbe0(process);
+            NiNode_OnVisible(process);
             CullGroupList* list = &reinterpret_cast<CullManager*>(pBSPortalGraph)->groups30;
             if (process->mode == 1 || process->mode == 3)
                 list = &reinterpret_cast<CullManager*>(pBSPortalGraph)->groups20;
@@ -6091,11 +6098,11 @@ void ShadowSceneCuller::FUN_00b5f9b0(CullProcess* process)
             if (extra)
                 extra->flags &= ~1;
         }
-        heap->FUN_00aa5610(pSavedFlags);
+        heap->ScrapHeap_Deallocate(pSavedFlags);
     }
     else
     {
-        FUN_00a5dbe0(process);
+        NiNode_OnVisible(process);
     }
 }
 }  // namespace fnv_00b5f9b0
@@ -7059,7 +7066,7 @@ unsigned ShadowSceneBlender::ShadowSceneNode_GetAverageLightPos(const NiPoint3& 
     return used > 0;
 }
 
-extern void __cdecl FUN_00b4f2f0(int, ShadowSceneNode*);
+extern void __cdecl BSShaderManager_SetShadowSceneNode(int, ShadowSceneNode*);
 
 struct ShadowDtorContext
 {
@@ -7166,7 +7173,7 @@ struct ShadowDtorContext
     int unkCtx_190;
     void* unk194;
 };
-extern ShadowDtorContext* __cdecl FUN_00b4f5c0();
+extern ShadowDtorContext* __cdecl BSShaderManager_GetAccumulator();
 
 // Destroys the shadow scene object, clearing its node, light, texture, and list references.
 // @fnv 0x00b5e5a0
@@ -7175,13 +7182,13 @@ ShadowSceneNode::~ShadowSceneNode()
     ShadowSceneNode* node = ((ShadowSceneNode**)&DAT_011f91c8)[cSceneGraphIndex];
     if (node == (ShadowSceneNode*)this)
     {
-        FUN_00b4f2f0(cSceneGraphIndex, 0);
+        BSShaderManager_SetShadowSceneNode(cSceneGraphIndex, 0);
     }
-    if (FUN_00b4f5c0() && FUN_00b4f5c0()->unk194 == this)
+    if (BSShaderManager_GetAccumulator() && BSShaderManager_GetAccumulator()->unk194 == this)
     {
-        FUN_00b4f5c0()->unk194 = 0;
+        BSShaderManager_GetAccumulator()->unk194 = 0;
     }
-    FUN_00b5d180();
+    RemoveAllLights();
     kShadowLightActiveFenceObject = 0;
     kShadowLightFadingInFenceObject = 0;
     delete pSunLight;

@@ -240,7 +240,7 @@ void FUN_00d69230_cls::InvokeTargetWithSelfOffset(Target* apTarget)
 }
 
 namespace fnv_00d69920 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct Target
 {
@@ -328,7 +328,7 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
             m_pSharedOwner->m_ppItems[i]->ClearValue(static_cast<SubObject*>(this));
         }
     }
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     m_iField30 = 0;
     unsigned int uiDataFlags = m_uiObjectFlags;
@@ -343,7 +343,7 @@ FUN_00d69920_cls::~FUN_00d69920_cls() throw()
 }
 }  // namespace fnv_00d69920
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -359,7 +359,7 @@ struct SpawnedObject
 // src: COMMUNITY 0x00d699c0
 void* __cdecl hkpConstraintViewer_Create(void* apSource)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     typedef void* (__thiscall* AllocFunction)(hkMemoryAllocator*, unsigned int);
     SpawnedObject* pObject = (SpawnedObject*)reinterpret_cast<AllocFunction>(
@@ -509,7 +509,7 @@ Derived::Derived()
 }  // namespace fnv_00d69ae0
 
 namespace fnv_00d69af0 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& heap(hkMemoryRouter& holder)
 {
@@ -527,7 +527,7 @@ struct FUN_00d69af0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00d69af0* b = static_cast<FUN_00d69af0*>(p);
-        hkMemoryAllocator& allocator = heap(FUN_00c85750());
+        hkMemoryAllocator& allocator = heap(hkMemoryRouter_getInstance());
         typedef void (__thiscall* FreeFunction)(hkMemoryAllocator*, void*, int);
         reinterpret_cast<FreeFunction>((*reinterpret_cast<void***>(&allocator))[2])(
             &allocator, p, b->m_usMemSizeAndFlags);
@@ -847,7 +847,7 @@ struct Shape
     int unk10;
     int unk14;
     Shape* child;
-    Shape* FUN_00cdf6c0();
+    Shape* hkpMalleableConstraintData_getWrappedConstraintData();
 };
 struct Collidable
 {
@@ -1247,7 +1247,7 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
         Shape* pParentShape = object->shape;
         void* second = object->second;
         void* first = object->first;
-        child.FUN_00cf3ea0(first, second, pParentShape->FUN_00cdf6c0(), true);
+        child.FUN_00cf3ea0(first, second, pParentShape->hkpMalleableConstraintData_getWrappedConstraintData(), true);
         owner->hkpConstraintViewer_draw(reinterpret_cast<int>(&child), entity, tag);
         child.FUN_00cf40b0();
         break;

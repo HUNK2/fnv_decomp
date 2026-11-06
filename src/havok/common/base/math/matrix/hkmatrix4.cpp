@@ -115,7 +115,7 @@ void __fastcall CopyFromFloats(hkMatrix4* matrix, void*, const float* apSource)
 void hkMatrix4::FUN_00de8e50(const hkMatrix4& b)
 {
     hkMatrix4 t;
-    t.FUN_00de8da0(*this, b);
+    t.hkMatrix4_setMul(*this, b);
     *this = t;
 }
 
@@ -137,12 +137,12 @@ void __fastcall FUN_00de90f0(hkMatrix4* matrix, void*, const __m128* source)
 
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
+    void hkTransform_set4x4ColumnMajor(void* src);
 };
 // @fnv 0x00de9130
 void __fastcall FUN_00de9130(hkMatrix4* matrix, void*, CB20B0_Class* dst)
 {
-    dst->FUN_00cb20b0(matrix);
+    dst->hkTransform_set4x4ColumnMajor(matrix);
 }
 
 // Copies four columns from source, then calls FUN_00de8910 with value.
@@ -181,7 +181,7 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
+    void hkMatrix3_setMul(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {
@@ -217,7 +217,7 @@ struct FUN_00cdf230_cls
 // src: HAVOK_LIB 0x00cdf230
 void FUN_00cdf230_cls::hkpRagdollConstraintData_setTarget(int iArg)
 {
-    m_kRoomNode.FUN_00cd55b0(&m_kSource, iArg);
+    m_kRoomNode.hkMatrix3_setMul(&m_kSource, iArg);
 }
 
 __forceinline void AddColumn(hkVector4& destination, const hkVector4& source)
@@ -258,7 +258,7 @@ void __fastcall FUN_00de9270(hkMatrix4* matrix, void*, hkMatrix4* dst, const hkM
 
     FUN_00de8910(&matTmp, DAT_0104da4c);
 
-    matrix->FUN_00de8da0(*dst, matTmp);
+    matrix->hkMatrix4_setMul(*dst, matTmp);
 }
 
 // Subtracts the four columns of rhs from this matrix using SSE and returns rhs.
@@ -320,7 +320,8 @@ struct MatrixPointerQ
 
 // Stores the matrix product formed by dotting each row of right with each column of left.
 // @fnv 0x00de8da0
-void __fastcall FUN_00de8da0(hkMatrix4* matrix, void*, const hkMatrix4* left, MatrixPointerQ right)
+// src: XBOX_PDB 0x00de8da0
+void __fastcall hkMatrix4_setMul(hkMatrix4* matrix, void*, const hkMatrix4* left, MatrixPointerQ right)
 {
     hkMatrix4 columns;
     columns = *left;

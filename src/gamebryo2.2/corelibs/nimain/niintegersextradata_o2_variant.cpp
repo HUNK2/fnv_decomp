@@ -71,7 +71,8 @@ NiIntegersExtraData* NiIntegersExtraData::FUN_00a99a50(int flag)
 }
 
 // @fnv 0x00a998e0
-bool NiIntegersExtraData::FUN_00a998e0(NiIntegersExtraData* pObject)
+// src: XBOX_PDB 0x00a998e0
+bool NiIntegersExtraData::IsEqual_00a998e0(NiIntegersExtraData* pObject)
 {
     NiIntegersExtraData* pExtra = pObject;
     unsigned int i;
@@ -96,9 +97,10 @@ bool NiIntegersExtraData::FUN_00a998e0(NiIntegersExtraData* pObject)
 
 void* __cdecl _NiMalloc(unsigned int);
 // @fnv 0x00a99870
-void NiIntegersExtraData::FUN_00a99870(NiIntegersExtraData* pDest, void* pCloning)
+// src: XBOX_PDB 0x00a99870
+void NiIntegersExtraData::CopyMembers_00a99870(NiIntegersExtraData* pDest, void* pCloning)
 {
-    NiExtraData::FUN_00a7b330(pDest, pCloning);
+    NiExtraData::CopyMembers_00a7b330(pDest, pCloning);
     if (m_piValue && m_uiSize > 0)
     {
         pDest->m_uiSize = m_uiSize;
@@ -160,9 +162,10 @@ void NiIntegersExtraData::GetViewerStrings(NiViewerStringsArray* pkStrings)
 }
 
 // @fnv 0x00a999b0
-NiExtraData* NiIntegersExtraData::FUN_00a999b0(void* pvProcess)
+// src: XBOX_PDB 0x00a999b0
+NiExtraData* NiIntegersExtraData::CreateClone_00a999b0(void* pvProcess)
 {
     NiIntegersExtraData* pkClone = new NiIntegersExtraData;
-    FUN_00a99870(pkClone, pvProcess);
+    CopyMembers_00a99870(pkClone, pvProcess);
     return pkClone;
 }

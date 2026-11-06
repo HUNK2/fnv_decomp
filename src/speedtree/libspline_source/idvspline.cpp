@@ -37,7 +37,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
     {
         if (token.type < EXPRESSION_OPERATORS_EXP_COUNT && token.type > EXPRESSION_OPERATORS_EXP_RIGHTPAREN)
         {
-            if (!m_kOperandStack.FUN_00594d20())
+            if (!m_kOperandStack.Stack_ExpressionOperand_32_empty())
             {
                 Value1 = m_kOperandStack.PopEntry();
                 if (token.type == EXPRESSION_OPERATORS_EXP_UNARYMINUS)
@@ -51,7 +51,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 }
                 else
                 {
-                    if (!m_kOperandStack.FUN_00594d20())
+                    if (!m_kOperandStack.Stack_ExpressionOperand_32_empty())
                     {
                         eoOperand2 = m_kOperandStack.PopEntry();
                         switch (token.type)
@@ -471,7 +471,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 Value.Type = 0;
                 Value.m_lIntegerValue = atol(token.text);
             }
-            else if (FUN_004b12d0(token.text))
+            else if (IsAFloat(token.text))
             {
                 Value.Type = 1;
                 Value.m_dFloatingPointValue = atof(token.text);
@@ -503,10 +503,10 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
                 token.text = 0;
         }
     }
-    if (!m_kOperandStack.FUN_00594d20())
+    if (!m_kOperandStack.Stack_ExpressionOperand_32_empty())
     {
         Value = m_kOperandStack.PopEntry();
-        if (m_kOperandStack.FUN_00594d20())
+        if (m_kOperandStack.Stack_ExpressionOperand_32_empty())
         {
             if (!Value.Type)
                 return Value.m_lIntegerValue;

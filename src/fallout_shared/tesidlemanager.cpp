@@ -56,7 +56,7 @@ void IdleAnimationManager::BuildIdlePath(const char* source, char* destination)
         }
         else
         {
-            match = FUN_0040ab30(buffer, '\\');
+            match = strrchr_0040ab30(buffer, '\\');
             if (match)
             {
                 ++match;
@@ -81,7 +81,7 @@ BSSimpleList<const char*>* IdleAnimationManager::FindIdleArrayEntry(const char* 
             char buffer[128];
             {
                 TaskQueueInterface::CopyStringToBuffer(buffer, 128, directory);
-                char* match = FUN_0040ab30(buffer, '\\');
+                char* match = strrchr_0040ab30(buffer, '\\');
                 TaskQueueInterface::CopyStringToBuffer(match + 1, 128 - (match - buffer) - 1,
                                                        fnv_tesidlemanager_idle_anims);
                 if (GetAt(buffer, pIdleEntry) && pIdleEntry)
@@ -202,7 +202,7 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                         char buffer[128];
                         {
                             TaskQueueInterface::CopyStringToBuffer(buffer, 128, directory);
-                            char* slash = FUN_0040ab30(buffer, '\\');
+                            char* slash = strrchr_0040ab30(buffer, '\\');
                             TaskQueueInterface::CopyStringToBuffer(slash + 1, 128 - (slash - buffer) - 1,
                                                                    fnv_tesidlemanager_idle_anims);
                             supplied = new IdleAnimationDirectoryEntry(directory);
@@ -328,7 +328,8 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
 extern int _fnv_tesidlemanager_used_item;
 
 // @fnv 0x00600900
-void FUN_00600900(int param)
+// src: XBOX_PDB 0x00600900
+void TESIdleManager_SetUsedItem(int param)
 {
     _fnv_tesidlemanager_used_item = param;
 }
@@ -336,7 +337,8 @@ void FUN_00600900(int param)
 extern int DAT_01199c8c;
 
 // @fnv 0x00600910
-int __cdecl FUN_00600910()
+// src: XBOX_PDB 0x00600910
+int __cdecl TESIdleManager_GetUsedItemLevel()
 {
     return DAT_01199c8c;
 }
@@ -344,7 +346,8 @@ int __cdecl FUN_00600910()
 extern int DAT_01199c8c;
 
 // @fnv 0x00600920
-void FUN_00600920(int value)
+// src: XBOX_PDB 0x00600920
+void TESIdleManager_SetUsedItemLevel(int value)
 {
     DAT_01199c8c = value;
 }
@@ -352,7 +355,8 @@ void FUN_00600920(int value)
 extern unsigned char _fnv_tesidlemanager_used_item_activate;
 
 // @fnv 0x00600940
-void FUN_00600940(unsigned char value)
+// src: XBOX_PDB 0x00600940
+void TESIdleManager_SetUsedItemActivate(unsigned char value)
 {
     _fnv_tesidlemanager_used_item_activate = value;
 }

@@ -35,7 +35,7 @@ struct IntegerData
 {
     int m_iValue;
 };
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 void AppendChunk(int, void*, int);
 struct BipedModelForm
 {
@@ -49,16 +49,17 @@ void* memset(void*, int, unsigned int);
 }  // namespace fnv_0067bec0
 
 // @fnv 0x0067bec0
-void TESEscortPackageData::FUN_0067bec0()
+// src: XBOX_PDB 0x0067bec0
+void TESEscortPackageData::Save_0067bec0()
 {
     using namespace fnv_0067bec0;
     IntegerData valueBlock;
     memset(&valueBlock, 0, 4);
     valueBlock.m_iValue = m_iValue;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         ((BipedModelForm*)&valueBlock)->Endian();
     AppendChunk(0x32454b50, &valueBlock, 4);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         ((BipedModelForm*)&valueBlock)->Endian();
     if (m_pPackageTarget)
         reinterpret_cast<fnv_0067bec0::LocationDescriptor*>(m_pPackageTarget)->Save(0x32444c50);
@@ -67,7 +68,7 @@ void TESEscortPackageData::FUN_0067bec0()
 namespace fnv_0067bf40 {
 struct FUN_0067fb60_holder
 {
-    void FUN_0067fb60(void*);
+    void PackageLocation_SaveGame(void*);
 };
 }  // namespace fnv_0067bf40
 
@@ -79,7 +80,7 @@ void TESEscortPackageData::SaveGame_0067bf40(BGSSaveFormBuffer* buffer)
     bool hasLocation = (m_pPackageTarget != 0) ? true : false;
     buffer->SaveData(reinterpret_cast<char*>(&hasLocation), 1, 0);
     if (hasLocation)
-        reinterpret_cast<fnv_0067bf40::FUN_0067fb60_holder*>(m_pPackageTarget)->FUN_0067fb60(buffer);
+        reinterpret_cast<fnv_0067bf40::FUN_0067fb60_holder*>(m_pPackageTarget)->PackageLocation_SaveGame(buffer);
 }
 
 struct LocationDescriptor
@@ -100,7 +101,7 @@ struct LocationDescriptor
 {
     LocationDescriptor();
     ~LocationDescriptor();
-    void FUN_0067fbe0(BGSLoadFormBuffer*);
+    void PackageLocation_LoadGame_0067fbe0(BGSLoadFormBuffer*);
     int pad[3];
 };
 }  // namespace fnv_0067c330
@@ -115,7 +116,7 @@ void TESEscortPackageData::TESFollowPackageData_LoadGame(BGSLoadFormBuffer* buff
     if (hasLocation)
     {
         m_pPackageTarget = reinterpret_cast<LocationDescriptor*>(new fnv_0067c330::LocationDescriptor);
-        reinterpret_cast<fnv_0067c330::LocationDescriptor*>(m_pPackageTarget)->FUN_0067fbe0(buffer);
+        reinterpret_cast<fnv_0067c330::LocationDescriptor*>(m_pPackageTarget)->PackageLocation_LoadGame_0067fbe0(buffer);
     }
 }
 

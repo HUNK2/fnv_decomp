@@ -99,7 +99,7 @@ struct D5C110MemoryRouter
         return *m_pStreamAllocator;
     }
 };
-extern "C" D5C110MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D5C110MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 // hkArray<hkVector4> without a destructor (Havok was built without EH): explicit cleanup.
 struct D5C110VertexArray
 {
@@ -112,7 +112,7 @@ struct D5C110VertexArray
 
     void ClearAndRelease()
     {
-        D5C110Allocator& alloc = FUN_00c85750().heap();
+        D5C110Allocator& alloc = hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(Vec4));
@@ -137,7 +137,7 @@ void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& 
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry);
 struct D5C110VertexArray;
 void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices);
+void __cdecl hkGeometryUtility_createVerticesFromPlaneEquations(const void* shape, D5C110VertexArray& vertices);
 #include <math.h>
 struct S00d5ad60_cls
 {
@@ -256,7 +256,7 @@ struct MeanCovArrayHeap
 {
     __forceinline D5C110Allocator& get(const void*)
     {
-        return FUN_00c85750().heap();
+        return hkMemoryRouter_getInstance().heap();
     }
 };
 template <class T> class MeanCovArrayBase
@@ -351,7 +351,8 @@ static __forceinline float MeanCovarea(LocalM128 e0, LocalM128 e1)
     return len * 0.5;
 }
 // @fnv 0x00d5c1a0
-extern "C" __declspec(noinline) void __cdecl FUN_00d5c1a0(const void* vertices, int count, MeanCovObbStride stride,
+// src: XBOX_PDB 0x00d5c1a0
+extern "C" __declspec(noinline) void __cdecl getMeanAndCovariance(const void* vertices, int count, MeanCovObbStride stride,
                                                           MeanCovObbRot* covariance, Vec4* center,
                                                           MeanCovObbFlag perturb)
 {

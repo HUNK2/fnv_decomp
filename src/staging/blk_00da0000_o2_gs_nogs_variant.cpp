@@ -370,10 +370,10 @@ class FUN_00db78a0_cls
     virtual void vSlot0c(void* field, void* item);
     void hkVtableClassRegistry_registerList(FUN_00db78a0_item** a, void** b);
 };
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 struct MapPair
 {
@@ -419,7 +419,7 @@ struct HashEntryTable
         return m_kPrimitiveElement[it].val;
     }
 
-    void FUN_00cb1870(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
 };
 struct MapHolder
 {
@@ -591,7 +591,7 @@ struct DBA430Inner
     void __thiscall Sync(DBA430Listener* listener);
     void __thiscall Mark();
 };
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct DBA430Owner
 {
     int m_00;
@@ -728,7 +728,7 @@ struct DA2D70Object
     void __thiscall FUN_00da2930();
     void* __thiscall NotifyAudioListener(int flags);
 };
-extern BSAudio* __cdecl FUN_00c85750();
+extern BSAudio* __cdecl hkMemoryRouter_getInstance();
 void __cdecl nullsub_21();
 void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
 void __cdecl ProcessCollisionEntry();

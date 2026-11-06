@@ -64,10 +64,11 @@ struct Call_439090_tgt
 };
 struct FUN_00439060_shell
 {
-    bool FUN_00439060(void* arg);
+    bool MultiBoundMarkerData_Compare(void* arg);
 };
 // @fnv 0x00439060
-bool FUN_00439060_shell::FUN_00439060(void* arg)
+// src: XBOX_PDB 0x00439060
+bool FUN_00439060_shell::MultiBoundMarkerData_Compare(void* arg)
 {
     if (!arg)
         return true;

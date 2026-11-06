@@ -15,7 +15,7 @@ struct Manager
     int unk0c;
     Allocator* allocator;
 };
-Manager* __cdecl FUN_00c85750();
+Manager* __cdecl hkMemoryRouter_getInstance();
 struct Record
 {
     void* vtable00;
@@ -30,7 +30,7 @@ Record* Record::FUN_00dcca30(unsigned int flags)
     FUN_00dcc160();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = hkMemoryRouter_getInstance();
         Allocator* allocator = manager->allocator;
         unsigned short size = unk04;
         allocator->Free(this, size);

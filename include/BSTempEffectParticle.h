@@ -42,7 +42,7 @@ class BSTempEffectParticle : public BSTempEffect
     ParticleSource* GetSource();
     void SetParentCell(TESObjectCELL* apCell);
     bool CheckShouldSave();
-    void FUN_00689920(const char* name);
+    void PlaySequence(const char* name);
     void Detach_006896c0();
     bool UpdateTransform(float time);
     bool LoadFromSave();
@@ -50,7 +50,7 @@ class BSTempEffectParticle : public BSTempEffect
     void StopSounds();
     void InitLoopSounds();
     void PlayImpactDataSounds(void* pValue);
-    void FUN_0068aa50(void* searchArg);
+    void BSTempEffectParticle_ResetGravity(void* searchArg);
     void AttachModel(NiNode* parent, NiMatrix3 rotation, NiPoint3 position, float scale, unsigned int flags);
     void AttachModel(Parent* parent, NiMatrix3 rotation, NiPoint3 position, float scale, unsigned int flags);
     void AttachModel(void* parent, Matrix rotation, NiPoint3 position, float scale, int flags);

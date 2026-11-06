@@ -153,11 +153,12 @@ int hkOuterCDF6::ForwardToInner(hkPairCDF6 kPair)
 class MalleableGetterStandIn : public hkpMalleableConstraintData
 {
   public:
-    hkpConstraintData* FUN_00cdf6c0();
+    hkpConstraintData* hkpMalleableConstraintData_getWrappedConstraintData();
 };
 
 // @fnv 0x00cdf6c0
-hkpConstraintData* MalleableGetterStandIn::FUN_00cdf6c0()
+// src: XBOX_PDB 0x00cdf6c0
+hkpConstraintData* MalleableGetterStandIn::hkpMalleableConstraintData_getWrappedConstraintData()
 {
     return m_pConstraintData;
 }
@@ -246,8 +247,8 @@ struct Cdf7c0Flag
     bool v;
 };
 
-void FUN_00d72190(hkpConstraintAtom* atom, Cdf7c0Buf* buf, Cdf7c0Flag flag, int param2);
-void FUN_00d6f460(hkpConstraintAtom* atom, int unk14, Cdf7c0Buf* buf, int param2);
+void hkSimpleContactConstraintDataBuildJacobian(hkpConstraintAtom* atom, Cdf7c0Buf* buf, Cdf7c0Flag flag, int param2);
+void hkSolverBuildJacobianFromAtomsNotContact(hkpConstraintAtom* atom, int unk14, Cdf7c0Buf* buf, int param2);
 
 struct Cdf7c0Self
 {
@@ -259,12 +260,13 @@ struct Cdf7c0Self
     int unk14;
     int unk18;
     float m_fSpringStrength;
-    void FUN_00cdf7c0(const Cdf7c0Buf& src, int param2);
+    void hkpMalleableConstraintData_buildJacobian(const Cdf7c0Buf& src, int param2);
 };
 
 // Copies src, scales the copy's unk24 by m_fSpringStrength, then calls FUN_00d72190 for a contact atom or FUN_00d6f460 otherwise.
 // @fnv 0x00cdf7c0
-void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
+// src: XBOX_PDB 0x00cdf7c0
+void Cdf7c0Self::hkpMalleableConstraintData_buildJacobian(const Cdf7c0Buf& src, int param2)
 {
     Cdf7c0Buf buf = src;
     buf.unk24 *= m_fSpringStrength;
@@ -275,11 +277,11 @@ void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
     if (atom->m_type == hkpConstraintAtom::TYPE_CONTACT)
     {
         flag.v = true;
-        FUN_00d72190(atom, &buf, flag, param2);
+        hkSimpleContactConstraintDataBuildJacobian(atom, &buf, flag, param2);
     }
     else
     {
-        FUN_00d6f460(atom, info.unk14, &buf, param2);
+        hkSolverBuildJacobianFromAtomsNotContact(atom, info.unk14, &buf, param2);
     }
 }
 
@@ -295,11 +297,12 @@ class hkObjectCDF6
     int unk18;
     float m_uiFilterValue;
 
-    void FUN_00cdf670(float fValue);
+    void hkpMalleableConstraintData_setStrength(float fValue);
 };
 
 // @fnv 0x00cdf670
-void hkObjectCDF6::FUN_00cdf670(float fValue)
+// src: XBOX_PDB 0x00cdf670
+void hkObjectCDF6::hkpMalleableConstraintData_setStrength(float fValue)
 {
     m_uiFilterValue = fValue;
 }

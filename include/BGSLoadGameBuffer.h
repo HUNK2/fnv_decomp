@@ -34,7 +34,7 @@ public:
 
     void BGSSaveLoadFile_SetSaveFileName(SaveLoadFile* file);
     bool BGSSaveLoadFile_Open();
-    void FUN_00864980(void* data, unsigned int size);
+    void LoadData(void* data, unsigned int size);
 
     int Load();
     int Load(SaveLoadFile* file);

@@ -53,7 +53,7 @@ struct MemRouter
     }
 };
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
 
 static __forceinline float distanceSquared(LocalM128 a, LocalM128 b)
@@ -112,7 +112,7 @@ void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
     }
     *outCount = (int)(out - arr->m_data);
     int count = *outCount;
-    MemAllocator& alloc = ((MemRouter*)FUN_00c85750())->heap();
+    MemAllocator& alloc = ((MemRouter*)hkMemoryRouter_getInstance())->heap();
     int cap = arr->m_iCapacityState & 0x3fffffff;
     if (cap < count)
     {
@@ -174,7 +174,7 @@ struct Holder
     }
 };
 
-Holder* __cdecl FUN_00c85750();
+Holder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(Allocator* allocator, void* container, int elementSize);
 
 template <class T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
@@ -204,7 +204,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void AddBack(const T& v)
     {
-        Holder* h = FUN_00c85750();
+        Holder* h = hkMemoryRouter_getInstance();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(h->allocator, this, sizeof(T));
         T* p = &data[size];
@@ -214,7 +214,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void pushBackPlain(const T& v)
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = hkMemoryRouter_getInstance()->heap();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(&a, this, sizeof(T));
         hkConstructWithCopy(data + size, 1, v);
@@ -222,7 +222,7 @@ template <class T> struct Arr_00dd6a10
     }
     __forceinline void clearAndFree()
     {
-        Allocator& a = FUN_00c85750()->heap();
+        Allocator& a = hkMemoryRouter_getInstance()->heap();
         size = 0;
         if ((capacity & 0x80000000) == 0)
             a.freeBlock(data, (capacity & 0x3fffffff) * sizeof(T));
@@ -393,7 +393,7 @@ struct Holder_00dd6c10
     }
 };
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* allocator, void* container, int elementSize);
 
 template <class T> struct Arr_00dd6c10
@@ -427,7 +427,7 @@ struct PairList_00dd6c10
     }
     __forceinline void add(const Pair& item)
     {
-        Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(FUN_00c85750());
+        Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(hkMemoryRouter_getInstance());
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(h->allocator, this, sizeof(Pair));
         Pair* p = &data[size];
@@ -446,7 +446,7 @@ struct PairList_00dd6c10
     }
     __forceinline void clearAndFree()
     {
-        _clearAndDeallocate(static_cast<Holder_00dd6c10*>(FUN_00c85750())->heap());
+        _clearAndDeallocate(static_cast<Holder_00dd6c10*>(hkMemoryRouter_getInstance())->heap());
     }
 };
 

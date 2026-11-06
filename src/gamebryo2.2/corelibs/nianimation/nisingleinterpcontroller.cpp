@@ -10,9 +10,9 @@
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // Base implementations not yet declared by the shared NiInterpController header.
-void __cdecl FUN_00a2f8b0(int arg);
-void FUN_00c27120();
-unsigned short __cdecl FUN_00c283f0(void*, void*);
+void __cdecl NiInterpController_RegisterStreamables(int arg);
+void NiInterpController_SaveBinary();
+unsigned short __cdecl NiInterpController_IsEqual(void*, void*);
 void FUN_00a2f980();
 
 // Calls the base NiTimeController::ProcessClone, then forwards the clone process to the interpolator if one is set.
@@ -80,7 +80,8 @@ const NiRTTI* __fastcall NiInterpController_GetRTTI(const NiInterpController*)
 }
 
 // @fnv 0x00a38df0
-void __fastcall FUN_00a38df0(NiSingleInterpController* controller)
+// src: XBOX_PDB 0x00a38df0
+void __fastcall NiSingleInterpController_TargetIsRequiredType(NiSingleInterpController* controller)
 {
     controller->TargetIsRequired(controller->m_pkTarget);
 }
@@ -97,7 +98,7 @@ void NiSingleInterpController::SetActiveTimeRange(float m_fStartTime, float m_fM
 // @fnv 0x00a38fe0
 bool NiSingleInterpController::RegisterStreamables(NiStream& kStream)
 {
-    if (!reinterpret_cast<bool(__thiscall*)(NiInterpController*, NiStream&)>(&FUN_00a2f8b0)(this, kStream))
+    if (!reinterpret_cast<bool(__thiscall*)(NiInterpController*, NiStream&)>(&NiInterpController_RegisterStreamables)(this, kStream))
         return false;
     NiInterpolator* pkInterp = m_spControllerInterpolator.m_pObject;
     if (pkInterp)
@@ -108,7 +109,7 @@ bool NiSingleInterpController::RegisterStreamables(NiStream& kStream)
 // @fnv 0x00a39010
 void NiSingleInterpController::SaveBinary(NiStream& kStream)
 {
-    reinterpret_cast<void(__thiscall*)(NiInterpController*, NiStream&)>(&FUN_00c27120)(this, kStream);
+    reinterpret_cast<void(__thiscall*)(NiInterpController*, NiStream&)>(&NiInterpController_SaveBinary)(this, kStream);
     kStream.SaveLinkID(reinterpret_cast<const NiObject*>(m_spControllerInterpolator.m_pObject));
 }
 
@@ -156,7 +157,7 @@ void NiSingleInterpController::SetInterpolator(NiInterpolator* apNewInterpolator
 bool NiSingleInterpController::IsEqual(NiObject* object) const
 {
     NiSingleInterpController* other = static_cast<NiSingleInterpController*>(object);
-    if (!reinterpret_cast<bool(__thiscall*)(const NiInterpController*, NiObject*)>(&FUN_00c283f0)(this, object))
+    if (!reinterpret_cast<bool(__thiscall*)(const NiInterpController*, NiObject*)>(&NiInterpController_IsEqual)(this, object))
         return false;
     if ((m_spControllerInterpolator.m_pObject && !other->m_spControllerInterpolator.m_pObject) ||
         (!m_spControllerInterpolator.m_pObject && other->m_spControllerInterpolator.m_pObject))
@@ -208,32 +209,37 @@ void NiSingleInterpController::AdvanceControllerTime()
 extern void FUN_00c9a6b0();
 
 // @fnv 0x00a35850
-void FUN_00a35850()
+// src: XBOX_PDB 0x00a35850
+void BSMultiTargetTreadTransfController_LinkObject()
 {
     FUN_00c9a6b0();
 }
 
 // @fnv 0x00a35870
-void __fastcall FUN_00a35870(NiInterpController* controller, void*, NiStream& arStream)
+// src: XBOX_PDB 0x00a35870
+void __fastcall BSMultiTargetTreadTransfController_SaveBinary(NiInterpController* controller, void*, NiStream& arStream)
 {
-    reinterpret_cast<void(__thiscall*)(NiInterpController*, NiStream&)>(&FUN_00c27120)(controller, arStream);
+    reinterpret_cast<void(__thiscall*)(NiInterpController*, NiStream&)>(&NiInterpController_SaveBinary)(controller, arStream);
 }
 
 // @fnv 0x00a35880
-unsigned short __cdecl FUN_00a35880(void* param1, void* param2)
+// src: XBOX_PDB 0x00a35880
+unsigned short __cdecl BSMultiTargetTreadTransfController_IsEqual(void* param1, void* param2)
 {
-    return FUN_00c283f0(param1, param2);
+    return NiInterpController_IsEqual(param1, param2);
 }
 
 // @fnv 0x00a35890
-unsigned short __fastcall FUN_00a35890(const BSMultiTargetTreadTransfController* controller)
+// src: XBOX_PDB 0x00a35890
+unsigned short __fastcall BSMultiTargetTreadTransfController_GetInterpolatorCount(const BSMultiTargetTreadTransfController* controller)
 {
     // The shared header does not yet name the target count following entries.
     return *reinterpret_cast<const unsigned short*>(reinterpret_cast<const unsigned char*>(controller) + 0x38);
 }
 
 // @fnv 0x00a35860
-void __cdecl FUN_00a35860(int arg)
+// src: XBOX_PDB 0x00a35860
+void __cdecl BSMultiTargetTreadTransfController_RegisterStreamables(int arg)
 {
-    FUN_00a2f8b0(arg);
+    NiInterpController_RegisterStreamables(arg);
 }

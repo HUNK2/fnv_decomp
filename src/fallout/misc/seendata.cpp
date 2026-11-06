@@ -160,7 +160,8 @@ void SnapToGridCell(NiPoint3& pos)
 }
 
 // @fnv 0x00879d90
-float FUN_00879d90()
+// src: XBOX_PDB 0x00879d90
+float SeenData_GetSeenPosSize()
 {
     return DAT_011a31e8;
 }
@@ -178,7 +179,8 @@ unsigned short SeenData::GetSaveSize(bool abRecursing)
 TESSaveLoadGame* g_TESSaveLoadGame;
 
 // @fnv 0x0087a090
-void __thiscall SeenData::FUN_0087a090(unsigned short)
+// src: XBOX_PDB 0x0087a090
+void __thiscall SeenData::LoadGame_0087a090(unsigned short)
 {
     g_TESSaveLoadGame->ReadTypedData(m_uiSeenData, 0x20);
 }
@@ -206,9 +208,10 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // Passes the seen-data array and size 0x20 to TESSaveLoadGame::FUN_008579b0.
 // @fnv 0x0087a060
-void SeenData::FUN_0087a060(bool abRecursing)
+// src: XBOX_PDB 0x0087a060
+void SeenData::SaveGame_0087a060(bool abRecursing)
 {
-    fnv_0087a060::g_TESSaveLoadGame->FUN_008579b0(&field_04, 0x20);
+    fnv_0087a060::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&field_04, 0x20);
 }
 
 void _Deallocate(void*);
@@ -227,7 +230,7 @@ void* IntSeenData::FUN_0087a140(unsigned int flags)
 void IntSeenData::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     unsigned int icount = 0;
-    unsigned int icountPosition = buffer->FUN_00865f20();
+    unsigned int icountPosition = buffer->StartVariableSizedValue();
     IntSeenData* pNode = this;
     while (pNode)
     {
@@ -237,7 +240,7 @@ void IntSeenData::SaveToBuffer(BGSSaveFormBuffer* buffer)
         pNode = pNode->field_28;
         ++icount;
     }
-    buffer->FUN_00865ff0(icount, icountPosition);
+    buffer->SaveVariableSizedValue_00865ff0(icount, icountPosition);
 }
 
 // @fnv 0x008799a0
@@ -259,9 +262,10 @@ extern SaveManager* DAT_011de45c;
 }  // namespace fnv_0087a3e0
 
 // @fnv 0x0087a3e0
-void IntSeenData::FUN_0087a090(unsigned short aiCount)
+// src: XBOX_PDB 0x0087a090
+void IntSeenData::LoadGame_0087a090(unsigned short aiCount)
 {
-    SeenData::FUN_0087a090(0xffff);
+    SeenData::LoadGame_0087a090(0xffff);
 
     if (aiCount == 0xffff)
         reinterpret_cast<TESSaveLoadGame*>(fnv_0087a3e0::DAT_011de45c)->ReadTypedData(&aiCount, 2);
@@ -275,13 +279,13 @@ void IntSeenData::FUN_0087a090(unsigned short aiCount)
     {
         field_28 = new IntSeenData(char(0), char(0));
 
-        field_28->FUN_0087a090(aiCount);
+        field_28->LoadGame_0087a090(aiCount);
     }
 }
 
 struct Marker
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate_004bc1f0(float, float, float);
 };
 Marker* __cdecl CreateSquareLines(float, NiColorA*, int);
 struct Parent
@@ -361,7 +365,7 @@ void SeenData::AttachMarkersForSeenData(NiNode* parent, const NiPoint3& offset, 
                 reinterpret_cast<NiPoint3*>(positionStorage)->FUN_0063c8a0(offset);
                 Marker* marker3 = CreateSquareLines(DAT_011a31e8, &effectColor, 1);
                 reinterpret_cast<Parent*>(parent)->Attach(marker3, 1);
-                marker3->FUN_004bc1f0(reinterpret_cast<NiPoint3*>(positionStorage)->x + half, reinterpret_cast<NiPoint3*>(positionStorage)->y + half, reinterpret_cast<NiPoint3*>(positionStorage)->z);
+                marker3->NiAVObject_SetTranslate_004bc1f0(reinterpret_cast<NiPoint3*>(positionStorage)->x + half, reinterpret_cast<NiPoint3*>(positionStorage)->y + half, reinterpret_cast<NiPoint3*>(positionStorage)->z);
             }
         }
     }
@@ -396,16 +400,17 @@ unsigned short IntSeenData::GetSaveSize(bool bFull)
 
 struct SaveDataWriter
 {
-    void FUN_008579b0(void* data, unsigned int size);
+    void TESSaveLoadGame_SaveGameDataOLD(void* data, unsigned int size);
 };
 extern SaveDataWriter* DAT_011de45c;
 
 // Writes the section's two bytes and, when not recursing, the section count, then recurses into the next section.
 // @fnv 0x0087a330
-void IntSeenData::FUN_0087a060(bool abRecursing)
+// src: XBOX_PDB 0x0087a060
+void IntSeenData::SaveGame_0087a060(bool abRecursing)
 {
     IntSeenData* pSection;
-    SeenData::FUN_0087a060(false);
+    SeenData::SaveGame_0087a060(false);
     if (!abRecursing)
     {
         unsigned short usSectionCount;
@@ -415,13 +420,13 @@ void IntSeenData::FUN_0087a060(bool abRecursing)
         {
             ++usSectionCount;
         }
-        DAT_011de45c->FUN_008579b0(&usSectionCount, 2);
+        DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&usSectionCount, 2);
     }
-    DAT_011de45c->FUN_008579b0(&field_24, 1);
-    DAT_011de45c->FUN_008579b0(&field_25, 1);
+    DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&field_24, 1);
+    DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&field_25, 1);
     if (field_28)
     {
-        field_28->FUN_0087a060(true);
+        field_28->SaveGame_0087a060(true);
     }
 }
 

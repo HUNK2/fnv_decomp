@@ -27,10 +27,11 @@ struct WorldSpaceComparison : TESWorldSpace
     void* Water();
     float Height();
     void* Map();
-    bool FUN_00585250(TESForm*);
+    bool TESWorldSpace_Compare(TESForm*);
 };
 // @fnv 0x00585250
-bool WorldSpaceComparison::FUN_00585250(TESForm* form)
+// src: XBOX_PDB 0x00585250
+bool WorldSpaceComparison::TESWorldSpace_Compare(TESForm* form)
 {
     WorldSpaceComparison* other = (WorldSpaceComparison*)dynamic_cast< ::TESWorldSpace*>(form);
     if (!other)

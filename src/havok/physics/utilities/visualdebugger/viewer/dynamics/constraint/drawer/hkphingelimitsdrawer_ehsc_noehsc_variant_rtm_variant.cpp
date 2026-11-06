@@ -322,16 +322,16 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     hkTransform refLocalToWorld;
     hkTransform attLocalToWorld;
     hkpConstraintDrawer_updateCommonParameters(constraint, refLocalToWorld, attLocalToWorld);
-    m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, hkVector4::getZero());
-    m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, hkVector4::getZero());
+    m_vVectorAtOffset50.setTransformedPos_00c7f640(refLocalToWorld, hkVector4::getZero());
+    m_vVectorAtOffset40.setTransformedPos_00c7f640(attLocalToWorld, hkVector4::getZero());
     hkpConstraintDrawer_drawBodyFrames(id, tag);
     hkpConstraintDrawer_drawPivots(id, tag);
     const hkVector4* baseA = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationA.getColumn(0);
     const hkVector4* baseB = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationB.getColumn(0);
     hkVector4 axisInWorld;
-    axisInWorld.FUN_00c7f700(m_kSecondRotation, baseB[0]);
+    axisInWorld.hkVector4_setRotatedDir(m_kSecondRotation, baseB[0]);
     hkVector4 axisPerpInWorld;
-    axisPerpInWorld.FUN_00c7f700(m_kSecondRotation, baseB[2]);
+    axisPerpInWorld.hkVector4_setRotatedDir(m_kSecondRotation, baseB[2]);
     displayHandler->DisplayLine(m_vVectorAtOffset40, m_vVectorAtOffset50, hkColor::RED, id, tag);
     {
         hkVector4 startAxis, endAxis;
@@ -359,7 +359,7 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
         end.addMul4(hkSimdReal(getLineLengthForDraw() * 0.75), axisPerpInWorld);
         displayHandler->DisplayLine(start, end, hkColor::YELLOW, id, tag);
         hkVector4 axisPerpA;
-        axisPerpA.FUN_00c7f700(m_kFirstRotation, baseA[2]);
+        axisPerpA.hkVector4_setRotatedDir(m_kFirstRotation, baseA[2]);
         axisPerpA.normalize3();
         start = m_vVectorAtOffset40;
         end = start;

@@ -130,7 +130,7 @@ class RefCall
 {
   public:
     bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
-    bool FUN_00474cb0();
+    bool GetFormEditorIDLength();
     const char* GetFullName();
 };
 

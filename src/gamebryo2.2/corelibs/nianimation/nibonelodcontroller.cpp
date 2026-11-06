@@ -139,7 +139,8 @@ void* FUN_00a54410_shell::FreeAndMaybeDeallocate(unsigned int flags)
 }  // namespace fnv_00a54410
 
 // @fnv 0x00a552c0
-NiBoneLODController* NiBoneLODController::FUN_00a552c0(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a552c0
+NiBoneLODController* NiBoneLODController::CreateClone_00a552c0(CloningProcess& kCloning)
 {
     NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(BSFadeNode::operator new(0x68));
     if (pkObject)
@@ -252,7 +253,8 @@ class GeometrySkinInstancePair
 
 // Calls the base RegisterStreamables, then registers the skin instance of every skin info in each LOD skin info set, returning false if the base call fails.
 // @fnv 0x00a53d00
-bool NiBoneLODController::FUN_00a53d00(NiStream& kStream)
+// src: XBOX_PDB 0x00a53d00
+bool NiBoneLODController::RegisterStreamables_00a53d00(NiStream& kStream)
 {
     if (!NiTimeController::RegisterStreamables(kStream))
         return false;
@@ -421,7 +423,7 @@ bool BoneLODLevelMethods::SetLOD(int desiredLOD)
 
 struct MemoryAllocator
 {
-    void FUN_00aa4060(void* object);
+    void MemoryManager_Deallocate(void* object);
 };
 extern MemoryAllocator g_011f6238;
 extern "C" void __cdecl _NiFree_00aa10f0(void* object);
@@ -454,7 +456,7 @@ void NiBoneLODController::ClearEntries()
         if (entry)
         {
             _NiFree_00aa10f0(entry->allocation);
-            g_011f6238.FUN_00aa4060(entry);
+            g_011f6238.MemoryManager_Deallocate(entry);
         }
     }
     for (unsigned short i = 0; i < m_kBoneSetArray.m_usSize; ++i)
@@ -475,11 +477,11 @@ void NiBoneLODController::ClearEntries()
                     NiRefObject* reference = object->reference;
                     if (reference && InterlockedDecrement(reinterpret_cast<volatile long*>(&reference->m_uiRefCount)) == 0)
                         reference->DeleteThis();
-                    g_011f6238.FUN_00aa4060(object);
+                    g_011f6238.MemoryManager_Deallocate(object);
                 }
             }
             _NiFree_00aa10f0(group->objects);
-            g_011f6238.FUN_00aa4060(group);
+            g_011f6238.MemoryManager_Deallocate(group);
         }
     }
     for (unsigned short i = 0; i < m_kSkinInfoSets.m_usSize; ++i)
@@ -557,7 +559,8 @@ class NiTimeControllerEqualityMethods : public NiTimeController
 
 // Compares LOD, LOD counts, node/skin/shape sets and their elements against pkObject after BaseIsEqual, returning false on any mismatch.
 // @fnv 0x00a53ea0
-bool NiBoneLODController::FUN_00a53ea0(NiObject* pkObject)
+// src: XBOX_PDB 0x00a53ea0
+bool NiBoneLODController::IsEqual_00a53ea0(NiObject* pkObject)
 {
     if (!reinterpret_cast<NiTimeControllerEqualityMethods*>(this)->BaseIsEqual(pkObject))
         return false;
@@ -622,7 +625,7 @@ bool NiBoneLODController::FUN_00a53ea0(NiObject* pkObject)
     return true;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 void __cdecl _NiFree_00aa10f0(void*);
 
 inline unsigned int NiBinaryStream::Read(void* data, unsigned int size)
@@ -660,7 +663,7 @@ template <class T> struct LinkGroup
             T* replacement;
             if (size > 0)
             {
-                replacement = (T*)FUN_00aa1070(size * sizeof(T));
+                replacement = (T*)_NiMalloc_00aa1070(size * sizeof(T));
                 for (unsigned int i = 0; i < count; i++)
                     replacement[i] = data[i];
             }
@@ -796,7 +799,8 @@ template <class T> inline void SaveStream(NiStream& kStream, const T& value)
 }
 // Serializes the LOD level, node groups, skin groups, and default nodes of a bone LOD entry to the stream.
 // @fnv 0x00a549d0
-void NiBoneLODController::FUN_00a549d0(NiStream& stream)
+// src: XBOX_PDB 0x00a549d0
+void NiBoneLODController::SaveBinary_00a549d0(NiStream& stream)
 {
     reinterpret_cast<NiTimeControllerStreamMethods*>(this)->NiTimeControllerStreamMethods::SaveBinary(stream);
     NiTPrimitiveArray<BoneSet*>& nodes = m_kBoneSetArray;
@@ -865,7 +869,7 @@ __declspec(nothrow) inline NiTArray<T, TAlloc>::NiTArray(unsigned int size, unsi
     m_usSize = 0;
     m_usESize = 0;
     if (m_usMaxSize > 0)
-        m_pBase = (T*)FUN_00aa1070(m_usMaxSize * sizeof(T));
+        m_pBase = (T*)_NiMalloc_00aa1070(m_usMaxSize * sizeof(T));
     else
         m_pBase = 0;
 }
@@ -894,7 +898,7 @@ __declspec(nothrow) inline NiTPrimitiveArray<NiBoneLODController::SkinInfoSet*>:
     m_usSize = 0;
     m_usESize = 0;
     if (m_usMaxSize > 0)
-        m_pBase = (NiBoneLODController::SkinInfoSet**)FUN_00aa1070(m_usMaxSize * sizeof(NiBoneLODController::SkinInfoSet*));
+        m_pBase = (NiBoneLODController::SkinInfoSet**)_NiMalloc_00aa1070(m_usMaxSize * sizeof(NiBoneLODController::SkinInfoSet*));
     else
         m_pBase = 0;
     *reinterpret_cast<void**>(this) = &DAT_0109a2c8;
@@ -919,7 +923,7 @@ struct A54440Heap : MemoryAllocator
 {
     void* Game_DoHeapAlloc(unsigned int bytes);
 };
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 struct A54440PointerGroup
 {
     static void* operator new(unsigned int bytes)
@@ -931,11 +935,11 @@ struct A54440PointerGroup
     void** elements;
     unsigned int capacity;
     unsigned int count;
-    void FUN_00a311e0(unsigned int nextCapacity);
+    void NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(unsigned int nextCapacity);
     void Append(void* item)
     {
         if (count == capacity)
-            FUN_00a311e0(capacity > 0 ? capacity * 2 : 1);
+            NiTSet_NiScreenGeometryData_ScreenElement_NiTMallocInterface_NiScreenGeometryData_ScreenElement_Add(capacity > 0 ? capacity * 2 : 1);
         elements[count++] = item;
     }
 };
@@ -961,7 +965,7 @@ struct A54440GrowGroup
                 void** newData;
                 if (newCapacity > 0)
                 {
-                    newData = (void**)FUN_00aa1070(newCapacity * 4);
+                    newData = (void**)_NiMalloc_00aa1070(newCapacity * 4);
                     for (unsigned int j = 0; j < count; j++)
                         newData[j] = elements[j];
                 }
@@ -995,7 +999,7 @@ struct A54440LinkGroup
                 A54440Link** newData;
                 if (newCapacity > 0)
                 {
-                    newData = (A54440Link**)FUN_00aa1070(newCapacity * 4);
+                    newData = (A54440Link**)_NiMalloc_00aa1070(newCapacity * 4);
                     for (unsigned int j = 0; j < count; j++)
                         newData[j] = entries[j];
                 }

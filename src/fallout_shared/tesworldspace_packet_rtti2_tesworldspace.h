@@ -113,7 +113,7 @@ class InterfaceManager
   public:
     char pad[0x9C];
     Tile* pTile;
-    Tile* FUN_00586150();
+    Tile* CombatController_GetCombatState();
 };
 #endif
 class TESSound;

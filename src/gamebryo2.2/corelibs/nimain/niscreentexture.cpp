@@ -137,7 +137,7 @@ void NiScreenTexture::SaveBinary(NiStream& kStream)
     kStream.SaveLinkID(reinterpret_cast<const NiObject*>(m_pTexturingProperty));
 }
 
-void* __cdecl FUN_00aa1070(unsigned int bytes);
+void* __cdecl _NiMalloc_00aa1070(unsigned int bytes);
 void __cdecl _NiFree_00aa10f0(void* memory);
 
 struct ScreenRectArray
@@ -156,7 +156,7 @@ void ScreenRectArray::Resize(unsigned int uiNewCapacity)
         RendererDataRecord* pNew;
         if (uiNewCapacity > 0)
         {
-            pNew = static_cast<RendererDataRecord*>(FUN_00aa1070(uiNewCapacity * sizeof(RendererDataRecord)));
+            pNew = static_cast<RendererDataRecord*>(_NiMalloc_00aa1070(uiNewCapacity * sizeof(RendererDataRecord)));
             for (unsigned int i = 0; i < m_uiAllocatedCapacity; ++i)
             {
                 pNew[i] = m_pBase[i];

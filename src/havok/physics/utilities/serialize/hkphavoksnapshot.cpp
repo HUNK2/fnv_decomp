@@ -19,7 +19,7 @@ struct State
     int unk0c;
     CallbackInterface* interface10;
 };
-State* __cdecl FUN_00c85750();
+State* __cdecl hkMemoryRouter_getInstance();
 struct Object
 {
     void* unk00;
@@ -34,7 +34,7 @@ Object* Object::FUN_00cc0dd0(unsigned int flags)
     FUN_00cc0ae0();
     if (flags & 1)
     {
-        State* state = FUN_00c85750();
+        State* state = hkMemoryRouter_getInstance();
         state->interface10->notify(this, unk04);
     }
     return this;
@@ -223,12 +223,13 @@ struct FUN_00cc08f0_cls
     unsigned int unk04;
     PtrList m_08;
 
-    void FUN_00cc08f0(void** a1, void** a2);
+    void hkpHavokSnapshot_ConvertListener_addObjectCallback(void** a1, void** a2);
 };
 
 // Checks type matchers on *a2, allocates and links a new object into m_08, or clears the pointer when the back-reference matches.
 // @fnv 0x00cc08f0
-void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
+// src: XBOX_PDB 0x00cc08f0
+void FUN_00cc08f0_cls::hkpHavokSnapshot_ConvertListener_addObjectCallback(void** a1, void** a2)
 {
     void** cur = a2;
 
@@ -237,12 +238,12 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         if (*cur != (void*)&g_01268eb4)
         {
             void* v = *a1;
-            State* h = FUN_00c85750();
+            State* h = hkMemoryRouter_getInstance();
             Obj70* o = (Obj70*)((Allocator*)h->interface10)->allocate(0x70);
             o->m_04 = 0x70;
             o = o->FUN_00d4bab0(v);
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            State* h2 = hkMemoryRouter_getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
                 ResizeAudioStream(h2->interface10, list, 4);
@@ -258,12 +259,12 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         if (*cur != (void*)&g_01268d4c)
         {
             void* v = *a1;
-            State* h = FUN_00c85750();
+            State* h = hkMemoryRouter_getInstance();
             Obj110* o = (Obj110*)((Allocator*)h->interface10)->allocate(0x110);
             o->m_04 = 0x110;
             o = o->FUN_00d4aa70(v);
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            State* h2 = hkMemoryRouter_getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
                 ResizeAudioStream(h2->interface10, list, 4);
@@ -279,12 +280,12 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         void* v = *a1;
         if (((unsigned char*)v)[0x1d] == 2)
         {
-            State* h = FUN_00c85750();
+            State* h = hkMemoryRouter_getInstance();
             Obj80* o = (Obj80*)((Allocator*)h->interface10)->allocate(0x80);
             o->m_04 = 0x80;
             o = o->FUN_00d49750(v);
             PtrList* list = &m_08;
-            State* h2 = FUN_00c85750();
+            State* h2 = hkMemoryRouter_getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
                 ResizeAudioStream(h2->interface10, list, 4);
@@ -322,7 +323,7 @@ struct FixedAllocator
     virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 extern int DAT_010c93e4;
 extern int DAT_0102e388;
 
@@ -350,7 +351,7 @@ void FUN_00cc0ae0_cls::FUN_00cc0ae0()
             item->v00(1);
         }
     }
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     FixedAllocator* alloc = (FixedAllocator*)holder->m_heap;
     unsigned int cap = m_uCapBits;
     m_iArrayLength = 0;

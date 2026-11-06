@@ -37,10 +37,11 @@ struct Group00e7ef40
 {
     char _pad0[16];
     Entry00e7ef40* m_pkSaved;
-    unsigned int FUN_00e7ef40();
+    unsigned int NiD3DRenderStateGroup_RestoreRenderStates();
 };
 // @fnv 0x00e7ef40
-unsigned int Group00e7ef40::FUN_00e7ef40()
+// src: XBOX_PDB 0x00e7ef40
+unsigned int Group00e7ef40::NiD3DRenderStateGroup_RestoreRenderStates()
 {
     Entry00e7ef40* pkRSEntry = m_pkSaved;
     while (pkRSEntry)

@@ -100,14 +100,14 @@ class NiSourceTexture;
 class NiRTTI;
 extern TES* g_TES;
 extern NiRTTI DAT_011f444c;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 
 class TESTopic;
 template <class T> class BSSimpleList;
 extern NiNode* DAT_011c6328;
 extern NiControllerManager* DAT_011c6324;
 extern NiRTTI DAT_011f36ac;
-const NiFixedString& FUN_00448a80();
+const NiFixedString& BSXFlags_Tag();
 const NiFixedString& get_g_EditorMarker();
 const NiFixedString& get_g_EditorMarker0();
 const NiFixedString& get_g_EditorMarker1();
@@ -116,7 +116,7 @@ int BSstricmp(const char*, const char*);
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 extern NiRTTI DAT_012024e0;
-int FUN_004a2c20(NiProperty*);
+int BSSM_ShaderPropertyIsLighting(NiProperty*);
 class TESObjectLIGH;
 
 extern "C" float logf(float);

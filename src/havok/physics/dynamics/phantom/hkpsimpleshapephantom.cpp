@@ -312,7 +312,7 @@ void hkObjD1F6::CollectStatistics(hkStatisticsCollector* pkCollector, const hkCl
 }
 
 extern "C" int __stdcall hkpPhantom_fireCollidableAdded(void* object);
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
@@ -329,7 +329,7 @@ void FUN_00d1f690_Member::AddCollisionDetail(void* object)
         if (hkpPhantom_fireCollidableAdded(object) == 0)
         {
             hkArray<hkpSimpleShapePhantomCollisionDetail>* details = &m_kCollisionDetails;
-            hkMemoryRouter* router = FUN_00c85750();
+            hkMemoryRouter* router = hkMemoryRouter_getInstance();
             if (details->m_iElementCount == (details->m_iCapacityState & 0x3fffffff))
             {
                 ResizeAudioStream(router->m_heap, details, 4);
@@ -480,16 +480,16 @@ template <typename T> __forceinline hkArrayBase<T>& hkArrayBase<T>::copyFromArra
     return *this;
 }
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 template <typename T, typename Allocator> __forceinline hkArray<T, Allocator>& hkArray<T, Allocator>::operator=(const hkArray& a)
 {
-    copyFromArray(*reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap), a, hkTypeIsPod());
+    copyFromArray(*reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap), a, hkTypeIsPod());
     return *this;
 }
 
 namespace fnv_00d1f7e0 {
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 inline hkMemoryAllocator& heapD1F7(hkMemoryRouter& router)
 {
@@ -501,7 +501,7 @@ class FUN_00d1f730 : public hkpSimpleShapePhantom
   public:
     static __forceinline void* operator new(unsigned int uiSize) throw()
     {
-        hkpWorldObject* p = (hkpWorldObject*)heapD1F7(FUN_00c85750()).blockAlloc(uiSize);
+        hkpWorldObject* p = (hkpWorldObject*)heapD1F7(hkMemoryRouter_getInstance()).blockAlloc(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -768,7 +768,7 @@ void FUN_00d1f450_Obj::hkpSimpleShapePhantom_setTransformAndLinearCast(int* sour
 
 namespace fnv_00d1f960 {
 // @fnv 0x00d1f960
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 struct C : hkpSimpleShapePhantom
 {
     void hkpSimpleShapePhantom_deallocateInternalArrays();
@@ -779,7 +779,7 @@ void C::hkpSimpleShapePhantom_deallocateInternalArrays()
 {
     if (m_kCollisionDetails.m_iElementCount == 0)
     {
-        hkMemoryAllocator& allocator = reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap());
+        hkMemoryAllocator& allocator = reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap());
         int flags = m_kCollisionDetails.m_iCapacityState;
         m_kCollisionDetails.m_iElementCount = 0;
         if ((flags & 0x80000000) == 0)

@@ -86,13 +86,13 @@ void Simulation::FUN_00de7730(Input* input, Draw* draw, int a, int b)
     Matrix transform0, transform1;
     hkpConstraintDrawer_updateCommonParameters(input, &transform0, &transform1);
     // Matrix has the hkTransform layout (rotation columns + translation); 0x00c7f640 = hkVector4::_setTransformedPos.
-    unk050.FUN_00c7f640(reinterpret_cast<const hkTransform&>(transform0), shape->unk090);
-    unk040.FUN_00c7f640(reinterpret_cast<const hkTransform&>(transform1), shape->unk050);
+    unk050.setTransformedPos_00c7f640(reinterpret_cast<const hkTransform&>(transform0), shape->unk090);
+    unk040.setTransformedPos_00c7f640(reinterpret_cast<const hkTransform&>(transform1), shape->unk050);
     hkpConstraintDrawer_drawPivots(a, b);
     hkpConstraintDrawer_drawBodyFrames(a, b);
     hkVector4 dir0, dir1;
-    dir0.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&unk090), &shape->unk060);   // _setRotatedDir
-    dir1.FUN_00c7f700(reinterpret_cast<const hkRotation*>(&unk090), &shape->unk070);
+    dir0.hkVector4_setRotatedDir(reinterpret_cast<const hkRotation*>(&unk090), &shape->unk060);   // _setRotatedDir
+    dir1.hkVector4_setRotatedDir(reinterpret_cast<const hkRotation*>(&unk090), &shape->unk070);
     draw->line(&unk040, &unk050, 0xffff0000, a, b);
     hkVector4 from, to;
     if (shape->unk0cc != 3.402820018375656e38)

@@ -24,7 +24,7 @@ public:
 
     void FUN_006e3960();
     void FUN_006e39d0();
-    PathingAvoidNode* FUN_006a1400(unsigned int);
+    PathingAvoidNode* BSSimpleArray_PathingAvoidNode_1024_GetAt(unsigned int);
     void SetSize(unsigned int, bool);
     unsigned int AppendNode(const AvoidanceEntry&);
     void AppendNode(const AvoidanceVectorData&, float, float);

@@ -101,7 +101,7 @@ extern ShadowSceneNode* DAT_011f91c8[4];
 // The shipped setter was built without optimization.
 #pragma optimize("", off)
 #pragma optimize("", on)
-void __cdecl FUN_00b4f2f0(int idx, ShadowSceneNode* p);
+void __cdecl BSShaderManager_SetShadowSceneNode(int idx, ShadowSceneNode* p);
 
 extern ImageSpaceManager* DAT_011f91ac;
 NiTexture* GetImageSpaceTexture();
@@ -125,7 +125,7 @@ struct PropHelper
 };
 void __cdecl ProcessPropertyTree(PropHelper*, int);
 void __cdecl ProcessPropertyTree(PropHelper* obj, int param2);
-BSFogProperty* __cdecl FUN_00b55520(int aiShadowSceneNode);
+BSFogProperty* __cdecl BSShaderManager_GetFogProperty(int aiShadowSceneNode);
 void ProcessPropertyTree(NiAVObject*, unsigned int);
 void BSShaderManager_SetObjectType(NiAVObject* obj);
 struct tagRECT

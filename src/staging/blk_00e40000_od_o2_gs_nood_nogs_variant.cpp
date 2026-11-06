@@ -203,7 +203,7 @@ void FUN_00e52c30(const unsigned char* p, PackedQuaternionOutput* output)
 }
 }  // namespace fnv_00e52c30
 
-struct FNV_ALIGN(16) FUN_00dd1bf0
+struct FNV_ALIGN(16) hkpMoppObbVirtualMachine_queryObb
 {
     int m[16];
     void Query(int a1, int a2, int a3, float a4, int a5);
@@ -213,6 +213,6 @@ struct FNV_ALIGN(16) FUN_00dd1bf0
 // src: HAVOK_LIB 0x00e5cfe0
 void _hkMoppObbVirtualMachine_queryObb(int a1, int a2, int a3, float a4, int a5)
 {
-    FUN_00dd1bf0 obj;
+    hkpMoppObbVirtualMachine_queryObb obj;
     obj.Query(a1, a2, a3, a4, a5);
 }

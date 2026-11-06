@@ -2432,7 +2432,7 @@ class FUN_00a30540_cls
     unsigned int m_uiItemCount;
     void* unk10;
     A30540Entry* m_pEntries;
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 extern "C" int __cdecl strcmp(const char* s1, const char* s2);
 struct FUN_00a305e0_cls

@@ -185,11 +185,12 @@ int __cdecl ForwardVTableCall(DummyVTable_00aff9d0* apObject, int aiArg1, int ai
 
 struct FUN_005d43c0_
 {
-    void* FUN_005d43c0();
+    void* BSFile_GetDevice();
 };
 
 // @fnv 0x005d43c0
-void* FUN_005d43c0_::FUN_005d43c0()
+// src: XBOX_PDB 0x005d43c0
+void* FUN_005d43c0_::BSFile_GetDevice()
 {
     return (char*)this + 0x44;
 }
@@ -208,7 +209,8 @@ bool FUN_00afbf60_shell::IsField158NonZero()
 }
 
 // @fnv 0x00afc410
-bool __fastcall FUN_00afc410(void* this_ptr)
+// src: XBOX_PDB 0x00afc410
+bool __fastcall CompressedArchiveFile_Exist(void* this_ptr)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this_ptr) + 0x158) != 0;
 }
@@ -320,13 +322,14 @@ struct S_00aff2a0_Class
     int unk28;
     unsigned char unk2c;
 
-    void FUN_00aff490();
-    unsigned char __thiscall FUN_00aff2a0(int);
+    void BSFile_CheckIsGood();
+    unsigned char __thiscall BSFile_OpenByFilePointer(int);
 };
 
 // If unk24 is already set returns 1; otherwise clears unk18, unk14 and unk20, stores a1 in unk24, calls FUN_00aff490 and returns unk2c.
 // @fnv 0x00aff2a0
-unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
+// src: XBOX_PDB 0x00aff2a0
+unsigned char __thiscall S_00aff2a0_Class::BSFile_OpenByFilePointer(int a1)
 {
     if ((bool)(int)(unk24 != 0))
     {
@@ -338,7 +341,7 @@ unsigned char __thiscall S_00aff2a0_Class::FUN_00aff2a0(int a1)
     unk20 = 0;
     unk24 = a1;
 
-    FUN_00aff490();
+    BSFile_CheckIsGood();
 
     return unk2c;
 }
@@ -414,11 +417,12 @@ struct FUN_00affaf0_W
 
 struct FUN_00affaf0_cls : public BSFile
 {
-    unsigned int FUN_00affaf0(FUN_00affaf0_H* a1, bool b);
+    unsigned int BSFile_Write(FUN_00affaf0_H* a1, bool b);
 };
 
 // @fnv 0x00affaf0
-unsigned int FUN_00affaf0_cls::FUN_00affaf0(FUN_00affaf0_H* pEntry, bool bIncrement)
+// src: XBOX_PDB 0x00affaf0
+unsigned int FUN_00affaf0_cls::BSFile_Write(FUN_00affaf0_H* pEntry, bool bIncrement)
 {
     unsigned int key;
     unsigned int h4;

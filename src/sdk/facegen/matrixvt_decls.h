@@ -10,7 +10,7 @@ struct FaceGenCoordinateValue
   public:
     unsigned int value;
     unsigned int layoutPadding;
-    const float* FUN_00629ab0();
+    const float* NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt();
 };
 
 class FR2MatrixVTCData

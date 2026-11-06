@@ -78,8 +78,8 @@ struct __declspec(align(16)) Buffer
     int unk7c;
 };
 extern "C" void __cdecl _hkSimpleContactConstraintDataAddALittleSurfaceViscosity(void*);
-extern "C" void __cdecl FUN_00d72190(hkpSimpleContactConstraintAtom*, Buffer*, int, int*);
-extern "C" void __cdecl FUN_00d6f460(hkpSimpleContactConstraintAtom*, unsigned short, Buffer*, int*);
+extern "C" void __cdecl hkSimpleContactConstraintDataBuildJacobian(hkpSimpleContactConstraintAtom*, Buffer*, int, int*);
+extern "C" void __cdecl hkSolverBuildJacobianFromAtomsNotContact(hkpSimpleContactConstraintAtom*, unsigned short, Buffer*, int*);
 extern "C" Buffer* __cdecl GetSharedBuffer();
 static void __cdecl FUN_00d6c5a0(hkpSimpleContactConstraintAtom* self, int* counter, Buffer* source);
 void __cdecl Caller(hkpSimpleContactConstraintAtom* self, int* counter);
@@ -832,7 +832,8 @@ __forceinline hkReal calculateRhs(const hkContactPoint* ccp, PhysicsMaterial& sr
 }
 
 // @fnv 0x00d72190
-extern "C" void __cdecl FUN_00d72190(hkpSimpleContactConstraintAtom* atomNode, Buffer* queryIn, int writeHeader, int* queryOut)
+// src: XBOX_PDB 0x00d72190
+extern "C" void __cdecl hkSimpleContactConstraintDataBuildJacobian(hkpSimpleContactConstraintAtom* atomNode, Buffer* queryIn, int writeHeader, int* queryOut)
 {
     int modified = 0;
     const hkContactPoint* __restrict contacts =

@@ -83,7 +83,7 @@ class NiGeometryData : public NiObject
     void FUN_004410f0(int);
     NiPoint2* NiGeometryData_GetTextureSet(unsigned short);
     unsigned short* FUN_00a75f10();
-    void FUN_00a66bb0(unsigned short, TangentPoint3*, TangentPoint3*, NiColorA*,
+    void NiGeometryData_ReplaceData(unsigned short, TangentPoint3*, TangentPoint3*, NiColorA*,
                       NiPoint2*, unsigned short, unsigned int);
     void FUN_00a67050(int);
     void NiGeometryData_UnlockPackedVertexData();

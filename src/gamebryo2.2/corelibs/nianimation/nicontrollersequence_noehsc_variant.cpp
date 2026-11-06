@@ -106,11 +106,11 @@ struct FUN_00a33bf0_s : NiObject
 };
 struct FUN_00a2e420_shell
 {
-    unsigned char FUN_00a2e420(float);
+    unsigned char NiControllerManager_StopTransSourceSequence(float);
 };
 struct FUN_00a30540_shell
 {
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 extern float DAT_01015f5c;
 extern double DAT_010241b0;
@@ -320,7 +320,7 @@ struct SequenceA30970 : NiObject
     float lastTime34;
     float accumulated38;
     float scaled3c;
-    float __thiscall FUN_00a30970(float time, bool update);
+    float __thiscall ComputeScaledTime_00a30970(float time, bool update);
 };
 struct FUN_00a30c80_shell
 {
@@ -443,7 +443,7 @@ struct SequenceView : ObjectView
     int unk68;
     RefView** notes;
     unsigned short noteCount;
-    bool FUN_00a30ea0(NiStream&);
+    bool RegisterStreamables_00a30ea0(NiStream&);
 };
 __declspec(dllimport) long __stdcall InterlockedIncrement(long* p);
 __declspec(dllimport) long __stdcall InterlockedDecrement(long* p);
@@ -489,7 +489,7 @@ extern int DAT_0109b220;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct S_00aa4060_Class
 {
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern S_00aa4060_Class DAT_011f6238;
 struct FUN_00a315b0_Elem
@@ -681,11 +681,11 @@ struct TagItem
 };
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 void* __cdecl FormatStringWithType(const char*, void*);
-void* __cdecl FUN_00a7d510(const char*, unsigned int);
-void* __cdecl FUN_00a7d550(const char*, float);
-void* __cdecl FUN_00a6d190(const char*, void*);
+void* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
+void* __cdecl NiGetViewerString_00a7d550(const char*, float);
+void* __cdecl NiTimeController_GetViewerString(const char*, void*);
 int __cdecl FUN_00a305b0(char*, unsigned int, const char*, ...);
-void* __cdecl FUN_00a7d5e0(const char*, const char*);
+void* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
 struct Position
 {
     unsigned int i;
@@ -876,7 +876,7 @@ struct SeqEqStand : SequenceA30970
     unsigned int unk54;
     unsigned int unk58;
     void* root5c;
-    unsigned char FUN_00a30fb0(SeqEqStand* other);
+    unsigned char IsEqual_00a30fb0(SeqEqStand* other);
 };
 extern const char str_01020fd4[];
 extern const char str_01020fc8[];
@@ -1012,9 +1012,9 @@ struct AnimationSequence : S_00a30880_Base
     UpdateNote** notes;
     unsigned short noteCount;
     float GetMorphedTime(AnimationSequence*, float);
-    float FUN_00a30970(float, bool);
-    void FUN_00a32290(float, float, float);
-    void FUN_00a34ba0(float time, bool update);
+    float ComputeScaledTime_00a30970(float, bool);
+    void NiControllerSequence_SetInterpsWeightAndTime(float, float, float);
+    void Update_00a34ba0(float time, bool update);
     __forceinline bool SetState(int value)
     {
         bool inactive = state == 0;
@@ -1181,13 +1181,13 @@ struct A33950Object
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00a344f0_cls
 {
-    void __thiscall FUN_00a33570(void* obj, unsigned int param);
+    void __thiscall NiControllerSequence_CopyMembers(void* obj, unsigned int param);
     void* FUN_00a344f0(unsigned int param);
 };
 extern const float DAT_010141cc;
 struct FUN_00a350d0_seq : SeqA34f20
 {
-    bool FUN_00a350d0(SeqA34f20* pkTarget, float fTime, float m_fTimeout, int iPriority, float fSeqWeight,
+    bool StartBlend(SeqA34f20* pkTarget, float fTime, float m_fTimeout, int iPriority, float fSeqWeight,
                       float fTargetWeight, SeqA34f20* pkPartner);
 };
 
@@ -1328,10 +1328,11 @@ struct CloneSequence
     ClonePtr<RefObj>* notes;
     unsigned short noteCount;
     void CreateVertexBufferSet(CloneSequence*, void*);
-    void FUN_00a33570(CloneSequence*, void*);
+    void NiControllerSequence_CopyMembers(CloneSequence*, void*);
 };
 // @fnv 0x00a33570
-void CloneSequence::FUN_00a33570(CloneSequence* dest, void* context)
+// src: XBOX_PDB 0x00a33570
+void CloneSequence::NiControllerSequence_CopyMembers(CloneSequence* dest, void* context)
 {
     CreateVertexBufferSet(dest, context);
     dest->name = name;
@@ -1606,17 +1607,18 @@ struct Sequence71
     Smart71* notes;
     unsigned short noteCount;
     void ReadGroup(NiStream&);
-    void FUN_00a33e40(NiStream&);
+    void NiControllerSequence_LoadBinary(NiStream&);
 };
 // @fnv 0x00a33e40
-void Sequence71::FUN_00a33e40(NiStream& stream)
+// src: XBOX_PDB 0x00a33e40
+void Sequence71::NiControllerSequence_LoadBinary(NiStream& stream)
 {
     ReadGroup(stream);
     if (stream.GetFileVersion() < 0x0a010068)
     {
         stream.ReadFixedString(reinterpret_cast<NiFixedString&>(name));
         stream.ReadFixedString(reinterpret_cast<NiFixedString&>(root));
-        stream.FUN_00a645b0();
+        stream.ReadLinkID();
         stream.GetBinaryStream()->Read(&count, 4);
         grow = 12;
         interpolators = new Interp71[count];
@@ -1626,7 +1628,7 @@ void Sequence71::FUN_00a33e40(NiStream& stream)
             String71 objectName;
             stream.ReadFixedString(reinterpret_cast<NiFixedString&>(objectName));
             tags[index].object = objectName;
-            stream.FUN_00a645b0();
+            stream.ReadLinkID();
             objectName.Release();
         }
         return;
@@ -1648,7 +1650,7 @@ void Sequence71::FUN_00a33e40(NiStream& stream)
         }
     }
     stream.GetBinaryStream()->Read(&weight, 4);
-    stream.FUN_00a645b0();
+    stream.ReadLinkID();
     {
         int cycleValue;
         stream.GetBinaryStream()->Read(&cycleValue, 4);
@@ -1667,7 +1669,7 @@ void Sequence71::FUN_00a33e40(NiStream& stream)
         bool backward;
         stream.GetBinaryStream()->Read(&backward, 1);
     }
-    stream.FUN_00a645b0();
+    stream.ReadLinkID();
     if (stream.GetFileVersion() < 0x14010001)
         stream.ReadFixedString(reinterpret_cast<NiFixedString&>(root));
     else
@@ -1677,13 +1679,13 @@ void Sequence71::FUN_00a33e40(NiStream& stream)
     else
         oldNotes = 0;
     if (stream.m_kHeader.m_uiVersion > 21 && stream.m_kHeader.m_uiVersion < 29)
-        stream.FUN_00a645b0();
+        stream.ReadLinkID();
     if (stream.m_kHeader.m_uiVersion > 28)
     {
         stream.GetBinaryStream()->Read(&noteCount, 2);
         if (noteCount > 0)
             notes = new Smart71[noteCount];
         for (unsigned short index = 0; index < noteCount; ++index)
-            stream.FUN_00a645b0();
+            stream.ReadLinkID();
     }
 }

@@ -26,7 +26,7 @@ void __cdecl RegisterInertiaTensors();
 void __cdecl RegisterMousePicking();
 void __cdecl RegisterPhantomsProcess();
 void __cdecl RegisterShapesProcess();
-void __cdecl FUN_00d651c0();
+void __cdecl hkpSimulationIslandViewer_registerViewer();
 void __cdecl RegisterSweptTransformsTask();
 void __cdecl FUN_00d63da0();
 void __cdecl InitWorldMemory();
@@ -34,7 +34,8 @@ void __cdecl RegisterSnapshotCommands();
 void __cdecl RegisterWeldingViewer();
 
 // @fnv 0x00cd1ed0
-void __cdecl FUN_00cd1ed0()
+// src: XBOX_PDB 0x00cd1ed0
+void __cdecl hkpPhysicsContext_registerAllPhysicsProcesses()
 {
     FUN_00d6ad40();
     FUN_00d6a850();
@@ -49,7 +50,7 @@ void __cdecl FUN_00cd1ed0()
     RegisterMousePicking();
     RegisterPhantomsProcess();
     RegisterShapesProcess();
-    FUN_00d651c0();
+    hkpSimulationIslandViewer_registerViewer();
     RegisterSweptTransformsTask();
     FUN_00d63da0();
     InitWorldMemory();
@@ -286,7 +287,7 @@ struct AllocatorState
     int unk0C;
     void* allocator;
 };
-extern AllocatorState* __cdecl FUN_00c85750();
+extern AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 struct PointerArray
 {
@@ -355,7 +356,7 @@ found:
     if (index >= 0)
         return (void*)index;
 append:
-    AllocatorState* state = FUN_00c85750();
+    AllocatorState* state = hkMemoryRouter_getInstance();
     if (array->count == (array->capacity & 0x3fffffff))
         ResizeAudioStream(state->allocator, array, 4);
     void** slot = array->data + array->count;
@@ -381,14 +382,14 @@ struct Holder
     int unk0c;
     Device* device;
 };
-extern void* __cdecl FUN_00c85750();
+extern void* __cdecl hkMemoryRouter_getInstance();
 }  // namespace fnv_00cd27f0
 
 // @fnv 0x00cd27f0
 hkProcessContext::~hkProcessContext() throw()
 {
     using namespace fnv_00cd27f0;
-    Holder* holder = (Holder*)fnv_00cd27f0::FUN_00c85750();
+    Holder* holder = (Holder*)fnv_00cd27f0::hkMemoryRouter_getInstance();
     Device* device = holder->device;
     int count = m_2c.capacityAndFlags;
     *(volatile int*)&m_2c.size = 0;
@@ -401,7 +402,7 @@ hkProcessContext::~hkProcessContext() throw()
 skipFirstRelease:
     m_2c.data = 0;
     m_2c.capacityAndFlags = 0x80000000;
-    holder = (Holder*)fnv_00cd27f0::FUN_00c85750();
+    holder = (Holder*)fnv_00cd27f0::hkMemoryRouter_getInstance();
     device = holder->device;
     int secondCount = m_08.capacityAndFlags;
     m_08.size = 0;
@@ -431,7 +432,7 @@ struct Manager
     int unk0c;
     DeleteInterface* iface;
 };
-Manager* __cdecl FUN_00c85750();
+Manager* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00cd2900_owner
 {
     int unk00;
@@ -446,7 +447,7 @@ void* FUN_00cd2900_owner::DestroyIfFlagged(unsigned flags)
     FUN_00cd2690();
     if (flags & 1)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = hkMemoryRouter_getInstance();
         manager->iface->deleteObject(this, unk04);
     }
     return this;
@@ -1010,8 +1011,8 @@ struct CD22Registry
     void hkpWorld_addActionListener(void* p);
     void hkpWorld_addConstraintListener(void* p);
     CD22Table* hkpWorld_getWorldAsOneSystem();
-    void FUN_00c91c50(CD22Elem* e);
-    void FUN_00c91190();
+    void hkpWorld_getCinfo(CD22Elem* e);
+    void hkpWorld_unlock();
 };
 
 struct CD22Owner
@@ -1058,7 +1059,7 @@ struct CD22Object
     void RegisterWithRegistry(CD22Registry* reg);
 };
 
-extern AllocatorState* __cdecl FUN_00c85750();
+extern AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
 // @fnv 0x00cd22f0
@@ -1076,7 +1077,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
     reg->hkpWorld_addConstraintListener(&m_64);
 
     CD22Array* pArray = &m_78;
-    AllocatorState* holder = FUN_00c85750();
+    AllocatorState* holder = hkMemoryRouter_getInstance();
     if (pArray->count == (int)(pArray->cap & 0x3fffffff))
     {
         ResizeAudioStream(holder->allocator, pArray, 0xf0);
@@ -1090,7 +1091,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
 
     CD22Elem* e = (CD22Elem*)((char*)pArray->data + pArray->count * 0xf0);
     pArray->count++;
-    reg->FUN_00c91c50(e);
+    reg->hkpWorld_getCinfo(e);
 
     if (m_0c != 0)
     {
@@ -1115,7 +1116,7 @@ void CD22Object::RegisterWithRegistry(CD22Registry* reg)
         ((CD22Listener*)&m_64)->Notify(tbl->items14[i]);
     }
     tbl->FUN_00c905b0();
-    reg->FUN_00c91190();
+    reg->hkpWorld_unlock();
 }
 
 struct SpawnedCallee
@@ -1266,7 +1267,7 @@ notFound:
     void* param = self != 0 ? (char*)self + 0x58 : 0;
     obj->hkpWorld_addWorldDeletionListener(param);
 
-    AllocatorState* holder = FUN_00c85750();
+    AllocatorState* holder = hkMemoryRouter_getInstance();
     if (items->count == (items->capacity & 0x3fffffff))
     {
         ResizeAudioStream(holder->allocator, items, 4);
@@ -1369,7 +1370,7 @@ __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 template <typename T, typename Allocator>
 __forceinline hkArray<T, Allocator>::~hkArray()
 {
-    this->_clearAndDeallocate(physicsContextHeap(FUN_00c85750()));
+    this->_clearAndDeallocate(physicsContextHeap(hkMemoryRouter_getInstance()));
 }
 
 class ListenerD269_58

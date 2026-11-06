@@ -10,7 +10,8 @@
 extern "C" char __stdcall FUN_00a7b3d0(NiObject*);
 
 // @fnv 0x00a89b00
-char __stdcall FUN_00a89b00(NiObject* pObject)
+// src: XBOX_PDB 0x00a89b00
+char __stdcall NiVertWeightsExtraData_IsEqual(NiObject* pObject)
 {
     char b = FUN_00a7b3d0(pObject);
     return b != 0;
@@ -99,12 +100,13 @@ struct A89C70Object : A89C70Base
 {
     static A89C70RTTI ms_kRTTI;
 
-    void FUN_00a89c70(A89C70StringArray* pkStrings);
+    void NiVertWeightsExtraData_GetViewerStrings(A89C70StringArray* pkStrings);
 };
 
 // Calls the base GetViewerStrings, then adds the RTTI name string to the string array.
 // @fnv 0x00a89c70
-void A89C70Object::FUN_00a89c70(A89C70StringArray* pkStrings)
+// src: XBOX_PDB 0x00a89c70
+void A89C70Object::NiVertWeightsExtraData_GetViewerStrings(A89C70StringArray* pkStrings)
 {
     A89C70Base::GetViewerStrings(pkStrings);
     char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
@@ -118,12 +120,13 @@ struct FUN_00a89b30_cls
     void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
-    void FUN_00a7b330(void* obj, unsigned int a1);
-    void* FUN_00a89b30(unsigned int a1);
+    void CopyMembers_00a7b330(void* obj, unsigned int a1);
+    void* NiVertWeightsExtraData_CreateClone(unsigned int a1);
 };
 
 // @fnv 0x00a89b30
-void* FUN_00a89b30_cls::FUN_00a89b30(unsigned int a1)
+// src: XBOX_PDB 0x00a89b30
+void* FUN_00a89b30_cls::NiVertWeightsExtraData_CreateClone(unsigned int a1)
 {
     FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)FUN_00aa13e0(0xc);
     if (p != 0)
@@ -135,7 +138,7 @@ void* FUN_00a89b30_cls::FUN_00a89b30(unsigned int a1)
     {
         p = 0;
     }
-    this->FUN_00a7b330(p, a1);
+    this->CopyMembers_00a7b330(p, a1);
     return p;
 }
 
@@ -171,7 +174,8 @@ static __forceinline void LoadU32(S_00a89be0_Stream* s, unsigned int* v, unsigne
 }
 
 // @fnv 0x00a89be0
-void __stdcall FUN_00a89be0(S_00a89be0_Stream* s)
+// src: XBOX_PDB 0x00a89be0
+void __stdcall NiVertWeightsExtraData_LoadBinary(S_00a89be0_Stream* s)
 {
     if (s->m_uiFormatVersion < 0x5000010)
     {

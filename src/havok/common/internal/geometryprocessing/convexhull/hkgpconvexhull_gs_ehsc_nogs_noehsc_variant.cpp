@@ -108,13 +108,13 @@ public:
     HullVectorCallLocal_00d75cb0 FUN_00439ef0(const HullVectorCallLocal_00d75cb0& vector);
     HullVectorCallLocal_00d75cb0 FUN_00439e90(const HullVectorCallLocal_00d75cb0& vector);
     void FUN_00439180(float value);
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     void normalize_005611c0();
     void setMul(const HullVectorCallLocal_00d75cb0* a, const HullVectorCallLocal_00d75cb0* b);
     void setMulInverse(const HullVectorCallLocal_00d75cb0* a, const HullVectorCallLocal_00d75cb0* b);
     void hkQuaternion_getAxis(HullVectorCallLocal_00d75cb0* vector);
-    void FUN_00c7f640(const Transform& transform, const HullVectorCallLocal_00d75cb0& point);
-    void FUN_00cb2450(const HullVectorCallLocal_00d75cb0* vector, float value);
+    void setTransformedPos_00c7f640(const Transform& transform, const HullVectorCallLocal_00d75cb0& point);
+    void hkQuaternion_setAxisAngle(const HullVectorCallLocal_00d75cb0* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);
 
     template <int I> void splat(const HullVectorCallLocal_00d75cb0& vector);
@@ -140,7 +140,7 @@ struct FUN_00d74dd0_Class {
     void hkgpConvexHull_deleteUserObject();
 };
 struct FUN_00d7ac40_class {
-    void FUN_00d7ac40(int);
+    void hkgpConvexHullImpl_reset(int);
 };
 struct FUN_00d75850_class {
     int m0;
@@ -820,7 +820,7 @@ struct S_00d7a010_Alloc {
 struct S_00d7a010_Router {
     int unk0; int unk4; int unk8; int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
+    static S_00d7a010_Router& hkMemoryRouter_getInstance() throw();
     S_00d7a010_Alloc& heap() throw() { return *m_pStreamAllocator; }
 };
 template <typename T>
@@ -879,7 +879,7 @@ struct S_00d7c340_Router {
     S_00d7c340_Allocator* unk10;
     S_00d7c340_Allocator* heap() { return unk10; }
 };
-S_00d7c340_Router* FUN_00c85750();
+S_00d7c340_Router* hkMemoryRouter_getInstance();
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 struct S_00d7c340_Elem {
     S_00d7c340_Elem* next;
@@ -1557,7 +1557,7 @@ struct D76250MemoryRouter {
 
     D76250Allocator& heap() { return *m_pStreamAllocator; }
 };
-namespace fnvc_adapt { extern "C" D76250MemoryRouter& __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { extern "C" D76250MemoryRouter& __cdecl hkMemoryRouter_getInstance(); }
 void __cdecl hkArrayUtil__reserve(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 
 struct D76250VectorArrayLocalForm { // local form of hkArray: 0x00d774a0 needs the original inline/out-of-line helper split; shared replacement changes bytes.
@@ -1579,7 +1579,7 @@ struct D76250VectorArrayLocalForm { // local form of hkArray: 0x00d774a0 needs t
 
     hkVector4* expandBy(int n)
     {
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         int oldSize = m_iElementCount;
         reserve(alloc, oldSize + n);
         m_iElementCount += n;
@@ -2594,7 +2594,7 @@ struct S00d76120_ArrLocalForm { // local form of hkArray: 0x00d76120 needs the o
 
     __forceinline hkVector4* expandBy(int n)
     {
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
         int oldSize = m_iElementCount;
         reserve(alloc, oldSize + n);
         m_iElementCount += n;
@@ -2603,7 +2603,7 @@ struct S00d76120_ArrLocalForm { // local form of hkArray: 0x00d76120 needs the o
 
     __forceinline hkVector4* expandBy2(int n)
     {
-        D76250Allocator& alloc = *(D76250Allocator*)FUN_00c85750()->heap();
+        D76250Allocator& alloc = *(D76250Allocator*)hkMemoryRouter_getInstance()->heap();
         int oldSize = m_iElementCount;
         int want = oldSize + n;
         int cap = getCapacity();
@@ -2672,7 +2672,7 @@ struct S_00d76410_Router {
     S_00d76410_Alloc& heap() { return *m_pStreamAllocator; }
 };
 void __cdecl hkArrayUtil__reserve(S_00d76410_Alloc* alloc, void* array, int numElements, int elemSize);
-static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(FUN_00c85750()); }
+static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(hkMemoryRouter_getInstance()); }
 template <typename T>
 struct S_00d76410_ArrayLocalForm { // local form of hkArray: 0x00d76410 needs the original inline/out-of-line helper split; shared replacement changes bytes.
     T* m_data;
@@ -2745,12 +2745,12 @@ struct S_00d76410_Map {
     ~S_00d76410_Map() throw();
     int GetLogicalSize() const { return m_iCapacityFlags & 0x7fffffff; }
     void EnsureCapacity(S_00d76410_Alloc& alloc, int numElements);
-    void FUN_00cb1870(S_00d76410_Alloc& alloc, S_00d76410_Vertex* key, int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(S_00d76410_Alloc& alloc, S_00d76410_Vertex* key, int val);
     int LookupHashEntry(S_00d76410_Vertex* key, int def);
     void ProcessArgument(S_00d76410_Alloc& alloc);
     __forceinline void writeIndex(S_00d76410_Vertex* v,int& out) { out=LookupHashEntry(v,-1); }
     __forceinline void reserve(int n) { EnsureCapacity(getRouter().heap(), n); }
-    __forceinline void insert(S_00d76410_Vertex* key, int value) { FUN_00cb1870(getRouter().heap(), key, value); }
+    __forceinline void insert(S_00d76410_Vertex* key, int value) { hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(getRouter().heap(), key, value); }
     __forceinline void clear() { ProcessArgument(getRouter().heap()); }
 };
 struct S_00d76410_Hull {
@@ -2969,7 +2969,7 @@ struct S_00d77380_Router {
     S_00d77380_Allocator* m_pStreamAllocator;
     S_00d77380_Allocator& heap() { return *m_pStreamAllocator; }
 };
-namespace fnvc_adapt2 { extern "C" S_00d77380_Router& __cdecl FUN_00c85750(); }
+namespace fnvc_adapt2 { extern "C" S_00d77380_Router& __cdecl hkMemoryRouter_getInstance(); }
 void __cdecl hkArrayUtil__reserve(S_00d77380_Allocator* alloc, void* array, int numElements, int sizeElem);
 
 __forceinline void hkVector4::set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
@@ -2982,7 +2982,7 @@ struct S_00d77380_ArrayLocalForm { // local form of hkArray: 0x00d77380 needs th
     S_00d77380_ArrayLocalForm() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     ~S_00d77380_ArrayLocalForm()
     {
-        S_00d77380_Allocator& alloc = fnvc_adapt2::FUN_00c85750().heap();
+        S_00d77380_Allocator& alloc = fnvc_adapt2::hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReleaseBlock(m_data, getCapacity() * sizeof(hkVector4));
@@ -2990,7 +2990,7 @@ struct S_00d77380_ArrayLocalForm { // local form of hkArray: 0x00d77380 needs th
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void reserve(int n)
     {
-        S_00d77380_Allocator& alloc = fnvc_adapt2::FUN_00c85750().heap();
+        S_00d77380_Allocator& alloc = fnvc_adapt2::hkMemoryRouter_getInstance().heap();
         const int cap = getCapacity();
         if (cap < n) {
             int cap2 = 2 * cap;
@@ -3052,18 +3052,18 @@ struct OffsetArray {
     int capacity;
     __forceinline void init() { data=0; size=0; capacity=0x80000000; }
     __forceinline void reserve(int n) {
-        S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+        S_00d7a010_Router& router=S_00d7a010_Router::hkMemoryRouter_getInstance();
         if((capacity&0x3fffffff)<n) hkArrayUtil__reserve(router.m_pStreamAllocator,this,n,16);
     }
     __forceinline void AddBack(const LocalM128& value) {
-        S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+        S_00d7a010_Router& router=S_00d7a010_Router::hkMemoryRouter_getInstance();
         if(size==(capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,this,16);
                 LocalM128* dest=data+size;
         for(int j=0;j<1;++j) dest[j]=value;
         ++size;
     }
     __forceinline void clearAndFree() {
-        S_00d7a010_Alloc& a=S_00d7a010_Router::FUN_00c85750().heap();
+        S_00d7a010_Alloc& a=S_00d7a010_Router::hkMemoryRouter_getInstance().heap();
         size=0;
         if((capacity&0x80000000)==0) a.ReturnMemory(data,(capacity&0x3fffffff)*16);
     }
@@ -3151,13 +3151,13 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
                 if(radius<opts.value) radius=opts.value;
                 radius/=length;
                 LocalM128 value=_mm_add_ps(_mm_mul_ps(_mm_load_ps1(&radius),delta),c);
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                S_00d7a010_Router& router=S_00d7a010_Router::hkMemoryRouter_getInstance();
                 if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
                 LocalM128* dest=array.data+array.size;
                 for(int j=0;j<1;++j) dest[j]=value;
                 ++array.size;
             } else {
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                S_00d7a010_Router& router=S_00d7a010_Router::hkMemoryRouter_getInstance();
                 if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
                 LocalM128* dest=array.data+array.size;
                 for(int j=0;j<1;++j) dest[j]=*point;
@@ -3209,7 +3209,7 @@ struct BlendRouter {
     BlendHeap* heap;
     BlendFactory* factory;
 };
-static __forceinline BlendRouter* router() { return (BlendRouter*)FUN_00c85750(); }
+static __forceinline BlendRouter* router() { return (BlendRouter*)hkMemoryRouter_getInstance(); }
 struct BlendInput {
     const float* data;
     int count;
@@ -3448,7 +3448,7 @@ struct PoolBlock40
 
     static void operator delete(void* p, unsigned int size)
     {
-        ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
+        ((BlockAllocAB*)hkMemoryRouter_getInstance()->heap())->ReleaseBlock(p, size);
     }
 };
 
@@ -3544,7 +3544,7 @@ struct PoolBlock48
 
     static void operator delete(void* p, unsigned int size)
     {
-        ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
+        ((BlockAllocAB*)hkMemoryRouter_getInstance()->heap())->ReleaseBlock(p, size);
     }
 };
 
@@ -3599,7 +3599,7 @@ struct ProjectionAllocator {
 struct ProjectionArray: D76250VectorArrayLocalForm {
     __forceinline ProjectionArray() { m_data=0; m_iElementCount=0; m_iCapacityState=0x80000000; }
     __forceinline ~ProjectionArray() {
-        ProjectionAllocator& a=(ProjectionAllocator&)fnvc_adapt::FUN_00c85750().heap();
+        ProjectionAllocator& a=(ProjectionAllocator&)fnvc_adapt::hkMemoryRouter_getInstance().heap();
         m_iElementCount=0;
         if((m_iCapacityState&0x80000000)==0) a.ReturnMemory(m_data,getCapacity()*sizeof(hkVector4));
     }
@@ -3610,7 +3610,7 @@ struct ProjectionArray: D76250VectorArrayLocalForm {
         return m_data+oldSize;
     }
     __forceinline hkVector4* expandBy(int n) {
-        return _expandBy(fnvc_adapt::FUN_00c85750().heap(),n);
+        return _expandBy(fnvc_adapt::hkMemoryRouter_getInstance().heap(),n);
     }
 };
 struct ProjectionVertex {
@@ -3618,7 +3618,7 @@ struct ProjectionVertex {
     int unk04,unk08,unk0c;
     hkVector4 value;
 };
-void __cdecl FUN_00dedcf0(D76250VectorArrayLocalForm*,D76250VectorArrayLocalForm*);
+void __cdecl hkGeometryProcessing_buildTransposedArray(D76250VectorArrayLocalForm*,D76250VectorArrayLocalForm*);
 void __cdecl FUN_00dea810(D76250VectorArrayLocalForm*,const hkVector4*,hkVector4*);
 struct ProjectionHull {
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20;
@@ -3629,7 +3629,7 @@ struct ProjectionHull {
         ProjectionArray temp;
         hkVector4* out=temp.expandBy(numVertices);
         for(ProjectionVertex* v=vertices;v;v=v->next) *out++=v->value;
-        FUN_00dedcf0(&temp,&cached);
+        hkGeometryProcessing_buildTransposedArray(&temp,&cached);
 
     }
     __forceinline void support(const hkVector4& dir,hkVector4& out) {
@@ -3683,7 +3683,7 @@ template<class T> struct ExportArray {
     __forceinline void init(T* p,int n) { data=p; size=0; capacity=0x80000000|n; }
     __forceinline int getCapacity() const { return capacity & 0x3fffffff; }
     __forceinline void reserve(int n) {
-        D76250Allocator& a=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& a=fnvc_adapt::hkMemoryRouter_getInstance().heap();
         if(getCapacity()<n) {
             int cap2=getCapacity()*2;
             int newcap=n<cap2?cap2:n;
@@ -3691,14 +3691,14 @@ template<class T> struct ExportArray {
         }
     }
     __forceinline void AddBack(const T& v) {
-        D76250Allocator& a=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& a=fnvc_adapt::hkMemoryRouter_getInstance().heap();
         if(size==getCapacity()) ResizeAudioStream((void*)&a,this,sizeof(T));
         T* p=data+size;
         for(int i=0;i<1;++i) p[i]=v;
         ++size;
     }
     __forceinline void clearAndFree() {
-        ExportAllocator& a=(ExportAllocator&)fnvc_adapt::FUN_00c85750().heap();
+        ExportAllocator& a=(ExportAllocator&)fnvc_adapt::hkMemoryRouter_getInstance().heap();
         size=0;
         if((capacity & 0x80000000)==0) a.ReturnMemory(data,getCapacity()*sizeof(T));
     }
@@ -4028,7 +4028,7 @@ template<class T> struct PolygonArray {
         }
     }
     __forceinline void reserve(int n) {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve(fnvc_adapt::hkMemoryRouter_getInstance().heap(), n);
     }
     __forceinline static void construct(T* p, int n, const T& value) {
         for (int i = 0; i < n; ++i) p[i] = value;
@@ -4038,7 +4038,7 @@ template<class T> struct PolygonArray {
         ++size;
     }
     __forceinline void AddBack(const T& value) {
-        D76250MemoryRouter& router = fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router = fnvc_adapt::hkMemoryRouter_getInstance();
         if (size == capacity()) ResizeAudioStream((void*)&router.heap(), this, sizeof(T));
         pushBackUnchecked(value);
     }
@@ -4046,7 +4046,7 @@ template<class T> struct PolygonArray {
         size = 0;
         if ((capacityAndFlags & 0x80000000) == 0) a.ReturnMemory(data, capacity() * sizeof(T));
     }
-    __forceinline void release() { ClearAndRelease(fnvc_adapt::FUN_00c85750().heap()); }
+    __forceinline void release() { ClearAndRelease(fnvc_adapt::hkMemoryRouter_getInstance().heap()); }
 };
 template<class T, int N> struct PolygonInplaceArray : PolygonArray<T> {
     T storage[N];
@@ -4294,7 +4294,7 @@ struct D81340Workspace {
 };
 struct D81340Transform { D81340Vec4 c0,c1,c2,c3; };
 
-struct D81340F090 { float __thiscall FUN_00d7f090(const D81340Vec4& dir, void* b, void* c); };
+struct D81340F090 { float __thiscall hkgpConvexHullImpl_getOrientedRectangle(const D81340Vec4& dir, void* b, void* c); };
 struct D81340F610 { int m_auiShapeKeys; float __thiscall FUN_00d7c610(const D81340Vec4& dir, float* b, float* c); };
 
 struct D81340Cls {
@@ -4412,7 +4412,7 @@ struct D81340Cls {
     unsigned char unk1b6;
     unsigned char unk1b7;
     float __thiscall FUN_00d7c610(int, float*, float*);
-    float __thiscall FUN_00d7f090(int, D81340Vec4*, D81340Transform*);
+    float __thiscall hkgpConvexHullImpl_getOrientedRectangle(int, D81340Vec4*, D81340Transform*);
     void __thiscall FUN_00d81340(D81340Vec4& a0, D81340Transform& a1);
 };
 
@@ -4420,7 +4420,7 @@ struct D81340Cls {
 void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
     D81340Workspace workspace;
     if (m_1a8 < 3) {
-        FUN_00d7f090((int)&m_e0, &a0, &a1);
+        hkgpConvexHullImpl_getOrientedRectangle((int)&m_e0, &a0, &a1);
         return;
     }
     if (!m_1b5) {
@@ -4447,7 +4447,7 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
         r = FUN_00d7c610(elem, &u18, &u1c);
         if (r < t24) {
             int elem2 = (int)m_54 + i * 16;
-            t14 = FUN_00d7f090(elem2, &v30, &v40) * (u1c - u18);
+            t14 = hkgpConvexHullImpl_getOrientedRectangle(elem2, &v30, &v40) * (u1c - u18);
             if (t14 < t2c) {
                 t24 = r;
                 t2c = t14;
@@ -4526,11 +4526,12 @@ struct PlaneArgument {
 struct PlaneHull {
     int hkgpConvexHull_getNumPlanes();
     const PlaneVector& hkgpConvexHull_getPlane(int i);
-    float FUN_00d75880(PlaneArgument point);
+    float hkgpConvexHull_maximumDistanceToPlanes(PlaneArgument point);
 };
 static __forceinline float greaterValue(float a,float b) { return a>b?a:b; }
 // @fnv 0x00d75880
-float PlaneHull::FUN_00d75880(PlaneArgument point) {
+// src: XBOX_PDB 0x00d75880
+float PlaneHull::hkgpConvexHull_maximumDistanceToPlanes(PlaneArgument point) {
     float best=DAT_0104e148;
     int i=0;
     if(i<hkgpConvexHull_getNumPlanes()) {
@@ -4576,7 +4577,7 @@ struct __declspec(align(16)) Tt_Mat3 {
     LocalM128 r0;
     LocalM128 r1;
     LocalM128 r2;
-    int FUN_00cd4f10(float eps);
+    int invert_00cd4f10(float eps);
 };
 
 struct __declspec(align(16)) Tt_W {
@@ -4611,7 +4612,7 @@ struct __declspec(align(16)) Tt_V4 {
 };
 struct __declspec(align(16)) Tt_M3 {
     Tt_V4 m_col[3];
-    int FUN_00cd4f10(float eps);
+    int invert_00cd4f10(float eps);
     __forceinline void setRows(const Tt_V4& r0, const Tt_V4& r1, const Tt_V4& r2)
     {
         m_col[0].set(r0(0), r1(0), r2(0));
@@ -4638,7 +4639,7 @@ struct S_00d77840 {
 
 static __forceinline void release_out(D76250VectorArrayLocalForm& out)
 {
-    D76250Allocator& a3 = fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& a3 = fnvc_adapt::hkMemoryRouter_getInstance().heap();
     int cap = out.m_iCapacityState;
     out.m_iElementCount = 0;
     if ((cap & 0x80000000) == 0) {
@@ -4670,7 +4671,7 @@ int S_00d77840::FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, 
     }
 
     int need = 3 * n;
-    D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
     out.reserve(alloc, need);
 
     const Tt_V4* planes = (const Tt_V4*)pts;
@@ -4683,7 +4684,7 @@ int S_00d77840::FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, 
             Tt_M3 A;
             A.setRows(planes[i], planes[j], projectionPlane);
             b(2) = -projectionPlane.getW();
-            if (A.FUN_00cd4f10(1.1920929e-7f) == 0) {
+            if (A.invert_00cd4f10(1.1920929e-7f) == 0) {
                 Tt_V4 x;
                 Tt_setMul3(x, A, b);
                 bool ok = true;
@@ -4694,7 +4695,7 @@ int S_00d77840::FUN_00d77840(const hkVector4* pts, int n, const hkVector4* sph, 
                     }
                 }
                 if (ok) {
-                    D76250Allocator& a2 = fnvc_adapt::FUN_00c85750().heap();
+                    D76250Allocator& a2 = fnvc_adapt::hkMemoryRouter_getInstance().heap();
                     if (out.m_iElementCount == out.getCapacity())
                         ResizeAudioStream(&a2, &out, 0x10);
                     _mm_store_ps((float*)(out.m_data + out.m_iElementCount), x.m_vComponents);
@@ -4814,7 +4815,7 @@ template <typename T>
 static __forceinline void S00d79ab0_bufFree(S_00d7a010_Alloc& a, void* p, int numElem) { a.ReturnMemory(p, numElem * (int)sizeof(T)); }
 
 struct S00d79ab0_ContainerHeapAllocator {
-    __forceinline S_00d7a010_Alloc& get(const void*) { return S_00d7a010_Router::FUN_00c85750().heap(); }
+    __forceinline S_00d7a010_Alloc& get(const void*) { return S_00d7a010_Router::hkMemoryRouter_getInstance().heap(); }
 };
 
 template <typename T>
@@ -5106,7 +5107,7 @@ class S00d7cf00_ArrayLocalForm { // local form of hkArray: 0x00d7cf00 needs the 
 public:
     __forceinline S00d7cf00_ArrayLocalForm() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     __forceinline ~S00d7cf00_ArrayLocalForm() { ClearAndRelease(); }
-    __forceinline D76250Allocator& alloc() { return fnvc_adapt::FUN_00c85750().heap(); }
+    __forceinline D76250Allocator& alloc() { return fnvc_adapt::hkMemoryRouter_getInstance().heap(); }
     __forceinline int GetLogicalSize() const { return m_iElementCount; }
     __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline hkVector4& operator[](int i) { return m_data[i]; }
@@ -5383,7 +5384,7 @@ struct S_00d827b0_Owner {
     void FUN_00d7a0b0(S_00d827b0_Xf* xf, hkVector4* dir, hkVector4* out);
     void hkgpConvexHullImpl_build(hkVector4* data, int n, int a, int b);
     void FUN_00d7d2a0();
-    void FUN_00d7b600();
+    void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     void FUN_00d827b0(S_00d827b0_Param* param);
 };
 
@@ -5523,7 +5524,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             arr.m_data = 0;
             arr.m_iElementCount = 0;
             arr.m_iCapacityState = 0x80000000;
-            D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+            D76250Allocator& alloc = fnvc_adapt::hkMemoryRouter_getInstance().heap();
             int oldSize = arr.m_iElementCount;
             int need = oldSize + extra;
             int cap = arr.m_iCapacityState & 0x3fffffff;
@@ -5559,9 +5560,9 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             if (b5.value)
                 FUN_00d7d2a0();
             if (b4.value)
-                FUN_00d7b600();
+                hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
 
-            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)fnvc_adapt::FUN_00c85750().heap();
+            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)fnvc_adapt::hkMemoryRouter_getInstance().heap();
             arr.m_iElementCount = 0;
             if ((arr.m_iCapacityState & 0x80000000) == 0)
                 heap.ReturnMemory(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
@@ -5664,7 +5665,7 @@ struct S00d82ad0_Router {
 
 static __forceinline S00d82ad0_Router* S00d82ad0_router()
 {
-    return (S00d82ad0_Router*)FUN_00c85750();
+    return (S00d82ad0_Router*)hkMemoryRouter_getInstance();
 }
 
 struct S00d82ad0_VecArr {
@@ -5893,7 +5894,7 @@ struct S00d82ad0_Hull {
     bool FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction);
     void FUN_00d827b0(S00d82ad0_VecArr& v);
     void FUN_00d7d2a0();
-    void FUN_00d7b600();
+    void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     int hkgpConvexHullImpl_build(hkVector4* p, int n, int a, int b);
 };
 
@@ -6033,7 +6034,7 @@ bool S00d82ad0_Hull::FUN_00d82ad0(int numVerticesToKeep, bool abOptionalVertexRe
         }
         if (abOptionalVertexReduction) FUN_00d827b0(originalVertices);
         if (hasPlanes) FUN_00d7d2a0();
-        if (hasIndexing) FUN_00d7b600();
+        if (hasIndexing) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
         edges.destroy();
         originalVertices.destroy();
     }
@@ -6137,7 +6138,7 @@ struct VecArrayBase {
     __forceinline int GetSize() const { return m_uiLogicalSize; }
     __forceinline void Clear() throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::hkMemoryRouter_getInstance());
         HullAllocator* pAlloc = pMem->m_pAllocator;
         int iCap = m_iCapAndFlags;
         m_uiLogicalSize = 0;
@@ -6149,7 +6150,7 @@ struct VecArrayBase {
     }
     __forceinline void Reserve(int n) throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::hkMemoryRouter_getInstance());
         HullAllocator* pAlloc = pMem->m_pAllocator;
         int iCap = m_iCapAndFlags & 0x3fffffff;
         if (iCap < n) {
@@ -6159,7 +6160,7 @@ struct VecArrayBase {
     }
     __forceinline void PushBack(const HullVec& v) throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::hkMemoryRouter_getInstance());
         if (m_uiLogicalSize == (m_iCapAndFlags & 0x3fffffff)) {
             ResizeAudioStream((D76250Allocator*)pMem->m_pAllocator, this, 16);
         }
@@ -6203,7 +6204,7 @@ struct FUN_00d76ca0 {
     __declspec(nothrow) FUN_00d76ca0() throw();
     __declspec(nothrow) static void* operator new(unsigned int n)
     {
-        HullMemory* mem = (HullMemory*)&fnvc_adapt::FUN_00c85750();
+        HullMemory* mem = (HullMemory*)&fnvc_adapt::hkMemoryRouter_getInstance();
         FUN_00d76ca0* p = (FUN_00d76ca0*)mem->m_pAllocator->BlockAlloc(n);
         p->m_uMemSize = (unsigned short)n;
         return p;
@@ -6637,7 +6638,7 @@ struct SampleTransform {
 };
 extern const char str_010d36fc[];
 struct SamplePoint: hkVector4 {
-    void FUN_00c7f640(const SampleTransform&,const hkVector4&);
+    void setTransformedPos_00c7f640(const SampleTransform&,const hkVector4&);
 };
 struct SampleBuilder {
     int unk00,unk04;
@@ -6654,7 +6655,7 @@ struct SampleStream {
 struct SampleTrivialVector { LocalM128 m_vComponents; };
 union SampleWorkspace { SampleTrivialVector extents; SampleStream stream; __forceinline SampleWorkspace(const hkVector4& v):extents((const SampleTrivialVector&)v) {} };
 static __forceinline void appendSample(D76250VectorArrayLocalForm& out,const hkVector4& value) {
-    D76250Allocator& alloc=fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& alloc=fnvc_adapt::hkMemoryRouter_getInstance().heap();
     if(out.m_iElementCount==out.getCapacity()) ResizeAudioStream((void*)&alloc,&out,16);
     hkVector4* dest=out.m_data+out.m_iElementCount;
     for(int i=0;i<1;++i) dest[i]=value;
@@ -6663,7 +6664,8 @@ static __forceinline void appendSample(D76250VectorArrayLocalForm& out,const hkV
 struct SampleBuilderRef { SampleBuilder* value; };
 struct SampleRandomRef { RandomGenerator* value; };
 // @fnv 0x00d76fa0
-void __cdecl FUN_00d76fa0(SampleBuilderRef builder,SampleRandomRef random,int count,D76250VectorArrayLocalForm& out) {
+// src: XBOX_PDB 0x00d76fa0
+void __cdecl hkgpConvexHull_createRandomSamples(SampleBuilderRef builder,SampleRandomRef random,int count,D76250VectorArrayLocalForm& out) {
     SampleWorkspace workspace(*(const hkVector4*)&DAT_01267e30);
     hkVector4 a=*(hkVector4*)&DAT_01268370;
     hkVector4 b=*(hkVector4*)&DAT_01268380;
@@ -6679,7 +6681,7 @@ void __cdecl FUN_00d76fa0(SampleBuilderRef builder,SampleRandomRef random,int co
             random.value->hkPseudoRandomGenerator_getRandomVector11((float*)&r);
             const hkVector4& e=(const hkVector4&)workspace.extents;
             point.m_vComponents=_mm_mul_ps(sampleRead(e),sampleRead(r));
-            point.FUN_00c7f640(transform,point);
+            point.setTransformedPos_00c7f640(transform,point);
             if(builder.value->hkgpConvexHull_isPointInside(point,builder.value->hull->flag1b5,0.0f)) {
                 goto accepted;
             }
@@ -6760,7 +6762,7 @@ struct PlaneMatrix {
         c1.set(a.lane(1),b.lane(1),c.lane(1));
         c2.set(a.lane(2),b.lane(2),c.lane(2));
     }
-    int FUN_00cd4f10(float);
+    int invert_00cd4f10(float);
     __forceinline void transform(const PlaneVector& v,PlaneVector& out) const {
         PlaneVector x,y,z;
         x.broadcast(v,0);y.broadcast(v,1);z.broadcast(v,2);
@@ -6796,16 +6798,16 @@ static __forceinline void markEnumeration(const char* tag) {
 struct PlanePointArray: D76250VectorArrayLocalForm {
     __forceinline PlanePointArray() {m_data=0;m_iElementCount=0;m_iCapacityState=0x80000000;}
     __forceinline ~PlanePointArray() {
-        S_00d7a010_Alloc& heap=S_00d7a010_Router::FUN_00c85750().heap();
+        S_00d7a010_Alloc& heap=S_00d7a010_Router::hkMemoryRouter_getInstance().heap();
         m_iElementCount=0;
         if((m_iCapacityState&0x80000000)==0) heap.ReturnMemory(m_data,getCapacity()*sizeof(PlaneVector));
     }
     __forceinline void reserve(int n) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=fnvc_adapt::hkMemoryRouter_getInstance().heap();
         D76250VectorArrayLocalForm::reserve(heap,n);
     }
     __forceinline void append(const PlaneVector& v) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=fnvc_adapt::hkMemoryRouter_getInstance().heap();
         if(m_iElementCount==getCapacity()) ResizeAudioStream((void*)&heap,this,sizeof(PlaneVector));
         PlaneVector* dst=(PlaneVector*)m_data+m_iElementCount;
         for(int n=0;n<1;++n) dst[n]=v;
@@ -6831,7 +6833,7 @@ int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
             for(int c=b+1;c<count;++c) {
                 matrix.rows(planes[a],planes[b],planes[c]);
                 rhs.lane(2)=-planes[c].scalar(3);
-                if(matrix.FUN_00cd4f10(1.1920928955078125e-7f)==0) {
+                if(matrix.invert_00cd4f10(1.1920928955078125e-7f)==0) {
                     bool accepted=true;
                     PlaneVector vertex;
                     matrix.transform(rhs,vertex);
@@ -6879,7 +6881,7 @@ double sqrt(double);
 
 extern float DAT_01012054;
 
-inline hkMemoryRouter* Holder() { return (hkMemoryRouter*)FUN_00c85750(); }
+inline hkMemoryRouter* Holder() { return (hkMemoryRouter*)hkMemoryRouter_getInstance(); }
 
 void __cdecl hkArrayUtil__reduce(HullAllocator* alloc, void* arr, int elemSize, int unused, int n);
 struct IndexVertex {
@@ -6973,12 +6975,12 @@ struct FacePtrMap {
         HullAllocator* a = ((HullAllocator*)h->m_heap);
         EnsureCapacity(a, n);
     }
-    void FUN_00cb1870(HullAllocator* alloc, HullFace* key, int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(HullAllocator* alloc, HullFace* key, int val);
     void Insert(HullFace* key, int val)
     {
         hkMemoryRouter* h = Holder();
         HullAllocator* a = ((HullAllocator*)h->m_heap);
-        FUN_00cb1870(a, key, val);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(a, key, val);
     }
     int LookupHashEntry(HullFace* key, int def);
     void ProcessArgument(HullAllocator* alloc);
@@ -7793,7 +7795,7 @@ struct BevelArray {
     BevelVector* m_data; int m_iElementCount,m_cap;
     __forceinline const BevelVector& operator[](int i) const { return m_data[i]; }
     __forceinline void append(const BevelVector& v) {
-        S_00d7c340_Router* r=FUN_00c85750();
+        S_00d7c340_Router* r=hkMemoryRouter_getInstance();
         if(m_iElementCount==(m_cap&0x3fffffff)) ResizeAudioStream(r->unk10,this,16);
         BevelVector* dst=m_data+m_iElementCount;
         for(int k=0;k<1;k++) dst[k]=v;
@@ -8141,11 +8143,12 @@ struct BoxHull {
     char unk1b4;
     char m_hasIndex;
     float FUN_00d7c610(const BoxVector& axis, float& mn, float& mx) const;
-    float FUN_00d7f090(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const;
+    float hkgpConvexHullImpl_getOrientedRectangle(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const;
 };
 
 // @fnv 0x00d7f090
-float BoxHull::FUN_00d7f090(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const
+// src: XBOX_PDB 0x00d7f090
+float BoxHull::hkgpConvexHullImpl_getOrientedRectangle(BoxPointer<const BoxVector*> plane, BoxVector& halfExtents, BoxTransform& transform) const
 {
     if (!m_hasIndex) {
         unsigned int buf[128];
@@ -8423,7 +8426,7 @@ public:
     int m_iCapacityState;
 };
 struct S00d81510_ContainerHeapAllocator {
-    __forceinline S00d81510_Allocator& get(const void*) { return reinterpret_cast<S00d81510_Router&>(*FUN_00c85750()).heap(); }
+    __forceinline S00d81510_Allocator& get(const void*) { return reinterpret_cast<S00d81510_Router&>(*hkMemoryRouter_getInstance()).heap(); }
 };
 template <typename T, typename Tag>
 class S00d81510_Array : public S00d81510_ArrayBaseLocalForm<T, Tag> {
@@ -8515,10 +8518,10 @@ public:
     int unk1a0; int unk1a4;
     int m_eVertexFloatDimensions;
 
-    void FUN_00d7ac40(bool planar);
-    bool FUN_00d7fb80();
+    void hkgpConvexHullImpl_reset(bool planar);
+    bool hkgpConvexHullImpl_flushPending();
     void FUN_00d7d2a0();
-    void FUN_00d7b600();
+    void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     int hkgpConvexHullImpl_build(const hkVector4* points, int numPoints, bool planar, const S00d81510_Hull* domainSource);
 
     __forceinline S00d81510_Vertex transformChecked(const hkVector4& x, bool& outOfRange) const
@@ -8577,7 +8580,7 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
         }
         return hkgpConvexHullImpl_build(&aligned[0], numPoints, planar, domainSource);
     }
-    FUN_00d7ac40(planar);
+    hkgpConvexHullImpl_reset(planar);
     if (numPoints > 0) {
         if (domainSource) {
             m_domainCenter = domainSource->m_domainCenter;
@@ -8732,7 +8735,7 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
                 break;
             }
             case 3:
-                if (!FUN_00d7fb80()) {
+                if (!hkgpConvexHullImpl_flushPending()) {
                     if (m_bFlagAtOffset00) {
                         m_eVertexFloatDimensions = 2;
                         redo = true;
@@ -8746,7 +8749,7 @@ int S00d81510_Hull::hkgpConvexHullImpl_build(const hkVector4* points, int numPoi
     }
     if (m_eVertexFloatDimensions != -1) {
         if (m_bFlagAtOffset09) FUN_00d7d2a0();
-        if (m_bFlagAtOffset0A) FUN_00d7b600();
+        if (m_bFlagAtOffset0A) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     }
     return m_eVertexFloatDimensions;
 }
@@ -8936,7 +8939,7 @@ struct S83_Alloc {
     template<class T> __forceinline void freeElements(void* p,int count) { ReturnMemory(p,count*sizeof(T)); }
 
 };
-static __forceinline S83_Alloc& S83_heap() { return *reinterpret_cast<S83_Alloc*>(FUN_00c85750()->heap()); }
+static __forceinline S83_Alloc& S83_heap() { return *reinterpret_cast<S83_Alloc*>(hkMemoryRouter_getInstance()->heap()); }
 struct S83_PlainElement {};
 struct S83_ElementOps {
     template<class T> static __forceinline void create(T*,int,S83_PlainElement) {}
@@ -9155,7 +9158,7 @@ struct S83_Mesh {
     void FUN_00d82ad0(int limit, bool reseat);
     int hkgpConvexHullImpl_build(const S83_Vec4* points, int numPoints, int a, int b);
     void FUN_00d7d2a0();
-    void FUN_00d7b600();
+    void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
     void hkgpConvexHullImpl_generateIndexedFaces_int_int(S83_Array<int>* a, S83_Array<int>* b, int c, int d);
 };
 // @fnv 0x00d83f30
@@ -9279,7 +9282,7 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
             *dst++ = v->point;
         hkgpConvexHullImpl_build(all.m_data, all.m_iElementCount, 0, 0);
         if (oldFlagB) FUN_00d7d2a0();
-        if (oldFlagA) FUN_00d7b600();
+        if (oldFlagA) hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
 
     }
 }
@@ -9462,7 +9465,7 @@ public:
     int m_iCapacityState;
 };
 struct S00d7fb80_ContainerHeapAllocator {
-    __forceinline S00d7fb80_Allocator& get(const void*) { return reinterpret_cast<S00d7fb80_Router&>(*FUN_00c85750()).heap(); }
+    __forceinline S00d7fb80_Allocator& get(const void*) { return reinterpret_cast<S00d7fb80_Router&>(*hkMemoryRouter_getInstance()).heap(); }
 };
 template <typename T>
 class S00d7fb80_Array : public S00d7fb80_ArrayBaseLocalForm<T> {
@@ -9622,7 +9625,7 @@ public:
     int m_eVertexFloatDimensions;
     int m_uiUniqueId;
 
-    bool FUN_00d7fb80();
+    bool hkgpConvexHullImpl_flushPending();
     void hkgpConvexHullImpl_clearHorizon(const S00d7fb80_Vertex& v, const S00d7fb80_Edge& edge, S00d7fb80_Edge& out);
 
     template <typename T> static __forceinline T mul_32x32(int a, int b) { return (T)a * (T)b; }
@@ -9727,7 +9730,8 @@ public:
 };
 
 // @fnv 0x00d7fb80
-bool S00d7fb80_Hull::FUN_00d7fb80()
+// src: XBOX_PDB 0x00d7fb80
+bool S00d7fb80_Hull::hkgpConvexHullImpl_flushPending()
 {
     const int numVertices = m_kVertices.GetLogicalSize();
     bool result = false;
@@ -9895,7 +9899,7 @@ struct ExpandHeap {
 struct ExpandRouter {
     int unk00,unk04,unk08,unk0c;
     ExpandHeap* heap;
-    static ExpandRouter* FUN_00c85750();
+    static ExpandRouter* hkMemoryRouter_getInstance();
 };
 struct ExpandArray {
     ExpandVector* data;
@@ -9903,12 +9907,12 @@ struct ExpandArray {
     int capacity;
     __forceinline void init() {data=0;size=0;capacity=0x80000000;}
     __forceinline void clearAndFree() {
-        ExpandHeap& heap=(ExpandHeap&)fnvc_adapt::FUN_00c85750().heap();
+        ExpandHeap& heap=(ExpandHeap&)fnvc_adapt::hkMemoryRouter_getInstance().heap();
         size=0;
         if ((capacity&0x80000000)==0) heap.ReturnMemory(data,(capacity&0x3fffffff)*sizeof(ExpandVector));
     }
     __forceinline void reserve(int n) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=fnvc_adapt::hkMemoryRouter_getInstance().heap();
         const int cap=capacity&0x3fffffff;
         if (cap<n) {
             int twice=cap*2;
@@ -9924,12 +9928,12 @@ struct ExpandArray {
         size=n;
     }
     __forceinline ExpandVector& AllocatePair() {
-        D76250MemoryRouter& router=fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router=fnvc_adapt::hkMemoryRouter_getInstance();
         if (size==(capacity&0x3fffffff)) ResizeAudioStream((void*)&router.heap(),this,sizeof(ExpandVector));
         return data[size++];
     }
     __forceinline void AddBack(const ExpandVector& value) {
-        D76250MemoryRouter& router=fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router=fnvc_adapt::hkMemoryRouter_getInstance();
         if (size==(capacity&0x3fffffff)) ResizeAudioStream((void*)&router.heap(),this,sizeof(ExpandVector));
         ExpandVector* p=data+size;
         for(int i=0;i<1;++i) p[i].assign(value);
@@ -10078,7 +10082,7 @@ struct ExpandShape {
     __declspec(noinline) int hkgpConvexHull_build_00d77200(const ExpandView&,const ExpandHeader&);
     void SetValue(float,bool);
     void FUN_00d762f0();
-    bool FUN_00d77be0(float radius);
+    bool hkgpConvexHull_expandByPlanarMargin(float radius);
 };
 __declspec(noinline) int ExpandShape::FUN_00d74e10() { return state->dimension; }
 __declspec(noinline) void ExpandShape::GetValueBlock(ExpandVector* out) const {
@@ -10106,7 +10110,8 @@ __declspec(noinline) int ExpandShape::hkgpConvexHull_build_00d77200(const Expand
 }
 __declspec(noinline) int ExpandShape::FUN_00d75120(int v) const { return *(const int*)v; }
 // @fnv 0x00d77be0
-bool ExpandShape::FUN_00d77be0(float radius)
+// src: XBOX_PDB 0x00d77be0
+bool ExpandShape::hkgpConvexHull_expandByPlanarMargin(float radius)
 {
     float halfRadius=radius*0.5;
     ExpandState* source=state;
@@ -10184,7 +10189,7 @@ seed.bits.w=source->first->point.bits.w;
             points.AddBack(seed);
             view.set(points);
             hkgpConvexHull_build_00d77200(view,saved);
-            bool result=FUN_00d77be0(radius); points.clearAndFree(); return result;
+            bool result=hkgpConvexHull_expandByPlanarMargin(radius); points.clearAndFree(); return result;
         }
         points.clearAndFree();
         break;

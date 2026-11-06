@@ -32,7 +32,7 @@ struct PhantomOperations : hkpPhantom {
     void RemoveListener(void* listener);
     void WriteToStream(PhArchive*, PhTag*);
     void WritePhantomLists(PhArchive*, int);
-    void FUN_00d07950(const hkAabb&);
+    void hkpPhantom_setBoundingVolumeData(const hkAabb&);
     void hkpPhantom_firePhantomRemoved();
     void AddItem(void*);
     void hkpPhantom_updateBroadPhase(const hkAabb&) throw();
@@ -127,11 +127,11 @@ void PhantomOperations::WritePhantomLists(PhArchive* pArchive, int unused)
     }
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 
 template <typename T>
@@ -182,9 +182,9 @@ __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocator& alloc, const T& 
 void hkpPhantom::FreeListenerArrays() throw()
 {
     if (m_kPhantomOverlapListeners.m_iElementCount == 0)
-        m_kPhantomOverlapListeners._clearAndDeallocate(FUN_00c85750().heap());
+        m_kPhantomOverlapListeners._clearAndDeallocate(hkMemoryRouter_getInstance().heap());
     if (m_kPhantomListeners.m_iElementCount == 0)
-        m_kPhantomListeners._clearAndDeallocate(FUN_00c85750().heap());
+        m_kPhantomListeners._clearAndDeallocate(hkMemoryRouter_getInstance().heap());
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -228,7 +228,8 @@ __forceinline void zeroExpD07950(hkpCollidableBoundingVolumeData& b)
 }
 
 // @fnv 0x00d07950
-void PhantomOperations::FUN_00d07950(const hkAabb& aabb)
+// src: XBOX_PDB 0x00d07950
+void PhantomOperations::hkpPhantom_setBoundingVolumeData(const hkAabb& aabb)
 {
     CollisionInputQuantizationData* collisionInput = static_cast<CollisionInputQuantizationData*>(static_cast<hkpWorld*>(m_pOwningWorld)->m_pCollisionInput);
     const LocalM128 vClampMax = *(const LocalM128*)&DAT_011b6d70;
@@ -448,7 +449,7 @@ void PhantomOperations::hkpPhantom_updateBroadPhase(const hkAabb& kNewAabb) thro
             hkWorldOperation::PhantomBroadphaseUpdate kOp;
             kOp.m_pPhantom = this;
             kOp.m_kBounds = &kNewAabb;
-            static_cast<hkpWorld*>(m_pOwningWorld)->FUN_00c91160(&kOp);
+            static_cast<hkpWorld*>(m_pOwningWorld)->hkpWorld_queueOperation(&kOp);
             return;
         }
 
@@ -469,7 +470,7 @@ void PhantomOperations::hkpPhantom_updateBroadPhase(const hkAabb& kNewAabb) thro
         }
         static_cast<hkpBroadPhase*>(static_cast<hkpWorld*>(m_pOwningWorld)->m_pJobSemaphore)->unlock();
 
-        FUN_00d07950(kNewAabb);
+        hkpPhantom_setBoundingVolumeData(kNewAabb);
 
         if (static_cast<hkpWorld*>(m_pOwningWorld)->m_pKdTreeManager)
             static_cast<hkpKdTreeManager*>(static_cast<hkpWorld*>(m_pOwningWorld)->m_pKdTreeManager)->setDirty(0);

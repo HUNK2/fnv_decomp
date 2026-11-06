@@ -857,12 +857,13 @@ struct Animation
 typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_004301b0_shell : public Animation
 {
-    unsigned short FUN_004301b0(int);
+    unsigned short Animation_GetGroup(int);
 };
 
 // Maps section 0x15 to 4 and 0x14 to 1, then returns the group entry at that index.
 // @fnv 0x004301b0
-unsigned short FUN_004301b0_shell::FUN_004301b0(int aeSection)
+// src: XBOX_PDB 0x004301b0
+unsigned short FUN_004301b0_shell::Animation_GetGroup(int aeSection)
 {
     int iIndex = aeSection;
     switch (aeSection)
@@ -1221,7 +1222,8 @@ typedef char _sizecheck_BGSLoadGameSubBuffer[sizeof(BGSLoadGameSubBuffer) == 4 ?
 
 // Deletes the buffer pointed to by pBuffer and sets pBuffer to null.
 // @fnv 0x00435b20
-void BGSLoadGameSubBuffer::FUN_00435b20()
+// src: XBOX_PDB 0x00435b20
+void BGSLoadGameSubBuffer::DeleteBuffer()
 {
     delete pBuffer;
     pBuffer = 0;
@@ -1276,12 +1278,13 @@ struct FUN_00437240_Struct
     float f8;
     int iC;
 
-    void FUN_00437240(FUN_00437240_Struct* other);
+    void RADIO_DATA_Copy(FUN_00437240_Struct* other);
 };
 
 // Copies the four fields of other into this struct when other is non-null.
 // @fnv 0x00437240
-void FUN_00437240_Struct::FUN_00437240(FUN_00437240_Struct* pSource)
+// src: XBOX_PDB 0x00437240
+void FUN_00437240_Struct::RADIO_DATA_Copy(FUN_00437240_Struct* pSource)
 {
     if (pSource)
     {
@@ -1324,7 +1327,8 @@ ExtraIgnoredBySandbox* ExtraIgnoredBySandbox::Initialize()
 }
 
 // @fnv 0x00437b90
-bool __fastcall FUN_00437b90(TESForm* self)
+// src: XBOX_PDB 0x00437b90
+bool __fastcall TESForm_GetDisabledOrDeleted(TESForm* self)
 {
     return (self->iFormFlags & 0x820) ? true : false;
 }
@@ -1337,40 +1341,44 @@ struct FUN_00437bb0_Class
 };
 
 // @fnv 0x00437bb0
-bool __fastcall FUN_00437bb0(FUN_00437bb0_Class* pThis)
+// src: XBOX_PDB 0x00437bb0
+bool __fastcall MobileObject_GetRunsInLow(FUN_00437bb0_Class* pThis)
 {
     return pThis->val;
 }
 
 struct FUN_00437bd0_stub
 {
-    int FUN_004f8960();
-    char FUN_00437bd0();
+    int GameSettingCollection_File();
+    char Actor_IsUnConscious();
 };
 // @fnv 0x00437bd0
-char FUN_00437bd0_stub::FUN_00437bd0()
+// src: XBOX_PDB 0x00437bd0
+char FUN_00437bd0_stub::Actor_IsUnConscious()
 {
-    return FUN_004f8960() == 3;
+    return GameSettingCollection_File() == 3;
 }
 
 struct FUN_00437bf0_shell : public Actor
 {
-    bool FUN_00437bf0();
+    bool Actor_IsRestrained();
 };
 
-int __fastcall FUN_004f8960(void*);
+int __fastcall GameSettingCollection_File(void*);
 
 // @fnv 0x00437bf0
-bool FUN_00437bf0_shell::FUN_00437bf0()
+// src: XBOX_PDB 0x00437bf0
+bool FUN_00437bf0_shell::Actor_IsRestrained()
 {
-    return FUN_004f8960(this) == 5 ? true : false;
+    return GameSettingCollection_File(this) == 5 ? true : false;
 }
 
 typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 
 // Stores pNode in field_60 and resets field_38 to 0.
 // @fnv 0x00438230
-void NiProperty::FUN_00438230(NiTexture* pNode)
+// src: XBOX_PDB 0x00438230
+void NiProperty::BSShaderNoLightingProperty_SetBaseMap(NiTexture* pNode)
 {
     *reinterpret_cast<NiPointer<NiNode>*>((char*)this + 0x60) = reinterpret_cast<NiNode*>(pNode);
     *reinterpret_cast<int*>((char*)this + 0x38) = 0;
@@ -1385,13 +1393,14 @@ struct PositionRotation
 typedef char _sizecheck_FILE_POS_ROT[sizeof(PositionRotation) == 24 ? 1 : -1];
 struct FUN_00692710_shell : public PositionRotation
 {
-    void FUN_00692710();
+    void PathingAvoidNode_PathingAvoidNode();
 };
 
 void __fastcall _ref_006815c0(void*);
 
 // @fnv 0x00692710
-void* __fastcall FUN_00692710(PositionRotation* pThis)
+// src: XBOX_PDB 0x00692710
+void* __fastcall PathingAvoidNode_PathingAvoidNode(PositionRotation* pThis)
 {
     _ref_006815c0(&pThis->pos);
     _ref_006815c0(&pThis->rot);
@@ -1429,7 +1438,7 @@ struct ListX
 };
 
 struct FUN_00433970_holder;
-void __cdecl FUN_00433750(ListX*);
+void __cdecl FreeActivateList(ListX*);
 struct FUN_00433970_holder : public BSExtraData
 {
     ListX l;
@@ -1439,7 +1448,7 @@ struct FUN_00433970_holder : public BSExtraData
 // @fnv 0x00433970
 FUN_00433970_holder::~FUN_00433970_holder()
 {
-    FUN_00433750(&l);
+    FreeActivateList(&l);
 }
 
 unsigned int __cdecl BSStringLength(const char*);
@@ -1523,7 +1532,7 @@ void* DelStandIn::FUN_00433940(unsigned int flags)
 // @fnv 0x00430780
 ExtraStartingPosition::ExtraStartingPosition(TESObjectREFR* apRef) : BSExtraData(0xf)
 {
-    reinterpret_cast<FUN_00692710_shell*>(&x)->FUN_00692710();
+    reinterpret_cast<FUN_00692710_shell*>(&x)->PathingAvoidNode_PathingAvoidNode();
     *reinterpret_cast<NiPoint3*>(&x) = *static_cast<const TESObjectREFR*>(apRef)->GetPos();
     // The approved header leaves the second position vector as opaque storage.
     *reinterpret_cast<NiPoint3*>(&z + 1) = *apRef->FUN_00430830();
@@ -1696,18 +1705,19 @@ struct RefX
     virtual void w72();
     virtual void w73();
     virtual bool Cb(int);
-    bool FUN_00437b90();
+    bool TESForm_GetDisabledOrDeleted();
 };
 
 TESForm* GetFormByID(unsigned int);
-bool __fastcall FUN_00437bb0(Actor*);
+bool __fastcall MobileObject_GetRunsInLow(Actor*);
 // @fnv 0x00437ab0
-bool ExtraPatrolRefInUseData::FUN_00437ab0(void* apPotentialUser)
+// src: XBOX_PDB 0x00437ab0
+bool ExtraPatrolRefInUseData::GetCanBeUsedBy(void* apPotentialUser)
 {
     if (apPotentialUser && ((TESForm*)apPotentialUser)->GetFormID() == *(unsigned int*)((char*)this + 0xc))
         return true;
     RefX* pref = (RefX*)GetFormByID(*(unsigned int*)((char*)this + 0xc));
-    if (!pref || pref->Cb(0) || pref->FUN_00437b90())
+    if (!pref || pref->Cb(0) || pref->TESForm_GetDisabledOrDeleted())
     {
         *(unsigned int*)((char*)this + 0xc) = 0;
         return true;
@@ -1715,8 +1725,8 @@ bool ExtraPatrolRefInUseData::FUN_00437ab0(void* apPotentialUser)
     if (pref->IsX())
     {
         Actor* pactor = (Actor*)pref;
-        if (pactor->FUN_00437bf0() || pactor->FUN_00437bd0() ||
-            (pactor->GetCurrentProcessLevel() && !FUN_00437bb0(pactor)))
+        if (pactor->Actor_IsRestrained() || pactor->Actor_IsUnConscious() ||
+            (pactor->GetCurrentProcessLevel() && !MobileObject_GetRunsInLow(pactor)))
         {
             *(unsigned int*)((char*)this + 0xc) = 0;
             return true;
@@ -2000,7 +2010,8 @@ ExtraPackageStartLocation::ExtraPackageStartLocation(TESWorldSpace* apWorld, TES
 extern "C" int memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x00432770
-bool ExtraPackageStartLocation::FUN_00432770(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00432770
+bool ExtraPackageStartLocation::Compare_00432770(BSExtraData* apCompare)
 {
     ExtraPackageStartLocation* pComp = dynamic_cast<ExtraPackageStartLocation*>(apCompare);
     if (pComp == 0)
@@ -2073,7 +2084,7 @@ FUN_00432d10::~FUN_00432d10()
 class RagDollData
 {
 public:
-    bool FUN_004d9780(RagDollData* apOther);
+    bool RagDollData_Compare(RagDollData* apOther);
 };
 // @fnv 0x00432dd0
 bool ExtraRagDollData::CompareRagDollData(BSExtraData* apCompare)
@@ -2096,7 +2107,7 @@ bool ExtraRagDollData::CompareRagDollData(BSExtraData* apCompare)
             return true;
         }
     }
-    else if (m_pRagDollData->FUN_004d9780(pcomp->m_pRagDollData))
+    else if (m_pRagDollData->RagDollData_Compare(pcomp->m_pRagDollData))
     {
         return true;
     }
@@ -2128,7 +2139,8 @@ void* __thiscall ExtraLinkedRefChildren::FUN_004335a0(unsigned int flags)
 }
 
 // @fnv 0x00433670
-bool __thiscall ExtraLinkedRef::FUN_00433670(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00433670
+bool __thiscall ExtraLinkedRef::Compare_00433670(BSExtraData* apCompare)
 {
     ExtraLinkedRef* pcomp = dynamic_cast<ExtraLinkedRef*>(apCompare);
     if (!pcomp)
@@ -2191,7 +2203,8 @@ bool __thiscall ExtraPoison::IsDifferent(BSExtraData* apCompare)
 }
 
 // @fnv 0x00435540
-bool ExtraMultiBoundRef::FUN_00435540(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00435540
+bool ExtraMultiBoundRef::Compare_00435540(BSExtraData* apCompare)
 {
     ExtraMultiBoundRef* pcomp = dynamic_cast<ExtraMultiBoundRef*>(apCompare);
     if (!pcomp)
@@ -2284,7 +2297,8 @@ void FUN_00438280_class::ExtraSecuritronFace_SetMood(char const* acString)
 
 // Compares against another ExtraSpecialRenderFlags: returns true if the cast fails, base compare matches, form IDs differ, or the float field differs.
 // @fnv 0x004382a0
-bool ExtraSpecialRenderFlags::FUN_004382a0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004382a0
+bool ExtraSpecialRenderFlags::Compare_004382a0(BSExtraData* apCompare)
 {
     ExtraSpecialRenderFlags* pComp;
 
@@ -2363,7 +2377,8 @@ extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // Casts apCompare to ExtraStartingPosition, returns true if the cast fails, the base Compare succeeds, or the 0x18 bytes at offset 0xC differ; otherwise false.
 // @fnv 0x00430850
-bool __thiscall ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00430850
+bool __thiscall ExtraStartingPosition::Compare_00430850(BSExtraData* apCompare)
 {
     ExtraStartingPosition* pComp = (ExtraStartingPosition*)dynamic_cast<ExtraStartingPosition*>(apCompare);
     if (!pComp)
@@ -2380,7 +2395,8 @@ extern char DAT_01183b2c;
 extern int DAT_011845b8;
 
 // @fnv 0x00431710
-bool ExtraAudioBuoyMarker::FUN_00431710(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00431710
+bool ExtraAudioBuoyMarker::Compare_00431710(BSExtraData* apCompare)
 {
     ExtraAudioBuoyMarker* pComp =
         (ExtraAudioBuoyMarker*)_FNV_DynamicCast(apCompare, 0, &DAT_01183b2c, &DAT_011845b8, 0);
@@ -2409,7 +2425,8 @@ ExtraRank* RankInitializer::Initialize(int rank)
 }
 
 // @fnv 0x00431db0
-bool __thiscall ExtraHealthPerc::FUN_00431db0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00431db0
+bool __thiscall ExtraHealthPerc::Compare_00431db0(BSExtraData* apCompare)
 {
     ExtraHealthPerc* pComp = dynamic_cast<ExtraHealthPerc*>(apCompare);
     if (!pComp)
@@ -2425,7 +2442,8 @@ extern char DAT_01183b2c;
 extern int DAT_01184810;
 
 // @fnv 0x00431ef0
-bool __thiscall ExtraTimeLeft::FUN_00431ef0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00431ef0
+bool __thiscall ExtraTimeLeft::Compare_00431ef0(BSExtraData* apCompare)
 {
     ExtraTimeLeft* pComp = dynamic_cast<ExtraTimeLeft*>(apCompare);
     if (!pComp)
@@ -2456,7 +2474,8 @@ void* FUN_00435710_Class::FUN_00435710(unsigned int flags)
 }
 
 // @fnv 0x00436bd0
-bool __thiscall ExtraRadius::FUN_00436bd0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00436bd0
+bool __thiscall ExtraRadius::Compare_00436bd0(BSExtraData* apCompare)
 {
     ExtraRadius* pComp;
     pComp = dynamic_cast<ExtraRadius*>(apCompare);
@@ -2497,7 +2516,8 @@ extern char DAT_01183b2c;
 
 // Casts apCompare to ExtraPrimitive and returns true if the cast fails or the primitive pointers differ, false otherwise.
 // @fnv 0x00437370
-bool __thiscall ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00437370
+bool __thiscall ExtraPrimitive::Compare_00437370(BSExtraData* apCompare)
 {
     ExtraPrimitive* pcomp = dynamic_cast<ExtraPrimitive*>(apCompare);
     if (!pcomp)
@@ -2584,12 +2604,13 @@ struct FUN_00437a30_Class
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    bool FUN_00437a30(FUN_00437a30_Class* other);
+    bool ExtraPatrolRefInUseData_Compare(FUN_00437a30_Class* other);
 };
 
 // Returns true when m_0c differs from the other object's m_0c, otherwise false.
 // @fnv 0x00437a30
-bool FUN_00437a30_Class::FUN_00437a30(FUN_00437a30_Class* other)
+// src: XBOX_PDB 0x00437a30
+bool FUN_00437a30_Class::ExtraPatrolRefInUseData_Compare(FUN_00437a30_Class* other)
 {
     FUN_00437a30_Class* pOther = other;
     if (m_0c != pOther->m_0c)
@@ -2656,9 +2677,10 @@ FUN_00433640::FUN_00433640() : BE(0x51)
 }  // namespace fnv_00433640
 
 // @fnv 0x00435c10
-void ExtraSavedHavokData::FUN_00435c10()
+// src: XBOX_PDB 0x00435c10
+void ExtraSavedHavokData::DeleteBuffer_00435c10()
 {
-    BGSLoadGameSubBuffer((int)m_pSavedHavokData).FUN_00435b20();
+    BGSLoadGameSubBuffer((int)m_pSavedHavokData).DeleteBuffer();
 }
 
 namespace fnv_004324a0 {
@@ -2789,7 +2811,8 @@ bool ExtraGuardedRefData::Compare(BSExtraData* apCompare)
 }
 
 // @fnv 0x004319d0
-bool ExtraOriginalReference::FUN_004319d0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004319d0
+bool ExtraOriginalReference::Compare_004319d0(BSExtraData* apCompare)
 {
     ExtraOriginalReference* pComp = dynamic_cast<ExtraOriginalReference*>(apCompare);
     if (!pComp)
@@ -2803,7 +2826,8 @@ bool ExtraOriginalReference::FUN_004319d0(BSExtraData* apCompare)
 
 
 // @fnv 0x00431a70
-bool ExtraOwnership::FUN_00431a70(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00431a70
+bool ExtraOwnership::Compare_00431a70(BSExtraData* apCompare)
 {
     ExtraOwnership* pComp = dynamic_cast<ExtraOwnership*>(apCompare);
     if (!pComp)
@@ -2859,7 +2883,8 @@ bool ExtraCharge::Compare(BSExtraData* apCompare)
 }
 
 // @fnv 0x00432140
-bool ExtraWeaponModFlags::FUN_00432140(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00432140
+bool ExtraWeaponModFlags::Compare_00432140(BSExtraData* apCompare)
 {
     ExtraWeaponModFlags* pComp = dynamic_cast<ExtraWeaponModFlags*>(apCompare);
     if (!pComp)
@@ -3018,18 +3043,19 @@ ExtraDroppedItemList::~ExtraDroppedItemList()
 // @fnv 0x00435ac0
 ExtraSavedAnimation::~ExtraSavedAnimation()
 {
-    reinterpret_cast<ExtraSavedHavokData*>(this)->FUN_00435c10();
+    reinterpret_cast<ExtraSavedHavokData*>(this)->DeleteBuffer_00435c10();
 }
 
 // @fnv 0x00435bb0
 ExtraSavedHavokData::~ExtraSavedHavokData()
 {
-    FUN_00435c10();
+    DeleteBuffer_00435c10();
 }
 
 // Casts apCompare to ExtraRadiation, returns true if the cast fails, base compare passes, or the float at offset 0xc differs; otherwise false.
 // @fnv 0x00436c40
-bool ExtraRadiation::FUN_00436c40(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00436c40
+bool ExtraRadiation::Compare_00436c40(BSExtraData* apCompare)
 {
     ExtraRadiation* pComp = dynamic_cast<ExtraRadiation*>(apCompare);
     if (!pComp)
@@ -3058,7 +3084,8 @@ ExtraFactionChanges::~ExtraFactionChanges()
 extern char DAT_01183b2c;
 
 // @fnv 0x00437300
-bool ExtraCombatStyle::FUN_00437300(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00437300
+bool ExtraCombatStyle::Compare_00437300(BSExtraData* apCompare)
 {
     ExtraCombatStyle* pComp = dynamic_cast<ExtraCombatStyle*>(apCompare);
     if (!pComp)
@@ -3071,7 +3098,8 @@ bool ExtraCombatStyle::FUN_00437300(BSExtraData* apCompare)
 }
 
 // @fnv 0x004373c0
-bool ExtraAmmo::FUN_004373c0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004373c0
+bool ExtraAmmo::Compare_004373c0(BSExtraData* apCompare)
 {
     ExtraAmmo* pComp = dynamic_cast<ExtraAmmo*>(apCompare);
     if (!pComp)
@@ -3427,20 +3455,21 @@ void* ExtraWaterZoneMap::FUN_004377c0(unsigned int flags)
     return this;
 }
 
-int __cdecl FUN_0044a670(void* aPtr);
+int __cdecl BSstrlen(void* aPtr);
 
 struct FUN_004048e0_cls
 {
     void* m_00;
     unsigned short m_04;
-    int FUN_004048e0();
+    int BSStringT_char_Length();
 };
 
 // Returns m_04 unless it is 0xffff, in which case it returns the result of FUN_0044a670(m_00).
 // @fnv 0x004048e0
-int FUN_004048e0_cls::FUN_004048e0()
+// src: XBOX_PDB 0x004048e0
+int FUN_004048e0_cls::BSStringT_char_Length()
 {
-    return (m_04 == 0xffff) ? FUN_0044a670(m_00) : m_04;
+    return (m_04 == 0xffff) ? BSstrlen(m_00) : m_04;
 }
 
 struct TESQuest;
@@ -3449,7 +3478,7 @@ struct TESTopicInfo;
 class MenuTopic
 {
   public:
-    void __thiscall FUN_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
+    void __thiscall MenuTopic_FillResponseList_0083df80(TESQuest*, TESTopic*, TESTopicInfo*, MobileObject*);
     unsigned char pad[0x14];
     TESQuest* quest;
     TESTopicInfo* info;
@@ -3459,9 +3488,10 @@ class MenuTopic
 
 // Calls MenuTopic::FUN_0083df80 with the stored quest, topic and topic info, passing arg as the MobileObject.
 // @fnv 0x0042e010
-void ExtraLock::FUN_0042e010(int pMobileObject)
+// src: XBOX_PDB 0x0042e010
+void ExtraLock::MenuTopic_FillResponseList(int pMobileObject)
 {
-    reinterpret_cast<MenuTopic*>(this)->FUN_0083df80(reinterpret_cast<MenuTopic*>(this)->quest,
+    reinterpret_cast<MenuTopic*>(this)->MenuTopic_FillResponseList_0083df80(reinterpret_cast<MenuTopic*>(this)->quest,
                                                      reinterpret_cast<MenuTopic*>(this)->topic,
                                                      reinterpret_cast<MenuTopic*>(this)->info,
                                                      reinterpret_cast<MobileObject*>(pMobileObject));
@@ -3504,7 +3534,7 @@ struct FUN_00431450_cls
     FUN_00431450_callee* m_0c;
 
     bool Probe(int a1);
-    bool FUN_00431450(int a1);
+    bool ExtraMapMarker_Compare(int a1);
 };
 
 struct FUN_00431450_callee
@@ -3515,7 +3545,8 @@ struct FUN_00431450_callee
 void* __cdecl FUN_00ec43fb(int a1, int a2, void* a3, void* a4, int a5);
 
 // @fnv 0x00431450
-bool FUN_00431450_cls::FUN_00431450(int a1)
+// src: XBOX_PDB 0x00431450
+bool FUN_00431450_cls::ExtraMapMarker_Compare(int a1)
 {
     FUN_00431450_cls* p = (FUN_00431450_cls*)FUN_00ec43fb(a1, 0, &DAT_01183b2c, &DAT_011845fc, 0);
     if (p == 0)
@@ -3534,7 +3565,8 @@ bool FUN_00431450_cls::FUN_00431450(int a1)
 }
 
 // @fnv 0x00431c50
-bool ExtraCount::FUN_00431c50(BSExtraData* compare)
+// src: XBOX_PDB 0x00431c50
+bool ExtraCount::Compare_00431c50(BSExtraData* compare)
 {
     ExtraCount* other = dynamic_cast<ExtraCount*>(compare);
     if (other == 0)
@@ -3593,7 +3625,7 @@ struct FNV_00432900_Data
 struct FNV_00432900_Manager
 {
     bool FUN_0047c850();
-    void FUN_0085a2e0(FNV_00432900_Data* data);
+    void TESSaveLoadGame_DeleteForm(FNV_00432900_Data* data);
 };
 extern FNV_00432900_Manager* DAT_011de45c;
 
@@ -3610,7 +3642,7 @@ FUN_00432900::~FUN_00432900()
         pData->SetFlag800(1);
         if (DAT_011de45c->FUN_0047c850())
         {
-            DAT_011de45c->FUN_0085a2e0(pData);
+            DAT_011de45c->TESSaveLoadGame_DeleteForm(pData);
         }
         else
         {
@@ -3645,11 +3677,12 @@ class C432F80Form
     int unk08;
     unsigned int m_uiValue1;
 
-    bool FUN_00432f80(unsigned int uiBit);
+    bool ExtraUsedMarkers_GetMarkerUsed(unsigned int uiBit);
 };
 
 // @fnv 0x00432f80
-bool C432F80Form::FUN_00432f80(unsigned int uiBitIndex)
+// src: XBOX_PDB 0x00432f80
+bool C432F80Form::ExtraUsedMarkers_GetMarkerUsed(unsigned int uiBitIndex)
 {
     bool bSet = false;
     if (uiBitIndex < 30)
@@ -3750,12 +3783,13 @@ class FUN_004341e0_cls
     FUN_004341e0_node m_0c;
 
     void* FUN_00434410(void* a);
-    bool FUN_004341e0(void* a1);
+    bool ExtraDecalRefs_Compare(void* a1);
 };
 
 // Compares this object's node list against a1's resolved list, returning true on any mismatch or missing item and false when all match.
 // @fnv 0x004341e0
-bool FUN_004341e0_cls::FUN_004341e0(void* a1)
+// src: XBOX_PDB 0x004341e0
+bool FUN_004341e0_cls::ExtraDecalRefs_Compare(void* a1)
 {
     FUN_004341e0_cls* other;
     FUN_004341e0_node* node7;
@@ -3910,7 +3944,8 @@ int __cdecl FUN_00ec4835(const void* a, const void* b, unsigned int n);
 
 // Compares this ExtraReflectorRefs against apCompare: returns true if the cast fails, list sizes differ, or any item is missing or differs; false otherwise.
 // @fnv 0x00434bb0
-bool ExtraReflectorRefs::FUN_00434bb0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00434bb0
+bool ExtraReflectorRefs::Compare_00434bb0(BSExtraData* apCompare)
 {
     ExtraReflectorRefs* other = dynamic_cast<ExtraReflectorRefs*>(apCompare);
     if (!other)
@@ -3977,16 +4012,17 @@ void ExtraLitWaterRefs::Copy(BSExtraDataEx* id)
     }
 }
 
-int __cdecl FUN_00408b20(char const* a, char const* b);
+int __cdecl BSstrcmp(char const* a, char const* b);
 
 // Returns whether the cast fails or the sequence names differ.
 // @fnv 0x00435310
-bool ExtraLastFinishedSequence::FUN_00435310(BSExtraData* apExtra)
+// src: XBOX_PDB 0x00435310
+bool ExtraLastFinishedSequence::Compare_00435310(BSExtraData* apExtra)
 {
     ExtraLastFinishedSequence* p = dynamic_cast<ExtraLastFinishedSequence*>(apExtra);
     if (p == 0)
         return true;
-    if (FUN_00408b20(name, p->name) != 0)
+    if (BSstrcmp(name, p->name) != 0)
         return true;
     return false;
 }
@@ -4007,7 +4043,7 @@ ExtraMultiBoundData::~ExtraMultiBoundData()
 class Point3Offset
 {
   public:
-    bool FUN_00439060(Point3Offset* other);
+    bool MultiBoundMarkerData_Compare(Point3Offset* other);
 };
 
 // @fnv 0x00435630
@@ -4016,7 +4052,7 @@ bool ExtraMultiBoundData::Compare(BSExtraData* apCompare)
     ExtraMultiBoundData* pOther = dynamic_cast<ExtraMultiBoundData*>(apCompare);
     if (pOther == 0)
         return true;
-    if (pBound->FUN_00439060(pOther->pBound))
+    if (pBound->MultiBoundMarkerData_Compare(pOther->pBound))
         return true;
     return false;
 }
@@ -4173,8 +4209,8 @@ struct MergeMap
     unsigned int unk00, unk04, unk08, unk0c;
     MergeMap(unsigned int);
     ~MergeMap();
-    void FUN_005594e0(int*, bool);
-    bool FUN_0057c850(int*, bool*);
+    void BSMapBase_TESObjectREFR_bool_SetAt(int*, bool);
+    bool NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(int*, bool*);
 };
 // ExtraFactionChanges.h lacks the actor-base merge operation.
 struct FactionChangesMerge : ExtraFactionChanges
@@ -4191,7 +4227,7 @@ void FactionChangesMerge::MergeFrom(MergeSource* source)
         MergeItem* oldItem = *node->FUN_006815c0();
         node = node->FUN_00726070();
         oldItem->state = 255;
-        keyMap.FUN_005594e0(oldItem->key, true);
+        keyMap.BSMapBase_TESObjectREFR_bool_SetAt(oldItem->key, true);
     }
     if (source)
     {
@@ -4201,7 +4237,7 @@ void FactionChangesMerge::MergeFrom(MergeSource* source)
             MergeItem* p = *node->FUN_006815c0();
             node = node->FUN_00726070();
             bool j = false;
-            if (!keyMap.FUN_0057c850(p->key, &j) || !j)
+            if (!keyMap.NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(p->key, &j) || !j)
             {
                 MergeItem* newItem = new MergeItem;
                 newItem->key = p->key;
@@ -4230,7 +4266,7 @@ extern char DAT_01184078;
 
 struct FUN_0084e3a0_Class
 {
-    void* FUN_0084e3a0();
+    void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 struct FUN_0041fd00_Class
@@ -4241,7 +4277,8 @@ struct FUN_0041fd00_Class
 extern "C" void* __cdecl FUN_00ec43fb(BSExtraData* a1, int a2, char* a3, char* a4, int a5);
 
 // @fnv 0x00438330
-void ExtraSpecialRenderFlags::FUN_00438330(BSExtraData* pExtraData)
+// src: XBOX_PDB 0x00438330
+void ExtraSpecialRenderFlags::Copy_00438330(BSExtraData* pExtraData)
 {
     ExtraSpecialRenderFlags* pSource = (ExtraSpecialRenderFlags*)FUN_00ec43fb(pExtraData, 0, &DAT_01183b2c, &DAT_01184078, 0);
     if (pSource == 0)
@@ -4249,7 +4286,7 @@ void ExtraSpecialRenderFlags::FUN_00438330(BSExtraData* pExtraData)
     }
     else
     {
-        ((FUN_0041fd00_Class*)this)->FUN_0041fd00(((FUN_0084e3a0_Class*)pSource)->FUN_0084e3a0());
+        ((FUN_0041fd00_Class*)this)->FUN_0041fd00(((FUN_0084e3a0_Class*)pSource)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         this->m_fRenderValue = pSource->m_fRenderValue;
     }
 }
@@ -4486,7 +4523,7 @@ struct ComparisonEntry
 struct EntryListNode
 {
     unsigned int FUN_0044ddc0();
-    ComparisonEntry*& FUN_006a7ad0(unsigned int index);
+    ComparisonEntry*& BSSimpleArray_NiAVObject_1024_GetAt(unsigned int index);
 };
 struct EntryCollection
 {
@@ -4514,8 +4551,8 @@ bool EntryCollection::FUN_00430660(EntryCollection* other)
         return false;
     for (unsigned int i = 0; i < entries.FUN_0044ddc0(); i++)
     {
-        ComparisonEntry* mine = entries.FUN_006a7ad0(i);
-        ComparisonEntry* theirs = other->entries.FUN_006a7ad0(i);
+        ComparisonEntry* mine = entries.BSSimpleArray_NiAVObject_1024_GetAt(i);
+        ComparisonEntry* theirs = other->entries.BSSimpleArray_NiAVObject_1024_GetAt(i);
         if (mine->b0 != theirs->b0)
             return false;
         if (mine->b1 != theirs->b1)
@@ -4725,14 +4762,15 @@ struct ActivateEntry334
     float delay;
 };
 
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 
 // Shared ActivateList334 and ActivateString334 lack the destructors needed
 // to match the owning cleanup at 0x00433970 (explicit cleanup calls change EH).
 // Retain this class locally until the shared members declare their destructors.
 // Compares this ExtraActivateRef with another: returns true if reference lists, flags or text differ, false if equal.
 // @fnv 0x00433a20
-bool ExtraActivateRef::FUN_00433a20(BSExtraData* pOther)
+// src: XBOX_PDB 0x00433a20
+bool ExtraActivateRef::Compare_00433a20(BSExtraData* pOther)
 {
     ExtraActivateRef* node = dynamic_cast<ExtraActivateRef*>(pOther);
     if (!node)
@@ -4759,7 +4797,7 @@ bool ExtraActivateRef::FUN_00433a20(BSExtraData* pOther)
     }
     else
     {
-        if (FUN_00408b20(text, node->text))
+        if (BSstrcmp(text, node->text))
             return true;
     }
     return false;
@@ -4999,11 +5037,12 @@ extern TES* g_TES;
 
 int __cdecl _sprintf_s(char* buffer, unsigned int sizeOfBuffer, const char* format, ...);
 bool __cdecl FUN_004b7240(const char* src, char* dst, unsigned int maxLen);
-unsigned int __cdecl FUN_00438220();
+unsigned int __cdecl NiShadeProperty_GetType();
 
 // Builds a texture path from the face strings, creates the texture image, and assigns it to the Screen01:0 object's property.
 // @fnv 0x00437f90
-void ExtraSecuritronFace::FUN_00437f90(NiNode* pNode)
+// src: XBOX_PDB 0x00437f90
+void ExtraSecuritronFace::ApplyFace(NiNode* pNode)
 {
     NiAVObject* aPScreen;
     NiProperty* pProperty4;
@@ -5027,10 +5066,10 @@ void ExtraSecuritronFace::FUN_00437f90(NiNode* pNode)
                 g_TES->CreateTextureImage(static_cast<const char*>(destBufferA), spTexture, false, false);
             }
 
-            pProperty4 = aPScreen->GetProperty(FUN_00438220());
+            pProperty4 = aPScreen->GetProperty(NiShadeProperty_GetType());
             if (pProperty4)
             {
-                pProperty4->FUN_00438230((NiTexture*)(NiSourceTexture*)spTexture);
+                pProperty4->BSShaderNoLightingProperty_SetBaseMap((NiTexture*)(NiSourceTexture*)spTexture);
             }
         }
     }
@@ -5136,7 +5175,7 @@ FUN_0081dd00::FUN_0081dd00(OwnerForm* owner, int arg2, int arg3, int arg4, NiPoi
     unk98 = arg2;
     unk9C = arg3;
     unkA0 = arg4;
-    startTime = g_processLists.FUN_0096d490();
+    startTime = g_processLists.ProcessLists_GetSystemTimeClock();
     unk88 = 0.0f;
     unk8C = 0.0f;
     process = new HighProcess;
@@ -5162,7 +5201,8 @@ struct ExtradataobjectsListNodeView
     void FUN_0063f7b0();
 };
 // @fnv 0x00433750
-void __cdecl FUN_00433750(ExtradataobjectsListNodeView* pNode)
+// src: XBOX_PDB 0x00433750
+void __cdecl FreeActivateList(ExtradataobjectsListNodeView* pNode)
 {
     if (pNode != 0)
     {
@@ -5804,17 +5844,18 @@ FUN_00432ce0::~FUN_00432ce0()
 
 struct FUN_00433b70_shell : ExtraActivateRef
 {
-    void FUN_00433b70(BSExtraData* apSource);
+    void ExtraActivateRef_Copy(BSExtraData* apSource);
 };
 
 // Copies the references list, flags, and text from another ExtraActivateRef into this instance.
 // @fnv 0x00433b70
-void FUN_00433b70_shell::FUN_00433b70(BSExtraData* apSource)
+// src: XBOX_PDB 0x00433b70
+void FUN_00433b70_shell::ExtraActivateRef_Copy(BSExtraData* apSource)
 {
     ExtraActivateRef* pSource = dynamic_cast<ExtraActivateRef*>(apSource);
     if (!pSource)
         return;
-    FUN_00433750((ExtradataobjectsListNodeView*)&references);
+    FreeActivateList((ExtradataobjectsListNodeView*)&references);
     BSSimpleList<ReferenceFloatEntry*>* pIter = (BSSimpleList<ReferenceFloatEntry*>*)&pSource->references;
     while (pIter && !pIter->IsEmpty())
     {
@@ -5831,12 +5872,13 @@ void FUN_00433b70_shell::FUN_00433b70(BSExtraData* apSource)
 // ExtraAction.h does not declare its comparison method.
 struct ActionCompare : ExtraAction
 {
-    bool FUN_004317c0(BSExtraData* apCompare);
+    bool ExtraAction_Compare(BSExtraData* apCompare);
 };
 
 // Returns true if the cast fails, BSExtraData::Compare returns true, or the eAction values differ.
 // @fnv 0x004317c0
-bool ActionCompare::FUN_004317c0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004317c0
+bool ActionCompare::ExtraAction_Compare(BSExtraData* apCompare)
 {
     ExtraAction* pComp = dynamic_cast<ExtraAction*>(apCompare);
     if (!pComp)
@@ -5850,7 +5892,8 @@ bool ActionCompare::FUN_004317c0(BSExtraData* apCompare)
 
 // Returns true if the cast fails, BSExtraData::Compare returns true, or the cKey values differ.
 // @fnv 0x00432540
-bool ExtraHotKey::FUN_00432540(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00432540
+bool ExtraHotKey::Compare_00432540(BSExtraData* apCompare)
 {
     ExtraHotKey* pComp = dynamic_cast<ExtraHotKey*>(apCompare);
     if (!pComp)
@@ -5864,7 +5907,8 @@ bool ExtraHotKey::FUN_00432540(BSExtraData* apCompare)
 
 // Returns true if the compared ExtraLitWaterRefs has a different ref count or any ref not present in this list.
 // @fnv 0x00434e30
-bool ExtraLitWaterRefs::FUN_00434e30(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00434e30
+bool ExtraLitWaterRefs::Compare_00434e30(BSExtraData* apCompare)
 {
     ExtraLitWaterRefs* pcomp = (ExtraLitWaterRefs*)dynamic_cast<ExtraLitWaterRefs*>(apCompare);
     if (!pcomp)
@@ -5874,7 +5918,7 @@ bool ExtraLitWaterRefs::FUN_00434e30(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pIter = &pcomp->kRefs;
     while (pIter && !pIter->IsEmpty())
     {
-        if (!kRefs.FUN_005f65d0(pIter->GetItem()))
+        if (!kRefs.BSSimpleList_TESLevSpell_IsInList(pIter->GetItem()))
             return true;
         pIter = pIter->GetNext();
     }
@@ -5895,7 +5939,8 @@ bool ExtraLevCreaModifier::Compare(BSExtraData* apCompare)
 
 // Returns true if the cast fails, the FUN_005ae380 results differ, or FUN_005f65d0 returns false for an item in the other list.
 // @fnv 0x004349c0
-bool ExtraWaterLightRefs::FUN_004349c0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004349c0
+bool ExtraWaterLightRefs::Compare_004349c0(BSExtraData* apCompare)
 {
     ExtraWaterLightRefs* pOther = dynamic_cast<ExtraWaterLightRefs*>(apCompare);
     if (pOther == 0)
@@ -5905,7 +5950,7 @@ bool ExtraWaterLightRefs::FUN_004349c0(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pNode = &pOther->kRefs;
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (!kRefs.FUN_005f65d0(pNode->GetItem()))
+        if (!kRefs.BSSimpleList_TESLevSpell_IsInList(pNode->GetItem()))
             return true;
         pNode = pNode->GetNext();
     }
@@ -5914,7 +5959,7 @@ bool ExtraWaterLightRefs::FUN_004349c0(BSExtraData* apCompare)
 
 struct TeleportDataComparison
 {
-    bool FUN_0043a860(TeleportDataComparison*);
+    bool DoorTeleportData_Compare(TeleportDataComparison*);
 };
 
 // Returns true if the cast fails, BSExtraData::Compare returns true, or the teleport-data comparison returns true.
@@ -5927,14 +5972,14 @@ bool ExtraTeleport::Compare(BSExtraData* apCompare)
     if (BSExtraData::Compare(apCompare))
         return true;
     if (reinterpret_cast<TeleportDataComparison*>(data)
-            ->FUN_0043a860(reinterpret_cast<TeleportDataComparison*>(pComp->data)))
+            ->DoorTeleportData_Compare(reinterpret_cast<TeleportDataComparison*>(pComp->data)))
         return true;
     return false;
 }
 
 struct AudioMarkerComparisonData
 {
-    bool FUN_005897c0(AudioMarkerComparisonData*);
+    bool AudioMarkerData_Compare(AudioMarkerComparisonData*);
 };
 
 // Returns true if the cast fails, BSExtraData::Compare returns true, or the audio-data comparison returns true.
@@ -5947,14 +5992,15 @@ bool ExtraAudioMarker::Compare(BSExtraData* apCompare)
     if (BSExtraData::Compare(apCompare))
         return true;
     if (reinterpret_cast<AudioMarkerComparisonData*>(pAudioData)
-            ->FUN_005897c0(reinterpret_cast<AudioMarkerComparisonData*>(pComp->pAudioData)))
+            ->AudioMarkerData_Compare(reinterpret_cast<AudioMarkerComparisonData*>(pComp->pAudioData)))
         return true;
     return false;
 }
 
 // Returns true if the cast fails, Compare returns true, or the seed values differ.
 // @fnv 0x004325e0
-bool ExtraSeed::FUN_004325e0(BSExtraData* apCompare)
+// src: XBOX_PDB 0x004325e0
+bool ExtraSeed::Compare_004325e0(BSExtraData* apCompare)
 {
     ExtraSeed* pcomp = dynamic_cast<ExtraSeed*>(apCompare);
     if (!pcomp)
@@ -5968,7 +6014,8 @@ bool ExtraSeed::FUN_004325e0(BSExtraData* apCompare)
 
 // Returns true if the casted ExtraEnableStateParent differs in pParent or cFlags, or if the cast fails; returns false when both match.
 // @fnv 0x00433340
-bool ExtraEnableStateParent::FUN_00433340(BSExtraData* apCompare)
+// src: XBOX_PDB 0x00433340
+bool ExtraEnableStateParent::Compare_00433340(BSExtraData* apCompare)
 {
     ExtraEnableStateParent* pcomp = dynamic_cast<ExtraEnableStateParent*>(apCompare);
     if (!pcomp)

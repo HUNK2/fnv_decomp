@@ -74,7 +74,8 @@ void __fastcall DestroyProperty(NiProperty* property)
 extern int g_012007e0;
 
 // @fnv 0x00bb8170
-int* __cdecl FUN_00bb8170()
+// src: XBOX_PDB 0x00bb8170
+int* __cdecl BSFogProperty_GetRTTI()
 {
     return &g_012007e0;
 }

@@ -1490,11 +1490,12 @@ struct FUN_00e752b0_shell {
     char _pad[0x90c];
     struct Node { Node* next; Node* prev; void* data; } *m_Head, *m_Tail;
     NodePoolView m_Pool;
-    void FUN_00e752b0(void* pkD3DShader);
+    void NiXenonRenderer_RegisterD3DShader(void* pkD3DShader);
 };
 // Allocates a node from the pool, stores pkD3DShader in it, and links it at the head of the list, updating the tail when the list was empty.
 // @fnv 0x00e752b0
-void FUN_00e752b0_shell::FUN_00e752b0(void* pkD3DShader)
+// src: XBOX_PDB 0x00e752b0
+void FUN_00e752b0_shell::NiXenonRenderer_RegisterD3DShader(void* pkD3DShader)
 {
     Node* pkNode = (Node*)m_Pool.AddHead();
     pkNode->data = pkD3DShader;
@@ -5438,7 +5439,7 @@ extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
-RefObject* __cdecl FUN_00a5ff10(RenderResource* resource, const char* name, ResourceParameters* parameters);
+RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -5491,7 +5492,7 @@ bool RendererBridge::InitializeRendererResources() {
     resourceParams.unk08 = 0;
     resourceParams.unk04 = 0;
     const char* name = FUN_00a5b690(DAT_010edbb8);
-    RefObject* selected = FUN_00a5ff10(resource, name, &resourceParams);
+    RefObject* selected = NiSourceTexture_Create(resource, name, &resourceParams);
     if (Target() != selected) {
         if (Target()) Target()->DecRefCount();
         Target() = selected;
@@ -13666,7 +13667,7 @@ extern NiRTTI g_011f5b70;
 extern NiRTTI g_011f4a40;
 extern NiRTTI g_011f4a20;
 
-bool __cdecl FUN_0043b300(const NiRTTI* pkRTTI, NiAVObject* pkObject);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* pkRTTI, NiAVObject* pkObject);
 void __cdecl FUN_00a29680(const char* format, const char* message);
 struct PG_Preparer { bool Prepare(NiGeometryGroup* c, NiGeometryData* d, NiSkinInstance* e, bool f, unsigned int g, unsigned int h); };
 
@@ -13857,12 +13858,12 @@ bool PG_Renderer::NiDX9Renderer_PrecacheGeometry(PG_GeomFull* p, unsigned int a2
     bool bResult = false;
     if (bPrecached) {
         bResult = FUN_00e72aa0_s(p, pData, pSkinInstance, uiTech, a2, a3);
-    } else if (FUN_0043b300(&g_011f4a40, (NiAVObject*)p)) {
+    } else if (NiObject_IsKindOf(&g_011f4a40, (NiAVObject*)p)) {
         unsigned int usActive = pData->GetActiveVertexQuantity();
         unsigned int usVerts = pData->m_usVertices;
         void* m_pkDeltas = pData->FUN_00a7b850_s();
         bResult = FUN_00e72980_s(p, pData, usActive, usVerts, m_pkDeltas, 0, 1, uiTech);
-    } else if (FUN_0043b300(&g_011f4a20, (NiAVObject*)p)) {
+    } else if (NiObject_IsKindOf(&g_011f4a20, (NiAVObject*)p)) {
         unsigned int usActive = pData->GetActiveVertexQuantity();
         unsigned int usVerts = pData->m_usVertices;
         void* m_pkDeltas = pData->FUN_00a75f10_s();
@@ -16684,12 +16685,12 @@ struct FUN_00e754a0 : RendererBase {
  RendererArray<2> arrayaf4;
  RendererArray<1> arrayb04;
  NiTMap<_D3DFORMAT, NiPixelFormat*> mapb14;
- void FUN_00e6b990();
+ void NiXenonRenderer_InitToDefault();
  FUN_00e754a0() throw();
 };
 // @fnv 0x00e754a0
 FUN_00e754a0::FUN_00e754a0() throw() : unk630(0), mapb14(7) {
- FUN_00e6b990();
+ NiXenonRenderer_InitToDefault();
 }
 
 extern double DAT_010231e8;
@@ -17848,7 +17849,7 @@ void E6F310Renderer::NiDX9Renderer_Clear(NiRectF_niconsolerenderer* pkRect, unsi
 }
 
 class NiRTTI;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* type, NiAVObject* obj);
 extern const NiRTTI g_011f4a88;
 extern const NiRTTI g_011f4a70;
 
@@ -17894,9 +17895,9 @@ void __stdcall ApplyPacketUpdate(PacketObj* pPacketObj, PacketTarget* target, in
         if (!(mask & 0x20))
             ((PacketTarget*)target->unk08)->Release();
     } else if (!(mask & 0x10)) {
-        if (FUN_0043b300(&g_011f4a88, (NiAVObject*)pPacketObj))
+        if (NiObject_IsKindOf(&g_011f4a88, (NiAVObject*)pPacketObj))
             pPacketObj->SetA(pPacketObj->unk40, 0);
-        else if (FUN_0043b300(&g_011f4a70, (NiAVObject*)pPacketObj))
+        else if (NiObject_IsKindOf(&g_011f4a70, (NiAVObject*)pPacketObj))
             pPacketObj->SetB(pPacketObj->unk44, pPacketObj->unk48, 0);
     }
 }
@@ -18138,7 +18139,7 @@ void* FUN_00a75f10(); void* FUN_00a7b850();
 
 };
 } // namespace fnv_00e71fe0
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };
@@ -18749,7 +18750,7 @@ bool GeometryPacketBuilder::PrepareGeometryPacket(Packet108* packet, fnv_00e71fe
   activeTriangles = 0;
   stripCount = 1;
   indexCount = (unsigned short)triangles * 3;
- } else if (FUN_0043b300(&DAT_011f4a70,reinterpret_cast<NiAVObject*>(source))) {
+ } else if (NiObject_IsKindOf(&DAT_011f4a70,reinterpret_cast<NiAVObject*>(source))) {
   stripLengths = source->GetNumberOfVertices();
   triangles = source->triangles;
   indices = source->FUN_00a75f10();
@@ -23579,7 +23580,7 @@ struct QuadInput { unsigned int unk00,unk04; QuadData* data; unsigned int unk0c;
 struct QuadUploader { unsigned int NiDX9VertexBufferManager_PackTransformedVB(QuadGeometry*,unsigned short,QuadPoint*,FUN_004a7800*,QuadPoint*,unsigned short,QuadBuffer*,unsigned int); };
 struct QuadIndexUploader { unsigned int FUN_00e8f200(unsigned short*,unsigned int,unsigned int,unsigned int,unsigned int*,unsigned int,unsigned int); };
 extern bool DAT_0126f0d0;
-void* FUN_00aa1070(unsigned int);
+void* _NiMalloc_00aa1070(unsigned int);
 struct QuadRenderer {
  unsigned int unk000;
  unsigned int unk004;
@@ -24345,7 +24346,7 @@ void QuadRenderer::UploadQuads(QuadInput* input,unsigned short flags)
  if(dynamic) {
     if((unsigned int)nindices>indexCapacity) {
        _NiFreeAlias(indices);
-       indices=(unsigned short*)FUN_00aa1070(nindices*2);
+       indices=(unsigned short*)_NiMalloc_00aa1070(nindices*2);
        indexCapacity=nindices;
        unsigned short k=0;
        for(unsigned int v=0;v<nvertices;v+=4) {
@@ -24647,12 +24648,13 @@ struct S00e75340_Alpha {
     void NiTPointerListBase_Remove(S00e75340_Group** pp);
 };
 struct S00e75340_Renderer {
-    void __thiscall FUN_00e75340(S00e75340_Group* volatile group);
+    void __thiscall NiXenonRenderer_PurgeD3DShader(S00e75340_Group* volatile group);
 };
 
 // Calls PrepareForRemoval and FUN_00e818d0(0), then passes the address of the group parameter to the function at offset 0x90c.
 // @fnv 0x00e75340
-void S00e75340_Renderer::FUN_00e75340(S00e75340_Group* volatile group)
+// src: XBOX_PDB 0x00e75340
+void S00e75340_Renderer::NiXenonRenderer_PurgeD3DShader(S00e75340_Group* volatile group)
 {
     S00e75340_Group* g = group;
     g->PrepareForRemoval();
@@ -29018,10 +29020,11 @@ struct InitRenderer {
  bool NiDX9Renderer_InitializeDeviceCaps(InitPresent*);
  bool InitializeRendererResources();
  void AssignRefObject(InitObject*);
- bool FUN_00e72e60(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned p13,unsigned p14);
+ bool NiXenonRenderer_Create(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned p13,unsigned p14);
 };
 // @fnv 0x00e72e60
-bool InitRenderer::FUN_00e72e60(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned aiBackBufferCountOut,unsigned p14)
+// src: XBOX_PDB 0x00e72e60
+bool InitRenderer::NiXenonRenderer_Create(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned aiBackBufferCountOut,unsigned p14)
 {
  fielda98=width; fielda9c=height; fieldaa0=options; fieldaa4=deviceWindow; fieldaa8=focusWindow; fieldaac=adapterIndex;
  fieldab0=deviceChoice; fieldab4=p8; fieldab8=p9; fieldabc=p10; fieldac0=p11; fieldac4=p12; fieldac8=aiBackBufferCountOut; fieldacc=p14;
@@ -32779,13 +32782,14 @@ struct Renderer {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned 
 
 
 v634=DAT_011a946c;v640=DAT_011a9478;v64c=DAT_011a946c;v658=DAT_011a9478;unk684=0.1f;}
-void FUN_00e6b990();};
+void NiXenonRenderer_InitToDefault();};
 
 
 
 // Resets selected renderer fields, clears four state, counter, and ref entries, sets the matrix to identity, and writes values to DAT_0126efd8.
 // @fnv 0x00e6b990
-void Renderer::FUN_00e6b990(){unk288=0;FUN_00ec61c0(&unk28c,0,0x130);
+// src: XBOX_PDB 0x00e6b990
+void Renderer::NiXenonRenderer_InitToDefault(){unk288=0;FUN_00ec61c0(&unk28c,0,0x130);
 
 
 

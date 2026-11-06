@@ -29,7 +29,7 @@ void FUN_00e4a540_cls::FUN_00e4a540()
 
 // The TLS accessor at 0x00c85750 supplies the heap at +0x10; no include/hkMemoryRouter.h exists yet.
 #include "../../../../../include/hkMemoryRouter.h"
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class FUN_00cb0c00_class
 {
@@ -47,7 +47,7 @@ class FUN_00cb0c00_class
 
 inline void hkReferencedObject::operator delete(void* p)
 {
-    FUN_00c85750().heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
+    hkMemoryRouter_getInstance().heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
 // The reflected layout is 0x18 bytes; no include/ header exists for these options yet.
@@ -153,7 +153,7 @@ template <class T, int N> struct InplaceArrE4
     }
     __forceinline void release() throw()
     {
-        hkMemoryAllocator& h = FUN_00c85750().heap();
+        hkMemoryAllocator& h = hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
             h.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

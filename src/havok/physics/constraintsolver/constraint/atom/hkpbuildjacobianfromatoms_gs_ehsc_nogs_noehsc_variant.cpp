@@ -259,7 +259,7 @@ struct S00d6e280_Rec
     int i0c;
 };
 
-extern "C" void FUN_00dcf100(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
+extern "C" void hk1dLinearFrictionBuildJacobian(S00d6e280_Call* p, S00d6e280_Other* o, S00d6e280_Rec** cursor);
 
 // @fnv 0x00d6e280
 static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* table, S00d6e280_Obj* self,
@@ -274,7 +274,7 @@ static __declspec(noinline) void FUN_00d6e280(S00d6e280_Rec** cursor, __m128* ta
             _mm_store_ps((float*)&c.vb, table[self->m_flag3]);
             c.c = self->m_f4;
             c.d = other->m_64;
-            FUN_00dcf100(&c, other, cursor);
+            hk1dLinearFrictionBuildJacobian(&c, other, cursor);
             return;
         }
     }
@@ -387,8 +387,8 @@ union DispatchArgs
     unsigned char flag;
 };
 void __cdecl FUN_00dced90(__m128* a, __m128* b, void* dest);
-void __cdecl FUN_00d72190(NodeKind* node, FnvPacket* packet, DispatchArgs args, void* dest);
-void __cdecl FUN_00d6f460(NodeKind* node, DispatchArgs args, FnvPacket* packet, void* dest);
+void __cdecl hkSimpleContactConstraintDataBuildJacobian(NodeKind* node, FnvPacket* packet, DispatchArgs args, void* dest);
+void __cdecl hkSolverBuildJacobianFromAtomsNotContact(NodeKind* node, DispatchArgs args, FnvPacket* packet, void* dest);
 
 // @fnv 0x00d6ecb0
 static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNode* node)
@@ -413,11 +413,11 @@ static __declspec(noinline) void FUN_00d6ecb0(FnvPacket* arg1, void* arg2, FnvNo
     if (kind->kind == 0x16)
     {
         args.flag = 1;
-        FUN_00d72190(kind, &localPacket, args, arg2);
+        hkSimpleContactConstraintDataBuildJacobian(kind, &localPacket, args, arg2);
     }
     else
     {
-        FUN_00d6f460(kind, args, &localPacket, arg2);
+        hkSolverBuildJacobianFromAtomsNotContact(kind, args, &localPacket, arg2);
     }
     FUN_00dced90(&arg1->unk30->vec, &arg1->unk34->vec, arg2);
 }

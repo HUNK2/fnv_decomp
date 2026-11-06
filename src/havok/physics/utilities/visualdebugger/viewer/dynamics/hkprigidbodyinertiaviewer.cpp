@@ -736,7 +736,7 @@ struct __declspec(align(16)) Vec {
     __forceinline Vec(float a, float b, float c, float d) { set(_mm_setr_ps(a,b,c,d)); }
     __forceinline Vec(const Vec& other) { set(other.get()); }
     __forceinline Vec& operator=(const Vec& other) { set(other.get()); return *this; }
-    void FUN_00c7f700(const Transform* transform, const Vec* value);
+    void hkVector4_setRotatedDir(const Transform* transform, const Vec* value);
 };
 __forceinline Transform::Transform(const Transform& other) {
     __m128 a = _mm_load_ps(&other.m_f00), b = _mm_load_ps(&other.m_f10);
@@ -941,7 +941,7 @@ void ViewerPart::FUN_00d67340(float unused) {
             Vec rotated;
             {
                 Vec center = bodies[i]->motion.centerOfMass;
-                rotated.FUN_00c7f700(&transform, &center);
+                rotated.hkVector4_setRotatedDir(&transform, &center);
             }
             rotated.set(_mm_add_ps(reinterpret_cast<const Vec&>(transform.r[3]).get(), rotated.get()));
             reinterpret_cast<Vec&>(transform.r[3]) = rotated;

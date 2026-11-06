@@ -100,7 +100,7 @@ public:
     static void ClearScriptLocalsForReference(TESObjectREFR* ref);
     static void SetScriptLocalsFromExtraData(TESObjectREFR* ref, ExtraDataList* extra);
     void ClearVariableList();
-    void FUN_005ae2e0();
+    void ClearLocalVariableRefObjects();
     void PathManagerImpl_Update();
     ScriptHeaderView* FUN_00500940();
     void InitFromCompileData(CStringArgument*);

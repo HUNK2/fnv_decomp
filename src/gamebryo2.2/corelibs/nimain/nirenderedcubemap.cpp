@@ -6,14 +6,16 @@
 
 // These accessors and the deleting destructor have no declarations in the shared class.
 // @fnv 0x00ee8220
-void* __fastcall FUN_00ee8220(NiRenderedCubeMap* cubeMap)
+// src: XBOX_PDB 0x00ee8220
+void* __fastcall NiRenderedCubeMap_GetWidth(NiRenderedCubeMap* cubeMap)
 {
     void* p = cubeMap->m_ppCubeMapFaces[0];
     return *(void**)((char*)p + 8);
 }
 
 // @fnv 0x00ee8230
-int __fastcall FUN_00ee8230(NiRenderedCubeMap* cubeMap)
+// src: XBOX_PDB 0x00ee8230
+int __fastcall NiRenderedCubeMap_GetHeight(NiRenderedCubeMap* cubeMap)
 {
     void* p = cubeMap->m_ppCubeMapFaces[0];
     return *(int*)((char*)p + 0xc);
@@ -227,7 +229,8 @@ struct S_00ee8330_Renderer
 
 // Allocates a cube map, creates six face buffers, copies three globals into fields, and calls the renderer to create renderer data.
 // @fnv 0x00ee8330
-NiRenderedCubeMap* NiRenderedCubeMap::FUN_00ee8330(unsigned int uiFaceSize, NiRenderer* pkRenderer,
+// src: XBOX_PDB 0x00ee8330
+NiRenderedCubeMap* NiRenderedCubeMap::Create_00ee8330(unsigned int uiFaceSize, NiRenderer* pkRenderer,
                                                      NiTexture::TextureFormatPreferences& kPrefs)
 {
     if (!pkRenderer || !S_00ee8330_IsPowerOf2(uiFaceSize))

@@ -41,7 +41,7 @@ extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
-    int __cdecl FUN_00ce9e90(void*);
+    int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
 // @fnv 0x00cea7c0
@@ -52,7 +52,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* apFirst, void* apSec
         return 1;
     if (FUN_00ce9db0(apSecond, apThird))
         return 1;
-    if (FUN_00ce9e90(apSecond))
+    if (alignConstraintSpacesToChildren(apSecond))
         return 1;
     return 0;
 }
@@ -147,7 +147,7 @@ struct SpawnedAllocator
     virtual void* allocate(int size);
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct SpawnedObject
 {
@@ -176,7 +176,7 @@ struct SourceRecord
 // @fnv 0x00ce9ff0
 int __cdecl SpawnObjectFromRecord(SourceRecord* pSourceRecord)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     SpawnedAllocator* pAllocator = reinterpret_cast<SpawnedAllocator*>(holder->m_heap);
     SpawnedObject* obj = (SpawnedObject*)pAllocator->allocate(0x30);
     obj->m_size04 = 0x30;
@@ -482,7 +482,7 @@ struct ScratchAllocator
 };
 static ScratchAllocator* scratchState() throw()
 {
-    return reinterpret_cast<ScratchAllocator*>(FUN_00c85750());
+    return reinterpret_cast<ScratchAllocator*>(hkMemoryRouter_getInstance());
 }
 extern "C" void __cdecl ResizeAudioStream(HeapAllocator*, void*, int);
 template <class T> static __forceinline T* allocateBuffer(HeapAllocator* allocator, int& count) throw()
@@ -1018,7 +1018,8 @@ static __forceinline ErrorIface* GetError()
 }
 
 // @fnv 0x00ce9880
-static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
+// src: XBOX_PDB 0x00ce9880
+static __declspec(noinline) int moveRigidBodyPivot(const hkQsXform& t, Body* body)
 {
     if (t.FUN_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
     {
@@ -1036,7 +1037,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         {
             void* shape = body->m_pCollisionShape;
             inv.FUN_00ce50b0(&kXform);
-            ShapeObj* pShapeObj = (ShapeObj*)heap(FUN_00c85750()).allocate(0x70);
+            ShapeObj* pShapeObj = (ShapeObj*)heap(hkMemoryRouter_getInstance()).allocate(0x70);
             pShapeObj->m_usMemSizeAndFlags = 0x70;
             ShapeObj* pTransformedShape = pShapeObj->FUN_00cf5990(shape, kXform);
             body->SetCollisionShapeAndKey(pTransformedShape);
@@ -1055,7 +1056,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         if (body->m_bFlag != 5)
         {
             hkVector4 lc;
-            lc.FUN_00c7f690(reinterpret_cast<const hkTransform&>(kXform), com);
+            lc.hkVector4_setTransformedInversePos(reinterpret_cast<const hkTransform&>(kXform), com);
             body->hkpRigidBody_setCenterOfMassLocal(lc);
         }
     }
@@ -1066,5 +1067,5 @@ volatile int g_inBody;
 volatile int g_out;
 void CallTarget_ce9880()
 {
-    g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
+    g_out = moveRigidBodyPivot(*(const hkQsXform*)g_inT, (Body*)g_inBody);
 }

@@ -11,9 +11,9 @@
 // @fnv 0x007ab7e0
 void PlayerNameEntryMenu::UpdateDialog()
 {
-    if (FUN_007ab810())
+    if (XVirtualKeyboard_IsActive())
     {
-        Finish(FUN_007ab810());
+        Finish(XVirtualKeyboard_IsActive());
         FUN_007ab7c0();
     }
 }
@@ -32,7 +32,7 @@ void __cdecl FUN_007ab7c0(void)
 }
 
 namespace fnv_007ab810 {
-extern const char* __cdecl FUN_007ab810();
+extern const char* __cdecl XVirtualKeyboard_IsActive();
 
 struct Flt
 {
@@ -42,7 +42,8 @@ struct Flt
 extern Flt g_011daed8;
 
 // @fnv 0x007ab810
-const char* __cdecl FUN_007ab810()
+// src: XBOX_PDB 0x007ab810
+const char* __cdecl XVirtualKeyboard_IsActive()
 {
     return g_011daed8;
 }

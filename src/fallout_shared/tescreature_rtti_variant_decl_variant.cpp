@@ -26,20 +26,21 @@
 
 #include <string.h>
 // @fnv 0x005f9b90
-bool TESCreature::FUN_005f9b90(TESForm* otherForm)
+// src: XBOX_PDB 0x005f9b90
+bool TESCreature::Compare_005f9b90(TESForm* otherForm)
 {
     TESCreature* other = dynamic_cast<TESCreature*>(otherForm);
     if (!other)
         return true;
-    if (FUN_00485270(other))
+    if (TESForm_CompareAllComponents(other))
         return true;
     if (memcmp(&dataPadding, other->GetOffset12C(), 4))
         return true;
     if (ShadowSceneNode_GetDisableLightUpdate() != other->ShadowSceneNode_GetDisableLightUpdate())
         return true;
-    if (FUN_00821640() != other->FUN_00821640())
+    if (TESObjectWEAP_GetShotsPerSecond() != other->TESObjectWEAP_GetShotsPerSecond())
         return true;
-    if (FUN_00567470() != other->FUN_00567470())
+    if (TESEffectShader_GetAddOnScaleStart() != other->TESEffectShader_GetAddOnScaleStart())
         return true;
     if (GetFootWeight() != other->GetFootWeight())
         return true;

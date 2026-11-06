@@ -96,7 +96,7 @@ class BGSSaveLoadManager
     // void __cdecl BGSSaveLoadManager::*()
     // void __cdecl BGSSaveLoadManager::*(BSSaveDataSystemUtility::RESULT)
     // void* __cdecl BGSSaveLoadManager::*(unsigned int)
-    bool FUN_00424940();
+    bool InterfaceManager_GetMenuMode();
     bool IsAutoSaveFileName(const char*);
     void* ReadHeaderFromFile(const char*, int, int, int);
     bool IsSaveFileNameCustom(const char*);

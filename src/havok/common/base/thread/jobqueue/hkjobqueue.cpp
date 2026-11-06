@@ -324,7 +324,7 @@ struct S_00d056a0_Allocator
     virtual void ReleaseBlock(void* p, int numBytes);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct S_00d056a0_Elem
 {
@@ -348,7 +348,7 @@ void S_00d056a0::FUN_00d056a0()
     if (n)
     {
         S_00d056a0_Elem* pData = m_data;
-        reinterpret_cast<S_00d056a0_Allocator*>(&FUN_00c85750()->heap())->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
+        reinterpret_cast<S_00d056a0_Allocator*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
     }
 }
 
@@ -874,7 +874,7 @@ void D049D0World::SetSimulationEnabled(int enabled)
     unlock(lockHandle);
 }
 
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 
 struct __declspec(align(16)) D04B90Object
 {
@@ -923,7 +923,7 @@ struct D04B90World
 void D04B90World::AddObjectCopy(const D04B90Object* object, void* userData)
 {
     D04B90Object copy;
-    FUN_00cb1260(&copy, object, object->m_usMemSizeAndFlags);
+    hkString_memCpy(&copy, object, object->m_usMemSizeAndFlags);
     addCopy(&copy, userData);
 }
 
@@ -1076,7 +1076,7 @@ void __cdecl InitHookTable(TargetObj* apTarget)
 }
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
@@ -1100,7 +1100,7 @@ struct D04A20OperationArrayLocalForm
 
     D04A20Operation& AllocatePair()
     {
-        hkMemoryAllocator& alloc = *(&fnvc_adapt::FUN_00c85750().heap());
+        hkMemoryAllocator& alloc = *(&fnvc_adapt::hkMemoryRouter_getInstance().heap());
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&alloc, this, sizeof(D04A20Operation));
         return m_data[m_iElementCount++];
@@ -1282,7 +1282,7 @@ struct PoolTable
 {
     static void* operator new(unsigned int nbytes) throw()
     {
-        return reinterpret_cast<S_00d056a0_Allocator*>(&FUN_00c85750()->heap())->AllocateMemoryBlock(nbytes);
+        return reinterpret_cast<S_00d056a0_Allocator*>(&hkMemoryRouter_getInstance()->heap())->AllocateMemoryBlock(nbytes);
     }
 
     unsigned short m_counts[12];
@@ -1432,12 +1432,12 @@ int __cdecl defaultPopDispatchFunc(void* context, void* argument, void* item)
 
 template <typename T> inline T* hkAllocateChunk(int n)
 {
-    return static_cast<T*>(reinterpret_cast<S_00d056a0_Allocator*>(&FUN_00c85750()->heap())->AllocateMemoryBlock(n * sizeof(T)));
+    return static_cast<T*>(reinterpret_cast<S_00d056a0_Allocator*>(&hkMemoryRouter_getInstance()->heap())->AllocateMemoryBlock(n * sizeof(T)));
 }
 
 template <typename T> inline void hkDeallocateChunk(T* p, int n)
 {
-    reinterpret_cast<S_00d056a0_Allocator*>(&FUN_00c85750()->heap())->ReleaseBlock(p, n * sizeof(T));
+    reinterpret_cast<S_00d056a0_Allocator*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(p, n * sizeof(T));
 }
 
 struct hkQueue128
@@ -1473,12 +1473,12 @@ void hkQueue128::hkQueue_struct_hkJobQueue_JobQueueEntry_setCapacity(int aiMinCa
                 {
                     int numHead = m_pRayCursor - m_pFirstNode;
                     int numTail = m_pTail;
-                    FUN_00cb1260(newData, m_data + m_pFirstNode, numHead * sizeof(S_00d056a0_Elem));
-                    FUN_00cb1260(newData + numHead, m_data, numTail * sizeof(S_00d056a0_Elem));
+                    hkString_memCpy(newData, m_data + m_pFirstNode, numHead * sizeof(S_00d056a0_Elem));
+                    hkString_memCpy(newData + numHead, m_data, numTail * sizeof(S_00d056a0_Elem));
                 }
                 else
                 {
-                    FUN_00cb1260(newData, m_data + m_pFirstNode, m_iNodeCount * sizeof(S_00d056a0_Elem));
+                    hkString_memCpy(newData, m_data + m_pFirstNode, m_iNodeCount * sizeof(S_00d056a0_Elem));
                 }
             }
             m_pFirstNode = 0;
@@ -1624,7 +1624,7 @@ int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
 }
 
 extern unsigned long DAT_0126835c;
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 
 struct TimerEntry
 {
@@ -1664,7 +1664,7 @@ void FUN_00d04bd0_cls::AddJobBatch(ArrayOfJobs* jobs, int priority)
     {
         void* pJob = jobs->m_data[i];
         Item localJob;
-        FUN_00cb1260(&localJob, pJob, *(unsigned short*)((char*)pJob + 4));
+        hkString_memCpy(&localJob, pJob, *(unsigned short*)((char*)pJob + 4));
 
         int queueIdx = this->LookupSpawnedEntry(&localJob);
 
@@ -2087,7 +2087,7 @@ struct S_00d055c0_Heap
         vfn_10(p, bytes);
     }
 };
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 struct S_00d055c0_Elem
 {
@@ -2260,7 +2260,7 @@ void S_00d055c0_Obj::FUN_00d055c0()
             p--;
             p->FUN_00d056a0();
         } while (--n >= 0);
-        reinterpret_cast<S_00d055c0_Heap*>(&FUN_00c85750()->heap())->ReleaseBlock(pool, 0x170);
+        reinterpret_cast<S_00d055c0_Heap*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(pool, 0x170);
     }
     if (unk74)
     {
@@ -2270,12 +2270,12 @@ void S_00d055c0_Obj::FUN_00d055c0()
             if (h)
             {
                 h->FUN_00d04370();
-                reinterpret_cast<S_00d055c0_Heap*>(&FUN_00c85750()->heap())->ReleaseBlock(h, 4);
+                reinterpret_cast<S_00d055c0_Heap*>(&hkMemoryRouter_getInstance()->heap())->ReleaseBlock(h, 4);
             }
         }
     }
     {
-        S_00d055c0_Heap& heap = *reinterpret_cast<S_00d055c0_Heap*>(&FUN_00c85750()->heap());
+        S_00d055c0_Heap& heap = *reinterpret_cast<S_00d055c0_Heap*>(&hkMemoryRouter_getInstance()->heap());
         unk1a0._clearAndDeallocate(heap);
     }
     unk58.ClearLists();
@@ -2330,7 +2330,7 @@ struct SlotAllocator
 };
 
 void* FUN_00d883c0(void* a1, unsigned int a2, unsigned int a3, ScratchBlock* a4);
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // Initializes fields of a local ScratchBlock, passes it to FUN_00d883c0, then conditionally calls vSlot10 on m_pAllocator.
 // @fnv 0x00d889f0
@@ -2352,7 +2352,7 @@ void* __cdecl FUN_00d889f0(void* a1)
     s.unk64 = 0x80000000u;
     s.unk7C = 0;
     void* obj = FUN_00d883c0(a1, 0, 0, &s);
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     SlotAllocator* alloc = reinterpret_cast<SlotAllocator*>(pAllocHolder->m_heap);
     unsigned int flag = s.unk64;
     if ((flag & 0x80000000u) == 0)

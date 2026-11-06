@@ -27,7 +27,7 @@ FUN_00c32d80::FUN_00c32d80()
 }
 
 extern "C" void* g_012026d8;
-void __stdcall FUN_00c32f60(void* p);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(void* p);
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 
 struct FUN_00c29f00_Array
@@ -44,9 +44,10 @@ struct FUN_00c29f00_Array
 
 // Grows the array if its count has reached capacity, then stores the item obtained from g_012026d8 at the current count.
 // @fnv 0x00c29f00
-void __stdcall FUN_00c29f00(FUN_00c29f00_Array* arr)
+// src: XBOX_PDB 0x00c29f00
+void __stdcall NiPSysInitialRotSpeedVarCtlr_GetViewerStrings(FUN_00c29f00_Array* arr)
 {
-    FUN_00c32f60(arr);
+    NiPSysModifierFloatCtlr_GetViewerStrings(arr);
     void* item = NiViewerStrings_NiGetViewerString_Title(g_012026d8);
     unsigned int count = arr->unk0A;
     if (count >= arr->unk08)

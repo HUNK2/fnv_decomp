@@ -46,11 +46,12 @@ unsigned int __thiscall FUN_00401660_Class::GetField25C()
 
 struct FUN_004036b0_Class
 {
-    unsigned int __thiscall FUN_004036b0();
+    unsigned int __thiscall TES_QPlaceableWaterCount();
 };
 
 // @fnv 0x004036b0
-unsigned int __thiscall FUN_004036b0_Class::FUN_004036b0()
+// src: XBOX_PDB 0x004036b0
+unsigned int __thiscall FUN_004036b0_Class::TES_QPlaceableWaterCount()
 {
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xb8);
 }
@@ -156,18 +157,20 @@ void* __thiscall FUN_00405600_class::NiTMap_char_const_Setting_NiTMap(int param_
 }
 
 // @fnv 0x00405e60
-void __fastcall FUN_00405e60(EffectSetting* effect)
+// src: XBOX_PDB 0x00405e60
+void __fastcall EffectSetting_IsDisabled(EffectSetting* effect)
 {
     effect->IsFlagSet(0x400000);
 }
 
 struct FUN_00407860_class
 {
-    void FUN_00407860(float value);
+    void bhkCharacterControllerCinfo_SetGravity(float value);
 };
 
 // @fnv 0x00407860
-void FUN_00407860_class::FUN_00407860(float value)
+// src: XBOX_PDB 0x00407860
+void FUN_00407860_class::bhkCharacterControllerCinfo_SetGravity(float value)
 {
     *(float*)((char*)this + 0x90) = value;
 }
@@ -206,11 +209,12 @@ int __thiscall FUN_00409130_Class::EnchantmentItem_GetChunkID()
 
 struct FUN_00409700_Class
 {
-    bool FUN_00409700();
+    bool TESObjectBOOK_GetScroll();
 };
 
 // @fnv 0x00409700
-bool FUN_00409700_Class::FUN_00409700()
+// src: XBOX_PDB 0x00409700
+bool FUN_00409700_Class::TESObjectBOOK_GetScroll()
 {
     return (((const unsigned char*)this)[0xc0] & 1) ? true : false;
 }
@@ -236,11 +240,12 @@ int __cdecl FinishScriptRunLock(void*);
 
 struct FUN_0040c130_Class
 {
-    int FUN_0040c130();
+    int Model_DecRefCount();
 };
 
 // @fnv 0x0040c130
-int FUN_0040c130_Class::FUN_0040c130()
+// src: XBOX_PDB 0x0040c130
+int FUN_0040c130_Class::Model_DecRefCount()
 {
     return FinishScriptRunLock((char*)this + 4);
 }
@@ -260,7 +265,8 @@ int __cdecl GetSix()
 }
 
 // @fnv 0x0040ebd0
-float FUN_0040ebd0(float a, float b)
+// src: XBOX_PDB 0x0040ebd0
+float BSMIN(float a, float b)
 {
     float result;
     if (a < b)
@@ -287,11 +293,12 @@ int __cdecl InitScriptRunLock(void*);
 
 struct FUN_0040f6e0_class
 {
-    int __thiscall FUN_0040f6e0();
+    int __thiscall NiRefObject_IncRefCount();
 };
 
 // @fnv 0x0040f6e0
-int __thiscall FUN_0040f6e0_class::FUN_0040f6e0()
+// src: XBOX_PDB 0x0040f6e0
+int __thiscall FUN_0040f6e0_class::NiRefObject_IncRefCount()
 {
     return InitScriptRunLock((char*)this + 4);
 }
@@ -570,11 +577,12 @@ struct Flt
 };
 struct FUN_00408da0_Class
 {
-    int* __thiscall FUN_00408da0();
+    int* __thiscall TESModel_GetModel();
 };
 // Returns the unsigned int conversion of the Flt at offset 4, or a pointer to $SG3295 when that conversion is zero.
 // @fnv 0x00408da0
-int* __thiscall FUN_00408da0_Class::FUN_00408da0()
+// src: XBOX_PDB 0x00408da0
+int* __thiscall FUN_00408da0_Class::TESModel_GetModel()
 {
     return ((Flt*)((char*)this + 4))->operator unsigned int() ? (int*)((Flt*)((char*)this + 4))->operator unsigned int()
                                                               : (int*)&$SG3295;
@@ -683,7 +691,8 @@ struct BlkInterfaceView
     static void __cdecl PrintDebugMessage();
 };
 // @fnv 0x0040fba0
-void __thiscall RecursiveSpinLock::FUN_0040fba0()
+// src: XBOX_PDB 0x0040fba0
+void __thiscall RecursiveSpinLock::BSSpinLock_Unlock()
 {
     BlkInterfaceView::PrintDebugMessage();
     --m_uiRecursionCount;
@@ -716,10 +725,11 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 struct FUN_004141e0_class
 {
-    void __thiscall FUN_004141e0();
+    void __thiscall CHUNK_Endian();
 };
 // @fnv 0x004141e0
-void __thiscall FUN_004141e0_class::FUN_004141e0()
+// src: XBOX_PDB 0x004141e0
+void __thiscall FUN_004141e0_class::CHUNK_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     BSEndian((unsigned char*)this + 4, EndianSizeTag<10>());
@@ -742,7 +752,8 @@ extern BGSDehydrationStage** _DAT_011c3184;
 
 // Inserts apNewStage into the global stage array ordered by header value, reallocating the array and updating the global count and pointer.
 // @fnv 0x004016a0
-void FUN_004016a0(BGSDehydrationStage* apNewStage)
+// src: XBOX_PDB 0x004016a0
+void BGSDehydrationStage_AddStage(BGSDehydrationStage* apNewStage)
 {
     unsigned char newCount;
     BGSDehydrationStage** newStages5;
@@ -817,13 +828,15 @@ void __fastcall ExtraDataList_RemoveScript(BaseExtraList* extras)
 // FUN_00408b50 : a one-line function - globalvalue
 extern int g_value_00408b50;
 // @fnv 0x00408b50
-int FUN_00408b50()
+// src: XBOX_PDB 0x00408b50
+int EffectSettingCollection_GetUsageMonitorEffectSetting()
 {
     return g_value_00408b50;
 }
 
 // @fnv 0x0040df90
-int __cdecl FUN_0040df90()
+// src: XBOX_PDB 0x0040df90
+int __cdecl MagicSystem_CheckEffectFlares()
 {
     return 0;
 }
@@ -889,7 +902,7 @@ float EffectListMagnitudeQuery::GetTotalMagnitude(int iArchetype, int m_eRange, 
             {
                 float m_fElapsedTime =
                     pkItem->GetMagnitude() * (pkItem->GetDuration() > 0 ? pkItem->GetDuration() : 1);
-                if (!pkSetting->FUN_00403e60(4))
+                if (!pkSetting->IsFlagSet_00403e60(4))
                     fTotal += m_fElapsedTime;
                 else
                     fTotal -= m_fElapsedTime;
@@ -1005,7 +1018,7 @@ struct EffectSaveOperation : EffectItem
     void Save();
 };
 
-void __cdecl FUN_00485910(unsigned int uiType, unsigned int auiFormId);
+void __cdecl TESForm_AddChunk_00485910(unsigned int uiType, unsigned int auiFormId);
 
 // Save (0x004056d0) is absent from the shared header; no local layout or vtable copy.
 struct EffectListSaveOperation : EffectItemList
@@ -1022,8 +1035,8 @@ void EffectListSaveOperation::Save()
         EffectItem* pkItem = pkList->GetItem();
         if (pkItem)
         {
-            unsigned int auiFormId = pkItem->GetEffectSetting()->FUN_0084e3a0();
-            FUN_00485910(0x44494645, auiFormId);
+            unsigned int auiFormId = pkItem->GetEffectSetting()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(0x44494645, auiFormId);
             static_cast<EffectSaveOperation*>(pkItem)->Save();
         }
         pkList = static_cast<EffectListSaveOperation*>(pkList->GetNext());
@@ -1094,7 +1107,7 @@ class TESFormV
 };
 struct ItemExtraList
 {
-    bool FUN_00418b10();
+    bool ExtraDataList_GetCanNotWear();
 };
 // Returns false if object or effect is null; otherwise checks object form type, effect flag bits and extra list; true for form type 43.
 // @fnv 0x00409720
@@ -1113,7 +1126,7 @@ bool __cdecl EnchantmentItem_IsValidEffectForEnchantment(TESBoundObject* object,
     case 41:
         if (!effect->IsFlagSet(0x20))
             return false;
-        if (extra && extra->FUN_00418b10())
+        if (extra && extra->ExtraDataList_GetCanNotWear())
             return false;
         break;
     case 24:
@@ -1126,7 +1139,7 @@ bool __cdecl EnchantmentItem_IsValidEffectForEnchantment(TESBoundObject* object,
             return false;
         if (effect->IsFlagSet(0x100))
             return false;
-        if (extra && extra->FUN_00418b10())
+        if (extra && extra->ExtraDataList_GetCanNotWear())
             return false;
         {
             TESBipedModelForm* biped = dynamic_cast<TESBipedModelForm*>(object);
@@ -1178,7 +1191,7 @@ bool __cdecl MagicSystem_CheckBoundItemEffects(EffectItem* timer1, EffectItem* t
     if (timer1 == 0 || timer2 == 0)
         return false;
 
-    if (timer1->GetEffectSetting()->FUN_00403e60(0x20000) && timer2->GetEffectSetting()->FUN_00403e60(0x20000))
+    if (timer1->GetEffectSetting()->IsFlagSet_00403e60(0x20000) && timer2->GetEffectSetting()->IsFlagSet_00403e60(0x20000))
     {
         TESForm* interval1 = GetEffectAssociatedForm(timer1->GetEffectSetting());
         TESForm* interval2 = GetEffectAssociatedForm(timer2->GetEffectSetting());
@@ -1193,7 +1206,7 @@ bool __cdecl MagicSystem_CheckBoundItemEffects(EffectItem* timer1, EffectItem* t
         }
     }
 
-    if (timer1->GetEffectSetting()->FUN_00403e60(0x10000) && timer2->GetEffectSetting()->FUN_00403e60(0x10000))
+    if (timer1->GetEffectSetting()->IsFlagSet_00403e60(0x10000) && timer2->GetEffectSetting()->IsFlagSet_00403e60(0x10000))
         return true;
 
     return false;

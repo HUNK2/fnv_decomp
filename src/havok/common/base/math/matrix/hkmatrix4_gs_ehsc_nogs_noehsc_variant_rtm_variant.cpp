@@ -22,7 +22,7 @@ __forceinline void hkVector4::setMul4(const hkSimdReal& r, const hkVector4& v)
 
 struct CB20B0_Class
 {
-    void FUN_00cb20b0(void* src);
+    void hkTransform_set4x4ColumnMajor(void* src);
 };
 struct SourceBlockCDF
 {
@@ -49,7 +49,7 @@ struct SourceBlockCDF
 };
 struct TargetBlockCDF
 {
-    void FUN_00cd55b0(SourceBlockCDF* pkSource, int iArg);
+    void hkMatrix3_setMul(SourceBlockCDF* pkSource, int iArg);
 };
 struct FUN_00cdf230_cls
 {

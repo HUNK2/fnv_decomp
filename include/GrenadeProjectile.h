@@ -24,8 +24,8 @@ public:
     bool TestFlag400(unsigned int flag);
     void FinishSetup();
     void SetLightEnabled();
-    bool FUN_00444d00(int flag);
-    void FUN_005726e0(void* light, bool enabled);
+    bool Projectile_IsFlagSet(int flag);
+    void TESObjectREFR_SetLight_005726e0(void* light, bool enabled);
     bool TurnOff(int arg, bool flag);
     bool Projectile_DisarmPlacedExplosives(int arg, bool flag);
     void ReportHavokDeactivation();

@@ -12,14 +12,15 @@
 // Extends the shared layout only with clone methods absent from TESWorldSpace.h.
 struct WorldSpaceCloneMethods : TESWorldSpace
 {
-    TESForm* FUN_004867a0(bool, TESFile*);
+    TESForm* TESForm_CreateDuplicateForm(bool, TESFile*);
     void TESWorldSpace_AddPersistentReferences();
-    TESWorldSpace* FUN_00584e60(bool temporary, TESFile* file);
+    TESWorldSpace* TESWorldSpace_CreateDuplicateForm(bool temporary, TESFile* file);
 };
 // @fnv 0x00584e60
-TESWorldSpace* WorldSpaceCloneMethods::FUN_00584e60(bool temporary, TESFile* file)
+// src: XBOX_PDB 0x00584e60
+TESWorldSpace* WorldSpaceCloneMethods::TESWorldSpace_CreateDuplicateForm(bool temporary, TESFile* file)
 {
-    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(FUN_004867a0(temporary, file));
+    TESWorldSpace* world = dynamic_cast<TESWorldSpace*>(TESForm_CreateDuplicateForm(temporary, file));
     world->cellMap->RemoveAll();
     void* position = cellMap->GetFirstPos();
     while (position)
@@ -33,7 +34,7 @@ TESWorldSpace* WorldSpaceCloneMethods::FUN_00584e60(bool temporary, TESFile* fil
             if (cell3)
             {
                 cell3->SetAltered(true);
-                world->FUN_00587670(cell3);
+                world->AddCell(cell3);
             }
         }
     }

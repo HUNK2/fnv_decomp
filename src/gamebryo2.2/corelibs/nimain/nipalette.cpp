@@ -94,7 +94,8 @@ template <class T, class A> struct PaletteStringArray
 void __stdcall AppendCameraPathEntries(PaletteStringArray<char*, PaletteStringAllocator<char*> >*);
 char* __cdecl _FUN_00a7d330(void*);
 // @fnv 0x00a8b460
-void __stdcall FUN_00a8b460(PaletteStringArray<char*, PaletteStringAllocator<char*> >* pkStrings)
+// src: XBOX_PDB 0x00a8b460
+void __stdcall NiPalette_GetViewerStrings(PaletteStringArray<char*, PaletteStringAllocator<char*> >* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
     char* pszString = _FUN_00a7d330(g_011f5c08);
@@ -562,7 +563,8 @@ template <class T> inline void A8B3C0SaveBinary(A8B3C0Stream& kStream, const T* 
 
 
 // @fnv 0x00a8b3c0
-void __fastcall FUN_00a8b3c0(NiPalette* self, void*, A8B3C0Stream& kStream)
+// src: XBOX_PDB 0x00a8b3c0
+void __fastcall NiPalette_SaveBinary(NiPalette* self, void*, A8B3C0Stream& kStream)
 {
     self->NiObject::SaveBinary(reinterpret_cast<NiStream&>(kStream));
     A8B3C0SaveBinary<unsigned char>(kStream, *reinterpret_cast<const bool*>(&self->unk08));

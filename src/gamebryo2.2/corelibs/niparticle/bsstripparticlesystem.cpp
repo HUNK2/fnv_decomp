@@ -62,13 +62,14 @@ BSStripParticleSystem* BSStripParticleSystem::CreateParticleSystem(CloningProces
     {
         object = 0;
     }
-    this->FUN_00c1b6f0(object, process);
+    this->CopyMembers_00c1b6f0(object, process);
     return object;
 }
 
 void __cdecl FUN_00c1b0b0();
 // @fnv 0x00c21940
-void __cdecl FUN_00c21940()
+// src: XBOX_PDB 0x00c21940
+void __cdecl BSStripParticleSystem_RegisterStreamables()
 {
     FUN_00c1b0b0();
 }
@@ -81,21 +82,24 @@ void __thiscall BSStripParticleSystem::OnVisible(NiCullingProcess& a)
 
 void __cdecl FUN_00c1b3a0();
 // @fnv 0x00c25700
-void __cdecl FUN_00c25700()
+// src: XBOX_PDB 0x00c25700
+void __cdecl BSStripParticleSystem_LoadBinary()
 {
     FUN_00c1b3a0();
 }
 
 extern "C" void __cdecl LoadModifiers();
 // @fnv 0x00c25710
-void __cdecl FUN_00c25710()
+// src: XBOX_PDB 0x00c25710
+void __cdecl BSStripParticleSystem_LinkObject()
 {
     LoadModifiers();
 }
 
 void __cdecl FUN_00c1b400();
 // @fnv 0x00c25720
-void __cdecl FUN_00c25720()
+// src: XBOX_PDB 0x00c25720
+void __cdecl BSStripParticleSystem_SaveBinary()
 {
     FUN_00c1b400();
 }
@@ -103,7 +107,8 @@ void __cdecl FUN_00c25720()
 extern void FUN_00c1b1d0();
 
 // @fnv 0x00c21950
-void FUN_00c21950()
+// src: XBOX_PDB 0x00c21950
+void BSStripParticleSystem_IsEqual()
 {
     FUN_00c1b1d0();
 }

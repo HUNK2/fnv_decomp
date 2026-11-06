@@ -84,7 +84,7 @@ public:
     PacketCallLocal_00d59cc0(float x, float y, float z, float w);
     PacketCallLocal_00d59cc0(const __m128& vector);
 
-    PacketCallLocal_00d59cc0* FUN_005532a0(float x, float y, float z, float w);
+    PacketCallLocal_00d59cc0* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(PacketCallLocal_00d59cc0* vector);
     void __thiscall FUN_004b4db0(const PacketCallLocal_00d59cc0* vector);
     PacketCallLocal_00d59cc0& FUN_00e531a0(int parameter);
@@ -159,13 +159,13 @@ void hkpConvexVerticesShape::GetFirstVertex(hkVector4& vertex) const
     out[3] = 0.0f;
 }
 
-void __cdecl FUN_00d26230(void*, void*, void*, float, int);
+void __cdecl hkAabbUtil_calcAabb_00d26230(void*, void*, void*, float, int);
 
 // Calls FUN_00d26230 with this+0x20, this+0x30, the float at this+0x10 plus b, and c.
 // @fnv 0x00d591d0
 void hkpConvexVerticesShape::CalculateAabb(const hkTransform& a, float afDelta, hkAabb& c) const
 {
-    FUN_00d26230(
+    hkAabbUtil_calcAabb_00d26230(
         const_cast<hkTransform*>(&a),
         reinterpret_cast<void*>(reinterpret_cast<char*>(const_cast<hkpConvexVerticesShape*>(this)) + 0x20),
         reinterpret_cast<void*>(reinterpret_cast<char*>(const_cast<hkpConvexVerticesShape*>(this)) + 0x30),
@@ -220,14 +220,15 @@ FUN_00d5a4e0_StandIn* FUN_00d5a4e0_StandIn::FUN_00d5a4e0(unsigned char deleting)
 }
 
 // @fnv 0x00d58d40
-static Vec4* __cdecl FUN_00d58d40(Vec4* base, int index)
+// src: XBOX_PDB 0x00d58d40
+static Vec4* __cdecl ConvexVerticesShape_FetchVectorFromPpuArray(Vec4* base, int index)
 {
     return base + index;
 }
 
 Vec4* caller_d58d40(Vec4* base, int index)
 {
-    return FUN_00d58d40(base, index);
+    return ConvexVerticesShape_FetchVectorFromPpuArray(base, index);
 }
 
 // @fnv 0x00d58d10
@@ -242,14 +243,14 @@ const hkArray<hkVector4>& hkpConvexVerticesShape::GetPlaneEquations() const
     return m_kVertexPositions;
 }
 
-struct CallTarget_00d5a410 { int FUN_00d5a410(int, int, int, int, int); };
+struct CallTarget_00d5a410 { int hkArrayBase_hkVector4_spliceInto(int, int, int, int, int); };
 struct SearchObject {
     int FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
 };
 // @fnv 0x00d5a4c0
 int SearchObject::FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
-    unsigned int uiCallResult = (unsigned int)((CallTarget_00d5a410*)this)->FUN_00d5a410((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
+    unsigned int uiCallResult = (unsigned int)((CallTarget_00d5a410*)this)->hkArrayBase_hkVector4_spliceInto((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
     return (int)uiCallResult;
 }
 
@@ -488,7 +489,7 @@ public:
     int m_planeCapacity;
 
     void FUN_00d59200(hkArray<hkVector4q, hkArrayqPolicy>& vertices) const throw();
-    void FUN_00d59900(const float* vertices, int striding, int numVertices) throw();
+    void hkpConvexVerticesShape_copyVertexData(const float* vertices, int striding, int numVertices) throw();
     void Transform(const hkTransform& t);
 };
 
@@ -499,7 +500,7 @@ void hkpConvexVerticesShapeq::Transform(const hkTransform& t)
     hkLocalArrayq<hkVector4q> vertices(GetNumCollisionSpheres());
     FUN_00d59200(vertices);
     hkTransformPoints(t, vertices.begin(), vertices.GetLogicalSize(), vertices.begin());
-    FUN_00d59900((const float*)vertices.begin(), sizeof(hkVector4q), vertices.GetLogicalSize());
+    hkpConvexVerticesShape_copyVertexData((const float*)vertices.begin(), sizeof(hkVector4q), vertices.GetLogicalSize());
     hkTransformPlaneEquations((const hkTransformq&)t, m_planeData, m_iPlaneCount, m_planeData);
 }
 
@@ -636,11 +637,12 @@ struct VectorSpliceArray {
     AlignedSpliceVector* data;
     int size;
     int capacityAndFlags;
-    void FUN_00d5a410(SpliceAllocator& allocator,int first,int removeCount,const AlignedSpliceVector* source,int insertCount);
+    void hkArrayBase_hkVector4_spliceInto(SpliceAllocator& allocator,int first,int removeCount,const AlignedSpliceVector* source,int insertCount);
 };
 // Removes removeCount elements at first, inserts insertCount elements from source, and grows the buffer via FUN_00c908c0 if capacity is insufficient.
 // @fnv 0x00d5a410
-void VectorSpliceArray::FUN_00d5a410(SpliceAllocator& allocator,int first,int removeCount,const AlignedSpliceVector* source,int insertCount) {
+// src: XBOX_PDB 0x00d5a410
+void VectorSpliceArray::hkArrayBase_hkVector4_spliceInto(SpliceAllocator& allocator,int first,int removeCount,const AlignedSpliceVector* source,int insertCount) {
     int newSize=size-removeCount+insertCount;
     int tailCount=size-first-removeCount;
     if((capacityAndFlags&0x3fffffff)<newSize) {
@@ -657,12 +659,12 @@ void VectorSpliceArray::FUN_00d5a410(SpliceAllocator& allocator,int first,int re
     size=newSize;
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 // hkArray<T>::~hkArray() = clearAndDeallocate() on the heap allocator (slot 4 of hkMemoryAllocator is ReturnMemory).
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 template <typename T> __forceinline void hkArrayBase<T>::clear()
 {
@@ -804,7 +806,7 @@ struct InputValues {
 };
 
 struct FinalCall {
-    void FUN_00d59900(int x, int z, int y);
+    void hkpConvexVerticesShape_copyVertexData(int x, int z, int y);
 };
 
 __forceinline void AllocateVectors(
@@ -822,7 +824,7 @@ __forceinline void ResizePlanes(
     hkArray<Vector4D5A360, ArrayD5A360Policy>& planes,
     const hkArray<Vector4D5A360, ArrayD5A360Policy>& source)
 {
-    hkMemoryAllocator& allocator = FUN_00c85750().heap();
+    hkMemoryAllocator& allocator = hkMemoryRouter_getInstance().heap();
 
     if ((planes.m_iCapacityState & 0x3fffffff) < source.m_iElementCount) {
         if ((planes.m_iCapacityState & 0x80000000) == 0)
@@ -892,7 +894,7 @@ FUN_00d59bd0::FUN_00d59bd0(InputValues* input, const hkArray<Vector4D5A360, Arra
     : ConvexPart(6, r), convexPiece(0), connectivity(0)
 {
     ResizePlanes(planes, source);
-    ((FinalCall*)this)->FUN_00d59900(input->x, input->z, input->y);
+    ((FinalCall*)this)->hkpConvexVerticesShape_copyVertexData(input->x, input->z, input->y);
 }
 
 extern "C" LocalM128 _mm_set_ss(float);
@@ -1066,7 +1068,7 @@ hkBoolRet ConvexVertsShape::hkpConvexVerticesShape_castRayImpl(const RayInput& i
                     LocalM128 dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0x55), pd);
                     dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0xaa), dot);
                     scratch.plane.w = LowFloat(_mm_sub_ss(DAT_010c7160, dot));
-                    hkMemoryRouter& router = FUN_00c85750();
+                    hkMemoryRouter& router = hkMemoryRouter_getInstance();
                     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
                         ResizeAudioStream(router.m_heap, arr, 0x10);
                     }
@@ -1139,7 +1141,7 @@ static __forceinline void VertArray96Q_SetSizeAndGrow(hkArrayBase<hkVector4q>& s
 
 static __forceinline void VertArray96Q_SetSizeAndGrow(hkArrayBase<hkVector4q>& self, int n)
 {
-        hkMemoryAllocator& alloc = FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter_getInstance().heap();
         int cap = self.m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -1243,12 +1245,13 @@ struct ConvexVerticesShape
     hkArrayBase<FourVectors> m_kRotatedVertices;
     int m_iStridedVertexCount;
 
-    void FUN_00d59900(const float* vertexIn, int byteStriding, int numVertices);
+    void hkpConvexVerticesShape_copyVertexData(const float* vertexIn, int byteStriding, int numVertices);
 };
 
 // Stores numVertices, copies vertexIn into m_kRotatedVertices padded to a multiple of four, and computes the AABB center and half-extents.
 // @fnv 0x00d59900
-void ConvexVerticesShape::FUN_00d59900(const float* vertexIn, int byteStriding, int numVertices)
+// src: XBOX_PDB 0x00d59900
+void ConvexVerticesShape::hkpConvexVerticesShape_copyVertexData(const float* vertexIn, int byteStriding, int numVertices)
 {
     m_iStridedVertexCount = numVertices;
     int paddedSize = (numVertices + 3) & ~3;

@@ -17,11 +17,11 @@ public:
 
     void FUN_009cbb50();
     void* DestroyIfFlagged(unsigned int flags);
-    void FUN_009cbb70();
+    void CombatProcedureAttackLow_Update();
     void DisplayAttackDebugText(IDebugText* apDebugText, DEBUGTEXT_LOCATION aeLocation,
                                 DEBUGTEXT_JUSTIFY aeJustify);
-    void FUN_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer);
-    void FUN_009cc040(BGSLoadFormBuffer* apLoadGameBuffer);
+    void SaveGame_009cbfd0(BGSSaveFormBuffer* apSaveGameBuffer);
+    void CombatProcedureAttackLow_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 
     int m_10;
     int m_14;

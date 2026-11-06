@@ -57,8 +57,8 @@ template <> struct ScalarStackStorage<sizeof(void*)>
 namespace std {
 float abs(float);
 }
-float FUN_004019b0(float);
-void FUN_005330e0(float&, float, float);
+float sqrt_004019b0(float);
+void BSClamp_float(float&, float, float);
 
 class AvoidSphere
 {
@@ -85,7 +85,7 @@ class CircularArc
     CircularArc(const SineCosine&, const SineCosine&, ANGLE_DIRECTION);
     CircularArc(const CircularArc&);
     float FUN_006a07a0(float) const;
-    bool FUN_006a0660(const SineCosine&) const;
+    bool AngleSinCosArc_WithinRange(const SineCosine&) const;
 };
 class Sphere
 {
@@ -145,11 +145,11 @@ class NavMeshInfo;
 
 float GetDirectionAngle(const NiPoint3&);
 float cos(float);
-float FUN_004e44b0(float);
+float sin_004e44b0(float);
 void WrapValueToRange(float&, float, float);
 
 extern const NiPoint3 DAT_011a9484;
-bool FUN_006d4570(const PathingLocation&, float, NavMeshEdgePoint&);
+bool Pathing_FindClosestOpenEdge(const PathingLocation&, float, NavMeshEdgePoint&);
 NiPoint3 FUN_006ba550(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&);
 bool NavMeshMath_Find2DIntersection_2(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
 class Segment
@@ -189,7 +189,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
                 Links.GetBufferElementAddress(i).m_kStartAngle - Links.GetBufferElementAddress(i - 1).m_kEnd;
             CircularArc halfCircle(SineCosine(-1.5707963705062866f), SineCosine(1.5707963705062866f), ANGLE_DIRECTION_AD_CCW);
             if (difference.AngleSinCos_GetAngle() * Nodes.FUN_006a1440(i).m_pAvoidNode->fRadius < 50.0 &&
-                halfCircle.FUN_006a0660(difference))
+                halfCircle.AngleSinCosArc_WithinRange(difference))
                 bAdd = false;
             if (m_bUnderwaterPath)
             {
@@ -203,7 +203,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         if (bAdd)
         {
             PathingLocation Location(reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kStartPoint.fc),
-                                     reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kStartPoint.f0)->FUN_0068efb0());
+                                     reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kStartPoint.f0)->GetNavMeshInfo_0068efb0());
             NiPoint3 Dir =
                 RotatePoint90(Links.GetBufferElementAddress(i).m_kStartAngle, Nodes.FUN_006a1440(i).Direction);
             if (i > 0)
@@ -223,7 +223,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
             }
             m_pOutputSolution->ReserveIndex(Location, Dir);
         }
-        if (m_bUnderwaterPath && (i < Links.GetSize() - 1 || m_pOutputSolution->FUN_006b05d0() || addGoal))
+        if (m_bUnderwaterPath && (i < Links.GetSize() - 1 || m_pOutputSolution->IsIncomplete() || addGoal))
         {
             float water = g_TES->UpdateTESState(
                 reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kEndPoint.fc),
@@ -232,7 +232,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
                 reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kEndPoint.fc).z = water;
         }
         PathingLocation Location(reinterpret_cast<NiPoint3&>(Links.GetBufferElementAddress(i).m_kEndPoint.fc),
-                                 reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kEndPoint.f0)->FUN_0068efb0());
+                                 reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kEndPoint.f0)->GetNavMeshInfo_0068efb0());
         NiPoint3 Dir = RotatePoint90(Links.GetBufferElementAddress(i).m_kEnd, Nodes.FUN_006a1440(i + 1).Direction);
         AddNavMeshEdgeRecord(reinterpret_cast<NavMesh*&>(Links.GetBufferElementAddress(i).m_kStartPoint.f0),
                              reinterpret_cast<unsigned short&>(Links.GetBufferElementAddress(i).m_kStartPoint.f4),
@@ -255,21 +255,21 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
         }
         m_pOutputSolution->ReserveIndex(Location, Dir);
     }
-    if (pRequest->TESCombatStyle_GetPowerAttackF() && !Links.FUN_0076b610())
+    if (pRequest->TESCombatStyle_GetPowerAttackF() && !Links.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
-        NiPoint3 Dir = m_pOutputSolution->FUN_006b05a0()->FUN_005d8a70();
+        NiPoint3 Dir = m_pOutputSolution->PathingSolution_GetLastNode()->FUN_005d8a70();
         float fStartAngle = GetDirectionAngle(Dir);
-        float goalAngle = pRequest->FUN_00507e10();
+        float goalAngle = pRequest->BGSProjectile_GetMuzzleFlashDuration();
         float difference = goalAngle - fStartAngle;
         WrapValueToRange(difference, -3.1415927410125732f, 3.1415927410125732f);
         if (std::abs(difference) < 1.5707963267948966)
         {
-            float segmentLength = Dir.FUN_00589850();
+            float segmentLength = Dir.NiPoint3_XYLength();
             NiPoint3 NewTangent;
             NewTangent.x = cos(goalAngle) * segmentLength;
-            NewTangent.y = FUN_004e44b0(goalAngle) * segmentLength;
+            NewTangent.y = sin_004e44b0(goalAngle) * segmentLength;
             NewTangent.z = 0.0f;
-            m_pOutputSolution->FUN_006b05a0()->FORenderedMenu_SetScreenLightColor(NewTangent);
+            m_pOutputSolution->PathingSolution_GetLastNode()->FORenderedMenu_SetScreenLightColor(NewTangent);
         }
     }
 }
@@ -278,9 +278,9 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
 void PathSmootherPOVSearch::BuildSmoothedPath()
 {
     NavMeshEdgePoint startEdge;
-    PathingLocation StartLoc(m_kPathStartPosition, Triangles->GetFirstElement().m_pLocationNavMesh->FUN_0068efb0(),
+    PathingLocation StartLoc(m_kPathStartPosition, Triangles->GetFirstElement().m_pLocationNavMesh->GetNavMeshInfo_0068efb0(),
                              Triangles->GetFirstElement().m_usTriangleIdentifier);
-    if (FUN_006d4570(StartLoc, pRequest->GetFloatAtOffset68(), startEdge))
+    if (Pathing_FindClosestOpenEdge(StartLoc, pRequest->GetFloatAtOffset68(), startEdge))
     {
         NiPoint3 Diff = m_kPathStartPosition - reinterpret_cast<NiPoint3&>(startEdge.fc);
         NiPoint3 Perp = DAT_011a9484.CrossProduct(Diff);
@@ -306,9 +306,9 @@ void PathSmootherPOVSearch::BuildSmoothedPath()
         m_kRequestPathPoints.Add(pPOV2);
     }
     NavMeshEdgePoint GoalEdgeLoc;
-    PathingLocation GoalPathLocation(m_kGoalPosition, Triangles->GetLastElement().m_pLocationNavMesh->FUN_0068efb0(),
+    PathingLocation GoalPathLocation(m_kGoalPosition, Triangles->GetLastElement().m_pLocationNavMesh->GetNavMeshInfo_0068efb0(),
                                      Triangles->GetLastElement().m_usTriangleIdentifier);
-    if (FUN_006d4570(GoalPathLocation, pRequest->GetFloatAtOffset68(), GoalEdgeLoc))
+    if (Pathing_FindClosestOpenEdge(GoalPathLocation, pRequest->GetFloatAtOffset68(), GoalEdgeLoc))
     {
         NiPoint3 Diff = m_kGoalPosition - reinterpret_cast<NiPoint3&>(GoalEdgeLoc.fc);
         NiPoint3 Perp = DAT_011a9484.CrossProduct(Diff);
@@ -366,7 +366,7 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
         m_kPathStartPosition.z = z;
     }
     bool bGoalUnderWater = false;
-    if (!request->FUN_006a9540()->FUN_006a9520() &&
+    if (!request->NiAVObject_GetRotate_006a9540()->PathingLocation_QUnused() &&
         triangles.GetLastElement().m_pLocationNavMesh->GetCurrentMoveModeType() &&
         triangles.GetLastElement().FastNavMeshTriLocation_GetLocation().z <
             g_TES->UpdateTESState(goal, triangles.GetLastElement().m_pLocationNavMesh->GetCurrentMoveModeType()) +
@@ -386,7 +386,7 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     m_kPrimaryEdgeRecords.GrowCapacity(const_cast<BSSimpleArray<NavMeshTriangleEdgeReference>&>(edges).GetSize());
     m_kSecondaryEdgeRecords.GrowCapacity(const_cast<BSSimpleArray<NavMeshTriangleEdgeReference>&>(edges).GetSize());
     m_kRequestPathPoints.GrowCapacity(pRequest->GetString() ? pRequest->GetString()->GetSize() * 2 : 0);
-    m_kPathPoints.GrowCapacity(const_cast<BSSimpleArray<NavMeshTriangleEdgeReference>&>(edges).GetSize() * 2 + m_kRequestPathPoints.FUN_0084e3a0() + 2);
+    m_kPathPoints.GrowCapacity(const_cast<BSSimpleArray<NavMeshTriangleEdgeReference>&>(edges).GetSize() * 2 + m_kRequestPathPoints.GetHavokWorldObjectCountInSceneGraph_0084e3a0() + 2);
     AddAvoidanceNodes();
     PathSmootherPOVAvoidanceNode m_kStartingTriangle;
     m_kStartingTriangle.m_pAvoidNode = m_pStartPoint;
@@ -418,7 +418,7 @@ bool PathSmootherPOVSearch::SearchForPath(PathingRequest* request,
     AddPathPoints(!success);
     for (unsigned int i = 0; i < const_cast<BSSimpleArray<NavMeshTriangleReference>&>(triangles).GetSize(); ++i)
     {
-        if (triangles.FUN_006b3160(i).FUN_006a78d0()->FUN_00691140(0x1000))
+        if (triangles.FUN_006b3160(i).NavMeshSearchNode_GetTriangle()->FUN_00691140(0x1000))
         {
             void* door = (void*)triangles.FUN_006b3160(i)
                              .m_pLocationNavMesh->GetClosedDoorInfo(triangles.FUN_006b3160(i).m_usTriangleIdentifier)
@@ -598,18 +598,18 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                     if (NavMeshMath_Find2DIntersection_2(p1, p2, start, end, Crossing))
                     {
                         if ((Crossing - start).FUN_004a7290() > 1024.0f && (Crossing - end).FUN_004a7290() > 1024.0f &&
-                            m_pOutputSolution->FUN_006b05a0() &&
-                            (Crossing - m_pOutputSolution->FUN_006b05a0()->FUN_00717e50().FUN_005c3420())
+                            m_pOutputSolution->PathingSolution_GetLastNode() &&
+                            (Crossing - m_pOutputSolution->PathingSolution_GetLastNode()->FUN_00717e50().FUN_005c3420())
                                     .FUN_004a7290() > 1024.0f)
                         {
                             if (m_bUnderwaterPath)
                             {
                                 float water = g_TES->UpdateTESState(
-                                    Crossing, reinterpret_cast<unsigned int>(m_pOutputSolution->FUN_006b05a0()->FUN_00717e50().FUN_006dd4f0()));
+                                    Crossing, reinterpret_cast<unsigned int>(m_pOutputSolution->PathingSolution_GetLastNode()->FUN_00717e50().FUN_006dd4f0()));
                                 if (water >= Crossing.z)
                                     Crossing.z = water;
                             }
-                            PathingLocation location(Crossing, exit.m_pLocationNavMesh->FUN_0068efb0(),
+                            PathingLocation location(Crossing, exit.m_pLocationNavMesh->GetNavMeshInfo_0068efb0(),
                                                      exit.m_usTriangleID);
                             NiPoint3 Dir = pathDirection * pRequest->GetFloatAtOffset68();
                             m_pOutputSolution->ReserveIndex(location, Dir);
@@ -692,8 +692,8 @@ void PathSmootherPOVSearch::CollectUniqueNavMeshes()
     BSSimpleArray<NavMesh*> uniqueMeshes;
     for (unsigned int i = 0; i < const_cast<BSSimpleArray<NavMeshTriangleReference>*>(Triangles)->GetSize(); ++i)
     {
-        if (uniqueMeshes.Find(Triangles->FUN_006dad90(i).m_pLocationNavMesh, 0, FUN_009a3830) == 0xffffffff)
-            uniqueMeshes.Add(Triangles->FUN_006dad90(i).m_pLocationNavMesh);
+        if (uniqueMeshes.Find(Triangles->BSSimpleArray_CombatMember_1024_GetAt(i).m_pLocationNavMesh, 0, FUN_009a3830) == 0xffffffff)
+            uniqueMeshes.Add(Triangles->BSSimpleArray_CombatMember_1024_GetAt(i).m_pLocationNavMesh);
     }
     for (unsigned int i = 0; i < uniqueMeshes.GetSize(); ++i)
     {
@@ -796,7 +796,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                 {
                     float tangentLength;
                     {
-                        tangentLength = FUN_004019b0(pov->fRadius * pov->fRadius - radialDistance * radialDistance);
+                        tangentLength = sqrt_004019b0(pov->fRadius * pov->fRadius - radialDistance * radialDistance);
                         NiPoint3 perpendicular(-direction.y, direction.x, 0.0f);
                         perpendicular *= tangentLength;
                         leftDirection = direction * radialDistance + perpendicular;
@@ -877,7 +877,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                             else
                             {
                                 reinterpret_cast<int&>(sourceLocation.f8) = -1;
-                                if (!FUN_006b1e50(sourceLocation, startSphere, sourceArc, &exitLocation))
+                                if (!CheckArcAgainstNavMesh(sourceLocation, startSphere, sourceArc, &exitLocation))
                                 {
                                     ++failedCount;
                                     continue;
@@ -929,7 +929,7 @@ bool PathSmootherPOVSearch::FindPathToPoint(const POVNode* node, PathSmootherPOV
                                                    reinterpret_cast<NiPoint3&>(entryLocation.fc), &fScaleMultiplier))
                                 continue;
                             discount *= 0.8999999761581421;
-                            FUN_005330e0(discount, 0.0f, 1.0f);
+                            BSClamp_float(discount, 0.0f, 1.0f);
                             cost = node->FUN_006a7f50();
                             if (node->GetField54())
                                 cost += sourceArc.FUN_006a07a0(currentNode.m_pAvoidNode->fRadius) * pov->m_fWeight *
@@ -991,7 +991,8 @@ bool PathingRequest::TESCombatStyle_GetPowerAttackF()
 }
 
 // @fnv 0x00507e10
-float PathingRequest::FUN_00507e10()
+// src: XBOX_PDB 0x00507e10
+float PathingRequest::BGSProjectile_GetMuzzleFlashDuration()
 {
     return m_fPathingRadius;
 }
@@ -1033,7 +1034,8 @@ void* __fastcall FUN_006ae120(char* pObject)
 }
 
 // @fnv 0x006b05d0
-bool PathingSolution::FUN_006b05d0()
+// src: XBOX_PDB 0x006b05d0
+bool PathingSolution::IsIncomplete()
 {
     return m_bHasValidPath;
 }
@@ -1136,7 +1138,7 @@ BSSimpleArray<PathSmootherPOVSearch::NavMeshEdgeRecord>::~BSSimpleArray()
 
 struct WaitableObject
 {
-    void FUN_0040f6e0();
+    void NiRefObject_IncRefCount();
 };
 struct FUN_006b37b0_stand
 {
@@ -1149,7 +1151,7 @@ FUN_006b37b0_stand* FUN_006b37b0_stand::SetObject(int* pObject)
 {
     p = pObject;
     if (p)
-        ((WaitableObject*)((char*)p + 0x10))->FUN_0040f6e0();
+        ((WaitableObject*)((char*)p + 0x10))->NiRefObject_IncRefCount();
     return this;
 }
 
@@ -1160,7 +1162,7 @@ void __fastcall FUN_006b37e0(char** pThis)
 {
     if (*pThis)
     {
-        ((NiAVObject*)(*pThis + 0x10))->FUN_00401970();
+        ((NiAVObject*)(*pThis + 0x10))->NiRefObject_DecRefCount();
     }
 }
 }  // namespace fnv_006b37e0
@@ -1199,7 +1201,7 @@ BSSimpleArray<PathSmootherPOVSearch::NavMeshEdgeRecord>::GetLastEdge()
 template <>
 BSSimpleArray<PathSmootherPOVPoint*>::BSSimpleArray()
 {
-    FUN_006b3eb0(0, false);
+    BSSimpleArray_float_1024_InitialSetup(0, false);
 }
 
 // @fnv 0x006b3780
@@ -1493,7 +1495,7 @@ struct Point17
     float x, y, z;
     Point17 operator+(const Point17&) const;
     Point17 operator-(const Point17&) const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     Point17& operator*=(float);
     Point17& Subtract(const Point17&);
 };
@@ -1529,14 +1531,14 @@ struct Link17
 int FUN_006bb570(const Sphere17&, const Sphere17&, ANGLE_DIRECTION, SphereTangents&);
 struct PathSmootherPOVLastNodeCalls : PathSmootherPOVSearch
 {
-    bool FUN_006b1e50(const NavMeshEdgePoint&, Sphere17&, Arc17, NavMeshEdgePoint*);
+    bool CheckArcAgainstNavMesh(const NavMeshEdgePoint&, Sphere17&, Arc17, NavMeshEdgePoint*);
     bool DoubleCheckArcAgainstNavMesh(const NavMeshEdgePoint&, Sphere17&, Arc17);
 };
 // Computes tangents between the current node and the target, validates the path, adjusts the endpoint for water, and appends a link and node.
 // @fnv 0x006b1970
 bool PathSmootherPOVSearch::TryAddLastNode()
 {
-    if (Links.FUN_0076b610())
+    if (Links.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
         return false;
     const PathSmootherPOVAvoidanceNode& h = Nodes.GetLastEdge();
     const NavMeshEdgeSegment& eb = Links.GetLastEdge();
@@ -1548,7 +1550,7 @@ bool PathSmootherPOVSearch::TryAddLastNode()
         return false;
     Arc17 c((const Angle17&)eb.m_kEnd, (const Angle17&)b.Tangents[0].m_kStartAngle, h.Direction);
     NavMeshEdgePoint cf;
-    if (!reinterpret_cast<PathSmootherPOVLastNodeCalls*>(this)->FUN_006b1e50(eb.m_kEndPoint, f, c, &cf))
+    if (!reinterpret_cast<PathSmootherPOVLastNodeCalls*>(this)->CheckArcAgainstNavMesh(eb.m_kEndPoint, f, c, &cf))
         return false;
     if (!reinterpret_cast<PathSmootherPOVLastNodeCalls*>(this)->DoubleCheckArcAgainstNavMesh(eb.m_kEndPoint, f, c))
         return false;
@@ -1581,7 +1583,7 @@ bool PathSmootherPOVSearch::TryAddLastNode()
             reinterpret_cast<NiPoint3&>(s.fc).z = water;
     }
     Point17 l = ba - (const Point17&)reinterpret_cast<NiPoint3&>(cf.fc);
-    l.FUN_004a0c10();
+    l.Unitize_004a0c10();
     l *= pRequest->GetFloatAtOffset68() * 2.0f;
     ((Point17&)reinterpret_cast<NiPoint3&>(s.fc)).Subtract(l);
     Link17 a;
@@ -3907,7 +3909,7 @@ void PathSmootherPOVSearch::AddAvoidanceNodes()
 class AvoidSphereExt : public AvoidSphere
 {
   public:
-    int FUN_007af430();
+    int BGSSaveFormBuffer_GetForm();
 };
 
 class AvoidNodeArray
@@ -3949,7 +3951,7 @@ void PathSmootherPOVSearch::CollectAvoidSpheres()
             this->m_kPathPoints.Add(cur);
             this->m_kRequestPathPoints.Add(cur);
 
-            if (avoid->FUN_007af430() == 2)
+            if (avoid->BGSSaveFormBuffer_GetForm() == 2)
             {
                 PathSmootherPOVPoint* pov2 = new PathSmootherPOVPoint();
                 pov2->eType = 5;
@@ -4053,7 +4055,7 @@ void PathSmootherPOVSearch::BuildPOVLinks()
             Mesh* handle = 0;
             unsigned short edge5 = 0xffff;
             int edge = -1;
-            if (reinterpret_cast<Mesh*>(triangles->FUN_006dad90(i - 1).m_pLocationNavMesh)->Previous(triangles->FUN_006dad90(i - 1).m_usTriangleIdentifier, edges->operator[](i - 1).m_iEdgeIndex, &handle, &edge5,
+            if (reinterpret_cast<Mesh*>(triangles->BSSimpleArray_CombatMember_1024_GetAt(i - 1).m_pLocationNavMesh)->Previous(triangles->BSSimpleArray_CombatMember_1024_GetAt(i - 1).m_usTriangleIdentifier, edges->operator[](i - 1).m_iEdgeIndex, &handle, &edge5,
                                                      &edge))
             {
             }
@@ -4135,7 +4137,7 @@ struct ASCArc
 {
     ASC Start, End;
     int Direction;
-    bool FUN_006a0660(const ASC*) const;
+    bool AngleSinCosArc_WithinRange(const ASC*) const;
 };
 
 struct PtEx
@@ -4152,7 +4154,8 @@ extern float DAT_0106b3a8;
 #define sphere reinterpret_cast<fnv_006b1e50::PtEx&>(sphereRef)
 #define arc reinterpret_cast<fnv_006b1e50::ASCArc&>(arcValue)
 // @fnv 0x006b1e50
-bool PathSmootherPOVSearch::FUN_006b1e50(const NavMeshEdgePoint& edgeRef, Sphere& sphereRef,
+// src: XBOX_PDB 0x006b1e50
+bool PathSmootherPOVSearch::CheckArcAgainstNavMesh(const NavMeshEdgePoint& edgeRef, Sphere& sphereRef,
                                           CircularArc arcValue, NavMeshEdgePoint* outRef)
 {
     using namespace fnv_006b1e50;
@@ -4167,7 +4170,7 @@ bool PathSmootherPOVSearch::FUN_006b1e50(const NavMeshEdgePoint& edgeRef, Sphere
     unsigned int count9 = 0;
     int idx4 = -1;
     float weight = 0.0f;
-    while (arc.FUN_006a0660(&angTmp) && count9 < 0x18)
+    while (arc.AngleSinCosArc_WithinRange(&angTmp) && count9 < 0x18)
     {
         reinterpret_cast<int&>(cur4.f8) = -1;
         if (!FindPath(reinterpret_cast<const NavMeshEdgePoint&>(cur4), reinterpret_cast<const NiPoint3&>(RunFourthVirtual), reinterpret_cast<NavMeshEdgePoint&>(arr5), weight))
@@ -4218,7 +4221,7 @@ class TriangleAccess : public NavMeshTriangle
 {
   public:
     bool HasFlag40();
-    bool FUN_00693b90();
+    bool IsNoLargeCreature();
 };
 // This existing edge helper uses scalar fields so shared padding arrays do not change MSVC 2008 /GS.
 class MeshEdgeRecord
@@ -4238,7 +4241,7 @@ class EdgeLocation : public NavMeshEdgePoint
     EdgeLocation(const MeshEdgeRecord&, const NiPoint3&);
 };
 extern SettingT_GameSettingCollection_ DAT_011d6ef0;
-bool FUN_006ba240(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
+bool NavMeshMath_Find2DIntersectionStable(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, NiPoint3&);
 
 // @fnv 0x006b2060
 #define output (&outputRef)
@@ -4280,13 +4283,13 @@ bool PathSmootherPOVSearch::FindPath(const NavMeshEdgePoint& start, const NiPoin
             if (result9)
             {
                 EdgeExtraInfo* info = next2.m_pLocationNavMesh
-                                          ->FUN_0068f230(next2.m_usTriangleID, next2.m_iEdgeIndex);
+                                          ->GetEdgeExtraInfo(next2.m_usTriangleID, next2.m_iEdgeIndex);
                 if (info && info->eType == 1)
                     result9 = false;
                 if (pRequest->GetFloatAtOffset68() > DAT_011d6ef0.Float()->f &&
                     static_cast<TriangleAccess*>(
                         next.m_pLocationNavMesh->FUN_005582f0(next.m_usTriangleID))
-                        ->FUN_00693b90())
+                        ->IsNoLargeCreature())
                     result9 = false;
             }
             if (result9)
@@ -4305,7 +4308,7 @@ bool PathSmootherPOVSearch::FindPath(const NavMeshEdgePoint& start, const NiPoin
             {
                 NavMeshEdgeVertexPair index = next2.m_pLocationNavMesh->NavMesh_GetEdgeVertices_0(next2.m_usTriangleID, NextEdge);
                 NiPoint3 point;
-                FUN_006ba240(position2, position8, *index.p1, *index.p2, point);
+                NavMeshMath_Find2DIntersectionStable(position2, position8, *index.p1, *index.p2, point);
                 *output = EdgeLocation(next2, point);
                 ratio = float(count) / index7;
                 return false;
@@ -4390,7 +4393,7 @@ typedef PathSmootherPOVSearch::NavMeshEdgeRecord PathEdgeVertType;
 typedef BSSimpleArray<PathEdgeVertType, 1024> EdgeVertArray;
 struct NavMeshVertexAccess : NavMesh
 {
-    const NiPoint3* FUN_0068f0a0(unsigned short);
+    const NiPoint3* GetVertex_0068f0a0(unsigned short);
 };
 struct Unitizer
 {
@@ -4417,7 +4420,7 @@ void PathSmootherPOVSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int
         *reinterpret_cast<NavMeshVertexAccess*>(
              reinterpret_cast<PathEdgeVertType*>(&vertices->GetBufferEntry(index))
                  ->m_pLocationNavMesh)
-             ->FUN_0068f0a0(
+             ->GetVertex_0068f0a0(
                  reinterpret_cast<PathEdgeVertType*>(&vertices->GetBufferEntry(index))
                      ->m_usVertexId);
     NiPoint3 prevDir;
@@ -4432,7 +4435,7 @@ void PathSmootherPOVSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int
             *reinterpret_cast<NavMeshVertexAccess*>(
                  reinterpret_cast<PathEdgeVertType*>(&vertices->GetBufferEntry(index - 1))
                      ->m_pLocationNavMesh)
-                 ->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
+                 ->GetVertex_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
                                     &vertices->GetBufferEntry(index - 1))
                                     ->m_usVertexId) -
             point;
@@ -4447,7 +4450,7 @@ void PathSmootherPOVSearch::InsertPOVPoint(EdgeVertArray* vertices, unsigned int
             *reinterpret_cast<NavMeshVertexAccess*>(
                  reinterpret_cast<PathEdgeVertType*>(&vertices->GetBufferEntry(index + 1))
                      ->m_pLocationNavMesh)
-                 ->FUN_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
+                 ->GetVertex_0068f0a0(reinterpret_cast<PathEdgeVertType*>(
                                     &vertices->GetBufferEntry(index + 1))
                                     ->m_usVertexId) -
             point;

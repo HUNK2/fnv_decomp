@@ -39,7 +39,7 @@ void FUN_00c855f0_cls::hknpAllHitsCollector_sortHits()
 
 #include <xmmintrin.h>
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(hkMemoryAllocator* apAllocator, void* apContainer, unsigned int auiElemSize);
 void __cdecl CollectValuesReversed(void* apDst, unsigned int auiSize, void* apOwner);
 
@@ -116,7 +116,7 @@ struct FUN_00c85520_cls
 void FUN_00c85520_cls::AddEntry(ChainOwner* apOwner, SourceEntry* apSource)
 {
     EntryListNode* pList = &m_kNode;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     if (pList->m_uCount == (pList->m_uCapFlags & 0x3fffffffu))
     {
         ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap), pList, sizeof(SpawnedEntry));

@@ -15,7 +15,7 @@ unsigned short ActorCause::GetRefCount_0047d3d0()
     return *(unsigned short*)((char*)this + 0x18);
 }
 
-void __fastcall FUN_0066e2b0(ActorCause*);
+void __fastcall ActorCause_DecRefCount(ActorCause*);
 struct Holder0042f780
 {
     ActorCause* m_pObject;
@@ -27,7 +27,7 @@ Holder0042f780* Holder0042f780::FUN_0042f780(ActorCause* pObject)
     if (m_pObject != pObject)
     {
         if (m_pObject)
-            FUN_0066e2b0(m_pObject);
+            ActorCause_DecRefCount(m_pObject);
         m_pObject = pObject;
         if (m_pObject)
             m_pObject->IncRefCount();

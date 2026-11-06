@@ -32,7 +32,7 @@ public:
     bool CommitPage(unsigned int pageIndex, char*& page);
     void __thiscall RegisterInPool(unsigned int index);
     void __thiscall ClearPoolSlot(unsigned int uiIndex);
-    void FUN_0040fbf0(char* name);
+    void BSSpinLock_Lock(char* name);
     void MemoryPool_SortFreeBlockList();
     void MemoryPool_CheckFreeBlocks();
 

@@ -42,7 +42,7 @@ class FnvNode
     int unk3c;
     float m_40;
 
-    void FUN_00e33f10(float a1, int a2, unsigned char a3, int a4, unsigned int* a5, float* a6);
+    void hkaSplineCompressedAnimation_sampleFloat(float a1, int a2, unsigned char a3, int a4, unsigned int* a5, float* a6);
 };
 
 // The helper the original calls with eight stack arguments; it is cdecl (the
@@ -51,7 +51,8 @@ void __cdecl hkaSplineCompressedAnimation_readNURBSCurve(unsigned int* a5, int a
                           float* res);
 
 // @fnv 0x00e33f10
-void FnvNode::FUN_00e33f10(float a1, int a2, unsigned char a3, int a4, unsigned int* a5, float* a6)
+// src: XBOX_PDB 0x00e33f10
+void FnvNode::hkaSplineCompressedAnimation_sampleFloat(float a1, int a2, unsigned char a3, int a4, unsigned int* a5, float* a6)
 {
     if (!a3)
     {

@@ -26,7 +26,7 @@ extern "C" void __stdcall FUN_00d2dd50(void* a, void* b, void* c, void* d)
     hkpBvTreeAgent_staticGetClosestPoints(a, b, c, d);
 }
 
-void __cdecl FUN_00d30f50(void*, void*, void*, void*, void*);
+void __cdecl hkpBvTreeAgent_staticLinearCast(void*, void*, void*, void*, void*);
 struct OperationAdapter
 {
     void FUN_00d2dd70(void* a, void* b, void* c, void* d, void* e);
@@ -48,7 +48,7 @@ struct FUN_00d2dda0_class
     int unk30;
     void __thiscall FUN_00d2dda0(int value);
 };
-extern void __cdecl FUN_00da42b0(void*, int, int, int);
+extern void __cdecl hkAgent1nMachine_Destroy(void*, int, int, int);
 void __cdecl _hkAgent1nMachine_WarpTime(void* self, float a, float b, void* c);
 struct FUN_00d2ddf0_Class
 {
@@ -63,7 +63,7 @@ struct RefObj
 struct Obj : RefObj
 {
     int pad[14];
-    Obj* FUN_00d2def0(int, int, int, int);
+    Obj* hkpBvTreeStreamAgent_hkpBvTreeStreamAgent(int, int, int, int);
 };
 inline void* hkAlloc(int n)
 {
@@ -78,7 +78,7 @@ void FUN_00d2e9b0();
 void FUN_00d2e9f0();
 void hkpBvTreeStreamAgent_createShapeBvAgent();
 void hkpBvTreeAgent_staticGetClosestPoints();
-void FUN_00d30f50();
+void hkpBvTreeAgent_staticLinearCast();
 struct Conversion
 {
     void (*convert)();
@@ -92,7 +92,7 @@ struct Registry
 {
     void FUN_00cfbbe0(Conversion*, int, int);
 };
-void FUN_00d2e760(Registry* registry);
+void hkpBvTreeStreamAgent_registerMultiRayAgent(Registry* registry);
 typedef void*(__cdecl* S_00d2e8e0_CreateFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_GetPenetrationsFunc)(void*, void*, void*, void*);
 typedef void(__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void*);
@@ -103,7 +103,7 @@ void FUN_00d2e9b0(void*, void*, void*, void*);
 void FUN_00d2e9f0(void*, void*, void*, void*, void*);
 void* hkpBvTreeStreamAgent_dispatchConvexListBvTree(void*, void*, void*, void*);
 void hkpBvTreeAgent_staticGetClosestPoints(void*, void*, void*, void*);
-void FUN_00d30f50(void*, void*, void*, void*, void*);
+void hkpBvTreeAgent_staticLinearCast(void*, void*, void*, void*, void*);
 struct S_00d2e8e0_AgentFuncs
 {
     S_00d2e8e0_CreateFunc m_pCreateFunc;

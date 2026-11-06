@@ -14,7 +14,7 @@ typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 typedef char _sizecheck_TESIcon[sizeof(TESIcon) == 12 ? 1 : -1];
 
 extern "C" unsigned char DAT_011c54ba;
-unsigned char FUN_00401500();
+unsigned char TESForm_QEndianSwapOnSave();
 
 extern int DAT_011c5490;
 void __cdecl WriteDescChunk(void*, int);

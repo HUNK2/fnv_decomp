@@ -237,7 +237,7 @@ struct Holder
     void* m_pAllocator;
 };
 
-Holder* __cdecl FUN_00c85750();
+Holder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(void* pAllocator, void* pBuf, int newCap, int bFlag);
 void __cdecl ResizeAudioStream(void* pAllocator, void* pBuf, int bFlag);
 extern "C" void _ReadWriteBarrier(void);
@@ -259,7 +259,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
     m_len = 0;
     m_cap = 0x80000000u;
 
-    Holder* h = FUN_00c85750();
+    Holder* h = hkMemoryRouter_getInstance();
     void* alloc = h->m_pAllocator;
     int cap = (int)(m_cap & 0x3fffffffu);
     if (cap < 0x40)
@@ -272,7 +272,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
         hkArrayUtil__reserve(alloc, this, newCap, 1);
     }
 
-    h = FUN_00c85750();
+    h = hkMemoryRouter_getInstance();
     if ((unsigned int)m_len == (m_cap & 0x3fffffffu))
     {
         ResizeAudioStream(h->m_pAllocator, this, 1);
@@ -402,7 +402,8 @@ struct S00c70de0_ArrayLocalForm
 
 // Builds 18 vertices using scaled start coordinates, end z, radius, and height, then passes them to CreateFromSource.
 // @fnv 0x00c70de0
-int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
+// src: XBOX_PDB 0x00c70de0
+int __cdecl MakeConvex(float* end, float* start, float radius, float height)
 {
     S00c70de0_Guard memGuard(16);
     float fScaledRadius = radius * DAT_01267bcc;
@@ -494,7 +495,7 @@ void __cdecl hkArrayUtil__reduce(hkMemoryAllocator& alloc, void* array, int aiEl
 
 static __forceinline hkMemoryAllocator* getMeshAllocator()
 {
-    Holder* holder = FUN_00c85750();
+    Holder* holder = hkMemoryRouter_getInstance();
     return (hkMemoryAllocator*)holder->unk10;
 }
 

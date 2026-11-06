@@ -112,7 +112,7 @@ struct CallBuf
     int unk1c;
 };
 
-void __cdecl FUN_00da48e0(void* a, void* b);
+void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void* a, void* b);
 
 // Calls f4 on the ValueSource, fills a CallBuf with the arguments and result, then passes it to FUN_00da48e0 with p2.
 // @fnv 0x00d2d3e0
@@ -128,7 +128,7 @@ void __cdecl CallWithValueSource(void* apUnused, void* p2, int aiArg0, ValueSour
     callBuf.unk14 = aiArg2;
     callBuf.unk0c = r;
     callBuf.unk18 = aiArg3;
-    FUN_00da48e0(p2, &callBuf);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(p2, &callBuf);
 }
 
 struct SpawnedObject
@@ -244,7 +244,7 @@ struct __declspec(align(16)) S00d2d890_Local
     int b0f;
     S00d2d890_Local()
     {}
-    void FUN_00cb21e0(void* a);
+    void hkTransform_setInverse(void* a);
 };
 struct S00d2d890_Hits
 {
@@ -390,10 +390,10 @@ struct S00d2d890_Obj
     int unk08;
     int unk0c;
 };
-char** FUN_00c85750();
+char** hkMemoryRouter_getInstance();
 int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
 int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
-int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
+int hkAgent1nMachine_Process(int a, void* b, int c, char* d, int e);
 
 // Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
 // @fnv 0x00d2d890
@@ -412,11 +412,11 @@ char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, in
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    char** arena = FUN_00c85750();
+    char** arena = hkMemoryRouter_getInstance();
     char* mark = *arena;
     *arena = mark + 0x4000;
     S00d2d890_Local loc;
-    loc.FUN_00cb21e0(self + 0x20);
+    loc.hkTransform_setInverse(self + 0x20);
     S00d2d890_Hits hits;
     int c = *(int*)(self + 0xc);
     int p1 = *(int*)(self + 4);
@@ -436,7 +436,7 @@ char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, in
         t->cur = (char*)(r + 1);
     }
     char* cond = numHits < 0 ? 0 : mark;
-    FUN_00da4aa0((int)child, self, (*(volatile int*)&r4b), cond, a4);
+    hkAgent1nMachine_Process((int)child, self, (*(volatile int*)&r4b), cond, a4);
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
     {
@@ -447,7 +447,7 @@ char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, in
         r->stamp = tb;
         t->cur = (char*)(r + 1);
     }
-    *FUN_00c85750() = mark;
+    *hkMemoryRouter_getInstance() = mark;
     return child + 0x10;
 }
 

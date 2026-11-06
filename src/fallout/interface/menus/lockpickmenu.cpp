@@ -38,7 +38,8 @@ void LockPickMenu::SetTile(int id, Tile* tile)
 }
 
 // @fnv 0x0078e080
-int FUN_0078e080()
+// src: XBOX_PDB 0x0078e080
+int LockPickMenu_GetClassStatic()
 {
     return 1014;
 }
@@ -62,7 +63,8 @@ struct Proc_S
 void* __cdecl InterfaceManager_GetSingleton();
 // If aiID is 13, gets the next entry from FUN_004b7210 and calls Set(0xfa9, 0.0f, true) on it as a Tile.
 // @fnv 0x007902b0
-void LockPickMenu::FUN_007902b0(int aiID, Tile* apTarget)
+// src: XBOX_PDB 0x007902b0
+void LockPickMenu::DoEnter_007902b0(int aiID, Tile* apTarget)
 {
     if (aiID == 13)
     {
@@ -80,7 +82,8 @@ void* __cdecl InterfaceManager_GetSingleton();
 
 // If aiID equals 0xD, gets the next object from FUN_004b7210 and calls Set(0xFA9, 255.0f, true) on it as a Tile.
 // @fnv 0x007902f0
-void LockPickMenu::FUN_007902f0(int aiID, Tile* apTarget)
+// src: XBOX_PDB 0x007902f0
+void LockPickMenu::DoLeave_007902f0(int aiID, Tile* apTarget)
 {
     if (aiID == 0xD)
     {
@@ -108,9 +111,9 @@ void LockPickMenu::UpdateLockRotation(float amount)
         NiUpdateData kUpdateData(0.0f, false, false);
         NiPoint3 offset = position.FUN_004a0bd0().FUN_00439e90(NiPoint3(0.0f, 0.0f, 0.6f));
         matrix.MakeYRotation((float)((amount / m_64->FUN_00a011b0(0xfb1) * -180.0 + 90.0) * 0.01745329238474369));
-        object->FUN_00440460(position.FUN_00439e90(offset).FUN_00439ef0(matrix.operator*(offset)));
+        object->NiAVObject_SetTranslate(position.FUN_00439e90(offset).FUN_00439ef0(matrix.operator*(offset)));
         matrix = matrix.operator*(rotation);
-        object->FUN_0043fa80(matrix);
+        object->SetRotate_0043fa80(matrix);
         object->Update(kUpdateData);
     }
 }
@@ -176,7 +179,7 @@ struct ObjC
 
 struct ObjD
 {
-    void* FUN_007fd640();
+    void* RaceSexMenu_GetProjectorFile();
 };
 
 struct Guard : SingletonGetter
@@ -188,8 +191,8 @@ struct Guard : SingletonGetter
     void FUN_0066b0d0(int);
 };
 
-void* __stdcall FUN_0043c4b0(int, int);
-void* __cdecl FUN_0045c670();
+void* __stdcall NiXenonRenderer_GetRenderer(int, int);
+void* __cdecl Main_GetWorldSceneGraph();
 void* __cdecl InterfaceManager_GetSingleton();
 int __cdecl FUN_00450b80(int);
 void __cdecl UpdateCameraFrustum(void*, float);
@@ -210,13 +213,13 @@ void __cdecl LockPickMenu_DrawScene()
     {
         return;
     }
-    reinterpret_cast<ProcBase*>(FUN_0043c4b0(0, 4))->RendererClearBufferHook();
-    v6 = FUN_0045c670();
+    reinterpret_cast<ProcBase*>(NiXenonRenderer_GetRenderer(0, 4))->RendererClearBufferHook();
+    v6 = Main_GetWorldSceneGraph();
     v1c3 = reinterpret_cast<ObjB*>(v6)->FUN_008d80e0();
     reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_PushCullMode(1);
     v18 = reinterpret_cast<SingletonGetter*>(&DAT_011da224)->FUN_00559450();
     UpdateCameraFrustum(v18, DAT_01030ff4);
-    Guard g(reinterpret_cast<ObjD*>(InterfaceManager_GetSingleton())->FUN_007fd640());
+    Guard g(reinterpret_cast<ObjD*>(InterfaceManager_GetSingleton())->RaceSexMenu_GetProjectorFile());
     reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(g.FUN_00559450());
     if (v18 != 0)
     {
@@ -408,16 +411,16 @@ struct FUN_00a712f0 : FUN_00aa13e0
     int unk110;
     FUN_00a712f0();
     void FUN_00712e60(FUN_00414430*);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(FUN_00a71b70*);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
     void NiCamera_SetMinNearPlaneDist(float);
-    void FUN_00a59c60(FUN_0043d410*);
+    void NiAVObject_Update(FUN_0043d410*);
 };
-Renderer* FUN_0045c670();
-int FUN_004dc200();
-int FUN_004dc1f0();
-float __cdecl FUN_0057dd70(float);
+Renderer* Main_GetWorldSceneGraph();
+int Renderer_GetScreenHeight();
+int Renderer_GetScreenWidth();
+float __cdecl tan_0057dd70(float);
 extern Setting DAT_01203144;
 extern Setting DAT_01203150;
 extern bool DAT_011f9426;
@@ -444,38 +447,39 @@ void* LockPickMenu::Create3DCamera()
     b->FUN_00712e60(&f);
     FUN_00a71b70 c(0);
     float e;
-    c.unk14 = fnv_0078e900::FUN_0045c670()->vf64();
-    c.unk10 = *DAT_01203144.FUN_00403e20();
-    b->FUN_00507700(c.unk14 / c.unk10);
-    g = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    c.unk14 = fnv_0078e900::Main_GetWorldSceneGraph()->vf64();
+    c.unk10 = *DAT_01203144.Setting_Float_00403e20();
+    b->NiCamera_SetMaxFarNearRatio(c.unk14 / c.unk10);
+    g = (double)(DAT_011f9426 ? DAT_011f9434 : Renderer_GetScreenHeight()) / Renderer_GetScreenWidth();
     d = DAT_01016264;
-    e = *DAT_01203150.FUN_00403e20() * DAT_01023128 * DAT_01070c80;
-    c.unk00 = -FUN_0057dd70(e) * d;
-    c.unk04 = FUN_0057dd70(e) * d;
-    c.unk0c = -FUN_0057dd70(e) * g * d;
-    c.unk08 = FUN_0057dd70(e) * g * d;
+    e = *DAT_01203150.Setting_Float_00403e20() * DAT_01023128 * DAT_01070c80;
+    c.unk00 = -tan_0057dd70(e) * d;
+    c.unk04 = tan_0057dd70(e) * d;
+    c.unk0c = -tan_0057dd70(e) * g * d;
+    c.unk08 = tan_0057dd70(e) * g * d;
     c.unk18 = false;
     b->FUN_00a6faf0(&c);
     b->SetLookAt(NiPoint3(0.0f, 0.0f, 1.0f), NiPoint3(0.0f, 0.0f, 1.0f));
     b->NiCamera_SetMinNearPlaneDist(1.0f);
     FUN_0043d410 a(0.0f, 0, 0);
-    b->FUN_00a59c60(&a);
+    b->NiAVObject_Update(&a);
     return b;
 }
 
 unsigned char __cdecl Interface_Has360Controller();
 
 // @fnv 0x00790290
-int __cdecl FUN_00790290()
+// src: XBOX_PDB 0x00790290
+int __cdecl LockPickMenu_GetTutorialMessageID()
 {
     return ((Interface_Has360Controller() != 0 ? -1 : 0) & 8) + 0x14;
 }
 
-int __cdecl FUN_00406f60(StrMem* pkStr, const char* pFormat, ...);
+int __cdecl BSStringT_char_SPrintF(StrMem* pkStr, const char* pFormat, ...);
 
 struct LockAnimNode
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
     void FUN_0045ce80(int aiValue);
 };
 extern LockAnimNode* g_apLockNodes0_011a0328[5];
@@ -490,8 +494,8 @@ struct PathingActorState
 };
 struct LockRef
 {
-    PathingActorState* FUN_00569160();
-    void FUN_005789b0();
+    PathingActorState* TESObjectREFR_GetLock();
+    void TESObjectREFR_AddLockChange();
 };
 
 struct PlayerStandIn
@@ -507,7 +511,7 @@ struct RNG
 };
 RNG* __cdecl FUN_00476c00();
 void __cdecl FUN_005e58f0(int aiEntryPoint, PlayerStandIn* apActor, float* apValue);
-int __cdecl FUN_00648d30(int aiSkill, int aiLockLevel);
+int __cdecl GamePlayFormulas_GetForceLockChance(int aiSkill, int aiLockLevel);
 struct StringSetting
 {
     const char* FUN_00403df0();
@@ -515,9 +519,9 @@ struct StringSetting
 extern StringSetting g_setting_011d3e98;
 void __cdecl DispatchMessageToSink(const char* apText, int a2, const char* apIcon, const char* apSound, float afTime,
                                    int a6);
-void __cdecl FUN_0078e0d0();
-float __cdecl FUN_0040ebd0(float afA, float afB);
-float __cdecl FUN_00404010(float afA, float afB);
+void __cdecl LockPickMenu_Close();
+float __cdecl BSMIN(float afA, float afB);
+float __cdecl BSMAX_00404010(float afA, float afB);
 
 extern int g_aiLockLevels_011da28c[6];
 extern int g_iPickAngle_011da208;
@@ -540,13 +544,13 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
     switch (aiCode)
     {
     case 10:
-        FUN_0078e0d0();
+        LockPickMenu_Close();
         break;
     case 9: {
         float fPerk = 0.0f;
         FUN_005e58f0(0x20, g_player_011dea3c, &fPerk);
         if (FUN_00476c00()->FUN_00aa5230(100) <
-            (unsigned int)FUN_00648d30(g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24), g_aiLockLevels_011da28c[m_70]))
+            (unsigned int)GamePlayFormulas_GetForceLockChance(g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24), g_aiLockLevels_011da28c[m_70]))
         {
             m_98 = 1;
             m_90 = 90.0f;
@@ -554,16 +558,16 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
         }
         else if (!m_6c && fPerk == 0.0)
         {
-            m_58->FUN_00a01350(0xfc4, s_szLockBroken, true);
+            m_58->Tile_Set_00a01350(0xfc4, s_szLockBroken, true);
             m_58->FUN_00700320(0xfa3, 1);
             m_28 = 6;
         }
         else
         {
-            reinterpret_cast<LockRef*>(m_6c)->FUN_00569160()->iBreakCount++;
-            reinterpret_cast<LockRef*>(m_6c)->FUN_005789b0();
+            reinterpret_cast<LockRef*>(m_6c)->TESObjectREFR_GetLock()->iBreakCount++;
+            reinterpret_cast<LockRef*>(m_6c)->TESObjectREFR_AddLockChange();
             DispatchMessageToSink(g_setting_011d3e98.FUN_00403df0(), 0, s_szForceFailIcon, s_szForceFailSound, 2.0f, 0);
-            FUN_0078e0d0();
+            LockPickMenu_Close();
         }
         break;
     }
@@ -571,22 +575,22 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
     case 5: {
         int m_eRange = g_aiLockLevels_011da28c[m_70 + 1] - g_aiLockLevels_011da28c[m_70];
         float fT =
-            FUN_00404010(FUN_0040ebd0((float)(m_74 - g_aiLockLevels_011da28c[m_70]) / (m_eRange * 2.0f), 1.0f), 0.0f);
+            BSMAX_00404010(BSMIN((float)(m_74 - g_aiLockLevels_011da28c[m_70]) / (m_eRange * 2.0f), 1.0f), 0.0f);
         int iDelta = (aiCode != 5 ? 1 : -1) * iStep;
         StrMem kStr;
         g_iPickAngle_011da208 += iDelta;
         m_88 += iDelta / 2;
-        FUN_00406f60(&kStr, s_szIntFormat, g_iPickAngle_011da208);
-        unk3c->FUN_00a01350(0xfc4, kStr.FUN_00559450(), true);
-        g_apLockNodes0_011a0328[m_70]->FUN_0045ce80(*g_apLockNodes0_011a0328[m_70]->FUN_0043d4d0() +
+        BSStringT_char_SPrintF(&kStr, s_szIntFormat, g_iPickAngle_011da208);
+        unk3c->Tile_Set_00a01350(0xfc4, kStr.FUN_00559450(), true);
+        g_apLockNodes0_011a0328[m_70]->FUN_0045ce80(*g_apLockNodes0_011a0328[m_70]->Setting_Int() +
                                                      (int)(iDelta * (1.0f - fT)));
-        g_apLockNodes1_011a033c[m_70]->FUN_0045ce80(*g_apLockNodes1_011a033c[m_70]->FUN_0043d4d0() +
+        g_apLockNodes1_011a033c[m_70]->FUN_0045ce80(*g_apLockNodes1_011a033c[m_70]->Setting_Int() +
                                                      (int)(iDelta * fT));
         for (int i = 0; i < 6; i++)
         {
-            Tile* pTile = m_64->FUN_00a03eb0(i + 0x11);
-            pTile->FUN_00a012d0(0xfb1, (pTile->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfb1, true) + iDelta);
-            pTile->FUN_00a012d0(0xfa1, (pTile->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfa1, true) - iDelta / 2);
+            Tile* pTile = m_64->Tile_GetChildByID(i + 0x11);
+            pTile->Tile_Set(0xfb1, (pTile->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfb1, true) + iDelta);
+            pTile->Tile_Set(0xfa1, (pTile->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfa1, true) - iDelta / 2);
         }
         break;
     }
@@ -594,22 +598,22 @@ void LockPickMenu::HandleLockPickAction(int aiCode, int aiUnused)
     case 8: {
         int iRange7 = g_aiLockLevels_011da28c[m_70 + 1] - g_aiLockLevels_011da28c[m_70];
         float fT2_2 =
-            FUN_00404010(FUN_0040ebd0((float)(m_74 - g_aiLockLevels_011da28c[m_70]) / (iRange7 * 2.0f), 1.0f), 0.0f);
+            BSMAX_00404010(BSMIN((float)(m_74 - g_aiLockLevels_011da28c[m_70]) / (iRange7 * 2.0f), 1.0f), 0.0f);
         int iDeltaX = (aiCode != 8 ? 1 : -1) * iStep;
         StrMem kStrTmp;
         g_iDriverAngle_011da20c += iDeltaX;
         m_88 += iDeltaX;
-        FUN_00406f60(&kStrTmp, s_szIntFormat, g_iDriverAngle_011da20c);
-        unk48->FUN_00a01350(0xfc4, kStrTmp.FUN_00559450(), true);
-        g_apLockNodes2_011a0350[m_70]->FUN_0045ce80(*g_apLockNodes2_011a0350[m_70]->FUN_0043d4d0() +
+        BSStringT_char_SPrintF(&kStrTmp, s_szIntFormat, g_iDriverAngle_011da20c);
+        unk48->Tile_Set_00a01350(0xfc4, kStrTmp.FUN_00559450(), true);
+        g_apLockNodes2_011a0350[m_70]->FUN_0045ce80(*g_apLockNodes2_011a0350[m_70]->Setting_Int() +
                                                      (int)(iDeltaX * (1.0f - fT2_2)));
-        g_apLockNodes3_011a0364[m_70]->FUN_0045ce80(*g_apLockNodes3_011a0364[m_70]->FUN_0043d4d0() +
+        g_apLockNodes3_011a0364[m_70]->FUN_0045ce80(*g_apLockNodes3_011a0364[m_70]->Setting_Int() +
                                                      (int)(iDeltaX * fT2_2));
         for (int j = 1; j < 6; j++)
         {
-            Tile* pTile2 = m_64->FUN_00a03eb0(j + 0x11);
-            pTile2->FUN_00a012d0(0xfb1, (pTile2->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfb1, true) + 2.0 * j * iDeltaX / 5.0);
-            pTile2->FUN_00a012d0(0xfa1, (pTile2->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfa1, true) - j * iDeltaX / 5.0);
+            Tile* pTile2 = m_64->Tile_GetChildByID(j + 0x11);
+            pTile2->Tile_Set(0xfb1, (pTile2->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfb1, true) + 2.0 * j * iDeltaX / 5.0);
+            pTile2->Tile_Set(0xfa1, (pTile2->*reinterpret_cast<TileFloatGetterWithFlag>(static_cast<TileFloatGetter>(&Tile::FUN_00a011b0)))(0xfa1, true) - j * iDeltaX / 5.0);
         }
         break;
     }
@@ -641,13 +645,13 @@ struct DummyA
     int __thiscall Controls_GetMouseAxis(int a0);
 };
 
-bool __cdecl FUN_004b71d0();
-double __cdecl FUN_00408820(float x);
-float __cdecl FUN_006494b0(float a0, float a1);
+bool __cdecl InterfaceManager_Has360Controller();
+double __cdecl NiAbs_00408820(float x);
+float __cdecl NiPow_006494b0(float a0, float a1);
 double __cdecl FUN_00715d40();
-double __cdecl FUN_00706e50();
-float __cdecl FUN_00404010(float a0, float a1);
-float __cdecl FUN_0040ebd0(float a0, float a1);
+double __cdecl InterfaceManager_GetRealScreenWidth();
+float __cdecl BSMAX_00404010(float a0, float a1);
+float __cdecl BSMIN(float a0, float a1);
 void* __stdcall FUN_00476c00(int n);
 
 struct Checker
@@ -662,31 +666,32 @@ struct TileList
 };
 // Computes a sound value from game state, clamps it, plays a sound on threshold crossings, stores it, and updates m_90 from nearby tiles.
 // @fnv 0x007908f0
-void __thiscall LockPickMenu::FUN_007908f0()
+// src: XBOX_PDB 0x007908f0
+void __thiscall LockPickMenu::RotateLockpick()
 {
     float RunSeventhVirtualOperation = 0.0f;
     long cnt4 = 0;
     float denom;
     denom = DAT_0102978c;
-    if (FUN_004b71d0())
+    if (InterfaceManager_Has360Controller())
     {
-        cnt4 = ((FooA*)DAT_011dea0c->FUN_00877720())->GetAxisState(0, 7);
-        if (FUN_00408820((float)cnt4) <= DAT_010718f0)
+        cnt4 = ((FooA*)DAT_011dea0c->Main_GetControls())->GetAxisState(0, 7);
+        if (NiAbs_00408820((float)cnt4) <= DAT_010718f0)
         {
             cnt4 = 0;
         }
-        RunSeventhVirtualOperation = (float)(FUN_006494b0((float)cnt4 / denom, DAT_01017718) * DAT_01072310);
+        RunSeventhVirtualOperation = (float)(NiPow_006494b0((float)cnt4 / denom, DAT_01017718) * DAT_01072310);
     }
     else
     {
-        RunSeventhVirtualOperation = (float)((double)((DummyA*)DAT_011dea0c->FUN_00877720())->Controls_GetMouseAxis(1) *
-                                             (FUN_00715d40() / FUN_00706e50()));
+        RunSeventhVirtualOperation = (float)((double)((DummyA*)DAT_011dea0c->Main_GetControls())->Controls_GetMouseAxis(1) *
+                                             (FUN_00715d40() / InterfaceManager_GetRealScreenWidth()));
     }
     float kVal = m_68->FUN_00a011b0((int)DAT_011da1fc) + RunSeventhVirtualOperation;
     int remA8 = (int)m_68->FUN_00a011b0((int)DAT_011da1fc) % 100;
     int val3 = (int)kVal % 100;
-    kVal = FUN_00404010(kVal, 0.0f);
-    kVal = FUN_0040ebd0(kVal, m_64->FUN_00a011b0(0xfb1));
+    kVal = BSMAX_00404010(kVal, 0.0f);
+    kVal = BSMIN(kVal, m_64->FUN_00a011b0(0xfb1));
 
     if (((RunSeventhVirtualOperation > DAT_01012060 && remA8 > val3) ||
          (RunSeventhVirtualOperation < DAT_01012060 && val3 > remA8)) &&
@@ -698,10 +703,10 @@ void __thiscall LockPickMenu::FUN_007908f0()
     {
         (BSAudio::GetSingleton()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(&DAT_0107462c, 0x101).Play(false);
     }
-    m_68->FUN_00a012d0((int)DAT_011da1fc, kVal, true);
+    m_68->Tile_Set((int)DAT_011da1fc, kVal, true);
     DAT_011da2c0 = RunSeventhVirtualOperation;
     UpdateLockRotation(kVal);
-    float x9 = (float)FUN_00408820(kVal - m_84);
+    float x9 = (float)NiAbs_00408820(kVal - m_84);
     if (x9 < (float)m_88)
     {
         unsigned long res4;
@@ -723,9 +728,9 @@ void __thiscall LockPickMenu::FUN_007908f0()
         {
             m_90 = (float)((1.0 - (((Tile*)(void*)res4)->FUN_00a011b0(0xfaa) - DAT_010356f8) / DAT_01034208) *
                            DAT_01066808);
-            m_68->FUN_00a012d0(0xfb2, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb2), true);
-            m_68->FUN_00a012d0(0xfb3, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb3), true);
-            m_68->FUN_00a012d0(0xfb4, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb4), true);
+            m_68->Tile_Set(0xfb2, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb2), true);
+            m_68->Tile_Set(0xfb3, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb3), true);
+            m_68->Tile_Set(0xfb4, ((Tile*)(void*)res4)->FUN_00a011b0(0xfb4), true);
         }
     }
     else
@@ -734,16 +739,16 @@ void __thiscall LockPickMenu::FUN_007908f0()
         resultB_2 = (float)(((double)m_88 + x9 - m_64->FUN_00a011b0(0xfb1)) /
                             ((double)m_88 * DAT_01011590 - m_64->FUN_00a011b0(0xfb1)));
         m_90 = (float)(resultB_2 * DAT_01015a38);
-        m_68->FUN_00a012d0(0xfb2, m_64->FUN_00a011b0(0xfb2), true);
-        m_68->FUN_00a012d0(0xfb3, m_64->FUN_00a011b0(0xfb3), true);
-        m_68->FUN_00a012d0(0xfb4, m_64->FUN_00a011b0(0xfb4), true);
+        m_68->Tile_Set(0xfb2, m_64->FUN_00a011b0(0xfb2), true);
+        m_68->Tile_Set(0xfb3, m_64->FUN_00a011b0(0xfb3), true);
+        m_68->Tile_Set(0xfb4, m_64->FUN_00a011b0(0xfb4), true);
     }
 }
 
 // InitLockInterface v1 worker20: faithful transcription from capstone ORIG
 struct ModelLoader
 {
-    void* FUN_00447080(const char* path, int a, bool b, bool c, bool d, bool e);
+    void* ModelLoader_LoadFile(const char* path, int a, bool b, bool c, bool d, bool e);
 };
 extern ModelLoader* DAT_011c3b3c;
 struct SortNode
@@ -779,15 +784,15 @@ struct Comb
 };
 struct CtrlNode
 {
-    void* FUN_0047a520(const NiFixedString& str);
+    void* NiControllerManager_GetSequenceByName(const NiFixedString& str);
     void FUN_0048fef0(float f);
     void FUN_0047aab0(void* child, int a, int b, float c, float d, int e);
 };
 struct ChildObj
 {
-    bool FUN_007408d0(int a);
+    bool NiControllerSequence_SetCycleType(int a);
 };
-extern "C" void __cdecl FUN_00a6d2d0(void* p);
+extern "C" void __cdecl NiTimeController_StartAnimations(void* p);
 extern "C" void* __cdecl FUN_00450b80(unsigned int a);
 struct TimeObj
 {
@@ -866,15 +871,15 @@ extern unsigned char DAT_011a9448;
 void LockPickMenu::InitLockInterface()
 {
     void* pin;
-    pin = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\LockInterface01.NIF", 0, true, false, false, false);
+    pin = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\LockInterface01.NIF", 0, true, false, false, false);
     void* idx;
-    idx = DAT_011c3b3c->FUN_00447080("Meshes\\Terminals\\BobbyPin01.NIF", 0, true, false, false, false);
+    idx = DAT_011c3b3c->ModelLoader_LoadFile("Meshes\\Terminals\\BobbyPin01.NIF", 0, true, false, false, false);
     *(Mat9*)&rotation = *(Mat9*)&DAT_011a9448;
     {
         position = NiPoint3(0.0f, 0.0f, -1.6f);
     }
-    ((NiNode*)idx)->FUN_00440460(position);
-    ((NiNode*)idx)->FUN_0043fa80(&rotation);
+    ((NiNode*)idx)->NiAVObject_SetTranslate(position);
+    ((NiNode*)idx)->SetRotate_0043fa80(&rotation);
     ((Glob*)&DAT_011da24c)->FUN_0066b0d0(new NiSortAdjustNode(0u));
     ((VObj*)((Glob*)&DAT_011da24c)->FUN_00559450())->m_dc(pin, 1);
     ((VObj*)((Glob*)&DAT_011da24c)->FUN_00559450())->m_dc(idx, 1);
@@ -884,18 +889,18 @@ void LockPickMenu::InitLockInterface()
     z.FUN_006815c0();
     ptr.FUN_00524ac0(1.57079637f);
     z.FUN_004a0c90(1.57079637f);
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_0043fa80(&((Comb*)&ptr)->FUN_0043f8d0(&z));
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_004bc1f0(125.0f, 0.0f, 0.0f);
+    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->SetRotate_0043fa80(&((Comb*)&ptr)->FUN_0043f8d0(&z));
+    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_SetTranslate_004bc1f0(125.0f, 0.0f, 0.0f);
     NiUpdateData i(0.0f, false, false);
-    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_00a59c60(i);
+    ((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_Update(i);
     void* s;
     s = ((NiNode*)pin)->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
     CtrlNode* r;
     if (!!s)
     {
         r = (CtrlNode*)s;
-        m_9c = (NiControllerSequence*)r->FUN_0047a520(NiFixedString("Forward"));
-        m_a0 = (NiControllerSequence*)r->FUN_0047a520(NiFixedString("Backward"));
+        m_9c = (NiControllerSequence*)r->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
+        m_a0 = (NiControllerSequence*)r->NiControllerManager_GetSequenceByName(NiFixedString("Backward"));
         r->FUN_0048fef0(0.0f);
         if (!!m_9c)
         {
@@ -903,18 +908,18 @@ void LockPickMenu::InitLockInterface()
         }
         if (!!m_a0)
         {
-            reinterpret_cast<ChildObj*>(m_a0)->FUN_007408d0(2);
+            reinterpret_cast<ChildObj*>(m_a0)->NiControllerSequence_SetCycleType(2);
         }
-        FUN_00a6d2d0(pin);
+        NiTimeController_StartAnimations(pin);
     }
     void* cnt;
     cnt = ((NiNode*)idx)->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&DAT_011f36ac));
     if (!!cnt)
     {
         m_a4 = (NiControllerManager*)cnt;
-        m_a8 = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->FUN_0047a520(NiFixedString("Forward"));
-        m_ac = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->FUN_0047a520(NiFixedString("Backward"));
-        m_b0 = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->FUN_0047a520(NiFixedString("Left"));
+        m_a8 = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->NiControllerManager_GetSequenceByName(NiFixedString("Forward"));
+        m_ac = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->NiControllerManager_GetSequenceByName(NiFixedString("Backward"));
+        m_b0 = (NiControllerSequence*)reinterpret_cast<CtrlNode*>(m_a4)->NiControllerManager_GetSequenceByName(NiFixedString("Left"));
         reinterpret_cast<CtrlNode*>(m_a4)->FUN_0048fef0(0.0f);
         if (!!m_a8)
         {
@@ -922,18 +927,18 @@ void LockPickMenu::InitLockInterface()
         }
         if (!!m_b0)
         {
-            reinterpret_cast<ChildObj*>(m_b0)->FUN_007408d0(2);
+            reinterpret_cast<ChildObj*>(m_b0)->NiControllerSequence_SetCycleType(2);
         }
-        FUN_00a6d2d0(idx);
+        NiTimeController_StartAnimations(idx);
     }
     ((Glob*)&DAT_011da224)->FUN_0066b0d0(Create3DCamera());
     ((VObj*)FUN_00450b80(1))->m_dc(((Glob*)&DAT_011da24c)->FUN_00559450(), 1);
     float val;
-    val = (float)(((TimeObj*)((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_0043d450())->FUN_0084d030() * 3.0);
+    val = (float)(((TimeObj*)((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->NiAVObject_GetWorldBound())->FUN_0084d030() * 3.0);
     ((SceneNode*)FUN_00450b80(1))->FUN_00b5ca70(((Glob*)&DAT_011da24c)->FUN_00559450(), val);
 }
 
-int __cdecl FUN_00406f60(StrMem*, const char*, ...);
+int __cdecl BSStringT_char_SPrintF(StrMem*, const char*, ...);
 struct PickTemplate
 {
     Tile* FUN_00a1ddb0();
@@ -954,7 +959,7 @@ void LockPickMenu::UpdateSweetSpot()
 {
     float fraction;
     int angle = DAT_011da28c[m_70 + 1] - DAT_011da28c[m_70];
-    fraction = FUN_00404010(FUN_0040ebd0((float)(m_74 - DAT_011da28c[m_70]) / ((float)angle * 2.0f), 1.0f), 0.0f);
+    fraction = BSMAX_00404010(BSMIN((float)(m_74 - DAT_011da28c[m_70]) / ((float)angle * 2.0f), 1.0f), 0.0f);
     int range = 0;
     int start = 6;
     NiColorA end(0.0f, 1.0f, 0.0f, 1.0f);
@@ -963,31 +968,31 @@ void LockPickMenu::UpdateSweetSpot()
     m_64->ResetImage();
     StrMem text;
     g_iPickAngle_011da208 =
-        (int)(*g_apLockNodes0_011a0328[m_70]->FUN_0043d4d0() +
-              (*g_apLockNodes1_011a033c[m_70]->FUN_0043d4d0() - *g_apLockNodes0_011a0328[m_70]->FUN_0043d4d0()) *
+        (int)(*g_apLockNodes0_011a0328[m_70]->Setting_Int() +
+              (*g_apLockNodes1_011a033c[m_70]->Setting_Int() - *g_apLockNodes0_011a0328[m_70]->Setting_Int()) *
                   fraction);
     g_iDriverAngle_011da20c =
-        (int)(*g_apLockNodes2_011a0350[m_70]->FUN_0043d4d0() +
-              (*g_apLockNodes3_011a0364[m_70]->FUN_0043d4d0() - *g_apLockNodes2_011a0350[m_70]->FUN_0043d4d0()) *
+        (int)(*g_apLockNodes2_011a0350[m_70]->Setting_Int() +
+              (*g_apLockNodes3_011a0364[m_70]->Setting_Int() - *g_apLockNodes2_011a0350[m_70]->Setting_Int()) *
                   fraction);
-    FUN_00406f60(&text, "%d", g_iPickAngle_011da208);
-    unk3c->FUN_00a01350(0xfc4, text.FUN_00559450(), true);
-    FUN_00406f60(&text, "%d", g_iDriverAngle_011da20c);
-    unk48->FUN_00a01350(0xfc4, text.FUN_00559450(), true);
+    BSStringT_char_SPrintF(&text, "%d", g_iPickAngle_011da208);
+    unk3c->Tile_Set_00a01350(0xfc4, text.FUN_00559450(), true);
+    BSStringT_char_SPrintF(&text, "%d", g_iDriverAngle_011da20c);
+    unk48->Tile_Set_00a01350(0xfc4, text.FUN_00559450(), true);
     m_88 = g_iDriverAngle_011da20c + g_iPickAngle_011da208 / 2;
     m_84 = m_64->FUN_00a011b0(0xfb1) * ((PickRandom*)FUN_00476c00())->FUN_004dff60();
-    m_84 = FUN_0040ebd0(FUN_00404010(m_84, (float)m_88), m_64->FUN_00a011b0(0xfb1) - m_88);
+    m_84 = BSMIN(BSMAX_00404010(m_84, (float)m_88), m_64->FUN_00a011b0(0xfb1) - m_88);
     range = (int)(m_84 - g_iPickAngle_011da208 / 2);
     for (int i = 0; i < 6; i++)
     {
         Tile* tile = FUN_00726070(m_64, "LPM_SweetSpotTemplate", 0)->FUN_00639b40()->FUN_00a1ddb0();
         tile->FUN_00700320(0xfaa, i + 17);
-        tile->FUN_00a012d0(0xfb1, (m_84 - range) * 2.0f, true);
+        tile->Tile_Set(0xfb1, (m_84 - range) * 2.0f, true);
         tile->FUN_00700320(0xfa1, range);
         tile->FUN_00700320(0xfad, start);
-        tile->FUN_00a012d0(0xfb2, (float)(count.r * 255.0), true);
-        tile->FUN_00a012d0(0xfb3, (float)(count.g * 255.0), true);
-        tile->FUN_00a012d0(0xfb4, (float)(count.b * 255.0), true);
+        tile->Tile_Set(0xfb2, (float)(count.r * 255.0), true);
+        tile->Tile_Set(0xfb3, (float)(count.g * 255.0), true);
+        tile->Tile_Set(0xfb4, (float)(count.b * 255.0), true);
         range -= g_iDriverAngle_011da20c / 5;
         start--;
         count = end + (color - end) * (float)((i + 1) / 5.0);
@@ -1002,16 +1007,16 @@ class LKSelection
 
 struct LKMenuFile
 {
-    Tile* FUN_00a01b00();
+    Tile* Tile_ReadFile();
 };
 struct LKInterface
 {
-    LKMenuFile* FUN_00586150(const char* pcPath);
+    LKMenuFile* CombatController_GetCombatState(const char* pcPath);
 };
 
 struct LKRef
 {
-    int FUN_005691b0();
+    int TESObjectREFR_GetLockLevel();
 };
 struct LKPlayer
 {
@@ -1030,16 +1035,16 @@ extern StringSetting DAT_011d25bc;
 extern StringSetting DAT_011d33fc;
 extern StringSetting* DAT_01184a98[];
 
-LKSelection* FUN_00a09030(int m_uiSoundID);
+LKSelection* Tile_GetMenuByClass(int m_uiSoundID);
 int FUN_00430b40(int iValue);
-int FUN_00647b70(int iValue, int iMin);
+int BSMAX_00647b70(int iValue, int iMin);
 int MinInt(int iValue, int iMax);
-int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
+int BSsprintf(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00406d50(char* pcBuffer, unsigned int uiSize, const char* pcText);
 void Warning_005b5e40(const char* pcMessage);
-int FUN_00a01860(const char* pcTrait);
+int Tile_TextToTrait(const char* pcTrait);
 float FUN_00a01530();
-int FUN_00408b20(const char* pcA, const char* pcB);
+int BSstrcmp(const char* pcA, const char* pcB);
 
 // Creates the lockpick UI menu from lockpick_menu.xml, sets skill, level, and pick count labels, and returns the menu tile or null on failure.
 // @fnv 0x0078db00
@@ -1047,22 +1052,22 @@ Tile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
 {
     char acMessageVal[260];
     char acLabel[64];
-    LKSelection* pkSelection = FUN_00a09030(0x3f6);
+    LKSelection* pkSelection = Tile_GetMenuByClass(0x3f6);
     LKInterface* pkInterfaceVal = (LKInterface*)InterfaceManager_GetSingleton();
-    int iLockLevelNum = pkLockRef ? FUN_00430b40(((LKRef*)pkLockRef)->FUN_005691b0()) : aiLockLevel;
-    iLockLevelNum = MinInt(FUN_00647b70(iLockLevelNum, 0), 4);
+    int iLockLevelNum = pkLockRef ? FUN_00430b40(((LKRef*)pkLockRef)->TESObjectREFR_GetLockLevel()) : aiLockLevel;
+    iLockLevelNum = MinInt(BSMAX_00647b70(iLockLevelNum, 0), 4);
     if (pkLockRef && g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24) < g_aiLockLevels_011da28c[iLockLevelNum])
     {
-        FUN_00406d00(acMessageVal, 0x104, DAT_011d1efc.FUN_00403df0(), g_aiLockLevels_011da28c[iLockLevelNum]);
+        BSsprintf(acMessageVal, 0x104, DAT_011d1efc.FUN_00403df0(), g_aiLockLevels_011da28c[iLockLevelNum]);
         DispatchMessageToSink(acMessageVal, 0, "Interface\\Icons\\Message Icons\\glow_message_padlock.dds", 0, 2.0f, 0);
-        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))("UIPopUpMessageGeneral", 0x121).Play(false);
+        (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))("UIPopUpMessageGeneral", 0x121).Play(false);
         return 0;
     }
     if (pkSelection)
         delete pkSelection;
-    Tile* pkMenuTileNew = pkInterfaceVal->FUN_00586150("Data\\Menus\\lockpick_menu.xml")->FUN_00a01b00();
+    Tile* pkMenuTileNew = pkInterfaceVal->CombatController_GetCombatState("Data\\Menus\\lockpick_menu.xml")->Tile_ReadFile();
     DAT_011da204 = (LockPickMenu*)pkMenuTileNew->Tile_GetMenu();
-    if (DAT_011da204 && DAT_011da204->GetClass() == FUN_0078e080())
+    if (DAT_011da204 && DAT_011da204->GetClass() == LockPickMenu_GetClassStatic())
     {
         DAT_011da204->FUN_00a1dc70(reinterpret_cast<TileMenu*>(pkMenuTileNew), false);
         if (!DAT_011da204->LockPickMenu_HasTiles())
@@ -1071,29 +1076,29 @@ Tile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
             return 0;
         }
         if (pkMenuTileNew->FUN_00a011b0(0xfa7) == 6006.0 || pkMenuTileNew->FUN_00a011b0(0xfa7) == 102.0)
-            pkMenuTileNew->FUN_00a012d0(0xfad, FUN_00a01530(), 1);
+            pkMenuTileNew->Tile_Set(0xfad, FUN_00a01530(), 1);
         DAT_011da204->m_6c = reinterpret_cast<TESObjectREFR*>(pkLockRef);
         DAT_011da204->m_70 = iLockLevelNum;
-        DAT_011da204->FUN_00726070()->FUN_00700320(FUN_00a01860("_DebugMode"), bDebug);
-        FUN_00406d00(acLabel, 0x40, "%d", DAT_011da204->m_74);
-        DAT_011da204->m_pkSkillTile->FUN_00a01350(DAT_011da1f8, acLabel, 1);
-        FUN_00406d00(acLabel, 0x40, "%s [%d", DAT_011d345c.FUN_00403df0(),
-                     FUN_00648d30(g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24),
+        DAT_011da204->FUN_00726070()->FUN_00700320(Tile_TextToTrait("_DebugMode"), bDebug);
+        BSsprintf(acLabel, 0x40, "%d", DAT_011da204->m_74);
+        DAT_011da204->m_pkSkillTile->Tile_Set_00a01350(DAT_011da1f8, acLabel, 1);
+        BSsprintf(acLabel, 0x40, "%s [%d", DAT_011d345c.FUN_00403df0(),
+                     GamePlayFormulas_GetForceLockChance(g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24),
                                   g_aiLockLevels_011da28c[DAT_011da204->m_70]));
         FUN_00406d50(acLabel, 0x40, "%]");
-        DAT_011da204->m_pkSkillLabel->FUN_00a01350(0xfc4, acLabel, 1);
-        DAT_011da204->m_pkLevelTile->FUN_00a01350(DAT_011da1f8,
+        DAT_011da204->m_pkSkillLabel->Tile_Set_00a01350(0xfc4, acLabel, 1);
+        DAT_011da204->m_pkLevelTile->Tile_Set_00a01350(DAT_011da1f8,
                                                   DAT_01184a98[DAT_011da204->m_70]->FUN_00403df0(), 1);
-        DAT_011da204->m_5c->FUN_00a01350(0xfc4, "PICK HEALTH: 100%", 1);
+        DAT_011da204->m_5c->Tile_Set_00a01350(0xfc4, "PICK HEALTH: 100%", 1);
         DAT_011da204->m_30->SetTraitFloat(DAT_011da1f8, 1.0f);
         DAT_011da204->m_30->FUN_00700320(
             DAT_011da1f8, pkLockRef ? ((LKPlayer*)g_player_011dea3c)->FUN_00575610(DAT_011ca268) : 0);
-        if (FUN_00408b20(DAT_011c3cb4.FUN_00403df0(), "ENGLISH"))
+        if (BSstrcmp(DAT_011c3cb4.FUN_00403df0(), "ENGLISH"))
         {
-            pkMenuTileNew->GetNamedChild("LPM_SkillTitle")->FUN_00a01350(0xfc4, DAT_011d4d2c.FUN_00403df0(), 1);
-            pkMenuTileNew->GetNamedChild("LPM_PickCountTitle")->FUN_00a01350(0xfc4, DAT_011d4360.FUN_00403df0(), 1);
-            pkMenuTileNew->GetNamedChild("LPM_LevelTitle")->FUN_00a01350(0xfc4, DAT_011d25bc.FUN_00403df0(), 1);
-            DAT_011da204->m_pkLevelLabel->FUN_00a01350(0xfc4, DAT_011d33fc.FUN_00403df0(), 1);
+            pkMenuTileNew->GetNamedChild("LPM_SkillTitle")->Tile_Set_00a01350(0xfc4, DAT_011d4d2c.FUN_00403df0(), 1);
+            pkMenuTileNew->GetNamedChild("LPM_PickCountTitle")->Tile_Set_00a01350(0xfc4, DAT_011d4360.FUN_00403df0(), 1);
+            pkMenuTileNew->GetNamedChild("LPM_LevelTitle")->Tile_Set_00a01350(0xfc4, DAT_011d25bc.FUN_00403df0(), 1);
+            DAT_011da204->m_pkLevelLabel->Tile_Set_00a01350(0xfc4, DAT_011d33fc.FUN_00403df0(), 1);
         }
         DAT_011da204->InitLockInterface();
         DAT_011da204->UpdateSweetSpot();
@@ -1159,9 +1164,9 @@ struct xRTTI
 extern xRTTI xg_rtti_11f36ac;
 struct xSeq
 {
-    float FUN_00508100();
-    float FUN_00759450();
-    void FUN_00a328b0(float, int);
+    float GetEndKeyTime_00508100();
+    float NiPSysSpawnModifier_GetLifeSpan();
+    void SetPhase(float, int);
 };
 struct xCtrlMgr
 {
@@ -1176,27 +1181,27 @@ struct xNodePtr
 extern xNodePtr xg_spNode_11da24c;
 struct xMenuMode
 {
-    bool FUN_00718840(int);
-    bool FUN_00718630(int, int, int);
+    bool InterfaceManager_TutorialManager_HasBeenShown(int);
+    bool InterfaceManager_TutorialManager_ShowMessage(int, int, int);
 };
 struct xIface
 {
     char m_auiShapeKeys[0x4d4];
     xMenuMode m_4d4;
     Tile* FUN_0045cd60();
-    static bool FUN_004b71d0();
-    void FUN_00718930(int);
+    static bool InterfaceManager_Has360Controller();
+    void InterfaceManager_SetLockpickControlsDisable(int);
 };
 xIface* xF4b7210();
 struct xControls
 {
     int GetAxisState(int, int);
     void ResetTargetState();
-    void FUN_00a255b0(float, float, int, int, int, int, int);
+    void Controls_Rumble(float, float, int, int, int, int, int);
 };
 struct xOS
 {
-    xControls* FUN_00877720();
+    xControls* Main_GetControls();
 };
 extern xOS* xg_os_11dea0c;
 struct ClockSource
@@ -1210,7 +1215,7 @@ struct xStrSetting
 };
 struct xFltSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern xStrSetting xg_s_11d34ec;
 extern xFltSetting xg_f_11cde20;
@@ -1226,7 +1231,7 @@ struct xLock
 };
 struct xFaction : xForm
 {
-    bool FUN_0047d7c0();
+    bool GetEvil();
 };
 
 
@@ -1238,17 +1243,17 @@ struct xNPC : xForm
 struct xPlayer;
 struct xRef : xForm
 {
-    xLock* FUN_00569160();
-    void FUN_005789b0();
-    xForm* FUN_00567790();
-    void FUN_005692a0();
-    xForm* FUN_007af430();
-    bool FUN_00573170(xPlayer*, int, int, int);
+    xLock* TESObjectREFR_GetLock();
+    void TESObjectREFR_AddLockChange();
+    xForm* TESObjectREFR_GetOwner();
+    void TESObjectREFR_UnLock();
+    xForm* BGSSaveFormBuffer_GetForm();
+    bool TESObjectREFR_Activate(xPlayer*, int, int, int);
 };
 struct xCrimeMgr
 {
-    void* FUN_00970b30(xFaction*, int, int);
-    void* FUN_00970a20(xNPC*, int);
+    void* ProcessLists_GetActorRefInHigh_00970b30(xFaction*, int, int);
+    void* ProcessLists_GetActorRefInHigh(xNPC*, int);
 };
 extern xCrimeMgr xg_crime_11e0e80;
 
@@ -1549,7 +1554,7 @@ struct xPlayer
     bool m_20c;
     void MiddleHighProcess_SetWantWeaponDrawn(int);
     void FUN_008bfa40(void*, int, int, int, xForm*);
-    void FUN_0094fd30(int);
+    void PlayerCharacter_RewardKarma(int);
 };
 
 extern xPlayer* xg_player_11dea3c;
@@ -1594,7 +1599,8 @@ extern const char s_litEnd78eb50[] = "";
 
 // Updates the lockpicking menu state machine, advancing sequences, adjusting tension, and handling lock success or pick breakage.
 // @fnv 0x0078eb50
-void LockPickMenu::FUN_0078eb50()
+// src: XBOX_PDB 0x0078eb50
+void LockPickMenu::DoIdle_0078eb50()
 {
     using namespace fnv_0078eb50;
     int qSVM = 0;
@@ -1619,18 +1625,18 @@ void LockPickMenu::FUN_0078eb50()
     xg_iLastState_11da2a8 = m_28;
     if (m_99)
     {
-        if (qpqRa && xF4b7210()->m_4d4.FUN_00718840(xF790290()))
+        if (qpqRa && xF4b7210()->m_4d4.InterfaceManager_TutorialManager_HasBeenShown(xF790290()))
             m_99 = false;
         else
             return;
     }
     if (!qpqRa)
-        xF4b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        xF4b7210()->FUN_0045cd60()->Tile_Set(0xfa9, 255.0f, true);
     int qsSDDgz = 0;
     int qfTOqo = 0x7fff;
-    if (xF4b7210()->FUN_004b71d0())
+    if (xF4b7210()->InterfaceManager_Has360Controller())
     {
-        qsSDDgz = xg_os_11dea0c->FUN_00877720()->GetAxisState(0, 9);
+        qsSDDgz = xg_os_11dea0c->Main_GetControls()->GetAxisState(0, 9);
         if (xF408820((float)qsSDDgz) <= 8689.0)
             qsSDDgz = 0;
         qrEZrs = -qsSDDgz / 32767.0;
@@ -1642,22 +1648,22 @@ void LockPickMenu::FUN_0078eb50()
         {
             xUpdateData UPD0(xg_fElapsed_11da2ac, true, false);
             xUpdateData UPD1(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0)->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(UPD0));
+            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD0));
             if (xg_fElapsed_11da2ac == 0.0 || !m_6c || m_30->FUN_00a011b0(xg_iTileId_11da1f8) > 0.0)
-                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(UPD1));
+                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD1));
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (m_30->FUN_00a011b0(xg_iTileId_11da1f8) <= 0.0)
                     xQueueMsg(xg_s_11d34ec.FUN_00403df0(), 0, s_szIcon, 0, 2.0f, 0);
                 else
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szEnter, 0x121).Play(false);
+                    (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szEnter, 0x121).Play(false);
             }
-            if (reinterpret_cast<xSeq*>(m_9c)->FUN_00508100() <= xg_fElapsed_11da2ac)
+            if (reinterpret_cast<xSeq*>(m_9c)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
             {
                 xCtrlMgr* qArxcFu =
                     (xCtrlMgr*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->NiObjectNET_GetController(reinterpret_cast<NiRTTI*>(&xg_rtti_11f36ac));
                 NiAVObject* qAhbO = ((NiNode*)((NiNode*)xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(0u))->FUN_0043b4a0(0u))->FUN_0043b4a0(2u);
-                NiPoint3 qxQHW = qAhbO->FUN_0043c490();
+                NiPoint3 qxQHW = qAhbO->GetTranslate_0043c490();
                 m_28 = 2;
                 qArxcFu->FUN_0047b220(reinterpret_cast<xSeq*>(m_9c), 0.0f);
                 qArxcFu->FUN_0047aab0(reinterpret_cast<xSeq*>(m_a0), 0, 1, 1.0f, 0.0f, 0);
@@ -1670,8 +1676,8 @@ void LockPickMenu::FUN_0078eb50()
         if (m_a8)
         {
             xUpdateData UPDB(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(UPDB));
-            if (reinterpret_cast<xSeq*>(m_a8)->FUN_00508100() <= xg_fElapsed_11da2ac)
+            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPDB));
+            if (reinterpret_cast<xSeq*>(m_a8)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
             {
                 m_28 = 2;
                 reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0047b220(reinterpret_cast<xSeq*>(m_a8), 0.0f);
@@ -1680,20 +1686,20 @@ void LockPickMenu::FUN_0078eb50()
         }
         break;
     case 2:
-        if (xF5d4a40() && !xF4b7210()->m_4d4.FUN_00718840(xF790290()))
+        if (xF5d4a40() && !xF4b7210()->m_4d4.InterfaceManager_TutorialManager_HasBeenShown(xF790290()))
         {
-            m_99 = xF4b7210()->m_4d4.FUN_00718630(xF790290(), xF78e080(), 0);
+            m_99 = xF4b7210()->m_4d4.InterfaceManager_TutorialManager_ShowMessage(xF790290(), xF78e080(), 0);
         }
         else if (qpqRa)
         {
             if (!m_6c || m_30->FUN_00a011b0(xg_iTileId_11da1f8) > 0.0)
             {
-                if ((xIface::FUN_004b71d0() && qrEZrs > 0.0) || (!xIface::FUN_004b71d0() && FUN_00791540(true)))
+                if ((xIface::InterfaceManager_Has360Controller() && qrEZrs > 0.0) || (!xIface::InterfaceManager_Has360Controller() && LockPickMenu_IsTurningLock(true)))
                 {
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTurn, 0x121).Play(false);
+                    (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTurn, 0x121).Play(false);
                     m_28 = 3;
                 }
-                FUN_007908f0();
+                RotateLockpick();
             }
             if (m_8c > 0.0)
             {
@@ -1702,17 +1708,17 @@ void LockPickMenu::FUN_0078eb50()
                 m_8c = xF404010(m_8c, 0.0f);
                 AdvanceSequence(0.0f);
                 if (m_8c < 30.0 && OLD2 > 30.0)
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
+                    (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
                 if (m_8c < 60.0 && OLD2 > 60.0)
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
+                    (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
             }
         }
         break;
     case 3:
         if (!m_98 &&
-            (!qpqRa || (xIface::FUN_004b71d0() && qrEZrs <= 0.0) || (!xIface::FUN_004b71d0() && !FUN_00791540(false))))
+            (!qpqRa || (xIface::InterfaceManager_Has360Controller() && qrEZrs <= 0.0) || (!xIface::InterfaceManager_Has360Controller() && !LockPickMenu_IsTurningLock(false))))
         {
-            xg_os_11dea0c->FUN_00877720()->ResetTargetState();
+            xg_os_11dea0c->Main_GetControls()->ResetTargetState();
             m_28 = 2;
         }
         else
@@ -1726,12 +1732,12 @@ void LockPickMenu::FUN_0078eb50()
                 m_8c = xF40ebd0(m_8c, m_90);
             }
             AdvanceSequence(0.0f);
-            if (xIface::FUN_004b71d0())
-                xg_os_11dea0c->FUN_00877720()->FUN_00a255b0(0.1f, 0.0f, 0xfa, 0x7d, 3, 1, 0);
+            if (xIface::InterfaceManager_Has360Controller())
+                xg_os_11dea0c->Main_GetControls()->Controls_Rumble(0.1f, 0.0f, 0xfa, 0x7d, 3, 1, 0);
             if (OLD3 < 30.0 && m_8c > 30.0)
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
+                (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
             if (OLD3 < 60.0 && m_8c > 60.0)
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
+                (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
             if (m_8c >= m_90)
             {
                 if (m_8c >= 90.0)
@@ -1739,25 +1745,25 @@ void LockPickMenu::FUN_0078eb50()
                     if (m_6c)
                     {
                         xF4d5c60(4);
-                        if (reinterpret_cast<xRef*>(m_6c)->FUN_00569160()->m_10 == 0)
+                        if (reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_GetLock()->m_10 == 0)
                         {
                             xg_player_11dea3c->v290(xF6705b0(3, m_70));
-                            reinterpret_cast<xRef*>(m_6c)->FUN_00569160()->m_10++;
-                            reinterpret_cast<xRef*>(m_6c)->FUN_005789b0();
+                            reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_GetLock()->m_10++;
+                            reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_AddLockChange();
                         }
-                        if (reinterpret_cast<xRef*>(m_6c)->FUN_00567790())
+                        if (reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_GetOwner())
                         {
-                            xForm* OWNER = reinterpret_cast<xRef*>(m_6c)->FUN_00567790();
+                            xForm* OWNER = reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_GetOwner();
                             void* CRIME = 0;
                             if (OWNER->FUN_00401170() == 8)
                             {
                                 xFaction* FACA = (xFaction*)OWNER;
-                                CRIME = xg_crime_11e0e80.FUN_00970b30(FACA, 1, 1);
+                                CRIME = xg_crime_11e0e80.ProcessLists_GetActorRefInHigh_00970b30(FACA, 1, 1);
                             }
                             else
                             {
                                 xNPC* NPCA = (xNPC*)OWNER;
-                                CRIME = xg_crime_11e0e80.FUN_00970a20(NPCA, 1);
+                                CRIME = xg_crime_11e0e80.ProcessLists_GetActorRefInHigh(NPCA, 1);
                             }
                             if (CRIME)
                             {
@@ -1770,7 +1776,7 @@ void LockPickMenu::FUN_0078eb50()
                                 if (OWNER && OWNER->FUN_00401170() == 8)
                                 {
                                     xFaction* FACB = (xFaction*)OWNER;
-                                    if (!FACB->FUN_0047d7c0())
+                                    if (!FACB->GetEvil())
                                         BOUNTY = true;
                                 }
                                 else if (OWNER)
@@ -1784,23 +1790,23 @@ void LockPickMenu::FUN_0078eb50()
                                     }
                                 }
                                 if (BOUNTY)
-                                    xg_player_11dea3c->FUN_0094fd30((int)*xg_f_11cde20.FUN_00403e20());
+                                    xg_player_11dea3c->PlayerCharacter_RewardKarma((int)*xg_f_11cde20.Setting_Float_00403e20());
                             }
                         }
-                        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szUnlock, 0x101).Play(false);
-                        reinterpret_cast<xRef*>(m_6c)->FUN_005692a0();
+                        (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szUnlock, 0x101).Play(false);
+                        reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_UnLock();
                         if (reinterpret_cast<xRef*>(m_6c)->FUN_00401170() == 0x1c)
                             xg_player_11dea3c->m_20c = true;
-                        if (reinterpret_cast<xRef*>(m_6c)->FUN_007af430() && reinterpret_cast<xRef*>(m_6c)->FUN_007af430()->FUN_00401170() == 0x1b)
+                        if (reinterpret_cast<xRef*>(m_6c)->BGSSaveFormBuffer_GetForm() && reinterpret_cast<xRef*>(m_6c)->BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x1b)
                             xF75b6e0(1);
-                        reinterpret_cast<xRef*>(m_6c)->FUN_00573170(xg_player_11dea3c, 0, 0, 1);
+                        reinterpret_cast<xRef*>(m_6c)->TESObjectREFR_Activate(xg_player_11dea3c, 0, 0, 1);
                         if (reinterpret_cast<xRef*>(m_6c)->FUN_00401170() == 0x1c)
                             xg_player_11dea3c->m_20c = false;
                         xF78e0d0();
                     }
                     else
                     {
-                        m_58->FUN_00a01350(0xfc4, s_szOpened, true);
+                        m_58->Tile_Set_00a01350(0xfc4, s_szOpened, true);
                         m_58->FUN_00700320(0xfa3, 1);
                         if (!m_6c)
                             m_30->FUN_00700320(xg_iTileId_11da1f8, 0);
@@ -1810,21 +1816,21 @@ void LockPickMenu::FUN_0078eb50()
                 }
                 else
                 {
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szStop, 0x101).Play(false);
-                    s_kTension = (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTension, 1);
+                    (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szStop, 0x101).Play(false);
+                    s_kTension = (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTension, 1);
                     s_kTension.Play(true);
                     m_28 = 4;
                 }
-                xg_os_11dea0c->FUN_00877720()->ResetTargetState();
+                xg_os_11dea0c->Main_GetControls()->ResetTargetState();
             }
         }
         break;
     case 4:
-        if (!qpqRa || (xF4b7210()->FUN_004b71d0() && qrEZrs <= 0.0) ||
-            (!xF4b7210()->FUN_004b71d0() && !FUN_00791540(false)))
+        if (!qpqRa || (xF4b7210()->InterfaceManager_Has360Controller() && qrEZrs <= 0.0) ||
+            (!xF4b7210()->InterfaceManager_Has360Controller() && !LockPickMenu_IsTurningLock(false)))
         {
             s_kTension.FadeOutAndRelease(500);
-            xg_os_11dea0c->FUN_00877720()->ResetTargetState();
+            xg_os_11dea0c->Main_GetControls()->ResetTargetState();
             m_28 = 2;
         }
         else
@@ -1832,32 +1838,32 @@ void LockPickMenu::FUN_0078eb50()
             xUpdateData qxWmVch(0.0f, true, false);
             float qQMZREG = qSVM / 1000.0;
             char qJDuOZ[0x20];
-            if (*xg_f_11d41c8.FUN_00403e20() != 0.0)
-                m_94 -= qQMZREG / *xg_f_11d41c8.FUN_00403e20();
+            if (*xg_f_11d41c8.Setting_Float_00403e20() != 0.0)
+                m_94 -= qQMZREG / *xg_f_11d41c8.Setting_Float_00403e20();
             m_94 = xF404010(m_94, 0.0f);
             AdvanceSequence(xg_iDir_11a0394 * 0.25);
-            if (xIface::FUN_004b71d0())
-                xg_os_11dea0c->FUN_00877720()->FUN_00a255b0(0.5f, 0.0f, 0xfa, 0, 0, 0, 0);
+            if (xIface::InterfaceManager_Has360Controller())
+                xg_os_11dea0c->Main_GetControls()->Controls_Rumble(0.5f, 0.0f, 0xfa, 0, 0, 0, 0);
             if (m_ac)
             {
-                reinterpret_cast<xSeq*>(m_ac)->FUN_00a328b0(reinterpret_cast<xSeq*>(m_ac)->FUN_00759450() + (1.0 - m_94) * (reinterpret_cast<xSeq*>(m_ac)->FUN_00508100() - reinterpret_cast<xSeq*>(m_ac)->FUN_00759450()),
+                reinterpret_cast<xSeq*>(m_ac)->SetPhase(reinterpret_cast<xSeq*>(m_ac)->NiPSysSpawnModifier_GetLifeSpan() + (1.0 - m_94) * (reinterpret_cast<xSeq*>(m_ac)->GetEndKeyTime_00508100() - reinterpret_cast<xSeq*>(m_ac)->NiPSysSpawnModifier_GetLifeSpan()),
                                    0);
-                xg_spNode_11da24c.FUN_00559450()->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(qxWmVch));
+                xg_spNode_11da24c.FUN_00559450()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(qxWmVch));
             }
             UpdateLockRotation(m_68->FUN_00a011b0(xg_iTileId2_11da1fc) + xg_iDir_11a0394 * 2.5);
             xg_iDir_11a0394 = -xg_iDir_11a0394;
             xSprintf(qJDuOZ, 0x20, s_szHealthFmt, (int)xF4bd510(m_94 * 100.0, 1.0f), s_szPercent);
-            m_5c->FUN_00a01350(0xfc4, qJDuOZ, true);
+            m_5c->Tile_Set_00a01350(0xfc4, qJDuOZ, true);
             if (m_94 <= 0.0)
             {
                 s_kTension.FadeOutAndRelease(100);
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szBreak, 0x101).Play(false);
+                (BSAudio::BSAudio_QInstance()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szBreak, 0x101).Play(false);
                 if (m_6c)
                     xg_player_11dea3c->RemoveItem(xg_pLockpick_11ca268, 0, 1, 0, 0, 0, 0, 0, 1, 0);
-                m_30->FUN_00a012d0(xg_iTileId_11da1f8, m_30->FUN_00a011b0(xg_iTileId_11da1f8) - 1.0, true);
+                m_30->Tile_Set(xg_iTileId_11da1f8, m_30->FUN_00a011b0(xg_iTileId_11da1f8) - 1.0, true);
                 reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0047b220(reinterpret_cast<xSeq*>(m_ac), 0.0f);
                 reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0047aab0(reinterpret_cast<xSeq*>(m_b0), 0, 1, 1.0f, 0.0f, 0);
-                xg_os_11dea0c->FUN_00877720()->ResetTargetState();
+                xg_os_11dea0c->Main_GetControls()->ResetTargetState();
                 m_28 = 5;
             }
         }
@@ -1866,8 +1872,8 @@ void LockPickMenu::FUN_0078eb50()
         if (m_b0 && qpqRa)
         {
             xUpdateData UPD5(xg_fElapsed_11da2ac, true, false);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(UPD5));
-            if (reinterpret_cast<xSeq*>(m_b0)->FUN_00508100() <= xg_fElapsed_11da2ac)
+            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD5));
+            if (reinterpret_cast<xSeq*>(m_b0)->GetEndKeyTime_00508100() <= xg_fElapsed_11da2ac)
                 m_28 = 6;
         }
         break;
@@ -1875,13 +1881,13 @@ void LockPickMenu::FUN_0078eb50()
         if (xg_fElapsed_11da2ac >= 1.0 && qpqRa)
         {
             m_58->FUN_00700320(0xfa3, 0);
-            m_5c->FUN_00a01350(0xfc4, s_szHealthFull, true);
-            m_94 = 1.0f + m_78 * *xg_f_11d0de0.FUN_00403e20();
+            m_5c->Tile_Set_00a01350(0xfc4, s_szHealthFull, true);
+            m_94 = 1.0f + m_78 * *xg_f_11d0de0.Setting_Float_00403e20();
             m_8c = 0.0f;
             AdvanceSequence(0.0f);
-            m_68->FUN_00a012d0(xg_iTileId2_11da1fc, m_64->FUN_00a011b0(0xfb1) / 2.0, true);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_00440460(position);
-            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_0043fa80(reinterpret_cast<const NiMatrix3&>(rotation));
+            m_68->Tile_Set(xg_iTileId2_11da1fc, m_64->FUN_00a011b0(0xfb1) / 2.0, true);
+            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_SetTranslate(position);
+            xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->SetRotate_0043fa80(reinterpret_cast<const NiMatrix3&>(rotation));
             reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0048fef0(0.0f);
             reinterpret_cast<xCtrlMgr*>(m_a4)->FUN_0047aab0(reinterpret_cast<xSeq*>(m_a8), 0, 1, 1.0f, 0.0f, 0);
             if (xg_bMsg_11da2a4)
@@ -1894,7 +1900,7 @@ void LockPickMenu::FUN_0078eb50()
                 xQueueMsg(xg_s_11d34ec.FUN_00403df0(), 0, s_szIcon, 0, 2.0f, 0);
                 m_58->FUN_00700320(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
-                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(UPD6));
+                xg_spNode_11da24c.FUN_00559450()->FUN_0043b4a0(1)->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(UPD6));
                 m_28 = 2;
             }
             else
@@ -1906,8 +1912,8 @@ void LockPickMenu::FUN_0078eb50()
     case 7:
         if (FUN_0059bb30() != 2)
         {
-            xF4b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
-            xF4b7210()->FUN_00718930(1);
+            xF4b7210()->FUN_0045cd60()->Tile_Set(0xfa9, 255.0f, true);
+            xF4b7210()->InterfaceManager_SetLockpickControlsDisable(1);
             FUN_00726070()->FUN_00700320(0x1772, 1);
             FUN_00a1d910();
         }

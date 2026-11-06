@@ -48,11 +48,12 @@ struct NiPSysGravityModifier : NiPSysModifier
     bool m_bFieldFlag;
     void* operator new(unsigned int);
     NiPSysGravityModifier* InitDefaults();
-    NiPSysGravityModifier* FUN_00c22b00(CloningProcess&);
+    NiPSysGravityModifier* CreateClone_00c22b00(CloningProcess&);
 };
 // Allocates and constructs a copy of this gravity modifier, copies its fields, runs the base clone step with process, and returns the clone.
 // @fnv 0x00c22b00
-NiPSysGravityModifier* NiPSysGravityModifier::FUN_00c22b00(CloningProcess& process)
+// src: XBOX_PDB 0x00c22b00
+NiPSysGravityModifier* NiPSysGravityModifier::CreateClone_00c22b00(CloningProcess& process)
 {
     NiPSysGravityModifier* clone = static_cast<NiPSysGravityModifier*>(operator new(0x40));
     if (clone)
@@ -255,7 +256,7 @@ struct S_00c236b0_Stream
     int unk248;
     S_00c236b0_BinaryStream* m_pUnderlyingStream;  // +24C
 
-    void FUN_00a645b0();
+    void ReadLinkID();
 };
 
 template <class T> inline void S_00c236b0_StreamLoadBinary(S_00c236b0_Stream& kStream, T& value)
@@ -282,7 +283,7 @@ struct S_00c236b0_Obj : NiPSysModifier
 void S_00c236b0_Obj::LoadFromStream(S_00c236b0_Stream& kStream)
 {
     NiPSysModifier::LoadBinary(reinterpret_cast<NiStream&>(kStream));
-    kStream.FUN_00a645b0();
+    kStream.ReadLinkID();
     m_1C.LoadBinary(reinterpret_cast<NiStream&>(kStream));
     S_00c236b0_StreamLoadBinary(kStream, m_28);
     S_00c236b0_StreamLoadBinary(kStream, m_2C);
@@ -380,9 +381,9 @@ struct GravityViewerStringsArray
 extern NiRTTI g_kGravityModifierRTTI_01202548;
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
-char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
-char* __cdecl FUN_00a7d370(const char* pcPrefix, bool bValue);
+char* __cdecl NiGetViewerString_00a7d5e0(const char* pcPrefix, const char* pcValue);
+char* __cdecl NiGetViewerString_00a7d550(const char* pcPrefix, float fValue);
+char* __cdecl NiGetViewerString(const char* pcPrefix, bool bValue);
 
 struct NiPSysGravityModifierImpl
 {
@@ -411,12 +412,12 @@ void NiPSysGravityModifierImpl::AddViewerStrings(GravityViewerStringsArray* pkSt
         pcGravityObjName = m_pkGravityObject->m_kName.m_kHandle;
     else
         pcGravityObjName = "None";
-    pkStrings->Add(FUN_00a7d5e0("Gravity Object", pcGravityObjName));
-    pkStrings->Add(m_kGravityDirection.FUN_00a59af0("Gravity Axis"));
-    pkStrings->Add(FUN_00a7d550("Decay", m_fDistanceDecay));
-    pkStrings->Add(FUN_00a7d550("Strength", m_fValue));
-    pkStrings->Add(FUN_00a7d550("Turbulence", m_fTurbulenceAmount));
-    pkStrings->Add(FUN_00a7d550("TurbulenceScale", m_fTurbulenceScale));
+    pkStrings->Add(NiGetViewerString_00a7d5e0("Gravity Object", pcGravityObjName));
+    pkStrings->Add(m_kGravityDirection.GetViewerString_00a59af0("Gravity Axis"));
+    pkStrings->Add(NiGetViewerString_00a7d550("Decay", m_fDistanceDecay));
+    pkStrings->Add(NiGetViewerString_00a7d550("Strength", m_fValue));
+    pkStrings->Add(NiGetViewerString_00a7d550("Turbulence", m_fTurbulenceAmount));
+    pkStrings->Add(NiGetViewerString_00a7d550("TurbulenceScale", m_fTurbulenceScale));
     const char* pcForceTypeName;
     if (m_eForceType == 0)
         pcForceTypeName = "FORCE_PLANAR";
@@ -424,8 +425,8 @@ void NiPSysGravityModifierImpl::AddViewerStrings(GravityViewerStringsArray* pkSt
         pcForceTypeName = "FORCE_SPHERICAL";
     else
         pcForceTypeName = "Unknown";
-    pkStrings->Add(FUN_00a7d5e0("Force Type", pcForceTypeName));
-    pkStrings->Add(FUN_00a7d370("WorldAligned", m_bFieldFlag));
+    pkStrings->Add(NiGetViewerString_00a7d5e0("Force Type", pcForceTypeName));
+    pkStrings->Add(NiGetViewerString("WorldAligned", m_bFieldFlag));
 }
 
 struct Node18
@@ -562,7 +563,8 @@ inline NiPoint3 operator*(float scale, const NiPoint3& point)
     return NiPoint3(point.x * scale, point.y * scale, point.z * scale);
 }
 
-__declspec(noinline) void __fastcall FUN_004a0c10(NiPoint3* point)
+// src: XBOX_PDB 0x004a0c10
+__declspec(noinline) void __fastcall NiPoint3_Unitize(NiPoint3* point)
 {
     float length = static_cast<const NiPoint3*>(point)->Length();
     if (length > 9.999999974752427e-07)
@@ -713,12 +715,13 @@ struct EffectC22
         return result;
     }
 
-    void FUN_00c22b70(float elapsed, EmitterC22* emitter);
+    void NiPSysGravityModifier_Update(float elapsed, EmitterC22* emitter);
 };
 
 // Moves each active particle in the emitter by applying force, decay, and turbulence based on the effect's movement type and elapsed time.
 // @fnv 0x00c22b70
-void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
+// src: XBOX_PDB 0x00c22b70
+void EffectC22::NiPSysGravityModifier_Update(float elapsed, EmitterC22* emitter)
 {
 
     if (!emitter->GetActiveCount() || !directionSource)
@@ -746,7 +749,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
     else
         vForceDirection = pForm.m_Rotate.operator*(location);
 
-    FUN_004a0c10(&vForceDirection);
+    NiPoint3_Unitize(&vForceDirection);
 
     unsigned short j;
     j = emitter->GetActiveCount();
@@ -907,7 +910,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 GravityZ(vForceDirection) = GravityZ(pForm.m_Translate) - GravityZ(*y);
 
-                FUN_004a0c10(&vForceDirection);
+                NiPoint3_Unitize(&vForceDirection);
 
                 float s = (elapsed - pParticle->activeTime) * fSourceStrength;
                 AddGravityVector(pParticle->GetPosition(), vForceDirection * s);
@@ -931,7 +934,7 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 GravityZ(vForceDirection) = GravityZ(pForm.m_Translate) - GravityZ(*y);
 
-                FUN_004a0c10(&vForceDirection);
+                NiPoint3_Unitize(&vForceDirection);
 
                 NiPoint3 vOffset;
 

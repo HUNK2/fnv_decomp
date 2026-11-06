@@ -21,7 +21,8 @@ struct CloningProcess
     NiTPointerMap<void*, void*>* m_pCloneMap;
 };
 // @fnv 0x00c2e610
-void NiPSysBombModifier::FUN_00c2e610(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00c2e610
+void NiPSysBombModifier::ProcessClone_00c2e610(CloningProcess& kCloning)
 {
     bool bFound;
     NiObject* pkClone;
@@ -38,7 +39,8 @@ void NiPSysBombModifier::FUN_00c2e610(CloningProcess& kCloning)
 }
 
 // @fnv 0x00c2eaf0
-bool NiPSysBombModifier::FUN_00c2eaf0(NiObject* pkObject)
+// src: XBOX_PDB 0x00c2eaf0
+bool NiPSysBombModifier::IsEqual_00c2eaf0(NiObject* pkObject)
 {
     if (!FUN_00c31830(pkObject))
         return false;
@@ -74,8 +76,8 @@ namespace fnv_00c2ed00 {
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610* g_01202790;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610*);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
-char* __cdecl FUN_00a7d550(const char*, float);
+char* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
+char* __cdecl NiGetViewerString_00a7d550(const char*, float);
 
 }  // namespace fnv_00c2ed00
 
@@ -117,12 +119,12 @@ void NiPSysBombModifier::AppendToStrings(StrArr* pkStrings)
     FUN_00c319e0(pkStrings);
 
     AddBombString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_01202790));
-    AddBombString(pkStrings, FUN_00a7d5e0("Bomb Object", m_pkBombObject ? ((NiAVObject*)m_pkBombObject)->m_kName.m_kHandle : "None"));
-    AddBombString(pkStrings, m_kBombDirection.FUN_00a59af0("Bomb Axis"));
-    AddBombString(pkStrings, FUN_00a7d550("Decay", m_fDistanceDecay));
-    AddBombString(pkStrings, FUN_00a7d550("DeltaV", m_fDeltaVelocity));
-    AddBombString(pkStrings, FUN_00a7d5e0("Decay Type", GetDecayTypeName(m_eBombDecayType)));
-    AddBombString(pkStrings, FUN_00a7d5e0("Symmetry Type", GetSymmTypeName(m_eSymmetryType)));
+    AddBombString(pkStrings, NiGetViewerString_00a7d5e0("Bomb Object", m_pkBombObject ? ((NiAVObject*)m_pkBombObject)->m_kName.m_kHandle : "None"));
+    AddBombString(pkStrings, m_kBombDirection.GetViewerString_00a59af0("Bomb Axis"));
+    AddBombString(pkStrings, NiGetViewerString_00a7d550("Decay", m_fDistanceDecay));
+    AddBombString(pkStrings, NiGetViewerString_00a7d550("DeltaV", m_fDeltaVelocity));
+    AddBombString(pkStrings, NiGetViewerString_00a7d5e0("Decay Type", GetDecayTypeName(m_eBombDecayType)));
+    AddBombString(pkStrings, NiGetViewerString_00a7d5e0("Symmetry Type", GetSymmTypeName(m_eSymmetryType)));
 }
 
 inline unsigned int NiBinaryStream::BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
@@ -151,7 +153,7 @@ template <class Enum> static inline void ReadBombEnum(NiBinaryStream& input, Enu
 void __fastcall LoadBombBinary(NiPSysBombModifier* modifier, void*, NiStream& stream)
 {
     modifier->NiPSysModifier::LoadBinary(stream);
-    stream.FUN_00a645b0();
+    stream.ReadLinkID();
     modifier->m_kBombDirection.LoadBinary(stream);
     ReadBombFloat(*stream.m_pkIstr, modifier->m_fDistanceDecay);
     ReadBombFloat(*stream.m_pkIstr, modifier->m_fDeltaVelocity);
@@ -240,7 +242,7 @@ struct BombPoint
     {
         memcpy(this, &p, sizeof(*this));
     }
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void Unitize_004a0c10();
     float Dot(const BombPoint& p) const
     {
         return x * p.x + y * p.y + z * p.z;
@@ -303,7 +305,8 @@ struct Point3ParameterData
 
 // Applies velocity impulses to particles based on bomb direction, symmetry type, and distance decay over the elapsed time step.
 // @fnv 0x00c2e670
-void NiPSysBombModifier::FUN_00c2e670(float fTime, NiPSysData* pkData)
+// src: XBOX_PDB 0x00c2e670
+void NiPSysBombModifier::Update_00c2e670(float fTime, NiPSysData* pkData)
 {
     Point3ParameterData* pkInfo;
     (void)pkInfo;
@@ -332,7 +335,7 @@ void NiPSysBombModifier::FUN_00c2e670(float fTime, NiPSysData* pkData)
 
         kTargetCenter = kBombToTarget.m_Translate;
         kBombAxis = ((const NiMatrix3&)kBombToTarget.m_Rotate).operator*(m_kBombDirection);
-        kBombAxis.FUN_004a0c10();
+        kBombAxis.Unitize_004a0c10();
     }
 
     for (unsigned short i = 0; i < pkData->m_usActive; ++i)

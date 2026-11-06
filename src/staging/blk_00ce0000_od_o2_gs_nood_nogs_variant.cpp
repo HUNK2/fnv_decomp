@@ -45,11 +45,12 @@ struct FUN_00cf2280_cls
     __m128 m_30;
     __m128 m_40;
 
-    void FUN_00cf2280(const __m128* a, const __m128* b);
+    void hkSweptTransform_initSweptTransform(const __m128* a, const __m128* b);
 };
 
 // @fnv 0x00cf2280
-void FUN_00cf2280_cls::FUN_00cf2280(const __m128* a, const __m128* b)
+// src: XBOX_PDB 0x00cf2280
+void FUN_00cf2280_cls::hkSweptTransform_initSweptTransform(const __m128* a, const __m128* b)
 {
     m_00 = _mm_and_ps(*a, DAT_010c4c10);
     m_10 = _mm_and_ps(*a, DAT_010c4c10);

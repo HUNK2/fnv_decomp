@@ -48,7 +48,7 @@ struct MemRouter
         return *unk10;
     }
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(MemAllocator* alloc, VecArray* arr, int newCap, int elemSize);
 static __forceinline float distanceSquared(LocalM128 a, LocalM128 b)
 {
@@ -104,7 +104,7 @@ struct Holder_00dd6c10
         return *allocator;
     }
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* allocator, void* container, int elementSize);
 template <class T> struct Arr_00dd6c10
 {
@@ -136,7 +136,7 @@ struct PairList_00dd6c10
     }
     __forceinline void add(const Pair& item)
     {
-        Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(FUN_00c85750());
+        Holder_00dd6c10* h = static_cast<Holder_00dd6c10*>(hkMemoryRouter_getInstance());
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(h->allocator, this, sizeof(Pair));
         Pair* p = &data[size];
@@ -155,7 +155,7 @@ struct PairList_00dd6c10
     }
     __forceinline void clearAndFree()
     {
-        _clearAndDeallocate(static_cast<Holder_00dd6c10*>(FUN_00c85750())->heap());
+        _clearAndDeallocate(static_cast<Holder_00dd6c10*>(hkMemoryRouter_getInstance())->heap());
     }
 };
 typedef Arr_00dd6c10<LocalM128> VecArr_00dd6c10;

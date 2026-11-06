@@ -8,7 +8,7 @@
 #include "../../../include/TES.h"
 
 unsigned int gm_GetCurrentThreadId();
-void FUN_0040fca0(unsigned long);
+void BSSleep(unsigned long);
 
 extern OSGlobals* g_osGlobals;
 
@@ -30,7 +30,7 @@ int BSFaceGenModelMap_GetFaceGenLockCount();
 void BSFaceGenManager_UnlockFaceGenAccess();
 void SetTlsFlag(int);
 void GarbageCollector_ClearAll(int);
-void FUN_00c459d0(int);
+void NiObjectGarbage_ClearAll(int);
 void MemoryPool_FreeUnusedPagesForAllPools_00aa7030();
 #include "../../../include/RecursiveSpinLock.h"
 extern RecursiveSpinLock DAT_011f11a0;
@@ -146,10 +146,10 @@ int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
         if (mainThread)
         {
             SetTlsFlag(0);
-            if (g_TES->FUN_00453a80())
+            if (g_TES->TES_ClearOldestBufferedCell())
                 step = step - 1;
             else
-                g_TES->FUN_004539a0(1, 0);
+                g_TES->TES_ClearAllCells(1, 0);
             g_TES->FUN_00452490(0);
             SetTlsFlag(1);
             GarbageCollector_ClearAll(1);
@@ -160,10 +160,10 @@ int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
         if (DAT_011f11a0.BSSpinLock_TryLock())
         {
             GarbageCollector_ClearAll(1);
-            DAT_011f11a0.FUN_0040fba0();
+            DAT_011f11a0.BSSpinLock_Unlock();
         }
     case 3:
-        FUN_00c459d0(1);
+        NiObjectGarbage_ClearAll(1);
         break;
     case 6:
         if (mainThread)
@@ -191,7 +191,7 @@ int StateMachine::RunStep(void* context, unsigned int step, bool* finished)
                     DAT_01202d98->IOManager_PauseThread(1);
                     DAT_01202d98->CallElementAt(1);
                 }
-                FUN_0040fca0(1);
+                BSSleep(1);
                 DAT_011de70c = DAT_011de70c + 1;
                 step = step - 1;
                 break;

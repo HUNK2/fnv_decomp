@@ -155,7 +155,8 @@ static __forceinline unsigned int countBytes(const volatile unsigned int& count)
     return count * 4;
 }
 // @fnv 0x00a417b0
-void __cdecl FUN_00a417b0(void* owner, void* source, unsigned int elementCount)
+// src: XBOX_PDB 0x00a417b0
+void __cdecl NiPoint3_SaveBinary(void* owner, void* source, unsigned int elementCount)
 {
     NiBinaryStream* __restrict buffer = *reinterpret_cast<NiBinaryStream**>(reinterpret_cast<char*>(owner) + 0x250);
     unsigned int stride = 4;
@@ -302,8 +303,8 @@ struct ViewerStrings
 extern "C" void* g_011f3e74;
 
 char* NiViewerStrings_NiGetViewerString_Title(const char* pcName);
-char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
-char* FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
+char* NiGetViewerString_00a7d510(const char* pcPrefix, unsigned int uiValue);
+char* NiGetViewerString_00a7d5e0(const char* pcPrefix, const char* pcValue);
 
 void __stdcall AppendCameraPathEntries(ViewerStrings* pkStrings);
 
@@ -323,11 +324,11 @@ void __fastcall AppendMorphViewerStrings(NiMorphData* self, int, ViewerStrings* 
 {
     AppendCameraPathEntries(pkStrings);
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f3e74));
-    pkStrings->Add(FUN_00a7d510("m_uiNumTargets", self->m_uiNumTargets));
-    pkStrings->Add(FUN_00a7d510("m_uiNumVertsPerTarget", self->m_uiNumVertsPerTarget));
+    pkStrings->Add(NiGetViewerString_00a7d510("m_uiNumTargets", self->m_uiNumTargets));
+    pkStrings->Add(NiGetViewerString_00a7d510("m_uiNumVertsPerTarget", self->m_uiNumVertsPerTarget));
     pkStrings->Add(NiViewerStrings_NiGetViewerString_Title("MorphTargets"));
     for (unsigned int i = 0; i < self->m_uiNumTargets; i++)
-        pkStrings->AddInl(FUN_00a7d5e0("m_pcName", MorphTargetName(self->GetTarget(i))));
+        pkStrings->AddInl(NiGetViewerString_00a7d5e0("m_pcName", MorphTargetName(self->GetTarget(i))));
 }
 
 template <class T> inline unsigned int FNVReadElements(NiBinaryStream& stream, const T* data, unsigned int count)

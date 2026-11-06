@@ -27,9 +27,9 @@ class NiParticleMeshes : public NiParticles
     void FUN_00a59f90(NiUpdateData* data, int flags);
     void UpdateDownwardPassIfSelective(NiUpdateData& data);
     void RenderTarget(NiRenderer* renderer);
-    void FUN_00a9b140(NiParticleMeshes* object, void* arg);
+    void NiParticleMeshes_CopyMembers(NiParticleMeshes* object, void* arg);
     NiParticleMeshes* CreateAndInitObj(void* arg);
-    void FUN_00a9b2e0(StrArr2* strings);
+    void NiParticles_GetViewerStrings(StrArr2* strings);
     void AppendString(StrArr2* strings);
     void FUN_00a29680();
 

@@ -87,7 +87,7 @@ bool PathSmootherPOVSearch::DoubleCheckArcAgainstNavMesh(const NavMeshEdgePoint&
     if (!FindPath(edge, sphere.Center + firstDirection0, firstLocation6, cost13))
         return false;
     NavMeshEdgePoint firstExit15;
-    if (!FUN_006b1e50(firstLocation6, firstSphere2, arc, &firstExit15))
+    if (!CheckArcAgainstNavMesh(firstLocation6, firstSphere2, arc, &firstExit15))
         return false;
 
     float secondRadius1 = arc.Direction == ANGLE_DIRECTION_AD_CCW ? sphere.Radius + pRequest->GetFloatAtOffset68() * 0.9f
@@ -98,7 +98,7 @@ bool PathSmootherPOVSearch::DoubleCheckArcAgainstNavMesh(const NavMeshEdgePoint&
     if (!FindPath(edge, sphere.Center + secondDirection2, secondLocation2, cost13))
         return false;
     NavMeshEdgePoint secondExit9;
-    if (!FUN_006b1e50(secondLocation2, secondSphere12, arc, &secondExit9))
+    if (!CheckArcAgainstNavMesh(secondLocation2, secondSphere12, arc, &secondExit9))
         return false;
     return true;
 }

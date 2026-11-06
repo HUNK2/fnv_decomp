@@ -38,7 +38,7 @@ public:
     NiPointer<NiNode> pData;
 
     __declspec(noinline) bool GetBooleanValue();
-    void FUN_008d5270();
+    void CharacterProgression_FinishLevelUp();
 };
 
 // src/fallout/interface/menus/traitmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/traitmenu.cpp).
@@ -72,7 +72,8 @@ bool TraitMenu::FUN_007e6dd0()
 extern HUDMainMenu DAT_011f2250;
 
 // @fnv 0x007e73c0
-void TraitMenu::FUN_007e73c0()
+// src: XBOX_PDB 0x007e73c0
+void TraitMenu::DoIdle_007e73c0()
 {
     if ((int)m_eFadeState == 4)
     {
@@ -177,7 +178,7 @@ void TraitMenu::PopulatePerkList()
         GameStrcpyS(strtemp, 64, (*pcurrentPerk->GetItem())->TESFullName::GetFullName());
         if (!BSStringLength(strtemp))
             GameStrcpyS(strtemp, 64, static_cast<const StartMenu&>(g_011d35b8).GetMenuTitle());
-        if ((*pcurrentPerk->GetItem())->FUN_005d4ee0() > 1 && icurrRank > 0)
+        if ((*pcurrentPerk->GetItem())->BGSPerk_GetNumRanks() > 1 && icurrRank > 0)
             _sprintf_s(strtemp, 64, "%s (%d)", strtemp, icurrRank + 1);
         pnew = box.AddItemTile(*pcurrentPerk->GetItem(), strtemp, 0, 0);
         pnew->Set(0xfaa, 10);
@@ -192,16 +193,17 @@ struct ListBox_TESObjectREFR
 
 extern Actor* _g_thePlayer;
 extern void __cdecl _FUN_007df4e0();
-void __cdecl FUN_0077da30();
+void __cdecl HUDMainMenu_ClearXPMeterFinishedMoving();
 void __cdecl TraitMenu_IncreaseSelectedTraitRank(Tile*, void*);
 // @fnv 0x007e6e10
-void __cdecl FUN_007e6e10()
+// src: XBOX_PDB 0x007e6e10
+void __cdecl TraitMenu_Close()
 {
-    FUN_0077da30();
+    HUDMainMenu_ClearXPMeterFinishedMoving();
     if (DAT_011daf74)
     {
         ((ListBox_TESObjectREFR*)((char*)DAT_011daf74 + 0x54))->Traverse(TraitMenu_IncreaseSelectedTraitRank, 0, 0x7fffffff);
-        if (((NiNodeBooleanState_traitmenu*)((PlayerCharacter*)_g_thePlayer)->FUN_00464e10())->GetBooleanValue())
+        if (((NiNodeBooleanState_traitmenu*)((PlayerCharacter*)_g_thePlayer)->GetCharacterProgressionInfo())->GetBooleanValue())
             _g_thePlayer->ConfigureActorState(true, false);
         _FUN_007df4e0();
         StatsMenu::UpdateStatusEffects();
@@ -219,7 +221,7 @@ template <class T> struct TraitMenu::ListBoxItem
 
 extern int DAT_011daf70;
 
-int __cdecl FUN_00408b20(char const*, char const*);
+int __cdecl BSstrcmp(char const*, char const*);
 
 // @fnv 0x007e7740
 // src: COMMUNITY 0x007e7740
@@ -246,7 +248,7 @@ int Trait_CompareForSorting(TraitMenu::ListBoxItem<BGSPerk*>* apItem1, TraitMenu
     }
     else
     {
-        iresult = FUN_00408b20(apItem1->pTile->GetString(0xfc4),
+        iresult = BSstrcmp(apItem1->pTile->GetString(0xfc4),
                                apItem2->pTile->GetString(0xfc4));
     }
 
@@ -274,7 +276,7 @@ extern const char str_01071b7c[], str_01071b70[], str_01071b64[];
 extern int DAT_011d9210, DAT_011d9214, DAT_011d9224;
 extern int DAT_011d9218, DAT_011d921c, DAT_011d9220;
 extern float DAT_01012054;
-int __cdecl FUN_00a00940(const char*, int);
+int __cdecl Tile_AddUserTrait(const char*, int);
 // Exe 0x00753230 writes +0x48/+0x50/+0x54/+0x55; this separately attributed constructor is not TraitMenu.
 struct CharGenConstructor_traitmenu : CharGenConstructorBase_traitmenu
 {
@@ -288,12 +290,12 @@ struct CharGenConstructor_traitmenu : CharGenConstructorBase_traitmenu
 // @fnv 0x00753230
 CharGenConstructor_traitmenu::CharGenConstructor_traitmenu()
 {
-    DAT_011d9210 = FUN_00a00940(str_01071ba0, -1);
-    DAT_011d9214 = FUN_00a00940(str_01071b94, -1);
-    DAT_011d9224 = FUN_00a00940(str_01071b88, -1);
-    DAT_011d9218 = FUN_00a00940(str_01071b7c, -1);
-    DAT_011d921c = FUN_00a00940(str_01071b70, -1);
-    DAT_011d9220 = FUN_00a00940(str_01071b64, -1);
+    DAT_011d9210 = Tile_AddUserTrait(str_01071ba0, -1);
+    DAT_011d9214 = Tile_AddUserTrait(str_01071b94, -1);
+    DAT_011d9224 = Tile_AddUserTrait(str_01071b88, -1);
+    DAT_011d9218 = Tile_AddUserTrait(str_01071b7c, -1);
+    DAT_011d921c = Tile_AddUserTrait(str_01071b70, -1);
+    DAT_011d9220 = Tile_AddUserTrait(str_01071b64, -1);
     field_48 = 0;
     field_50 = DAT_01012054;
     field_55 = false;
@@ -323,13 +325,13 @@ void TraitMenu::UpdateValueDifferenceMessage()
         if (difference == 1)
         {
             _sprintf_s(message, 64, DAT_011d4558.FUN_00403df0(), difference);
-            tile38->FUN_00a01350(0xfc4, message, 1);
+            tile38->Tile_Set_00a01350(0xfc4, message, 1);
             tile38->FUN_00700320(0xfa3, 1);
         }
         else
         {
             _sprintf_s(message, 64, DAT_011d2c10.FUN_00403df0(), difference);
-            tile38->FUN_00a01350(0xfc4, message, 1);
+            tile38->Tile_Set_00a01350(0xfc4, message, 1);
             tile38->FUN_00700320(0xfa3, 1);
         }
     }
@@ -342,9 +344,9 @@ struct InputManager
 extern OSGlobals* DAT_011dea0c;
 extern unsigned int DAT_011db004;
 bool Interface_Has360Controller();
-float FUN_00408820(float);
+float NiAbs_00408820(float);
 unsigned int gm_GetTickCount();
-int FUN_00a01860(const char*);
+int Tile_TextToTrait(const char*);
 
 // @fnv 0x007e73f0
 bool TraitMenu::HandleKey(int key, int unused)
@@ -355,7 +357,7 @@ bool TraitMenu::HandleKey(int key, int unused)
     case 9:
         if (list.GetHighlightedItem())
         {
-            list.GetHighlightedItem()->FUN_00a0b110(0xfcb);
+            list.GetHighlightedItem()->Tile_PlayTileSound(0xfcb);
             HandleSelection(10, list.GetHighlightedItem());
             handled = true;
         }
@@ -365,20 +367,20 @@ bool TraitMenu::HandleKey(int key, int unused)
     {
         int delta = 0;
         int step = 0;
-        delta = DAT_011dea0c->FUN_00877720(0, 10)->GetAxisState();
-        if (FUN_00408820((float)delta) <= 8689.0)
+        delta = DAT_011dea0c->Main_GetControls(0, 10)->GetAxisState();
+        if (NiAbs_00408820((float)delta) <= 8689.0)
             delta = 0;
         if (delta != 0)
             step = delta < 0 ? 1 : -1;
         if (step != 0 && gm_GetTickCount() > DAT_011db004)
         {
             Tile* trait = scroll;
-            int iValueId = FUN_00a01860("_current_value");
+            int iValueId = Tile_TextToTrait("_current_value");
             int tile = (int)trait->FUN_00a011b0(iValueId);
-            trait->FUN_00a012d0(iValueId, (float)(tile + step), false);
+            trait->Tile_Set(iValueId, (float)(tile + step), false);
             if (tile != trait->FUN_00a011b0(iValueId))
             {
-                trait->SetTraitFloat(FUN_00a01860("_SetInCode"), 1.0f);
+                trait->SetTraitFloat(Tile_TextToTrait("_SetInCode"), 1.0f);
             }
             DAT_011db004 = gm_GetTickCount() + (DAT_011db004 ? 50 : 500);
         }
@@ -400,7 +402,7 @@ void FUN_007e7670(Tile* pDest, BGSPerk* pPlayer)
         fValue = DAT_01023cd8;
     else
         fValue = DAT_0101e704;
-    pDest->FUN_00a012d0(DAT_011daf70, fValue, 1);
+    pDest->Tile_Set(DAT_011daf70, fValue, 1);
 }
 
 struct EffectList
@@ -486,13 +488,13 @@ void TraitMenu::UpdateEffectChanges(Tile* tile)
 
 struct ResourceProvider
 {
-    Tile* FUN_00586150(const char*);
+    Tile* CombatController_GetCombatState(const char*);
 };
 ResourceProvider* __cdecl InterfaceManager_GetSingleton();
-TraitMenu* __cdecl FUN_00a09030(int);
+TraitMenu* __cdecl Tile_GetMenuByClass(int);
 void __cdecl FNV_Warning(const char*);
 float __stdcall FUN_00a01530(int);
-int __cdecl FUN_00a01860(const char*);
+int __cdecl Tile_TextToTrait(const char*);
 extern Setting DAT_011d2f94, DAT_011d351c, DAT_011d2310, DAT_011d33d8, DAT_011d35c4, DAT_011da034;
 struct PerkNode
 {
@@ -501,20 +503,21 @@ struct PerkNode
 };
 struct DataHandlerView
 {
-    PerkNode* FUN_00460fb0();
+    PerkNode* InterfaceManager_GetHUDEffects();
 };
 extern DataHandlerView* DAT_011c3f2c;
 extern int DAT_011daf64, DAT_011daf68;
 void __cdecl FUN_007e7670(Tile*, void*);
 // Loads trait_menu.xml, builds the trait menu, fills its perk list with eligible perks, sets its labels and counts, and returns the menu tile or 0 on failure.
 // @fnv 0x007e6990
-Tile* __cdecl FUN_007e6990()
+// src: XBOX_PDB 0x007e6990
+Tile* __cdecl TraitMenu_Create()
 {
-    TraitMenu* oldMenu = FUN_00a09030(1084);
+    TraitMenu* oldMenu = Tile_GetMenuByClass(1084);
     ResourceProvider* root = InterfaceManager_GetSingleton();
     if (oldMenu)
         delete oldMenu;
-    Tile* manager = root->FUN_00586150("Data\\Menus\\trait_menu.xml")->FUN_00a01b00();
+    Tile* manager = root->CombatController_GetCombatState("Data\\Menus\\trait_menu.xml")->Tile_ReadFile();
     DAT_011daf74 = (int)manager->GetMenu();
     if (DAT_011daf74 && ((TraitMenu*)DAT_011daf74)->GetClass() == TraitMenu_GetMenuID_0())
     {
@@ -525,7 +528,7 @@ Tile* __cdecl FUN_007e6990()
             return 0;
         }
         if (manager->FUN_00a011b0(4007) == 6006.0 || manager->FUN_00a011b0(4007) == 102.0)
-            manager->FUN_00a012d0(4013, FUN_00a01530(1));
+            manager->Tile_Set(4013, FUN_00a01530(1));
         int count = *DAT_011d2f94.Int();
         ((TraitMenu*)DAT_011daf74)->selected = 0;
         ((TraitMenu*)DAT_011daf74)->count = count;
@@ -536,11 +539,11 @@ Tile* __cdecl FUN_007e6990()
             _sprintf_s(text, 64, DAT_011d2310.String(), count);
         ((TraitMenu*)DAT_011daf74)->tile28->Set(4036, text, true);
         ((TraitMenu*)DAT_011daf74)->tile3c->Set(4036, DAT_011d33d8.String(), true);
-        ((TraitMenu*)DAT_011daf74)->tile40->Set(FUN_00a01860("_Title"), DAT_011d35c4.String(), true);
-        for (PerkNode* node = DAT_011c3f2c->FUN_00460fb0(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
+        ((TraitMenu*)DAT_011daf74)->tile40->Set(Tile_TextToTrait("_Title"), DAT_011d35c4.String(), true);
+        for (PerkNode* node = DAT_011c3f2c->InterfaceManager_GetHUDEffects(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
         {
             BGSPerk* perk = *node->FUN_006815c0();
-            if (perk->Level() > 0 && g_thePlayer->GetPerkRank(perk, false) < perk->FUN_005d4ee0() &&
+            if (perk->Level() > 0 && g_thePlayer->GetPerkRank(perk, false) < perk->BGSPerk_GetNumRanks() &&
                 perk->GetByteAtOffset56() && perk->IsPerkAttainable(g_thePlayer) && perk->CheckPlayerConditions())
             {
                 bool valid = true;
@@ -570,7 +573,7 @@ Tile* __cdecl FUN_007e6990()
     return 0;
 }
 
-void __cdecl FUN_00706f30(int);
+void __cdecl Interface_PlayMenuSound(int);
 
 // For id 10, fills the icon and description tiles from the perk list item, toggles their visibility, and updates the scroll tile's current value.
 // @fnv 0x007e6ea0
@@ -593,19 +596,19 @@ void TraitMenu::UpdatePerkTile(int id, Tile* tile)
         }
         this->tile34->Set(0xFA3, 1);
         this->tile44->Set(0xFA3, 0);
-        FUN_00706f30(4);
+        Interface_PlayMenuSound(4);
         Tile* scroll2 = this->tile48;
-        int traitVal = FUN_00a01860("_current_value");
-        scroll2->FUN_00a012d0(traitVal, 0.0f, false);
-        scroll2->SetTraitFloat(FUN_00a01860("_SetInCode"), 1.0f);
+        int traitVal = Tile_TextToTrait("_current_value");
+        scroll2->Tile_Set(traitVal, 0.0f, false);
+        scroll2->SetTraitFloat(Tile_TextToTrait("_SetInCode"), 1.0f);
         break;
     }
 }
 
 extern int DAT_011daf70;
 extern int DAT_011daf64;
-void __cdecl FUN_00706f30(int);
-void __cdecl FUN_007e6e10();
+void __cdecl Interface_PlayMenuSound(int);
+void __cdecl TraitMenu_Close();
 void __cdecl FUN_007e7630(Tile* apTile);
 
 // Handles tile actions by ID: toggles perk selection and refreshes the tile, or resets the selection and traverses the list.
@@ -630,10 +633,10 @@ void TraitMenu::HandleTileAction(int aiTileID, Tile* apTile)
         UpdatePerkList();
         break;
     case 6:
-        FUN_007e6e10();
+        TraitMenu_Close();
         break;
     case 5:
-        FUN_00706f30(1);
+        Interface_PlayMenuSound(1);
         iNumSelected = 0;
         GetTile()->Set(DAT_011daf64, iNumSelected);
         kList.Traverse(FUN_007e7630, 0, 0x7fffffff);

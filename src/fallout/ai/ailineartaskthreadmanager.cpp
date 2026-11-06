@@ -111,7 +111,8 @@ struct FUN_008c7490_this
 };
 
 // @fnv 0x008c7490
-void __fastcall FUN_008c7490(FUN_008c7490_this* pThis)
+// src: XBOX_PDB 0x008c7490
+void __fastcall AITaskThread_WaitForCompletion(FUN_008c7490_this* pThis)
 {
     pThis->sem.Wait();
 }
@@ -207,8 +208,8 @@ struct TaskQueueInterface
 typedef char _sizecheck_TaskQueueInterface[sizeof(TaskQueueInterface) == 16 ? 1 : -1];
 
 unsigned int __cdecl gm_GetCurrentThreadId(void);
-bool __cdecl FUN_00713d90(void);
-bool __fastcall FUN_0087a730(void*);
+bool __cdecl AILinearTaskThreadManager_QRunningThreads(void);
+bool __fastcall TaskQueueInterface_QQueueFurtherTasks(void*);
 bool __cdecl AILinearTaskThreadManager_GetMainRendering(void);
 void* __stdcall AILinearTaskThreadManager_GetSingleton(int);
 unsigned int __fastcall GetValueWithItemResult(void*);
@@ -217,14 +218,15 @@ extern SettingT_GameSettingCollection_ g_011c3ea4;
 extern BSAudio* g_osGlobals;
 
 // @fnv 0x008c7aa0
-bool __cdecl FUN_008c7aa0()
+// src: XBOX_PDB 0x008c7aa0
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask()
 {
     bool bretval = false;
     bool bretvalBug44071 = false;
-    if (*reinterpret_cast<int*>(g_011c3ea4.Int()) > 1 && FUN_00713d90())
+    if (*reinterpret_cast<int*>(g_011c3ea4.Int()) > 1 && AILinearTaskThreadManager_QRunningThreads())
     {
         TaskQueueInterface* pqueueInterface = TaskQueueInterface::GetInstance();
-        if (FUN_0087a730(pqueueInterface))
+        if (TaskQueueInterface_QQueueFurtherTasks(pqueueInterface))
             bretvalBug44071 = true;
 
         unsigned long icurrthread = gm_GetCurrentThreadId();
@@ -257,7 +259,8 @@ bool __cdecl FUN_008c7aa0()
 
 __declspec(thread) int DAT_tls_0264;
 // @fnv 0x0047b200
-int FUN_0047b200()
+// src: XBOX_PDB 0x0047b200
+int TESObjectREFR_GetBackgroundLoadingRef()
 {
     return DAT_tls_0264;
 }
@@ -269,10 +272,11 @@ struct FUN_0086c600_shell
 struct FUN_0087a6b0_shell
 {
     FUN_0086c600_shell* p;
-    void FUN_0087a6b0();
+    void TaskQueueInterface_ThreadBeginInput();
 };
 // @fnv 0x0087a6b0
-void FUN_0087a6b0_shell::FUN_0087a6b0()
+// src: XBOX_PDB 0x0087a6b0
+void FUN_0087a6b0_shell::TaskQueueInterface_ThreadBeginInput()
 {
     p->SignalAtOffset();
 }
@@ -447,7 +451,7 @@ void FUN_00991500_shell::CombatManager_Update(bool abFlag)
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void* hObject);
 
 void __fastcall FUN_008c74b0(void*);
-void __fastcall FUN_008c7490(void*);
+void __fastcall AITaskThread_WaitForCompletion(void*);
 
 struct TaskThreadStandin
 {
@@ -472,7 +476,7 @@ void FUN_008c73a0_shell::AILinearTaskThreadManager_Kill()
         if (m_pTaskThreads[i])
         {
             FUN_008c74b0(m_pTaskThreads[i]);
-            FUN_008c7490(m_pTaskThreads[i]);
+            AITaskThread_WaitForCompletion(m_pTaskThreads[i]);
             delete (TaskThreadStandin*)m_pTaskThreads[i];
             m_pTaskThreads[i] = 0;
         }
@@ -495,7 +499,7 @@ namespace fnv_008c7bd0 {
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 struct TaskQueueInterface
@@ -517,7 +521,7 @@ struct FUN_008c7d80_shell
 
 struct FUN_0087a6b0_shell
 {
-    void FUN_0087a6b0();
+    void TaskQueueInterface_ThreadBeginInput();
 };
 
 struct FUN_0087a6d0_shell
@@ -556,20 +560,20 @@ struct GlobalObject_0096d020
 {
     void ProcessLists_RunActorAnimationUpdates();
     void ProcessLists_ParallelActorAnimationMovementUpdates();
-    void FUN_0096bcd0(float, int);
+    void MiddleHighProcess_CalculateLightValue(float, int);
     void UpdateDetection();
-    void FUN_0096db30(float, int, int);
+    void ProcessLists_UpdateActorsMovement(float, int, int);
 };
 
 void* __stdcall AILinearTaskThreadManager_GetSingleton(int);
 void __fastcall TESMain_OnIdle_DoInterfaceIdle(void*);
-float __cdecl FUN_00453850();
+float __cdecl Main_QFrameAnimTime();
 bool __cdecl TESMain_GetIsInPauseFade();
 void __cdecl Script_ClearOptimizations();
 void __cdecl ScriptLocals_ClearOptimizations();
 void __cdecl AILinearTaskThreadManager_WaitMainRendering();
 void __cdecl ProcessPlayerCellActors();
-void __fastcall FUN_00991dc0(void*);
+void __fastcall CombatManager_UpdateCombatants(void*);
 
 extern BSAudio* g_osGlobals;
 extern int g_TES;
@@ -586,7 +590,7 @@ void __cdecl AILinearTaskThreadManager_AIThreadCombined()
     TESMain_OnIdle_DoInterfaceIdle(g_osGlobals);
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(0))->SignalThreadEvent(1);
 
-    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->FUN_0087a6b0();
+    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadBeginInput();
 
     reinterpret_cast<FUN_00991500_shell*>(BGSSaveLoadGlobalDataWorldspacePtr)->CombatManager_Update(TESMain_GetIsInPauseFade());
 
@@ -601,20 +605,20 @@ void __cdecl AILinearTaskThreadManager_AIThreadCombined()
     reinterpret_cast<FUN_009784c0_shell*>(&DAT_011e0e80)->ProcessLists_RunActorMagicUpdates();
     DAT_011f11a0.Unlock();
 
-    FUN_00991dc0(BGSSaveLoadGlobalDataWorldspacePtr);
+    CombatManager_UpdateCombatants(BGSSaveLoadGlobalDataWorldspacePtr);
 
     DAT_011f11a0.Lock(0);
-    reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->FUN_0096bcd0(0.0f, 0);
+    reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->MiddleHighProcess_CalculateLightValue(0.0f, 0);
     ProcessPlayerCellActors();
     reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->UpdateDetection();
-    reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->FUN_0096db30(0.0f, 0, 0);
+    reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->ProcessLists_UpdateActorsMovement(0.0f, 0, 0);
     reinterpret_cast<SkyObject*>(&DAT_011e0e80)->Update(0.0f, 0);
     reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->RunActorUpdates();
     reinterpret_cast<FUN_0096cb50_shell*>(&DAT_011e0e80)->UpdateHighProcessActors();
     BGSDestructibleObjectForm::UpdateDestructionMap();
     DAT_011f11a0.Unlock();
 
-    reinterpret_cast<Zt5TES*>(g_TES)->FUN_00453550(FUN_00453850());
+    reinterpret_cast<Zt5TES*>(g_TES)->TES_UpdateCellAnimations(Main_QFrameAnimTime());
 
     reinterpret_cast<FUN_008c7d80_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SetCurrent(6);
     AILinearTaskThreadManager_WaitMainRendering();
@@ -636,18 +640,18 @@ namespace fnv_008c7f50 {
 
 struct Zt5TES
 {
-    void FUN_00453550(float);
+    void TES_UpdateCellAnimations(float);
 };
 
 struct FUN_0096c330_shell
 {
     void UpdateDetection();
-    void FUN_0096db30(float, int, int);
+    void ProcessLists_UpdateActorsMovement(float, int, int);
 };
 
 struct FUN_0087a6b0_shell
 {
-    void FUN_0087a6b0();
+    void TaskQueueInterface_ThreadBeginInput();
 };
 
 struct FUN_0087a6d0_shell
@@ -679,7 +683,7 @@ struct FUN_0096cb50_shell
 };
 
 void* __stdcall AILinearTaskThreadManager_GetSingleton(int);
-float __cdecl FUN_00453850(void);
+float __cdecl Main_QFrameAnimTime(void);
 void __cdecl Script_ClearOptimizations(void);
 void __cdecl ScriptLocals_ClearOptimizations(void);
 extern int g_TES;
@@ -692,14 +696,14 @@ void AILinearTaskThreadManager_AIThread2TaskFunc()
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(0);
     reinterpret_cast<FUN_008c7a70_shell*>(AILinearTaskThreadManager_GetSingleton(0))->WaitForEvent(1);
 
-    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->FUN_0087a6b0();
+    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadBeginInput();
     reinterpret_cast<FUN_0096c330_shell*>(&DAT_011e0e80)->UpdateDetection();
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(1);
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(2);
     reinterpret_cast<FUN_008c7a70_shell*>(AILinearTaskThreadManager_GetSingleton(0))->WaitForEvent(2);
 
-    reinterpret_cast<FUN_0096c330_shell*>(&DAT_011e0e80)->FUN_0096db30(0.0f, 0, 0);
+    reinterpret_cast<FUN_0096c330_shell*>(&DAT_011e0e80)->ProcessLists_UpdateActorsMovement(0.0f, 0, 0);
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(3);
     reinterpret_cast<SkyObject*>(&DAT_011e0e80)->Update(0.0f, 0);
@@ -711,7 +715,7 @@ void AILinearTaskThreadManager_AIThread2TaskFunc()
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(5);
     reinterpret_cast<FUN_008c7a70_shell*>(AILinearTaskThreadManager_GetSingleton(0))->WaitForEvent(4);
 
-    reinterpret_cast<Zt5TES*>(g_TES)->FUN_00453550(FUN_00453850());
+    reinterpret_cast<Zt5TES*>(g_TES)->TES_UpdateCellAnimations(Main_QFrameAnimTime());
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(6);
     reinterpret_cast<FUN_0087a6d0_shell*>(TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadEndInput();
@@ -735,7 +739,7 @@ struct FUN_00455640_shell
 
 struct FUN_0087a6b0_shell
 {
-    void FUN_0087a6b0();
+    void TaskQueueInterface_ThreadBeginInput();
 };
 
 struct FUN_0087a6d0_shell
@@ -773,7 +777,7 @@ struct ProcessListsView
 {
     void ProcessLists_RunActorAnimationUpdates();
     void ProcessLists_ParallelActorAnimationMovementUpdates();
-    void FUN_0096bcd0(float, int);
+    void MiddleHighProcess_CalculateLightValue(float, int);
     static void ProcessPlayerCellActors();
     void RunActorUpdates();
 };
@@ -789,7 +793,7 @@ extern SettingT_GameSettingCollection_ g_011d73e4;
 
 void* __cdecl AILinearTaskThreadManager_GetSingleton();
 void __fastcall TESMain_OnIdle_DoInterfaceIdle(void*);
-void __fastcall FUN_00991dc0(void*);
+void __fastcall CombatManager_UpdateCombatants(void*);
 void __cdecl ScriptLocals_ClearOptimizations();
 void __cdecl Script_ClearOptimizations();
 bool __cdecl TESMain_GetIsInPauseFade();
@@ -802,18 +806,18 @@ void __cdecl AILinearTaskThreadManager_AIThread1TaskFunc()
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 0);
     TESMain_OnIdle_DoInterfaceIdle(g_osGlobals);
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 1);
-    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->FUN_0087a6b0();
+    reinterpret_cast<FUN_0087a6b0_shell*>(TaskQueueInterface::GetInstance())->TaskQueueInterface_ThreadBeginInput();
     reinterpret_cast<FUN_00991500_shell*>(BGSSaveLoadGlobalDataWorldspacePtr)->CombatManager_Update(TESMain_GetIsInPauseFade());
     reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->ProcessLists_RunActorAnimationUpdates();
     reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->ProcessLists_ParallelActorAnimationMovementUpdates();
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 2);
     g_TES->TES_RunAnimations();
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 3);
-    FUN_00991dc0(BGSSaveLoadGlobalDataWorldspacePtr);
+    CombatManager_UpdateCombatants(BGSSaveLoadGlobalDataWorldspacePtr);
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 4);
     reinterpret_cast<FUN_009784c0_shell*>(&DAT_011e0e80)->ProcessLists_RunActorMagicUpdates();
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 5);
-    reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->FUN_0096bcd0(0.0f, 0);
+    reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->MiddleHighProcess_CalculateLightValue(0.0f, 0);
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 6);
     ProcessListsView::ProcessPlayerCellActors();
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton())->SignalThreadEvent(0, 10);

@@ -238,7 +238,7 @@ struct CloningProcess
 typedef char _sizecheck_NiCloningProcess[sizeof(CloningProcess) == 16 ? 1 : -1];
 struct FUN_00a713e0_shell : public NiCamera
 {
-    NiObject* FUN_00a713e0(CloningProcess*);
+    NiObject* NiCamera_CreateClone(CloningProcess*);
 };
 
 struct CameraCloneStorage
@@ -253,13 +253,14 @@ struct CameraCloneStorage
 };
 struct CamStub
 {
-    void FUN_00a70f60(void*, CloningProcess*);
+    void NiCamera_CopyMembers(void*, CloningProcess*);
 };
 // @fnv 0x00a713e0
-void* __fastcall FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
+// src: XBOX_PDB 0x00a713e0
+void* __fastcall NiCamera_CreateClone(CamStub* self, int edx, CloningProcess* kCloning)
 {
     CameraCloneStorage* pkObject = new CameraCloneStorage();
-    self->FUN_00a70f60(pkObject, kCloning);
+    self->NiCamera_CopyMembers(pkObject, kCloning);
     return pkObject;
 }
 
@@ -284,21 +285,22 @@ void FormatCameraPort();
 
 struct NiPoint3ViewerProxy
 {
-    char* FUN_00a59af0(char const* name);
+    char* GetViewerString_00a59af0(char const* name);
 };
 
 extern char const* const g_011f5e6c_arg1;
 
 char* __cdecl _FUN_00a7d330(char const* value);
-char* __cdecl FUN_00a7d550(char const* name, float value);
+char* __cdecl NiGetViewerString_00a7d550(char const* name, float value);
 
 struct FUN_00a71920_shell
 {
-    void FUN_00a71920(StrArr* strings);
+    void NiCamera_GetViewerStrings(StrArr* strings);
 };
 
 // @fnv 0x00a71920
-void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
+// src: XBOX_PDB 0x00a71920
+void FUN_00a71920_shell::NiCamera_GetViewerStrings(StrArr* strings)
 {
     reinterpret_cast<CameraViewerAppender*>(this)->AppendViewerStrings(strings);
 
@@ -334,7 +336,7 @@ void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
     point.x = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x68);
     point.y = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x74);
     point.z = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x80);
-    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->FUN_00a59af0("m_kWorldDir");
+    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->GetViewerString_00a59af0("m_kWorldDir");
     index = strings->m_usSize;
     size = strings->m_usMaxSize;
     if (index >= size)
@@ -344,7 +346,7 @@ void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
     point.x = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x6c);
     point.y = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x78);
     point.z = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x84);
-    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->FUN_00a59af0("m_kWorldUp");
+    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->GetViewerString_00a59af0("m_kWorldUp");
     index = strings->m_usSize;
     size = strings->m_usMaxSize;
     if (index >= size)
@@ -354,21 +356,21 @@ void FUN_00a71920_shell::FUN_00a71920(StrArr* strings)
     point.x = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x70);
     point.y = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x7c);
     point.z = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x88);
-    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->FUN_00a59af0("m_kWorldRight");
+    value = reinterpret_cast<NiPoint3ViewerProxy*>(&point)->GetViewerString_00a59af0("m_kWorldRight");
     index = strings->m_usSize;
     size = strings->m_usMaxSize;
     if (index >= size)
         strings->SetSize(static_cast<unsigned int>(strings->m_usGrowBy) + index);
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fMinNearPlaneDist", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf8));
+    value = NiGetViewerString_00a7d550("m_fMinNearPlaneDist", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf8));
     index = strings->m_usSize;
     size = strings->m_usMaxSize;
     if (index >= size)
         strings->SetSize(static_cast<unsigned int>(strings->m_usGrowBy) + index);
     strings->SetAt(index, value);
 
-    value = FUN_00a7d550("m_fMaxFarNearRatio", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xfc));
+    value = NiGetViewerString_00a7d550("m_fMaxFarNearRatio", *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xfc));
     index = strings->m_usSize;
     size = strings->m_usMaxSize;
     if (index >= size)
@@ -636,18 +638,19 @@ class FUN_00a6ff10_StandIn
 {
   public:
     bool FUN_00a59f00(NiStream& stream);
-    bool FUN_00a6ff10(NiStream& stream);
+    bool NiDynamicEffect_RegisterStreamables(NiStream& stream);
 };
 
 // @fnv 0x00a6ff10
-bool FUN_00a6ff10_StandIn::FUN_00a6ff10(NiStream& stream)
+// src: XBOX_PDB 0x00a6ff10
+bool FUN_00a6ff10_StandIn::NiDynamicEffect_RegisterStreamables(NiStream& stream)
 {
     return FUN_00a59f00(stream);
 }
 
 struct NiCameraHack : NiCamera
 {
-    void FUN_00a71450(NiStream& stream);
+    void NiCamera_LoadBinary(NiStream& stream);
 };
 inline unsigned int NiBinaryStream::BinaryRead(void* pvBuffer, unsigned int uiTotalBytes,
                                unsigned int* puiComponentSizes, unsigned int uiNumComponents)
@@ -677,7 +680,8 @@ inline void ReadBinaryValue(NiStream& stream, bool& value)
 
 // Reads camera frustum, port, and trailing values from a NiStream, handling NIF version differences for flags and orthographic projection.
 // @fnv 0x00a71450
-void NiCameraHack::FUN_00a71450(NiStream& stream)
+// src: XBOX_PDB 0x00a71450
+void NiCameraHack::NiCamera_LoadBinary(NiStream& stream)
 {
     NiAVObject::LoadBinary(stream);
 
@@ -822,11 +826,12 @@ __forceinline void FullBound(CameraBoundsVector& lo, CameraBoundsVector& hi)
 
 struct CameraBoundMatcher : public NiCamera
 {
-    void FUN_00a705f0(const NiBound& bound, NiPoint3& kMinBoundsCur, NiPoint3& kMaxPoint, float fTolerance);
+    void NiCamera_ScreenSpaceBoundBound(const NiBound& bound, NiPoint3& kMinBoundsCur, NiPoint3& kMaxPoint, float fTolerance);
 };
 
 // @fnv 0x00a705f0
-void CameraBoundMatcher::FUN_00a705f0(const NiBound& bound, NiPoint3& minimum, NiPoint3& maximum, float fTolerance)
+// src: XBOX_PDB 0x00a705f0
+void CameraBoundMatcher::NiCamera_ScreenSpaceBoundBound(const NiBound& bound, NiPoint3& minimum, NiPoint3& maximum, float fTolerance)
 {
     CameraBoundsVector& kMinPoint = reinterpret_cast<CameraBoundsVector&>(minimum);
     CameraBoundsVector& kMaxPoint = reinterpret_cast<CameraBoundsVector&>(maximum);
@@ -1078,16 +1083,17 @@ union FUN_00a70f60_FloatBits
 
 struct FUN_00a70f60_Obj
 {
-    void __thiscall FUN_00a70f60(NiCamera* destination, int second);
+    void __thiscall NiCamera_CopyMembers(NiCamera* destination, int second);
 };
 
 // Copies NiCamera state from source to destination via base copy, memcpy, and field assignments.
 // @fnv 0x00a70f60
-void __thiscall FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
+// src: XBOX_PDB 0x00a70f60
+void __thiscall FUN_00a70f60_Obj::NiCamera_CopyMembers(NiCamera* destination, int second)
 {
     NiCamera* source = reinterpret_cast<NiCamera*>(this);
 
-    source->NiAVObject::FUN_00a5ac90(destination, *reinterpret_cast<CloningProcess*>(second));
+    source->NiAVObject::CopyMembers_00a5ac90(destination, *reinterpret_cast<CloningProcess*>(second));
 
     FUN_00ec44d0(reinterpret_cast<char*>(destination) + 0x9C, reinterpret_cast<char*>(source) + 0x9C, 0x40);
 
@@ -1181,12 +1187,13 @@ template <class T> inline void SerializeValue(NiStream& kStream, const T& tValue
 
 struct NiCamera_Candidate : public NiCamera
 {
-    void FUN_00a716c0(NiStream& kStream);
+    void NiCamera_SaveBinary(NiStream& kStream);
 };
 
 // Saves the camera's AV object data, view frustum, port, and link ID to the binary stream via SerializeValue calls.
 // @fnv 0x00a716c0
-void NiCamera_Candidate::FUN_00a716c0(NiStream& kStream)
+// src: XBOX_PDB 0x00a716c0
+void NiCamera_Candidate::NiCamera_SaveBinary(NiStream& kStream)
 {
     NiAVObject::SaveBinary(kStream);
 

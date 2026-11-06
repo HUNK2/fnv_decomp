@@ -17,8 +17,8 @@ public:
     virtual void CopyFrom(const TESForm* form);
     virtual bool Compare(TESForm* form);
 
-    void FUN_0050bcd0(TESForm* apCopy);
-    bool FUN_0050bd10(TESForm* apCompare);
+    void Copy_0050bcd0(TESForm* apCopy);
+    bool Compare_0050bd10(TESForm* apCompare);
     SpellItem* GetLeveledSpell(void* actor, unsigned short level);
     void SelectLeveledSpell(void* desiredForm, unsigned short level,
                            unsigned int* outForm, unsigned short* outCount,

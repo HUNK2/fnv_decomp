@@ -297,7 +297,7 @@ inline QueryPoint* allocateResults(PairCommand* command, const QueryCollector& c
         return 0;
     }
 }
-void FUN_00df6e00(const QueryJob* job, const QueryInput* source, PairCommand* commands, int count);
+void hkCpuPairGetClosestPointsImplementation(const QueryJob* job, const QueryInput* source, PairCommand* commands, int count);
 // FUN_00df6db0 - base-class adjustment thunk (8 bytes):
 //
 //     sub ecx, 4
@@ -935,7 +935,8 @@ static hkUint32 __cdecl CollectAabbHitsIntoBuffers(const KdTreeNode*root,const F
 hkArray<hkPrimitiveId>::Temp*hitArray,hkKdTreeCastCollector*collector,hkPrimitiveIdIterator*hitsOut,int maxHits);};
 
 // @fnv 0x00df6b50
-JobDispatcher::JobStatus __cdecl FUN_00df6b50(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
+// src: XBOX_PDB 0x00df6b50
+JobDispatcher::JobStatus __cdecl hkCpuWorldGetClosestPointsJob(JobDispatcher&jobQueue,JobDispatcher::JobQueueSlot&nextJobOut)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){hkMonitorStream::TimerCommand*h=reinterpret_cast<hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "CollQueryWorldGetClosestPoints";h->setTime();mStream.setEnd((char*)(h+1));}};
 const ContactPointQueryJob&worldGetClosestPointsJob=reinterpret_cast<ContactPointQueryJob&>(nextJobOut);

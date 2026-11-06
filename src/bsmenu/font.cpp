@@ -302,10 +302,11 @@ int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct FUN_00c3d090_shell2 {
     char pad[0x28];
     char* p;
-    void FUN_00c3d090(int flag, char* dst);
+    void QueuedFileEntry_GetLookupFileName(int flag, char* dst);
 };
 // @fnv 0x00c3d090
-void FUN_00c3d090_shell2::FUN_00c3d090(int flag, char* dst)
+// src: XBOX_PDB 0x00c3d090
+void FUN_00c3d090_shell2::QueuedFileEntry_GetLookupFileName(int flag, char* dst)
 {
     if (flag == 0) {
         BuildAssetPath((int)p, dst, 0x104);
@@ -1482,19 +1483,20 @@ struct AtlasShader : NiMemObjectAllocation_font {
  unsigned unka4;
  unsigned unka8;
  unsigned unkac;
- AtlasShader(bool);void FUN_00bb7a10(void*);
+ AtlasShader(bool);void SetTileTexture(void*);
 };
 struct AtlasPropertyPointer { AtlasShader* pointer;AtlasPropertyPointer(AtlasShader*);~AtlasPropertyPointer();AtlasPropertyPointer& FUN_006e5cc0(const AtlasPropertyPointer&); };
 struct AtlasPropertyNode { AtlasPropertyNode* next;AtlasPropertyNode* previous;AtlasPropertyPointer value; };
-struct AtlasPoolLock {void FUN_0040fbf0(bool);void FUN_0040fba0();};
+struct AtlasPoolLock {void BSSpinLock_Lock(bool);void BSSpinLock_Unlock();};
 extern AtlasPoolLock DAT_011c5f80;
 extern AtlasPropertyNode* DAT_011c5f58;
-void FUN_0043a080();
-struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { DAT_011c5f80.FUN_0040fbf0(false);if(!DAT_011c5f58)FUN_0043a080();AtlasPropertyNode* node=DAT_011c5f58;DAT_011c5f58=DAT_011c5f58->next;node->value.pointer=0;node->next=0;node->previous=0;DAT_011c5f80.FUN_0040fba0();return node;} };
+void NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();
+struct AtlasNodeAllocator { unsigned count;AtlasPropertyNode* Allocate() { DAT_011c5f80.BSSpinLock_Lock(false);if(!DAT_011c5f58)NiTAbstractPoolAllocator_unsigned_int_CreateFreeMem();AtlasPropertyNode* node=DAT_011c5f58;DAT_011c5f58=DAT_011c5f58->next;node->value.pointer=0;node->next=0;node->previous=0;DAT_011c5f80.BSSpinLock_Unlock();return node;} };
 struct AtlasPropertyList { AtlasPropertyNode* head;AtlasPropertyNode* tail;AtlasNodeAllocator allocator;
  AtlasPropertyNode* NewNode(){return allocator.Allocate();}
- void FUN_0049fa20(AtlasPropertyNode*);
- void FUN_00439fd0(const AtlasPropertyPointer& property) {AtlasPropertyNode* node=NewNode();node->value.FUN_006e5cc0(property);FUN_0049fa20(node);}
+ void NiTListBase_NiTPointerAllocator_unsigned_int_unsigned_int_AddNodeHead(AtlasPropertyNode*);
+// src: XBOX_PDB 0x00439fd0
+ void NiAVObject_AttachProperty_00439fd0(const AtlasPropertyPointer& property) {AtlasPropertyNode* node=NewNode();node->value.FUN_006e5cc0(property);NiTListBase_NiTPointerAllocator_unsigned_int_unsigned_int_AddNodeHead(node);}
 };
 struct AtlasGeometry : NiMemObjectAllocation_font {
  unsigned unk00;
@@ -1551,13 +1553,14 @@ struct AtlasGeometry : NiMemObjectAllocation_font {
  AtlasGeometry(unsigned short,AtlasVertex*,unsigned,void*,NiPoint2*,unsigned,unsigned,unsigned short,unsigned short*,void*,void*,void*,void*);
  AtlasData* GetData() { AtlasData* result=data;return result; }
  void AssignFixedString(const NiFixedString&);
- void FUN_00439410(AtlasShader* shader) { if(shader->GetPropertyType()<7) { AtlasPropertyPointer property(shader);properties.FUN_00439fd0(property); } }
- void FUN_00a5a040();
+// src: XBOX_PDB 0x00439410
+ void NiAVObject_AttachProperty(AtlasShader* shader) { if(shader->GetPropertyType()<7) { AtlasPropertyPointer property(shader);properties.NiAVObject_AttachProperty_00439fd0(property); } }
+ void UpdateProperties();
 };
-void* FUN_00aa1070(unsigned);
+void* _NiMalloc_00aa1070(unsigned);
 void FUN_00b57e30(AtlasGeometry*,unsigned,unsigned);
 void FUN_00ec8d5f(char*,unsigned,const char*,unsigned);
-int FUN_00406d00(char*,unsigned,const char*,...);
+int BSsprintf(char*,unsigned,const char*,...);
 extern char sheetGeometryName[];
 extern unsigned DAT_011a9598;
 void* FUN_00a5fd70(const NiFixedString&,unsigned&,bool,bool);
@@ -1574,7 +1577,7 @@ PageMeshes::Shape* Font::MakeButton() {
  unsigned vertices7=((FontAtlasAccess*)this)->GetCount()*4;
  AtlasVertex* positions=new AtlasVertex[vertices7];
  NiPoint2* uvs5=new NiPoint2[vertices7];
- unsigned short* indicesVal=(unsigned short*)FUN_00aa1070(((FontAtlasAccess*)this)->GetCount()*6*sizeof(unsigned short));
+ unsigned short* indicesVal=(unsigned short*)_NiMalloc_00aa1070(((FontAtlasAccess*)this)->GetCount()*6*sizeof(unsigned short));
  AtlasGeometry* geometry_=new AtlasGeometry((unsigned short)vertices7,positions,0,0,uvs5,1,0,(unsigned short)(((FontAtlasAccess*)this)->GetCount()*2), indicesVal,0,0,0,0);
  AtlasData* dataB=geometry_->GetData();
  dataB->keep=false;
@@ -1582,15 +1585,15 @@ PageMeshes::Shape* Font::MakeButton() {
  geometry_->AssignFixedString(NiFixedString((const char*)sheetGeometryName));
  geometry_->GetData()->FUN_00a67050(0x4000);
  AtlasShader* shader3=new AtlasShader(false);
- geometry_->FUN_00439410(shader3);
+ geometry_->NiAVObject_AttachProperty(shader3);
  shader3->color=DAT_011a9be0;
  FUN_00b57e30(geometry_,0,0);
  char sourceName7[260];
  CopyAtlasPath(sourceName7,((FontAtlasAccess*)this)->GetTextureResourceName(),259);
  char texturePath[260];
- FUN_00406d00(texturePath,260,"Data\\Textures\\%s",sourceName7);
- shader3->FUN_00bb7a10(FUN_00a5fd70(NiFixedString((const char*)texturePath),DAT_011a9598,true,false));
- geometry_->FUN_00a5a040();
+ BSsprintf(texturePath,260,"Data\\Textures\\%s",sourceName7);
+ shader3->SetTileTexture(FUN_00a5fd70(NiFixedString((const char*)texturePath),DAT_011a9598,true,false));
+ geometry_->UpdateProperties();
  AttachFaceGenAnimationData(geometry_);
  return (PageMeshes::Shape*)geometry_;}
 
@@ -2388,7 +2391,7 @@ struct S_00a12300_Elem {
 
 struct S_00a12300_Glob {
     int unk00;
-    void FUN_00aa4060(S_00a12300_Arr* p);
+    void MemoryManager_Deallocate(S_00a12300_Arr* p);
 };
 
 extern S_00a12300_Glob DAT_011f6238;
@@ -2424,7 +2427,7 @@ void S_00a12300_Obj::ClearArray() {
     }
 
     index = (int)m_aiIndexedValues;
-    DAT_011f6238.FUN_00aa4060((S_00a12300_Arr*)index);
+    DAT_011f6238.MemoryManager_Deallocate((S_00a12300_Arr*)index);
     m_aiIndexedValues = 0;
 }
 
@@ -2450,7 +2453,7 @@ struct SStr {
 struct Hole { int a[42]; };
 inline void Pad168() { Hole hole; (void)&hole; }
 
-struct MM { void* Game_DoHeapAlloc(unsigned int); void FUN_00aa4060(void*); };
+struct MM { void* Game_DoHeapAlloc(unsigned int); void MemoryManager_Deallocate(void*); };
 
 struct TexNode { void LoadIconFromPath(char*); };
 
@@ -2464,7 +2467,7 @@ struct FontC {
 
 void __cdecl Warning_005b5e40(int, const char*, int);
 void __cdecl FUN_00ec8d5f(char*, int, const char*, int);
-void __cdecl FUN_007070c0(char*, char*, int, int);
+void __cdecl Interface_FindTextReplacementString(char*, char*, int, int);
 void __cdecl FUN_00ec61c0(void*, int, unsigned int);
 void __cdecl FUN_00ec7c66(char*, int, const char*, int);
 
@@ -2514,7 +2517,7 @@ SStr FontC::Font_CollectTo(const char* text, int* apiPos, unsigned mask, unsigne
                     p2[n5] = 0;
                     char kNamebuf[0x104];
                     kNamebuf[0] = 0;
-                    FUN_007070c0(p2, kNamebuf, 0x104, 0);
+                    Interface_FindTextReplacementString(p2, kNamebuf, 0x104, 0);
                     if (kNamebuf[0] == '\\') {
                         kNamebuf[strlen(kNamebuf) - 1] = 0;
                         GetNode(0)->LoadIconFromPath(&kNamebuf[1]);
@@ -2530,7 +2533,7 @@ SStr FontC::Font_CollectTo(const char* text, int* apiPos, unsigned mask, unsigne
                     }
                     *apiPos = n5 + *apiPos - 1;
                     void* aTmp = p2;
-                    ((MM*)&DAT_011f6238)->FUN_00aa4060(aTmp);
+                    ((MM*)&DAT_011f6238)->MemoryManager_Deallocate(aTmp);
                 }
             } else {
                 _buf[count2] = text[*apiPos];
@@ -3085,7 +3088,7 @@ extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" char* __cdecl strcpy(char*,const char*);
 extern "C" int __cdecl toupper(int);
 extern "C" int __cdecl _stricmp(const char*,const char*);
-int __cdecl FUN_00408b20(const char*,const char*);
+int __cdecl BSstrcmp(const char*,const char*);
 long __cdecl FUN_00eca6d3(const char*);
 extern "C" int __cdecl sscanf(const char*,const char*,...);
 extern "C" void* __cdecl fnv_zlib_memset(void*,int,unsigned int);
@@ -3144,7 +3147,7 @@ struct LayoutString {
     unsigned int Size() const { return Length()+1; }
     int StrCmp(const char* other, bool ignoreCase) const {
         int result;
-        if(other && Get()) result=ignoreCase ? _stricmp(Get(),other) : FUN_00408b20(Get(),other);
+        if(other && Get()) result=ignoreCase ? _stricmp(Get(),other) : BSstrcmp(Get(),other);
         else if(!other && !Get()) result=0;
         else result=(other==0)*2-1;
         return result;
@@ -3426,7 +3429,7 @@ LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult*
 }  // namespace fnv_00a17390
 
 namespace fnv_00a18f00 {
-struct PoolQ { void FUN_00aa4060(void* p); };
+struct PoolQ { void MemoryManager_Deallocate(void* p); };
 extern PoolQ DAT_011f6238;
 struct StrQ {
   char* p; unsigned short l, m;
@@ -3438,7 +3441,7 @@ struct StrQ {
 struct FUN_00a1b990 {
   ~FUN_00a1b990();
   void BuildPage(int a, int b);
-  void operator delete(void* p) { int aiD[21]; DAT_011f6238.FUN_00aa4060(p); }
+  void operator delete(void* p) { int aiD[21]; DAT_011f6238.MemoryManager_Deallocate(p); }
 };
 struct OwnQ {
   FUN_00a1b990* CreateTextRunNode(StrQ* s, int a);
@@ -3612,15 +3615,15 @@ extern "C" int __cdecl FUN_00ec65a6(char*,unsigned int,const char*);
 extern "C" int __cdecl sprintf(char*,const char*,...);
 extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 extern "C" void* __cdecl FUN_00ec7230(void*,const void*,unsigned int);
-bool __cdecl FUN_007070c0(const char*,char*,unsigned int,bool);
+bool __cdecl Interface_FindTextReplacementString(const char*,char*,unsigned int,bool);
 bool __cdecl ResolveSettingString(const char*,char*);
-void __cdecl FUN_00406d00(char*,unsigned int,const char*,...);
+void __cdecl BSsprintf(char*,unsigned int,const char*,...);
 void __cdecl NormalizeSmartQuotes(unsigned char*);
 extern char DAT_01019f08[],DAT_010950a8[];
 struct Memory {
  void* Game_DoHeapAlloc(unsigned int);
  void* FUN_00aa4150(void*,unsigned int);
- void FUN_00aa4060(void*);
+ void MemoryManager_Deallocate(void*);
 };
 extern Memory DAT_011f6238;
 __forceinline char* AllocateText(unsigned int count) {
@@ -3732,7 +3735,7 @@ void Font::CheckForVariablesInText(const char* input,TextLayout::Layout* layout)
    entitySlot1[countSlot0?countSlot0-prefixSlot10:countSlot0]=0;
    unsigned int consumed=TextLayout::strlen(entitySlot1)+1;
    if(workSlot77[scan+countSlot0]==';') consumed+=prefixSlot10;
-   if(TextLayout::FUN_007070c0(entitySlot1,replacementSlot0,1024,positiveSlot0) || TextLayout::ResolveSettingString(entitySlot1,replacementSlot0)) {
+   if(TextLayout::Interface_FindTextReplacementString(entitySlot1,replacementSlot0,1024,positiveSlot0) || TextLayout::ResolveSettingString(entitySlot1,replacementSlot0)) {
     unsigned int replacementLengthSlot18=TextLayout::strlen(replacementSlot0);
     int deltaSlot0=replacementLengthSlot18-consumed;
     if(replacementSlot0[replacementLengthSlot18-1]=='\\') {
@@ -3745,7 +3748,7 @@ void Font::CheckForVariablesInText(const char* input,TextLayout::Layout* layout)
      if(iFontNum==7) {
       char originalPath[260];
       TextLayout::FUN_00ec65a6(originalPath,260,pathSlot13);
-      TextLayout::FUN_00406d00(pathSlot13,260,TextLayout::DAT_010950a8,originalPath);
+      TextLayout::BSsprintf(pathSlot13,260,TextLayout::DAT_010950a8,originalPath);
      }
      LoadIconFromPath(pathSlot13);
      replacementSlot0[slashSlot0]=1;replacementSlot0[slashSlot0+1]=0;
@@ -3879,8 +3882,8 @@ void Font::CheckForVariablesInText(const char* input,TextLayout::Layout* layout)
  layout->firstLine=0;
  layout->maxLines=lineCountSlot0;
  layout->characters=outputLengthSlot0;
- TextLayout::DAT_011f6238.FUN_00aa4060(workSlot77);
- TextLayout::DAT_011f6238.FUN_00aa4060(outputSlot60);
+ TextLayout::DAT_011f6238.MemoryManager_Deallocate(workSlot77);
+ TextLayout::DAT_011f6238.MemoryManager_Deallocate(outputSlot60);
 }
 
 void* __cdecl operator new(unsigned int);
@@ -3893,15 +3896,15 @@ struct Update {float time;bool controllers,multithreaded,unk6,unk7,unk8;Update()
 
 struct GeometryData {int unk0,unk4;unsigned short count,unkA;int unkC;Bound bound;NiPoint3* vertices;NiPoint3* GetVertices(){NiPoint3* result=vertices;return result;}unsigned short GetCount(){return count;}Bound& GetBound(){return bound;}};
 
-struct Shape {virtual void Destroy();unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;NiPoint3 position;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;GeometryData* data;void SetPosition(const NiPoint3& v){position=v;}void SetPositionThroughShape(const NiPoint3& v){Shape* current=this;current->position=v;}GeometryData* GetData(){return data;}void FUN_00a5a040();void FUN_00a59c60(const Update&);};
+struct Shape {virtual void Destroy();unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;NiPoint3 position;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;GeometryData* data;void SetPosition(const NiPoint3& v){position=v;}void SetPositionThroughShape(const NiPoint3& v){Shape* current=this;current->position=v;}GeometryData* GetData(){return data;}void UpdateProperties();void NiAVObject_Update(const Update&);};
 
 struct Node {virtual void v0();virtual void v4();virtual void v8();virtual void vc();virtual void v10();virtual void v14();virtual void v18();virtual void v1c();virtual void v20();virtual void v24();virtual void v28();virtual void v2c();virtual void v30();virtual void v34();virtual void v38();virtual void v3c();virtual void v40();virtual void v44();virtual void v48();virtual void v4c();virtual void v50();virtual void v54();virtual void v58();virtual void v5c();virtual void v60();virtual void v64();virtual void v68();virtual void v6c();virtual void v70();virtual void v74();virtual void v78();virtual void v7c();virtual void v80();virtual void v84();virtual void v88();virtual void v8c();virtual void v90();virtual void v94();virtual void v98();virtual void v9c();virtual void va0();virtual void va4();virtual void va8();virtual void vac();virtual void vb0();virtual void vb4();virtual void vb8();virtual void vbc();virtual void vc0();virtual void vc4();virtual void vc8();virtual void vcc();virtual void vd0();virtual void vd4();virtual void vd8();virtual void Attach(Shape*,bool);};
 
-struct Heap {void* Game_DoHeapAlloc(unsigned int);void FUN_00aa4060(void*);};extern Heap DAT_011f6238;
+struct Heap {void* Game_DoHeapAlloc(unsigned int);void MemoryManager_Deallocate(void*);};extern Heap DAT_011f6238;
 
 template<class T> struct Link {Link* next;Link* previous;T value;};
 
-template<class T> struct ListBase {Link<T>* head;Link<T>* tail;unsigned int count;~ListBase(){}Link<T>* Head(){return head;}T& Next(Link<T>*& p){T& value=p->value;p=p->next;return value;}unsigned int Count(){return count;}void NiTListBase_AddNodeHead_1(Link<T>*);void FUN_00a1c2d0(){Link<T>* pNode=head;while(pNode){Link<T>* pDelete=pNode;pNode=pNode->next;pDelete->value=0;Link<T>* pFree=pDelete;DAT_011f6238.FUN_00aa4060(pFree);}count=0;head=0;tail=0;}T PopFront(){Link<T>* pNode=head;head=head->next;if(head)head->previous=0;else tail=0;T element=pNode->value;pNode->value=0;Link<T>* pFree=pNode;DAT_011f6238.FUN_00aa4060(pFree);--count;return element;}void FUN_00a11db0(Link<T>* item){item->next=0;item->previous=tail;if(tail)tail->next=item;else head=item;tail=item;++count;}
+template<class T> struct ListBase {Link<T>* head;Link<T>* tail;unsigned int count;~ListBase(){}Link<T>* Head(){return head;}T& Next(Link<T>*& p){T& value=p->value;p=p->next;return value;}unsigned int Count(){return count;}void NiTListBase_AddNodeHead_1(Link<T>*);void FUN_00a1c2d0(){Link<T>* pNode=head;while(pNode){Link<T>* pDelete=pNode;pNode=pNode->next;pDelete->value=0;Link<T>* pFree=pDelete;DAT_011f6238.MemoryManager_Deallocate(pFree);}count=0;head=0;tail=0;}T PopFront(){Link<T>* pNode=head;head=head->next;if(head)head->previous=0;else tail=0;T element=pNode->value;pNode->value=0;Link<T>* pFree=pNode;DAT_011f6238.MemoryManager_Deallocate(pFree);--count;return element;}void FUN_00a11db0(Link<T>* item){item->next=0;item->previous=tail;if(tail)tail->next=item;else head=item;tail=item;++count;}
 // src: COMMUNITY 0x00a11c00
 void NiTList_AddTail(const T& value){Link<T>* item=NewNode();item->value=value;FUN_00a11db0(item);}Link<T>* NewNode(){Link<T>* node=(Link<T>*)DAT_011f6238.Game_DoHeapAlloc(sizeof(Link<T>));return node;}void Add(T value){Link<T>* p=NewNode();p->value=value;NiTListBase_AddNodeHead_1(p);}};
 template<class T> struct PointerListBase : ListBase<T> {~PointerListBase(){this->FUN_00a1c2d0();}};
@@ -3951,9 +3954,9 @@ NiPoint3 glyphPosition=position;glyphPosition.x+=runSlot0->offset;if(runSlot0->l
 
 }
 
-bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){NiPoint3* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();shapesSlot32[finishIndex]->GetData()->GetBound().ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(::NiPoint3*)vertices);shapesSlot32[finishIndex]->SetPosition(DAT_011f426c);shapesSlot32[finishIndex]->FUN_00a5a040();Update update;shapesSlot32[finishIndex]->FUN_00a59c60(update);node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
+bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){NiPoint3* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();shapesSlot32[finishIndex]->GetData()->GetBound().ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(::NiPoint3*)vertices);shapesSlot32[finishIndex]->SetPosition(DAT_011f426c);shapesSlot32[finishIndex]->UpdateProperties();Update update;shapesSlot32[finishIndex]->NiAVObject_Update(update);node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
 
-while(imagesSlot52.Count()){Shape* finishedImageSlot0=imagesSlot52.PopFront();NiPoint3* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();finishedImageSlot0->GetData()->GetBound().ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(::NiPoint3*)imageVerticesSlot0);finishedImageSlot0->position=DAT_011f426c;finishedImageSlot0->FUN_00a5a040();Update imageUpdateSlot0;finishedImageSlot0->FUN_00a59c60(imageUpdateSlot0);node->Attach(finishedImageSlot0,true);}}
+while(imagesSlot52.Count()){Shape* finishedImageSlot0=imagesSlot52.PopFront();NiPoint3* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();finishedImageSlot0->GetData()->GetBound().ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(::NiPoint3*)imageVerticesSlot0);finishedImageSlot0->position=DAT_011f426c;finishedImageSlot0->UpdateProperties();Update imageUpdateSlot0;finishedImageSlot0->NiAVObject_Update(imageUpdateSlot0);node->Attach(finishedImageSlot0,true);}}
 
 ((Icons*)GetDebrisManager()->GetFont(0)->ButtonIcons)->FUN_00a1bfa0(true);
 
@@ -3975,7 +3978,8 @@ template <> inline void BSSimpleArray<ButtonIcon, 1024>::UpdateEntryValue(Button
             }
         }
     }
-template <> inline bool BSSimpleArray<ButtonIcon, 1024>::FUN_0076b610() const
+// src: XBOX_PDB 0x0076b610
+template <> inline bool BSSimpleArray<ButtonIcon, 1024>::NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty() const
 {
         if (iSize == SimpleArrayStorage) {
             return true;
@@ -4004,7 +4008,7 @@ template <> inline void BSSimpleArray<ButtonIcon, 1024>::ReallocateStorage(unsig
 // Grows the buffer when full, increments iSize, and returns the index of the newly added slot.
 // @fnv 0x00a1c130
 template <> unsigned int BSSimpleArray<ButtonIcon, 1024>::ReserveIndex() {
-    if (FUN_0076b610()) {
+    if (NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty()) {
         if (SimpleArrayStorage == 0) {
             unsigned int inewSize = 4;
             pBuffer = _Allocate(inewSize);
@@ -4671,7 +4675,7 @@ extern Setting_01017720_011f96a0 g_011f345c;
 extern Setting_01017720_011f96a0 g_011f3468;
 extern __declspec(thread) int g_tlsMemContext;
 extern char DAT_0109518c;
-void __cdecl FUN_0040fbe0(const char*);
+void __cdecl ProgramFlow(const char*);
 namespace FontManagerInitialization {
 struct Memory { void* Game_DoHeapAlloc(unsigned int); };
 extern Memory DAT_011f6238;
@@ -4705,7 +4709,7 @@ FUN_00a168b0::FUN_00a168b0() {
         break;
       }
     }
-    if (!loaded) FUN_0040fbe0(&DAT_0109518c);
+    if (!loaded) ProgramFlow(&DAT_0109518c);
 
 }
 
@@ -4716,7 +4720,7 @@ unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct TQMemoryAllocator {
     void* Game_DoHeapAlloc(unsigned int);
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 extern TQMemoryAllocator DAT_011f6238;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -4866,7 +4870,7 @@ struct TQPropertyState {
     TQPropertyState();
     ~TQPropertyState();
     static void* operator new(unsigned int size) { return DAT_011f6238.Game_DoHeapAlloc(size); }
-    static void operator delete(void* memory) { DAT_011f6238.FUN_00aa4060(memory); }
+    static void operator delete(void* memory) { DAT_011f6238.MemoryManager_Deallocate(memory); }
 };
 struct TQPropertyLock {
     unsigned int owner;

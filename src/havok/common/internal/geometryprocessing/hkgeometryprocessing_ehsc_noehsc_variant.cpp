@@ -23,7 +23,7 @@ struct FUN_00dee6b0_Class
 extern int DAT_010cd664;
 #include "../../../../../include/hkMemoryAllocator.h"
 #include "../../../../../include/hkMemoryRouter.h"
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;

@@ -15,7 +15,7 @@ unsigned int TESTerrainLODManager_GetGrassNode();
 NiAVObject* TESMain_GetWeatherRoot();
 
 extern double DAT_01017cf8;
-float __cdecl FUN_00408820(float);
+float __cdecl NiAbs_00408820(float);
 double __cdecl FUN_00ec6cde(double);
 double __cdecl FUN_00ec9f30(double);
 
@@ -168,7 +168,7 @@ typedef NiTListItem<CellRefPointer<NiRefObject> > CellRefItem;
 struct CellRefAllocator
 {
 
-    void FUN_0045cee0(CellRefItem* pkItem);
+    void NiTPointerAllocator_unsigned_int_Deallocate(CellRefItem* pkItem);
 };
 
 typedef NiTPointerListBase<CellRefAllocator, CellRefPointer<NiRefObject> > CellRefPointerList;
@@ -176,7 +176,7 @@ template <> inline void NiTPointerListBase<CellRefAllocator, CellRefPointer<NiRe
 {
         int unused[5];  // compiled-out debug locals of the inlined helper
         pkItem->m_element.FUN_0066b0d0(0);
-        m_kItemCount.FUN_0045cee0(pkItem);
+        m_kItemCount.NiTPointerAllocator_unsigned_int_Deallocate(pkItem);
         m_kItemCount.m_uiCount--;
     }
 
@@ -446,11 +446,12 @@ struct ItemQueue
     int unk54;
     int unk58;
     ItemList items;
-    void FUN_00c5b370(NiRefObject* obj);
+    void BSPortalGraph_DetachAlwaysRenderChild(NiRefObject* obj);
 };
 
 // @fnv 0x00c5b370
-void ItemQueue::FUN_00c5b370(NiRefObject* obj)
+// src: XBOX_PDB 0x00c5b370
+void ItemQueue::BSPortalGraph_DetachAlwaysRenderChild(NiRefObject* obj)
 {
     EnterCriticalSection(&DAT_01203328);
     items.AddTail(obj);

@@ -102,10 +102,10 @@ struct Provider2180
     virtual void s63();
     virtual float get();
 };
-Provider2180* FUN_0045c670();
-int FUN_004dc200();
-int FUN_004dc1f0();
-float FUN_0057dd70(float);
+Provider2180* Main_GetWorldSceneGraph();
+int Renderer_GetScreenHeight();
+int Renderer_GetScreenWidth();
+float tan_0057dd70(float);
 struct FUN_00a712f0
 {
     int bytes[0x114 / 4];
@@ -113,11 +113,11 @@ struct FUN_00a712f0
     static void operator delete(void*, unsigned int);
     FUN_00a712f0();
     void FUN_00712e60(const Rect2180&);
-    void FUN_00507700(float);
+    void NiCamera_SetMaxFarNearRatio(float);
     void FUN_00a6faf0(const Frustum2180&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
     void NiCamera_SetMinNearPlaneDist(float);
-    void FUN_00a59c60(const Update2180&);
+    void NiAVObject_Update(const Update2180&);
     void AssignFixedString(const String2180&);
 };
 struct Target2180
@@ -295,13 +295,13 @@ struct UpdateObject
     virtual void slot114();
     virtual void slot115();
     virtual UpdateObject* GetRoot();
-    UpdateObject* FUN_0045bc00(unsigned);
-    unsigned FUN_00453470();
+    UpdateObject* NiNode_GetAtChecked(unsigned);
+    unsigned NiNode_GetChildCount();
     UpdateObject* FUN_0043b4a0(unsigned);
     unsigned FUN_00a59d30(unsigned);
     UpdateObject* FUN_00413f40();
     const char* FUN_0043b1b0();
-    UpdateObject* FUN_00503650();
+    UpdateObject* GetBackTexture();
     bool FUN_008256d0();
     unsigned* FUN_006815c0();
     unsigned GetHeadPartModel_00613970(unsigned, unsigned);
@@ -445,10 +445,10 @@ struct UpdateOwner
     void TESNPC_FixNPCNormals(UpdateObject* object);
 };
 bool FUN_00605d20();
-const void* FUN_00605d40(unsigned);
+const void* TESRace_GetHeadPartNodeName(unsigned);
 bool General_bFaceGenTexturing_Get();
 UpdateObject* BSUtilities_GetObjectByName(UpdateObject*, const void*);
-UpdateObject* FUN_00653270(void*, unsigned);
+UpdateObject* NiObject_DynamicCast(void*, unsigned);
 bool MatchGeometryVertices(UpdateObject*, UpdateObject*, float, bool, unsigned);
 void ApplyFaceGenTextures(UpdateObject*, UpdatePacket&);
 extern unsigned DAT_0101f5f8;
@@ -465,7 +465,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
     UpdateObject* rootNode = object->GetRoot();
     unsigned entry = 0;
     UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).FUN_00559450();
-    UpdateObject* found = BSUtilities_GetObjectByName(rootNode, FUN_00605d40(0));
+    UpdateObject* found = BSUtilities_GetObjectByName(rootNode, TESRace_GetHeadPartNodeName(0));
     UpdateObject* node = found ? found->GetNode() : 0;
     if (!node || !currentNode)
         return;
@@ -482,13 +482,13 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
             nested = found->GetList();
             if (nested)
             {
-                found = nested->FUN_0045bc00(0);
+                found = nested->NiNode_GetAtChecked(0);
                 if (found)
                 {
                     list = found->GetList();
                     if (list)
                     {
-                        entry = list->FUN_00453470();
+                        entry = list->NiNode_GetChildCount();
                         for (unsigned i = 0; i < entry; i++)
                         {
                             found = list->FUN_0043b4a0(i);
@@ -496,7 +496,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
                             if (root)
                             {
                                 count = root->FUN_00a59d30(2);
-                                key = FUN_00653270(&DAT_011f4a5c, count);
+                                key = NiObject_DynamicCast(&DAT_011f4a5c, count);
                                 if (key && !strncmp_r006056f0(key->FUN_00413f40()->FUN_0043b1b0(), &DAT_0104a7bc, 4))
                                 {
                                     if (MatchGeometryVertices(root, node, DAT_01016248, true, 0))
@@ -511,7 +511,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
                 }
                 else
                 {
-                    entry = nested->FUN_00453470();
+                    entry = nested->NiNode_GetChildCount();
                     for (unsigned j = 0; j < entry; j++)
                     {
                         found = nested->FUN_0043b4a0(j);
@@ -519,7 +519,7 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
                         if (root)
                         {
                             count = root->FUN_00a59d30(2);
-                            key = FUN_00653270(&DAT_011f4a5c, count);
+                            key = NiObject_DynamicCast(&DAT_011f4a5c, count);
                             if (key && !strncmp_r006056f0(key->FUN_00413f40()->FUN_0043b1b0(), &DAT_0104a7bc, 4))
                             {
                                 if (MatchGeometryVertices(root, node, DAT_01016248, true, 0))
@@ -543,15 +543,15 @@ void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
         packet.sex = FUN_005f0cc0();
         packet.region = TESDataHandler_GetRegionList();
         FUN_00603ad0(packet);
-        if (!packet.flags && references.FUN_00726070()->FUN_00503650() &&
-            !references.FUN_00726070()->FUN_00503650()->FUN_008256d0())
-            packet.flags = *references.FUN_00726070()->FUN_00503650()->FUN_006815c0();
+        if (!packet.flags && references.FUN_00726070()->GetBackTexture() &&
+            !references.FUN_00726070()->GetBackTexture()->FUN_008256d0())
+            packet.flags = *references.FUN_00726070()->GetBackTexture()->FUN_006815c0();
         for (unsigned k = 0; k < 8; k++)
         {
             packet.primary.FUN_0096a610(references.FUN_00726070()->GetHeadPartModel_00613970(FUN_005f0cc0(), k));
             packet.secondary.FUN_0096a610(references.FUN_00726070()->GetBodyPartTexture(FUN_005f0cc0(), k));
             references.FUN_00726070();
-            packet.names.FUN_0096a610((unsigned)FUN_00605d40(k));
+            packet.names.FUN_0096a610((unsigned)TESRace_GetHeadPartNodeName(k));
             references.FUN_00726070();
             if (General_bFaceGenTexturing_Get())
             {

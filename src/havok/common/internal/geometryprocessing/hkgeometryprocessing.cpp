@@ -49,7 +49,7 @@ float FUN_00dee6b0_Class::FUN_00dee6b0(int testFlag)
 
 extern int DAT_010cd664;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00dee6c0_cls
 {
@@ -65,7 +65,7 @@ FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
     m_vptr = (int)&DAT_010cd664;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, 0x40);
     }
@@ -525,7 +525,8 @@ void FUN_00e19200_cls::FUN_00e19200(Triangle* apTriangle, const __m128* b, int a
 namespace fnv_00dea6b0 {
 // Checks if point p lies inside triangle abc by verifying the dot product of each edge cross product with the triangle normal is at least tol.
 // @fnv 0x00dea6b0
-bool __cdecl FUN_00dea6b0(const hkVector4& p, const hkVector4& a, const hkVector4& b,
+// src: XBOX_PDB 0x00dea6b0
+bool __cdecl hkGeometryProcessing_checkPointInsideTriangle(const hkVector4& p, const hkVector4& a, const hkVector4& b,
                           const hkVector4& c, float afTolerance)
 {
     hkVector4 ab;
@@ -853,11 +854,12 @@ static __forceinline float doubleArea(const GeomVector& origin, const GeomVector
 {
     return offsetCross(origin, a, b).magnitude();
 }
-float __cdecl FUN_00de9e10(const GeomVector&, const GeomVector&, const GeomVector&, GeomVector&, float*);
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToLine(const GeomVector&, const GeomVector&, const GeomVector&, GeomVector&, float*);
 
 // Computes the squared distance from a point to a triangle, returning the closest normal and optional barycentric weights.
 // @fnv 0x00de9f10
-float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const GeomVector& b, const GeomVector& c,
+// src: XBOX_PDB 0x00de9f10
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToTriangle(const GeomVector& point, const GeomVector& a, const GeomVector& b, const GeomVector& c,
                            GeomVector& normal, GeomVector* weights)
 {
     GeomVector plane = makePlane(a, b, c, true);
@@ -886,9 +888,9 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
         GeomVector normals[3];
         float fractions[3];
         float distances[3];
-        distances[0] = FUN_00de9e10(point, a, b, normals[0], &fractions[0]);
-        distances[1] = FUN_00de9e10(point, b, c, normals[1], &fractions[1]);
-        distances[2] = FUN_00de9e10(point, c, a, normals[2], &fractions[2]);
+        distances[0] = hkGeometryProcessing_squaredDistanceFromPointToLine(point, a, b, normals[0], &fractions[0]);
+        distances[1] = hkGeometryProcessing_squaredDistanceFromPointToLine(point, b, c, normals[1], &fractions[1]);
+        distances[2] = hkGeometryProcessing_squaredDistanceFromPointToLine(point, c, a, normals[2], &fractions[2]);
         int edge =
             distances[0] < distances[1] ? (distances[0] < distances[2] ? 0 : 2) : (distances[1] < distances[2] ? 1 : 2);
         normal = normals[edge];

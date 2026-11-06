@@ -74,7 +74,7 @@ struct FUN_00d21ce0_cls
     {
         m_type = 1;
     }
-    void FUN_00d21ce0(void* owner) throw();
+    void hkpBridgeConstraintAtom_init(void* owner) throw();
 };
 class FUN_00e3b8f0 : public hkBaseE3B8
 {
@@ -165,7 +165,7 @@ extern const __m128 DAT_010c4c00;
 struct Rotation
 {
     hkVector4 col[3];
-    void FUN_00cb2d90(const hkVector4*);
+    void hkRotation_set(const hkVector4*);
 };
 struct Entity;
 struct ConstraintRuntime
@@ -262,8 +262,8 @@ void __cdecl ResizeAudioStream(void*, void*, int);
 extern "C" void __cdecl AppendEventRecord(const QueryInput*, QueryOutput*, char*, int);
 char* __cdecl _tolower_00dd13d0(char*);
 char* __cdecl FUN_00dd13e0(char*, int);
-void __cdecl FUN_00dcee70(QueryInput*);
-void __cdecl FUN_00dcfc00(hkVector4*, hkVector4*, float, QueryInput*, char*);
+void __cdecl hkLoadVelocityAccumulators(QueryInput*);
+void __cdecl hkStabilizedBallSocketConstraintBuildJacobian_noSchema(hkVector4*, hkVector4*, float, QueryInput*, char*);
 void __cdecl FUN_00d6cd70(hkVector4*, QueryInput*, char*, float*);
 void __cdecl _hkCalcMotorData(void*, MotorInput*, MotorOutput*);
 void __cdecl WriteInputHeader(BuildInfo*, const QueryInput*, QueryOutput*);
@@ -412,7 +412,8 @@ static __forceinline void* motorStep(hkpPoweredChainData* chain, char* solverRes
     return reinterpret_cast<RuntimeAccessor>((*reinterpret_cast<void***>(chain))[10])(chain, solverResults);
 }
 // @fnv 0x00e3ba40
-void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
+// src: XBOX_PDB 0x00e3ba40
+void hkpPoweredChainData::buildJacobian_00e3ba40(const QueryInput& input, QueryOutput& output)
 {
     AppendEventRecord(&input, &output, input.runtime, 8);
     QueryInput query = input;
@@ -446,8 +447,8 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
             hkVector4 pivotA, pivotB;
             transformPoint(pivotA, *query.transformA, getInfo(*this, i).pivotA);
             transformPoint(pivotB, *query.transformB, getInfo(*this, i).pivotB);
-            FUN_00dcee70(&query);
-            FUN_00dcfc00(&pivotA, &pivotB, m_fMaximumAngularImpulse, &query, jacobian);
+            hkLoadVelocityAccumulators(&query);
+            hkStabilizedBallSocketConstraintBuildJacobian_noSchema(&pivotA, &pivotB, m_fMaximumAngularImpulse, &query, jacobian);
             jacobian += 0x90;
         }
         hkVector4 rotationA, rotationB;
@@ -496,7 +497,7 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
             oldError.m_vComponents = _mm_xor_ps(oldError.m_vComponents, DAT_010c4c00);
         }
         Rotation axes;
-        axes.FUN_00cb2d90(&rotationB);
+        axes.hkRotation_set(&rotationB);
         for (int axis = 0; axis < 3; ++axis)
         {
             hkVector4 direction;

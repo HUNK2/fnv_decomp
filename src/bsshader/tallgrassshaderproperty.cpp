@@ -77,7 +77,7 @@ void TallGrassShaderProperty::ClearCaches()
 
 struct Helper
 {
-    void FUN_00b70260(NiStream&);
+    void BSShaderLightingProperty_LoadBinary(NiStream&);
 };
 void _NiFreeAlias(void*);
 struct Holder
@@ -90,7 +90,7 @@ struct Holder
 // @fnv 0x00b60fc0
 void Holder::ReadStringFromStream(NiStream& stream)
 {
-    ((Helper*)this)->FUN_00b70260(stream);
+    ((Helper*)this)->BSShaderLightingProperty_LoadBinary(stream);
     char* pBuffer = 0;
     stream.ReadStreamString(pBuffer);
     mStr.Set(pBuffer, 0);
@@ -465,7 +465,7 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
 }
 
 namespace fnv_00b61170 {
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl FUN_00ec61c0(void* p, int fill, unsigned int size);
 int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
@@ -479,7 +479,7 @@ struct ArrayHolderBase
     {
         m_04 = 0x25;
         m_0C = 0;
-        m_08 = FUN_00aa1070(m_04 * 4);
+        m_08 = _NiMalloc_00aa1070(m_04 * 4);
         FUN_00ec61c0(m_08, 0, m_04 * 4);
     }
 };

@@ -117,7 +117,7 @@ float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
 
 extern int DAT_0101e594;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00df8960_cls
 {
@@ -133,7 +133,7 @@ FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
     m_vptr = (int)&DAT_0101e594;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, 0x1c);
     }
@@ -189,7 +189,7 @@ float FUN_00df8dd0_cls::hkCpuWorldRayCastCollector_addLeaf(FUN_00df8dd0_Param* p
 }
 
 namespace fnv_00df9470 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct BaseA
 {
@@ -228,7 +228,7 @@ MultiBaseOwner* MultiBaseOwner::FUN_00df9470(unsigned char acFlags)
     this->MultiBaseOwner::~MultiBaseOwner();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, 0x80);
     }
@@ -433,7 +433,8 @@ struct HkpcpuworldraycastjobInterfaceView
 
 // Fills out from src, builds a Local, constructs a Spawned in spawned if src->m_3c is set, writes fields of src->m_30's block, then calls iface->v5c.
 // @fnv 0x00df89b0
-void __cdecl FUN_00df89b0(HkpcpuworldraycastjobInterfaceView* apInterface, Source* apSource, Output* apOutput, Spawned* spawned)
+// src: XBOX_PDB 0x00df89b0
+void __cdecl castRayBroadPhase(HkpcpuworldraycastjobInterfaceView* apInterface, Source* apSource, Output* apOutput, Spawned* spawned)
 {
     Local local;
 

@@ -197,7 +197,7 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" AllocatorState* __cdecl FUN_00c85750();
+extern "C" AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {

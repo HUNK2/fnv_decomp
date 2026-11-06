@@ -225,7 +225,7 @@ FUN_00d26b50::FUN_00d26b50(hkpShape* pShape, unsigned char bE)
     m_bE = bE;
 }
 
-extern "C" hkThreadMemory* FUN_00c85750();
+extern "C" hkThreadMemory* hkMemoryRouter_getInstance();
 extern "C" void ResizeAudioStream(hkMemory* memory, void* array, int elemSize);
 extern "C" void hkArrayUtil__reserve(hkMemory* memory, void* array, int numElements, int elemSize);
 
@@ -239,7 +239,7 @@ template <typename T> __forceinline void hkConstructWithCopy(T* p, int n, const 
 
 static __forceinline void hkShapeKeyArray_AddBack(hkArrayBase<hkUint32>& self, const hkUint32& e)
 {
-        hkThreadMemory* tm = FUN_00c85750();
+        hkThreadMemory* tm = hkMemoryRouter_getInstance();
         if (self.m_iElementCount == self.getCapacity())
         {
             ResizeAudioStream(tm->m_pMemoryAllocator, (&self), sizeof(hkUint32));
@@ -250,7 +250,7 @@ static __forceinline void hkShapeKeyArray_AddBack(hkArrayBase<hkUint32>& self, c
 
 static __forceinline void hkShapeKeyArray_SetSizeAndGrow(hkArrayBase<hkUint32>& self, int n)
 {
-        hkThreadMemory* tm = FUN_00c85750();
+        hkThreadMemory* tm = hkMemoryRouter_getInstance();
         hkMemory* memory = tm->m_pMemoryAllocator;
         int cap = self.getCapacity();
         if (cap < n)
@@ -263,7 +263,7 @@ static __forceinline void hkShapeKeyArray_SetSizeAndGrow(hkArrayBase<hkUint32>& 
     }
 
 
-__declspec(noalias) hkBool FUN_00d26940(const hkAabb* aabb, const hkpTriSampledHeightFieldCollection* collection,
+__declspec(noalias) hkBool hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb(const hkAabb* aabb, const hkpTriSampledHeightFieldCollection* collection,
                                          hkUint32* minX, hkUint32* maxX, hkUint32* minZ, hkUint32* maxZ);
 
 struct TriSampledHeightFieldBvTreeShapeq : public hkpTriSampledHeightFieldBvTreeShape
@@ -283,7 +283,7 @@ void TriSampledHeightFieldBvTreeShapeq::CollectHits(const hkAabb& aabbIn, hkArra
 
     hkUint32 minX, maxX, minZ, maxZ;
     {
-        hkBool valid = FUN_00d26940(&aabb, getShapeCollection(), &minX, &maxX, &minZ, &maxZ);
+        hkBool valid = hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb(&aabb, getShapeCollection(), &minX, &maxX, &minZ, &maxZ);
         if (!valid)
         {
             return;
@@ -539,7 +539,8 @@ __forceinline void convertToUint16WithClipAgain(const hkSimdVector& in, const hk
 
 // Expands aabb by the collection radius, clamps it to the height field's AABB, returns false if empty, else outputs uint16 grid min/max X and Z.
 // @fnv 0x00d26940
-hkBool FUN_00d26940(const hkAabb* aabb, const hkpTriSampledHeightFieldCollection* collection, hkUint32* minX,
+// src: XBOX_PDB 0x00d26940
+hkBool hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb(const hkAabb* aabb, const hkpTriSampledHeightFieldCollection* collection, hkUint32* minX,
                      hkUint32* maxX, hkUint32* minZ, hkUint32* maxZ)
 {
     // The caller's aabb is expanded and clipped in place.
@@ -609,7 +610,8 @@ __forceinline hkReal hkpSampledHeightFieldShape::getScaledHeight(int x, int z) c
 
 
 __declspec(noinline) hkBool
-    __cdecl FUN_00d26940(const hkAabb& aabb, const hkpTriSampledHeightFieldCollection* collection, hkUint32& minX,
+// src: XBOX_PDB 0x00d26940
+    __cdecl hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb(const hkAabb& aabb, const hkpTriSampledHeightFieldCollection* collection, hkUint32& minX,
                          hkUint32& maxX, hkUint32& minZ, hkUint32& maxZ)
 {
     const hkpSampledHeightFieldShape* hf = collection->getHeightFieldShape();
@@ -622,7 +624,7 @@ __declspec(noinline) hkBool
 
 typedef hkBool(__cdecl* ExtentsQueryFn)(const hkAabb&, const hkpTriSampledHeightFieldCollection*, hkUint32&,
                                               hkUint32&, hkUint32&, hkUint32&);
-ExtentsQueryFn S00d26ba0_extentsFp = &FUN_00d26940;
+ExtentsQueryFn S00d26ba0_extentsFp = &hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb;
 
 struct BvTreeShape : public hkpTriSampledHeightFieldBvTreeShape
 {
@@ -640,7 +642,7 @@ hkUint32 BvTreeShape::hkpTriSampledHeightFieldBvTreeShape_queryAabbImpl(const hk
 
     hkUint32 maxZ, minZ, maxX, minX;
     {
-        hkBool ok = FUN_00d26940(aabb, collection, minX, maxX, minZ, maxZ);
+        hkBool ok = hkpTriSampledHeightFieldBvTreeShape_getExtentsForQueryAabb(aabb, collection, minX, maxX, minZ, maxZ);
         if (!ok)
         {
             return 0;

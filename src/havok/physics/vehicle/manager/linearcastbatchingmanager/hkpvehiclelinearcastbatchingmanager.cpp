@@ -123,7 +123,7 @@ struct CharacterBufferState
     }
 };
 
-CharacterBufferState* __cdecl FUN_00c85750();
+CharacterBufferState* __cdecl hkMemoryRouter_getInstance();
 
 struct AllocV
 {
@@ -293,7 +293,7 @@ void S00e43320_Mgr::hkpVehicleLinearCastBatchingManager_stepVehiclesUsingCastRes
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_cap = (int)0x80000000;
-    CharacterBufferState* ar = FUN_00c85750();
+    CharacterBufferState* ar = hkMemoryRouter_getInstance();
     char* scratch = ar->m_pCur;
     ar->m_pCur = (char*)scratch + 0x600;
     arr.m_data = scratch;
@@ -304,7 +304,7 @@ void S00e43320_Mgr::hkpVehicleLinearCastBatchingManager_stepVehiclesUsingCastRes
         {
             Vehicle433* veh = self->m_ppVehicles[i];
             int numWheels = veh->m_data1c->m_iWheelCount;
-            arr.SetSizeAndGrow(FUN_00c85750()->heap(), numWheels);
+            arr.SetSizeAndGrow(hkMemoryRouter_getInstance()->heap(), numWheels);
             Counted433* counted = veh->m_counted;
             unsigned char j = 0;
             if (numWheels > 0)
@@ -327,9 +327,9 @@ void S00e43320_Mgr::hkpVehicleLinearCastBatchingManager_stepVehiclesUsingCastRes
     char* saved = slot.m_saved;
     if (saved == arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750()->m_pCur = saved;
+    hkMemoryRouter_getInstance()->m_pCur = saved;
     {
-        CharacterBufferState* ar5 = FUN_00c85750();
+        CharacterBufferState* ar5 = hkMemoryRouter_getInstance();
         AllocV* alloc = ar5->m_pSharedOwner;
         int cap = arr.m_cap;
         arr.m_iElementCount = 0;

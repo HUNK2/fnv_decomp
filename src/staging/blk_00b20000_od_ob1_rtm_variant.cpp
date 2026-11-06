@@ -646,7 +646,7 @@ struct FUN_00b3fdd0_class
 extern int DAT_010173e8;
 struct FUN_00b3c3b0_Sub
 {
-    void __thiscall FUN_0044a730(int a, int b);
+    void __thiscall fopen_0044a730(int a, int b);
 };
 struct FUN_00b3c3b0_Class
 {
@@ -792,7 +792,7 @@ struct FUN_00b29fd0_cls
     int unk74;
     int unk78;
     FUN_00b29fd0_Params m_7c;
-    FUN_00b29fd0_cls* FUN_00b29fd0();
+    FUN_00b29fd0_cls* CLightingEngine_CLightingEngine();
 };
 struct FUN_00b3f070 : FUN_00b3f0a0_Class
 {
@@ -1131,7 +1131,7 @@ struct AsObj;
 struct AsHeap
 {
     void* Game_DoHeapAlloc(unsigned int _Size);
-    void FUN_00aa4060(void* _Ptr);
+    void MemoryManager_Deallocate(void* _Ptr);
 };
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);

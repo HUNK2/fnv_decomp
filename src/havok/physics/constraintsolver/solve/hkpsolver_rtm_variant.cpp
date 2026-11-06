@@ -24,7 +24,7 @@ extern "C" void __cdecl SubtractScalarFloat(LocalM128* pResult, const LocalM128*
 {
     *pResult = _mm_sub_ss(*pLeft, *pRight);
 }
-void FUN_00d892d0();
+void hkSolveUpload();
 
 extern "C" void _ReadWriteBarrier();
 using ::_mm_load_ss;

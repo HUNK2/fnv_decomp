@@ -21,7 +21,7 @@ char* NiGlobalStringTable::AddString(const char* s)
         return 0;
     unsigned len = strlen(s);
     EnterCriticalSection((char*)DAT_011f42c0 + 0x2080);
-    char* result = DAT_011f42c0->FUN_00a5b300(s, len);
+    char* result = DAT_011f42c0->NiGlobalStringTable_FindString(s, len);
     if (result)
     {
         InterlockedIncrement((long*)(result - 8));
@@ -43,7 +43,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     allocation[1] = len;
     char* handle = result;
     fnv_zlib_memcpy(result, s, len + 1);
-    DAT_011f42c0->FUN_00a5b5a0(&handle, len);
+    DAT_011f42c0->NiGlobalStringTable_InsertString(&handle, len);
     LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
     *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
     return result;

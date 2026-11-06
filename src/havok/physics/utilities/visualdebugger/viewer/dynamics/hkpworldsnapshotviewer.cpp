@@ -80,7 +80,7 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl hkArrayUtil__reserve(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
 struct FUN_00c7be20_cls
@@ -116,7 +116,7 @@ void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
     if (pSource != 0)
     {
         int iCount = pSource->m_0c;
-        hkMemoryRouter* pAllocHolder = FUN_00c85750();
+        hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
         void* allocator = pAllocHolder->m_heap;
         unsigned int uiCapacity = out->m_capFlags & 0x3fffffffu;
         if ((int)uiCapacity < iCount)
@@ -198,7 +198,7 @@ FUN_00d63250_cls* FUN_00d63250_cls::Destroy(unsigned char acFlags)
     FUN_00d62fe0();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }

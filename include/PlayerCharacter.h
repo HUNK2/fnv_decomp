@@ -205,8 +205,8 @@ public:
     float GetLooking();
     CollisionFilter GetVectorElement();
     TESObjectCELL* GetParentCell();
-    void FUN_0093dd20(); // 0x0093dd20
-    int FUN_00962620(); // 0x00962620
+    void PlayerCharacter_Sneak(); // 0x0093dd20
+    int PlayerCharacter_GetNumberOfFollowers(); // 0x00962620
     int GetSitSleepState();
     void SetAnimGroup(unsigned short group, int flags);
     BaseProcess* GetLogDate();
@@ -247,42 +247,42 @@ public:
     bool IsSneaking();
     bool MovingCheck();
     Matrix TESObjectREFR_MultipleMatrixByRace(const Matrix&);
-    bool FUN_004eaf60();
+    bool PlayerCharacter_Is3rdPerson();
     bool FUN_0050d4a0();
     void FUN_005c1a00(bool, int);
-    void FUN_00950110(bool);
+    void PlayerCharacter_SetFirstPerson(bool);
     void PlayerCharacter_ClearSitHeadingDelta();
-    bool FUN_00953c50(bool*);
-    int FUN_00490f80();
+    bool PlayerCharacter_IsPlayerCharacterInCombat(bool*);
+    int PlayerCharacter_GetInventory3D();
     void SetInventoryWeaponEffect(MagicShaderHitEffect*);
-    void FUN_005c4210(bool);
-    void FUN_005c4210(unsigned char);
-    void FUN_005cc7a0(bool);   // 0x005cc7a0: stores the flag at +0x79b
-    int FUN_00950b00(bool firstPerson);
-    void* FUN_00950bb0(int i);
+    void PlayerCharacter_Force3rdPerson(bool);
+    void PlayerCharacter_Force3rdPerson(unsigned char);
+    void PlayerCharacter_SetAIControlledPackage(bool);   // 0x005cc7a0: stores the flag at +0x79b
+    int GetBiped(bool firstPerson);
+    void* PlayerCharacter_Get3D_00950bb0(int i);
     void UpdateAim(int a1, void* pkNode, float* pfX, float* pfY, int a5,
                    float m_fGridOriginX, float afWorldOriginY);
-    int FUN_00963730();
-    bool FUN_0088b880(int a1, Actor* target, int a3, int a4, int a5);
-    TESQuest* FUN_005cbb50();
-    void FUN_009529d0(int value);
-    void FUN_009529d0(TESQuest* quest);
-    ScriptContext* FUN_005d43c0(bool first, bool second);
-    void FUN_00961280();
+    int PlayerCharacter_GetAutoAimActor();
+    bool Actor_LineOfSight(int a1, Actor* target, int a3, int a4, int a5);
+    TESQuest* PlayerCharacter_GetActiveQuest();
+    void SetActiveQuest(int value);
+    void SetActiveQuest(TESQuest* quest);
+    ScriptContext* BSFile_GetDevice(bool first, bool second);
+    void PlayerCharacter_DestroyMouseSpring();
     void PlayerCharacter_CreateMouseSpring(TelekinesisReference*, int, float);
-    TESObjectREFR* FUN_00798400();
-    int __fastcall FUN_004f8960();
-    PlayerBase* FUN_00464e10();
-    void FUN_00950030();
-    unsigned int FUN_0061f6c0();
+    TESObjectREFR* QPlayerMapMarker();
+    int __fastcall GameSettingCollection_File();
+    PlayerBase* GetCharacterProgressionInfo();
+    void PlayerCharacter_UpdatePlayer3d();
+    unsigned int QCameraRigidBody();
     int GetKillCamMode();
-    bool FUN_00878340();
+    bool GetAllowEGMCacheClear();
     WeatherCell* PlayerCharacter_GetCurrentRegion();
     void SetLastAntiCheatTime();
 
     bool IsFlagSet() const;
     void PlayerCharacter_SetTimeSinceLastAmmoRegenTick(float value);
-    float FUN_00944300();
+    float TESNPC_GetHeight();
     unsigned int GetField688();
     char GetByteAtOffset681();
     unsigned char __thiscall GetByteAt66E();
@@ -292,7 +292,7 @@ public:
     bool HasFlag400();
     bool HasFlag20000();
     void __thiscall CameraCaster_Remove();
-    void __thiscall FUN_00621370(int value);
+    void __thiscall CameraCaster_Add(int value);
     unsigned int __thiscall GetField6EC();
     void PlayerCharacter_ForcePhysicsGrabDrop();
     NiPoint3& PlayerCharacter_GetLastBorderRegionPos(NiPoint3& destination);
@@ -305,20 +305,20 @@ public:
     void __thiscall ClearHelper();
     void RestorePlayerLocation(bool travel);
     bool IsPlayerTargeted(Ref* actor, bool mode);
-    unsigned char FUN_00967ae0();
-    unsigned char FUN_008bbc10();
+    unsigned char PlayerCharacter_IsPipboyActive();
+    unsigned char Actor_GetIronSights();
     void SetActiveState(int first, int second, int third);
     float PlayerCharacter_SetFOV(float value);
     void UpdateScopeZoom(float elapsed);
-    void FUN_00960520(float delta);
+    void PlayerCharacter_UpdateMouseSpring(float delta);
     void PlayerCharacter_CreateMouseSpring(ActorRef* actor, int mode, float distance);
     void PlayerCharacter_HandlePhysicsGrab(float delta);
     void ApplyFormPayload(Form* form, int unused);
     void RemoveEnchantment(TESBoundObject* form, int unused);
-    bool __thiscall FUN_009614b0(TESBoundObject* object, InventoryDropPoint* dropPoint, int first, int second);
-    bool FUN_00967b70(InventoryStackRecord* record);
-    void FUN_00484ce0(unsigned int, int);
-    void FUN_00484d00(unsigned int, int);
-    bool FUN_00969860();                        // 0x00969860
+    bool __thiscall PlayerCharacter_GetDropPoint(TESBoundObject* object, InventoryDropPoint* dropPoint, int first, int second);
+    bool PlayerCharacter_CanEquipOrUseObject(InventoryStackRecord* record);
+    void TESForm_SaveGameDataOLD(unsigned int, int);
+    void TESForm_LoadGameDataOLD(unsigned int, int);
+    bool PlayerCharacter_IsImportantConversationRunning();                        // 0x00969860
     bool FUN_008defe0();                        // 0x008defe0
 };

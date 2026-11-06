@@ -231,7 +231,7 @@ struct RArr
     void ConstructElementArray(RElem*, int);
 };
 struct RCtx;
-RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
+RObj* __cdecl BSUtilities_GetObjectByName_00c4b470(RCtx*, RKey*, int);
 void __cdecl CopyPoseFunctor(RCtx* ctx, RObj* obj, RArr* arr);
 void __cdecl SetFlagRecursive(int, void*);
 void __cdecl CopyPoseFunctor(void*, void*, void*);
@@ -239,7 +239,7 @@ inline unsigned char GetFlag6(unsigned short w)
 {
     return (unsigned char)(w >> 6) & 1;
 }
-void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
+void __cdecl bhkRagdollController_CopyPoseTo3D(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
 void NI2HK_00c74dd0(void*, NiTransform*);
 extern bool DAT_01267c28;
 extern bool DAT_01267c34;
@@ -302,14 +302,14 @@ struct FUN_00c7d630_t
     RagNode* m_pkNode;
     char pad5c[4];
     NiMatrix3 m_kRot;
-    void FUN_00c7d630(float);
+    void bhkRagdollController_DoRagdollAnim(float);
     void bhkRagdollController_GetSGPoseLocalSpace();
     void bhkRagdollController_UpdateDebugLines(int);
-    void FUN_00c76350(void*);
+    void bhkRagdollController_DoFootIK(void*);
     void bhkRagdollController_DoGrabIK(void*);
-    void FUN_00c7aa60(void*);
+    void bhkRagdollController_DoLookAtIK(void*);
     void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
-    void FUN_00c7d030(void*);
+    void bhkRagdollController_UpdateRagdollRigidBodies(void*);
     void bhkRagdollController_DoRagdollFeedback();
     void bhkRagdollController_SetSGPoseLocalSpace();
 };
@@ -352,11 +352,11 @@ struct S_c6a200_Ev
 extern void* DAT_011afecc;
 S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
 void __cdecl bhkWorld_DoObjectRec(void* obj, S_c6a200_Ev* ev, void* extra);
-bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
+bool __cdecl bhkWorld_SetDisabled(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
 struct FlagController
 {
-    void FUN_00c7b6a0(int);
-    void FUN_00c7ba10(bool);
+    void bhkRagdollController_SetRagdollFeedbackActive(int);
+    void bhkRagdollController_EnableRagdollFeedback(bool);
 };
 struct HkAllocator
 {
@@ -470,7 +470,7 @@ void FUN_00c7d480_cls::FUN_00c7d480()
     }
     *(unsigned int*)_FUN_00c85750() = count;
 }
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00c7d5c0_elem
 {
     int unk00;
@@ -543,7 +543,7 @@ class BCB9810Registry
 {
   public:
     void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+    void bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
     int unk04;
@@ -590,7 +590,7 @@ struct CE4360Context
     int unk70;
     int m_iMode;
 };
-void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
+void __cdecl mapPose(CE4360Context* pkContext, int a, int b, int c, int d);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(CE4360Context* pkContext, int a, int b, int c);
 void __cdecl hkaSkeletonMapper_mapPose(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 struct RTTI_c9b
@@ -699,7 +699,7 @@ __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
     }
     return false;
 }
-void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f);
+void __cdecl bhkBlendController_DoGetUp(Obj_c9b* pkObj, float f);
 void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
@@ -748,7 +748,7 @@ struct FUN_00cb9650_Object
     void NiObjectNET_RemoveController(int value);
 };
 extern const char DAT_012683f4[];
-void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object);
+void __cdecl bhkForceController_RemoveForce(FUN_00cb9650_Object* object);
 #include <xmmintrin.h>
 #include "../../../include/MemoryManager.h"
 #include "../../../include/bhkRagdollController.h"
@@ -783,7 +783,7 @@ struct RagController
     {
         return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x180);
     }
-    void FUN_00c75580(unsigned char enabled);
+    void bhkRagdollController_SetLookIKActive(unsigned char enabled);
 };
 extern "C" double __cdecl sqrt(double x);
 __int64 __cdecl BSPrecisionTimer_GetTimer();
@@ -848,7 +848,7 @@ struct ScrapMarker
     unsigned int size;
     ScrapMarker(unsigned int count)
     {
-        char** top = (char**)FUN_00c85750();
+        char** top = (char**)hkMemoryRouter_getInstance();
         unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
         char* old = *top;
         *top = old + size;
@@ -856,7 +856,7 @@ struct ScrapMarker
     }
     ~ScrapMarker()
     {
-        *(char**)FUN_00c85750() = p;
+        *(char**)hkMemoryRouter_getInstance() = p;
     }
 };
 struct Cls
@@ -1089,7 +1089,7 @@ struct RagEntry
 };
 struct RagSystem
 {
-    void FUN_00c6b320(RagEntry* entry);
+    void bhkWorld_Add_00c6b320(RagEntry* entry);
 };
 struct RagWorld
 {
@@ -1344,7 +1344,7 @@ struct RagCtrl48
         {
             RagEntry* e = entries[i];
             if (!e->owner)
-                sys->FUN_00c6b320(e);
+                sys->bhkWorld_Add_00c6b320(e);
         }
     }
 };
@@ -1543,8 +1543,8 @@ struct RagdollCtl
     RagSkel* skel;
     int unk2a8;
     int unk2ac;
-    void FUN_00c7b6a0(bool);
-    void FUN_00c7c150(bool);
+    void bhkRagdollController_SetRagdollFeedbackActive(bool);
+    void bhkRagdollController_DisableRagdollAnim(bool);
 };
 static unsigned char* hkVector4isOk(unsigned char* out, const float* src, int count);
 unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count);
@@ -1575,7 +1575,7 @@ struct S_Out
 };
 struct S_Inner
 {
-    int FUN_00c85c80(int arg);
+    int bhkWorldObject_GetAVObject(int arg);
 };
 struct S_Val
 {
@@ -1606,7 +1606,7 @@ struct S_Elem
     int unk08;
     S_Inner* unk0c;
 };
-int* __cdecl FUN_00c85ef0(S_Out* out, void* ptr, void* tag);
+int* __cdecl bhkWorldObject_GetProperty(S_Out* out, void* ptr, void* tag);
 inline void* GetOwner(S_Obj* c)
 {
     return (char*)c + c->unk10;
@@ -1619,7 +1619,7 @@ inline S_Elem* GetPhantom(S_Obj* c)
 {
     return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
 }
-int __cdecl FUN_00c7fa90(S_Obj* p);
+int __cdecl bhkUtilFunctions_GetNiAVObject(S_Obj* p);
 extern const __m128 DAT_010c71e0;
 struct __declspec(align(16)) MVec4
 {

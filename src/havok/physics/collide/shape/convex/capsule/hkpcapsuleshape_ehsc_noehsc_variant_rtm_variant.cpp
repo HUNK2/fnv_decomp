@@ -14,7 +14,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 #include "havok/hkpCapsuleShape.h"
 extern char const* const g_01268970_arg1;
 void __cdecl hkReferencedObject_calcContentStatistics(char const* const* arg1, char const* const* arg2);
-void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
+void __cdecl hkpCapsuleShape_calcContentStatistics(char const* const* arg1, char const* const* arg2);
 int __cdecl FUN_00d22350();
 int __stdcall FUN_00d22d60(int a, int b);
 // Exe 0x00d22760 FUN_00d22760: retain this LocalM128 view; the CRT type does not preserve this unit.
@@ -82,7 +82,7 @@ struct ClosestLineResult {
     Point4 pointA;
     Point4 pointB;
 };
-void __cdecl FUN_00d231b0(const Point4& a, const Point4& b,
+void __cdecl hkLineSegmentUtil_closestPointInfLineInfLine(const Point4& a, const Point4& b,
                             const Point4& c, const Point4& d,
                             ClosestLineResult* out);
 void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLineAEnd, const Point4& aLineBStart, const Point4& aLineBEnd, float* pfDistance, float* pfFractionA, float* pfFractionB, Point4* pointA, Point4* pointB);
@@ -113,7 +113,7 @@ extern "C" LocalM128 _mm_add_ps(LocalM128,LocalM128);
 extern "C" LocalM128 _mm_add_ss(LocalM128,LocalM128);
 extern "C" LocalM128 _mm_load_ss(const float*);
 extern "C" void _mm_store_ss(float*,LocalM128);
-void __cdecl FUN_00d224c0(float* arg1, float* arg2, float* arg3, float* out);
+void __cdecl hkpCapsuleShape_closestPointLineSeg(float* arg1, float* arg2, float* arg3, float* out);
 
 extern "C" LocalM128 _mm_mul_ps(LocalM128,LocalM128);
 extern "C" LocalM128 _mm_add_ps(LocalM128,LocalM128);
@@ -263,18 +263,19 @@ struct __declspec(align(16)) S00d22760_LineResult {
     S00d22760_Vec m_kFirstVector;
     S00d22760_Vec m_kSecondVector;
 };
-int __cdecl FUN_00d231b0(const S00d22760_Vec& A, const S00d22760_Vec& dA, const S00d22760_Vec& B, const S00d22760_Vec& dB, S00d22760_LineResult& result);
+int __cdecl hkLineSegmentUtil_closestPointInfLineInfLine(const S00d22760_Vec& A, const S00d22760_Vec& dA, const S00d22760_Vec& B, const S00d22760_Vec& dB, S00d22760_LineResult& result);
 __declspec(noinline) void __cdecl GetClosestLinePoints(const S00d22760_Vec& A, const S00d22760_Vec& dA, const S00d22760_Vec& B, const S00d22760_Vec& dB, float& distSquared, float& t, float& u, S00d22760_Vec& p, S00d22760_Vec& q)
 {
     S00d22760_LineResult result;
-    FUN_00d231b0(A, dA, B, dB, result);
+    hkLineSegmentUtil_closestPointInfLineInfLine(A, dA, B, dB, result);
     p = result.m_kFirstVector;
     q = result.m_kSecondVector;
     t = result.m_fFirstParameter;
     u = result.m_fSecondParameter;
     distSquared = result.m_fValue;
 }
-__declspec(noinline) void __cdecl FUN_00d224c0(const S00d22760_Vec& A, const S00d22760_Vec& B, const S00d22760_Vec& B2, S00d22760_Vec& pt)
+// src: XBOX_PDB 0x00d224c0
+__declspec(noinline) void __cdecl hkpCapsuleShape_closestPointLineSeg(const S00d22760_Vec& A, const S00d22760_Vec& B, const S00d22760_Vec& B2, S00d22760_Vec& pt)
 {
     S00d22760_Vec d12;
     d12.setSub4(B, A);
@@ -299,7 +300,7 @@ public:
     enum { HIT_CAP0 = 0, HIT_CAP1 = 1, HIT_BODY = 2 };
     __forceinline const S00d22760_Vec* GetIndexedVertices() const { return &m_kVertexA; }
     __forceinline const S00d22760_Vec& getVertex(int i) const { return GetIndexedVertices()[i]; }
-    __declspec(noinline) S00d22760_Bool FUN_00d22760(const S00d22760_Input& input, S00d22760_Output& results) const;
+    __declspec(noinline) S00d22760_Bool hkpCapsuleShape_castRayImpl(const S00d22760_Input& input, S00d22760_Output& results) const;
     int unk14;
     int unk18;
     int unk1c;
@@ -308,7 +309,8 @@ public:
 };
 
 // @fnv 0x00d22760
-__declspec(noinline) S00d22760_Bool S00d22760_Capsule::FUN_00d22760(const S00d22760_Input& input, S00d22760_Output& results) const
+// src: XBOX_PDB 0x00d22760
+__declspec(noinline) S00d22760_Bool S00d22760_Capsule::hkpCapsuleShape_castRayImpl(const S00d22760_Input& input, S00d22760_Output& results) const
 {
     {
         S00d22760_Stream& mStream = S00d22760_Stream::GetMonitorStream();
@@ -322,7 +324,7 @@ __declspec(noinline) S00d22760_Bool S00d22760_Capsule::FUN_00d22760(const S00d22
     S00d22760_TimeHelper timeblock206;
     {
         S00d22760_Vec res;
-        FUN_00d224c0(input.m_vFrom, getVertex(0), getVertex(1), res);
+        hkpCapsuleShape_closestPointLineSeg(input.m_vFrom, getVertex(0), getVertex(1), res);
         S00d22760_Vec join;
         join.setSub4(input.m_vFrom, res);
         float sToCylDistSq = join.lengthSquared3();

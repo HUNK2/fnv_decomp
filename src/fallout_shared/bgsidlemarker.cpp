@@ -22,7 +22,7 @@ class ChunkPayload16
 {
   public:
     unsigned int data[4];
-    void FUN_0067ff10();
+    void OBJ_WEAP_VATS_SPECIAL_Endian();
 };
 
 class ChunkPayloadWrapper16
@@ -100,7 +100,7 @@ void FUN_005e7ed0_shell::BGSIdleMarker_SaveAlt()
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct FUN_005e7f00_t
 {
@@ -113,7 +113,7 @@ void FUN_005e7f00_t::CopyFrom(TESForm* apCopy)
     BGSIdleMarker* pcopy = dynamic_cast<BGSIdleMarker*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0((TESForm*)pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents((TESForm*)pcopy);
 }
 
 // @fnv 0x005e7b40
@@ -223,7 +223,7 @@ bool BGSIdleMarkerImpl::BGSIdleMarker_Load(TESFile* file)
             file->GetChunkData(&payload, sizeof(payload));
             if (file->IsEndianConversionRequired())
             {
-                payload.FUN_0067ff10();
+                payload.OBJ_WEAP_VATS_SPECIAL_Endian();
             }
             IdlePayloadWrapper wrapper(&payload);
             break;
@@ -244,23 +244,24 @@ bool BGSIdleMarkerImpl::BGSIdleMarker_Load(TESFile* file)
 class FormComponentComparison : public TESForm
 {
   public:
-    bool FUN_00485270(TESForm* compare);
+    bool TESForm_CompareAllComponents(TESForm* compare);
 };
 
 class IdleMarkerComparison : public BGSIdleMarker
 {
   public:
-    bool FUN_005e7f40(TESForm* apCompare);
+    bool BGSIdleMarker_Compare(TESForm* apCompare);
 };
 
 // Returns true if apCompare is not a BGSIdleMarker or if the base form component comparison against it succeeds.
 // @fnv 0x005e7f40
-bool IdleMarkerComparison::FUN_005e7f40(TESForm* apCompare)
+// src: XBOX_PDB 0x005e7f40
+bool IdleMarkerComparison::BGSIdleMarker_Compare(TESForm* apCompare)
 {
     BGSIdleMarker* pIdleMarker = dynamic_cast<BGSIdleMarker*>(apCompare);
     if (!pIdleMarker)
         return true;
-    if (((FormComponentComparison*)this)->FUN_00485270((TESForm*)pIdleMarker))
+    if (((FormComponentComparison*)this)->TESForm_CompareAllComponents((TESForm*)pIdleMarker))
         return true;
     return false;
 }

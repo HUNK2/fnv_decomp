@@ -489,7 +489,7 @@ extern int DAT_010840e4;
 
 struct Caller00822860
 {
-    void FUN_00822860(unsigned int, bool);
+    void BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(unsigned int, bool);
     void* BSSimpleArray_NiPointer_NiNode_1024_BSSimpleArray_NiPointer_NiNode_1024();
 };
 
@@ -498,7 +498,7 @@ struct Caller00822860
 void* Caller00822860::BSSimpleArray_NiPointer_NiNode_1024_BSSimpleArray_NiPointer_NiNode_1024()
 {
     *(void**)(this) = (void*)&DAT_010840e4;
-    FUN_00822860(0, false);
+    BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(0, false);
     return this;
 }
 
@@ -521,11 +521,12 @@ void Arr3520::FUN_0087d480()
 struct TaskQueueInterface
 {
     void SetTaskFlagDWord(bool, unsigned int);
-    void FUN_0087e100(bool argument0);
+    void NiAVObject_SetShadowReceiver(bool argument0);
 };
 
 // @fnv 0x0087e100
-void TaskQueueInterface::FUN_0087e100(bool abFlag)
+// src: XBOX_PDB 0x0087e100
+void TaskQueueInterface::NiAVObject_SetShadowReceiver(bool abFlag)
 {
     SetTaskFlagDWord(abFlag == 0, 0x800000);
 }
@@ -630,16 +631,16 @@ void FUN_00863f00::Init()
 
 
 
-NiRenderer* __cdecl FUN_0043c4b0();
+NiRenderer* __cdecl NiXenonRenderer_GetRenderer();
 
 // If FUN_0043c4b0 returns a renderer, calls its vfn_8c virtual method, then returns 0.
 // @fnv 0x0086a020
 // src: COMMUNITY 0x0086a020
 int __cdecl SystemUtilityDialogIdleCallback()
 {
-    if (FUN_0043c4b0())
+    if (NiXenonRenderer_GetRenderer())
     {
-        NiRenderer* renderer = FUN_0043c4b0();
+        NiRenderer* renderer = NiXenonRenderer_GetRenderer();
         renderer->Unk_23();
     }
     return 0;
@@ -853,7 +854,7 @@ void __cdecl BGSMoviePlayer_Destroy()
     DAT_0126fac4 = 0;
 }
 
-void __fastcall FUN_00867a20(void*);
+void __fastcall Menu_SetRenderedMenu(void*);
 void __fastcall ZeroSixInts(void*);
 // @fnv 0x008677d0
 // src: COMMUNITY 0x008677d0
@@ -866,7 +867,7 @@ void* __fastcall Calendar_Calendar(void* p)
     *(int*)((char*)p + 16) = 0;
     *(int*)((char*)p + 20) = 0;
     *(int*)((char*)p + 24) = 0;
-    FUN_00867a20(p);
+    Menu_SetRenderedMenu(p);
     ZeroSixInts(p);
     return p;
 }
@@ -983,7 +984,8 @@ void* FUN_00869e10_class::FUN_00869e60(unsigned int flags)
 
 extern float(__cdecl* DAT_011f91f0)(int);
 // @fnv 0x0086bff0
-void FUN_0086bff0(float(__cdecl* fn)(int))
+// src: XBOX_PDB 0x0086bff0
+void BSShaderManager_SetTimerFunc(float(__cdecl* fn)(int))
 {
     DAT_011f91f0 = fn;
 }
@@ -991,7 +993,8 @@ void FUN_0086bff0(float(__cdecl* fn)(int))
 extern bool DAT_011f94a7;
 
 // @fnv 0x0086c000
-void FUN_0086c000(bool abUseCache)
+// src: XBOX_PDB 0x0086c000
+void BSShaderManager_SetUseHardDriveCache(bool abUseCache)
 {
     DAT_011f94a7 = abUseCache;
 }
@@ -1146,11 +1149,12 @@ void BSShaderAccumulator_SetDisplayBoundingSpheres(unsigned char value)
 }
 
 extern int DAT_01204368;
-void __cdecl FUN_00877960();
+void __cdecl SettingT_RegSettingCollection_InitCollection();
 // @fnv 0x00877950
-int __cdecl FUN_00877950()
+// src: XBOX_PDB 0x00877950
+int __cdecl SettingT_RegSettingCollection_QCollection()
 {
-    FUN_00877960();
+    SettingT_RegSettingCollection_InitCollection();
     return DAT_01204368;
 }
 
@@ -1304,7 +1308,7 @@ void FUN_008660b0_shell::GrowBuffer()
     int* old = data;
     unsigned int oldSize = size;
     size += 0x10000;
-    if (!DAT_011de134->FUN_00424940())
+    if (!DAT_011de134->InterfaceManager_GetMenuMode())
     {
         int* alloc3 = (int*)operator new(size);
         data = alloc3;
@@ -1436,7 +1440,7 @@ struct FUN_00867890_shell
     TESForm* f5;
     int f6;
     void Calendar_InitGlobals();
-    void __fastcall FUN_00867a20();
+    void __fastcall Menu_SetRenderedMenu();
 };
 // Looks up six forms by id, adds the f3 global's value divided by 24 to the f4 global, stores it, resets f6 and calls FUN_00867a20.
 // @fnv 0x00867890
@@ -1454,7 +1458,7 @@ void FUN_00867890_shell::Calendar_InitGlobals()
     a = b / 24.0 + a;
     ((TESGlobal*)f4)->SetValue(a);
     f6 = 0;
-    FUN_00867a20();
+    Menu_SetRenderedMenu();
 }
 
 struct Arr
@@ -1474,7 +1478,7 @@ void FUN_00869560(Arr* pArr, FUN_008693f0_Class* pDest)
     }
 }
 
-char** __cdecl FUN_005e0ba0(unsigned int);
+char** __cdecl NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(unsigned int);
 struct FUN_00869e90_Class
 {
     int* vtbl;
@@ -1494,7 +1498,7 @@ FUN_00869e90_Class::FUN_00869e90_Class(unsigned short ausCount, unsigned short b
     pad = 0;
     w0 = 0;
     if (count > 0)
-        p = FUN_005e0ba0(count);
+        p = NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(count);
     else
         p = 0;
 }
@@ -1507,7 +1511,8 @@ struct FUN_008779f0
 extern int DAT_01204368;
 // Allocates a FUN_008779f0 instance and stores it in DAT_01204368 if that global is currently null.
 // @fnv 0x00877960
-void FUN_00877960()
+// src: XBOX_PDB 0x00877960
+void SettingT_RegSettingCollection_InitCollection()
 {
     if (!DAT_01204368)
         DAT_01204368 = (int)new FUN_008779f0;
@@ -1906,7 +1911,7 @@ struct BSFadeNodeResult2 : public BSFadeNodeResult
 // src: COMMUNITY 0x0086a050
 float __cdecl BSFadeNode_GetLinkedActorAlpha(BSFadeNode* node)
 {
-    BSFadeNodeResult2* p = (BSFadeNodeResult2*)node->FUN_009ad610();
+    BSFadeNodeResult2* p = (BSFadeNodeResult2*)node->QUserData();
     if (p != 0 && p->vfn_100())
     {
         return p->vfn_420();
@@ -2032,7 +2037,7 @@ struct FUN_00853670_shell
 };
 
 unsigned int __cdecl GetSizeTypeForSize(unsigned int value);
-unsigned int __cdecl FUN_00845d70(unsigned int value);
+unsigned int __cdecl GetSizeTypeSize(unsigned int value);
 void __cdecl WriteTypedValue(void* destination, unsigned int source, unsigned int count);
 
 struct FUN_008665d0_class
@@ -2047,7 +2052,7 @@ struct FUN_008665d0_class
 void FUN_008665d0_class::BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag)
 {
     unsigned int data4 = GetSizeTypeForSize(size);
-    unsigned int totalSize = FUN_00845d70(data4);
+    unsigned int totalSize = GetSizeTypeSize(data4);
     unsigned int encodedSize = size + totalSize + 2;
     void* object = operator new(encodedSize);
 
@@ -2216,7 +2221,7 @@ void __cdecl GetSoundPathAndFlags();
 void __cdecl FindDialogueFile();
 void __cdecl ApplySoundFormToGameSound();
 void __cdecl FalloutRadio_RadioSynchPaused();
-void __cdecl FUN_0082f830();
+void __cdecl FalloutAudioMedia_Startup();
 bool __cdecl GetSoundLoopPoints(TESSound*, int*, int*);
 
 
@@ -2276,7 +2281,7 @@ void FUN_0086ce40_class::InitAudioCallbacks()
 
     BSAudio::GetSingleton()->vfn_04(value_08);
 
-    FUN_0082f830();
+    FalloutAudioMedia_Startup();
 }
 
 struct NiVisibleArray;
@@ -2459,7 +2464,8 @@ struct FlagHelper
     bool GetFlag8();
 };
 // @fnv 0x0087f4a0
-bool __fastcall FUN_0087f4a0(Actor* actor)
+// src: XBOX_PDB 0x0087f4a0
+bool __fastcall Actor_GetRespawn(Actor* actor)
 {
     return reinterpret_cast<FlagHelper*>(reinterpret_cast<char*>(actor->GetActorBase()) + 0x30)->GetFlag8();
 }
@@ -2493,12 +2499,13 @@ struct FUN_00866140_cls
     int m_08;
     int m_0c;
     void Step();
-    void FUN_00866140(int a1, int a2);
+    void BGSSaveGameBuffer_ShiftBuffer(int a1, int a2);
 };
 
 // Adds a2 to m_0c, calls Step while the total exceeds m_08, then emits four values unless DAT_011de134->FUN_00424940() is true, and stores the new total.
 // @fnv 0x00866140
-void FUN_00866140_cls::FUN_00866140(int aiOffset, int aiAmount)
+// src: XBOX_PDB 0x00866140
+void FUN_00866140_cls::BGSSaveGameBuffer_ShiftBuffer(int aiOffset, int aiAmount)
 {
     int iNewTotal = m_0c + aiAmount;
     if (iNewTotal <= 0)
@@ -2509,7 +2516,7 @@ void FUN_00866140_cls::FUN_00866140(int aiOffset, int aiAmount)
     {
         Step();
     }
-    if (!DAT_011de134->FUN_00424940())
+    if (!DAT_011de134->InterfaceManager_GetMenuMode())
     {
         int lo_ = m_04 + aiOffset;
         int hi = m_04 + aiOffset + aiAmount;
@@ -2523,7 +2530,7 @@ struct FUN_00866570_Input
 {
     unsigned char FUN_008a81c0();
     int GetFormType_008665b0();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void* FUN_00726070();
 };
 struct FUN_00866570_Class : public FUN_008665d0_class
@@ -2534,7 +2541,7 @@ struct FUN_00866570_Class : public FUN_008665d0_class
 // @fnv 0x00866570
 void FUN_00866570_Class::InitFromInput(FUN_00866570_Input* input)
 {
-    BGSUnloadedFormBuffer_Initialize(input->FUN_00726070(), input->FUN_0084e3a0(), input->GetFormType_008665b0(), input->FUN_008a81c0());
+    BGSUnloadedFormBuffer_Initialize(input->FUN_00726070(), input->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), input->GetFormType_008665b0(), input->FUN_008a81c0());
 }
 
 // Stand-in for the object stored in the array held by FUN_00866de0_cls::m_pArr.
@@ -2776,7 +2783,7 @@ struct FNV_869F30_Manager
 {
     void __thiscall IOManager_Pause();
     void __thiscall BSTaskManager_int64_SetThreadExiting();
-    void __thiscall FUN_00c3e340();
+    void __thiscall IOManager_Resume();
 };
 extern FNV_869F30_Manager* DAT_01202d98;
 
@@ -2794,7 +2801,7 @@ struct FNV_869F30_Service
     void __thiscall BSFileCache_ForcePauseAndWaitForIdle();
 };
 FNV_869F30_Service* __cdecl FUN_00aff100();
-FNV_869F30_Service* __cdecl FUN_00453a70();
+FNV_869F30_Service* __cdecl BSAudio_QInstance();
 FNV_869F30_Service* __cdecl FUN_00b00a00();
 void __cdecl FUN_008304a0();
 void __cdecl FalloutAudioMedia_Shutdown();
@@ -2814,9 +2821,9 @@ void __cdecl RunModeSwitch(int mode)
     case 1:
         break;
     case 2:
-        if (FUN_0043c4b0())
+        if (NiXenonRenderer_GetRenderer())
         {
-            RendererNoOp(FUN_0043c4b0());
+            RendererNoOp(NiXenonRenderer_GetRenderer());
         }
         BGSMoviePlayer_Destroy();
         if (DAT_01202d98)
@@ -2825,12 +2832,12 @@ void __cdecl RunModeSwitch(int mode)
         }
         DAT_011c3b3c->CallMemberFunction();
         DAT_01202d98->BSTaskManager_int64_SetThreadExiting();
-        DAT_01202d98->FUN_00c3e340();
+        DAT_01202d98->IOManager_Resume();
         FUN_00aff100()->BSFileCache_ForcePauseAndWaitForIdle();
         FUN_00aff100()->method2();
         FUN_008304a0();
         FalloutAudioMedia_Shutdown();
-        FUN_00453a70()->method2();
+        BSAudio_QInstance()->method2();
         UpdateSystemUtility();
         ResetSystemUtility();
         FUN_00b00a00()->method2();
@@ -2858,7 +2865,7 @@ extern FUN_0086a480_other DAT_011de7b8;
 extern double DAT_01017b70;
 extern double DAT_01012638;
 
-bool FUN_00702360();
+bool Interface_IsInMenuMode();
 
 // @fnv 0x0086a480
 // src: COMMUNITY 0x0086a480
@@ -2870,7 +2877,7 @@ float BSShaderManager_CalculateTime(int aiMode)
     }
     if (aiMode == 2)
     {
-        if (!FUN_00702360())
+        if (!Interface_IsInMenuMode())
         {
             struct Pair64
             {
@@ -2889,7 +2896,7 @@ float BSShaderManager_CalculateTime(int aiMode)
     }
     if (aiMode == 1)
     {
-        if (!FUN_00702360())
+        if (!Interface_IsInMenuMode())
         {
             return DAT_011f6394.FUN_0084d030();
         }
@@ -2961,7 +2968,7 @@ void TESMain_ImagespaceInit()
         g_011adbcc = Sample_0086c0e0();
         g_011adbd0 = Sample_0086c0f0();
     }
-    value = *g_011cf8a4.FUN_00403e20();
+    value = *g_011cf8a4.Setting_Float_00403e20();
     Factory_004e3270(12, value)->Next()->Run();
 }
 
@@ -3261,7 +3268,7 @@ struct Node877
 
 struct Holder877
 {
-    void __thiscall FUN_00aa5610(void* p);
+    void __thiscall ScrapHeap_Deallocate(void* p);
 };
 
 struct Cls877
@@ -3288,7 +3295,7 @@ unsigned char __thiscall Cls877::PopNode(void* dest)
         *(Block877*)dest = *(Block877*)((char*)node + 4);
         m_0c = node->next;
         node->FUN_007b3fa0(0);
-        m_08->FUN_00aa5610(node);
+        m_08->ScrapHeap_Deallocate(node);
         result = 1;
     }
     else
@@ -3349,7 +3356,7 @@ class FUN_00877f10 : public FUN_00877f10_base
 // @fnv 0x00877f10
 FUN_00877f10::FUN_00877f10(int a, int b) : FUN_00877f10_base(a, b)
 {
-    reinterpret_cast<FUN_00877f10_obj*>(FUN_00877950())->v1(this);
+    reinterpret_cast<FUN_00877f10_obj*>(SettingT_RegSettingCollection_QCollection())->v1(this);
 }
 
 class FUN_00877fc0_base
@@ -3379,7 +3386,7 @@ class FUN_00877fc0 : public FUN_00877fc0_base
 // @fnv 0x00877fc0
 FUN_00877fc0::~FUN_00877fc0()
 {
-    reinterpret_cast<FUN_00877fc0_obj*>(FUN_00877950())->v2(this);
+    reinterpret_cast<FUN_00877fc0_obj*>(SettingT_RegSettingCollection_QCollection())->v2(this);
 }
 
 // FUN_00878030 : resets a game object and returns it.
@@ -3417,15 +3424,15 @@ FUN_00878030_cls* FUN_00878030_cls::MemoryLevelManager_MemoryLevelManager()
 
 struct StateControl
 {
-    bool __thiscall FUN_0044b130();
-    void __thiscall FUN_0082f1f0();
+    bool __thiscall BSCriticalSection_TryLock();
+    void __thiscall BSCriticalSection_Unlock();
 };
 struct ManagedEntry
 {
     void __thiscall RunStep();
 };
-void* __cdecl FUN_00401020();
-ManagedEntry* __stdcall FUN_00401020(int mode, unsigned int index, bool* enabled);
+void* __cdecl MemoryManager_Instance();
+ManagedEntry* __stdcall MemoryManager_Instance(int mode, unsigned int index, bool* enabled);
 struct FUN_00878080_Class
 {
     int unk00;
@@ -3440,21 +3447,21 @@ struct FUN_00878080_Class
 // src: COMMUNITY 0x00878080
 void FUN_00878080_Class::MemoryLevelManager_CheckMemoryLevel(int unused)
 {
-    if (!control.FUN_0044b130())
+    if (!control.BSCriticalSection_TryLock())
         return;
-    if (reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->MemoryManager_GetMainThreadMemoryProblemPassSignal() > 0)
+    if (reinterpret_cast<FUN_00878110_Class*>(MemoryManager_Instance())->MemoryManager_GetMainThreadMemoryProblemPassSignal() > 0)
     {
         bool enabled = true;
         {
             unsigned int index = 0;
-            for (; index <= reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->MemoryManager_GetMainThreadMemoryProblemPassSignal(); ++index)
+            for (; index <= reinterpret_cast<FUN_00878110_Class*>(MemoryManager_Instance())->MemoryManager_GetMainThreadMemoryProblemPassSignal(); ++index)
             {
-                FUN_00401020(0, index, &enabled)->RunStep();
+                MemoryManager_Instance(0, index, &enabled)->RunStep();
             }
         }
-        reinterpret_cast<FUN_00878130_Class*>(FUN_00401020())->ResetAndGetValue();
+        reinterpret_cast<FUN_00878130_Class*>(MemoryManager_Instance())->ResetAndGetValue();
     }
-    control.FUN_0082f1f0();
+    control.BSCriticalSection_Unlock();
 }
 
 extern int DAT_011a95fc;
@@ -3509,12 +3516,13 @@ struct FUN_0087a730_target
 struct FUN_0087a730_cls
 {
     FUN_0087a730_target* unk00;
-    bool FUN_0087a730();
+    bool TaskQueueInterface_QQueueFurtherTasks();
 };
 
 // Returns true when unk00's FUN_0087a770 and GetField24 both return false, otherwise false.
 // @fnv 0x0087a730
-bool FUN_0087a730_cls::FUN_0087a730()
+// src: XBOX_PDB 0x0087a730
+bool FUN_0087a730_cls::TaskQueueInterface_QQueueFurtherTasks()
 {
     if (!this->unk00->FUN_0087a770() && !this->unk00->GetField24())
         return true;
@@ -3523,7 +3531,7 @@ bool FUN_0087a730_cls::FUN_0087a730()
 
 struct EventSource
 {
-    void __thiscall FUN_0040f6e0();
+    void __thiscall NiRefObject_IncRefCount();
 };
 union PacketValue
 {
@@ -3559,7 +3567,7 @@ void Receiver::SendEvent(EventSource* source, unsigned char first, unsigned char
     message.payload.arguments.first.byte = first;
     message.payload.arguments.second.byte = second;
     message.payload.arguments.third.byte = third;
-    source->FUN_0040f6e0();
+    source->NiRefObject_IncRefCount();
     FUN_0087d160(&message);
 }
 
@@ -3952,7 +3960,7 @@ struct Controls_p161
 {
     void LoadControlsFromIni();
 };
-Controls_p161* FUN_007fdf30();
+Controls_p161* Controls_GetInstance();
 struct FUN_0086c160
 {
     char unk00;
@@ -3993,13 +4001,13 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     acc98.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     flag9c = false;
     acca0.FUN_0066b0d0(new FUN_00a712f0);
-    if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+    if (*DAT_011c3ea4.Setting_Int() > 1)
     {
         TaskQueueInterface_Instantiate(&timer28, &timer60);
         timer28.SignalAtOffset();
         timer60.SignalAtOffset();
     }
-    DAT_011c3ea4.FUN_0043d4d0();
+    DAT_011c3ea4.Setting_Int();
     thread = FUN_0040fc90();
     arg1 = aiArg1;
     arg2 = aiArg2;
@@ -4007,7 +4015,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     FUN_00aa2740(thread, DAT_0105c2b0);
     AutoMemContext context(13, true, DAT_010829c4, 3526);
     CreateC790Manager(aiArg2);
-    FUN_007fdf30()->LoadControlsFromIni();
+    Controls_GetInstance()->LoadControlsFromIni();
     context.Leave();
     context.Enter(11, true, const_cast<char*>(DAT_010829c4), 3541);
     InitAudioCallbacks();
@@ -5861,11 +5869,11 @@ struct Entry86
 };
 struct Manager86
 {
-    void FUN_00a22e10();
+    void Controls_SaveControls();
 };
 
 void ClearArchiveTables();
-Manager86* FUN_007fdf30();
+Manager86* Controls_GetInstance();
 void ClearTaskQueue();
 extern int DAT_011dea14, DAT_011dea18, DAT_011dea1c;
 extern List86 DAT_011deb7c, DAT_011d6e5c, DAT_011deb34, DAT_011deda4, DAT_011ded58, DAT_011deb00, DAT_011ded3c,
@@ -5896,7 +5904,7 @@ struct FUN_0086c880
 FUN_0086c880::~FUN_0086c880()
 {
     ClearArchiveTables();
-    FUN_007fdf30()->FUN_00a22e10();
+    Controls_GetInstance()->Controls_SaveControls();
     DAT_011dea14 = 0;
     DAT_011dea18 = 0;
     DAT_011dea1c = 0;
@@ -5929,7 +5937,7 @@ FUN_0086c880::~FUN_0086c880()
         delete DAT_011d5268[p];
     for (unsigned int q = 0; q < 34; q++)
         delete DAT_011d56a8[q];
-    if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
+    if (*DAT_011c3ea4.Setting_Int() > 1)
     {
         member28.FUN_0086cdd0();
         member60.FUN_0086cdd0();
@@ -6113,7 +6121,7 @@ struct Controller
 };
 struct Package
 {
-    void FUN_00937090(int);
+    void ModifierList_SetZeroValuesAllowed(int);
 };
 
 extern hkVector4 DAT_011f426c;
@@ -6121,12 +6129,12 @@ extern hkVector4 DAT_011f426c;
 extern Setting DAT_011df810, DAT_011df828;
 extern const float DAT_01012054, DAT_01017718;
 float FUN_00476b70(float, float);
-bool FUN_008c7aa0();
+bool AILinearTaskThreadManager_ShouldQueue3DTask();
 
 struct Manager
 {
     void FUN_0096e870(Actor*);
-    void FUN_0096d450(Actor*, int, int, int, int);
+    void ProcessLists_AddReference(Actor*, int, int, int, int);
 };
 extern Manager DAT_011e0e80;
 
@@ -6134,17 +6142,18 @@ extern Manager DAT_011e0e80;
 
 // Initializes the actor: allocates process and controller, optionally registers it, sets default field values, resets state and runs update/init calls.
 // @fnv 0x0087d890
-void Actor::FUN_0087d890(bool registerActor)
+// src: XBOX_PDB 0x0087d890
+void Actor::ConstructorInitialize(bool registerActor)
 {
     using namespace ActorInitialization;
     FUN_0046a010(1);
     m_pBaseProcess = reinterpret_cast<BaseProcess*>(new ActorInitialization::Process);
     if (registerActor)
     {
-        if (FUN_008c7aa0())
+        if (AILinearTaskThreadManager_ShouldQueue3DTask())
             DAT_011e0e80.FUN_0096e870(this);
         else
-            DAT_011e0e80.FUN_0096d450(this, 3, 0, 0, 0);
+            DAT_011e0e80.ProcessLists_AddReference(this, 3, 0, 0, 0);
     }
     ActorConditionAndAnimationState = ActorInitialization::DAT_01012054;
     m_uiValueBeforeBooleanFields = 0;
@@ -6164,7 +6173,7 @@ void Actor::FUN_0087d890(bool registerActor)
     ActorBaseReference = 0;
     IntegerFloatFlagSettings = 0.0f;
     m_bFirstBehaviorFlag = 1;
-    ProcessReferenceState = FUN_00476b70(*DAT_011df810.FUN_00403e20(), *DAT_011df828.FUN_00403e20());
+    ProcessReferenceState = FUN_00476b70(*DAT_011df810.Setting_Float_00403e20(), *DAT_011df828.Setting_Float_00403e20());
     m_iActorStateValue = 0;
     FormReferenceState = 0;
     FormPositionData = 0.0f;
@@ -6175,19 +6184,19 @@ void Actor::FUN_0087d890(bool registerActor)
     m_bFormFlag = 1;
     m_eAnimationGroup = static_cast<ANIM_GROUP_ENUM>(255);
     ResetState();
-    FUN_008a08e0(0);
+    Actor_ClearInCombat(0);
     m_bSecondActorFlag = 0;
     m_pRagdollController = 0;
     m_pRagdollPenetrationUtil = reinterpret_cast<bhkRagdollPenetrationUtil*>(new ActorInitialization::Controller);
     FloatTripleBooleanFlagRecord = 0;
-    FUN_008bbdb0();
-    FUN_008bbe00();
+    ResetCachedGunSkill();
+    ResetCachedWeaponCondition();
     Update();
-    FUN_008c4400();
+    ResetRadiationResistanceMult();
     m_iIntegerBeforeTwoFloatValues = 0;
     BooleanIntegerTwoFloatData = 0.0f;
     m_bMiddleFlag = 0;
-    reinterpret_cast<ActorInitialization::Package*>(&m_kSecondActorData)->FUN_00937090(1);
+    reinterpret_cast<ActorInitialization::Package*>(&m_kSecondActorData)->ModifierList_SetZeroValuesAllowed(1);
     ActorBaseConfiguration = 0;
     m_bFlagBeforeActorBase = 0;
     MobileObject::m_bThirdFlag = 0;
@@ -6349,7 +6358,7 @@ class SSRenderer
     virtual void __stdcall v0cc();
     virtual void __stdcall v0d0();
     virtual SSFormatSource* GetFormatSource();  // +0xd4
-    SSDevice* FUN_004dc020();
+    SSDevice* NiXenonRenderer_GetD3DDevice();
 };
 
 class SSImage
@@ -6360,8 +6369,8 @@ class SSImage
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem);
     unsigned int NiPixelData_GetWidth(int iA, int iB);
-    unsigned int FUN_0070ec90();
-    unsigned char* FUN_0064dac0(int iA, int iB);
+    unsigned int DetailedActorPathHandler_GetCurrentNodeIndex();
+    unsigned char* NiPixelData_GetPixels(int iA, int iB);
     unsigned int unk04[28];
 };
 
@@ -6410,17 +6419,17 @@ struct SSMenuState
 extern Setting DAT_011df124;
 extern Setting DAT_011df0f8;
 
-SSRenderer* FUN_004bc3f0();
+SSRenderer* Renderer_GetNIRenderer();
 int FUN_00e7bd20(SSFormat* pkFormat);
 void Warning_005b5e40(const char* pcFormat, ...);
 bool TESRenderer_GetMultiSampleEnabled();
-unsigned int FUN_004dc1f0();
-int FUN_004dc200();
+unsigned int Renderer_GetScreenWidth();
+int Renderer_GetScreenHeight();
 void* FUN_00401460(void* pvDst, const void* pvSrc, unsigned int uiSize);
 void* FormHeap_Allocate(unsigned int uiSize);
 void FormHeapFreeAndLog_00401030(void* pvMem);
 int FUN_00406d30(char* pcDst, unsigned int uiSize, const char* pcSrc);
-int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
+int BSsprintf(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00ec623a(char* pcBuffer, const char* pcFormat, ...);
 void DispatchMessageToSink(const char* pcText, int iA, const char* pcIcon, const char* pcSound, float fTime, int iB);
 SSMenuState* FUN_004de490();
@@ -6429,9 +6438,9 @@ SSMenuState* FUN_004de490();
 // @fnv 0x00878860
 void SaveScreenshot(const char* pcPath)
 {
-    SSRenderer* pkRendererVal = FUN_004bc3f0();
+    SSRenderer* pkRendererVal = Renderer_GetNIRenderer();
     SSFormat kFormatRes;
-    SSDevice* pkDevicePos = pkRendererVal->FUN_004dc020();
+    SSDevice* pkDevicePos = pkRendererVal->NiXenonRenderer_GetD3DDevice();
     kFormatRes = pkRendererVal->GetFormatSource()->DeallocateSound();
     int iFormatTotal = FUN_00e7bd20(&kFormatRes);
     SSSurface* pkSurfaceInfo;
@@ -6458,11 +6467,11 @@ void SaveScreenshot(const char* pcPath)
         pkSurfaceInfo->Release();
         return;
     }
-    SSImage* pkImageNew = new SSImage(FUN_004dc1f0(), FUN_004dc200(), &kFormatRes, true, true);
-    unsigned int uiRowSize = pkImageNew->NiPixelData_GetWidth(0, 0) * pkImageNew->FUN_0070ec90();
-    unsigned char* pucDstPtr = pkImageNew->FUN_0064dac0(0, 0);
+    SSImage* pkImageNew = new SSImage(Renderer_GetScreenWidth(), Renderer_GetScreenHeight(), &kFormatRes, true, true);
+    unsigned int uiRowSize = pkImageNew->NiPixelData_GetWidth(0, 0) * pkImageNew->DetailedActorPathHandler_GetCurrentNodeIndex();
+    unsigned char* pucDstPtr = pkImageNew->NiPixelData_GetPixels(0, 0);
     unsigned char* pucSrc = kRectValue.pBits;
-    for (int i = 0; i < FUN_004dc200(); i++)
+    for (int i = 0; i < Renderer_GetScreenHeight(); i++)
     {
         FUN_00401460(pucDstPtr, pucSrc, uiRowSize);
         pucDstPtr += uiRowSize;
@@ -6474,14 +6483,14 @@ void SaveScreenshot(const char* pcPath)
     if (pcPath)
         FUN_00406d30(acPathCur, 0x104, pcPath);
     else
-        FUN_00406d00(acPathCur, 0x104, "%s%d.bmp", DAT_011df0f8.FUN_00403df0(), *DAT_011df124.FUN_0043d4d0());
+        BSsprintf(acPathCur, 0x104, "%s%d.bmp", DAT_011df0f8.FUN_00403df0(), *DAT_011df124.Setting_Int());
     SSFile kFileLast(acPathCur, 2, 2, 0);
     if (!kFileLast.FUN_00559450())
     {
         unsigned int uiWidth = pkImageNew->NiPixelData_GetWidth(0, 0);
-        unsigned int uiHeightRes = FUN_004dc200();
-        unsigned int uiBytesPerPixelOld = pkImageNew->FUN_0070ec90();
-        unsigned char* pucPixelsTmp = pkImageNew->FUN_0064dac0(0, 0);
+        unsigned int uiHeightRes = Renderer_GetScreenHeight();
+        unsigned int uiBytesPerPixelOld = pkImageNew->DetailedActorPathHandler_GetCurrentNodeIndex();
+        unsigned char* pucPixelsTmp = pkImageNew->NiPixelData_GetPixels(0, 0);
         unsigned char* pucBuffer = (unsigned char*)FormHeap_Allocate(uiWidth * uiHeightRes * 3);
         unsigned int uiOutPos = 0;
         SSBitmapHeader kHeader;
@@ -6522,7 +6531,7 @@ void SaveScreenshot(const char* pcPath)
             char acMessage[260];
             FUN_00ec623a(acMessage, "ScreenShot: File '%s' created.", acPathCur);
             DispatchMessageToSink(acMessage, 0, 0, 0, 2.0f, 0);
-            *DAT_011df124.FUN_0043d4d0() = *DAT_011df124.FUN_0043d4d0() + 1;
+            *DAT_011df124.Setting_Int() = *DAT_011df124.Setting_Int() + 1;
             FUN_004de490()->OpenAtPosition();
         }
     }
@@ -6624,14 +6633,14 @@ extern Obj2 DAT_011deb30;
 extern char DAT_011deef4;
 extern unsigned char DAT_011a3014;
 bool Interface_IsMenuQueuedToOpen();
-int __cdecl FUN_00a09030(int);
-void __cdecl FUN_00709470(int, int, int, int, int, int);
-int FUN_004bc3f0();
+int __cdecl Tile_GetMenuByClass(int);
+void __cdecl Interface_QueueMenuCreate(int, int, int, int, int, int);
+int Renderer_GetNIRenderer();
 void __cdecl TESRenderer_Reposition(int, int);
 bool TESRenderer_GetFullScreen();
 int TESRenderer_GetHWND();
 void InterfaceManager_GetSingleton();
-bool FUN_004b71d0();
+bool InterfaceManager_Has360Controller();
 
 // Handles window messages including activation, cursor visibility, and input by dispatching to DAT_011dea0c and returning DefWindowProcA results.
 // @fnv 0x0086a0a0
@@ -6667,11 +6676,11 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                     {
                         if (!Interface_IsMenuQueuedToOpen())
                         {
-                            if (!FUN_00a09030(0x3f5))
+                            if (!Tile_GetMenuByClass(0x3f5))
                             {
-                                if (!FUN_00a09030(0x3ef))
+                                if (!Tile_GetMenuByClass(0x3ef))
                                 {
-                                    FUN_00709470(6, 0, 0, 0, 1, 0);
+                                    Interface_QueueMenuCreate(6, 0, 0, 0, 1, 0);
                                 }
                             }
                         }
@@ -6726,7 +6735,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
         break;
     case 0x47:
-        if (FUN_004bc3f0())
+        if (Renderer_GetNIRenderer())
         {
             int* p = (int*)lParam;
             TESRenderer_Reposition(p[2], p[3]);
@@ -6748,7 +6757,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case 0x112:
         InterfaceManager_GetSingleton();
-        if (FUN_004b71d0())
+        if (InterfaceManager_Has360Controller())
         {
             switch ((WORD)(wParam & 0xffff))
             {
@@ -6771,42 +6780,42 @@ extern void* DAT_011c3f2c;
 
 void __cdecl FalloutRadio_DisableNPCRadio(void*);
 void __cdecl ActorCause_ClearActor(void*);
-void* __cdecl FUN_00b4f5c0();
+void* __cdecl BSShaderManager_GetAccumulator();
 
 struct H
 {
     void FUN_0041a250();
-    void* FUN_005d43c0(void*);
-    void FUN_00418890();
+    void* BSFile_GetDevice(void*);
+    void ExtraDataList_GetSound();
     unsigned char FUN_00ad8ce0();
     void FUN_00ad8d10();
-    unsigned char FUN_004077c0();
-    void FUN_0093a660(void*);
+    unsigned char TESForm_GetTemporary();
+    void PlayerCharacter_RemoveActorFromPlayercombatList(void*);
     void PlayerCharacter_RemovePerceivedActor(void*);
     void RemoveActor(void*);
-    void FUN_0087fd20();
+    void Actor_ClearDispositionModifiers();
     void LipSyncBackgroundManager_CancelLipFile(void*);
     void ProcessLists_RemoveReferenceMuzzleFlash(void*);
-    unsigned char FUN_004226e0();
+    unsigned char TESDataHandler_GetClearingData();
     void FUN_00824970();
-    void FUN_0092ed60(int);
-    void FUN_00881680(int);
-    void FUN_00976680(void*);
-    void FUN_0096f600(void*, int);
+    void MobileObject_CleanUpOtherMobileObjects(int);
+    void Actor_EndInterruptPackage(int);
+    void ProcessLists_ReferDestructorNullOut(void*);
+    void ProcessLists_NullOutTargetRef(void*, int);
     void ProcessLists_NullOutActorInCrimeList(void*);
     void FUN_0096f400(void*);
-    void FUN_008a06c0(int);
+    void Actor_StopCombat(int);
     void DeleteAllItems();
     void FUN_009370b0();
     void Actor_DestroyActorMover();
-    void FUN_005702e0(int, int);
+    void TESObjectREFR_Set3D(int, int);
     void FUN_00483710();
     void FUN_0046ffb0();
     void FUN_00937030();
     void FUN_00822a80();
     void FUN_008153b0();
     void FUN_0092ec40();
-    void* FUN_0084e3a0();
+    void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void RemoveEntry(void*);
     int FUN_0045cd60();
     void FUN_008c30a0();
@@ -6974,7 +6983,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
 
     {
         Temp temp;
-        ((H*)((H*)this)->FUN_005d43c0(&temp))->FUN_00418890();
+        ((H*)((H*)this)->BSFile_GetDevice(&temp))->ExtraDataList_GetSound();
         if (((H*)&temp)->FUN_00ad8ce0())
         {
             ((H*)&temp)->FUN_00ad8d10();
@@ -6984,31 +6993,31 @@ FUN_0087dcb0::~FUN_0087dcb0()
         delete m_12c;
         delete m_130;
 
-        if (!((H*)this)->FUN_004077c0())
+        if (!((H*)this)->TESForm_GetTemporary())
         {
-            ((H*)DAT_011dea3c)->FUN_0093a660(this);
+            ((H*)DAT_011dea3c)->PlayerCharacter_RemoveActorFromPlayercombatList(this);
             ((H*)DAT_011dea3c)->PlayerCharacter_RemovePerceivedActor(this);
             ((H*)&DAT_011e0e80)->RemoveActor(this);
-            ((H*)this)->FUN_0087fd20();
+            ((H*)this)->Actor_ClearDispositionModifiers();
             ((H*)&DAT_011f11e0)->LipSyncBackgroundManager_CancelLipFile(this);
             ((H*)&DAT_011e0e80)->ProcessLists_RemoveReferenceMuzzleFlash(this);
-            if (!((H*)DAT_011c3f2c)->FUN_004226e0())
+            if (!((H*)DAT_011c3f2c)->TESDataHandler_GetClearingData())
             {
                 B94::FUN_00824970();
                 ActorCause_ClearActor(this);
-                ((H*)this)->FUN_0092ed60(1);
-                ((H*)this)->FUN_00881680(0);
-                ((H*)&DAT_011e0e80)->FUN_00976680(this);
-                ((H*)&DAT_011e0e80)->FUN_0096f600(this, 1);
+                ((H*)this)->MobileObject_CleanUpOtherMobileObjects(1);
+                ((H*)this)->Actor_EndInterruptPackage(0);
+                ((H*)&DAT_011e0e80)->ProcessLists_ReferDestructorNullOut(this);
+                ((H*)&DAT_011e0e80)->ProcessLists_NullOutTargetRef(this, 1);
                 ((H*)&DAT_011e0e80)->ProcessLists_NullOutActorInCrimeList(this);
                 if (m_68)
                 {
                     if (((H*)m_68)->FUN_0045cd60() == 1 || ((H*)m_68)->FUN_0045cd60() == 0)
                     {
-                        void* p = FUN_00b4f5c0();
+                        void* p = BSShaderManager_GetAccumulator();
                         if (p)
                         {
-                            ((H*)p)->RemoveEntry(((H*)this)->FUN_0084e3a0());
+                            ((H*)p)->RemoveEntry(((H*)this)->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                         }
                         ((H*)this)->FUN_008c30a0();
                     }
@@ -7018,13 +7027,13 @@ FUN_0087dcb0::~FUN_0087dcb0()
             ((H*)&DAT_011e0e80)->FUN_0096f400(this);
             if (m_104)
             {
-                ((H*)this)->FUN_008a06c0(0);
+                ((H*)this)->Actor_StopCombat(0);
             }
             ((H*)this)->DeleteAllItems();
             m_d0.FUN_009370b0();
             m_e0.FUN_009370b0();
             ((H*)this)->Actor_DestroyActorMover();
-            ((H*)this)->FUN_005702e0(0, 0);
+            ((H*)this)->TESObjectREFR_Set3D(0, 0);
         }
     }
 }

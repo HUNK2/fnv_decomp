@@ -156,7 +156,7 @@ struct NameHolder_b9457
 
 extern void* DAT_012027d8;
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
-void* __cdecl FUN_00a7d5e0(const char* fmt, void* arg);
+void* __cdecl NiGetViewerString_00a7d5e0(const char* fmt, void* arg);
 
 // @fnv 0x00c31db0
 void NiPSysVolumeEmitter::GetViewerStrings(NiViewerStringsArray* strings)
@@ -173,7 +173,7 @@ void NiPSysVolumeEmitter::GetViewerStrings(NiViewerStringsArray* strings)
     if (m_pkEmitterObject != 0)
     {
         void* holderVal = ((NameHolder_b9457*)m_pkEmitterObject)->m_pIntegerData;
-        name = FUN_00a7d5e0("Emitter Object", holderVal);
+        name = NiGetViewerString_00a7d5e0("Emitter Object", holderVal);
         uiIndex = arr->m_usNum;
         if (uiIndex >= arr->m_usMax)
         {

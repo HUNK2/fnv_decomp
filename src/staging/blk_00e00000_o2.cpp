@@ -1338,7 +1338,7 @@ void __thiscall FUN_00e11d60_class::hkgpMesh_setPartId(int val)
     }
 }
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 extern int DAT_0102e388;
 
@@ -1366,7 +1366,7 @@ struct FUN_00e00000_cls
 // @fnv 0x00e00000
 void FUN_00e00000_cls::FUN_00e00000()
 {
-    hkMemoryRouter* pHolder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -1377,7 +1377,7 @@ void FUN_00e00000_cls::FUN_00e00000()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* pHolder2 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -2038,7 +2038,7 @@ int __cdecl FUN_00e00970()
 }
 
 namespace fnv_00e00990 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00e00990_cls
 {
@@ -2059,7 +2059,7 @@ FUN_00e00990_cls* FUN_00e00990_cls::DestroyIfFlagged(unsigned char acFlags)
     FUN_00e48740();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -2906,7 +2906,7 @@ void* __cdecl FUN_00e01a40()
 }
 
 namespace fnv_00e01a50 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct S_00e01a50_Heap
 {
     virtual void unk00();
@@ -2926,7 +2926,7 @@ static __forceinline void S_00e01a50_Array__clearAndDeallocate(hkArrayBase<T>& s
 template <class T>
 static __forceinline void S_00e01a50_Array_destroy(hkArrayBase<T>& self) throw()
 {
-        S_00e01a50_Array__clearAndDeallocate(self, GetRouterHeap<S_00e01a50_Heap>(*FUN_00c85750()));
+        S_00e01a50_Array__clearAndDeallocate(self, GetRouterHeap<S_00e01a50_Heap>(*hkMemoryRouter_getInstance()));
     }
 
 template <class T>
@@ -2982,7 +2982,7 @@ int* FUN_00e01b20()
 }
 
 namespace fnv_00e01b30 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 extern int DAT_0102e388;
 struct S_00e01b30_Allocator
 {
@@ -3047,7 +3047,7 @@ static __forceinline void S_00e01b30_Array__clearAndDeallocate(hkArrayBase<T>& s
 template <class T>
 static __forceinline void S_00e01b30_Array_destroy(hkArrayBase<T>& self) throw()
 {
-        S_00e01b30_Array__clearAndDeallocate(self, GetRouterHeap<S_00e01b30_Allocator>(*FUN_00c85750()));
+        S_00e01b30_Array__clearAndDeallocate(self, GetRouterHeap<S_00e01b30_Allocator>(*hkMemoryRouter_getInstance()));
     }
 
 struct S_00e01b30_ArrayPolicy
@@ -3341,7 +3341,7 @@ int* __cdecl FUN_00e023b0()
 }
 
 namespace fnv_00e023c0 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct E023C0Allocator
 {
     virtual void unk00();
@@ -3366,7 +3366,7 @@ struct E023C0Array
 
     ~E023C0Array() throw()
     {
-        E023C0Allocator& alloc = GetRouterHeap<E023C0Allocator>(*FUN_00c85750());
+        E023C0Allocator& alloc = GetRouterHeap<E023C0Allocator>(*hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
@@ -3502,7 +3502,7 @@ int __cdecl FUN_00e02590()
 namespace fnv_00e025a0 {
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00e025a0_cls
 {
@@ -3521,7 +3521,7 @@ struct FUN_00e025a0_cls
 // @fnv 0x00e025a0
 FUN_00e025a0_cls* FUN_00e025a0_cls::FUN_00e025a0(unsigned char acFlags)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     int count = m_10;
     m_0c = 0;
@@ -3534,7 +3534,7 @@ FUN_00e025a0_cls* FUN_00e025a0_cls::FUN_00e025a0(unsigned char acFlags)
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder2 = FUN_00c85750();
+        hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, m_uSize);
     }
@@ -3665,7 +3665,7 @@ namespace fnv_00e05d10 {
 extern int DAT_010d77d8;
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __fastcall FUN_00c905b0(void* selfVal);
 
 struct FUN_00e05d10_sub
@@ -3764,7 +3764,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     }
     m_114.Release();
 
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCap = m_70;
     m_6c = 0;
@@ -3775,7 +3775,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     m_p68 = 0;
     m_70 = 0x80000000u;
 
-    pHolder = FUN_00c85750();
+    pHolder = hkMemoryRouter_getInstance();
     pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     uCap = m_64;
     m_60 = 0;
@@ -3786,7 +3786,7 @@ void FUN_00e05d10_cls::FUN_00e05d10()
     m_p5c = 0;
     m_64 = 0x80000000u;
 
-    pHolder = FUN_00c85750();
+    pHolder = hkMemoryRouter_getInstance();
     pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     uCap = m_58;
     m_54 = 0;
@@ -6810,7 +6810,7 @@ struct BlkMapView
     {}
     void EnsureCapacity(Alloc*, int) throw();
     Array* LookupHashEntry(Node*, int) throw();
-    void FUN_00cb1870(Alloc*, Node*, Array*) throw();
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Alloc*, Node*, Array*) throw();
     void ProcessArgument(Alloc*) throw();
     void FUN_00a29680() throw();
     int first()
@@ -6878,7 +6878,7 @@ int Target::ResolveLinkNodes()
                 a->size = total;
                 Node* key = link->nodes[j];
                 Alloc* heap = &reinterpret_cast<Alloc&>(hkMemoryRouter::getInstance().heap());
-                nodeMap.FUN_00cb1870(heap, key, a);
+                nodeMap.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(heap, key, a);
             }
             a->data[link->index] = link->nodes[j];
         }
@@ -7021,7 +7021,7 @@ struct FUN_00e00dd0_cls
 // @fnv 0x00e00dd0
 void __thiscall FUN_00e00dd0_cls::FUN_00e00dd0()
 {
-    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
 
     int count = unk1C;
@@ -7033,7 +7033,7 @@ void __thiscall FUN_00e00dd0_cls::FUN_00e00dd0()
     unk14 = 0;
     unk1C = 0x80000000;
 
-    holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     allocator = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
 
     count = unk10;
@@ -7655,22 +7655,22 @@ struct PtrMap
         unk00 = 0;
         unk04 = 0;
         unk08 = -1;
-        EnsureCapacity(reinterpret_cast<Allocator&>(FUN_00c85750()->heap()), 0);
+        EnsureCapacity(reinterpret_cast<Allocator&>(hkMemoryRouter_getInstance()->heap()), 0);
     }
     __forceinline void destroy()
     {
-        ProcessArgument(reinterpret_cast<Allocator&>(FUN_00c85750()->heap()));
+        ProcessArgument(reinterpret_cast<Allocator&>(hkMemoryRouter_getInstance()->heap()));
         FUN_00a29680();
     }
     void EnsureCapacity(Allocator& allocator, int count);
-    void FUN_00cb1870(Allocator& allocator, unsigned int key, unsigned int value);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator& allocator, unsigned int key, unsigned int value);
     unsigned int LookupHashEntry(unsigned int key, unsigned int defaultValue);
-    void FUN_00cb1fb0(unsigned int key);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(unsigned int key);
     void ProcessArgument(Allocator& allocator);
     void FUN_00a29680();
     __forceinline void insert(unsigned int key, unsigned int value)
     {
-        FUN_00cb1870(reinterpret_cast<Allocator&>(FUN_00c85750()->heap()), key, value);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(reinterpret_cast<Allocator&>(hkMemoryRouter_getInstance()->heap()), key, value);
     }
     __forceinline unsigned int FindValueForKey(unsigned int key, unsigned int def)
     {
@@ -7678,7 +7678,7 @@ struct PtrMap
     }
     __forceinline void remove(unsigned int key)
     {
-        FUN_00cb1fb0(key);
+        hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(key);
     }
 };
 

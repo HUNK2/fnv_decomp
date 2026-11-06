@@ -176,8 +176,8 @@ public:
 
     bool FUN_00461580(unsigned int flag);
     unsigned short GetCalcLevelMin_0047d390();
-    unsigned short FUN_0047d3b0();
-    unsigned short FUN_0047ded0();
+    unsigned short GetAnimGroupType_0047d3b0();
+    unsigned short TESActorBaseData_GetLevel();
     void LoadGame_0047ea70(BGSLoadFormBuffer* buffer);
     void FUN_0050f9a0(TESLevItem* item);
     void TESCreature_SetNoBloodSpray(bool value);

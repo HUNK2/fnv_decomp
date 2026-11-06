@@ -12,11 +12,12 @@ struct FUN_00e04eb0_class
 {
     char _pad[0x10];
     hkReferencedObject* m_p;
-    void FUN_00e04eb0(hkReferencedObject* p);
+    void hkObjectResource_setClassNameRegistry(hkReferencedObject* p);
 };
 
 // @fnv 0x00e04eb0
-void FUN_00e04eb0_class::FUN_00e04eb0(hkReferencedObject* apObject)
+// src: XBOX_PDB 0x00e04eb0
+void FUN_00e04eb0_class::hkObjectResource_setClassNameRegistry(hkReferencedObject* apObject)
 {
     if (apObject)
         apObject->addReference();
@@ -28,13 +29,14 @@ void FUN_00e04eb0_class::FUN_00e04eb0(hkReferencedObject* apObject)
 namespace fnv_00e04ee0 {
 struct FUN_00e04ee0_class
 {
-    void __thiscall FUN_00e04ee0(hkReferencedObject* p);
+    void __thiscall hkObjectResource_setTypeInfoRegistry(hkReferencedObject* p);
     char _pad[0x14];
     hkReferencedObject* m_p;
 };
 
 // @fnv 0x00e04ee0
-void __thiscall FUN_00e04ee0_class::FUN_00e04ee0(hkReferencedObject* apObject)
+// src: XBOX_PDB 0x00e04ee0
+void __thiscall FUN_00e04ee0_class::hkObjectResource_setTypeInfoRegistry(hkReferencedObject* apObject)
 {
     if (apObject)
         apObject->addReference();

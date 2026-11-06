@@ -435,7 +435,7 @@ struct ArrayBlock
     int size;
     unsigned int reservedAndFlags;
 };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
@@ -448,7 +448,7 @@ struct ArrayHost
 void ArrayHost::ResizeArray(int desired)
 {
     ArrayBlock* values = &array;
-    void* pool = (&FUN_00c85750()->heap());
+    void* pool = (&hkMemoryRouter_getInstance()->heap());
     int capacity = values->reservedAndFlags & 0x3fffffff;
     if (capacity < desired)
     {
@@ -477,7 +477,7 @@ struct AllocatorIface
     virtual void Free(void* pBuffer, unsigned int size);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void hkArrayUtil__reserve(AllocatorIface* alloc, void* arr, unsigned int newCap, int elemSize);
 
 struct DwordArray
@@ -503,7 +503,7 @@ class FUN_00dc9e20_cls
 void FUN_00dc9e20_cls::ReserveDwordArray(int count)
 {
     DwordArray* arr = &m_aiIndexedValues;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     AllocatorIface* alloc = reinterpret_cast<AllocatorIface*>(holder->m_heap);
     int cap = arr->m_iReserved & 0x3fffffff;
     if (cap < count)
@@ -611,7 +611,7 @@ struct AllocIface
     virtual void* Alloc(unsigned int size);
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 extern char DAT_010d7540[];
 
@@ -640,7 +640,7 @@ FUN_00dcc6a0_cls* FUN_00dcc6a0_cls::hkIstream_hkIstream_00dcc6a0(int a1, int a2)
 {
     m_w06 = 1;
     m_vptr = DAT_010d7540;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     SpawnedBlob* blob = (SpawnedBlob*)reinterpret_cast<AllocIface*>(holder->m_heap)->Alloc(0x1c);
     blob->m_w04 = 0x1c;
     m_p08 = blob->Init(a1, a2, 2);
@@ -655,7 +655,7 @@ struct AllocIface
     virtual void* Alloc(unsigned int size);
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 extern char DAT_010d7540[];
 
@@ -684,7 +684,7 @@ FUN_00dcc6f0_cls* FUN_00dcc6f0_cls::hkIstream_hkIstream_00dcc6f0(int a1)
 {
     m_w06 = 1;
     m_vptr = DAT_010d7540;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     SpawnedBlob* blob = (SpawnedBlob*)reinterpret_cast<AllocIface*>(holder->m_heap)->Alloc(0x14);
     blob->m_w04 = 0x14;
     m_p08 = blob->Init(a1, 2);
@@ -702,7 +702,7 @@ struct S_00dcc9c0_Allocator
     virtual void ReturnMemory(void* p, int numBytes);
 };
 
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 inline S_00dcc9c0_Allocator& temp(hkMemoryRouter* holder)
 {
@@ -719,7 +719,7 @@ struct S_00dcc9c0_StringBuf
     S_00dcc9c0_StringBuf() throw();
     ~S_00dcc9c0_StringBuf() throw()
     {
-        S_00dcc9c0_Allocator& a = temp(FUN_00c85750());
+        S_00dcc9c0_Allocator& a = temp(hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(char));
@@ -770,7 +770,7 @@ struct FnvCpu_FUN_00dcd480_CpuAllocator
     virtual void slot04();
     virtual void Invoke(void* block, unsigned int size);
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00dcd480_CpuObject
 {
     unsigned int unk00;
@@ -785,7 +785,7 @@ FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::hkpMeshShape_Destr
     FUN_00d4bd60();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         reinterpret_cast<FnvCpu_FUN_00dcd480_CpuAllocator*>(holder->m_heap)->Invoke(this, size);
     }
     return this;
@@ -1229,14 +1229,14 @@ struct RecArray
     unsigned int m_uiCapacity;
 };
 
-extern "C" hkMemoryRouter* FUN_00c85750();
+extern "C" hkMemoryRouter* hkMemoryRouter_getInstance();
 extern "C" void ResizeAudioStream(void* pAllocator, RecArray* pArray, int iElementSize);
 
 // Grows the array via the allocator when full, writes uiValue at the count index, and increments the count.
 // @fnv 0x00dd8db0
 void AppendToRecArray(unsigned int uiValue, unsigned int uiUnused, RecArray* pArray)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
 
     if (pArray->m_uiCount == (pArray->m_uiCapacity & 0x3fffffff))
     {
@@ -1265,14 +1265,14 @@ struct S_00dd8fa0_S
     unsigned short m_06;
 };
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 extern "C" S_00dd8fa0_Vtable DAT_010d7c58;
 
 // Gets a caller, calls its object's vtable method with 8, then sets m_04 to 8, m_06 to 1 and the vtable to DAT_010d7c58.
 // @fnv 0x00dd8fa0
 void __cdecl FUN_00dd8fa0()
 {
-    hkMemoryRouter* caller = FUN_00c85750();
+    hkMemoryRouter* caller = hkMemoryRouter_getInstance();
     S_00dd8fa0_S* object = reinterpret_cast<S_00dd8fa0_S*>(caller->m_heap);
 
     object = object->vtable->method(object, 8);
@@ -1331,7 +1331,7 @@ inline DD91A0Allocator& heap(hkMemoryRouter& holder)
     return *reinterpret_cast<DD91A0Allocator*>(holder.m_heap);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class DD91A0ReferencedObject
 {
@@ -1345,7 +1345,7 @@ class DD91A0ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         DD91A0ReferencedObject* b =
-            static_cast<DD91A0ReferencedObject*>(heap(FUN_00c85750()).AllocateMemoryBlock(nbytes));
+            static_cast<DD91A0ReferencedObject*>(heap(hkMemoryRouter_getInstance()).AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1396,7 +1396,7 @@ inline DDC160Allocator& heap(hkMemoryRouter& holder)
     return *reinterpret_cast<DDC160Allocator*>(holder.m_heap);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class DDC160ReferencedObject
 {
@@ -1409,7 +1409,7 @@ class DDC160ReferencedObject
     static void* operator new(unsigned int nbytes)
     {
         DDC160ReferencedObject* b =
-            static_cast<DDC160ReferencedObject*>(heap(FUN_00c85750()).AllocateMemoryBlock(nbytes));
+            static_cast<DDC160ReferencedObject*>(heap(hkMemoryRouter_getInstance()).AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1856,7 +1856,7 @@ void Caller(unsigned char* a)
 }
 
 namespace hkRouterDDFB {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 inline hkMemoryAllocator& heap(hkMemoryRouter& holder)
@@ -1879,7 +1879,7 @@ struct hkPairDDFB
 
 template <> inline void hkArray<hkPairDDFB>::pushBack(const hkPairDDFB& t)
 {
-    hkMemoryAllocator& alloc = heap(hkRouterDDFB::FUN_00c85750());
+    hkMemoryAllocator& alloc = heap(hkRouterDDFB::hkMemoryRouter_getInstance());
     if (m_iElementCount == getCapacity())
         hkArrayUtil::_reserveMore(alloc, this, sizeof(hkPairDDFB));
     new (m_data + m_iElementCount) hkPairDDFB(t);
@@ -2112,13 +2112,13 @@ void S00dcd1b0_Obj::hkpMeshShape_initWeldingInfo(int value)
         }
 
         ArrayBlock* block = &m_40;
-        hkMemoryRouter* allocator = FUN_00c85750();
+        hkMemoryRouter* allocator = hkMemoryRouter_getInstance();
         if ((int)(block->reservedAndFlags & 0x3fffffff) < total)
         {
             hkArrayUtil__reserve((&allocator->heap()), block, total, 2);
         }
 
-        allocator = FUN_00c85750();
+        allocator = hkMemoryRouter_getInstance();
         void* pool = (&allocator->heap());
         int capacity = (int)(block->reservedAndFlags & 0x3fffffff);
         if (capacity < total)
@@ -2134,7 +2134,7 @@ void S00dcd1b0_Obj::hkpMeshShape_initWeldingInfo(int value)
     }
     else
     {
-        S00dcd1b0_Pool* pool = reinterpret_cast<S00dcd1b0_Pool*>((&FUN_00c85750()->heap()));
+        S00dcd1b0_Pool* pool = reinterpret_cast<S00dcd1b0_Pool*>((&hkMemoryRouter_getInstance()->heap()));
         total = 0;
         m_40.size = total;
         int flags = (int)m_40.reservedAndFlags;
@@ -2198,7 +2198,7 @@ struct S00dcd270_cls
 S00dcd270_Rec* S00dcd270_cls::AddRecord(const S00dcd270_Rec* apRecord)
 {
     S00dcd270_Arr* a = &arr;
-    hkMemoryRouter* h = FUN_00c85750();
+    hkMemoryRouter* h = hkMemoryRouter_getInstance();
     if (a->m_iElementCount == (a->m_cap & 0x3fffffff))
         ResizeAudioStream((&h->heap()), a, 0x38);
     S00dcd270_Rec* r = &a->m_data[a->m_iElementCount];
@@ -2269,12 +2269,12 @@ bool __fastcall IsValidLargeBlockAllocatorChunk(const hkLargeBlockAllocator* all
     return true;
 }
 
-extern "C" int FUN_00d86940();
+extern "C" int getCstyleArraySize();
 
 // @fnv 0x00dc1be0
 int FUN_00dc1be0()
 {
-    int r = FUN_00d86940();
+    int r = getCstyleArraySize();
     if (r != 0)
         return r;
     return 1;
@@ -2568,7 +2568,8 @@ struct OW
     {}
 };
 // @fnv 0x00dd3120
-static __declspec(noinline) int FUN_00dd3120(const LocalM128* self, OW other, const LocalM128* a)
+// src: XBOX_PDB 0x00dd3120
+static __declspec(noinline) int hkpProcessFlyingColors(const LocalM128* self, OW other, const LocalM128* a)
 {
     LocalM128 k = DAT_010c7170;
     LocalM128 av = *a;
@@ -2586,7 +2587,7 @@ volatile int g_s, g_a, g_o, g_r;
 void mask_test_caller()
 {
     OW o((const LocalM128*)g_o);
-    g_r = FUN_00dd3120((const LocalM128*)g_s, o, (const LocalM128*)g_a);
+    g_r = hkpProcessFlyingColors((const LocalM128*)g_s, o, (const LocalM128*)g_a);
 }
 
 // Converts four unsigned bytes from src to floats stored in dst[0] through dst[3].
@@ -2665,7 +2666,7 @@ struct Table
 {
     int a, b, c;
     Entry* entries;
-    unsigned int FUN_00dcb2b0(unsigned int);
+    unsigned int StructArrayImplementation__find(unsigned int);
     DispatchTarget* entryAt(unsigned int i)
     {
         return entries[i].target;
@@ -2676,11 +2677,12 @@ struct Owner
     int a, b, c;
     Table* table;
     int context;
-    void FUN_00dcb460(unsigned int);
+    void StructArrayImplementation_Object_asObject(unsigned int);
 };
-void Owner::FUN_00dcb460(unsigned int i)
+// src: XBOX_PDB 0x00dcb460
+void Owner::StructArrayImplementation_Object_asObject(unsigned int i)
 {
-    table->entryAt(table->FUN_00dcb2b0(i))->forward(context);
+    table->entryAt(table->StructArrayImplementation__find(i))->forward(context);
 }
 
 #include <stdlib.h>
@@ -2911,7 +2913,7 @@ void __thiscall FUN_00dd9d20_Object::FUN_00dd9d20()
     {
         DeleteCriticalSection(static_cast<LPCRITICAL_SECTION>(criticalSection));
 
-        hkMemoryRouter* audio = FUN_00c85750();
+        hkMemoryRouter* audio = hkMemoryRouter_getInstance();
         FUN_00dd9d20_Target* target = reinterpret_cast<FUN_00dd9d20_Target*>(audio->m_heap);
 
         target->vf08(criticalSection, 0x18);
@@ -3056,7 +3058,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
             {
                 break;
             }
-            hkMemoryRouter* h = FUN_00c85750();
+            hkMemoryRouter* h = hkMemoryRouter_getInstance();
             if (buf->m_len == (buf->m_cap & 0x3fffffff))
             {
                 ResizeAudioStream((int)h->m_temp, buf, one);
@@ -3070,7 +3072,7 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
         } while (c != -1);
     }
     m_08->v08();
-    hkMemoryRouter* h2 = FUN_00c85750();
+    hkMemoryRouter* h2 = hkMemoryRouter_getInstance();
     if (buf->m_len == (buf->m_cap & 0x3fffffff))
     {
         ResizeAudioStream((int)h2->m_temp, buf, one);
@@ -3308,7 +3310,8 @@ struct S_00dd1180_Hdr
 
 // Writes a type 0x1d header and n triples of floats into the buffer at *pp, copies n+1 pointers, and advances *pp by the block size.
 // @fnv 0x00dd1180
-void FUN_00dd1180(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp)
+// src: XBOX_PDB 0x00dd1180
+void hkStiffSpringChainBuildJacobian(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp)
 {
     char** s = src;
     char* cmd = *pp;

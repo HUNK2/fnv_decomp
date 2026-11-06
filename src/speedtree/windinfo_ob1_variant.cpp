@@ -24,10 +24,10 @@ struct S00b408b0_Reader
 struct S00b408b0_Str
 {
     S00b408b0_Str(const char* s);
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
     ~S00b408b0_Str()
     {
-        FUN_0044a730(1, 0);
+        fopen_0044a730(1, 0);
     }
     int m00;
     int m04;

@@ -434,7 +434,8 @@ void __cdecl j_retn0_1()
 __declspec(noreturn) void __cdecl FUN_00e805f0();
 
 // @fnv 0x00e8d310
-void __cdecl FUN_00e8d310()
+// src: XBOX_PDB 0x00e8d310
+void __cdecl NiDX9FragmentShader_PostProcessPipeline()
 {
     FUN_00e805f0();
 }
@@ -508,10 +509,11 @@ struct ShaderStandIn
 };
 struct FUN_00bd16e0_shell : ShaderStandIn
 {
-    unsigned int __thiscall FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
+    unsigned int __thiscall NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
 };
 // @fnv 0x00bd16e0
-unsigned int __thiscall FUN_00bd16e0_shell::FUN_00bd16e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
+// src: XBOX_PDB 0x00bd16e0
+unsigned int __thiscall FUN_00bd16e0_shell::NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 {
     return FUN_00e81170(a, b, c, d, e, f, g);
 }

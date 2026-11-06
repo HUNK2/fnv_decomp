@@ -206,7 +206,7 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" AllocatorState* __cdecl FUN_00c85750();
+extern "C" AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
@@ -1053,14 +1053,15 @@ struct LongRayVm
     const void* m_kCollisionBody;
     const void* m_pShapeCollection;
     int m_iCurrentChunkId;
-    __declspec(noinline) void FUN_00dd1f30(const MachineVectorIndexRecord* query, const unsigned char* PC,
+    __declspec(noinline) void hkpMoppLongRayVirtualMachine_queryRayOnTree(const MachineVectorIndexRecord* query, const unsigned char* PC,
                                            Vector4Pair* fq, int level);
-    void FUN_00dd2ed0(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
+    void hkpMoppLongRayVirtualMachine_queryLongRay(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
                       RayCollector* collector);
 };
 
 // @fnv 0x00dd2ed0
-void LongRayVm::FUN_00dd2ed0(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
+// src: XBOX_PDB 0x00dd2ed0
+void LongRayVm::hkpMoppLongRayVirtualMachine_queryLongRay(const void* collection, const MoppCode* code, const RayInput& input, const void* body,
                              RayCollector* collector)
 {
     m_pShapeCollection = collection;
@@ -1091,12 +1092,13 @@ void LongRayVm::FUN_00dd2ed0(const void* collection, const MoppCode* code, const
         query.m_iIndex = 0;
         query.m_kProperties[0] = 0;
         m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
-        FUN_00dd1f30(&query, PC, &fq, 0);
+        hkpMoppLongRayVirtualMachine_queryRayOnTree(&query, PC, &fq, 0);
     }
 }
 
 extern void consumeRay(LongRayVm*, const MachineVectorIndexRecord*, float, float, unsigned int, int);
-void LongRayVm::FUN_00dd1f30(const MachineVectorIndexRecord* query, const unsigned char* PC, Vector4Pair* fq, int level)
+// src: XBOX_PDB 0x00dd1f30
+void LongRayVm::hkpMoppLongRayVirtualMachine_queryRayOnTree(const MachineVectorIndexRecord* query, const unsigned char* PC, Vector4Pair* fq, int level)
 {
     consumeRay(this, query, fq->m_kPointBundles[0].m_q[0], fq->m_kPointBundles[1].m_q[0],
                query->m_uiPropertyCount + *PC, level);

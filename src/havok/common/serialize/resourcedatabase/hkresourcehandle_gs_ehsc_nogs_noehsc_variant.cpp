@@ -51,7 +51,7 @@ struct FUN_00e2df80_obj
 };
 struct FUN_00e2df80_class
 {
-    int __thiscall FUN_00e2df80(void* a, int* out);
+    int __thiscall hkContainerResourceMap_findObjectByName(void* a, int* out);
 };
 extern int DAT_010eb288;
 struct FUN_00cb0a70
@@ -150,7 +150,7 @@ struct EntryArray
     int size;
     int capacityAndFlags;
 };
-void __stdcall FUN_00e2e2e0(EntryArray*);
+void __stdcall hkResourceContainer_findAllResourceRecursively(EntryArray*);
 void __stdcall hkMemoryResourceContainer_tryToResolveLinks(int x);
 
 class hkNodeE2E2
@@ -171,7 +171,7 @@ class hkNodeE2E2
     virtual void vfn_30();
     virtual hkNodeE2E2* vfn_34(int a, hkNodeE2E2* prev);
 
-    void FUN_00e2e2e0(hkArray<hkNodeE2E2*>& out);
+    void hkResourceContainer_findAllResourceRecursively(hkArray<hkNodeE2E2*>& out);
 };
 
 class hkNodeE2E3
@@ -192,7 +192,7 @@ class hkNodeE2E3
     virtual void vfn_30();
     virtual hkNodeE2E3* vfn_34(int a, hkNodeE2E3* prev);
 
-    void FUN_00e2e380(hkArray<hkNodeE2E3*>& out);
+    void hkResourceContainer_findAllContainersRecursively(hkArray<hkNodeE2E3*>& out);
 };
 struct S00e2e3f0_Pair
 {
@@ -418,7 +418,7 @@ struct S00e2e0b0_Member
     unsigned short unk0e;
     unsigned short unk10;
     unsigned short unk12;
-    S00e2e0b0_Class* FUN_00d86920();
+    S00e2e0b0_Class* getClass();
 };
 struct S00e2e0b0_Ref
 {
@@ -461,8 +461,8 @@ struct S00e2e0b0_Entry
     unsigned int unk04;
 };
 void hkArrayUtil__reserve(void*, S00e2e0b0_Array*, int, int);
-const char* FUN_00cb1140(const char*, int);
-void FUN_00cb1260(char*, const char*, int);
+const char* hkString_strChr(const char*, int);
+void hkString_memCpy(char*, const char*, int);
 
 struct S00e2e0b0_Error
 {
@@ -500,11 +500,11 @@ struct S00e2e0b0_Viewer
 static __forceinline S00e2e0b0_Member* S00e2e0b0_lookup(char*& object, const char*& name, S00e2e0b0_Class* pClassInfo)
 {
     char memberName[512];
-    const char* dot = FUN_00cb1140(name, '.');
+    const char* dot = hkString_strChr(name, '.');
     while (dot)
     {
         int length = dot - name;
-        FUN_00cb1260(memberName, name, length);
+        hkString_memCpy(memberName, name, length);
         memberName[length] = 0;
         name += length + 1;
         S00e2e0b0_Member* member = pClassInfo->FUN_00d46fe0(memberName);
@@ -518,9 +518,9 @@ static __forceinline S00e2e0b0_Member* S00e2e0b0_lookup(char*& object, const cha
             DAT_01268360->report(1, 0xf032edfe, message, ".\\ResourceDatabase\\hkResourceHandle.cpp", 128);
             return 0;
         }
-        pClassInfo = member->FUN_00d86920();
+        pClassInfo = member->getClass();
         object += member->unk12;
-        dot = FUN_00cb1140(name, '.');
+        dot = hkString_strChr(name, '.');
     }
     return pClassInfo->FUN_00d46fe0(name);
 }
@@ -574,15 +574,15 @@ struct hkClassMemberR
     {
         return m_name;
     }
-    const hkClassR* FUN_00d86920() const;
+    const hkClassR* getClass() const;
 };
 
 struct hkClassMemberAccessorR
 {
     void* m_pTargetObject;
     const hkClassMemberR* m_kMemberDescriptor;
-    const hkClassMemberR& FUN_00d87370() const;
-    void*& FUN_00d87210(int index);
+    const hkClassMemberR& hkClassMemberAccessor_getClassMember() const;
+    void*& hkClassMemberAccessor_asPointer(int index);
 };
 
 struct LinkR
@@ -670,8 +670,8 @@ void hkResourceHandleR::hkMemoryResourceHandle_tryToResolveLinks(hkResourceConta
         void* object = container->GetContentsPointer(link.m_kClassName, &pClassInfo);
         if (object)
         {
-            const hkClassMemberR& member = link.m_kMemberAccessor.FUN_00d87370();
-            const hkClassR* expected = member.FUN_00d86920();
+            const hkClassMemberR& member = link.m_kMemberAccessor.hkClassMemberAccessor_getClassMember();
+            const hkClassR* expected = member.getClass();
             if (!expected->hkClass_isSuperClass(*pClassInfo) && pClassInfo != expected)
             {
                 char assertBuf[512];
@@ -682,7 +682,7 @@ void hkResourceHandleR::hkMemoryResourceHandle_tryToResolveLinks(hkResourceConta
             }
             if (object == GetUnderlyingObject())
                 return;
-            link.m_kMemberAccessor.FUN_00d87210(0) = object;
+            link.m_kMemberAccessor.hkClassMemberAccessor_asPointer(0) = object;
             RemoveLink(member.getName());
         }
     }

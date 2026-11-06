@@ -131,13 +131,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -280,7 +280,8 @@ void* __stdcall BSSimpleArray_bhkRagdollController_BoneTransf_1024_Allocate(unsi
 
 // Allocates a+n bytes from _g_memoryManager, aligns the returned pointer to 16 bytes and stores the alignment offset in the byte before it.
 // @fnv 0x00c66170
-void* __stdcall FUN_00c66170(unsigned int uiSize)
+// src: XBOX_PDB 0x00c66170
+void* __stdcall bhkMemoryAllocator_blockAlloc(unsigned int uiSize)
 {
     unsigned char n = 0x10;
     unsigned char* p = (unsigned char*)_g_memoryManager.Allocate(uiSize + n);
@@ -291,7 +292,8 @@ void* __stdcall FUN_00c66170(unsigned int uiSize)
 }
 
 // @fnv 0x00c661a0
-void __stdcall FUN_00c661a0(void* apBlock, void* apUnused)
+// src: XBOX_PDB 0x00c661a0
+void __stdcall bhkMemoryAllocator_blockFree(void* apBlock, void* apUnused)
 {
     if (apBlock)
     {
@@ -416,25 +418,27 @@ FUN_00c66600::FUN_00c66600(void* p)
 }
 }  // namespace fnv_00c66600
 
-extern "C" void* __cdecl FUN_00c7fa90(void*);
+extern "C" void* __cdecl bhkUtilFunctions_GetNiAVObject(void*);
 
 struct FUN_00c66fb0_Class
 {
     void* m_pObject;
-    void* FUN_00c66fb0();
+    void* bhkPickData_GetNiAVObject();
 };
 
 // @fnv 0x00c66fb0
-void* FUN_00c66fb0_Class::FUN_00c66fb0()
+// src: XBOX_PDB 0x00c66fb0
+void* FUN_00c66fb0_Class::bhkPickData_GetNiAVObject()
 {
     void* p = *(void**)((char*)this + 0x80);
     if (p)
-        return FUN_00c7fa90(p);
+        return bhkUtilFunctions_GetNiAVObject(p);
     return 0;
 }
 
 // @fnv 0x00c66fd0
-char* __fastcall FUN_00c66fd0(struct BhkPickData* self)
+// src: XBOX_PDB 0x00c66fd0
+char* __fastcall bhkPickData_GethkRigidBody(struct BhkPickData* self)
 {
     char* p = *(char**)((char*)self + 0x80);
     if (p && p[0x18] == 1)
@@ -444,7 +448,7 @@ char* __fastcall FUN_00c66fd0(struct BhkPickData* self)
 
 struct FUN_005533f0_cls
 {
-    void FUN_005533f0(unsigned int);
+    void bhkWorld_AddEntityListener(unsigned int);
 };
 struct FUN_00c6a620_cls
 {
@@ -455,17 +459,18 @@ struct FUN_00c6a620_cls
 // @fnv 0x00c6a620
 void FUN_00c6a620_cls::SetField(void* pValue)
 {
-    ((FUN_005533f0_cls*)this)->FUN_005533f0((unsigned int)pValue);
+    ((FUN_005533f0_cls*)this)->bhkWorld_AddEntityListener((unsigned int)pValue);
     m_field = pValue;
 }
 
 struct FUN_00c6c870_class
 {
-    void __thiscall FUN_00c6c870(unsigned int a, unsigned int b);
+    void __thiscall bhkCharacterListener_contactPointRemovedCallback(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x00c6c870
-void __thiscall FUN_00c6c870_class::FUN_00c6c870(unsigned int auiUnused, unsigned int auiSource)
+// src: XBOX_PDB 0x00c6c870
+void __thiscall FUN_00c6c870_class::bhkCharacterListener_contactPointRemovedCallback(unsigned int auiUnused, unsigned int auiSource)
 {
     unsigned int* p = *(unsigned int**)((char*)auiSource + 0x48);
     if ((p[7] & 0x7f) == 0x1e && *(unsigned int*)((char*)this + 0x6c) > 0)
@@ -502,7 +507,7 @@ void FUN_00c6cca0::release()
     ref = 0;
 }
 
-int __fastcall FUN_00ca9600(char*);
+int __fastcall hkpCharacterContext_getState(char*);
 
 struct FUN_00c6d120_cls
 {
@@ -514,7 +519,7 @@ struct FUN_00c6d120_cls
 // src: COMMUNITY 0x00c6d120
 int __thiscall FUN_00c6d120_cls::bhkCharacterController_GetUseZ()
 {
-    int r = FUN_00ca9600((char*)this + 0x3e0);
+    int r = hkpCharacterContext_getState((char*)this + 0x3e0);
     if (r == 5 || r == 6 || r == 4)
         return 1;
     return 0;
@@ -585,10 +590,11 @@ int* FUN_00c6fd40_class::bhkCharacterController_GetBumpedBody()
 
 struct FUN_00c6fd60_Class
 {
-    void* FUN_00c6fd60();
+    void* bhkCharacterController_GetBumpedCharacterController();
 };
 // @fnv 0x00c6fd60
-void* __thiscall FUN_00c6fd60_Class::FUN_00c6fd60()
+// src: XBOX_PDB 0x00c6fd60
+void* __thiscall FUN_00c6fd60_Class::bhkCharacterController_GetBumpedCharacterController()
 {
     void* p = *(void**)((char*)this + 0x638);
     if (p)
@@ -601,7 +607,8 @@ extern float DAT_01267c14;
 extern float DAT_01267c18;
 
 // @fnv 0x00c74550
-void FUN_00c74550(float afScale, float afValue)
+// src: XBOX_PDB 0x00c74550
+void bhkWindListener_SetWind(float afScale, float afValue)
 {
     DAT_01267c14 = DAT_011b02dc * afScale;
     DAT_01267c18 = afValue;
@@ -901,7 +908,8 @@ bool __cdecl AreVectorsEqual(NiPoint3 const& a, NiPoint3 const& b, float c);
 
 // Checks each of three consecutive point pairs with AreVectorsEqual and returns false as soon as one pair fails, otherwise true.
 // @fnv 0x00c6b5f0
-bool __cdecl FUN_00c6b5f0(NiPoint3 const* apPointsA, NiPoint3 const* apPointsB, float c)
+// src: XBOX_PDB 0x00c6b5f0
+bool __cdecl CloseTo(NiPoint3 const* apPointsA, NiPoint3 const* apPointsB, float c)
 {
     unsigned int i;
     for (i = 0; i < 3; ++i)
@@ -1147,10 +1155,11 @@ FUN_00c66450::FUN_00c66450(char acFlags)
 void __cdecl SetNiPoint3FromHkVector4(const hkVector4&, void*);
 struct FUN_00c66be0_class
 {
-    void FUN_00c66be0(unsigned int a);
+    void bhkWorld_GetOrigin(unsigned int a);
 };
 // @fnv 0x00c66be0
-void FUN_00c66be0_class::FUN_00c66be0(unsigned int auiVectorAddress)
+// src: XBOX_PDB 0x00c66be0
+void FUN_00c66be0_class::bhkWorld_GetOrigin(unsigned int auiVectorAddress)
 {
     SetNiPoint3FromHkVector4(*(const hkVector4*)auiVectorAddress, (char*)this + 0x60);
 }
@@ -1385,11 +1394,12 @@ struct FUN_00c6b320_Class : FUN_00c6b320_Base
     void** m_ppData;
     unsigned int m_uiItemCount;
 
-    void __thiscall FUN_00c6b320(hkReferencedObject* a);
+    void __thiscall bhkWorld_Add_00c6b320(hkReferencedObject* a);
 };
 
 // @fnv 0x00c6b320
-void __thiscall FUN_00c6b320_Class::FUN_00c6b320(hkReferencedObject* a)
+// src: XBOX_PDB 0x00c6b320
+void __thiscall FUN_00c6b320_Class::bhkWorld_Add_00c6b320(hkReferencedObject* a)
 {
     if (this == 0)
         return;
@@ -1467,7 +1477,7 @@ void __fastcall LinkCollisionObject(bhkNiCollisionObject* self, void*, void* str
     reinterpret_cast<void (__thiscall*)(bhkNiCollisionObject*, void*)>(SetCollisionInterpolator)(self, aStream.GetLoadedObject());
 }
 
-void __cdecl FUN_00c6c110(int a, int b);
+void __cdecl bhkNiCollisionObject_SynchronizeRec(int a, int b);
 
 // Saves the thread-local value, sets it to b, calls FUN_00c6c110(a, 0), then restores the saved value.
 // @fnv 0x00c6c3d0
@@ -1482,7 +1492,7 @@ void __cdecl SetTlsValueAndReset(int aiArg, int aiValue)
 
     int oldValue = tls.value;
     tls.value = aiValue;
-    FUN_00c6c110(aiArg, 0);
+    bhkNiCollisionObject_SynchronizeRec(aiArg, 0);
     tls.value = oldValue;
 }
 
@@ -1598,7 +1608,7 @@ FUN_00c6d100_s* FUN_00c6d100_s::FUN_00c6d100(bool abFree)
 
 struct S_00c85ce0
 {
-    void FUN_00c85ce0(unsigned int);
+    void bhkWorldObject_SetCollisionGroup(unsigned int);
 };
 struct FUN_00c6d770_class
 {
@@ -1613,9 +1623,9 @@ struct FUN_00c6d770_class
 void FUN_00c6d770_class::bhkCharacterController_SetCollisionGroup(unsigned int auiValue)
 {
     if (m_594)
-        ((S_00c85ce0*)m_594)->FUN_00c85ce0(auiValue);
+        ((S_00c85ce0*)m_594)->bhkWorldObject_SetCollisionGroup(auiValue);
     if (m_598)
-        ((S_00c85ce0*)m_598)->FUN_00c85ce0(auiValue);
+        ((S_00c85ce0*)m_598)->bhkWorldObject_SetCollisionGroup(auiValue);
 }
 
 struct FUN_008d1160_Class
@@ -1760,7 +1770,8 @@ void __cdecl bhkWorldCinfo_SetSimulationType(int aiCode)
 extern unsigned char DAT_012677a3;
 
 // @fnv 0x00c66230
-void __cdecl FUN_00c66230(unsigned char a)
+// src: XBOX_PDB 0x00c66230
+void __cdecl bhkWorld_SetPickCountOverride(unsigned char a)
 {
     DAT_012677a3 = a;
 }
@@ -1908,7 +1919,7 @@ void __cdecl DispatchOnParamFlag(FUN_00c662d0_Obj* pObj, Param2Struct* pParams)
 
 extern int DAT_010c3bc4;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00c66510_cls
 {
@@ -1928,7 +1939,7 @@ FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
     BaseRelease();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         reinterpret_cast<void (__thiscall*)(hkMemoryAllocator*, void*, unsigned int)>((*reinterpret_cast<void***>(pAllocator))[2])(pAllocator, this, m_uSize);
     }
@@ -2241,12 +2252,13 @@ class FUN_00c66de0_cls
     int unk34C;
     FUN_00c66de0_cls* m_350;
     void Reset(bool flag);
-    void FUN_00c66de0(bool flag);
+    void bhkWorld_Link(bool flag);
 };
 
 // If this is non-null, stores this (or null when flag is false) into the m_350 field of the object returned by v94, then calls Reset(flag).
 // @fnv 0x00c66de0
-void FUN_00c66de0_cls::FUN_00c66de0(bool flag)
+// src: XBOX_PDB 0x00c66de0
+void FUN_00c66de0_cls::bhkWorld_Link(bool flag)
 {
     if (this != 0)
     {
@@ -2286,12 +2298,13 @@ struct FUN_00c66e70_Class
     int unk08;
     char* objectData;
 
-    void FUN_00c66e70(char destroy);
+    void bhkWorld_KillCinfo(char destroy);
 };
 
 // If destroy is set, releases the HavokOwner stored before objectData and clears objectData.
 // @fnv 0x00c66e70
-void FUN_00c66e70_Class::FUN_00c66e70(char destroy)
+// src: XBOX_PDB 0x00c66e70
+void FUN_00c66e70_Class::bhkWorld_KillCinfo(char destroy)
 {
     HavokThreadStateScope scope;
     if (destroy)
@@ -2363,11 +2376,12 @@ struct FUN_00c66f90_Class
     virtual void vf90();
     virtual FUN_00c66f90_Result* vf94();
 
-    bool FUN_00c66f90();
+    bool bhkWorld_HasActiveItems();
 };
 
 // @fnv 0x00c66f90
-bool FUN_00c66f90_Class::FUN_00c66f90()
+// src: XBOX_PDB 0x00c66f90
+bool FUN_00c66f90_Class::bhkWorld_HasActiveItems()
 {
     bool result = false;
     FUN_00c66f90_Result* object = vf94();
@@ -2622,7 +2636,7 @@ void __cdecl bhkWorld_AddObject(ControlledObj* pControlledObj, UpdateData* data)
 
 struct FUN_00c85d20_Class
 {
-    void __thiscall FUN_00c85d20(bool enabled);
+    void __thiscall bhkWorldObject_EnableCollision(bool enabled);
 };
 
 struct FUN_00c67130_First
@@ -2648,7 +2662,7 @@ void __cdecl SetEnabledFromFlag(FUN_00c67130_First* first, FUN_00c67130_Second* 
 {
     if (first->unk10)
     {
-        first->unk10->FUN_00c85d20(second->unk0c != 0);
+        first->unk10->bhkWorldObject_EnableCollision(second->unk0c != 0);
     }
 }
 
@@ -3918,7 +3932,7 @@ struct ScopedHavokThreadMode
 
 struct FUN_00c674d0_Call
 {
-    void __thiscall FUN_00c674d0(unsigned int resource, unsigned int count);
+    void __thiscall bhkWorld_AddEntities(unsigned int resource, unsigned int count);
 };
 
 // Clamps the count at offset 0x30 to 3000, passes it with the resource at 0x2c to FUN_00c674d0, then resets the count to 0.
@@ -3932,7 +3946,7 @@ void FUN_00c68a40_Class::bhkWorld_AddBatchedEntities()
     {
         if (count >= 3000)
             count = 3000;
-        reinterpret_cast<FUN_00c674d0_Call*>(this)->FUN_00c674d0(
+        reinterpret_cast<FUN_00c674d0_Call*>(this)->bhkWorld_AddEntities(
             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x2c), count);
         count = 0;
     }
@@ -4017,7 +4031,7 @@ struct BhkWorldCinfo
     BhkWorldCinfo* FUN_00c68bc0(int flag);
 };
 
-extern hkMemoryRouter* __cdecl FUN_00c85750();
+extern hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Calls FUN_00553540, and if flag bit 0 is set notifies the system manager's sink with this and unk04, then returns this.
 // @fnv 0x00c68bc0
@@ -4027,7 +4041,7 @@ BhkWorldCinfo* BhkWorldCinfo::FUN_00c68bc0(int flag)
 
     if (flag & 1)
     {
-        hkMemoryRouter* sys = FUN_00c85750();
+        hkMemoryRouter* sys = hkMemoryRouter_getInstance();
         reinterpret_cast<WorldSink*>(sys->m_heap)->v08(this, this->unk04);
     }
 
@@ -4039,7 +4053,7 @@ struct FUN_00c68f50_cls;
 
 struct FUN_00aa4060_cls
 {
-    void FUN_00aa4060(FUN_00c68f50_cls* node);
+    void MemoryManager_Deallocate(FUN_00c68f50_cls* node);
 };
 
 extern FUN_00aa4060_cls DAT_011f6238;
@@ -4088,7 +4102,7 @@ found:
             m_key = head_next->m_key;
             head_next->m_next = 0;
             head_next->LockOwnerAndRelease();
-            DAT_011f6238.FUN_00aa4060(head_next);
+            DAT_011f6238.MemoryManager_Deallocate(head_next);
             return;
         }
         FUN_00c663d0_Ref* obj = m_key.m_pObject;
@@ -4106,7 +4120,7 @@ found:
     prev->m_next = cur->m_next;
     cur->m_next = 0;
     cur->LockOwnerAndRelease();
-    DAT_011f6238.FUN_00aa4060(cur);
+    DAT_011f6238.MemoryManager_Deallocate(cur);
 }
 
 struct CpuOpaque;
@@ -4139,7 +4153,8 @@ S_00c69f50_Obj* GetExtraDataChecked(S_00c69f50_Obj* obj);
 void bhkWorld_DoObjectRec(S_00c69f50_Obj* obj, int* ctx, void* g);
 
 // @fnv 0x00c69f50
-bool FUN_00c69f50(S_00c69f50_Obj* obj, unsigned char ucValue, unsigned char ucForce)
+// src: XBOX_PDB 0x00c69f50
+bool bhkWorld_UpdatePosition(S_00c69f50_Obj* obj, unsigned char ucValue, unsigned char ucForce)
 {
     bool result = false;
     if (obj)
@@ -4186,7 +4201,8 @@ extern "C" void __cdecl bhkWorld_DoObjectRec(int object, DispatchPacket* packet,
 extern "C" unsigned int DAT_011afe94;
 
 // @fnv 0x00c6a040
-unsigned char __cdecl FUN_00c6a040(int object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
+// src: XBOX_PDB 0x00c6a040
+unsigned char __cdecl bhkWorld_Enable(int object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
 {
     unsigned char result = 0;
     if (object)
@@ -4279,7 +4295,7 @@ class FUN_00c6a810_cls
     int unk10;
     unsigned short unk14;
     unsigned char m_16;
-    void FUN_00c6a810(void* target, unsigned char value);
+    void bhkWorld_SetDebugDisplay(void* target, unsigned char value);
 };
 
 struct FlagRequestB3610
@@ -4303,7 +4319,8 @@ void __cdecl SpawnHelperB3610(void* target, FlagRequestB3610* req, void* ctx);
 
 // Stores value into m_16 and, if target is non-null and DAT_011afea0 is set, sends a flag request with type 6 and the stored flag's boolean value.
 // @fnv 0x00c6a810
-void FUN_00c6a810_cls::FUN_00c6a810(void* target, unsigned char value)
+// src: XBOX_PDB 0x00c6a810
+void FUN_00c6a810_cls::bhkWorld_SetDebugDisplay(void* target, unsigned char value)
 {
     if (m_16 != value)
     {
@@ -4722,12 +4739,13 @@ struct S_00c6b760_Cls
     unsigned short unk0e;
     S_00c6b760_Obj* m_10;
     bool FUN_00a81060(S_00c6b760_Cls* other);
-    bool FUN_00c6b760(S_00c6b760_Cls* other);
+    bool bhkNiCollisionObject_IsEqual(S_00c6b760_Cls* other);
 };
 
 // Compares this object with another: first via FUN_00a81060, then compares m_10 (via v5c or null check) and m_0c.
 // @fnv 0x00c6b760
-bool S_00c6b760_Cls::FUN_00c6b760(S_00c6b760_Cls* other)
+// src: XBOX_PDB 0x00c6b760
+bool S_00c6b760_Cls::bhkNiCollisionObject_IsEqual(S_00c6b760_Cls* other)
 {
     bool r = FUN_00a81060(other);
     if (r)
@@ -4832,7 +4850,8 @@ class FnvProbeObj
 
 // If a is non-null, resolves a target object from b (or falls back to a) and returns whether its m_f84 is greater than zero.
 // @fnv 0x00c6b7b0
-bool FUN_00c6b7b0(FnvProbeObj* pObj, void* b)
+// src: XBOX_PDB 0x00c6b7b0
+bool bhkNiCollisionObject_GetFaceUp(FnvProbeObj* pObj, void* b)
 {
     bool result = false;
     if (pObj)
@@ -4933,7 +4952,8 @@ struct FUN_00c6b860_Object
     float unk88;
 };
 // @fnv 0x00c6b860
-bool __cdecl FUN_00c6b860(FUN_00c6b860_Object* object, unsigned int key)
+// src: XBOX_PDB 0x00c6b860
+bool __cdecl bhkNiCollisionObject_GetLeftUp(FUN_00c6b860_Object* object, unsigned int key)
 {
     bool result = false;
     if (object)
@@ -4975,14 +4995,15 @@ struct OwnerProxy
     int unk00, unk04, unk08;
     unsigned short unk0c, unk0e;
     NiInterpolator* object;
-    void FUN_00aa1000(OwnerProxy*, CloneProcess*);
-    void FUN_00c6b980(NiInterpolator*);
-    void FUN_00c6ba30(OwnerProxy*, CloneProcess*);
+    void NiCollisionObject_CopyMembers(OwnerProxy*, CloneProcess*);
+    void bhkNiCollisionObject_SetWorldObject(NiInterpolator*);
+    void bhkNiCollisionObject_CopyMembers(OwnerProxy*, CloneProcess*);
 };
 // @fnv 0x00c6ba30
-void OwnerProxy::FUN_00c6ba30(OwnerProxy* dest, CloneProcess* process)
+// src: XBOX_PDB 0x00c6ba30
+void OwnerProxy::bhkNiCollisionObject_CopyMembers(OwnerProxy* dest, CloneProcess* process)
 {
-    FUN_00aa1000(dest, process);
+    NiCollisionObject_CopyMembers(dest, process);
     dest->unk0c = unk0c;
     NiPointer<NiInterpolator> source = object;
     if (source)
@@ -4993,14 +5014,14 @@ void OwnerProxy::FUN_00c6ba30(OwnerProxy* dest, CloneProcess* process)
             clone = result;
         else
             clone = static_cast<NiInterpolator*>(source->MakeClone(*reinterpret_cast<CloningProcess*>(process)));
-        dest->FUN_00c6b980(clone);
+        dest->bhkNiCollisionObject_SetWorldObject(clone);
         clone = 0;
         source = 0;
     }
 }
 
 bool __cdecl AreVectorsEqual(NiPoint3 const& a, NiPoint3 const& b, float c);
-bool __cdecl FUN_00c6b5f0(NiPoint3 const* a, NiPoint3 const* b, float c);
+bool __cdecl CloseTo(NiPoint3 const* a, NiPoint3 const* b, float c);
 
 typedef void(__cdecl* TransformCallback)(bhkNiCollisionObject*, int);
 extern bool DAT_01267b6c;
@@ -5038,7 +5059,7 @@ void __fastcall UpdateWorldTransform(bhkNiCollisionObject* self, void*, const Ni
     }
     else
     {
-        if (!FUN_00c6b5f0((const NiPoint3*)&pkObject->m_kWorld.m_Rotate, (const NiPoint3*)&kWorld.m_Rotate,
+        if (!CloseTo((const NiPoint3*)&pkObject->m_kWorld.m_Rotate, (const NiPoint3*)&kWorld.m_Rotate,
                           0.001f))
             iResult = 2;
         if (!AreVectorsEqual(pkObject->m_kWorld.m_Translate, kWorld.m_Translate, 0.01f))
@@ -5081,7 +5102,8 @@ struct TreeHost_cls
 };
 
 // @fnv 0x00c6bd00
-void FUN_00c6bd00(NiAVObject* node, bool recurse)
+// src: XBOX_PDB 0x00c6bd00
+void bhkNiCollisionObject_ResetSim(NiAVObject* node, bool recurse)
 {
     if (node == 0)
     {
@@ -5110,7 +5132,7 @@ void FUN_00c6bd00(NiAVObject* node, bool recurse)
                 {
                     --n;
                     NiAVObject* item = child->m_kChildren.m_pBase[n];
-                    FUN_00c6bd00(item, true);
+                    bhkNiCollisionObject_ResetSim(item, true);
                 } while (n != 0);
             }
         }
@@ -5384,7 +5406,7 @@ class FUN_00c6c290 : public C6C290Base
   public:
     NiPointer<C6C290Object> m_pReferencedObject;
 
-    void FUN_00c6b980(int iValue);
+    void bhkNiCollisionObject_SetWorldObject(int iValue);
     virtual ~FUN_00c6c290();
 };
 
@@ -5395,7 +5417,7 @@ FUN_00c6c290::~FUN_00c6c290()
     g_iC6C290Count--;
     if (m_pReferencedObject)
         m_pReferencedObject->Detach();
-    FUN_00c6b980(0);
+    bhkNiCollisionObject_SetWorldObject(0);
 }
 
 class BC6C330BinaryStream
@@ -5590,7 +5612,7 @@ class BC6C330HavokCollision : public BC6C330CollisionObject
 {
   public:
     virtual void LoadBinary(BC6C330Stream& kStream);
-    void FUN_00c6c330(BC6C330Stream& kStream);
+    void bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream);
 
     int unk04;
     int unk08;
@@ -5598,7 +5620,8 @@ class BC6C330HavokCollision : public BC6C330CollisionObject
 };
 
 // @fnv 0x00c6c330
-void BC6C330HavokCollision::FUN_00c6c330(BC6C330Stream& kStream)
+// src: XBOX_PDB 0x00c6c330
+void BC6C330HavokCollision::bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream)
 {
     BC6C330CollisionObject::LoadBinary(kStream);
     BC6C330LoadBinary(kStream, m_usFlags);
@@ -5847,7 +5870,7 @@ struct S_00c6c840_class
     unsigned char unk6b;
     int unk6c;
 
-    void __thiscall FUN_00c6c840(int a, S_00c6c840_Param* b);
+    void __thiscall bhkCharacterListener_contactPointAddedCallback(int a, S_00c6c840_Param* b);
 };
 
 struct S_00c6c840_Pad
@@ -6903,7 +6926,8 @@ extern int DAT_011f426c;
 
 // Checks whether the value's low 7 bits equal 0x1e; if so increments unk6c and, when unk69 is set, calls FUN_00926980 with DAT_011f426c.
 // @fnv 0x00c6c840
-void __thiscall S_00c6c840_class::FUN_00c6c840(int a, S_00c6c840_Param* b)
+// src: XBOX_PDB 0x00c6c840
+void __thiscall S_00c6c840_class::bhkCharacterListener_contactPointAddedCallback(int a, S_00c6c840_Param* b)
 {
     S_00c6c840_Value* value = reinterpret_cast<S_00c6c840_Value*>(b->m_pObject_48);
 
@@ -6928,7 +6952,7 @@ void* bhkShapeCollection_GetRTTI()
 }
 
 namespace fnv_00c6cdc0 {
-extern "C" void* __cdecl FUN_00c85750();
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
 
 struct S_00c85750_vtbl
 {
@@ -6948,7 +6972,7 @@ void __cdecl FUN_00c6cdc0(void* pObject)
 {
     if (pObject != 0)
     {
-        hkMemoryRouter* pOwner = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* pOwner = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         S_00c85750_interface* pInterface = reinterpret_cast<S_00c85750_interface*>(pOwner->m_heap);
         S_00c85750_vtbl* pVtbl = pInterface->vtbl;
         pVtbl->unk08(pInterface, pObject, 0x80);
@@ -7105,7 +7129,7 @@ void* __cdecl bhkCollisionBox_GetRTTI()
 namespace fnv_00c6d260 {
 struct FUN_00aa4060_class
 {
-    void __thiscall FUN_00aa4060(void* p);
+    void __thiscall MemoryManager_Deallocate(void* p);
 };
 
 extern FUN_00aa4060_class DAT_011f6238;
@@ -7122,7 +7146,7 @@ FUN_00c6d260_class* __thiscall FUN_00c6d260_class::ScalarDeletingDestructor(unsi
     FUN_00cbe880();
     if ((flags & 1) && this)
     {
-        DAT_011f6238.FUN_00aa4060((char*)this - ((unsigned char*)this)[-1]);
+        DAT_011f6238.MemoryManager_Deallocate((char*)this - ((unsigned char*)this)[-1]);
     }
     return this;
 }
@@ -7731,7 +7755,7 @@ void BC6D6B0Tracker::UpdateDistance(const BC6D6B0Point3& kPos, BC6D6B0AVObject* 
 
 struct S_00c6d7a0_Handler
 {
-    void FUN_00c85c10(int arg, int dflt);
+    void bhkWorldObject_SetAVObject(int arg, int dflt);
 };
 
 struct S_00c6d7a0_Obj
@@ -7779,17 +7803,18 @@ struct S_00c6d7a0_Obj
     int unk580, unk584, unk588, unk58c, unk590;
     S_00c6d7a0_Handler* unk594;
     S_00c6d7a0_Handler* unk598;
-    void FUN_00c6d7a0(int arg);
+    void bhkCharacterController_SetNiObject(int arg);
 };
 
 // Forwards arg to the handler objects at unk594 and unk598, calling each with a default of 0 when present.
 // @fnv 0x00c6d7a0
-void S_00c6d7a0_Obj::FUN_00c6d7a0(int arg)
+// src: XBOX_PDB 0x00c6d7a0
+void S_00c6d7a0_Obj::bhkCharacterController_SetNiObject(int arg)
 {
     if (unk594)
-        unk594->FUN_00c85c10(arg, 0);
+        unk594->bhkWorldObject_SetAVObject(arg, 0);
     if (unk598)
-        unk598->FUN_00c85c10(arg, 0);
+        unk598->bhkWorldObject_SetAVObject(arg, 0);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long* p);
@@ -8438,9 +8463,9 @@ struct ControllerShell
     {
         return *reinterpret_cast<unsigned int*>((char*)this + 0x414);
     }
-    int FUN_00621a40();
+    int bhkCharacterProxy_GethkPosition();
     int GetCurrentObject(int);
-    void FUN_00c6d3f0(int);
+    void bhkCharacterController_SetShape(int);
     void SetMode(int);
     void CallVirtualReset(int value)
     {
@@ -8458,7 +8483,7 @@ void ControllerShell::SetMode(int mode)
         if (paused)
             bhkCharacterController_RemoveCollisionDebug();
         selectedMode() = mode;
-        FUN_00c6d3f0(GetCurrentObject(FUN_00621a40()));
+        bhkCharacterController_SetShape(GetCurrentObject(bhkCharacterProxy_GethkPosition()));
         if (paused)
             CallVirtualReset(0);
     }
@@ -8894,7 +8919,7 @@ struct C70B60Point3
 
 extern const C70B60Point3 g_kC70B60Zero;
 
-int __fastcall FUN_00ca9600(char* pcState);
+int __fastcall hkpCharacterContext_getState(char* pcState);
 
 struct C70B60UpdateData
 {
@@ -9209,21 +9234,22 @@ class C70B60Character
     int unk3DC;
     char m_acState[4];
 
-    void FUN_00c70940(float fTime);
-    void FUN_00c70b60(C70B60UpdateData* pkData, bool bForce);
+    void bhkCharacterController_ChangeSize(float fTime);
+    void bhkCharacterController_MoveImmobile(C70B60UpdateData* pkData, bool bForce);
 };
 
 // @fnv 0x00c70b60
-void C70B60Character::FUN_00c70b60(C70B60UpdateData* pkData, bool bForce)
+// src: XBOX_PDB 0x00c70b60
+void C70B60Character::bhkCharacterController_MoveImmobile(C70B60UpdateData* pkData, bool bForce)
 {
-    bool bStatic = FUN_00ca9600(m_acState) == 2;
+    bool bStatic = hkpCharacterContext_getState(m_acState) == 2;
     if (bForce && bStatic)
     {
         pkData->m_kValue = g_kC70B60Zero;
         ApplyUpdate(pkData);
         return;
     }
-    FUN_00c70940(pkData->m_fTime);
+    bhkCharacterController_ChangeSize(pkData->m_fTime);
 }
 
 namespace fnv_00c70bd0 {
@@ -10044,7 +10070,7 @@ void __stdcall CopyEntries(C749F0Entry* pkDst, const C749F0Entry* pkSrc, unsigne
 }
 
 namespace fnv_00c74f50 {
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 // If param_1 is nonzero, obtains a result object via FUN_00c85750 and calls vf08 on its unk10 target with param_1 and 0x38.
 // @fnv 0x00c74f50
@@ -10052,7 +10078,7 @@ void __cdecl FUN_00c74f50(int aiValue)
 {
     if (aiValue != 0)
     {
-        hkMemoryRouter* result = static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* result = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         GetRouterHeap(*result).blockFree(reinterpret_cast<void*>(aiValue), 0x38);
     }
 }
@@ -10071,14 +10097,14 @@ struct AllocClass
     virtual void v2(void* p, unsigned int size);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 // @fnv 0x00c74f70
 void __cdecl FUN_00c74f70(void* p)
 {
     if (p)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         AllocClass* allocator = reinterpret_cast<AllocClass*>(holder->m_heap);
         allocator->v2(p, 0x48);
     }
@@ -10349,7 +10375,7 @@ void __stdcall AllocCountedBytes(unsigned int count)
 namespace fnv_00c76010 {
 struct S_00aa4060_cls
 {
-    void __thiscall FUN_00aa4060(NiTMapItem<NiAVObject*, short>* a);
+    void __thiscall MemoryManager_Deallocate(NiTMapItem<NiAVObject*, short>* a);
 };
 
 extern S_00aa4060_cls DAT_011f6238;
@@ -10358,7 +10384,7 @@ extern S_00aa4060_cls DAT_011f6238;
 void __stdcall FUN_00c76010(NiTMapItem<NiAVObject*, short>* pRecord)
 {
     pRecord->m_val = 0;
-    DAT_011f6238.FUN_00aa4060(pRecord);
+    DAT_011f6238.MemoryManager_Deallocate(pRecord);
 }
 }  // namespace fnv_00c76010
 
@@ -11275,8 +11301,8 @@ struct ListItem
 
 struct ListMgr
 {
-    void FUN_00c6b320(ListItem* item);
-    void FUN_00c68d50(ListItem* item);
+    void bhkWorld_Add_00c6b320(ListItem* item);
+    void bhkWorld_Remove_00c68d50(ListItem* item);
 };
 
 struct ListLevel3
@@ -11583,7 +11609,7 @@ void FUN_00c7a230_cls::bhkRagdollController_UpdateConstraintsWorld(bool abActive
             ListItem* item = owner->m_14[i];
             if (item->m_08 == 0)
             {
-                mgr->FUN_00c6b320(item);
+                mgr->bhkWorld_Add_00c6b320(item);
             }
         }
     }
@@ -11594,7 +11620,7 @@ void FUN_00c7a230_cls::bhkRagdollController_UpdateConstraintsWorld(bool abActive
             ListItem* item = owner->m_14[i];
             if (item->m_08 != 0)
             {
-                mgr->FUN_00c68d50(item);
+                mgr->bhkWorld_Remove_00c68d50(item);
             }
         }
     }
@@ -11691,7 +11717,7 @@ struct Behavior
     unsigned int unka4;
     unsigned int unka8;
     float valueAC;
-    Behavior* FUN_00cdf6c0();
+    Behavior* hkpMalleableConstraintData_getWrappedConstraintData();
     void hkpLimitedHingeConstraintData_setMotorActive(Record*, StateFlag);
     void SetFlagAndClearFloats(Record*, StateFlag);
     void hkpRagdollConstraintData_setTarget(int*);
@@ -11710,7 +11736,7 @@ void __cdecl EnableBehaviorsByKind(InputMap* input)
             continue;
         Behavior* behavior = item->behavior;
         if (behavior->GetKind() == 13)
-            behavior = behavior->FUN_00cdf6c0();
+            behavior = behavior->hkpMalleableConstraintData_getWrappedConstraintData();
         if (!behavior)
             continue;
         switch (behavior->GetKind())
@@ -11746,7 +11772,7 @@ struct ObjectView
     virtual void Reserved7();
     virtual int GetKind();
 
-    ObjectView* FUN_00cdf6c0();
+    ObjectView* hkpMalleableConstraintData_getWrappedConstraintData();
     void SetFlagAndClearFloats(struct ComponentEntry* entry, UpdateOptions options);
     void hkpLimitedHingeConstraintData_setMotorActive(struct ComponentEntry* entry, UpdateOptions options);
 };
@@ -11801,7 +11827,7 @@ void __cdecl UpdateEntriesByKind(ObjectContext* context)
             {
                 ObjectView* view = entry->view;
                 if (view->GetKind() == 13)
-                    view = view->FUN_00cdf6c0();
+                    view = view->hkpMalleableConstraintData_getWrappedConstraintData();
                 if (view != 0)
                 {
                     int kind = view->GetKind();
@@ -12024,7 +12050,7 @@ struct S_item
     S_listentry m_list14;
 };
 
-extern "C" void* FUN_00c85750();
+extern "C" void* hkMemoryRouter_getInstance();
 extern "C" void ResizeAudioStream(void* allocator, S_arr* arr, unsigned int growBy);
 extern int DAT_0126818c;
 
@@ -12048,7 +12074,7 @@ void CollectItemValues(S_item* item, S_arr* pValues, S_arr* pLinkedValues)
         return;
     }
     int value = item->m_value08;
-    hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     if (pValues->m_uiSize == (pValues->m_uiValue1 & 0x3fffffff))
     {
         ResizeAudioStream(holder->m_heap, pValues, 4);
@@ -12074,7 +12100,7 @@ void CollectItemValues(S_item* item, S_arr* pValues, S_arr* pLinkedValues)
         {
             S_item* obj = (S_item*)pSelectedNode;
             int v = obj->m_value08;
-            holder = (hkMemoryRouter*)FUN_00c85750();
+            holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             if (pLinkedValues->m_uiSize == (pLinkedValues->m_uiValue1 & 0x3fffffff))
             {
                 ResizeAudioStream(holder->m_heap, pLinkedValues, 4);
@@ -12099,7 +12125,7 @@ struct FUN_00c85750_Object
     virtual void __thiscall v4(int a, int b);
 };
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00c7b0b0_class
 {
@@ -12113,7 +12139,7 @@ struct FUN_00c7b0b0_class
 // @fnv 0x00c7b0b0
 void FUN_00c7b0b0_class::FUN_00c7b0b0()
 {
-    void* pObject = FUN_00c85750();
+    void* pObject = hkMemoryRouter_getInstance();
     FUN_00c85750_Object* pTarget = reinterpret_cast<FUN_00c85750_Object*>(
         *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(pObject) + 0x10));
 
@@ -12133,7 +12159,7 @@ void FUN_00c7b0b0_class::FUN_00c7b0b0()
 }  // namespace fnv_00c7b0b0
 
 namespace fnv_00c7b130 {
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct FUN_00c7b130_cls
 {
@@ -12145,7 +12171,7 @@ struct FUN_00c7b130_cls
 void FUN_00c7b130_cls::FUN_00c7b130()
 {
     int value = m_iWordAt00;
-    hkMemoryRouter* slot = FUN_00c85750();
+    hkMemoryRouter* slot = hkMemoryRouter_getInstance();
     slot->m_stack.m_next.m_storage = reinterpret_cast<void*>(value);
 }
 }  // namespace fnv_00c7b130
@@ -12347,7 +12373,7 @@ struct SettingFloat
     float* Float();
 };
 extern SettingFloat DAT_01267b34;
-float __cdecl FUN_0040ebd0(float, float);
+float __cdecl BSMIN(float, float);
 
 // Accumulates elapsed time, clamps it, and computes the number of simulation steps and step size according to the current time mode.
 // @fnv 0x00c66760
@@ -12383,7 +12409,7 @@ void __cdecl bhkWorld_SetDeltaTime(float elapsed, bool singleStep, bool force)
         {
             DAT_012677b0 = DAT_011afe64 - DAT_012677b4 * DAT_012677ac;
             DAT_011afe64 -= DAT_012677b0;
-            DAT_012677b0 = FUN_0040ebd0(DAT_012677b0, *DAT_01267b34.Float());
+            DAT_012677b0 = BSMIN(DAT_012677b0, *DAT_01267b34.Float());
         }
         else if (!forced && DAT_011afe64 < DAT_012677ac * 0.5)
         {
@@ -13151,7 +13177,7 @@ class C687B0Object : public C687B0ObjectBase, public C687B0Listener
 
 struct C687B0World
 {
-    void FUN_00c91c50(C687B0Object* pkObject);
+    void hkpWorld_getCinfo(C687B0Object* pkObject);
 };
 
 class C687B0Owner
@@ -13216,7 +13242,7 @@ C687B0Listener* C687B0Owner::GetOrCreateListener(bool* pbCreated)
             C687B0Object* pkObject = static_cast<C687B0Object*>(m_pkListener);
             C687B0World* pkWorld = GetWorld();
             if (pkWorld)
-                pkWorld->FUN_00c91c50(pkObject);
+                pkWorld->hkpWorld_getCinfo(pkObject);
         }
     }
     return m_pkListener;
@@ -13372,7 +13398,7 @@ class C68CB0World
     void FlushPendingConstraints();
     void FlushPendingPhantoms();
 
-    bool FUN_00c68cb0(C68CB0Phantom* pkPhantom);
+    bool bhkWorld_Remove_00c68cb0(C68CB0Phantom* pkPhantom);
 
     int unk04;
     int unk08;
@@ -13391,7 +13417,8 @@ class C68CB0World
 };
 
 // @fnv 0x00c68cb0
-bool C68CB0World::FUN_00c68cb0(C68CB0Phantom* pkPhantom)
+// src: XBOX_PDB 0x00c68cb0
+bool C68CB0World::bhkWorld_Remove_00c68cb0(C68CB0Phantom* pkPhantom)
 {
     bool bResult = false;
     C68CB0HavokWorld* pkWorld = GetHavokWorld();
@@ -13492,7 +13519,7 @@ class C68D50World
     void FlushPendingConstraints();
     void FlushPendingPhantoms();
 
-    bool FUN_00c68d50(C68D50Entity* pkEntity);
+    bool bhkWorld_Remove_00c68d50(C68D50Entity* pkEntity);
 
     int unk04;
     int unk08;
@@ -13515,7 +13542,8 @@ class C68D50World
 };
 
 // @fnv 0x00c68d50
-bool C68D50World::FUN_00c68d50(C68D50Entity* pkEntity)
+// src: XBOX_PDB 0x00c68d50
+bool C68D50World::bhkWorld_Remove_00c68d50(C68D50Entity* pkEntity)
 {
     bool bResult = false;
     C68D50HavokWorld* pkWorld = GetHavokWorld();
@@ -13565,8 +13593,8 @@ struct ReportBool
     ReportBool(bool b) : value(b)
     {}
 };
-char* __cdecl FUN_00a7d370(const char*, ReportBool);
-char* __cdecl FUN_00a7d510(const char*, unsigned int);
+char* __cdecl NiGetViewerString(const char*, ReportBool);
+char* __cdecl NiGetViewerString_00a7d510(const char*, unsigned int);
 struct ReportOwner
 {
     int unk00;
@@ -13576,27 +13604,27 @@ struct ReportOwner
     void* debug;
     unsigned char unk14;
     bool enabled;
-    void FUN_00c878c0(StrArr*);
+    void bhkSerializable_GetViewerStrings(StrArr*);
     void AppendReport(StrArr*);
 };
 // @fnv 0x00c69240
 void ReportOwner::AppendReport(StrArr* result)
 {
     ThreadMemoryScope scope;
-    FUN_00c878c0(result);
+    bhkSerializable_GetViewerStrings(result);
     AppendReportString(result, NiViewerStrings_NiGetViewerString_Title(g_012681e8_arg1));
     ReportBool enabledValue(enabled);
-    AppendReportString(result, FUN_00a7d370("Enabled", enabledValue));
+    AppendReportString(result, NiGetViewerString("Enabled", enabledValue));
     ReportBool debugValue(debug != 0);
-    AppendReportString(result, FUN_00a7d370("Vis Debug", debugValue));
-    AppendReportString(result, FUN_00a7d510("Worlds", DAT_012677a4));
-    AppendReportString(result, FUN_00a7d510("Actions", DAT_01268154));
-    AppendReportString(result, FUN_00a7d510("Contraints", DAT_01268188));
-    AppendReportString(result, FUN_00a7d510("Entities", DAT_012681fc));
-    AppendReportString(result, FUN_00a7d510("RigidBodies", DAT_012681bc));
-    AppendReportString(result, FUN_00a7d510("Shapes", DAT_012680f8));
-    AppendReportString(result, FUN_00a7d510("Phantoms", DAT_01268238));
-    AppendReportString(result, FUN_00a7d510("MoppBVTreeShapes", DAT_01268654));
+    AppendReportString(result, NiGetViewerString("Vis Debug", debugValue));
+    AppendReportString(result, NiGetViewerString_00a7d510("Worlds", DAT_012677a4));
+    AppendReportString(result, NiGetViewerString_00a7d510("Actions", DAT_01268154));
+    AppendReportString(result, NiGetViewerString_00a7d510("Contraints", DAT_01268188));
+    AppendReportString(result, NiGetViewerString_00a7d510("Entities", DAT_012681fc));
+    AppendReportString(result, NiGetViewerString_00a7d510("RigidBodies", DAT_012681bc));
+    AppendReportString(result, NiGetViewerString_00a7d510("Shapes", DAT_012680f8));
+    AppendReportString(result, NiGetViewerString_00a7d510("Phantoms", DAT_01268238));
+    AppendReportString(result, NiGetViewerString_00a7d510("MoppBVTreeShapes", DAT_01268654));
 }
 
 struct CollisionObjectCountContext
@@ -13648,9 +13676,9 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 }
 typedef NiTPrimitiveArray<char*> ViewerStrings;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d5e0(const char*, const char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+char* __cdecl NiGetViewerString(const char*, bool);
+char* __cdecl NiGetViewerString_00a7d5e0(const char*, const char*);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 
 struct ViewerSceneObject
 {
@@ -13775,14 +13803,14 @@ void ViewerCollision::AppendDebugInfo(ViewerStrings* strings)
     WriteToStream(strings);
     strings->Add(NiViewerStrings_NiGetViewerString_Title(reinterpret_cast<const char*>(DAT_01267b70)));
     char buffer[32];
-    FUN_00406d00(buffer, 32, "0x%8X", m_pEntity);
-    strings->Add(FUN_00a7d5e0("bhkWorldObject", buffer));
-    strings->Add(FUN_00a7d370("bActive", GetActive()));
-    strings->Add(FUN_00a7d370("bReset", GetReset()));
-    strings->Add(FUN_00a7d370("bNotify", GetNotify()));
-    strings->Add(FUN_00a7d370("bSetLocal", GetSetLocal()));
-    strings->Add(FUN_00a7d370("bKeyframe", IsKeyframed()));
-    strings->Add(FUN_00a7d370("bFaceDown", GetFaceDown()));
+    BSsprintf(buffer, 32, "0x%8X", m_pEntity);
+    strings->Add(NiGetViewerString_00a7d5e0("bhkWorldObject", buffer));
+    strings->Add(NiGetViewerString("bActive", GetActive()));
+    strings->Add(NiGetViewerString("bReset", GetReset()));
+    strings->Add(NiGetViewerString("bNotify", GetNotify()));
+    strings->Add(NiGetViewerString("bSetLocal", GetSetLocal()));
+    strings->Add(NiGetViewerString("bKeyframe", IsKeyframed()));
+    strings->Add(NiGetViewerString("bFaceDown", GetFaceDown()));
 }
 
 // Whether the world's constraint list contains an entry for the given object (checked under the world lock).
@@ -14535,12 +14563,13 @@ struct S_c6c1d0_Cls
         return (S_c6c1d0_Target*)((char*)link + link->m_offset);
     }
 
-    bool FUN_00c6c1d0();
+    bool bhkNiCollisionObject_QKeyframe();
 };
 
 // Finds the target via m_holder and returns true when its m_type is 4 or 5, otherwise false (true when no target).
 // @fnv 0x00c6c1d0
-bool S_c6c1d0_Cls::FUN_00c6c1d0()
+// src: XBOX_PDB 0x00c6c1d0
+bool S_c6c1d0_Cls::bhkNiCollisionObject_QKeyframe()
 {
     bool result = true;
     S_c6c1d0_Target* target = this->m_holder ? FindTarget(this->m_holder) : 0;
@@ -14610,7 +14639,7 @@ struct Group148 : Scene148
 };
 struct Container148
 {
-    Scene148* FUN_00c85c80(int);
+    Scene148* bhkWorldObject_GetAVObject(int);
 };
 extern int DAT_011f4428;
 extern const char DAT_010c43d8[];
@@ -14990,7 +15019,7 @@ void* FUN_00c6e0b0_Class::bhkCharacterController_GetCollisionDebugNode()
     {
         if (m_594)
         {
-            Scene148* object = m_594->FUN_00c85c80(0);
+            Scene148* object = m_594->bhkWorldObject_GetAVObject(0);
             if (object)
             {
                 Group148* group = object->AsGroup();
@@ -15141,7 +15170,7 @@ int __stdcall bhkRagdollController_GetCapsuleBoneShapeInfo(Input134* input)
 // @fnv 0x00c66240
 void NiAVObject::FUN_00c66240(NiObject* a)
 {
-    FUN_00c87c50(a);
+    bhkRefObject_SethkObject(a);
 }
 
 // 0x00c66300  inc dword [ecx+0x18]; ret
@@ -15149,11 +15178,12 @@ struct C00c66300
 {
     char pad00[0x18];
     int m18;
-    void FUN_00c66300();
+    void bhkWorld_StartBatchingAdds();
 };
 
 // @fnv 0x00c66300
-void C00c66300::FUN_00c66300()
+// src: XBOX_PDB 0x00c66300
+void C00c66300::bhkWorld_StartBatchingAdds()
 {
     ++m18;
 }
@@ -15168,11 +15198,12 @@ struct FUN_00c66310_class
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_00c66310();
+    void bhkWorld_StartBatchingRemovals();
 };
 
 // @fnv 0x00c66310
-void FUN_00c66310_class::FUN_00c66310()
+// src: XBOX_PDB 0x00c66310
+void FUN_00c66310_class::bhkWorld_StartBatchingRemovals()
 {
     ++unk1c;
 }
@@ -15208,7 +15239,8 @@ bool __cdecl SetSelectionValue(int object, float value, unsigned char mode, unsi
 
 void __cdecl FUN_00a810b0();
 // @fnv 0x00c6b5e0
-void __cdecl FUN_00c6b5e0()
+// src: XBOX_PDB 0x00c6b5e0
+void __cdecl bhkNiCollisionObject_SetSceneGraphObject()
 {
     FUN_00a810b0();
 }
@@ -15287,7 +15319,7 @@ struct FUN_00c7bf10_cls
 // @fnv 0x00c7bf10
 void __thiscall FUN_00c7bf10_cls::FUN_00c7bf10()
 {
-    hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* obj = &GetRouterHeap(*holder);
     int state = m_uiContentCount;
     m_flags = 0;
@@ -15502,7 +15534,8 @@ extern void* DAT_011afea4;
 Form* __cdecl GetExtraDataChecked(void* p);
 void __cdecl bhkWorld_DoObjectRec(void* p, Info* info, void* g);
 // @fnv 0x00c6a3d0
-bool __cdecl FUN_00c6a3d0(void* p, int b, char c, char abForce)
+// src: XBOX_PDB 0x00c6a3d0
+bool __cdecl bhkWorld_SetGroup(void* p, int b, char c, char abForce)
 {
     bool r = false;
     if (p)
@@ -15877,7 +15910,8 @@ extern "C" unsigned int DAT_011afeb8;
 
 // Unless param_4 is set, requires bit 2 of the extra-data flags, then calls the DAT_011afeb8 callback on param_1 with a context built from param_2 and param_3.
 // @fnv 0x00c6a270
-bool __cdecl FUN_00c6a270(int param_1, unsigned char param_2, unsigned char param_3, char abForce)
+// src: XBOX_PDB 0x00c6a270
+bool __cdecl bhkWorld_Activate(int param_1, unsigned char param_2, unsigned char param_3, char abForce)
 {
     bool result = false;
     if (param_1 != 0)
@@ -15968,7 +16002,8 @@ void __cdecl FUN_00a68bf0();
 
 // Updates collision-bearing objects and their children, then updates the world bound.
 // @fnv 0x00c6c110
-void FUN_00c6c110(NiAVObject* apNode, bool bForce)
+// src: XBOX_PDB 0x00c6c110
+void bhkNiCollisionObject_SynchronizeRec(NiAVObject* apNode, bool bForce)
 {
     if (apNode)
     {
@@ -15993,7 +16028,7 @@ void FUN_00c6c110(NiAVObject* apNode, bool bForce)
         if (c)
         {
             for (unsigned int i = 0; i < c->m_kChildren.m_usSize; ++i)
-                FUN_00c6c110(c->m_kChildren.m_pBase[i], bForce);
+                bhkNiCollisionObject_SynchronizeRec(c->m_kChildren.m_pBase[i], bForce);
         }
         apNode->UpdateWorldBound();
     }
@@ -16037,12 +16072,13 @@ class CollisionLoad : public FakeThis00a81040
     unsigned short unk0e;   // +0x0e
     int m_i10;              // +0x10
 
-    void FUN_00c6c380(void* stream);
+    void bhkNiCollisionObject_SaveBinary(void* stream);
 };
 
 // Calls the base routine FUN_00a81040, then loads m_us0c from the stream with BinLoad and passes m_i10 to kStream.v30.
 // @fnv 0x00c6c380
-void CollisionLoad::FUN_00c6c380(void* stream)
+// src: XBOX_PDB 0x00c6c380
+void CollisionLoad::bhkNiCollisionObject_SaveBinary(void* stream)
 {
     NiStream& kStream = *static_cast<NiStream*>(stream);
     FUN_00a81040(kStream);
@@ -16461,7 +16497,7 @@ struct S00c6d040_C : public S00c6d040_B
 struct FUN_00c6d040 : public S00c6d040_C
 {
     FUN_00c6d040(unsigned int a);
-    void FUN_00cc2530(unsigned int a);
+    void bhkCachingShapePhantom_Init(unsigned int a);
 };
 
 // Constructs the object by setting the vft, calling FUN_00cc2530 with a, incrementing DAT_012685a0, and zeroing m_14.
@@ -16469,7 +16505,7 @@ struct FUN_00c6d040 : public S00c6d040_C
 FUN_00c6d040::FUN_00c6d040(unsigned int a)
 {
     m_vft = (unsigned int)&DAT_010c4694;
-    FUN_00cc2530(a);
+    bhkCachingShapePhantom_Init(a);
     DAT_012685a0 += 1;
     m_14 = 0;
 }
@@ -16490,7 +16526,7 @@ struct FUN_00c6d7e0_Parent
     FUN_00c6d7e0_Child* m_pChildObject;
 };
 
-unsigned int __stdcall FUN_00c84f10(int v);
+unsigned int __stdcall bhkShape_GetSubshapeMaterial(int v);
 extern unsigned int DAT_01267bc8;
 
 // With a set and a child object, returns whether DAT_01267bc8 gave 0 for c (or child m_uiValue1 & 0x1f); otherwise 1 if a or b is set, else 0.
@@ -16514,7 +16550,7 @@ char __cdecl bhkCharacterController_IsShapeConsideredPenetrating(FUN_00c6d7e0_Pa
         unsigned int t;
         if (aiValue != -1)
         {
-            t = FUN_00c84f10(aiValue);
+            t = bhkShape_GetSubshapeMaterial(aiValue);
         }
         else
         {
@@ -16602,7 +16638,7 @@ class FUN_00c6def0_obj
 };
 
 extern float DAT_01267bc0;
-extern "C" bool __cdecl FUN_00c8cce0(unsigned int* p);
+extern "C" bool __cdecl bhkRigidBody_IsMotionTypeDynamic(unsigned int* p);
 // Returns true if p is non-null and either FUN_00c8cce0 accepts m_e8 and m_e0.FUN_00c86430() exceeds DAT_01267bc0, or (m_2c & 0x7f) == 6.
 // @fnv 0x00c6def0
 // src: COMMUNITY 0x00c6def0
@@ -16612,7 +16648,7 @@ bool __cdecl bhkCharacterController_IsHurtfulBody(FUN_00c6def0_obj* p)
     if (p != 0)
     {
         unsigned int v = p->m_e8;
-        if (FUN_00c8cce0(&v))
+        if (bhkRigidBody_IsMotionTypeDynamic(&v))
         {
             float f = p->m_e0.FUN_00c86430();
             if (f > DAT_01267bc0)
@@ -16999,11 +17035,12 @@ struct S00c6e050_Obj
     int unk058c;
     int unk0590;
     S00c6e050_Ptr* m_594;
-    void __thiscall FUN_00c6e050(volatile int a, volatile int b);
+    void __thiscall bhkCharacterController_SetBSReference(volatile int a, volatile int b);
 };
 // Unless m_594->ContainsObject(a), calls FUN_00a29680, then m_594->m_08->AddEntry(a, b), then FUN_00a29680 again.
 // @fnv 0x00c6e050
-void S00c6e050_Obj::FUN_00c6e050(volatile int a, volatile int b)
+// src: XBOX_PDB 0x00c6e050
+void S00c6e050_Obj::bhkCharacterController_SetBSReference(volatile int a, volatile int b)
 {
     S00c6e050_Ptr* p = m_594;
     if (!p)
@@ -18561,11 +18598,11 @@ struct Scene047
     int unk0a0;
     unsigned short unk0a4;
     unsigned short count;
-    SettingHolder* FUN_0045bc00(int);
+    SettingHolder* NiNode_GetAtChecked(int);
 };
 struct Handler047
 {
-    Scene047* FUN_00c85c80(int);
+    Scene047* bhkWorldObject_GetAVObject(int);
 };
 extern char DAT_010c43d8;
 extern char DAT_011f4428;
@@ -18944,7 +18981,7 @@ void Controller047::AttachSceneNode(Scene047* node)
     {
         if (!handler)
             goto done;
-        Scene047* object = handler->FUN_00c85c80(0);
+        Scene047* object = handler->bhkWorldObject_GetAVObject(0);
         if (!object)
             goto done;
         node = object->asNode();
@@ -18952,7 +18989,7 @@ void Controller047::AttachSceneNode(Scene047* node)
             goto done;
         if (node->count)
         {
-            SettingHolder* child = node->FUN_0045bc00(0);
+            SettingHolder* child = node->NiNode_GetAtChecked(0);
             if (!child)
                 goto done;
             node = (Scene047*)child->FUN_00653290(&DAT_011f4428);
@@ -19022,25 +19059,28 @@ FUN_00c74ed0::FUN_00c74ed0()
 }
 }  // namespace fnv_00c74ed0
 
-extern "C" void __cdecl FUN_00c6ba30();
+extern "C" void __cdecl bhkNiCollisionObject_CopyMembers();
 // @fnv 0x00c657f0
-void __cdecl FUN_00c657f0()
+// src: XBOX_PDB 0x00c657f0
+void __cdecl bhkPCollisionObject_CopyMembers()
 {
-    FUN_00c6ba30();
+    bhkNiCollisionObject_CopyMembers();
 }
 
 extern "C" void __cdecl FUN_00c6bb70();
 // @fnv 0x00c65810
-void __cdecl FUN_00c65810()
+// src: XBOX_PDB 0x00c65810
+void __cdecl bhkCollisionObject_LinkObject()
 {
     FUN_00c6bb70();
 }
 
-extern "C" void __cdecl FUN_00c6c380();
+extern "C" void __cdecl bhkNiCollisionObject_SaveBinary();
 // @fnv 0x00c65820
-void __cdecl FUN_00c65820()
+// src: XBOX_PDB 0x00c65820
+void __cdecl bhkCollisionObject_SaveBinary()
 {
-    FUN_00c6c380();
+    bhkNiCollisionObject_SaveBinary();
 }
 
 struct Key
@@ -19553,7 +19593,7 @@ int __thiscall FUN_00c74780_StandIn::FUN_00c74780(unsigned char param_2)
     this->FUN_005545f0();
 
     if (param_2 & 1)
-        DAT_011f6238.FUN_00aa4060(reinterpret_cast<FUN_00c68f50_cls*>(this));
+        DAT_011f6238.MemoryManager_Deallocate(reinterpret_cast<FUN_00c68f50_cls*>(this));
 
     return reinterpret_cast<int>(this);
 }
@@ -19621,7 +19661,7 @@ struct SavedNodeArray
     SavedNodeTransform* data;
     unsigned int size;
 };
-void __cdecl FUN_00c6a350(NiNode*, int, bool, bool, bool);
+void __cdecl bhkWorld_SetMotion(NiNode*, int, bool, bool, bool);
 void __cdecl SetFlagRecursive(int, void*);
 // @fnv 0x00c75c00
 void __cdecl RestoreNodeTransforms(NiNode* root, SavedNodeArray* saved, int flags, int mode)
@@ -19634,7 +19674,7 @@ void __cdecl RestoreNodeTransforms(NiNode* root, SavedNodeArray* saved, int flag
     NiUpdateData update;
     root->Update(update);
     if (mode != 4 && mode != 0)
-        FUN_00c6a350(root, mode, true, false, true);
+        bhkWorld_SetMotion(root, mode, true, false, true);
     if ((unsigned char)flags)
         SetFlagRecursive(flags, root);
 }
@@ -20919,7 +20959,7 @@ struct EntryBase
 {
     static void* operator new(unsigned int n)
     {
-        hkMemoryRouter* h = FUN_00c85750();
+        hkMemoryRouter* h = hkMemoryRouter_getInstance();
         void* p = ((MyAlloc*)h->m_heap)->v04(n);
         ((AllocHeader*)p)->m_iElementCount = (unsigned short)n;
         return p;
@@ -20960,7 +21000,7 @@ struct FUN_00cd3c90 : EntryBase
 };
 static void* AllocEntry(unsigned int size)
 {
-    hkMemoryRouter* h = FUN_00c85750();
+    hkMemoryRouter* h = hkMemoryRouter_getInstance();
     void* p = ((MyAlloc*)h->m_heap)->v04(size);
     ((AllocHeader*)p)->m_iElementCount = (unsigned short)size;
     return p;
@@ -21588,7 +21628,7 @@ struct TargetWorld
 };
 struct FUN_00cac980_Holder
 {
-    TargetWorld* FUN_00cac980();
+    TargetWorld* hkpCharacterProxy_getShapePhantom();
     void RemoveItem(void*);
 };
 struct DtorBase
@@ -21999,7 +22039,7 @@ struct Array705
     unsigned int capacity;
     ~Array705()
     {
-        hkMemoryRouter* holder = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         Allocator705* allocator = reinterpret_cast<Allocator705*>(holder->m_heap);
         _ReadWriteBarrier();
         count = 0;
@@ -22090,7 +22130,7 @@ struct FUN_00c705c0 : DtorBase, SecondaryBase, ListenerBase
 FUN_00c705c0::~FUN_00c705c0()
 {
     Scope705 mode(array);
-    TargetWorld* world = m_object ? m_object->FUN_00cac980() : 0;
+    TargetWorld* world = m_object ? m_object->hkpCharacterProxy_getShapePhantom() : 0;
     Data* data = world->m_data;
     if (data && *reinterpret_cast<void**>(reinterpret_cast<char*>(data) + 0x350))
     {
@@ -22151,7 +22191,7 @@ struct C70940Src
 struct C70940Obj
 {
     void SetMode(int state);
-    void FUN_00c70940(float delta);
+    void bhkCharacterController_ChangeSize(float delta);
     __forceinline unsigned char GetFlags() const
     {
         return flags414 >> 20;
@@ -22548,7 +22588,8 @@ struct C70940Obj
 };
 // While mode600 is 2, moves the cast scale toward GetCurrent() by delta*5.0, shifts vecA and vecB Z, then updates mode600 and state5a0 on arrival.
 // @fnv 0x00c70940
-void C70940Obj::FUN_00c70940(float delta)
+// src: XBOX_PDB 0x00c70940
+void C70940Obj::bhkCharacterController_ChangeSize(float delta)
 {
     if (mode600 != 2)
         return;
@@ -23572,7 +23613,7 @@ struct DescriptorLocal
     int unk8c;
     void FUN_00c74ed0();
 };
-void __cdecl FUN_00cdbae0(void*, DescriptorLocal*, void*);
+void __cdecl hkaTwoJointsIkSolver_solve(void*, DescriptorLocal*, void*);
 struct StateLocal
 {
     SourceLocal* source;
@@ -23763,7 +23804,7 @@ void ControllerLocal::bhkRagdollController_DoGrabIK(void* arg)
                 descriptor.w2 = idsAt[1];
                 descriptor.direction = _mm_setr_ps(0.0f, 0.0f, 1.0f, 0.0f);
                 descriptor.position = transformed.value;
-                FUN_00cdbae0(&result, &descriptor, target);
+                hkaTwoJointsIkSolver_solve(&result, &descriptor, target);
             }
         }
         idsAt += 3;
@@ -23889,7 +23930,7 @@ struct PickData
 };
 struct RayWorld
 {
-    void FUN_00cc26c0(const RayInput*, RayOutput*);
+    void hkpCachingShapePhantomRay_castRay(const RayInput*, RayOutput*);
 };
 
 struct Body
@@ -24348,7 +24389,7 @@ struct ControllerRay
     unsigned short rayIndex, groupIndex;
     int unk23c;
     bool keepNormal;
-    bool* FUN_00c77460(bool* hitOut, const Vec& from, const Vec& to, float* fraction, Vec& normal);
+    bool* bhkRagdollController_castRay(bool* hitOut, const Vec& from, const Vec& to, float* fraction, Vec& normal);
     CastObject* pLoadedObject()
     {
         if (owner)
@@ -24360,7 +24401,8 @@ struct ControllerRay
 };
 // Reuses a cached ray result if from/to match, else casts via an object or ray world; writes hit, fraction and normal and updates the cache.
 // @fnv 0x00c77460
-bool* ControllerRay::FUN_00c77460(bool* hitOut, const Vec& from, const Vec& to, float* fraction, Vec& normal)
+// src: XBOX_PDB 0x00c77460
+bool* ControllerRay::bhkRagdollController_castRay(bool* hitOut, const Vec& from, const Vec& to, float* fraction, Vec& normal)
 {
     bool hit = false;
     if (cache[groupIndex].rays[rayIndex].fraction != DAT_01012054 &&
@@ -24401,7 +24443,7 @@ bool* ControllerRay::FUN_00c77460(bool* hitOut, const Vec& from, const Vec& to, 
             input.filter = computedFilter;
             input.from = from;
             input.to = to;
-            world->FUN_00cc26c0(&input, &output);
+            world->hkpCachingShapePhantomRay_castRay(&input, &output);
             if (output.object50)
             {
                 *fraction = output.fraction;
@@ -24817,12 +24859,13 @@ struct S00c79e20_Ctrl
     int unk29c;
     int unk2a0;
     S00c79e20_RefPtr<S00c79e20_Mapper> m_mapper;
-    bool FUN_00c79e20();
+    bool bhkRagdollController_CheckMappersForWarnings();
 };
 
 // Logs mappings where bone B locks translation, no target matches and translation length exceeds 0.01; returns true if it logged or a mapper is missing.
 // @fnv 0x00c79e20
-bool S00c79e20_Ctrl::FUN_00c79e20()
+// src: XBOX_PDB 0x00c79e20
+bool S00c79e20_Ctrl::bhkRagdollController_CheckMappersForWarnings()
 {
     bool warned = false;
     if (!m_mapper || !m_mapper->m_mappers[0] || !m_mapper->m_mappers[1])
@@ -25139,7 +25182,7 @@ struct FNV_C68DE0_HOLDER
 extern unsigned int FNV_C68DE0_tlsIndex;
 extern FNV_C68DE0_HOLDER* FNV_C68DE0_holder;
 
-void __cdecl FUN_00cb0da0(void* p);
+void __cdecl hkMonitorStream_reset(void* p);
 
 struct FNV_C68DE0_OWNER
 {
@@ -25160,7 +25203,7 @@ void FNV_C68DE0_OWNER::bhkWorld_UpdateDebugger()
     if (o10)
     {
         o10->v3(0.0f);
-        FUN_00cb0da0((void*)TlsGetValue(FNV_C68DE0_tlsIndex));
+        hkMonitorStream_reset((void*)TlsGetValue(FNV_C68DE0_tlsIndex));
         FNV_C68DE0_VB* b = FNV_C68DE0_holder->h18;
         if (b)
         {
@@ -25189,7 +25232,7 @@ struct hkAllocatorStub
     }
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct hkWorldObjectStub;
 
@@ -25199,7 +25242,7 @@ static __forceinline void hkLocalArrayStub_destroy(hkArrayBase<T>& self);
 template <class T>
 static __forceinline void hkLocalArrayStub_destroy(hkArrayBase<T>& self)
 {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         hkAllocatorStub* alloc = reinterpret_cast<hkAllocatorStub*>(router->m_heap);
         self.m_iElementCount = 0;
         if ((self.m_iCapacityState & 0x80000000) == 0)
@@ -25591,11 +25634,12 @@ struct S00c78160_This
     char unk191, unk192, unk193;
     int unk194, unk198, unk19c, unk1a0;
     bool m_1a4;
-    void FUN_00c78160();
+    void bhkRagdollController_AdjustCurrentTarget();
 };
 
 // @fnv 0x00c78160
-void S00c78160_This::FUN_00c78160()
+// src: XBOX_PDB 0x00c78160
+void S00c78160_This::bhkRagdollController_AdjustCurrentTarget()
 {
     S00c78160_V4 direction;
     direction.hkVector4_setTransformedInversePos_00c7f840(m_kMotionTransform, m_target);
@@ -26352,19 +26396,20 @@ struct P103Controller
     unsigned int unk198;
     float pitch;
     float yaw;
-    void FUN_00c78160();
-    bool FUN_00c78610(int mode, const P103Transform& transform);
-    void FUN_00c7aa60(P103Transform* transform);
+    void bhkRagdollController_AdjustCurrentTarget();
+    bool bhkRagdollController_BoneTrack(int mode, const P103Transform& transform);
+    void bhkRagdollController_DoLookAtIK(P103Transform* transform);
 };
 // Stores the bone's transform in pose, combines it with the given transform, and sets pitch/yaw from referencePose, marking changed past the limits.
 // @fnv 0x00c7aa60
-void P103Controller::FUN_00c7aa60(P103Transform* transform)
+// src: XBOX_PDB 0x00c7aa60
+void P103Controller::bhkRagdollController_DoLookAtIK(P103Transform* transform)
 {
-    FUN_00c78160();
+    bhkRagdollController_AdjustCurrentTarget();
     if (changed || !enabled)
     {
         forceChanged = 1;
-        FUN_00c78610(1, *transform);
+        bhkRagdollController_BoneTrack(1, *transform);
     }
     P103Transform& target = *pose->accessBoneModelSpace(bone, 1);
     ((P103Quaternion*)&target.rotation)->setMul(&target.rotation, (const __m128*)&unk0c0);
@@ -26377,7 +26422,7 @@ void P103Controller::FUN_00c7aa60(P103Transform* transform)
             _mm_add_ps(P103Rotate(transform->rotation, boneTransform->translation), transform->translation);
         ((P103Quaternion*)&combined.rotation)->setMul(&transform->rotation, &boneTransform->rotation);
         combined.scale = _mm_mul_ps(transform->scale, boneTransform->scale);
-        changed = FUN_00c78610(0, combined) || forceChanged != 0;
+        changed = bhkRagdollController_BoneTrack(0, combined) || forceChanged != 0;
         __m128 right = _mm_setr_ps(1.0f, 0.0f, 0.0f, 0.0f);
         __m128 axis = _mm_setr_ps(0.0f, 1.0f, 0.0f, 0.0f);
         __m128 negativeZ = _mm_setr_ps(0.0f, 0.0f, -1.0f, 0.0f);
@@ -26417,8 +26462,8 @@ class NiAVObjV : public NiRefObject
 
     NiAVObjV* GetObjectByName_00a59e20(const NiFixedString& kName);
     void AssignFixedString(const NiFixedString& kName);
-    void FUN_00a5a040();
-    void FUN_00a59c60(NiUpdateData& updateData);
+    void UpdateProperties();
+    void NiAVObject_Update(NiUpdateData& updateData);
 };
 
 struct bhkSubData
@@ -26447,7 +26492,7 @@ struct bhkCollisionProxy : public bhkNiCollisionObject
     unsigned short m_ucFlags;
     bool GetFlag(unsigned int bit) const { return (m_ucFlags >> bit) & 1; }
     bhkWorld* m_pkWorld;
-    void FUN_00c6bd60(bool bEnable);
+    void bhkNiCollisionObject_SetDebugDisplay(bool bEnable);
 };
 
 extern unsigned int DAT_0126fd98;
@@ -26468,7 +26513,8 @@ struct CollisionTlsGuard
 
 // If bEnable, creates a bhkColDisp node under the parent and sets flag 0x10; otherwise looks up bhkColDisp children of the parent and clears flag 0x10.
 // @fnv 0x00c6bd60
-void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
+// src: XBOX_PDB 0x00c6bd60
+void bhkCollisionProxy::bhkNiCollisionObject_SetDebugDisplay(bool bEnable)
 {
     CollisionTlsGuard guard(0x10);
 
@@ -26504,7 +26550,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
                 fScale->m_kLocal.m_fScale = fabsf(1.0f / s);
                 a->AttachChildInAvailableSlot(static_cast<NiAVObject*>(fScale), true);
                 NiUpdateData sub;
-                fScale->FUN_00a59c60(sub);
+                fScale->NiAVObject_Update(sub);
             }
 
             // This call uses slot 0xCC with a one-node signature absent from the shared header.
@@ -26513,9 +26559,9 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
             {
                 if (a)
                 {
-                    pNode->FUN_00a5a040();
+                    pNode->UpdateProperties();
                     NiUpdateData sub;
-                    pNode->FUN_00a59c60(sub);
+                    pNode->NiAVObject_Update(sub);
                 }
             }
             else
@@ -26794,7 +26840,7 @@ struct BodyProxy
 };
 struct LinkProxy
 {
-    BodyProxy* FUN_00cac980();
+    BodyProxy* hkpCharacterProxy_getShapePhantom();
     LinkProxy* ahkpCharacterProxy_GetCdPoints();
     int unk00, unk04;
 };
@@ -26854,7 +26900,7 @@ struct ConstraintProxy
 };
 struct WorldProxy
 {
-    void FUN_00c68e30(ConstraintProxy*, void*);
+    void bhkWorld_SetDebugObjectColor(ConstraintProxy*, void*);
 };
 void* PackColorBigEndian(float, float, float, float);
 struct C70CharacterController
@@ -27221,13 +27267,14 @@ struct C70CharacterController
     void ToggleAndUpdate();
     void bhkCharacterController_SetSize(float);
     void bhkCharacterController_SetCapsuleRadius(float);
-    void FUN_00c70c90(WorldProxy*);
+    void bhkCharacterController_SetWorld(WorldProxy*);
 };
 // Moves the character controller between worlds by detaching constraints from the old world and attaching them to the new one.
 // @fnv 0x00c70c90
-void C70CharacterController::FUN_00c70c90(WorldProxy* world)
+// src: XBOX_PDB 0x00c70c90
+void C70CharacterController::bhkCharacterController_SetWorld(WorldProxy* world)
 {
-    BodyProxy* body = link ? link->FUN_00cac980() : 0;
+    BodyProxy* body = link ? link->hkpCharacterProxy_getShapePhantom() : 0;
     WorldProxy* current = body->unk08 ? body->unk08->world : 0;
     if (current != world)
     {
@@ -27251,7 +27298,7 @@ void C70CharacterController::FUN_00c70c90(WorldProxy* world)
                 }
                 constraint594->attach(world);
                 ConstraintProxy* c = constraint594;
-                world->FUN_00c68e30(c, PackColorBigEndian(1.0f, 1.0f, 0.0f, 0.75f));
+                world->bhkWorld_SetDebugObjectColor(c, PackColorBigEndian(1.0f, 1.0f, 0.0f, 0.75f));
             }
             constraint598->Attach(world);
         }
@@ -27262,7 +27309,7 @@ void C70CharacterController::FUN_00c70c90(WorldProxy* world)
 
 inline hkMemoryRouter& C71120GetMemoryRouter()
 {
-    return *reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    return *reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 }
 
 template <class T> inline void C71120ReleaseBuffer(hkMemoryAllocator& alloc, T* p, int numElem)
@@ -27365,7 +27412,7 @@ void C6A540ActionList::RemoveKey(FUN_00c663d0_Ref** pKey)
             m_key = pNext->m_key;
             pNext->m_next = 0;
             pNext->LockOwnerAndRelease();
-            DAT_011f6238.FUN_00aa4060(pNext);
+            DAT_011f6238.MemoryManager_Deallocate(pNext);
         }
         else
         {
@@ -27380,7 +27427,7 @@ void C6A540ActionList::RemoveKey(FUN_00c663d0_Ref** pKey)
         pPrev->m_next = pNode->m_next;
         pNode->m_next = 0;
         pNode->LockOwnerAndRelease();
-        DAT_011f6238.FUN_00aa4060(pNode);
+        DAT_011f6238.MemoryManager_Deallocate(pNode);
     }
 }
 
@@ -27525,7 +27572,7 @@ struct FUN_00cbf430
     ~FUN_00cbf430();
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060((FUN_00c68f50_cls*)p);
+        DAT_011f6238.MemoryManager_Deallocate((FUN_00c68f50_cls*)p);
     }
 };
 struct ShutdownMode
@@ -27553,7 +27600,8 @@ void __cdecl bhkCharacterControllerCinfo_ReleaseDefaultShape();
 
 // Runs FUN_00c66570, FUN_00c6d340 and FUN_00c6d3c0, releases DAT_012677a8, deletes DAT_012677d0, calls v02(3) and v00(0) on DAT_012677d4, then clears it.
 // @fnv 0x00c66670
-void __cdecl FUN_00c66670()
+// src: XBOX_PDB 0x00c66670
+void __cdecl bhkWorld_QuitSystem()
 {
     ThreadMemoryScope scope;
     NotifyThreadObserverEnabled();
@@ -27594,7 +27642,7 @@ struct RTTIObj
     int m_00;
 };
 extern RTTIObj g_012683c8;
-bool __cdecl FUN_0043b300(const RTTIObj* rtti, struct C69960Node* obj);
+bool __cdecl NiObject_IsKindOf(const RTTIObj* rtti, struct C69960Node* obj);
 struct RetC
 {
     int m_00;
@@ -27734,7 +27782,7 @@ struct ResObj
     virtual void Extraac();
     virtual void Extrab0();
     virtual bool GetB4();
-    void __thiscall FUN_00c6b980(C69960Node* a);
+    void __thiscall bhkNiCollisionObject_SetWorldObject(C69960Node* a);
     void __thiscall AttachTarget(void* a);
 };
 struct C69960Arg
@@ -27775,7 +27823,7 @@ struct __declspec(align(16)) Obj74
 struct __declspec(align(16)) ObjAC
 {
     Vec4 m_00;
-    void __thiscall FUN_00c7f640(void* a, void* b);
+    void __thiscall setTransformedPos_00c7f640(void* a, void* b);
 };
 struct Ctx
 {
@@ -27859,10 +27907,11 @@ struct Host
     char m_16;
     char m_17;
     int m_18;
-    bool __thiscall FUN_00c69960(C69960Arg* arg1, C69960Arg* arg2);
+    bool __thiscall bhkWorld_AddObjectsAndMoveController(C69960Arg* arg1, C69960Arg* arg2);
 };
 // @fnv 0x00c69960
-bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
+// src: XBOX_PDB 0x00c69960
+bool __thiscall Host::bhkWorld_AddObjectsAndMoveController(C69960Arg* apSource, C69960Arg* apTarget)
 {
     __m128 matrixStorage[4];
     Mat44& matTransform = *reinterpret_cast<Mat44*>(matrixStorage);
@@ -27902,7 +27951,7 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                         if (apTarget != apSource)
                         {
                             C69960Node* work = 0;
-                            if (FUN_0043b300(&g_012683c8, node))
+                            if (NiObject_IsKindOf(&g_012683c8, node))
                             {
                                 work = node;
                                 goto main_block;
@@ -27912,7 +27961,7 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                                 C69960Node* work2 = (C69960Node*)smart.m_ptr;
                                 if (work2)
                                 {
-                                    result1->FUN_00c6b980(0);
+                                    result1->bhkNiCollisionObject_SetWorldObject(0);
                                     work = new C69960Node(work2);
                                     work2->GetD4(&bufA);
                                     work2->GetD8(&bufB);
@@ -27920,7 +27969,7 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                                     (*reinterpret_cast<__m128*>(&work->m_20)) = (*reinterpret_cast<__m128*>(&bufB));
                                     work->CallDC(&DAT_01267e30);
                                     work->CallE0(&DAT_012683b0);
-                                    result1->FUN_00c6b980(work);
+                                    result1->bhkNiCollisionObject_SetWorldObject(work);
                                     if (InterlockedDecrement((long*)&work2->m_04) == 0)
                                         work2->Release04();
                                     smart.m_ptr = 0;
@@ -27931,7 +27980,7 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                             {
                                 FUN_0056df80(&matTransform, &apSource->m_34);
                                 Rotate((*reinterpret_cast<__m128*>(&vTemp)), (*reinterpret_cast<__m128*>(&work->m_20)), (*reinterpret_cast<__m128*>(&work->m_30)));
-                                objAC.FUN_00c7f640(&matTransform, &vTemp);
+                                objAC.setTransformedPos_00c7f640(&matTransform, &vTemp);
                                 obj60.FUN_00cb26e0(&matTransform);
                                 obj74.setMul(&work->m_20, &obj60);
                                 RotateInverse((*reinterpret_cast<__m128*>(&vTemp)), (*reinterpret_cast<__m128*>(&work->m_20)), (*reinterpret_cast<__m128*>(&objAC.m_00)));
@@ -27977,14 +28026,15 @@ bool __thiscall Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
 
 struct Stub65800 : BC6C330HavokCollision
 {
-    void FUN_00c6c330(BC6C330Stream& kStream);
-    void FUN_00c65800(BC6C330Stream& kStream);
+    void bhkNiCollisionObject_LoadBinary(BC6C330Stream& kStream);
+    void bhkCollisionObject_LoadBinary(BC6C330Stream& kStream);
 };
 
 // @fnv 0x00c65800
-void Stub65800::FUN_00c65800(BC6C330Stream& kStream)
+// src: XBOX_PDB 0x00c65800
+void Stub65800::bhkCollisionObject_LoadBinary(BC6C330Stream& kStream)
 {
-    FUN_00c6c330(kStream);
+    bhkNiCollisionObject_LoadBinary(kStream);
 }
 
 

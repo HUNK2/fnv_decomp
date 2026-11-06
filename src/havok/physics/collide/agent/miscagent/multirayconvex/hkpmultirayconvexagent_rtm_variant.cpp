@@ -147,7 +147,7 @@ void __stdcall hkpMultiRayConvexAgent_getClosestPoints(const hkpCdBody* a, const
     RayLocals L;
     ShapeRayCastQuery input;
 
-    L.relative.FUN_00cb22f0(b->m_pMotionState, a->m_pMotionState);
+    L.relative.hkTransform_setMulInverseMul(b->m_pMotionState, a->m_pMotionState);
 
     int count = shape->m_kRays.m_iElementCount;
 

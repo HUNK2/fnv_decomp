@@ -128,7 +128,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const NiPoint3* in, NiPoint3* out)
     norm.x = unk6C;
     norm.y = unk70;
     norm.z = unk74;
-    norm.FUN_004a0c10();
+    norm.Unitize_004a0c10();
 
     if (norm.x <= DAT_01032980)
     {
@@ -159,7 +159,7 @@ void S_00ebf4a0_Class::ProjectOntoAxes(const NiPoint3* in, NiPoint3* out)
     float fDotZ = norm.x * unk60.x + norm.y * unk60.y + norm.z * unk60.z;
     out->z = fDotZ / (unk74 * unk74);
 
-    out->FUN_004a0c10();
+    out->Unitize_004a0c10();
 }
 
 #include <math.h>

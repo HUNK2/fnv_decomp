@@ -118,7 +118,7 @@ TESRegionDataImposter::~TESRegionDataImposter()
     ClearList();
 }
 
-void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
+void __cdecl TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_004f20b0_elem
 {
     unsigned int Probe();
@@ -148,7 +148,7 @@ void TESRegionDataImposter::Save()
             pProbes[iIndex] = v2;
             pNode = pNode->GetNext();
         }
-        FUN_00485710(0x44494452, pProbes, count);
+        TESForm_AddChunkArray_00485710(0x44494452, pProbes, count);
         delete pProbes;
     }
 }
@@ -174,12 +174,13 @@ class Obj4f11
     char _pad[0x18];
     Head4f11* m_pHead;
     ContNode* m_pNext;
-    bool FUN_004f11e0();
+    bool TESRegion_Validate();
 };
 
 // Returns false if m_pNext or m_pHead is null, m_pHead->FUN_004f3610() fails, or any node's item fails FUN_004f81e0(1); otherwise true.
 // @fnv 0x004f11e0
-bool Obj4f11::FUN_004f11e0()
+// src: XBOX_PDB 0x004f11e0
+bool Obj4f11::TESRegion_Validate()
 {
     ContNode* pNode = m_pNext;
     if (!m_pNext || !m_pHead)

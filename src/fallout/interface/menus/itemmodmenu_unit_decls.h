@@ -60,7 +60,7 @@ extern "C"
 }
 
 InterfaceManager* __cdecl InterfaceManager_GetSingleton();
-int __cdecl FUN_00783640();
+int __cdecl ItemModMenu_GetClassStatic();
 int __cdecl Warning(const char* message, ...);
 
 #endif

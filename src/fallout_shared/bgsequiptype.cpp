@@ -67,11 +67,11 @@ char* BGSEquipType::GetEquipTypeName(int aeType)
 
 struct FUN_004029d0_shell
 {
-    bool FUN_004029d0(int);
+    bool AlchemyItem_IsFlagSet(int);
 };
 struct S_004036b0
 {
-    int FUN_004036b0();
+    int TES_QPlaceableWaterCount();
 };
 struct S_004063e0
 {
@@ -84,9 +84,9 @@ struct FUN_00403660_shell
 // @fnv 0x00403660
 float FUN_00403660_shell::GetValue(int)
 {
-    if (((FUN_004029d0_shell*)((char*)this - 0x3c))->FUN_004029d0(1))
+    if (((FUN_004029d0_shell*)((char*)this - 0x3c))->AlchemyItem_IsFlagSet(1))
     {
-        return (float)((S_004036b0*)((char*)this - 0x3c))->FUN_004036b0();
+        return (float)((S_004036b0*)((char*)this - 0x3c))->TES_QPlaceableWaterCount();
     }
     else
     {
@@ -122,7 +122,7 @@ struct S_0040a0a0_AVOwner
 struct S_0040a0a0_Actor : S_0040a0a0_Primary, S_0040a0a0_AVOwner
 {
     bool IngredientItem_GetFlag(unsigned int flag);
-    int FUN_00586150();
+    int CombatController_GetCombatState();
     virtual float IngredientItem_GetCost(int avCode);
 };
 
@@ -132,7 +132,7 @@ float S_0040a0a0_Actor::IngredientItem_GetCost(int avCode)
 {
     if (IngredientItem_GetFlag(1))
     {
-        return FUN_00586150();
+        return CombatController_GetCombatState();
     }
     else
     {

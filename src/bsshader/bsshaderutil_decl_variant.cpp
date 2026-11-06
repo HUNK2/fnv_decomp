@@ -40,7 +40,7 @@ struct AccumulatorContext
 {
     int unk00, unk04;
     NiRefObject* object;
-    void FUN_004dc540(NiRefObject*);
+    void NiTexturingProperty_Map_SetTexture(NiRefObject*);
 };
 extern AccumulatorContext* DAT_011f4748;
 inline NiNodeHolder_bsshaderutil_decl_variant::NiNodeHolder_bsshaderutil_decl_variant(NiRefObject* p) : value(p)
@@ -58,7 +58,7 @@ void BSShaderUtil_AccumulateScene(void* first, void* second, BSShaderAccumulator
         if (!DAT_012722bc)
         {
             NiNodeHolder_bsshaderutil_decl_variant guard(DAT_011f4748->object);
-            DAT_011f4748->FUN_004dc540(accumulator->texture);
+            DAT_011f4748->NiTexturingProperty_Map_SetTexture(accumulator->texture);
         }
         BSShaderManager_SetAccumulator(accumulator->texture);
         accumulator->vfn_48(first, second, 0);

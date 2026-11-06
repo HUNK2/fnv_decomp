@@ -195,7 +195,7 @@ struct __declspec(align(16)) MyTransform
 struct LocalCdBody
 {
     MyTransform m_kMotionTransform;
-    void FUN_00cb2240(const void*, const MyTransform*);
+    void hkTransform_setMul(const void*, const MyTransform*);
 };
 
 struct Context2
@@ -261,7 +261,7 @@ void Dummy::hkpConvexTranslateShape_castRayWithCollectorImpl(const MyVec* points
     c.col2.z = 1.0f;
 
     LocalCdBody r;
-    r.FUN_00cb2240(motion, &c);
+    r.hkTransform_setMul(motion, &c);
 
     Context2 trans;
     trans.m_localBody = &r;

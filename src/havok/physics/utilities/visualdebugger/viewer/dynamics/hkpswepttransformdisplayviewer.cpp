@@ -232,7 +232,7 @@ struct SweptRouter
     }
 };
 
-__declspec(nothrow) SweptRouter& __cdecl FUN_00c85750();
+__declspec(nothrow) SweptRouter& __cdecl hkMemoryRouter_getInstance();
 
 template <int SIZE> __forceinline void SweptMemCpyOne(void* dst, const void* src)
 {
@@ -258,7 +258,7 @@ struct SweptWorld
 };
 
 template<> __forceinline hkArray<unsigned long>::~hkArray() {
- SweptHeap& alloc=FUN_00c85750().heap();m_iElementCount=0;
+ SweptHeap& alloc=hkMemoryRouter_getInstance().heap();m_iElementCount=0;
  if((m_iCapacityState&0x80000000)==0)alloc.ReturnMemory(m_data,(m_iCapacityState&0x3fffffff)*sizeof(unsigned long));
  m_data=0;m_iCapacityState=0x80000000;
 }
@@ -269,7 +269,7 @@ struct SweptWorldData
 
     static void operator delete(void* p, unsigned int nbytes)
     {
-        FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(p, nbytes);
     }
 };
 
@@ -293,7 +293,7 @@ void hkpSweptTransformDisplayViewer::RemoveWorldData(int index)
 
 class BSAudio;
 namespace fnv_00d648c0 {
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern int DAT_010d1918, DAT_010d18f8, DAT_010d18e8, DAT_010d18cc, DAT_010d18bc, DAT_010ccf7c;
 __forceinline void ResetWorldData(hkpSweptTransformDisplayViewer::WorldDataList& data)
 {
@@ -319,7 +319,7 @@ void __fastcall Destroy(hkpSweptTransformDisplayViewer* self)
             --i;
         } while (i >= 0);
     }
-    hkMemoryRouter* h = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* a = reinterpret_cast<hkMemoryAllocator*>(h->m_heap);
     self->m_kWorldDataList.m_iElementCount = 0;
     unsigned int uiCapBits = self->m_kWorldDataList.m_iCapacityState;
@@ -490,7 +490,7 @@ void* __fastcall DeleteSweptTransformViewer(hkpSweptTransformDisplayViewer* self
 {
     fnv_00d648c0::Destroy(self);
     if (flags & 1)
-        FUN_00c85750().heap().ReleaseBlock(self, self->m_usMemSizeAndFlags);
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(self, self->m_usMemSizeAndFlags);
     return self;
 }
 

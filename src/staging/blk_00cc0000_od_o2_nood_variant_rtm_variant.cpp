@@ -171,9 +171,9 @@ struct TransformOwner
     TransformObj* m_pSource;
 
     void ReleaseObject(TransformObj* pkObj, int iArg);
-    void FUN_00cc85b0(TransformObj* pkObj, int iArg);
+    void hkHingeLimitsConstraintCinfo_CloneData(TransformObj* pkObj, int iArg);
 };
-bool __stdcall FUN_00c84ec0(void* key);
+bool __stdcall bhkShape_CanShare(void* key);
 struct Cd2Target
 {
     virtual void v00();
@@ -261,7 +261,7 @@ public:
     Cd2Collection* m_pShapeCollection;
 
     __forceinline Cd2Collection* GetCollection() { return this ? m_pShapeCollection : 0; }
-    bool FUN_00cd2f10(void* key);
+    bool bhkShapeCollection_CanShare(void* key);
 };
 extern "C" {
 LocalM128 _mm_add_ps(LocalM128, LocalM128);
@@ -466,7 +466,7 @@ struct FUN_00cc5f30_cls {
     int unk00;
     FUN_00d4f2a0* m_pSrc;
 
-    void FUN_00cc5f30(FUN_00d4f2a0* dst, int a2);
+    void hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2);
     void ReleaseObject(FUN_00d4f2a0* dst, int a2);
 };
 struct S_00ccbce0_Source
@@ -551,8 +551,8 @@ struct S_00ccbce0_Owner
     int unk10;
     S_00ccbce0_Ref* unk14;
 
-    void __thiscall FUN_00c84e20(S_00ccbce0_Output* value);
-    void __thiscall FUN_00ccbce0(S_00ccbce0_Output* value);
+    void __thiscall bhkShape_CopyCinfo(S_00ccbce0_Output* value);
+    void __thiscall bhkExtendedMeshShape_CopyCinfo(S_00ccbce0_Output* value);
 };
 extern "C" LocalM128 _mm_setr_ps(float, float, float, float);
 union hkVec4 { LocalM128 m_vComponents; char m_bytes[16]; };
@@ -598,7 +598,7 @@ struct EntityOwner {
     virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43();
     virtual void v44(); virtual void v45(); virtual void v46();
     virtual int AddCinfo(EntityCinfo* info);
-    int FUN_00cc3050(EntityCinfo* info);
+    int bhkSpringAction_Init(EntityCinfo* info);
 };
 class S_00cd3c20_Obj
 {
@@ -1031,7 +1031,7 @@ struct ShapeOwner
     virtual void vf45();
     virtual void vf46();
     virtual void finish(struct IntegerBlock18* pkInfo);
-    void FUN_00cc3710(IntegerBlock18* pkInfo);
+    void bhkMotorAction_Init(IntegerBlock18* pkInfo);
 };
 struct S00cc4610_Ref { void __thiscall FUN_00c905b0(); };
 struct S00cc4610_Out {
@@ -1107,7 +1107,7 @@ struct S00cc4610_Self {
     virtual void v45();
     virtual void v46();
     virtual void v47(S00cc4610_In* i);
-    void FUN_00cc4610(S00cc4610_In* in);
+    void bhkAngularDashpotAction_Init(S00cc4610_In* in);
 };
 struct Cc7Bool { char value; };
 struct Cc7Local {
@@ -1131,7 +1131,7 @@ struct __declspec(align(16)) Cc7Vector { unsigned char lanes[16]; };
 struct Cc7Tmp {
     Cc7Vector column0, column1, column2;
     Cc7Vector translation;
-    void FUN_00cb22f0(void* base, void* arg);
+    void hkTransform_setMulInverseMul(void* base, void* arg);
 };
 extern const float g_011c5c70_arg1;
 struct Cc7Owner {
@@ -1146,7 +1146,7 @@ struct Cc7Owner {
     char* m10;
     void* m14;
     void* m18;
-    void FUN_00cc7fe0(void* arg);
+    void hkFixedConstraintCinfo_Fix(void* arg);
 };
 extern "C" void _ReadWriteBarrier();
 struct TypeHeader { unsigned int unk00, unk04, unk08, typeCode; };
@@ -1171,7 +1171,7 @@ struct LunaArgument {
     ObjectType* value;
     int unk0c;
 };
-struct LunaTarget { unsigned int FUN_00cca360(LunaArgument* argument); };
+struct LunaTarget { unsigned int bhkMoppBvTreeShape_Init(LunaArgument* argument); };
 extern void* __cdecl hkpMoppUtility_buildCode(const void*, ScratchGeometry*, unsigned int);
 union Quaternion525 {
     LocalM128 value;
@@ -1192,19 +1192,19 @@ struct StringArray525 : NiTObjectArray<char*> {
 class PositionText525 {
 public:
     float x,y,z;
-    char* FUN_00a59af0(const char*);
+    char* GetViewerString_00a59af0(const char*);
 };
 extern void* DAT_01268670;
 extern const char DAT_0101c29c[];
 extern const char DAT_010ca6a4[];
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
-char* __cdecl FUN_00a7d550(const char*,float);
+char* __cdecl NiGetViewerString_00a7d550(const char*,float);
 void __cdecl FUN_00458620(PositionText525*,const Quaternion525*);
 struct RotationOwner525 {
     unsigned int unk00,unk04;
     RotationSource525* source;
-    void FUN_00d54ed0(StringArray525*);
-    void FUN_00ccb810(StringArray525*);
+    void bhkHeightFieldShape_GetViewerStrings(StringArray525*);
+    void bhkPlaneShape_GetViewerStrings(StringArray525*);
 };
 struct TlsState { int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c; int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c; int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c; int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c; int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c; int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc; int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc; int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c; int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c; int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c; int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc; int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc; int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc; int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c; int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c; int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c; int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c; int unk280; int unk284; int unk288; int unk28c; int unk290; int unk294; int unk298; int unk29c; int unk2a0; int unk2a4; int unk2a8; int unk2ac; int unk2b0; int unk2b4; };
 extern __declspec(thread) TlsState g_tlsState;
@@ -1233,8 +1233,8 @@ struct Holder {
     CachedObj* unk0c;
     int unk10;
     int unk14;
-    void FUN_00ccbce0(void* p);
-    CachedObj* FUN_00ccbfa0(bool* created);
+    void bhkExtendedMeshShape_CopyCinfo(void* p);
+    CachedObj* bhkExtendedMeshShape_CreateCinfo(bool* created);
 };
 inline void* AllocAligned(unsigned int size)
 {
@@ -1581,7 +1581,7 @@ extern BodyTransform identity;
 extern const char nodeName[];
 void HK2NI_00624b10(Mat*,BodyTransform*);
 void FUN_00458620(NiPoint3*,LocalM128*);
-struct Subject { int unk00,unk04; Body* body; void FUN_00ccf150(ConvexShapeNode*,void*); };
+struct Subject { int unk00,unk04; Body* body; void bhkConvexTransformShape_BuildDisplayGeometry(ConvexShapeNode*,void*); };
 extern "C" {
 LocalM128 _mm_set_ps1(float);
 LocalM128 _mm_min_ps(LocalM128, LocalM128);
@@ -1637,7 +1637,7 @@ struct S00cc2530_ScopedHeap306 {
 };
 struct S00cc2530_Alloc306 {virtual void f0();virtual void* Allocate(int);virtual void Free(void*,int);};
 struct S00cc2530_Router306 {int unk00,unk04,unk08,unk0c;S00cc2530_Alloc306* heap; S00cc2530_Alloc306* GetAllocator() {return heap;}};
-namespace Memory306 {extern "C" S00cc2530_Router306* FUN_00c85750();}
+namespace Memory306 {extern "C" S00cc2530_Router306* hkMemoryRouter_getInstance();}
 struct S00cc2530_Source306 {int a,b,unk08,unk0c,unk10,unk14,unk18,unk1c;float m[16];};
 struct __declspec(align(16)) Transform306 {float m[16];};
 struct S00cc2530_FUN_00d4ce10 {
@@ -1737,11 +1737,11 @@ struct S00cc2530_FUN_00d4ce10 {
  S00cc2530_FUN_00d4ce10(int, const LocalM128*,int);
  void removeReference();
  static void* operator new(unsigned int n) {
-  void* p=Memory306::FUN_00c85750()->GetAllocator()->Allocate(n);
+  void* p=Memory306::hkMemoryRouter_getInstance()->GetAllocator()->Allocate(n);
   static_cast<S00cc2530_FUN_00d4ce10*>(p)->memorySize=(unsigned short)n;
   return p;
  }
- static void operator delete(void* p) {Memory306::FUN_00c85750()->GetAllocator()->Free(p,0x170);}
+ static void operator delete(void* p) {Memory306::hkMemoryRouter_getInstance()->GetAllocator()->Free(p,0x170);}
 };
 __forceinline LocalM128* BuildTransform306(S00cc2530_Source306* src,LocalM128* t) {
 t[0]=_mm_setr_ps(src->m[0],src->m[1],src->m[2],src->m[3]);
@@ -1798,7 +1798,7 @@ struct S00cc2530_Owner306 {
  virtual void slotb4();
  virtual void slotb8();
  virtual void OnSource(S00cc2530_Source306*);
- void FUN_00cc2530(S00cc2530_Source306*);
+ void bhkCachingShapePhantom_Init(S00cc2530_Source306*);
 };
 struct SourceGeometry {
     unsigned int type;
@@ -1866,7 +1866,7 @@ struct FUN_00cc9d00 : RefCountedObject {
     static void operator delete(void* memory);
 };
 struct OutputHandler {
-    void FUN_00cca6f0(InitializePathingRequestFromPosition* request);
+    void bhkMoppBvTreeShape_Init_00cca6f0(InitializePathingRequestFromPosition* request);
 };
 typedef void (__thiscall *OutputMethod)(OutputHandler*, void*);
 typedef void (__thiscall *RequestMethod)(OutputHandler*, InitializePathingRequestFromPosition*);
@@ -2077,11 +2077,11 @@ struct __declspec(align(16)) Blk {
 };
 struct TagObj {
     float x, y, z;
-    unsigned int FUN_00a59af0(const char* s);
+    unsigned int GetViewerString_00a59af0(const char* s);
 };
 unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
-namespace fnvc_adapt { unsigned int __cdecl FUN_00a7d550(const char* s, float f); }
-void __cdecl FUN_004a3970(TagObj* t, const LocalM128* v);
+namespace fnvc_adapt { unsigned int __cdecl NiGetViewerString_00a7d550(const char* s, float f); }
+void __cdecl HK2NINS(TagObj* t, const LocalM128* v);
 extern const char g_011d3e74_arg1[];
 extern const char str_010ca918[];
 extern const char str_010ca914[];
@@ -2089,8 +2089,8 @@ class NamedShape {
 public:
     unsigned int unk00;
     void WriteLimitedHingeData(Blk* b);
-    void FUN_00c9fc50(NameArr* arr);
-    void FUN_00ccd960(NameArr* arr);
+    void bhkConvexShape_GetViewerStrings(NameArr* arr);
+    void bhkCylinderShape_GetViewerStrings(NameArr* arr);
 };
 static void AddName(NameArr* arr, const unsigned int& v) {
     unsigned int n = arr->m_usSize;
@@ -2251,7 +2251,7 @@ struct ShapeOwner_SI
     virtual void vf45();
     virtual void vf46();
     virtual void finish(ShapeInfo_SI* pkInfo);
-    void FUN_00ccaee0(ShapeInfo_SI* pkInfo);
+    void bhkTriangleShape_Init(ShapeInfo_SI* pkInfo);
 };
 struct ParamSrc {
  int unk00, unk04, unk08, unk0c;
@@ -2275,7 +2275,7 @@ public:
  virtual void v44(); virtual void v45(); virtual void v46();
  virtual void v47(ParamSrc*);
  void __thiscall CreateAndDispatchObject(const LocalM128& lo, const LocalM128& hi, float f);
- void __thiscall FUN_00ccd8c0(ParamSrc*);
+ void __thiscall bhkCylinderShape_Init(ParamSrc*);
 };
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);
@@ -2536,7 +2536,7 @@ virtual void SlotAC();
 
     virtual void Apply(Result*);
 
-    void FUN_00ccc980(ExtendedMeshInput*);
+    void bhkExtendedMeshShape_Init_00ccc980(ExtendedMeshInput*);
 
 };
 void* __cdecl NiMalloc(unsigned);
@@ -2607,8 +2607,8 @@ struct FUN_00ccea00Holder
     int unk04;
     FUN_00ccea00Inner* m_08;
 
-    void FUN_00c9fb70(FUN_00ccea00Out* out);
-    void FUN_00ccea00(FUN_00ccea00Out* out);
+    void bhkConvexShape_CopyCinfo(FUN_00ccea00Out* out);
+    void bhkConvexTransformShape_CopyCinfo(FUN_00ccea00Out* out);
 };
 
 struct ThreadBlock {
@@ -2831,10 +2831,11 @@ public:
     int unk00;
     FUN_00d4edc0* motion;
     void ReleaseObject(FUN_00d4edc0* output,MotionScale* scale);
-    void FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale);
+    void hkWheelConstraintCinfo_CloneData(FUN_00d4edc0* output,MotionScale* scale);
 };
 // @fnv 0x00cc51e0
-void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
+// src: XBOX_PDB 0x00cc51e0
+void MotionOwner::hkWheelConstraintCinfo_CloneData(FUN_00d4edc0* output,MotionScale* scale) {
     AllocationTypeScope allocation(0x10);
     FUN_00d4edc0* source=motion;
     if(!output)output=new FUN_00d4edc0;
@@ -2914,10 +2915,11 @@ struct CloneOwner513 {
     unsigned int unk00;
     FUN_00d4fe80* source;
     void ReleaseObject(FUN_00d4fe80*, CloneData513*);
-    void FUN_00cc7600(FUN_00d4fe80*, CloneData513*);
+    void hkPrismaticConstraintCinfo_CloneData(FUN_00d4fe80*, CloneData513*);
 };
 // @fnv 0x00cc7600
-void CloneOwner513::FUN_00cc7600(FUN_00d4fe80* output, CloneData513* data) {
+// src: XBOX_PDB 0x00cc7600
+void CloneOwner513::hkPrismaticConstraintCinfo_CloneData(FUN_00d4fe80* output, CloneData513* data) {
     MemContextGuard memoryClass(16);
     FUN_00d4fe80* input=source;
     if (!output) output=new FUN_00d4fe80;
@@ -3027,12 +3029,13 @@ public:
     int unk10;
     NiPointer<RefObjStandIn> unk14;
 
-    void FUN_00c84df0(TargetArg* pkTarget, ScaleArg* pkArg);
-    void FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg);
+    void bhkShape_CopyMembers(TargetArg* pkTarget, ScaleArg* pkArg);
+    void bhkExtendedMeshShape_CopyMembers(TargetArg* pkTarget, ScaleArg* pkArg);
 };
 
 // @fnv 0x00ccbf00
-void ScaledNode::FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg)
+// src: XBOX_PDB 0x00ccbf00
+void ScaledNode::bhkExtendedMeshShape_CopyMembers(TargetArg* pkTarget, ScaleArg* pkArg)
 {
     TargetArg* pkDst = *(TargetArg* volatile*)&pkTarget;
     ScaleArg* volatile pkScale = pkArg;
@@ -3042,7 +3045,7 @@ void ScaledNode::FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg)
     LocalM128 x = _mm_load_ss(&fScale);
     pkQuad->m_vComponents = _mm_mul_ps(_mm_shuffle_ps(x, x, 0), pkQuad->m_vComponents);
     pkDst->unk14 = unk14;
-    FUN_00c84df0(pkDst, pkScale);
+    bhkShape_CopyMembers(pkDst, pkScale);
 }
 
 extern "C" {
@@ -3578,7 +3581,7 @@ struct S00cd3fb0_MotionVtable {
     void* slot90;
     S00cd3fb0_MotionTransform* (__thiscall *GetResult)(S00cd3fb0_MotionObject*);
 };
-struct S00cd3fb0_FUN_00c70550_class { float FUN_00c70550(); };
+struct S00cd3fb0_FUN_00c70550_class { float bhkCharacterController_GetFallDistance(); };
 struct S00cd3fb0_FUN_00c6cba0_class { void bhkCharacterController_UpdateState(); };
 struct S00cd3fb0_FUN_00c6e2e0_cls { void bhkCharacterController_UpdateFalling(); };
 struct S00cd3fb0_FUN_00c6e300_class { void SubtractVectors(LocalM128*); };
@@ -3980,18 +3983,19 @@ struct S00cd3fb0_MotionContext {
     unsigned int unk00;
     unsigned int unk04;
     float m_vScale;
-    void FUN_00cd3fb0(S00cd3fb0_MotionObject* object);
+    void bhkCharacterStateInAir_Update(S00cd3fb0_MotionObject* object);
 };
 
 struct S00cd3fb0_MotionScalarLane { LocalM128 value; __forceinline S00cd3fb0_MotionScalarLane(float v) { value = _mm_load_ss(&v); } __forceinline S00cd3fb0_MotionScalarLane(S00cd3fb0_RealValue v) { value=_mm_load_ss(&v.value); } __forceinline LocalM128 broadcast() const { return _mm_shuffle_ps(value,value,0); } };
 // @fnv 0x00cd3fb0
-void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
+// src: XBOX_PDB 0x00cd3fb0
+void S00cd3fb0_MotionContext::bhkCharacterStateInAir_Update(S00cd3fb0_MotionObject* object)
 {
     if ((unsigned char)(object->m_flags >> 8) & 1) {
         object->m_uiContentCount = 0;
         const_cast<volatile unsigned int&>(object->m_flags) |= 0x80;
     }
-    if (object->m_uiContentCount == 11 && object->m_factor > 1.0f && ((S00cd3fb0_FUN_00c70550_class*)object)->FUN_00c70550() < 0.10000000149011612) {
+    if (object->m_uiContentCount == 11 && object->m_factor > 1.0f && ((S00cd3fb0_FUN_00c70550_class*)object)->bhkCharacterController_GetFallDistance() < 0.10000000149011612) {
         object->m_uiContentCount = 0;
         object->m_bSlotEnabled = 1;
         LocalM128 v;
@@ -4073,7 +4077,7 @@ struct MotionData {
     LocalM128 orientation;
     LocalM128 direction;
 };
-struct ProxyHolder { const char* FUN_00cac950(); };
+struct ProxyHolder { const char* hkpCharacterProxy_getLinearVelocity(); };
 struct MotionController;
 struct MotionListener {
     virtual void slot00();
@@ -4466,7 +4470,7 @@ struct MotionController {
     unsigned int unk548;
     float directionScale;
     void bhkCharacterController_UpdateState();
-    const void* FUN_00c89720();
+    const void* bhkCharacterProxy_MarkRead();
     void SubtractVectors(LocalM128* result);
 };
 extern float DAT_01267e30;
@@ -4499,7 +4503,8 @@ __forceinline LocalM128 invLength(LocalM128 value)
 }
 
 // @fnv 0x00cd4280
-void __stdcall FUN_00cd4280(MotionController* controller)
+// src: XBOX_PDB 0x00cd4280
+void __stdcall bhkCharacterStateJumping_Update(MotionController* controller)
 {
     if (controller->state != 11 && (controller->state == 0 || controller->state == 3)) {
         controller->bhkCharacterController_UpdateState();
@@ -4530,9 +4535,9 @@ void __stdcall FUN_00cd4280(MotionController* controller)
         const float* reference = &DAT_01267e30;
         LocalM128 dir;
         if (proxy) {
-            controller->FUN_00c89720();
-            reference = reinterpret_cast<const float*>(proxy->FUN_00cac950());
-            controller->FUN_00c89720();
+            controller->bhkCharacterProxy_MarkRead();
+            reference = reinterpret_cast<const float*>(proxy->hkpCharacterProxy_getLinearVelocity());
+            controller->bhkCharacterProxy_MarkRead();
             dir = direction;
         } else {
             dir = direction;
@@ -4596,12 +4601,13 @@ public:
     int unk30; int unk34; int unk38; int unk3c;
     CCEAE0Vector m_40;
 
-    void FUN_00c84df0(void* a1, CCEAE0Arg* a2);
-    void FUN_00cceae0(void* a1, CCEAE0Arg* a2);
+    void bhkShape_CopyMembers(void* a1, CCEAE0Arg* a2);
+    void bhkConvexTransformShape_CopyMembers(void* a1, CCEAE0Arg* a2);
 };
 
 // @fnv 0x00cceae0
-void CCEAE0Node::FUN_00cceae0(void* a1, CCEAE0Arg* a2)
+// src: XBOX_PDB 0x00cceae0
+void CCEAE0Node::bhkConvexTransformShape_CopyMembers(void* a1, CCEAE0Arg* a2)
 {
     bool flag;
     CCEAE0Node* p = v45(&flag);
@@ -4620,7 +4626,7 @@ void CCEAE0Node::FUN_00cceae0(void* a1, CCEAE0Arg* a2)
         p->m_08 = r ? r->m_08 : 0;
     }
 done:
-    FUN_00c84df0(a1, a2);
+    bhkShape_CopyMembers(a1, a2);
 }
 
 template<class T> struct NativeArray {
@@ -4792,7 +4798,7 @@ struct NativeSetup {
     NativeSetup() {FUN_00c74ed0();}
     void FUN_00c74ed0();
 };
-NativeBool FUN_00cdbae0(const NativeSetup&,NativePose&);
+NativeBool hkaTwoJointsIkSolver_solve(const NativeSetup&,NativePose&);
 struct NativeSettings {
     void* skeleton;
     short bone0,bone1,bone2;
@@ -4810,12 +4816,13 @@ struct NativeSolver {
     NativeBool cached;
     NVector cachePoint,cacheTarget,drift;
     bool RayCast(const NativeInput&,const NVector&,const NVector&,float&,NVector&) const;
-    bool FUN_00cd8a50(const NativeInput&,const NVector&,const NVector&,NVector&,NVector&) const;
+    bool hkaFootPlacementIkSolver_castFoot(const NativeInput&,const NVector&,const NVector&,NVector&,NVector&) const;
 };
 
 extern const float  DAT_01017d00;
 extern const ::LocalM128 DAT_01017d10;
-__declspec(noinline) bool NativeSolver::FUN_00cd8a50(const NativeInput& a,const NVector& foot,const NVector& toe,NVector& projected,NVector& normal) const {
+// src: XBOX_PDB 0x00cd8a50
+__declspec(noinline) bool NativeSolver::hkaFootPlacementIkSolver_castFoot(const NativeInput& a,const NVector& foot,const NVector& toe,NVector& projected,NVector& normal) const {
     float above=settings.unk7c, below=settings.unk80;
     float span=above+below;
     float fraction0=::DAT_0104da48,fraction1=::DAT_0104da48;
@@ -4931,7 +4938,8 @@ static __forceinline float scalarDotValue(::LocalM128 a,::LocalM128 b) {float f;
 static __forceinline void scalarDotStore(float& f,::LocalM128 a,::LocalM128 b){(::_mm_store_ss)(&f,rawDot(a,b));}
 
 // @fnv 0x00cd8d90
-extern "C" void __fastcall FUN_00cd8d90(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
+// src: XBOX_PDB 0x00cd8d90
+extern "C" void __fastcall hkaFootPlacementIkSolver_doFootPlacement(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
     const NTransform& world=a.world;
     NTransform inverse;
     inverse.SetConjugate(world);
@@ -4981,7 +4989,7 @@ extern "C" void __fastcall FUN_00cd8d90(NativeSolver* self,void*,const NativeInp
         NVector rayPoint;
         if (self->settings.lock && self->cached) rayPoint=self->cacheTarget;
         else rayPoint._setTransformedPos(world,local);
-        bool hit=self->FUN_00cd8a50(a,target,rayPoint,normal,savedNormal);
+        bool hit=self->hkaFootPlacementIkSolver_castFoot(a,target,rayPoint,normal,savedNormal);
         if (!hit) {
             out.active=false;
             enabled=false;
@@ -5059,7 +5067,7 @@ const NVector& offset=self->drift;
             setup.axis=self->settings.axis;setup.point=point;
             setup.limit=self->settings.limit;setup.gain=self->settings.gain;
             setup.weight=self->weight;setup.weight2=self->weight;setup.weight3=self->weight;
-            FUN_00cdbae0(setup,pose);
+            hkaTwoJointsIkSolver_solve(setup,pose);
         }
         {
             const NVector& desiredUp=savedNormal;
@@ -5672,7 +5680,8 @@ __declspec(noinline) float __cdecl ClampedAcos(float x)
     return (float)acos(x);
 }
 // @fnv 0x00cdbae0
-extern "C" hkBool __cdecl FUN_00cdbae0(const hkaTwoJointsIkSetup& setup, SkeletonPoseData& pose)
+// src: XBOX_PDB 0x00cdbae0
+extern "C" hkBool __cdecl hkaTwoJointsIkSolver_solve(const hkaTwoJointsIkSetup& setup, SkeletonPoseData& pose)
 {
 IkVector4 secondTwist;
     {
@@ -5792,7 +5801,7 @@ const ::LocalM128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
                     firstMS = ClampedAcos(cosTheta) - ClampedAcos(a);
                     firstMS = setup.m_fFourthIkParameter * firstMS;
                     hkQuaternion s2eN;
-                    s2eN.FUN_00cb2450(pForm, firstMS);
+                    s2eN.hkQuaternion_setAxisAngle(pForm, firstMS);
                     secondRot.m_rotation.setMul(s2eN, fromDir);
                     secondRot.m_rotation.normalize_005611c0();
                 }
@@ -5841,7 +5850,7 @@ kIter.FUN_00cdb910(setup.m_fThirdIkParameter, jointMS, desired); }
             const hkQsTransform& endPos2 = pose.getBoneModelSpace(setup.m_sThirdJointIndex);
             hkQsTransform j;
             j = endPos2;
-            j.m_rotation.FUN_00cb2850(endPos2.m_rotation, hd, setup.m_fFifthIkParameter);
+            j.m_rotation.D3D_ComputeClearColor(endPos2.m_rotation, hd, setup.m_fFifthIkParameter);
             pose.setBoneModelSpace(setup.m_sThirdJointIndex, j);
         }
 

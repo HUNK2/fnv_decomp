@@ -61,7 +61,7 @@ struct D481D0Class
 };
 struct FUN_00d874d0_s
 {
-    void FUN_00d874d0(const char*, int);
+    void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char*, int);
 };
 struct FUN_00d47aa0_s
 {
@@ -75,12 +75,12 @@ struct FUN_00d47aa0_s
 // src: HAVOK_LIB 0x00d47aa0
 void FUN_00d47aa0_s::hkDynamicClassNameRegistry_registerClass(int a, const char* name)
 {
-    ((FUN_00d874d0_s*)((char*)this + 0xc))->FUN_00d874d0(name ? name : ((D481D0Class*)a)->getName(), a);
+    ((FUN_00d874d0_s*)((char*)this + 0xc))->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(name ? name : ((D481D0Class*)a)->getName(), a);
 }
 
 struct FUN_00d87440_Class
 {
-    int __thiscall FUN_00d87440(int);
+    int __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int);
 };
 struct SlotBitmap
 {
@@ -92,7 +92,7 @@ struct FUN_00d874b0_class
 };
 struct FUN_00d87410_Class
 {
-    int __thiscall FUN_00d87410();
+    int __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
 };
 
 struct FUN_00d47ad0_class
@@ -103,12 +103,12 @@ struct FUN_00d47ad0_class
 // @fnv 0x00d47ad0
 void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
 {
-    int key = ((FUN_00d87410_Class*)reg)->FUN_00d87410();
+    int key = ((FUN_00d87410_Class*)reg)->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
     char flag;
     reg->SetBoolFromThreshold(&flag, key);
     while (flag)
     {
-        int val = ((FUN_00d87440_Class*)reg)->FUN_00d87440(key);
+        int val = ((FUN_00d87440_Class*)reg)->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(key);
         (*(void(__thiscall**)(void*, int, int))(*(int*)this + 0x1c))(this, val, 0);
         key = ((SlotBitmap*)reg)->FindNextUsedSlot(key);
         reg->SetBoolFromThreshold(&flag, key);
@@ -118,7 +118,7 @@ void FUN_00d47ad0_class::ProcessRegistryEntries(FUN_00d874b0_class* reg)
 extern "C" hkMemoryRouter* __cdecl D1A0E0GetMemoryRouter();
 struct DepthLimit
 {
-    void FUN_00cb1870(void*, void*, int);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void*, void*, int);
 };
 struct FUN_00d47c60_class
 {
@@ -133,7 +133,7 @@ void FUN_00d47c60_class::hkVtableClassRegistry_registerVtable(void* key, int aiD
 {
     hkMemoryRouter* r = D1A0E0GetMemoryRouter();
     void* p = r->m_heap;
-    z.FUN_00cb1870(p, key, aiDefault);
+    z.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(p, key, aiDefault);
 }
 
 extern int DAT_01269b18;
@@ -234,7 +234,7 @@ class BuiltinTypeRegistrationView
 // @fnv 0x00d478e0
 void BuiltinTypeRegistrationView::RegisterClass(const TypeInfoNameView* pkClass)
 {
-    m_map.FUN_00d874d0(pkClass->getName(), (int)pkClass);
+    m_map.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(pkClass->getName(), (int)pkClass);
 }
 
 // hkTypeInfo finish-callback prefix (+4); Xbox PDB hkEntry instead contains three floats.
@@ -323,16 +323,16 @@ struct FUN_00d47970_Class
 void FUN_00d47970_Class::hkTypeInfoRegistry_merge(void* iterator)
 {
     FUN_00d87410_Class* registry = (FUN_00d87410_Class*)((char*)iterator + 8);
-    int index = registry->FUN_00d87410();
+    int index = registry->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
     ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
     if (*(char*)&iterator != 0)
     {
         FUN_00d874d0_s* destination = &m_map08;
         do
         {
-            int key = ((FUN_00d87440_Class*)registry)->FUN_00d87440(index);
+            int key = ((FUN_00d87440_Class*)registry)->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(index);
             int value = ((FUN_00d87430_Class*)registry)->GetEntry(index);
-            destination->FUN_00d874d0((const char*)value, key);
+            destination->hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert((const char*)value, key);
             index = ((SlotBitmap*)registry)->FindNextUsedSlot(index);
             ((FUN_00d874b0_class*)registry)->SetBoolFromThreshold((char*)&iterator, index);
         } while (*(char*)&iterator != 0);
@@ -362,7 +362,7 @@ void hkObjD47A::AddNames(const char* const* ppcNames)
         add(*ppcNames, 0);
 }
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 template <class T> T& RouterHeap(hkMemoryRouter* router)
 {
@@ -373,7 +373,7 @@ template <class T> T& RouterHeap(hkMemoryRouter* router)
 
 inline void hkReferencedObject::operator delete(void* p)
 {
-    RouterHeap<hkMemoryAllocator>(FUN_00c85750()).blockFree(
+    RouterHeap<hkMemoryAllocator>(hkMemoryRouter_getInstance()).blockFree(
         p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
@@ -399,7 +399,7 @@ RegistryImpl* RegistryImpl::DestroyRegistry(unsigned int flags)
     hkReferencedObject::~hkReferencedObject();
     if (flags & 1)
     {
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         ((hkMemoryAllocator*)router->m_heap)->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
@@ -410,9 +410,9 @@ void __cdecl ResizeAudioStream(void* allocator, hkArray<int>* array, int element
 
 struct D47Map
 {
-    int FUN_00d87410();
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
     void SetBoolFromThreshold(unsigned char* hasNext, int iterator);
-    int FUN_00d87440(int iterator);
+    int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int iterator);
     int FindNextUsedSlot(int iterator);
 };
 struct D47Owner
@@ -428,12 +428,12 @@ struct D47Owner
 void D47Owner::AppendEntryValues(hkArray<int>* values)
 {
     unsigned char hasItem;
-    int iterator = entries.FUN_00d87410();
+    int iterator = entries.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();
     entries.SetBoolFromThreshold(&hasItem, iterator);
     while (hasItem)
     {
-        int value = entries.FUN_00d87440(iterator);
-        hkMemoryRouter* router = FUN_00c85750();
+        int value = entries.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(iterator);
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         if (values->m_iElementCount == (values->m_iCapacityState & 0x3fffffff))
         {
             ResizeAudioStream(router->m_heap, values, 4);
@@ -466,13 +466,13 @@ struct FUN_00d47c90_cls
 // @fnv 0x00d47c90
 FUN_00d47c90_cls* FUN_00d47c90_cls::Destroy(unsigned char flags)
 {
-    sub.ProcessArgument((hkMemoryAllocator*)FUN_00c85750()->m_heap);
+    sub.ProcessArgument((hkMemoryAllocator*)hkMemoryRouter_getInstance()->m_heap);
     sub.FUN_00a29680();
     vptr = &DAT_0102e388;
     hkMemoryRouter* h;
     if (flags & 1)
     {
-        h = FUN_00c85750();
+        h = hkMemoryRouter_getInstance();
         hkMemoryAllocator* a = (hkMemoryAllocator*)h->m_heap;
         a->blockFree(this, size);
     }
@@ -483,7 +483,7 @@ FUN_00d47c90_cls* FUN_00d47c90_cls::Destroy(unsigned char flags)
 // Unit-local bodies for operations declared by the shared Havok headers.
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return RouterHeap<hkMemoryAllocator>(FUN_00c85750());
+    return RouterHeap<hkMemoryAllocator>(hkMemoryRouter_getInstance());
 }
 
 template <class T> __forceinline void hkArrayUtil::constructWithCopy(T* p, int n, const T& t, hkTypeIsPod)
@@ -658,7 +658,7 @@ void hkDefaultBuiltinTypeRegistry::InitGlobalObjects()
     } u;
 
     Obj1* p;
-    p = (Obj1*)AllocateRegistryMemory(FUN_00c85750(), 0x20);
+    p = (Obj1*)AllocateRegistryMemory(hkMemoryRouter_getInstance(), 0x20);
     p->GetAllocationSize = 0x20;
     p->refCount = 1;
     p->vtable = &DAT_010cf7d4;
@@ -674,7 +674,7 @@ void hkDefaultBuiltinTypeRegistry::InitGlobalObjects()
     DAT_01269b14 = (int)p;
 
     Obj2* n;
-    n = (Obj2*)AllocateRegistryMemory(FUN_00c85750(), 0x1c);
+    n = (Obj2*)AllocateRegistryMemory(hkMemoryRouter_getInstance(), 0x1c);
     n->GetAllocationSize = 0x1c;
     n->refCount = 1;
     u.c = 0;
@@ -689,7 +689,7 @@ void hkDefaultBuiltinTypeRegistry::InitGlobalObjects()
     DAT_01269b18 = (int)n;
 
     Obj3* kIter;
-    kIter = (Obj3*)AllocateRegistryMemory(FUN_00c85750(), 0x14);
+    kIter = (Obj3*)AllocateRegistryMemory(hkMemoryRouter_getInstance(), 0x14);
     kIter->GetAllocationSize = 0x14;
     kIter->refCount = 1;
     kIter->vtable = &DAT_010cf844;
@@ -698,7 +698,7 @@ void hkDefaultBuiltinTypeRegistry::InitGlobalObjects()
     pDepth->d0 = 0;
     pDepth->d1 = 0;
     pDepth->d2 = -1;
-    hkMemoryRouter* r = FUN_00c85750();
+    hkMemoryRouter* r = hkMemoryRouter_getInstance();
     pDepth->EnsureCapacity((hkMemoryAllocator*)r->m_heap, 0);
 
     if (DAT_01269b10)

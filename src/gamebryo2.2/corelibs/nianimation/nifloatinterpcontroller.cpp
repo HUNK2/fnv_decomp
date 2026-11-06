@@ -21,7 +21,8 @@ extern "C" void FUN_00a3c390();
 extern "C" void FUN_00a3c500();
 
 // @fnv 0x00a576c0
-void __stdcall FUN_00a576c0(StrArr* pkStrings)
+// src: XBOX_PDB 0x00a576c0
+void __stdcall NiFloatInterpController_GetViewerStrings(StrArr* pkStrings)
 {
     FUN_00a390a0(pkStrings);
     char* pStr = NiViewerStrings_NiGetViewerString_Title(g_011f3ec8_arg1);

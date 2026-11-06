@@ -92,7 +92,7 @@ struct hkMemoryRouterXdfbd40
     }
 };
 
-extern "C" hkMemoryRouterXdfbd40& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouterXdfbd40& __cdecl hkMemoryRouter_getInstance() throw();
 
 class hkObjdfbd40 : public hkpRejectChassisListener
 {
@@ -101,7 +101,7 @@ class hkObjdfbd40 : public hkpRejectChassisListener
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
+        hkMemoryRouter_getInstance().heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

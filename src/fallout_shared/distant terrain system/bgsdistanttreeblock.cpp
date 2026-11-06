@@ -47,10 +47,11 @@ void* BGSDistantTreeBlockLoadTask::Destroy(unsigned int flags)
 
 // Sets the byte at this+0x44 to 1, then calls FUN_00c3cb70 with the given arguments.
 // @fnv 0x006f9540
-void BGSDistantTreeBlockLoadTask::FUN_006f9540(int aiArg, void* apArg)
+// src: XBOX_PDB 0x006f9540
+void BGSDistantTreeBlockLoadTask::Cancel_006f9540(int aiArg, void* apArg)
 {
     m_bCancelled = true;
-    FUN_00c3cb70(aiArg, apArg);
+    QueuedFile_Cancel(aiArg, apArg);
 }
 
 extern int _sprintf_s(char*, unsigned int, const char*, ...);
@@ -137,7 +138,7 @@ struct Flt
 {
     operator unsigned int();
 };
-void FUN_00929260();
+void BGSTerrainManager_SetNeedsImmediateUpdate();
 struct QIdlePtr
 {
     QIdlePtr& operator=(void*);
@@ -152,7 +153,7 @@ struct FUN_006f88e0_shell
 void FUN_006f88e0_shell::BGSDistantTreeBlock_FinishLoad()
 {
     *(char*)(this + 0x48) = 1;
-    reinterpret_cast<void (__thiscall*)(MiddleHighProcess*, unsigned char)>(&FUN_00929260)(
+    reinterpret_cast<void (__thiscall*)(MiddleHighProcess*, unsigned char)>(&BGSTerrainManager_SetNeedsImmediateUpdate)(
         (MiddleHighProcess*)((Flt*)(*(void**)((char*)this + 0x44)))->operator unsigned int(), 1);
     ((QIdlePtr*)this)->operator=(0);
 }
@@ -172,7 +173,7 @@ struct PropHelper
 {
     void* GetProperty(unsigned int);
 };
-unsigned int __cdecl FUN_00438220();
+unsigned int __cdecl NiShadeProperty_GetType();
 struct FUN_006f90a0_shell
 {
     void UpdateInstances(void* a, void* b);
@@ -192,7 +193,7 @@ void FUN_006f91a0_shell::BGSDistantTreeBlock_UpdateShaderPropertyRecurse()
         if (!(*(unsigned char*)((char*)p + 0x1c)) && ((Flt*)((char*)p + 4))->operator unsigned int())
         {
             void* property =
-                ((PropHelper*)((Flt*)((char*)p + 4))->operator unsigned int())->GetProperty(FUN_00438220());
+                ((PropHelper*)((Flt*)((char*)p + 4))->operator unsigned int())->GetProperty(NiShadeProperty_GetType());
             if (property)
                 ((FUN_006f90a0_shell*)this)->UpdateInstances(property, p);
         }
@@ -201,7 +202,8 @@ void FUN_006f91a0_shell::BGSDistantTreeBlock_UpdateShaderPropertyRecurse()
 }  // namespace fnv_006f91a0
 
 // @fnv 0x006f94c0
-void BGSDistantTreeBlockLoadTask::FUN_006f94c0()
+// src: XBOX_PDB 0x006f94c0
+void BGSDistantTreeBlockLoadTask::QueueMe()
 {
     unk30[4] = true;
     OnChildCompletion();
@@ -244,7 +246,7 @@ unsigned int __thiscall FakeArray::AppendInstance(InstanceData* apInstance)
 struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
-    void FUN_006ac070(void*, unsigned int);
+    void BSSimpleArray_PathingLocation_1024_DestructItems(void*, unsigned int);
 };
 struct ShaderProp
 {
@@ -390,7 +392,7 @@ void BGSDistantTreeBlock::ProcessAllTrees()
     {
         MarkTreeInstance(*mArray.GetAtPointer((int)i), false);
     }
-    FUN_006f7780();
+    BGSDistantTreeBlock_ClearQueuedTrees();
 }
 
 class BSSoundHandle;
@@ -398,7 +400,7 @@ extern IOManager* DAT_01202d98;
 // @fnv 0x006f94e0
 void BGSDistantTreeBlockLoadTask::DispatchToManager()
 {
-    if (((IOTask*)this)->FUN_0043caa0() && unk30[4])
+    if (((IOTask*)this)->QueuedFile_GetAllChildrenFinished() && unk30[4])
     {
         if (((NiTPointerMap<unsigned int, BSSoundHandle*>*)this)->IsEmpty())
             DAT_01202d98->AddTask(reinterpret_cast<QIOTask*>(this));
@@ -544,13 +546,13 @@ struct FUN_006f90a0_shell
 };
 
 unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
-unsigned int __cdecl FUN_00bb6030(void);
+unsigned int __cdecl BSDistantTreeShader_GetMaxInstances(void);
 
 // @fnv 0x006f90a0
 void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
 {
     unsigned int count = FUN_0042f5a0(
-        reinterpret_cast<BGSDistantTreeBlock::TreeIndexArray*>(reinterpret_cast<unsigned char*>(params.owner) + 8)->GetSize(), FUN_00bb6030());
+        reinterpret_cast<BGSDistantTreeBlock::TreeIndexArray*>(reinterpret_cast<unsigned char*>(params.owner) + 8)->GetSize(), BSDistantTreeShader_GetMaxInstances());
 
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -561,7 +563,7 @@ void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
                                   instance->flag ? 0.0f : instance->f4);
     }
 
-    for (unsigned int j = count; j < FUN_00bb6030(); ++j)
+    for (unsigned int j = count; j < BSDistantTreeShader_GetMaxInstances(); ++j)
     {
         params.renderer->SetEntry(j, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
     }
@@ -609,7 +611,7 @@ struct InParam
     NavMeshPtr m1c;
 };
 extern const float DAT_01012054;
-float __cdecl FUN_004579e0(float);
+float __cdecl NiSqrt_004579e0(float);
 // @fnv 0x006f7a80
 void BuildNavMeshGeometry(void* pInParam)
 {
@@ -635,8 +637,8 @@ void BuildNavMeshGeometry(void* pInParam)
     unsigned int cntB;
     float* arrFk;
     unsigned short w4;
-    cntA3 = FUN_00bb6030() << 2;
-    cntB = FUN_00bb6030() << 3;
+    cntA3 = BSDistantTreeShader_GetMaxInstances() << 2;
+    cntB = BSDistantTreeShader_GetMaxInstances() << 3;
     arrA3 = new NiPoint3[cntB];
     arrB5 = new NiPoint2[cntB];
     arrCy = new NiPoint3[cntB];
@@ -649,7 +651,7 @@ void BuildNavMeshGeometry(void* pInParam)
     raw103 = ((InParam*)pInParam)->f10;
     raw145 = ((InParam*)pInParam)->f14;
     raw182 = ((InParam*)pInParam)->f18;
-    tmpF1 = FUN_004579e0(2.0f);
+    tmpF1 = NiSqrt_004579e0(2.0f);
     for (iy = 0; iy < cntB; iy += 8)
     {
         arrA3[iy].x = -sAh;
@@ -660,7 +662,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 1].x = sAh;
         arrA3[iy + 1].y = 0.0f;
         arrA3[iy + 1].z = raw8h;
@@ -669,7 +671,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 2].x = -sAh;
         arrA3[iy + 2].y = 0.0f;
         arrA3[iy + 2].z = 0.0f;
@@ -678,7 +680,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 3].x = sAh;
         arrA3[iy + 3].y = 0.0f;
         arrA3[iy + 3].z = 0.0f;
@@ -687,7 +689,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 4].x = 0.0f;
         arrA3[iy + 4].y = -sAh;
         arrA3[iy + 4].z = raw8h;
@@ -696,7 +698,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 5].x = 0.0f;
         arrA3[iy + 5].y = sAh;
         arrA3[iy + 5].z = raw8h;
@@ -705,7 +707,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 6].x = 0.0f;
         arrA3[iy + 6].y = -sAh;
         arrA3[iy + 6].z = 0.0f;
@@ -714,7 +716,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
         arrA3[iy + 7].x = 0.0f;
         arrA3[iy + 7].y = sAh;
         arrA3[iy + 7].z = 0.0f;
@@ -723,7 +725,7 @@ void BuildNavMeshGeometry(void* pInParam)
         arrCy[iy].x = DAT_01012054;
         arrCy[iy].y = 1.0f;
         arrCy[iy].z = 1.0f;
-        arrCy[iy].FUN_004a0c10();
+        arrCy[iy].Unitize_004a0c10();
     }
     w4 = 0;
     for (ju = 0; ju < cntA3 * 3; ju += 6)
@@ -833,7 +835,7 @@ void TreeLODManager::AddTreeInstance(unsigned int auiType, TreeInstance* apInsta
     AutoMemHelper kMem(0x25, true, str_0106dd30, 0x14b);
     TreeBlock* pBlock = 0;
     bool bFound8 = kBlockMap.GetAt(auiType, pBlock);
-    if (!bFound8 || !pBlock || pBlock->kInstances.GetSize() == FUN_00bb6030())
+    if (!bFound8 || !pBlock || pBlock->kInstances.GetSize() == BSDistantTreeShader_GetMaxInstances())
     {
         if (auiType >= g_TreeTypes.GetSize())
         {
@@ -845,7 +847,7 @@ void TreeLODManager::AddTreeInstance(unsigned int auiType, TreeInstance* apInsta
         kBlocks.Add(pBlock);
         kBlockMap.SetAt(auiType, pBlock);
         pBlock->iIndex = kBlocks.GetSize() - 1;
-        pBlock->kInstances.SetCapacity(FUN_00bb6030());
+        pBlock->kInstances.SetCapacity(BSDistantTreeShader_GetMaxInstances());
         pBlock->bFull = 0;
     }
     pBlock->kInstances.AddInstance(apInstance);
@@ -1033,7 +1035,7 @@ BGSDistantTreeBlockLoadTask::BGSDistantTreeBlockLoadTask(
     m_bCancelled = false;
     char acPath[260];
     FormatTreeLodDtlPath(acPath, apWorld, aiLODLevel, (short)aiCellX, (short)aiCellY);
-    FUN_00c3cee0(acPath + 5);
+    SetFileName_00c3cee0(acPath + 5);
     LookupFileEntry(0);
     m_bLoadComplete = false;
 }
@@ -1269,8 +1271,8 @@ struct BoundTreeBlock
     TreeGeometryPtr geometry;
     TreePositions instances;
 };
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMIN(float, float);
+float __cdecl BSMAX_00404010(float, float);
 struct TreeBoundsOwner
 {
     NiBound* ComputeTreeBounds(NiBound* result, BoundTreeBlock* block);
@@ -1291,12 +1293,12 @@ NiBound* TreeBoundsOwner::ComputeTreeBounds(NiBound* result, BoundTreeBlock* blo
     maximum = block->instances.FUN_0044ddc0();
     for (unsigned int i = 0; i < maximum; ++i)
     {
-        count.x = FUN_0040ebd0(count.x, block->instances.GetElementAt(i)->x);
-        limit.x = FUN_00404010(limit.x, block->instances.GetElementAt(i)->x);
-        count.y = FUN_0040ebd0(count.y, block->instances.GetElementAt(i)->y);
-        limit.y = FUN_00404010(limit.y, block->instances.GetElementAt(i)->y);
-        count.z = FUN_0040ebd0(count.z, block->instances.GetElementAt(i)->z);
-        limit.z = FUN_00404010(limit.z, block->instances.GetElementAt(i)->z);
+        count.x = BSMIN(count.x, block->instances.GetElementAt(i)->x);
+        limit.x = BSMAX_00404010(limit.x, block->instances.GetElementAt(i)->x);
+        count.y = BSMIN(count.y, block->instances.GetElementAt(i)->y);
+        limit.y = BSMAX_00404010(limit.y, block->instances.GetElementAt(i)->y);
+        count.z = BSMIN(count.z, block->instances.GetElementAt(i)->z);
+        limit.z = BSMAX_00404010(limit.z, block->instances.GetElementAt(i)->z);
     }
     NiPoint3 center = count + (limit - count).FUN_0053d280(2.0f);
     float radius = (limit - center).Length() + block->geometry.FUN_00559450()->GetBound()->FUN_0084d030();

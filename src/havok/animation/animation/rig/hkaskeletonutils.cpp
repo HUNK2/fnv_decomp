@@ -252,7 +252,7 @@ struct ScanObj
     void FUN_00cde940(int a, int b, void* c);
 };
 
-HolderRec* FUN_00c85750();
+HolderRec* hkMemoryRouter_getInstance();
 
 // @fnv 0x00cde3d0
 unsigned char* WalkChainUntilLimit(unsigned char* pabResult, hkaSkeleton* rec, short asLimit, short asStart, ScanObj* obj)
@@ -267,7 +267,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, hkaSkeleton* rec, s
         {
             if ((short)idx == sLimit)
                 break;
-            HolderRec* h = FUN_00c85750();
+            HolderRec* h = hkMemoryRouter_getInstance();
             obj->FUN_00cde940(h->m_10, 0, &iCurrent);
             idx = ((const unsigned short*)rec->m_kParentIndices.m_data)[(short)idx];
             iCurrent = idx;
@@ -275,7 +275,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, hkaSkeleton* rec, s
     }
     {
         int out;
-        HolderRec* h = FUN_00c85750();
+        HolderRec* h = hkMemoryRouter_getInstance();
         obj->FUN_00cde940(h->m_10, 0, &out);
     }
     *pabResult = ((short)idx >= 0);
@@ -305,7 +305,7 @@ struct S_00cde450_Router
     }
 };
 
-S_00cde450_Router* __cdecl FUN_00c85750();
+S_00cde450_Router* __cdecl hkMemoryRouter_getInstance();
 
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
@@ -321,7 +321,7 @@ struct S_00cde450_UShortArr
 
     void AddBack(unsigned short v)
     {
-        S_00cde450_Heap& h = FUN_00c85750()->heap();
+        S_00cde450_Heap& h = hkMemoryRouter_getInstance()->heap();
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ResizeAudioStream(h, this, 2);
         unsigned short* p = m_data + m_iElementCount;
@@ -362,7 +362,7 @@ void __cdecl CollectReachableNodes(hkaSkeleton* g, short asStartIndex, S_00cde45
     bits.m_iElementCount = 0;
     bits.m_cap = 0x80000000;
     {
-        S_00cde450_Router* r = FUN_00c85750();
+        S_00cde450_Router* r = hkMemoryRouter_getInstance();
         char* top = r->m_fMinimumV;
         r->m_fMinimumV = top + ((iNodeCount + 0x7f) & ~0x7f);
         bits.m_cap = iNodeCount | 0x80000000;
@@ -371,7 +371,7 @@ void __cdecl CollectReachableNodes(hkaSkeleton* g, short asStartIndex, S_00cde45
     }
     int n = g->m_kBones.m_iElementCount;
     {
-        S_00cde450_Heap& h = FUN_00c85750()->heap();
+        S_00cde450_Heap& h = hkMemoryRouter_getInstance()->heap();
         int c = bits.m_cap & 0x3fffffff;
         if (c < n)
             hkArrayUtil__reserve(h, &bits, (n < c * 2) ? c * 2 : n, 1);
@@ -395,8 +395,8 @@ void __cdecl CollectReachableNodes(hkaSkeleton* g, short asStartIndex, S_00cde45
     char* pAllocBase = bits.m_pTrailingData;
     if (pAllocBase == bits.m_data)
         bits.m_iElementCount = 0;
-    FUN_00c85750()->m_fMinimumV = pAllocBase;
-    S_00cde450_Heap& h2 = FUN_00c85750()->heap();
+    hkMemoryRouter_getInstance()->m_fMinimumV = pAllocBase;
+    S_00cde450_Heap& h2 = hkMemoryRouter_getInstance()->heap();
     bits.m_iElementCount = 0;
     if ((bits.m_cap & 0x80000000) == 0)
         h2.ReturnMemory(bits.m_data, bits.m_cap & 0x3fffffff);
@@ -624,7 +624,7 @@ struct Property
     LocalM128 vector;
     static void* operator new(unsigned int bytes)
     {
-        AllocationService* service = reinterpret_cast<AllocationService*>(FUN_00c85750());
+        AllocationService* service = reinterpret_cast<AllocationService*>(hkMemoryRouter_getInstance());
         return service->allocator->Allocate(bytes);
     }
     Property()

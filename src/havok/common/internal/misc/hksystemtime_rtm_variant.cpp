@@ -194,23 +194,23 @@ class S29cd0_hkMemoryRouter
     S29cd0_hkMemoryAllocator* m_pTemp;
     S29cd0_hkMemoryAllocator* m_pStreamAllocator;
 };
-extern "C" S29cd0_hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" S29cd0_hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 template <typename TYPE> __forceinline TYPE* S29cd0_hkAllocateStack(int n, const char* what = 0)
 {
-    S29cd0_hkMemoryRouter& mem = *FUN_00c85750();
+    S29cd0_hkMemoryRouter& mem = *hkMemoryRouter_getInstance();
     return static_cast<TYPE*>(mem.stack().allocateStack((n * sizeof(TYPE) + 127) & ~127, what));
 }
 template <typename TYPE> __forceinline void S29cd0_hkDeallocateStack(TYPE* ptr)
 {
-    FUN_00c85750()->stack().deallocateStack(static_cast<void*>(ptr));
+    hkMemoryRouter_getInstance()->stack().deallocateStack(static_cast<void*>(ptr));
 }
 
 struct S29cd0_hkContainerHeapAllocator
 {
     __forceinline S29cd0_hkMemoryAllocator& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return hkMemoryRouter_getInstance()->heap();
     }
 };
 
@@ -471,7 +471,8 @@ __declspec(noinline) bool FUN_00e29920(const S29cd0_hkVector4& points00, const S
 }
 
 // @fnv 0x00e29cd0
-extern "C" void __cdecl FUN_00e29cd0(int* indices, int numIndices, const S29cd0_hkVector4* rayFrom,
+// src: XBOX_PDB 0x00e29cd0
+extern "C" void __cdecl hkTreeBundleRayCastUtil_autoBundleFromList(int* indices, int numIndices, const S29cd0_hkVector4* rayFrom,
                                      const S29cd0_hkVector4* rayTo, int numRays, S29cd0_hkReal angleVariance,
                                      S29cd0_hkReal distanceVariance2, S29cd0_hkpWorldRayCastOutput* resultBuffer,
                                      S29cd0_hkpWorldRayCastCommand* singleCommandsOut, int& numSingleCommandsOut,

@@ -243,10 +243,11 @@ unsigned short __thiscall FUN_00b086f0_class::GetLowWordAtOffset0x78()
 struct CSpeedTreeRT
 {
     void* m_pFirstPointer;
-    unsigned short FUN_00b08710();
+    unsigned short GetNumLeafLodLevels();
 };
 // @fnv 0x00b08710
-unsigned short CSpeedTreeRT::FUN_00b08710()
+// src: XBOX_PDB 0x00b08710
+unsigned short CSpeedTreeRT::GetNumLeafLodLevels()
 {
     unsigned int v = *(unsigned int*)((char*)m_pFirstPointer + 0xd8);
     return (unsigned short)v;
@@ -445,11 +446,12 @@ struct FUN_00b08440_shell
     void* m_2c;
     void* m_30;
     void* m_34;
-    float FUN_00b08440();
+    float CSpeedTreeRT_GetLodLevel();
 };
 
 // @fnv 0x00b08440
-float FUN_00b08440_shell::FUN_00b08440()
+// src: XBOX_PDB 0x00b08440
+float FUN_00b08440_shell::CSpeedTreeRT_GetLodLevel()
 {
     float fLevel = -1.0f;
     if (m_34)
@@ -477,11 +479,12 @@ void __cdecl AssignString(const char* s);
 
 struct CSpeedTreeRT_GetBoundingBox
 {
-    void __thiscall FUN_00b08c80(float* dst);
+    void __thiscall CSpeedTreeRT_GetBoundingBox_00b08c80(float* dst);
 };
 
 // @fnv 0x00b08c80
-void __thiscall CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
+// src: XBOX_PDB 0x00b08c80
+void __thiscall CSpeedTreeRT_GetBoundingBox::CSpeedTreeRT_GetBoundingBox_00b08c80(float* afBounds)
 {
     if (afBounds)
     {
@@ -726,7 +729,8 @@ extern int DAT_011f8eb0;
 extern int DAT_011f8eb4;
 // Copies the global camera position and direction into the two output vectors, or reports an error if either pointer is NULL.
 // @fnv 0x00b06b70
-void __cdecl FUN_00b06b70(float* pPosition, float* pDirection)
+// src: XBOX_PDB 0x00b06b70
+void __cdecl CSpeedTreeRT_GetCamera(float* pPosition, float* pDirection)
 {
     if (pPosition && pDirection)
     {
@@ -770,10 +774,11 @@ struct FUN_00b08480_shell
     void* m_2c;
     void* m_30;
     void* m_34;
-    void FUN_00b08480(float f);
+    void CSpeedTreeRT_SetLodLevel(float f);
 };
 // @fnv 0x00b08480
-void FUN_00b08480_shell::FUN_00b08480(float afLevel)
+// src: XBOX_PDB 0x00b08480
+void FUN_00b08480_shell::CSpeedTreeRT_SetLodLevel(float afLevel)
 {
     if (afLevel >= 0.0 && afLevel <= 1.0)
     {
@@ -820,11 +825,12 @@ struct FUN_00b2b940_class
 };
 struct FUN_00b053e0_shell
 {
-    void FUN_00b053e0();
+    void CSpeedTreeRT_DeleteTransientData();
 };
 
 // @fnv 0x00b053e0
-void FUN_00b053e0_shell::FUN_00b053e0()
+// src: XBOX_PDB 0x00b053e0
+void FUN_00b053e0_shell::CSpeedTreeRT_DeleteTransientData()
 {
     unsigned char bFlag = ((unsigned char*)*(void**)((char*)this))[0x21];
     if (bFlag)
@@ -1036,11 +1042,11 @@ unsigned short FUN_00b08610_shell::CSpeedTreeRT_GetDiscreteLeafLodLevel(float fL
     unsigned short nLevel = 0;
     if (fLodLevel == _DAT_0101a6b0)
     {
-        fLodLevel = ((FUN_00b08440_shell*)this)->FUN_00b08440();
+        fLodLevel = ((FUN_00b08440_shell*)this)->CSpeedTreeRT_GetLodLevel();
     }
     if (DAT_011f8b78)
     {
-        int nNumLodLevels = ((CSpeedTreeRT*)this)->FUN_00b08710() + 1;
+        int nNumLodLevels = ((CSpeedTreeRT*)this)->GetNumLeafLodLevels() + 1;
         nLevel = (unsigned short)((1.0f - fLodLevel) * nNumLodLevels);
         if (nLevel == nNumLodLevels)
         {
@@ -1049,7 +1055,7 @@ unsigned short FUN_00b08610_shell::CSpeedTreeRT_GetDiscreteLeafLodLevel(float fL
     }
     else
     {
-        int nNumLodLevels = ((CSpeedTreeRT*)this)->FUN_00b08710();
+        int nNumLodLevels = ((CSpeedTreeRT*)this)->GetNumLeafLodLevels();
         nLevel = (unsigned short)((1.0f - fLodLevel) * nNumLodLevels);
         if (nLevel == nNumLodLevels)
         {
@@ -1077,7 +1083,7 @@ void __cdecl AssignString(const char* pcString)
 
 extern unsigned char DAT_011f8b78;
 void __cdecl AssignString(const char* s);
-void __cdecl FUN_00b0c8d0(float a, unsigned short n, float b, float c, float d, float e, float* pf1, float* pf2,
+void __cdecl CSpeedTreeRT_GetTransitionValues(float a, unsigned short n, float b, float c, float d, float e, float* pf1, float* pf2,
                           short* ps1, short* ps2);
 
 struct FUN_00b0b920_geo
@@ -1100,9 +1106,9 @@ struct FUN_00b0b920_engine
     int FUN_00b7b0();
     int FUN_00b830();
     int FUN_00b8b0();
-    unsigned short FUN_00b0a9a0(unsigned short i);
-    int FUN_00b0aa20(unsigned short i);
-    int FUN_00b30730(unsigned short i);
+    unsigned short CIndexedGeometry_GetNumStrips(unsigned short i);
+    int CIndexedGeometry_GetStripLengthsPointer(unsigned short i);
+    int CIndexedGeometry_GetStripsPointer(unsigned short i);
 };
 
 struct FUN_00b0b920_arg
@@ -1123,9 +1129,9 @@ struct FUN_00b0b920_self
     unsigned char m_44;
     char m_45[0x1b];
     FUN_00b0b920_engine* m_60;
-    unsigned short FUN_00b08710();
+    unsigned short GetNumLeafLodLevels();
     short CSpeedTreeRT_GetDiscreteFrondLodLevel(float f);
-    float FUN_00b08440();
+    float CSpeedTreeRT_GetLodLevel();
     void FillFrondGeometry(FUN_00b0b920_arg* arg, short type);
 };
 
@@ -1155,17 +1161,17 @@ void FUN_00b0b920_self::FillFrondGeometry(FUN_00b0b920_arg* arg, short type)
         beg->m_34 = m_60->FUN_00b8b0();
         short w = (type == -1) ? CSpeedTreeRT_GetDiscreteFrondLodLevel(-1.0f) : type;
         beg->m_iWordAt00 = w;
-        beg->m_iWordAt04 = m_60->FUN_00b0a9a0((unsigned short)w);
-        beg->m_8 = m_60->FUN_00b0aa20((unsigned short)w);
-        beg->m_iThirdValue = m_60->FUN_00b30730((unsigned short)w);
+        beg->m_iWordAt04 = m_60->CIndexedGeometry_GetNumStrips((unsigned short)w);
+        beg->m_8 = m_60->CIndexedGeometry_GetStripLengthsPointer((unsigned short)w);
+        beg->m_iThirdValue = m_60->CIndexedGeometry_GetStripsPointer((unsigned short)w);
         if (DAT_011f8b78)
         {
-            n = FUN_00b08710() + 1;
+            n = GetNumLeafLodLevels() + 1;
             aj = -1.0f;
             idx = -1.0f;
             num = -1;
             cnt = -1;
-            FUN_00b0c8d0(FUN_00b08440(), n, m_1c, m_28, m_20, (float)m_44, &aj, &idx, &num, &cnt);
+            CSpeedTreeRT_GetTransitionValues(CSpeedTreeRT_GetLodLevel(), n, m_1c, m_28, m_20, (float)m_44, &aj, &idx, &num, &cnt);
             if (num == n - 2)
                 arg->m_74 = aj;
             else if (num == n - 1)
@@ -1187,7 +1193,7 @@ struct HelperC780
 {
     void* CSimpleBillboard_GetBillboardCoords(float, float);
 };
-void __cdecl FUN_00b0c8d0(float, unsigned short, float, float, float, float, float*, float*, short*, short*);
+void __cdecl CSpeedTreeRT_GetTransitionValues(float, unsigned short, float, float, float, float, float*, float*, short*, short*);
 extern "C" char DAT_011ad124;
 struct BlockC4
 {
@@ -1248,13 +1254,13 @@ void TreeC4::FillSpeedTreeOutput(OutC4* out)
 {
     if (DAT_011f8b78)
     {
-        unsigned short p = ((CSpeedTreeRT*)this)->FUN_00b08710() + 1;
+        unsigned short p = ((CSpeedTreeRT*)this)->GetNumLeafLodLevels() + 1;
         float s = -1.0f;
         float i = -1.0f;
         short h = -1;
         short a = -1;
         float f, eb, cf, q;
-        FUN_00b0c8d0(((FUN_00b08440_shell*)this)->FUN_00b08440(), p, x, z, y, (float)mode, &s, &i, &h, &a);
+        CSpeedTreeRT_GetTransitionValues(((FUN_00b08440_shell*)this)->CSpeedTreeRT_GetLodLevel(), p, x, z, y, (float)mode, &s, &i, &h, &a);
         out->weight = -1.0f;
         if (h == p - 1)
             out->weight = s;
@@ -1643,7 +1649,7 @@ extern MemoryManager DAT_011f6238;
 
 struct FUN_0044a730_shell
 {
-    void __thiscall FUN_0044a730(bool first, unsigned int second);
+    void __thiscall fopen_0044a730(bool first, unsigned int second);
 };
 
 struct FUN_00b04420_pad
@@ -1686,7 +1692,7 @@ void FUN_00b04420_class::FUN_00b04420()
     v0c = m14;
     DAT_011f6238.Deallocate(v0c);
     m14 = 0;
-    m18.FUN_0044a730(true, 0);
+    m18.fopen_0044a730(true, 0);
 }
 
 struct S00b065e0_Vec
@@ -1712,10 +1718,11 @@ struct S00b065e0_Cls
     void* m_2c;
     void* m_30;
     void* m_34;
-    void FUN_00b065e0(float a, float b, float c);
+    void CSpeedTreeRT_SetTreePosition(float a, float b, float c);
 };
 // @fnv 0x00b065e0
-void S00b065e0_Cls::FUN_00b065e0(float a, float b, float c)
+// src: XBOX_PDB 0x00b065e0
+void S00b065e0_Cls::CSpeedTreeRT_SetTreePosition(float a, float b, float c)
 {
     void* base;
     float* n;
@@ -1751,7 +1758,7 @@ short FUN_00b08530_class::GetIndexFromLevel(float level)
 {
     short index = 0;
     if (level == _DAT_0101a6b0)
-        level = ((FUN_00b08440_shell*)this)->FUN_00b08440();
+        level = ((FUN_00b08440_shell*)this)->CSpeedTreeRT_GetLodLevel();
 
     int count = ((FUN_00b086f0_class*)this)->GetLowWordAtOffset0x78();
     index = (short)((1.0 - level) * count);
@@ -1762,7 +1769,7 @@ short FUN_00b08530_class::GetIndexFromLevel(float level)
 
 struct FUN_00b085a0_local_shell
 {
-    float FUN_00b08440();
+    float CSpeedTreeRT_GetLodLevel();
     unsigned short GetId();
     short CSpeedTreeRT_GetDiscreteFrondLodLevel(float fLodLevel);
 };
@@ -1779,7 +1786,7 @@ short FUN_00b085a0_local_shell::CSpeedTreeRT_GetDiscreteFrondLodLevel(float fLod
 
     if (fLodLevel == _DAT_0101a6b0)
     {
-        fLodLevel = FUN_00b08440();
+        fLodLevel = CSpeedTreeRT_GetLodLevel();
     }
 
     int nNumLodLevels = GetId();
@@ -1859,7 +1866,7 @@ struct FUN_00ec78e0
 
 struct FUN_00b096a0_Str
 {
-    void FUN_0044a730(bool, unsigned int);
+    void fopen_0044a730(bool, unsigned int);
     void AssignSubstring(const FUN_00b096a0_Str&, unsigned int, unsigned int);
 
     ~FUN_00b096a0_Str();
@@ -1906,7 +1913,7 @@ FUN_00b096a0::FUN_00b096a0(const FUN_00b096a0_Str& pName)
 
     {
         FUN_00b096a0_Str& s = m_str;
-        s.FUN_0044a730(false, 0);
+        s.fopen_0044a730(false, 0);
         s.AssignSubstring(pName, 0, DAT_010173f0);
     }
 }

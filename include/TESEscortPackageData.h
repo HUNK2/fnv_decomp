@@ -21,6 +21,6 @@ public:
     TESEscortPackageData* TESEscortPackageData_0067bbf0();
     void FUN_0067bca0();
     void* DestroyIfFlagged(unsigned int);
-    void FUN_0067bec0();
+    void Save_0067bec0();
     void SaveGame_0067bf40(BGSSaveFormBuffer* buffer);
 };

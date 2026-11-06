@@ -50,13 +50,13 @@ struct FUN_00a41520_cls
 
     bool BSAnimNoteListener_Register(void* apFirst, void* apSecond);
 };
-void* __cdecl FUN_00aa1070(unsigned int auiSize);
+void* __cdecl _NiMalloc_00aa1070(unsigned int auiSize);
 void __cdecl _NiFree_00aa10f0(void* apMemory);
 struct S_Interface
 {
     static KeyPair** Allocate(unsigned int auiCount)
     {
-        return (KeyPair**)FUN_00aa1070(sizeof(KeyPair*) * auiCount);
+        return (KeyPair**)_NiMalloc_00aa1070(sizeof(KeyPair*) * auiCount);
     }
 };
 struct C89CD0Target

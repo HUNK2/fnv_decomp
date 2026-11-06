@@ -96,7 +96,7 @@ public:
     bool FindPathToPoint(const POVNode*, PathSmootherPOVPoint*, BSSimpleArray<POVNode*, 1024>*);
     bool CalculatePathCost(PathSmootherPOVPoint*, PathSmootherPOVPoint*,
                            const NiPoint3&, const NiPoint3&, float*);
-    bool FUN_006b1e50(const NavMeshEdgePoint&, Sphere&, CircularArc, NavMeshEdgePoint*);
+    bool CheckArcAgainstNavMesh(const NavMeshEdgePoint&, Sphere&, CircularArc, NavMeshEdgePoint*);
     bool DoubleCheckArcAgainstNavMesh(const NavMeshEdgePoint&, Sphere&, CircularArc);
     bool TripleCheckSegmentAgainstNavMesh(const NavMeshEdgePoint&, const NiPoint3&, NavMeshEdgePoint*, bool, bool, float&);
     unsigned int GetKeyForNode(PathSmootherPOVPoint*, ANGLE_DIRECTION);

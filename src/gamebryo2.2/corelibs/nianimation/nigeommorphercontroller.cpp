@@ -320,7 +320,8 @@ struct GeomT
 };
 
 // @fnv 0x00a3aba0
-void __fastcall FUN_00a3aba0(NiGeomMorpherController* self, int)
+// src: XBOX_PDB 0x00a3aba0
+void __fastcall NiGeomMorpherController_OnPreDisplay(NiGeomMorpherController* self, int)
 {
     if (self->m_pkTarget && self->m_bUpdateEnabled)
     {
@@ -425,7 +426,7 @@ struct MorphPoint3
 
 struct MorphGeomData
 {
-    void FUN_00a66bb0(unsigned short usVerts, MorphPoint3* pkDest, void* pvA, void* pvB, void* pvC,
+    void NiGeometryData_ReplaceData(unsigned short usVerts, MorphPoint3* pkDest, void* pvA, void* pvB, void* pvC,
                       unsigned int uiFlagA, unsigned int uiFlagB);
     unsigned short GetVertexCount() const
     {
@@ -475,7 +476,7 @@ MorphPoint3* __fastcall GetMorphVertices(NiGeomMorpherController* self, int)
     unsigned short usVerts = pkGeom->GetModelData()->GetVertexCount();
     MorphPoint3* pkNew = new MorphPoint3[usVerts];
     MorphGeomData* pkData = pkGeom->GetModelData();
-    pkData->FUN_00a66bb0(usVerts, pkNew, pkData->GetA(), pkData->GetB(), pkData->GetC(), pkData->GetFlags() & 1,
+    pkData->NiGeometryData_ReplaceData(usVerts, pkNew, pkData->GetA(), pkData->GetB(), pkData->GetC(), pkData->GetFlags() & 1,
                          pkData->GetFlags() & 0xf000);
     return pkNew;
 }
@@ -486,12 +487,13 @@ extern float DAT_011a8538[5];
 struct FUN_00a3e680_shell
 {
     float SampleLength(int iA, int iB, float fT);
-    float FUN_00a3e680(int iA, int iB, float fT);
+    float NiPathInterpolator_PathLength(int iA, int iB, float fT);
 };
 
 // Samples SampleLength at five scaled points from DAT_011a854c, weights each by DAT_011a8538, sums them and multiplies by fT.
 // @fnv 0x00a3e680
-float FUN_00a3e680_shell::FUN_00a3e680(int iA, int iB, float fT)
+// src: XBOX_PDB 0x00a3e680
+float FUN_00a3e680_shell::NiPathInterpolator_PathLength(int iA, int iB, float fT)
 {
     float fWeightedSum = 0.0f;
     for (int i = 0; i < 5; i++)
@@ -1186,7 +1188,7 @@ void __fastcall ApplySetterArg(NiGeomMorpherController* self, int, SetterArg* a1
     }
     else
     {
-        bool ok = self->FUN_00a36250(a1->m_00);
+        bool ok = self->DontDoUpdate(a1->m_00);
         if (!ok || self->m_bNeedsUpdate != 0)
         {
             self->m_bUpdateEnabled = 1;
@@ -1268,11 +1270,12 @@ struct C00a41590
 {
     char pad00[0x4];
     int m4;
-    int* FUN_00a41590();
+    int* NiMorphData_MorphTarget_GetName();
 };
 
 // @fnv 0x00a41590
-int* C00a41590::FUN_00a41590()
+// src: XBOX_PDB 0x00a41590
+int* C00a41590::NiMorphData_MorphTarget_GetName()
 {
     return &m4;
 }
@@ -1307,7 +1310,7 @@ template <class T> inline void SaveStreamValue(NiStream& stream, const T& value)
 
 struct S00c27120
 {
-    void FUN_00c27120(NiStream&);
+    void NiInterpController_SaveBinary(NiStream&);
 };
 
 inline unsigned int GetMorphTargetCountSV(const NiGeomMorpherController* self)
@@ -1321,7 +1324,7 @@ inline unsigned int GetMorphTargetCountSV(const NiGeomMorpherController* self)
 // @fnv 0x00a3b350
 void __fastcall SaveMorphData(NiGeomMorpherController* self, int, NiStream& stream)
 {
-    reinterpret_cast<S00c27120*>(self)->FUN_00c27120(stream);
+    reinterpret_cast<S00c27120*>(self)->NiInterpController_SaveBinary(stream);
     SaveStreamValue(stream, self->m_uiObjectFlags);
     stream.SaveLinkID(reinterpret_cast<const NiObject*>(self->m_spMorphTargetData.m_pObject));
     unsigned char bNeedsUpdate = self->m_bNeedsUpdate;

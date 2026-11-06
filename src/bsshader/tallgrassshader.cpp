@@ -58,7 +58,7 @@ struct Prop
     char pad[0x20];
     unsigned int flags;
     void BSShaderProperty_SetMotionBlurred(bool);
-    void FUN_00441130(int, int);
+    void BSShaderProperty_SetFlag(int, int);
 };
 struct PropHelper
 {
@@ -115,7 +115,7 @@ struct Prop
     char pad[0x20];
     unsigned char flags;
     void BSShaderProperty_SetMotionBlurred(int);
-    void FUN_00441130(int, int);
+    void BSShaderProperty_SetFlag(int, int);
 };
 struct PropHelper
 {
@@ -173,7 +173,7 @@ struct Prop
     char pad[0x20];
     unsigned char flags;
     void BSShaderProperty_SetMotionBlurred(int);
-    void FUN_00441130(int, bool);
+    void BSShaderProperty_SetFlag(int, bool);
 };
 struct PropHelper
 {
@@ -199,7 +199,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba91a0
-void FUN_00ba91a0(Obj* pObj, int a, bool b)
+// src: XBOX_PDB 0x00ba91a0
+void BSShaderProperty_SetFlagRecurse(Obj* pObj, int a, bool b)
 {
     if (!pObj)
         return;
@@ -207,7 +208,7 @@ void FUN_00ba91a0(Obj* pObj, int a, bool b)
     {
         Prop* p = ((PropHelper*)pObj)->GetProperty(3);
         if (p)
-            p->FUN_00441130(a, b);
+            p->BSShaderProperty_SetFlag(a, b);
         return;
     }
     Node* n = pObj->v3();
@@ -218,7 +219,7 @@ void FUN_00ba91a0(Obj* pObj, int a, bool b)
         {
             Obj* c = n->kids[i];
             if (c)
-                FUN_00ba91a0(c, a, b);
+                BSShaderProperty_SetFlagRecurse(c, a, b);
         }
     }
 }
@@ -255,7 +256,8 @@ struct FUN_00bac160_holder
     void ConfigureBeamPasses();
 };
 // @fnv 0x00bac8b0
-void __fastcall FUN_00bac8b0(FUN_00bac160_holder* self, int)
+// src: XBOX_PDB 0x00bac8b0
+void __fastcall TallGrassShader_ReloadShaders(FUN_00bac160_holder* self, int)
 {
     void** vt = *(void***)self;
     ((void(__thiscall*)(void*))vt[79])(self);
@@ -283,7 +285,8 @@ extern S* DAT_0126f74c;
 extern int DAT_011f95e4;
 extern int DAT_011f95e8;
 // @fnv 0x00bac8d0
-void __stdcall FUN_00bac8d0(unsigned int k)
+// src: XBOX_PDB 0x00bac8d0
+void __stdcall TallGrassShader_SetupPassTextures(unsigned int k)
 {
     S* g = DAT_0126f74c;
     if ((k >= 0x1c && k <= 0x25) || k - 0x262 <= 9)
@@ -453,11 +456,12 @@ struct Self
     virtual void s64();
     virtual void s65();
     virtual int s66();
-    int FUN_00bac950(Arg* arg);
+    int TallGrassShader_SetupGeometryTextures(Arg* arg);
 };
 // Stores the result of p->s45() into the first slot, and for k in 0x284..0x287 also stores a texture from DAT_011f91e0[3] into the second slot, then calls s66().
 // @fnv 0x00bac950
-int Self::FUN_00bac950(Arg* arg)
+// src: XBOX_PDB 0x00bac950
+int Self::TallGrassShader_SetupGeometryTextures(Arg* arg)
 {
     unsigned int k = DAT_011f91e4;
     Poly* p = arg->p;
@@ -823,7 +827,7 @@ struct NiPropertyState_stub
     virtual void v67();
     virtual void v68();
     virtual void v69();
-    void FUN_00a81430(FUN_00ba8e50*, unsigned int);
+    void NiShadeProperty_CopyMembers(FUN_00ba8e50*, unsigned int);
 };
 struct FUN_00ba8ff0_shell : NiPropertyState_stub
 {
@@ -841,7 +845,7 @@ struct FUN_00ba8ff0_shell : NiPropertyState_stub
 FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
-    FUN_00a81430(pResult, uiPass);
+    NiShadeProperty_CopyMembers(pResult, uiPass);
     *(int*)((char*)pResult + 0x20) = f20;
     *(int*)((char*)pResult + 0x24) = f24;
     *(float*)((char*)pResult + 0x28) = f28;
@@ -871,11 +875,12 @@ static __forceinline void S_BinRead(S_00ba9380_Bin* bin, void* v, unsigned int b
 struct FUN_00ba9380_cls
 {
     void SaveToStream(void* pOther);
-    void FUN_00ba9380(void* pOther);
+    void BSShaderProperty_SaveBinary(void* pOther);
 };
 // Calls SaveToStream, then reads four 4-byte values from the stream at pOther+0x250 into this+0x58, this+0x20, this+0x24 and this+0x30.
 // @fnv 0x00ba9380
-void FUN_00ba9380_cls::FUN_00ba9380(void* pOther)
+// src: XBOX_PDB 0x00ba9380
+void FUN_00ba9380_cls::BSShaderProperty_SaveBinary(void* pOther)
 {
     char* pObj = (char*)pOther;
     SaveToStream(pOther);
@@ -894,7 +899,7 @@ extern int DAT_00ffdead;
 
 struct S_00ba9520_Heap
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern S_00ba9520_Heap DAT_011f6238;
 
@@ -922,7 +927,7 @@ struct S_00ba9520_Base
     ~S_00ba9520_Base()
     {
         unk00 = (int)&DAT_010b8480;
-        DAT_011f6238.FUN_00aa4060(unk04);
+        DAT_011f6238.MemoryManager_Deallocate(unk04);
     }
 };
 
@@ -943,11 +948,11 @@ FUN_00ba9520::~FUN_00ba9520()
             pEntry->unk04 = 0;
             if (pEntry->unk0c != 0)
             {
-                DAT_011f6238.FUN_00aa4060(pEntry->unk0c);
+                DAT_011f6238.MemoryManager_Deallocate(pEntry->unk0c);
                 pEntry->unk0c = 0;
             }
             pEntry->unk0b = 0;
-            DAT_011f6238.FUN_00aa4060(pEntry);
+            DAT_011f6238.MemoryManager_Deallocate(pEntry);
         }
     }
     unk10 = &DAT_00ffdead;
@@ -1139,7 +1144,7 @@ struct S_00ba92c0_Stream;
 
 struct S_00ba92c0_Base
 {
-    void FUN_00a95190(S_00ba92c0_Stream& kStream);
+    void NiDitherProperty_LoadBinary(S_00ba92c0_Stream& kStream);
 };
 
 struct S_00ba92c0_Stream
@@ -1332,14 +1337,15 @@ struct S_00ba92c0_Prop : S_00ba92c0_Base
             unk38 = 0;
         uiFlags |= uiMask;
     }
-    void FUN_00ba92c0(S_00ba92c0_Stream& kStream);
+    void BSShaderProperty_LoadBinary(S_00ba92c0_Stream& kStream);
 };
 
 // Reads unk58, the two flag words, sets flag 0x8000 when bit 0x2000 is set, then reads unk30 from the stream's bin.
 // @fnv 0x00ba92c0
-void S_00ba92c0_Prop::FUN_00ba92c0(S_00ba92c0_Stream& kStream)
+// src: XBOX_PDB 0x00ba92c0
+void S_00ba92c0_Prop::BSShaderProperty_LoadBinary(S_00ba92c0_Stream& kStream)
 {
-    FUN_00a95190(kStream);
+    NiDitherProperty_LoadBinary(kStream);
     S_00ba92c0_BinRead(kStream.m_pkBin, &unk58, 4);
     for (int i = 0; i < 2; ++i)
         S_00ba92c0_BinRead(kStream.m_pkBin, &m_auiFlags[i], 4);
@@ -1602,7 +1608,7 @@ extern bool DAT_011f948b, DAT_011f94a4, DAT_011f948a, DAT_011f9421;
 const char* __cdecl FUN_00b4f380(int);
 int __cdecl FUN_004dc060(int);
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 struct TallGrassPrograms
 {
     int unk000;
@@ -2008,11 +2014,11 @@ void TallGrassPrograms::TallGrassShader_LoadShaders()
                 for (int index = 0; index < 24; index++)
                 {
                     FUN_00be0c00(vertex[index].source, sourcePath);
-                    FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
+                    BSsprintf(binaryShaderName, 260, "GRASS2%03i.vso", index);
                     const char* vertexShaderProfile = "vs_2_0";
                     if (DAT_011f94a4 && DAT_011f948a)
                     {
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                         vertexShaderProfile = "vs_3_0";
                     }
                     vertexPrograms[index] = FUN_00be0fe0(sourcePath, (GrassMacro*)vertex[index].macros,
@@ -2025,11 +2031,11 @@ void TallGrassPrograms::TallGrassShader_LoadShaders()
             for (int index = 0; index < 24; index++)
             {
                 FUN_00be0c00(vertex[index].source, sourcePath);
-                FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.vso", index);
+                BSsprintf(binaryShaderName, 260, "GRASS2%03i.vso", index);
                 const char* vertexShaderProfile = "vs_2_0";
                 if (DAT_011f94a4 && DAT_011f948a)
                 {
-                    FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
+                    BSsprintf(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                     vertexShaderProfile = "vs_3_0";
                 }
                 vertexPrograms[index] =
@@ -2055,19 +2061,19 @@ void TallGrassPrograms::TallGrassShader_LoadShaders()
                             reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset));
                         macro->name = "TRANSPARENCYMS";
                         macro->value = "";
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
                     }
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS2%03i.pso", index);
                     FUN_00be0c00(
                         reinterpret_cast<GrassShaderDescriptor*>(reinterpret_cast<char*>(pixel) + pixelOffset)->source,
                         sourcePath);
                     if (DAT_011f94a4 && DAT_011f948a)
                     {
                         if (DAT_011f9421)
-                            FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
+                            BSsprintf(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
                         else
-                            FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
+                            BSsprintf(binaryShaderName, 260, "GRASS23x%03i.pso", index);
                         shaderProfile = "ps_3_0";
                     }
                     else
@@ -2089,16 +2095,16 @@ void TallGrassPrograms::TallGrassShader_LoadShaders()
                     macro->name = "TRANSPARENCYMS";
                     macro->value = "";
                     if (DAT_011f94a4 && DAT_011f948a)
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS23x%03iTMS.pso", index);
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS2%03iTMS.pso", index);
                 }
                 else
                 {
                     if (DAT_011f94a4 && DAT_011f948a)
-                        FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS23x%03i.pso", index);
                     else
-                        FUN_00406d00(binaryShaderName, 260, "GRASS2%03i.pso", index);
+                        BSsprintf(binaryShaderName, 260, "GRASS2%03i.pso", index);
                 }
                 if (DAT_011f94a4 && DAT_011f948a)
                     shaderProfile = "ps_3_0";

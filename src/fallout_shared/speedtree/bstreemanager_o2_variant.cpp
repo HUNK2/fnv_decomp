@@ -9,7 +9,7 @@
 #include "../../../include/Setting.h"
 #include "../../../include/NiRenderer.h"
 #include "../../../include/NiDX9Renderer.h"
-void* FUN_00664840(bool create);
+void* BSTreeManager_GetInstance(bool create);
 void SetGlobalFloatFromUInt(unsigned int value);
 void ClampAndStoreValue(float value);
 extern NP DAT_011f95e4;

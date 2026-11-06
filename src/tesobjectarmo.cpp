@@ -79,7 +79,7 @@ FNV_STATIC_ASSERT(offsetof(TESObjectARMO, m_bUsesSoundList) == 396);
 // ArmorData does not yet declare its record endian helper.
 struct ArmorDataEndian
 {
-    void FUN_00535aa0();
+    void OBJ_WEAP_CRITICAL_Endian();
 };
 
 // Record-loading helpers and legacy armor layouts.
@@ -404,12 +404,12 @@ bool TESObjectARMO::Load(TESFile* file)
             memset(&data, 0, sizeof(data));
             file->GetChunkData(&data, sizeof(data));
             if (file->IsEndianConversionRequired())
-                reinterpret_cast<ArmorDataEndian*>(&data)->FUN_00535aa0();
+                reinterpret_cast<ArmorDataEndian*>(&data)->OBJ_WEAP_CRITICAL_Endian();
             break;
         }
         }
         if (chunk == 'ATAD' && file->IsEndianConversionRequired())
-            reinterpret_cast<ArmorDataEndian*>(&data)->FUN_00535aa0();
+            reinterpret_cast<ArmorDataEndian*>(&data)->OBJ_WEAP_CRITICAL_Endian();
         if (!file->NextChunk())
             break;
     }
@@ -418,11 +418,12 @@ bool TESObjectARMO::Load(TESFile* file)
 
 struct FUN_00514450_shell : public TESBipedModelForm
 {
-    bool FUN_00514450();
+    bool TESBipedModelForm_IsMedium();
 };
 
 // @fnv 0x00514450
-bool FUN_00514450_shell::FUN_00514450()
+// src: XBOX_PDB 0x00514450
+bool FUN_00514450_shell::TESBipedModelForm_IsMedium()
 {
     return *((unsigned char*)this + 8) & 8;
 }
@@ -454,14 +455,14 @@ unsigned short ArmorSaveGame::GetSaveSize(unsigned int aiFlags)
 void ArmorSaveGame::SaveGame(unsigned int aiFlags)
 {
     reinterpret_cast<FormSaveGame*>(this)->SaveGame(aiFlags);
-    reinterpret_cast<TESValueForm*>((char*)this + 0x58)->FUN_0048e9e0(aiFlags);
+    reinterpret_cast<TESValueForm*>((char*)this + 0x58)->SaveGame_0048e9e0(aiFlags);
 }
 
 // @fnv 0x00516070
 void ArmorSaveGame::LoadGame(unsigned int a1, unsigned int a2)
 {
     reinterpret_cast<FormSaveGame*>(this)->LoadGame(a1, a2);
-    reinterpret_cast<TESValueForm*>((char*)this + 0x58)->FUN_0048ea10(a1, a2);
+    reinterpret_cast<TESValueForm*>((char*)this + 0x58)->LoadGame_0048ea10(a1, a2);
 }
 
 // @fnv 0x005129f0
@@ -475,9 +476,9 @@ TESObjectARMO::TESObjectARMO()
 TESObjectARMO::~TESObjectARMO()
 {}
 
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 void AppendChunk(unsigned int, void*, unsigned int);
-void FUN_00485910(unsigned int, unsigned int);
+void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 struct FUN_004855a0_shell
 {
     void FUN_004855a0();
@@ -530,7 +531,7 @@ struct ArmorSerializer : TESObjectARMO
 void ArmorSerializer::Save()
 {
     ((FUN_004855a0_shell*)this)->FUN_004855a0();
-    TESFullName::FUN_00487010();
+    TESFullName::Save_00487010();
     TESScriptableForm::Save();
     TESEnchantableForm::Save();
     reinterpret_cast<BipedModelSerialization*>(((char*)this + 0x70))->InitBipedModel();
@@ -540,18 +541,18 @@ void ArmorSerializer::Save()
     BGSEquipType::Save();
     reinterpret_cast<PickupPutdownSerialization*>(((char*)this + 0x16C))->LogFormIDs();
     ((FUN_004855a0_shell*)this)->TESForm_SaveData();
-    if (FUN_00401500())
-        reinterpret_cast<ArmorDataEndian*>(&data)->FUN_00535aa0();
+    if (TESForm_QEndianSwapOnSave())
+        reinterpret_cast<ArmorDataEndian*>(&data)->OBJ_WEAP_CRITICAL_Endian();
     AppendChunk(0x4d414e44, &data, sizeof(data));
-    if (FUN_00401500())
-        reinterpret_cast<ArmorDataEndian*>(&data)->FUN_00535aa0();
-    FUN_00485910(0x4d414e42, m_bUsesSoundList ? 1 : 0);
+    if (TESForm_QEndianSwapOnSave())
+        reinterpret_cast<ArmorDataEndian*>(&data)->OBJ_WEAP_CRITICAL_Endian();
+    TESForm_AddChunk_00485910(0x4d414e42, m_bUsesSoundList ? 1 : 0);
     if (!m_bUsesSoundList)
     {
         if (m_pSoundSourceArmor)
         {
             unsigned int formID = ((RefObj*)m_pSoundSourceArmor)->_ref_0084e3a0();
-            FUN_00485910(0x4d414e54, formID);
+            TESForm_AddChunk_00485910(0x4d414e54, formID);
         }
     }
     else if (m_pPickupPutdownSoundList)
@@ -567,10 +568,10 @@ void ArmorSerializer::Save()
                 saved.formID = ((RefObj*)sound->SoundAssetTmp)->_ref_0084e3a0();
                 saved.soundType = sound->layoutPadding4[0];
                 saved.value = sound->eType;
-                if (FUN_00401500())
+                if (TESForm_QEndianSwapOnSave())
                     saved.FUN_00483710();
                 AppendChunk(0x4d414e53, &saved, sizeof(saved));
-                if (FUN_00401500())
+                if (TESForm_QEndianSwapOnSave())
                     saved.FUN_00483710();
             }
         }
@@ -665,7 +666,7 @@ TESSound* TESObjectARMOFoley::GetFoleySound(int eType)
 #include <string.h>
 struct ArmorCompare : TESObjectARMO
 {
-    bool FUN_00485270(TESObjectARMO* other);
+    bool TESForm_CompareAllComponents(TESObjectARMO* other);
     bool IsDifferentFrom(TESForm* form);
 };
 // Returns true if form is not an armor or differs in base compare, data, sound source armor, or pickup/putdown sound list entries.
@@ -675,7 +676,7 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     TESObjectARMO* pOther = dynamic_cast<TESObjectARMO*>(form);
     if (!pOther)
         return true;
-    if (FUN_00485270(pOther))
+    if (TESForm_CompareAllComponents(pOther))
         return true;
     if (memcmp(&data, &pOther->data, 12))
         return true;

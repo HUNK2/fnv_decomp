@@ -36,7 +36,7 @@ public:
 
         StreamAllocator();
         ~StreamAllocator();
-        void* FUN_00aa54a0(unsigned int size, unsigned int alignment);
+        void* ScrapHeap_Allocate(unsigned int size, unsigned int alignment);
     };
 
     class PlanStorage
@@ -65,14 +65,14 @@ public:
     CombatPlanner();
     virtual ~CombatPlanner();
     virtual bool ExpandNode(CPNode* pkNode, CPOutArray* pkOut);
-    virtual bool FUN_00995800(const AStarNode<CombatPlanNode *, CombatPlanLink *>* p);
+    virtual bool IsGoalNode_00995800(const AStarNode<CombatPlanNode *, CombatPlanLink *>* p);
 
     Owner* BuildPlan(void*, int);
     Owner* CreatePlan_0(void*, int);
     Owner* CreatePlan_0(void*, bool);
     void* FUN_0097e460(unsigned int flags);
     void FUN_0097e3e0();
-    void FUN_00995830();
+    void CleanUp_00995830();
     int CombatPlanner_GetNodeKey(CombatPlanNode** ppkState);
     template <class State>
     int CombatPlanner_GetNodeKey(State** ppkState);

@@ -821,10 +821,10 @@ void FUN_00db78a0_cls::hkVtableClassRegistry_registerList(FUN_00db78a0_item** ap
     } while (*p != 0);
 }
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 struct MapPair
@@ -872,7 +872,7 @@ struct HashEntryTable
         return m_kPrimitiveElement[it].val;
     }
 
-    void FUN_00cb1870(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
 };
 
 struct MapHolder
@@ -888,11 +888,11 @@ struct MapHolder
 void MapHolder::CopyMapEntries(const MapHolder& other)
 {
     for (int it = other.m_map.GetFirstIterator(); other.m_map.isValid(it); it = other.m_map.getNext(it))
-        m_map.FUN_00cb1870(audio()->heap(), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
+        m_map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(audio()->heap(), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
 }
 
 namespace fnv_00db7960 {
-extern "C" void* __cdecl FUN_00c85750();
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
 extern int DAT_010cf844;
 
 struct FUN_00db7960_Data
@@ -914,7 +914,7 @@ struct FUN_00db7960_Result
 // @fnv 0x00db7960
 void* __cdecl CreateAudioResult()
 {
-    hkMemoryRouter* audio = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* audio = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* target = audio->m_heap;
 
     void* allocated = target->blockAlloc(0x14);
@@ -929,7 +929,7 @@ void* __cdecl CreateAudioResult()
     data[1] = 0;
     data[2] = -1;
 
-    hkMemoryRouter* audio2 = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* audio2 = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     void* target2 = audio2->m_heap;
 
     FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
@@ -941,7 +941,7 @@ void* __cdecl CreateAudioResult()
 
 namespace fnv_00db7a20 {
 
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
+__declspec(nothrow) BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 // This constructor takes the original one-word POD hkBool argument. The shared
 // hkBool has a user-declared copy constructor, so pass the legacy ABI slot directly.
@@ -965,7 +965,7 @@ class RefObj
 
     static void* operator new(unsigned int nbytes)
     {
-        RefObj* b = (RefObj*)((hkMemoryRouter*)FUN_00c85750())->heap().blockAlloc(nbytes);
+        RefObj* b = (RefObj*)((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap().blockAlloc(nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1050,7 +1050,7 @@ int DBA340Object::FUN_00dba340(void* pvA, void* pvB, void* pvC)
 
 namespace fnv_00dba3d0 {
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 struct DBA3D0Pair
 {
@@ -1061,7 +1061,7 @@ struct DBA3D0Pair
 template <class T>
 static __forceinline void DBA3D0Array_destroy(hkArrayBase<T>& self) throw()
 {
-        hkMemoryAllocator& alloc = FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter_getInstance().heap();
         self.m_iElementCount = 0;
         if ((self.m_iCapacityState & 0x80000000) == 0)
             alloc.bufFree(self.m_data, self.getCapacity() * sizeof(T));
@@ -1091,7 +1091,7 @@ class DBA3D0Map : public DBA3D0MapBase
   public:
     ~DBA3D0Map() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(hkMemoryRouter_getInstance().heap());
     }
 };
 
@@ -1293,9 +1293,9 @@ struct DBA430Owner
 void DBA430Owner::Reset()
 {
     DBA430Inner* p = &m_0C;
-    p->Sync(reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->pListener));
+    p->Sync(reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->pListener));
     p->Mark();
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = hkMemoryRouter_getInstance();
     hkMemoryAllocator* listener = reinterpret_cast<hkMemoryAllocator*>(audio->pListener);
     m_04 = 0;
     if (!(m_08 & (int)0x80000000))
@@ -1559,7 +1559,7 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 
     if (flags & 1)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = hkMemoryRouter_getInstance();
         hkMemoryAllocator* listener = reinterpret_cast<hkMemoryAllocator*>(audio->pListener);
         listener->blockFree(this, static_cast<int>(unk04));
     }
@@ -1634,7 +1634,7 @@ struct CreatedObject
 // src: HAVOK_LIB 0x00db79c0
 void* __cdecl hkDefaultClassNameRegistrycreate()
 {
-    hkMemoryRouter* manager = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* manager = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     CreatedObject* object = (CreatedObject*)manager->heap().blockAlloc(0x20);
     object->Init();
     return object;
@@ -1717,9 +1717,9 @@ typedef void(__cdecl* FuncDA34)();
 
 void __cdecl ExecuteMoppAabbQuery();
 void __cdecl hkCpuPairGetClosestPointsJob();
-void __cdecl FUN_00df6b50();
+void __cdecl hkCpuWorldGetClosestPointsJob();
 void __cdecl hkCpuPairLinearCastJob();
-void __cdecl FUN_00df7340();
+void __cdecl hkCpuWorldLinearCastJob();
 void __cdecl ProcessWorkQueue();
 void __cdecl ProcessAabbTree();
 void __cdecl SplitJob();
@@ -1758,10 +1758,10 @@ class DispatcherDA34
 void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34* dispatcher)
 {
     DAT_01269af0.m_func3 = hkCpuPairLinearCastJob;
-    DAT_01269af0.m_func4 = FUN_00df7340;
+    DAT_01269af0.m_func4 = hkCpuWorldLinearCastJob;
     DAT_01269af0.m_func0 = ExecuteMoppAabbQuery;
     DAT_01269af0.m_func1 = hkCpuPairGetClosestPointsJob;
-    DAT_01269af0.m_func2 = FUN_00df6b50;
+    DAT_01269af0.m_func2 = hkCpuWorldGetClosestPointsJob;
     DAT_01269af0.m_func5 = ProcessWorkQueue;
     DAT_01269af0.m_func6 = ProcessAabbTree;
     RegisterInfoDA34 info;
@@ -1773,11 +1773,11 @@ void __cdecl hkpCollisionQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34*
 }
 
 namespace fnv_00da3480 {
-void __cdecl FUN_00df94b0();
-void __cdecl FUN_00df8df0();
+void __cdecl hkCpuShapeRayCastJob();
+void __cdecl hkCpuWorldRayCastJob();
 void __cdecl FinishJobWithPair();
 void __cdecl BuildKdTreeDistributed();
-void __cdecl FUN_00df8440();
+void __cdecl hkCpuKdTreeBuildFastDistributedSubJob();
 void __cdecl hkCpuKdTreeBuildSetupJob();
 void __cdecl hkCpuKdTreeBuildCoordinatorJob();
 void __cdecl ExecuteJob();
@@ -1816,11 +1816,11 @@ void __cdecl hkpRayCastQueryJobQueueUtils_registerWithJobQueue(DispatcherDA34* p
     kInfo.m_pfnDestroy = hkpRayCastQueryJobQueueUtils_finishRayCastQueryJob;
     kInfo.m_pkTable = &DAT_01269ad0;
     kInfo.m_iNumFuncs = 8;
-    DAT_01269ad0.m_apfnFuncs[0] = FUN_00df94b0;
-    DAT_01269ad0.m_apfnFuncs[1] = FUN_00df8df0;
+    DAT_01269ad0.m_apfnFuncs[0] = hkCpuShapeRayCastJob;
+    DAT_01269ad0.m_apfnFuncs[1] = hkCpuWorldRayCastJob;
     DAT_01269ad0.m_apfnFuncs[2] = FinishJobWithPair;
     DAT_01269ad0.m_apfnFuncs[3] = BuildKdTreeDistributed;
-    DAT_01269ad0.m_apfnFuncs[4] = FUN_00df8440;
+    DAT_01269ad0.m_apfnFuncs[4] = hkCpuKdTreeBuildFastDistributedSubJob;
     DAT_01269ad0.m_apfnFuncs[5] = hkCpuKdTreeBuildSetupJob;
     DAT_01269ad0.m_apfnFuncs[6] = hkCpuKdTreeBuildCoordinatorJob;
     DAT_01269ad0.m_apfnFuncs[7] = ExecuteJob;
@@ -2278,7 +2278,7 @@ float __cdecl FUN_00da0c30(TriIndexSet_b4046* self)
 
 struct ArgObj
 {
-    int FUN_00da2b20(int* buffer, int size);
+    int hkStackTracer_getStackTrace(int* buffer, int size);
 };
 
 struct Holder
@@ -2287,7 +2287,8 @@ struct Holder
     int hkStackTracer_CallTree_insertCallStack(ArgObj* param);
 };
 
-__declspec(noinline) int ArgObj::FUN_00da2b20(int* buffer, int size)
+// src: XBOX_PDB 0x00da2b20
+__declspec(noinline) int ArgObj::hkStackTracer_getStackTrace(int* buffer, int size)
 {
     return 0;
 }
@@ -2303,7 +2304,7 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 int Holder::hkStackTracer_CallTree_insertCallStack(ArgObj* param)
 {
     int buffer[0x40];
-    int count = param->FUN_00da2b20(buffer, 0x40);
+    int count = param->hkStackTracer_getStackTrace(buffer, 0x40);
     if (count > 0)
         return FindOrAddCallTrace(buffer + 1, count - 1);
     return 0;
@@ -2385,13 +2386,13 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
 
 }
 
-void __cdecl FUN_00da42b0(void* a, void* b, void* c, void* d);
+void __cdecl hkAgent1nMachine_Destroy(void* a, void* b, void* c, void* d);
 
 // Calls FUN_00da42b0 with arg2, arg5, arg3 and arg4; arg1 is unused.
 // @fnv 0x00da6dc0
 void __cdecl FUN_00da6dc0(void* aUnused, void* arg2, void* arg3, void* arg4, void* arg5)
 {
-    FUN_00da42b0(arg2, arg5, arg3, arg4);
+    hkAgent1nMachine_Destroy(arg2, arg5, arg3, arg4);
 }
 
 // @fnv 0x00da82c0
@@ -2407,7 +2408,7 @@ template <class T> __forceinline T* hkMemoryAllocator::_bufAlloc(int& num)
 }
 inline hkMemoryRouter* s06c0_mgr()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 struct S06c0_Key
 {
@@ -2839,7 +2840,7 @@ extern char str_010c41f8[];
 extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long);
 
-void __cdecl FUN_00da4aa0(void* a, void* b, S00da6eb0_Sub* c, unsigned int* d, void* e);
+void __cdecl hkAgent1nMachine_Process(void* a, void* b, S00da6eb0_Sub* c, unsigned int* d, void* e);
 
 inline void S00da6eb0_TimerMark(const char* pName)
 {
@@ -2871,7 +2872,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     S00da6eb0_List* pList = static_cast<S00da6eb0_Ctx*>(apCtx)->m_pRouter->m_pEntries;
     int iSize = pList->m_uiSize;
 
-    hkMemoryRouter* pAlloc = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* pAlloc = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     unsigned int* pEventIndex = reinterpret_cast<unsigned int*>(pAlloc->m_stack.m_next.m_storage);
 
     pAlloc->m_stack.m_next.m_storage = (char*)pAlloc->m_stack.m_next.m_storage + ((iSize * 4 + 0x83) & 0xffffff80);
@@ -2891,11 +2892,11 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     pEventIndex[iIndexCount] = 0xffffffff;
 
-    FUN_00da4aa0(apOut, apCtx, pList, pEventIndex, a5);
+    hkAgent1nMachine_Process(apOut, apCtx, pList, pEventIndex, a5);
 
     S00da6eb0_TimerMark(str_010c41f8);
 
-    reinterpret_cast<hkMemoryRouter*>(FUN_00c85750())->m_stack.m_next.m_storage = (void*)(reinterpret_cast<int>(pEventIndex));
+    reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->m_stack.m_next.m_storage = (void*)(reinterpret_cast<int>(pEventIndex));
 
     return reinterpret_cast<char*>(apOut) + 0x10;
 }

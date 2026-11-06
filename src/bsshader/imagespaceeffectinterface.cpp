@@ -68,7 +68,7 @@ struct PipboyPass : PipboyParamBase
 
     void ImageSpaceTexture_SetTexture_00ba37f0(NiTexture* pkTexture);
 
-    void FUN_00ba3760(int iValue);
+    void NiShader_SetImplementation(int iValue);
 
     NiTexture* ImageSpaceTexture_GetTexture();
 };
@@ -356,7 +356,7 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
 
     static_cast<PipboyPass*>(m_kPasses.GetAt(3))->ImageSpaceTexture_SetTexture_00ba37f0(pkScanlines);
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(3))->FUN_00ba3760(3);
+    static_cast<PipboyPass*>(m_kPasses.GetAt(3))->NiShader_SetImplementation(3);
 
     {
         PipboyParamBase* pPass = new PipboyPass;
@@ -366,14 +366,14 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
     NiTexture* pkDistort = distortion.pointer;
     static_cast<PipboyPass*>(m_kPasses.m_pBase[4])->ImageSpaceTexture_SetTexture_00ba37f0(pkDistort);
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(4))->FUN_00ba3760(0);
+    static_cast<PipboyPass*>(m_kPasses.GetAt(4))->NiShader_SetImplementation(0);
 
     {
         PipboyParamBase* pPass = new PipboyPass;
         m_kPasses.FUN_00ba3aa0(2, pPass);
     }
 
-    static_cast<PipboyPass*>(m_kPasses.GetAt(2))->FUN_00ba3760(0);
+    static_cast<PipboyPass*>(m_kPasses.GetAt(2))->NiShader_SetImplementation(0);
 
     static_cast<PipboyPass*>(m_kPasses.GetAt(2))->ImageSpaceTexture_SetTexture_00ba37f0(0);
 

@@ -23,7 +23,8 @@ struct FUN_00dd5260_T
 
 // Copies the five-int struct pointed to by pSrc into the struct pointed to by pDst.
 // @fnv 0x00dd5260
-void __stdcall FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
+// src: XBOX_PDB 0x00dd5260
+void __stdcall hkpMoppShapeMediator_splitPrimitive(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst)
 {
     *pDst = *pSrc;
 }
@@ -107,7 +108,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -121,7 +122,7 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
     FUN_00dd51d0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;

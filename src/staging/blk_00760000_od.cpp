@@ -22,7 +22,8 @@ BSSimpleArray<NiFixedString, 1024>::~BSSimpleArray()
 extern bool* DAT_011d9510;
 
 // @fnv 0x007624d0
-TESSound* FUN_007624d0()
+// src: XBOX_PDB 0x007624d0
+TESSound* DialogMenu_GetDialogSpeaker()
 {
     if (DAT_011d9510)
         return reinterpret_cast<EffectSetting*>(DAT_011d9510)->GetCastSound();
@@ -31,11 +32,12 @@ TESSound* FUN_007624d0()
 
 struct FUN_0076b610_Class
 {
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
 };
 
 // @fnv 0x0076b610
-bool FUN_0076b610_Class::FUN_0076b610()
+// src: XBOX_PDB 0x0076b610
+bool FUN_0076b610_Class::NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty()
 {
     return *(int*)((char*)this + 8) == 0;
 }
@@ -840,7 +842,7 @@ struct WeatherEntry
 void* __cdecl operator new(unsigned int);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 void __cdecl Warning_005b5e40(int, const char*, ...);
-void __cdecl FUN_0076bad0(char*);
+void __cdecl QuestUpdateManager_AddQuestNamesTail(char*);
 // Allocates a WeatherEntry, copies the title, subtitle and icon strings, validates the fonts, and queues the entry by priority.
 // @fnv 0x0076b960
 // src: EXE 0x0076b960
@@ -874,7 +876,7 @@ void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char
     {
     case 1:
     case 2:
-        FUN_0076bad0((char*)entry);
+        QuestUpdateManager_AddQuestNamesTail((char*)entry);
         break;
     case 0:
         QuestUpdateManager_AddQuestNamesHead(entry);
@@ -884,7 +886,7 @@ void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char
             7,
             "QuestUpdateManager::SetCustomQuestText() - Invalid aiCustomQueuePriority (%i)!  Setting to HCQQP_NORMAL.",
             priority);
-        FUN_0076bad0((char*)entry);
+        QuestUpdateManager_AddQuestNamesTail((char*)entry);
         break;
     }
 }
@@ -1365,11 +1367,11 @@ unsigned int C77a400::GetFirstOrFallback()
 class HKTile
 {
   public:
-    const char* FUN_00a011f0(int m_iValueId);
+    const char* Tile_GetString(int m_iValueId);
     float FUN_00a011b0(int m_iValueId);
-    void FUN_00a01350(int m_iValueId, const char* pcValue, int iFlag);
+    void Tile_Set_00a01350(int m_iValueId, const char* pcValue, int iFlag);
     void FUN_00700320(int m_iValueId, int iValue);
-    void FUN_00a012d0(int m_iValueId, float fValue, int iFlag);
+    void Tile_Set(int m_iValueId, float fValue, int iFlag);
 };
 
 struct HKScreen
@@ -1400,7 +1402,7 @@ struct HKOffsetMap
 struct HKSoundNode
 {
     BSSoundHandle* FUN_006815c0();
-    HKSoundNode* FUN_0084e3a0();
+    HKSoundNode* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct HKSoundList : HKSoundNode
 {
@@ -1412,14 +1414,14 @@ extern HKSoundList DAT_011d9604;
 class HKAudio
 {
   public:
-    static HKAudio* FUN_00ad9060();
+    static HKAudio* BSAudioManager_QInstance_00ad9060();
     BSSoundHandle ResolveAudioHandle(const char* pcName, int iFlags);
 };
 
 int FUN_00ec86e1(int iChar);
 void* ourMemset(void* pvDst, int iValue, unsigned int uiSize);
 void* FUN_00401460(void* pvDst, const void* pvSrc, unsigned int uiSize);
-unsigned int FUN_0044a670(const char* pcString);
+unsigned int BSstrlen(const char* pcString);
 
 class HKMenu
 {
@@ -1444,9 +1446,9 @@ class HKMenu
     bool m_bShowing;  // +0x1d8
 
     int GetScaledValue();
-    void FUN_00768020();
-    void FUN_0076a670(char* pcOut, const char* pcText);
-    HKTile* FUN_00767bb0(int iColumn, unsigned int uiLine);
+    void ClearEntry();
+    void GetGarbageString(char* pcOut, const char* pcText);
+    HKTile* FindTile(int iColumn, unsigned int uiLine);
     void UpdateHighlight();
 };
 
@@ -1461,14 +1463,14 @@ void HKMenu::UpdateHighlight()
     m_pkLastTile = DAT_011d95bc->m_pkTextTile;
     if (iPos < 0)
     {
-        FUN_00768020();
+        ClearEntry();
         m_bShowing = false;
         return;
     }
     if (m_bShowing)
     {
-        FUN_00768020();
-        if (!FUN_00ec86e1(DAT_011d95bc->m_pkTextTile->FUN_00a011f0(0xfc4)[iPos + 7]))
+        ClearEntry();
+        if (!FUN_00ec86e1(DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4)[iPos + 7]))
         {
             m_bShowing = false;
             m_pkLastTile = 0;
@@ -1493,20 +1495,20 @@ void HKMenu::UpdateHighlight()
     if (pkNodeTmp)
         FUN_00401460(acWordNext, *pkNodeTmp->FUN_006815c0(), m_uiWordLength);
     else if (!m_kSymbols.FUN_0049c680(&uiElapsedMilliseconds, 0))
-        FUN_0076a670(acWordNext, DAT_011d95bc->m_pkTextTile->FUN_00a011f0(0xfc4) + GetScaledValue());
+        GetGarbageString(acWordNext, DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4) + GetScaledValue());
     else
-        acWordNext[0] = DAT_011d95bc->m_pkTextTile->FUN_00a011f0(0xfc4)[GetScaledValue()];
+        acWordNext[0] = DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4)[GetScaledValue()];
     if (m_kGuessed.FUN_0076a3d0(acWordNext))
     {
         m_kGuessed.AssignString(acWordNext);
         for (HKSoundNode* pkSound = &DAT_011d9604; pkSound && pkSound->FUN_006815c0()->operator!=(-1);
-             pkSound = pkSound->FUN_0084e3a0())
+             pkSound = pkSound->GetHavokWorldObjectCountInSceneGraph_0084e3a0())
             pkSound->FUN_006815c0()->Release();
         DAT_011d9604.ClearQueue();
-        unsigned int ItemUpdateArray = FUN_0044a670(acWordNext);
+        unsigned int ItemUpdateArray = BSstrlen(acWordNext);
         while (ItemUpdateArray--)
         {
-            BSSoundHandle kSound = HKAudio::FUN_00ad9060()->ResolveAudioHandle("UIHackingCharSingle", 0x121);
+            BSSoundHandle kSound = HKAudio::BSAudioManager_QInstance_00ad9060()->ResolveAudioHandle("UIHackingCharSingle", 0x121);
             DAT_011d9604.BSSimpleList_BSSoundHandle_AddHead(kSound);
             if (ItemUpdateArray)
                 // This original call to 0x00ad8870 passes only the delay; preserve its one-argument ABI.
@@ -1520,7 +1522,7 @@ void HKMenu::UpdateHighlight()
     iPos = GetScaledValue();
     if (pkNodeTmp)
     {
-        const char* pcText = DAT_011d95bc->m_pkTextTile->FUN_00a011f0(0xfc4);
+        const char* pcText = DAT_011d95bc->m_pkTextTile->Tile_GetString(0xfc4);
         while (FUN_00ec86e1(pcText[iPos - 1]))
             iPos--;
         for (unsigned int k = 1; !bFound && k < m_uiWordLength; k++)
@@ -1538,7 +1540,7 @@ void HKMenu::UpdateHighlight()
                 else
                 {
                     HKTile* pkLine =
-                        FUN_00767bb0(0, (unsigned int)DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0x1004) + 1);
+                        FindTile(0, (unsigned int)DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0x1004) + 1);
                     iX2Cur = (int)(pkLine->FUN_00a011b0(0xfa1) + 119.0);
                     iY2 = (int)pkLine->FUN_00a011b0(0xfa2);
                 }
@@ -1555,7 +1557,7 @@ void HKMenu::UpdateHighlight()
                 else
                 {
                     HKTile* pkPrevLine =
-                        FUN_00767bb0(0x10, (unsigned int)DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0x1004) - 1);
+                        FindTile(0x10, (unsigned int)DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0x1004) - 1);
                     iXNew = (int)(pkPrevLine->FUN_00a011b0(0xfa1) + (0x13 - k) * 0x11);
                     iY = (int)pkPrevLine->FUN_00a011b0(0xfa2);
                 }
@@ -1564,11 +1566,11 @@ void HKMenu::UpdateHighlight()
             {
                 char cSaved = acWordNext[k];
                 acWordNext[k] = 0;
-                m_pkHighlight->FUN_00a01350(0x1004, acWordNext, 1);
+                m_pkHighlight->Tile_Set_00a01350(0x1004, acWordNext, 1);
                 m_pkHighlight->FUN_00700320(0x1005, iXNew);
                 m_pkHighlight->FUN_00700320(0x1006, iY);
                 acWordNext[k] = cSaved;
-                m_pkHighlight->FUN_00a01350(0x1007, &acWordNext[k], 1);
+                m_pkHighlight->Tile_Set_00a01350(0x1007, &acWordNext[k], 1);
                 m_pkHighlight->FUN_00700320(0x1008, iX2Cur);
                 m_pkHighlight->FUN_00700320(0x1009, iY2);
             }
@@ -1576,9 +1578,9 @@ void HKMenu::UpdateHighlight()
     }
     if (!bFound)
     {
-        m_pkHighlight->FUN_00a01350(0x1004, acWordNext, 1);
-        m_pkHighlight->FUN_00a012d0(0x1005, DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0xfa1) + iPos * 0x11, 1);
-        m_pkHighlight->FUN_00a012d0(0x1006, DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0xfa2), 1);
+        m_pkHighlight->Tile_Set_00a01350(0x1004, acWordNext, 1);
+        m_pkHighlight->Tile_Set(0x1005, DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0xfa1) + iPos * 0x11, 1);
+        m_pkHighlight->Tile_Set(0x1006, DAT_011d95bc->m_pkTextTile->FUN_00a011b0(0xfa2), 1);
         m_pkHighlight->FUN_00700320(0x1008, -1);
     }
 }

@@ -44,18 +44,18 @@ public:
 
     void setMul(const hkQuaternion& q0, const hkQuaternion& q1);
     __declspec(noalias) void normalize_005611c0();
-    void FUN_00cb2450(const hkVector4& axis, float angle);
-    void FUN_00cb2450(const IkVector4& axis, float angle);
-    void FUN_00cb2450(void* axis, float angle);
+    void hkQuaternion_setAxisAngle(const hkVector4& axis, float angle);
+    void hkQuaternion_setAxisAngle(const IkVector4& axis, float angle);
+    void hkQuaternion_setAxisAngle(void* axis, float angle);
     void FUN_00cb26e0(int matrix);
     void FUN_00cb26e0(const __m128* matrix);
     void FUN_00cb26e0(const hkRotation& rotation);
-    void FUN_00cb2ca0(const hkVector4& axis, hkQuaternion& restOut, float& angleOut) const;
-    void FUN_00cb2ca0(void* axis, void* restOut, float* angleOut);
+    void hkQuaternion_decomposeRestAxis(const hkVector4& axis, hkQuaternion& restOut, float& angleOut) const;
+    void hkQuaternion_decomposeRestAxis(void* axis, void* restOut, float* angleOut);
     void FUN_00cdb910(float gain, const IkVector4& from, const IkVector4& to);
     void setMulInverse(const hkQuaternion& q0, const hkQuaternion& q1);
     void setMulInverse(const void* a, const void* b) throw();
-    void FUN_00cb2850(const hkQuaternion& q0, const hkQuaternion& q1, float t);
+    void D3D_ComputeClearColor(const hkQuaternion& q0, const hkQuaternion& q1, float t);
     void FUN_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;
     void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
     void hkQuaternion_setInverseMul(const hkQuaternion& a, const hkQuaternion& b);

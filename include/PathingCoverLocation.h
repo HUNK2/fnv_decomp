@@ -26,9 +26,9 @@ public:
     unsigned char f052;
 
     void SetCoverData(unsigned short a, unsigned short b, unsigned short c, char e, char f, char g);
-    unsigned char* FUN_006e4570();
-    bool FUN_006e4820();
-    bool FUN_006e4840(const NiPoint3& point);
+    unsigned char* GetKey_006e4570();
+    bool IsLedgeCover_006e4820();
+    bool IsLeftSideClosest(const NiPoint3& point);
 
     PathingCoverLocation& operator=(const PathingCoverLocation&);
     void Load(BGSLoadGameBuffer*);

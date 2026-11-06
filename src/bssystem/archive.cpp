@@ -145,11 +145,11 @@ unsigned int __fastcall Archive_GetRuntimeID(const char* pThis)
 
 class bhkCharacterController;
 
-int __fastcall FUN_005c0880(bhkCharacterController*);
+int __fastcall bhkCharacterController_GetState(bhkCharacterController*);
 float __fastcall GetSettingFloat(bhkCharacterController*);
-float __cdecl FUN_004587d0(float);
-bool __fastcall FUN_008a5170(void*);
-int __cdecl FUN_004b5470(const NiPoint3&, float);
+float __cdecl HK2NI(float);
+bool __fastcall bhkCharacterListener_QQuadruped(void*);
+int __cdecl LengthCheck_004b5470(const NiPoint3&, float);
 
 extern double gModifierZero;
 extern double DAT_0101db88;
@@ -165,7 +165,7 @@ bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool
         charCtrl = GetPhysicsCharacterController();
         {
             NiPoint3 diff = selfPos - targetPos;
-            if (!check3D && charCtrl && FUN_005c0880(charCtrl))
+            if (!check3D && charCtrl && bhkCharacterController_GetState(charCtrl))
             {
                 diff.z = 0.0f;
             }
@@ -192,8 +192,8 @@ bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool
                 float charRadius;
                 if (charCtrl)
                 {
-                    charRadius = FUN_004587d0(GetSettingFloat(charCtrl));
-                    if (FUN_008a5170((char*)charCtrl + 0x410))
+                    charRadius = HK2NI(GetSettingFloat(charCtrl));
+                    if (bhkCharacterListener_QQuadruped((char*)charCtrl + 0x410))
                     {
                         charRadius *= 2.0f;
                     }
@@ -208,7 +208,7 @@ bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool
                 }
                 radius = radius + charRadius;
             }
-            return FUN_004b5470(diff, radius) <= 0;
+            return LengthCheck_004b5470(diff, radius) <= 0;
         }
     }
 }
@@ -261,7 +261,7 @@ bool __fastcall BuildLinkedRefChain(char* _this)
         }
     }
 
-    return !((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(_this + 0x1c))->FUN_0076b610();
+    return !((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(_this + 0x1c))->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
 }
 
 extern int DAT_011acdfc;
@@ -386,12 +386,13 @@ bool __fastcall Archive_CheckRetain(void* pThis, FUN_00afb170_Args args)
 
 struct FUN_00afb670_shell : public ArchiveFile
 {
-    void FUN_00afb670(int, int);
+    void ArchiveFile_Seek(int, int);
 };
 
 // Adjusts the archive file position at offset 0x150 according to the seek mode, then advances m_uiPos by the delta and flushes if the buffer is exhausted.
 // @fnv 0x00afb670
-void FUN_00afb670_shell::FUN_00afb670(int aiByteCount, int aiSeekFlags)
+// src: XBOX_PDB 0x00afb670
+void FUN_00afb670_shell::ArchiveFile_Seek(int aiByteCount, int aiSeekFlags)
 {
     unsigned int ioldFilePos = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x150);
 
@@ -436,11 +437,12 @@ struct S_afbb
     unsigned int pos;
     unsigned int size;
     int ArchiveFile_ReadFromBuffer(void*, unsigned int);
-    int FUN_00afbbf0(void*, unsigned int);
+    int ArchiveFile_ReadF(void*, unsigned int);
 };
 // Clamps count to the remaining bytes (size - pos), reads via FUN_00b01800, advances pos by the bytes read and returns that count.
 // @fnv 0x00afbbf0
-int S_afbb::FUN_00afbbf0(void* pBuffer, unsigned int count)
+// src: XBOX_PDB 0x00afbbf0
+int S_afbb::ArchiveFile_ReadF(void* pBuffer, unsigned int count)
 {
     int r;
     unsigned int sz = size;
@@ -456,14 +458,14 @@ int S_afbb::FUN_00afbbf0(void* pBuffer, unsigned int count)
 
 struct Dummy_00afbbf0
 {
-    int FUN_00afbbf0(int, int);
+    int ArchiveFile_ReadF(int, int);
 };
 
 // @fnv 0x00afbf80
 // src: COMMUNITY 0x00afbf80
 int __cdecl ArchiveFile_ReadNoSwap(Dummy_00afbbf0* pTarget, int b, int c)
 {
-    return pTarget->FUN_00afbbf0(b, c);
+    return pTarget->ArchiveFile_ReadF(b, c);
 }
 
 struct ZlibStreamPeer;
@@ -519,25 +521,26 @@ void FUN_00afbfe0_shell::DestroyCompressedArchiveFile()
 struct FUN_00afc060_shell2 : public CompressedArchiveFile
 {
     bool AttachFileStream(bool, bool);
-    bool FUN_00afc060(bool a1, bool a2);
+    bool CompressedArchiveFile_Open(bool a1, bool a2);
 };
 
 // @fnv 0x00afc060
-bool FUN_00afc060_shell2::FUN_00afc060(bool a1, bool a2)
+// src: XBOX_PDB 0x00afc060
+bool FUN_00afc060_shell2::CompressedArchiveFile_Open(bool a1, bool a2)
 {
     return AttachFileStream(a1, a2);
 }
 
 struct S
 {
-    void __thiscall FUN_00afc0e0(int, int);
+    void __thiscall CompressedArchiveFile_ReadF(int, int);
 };
 
 // @fnv 0x00afc660
 // src: COMMUNITY 0x00afc660
 void __cdecl CompressedArchiveFile_ReadNoSwap(void* pObject, int b, int c)
 {
-    (*(S*)pObject).FUN_00afc0e0(b, c);
+    (*(S*)pObject).CompressedArchiveFile_ReadF(b, c);
 }
 
 namespace fnv_00afc6c0 {
@@ -853,7 +856,7 @@ extern int DAT_010a464c;
 extern unsigned int DAT_011f8164;
 struct S_afbb
 {
-    int FUN_00afbbf0(void*, unsigned int);
+    int ArchiveFile_ReadF(void*, unsigned int);
 };
 struct P03Z
 {
@@ -889,7 +892,7 @@ FUN_00afc430::FUN_00afc430(int a, int b, int c, int d, int e) : FUN_00afb300(a, 
 {
     *(int**)this = &DAT_010a464c;
     ((CompressedArchiveFile*)this)->CompressedArchiveFile::SetEndianSwap(false);
-    ((S_afbb*)this)->FUN_00afbbf0((char*)this + 0x168, 4);
+    ((S_afbb*)this)->ArchiveFile_ReadF((char*)this + 0x168, 4);
     char* pStream;
     int pTmp;
     void* err = g_memoryManager.Allocate(0x1be0);
@@ -1081,7 +1084,8 @@ struct ArchiveManager
 };
 
 // @fnv 0x00af6340
-ArchiveFile* __cdecl FUN_00af6340(int aeArchiveTypeIndex, BSFileEntry* apFileEntry, unsigned int aiBufferSize,
+// src: XBOX_PDB 0x00af6340
+ArchiveFile* __cdecl ArchiveManager_GetFileByFileEntry(int aeArchiveTypeIndex, BSFileEntry* apFileEntry, unsigned int aiBufferSize,
                                   unsigned int apFileName)
 {
     ArchiveFile* pfile = 0;
@@ -2396,11 +2400,12 @@ struct ArchiveFileReadMethods : BSFile
         if (m_pArchive)
             EnterCriticalSection(&m_pArchive->m_kLock.m_kCriticalSection);
     }
-    unsigned int FUN_00afbde0(void* buf, unsigned int size);
+    unsigned int ArchiveFile_Read(void* buf, unsigned int size);
 };
 
 // @fnv 0x00afbde0
-unsigned int ArchiveFileReadMethods::FUN_00afbde0(void* apBuffer, unsigned int size)
+// src: XBOX_PDB 0x00afbde0
+unsigned int ArchiveFileReadMethods::ArchiveFile_Read(void* apBuffer, unsigned int size)
 {
     unsigned int uiRead = 0;
     LockArc(m_pArchive->FileName());
@@ -3022,7 +3027,7 @@ struct Hash97
 struct MM97
 {
     void* Game_DoHeapAlloc(unsigned int);
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 extern MM97 DAT_011f6238;
 extern char DAT_010a454c[];
@@ -3341,7 +3346,7 @@ extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 
 struct FUN_00afb520_mm
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern FUN_00afb520_mm DAT_011f6238;
 
@@ -3358,7 +3363,7 @@ ArchiveFile::~ArchiveFile()
     if (m_pBuffer != 0)
     {
         void* buf = m_pBuffer;
-        DAT_011f6238.FUN_00aa4060(buf);
+        DAT_011f6238.MemoryManager_Deallocate(buf);
     }
     m_pBuffer = 0;
     m_bGood = 0;
@@ -3388,7 +3393,7 @@ __forceinline void RenderCopyData(void* dest, const void* source, unsigned int s
 struct ArchiveRead : Archive
 {
     char* NiFile_GetBuffer();
-    void FUN_00aa16d0(int, int);
+    void NiFile_Seek(int, int);
     unsigned int FUN_00aa1570(void*, unsigned int);
     int GetCurrentPos()
     {
@@ -3453,7 +3458,7 @@ unsigned int ArchiveFile::ReadAtOffset(char* output, unsigned int size, unsigned
     reinterpret_cast<ArchiveRead*>(GetArchive())->SetReadSize(0);
     if (end = position - difference)
     {
-        reinterpret_cast<ArchiveRead*>(GetArchive())->FUN_00aa16d0(end, DAT_010a2484);
+        reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_Seek(end, DAT_010a2484);
         reinterpret_cast<ArchiveRead*>(GetArchive())->SetTruePos(position);
     }
     if (m_uiBufferSize + size + offset > m_uiValueId)
@@ -4720,13 +4725,13 @@ extern int DAT_010a2480;
 extern int DAT_010a2484;
 struct ArcMemMgr
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
     void* Game_DoHeapAlloc(unsigned int uiSize);
 };
 extern ArcMemMgr DAT_011f6238;
 inline void ArcFree(void* p)
 {
-    DAT_011f6238.FUN_00aa4060(p);
+    DAT_011f6238.MemoryManager_Deallocate(p);
 }
 inline void* ArcAlloc(unsigned int uiSize)
 {
@@ -4794,7 +4799,7 @@ char* ArchiveDirectoryStringLookup::GetString(unsigned int uiIndex)
         if (m_pDirectoryNames)
         {
             pcOld2 = m_pDirectoryNames;
-            DAT_011f6238.FUN_00aa4060(pcOld2);
+            DAT_011f6238.MemoryManager_Deallocate(pcOld2);
             m_pDirectoryNames = 0;
         }
         pcNew2 = (char*)ArcAlloc(ucLen);
@@ -4810,7 +4815,7 @@ namespace fnv_00afa8e0 {
 struct PoolY
 {
     void* Game_DoHeapAlloc(unsigned int uiSize);
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern PoolY DAT_011f6238;
 extern bool DAT_011f8154;
@@ -4884,17 +4889,17 @@ const char* ArchivePathComponent::GetPathComponent(int a1, int a2, const char* p
             if (FUN_00ec68e4(pDirCopyX_lvyahv, szDirX))
             {
                 q_pddrt = pDirCopyX_lvyahv;
-                DAT_011f6238.FUN_00aa4060(q_pddrt);
+                DAT_011f6238.MemoryManager_Deallocate(q_pddrt);
                 q_cyqb = pFileCopyTmp_lun;
-                DAT_011f6238.FUN_00aa4060(q_cyqb);
+                DAT_011f6238.MemoryManager_Deallocate(q_cyqb);
                 return pDirName_mcmb;
             }
             if (FUN_00ec68e4(pFileCopyTmp_lun, szFile7))
             {
                 q_u = pDirCopyX_lvyahv;
-                DAT_011f6238.FUN_00aa4060(q_u);
+                DAT_011f6238.MemoryManager_Deallocate(q_u);
                 q_ewlv = pFileCopyTmp_lun;
-                DAT_011f6238.FUN_00aa4060(q_ewlv);
+                DAT_011f6238.MemoryManager_Deallocate(q_ewlv);
                 return pFileName_zpqwby;
             }
         }
@@ -5594,11 +5599,12 @@ struct DecompReadFile : public CompressedArchiveFile
 {
     void FUN_00aa15a0();
     unsigned int ReadAtOffset(void* buffer, unsigned int size, int mode);
-    unsigned int FUN_00afc0e0(char* buffer, unsigned int size);
+    unsigned int CompressedArchiveFile_ReadF(char* buffer, unsigned int size);
 };
 // Reads up to size bytes of decompressed data into buffer, refilling the compressed input buffer as needed, and returns the number of bytes read.
 // @fnv 0x00afc0e0
-unsigned int DecompReadFile::FUN_00afc0e0(char* buffer, unsigned int size)
+// src: XBOX_PDB 0x00afc0e0
+unsigned int DecompReadFile::CompressedArchiveFile_ReadF(char* buffer, unsigned int size)
 {
     unsigned int bytesToRead = size;
     unsigned int nRead = 0;

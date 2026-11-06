@@ -178,7 +178,7 @@ struct HkDisplayConvexObj
     HkDisplayConvexObj* FUN_00de1d20(HkArrayPairBlock* a1);
 };
 
-HkAllocHolder* __cdecl FUN_00c85750() throw();
+HkAllocHolder* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(HkAllocator* a1, HkArrayRaw* a2, int a3);
 
 struct FUN_00de4340_cls
@@ -199,7 +199,7 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pPairBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* h = FUN_00c85750();
+        HkAllocHolder* h = hkMemoryRouter_getInstance();
         void* pMemory = h->m_pAllocator->Alloc(0x18);
         if (pMemory != (void*)zero)
         {
@@ -214,12 +214,12 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
             pPairBlock = p;
         }
 
-        h = FUN_00c85750();
+        h = hkMemoryRouter_getInstance();
         pMemory = h->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)pMemory)->m_u04 = 0x60;
         m_pConvex = ((HkDisplayConvexObj*)pMemory)->FUN_00de1d20(pPairBlock);
 
-        h = FUN_00c85750();
+        h = hkMemoryRouter_getInstance();
         if (a1->m_iArrayLength == (int)(a1->m_uCapFlags & 0x3fffffffu))
         {
             ResizeAudioStream(h->m_pAllocator, a1, 4);
@@ -249,7 +249,7 @@ struct Allocator { virtual void unk00(); virtual void unk04(); virtual void unk0
 
 struct StackHeap { char* top; int unk04; int unk08; int unk0c; Allocator* alloc; };
 
-inline StackHeap* GetStackHeap67() { return (StackHeap*)FUN_00c85750(); }
+inline StackHeap* GetStackHeap67() { return (StackHeap*)hkMemoryRouter_getInstance(); }
 
 
 
@@ -271,7 +271,7 @@ extern "C" LocalM128 _mm_add_ps(LocalM128,LocalM128);
 extern "C" LocalM128 _mm_add_ss(LocalM128,LocalM128);
 extern "C" float _mm_cvtss_f32(LocalM128);
 extern "C" void _mm_store_ps(float*,LocalM128);
-__declspec(noinline) void FUN_00de2aa0(Target* context, Contact67* volatile contact, const Vec67* normal, int color, void* body, int tag);
+__declspec(noinline) void hkContactPointViewer_displayArrow(Target* context, Contact67* volatile contact, const Vec67* normal, int color, void* body, int tag);
 
 struct ContactIdStackArray : hkArrayBase<unsigned short> { // distinct from Arr: 0x00de2da0 uses a contact-viewer scratch array with a stack-save pointer at +0x0c beyond shared hkArrayBase storage; it restores a 0x200-byte scratch allocation.
 
@@ -488,7 +488,7 @@ void hkpContactPointViewer::drawAllContactPointsInIsland_00de2da0(Cont* c)
                     { int h = GetOperationType();
 
                     int color=reinterpret_cast<int>(m_ulUserData); 
-                    FUN_00de2aa0(reinterpret_cast<Target*>(unk10), y, &y->normal, color, &v->value10, h); }
+                    hkContactPointViewer_displayArrow(reinterpret_cast<Target*>(unk10), y, &y->normal, color, &v->value10, h); }
 
                 } } i++; } }
 
@@ -606,7 +606,8 @@ static inline LocalM128 contactArrowDot3_67(const LocalM128& a, const LocalM128&
 static inline float contactArrowAbs67(float r) { return (float)fabs(r); }
 
 // @fnv 0x00de2aa0
-static __declspec(noinline) void FUN_00de2aa0(Target* self, Contact67* contact, const Vec67* direction, int color, void* id, int tag)
+// src: XBOX_PDB 0x00de2aa0
+static __declspec(noinline) void hkContactPointViewer_displayArrow(Target* self, Contact67* contact, const Vec67* direction, int color, void* id, int tag)
 
 {
 

@@ -367,11 +367,12 @@ struct S006950d0
 
 struct FUN_00844160_shell
 {
-    unsigned int FUN_00844160(unsigned int);
+    unsigned int BSSimpleArray_GroupMemberData_1024_GetAt(unsigned int);
 };
 
 // @fnv 0x00844160
-unsigned int FUN_00844160_shell::FUN_00844160(unsigned int a)
+// src: XBOX_PDB 0x00844160
+unsigned int FUN_00844160_shell::BSSimpleArray_GroupMemberData_1024_GetAt(unsigned int a)
 {
     return ((S006950d0*)this)->GetElement(a);
 }
@@ -635,10 +636,11 @@ struct FUN_00485b60
 };
 struct ReconstructFilesSourceLookup
 {
-    TESFile* FUN_00843fe0(BSSimpleList<TESFile*>* apFileList, unsigned int aiFormID);
+    TESFile* BGSReconstructFormsInAllFilesMap_GetFileForFormID(BSSimpleList<TESFile*>* apFileList, unsigned int aiFormID);
 };
 // @fnv 0x00843fe0
-TESFile* ReconstructFilesSourceLookup::FUN_00843fe0(BSSimpleList<TESFile*>* apFileList, unsigned int aiFormID)
+// src: XBOX_PDB 0x00843fe0
+TESFile* ReconstructFilesSourceLookup::BGSReconstructFormsInAllFilesMap_GetFileForFormID(BSSimpleList<TESFile*>* apFileList, unsigned int aiFormID)
 {
     TESFile* pfile;
     TESForm* pform;
@@ -845,7 +847,7 @@ namespace fnv_00844eb0 {
 struct S5460
 {
     unsigned int unk0;
-    unsigned int FUN_00845460();
+    unsigned int BSSimpleArray_NiPoint2_1024_AddUninitialized();
 };
 struct SaveGameSizeState : public S5460
 {
@@ -860,7 +862,7 @@ struct SaveGameSizeState : public S5460
 // @fnv 0x00844eb0
 unsigned int SaveGameSizeState::FUN_00844eb0(Elem* apElem)
 {
-    unsigned int idx = FUN_00845460();
+    unsigned int idx = BSSimpleArray_NiPoint2_1024_AddUninitialized();
     RecordSizeAndLength((unsigned int)&arr[idx], 1);
     arr[idx] = *apElem;
     return idx;
@@ -1029,7 +1031,7 @@ struct FUN_0072ba80_shell
 };
 struct S5460
 {
-    void FUN_006a2770(unsigned int, unsigned int);
+    void BSSimpleArray_NiPoint2_1024_ReallocateBuffer(unsigned int, unsigned int);
 };
 struct FUN_00844c20_shell
 {
@@ -1048,7 +1050,7 @@ void FUN_00844c20_shell::SetCount(unsigned int idx)
             ->FUN_0072ba80((char*)*(void**)((char*)this + 4) + idx * 8, *(unsigned int*)((char*)this + 8) - idx);
         *(unsigned int*)((char*)this + 8) = idx;
     }
-    ((S5460*)this)->FUN_006a2770(idx, *(unsigned int*)((char*)this + 8));
+    ((S5460*)this)->BSSimpleArray_NiPoint2_1024_ReallocateBuffer(idx, *(unsigned int*)((char*)this + 8));
     *(unsigned int*)((char*)this + 0xc) = idx;
 }
 
@@ -1107,7 +1109,7 @@ struct SetAtHelper : public DummyPointerMap
 void SetAtHelper::GetOrCreateAndDispatch(TESObjectCELL* pKeySource, unsigned int param2, unsigned int param3,
                                          unsigned int param4)
 {
-    unsigned int uiKey = pKeySource->FUN_00544210();
+    unsigned int uiKey = pKeySource->GetGroupSubBlockKey();
     unsigned int uiEntry = 0;
 
     if (!this->GetAt(uiKey, uiEntry))
@@ -1123,7 +1125,7 @@ void SetAtHelper::GetOrCreateAndDispatch(TESObjectCELL* pKeySource, unsigned int
 namespace fnv_008418b0 {
 void* operator new(unsigned int);
 
-int __cdecl FUN_005442c0(int, int);
+int __cdecl TESObjectCELL_CalcExtGroupSubBlockKey(int, int);
 
 struct FUN_008418b0_shell : public DummyPointerMap
 {
@@ -1134,7 +1136,7 @@ struct FUN_008418b0_shell : public DummyPointerMap
 void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, unsigned int arg3, unsigned int arg4,
                                           unsigned int arg5, unsigned int arg6)
 {
-    unsigned int key = FUN_005442c0(arg2, arg3);
+    unsigned int key = TESObjectCELL_CalcExtGroupSubBlockKey(arg2, arg3);
     BGSReconstructCellsMap* value = 0;
 
     if (!GetAt(key, reinterpret_cast<unsigned int&>(value)))
@@ -1168,11 +1170,12 @@ struct CellBlockEntryOperations : BGSReconstructCellBlocksMap
 
 struct FUN_00841fc0_class : DummyPointerMap
 {
-    void FUN_00841fc0(DoorH*, unsigned int, unsigned int, unsigned int);
+    void BGSReconstructWorldSpacesMap_AddCellForm(DoorH*, unsigned int, unsigned int, unsigned int);
 };
 
 // @fnv 0x00841fc0
-void FUN_00841fc0_class::FUN_00841fc0(DoorH* door, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+// src: XBOX_PDB 0x00841fc0
+void FUN_00841fc0_class::BGSReconstructWorldSpacesMap_AddCellForm(DoorH* door, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     void* id;
     unsigned int value;
@@ -1204,11 +1207,12 @@ unsigned int __fastcall _ref_0084e3a0(unsigned int);
 
 struct FUN_008420a0_class : public DummyPointerMap
 {
-    void FUN_008420a0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    void BGSReconstructWorldSpacesMap_AddCellForm_008420a0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 };
 
 // @fnv 0x008420a0
-void FUN_008420a0_class::FUN_008420a0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+// src: XBOX_PDB 0x008420a0
+void FUN_008420a0_class::BGSReconstructWorldSpacesMap_AddCellForm_008420a0(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
                                       unsigned int a5, unsigned int a6)
 {
     unsigned int map = _ref_0084e3a0(a1);
@@ -1234,7 +1238,7 @@ struct CellBlockReferenceOperations : BGSReconstructCellBlocksMap
 
 struct FUN_00841fc0_standin
 {
-    void FUN_00841fc0(TESObjectCELL*, int, int, int);
+    void BGSReconstructWorldSpacesMap_AddCellForm(TESObjectCELL*, int, int, int);
 };
 
 struct FileCellReconstructionOperations : BGSReconstructFormsInFileMap
@@ -1266,7 +1270,7 @@ void FileCellReconstructionOperations::ProcessCell(TESObjectCELL* cell, int aiAr
 
         reinterpret_cast<FUN_00841fc0_standin*>(
             m_pExteriorMap)
-            ->FUN_00841fc0(cell, aiArg1, aiArg2, aiArg3);
+            ->BGSReconstructWorldSpacesMap_AddCellForm(cell, aiArg1, aiArg2, aiArg3);
     }
 
     ++iCount;
@@ -1278,7 +1282,7 @@ void* __cdecl operator new(unsigned int);
 
 struct WorldSpaceMapOperations : BGSReconstructWorldSpacesMap
 {
-    void __thiscall FUN_008420a0(int, int, int, int, int, int);
+    void __thiscall BGSReconstructWorldSpacesMap_AddCellForm_008420a0(int, int, int, int, int, int);
 };
 
 struct FileWorldReconstructionOperations : BGSReconstructFormsInFileMap
@@ -1296,7 +1300,7 @@ void FileWorldReconstructionOperations::EnsureObjectAndCall(int a, int b, int c,
         m_pExteriorMap = new BGSReconstructWorldSpacesMap;
     }
 
-    static_cast<WorldSpaceMapOperations*>(m_pExteriorMap)->FUN_008420a0(a, b, c, d, e, f);
+    static_cast<WorldSpaceMapOperations*>(m_pExteriorMap)->BGSReconstructWorldSpacesMap_AddCellForm_008420a0(a, b, c, d, e, f);
 
     iCount += 1;
 }
@@ -1309,7 +1313,7 @@ void __cdecl _fnv_call_845cc0(char const*, ...);
 struct TESFormCallProxy
 {
     TESFile* _FNV_GetFile(int);
-    char const* FUN_00440e30();
+    char const* TESForm_GetFormTypeString();
 };
 
 struct TESFormRefProxy
@@ -1319,7 +1323,7 @@ struct TESFormRefProxy
 
 struct MapCallProxy
 {
-    void FUN_00842310(TESForm*, unsigned int);
+    void BGSReconstructFormsInFileMap_AddForm(TESForm*, unsigned int);
 };
 
 struct ReconstructFilesFormOperations : BGSReconstructFormsInAllFilesMap
@@ -1345,7 +1349,7 @@ void ReconstructFilesFormOperations::BGSReconstructFormsInAllFilesMap_AddForm(TE
         _fnv_call_845cc0("Form %08X %s with type %s and no file passed to BGSReconstructFormsInAllFilesMap::AddForm()",
                          reinterpret_cast<TESFormRefProxy*>(apForm)->_ref_0084e3a0(),
                          apForm->GetName(),
-                         reinterpret_cast<TESFormCallProxy*>(apForm)->FUN_00440e30());
+                         reinterpret_cast<TESFormCallProxy*>(apForm)->TESForm_GetFormTypeString());
         return;
     }
 
@@ -1358,7 +1362,7 @@ void ReconstructFilesFormOperations::BGSReconstructFormsInAllFilesMap_AddForm(TE
         SetAt(pfile, pformsInFileMap);
     }
 
-    reinterpret_cast<MapCallProxy*>(pformsInFileMap)->FUN_00842310(apForm, aiFlags);
+    reinterpret_cast<MapCallProxy*>(pformsInFileMap)->BGSReconstructFormsInFileMap_AddForm(apForm, aiFlags);
 
     ++iCount;
 }
@@ -1442,7 +1446,7 @@ void* __cdecl operator new(unsigned int);
 // The shared reference does not expose this save-state query.
 struct ReferenceSaveCheck : TESObjectREFR
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
 };
 
 struct FormReferenceOperations : BGSReconstructFormsMap
@@ -1468,7 +1472,7 @@ void CellBlockReferenceOperations::ProcessEntry(TESObjectCELL* first, ReferenceS
     {
         ReferenceSaveCheck* shell = second;
 
-        if (shell->FUN_00565450())
+        if (shell->TESObjectREFR_GetPersistFlagValue())
         {
             if (!unk10)
                 unk10 = reinterpret_cast<int>(new BGSReconstructFormsMap());
@@ -1478,7 +1482,7 @@ void CellBlockReferenceOperations::ProcessEntry(TESObjectCELL* first, ReferenceS
         }
     }
 
-    unsigned int key = first->FUN_005441b0();
+    unsigned int key = first->GetGroupBlockKey();
     unsigned int value = 0;
 
     if (!GetAt(key, reinterpret_cast<BGSReconstructCellSubBlocksMap*&>(value)))
@@ -1786,7 +1790,7 @@ struct FormContext
     virtual void Slot75();
     virtual const char* GetDisplayName();
     TESFile* FUN_00484e60(int fileIndex);
-    const char* FUN_0084e3a0();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 struct FormTypeReader
@@ -1817,7 +1821,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
         primary = _ref_004839c0(numericID);
         if (primary == 0)
         {
-            Warning_005b5e40(DAT_01014168, numericID, context->GetDisplayName(), context->FUN_0084e3a0());
+            Warning_005b5e40(DAT_01014168, numericID, context->GetDisplayName(), context->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         }
     }
 
@@ -1830,7 +1834,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
             secondary = dynamic_cast<TESGlobal*>(_ref_004839c0(uiSecondaryID));
             if (secondary == 0)
             {
-                Warning_005b5e40(DAT_01014100, uiSecondaryID, context->GetDisplayName(), context->FUN_0084e3a0());
+                Warning_005b5e40(DAT_01014100, uiSecondaryID, context->GetDisplayName(), context->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             }
         }
     }
@@ -1859,7 +1863,7 @@ BGSReconstructCellBlocksMap::~BGSReconstructCellBlocksMap()
 
 struct FormWithSaveCheck : TESForm
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
 };
 struct ReconstructEntry
 {
@@ -1879,7 +1883,7 @@ void CellBlockSaveLoadOperations::ReconstructFormEntry(int value, int formID, in
     int handle3;
     FormWithSaveCheck* referenceForm;
     ReconstructEntry* entry7;
-    if (form != 0 && form->GetIsReference() && (referenceForm = form, referenceForm->FUN_00565450()))
+    if (form != 0 && form->GetIsReference() && (referenceForm = form, referenceForm->TESObjectREFR_GetPersistFlagValue()))
     {
         if (unk10 == 0)
             unk10 = reinterpret_cast<int>(new BGSReconstructFormsMap);
@@ -2060,7 +2064,7 @@ struct RegRef
     virtual void v1EC();
     virtual void v1F0();
     virtual const RegPoint& GetPos();
-    void* FUN_00575d70();
+    void* TESObjectREFR_GetWorldSpace();
     void* FUN_008d6f30();
     RegLand* FUN_0059bb30();
 };
@@ -2087,12 +2091,13 @@ struct RegManager : BGSReconstructFormsInFileMap
     void ProcessCell(void* apCell, RegRef* apRef, int aiUnk, int aiArg);
     bool FUN_00853130(int aiKey, RegList** appList);
     void FUN_00844700(int aiKey, RegList* apList);
-    void FUN_00842310(RegRef* apRef, int aiArg);
+    void BGSReconstructFormsInFileMap_AddForm(RegRef* apRef, int aiArg);
 };
 
 // Registers a reference by form type: resolves its cell/world position or land cell and dispatches to the matching registration routine.
 // @fnv 0x00842310
-void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
+// src: XBOX_PDB 0x00842310
+void RegManager::BGSReconstructFormsInFileMap_AddForm(RegRef* apRef, int aiArg)
 {
     int iType9 = apRef->GetFormType();
     if (apRef->IsReference())
@@ -2105,7 +2110,7 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
         void* pCellB = 0;
         if (pRef6->GetPosition(&_kPos, &kRotX, &iIndex6, 0))
             FUN_00846190(iIndex6, &pWorldX, &pCellB);
-        else if ((pCellB = pRef6->FUN_00575d70()) != 0)
+        else if ((pCellB = pRef6->TESObjectREFR_GetWorldSpace()) != 0)
             _kPos = pRef6->GetPos();
         else
             pWorldX = pRef6->FUN_008d6f30();
@@ -2146,7 +2151,7 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
     }
 }
 
-void FUN_00845cc0(const char* fmt, ...);
+void SaveGameWarning(const char* fmt, ...);
 
 struct ExtendedForm : TESForm
 {
@@ -2163,7 +2168,7 @@ struct ExtendedFileMap : BGSReconstructFormsInFileMap
 
 struct ReconstructMapHelper : BGSReconstructFormsInAllFilesMap
 {
-    TESFile* FUN_00843fe0(BSSimpleList<TESFile*>* apFileList, unsigned int arg4);
+    TESFile* BGSReconstructFormsInAllFilesMap_GetFileForFormID(BSSimpleList<TESFile*>* apFileList, unsigned int arg4);
     void BGSReconstructFormsInAllFilesMap_AddReference_008438b0(ExtendedForm* form, unsigned int arg2, unsigned int arg3, unsigned int arg4, unsigned int arg5);
 };
 
@@ -2176,10 +2181,10 @@ void ReconstructMapHelper::BGSReconstructFormsInAllFilesMap_AddReference_008438b
     if (!form)
         return;
 
-    TESFile* file = this->FUN_00843fe0(form->GetSourceFiles(), arg4);
+    TESFile* file = this->BGSReconstructFormsInAllFilesMap_GetFileForFormID(form->GetSourceFiles(), arg4);
     if (!file)
     {
-        FUN_00845cc0("Worldspace %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
+        SaveGameWarning("Worldspace %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
                      form->GetFormID(), form->GetName());
         return;
     }
@@ -2201,7 +2206,7 @@ struct SceneNode
 };
 struct ObjectBaseView
 {
-    bool FUN_00549580() const;
+    bool TESForm_GetHasSpokenFlag() const;
 };
 struct ReferenceView;
 struct EnableState
@@ -2215,7 +2220,7 @@ struct WorldSpaceView
 struct ActorBaseView
 {
     void FUN_005f9e00(ReferenceView*, bool, bool, bool);
-    void FUN_006047c0(ReferenceView*, bool, bool, bool, bool);
+    void InitDefaultWorn(ReferenceView*, bool, bool, bool, bool);
 };
 struct ProcessView
 {
@@ -2302,8 +2307,8 @@ struct ReferenceView : TESObjectREFR
     virtual void slot151();
     virtual void InitializeProcess();
     float FUN_00598040();
-    void FUN_00567490(float);
-    bool FUN_00437b90();
+    void TESObjectREFR_SetScale(float);
+    bool TESForm_GetDisabledOrDeleted();
     ProcessView* FUN_008d8520();
     int FUN_00931850();
     void FUN_00407800(ProcessView*);
@@ -2311,7 +2316,7 @@ struct ReferenceView : TESObjectREFR
 };
 struct ActorDeletionQueue
 {
-    void FUN_0096d470(ReferenceView*, int);
+    void ProcessLists_RemoveReference(ReferenceView*, int);
 };
 extern ActorDeletionQueue DAT_011e0e80;
 // Additional operation over the shared save/load-game layout.
@@ -2330,7 +2335,7 @@ struct NavInfoView
 struct NavFormView : TESForm
 {
     int FUN_00401170();
-    NavInfoView* FUN_0068efb0();
+    NavInfoView* GetNavMeshInfo_0068efb0();
     bool FUN_00440da0();
 };
 struct ReconstructionWorker
@@ -2344,22 +2349,22 @@ void ReconstructionWorker::ReconstructForm(ReconstructDataView* data)
     {
         ReferenceView* reference = (ReferenceView*)data->pForm;
         SceneNode* sceneNode = reinterpret_cast<SceneNode*>(reference->GetNiNode());
-        if (sceneNode && sceneNode->GetFloatAt64() != reference->FUN_00567400())
-            reference->FUN_00567490(reference->FUN_00598040());
-        if (data->FUN_00461580(8) && reinterpret_cast<ObjectBaseView*>(reference->FUN_007af430())->FUN_00549580() && reference->FUN_00440da0())
+        if (sceneNode && sceneNode->GetFloatAt64() != reference->TESObjectREFR_GetScale_00567400())
+            reference->TESObjectREFR_SetScale(reference->FUN_00598040());
+        if (data->FUN_00461580(8) && reinterpret_cast<ObjectBaseView*>(reference->BGSSaveFormBuffer_GetForm())->TESForm_GetHasSpokenFlag() && reference->FUN_00440da0())
         {
-            WorldSpaceView* world = reinterpret_cast<WorldSpaceView*>(reference->FUN_00575d70());
+            WorldSpaceView* world = reinterpret_cast<WorldSpaceView*>(reference->TESObjectREFR_GetWorldSpace());
             if (world)
                 world->FUN_00586170(reference, true)->FUN_006fcfa0();
         }
         if (reference->IsMobileObject())
         {
             ReferenceView* mobile = reference;
-            if (mobile->FUN_00437b90())
+            if (mobile->TESForm_GetDisabledOrDeleted())
             {
                 if (data->FUN_00461580(8) && mobile->FUN_008d8520())
                 {
-                    DAT_011e0e80.FUN_0096d470(mobile, mobile->FUN_00931850());
+                    DAT_011e0e80.ProcessLists_RemoveReference(mobile, mobile->FUN_00931850());
                     delete mobile->FUN_008d8520();
                     mobile->FUN_00407800(0);
                 }
@@ -2383,7 +2388,7 @@ void ReconstructionWorker::ReconstructForm(ReconstructDataView* data)
                     else
                     {
                         ActorBaseView* npcBase = actor->FUN_004181e0();
-                        npcBase->FUN_006047c0(actor, true, true, false, true);
+                        npcBase->InitDefaultWorn(actor, true, true, false, true);
                     }
                 }
             }
@@ -2398,8 +2403,8 @@ void ReconstructionWorker::ReconstructForm(ReconstructDataView* data)
     else if (((NavFormView*)data->pForm)->FUN_00401170() == 0x43)
     {
         NavFormView* pNavForm = (NavFormView*)data->pForm;
-        if (pNavForm->FUN_0068efb0())
-            pNavForm->FUN_0068efb0()->FUN_00693ef0(pNavForm->FUN_00440da0());
+        if (pNavForm->GetNavMeshInfo_0068efb0())
+            pNavForm->GetNavMeshInfo_0068efb0()->FUN_00693ef0(pNavForm->FUN_00440da0());
     }
 }
 }  // namespace fnv_00843c90
@@ -2505,7 +2510,7 @@ FUN_00844470::~FUN_00844470()
 
 struct RebuildForm
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 struct RebuildMap;
@@ -2519,7 +2524,7 @@ struct RebuildResult
     RebuildResult();
     RebuildResult(RebuildForm*, RebuildMap*);
 
-    bool FUN_005ca4f0();
+    bool ActorCause_IsValid();
     void ClearFields();
 };
 
@@ -2560,14 +2565,14 @@ struct RebuildQueue
     void ConstructAndForward(unsigned int, RebuildMap*);
 
     unsigned int FUN_0044ddc0();
-    RebuildResult* FUN_00844160(unsigned int);
+    RebuildResult* BSSimpleArray_GroupMemberData_1024_GetAt(unsigned int);
 };
 
 struct RebuildCoordinates
 {
     int x, y, z;
     RebuildCoordinates();
-    void FUN_00462230();
+    void TwoValues_Endian();
 };
 
 struct RebuildOutput
@@ -2580,11 +2585,11 @@ void ResolveFormID(unsigned int*, TESFile*);
 
 unsigned int PackShortPair(unsigned short, unsigned short);
 
-RebuildForm* FUN_004839c0(unsigned int);
+RebuildForm* TESForm_GetFormByNumericID(unsigned int);
 
 void* ourMemset(void*, int, unsigned int);
 
-void FUN_00845cc0(const char*, ...);
+void SaveGameWarning(const char*, ...);
 
 const char* FindFormEnumIndex(unsigned int);
 const char* GetStringForByte(const char*);
@@ -2609,7 +2614,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
     RebuildHeader* pData7 = reinterpret_cast<RebuildHeader*>(file->GetRecordHeader());
 
     while (pData7->type == DAT_01187014)
-        file->FUN_00472150(true);
+        file->NextForm_00472150(true);
 
     RebuildMap* world8 = 0;
 
@@ -2655,7 +2660,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 {
 
                     if (reinterpret_cast<RebuildMap*>(m_pExteriorMap))
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
                     else
                         file->FUN_00473660();
@@ -2666,7 +2671,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                     if (reinterpret_cast<RebuildMap*>(m_pInteriorMap))
                     {
                         world8 = reinterpret_cast<RebuildMap*>(m_pInteriorMap);
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
                     }
 
                     else
@@ -2695,7 +2700,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                         if (cached && world8->HasFlagInAnyFile(5))
                             queued3.ConstructAndForward(pData7->formId4, 0);
 
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
                     }
                     else
                         file->FUN_00473660();
@@ -2710,7 +2715,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 case 4:
 
                     if (world8->FUN_00853130(pData7->label, &block3))
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
                     else
                         file->FUN_00473660();
@@ -2724,7 +2729,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 case 5:
 
                     if (block3->FUN_00853130(pData7->label, &subBlock))
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
                     else
                         file->FUN_00473660();
@@ -2750,7 +2755,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                         }
 
                         if (persistent || temp)
-                            file->FUN_00472150(true);
+                            file->NextForm_00472150(true);
 
                         else
                             file->FUN_00473660();
@@ -2763,7 +2768,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 case 8:
 
                     if (recordC->FUN_00452420(2))
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
                     else
                         file->FUN_00473660();
@@ -2773,7 +2778,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 case 9:
 
                     if (recordC->FUN_00452420(4))
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
                     else
                         file->FUN_00473660();
@@ -2788,7 +2793,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
             {
 
                 if (GetAt(pData7->label, reinterpret_cast<BGSReconstructFormsMap*&>(recordC)))
-                    file->FUN_00472150(true);
+                    file->NextForm_00472150(true);
 
                 else
                     file->FUN_00473660();
@@ -2799,7 +2804,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
             idA = pData7->group;
 
-            file->FUN_00472150(true);
+            file->NextForm_00472150(true);
         }
         else if (pData7->type == DAT_011872b4)
         {
@@ -2818,7 +2823,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
                     ourMemset(&coords9, 0, 12);
 
-                    unsigned int type3 = file->FUN_004726b0();
+                    unsigned int type3 = file->TESFile_GetTESChunk();
 
                     while (type3)
                     {
@@ -2829,11 +2834,11 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                             file->FUN_00472890(&coords9, 12);
 
                             if (file->IsEndianConversionRequired())
-                                coords9.FUN_00462230();
+                                coords9.TwoValues_Endian();
 
                             break;
                         }
-                        type3 = file->FUN_004726f0() ? file->FUN_004726b0() : 0;
+                        type3 = file->FUN_004726f0() ? file->TESFile_GetTESChunk() : 0;
                     }
 
                     static_cast<ReconstructionFileOperations*>(file)->SkipCurrentForm();
@@ -2851,9 +2856,9 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
                         DAT_011c3f2c->ConstructObject(file, false, 0, false);
 
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
 
-                        RebuildForm* form = FUN_004839c0(formId4);
+                        RebuildForm* form = TESForm_GetFormByNumericID(formId4);
 
                         if (form)
                         {
@@ -2863,15 +2868,15 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                             reinterpret_cast<RebuildOutput*>(output)->BGSReconstructedForms_AddFormData(&cell);
                         }
                         else
-                            FUN_00845cc0("Cell with Form ID %08X was not able to be reconstructed", formId4);
+                            SaveGameWarning("Cell with Form ID %08X was not able to be reconstructed", formId4);
 
                         ++restoredA;
                     }
                     else
-                        file->FUN_00472150(true);
+                        file->NextForm_00472150(true);
                 }
                 else
-                    file->FUN_00472150(true);
+                    file->NextForm_00472150(true);
             }
             else
             {
@@ -2882,7 +2887,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
                 DAT_011c3f30 = 0;
 
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
             }
         }
         else if (pData7->type == DAT_011873c8)
@@ -2896,7 +2901,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                 if (queued3.FUN_0044ddc0())
                 {
 
-                    result = *queued3.FUN_00844160(next4++);
+                    result = *queued3.BSSimpleArray_GroupMemberData_1024_GetAt(next4++);
 
                     pending4 = true;
                 }
@@ -2904,7 +2909,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                     pData7->type = 0;
             }
             else
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
         }
         else
         {
@@ -2918,40 +2923,40 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
             if (recordC->Lookup(id, &item))
             {
 
-                if (formId4 && (!DAT_011c3f30 || DAT_011c3f30->FUN_0084e3a0() != formId4))
-                    DAT_011c3f30 = FUN_004839c0(formId4);
+                if (formId4 && (!DAT_011c3f30 || DAT_011c3f30->GetHavokWorldObjectCountInSceneGraph_0084e3a0() != formId4))
+                    DAT_011c3f30 = TESForm_GetFormByNumericID(formId4);
 
                 DAT_011c3f2c->ConstructObject(file, false, reinterpret_cast<TESForm*>(item.form), true);
 
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
 
                 if (!item.form)
-                    item.form = FUN_004839c0(id);
+                    item.form = TESForm_GetFormByNumericID(id);
 
                 if (item.form)
                     reinterpret_cast<RebuildOutput*>(output)->BGSReconstructedForms_AddFormData(&item);
 
                 else
-                    FUN_00845cc0("Form %08X with type %s was not able to be reconstructed", id,
+                    SaveGameWarning("Form %08X with type %s was not able to be reconstructed", id,
                                  GetStringForByte(FindFormEnumIndex(pData7->type)));
 
                 ++restoredA;
             }
             else
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
         }
 
         if (groupEndA && groupEndA <= file->GetOffset())
         {
 
             if (queued3.FUN_0044ddc0() > next4)
-                result = *queued3.FUN_00844160(next4++);
+                result = *queued3.BSSimpleArray_GroupMemberData_1024_GetAt(next4++);
 
             else
                 pData7->type = 0;
         }
 
-        if (result.FUN_005ca4f0())
+        if (result.ActorCause_IsValid())
         {
 
             file->SetOffset(reinterpret_cast<unsigned int>(result.form));
@@ -2967,7 +2972,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
                 sizeXA = pData7->sizeXA;
 
-                file->FUN_00472150(true);
+                file->NextForm_00472150(true);
             }
             else
                 sizeXA = pData7->sizeXA;
@@ -3060,7 +3065,7 @@ void ReconstructCellsOperations::ProcessCell(TESObjectCELL* apCell, TESObjectCEL
     }
 }
 
-void FUN_00845cc0(const char* apFormat, ...);
+void SaveGameWarning(const char* apFormat, ...);
 // TESObjectCELL does not yet declare the save-parent lookup at 0x0054DDD0.
 // This method-only adapter uses the shared cell layout.
 struct CellSaveParentLookup : TESObjectCELL
@@ -3085,13 +3090,13 @@ void ReconstructFilesCellOperations::BGSReconstructFormsInAllFilesMap_AddReferen
         return;
     TESFile* pFile = 0;
     if (FUN_00425fd0(apRef))
-        pFile = ((ReconstructFilesSourceLookup*)this)->FUN_00843fe0(apRef->GetSourceFiles(), auiArg1);
+        pFile = ((ReconstructFilesSourceLookup*)this)->BGSReconstructFormsInAllFilesMap_GetFileForFormID(apRef->GetSourceFiles(), auiArg1);
     else
-        pFile = ((ReconstructFilesSourceLookup*)this)->FUN_00843fe0(static_cast<CellSaveParentLookup*>(apRef)->GetSaveParentCell()->GetSourceFiles(), auiArg1);
+        pFile = ((ReconstructFilesSourceLookup*)this)->BGSReconstructFormsInAllFilesMap_GetFileForFormID(static_cast<CellSaveParentLookup*>(apRef)->GetSaveParentCell()->GetSourceFiles(), auiArg1);
     if (!pFile)
     {
-        FUN_00845cc0("Cell %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
-                     apRef->FUN_0084e3a0(), apRef->GetName());
+        SaveGameWarning("Cell %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
+                     apRef->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), apRef->GetName());
         return;
     }
     BGSReconstructFormsInFileMap* pFileMap = 0;

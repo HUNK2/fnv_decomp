@@ -107,7 +107,7 @@ struct FUN_00d11620_cls {
     int unk9C;
     int unkA0;
     int m_iA4;
-    int FUN_00d11620();
+    int getNumObjects();
 };
 // Reconstructed source for FUN_00d119c0 (forwarding thunk, 24 bytes).
 // Target shape:
@@ -128,7 +128,7 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 };
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
+void __fastcall getAabbFromNode(void* self, UnkHandle* handle, SweepEntry* entry);
 // Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
@@ -232,7 +232,7 @@ struct SpawnedObject {
 
     SpawnedObject* Init(int a, int b, int c);
 };
-SpawnedObject* FUN_00d182a0(int a, int b, int c);
+SpawnedObject* hk3AxisSweep16CreateBroadPhase(int a, int b, int c);
 int __cdecl getMinComponent(const float* v, float* out);
 extern int DAT_011b37a4[];
 struct Endpoint {
@@ -757,7 +757,8 @@ struct __declspec(align(16)) ReferenceBounds {
     unsigned int maxSentinels;
 };
 // @fnv 0x00d10d10
-void __stdcall FUN_00d10d10(BpBoundNode* nodes, int n, const BpBoundWords* bnd)
+// src: XBOX_PDB 0x00d10d10
+void __stdcall hkp3AxisSweep_updateNodesAfterDelete(BpBoundNode* nodes, int n, const BpBoundWords* bnd)
 {
     ReferenceBounds first, second;
     __m64 mask;
@@ -837,11 +838,12 @@ struct SweepCls {
     __declspec(align(16)) Vec4 m_kVectorAt40;
     __declspec(align(16)) Vec4 m_kVectorAt50;
     __declspec(align(16)) Vec4 m_vScale;
-    int FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3);
+    int hkp3AxisSweep_addObject(void* a1, const SweepAabb& aabb, int a3);
 };
 
 // @fnv 0x00d114e0
-int SweepCls::FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3)
+// src: XBOX_PDB 0x00d114e0
+int SweepCls::hkp3AxisSweep_addObject(void* a1, const SweepAabb& aabb, int a3)
 {
     SweepAabbInt out;
     const __m128 maxVal = DAT_011b6d70;
@@ -951,7 +953,7 @@ struct S_00d112c0 {
     int m_iMarkerCount;
     int m_markerShift;
     S_00d112c0_Marker* m_pOverlappingMarkerInfo;
-    void FUN_00d112c0(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits);
+    void hkp3AxisSweep_setBitsBasedOnXInterval(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits);
 };
 inline void flip(hkUint32* bits, int i) {
     int idx = i >> 5;
@@ -962,7 +964,8 @@ inline void clear(hkUint32* bits, int i) {
     bits[idx] &= ~(1u << (i & 31));
 }
 // @fnv 0x00d112c0
-void S_00d112c0::FUN_00d112c0(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits)
+// src: XBOX_PDB 0x00d112c0
+void S_00d112c0::hkp3AxisSweep_setBitsBasedOnXInterval(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits)
 {
     unsigned minX = aabb->m_min0;
     unsigned maxX = aabb->m_max0;
@@ -1387,10 +1390,11 @@ Obj8* ep=&current;
 
     }
 
-    void FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4);
+    void hkp3AxisSweep_updateAabbs(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4);
 };
 // @fnv 0x00d12040
-void Sweep8::FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4)
+// src: XBOX_PDB 0x00d12040
+void Sweep8::hkp3AxisSweep_updateAabbs(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4)
 {
     
     int** r;
@@ -1656,13 +1660,14 @@ struct Sweep154 {
     int unkD4;
     Entry16* unkD8;
 
-    void FUN_00d154a0(Input154 input, Callback154 callback);
+    void hkp3AxisSweep_querySingleAabbWithCollector(Input154 input, Callback154 callback);
 };
 
 static void toggleBit(int* buf,int v){int idx=v>>5;int mask=1<<(v&31);buf[idx]^=mask;}
 static void clearBit(int* buf,int v){int idx=v>>5;int mask=1<<(v&31);buf[idx]&=~mask;}
 // @fnv 0x00d154a0
-void Sweep154::FUN_00d154a0(Input154 input, Callback154 callback) {
+// src: XBOX_PDB 0x00d154a0
+void Sweep154::hkp3AxisSweep_querySingleAabbWithCollector(Input154 input, Callback154 callback) {
     int* wordEnd;
     (void)&wordEnd; // Keep the end pointer first in the compiler's local-symbol ordering.
     int count = unkA4;
@@ -1923,7 +1928,7 @@ struct S159a0_Sweep {
     int m_iMarkerCount; int m_iMarkerCapacity; S159a0_Marker* m_pOverlappingMarkerInfo;
     void calcAabbCacheInternal(hkArrayBase<S159a0_Node*>* nodes, PairArray* out);
     __forceinline void querySingleAabbSub(unsigned int* handle, const unsigned int* bitField, const unsigned int* bitFieldEnd, const S159a0_Node& queryNode, hkArrayBase<S159a0_Node*>& out);
-    void FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out);
+    void hkp3AxisSweep_calcAabbCache(const S159a0_Aabb& aabb, PairArray& out);
 };
 
 inline void S159a0_test(S159a0_Node* n, int k, const S159a0_Node& q, hkArrayBase<S159a0_Node*>& arr)
@@ -1955,7 +1960,8 @@ __forceinline void S159a0_Sweep::querySingleAabbSub(unsigned int* handle, const 
 }
 
 // @fnv 0x00d159a0
-void S159a0_Sweep::FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out)
+// src: XBOX_PDB 0x00d159a0
+void S159a0_Sweep::hkp3AxisSweep_calcAabbCache(const S159a0_Aabb& aabb, PairArray& out)
 {
     // Preserve the original explicit initialization without invoking the array constructor.
     void* overlappingStorage[sizeof(hkArrayBase<S159a0_Node*>) / sizeof(void*)];
@@ -2249,11 +2255,12 @@ struct S16c50_Sweep {
         intsOut[2] = out.u16[2];
         intsOut[3] = out.u16[3];
     }
-    void FUN_00d16c50(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const;
+    void hkp3AxisSweep_castAabb(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const;
 };
 
 // @fnv 0x00d16c50
-void S16c50_Sweep::FUN_00d16c50(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const
+// src: XBOX_PDB 0x00d16c50
+void S16c50_Sweep::hkp3AxisSweep_castAabb(const S16c50_CastAabbInput& input, S16c50_Collector& collector) const
 {
     S16c50_Vec4 fromMin; fromMin.setSub4(input.m_vFrom, input.m_vHalfExtents);
     S16c50_Vec4 fromMax; fromMax.setAdd4(input.m_vFrom, input.m_vHalfExtents);
@@ -2499,11 +2506,12 @@ struct SweepShift
     __declspec(align(16)) Vec4 m_highRounded;
     __declspec(align(16)) Vec4 m_highScale;
 
-    void FUN_00d10f00(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs);
+    void hkp3AxisSweep_shiftBroadPhase(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs);
 };
 
 // @fnv 0x00d10f00
-void SweepShift::FUN_00d10f00(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs)
+// src: XBOX_PDB 0x00d10f00
+void SweepShift::hkp3AxisSweep_shiftBroadPhase(const Vec4& distance, Vec4& appliedOut, SweepShiftPairs& pairs)
 {
     __declspec(align(16)) Vec4 negated(_mm_xor_ps(distance.getQuad(), DAT_010c44d0));
     // The virtual call fills this output; preserve its original uninitialized storage.
@@ -2633,7 +2641,7 @@ struct S4ef0Owner {
  static __forceinline void _convertAabbToIntS(const S4ef0Aabb& aabb,const Vec4& offsetLow,const Vec4& offsetHigh,const Vec4& scale,S4ef0AabbInt& aabbOut);
  __forceinline void querySingleAabbSub(S4ef0Handle* object,const unsigned int* bitField,S4ef0Node& refNode,int type,S4ef0Results* pairsOut,S4ef0NodeArr* nodesOut,S4ef0Collector* collector) const;
  __forceinline void _querySingleAabb(const S4ef0Aabb& aabb,int type,S4ef0Results* pairsOut,S4ef0NodeArr* nodesOut,S4ef0Collector* collector) const;
- void FUN_00d14ef0(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) const;
+ void hkp3AxisSweep_querySingleAabb(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) const;
 };
 __forceinline void S4ef0Owner::_convertAabbToIntS(const S4ef0Aabb& aabb,const Vec4& offsetLow,const Vec4& offsetHigh,const Vec4& scale,S4ef0AabbInt& aabbOut) {
  __declspec(align(16)) Vec4 zero(_mm_setzero_ps());
@@ -2734,7 +2742,8 @@ __forceinline void S4ef0Owner::_querySingleAabb(const S4ef0Aabb& aabb,int type,S
  querySingleAabbSub(object,bitField,refNode,type,pairsOut,nodesOut,collector);
 }
 // @fnv 0x00d14ef0
-void S4ef0Owner::FUN_00d14ef0(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) const {
+// src: XBOX_PDB 0x00d14ef0
+void S4ef0Owner::hkp3AxisSweep_querySingleAabb(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) const {
  _querySingleAabb(aabb,0,&pairsOut,0,0);
 }
 
@@ -2947,7 +2956,7 @@ struct Sweep15 : public BroadPhaseBase {
     BatchMarker* m_pOverlappingMarkerInfo;
 
     __forceinline void collectSweepCandidates(const BatchAabb& spl,SweepCandidateArrayLocalForm& local);
-    void FUN_00d18400(In1* p1, In2* p2, int p3);
+    void hkp3AxisSweep_addObjectBatch(In1* p1, In2* p2, int p3);
     int BuildBroadPhasePairs(void* a, int b, void* c, int d, int e, int f);
 };
 
@@ -2957,7 +2966,7 @@ void __cdecl hkAlgorithm_quickSortRecursive_class_hkp3AxisSweep_hkpBpEndPoint_cl
 __forceinline void sortSweepEndpoints(void* p,int count,EndpointOrder order) {
  if(count>1) hkAlgorithm_quickSortRecursive_class_hkp3AxisSweep_hkpBpEndPoint_class_hkAlgorithm_less_class_hkp3AxisSweep_hkpBpEndPoint(p,0,count-1,order);
 }
-void __cdecl FUN_00d9fcf0(void* a, int b, void* c);
+void __cdecl hkRadixSort_sort16(void* a, int b, void* c);
 void __cdecl CollectNodePairs(void* a, void* b, int c, int d);
 
 __forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,SweepCandidateArrayLocalForm& local)
@@ -3071,7 +3080,8 @@ __forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,SweepCan
 }
 
 // @fnv 0x00d18400
-void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
+// src: XBOX_PDB 0x00d18400
+void Sweep15::hkp3AxisSweep_addObjectBatch(In1* p1, In2* p2, int p3)
 {
     Endpoint* ptrs[3];
     BatchAabb spl;
@@ -3189,7 +3199,7 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
         b[savedN * 2 + 2] = (unsigned short)0xffff;
         b[savedN * 2 + 4] = (unsigned short)0xffff;
     }
-    FUN_00d9fcf0(newKeys.data, (savedN + 3) & 0xfffffffc, newScratch.data);
+    hkRadixSort_sort16(newKeys.data, (savedN + 3) & 0xfffffffc, newScratch.data);
     for(int i=0;i<savedN;++i) sortedNew[i]=arrA0.data[newKeys[i].idx];
     ((SweepBatchNode*)sortedNew.data)[savedN].minX = (unsigned short)0xffff;
     {
@@ -3221,7 +3231,7 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
         b[cntC * 2 + 2] = (unsigned short)0xffff;
         b[cntC * 2 + 4] = (unsigned short)0xffff;
     }
-    FUN_00d9fcf0(oldKeys.data, (cntC + 3) & 0xfffffffc, oldScratch.data);
+    hkRadixSort_sort16(oldKeys.data, (cntC + 3) & 0xfffffffc, oldScratch.data);
     for(int i=0;i<cntC;++i) sortedOld[i]=arrA0.data[oldKeys[i].idx];
     ((SweepBatchNode*)sortedOld.data)[cntC].minX = (unsigned short)0xffff;
     {

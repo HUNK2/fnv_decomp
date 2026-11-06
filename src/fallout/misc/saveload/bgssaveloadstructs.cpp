@@ -20,11 +20,12 @@ struct FUN_00847db0_shell
     int m_08;
     int m_0C;
     int m_10;
-    void FUN_00847db0();
+    void BGSSaveGameBuffer_ClearPosition();
 };
 
 // @fnv 0x00847db0
-void FUN_00847db0_shell::FUN_00847db0()
+// src: XBOX_PDB 0x00847db0
+void FUN_00847db0_shell::BGSSaveGameBuffer_ClearPosition()
 {
     m_0C = 0;
     m_10 = 0;
@@ -100,11 +101,12 @@ struct FUN_00854900_shell
     int m_04;
     int m_08;
     int m_0c;
-    int FUN_00854900();
+    int SizeTracker_GetTotalSize();
 };
 
 // @fnv 0x00854900
-int FUN_00854900_shell::FUN_00854900()
+// src: XBOX_PDB 0x00854900
+int FUN_00854900_shell::SizeTracker_GetTotalSize()
 {
     return m_04 + m_08 + m_0c;
 }
@@ -113,7 +115,8 @@ extern int DAT_011a2428[];
 
 // Masks the low 6 bits of the first byte and returns the entry at that index from DAT_011a2428.
 // @fnv 0x00853640
-int __fastcall FUN_00853640(unsigned char* pData)
+// src: XBOX_PDB 0x00853640
+int __fastcall BGSSaveLoadFormInfo_GetFormType(unsigned char* pData)
 {
     unsigned char v = pData[0] & 0x3f;
     return DAT_011a2428[v];
@@ -157,16 +160,17 @@ FUN_00854830_shell::FUN_00854830_shell()
     m_14 = 0;
 }
 
-int __fastcall FUN_00853640(unsigned char* param_1);
+int __fastcall BGSSaveLoadFormInfo_GetFormType(unsigned char* param_1);
 struct FUN_00849220_shell
 {
     unsigned char* p;
-    int __thiscall FUN_00849220();
+    int __thiscall BGSUnloadedFormBuffer_GetFormType();
 };
 // @fnv 0x00849220
-int __thiscall FUN_00849220_shell::FUN_00849220()
+// src: XBOX_PDB 0x00849220
+int __thiscall FUN_00849220_shell::BGSUnloadedFormBuffer_GetFormType()
 {
-    return FUN_00853640(p);
+    return BGSSaveLoadFormInfo_GetFormType(p);
 }
 
 struct FormIDConverter
@@ -203,7 +207,8 @@ extern unsigned int DAT_011de3e0;
 extern unsigned char DAT_011de360[];
 // Fills DAT_011de360 with 255, sets DAT_011de3e0 to 55, then stores each index i at DAT_011de360[DAT_011a2428[i]].
 // @fnv 0x008535e0
-void FUN_008535e0()
+// src: XBOX_PDB 0x008535e0
+void BGSSaveLoadFormInfo_InitSaveGameFormTypes()
 {
     memset(&DAT_011de360, 255, 121);
     DAT_011de3e0 = 55;
@@ -277,7 +282,7 @@ struct FUN_00854920_shell : FUN_00854900_shell
 // @fnv 0x00854920
 float __thiscall FUN_00854920_shell::GetRatio()
 {
-    return (float)((double)(unsigned int)FUN_00854900() / (double)(unsigned int)m_00);
+    return (float)((double)(unsigned int)SizeTracker_GetTotalSize() / (double)(unsigned int)m_00);
 }
 
 // Compares the values returned by calling GetSum on both objects, returning -1 if the first is greater, 1 if less, else 0.
@@ -532,7 +537,7 @@ class B4B10Dialogue
 void B4B10Dialogue::SetupResponse(TESForm* pkSpeaker, int iTopic, B4B10Response* pkResponse)
 {
     pkResponse->Reset();
-    pkResponse->Init(reinterpret_cast<void*>(pkSpeaker->FUN_0084e3a0()), iTopic, static_cast<const TESForm*>(pkSpeaker)->FNV_GetFormType(),
+    pkResponse->Init(reinterpret_cast<void*>(pkSpeaker->GetHavokWorldObjectCountInSceneGraph_0084e3a0()), iTopic, static_cast<const TESForm*>(pkSpeaker)->FNV_GetFormType(),
                      g_pkB4B10DialogueManager->GetCurrentID());
     pkResponse->SetSpeaker(pkSpeaker);
     B4B10SetupResponse(pkResponse, pkSpeaker, iTopic);
@@ -552,7 +557,7 @@ struct SavedBuffer
     unsigned int flags;
     SavedBuffer();
     ~SavedBuffer();
-    void FUN_00847db0();
+    void BGSSaveGameBuffer_ClearPosition();
     unsigned char GetVersion();
     unsigned int TESMain_GetThread();
     unsigned int GetValuePlusNine();
@@ -565,7 +570,7 @@ struct SavedDataView
     unsigned char BGSUnloadedFormBuffer_GetVersion();
     unsigned int GetAdjustedValue();
     unsigned int BGSUnloadedFormBuffer_GetSize();
-    int FUN_00849220();
+    int BGSUnloadedFormBuffer_GetFormType();
 };
 struct SavedEntry
 {
@@ -577,7 +582,7 @@ struct SavedEntryMap
     void* FUN_004b9ba0();
     void FUN_006b7f20(void*&, unsigned int&, SavedEntry*&);
 };
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 bool __cdecl BGSSaveLoadGlobalData_SaveGlobalData(unsigned int, SavedBuffer*);
 struct SavedStats
 {
@@ -601,12 +606,12 @@ void SavedStats::LoadStats()
         buffer->FUN_006b7f20(position, entryId, pEntry);
         if (pEntry->buffer.FUN_00559450())
         {
-            BGSSaveLoadStatsMap_AddForm(entryId, 0, pEntry->buffer.FUN_00849220(), pEntry->topic, pEntry->buffer.BGSUnloadedFormBuffer_GetSize(),
+            BGSSaveLoadStatsMap_AddForm(entryId, 0, pEntry->buffer.BGSUnloadedFormBuffer_GetFormType(), pEntry->topic, pEntry->buffer.BGSUnloadedFormBuffer_GetSize(),
                          pEntry->buffer.GetAdjustedValue(), 0, pEntry->buffer.BGSUnloadedFormBuffer_GetVersion());
         }
         else
         {
-            TESForm* form = FUN_004839c0(entryId);
+            TESForm* form = TESForm_GetFormByNumericID(entryId);
             if (form)
             {
                 SetupResponse(form, pEntry->topic, &map);
@@ -617,13 +622,13 @@ void SavedStats::LoadStats()
     }
     for (unsigned int index = 0; index < 12; ++index)
     {
-        map.FUN_00847db0();
+        map.BGSSaveGameBuffer_ClearPosition();
         if (BGSSaveLoadGlobalData_SaveGlobalData(index, &map))
             BGSSaveLoadStatsMap_AddMiscSaveStat(BGSSaveLoadGlobalData_GetGlobalDataName(index), map.GetDifference(), map.TESMain_GetThread());
     }
     for (unsigned int index = 1000; index < 1001; ++index)
     {
-        map.FUN_00847db0();
+        map.BGSSaveGameBuffer_ClearPosition();
         if (BGSSaveLoadGlobalData_SaveGlobalData(index, &map))
             BGSSaveLoadStatsMap_AddMiscSaveStat(BGSSaveLoadGlobalData_GetGlobalDataName(index), map.GetDifference(), map.TESMain_GetThread());
     }
@@ -746,7 +751,7 @@ struct SaveLoadStatsDump
 {
     int m_00, m_04, m_08, m_0c;
     xNodeL m_10;
-    void FUN_00853e10();
+    void BGSSaveLoadStatsMap_OutputStats();
     void Write(const char*);
     void* GetFirstPos();
     void GetNext(void*&, unsigned int&, xNodeL*&);
@@ -755,7 +760,8 @@ struct SaveLoadStatsDump
 
 // Writes a formatted dump of save/load form stats, misc stats, and save game history via Write.
 // @fnv 0x00853e10
-void SaveLoadStatsDump::FUN_00853e10()
+// src: XBOX_PDB 0x00853e10
+void SaveLoadStatsDump::BGSSaveLoadStatsMap_OutputStats()
 {
     void* qfTOqo;
     int qsSDDgz;

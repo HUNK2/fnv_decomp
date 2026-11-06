@@ -48,10 +48,11 @@ struct FUN_00621060_shell
 {
     int* vtbl;
     void __thiscall SetValue();
-    FUN_00621060_shell* __thiscall FUN_00621060();
+    FUN_00621060_shell* __thiscall hkpCdPointCollector_hkpCdPointCollector();
 };
 // @fnv 0x00621060
-FUN_00621060_shell* __thiscall FUN_00621060_shell::FUN_00621060()
+// src: XBOX_PDB 0x00621060
+FUN_00621060_shell* __thiscall FUN_00621060_shell::hkpCdPointCollector_hkpCdPointCollector()
 {
     vtbl = &DAT_0104da3c;
     SetValue();
@@ -128,17 +129,18 @@ void __thiscall FUN_00621060_shell::SetValue()
     *(float*)((char*)this + 4) = DAT_0104da48;
 }
 
-void __fastcall FUN_00626870(void*);
+void __fastcall hkArrayBase_hkpRootCdBodyPair_clear(void*);
 
 struct FUN_00621120_shell : public FUN_00621060_shell
 {
-    void __thiscall FUN_00621120();
+    void __thiscall hkpAllCdPointCollector_reset();
 };
 
 // @fnv 0x00621120
-void __thiscall FUN_00621120_shell::FUN_00621120()
+// src: XBOX_PDB 0x00621120
+void __thiscall FUN_00621120_shell::hkpAllCdPointCollector_reset()
 {
-    FUN_00626870(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10));
+    hkArrayBase_hkpRootCdBodyPair_clear(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x10));
     SetValue();
 }
 
@@ -169,11 +171,12 @@ struct DummyFlagsShell
 {
     char _pad[0x410];
     bhkCharacterListener _flags;
-    bool FUN_00621240();
+    bool bhkCharacterController_QChaseBip();
 };
 
 // @fnv 0x00621240
-bool DummyFlagsShell::FUN_00621240()
+// src: XBOX_PDB 0x00621240
+bool DummyFlagsShell::bhkCharacterController_QChaseBip()
 {
     return _flags.GetFlags(0x800) != 0;
 }
@@ -232,13 +235,13 @@ struct FUN_00620ff0 : Base_620ff0
 
     FUN_00620ff0();
     virtual void v00();
-    void FUN_00621120();
+    void hkpAllCdPointCollector_reset();
 };
 
 // @fnv 0x00620ff0
 FUN_00620ff0::FUN_00620ff0() : m_10(0)
 {
-    FUN_00621120();
+    hkpAllCdPointCollector_reset();
 }
 
 extern int DAT_0104da28;

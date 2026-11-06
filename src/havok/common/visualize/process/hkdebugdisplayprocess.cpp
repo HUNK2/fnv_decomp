@@ -139,7 +139,7 @@ struct S_00ddcb90_Router
     }
 };
 
-S_00ddcb90_Router* FUN_00c85750();
+S_00ddcb90_Router* hkMemoryRouter_getInstance();
 
 struct S_00ddcb90_RefObj
 {
@@ -149,7 +149,7 @@ struct S_00ddcb90_RefObj
     {}
     void* operator new(unsigned int nbytes)
     {
-        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -203,7 +203,7 @@ struct ProcessServices
     int a, b, c, d;
     Allocator* allocator;
 };
-ProcessServices* __cdecl FUN_00c85750();
+ProcessServices* __cdecl hkMemoryRouter_getInstance();
 struct Process
 {
     int unk00;
@@ -221,7 +221,7 @@ Process* Process::hkDebugDisplayProcess_Destroy(unsigned char flags)
     FUN_00ddcb50();
     if (flags & 1)
     {
-        ProcessServices* services = FUN_00c85750();
+        ProcessServices* services = hkMemoryRouter_getInstance();
         unsigned short size = unk04;
         Allocator* allocator = services->allocator;
         allocator->Release(this, size);

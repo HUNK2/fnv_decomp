@@ -339,11 +339,12 @@ struct xShapeBase
 };
 struct xCollection : xShapeBase, xContainer
 {
-    void FUN_00e492d0(const xTransform& t, float tolerance, xAabb& out) const;
+    void hkpConvexPieceMeshShape_getAabb(const xTransform& t, float tolerance, xAabb& out) const;
 };
 
 // @fnv 0x00e492d0
-void xCollection::FUN_00e492d0(const xTransform& t, float tolerance, xAabb& out) const
+// src: XBOX_PDB 0x00e492d0
+void xCollection::hkpConvexPieceMeshShape_getAabb(const xTransform& t, float tolerance, xAabb& out) const
 {
     out.m_kMinimumCorner.set(3.40282e+38f, 3.40282e+38f, 3.40282e+38f, 0.0f);
     out.m_kMaximumCorner.set(-3.40282e+38f, -3.40282e+38f, -3.40282e+38f, 0.0f);

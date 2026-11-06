@@ -302,12 +302,13 @@ struct ParamAccessor
 struct FUN_00b5a720_cls : S_00b5a4a0
 {
     void FUN_00ba3ba0(int a, int b, int c, int d, int e, int f, int g);
-    void FUN_00b5a720(S_00b5a4a0_Src* src, int unused);
+    void ImageSpaceEffectDepthRadialBlur_Setup(S_00b5a4a0_Src* src, int unused);
 };
 
 // Initializes two texture parameters from src, sets their values and flags, and registers them in m_params.
 // @fnv 0x00b5a720
-void FUN_00b5a720_cls::FUN_00b5a720(S_00b5a4a0_Src* src, int unused)
+// src: XBOX_PDB 0x00b5a720
+void FUN_00b5a720_cls::ImageSpaceEffectDepthRadialBlur_Setup(S_00b5a4a0_Src* src, int unused)
 {
     S_00b5a4a0_Param* p;
 

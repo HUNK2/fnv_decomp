@@ -527,7 +527,8 @@ void __stdcall DispatchIfNotExcluded(int arg)
 }
 
 // @fnv 0x00bbd820
-int __fastcall FUN_00bbd820(char* pThis, int, char* arg1, char* apFlags)
+// src: XBOX_PDB 0x00bbd820
+int __fastcall Lighting30Shader_GetShaderDecl(char* pThis, int, char* arg1, char* apFlags)
 {
     bool bHasFlag = false;
     if (*reinterpret_cast<int*>(*reinterpret_cast<char**>(arg1 + 0xB8) + 0x28) != 0)
@@ -552,7 +553,8 @@ extern int DAT_011ff9dc;
 
 // Checks DAT_011f91e4 and state entries, calling FUN_00b97e80, UpdateRendererStateCount or decrementing DAT_011ff9dc and calling FUN_00b97e30 based on flags.
 // @fnv 0x00bbeef0
-void __fastcall FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
+// src: XBOX_PDB 0x00bbeef0
+void __fastcall Lighting30Shader_PostGeometry(void* this_ptr, int, unsigned char** state)
 {
     unsigned int val = DAT_011f91e4;
     if (val == 0x1e0 || val == 0x1e1)
@@ -576,7 +578,8 @@ void __fastcall FUN_00bbeef0(void* this_ptr, int, unsigned char** state)
 extern "C" void* g_01201f20;
 
 // @fnv 0x00bbc9b0
-void* __cdecl FUN_00bbc9b0()
+// src: XBOX_PDB 0x00bbc9b0
+void* __cdecl Lighting30Shader_GetRTTI()
 {
     return &g_01201f20;
 }
@@ -714,12 +717,13 @@ static inline void Release_bbce70(RefObj_bbce70*& p)
 
 struct Lighting30Shader_s : BSShader
 {
-    bool FUN_00bbce70();
+    bool Lighting30Shader_Initialize();
 };
 
 // Calls Initialize, releases all cached objects in the global arrays, clears the packet arrays, and returns true.
 // @fnv 0x00bbce70
-bool Lighting30Shader_s::FUN_00bbce70()
+// src: XBOX_PDB 0x00bbce70
+bool Lighting30Shader_s::Lighting30Shader_Initialize()
 {
     BSShader::Initialize();
     int i;
@@ -940,7 +944,7 @@ struct FogFloatPair
     float x, y;
 };
 
-BSFogProperty* __cdecl FUN_00b55520(int iIndex);
+BSFogProperty* __cdecl BSShaderManager_GetFogProperty(int iIndex);
 
 struct ShadowSceneData
 {
@@ -1055,7 +1059,7 @@ void __stdcall Lighting30Shader_UpdateTexEffectConstants(int bFog, ShadowSceneOw
     if (!bFog)
         return;
 
-    BSFogProperty* pFog = FUN_00b55520(DAT_011f91c4);
+    BSFogProperty* pFog = BSShaderManager_GetFogProperty(DAT_011f91c4);
     if (!pFog)
         return;
 
@@ -1072,7 +1076,7 @@ void __stdcall Lighting30Shader_UpdateTexEffectConstants(int bFog, ShadowSceneOw
 
 #include <stdlib.h>
 
-Lighting30Shader* __cdecl FUN_00b55560(int);
+Lighting30Shader* __cdecl BSShaderManager_GetShader(int);
 struct ConstantMapPointer
 {
     NiD3DShaderConstantMap* value;
@@ -1112,7 +1116,7 @@ inline void AssignMap(NiPointer<NiD3DShaderConstantMap>& dst, const NiPointer<Ni
 // @fnv 0x00bbd880
 void __cdecl UpdateLightingPassState(unsigned int pass)
 {
-    Lighting30Shader* shader = FUN_00b55560(29);
+    Lighting30Shader* shader = BSShaderManager_GetShader(29);
     if (shader && (pass == 480 || pass == 481))
     {
         reinterpret_cast<ConstantMapPointer*>(&shader->m_spPixelConstantMap)
@@ -1566,10 +1570,11 @@ struct Lighting
     Pointer constants70;
     Pointer constants74;
     Pointer constants78;
-    void FUN_00bbf5a0();
+    void Lighting30Shader_CreateConstantMaps();
 };
 // @fnv 0x00bbf5a0
-void Lighting::FUN_00bbf5a0()
+// src: XBOX_PDB 0x00bbf5a0
+void Lighting::Lighting30Shader_CreateConstantMaps()
 {
     if (!constants34.object && !DAT_01201f28)
     {
@@ -2168,7 +2173,7 @@ class BSPixelShaderPtr
 
 
 void __cdecl FUN_00be0c00(const char* pFileName, char* pPath);
-int __cdecl FUN_00406d00(char* pBuffer, int iSize, const char* pFormat, ...);
+int __cdecl BSsprintf(char* pBuffer, int iSize, const char* pFormat, ...);
 int __cdecl sprintf(char* pBuffer, const char* pFormat, ...);
 int __cdecl FUN_004dc060(bool bArg);
 
@@ -2261,7 +2266,7 @@ void SM3ShaderLoader::Lighting30Shader_LoadPixelShaders()
     {
         D3DXMACRO* apMacros = kDescs[i].kMacros;
         FUN_00be0c00(kDescs[i].pFileName, szShaderPath);
-        FUN_00406d00(szShaderName, 260, "SM3%03i.pso", i);
+        BSsprintf(szShaderName, 260, "SM3%03i.pso", i);
         int iVersion = FUN_004dc060(false);
         if (iVersion == 7)
         {
@@ -2306,7 +2311,7 @@ void SM3ShaderLoader::Lighting30Shader_LoadPixelShaders()
 
         if (i < 24)
         {
-            FUN_00406d00(szShaderName, 260, "SM3LL%03i.pso", i);
+            BSsprintf(szShaderName, 260, "SM3LL%03i.pso", i);
             apMacros[0].Definition = szTwo;
             if (i == 5 || i == 7 || i == 17 || i == 19)
             {
@@ -2628,7 +2633,7 @@ struct LightingSource
     unsigned int unk064;
     unsigned int unk068;
     float intensity6c;
-    unsigned short FUN_00b70790();
+    unsigned short BSShaderLightingProperty_GetNumberofActiveLights();
 };
 struct EffectOp
 {
@@ -2900,7 +2905,7 @@ void __stdcall Lighting30Shader_SetupGeometryConstants_Lights(LightingSource* so
     }
     else if (type == 0x1c3)
     {
-        if (source->FUN_00b70790() == 0)
+        if (source->BSShaderLightingProperty_GetNumberofActiveLights() == 0)
         {
             if (DAT_011f91b8 == 10)
             {
@@ -2948,7 +2953,7 @@ void __stdcall Lighting30Shader_SetupGeometryConstants_Lights(LightingSource* so
                 D3DXVec3Normalize_00ee6dec(&vPoint, &vTransformed);
                 NiPoint3 vTemp(vPoint.x, vPoint.y, vPoint.z);
                 v = vTemp;
-                v.FUN_004a0c10();
+                v.Unitize_004a0c10();
                 pEntry[-1].position.x = v.x;
                 ++pEntry;
                 pEntry[-2].position.y = v.y;
@@ -2989,7 +2994,7 @@ void __stdcall Lighting30Shader_SetupGeometryConstants_Lights(LightingSource* so
 namespace fnv_00bbe120 {
 
 
-BSFogProperty* __cdecl FUN_00b55520(int);
+BSFogProperty* __cdecl BSShaderManager_GetFogProperty(int);
 
 struct PacketF
 {
@@ -3163,7 +3168,7 @@ void MapOwner::UpdateShaderDirtyFlags(int aiShaderIndex)
 
     if (DAT_012010bc->dirty)
     {
-        BSFogProperty* pFogProperty = FUN_00b55520(DAT_011f91c4);
+        BSFogProperty* pFogProperty = BSShaderManager_GetFogProperty(DAT_011f91c4);
         if (pFogProperty)
         {
             float v2c = pFogProperty->nearDepth;
@@ -4373,7 +4378,7 @@ class BSVertexShaderPtr
     }
 };
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 extern bool DAT_011f94a4;
 extern const char DAT_010b9f78[];
 extern BSVertexShaderPtr DAT_01200dd8[57];
@@ -4455,7 +4460,7 @@ void SM3ShaderLoader::Lighting30Shader_LoadVertexShaders()
     {
         D3DXMACRO* macros = shaderEntries[i].kMacros;
         FUN_00be0c00(shaderEntries[i].pFileName, shaderPath);
-        FUN_00406d00(name, 260, DAT_010b9f78, i);
+        BSsprintf(name, 260, DAT_010b9f78, i);
         if (i == 1 || i == 4 || i == 7 || i == 10)
         {
             if (DAT_011f94a4)
@@ -5719,7 +5724,7 @@ extern float DAT_011f474c, DAT_011f4750, DAT_011f4754;
 
 void BSRenderState_SetZWriteEnable(int, int);
 void BSUtilities_GetInverseWorldMatrix(void* sub, int b, Mat* m);
-Flags164* FUN_00b4f5c0();
+Flags164* BSShaderManager_GetAccumulator();
 Mat* __stdcall D3DXMatrixMultiply_00ee6de0(Mat* o, Mat* a, Mat* b);
 Mat* __stdcall D3DXMatrixInverse_00ee6dda(Mat* o, float* det, Mat* a);
 Mat* __stdcall D3DXMatrixTranspose_00ee6dd4(Mat* o, Mat* a);
@@ -5812,7 +5817,7 @@ struct Shadow
     void UpdatePositionOffset(const char* n);
     void UpdateTransformedPosition(Mat m, void* sub);
     void Lighting30Shader_SetupGeometryConstants_HairTint(P0c* p);
-    void FUN_00bbe9c0(const char* n, P0c* p, Arg* a, int mode);
+    void Lighting30Shader_SetupGeometryConstants_MaterialAlpha(const char* n, P0c* p, Arg* a, int mode);
     void ApplyLightSource(int p8, P0c* p);
     void Lighting30Shader_SetupGeometryConstants_RefractionPower(P0c* p);
     void UpdateFogPlanes();
@@ -5820,7 +5825,7 @@ struct Shadow
     {
         return r18;
     }
-    void FUN_00bbef90(Arg* arg);
+    void Lighting30Shader_SetupGeometryConstants(Arg* arg);
     Shadow* UpdateFrustum(ClipFull* clip, Plane* src, Shadow* volatile& owner);
 };
 
@@ -5908,7 +5913,8 @@ __forceinline Shadow* Shadow::UpdateFrustum(ClipFull* clip, Plane* src, Shadow* 
 
 // Updates shadow rendering state, applies texture stages and matrices, updates frustum planes, and dispatches callbacks based on mode and flags.
 // @fnv 0x00bbef90
-void Shadow::FUN_00bbef90(Arg* apArgs)
+// src: XBOX_PDB 0x00bbef90
+void Shadow::Lighting30Shader_SetupGeometryConstants(Arg* apArgs)
 {
     Shadow* pShadow = this;
     Shadow* volatile pShadowVolatile = this;
@@ -5946,7 +5952,7 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
         UpdatePositionOffset(name);
         UpdateTransformedPosition(mat, sub);
         Lighting30Shader_SetupGeometryConstants_HairTint(pc);
-        FUN_00bbe9c0(name, pc, apArgs, mode);
+        Lighting30Shader_SetupGeometryConstants_MaterialAlpha(name, pc, apArgs, mode);
         ApplyLightSource(p8, pc);
         Lighting30Shader_SetupGeometryConstants_RefractionPower(pc);
         if (DAT_012010dc->b)
@@ -5959,11 +5965,11 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
         if ((unsigned)(mode - 0x1c4) <= 3)
         {
             ClipFull* clip = *DAT_011f91e0->clip;
-            if (!clip->flag208 && !FUN_00b4f5c0()->a && !FUN_00b4f5c0()->b)
+            if (!clip->flag208 && !BSShaderManager_GetAccumulator()->a && !BSShaderManager_GetAccumulator()->b)
             {
                 pShadow = UpdateFrustum(clip, clip->planes, pShadowVolatile);
             }
-            else if (!FUN_00b4f5c0()->a && !FUN_00b4f5c0()->b)
+            else if (!BSShaderManager_GetAccumulator()->a && !BSShaderManager_GetAccumulator()->b)
             {
                 Plane(&planes)[6] = clip->planes2;
                 int i = 0;
@@ -6176,7 +6182,8 @@ __declspec(noinline) float SolColor::ComputeWeightedSum() const
 }
 // Computes ambient, diffuse, specular and emissive coefficients into DAT_01201b60 from lighting, state and render mode, and updates the dim flag.
 // @fnv 0x00bbe9c0
-void __stdcall FUN_00bbe9c0(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c0_Flags** state,
+// src: XBOX_PDB 0x00bbe9c0
+void __stdcall Lighting30Shader_SetupGeometryConstants_MaterialAlpha(const SolPosition* original, S00bbe9c0_Obj* lighting, S00bbe9c0_Flags** state,
                             unsigned int renderMode)
 {
     DAT_01201b60 = DAT_011a9be0;

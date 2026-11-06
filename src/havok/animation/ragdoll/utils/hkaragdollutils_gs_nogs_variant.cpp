@@ -14,7 +14,7 @@ extern "C"
 {
     int __cdecl hkaRagdollUtils_reorderForRagdoll(void*, void*);
     int __cdecl FUN_00ce9db0(void*, void*);
-    int __cdecl FUN_00ce9e90(void*);
+    int __cdecl alignConstraintSpacesToChildren(void*);
 }
 
 // @fnv 0x00cea7c0
@@ -25,7 +25,7 @@ int __cdecl hkaRagdollUtils_reorderAndAlignForRagdoll(void* p1, void* p2, void* 
         return 1;
     if (FUN_00ce9db0(p2, p3))
         return 1;
-    if (FUN_00ce9e90(p2))
+    if (alignConstraintSpacesToChildren(p2))
         return 1;
     return 0;
 }
@@ -83,7 +83,7 @@ struct SpawnedGlobal
     int unk0c;
     SpawnedAllocator* m_pAllocator;
 };
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
+SpawnedGlobal* __cdecl hkMemoryRouter_getInstance() throw();
 struct SpawnedObject
 {
     int unk00;
@@ -216,7 +216,7 @@ __declspec(align(16)) struct RagdollVectorWords
 
 struct Target
 {
-    void FUN_00c7f690(void* where, RagdollVectorWords* v);
+    void hkVector4_setTransformedInversePos(void* where, RagdollVectorWords* v);
 };
 
 struct Body : public Obj
@@ -266,7 +266,8 @@ static __declspec(noinline) Target* _accessConstraintPivotB(Obj* obj) throw()
 }
 
 // @fnv 0x00ce9e90
-extern "C" int __cdecl FUN_00ce9e90(void* p)
+// src: XBOX_PDB 0x00ce9e90
+extern "C" int __cdecl alignConstraintSpacesToChildren(void* p)
 {
     List* list = (List*)p;
     int count = list->count;
@@ -281,7 +282,7 @@ extern "C" int __cdecl FUN_00ce9e90(void* p)
             RagdollVectorWords* vel = _accessConstraintPivotA(b);
             *(__m128*)vel = _mm_setzero_ps();
             Target* target = _accessConstraintPivotB(b);
-            target->FUN_00c7f690(owner + 0xf0, &v);
+            target->hkVector4_setTransformedInversePos(owner + 0xf0, &v);
         }
         if (b->inner->getSomething() == 8)
         {

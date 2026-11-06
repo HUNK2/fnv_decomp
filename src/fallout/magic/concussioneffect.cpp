@@ -54,7 +54,7 @@ void ConcussionEffect::ApplyConcussion(Actor* actor)
     if (m_fPackageValue > DAT_011d1ba4.Float()->f)
     {
         m_fPackageValue = 0.0f;
-        if (actor->FUN_008be870() == 0.0)
+        if (actor->Actor_GetPerceptionCondition() == 0.0)
         {
             if (!actor->GetActorValue(static_cast<ActorValue::Index>(0x48)))
             {

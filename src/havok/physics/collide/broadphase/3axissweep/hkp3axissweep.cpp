@@ -29,9 +29,9 @@ unsigned short MaxUnsignedShort(unsigned short ausLeft, unsigned short ausRight)
     return ausLeft > ausRight ? ausLeft : ausRight;
 }
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
-__forceinline hkMemoryRouter& hkMemoryRouter::getInstance() { return *(hkMemoryRouter*)FUN_00c85750(); }
+__forceinline hkMemoryRouter& hkMemoryRouter::getInstance() { return *(hkMemoryRouter*)hkMemoryRouter_getInstance(); }
 template <typename T>
 __forceinline T* hkMemoryAllocator::_bufAlloc(int& num) {
     int numBytes = num * (int)sizeof(T);
@@ -44,7 +44,7 @@ struct UnkRet { int x; int y; };
 // @fnv 0x00d11bc0
 void __fastcall AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBuffer)
 {
-    BSAudio* p = FUN_00c85750();
+    BSAudio* p = hkMemoryRouter_getInstance();
     int* q = (int*)apBuffer;
     if (q[1] == (q[2] & 0x3fffffff))
         ResizeAudioStream(*(void**)((char*)p + 0x10), apBuffer, 8);
@@ -110,13 +110,14 @@ struct Container {
     Entry* entries;
     int count;
     int capacity;
-    void FUN_00d1a040(int indexOffset, int** remap);
+    void hkp3AxisSweep_hkpBpAxis_removeBatch_0(int indexOffset, int** remap);
 };
 void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 extern unsigned char* DAT_011b37a4[2];
 // Remaps each entry's index through remap, drops entries with negative mapping, writes kept positions into DAT_011b37a4 tables, and grows capacity if needed.
 // @fnv 0x00d1a040
-void Container::FUN_00d1a040(int indexOffset, int** remap) {
+// src: XBOX_PDB 0x00d1a040
+void Container::hkp3AxisSweep_hkpBpAxis_removeBatch_0(int indexOffset, int** remap) {
     Entry* src = entries;
     Entry* end = src + count;
     int kept = 0;
@@ -132,7 +133,7 @@ void Container::FUN_00d1a040(int indexOffset, int** remap) {
         }
         ++src;
     }
-    BSAudio* audio = FUN_00c85750();
+    BSAudio* audio = hkMemoryRouter_getInstance();
     void* mgr = ((void**)audio)[4];
     int capacity = this->capacity & 0x3fffffff;
     if (capacity < kept) {
@@ -182,11 +183,12 @@ struct D1A0E0EntryArray {
         m_iElementCount = n;
     }
 
-    void FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap);
+    void hkp3AxisSweep_hkpBpAxis_removeBatch_1(int offset, const D1A0E0IntArray& remap);
 };
 
 // @fnv 0x00d1a0e0
-void D1A0E0EntryArray::FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap)
+// src: XBOX_PDB 0x00d1a0e0
+void D1A0E0EntryArray::hkp3AxisSweep_hkpBpAxis_removeBatch_1(int offset, const D1A0E0IntArray& remap)
 {
     D1A0E0Entry* end = m_data + m_iElementCount;
     int count = 0;
@@ -282,7 +284,8 @@ void __fastcall staticClearBit(int index, unsigned int* apuiBits)
 }
 
 // @fnv 0x00d11620
-int hkp3AxisSweep::FUN_00d11620()
+// src: XBOX_PDB 0x00d11620
+int hkp3AxisSweep::getNumObjects()
 {
     return m_iA4 - 1;
 }
@@ -309,12 +312,12 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
+void __fastcall getAabbFromNode(void* self, UnkHandle* handle, SweepEntry* entry);
 
 // @fnv 0x00d119c0
 // src: HAVOK_LIB 0x00d119c0
 void hkp3AxisSweep::getAabb_00d119c0(UnkHandle* handle) {
-    ::FUN_00d11650(this, handle, this->unkA0 + handle->unk00);
+    ::getAabbFromNode(this, handle, this->unkA0 + handle->unk00);
 }
 
 struct PairEntry {
@@ -338,7 +341,7 @@ struct FUN_00d11c10_cls {
 // Grows the pair array if full, then appends an entry holding self->m_0C and other->m_0C and increments the count.
 // @fnv 0x00d11c10
 void __fastcall AppendPairEntry(FUN_00d11c10_cls* pFirst, FUN_00d11c10_cls* pSecond, PairArray* arr) {
-    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     if (arr->m_iArrayLength == (int)(arr->m_uCapFlags & 0x3fffffffu)) {
         ResizeAudioStream(holder->m_heap, arr, 8);
     }
@@ -350,7 +353,7 @@ void __fastcall AppendPairEntry(FUN_00d11c10_cls* pFirst, FUN_00d11c10_cls* pSec
 
 unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*, void*, int);
 
 void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
@@ -379,7 +382,7 @@ void __fastcall hkp3AxisSweep_beginOverlapCheckMarker(void* base, FnvNode* pNode
 {
     if ((pOther->m_0c & 1) == 0) {
         FnvArr* arr = pPairArr;
-        hkMemoryRouter* h = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* h = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         if ((int)arr->m_uiItemCount == (int)(arr->m_cap & 0x3fffffff)) {
             ResizeAudioStream(h->m_heap, arr, 8);
         }
@@ -390,7 +393,7 @@ void __fastcall hkp3AxisSweep_beginOverlapCheckMarker(void* base, FnvNode* pNode
         e->second = pOther->m_0c;
     } else {
         FnvArr* arr = (FnvArr*)((char*)base + (pOther->m_0c & 0xfffffffe) + 4);
-        hkMemoryRouter* h = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* h = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         if ((int)arr->m_uiItemCount == (int)(arr->m_cap & 0x3fffffff)) {
             ResizeAudioStream(h->m_heap, arr, 2);
         }
@@ -404,7 +407,7 @@ void __fastcall hkp3AxisSweep_beginOverlapCheckMarker(void* base, FnvNode* pNode
 namespace fnv_00d11d00 {
 unsigned short MaxUnsignedShort(unsigned short a, unsigned short b);
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*, void*, int);
 
 void __fastcall AppendPairToBuffer(UnkRet* a, UnkRet* b, void* c);
@@ -444,7 +447,7 @@ struct TaggedList {
 void __fastcall RemoveOrAppendTagEntry(char* base, TagEntity* entity, unsigned int idx, TagOwner* owner, PairArray* arr)
 {
     if ((owner->m_0c & 1) == 0) {
-        hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         if (arr->m_04 == (int)(arr->m_08 & 0x3fffffff)) {
             fnv_00d11d00::ResizeAudioStream(holder->m_heap, arr, 8);
         }
@@ -500,7 +503,7 @@ void FUN_00d11da0_cls::InsertPair(unsigned int auiUnused, unsigned int auiValue,
                                     unsigned short ausKey1, unsigned short* pausIndex2, unsigned short* pausIndex1)
 {
     int n = m_uiItemCount + 2;
-    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     void* allocator = holder->m_heap;
     unsigned int cap = m_capFlags & 0x3fffffffu;
 
@@ -568,7 +571,7 @@ void __cdecl CollectNodePairs(int unused, S_00d138a0_Node* node, int count, S_00
         for (; cur->unk08 < limit; cur++) {
             if (((cur->unk04 - node->unk00) | (node->unk04 - cur->unk00)) & 0x80008000) {
             } else if (!(cur->unk0c & 1)) {
-                hkMemoryRouter* heap = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+                hkMemoryRouter* heap = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
                 if (out->unk04 == (int)(out->unk08 & 0x3fffffff))
                     ResizeAudioStream(heap->m_heap, out, 8);
                 S_00d138a0_Pair* e = &out->unk00[out->unk04++];
@@ -589,9 +592,10 @@ struct SpawnedObject {
 
 // Allocates a 0xe0-byte SpawnedObject from the holder's allocator, sets its size, and initializes it with the three arguments.
 // @fnv 0x00d182a0
-SpawnedObject* FUN_00d182a0(int a, int b, int c)
+// src: XBOX_PDB 0x00d182a0
+SpawnedObject* hk3AxisSweep16CreateBroadPhase(int a, int b, int c)
 {
-    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     SpawnedObject* obj = reinterpret_cast<SpawnedObject*>(reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockAlloc(0xe0));
     obj->m_wSize = 0xe0;
     return obj->Init(a, b, c);
@@ -969,7 +973,7 @@ void hkp3AxisSweep::calcContentStatistics(hkStatisticsCollector* collector, cons
     }
 }
 
-BSAudio* __cdecl FUN_00c85750() throw();
+BSAudio* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl hkMemoryRouter_easyFree(void*, void*) throw();
 
 template <typename T>
@@ -1190,7 +1194,7 @@ static int FindIdx(const U16* p, int n, unsigned short v)
 }
 static void PushShort(ShortVec* v, unsigned short val)
 {
-    hkMemoryRouter* h = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     if (v->m_04 == (v->m_08 & 0x3fffffff))
         ResizeAudioStream(h->m_heap, v, 2);
     v->m_00[v->m_04].v = val;
@@ -1198,7 +1202,7 @@ static void PushShort(ShortVec* v, unsigned short val)
 }
 static void PushDynamic(ShortVec* v, unsigned short val)
 {
-    hkMemoryRouter* h = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     if (v->m_04 == (v->m_08 & 0x3fffffff))
         ResizeAudioStream(h->m_heap, v, 2);
     U16* p = v->m_00 + *(volatile int*)&v->m_04;
@@ -1207,7 +1211,7 @@ static void PushDynamic(ShortVec* v, unsigned short val)
 }
 static void FreeLocalVec(LocalVec& v)
 {
-    hkMemoryRouter* h = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* ao = reinterpret_cast<hkMemoryAllocator*>(h->m_heap);
     int cap = v.m_08;
     v.m_04 = 0;
@@ -1234,7 +1238,7 @@ static __forceinline void HandlePair(hkp3AxisSweep* idx, Record* rec, Record* ot
     Record* first = other;
     if ((rec->m_0c & 1) == 0) {
         if ((other->m_0c & 1) == 0) {
-            hkMemoryRouter* r = (hkMemoryRouter*)FUN_00c85750();
+            hkMemoryRouter* r = (hkMemoryRouter*)hkMemoryRouter_getInstance();
             if (out->m_04 == (out->m_08 & 0x3fffffff))
                 ResizeAudioStream(r->m_heap, out, 8);
             AppendN(out, other, rec, 1);
@@ -1321,7 +1325,8 @@ extern float DAT_010cd5b0;
 
 // XORs m_negSrc with DAT_010c44d0 into out0, computes a Newton-refined reciprocal of m_recipSrc, scales it by DAT_010cd5b0, and adds out0 into out1.
 // @fnv 0x00d10e10
-void hkp3AxisSweep::FUN_00d10e10(__m128* out0, __m128* out1) {
+// src: XBOX_PDB 0x00d10e10
+void hkp3AxisSweep::getExtents(__m128* out0, __m128* out1) {
     __m128 negated = _mm_xor_ps(m_negSrc, DAT_010c44d0);
     *out0 = negated;
 
@@ -1397,7 +1402,7 @@ int FUN_00d11e80_cls::InsertEndpoints(char* nodes, int axis, S_00d1a180_EndPoint
     int oldCount = m_iElementCount;
     int newCount = oldCount + numNew;
 
-    char* r = (char*)FUN_00c85750();
+    char* r = (char*)hkMemoryRouter_getInstance();
     void* alloc = *(void**)(r + 0x10);
     int cap = m_iCapacityState & 0x3fffffff;
     if (cap < newCount) {
@@ -1453,7 +1458,7 @@ void hkp3AxisSweep::GetAllAabbs(hkArray<hkAabb>& output) const
     d11Out& out = reinterpret_cast<d11Out&>(output);
     d11Out* pOut = &out;
     int iCount = m_iArrayLength - m_iBase;
-    d11Heap* m_pPoolBase = (d11Heap*)FUN_00c85750();
+    d11Heap* m_pPoolBase = (d11Heap*)hkMemoryRouter_getInstance();
     if ((pOut->m_iCapacityState & 0x3fffffff) < iCount)
         hkArrayUtil__reserve((Allocator*)m_pPoolBase->m_pAllocator, pOut, iCount, 0x20);
     int n = m_iArrayLength - m_iBase;
@@ -1464,7 +1469,7 @@ void hkp3AxisSweep::GetAllAabbs(hkArray<hkAabb>& output) const
         d11Node* node = &reinterpret_cast<d11Node*>(unkA0)[i];
         _ReadWriteBarrier();
         if (!(node->m_flags & 1))
-            ((void (__thiscall*)(const hkp3AxisSweep*, d11Node*, d11Pair*))::FUN_00d11650)(this, node, &((d11Pair*)pOut->m_data)[iPairIndex++]);
+            ((void (__thiscall*)(const hkp3AxisSweep*, d11Node*, d11Pair*))::getAabbFromNode)(this, node, &((d11Pair*)pOut->m_data)[iPairIndex++]);
     }
 }
 
@@ -1572,7 +1577,7 @@ struct SweepRouter {
 void* AllocateWithHeader(Allocator*, int);
 void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int);
 void __cdecl ResizeAudioStream(Allocator*, void*, int);
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 struct SweepNode {
     unsigned short min0, max0, min1, max1, min2, max2;
@@ -1594,7 +1599,7 @@ template<class T> struct SweepEndpointView {
         }
     }
     T& _expandOne(Allocator& heap) { if(size == (capacity & 0x3fffffff)) { fnv_00d13bd0::ResizeAudioStream(&heap,this,sizeof(T)); construct(data+size,1); } return data[size++]; }
-    T& expand() { SweepRouter* router=(SweepRouter*)FUN_00c85750();return _expandOne(*router->heap); }
+    T& expand() { SweepRouter* router=(SweepRouter*)hkMemoryRouter_getInstance();return _expandOne(*router->heap); }
     void append(const SweepEnd& value) {
         new (data+size) SweepEnd(value);
         ++size;
@@ -1625,7 +1630,7 @@ struct FUN_00d13bd0 : SweepBase {
 // @fnv 0x00d13bd0
 FUN_00d13bd0::FUN_00d13bd0(const int* low,const int* high,int count):lowBound((vtable=DAT_010cd5cc,low)),highBound(high) {
     SweepScratch scratch; findSweepShift(count ? count : 1,scratch.logarithm);
-    SweepRouter* router = (SweepRouter*)FUN_00c85750();
+    SweepRouter* router = (SweepRouter*)hkMemoryRouter_getInstance();
     nodes.reserveHeap(*router->heap, &nodes, 255);
     __m128 scaleCopy,maximum,bias;
     scratch.lower=10.0f;scratch.upper=11.0f;
@@ -1648,17 +1653,17 @@ FUN_00d13bd0::FUN_00d13bd0(const int* low,const int* high,int count):lowBound((v
     root.max0=0;root.min0=0;root.min2=0;root.link=0;
     scratch.power=1<<scratch.logarithm;
     scratch.needed = scratch.power + scratch.power + 510;
-    SweepRouter* r0 = (SweepRouter*)FUN_00c85750();
+    SweepRouter* r0 = (SweepRouter*)hkMemoryRouter_getInstance();
     axes[0].reserveHeap(*r0->heap, &axes[0], scratch.needed);
-    SweepRouter* r1 = (SweepRouter*)FUN_00c85750();
+    SweepRouter* r1 = (SweepRouter*)hkMemoryRouter_getInstance();
     axes[1].reserveHeap(*r1->heap, &axes[1], 512);
-    SweepRouter* r2 = (SweepRouter*)FUN_00c85750();
+    SweepRouter* r2 = (SweepRouter*)hkMemoryRouter_getInstance();
     axes[2].reserveHeap(*r2->heap, &axes[2], 512);
     scratch.endpoint.node=0;scratch.endpoint.value=0;
     axes[0].append(scratch.endpoint); axes[1].append(scratch.endpoint); axes[2].append(scratch.endpoint);
     shift=scratch.logarithm; scratch.markerCount=scratch.power-1; mask=scratch.markerCount; markers=0;
     if(scratch.markerCount) {
-        SweepRouter* r = (SweepRouter*)FUN_00c85750();
+        SweepRouter* r = (SweepRouter*)hkMemoryRouter_getInstance();
         Allocator* heap = r->heap;
         int iAllocationSize = scratch.markerCount * 16;
         markers = (SweepMarker*)AllocateWithHeader(heap, iAllocationSize);
@@ -1687,7 +1692,7 @@ FUN_00d13bd0::FUN_00d13bd0(const int* low,const int* high,int count):lowBound((v
 }
 }  // namespace fnv_00d13bd0
 
-BSAudio* __cdecl FUN_00c85750() throw();
+BSAudio* __cdecl hkMemoryRouter_getInstance() throw();
 
 template <typename T>
 struct HkDynamicArray {
@@ -1913,7 +1918,8 @@ __forceinline void subtractVector(LocalM128& v, const LocalM128& b) {
 
 // Computes the axis-aligned bounding box of a BpNode in local space by scaling its endpoint coordinates and storing the result in aabb.
 // @fnv 0x00d11650
-void hkp3AxisSweep::FUN_00d11650(const Node& node, hkAabb& output) const
+// src: XBOX_PDB 0x00d11650
+void hkp3AxisSweep::getAabbFromNode(const Node& node, hkAabb& output) const
 {
     using namespace fnv_00d11650;
     hkReal fInvScaleX = 1.0f / scale.m128_f32[0];
@@ -2003,7 +2009,7 @@ void hkp3AxisSweep::reQuerySingleObject(int* index, EventList* events)
 {
     int count = m_iA4;
     int blocks = (count >> 5) + 8;
-    AudioSink& sink = ((AudioGlobal*)FUN_00c85750())->temp();
+    AudioSink& sink = ((AudioGlobal*)hkMemoryRouter_getInstance())->temp();
     SweepRecord* block;
     unsigned* pMask;
     void* buffer;
@@ -2017,7 +2023,7 @@ void hkp3AxisSweep::reQuerySingleObject(int* index, EventList* events)
     SweepRecord* ref = reinterpret_cast<SweepRecord*>(unkA0) + idx;
     unsigned short code = reinterpret_cast<SweepType*>(axis0)[ref->f08].value;
     pMask = (unsigned*)buffer;
-    FUN_00d112c0(count, code, ref, idx, buffer);
+    hkp3AxisSweep_setBitsBasedOnXInterval(count, code, ref, idx, buffer);
 
     block = reinterpret_cast<SweepRecord*>(unkA0);
     maskEnd = pMask + (m_iA4 >> 5) + 1;
@@ -2034,7 +2040,7 @@ void hkp3AxisSweep::reQuerySingleObject(int* index, EventList* events)
                 if (!(((rec->f04 - ref->f00) | (ref->f04 - rec->f00)) & 0x80008000)) {
                     int value = rec->f0c;
                     if (!(value & 1)) {
-                        AudioGlobal* owner = (AudioGlobal*)FUN_00c85750();
+                        AudioGlobal* owner = (AudioGlobal*)hkMemoryRouter_getInstance();
                         if (events->count == (events->capacity & 0x3fffffff))
                             ResizeAudioStream(owner->listOwner, events, 8);
                         SweepEvent* slot = (SweepEvent*)((char*)events->data + events->count * 8);
@@ -2053,7 +2059,7 @@ void hkp3AxisSweep::reQuerySingleObject(int* index, EventList* events)
         pMask += 1;
     }
 
-    AudioSink& s2 = ((AudioGlobal*)FUN_00c85750())->temp();
+    AudioSink& s2 = ((AudioGlobal*)hkMemoryRouter_getInstance())->temp();
     if (!(masks & 0x80000000u))
         s2.fn10(buffer, (masks & 0x3fffffff) * 4);
 }
@@ -2143,7 +2149,7 @@ _ReadWriteBarrier();
   c=converted;
  } else { index=0; c=0; }
  if(!c) c=0x80000000;
- FUN_00d112c0(count,reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[0].data[alloc->lowZ].value,alloc,base,index);
+ hkp3AxisSweep_setBitsBasedOnXInterval(count,reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[0].data[alloc->lowZ].value,alloc,base,index);
  unsigned int* capacity=index;
  SweepNodeX* q;
  q = reinterpret_cast<SweepNodesX&>(m_kNodeCollection).data;
@@ -2176,7 +2182,7 @@ _ReadWriteBarrier();
  reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[0].hkp3AxisSweep_hkpBpAxis_remove(alloc->lowZ,alloc->highZ);
  reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[1].hkp3AxisSweep_hkpBpAxis_remove((unsigned short)alloc->minimum,(unsigned short)alloc->maximum);
  reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[2].hkp3AxisSweep_hkpBpAxis_remove((unsigned short)(alloc->minimum>>16),(unsigned short)(alloc->maximum>>16));
- FUN_00d10d10(q,count,alloc);
+ hkp3AxisSweep_updateNodesAfterDelete(q,count,alloc);
  if(base<(unsigned int)(count-1)) {
   *alloc=reinterpret_cast<SweepNodesX&>(m_kNodeCollection).data[count-1];
   reinterpret_cast<SweepAxisX*>(m_kAxisEndPoints)[0].data[alloc->lowZ].handle=(unsigned short)base;
@@ -2256,7 +2262,7 @@ void hkp3AxisSweep::calcAabbCache(ItemList* apItemList, unsigned int a2)
     unsigned int n = (unsigned int)list->m_uiItemCount;
     int i = 0;
     blk.b = (unsigned int)i;
-    Pool* pool = reinterpret_cast<Pool*>(FUN_00c85750());
+    Pool* pool = reinterpret_cast<Pool*>(hkMemoryRouter_getInstance());
     unsigned int base = pool->m_ptr;
     pool->m_ptr = base + ((n * 4 + 0x7f) & 0xffffff80u);
     unsigned int flags = n | 0x80000000u;
@@ -2272,9 +2278,9 @@ void hkp3AxisSweep::calcAabbCache(ItemList* apItemList, unsigned int a2)
       blk.b = (unsigned int)i;
     }
     hkp3AxisSweep* callSelf=self; callSelf->calcAabbCacheInternal(&blk, a2);
-    pool = reinterpret_cast<Pool*>(FUN_00c85750());
+    pool = reinterpret_cast<Pool*>(hkMemoryRouter_getInstance());
     pool->m_ptr = base;
-    Pool* pool2 = reinterpret_cast<Pool*>(FUN_00c85750());
+    Pool* pool2 = reinterpret_cast<Pool*>(hkMemoryRouter_getInstance());
     Alloc* pAlloc = pool2->m_alloc;
     if ((flags & 0x80000000u) == 0) {
         pAlloc->Free(arr, (flags & 0x3fffffffu) * 4);
@@ -2346,7 +2352,8 @@ struct __declspec(align(16)) BoundVector {
 };
 // Inserts a node into m_kNodeCollection, updates axis bounds, and collects overlapping node handles into outPairs.
 // @fnv 0x00d142b0
-void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
+// src: XBOX_PDB 0x00d142b0
+void hkp3AxisSweep::addObject_00d142b0(int* handle, Input* input, PairArr* outPairs) {
     BoundVector mins, maxs;
     mins.x = input->v0 >> 15;
     mins.y = input->v4 >> 15;
@@ -2365,7 +2372,7 @@ void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
     mins.z &= 0xfffe;
     int oldSize = reinterpret_cast<NodesArr&>(m_kNodeCollection).m_iElementCount;
     NodesArr* nodes = &reinterpret_cast<NodesArr&>(m_kNodeCollection);
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     if (nodes->m_iElementCount == (int)(nodes->m_capFlags & 0x3fffffff)) {
         ResizeAudioStream((void*)router->m_heap, nodes, 0x10);
     }
@@ -2379,7 +2386,7 @@ void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
     *handle = oldSize;
     int nodeCount = reinterpret_cast<NodesArr&>(m_kNodeCollection).m_iElementCount;
     int count = (nodeCount >> 5) + 8;
-    hkMemoryRouter* router2 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router2 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(router2->m_temp);
     int* bufData;
     unsigned int bufCap;
@@ -2394,7 +2401,7 @@ void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
         bufCap = 0;
     }
     if (bufCap == 0) bufCap = 0x80000000;
-    FUN_00d112c0(nodeCount, mins.x, node, oldSize, bufData);
+    hkp3AxisSweep_setBitsBasedOnXInterval(nodeCount, mins.x, node, oldSize, bufData);
     int* cursor = bufData;
     Node16* chunk = reinterpret_cast<NodesArr&>(m_kNodeCollection).m_data;
     int* end = bufData + ((reinterpret_cast<NodesArr&>(m_kNodeCollection).m_iElementCount >> 5) + 1);
@@ -2413,7 +2420,7 @@ void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
                         if (((diff1 | diff2) & 0x80008000) == 0) {
                             int fc = (int)n->fC;
                             if ((fc & 1) == 0) {
-                                hkMemoryRouter* pRouter3 = (hkMemoryRouter*)FUN_00c85750();
+                                hkMemoryRouter* pRouter3 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
                                 if (outPairs->m_iElementCount == (int)(outPairs->m_capFlags & 0x3fffffff)) {
                                     ResizeAudioStream((void*)pRouter3->m_heap, outPairs, 8);
                                 }
@@ -2438,7 +2445,7 @@ void hkp3AxisSweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
         chunk += 32;
         ++cursor;
     }
-    hkMemoryRouter* router3 = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router3 = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* alloc3 = reinterpret_cast<hkMemoryAllocator*>(router3->m_temp);
     if (!(bufCap & 0x80000000)) {
         alloc3->bufFree(bufData, (bufCap & 0x3fffffff) * 4);
@@ -2459,7 +2466,7 @@ struct SweepNode {
 struct SweepList { void* data; int size; int capacity;
     SweepList():data(0),size(0),capacity(0x80000000) {}
     void clear() throw() {
-        hkMemoryRouter* router=(hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* router=(hkMemoryRouter*)hkMemoryRouter_getInstance();
         hkMemoryAllocator* heap=reinterpret_cast<hkMemoryAllocator*>(router->m_heap);
         int cap=capacity;
         size=0;
@@ -2519,11 +2526,12 @@ struct SweepManager {
     int markerCount, fieldD4;
     void* markers;
     __forceinline void update(unsigned id, const SweepBounds& bounds, void* added, SweepList& removed);
-    void FUN_00d175f0(const SweepVector* shift, SweepVector* effective, void* added);
+    void hkp3AxisSweep_shiftAllObjects(const SweepVector* shift, SweepVector* effective, void* added);
 };
 // Rounds a shift vector to integer scale, updates sweep axis values, and calls update for nodes crossing sweep boundaries.
 // @fnv 0x00d175f0
-void SweepManager::FUN_00d175f0(const SweepVector* shift, SweepVector* effective, void* added) {
+// src: XBOX_PDB 0x00d175f0
+void SweepManager::hkp3AxisSweep_shiftAllObjects(const SweepVector* shift, SweepVector* effective, void* added) {
     SweepVector rounded = *shift;
     __int64 delta[3];
     for (int a=0; a<3; ++a) {
@@ -2564,7 +2572,7 @@ void SweepManager::FUN_00d175f0(const SweepVector* shift, SweepVector* effective
         }
     }
     removed.clear();
-    FUN_00c85750();
+    hkMemoryRouter_getInstance();
 }
 
 __forceinline void SweepManager::update(unsigned id, const SweepBounds& bounds, void* added, SweepList& removed) {
@@ -3007,9 +3015,9 @@ struct Heap {
     IAlloc* main;
     template<class T> void ReleaseTemp(Arr<T>& arr);
 };
-static Heap* GetHeap() { return (Heap*)FUN_00c85750(); }
+static Heap* GetHeap() { return (Heap*)hkMemoryRouter_getInstance(); }
 void __cdecl hkArrayUtil__reserve(IAlloc* a, void* arr, int cap, int esz);
-void __cdecl FUN_00d9fcf0(void* a, int n, void* scratch);
+void __cdecl hkRadixSort_sort16(void* a, int n, void* scratch);
 template<class T> struct Arr {
     T* data;
     int size;
@@ -3052,8 +3060,8 @@ struct Key { unsigned short key, idx; };
 struct RemovedHandle { int idx; };
 struct RemovedHandleList { RemovedHandle** items; int count; };
 struct Node { unsigned short idx, pad; Arr<unsigned short> arr; };
-struct Stub_00d1a040 { int a, b, c; void FUN_00d1a040(Box*, Arr<int>*); };
-struct Stub_00d1a0e0 { int a, b, c; void FUN_00d1a0e0(Box*, Arr<int>*); };
+struct Stub_00d1a040 { int a, b, c; void hkp3AxisSweep_hkpBpAxis_removeBatch_0(Box*, Arr<int>*); };
+struct Stub_00d1a0e0 { int a, b, c; void hkp3AxisSweep_hkpBpAxis_removeBatch_1(Box*, Arr<int>*); };
 struct Stub_00d1a180 { int a, b, c; void RemapEndPoints(Box*, Arr<int>*); };
 void __cdecl CollectNodePairs(void*, Box*, int, int);
 
@@ -3096,7 +3104,7 @@ void hkp3AxisSweep::removeObjectBatch(RemovedHandleList* apRemoved, int arg2)
         pSortKeys[count].key = 0xffff;
         pSortKeys[count + 1].key = 0xffff;
         pSortKeys[count + 2].key = 0xffff;
-        FUN_00d9fcf0(pSortKeys, (count + 3) & ~3, pScratch);
+        hkRadixSort_sort16(pSortKeys, (count + 3) & ~3, pScratch);
         for (int i = 0; i < count; ++i) {
             Box& b = reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data[pSortKeys[i].idx];
             pSortedBoxes[i].CopyPacked(b);
@@ -3169,7 +3177,7 @@ void hkp3AxisSweep::removeObjectBatch(RemovedHandleList* apRemoved, int arg2)
         pOverlapKeys[iOverlapCount].key = 0xffff;
         pOverlapKeys[iOverlapCount + 1].key = 0xffff;
         pOverlapKeys[iOverlapCount + 2].key = 0xffff;
-        FUN_00d9fcf0(pOverlapKeys, (iOverlapCount + 3) & ~3, pOverlapScratch);
+        hkRadixSort_sort16(pOverlapKeys, (iOverlapCount + 3) & ~3, pOverlapScratch);
         for (int j = 0; j < iOverlapCount; ++j)
             { Box& b=reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data[pOverlapKeys[j].idx];
             pOverlapBoxes[j].CopyPacked(b); }
@@ -3178,8 +3186,8 @@ void hkp3AxisSweep::removeObjectBatch(RemovedHandleList* apRemoved, int arg2)
     }
     CollectNodePairs(this, pSortedBoxes, count, arg2);
     BuildBroadPhasePairs(reinterpret_cast<hkp3AxisSweep::Node*>(pSortedBoxes), count, reinterpret_cast<hkp3AxisSweep::Node*>(pOverlapBoxes), iOverlapCount, 1, *reinterpret_cast<BroadPhasePairArray*>(arg2));
-    reinterpret_cast<Stub_00d1a040&>(m_axis0).FUN_00d1a040(reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data, &view);
-    reinterpret_cast<Stub_00d1a0e0&>(m_axis1).FUN_00d1a0e0(reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data, &view);
+    reinterpret_cast<Stub_00d1a040&>(m_axis0).hkp3AxisSweep_hkpBpAxis_removeBatch_0(reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data, &view);
+    reinterpret_cast<Stub_00d1a0e0&>(m_axis1).hkp3AxisSweep_hkpBpAxis_removeBatch_1(reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data, &view);
     reinterpret_cast<Stub_00d1a180&>(m_axis2).RemapEndPoints(reinterpret_cast<Arr<Box>&>(m_kNodeCollection).data, &view);
     if (m_iMarkerCount) {
         int twoN = count + count;

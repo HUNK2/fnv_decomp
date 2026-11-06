@@ -318,33 +318,34 @@ struct FUN_00485680
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e20(int, int);
+    void TESForm___SaveData(int, int);
 };
-extern "C" unsigned char __cdecl FUN_00401500();
+extern "C" unsigned char __cdecl TESForm_QEndianSwapOnSave();
 struct FUN_004891d0_shell
 {
     void __thiscall WriteToBuffer(unsigned int a, unsigned int b);
 };
 struct FUN_0050a1d0_shell
 {
-    void FUN_0050a1d0();
+    void TESGrass_Save();
 };
 // @fnv 0x0050a1d0
-void FUN_0050a1d0_shell::FUN_0050a1d0()
+// src: XBOX_PDB 0x0050a1d0
+void FUN_0050a1d0_shell::TESGrass_Save()
 {
     ((FUN_004855a0*)this)->M();
     ((FUN_004891d0_shell*)((char*)this + 0x30))->WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    ((FUN_00485e00_shell*)this)->FUN_00485e20((int)((char*)this + 0x48), 0x20);
-    if (FUN_00401500())
+    ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x48), 0x20);
+    if (TESForm_QEndianSwapOnSave())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
     ((FUN_00485680*)this)->M();
 }
 
 struct FUN_005e78f0_t
 {
-    void FUN_004851b0(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
 };
 struct R00624700
 {
@@ -362,7 +363,7 @@ void FUN_0050a240_shell::CopyGrassData(TESForm* apCopy)
     pcopy = dynamic_cast<TESGrass*>(apCopy);
     if (!pcopy)
         return;
-    ((FUN_005e78f0_t*)this)->FUN_004851b0(pcopy);
+    ((FUN_005e78f0_t*)this)->TESForm_CopyAllComponents(pcopy);
     __memcpy(((R00624700*)this)->_ref_00624700(), ((R00624700*)pcopy)->_ref_00624700(), 0x20);
 }
 
@@ -554,24 +555,24 @@ struct ResetState
 {
     unsigned char value;
 };
-void __cdecl FUN_00407a90(void* destination, unsigned char reset);
-void __cdecl FUN_00401080(void* destination, unsigned char reset);
+void __cdecl BSEndian_00407a90(void* destination, unsigned char reset);
+void __cdecl BSEndian_00401080(void* destination, unsigned char reset);
 // Resets the grass data members by calling FUN_00407a90 on one field and FUN_00401080 on five others with zero-initialized ResetState values.
 // @fnv 0x0050a120
 void TESGrass__GRASS_DATA::ResetGrassData()
 {
     ResetState b0 = {};
-    FUN_00407a90(&m_usUnitsFromSurface, b0.value);
+    BSEndian_00407a90(&m_usUnitsFromSurface, b0.value);
     ResetState c0 = {};
-    FUN_00401080(&m_eWaterState, c0.value);
+    BSEndian_00401080(&m_eWaterState, c0.value);
     ResetState b2 = {};
-    FUN_00401080(&m_fPositionRange, b2.value);
+    BSEndian_00401080(&m_fPositionRange, b2.value);
     ResetState b4 = {};
-    FUN_00401080(&m_fHeightRange, b4.value);
+    BSEndian_00401080(&m_fHeightRange, b4.value);
     ResetState b3 = {};
-    FUN_00401080(&m_fWavePeriod, b3.value);
+    BSEndian_00401080(&m_fWavePeriod, b3.value);
     ResetState b1 = {};
-    FUN_00401080(&m_fWavePhase, b1.value);
+    BSEndian_00401080(&m_fWavePhase, b1.value);
 }
 
 class B50F600UpdateData
@@ -589,20 +590,20 @@ class B50F600UpdateData
 class B50F600Node
 {
   public:
-    void FUN_00a5a040();
+    void UpdateProperties();
     void Update(const B50F600UpdateData& kData);
 };
 
 class B50F600ModelLoader
 {
   public:
-    void FUN_0045a5e0(const char* pcPath);
+    void ModelLoader_ReleaseFile(const char* pcPath);
 };
 
 extern B50F600ModelLoader* g_pkB50F600ModelLoader;
 
 class B50F600Ref;
-const char* __cdecl FUN_004895b0(B50F600Ref* pkRef);
+const char* __cdecl TESModel_GetModel_004895b0(B50F600Ref* pkRef);
 
 class B50F600Ref
 {
@@ -702,15 +703,16 @@ class B50F600Ref
     virtual void VFunc170();
     virtual B50F600Node* Get3D(int iIndex);
 
-    bool FUN_0050f600(int iUnused);
+    bool TESBoundObject_ReplaceModel_0050f600(int iUnused);
 };
 
 // @fnv 0x0050f600
-bool B50F600Ref::FUN_0050f600(int iUnused)
+// src: XBOX_PDB 0x0050f600
+bool B50F600Ref::TESBoundObject_ReplaceModel_0050f600(int iUnused)
 {
-    g_pkB50F600ModelLoader->FUN_0045a5e0(FUN_004895b0(this));
+    g_pkB50F600ModelLoader->ModelLoader_ReleaseFile(TESModel_GetModel_004895b0(this));
     B50F600Node* pkNode2 = Get3D(0);
-    pkNode2->FUN_00a5a040();
+    pkNode2->UpdateProperties();
     B50F600UpdateData kUpdateData(0.0f, false, false);
     pkNode2->Update(kUpdateData);
     return true;
@@ -719,7 +721,7 @@ bool B50F600Ref::FUN_0050f600(int iUnused)
 namespace GrassCompare50A2A0Detail {
 struct BaseComparison
 {
-    bool FUN_00485270(::TESForm*);
+    bool TESForm_CompareAllComponents(::TESForm*);
 };
 
 class VirtualView : public ::TESForm  // the TESForm vtable (78 slots) followed by the TESGrass slots this comparison calls
@@ -779,12 +781,13 @@ struct Argument
 
 // Returns true if the form is not TESGrass, base comparison reports a difference, or any compared accessor differs.
 // @fnv 0x0050a2a0
-bool __fastcall FUN_0050a2a0(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
+// src: XBOX_PDB 0x0050a2a0
+bool __fastcall TESGrass_Compare(::TESGrass* apGrass, GrassCompare50A2A0Detail::Argument apCompare)
 {
     ::TESGrass* pCompareGrass = dynamic_cast< ::TESGrass*>(apCompare.form);
     if (pCompareGrass == 0)
         return true;
-    if (reinterpret_cast<GrassCompare50A2A0Detail::BaseComparison*>(apGrass)->FUN_00485270(pCompareGrass))
+    if (reinterpret_cast<GrassCompare50A2A0Detail::BaseComparison*>(apGrass)->TESForm_CompareAllComponents(pCompareGrass))
         return true;
     if (reinterpret_cast<GrassCompare50A2A0Detail::VirtualView*>(apGrass)->GetMaximumSlopeLimit() !=
         reinterpret_cast<GrassCompare50A2A0Detail::VirtualView*>(pCompareGrass)->GetMaximumSlopeLimit())

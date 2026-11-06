@@ -180,7 +180,7 @@ unsigned int FUN_00905450_StandIn::AppendNode(PathingAvoidNode* apNode)
     return count;
 }
 
-int __cdecl FUN_0043b460(long volatile*, long, long);
+int __cdecl BSAtomicCompareExchange(long volatile*, long, long);
 // Exe 0x00905510: unit-local Interface view; declarations and layout are preserved.
 struct BlkInterfaceView
 {
@@ -198,12 +198,12 @@ char FUN_00905510_Class::LockAndCall(int aiArg)
     char r;
     while (true)
     {
-        if (FUN_0043b460((long volatile*)(this + 1), 0, 1) == 0)
+        if (BSAtomicCompareExchange((long volatile*)(this + 1), 0, 1) == 0)
         {
             BlkInterfaceView::PrintDebugMessage();
             r = ((char(__thiscall*)(void*, int))vtbl[6])(this, aiArg);
             BlkInterfaceView::PrintDebugMessage();
-            FUN_0043b460((long volatile*)(this + 1), 1, 0);
+            BSAtomicCompareExchange((long volatile*)(this + 1), 1, 0);
             break;
         }
     }
@@ -326,9 +326,9 @@ struct S5460
     virtual void* v2(unsigned int);
     virtual void v3();
     virtual void v4();
-    bool FUN_00438b90();
-    unsigned int FUN_009a3910();
-    void* FUN_006e3d30(unsigned int a, unsigned int b);
+    bool BSSimpleArray_NavMeshInfo_1024_ShouldGrow();
+    unsigned int BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
+    void* BSSimpleArray_PathingAvoidNode_1024_ReallocateBuffer(unsigned int a, unsigned int b);
     void* m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
@@ -337,7 +337,7 @@ struct S5460
 // @fnv 0x00905a10
 unsigned int S5460::GetNextIndex()
 {
-    if (FUN_00438b90())
+    if (BSSimpleArray_NavMeshInfo_1024_ShouldGrow())
     {
         if (m_iThirdValue == 0)
         {
@@ -347,8 +347,8 @@ unsigned int S5460::GetNextIndex()
         }
         else
         {
-            unsigned int idx = FUN_009a3910();
-            FUN_006e3d30(idx, m_8);
+            unsigned int idx = BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
+            BSSimpleArray_PathingAvoidNode_1024_ReallocateBuffer(idx, m_8);
             m_iThirdValue = idx;
         }
     }
@@ -518,7 +518,7 @@ struct Request9065
     int unk00;
     unsigned int index;
     void* element;
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
     bool IsFlagSet();
     void FUN_0044de40(bool);
     void FUN_0044de80(bool);
@@ -548,7 +548,7 @@ bool FUN_00906570_Class::AdvanceRequest(Request9065* request, void** ppOut, void
 {
     lock.Lock(0);
     bool success = false;
-    if (request->FUN_006ebde0())
+    if (request->LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
     {
         success = false;
     }
@@ -696,7 +696,7 @@ struct OwnerClass
     virtual void v12(void*, void**);
 };
 
-void FUN_0040fbe0();
+void ProgramFlow();
 
 struct TargetClass
 {
@@ -732,7 +732,7 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
                 this->field_0->v12(this->m_18.FUN_0044df00()->unk0, b);
                 apHeadDest->Assign(this->m_18.FUN_0044df00()->headPtr);
                 bResult = true;
-                FUN_0040fbe0();
+                ProgramFlow();
                 if (this->m_18.FUN_0044df00()->FUN_0044df20())
                 {
                     apHeadDest->FUN_006f74f0(0);
@@ -757,7 +757,7 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
                 this->field_0->v12(this->m_14.FUN_0044df00()->unk0, b);
                 apHeadDest->Assign(this->m_14.FUN_0044df00()->headPtr);
                 bResult = true;
-                FUN_0040fbe0();
+                ProgramFlow();
                 if (this->m_14.FUN_0044df00()->FUN_0044df20())
                 {
                     apHeadDest->FUN_006f74f0(0);

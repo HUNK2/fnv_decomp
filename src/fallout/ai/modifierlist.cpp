@@ -144,14 +144,15 @@ Modifier* FUN_009375b0_shell::SetKeyAndValue(char key, float value)
 }
 
 void* __cdecl operator new(unsigned int);
-void __cdecl FUN_00937fd0();
+void __cdecl FastModifierCollection_CheckInitializeMapping();
 extern int DAT_011e0750;
 
 // Calls FUN_00937fd0, then allocates an int array of DAT_011e0750 elements, zeroes it, and stores the pointer through pThis.
 // @fnv 0x00937d70
-int** __fastcall FUN_00937d70(int** apArrayOut)
+// src: XBOX_PDB 0x00937d70
+int** __fastcall FastModifierCollection_FastModifierCollection(int** apArrayOut)
 {
-    FUN_00937fd0();
+    FastModifierCollection_CheckInitializeMapping();
     if (DAT_011e0750)
     {
         *apArrayOut = DAT_011e0750 ? new int[DAT_011e0750] : 0;
@@ -261,8 +262,8 @@ bool Host37870::ModifierList_WriteModifier(Modifier* apModifier)
         return false;
     char key = apModifier->GetKey();
     float value = apModifier->GetValue();
-    g_TESSaveLoadGame->FUN_008579b0(&key, 1);
-    g_TESSaveLoadGame->FUN_008579b0(&value, 4);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&key, 1);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&value, 4);
     return true;
 }
 
@@ -308,7 +309,7 @@ void __fastcall CountModifiers(ActorValueModifierList* list)
 {
     unsigned short icount = 0;
     unsigned short* pusCount = (unsigned short*)((const GameTimerRecord*)g_TESSaveLoadGame)->GetTime();
-    g_TESSaveLoadGame->FUN_008579b0(&icount, 2);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&icount, 2);
 
     BSSimpleList<Modifier*>* pmodlist = (BSSimpleList<Modifier*>*)list;
     while (pmodlist && *((BSSimpleList_helper*)pmodlist)->_ref_006815c0())

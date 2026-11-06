@@ -124,7 +124,8 @@ inline bool NiObject::IsKindOfType(const NiRTTI* pkRTTI) const
 }
 
 // @fnv 0x00c54400
-NiObject* __cdecl FUN_00c54400(NiAVObject* pkOwner)
+// src: XBOX_PDB 0x00c54400
+NiObject* __cdecl BSFurnitureMarker_Find(NiAVObject* pkOwner)
 {
     NiObject* pkResult = 0;
     if (pkOwner)

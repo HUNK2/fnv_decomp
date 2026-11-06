@@ -68,7 +68,7 @@ void hkQsTransform::setFromTransformNoScale(const hkTransform& akTransform)
 class CB2FC0Object
 {
   public:
-    void FUN_00cb2d90(void* snapshot);
+    void hkRotation_set(void* snapshot);
 };
 
 class FUN_00ce50b0_cls
@@ -81,7 +81,7 @@ class FUN_00ce50b0_cls
 void FUN_00ce50b0_cls::FUN_00ce50b0(CB2FC0Object* target)
 {
     Matrix* self = (Matrix*)this;
-    target->FUN_00cb2d90(&self->values[4]);
+    target->hkRotation_set(&self->values[4]);
     __m128 vMatrix = _mm_load_ps(self->values);
     _mm_store_ps((float*)((char*)target + 0x30), vMatrix);
 }
@@ -90,12 +90,12 @@ void FUN_00ce50b0_cls::FUN_00ce50b0(CB2FC0Object* target)
 struct FUN_008cd6a0_Class
 {
     hkVector4 row0, row1, row2;
-    void FUN_00cb2d90(void*);
+    void hkRotation_set(void*);
 };
 struct FUN_00cdf250_class
 {
     hkVector4 row0, row1, row2;
-    void FUN_00cd55b0(int*, int);
+    void hkMatrix3_setMul(int*, int);
 };
 struct TransformMatrix
 {
@@ -115,7 +115,7 @@ struct QsTransformFloats
 void QsTransformFloats::FUN_00ce51f0(int out)
 {
     FUN_008cd6a0_Class rotMatrix;
-    rotMatrix.FUN_00cb2d90(&rotationX);
+    rotMatrix.hkRotation_set(&rotationX);
     FUN_00cdf250_class scaleMatrix;
     *(__m128*)&scaleMatrix.row0 = _mm_setzero_ps();
     scaleMatrix.row0.x = scaleX;
@@ -124,7 +124,7 @@ void QsTransformFloats::FUN_00ce51f0(int out)
     *(__m128*)&scaleMatrix.row2 = _mm_setzero_ps();
     scaleMatrix.row2.z = scaleZ;
     FUN_00cdf250_class combinedMatrix;
-    combinedMatrix.FUN_00cd55b0((int*)&rotMatrix, (int)&scaleMatrix);
+    combinedMatrix.hkMatrix3_setMul((int*)&rotMatrix, (int)&scaleMatrix);
     TransformMatrix resultMatrix;
     *(__m128*)&resultMatrix.row0 = *(__m128*)&combinedMatrix.row0;
     *(__m128*)&resultMatrix.row1 = *(__m128*)&combinedMatrix.row1;
@@ -212,7 +212,7 @@ struct S_00ce5290_Result
     int unkEC;
 };
 
-void FUN_00d72e90(const void* input, S_00ce5290_Result* out);
+void hkMathUtil_decompose4x4ColTransform(const void* input, S_00ce5290_Result* out);
 
 struct S_00ce5290
 {
@@ -227,7 +227,7 @@ struct S_00ce5290
 S_00ce5290_Bool S_00ce5290::SetFromInput(const void* input)
 {
     __declspec(align(16)) S_00ce5290_Result result;
-    FUN_00d72e90(input, &result);
+    hkMathUtil_decompose4x4ColTransform(input, &result);
     m_v0.q() = result.m_v0.q();
     m_v1.q() = result.m_v1.q();
     m_v2.q() = result.m_v2.q();

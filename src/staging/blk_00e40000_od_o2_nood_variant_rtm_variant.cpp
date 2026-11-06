@@ -132,7 +132,7 @@ __forceinline float V4::lengthSquared3() const {
 struct F8 { V4 lower, upper; };
 struct BoundsRef { F8* p; F8* operator->() const { return p; } operator F8*() const { return p; } };
 struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
-extern void* FUN_00c85750();
+extern void* hkMemoryRouter_getInstance();
 extern void ResizeAudioStream(void* a, void* b, int c);
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
 struct Diagnostic {
@@ -329,7 +329,7 @@ struct TreeDecoder {
     void FUN_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
     __forceinline void emit(int value) {
         OutputArray* a = output;
-        AllocatorContext* context = (AllocatorContext*)FUN_00c85750();
+        AllocatorContext* context = (AllocatorContext*)hkMemoryRouter_getInstance();
         if (a->size == (a->capacity & 0x3fffffff)) ResizeAudioStream(context->allocator,a,4);
         int* destination = &a->data[a->size]; ++a->size; *destination = value;
     }

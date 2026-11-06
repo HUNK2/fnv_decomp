@@ -1022,14 +1022,14 @@ struct CacheLock
 {
     int state;
     unsigned int live;
-    void FUN_0040fbf0(const char*);
+    void BSSpinLock_Lock(const char*);
 };
 extern CacheLock DAT_011c5f80;
 extern CacheListNode* DAT_011c5f58;
 extern unsigned int DAT_011f9ef4;
 struct CacheMemory
 {
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 extern CacheMemory DAT_011f6238;
 struct CacheList
@@ -1065,7 +1065,7 @@ struct CacheList
             if (next)
                 next->previous = previous;
             slot = 0;
-            DAT_011c5f80.FUN_0040fbf0(0);
+            DAT_011c5f80.BSSpinLock_Lock(0);
             node->previous = 0;
             node->next = DAT_011c5f58;
             DAT_011c5f80.live--;
@@ -1153,7 +1153,7 @@ void TallGrassShaderProperty_RemoveFromTerrainChunk(const char* key)
                     {
                         entries->Remove(bucket, slot);
                         item->FUN_00bd8f90();
-                        DAT_011f6238.FUN_00aa4060(item);
+                        DAT_011f6238.MemoryManager_Deallocate(item);
                         DAT_011f9ef4--;
                     }
                 }

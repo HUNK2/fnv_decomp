@@ -9,7 +9,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "../../../../../../../include/Transform.h"
 
-extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
+extern "C" void __cdecl hkpSphereSphereAgent_staticGetPenetrations(void* a, void* b, void* c, void* d);
 void __stdcall hkpSphereSphereAgent_getPenetrations(void* a, void* c, void* b, void* d);
 struct S_00d3f660_Owner
 {

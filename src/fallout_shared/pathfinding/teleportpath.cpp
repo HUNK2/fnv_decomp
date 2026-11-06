@@ -34,14 +34,14 @@ struct Arr16
     Elem16* _4;
     int _8;
     int _12;
-    unsigned int FUN_006f31f0();
+    unsigned int BSSimpleArray_TeleportLink_1024_AddUninitialized();
     void ConstructBounds(void*, int);
     unsigned int AppendElement(const Elem16* aPath);
 };
 // @fnv 0x006f2d20
 unsigned int Arr16::AppendElement(const Elem16* aPath)
 {
-    unsigned int idx = FUN_006f31f0();
+    unsigned int idx = BSSimpleArray_TeleportLink_1024_AddUninitialized();
     ConstructBounds(&_4[idx], 1);
     _4[idx] = *aPath;
     return idx;

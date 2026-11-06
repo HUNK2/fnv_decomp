@@ -256,7 +256,7 @@ __forceinline float V4::lengthSquared3() const {
 struct F8 { V4 lower, upper; };
 struct BoundsRef { F8* p; F8* operator->() const { return p; } operator F8*() const { return p; } }; 
 struct Resource { int unk00, unk04, unk08, unk0c; void* allocator; };
-extern void* FUN_00c85750();
+extern void* hkMemoryRouter_getInstance();
 extern void ResizeAudioStream(void* a, void* b, int c);
 static const __declspec(align(16)) unsigned int AbsMask[4] = { 0x7fffffff, 0x7fffffff, 0x7fffffff, 0x7fffffff };
 
@@ -518,7 +518,7 @@ __forceinline void Cls::interpret(P1* a1, unsigned char* p, F8* const& a3) {
       right = op - 48;
     append: {
       hkArray<int>* item=vec; unsigned int bounds_test=right; _ReadWriteBarrier(); *(volatile int*)&right=right; bounds_test+=cur->f0;
-      Resource* first = (Resource*)FUN_00c85750();
+      Resource* first = (Resource*)hkMemoryRouter_getInstance();
       if (item->m_iElementCount == (item->m_iCapacityState & 0x3fffffff)) ResizeAudioStream(first->allocator, item, 4);
       int* message = &item->m_data[item->m_iElementCount++];
       *message = bounds_test;
@@ -625,7 +625,7 @@ struct TreeDecoder {
     void FUN_00e5e430(DecodeState*, const unsigned char*, BoundsPair*);
     __forceinline void emit(int value) {
         hkArray<int>* a = output;
-        AllocatorContext* context = (AllocatorContext*)FUN_00c85750();
+        AllocatorContext* context = (AllocatorContext*)hkMemoryRouter_getInstance();
         if (a->m_iElementCount == (a->m_iCapacityState & 0x3fffffff)) ResizeAudioStream(context->allocator,a,4);
         int* destination = &a->m_data[a->m_iElementCount]; ++a->m_iElementCount; *destination = value;
     }

@@ -1598,7 +1598,7 @@ extern const double DAT_01012070;
 
 extern float DAT_011ff108;
 
-WaterFog* FUN_00b55520(int);
+WaterFog* BSShaderManager_GetFogProperty(int);
 
 void UpdateRendererStateCount(int, int);
 
@@ -1746,7 +1746,7 @@ void WaterSetup::WaterShader_SetupGeometryConstants(WaterRenderArg* arg)
 
     (*reinterpret_cast<WaterVec4*>(DAT_011ff5f8)) = material->color4;
 
-    WaterFog* fog = FUN_00b55520(DAT_011f91c4);
+    WaterFog* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
 
     if (fog)
     {

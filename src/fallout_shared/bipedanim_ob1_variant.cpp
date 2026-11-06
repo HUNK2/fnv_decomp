@@ -54,7 +54,8 @@ struct ObjQ
     ExtQ* __thiscall NiObjectNET_GetController(void* rtti);
 };
 // @fnv 0x00c4b310
-ResultQ* __cdecl FUN_00c4b310(ObjQ* pObj, const char* pcName, bool bRecurse)
+// src: XBOX_PDB 0x00c4b310
+ResultQ* __cdecl BSUtilities_GetObjectByName_00c4b310(ObjQ* pObj, const char* pcName, bool bRecurse)
 {
     if (!pObj || !pcName)
         return 0;

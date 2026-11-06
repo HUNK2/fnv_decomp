@@ -81,7 +81,7 @@ void TESSaveLoadGameUnitOperations::DeleteFormById(unsigned int uiFormId)
     if (pForm)
         DeleteForm(pForm);
     else
-        m_pChangesMap->FUN_00855220(uiFormId, true);
+        m_pChangesMap->RemoveChanges(uiFormId, true);
 }
 
 struct LH
@@ -183,7 +183,7 @@ void AlarmPackageUnitOperations::RemoveCrime(unsigned int a, Actor* pActor)
 // 0x00616c20 updates the TESFaction reputation record at +0x38 (also bound by tesfaction.cpp).
 struct ReputationChangeNotifier
 {
-    void FUN_00616c20(int);
+    void TESReputation_CommitCrime(int);
 };
 // 0x005fda50 is a faction call in actor.cpp; +0x38/+0x44 match TESFaction, not the nonvirtual Crime layout.
 struct FactionReputationOperations : TESFaction
@@ -195,7 +195,7 @@ void FactionReputationOperations::ModifyReputation(int aiAmount, bool b)
 {
     m_iFirstFactionValue += aiAmount;
     if (pReputationData && b)
-        reinterpret_cast<ReputationChangeNotifier*>(pReputationData)->FUN_00616c20(1);
+        reinterpret_cast<ReputationChangeNotifier*>(pReputationData)->TESReputation_CommitCrime(1);
     MarkAsModified(0x80000000);
 }
 
@@ -334,7 +334,7 @@ void AlarmPackage::CopyFromPackage(TESForm* apCopy)
 
 struct Saver
 {
-    unsigned short FUN_00678fd0();
+    unsigned short TESPackage_GetSaveSize();
 };
 
 extern TESSaveLoadGame* g_TESSaveLoadGame;
@@ -439,9 +439,9 @@ struct FormWithID
 unsigned short AlarmPackage::GetSaveSize()
 {
     unsigned short isaveGameCount = 0;
-    isaveGameCount += reinterpret_cast<Saver*>(this)->FUN_00678fd0();
+    isaveGameCount += reinterpret_cast<Saver*>(this)->TESPackage_GetSaveSize();
     unsigned short isaveGameBufferPos = isaveGameCount;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         isaveGameCount += 4;
         isaveGameCount += 2;
@@ -484,7 +484,7 @@ struct CrimeNode : public BSSimpleList<Crime*>
 void AlarmPackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int isaveGameCount = 0;
-    unsigned int isaveGameBufferPos = static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->FUN_00865f20();
+    unsigned int isaveGameBufferPos = static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->StartVariableSizedValue();
     fnv_009ecec0::CrimeNode* pCurrentElementNext = reinterpret_cast<fnv_009ecec0::CrimeNode*>((char*)this + 0x80);
     while (pCurrentElementNext)
     {
@@ -499,7 +499,7 @@ void AlarmPackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
         }
         pCurrentElementNext = static_cast<fnv_009ecec0::CrimeNode*>(pCurrentElementNext->GetNext());
     }
-    static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->FUN_00865ff0(isaveGameCount, isaveGameBufferPos);
+    static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->SaveVariableSizedValue_00865ff0(isaveGameCount, isaveGameBufferPos);
 }
 
 
@@ -517,7 +517,7 @@ void AlarmPackage::LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
         unsigned short icrimeIndex = 0;
         static_cast<BGSLoadFormBuffer*>(apLoadGameBuffer)->ReadTypedData(static_cast<void*>(&ccrimeType), 1u);
         static_cast<BGSLoadFormBuffer*>(apLoadGameBuffer)->ReadTypedData(static_cast<void*>(&icrimeIndex), 2u);
-        Crime* pcrime = DAT_011e0e80.FUN_009727c0(ccrimeType, icrimeIndex);
+        Crime* pcrime = DAT_011e0e80.ProcessLists_GetCrimeByIndex(ccrimeType, icrimeIndex);
         if (pcrime)
         {
             reinterpret_cast<G2*>((char*)this + 0x80)->AddHead((int*&)pcrime);
@@ -714,7 +714,7 @@ unsigned short FUN_009ebb80_shell::Crime_GetSaveSize()
         unsigned short usStartSize = usTotalSize;
         FUN_009ebb80_hit_sound* SoundAssetTmp;
 
-        if (DAT_011de45c->FUN_00862110())
+        if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
         {
             usTotalSize += 4;
             usTotalSize += 2;
@@ -750,8 +750,8 @@ struct SaveLocal
 {
     void FUN_00865e50(void*, unsigned int, int);
     void FUN_00865df0(void*, int);
-    unsigned int FUN_00865f20();
-    void FUN_00865ff0(int, unsigned int);
+    unsigned int StartVariableSizedValue();
+    void SaveVariableSizedValue_00865ff0(int, unsigned int);
 };
 struct AuxLocal
 {
@@ -799,7 +799,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
     buffer->FUN_00865df0(form14, 0);
     buffer->FUN_00865df0(form24, 0);
     int count6 = 0;
-    unsigned int pos1 = buffer->FUN_00865f20();
+    unsigned int pos1 = buffer->StartVariableSizedValue();
     NodeLocal* node9 = &list1c;
     while (node9)
     {
@@ -811,10 +811,10 @@ void Candidate::SaveToStream(SaveLocal* buffer)
         }
         node9 = node9->FUN_00726070();
     }
-    buffer->FUN_00865ff0(count6, pos1);
+    buffer->SaveVariableSizedValue_00865ff0(count6, pos1);
     {
         int count7 = 0;
-        unsigned int pos3 = buffer->FUN_00865f20();
+        unsigned int pos3 = buffer->StartVariableSizedValue();
         NodeLocal* nodeTmp = list38;
         while (nodeTmp)
         {
@@ -826,7 +826,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
             }
             nodeTmp = nodeTmp->FUN_00726070();
         }
-        buffer->FUN_00865ff0(count7, pos3);
+        buffer->SaveVariableSizedValue_00865ff0(count7, pos3);
     }
 }
 
@@ -1032,12 +1032,13 @@ extern "C" Actor* g_thePlayer;
 struct Cls
 {
     char pad00[4];
-    Actor* FUN_00970b30(TESFaction* fac, bool a2, bool a3);
+    Actor* ProcessLists_GetActorRefInHigh_00970b30(TESFaction* fac, bool a2, bool a3);
 };
 
 // Scans the actor array for a faction member passing the rank and process checks, optionally picking the one with the lowest value from FUN_005723b0.
 // @fnv 0x00970b30
-Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickBest)
+// src: XBOX_PDB 0x00970b30
+Actor* Cls::ProcessLists_GetActorRefInHigh_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickBest)
 {
     Actor* pB = 0;
     Actor* g4 = 0;
@@ -1052,7 +1053,7 @@ Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickB
         g4 = ((Arr*)((char*)this + 4))->GetItem(i);
         if (g4 && g4->IsActor())
             v20 = g4;
-        if (v20 && !v20->HasHealth(0) && !v20->FUN_00437bd0() &&
+        if (v20 && !v20->HasHealth(0) && !v20->Actor_IsUnConscious() &&
             ((TESActorBaseData*)((char*)v20->GetActorBase() + 0x30))->GetFactionRank(pFaction, v20 == g_thePlayer) >
                 -1 &&
             (!bRequireProcess || ((ProcVt*)v20->GetProcess())->v181(g_thePlayer, 0) > 0))
@@ -1060,7 +1061,7 @@ Actor* Cls::FUN_00970b30(TESFaction* pFaction, bool bRequireProcess, bool bPickB
             pB = v20;
             if (bPickBest)
             {
-                f24 = v20->FUN_005723b0(g_thePlayer, 0, 0);
+                f24 = v20->TESObjectREFR_GetDistanceFromReference(g_thePlayer, 0, 0);
                 if (f24 < pE)
                 {
                     e8 = v20;
@@ -1159,50 +1160,50 @@ void MyCand::WriteToSave()
     if (*g_011de4e8.Bool())
         a9 = g_save->GetCurrentPosition();
 
-    if (g_save->FUN_00862110())
+    if (g_save->TESSaveLoadGame_UseSaveGameBlocks())
     {
         int a5 = 0x424c4f4b;
-        g_save->FUN_008579b0(&a5, 4);
+        g_save->TESSaveLoadGame_SaveGameDataOLD(&a5, 4);
         aa = g_save->GetCurrentPosition();
-        g_save->FUN_008579b0(&a7, 2);
+        g_save->TESSaveLoadGame_SaveGameDataOLD(&a7, 2);
     }
 
-    g_save->FUN_008579b0(&flag10, 1);
-    g_save->FUN_008579b0(&flag2c, 1);
-    g_save->FUN_008579b0(&unk04, 4);
-    g_save->FUN_008579b0(&unk18, 4);
-    g_save->FUN_008579b0(&unk28, 4);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&flag10, 1);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&flag2c, 1);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&unk04, 4);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&unk18, 4);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&unk28, 4);
 
     int a1 = 0;
     if (form08)
         a1 = form08->GetFormID();
-    g_save->FUN_00857a10(&a1, 4);
+    g_save->TESSaveLoadGame_SaveNumericID(&a1, 4);
 
     int a1c = 0;
     if (form0c)
         a1c = form0c->GetFormID();
-    g_save->FUN_00857a10(&a1c, 4);
+    g_save->TESSaveLoadGame_SaveNumericID(&a1c, 4);
 
     int actor2 = 0;
     if (form14)
         actor2 = form14->GetFormID();
-    g_save->FUN_00857a10(&actor2, 4);
+    g_save->TESSaveLoadGame_SaveNumericID(&actor2, 4);
 
     int ang4 = 0;
     if (form24)
         ang4 = form24->GetFormID();
-    g_save->FUN_00857a10(&ang4, 4);
+    g_save->TESSaveLoadGame_SaveNumericID(&ang4, 4);
 
     unsigned short a38 = 0;
     unsigned short* a8 = (unsigned short*)g_save->GetCurrentPosition();
-    g_save->FUN_008579b0(&a38, 2);
+    g_save->TESSaveLoadGame_SaveGameDataOLD(&a38, 2);
 
     MyNode* action9 = &list1c;
     while (action9 && !action9->FUN_008256d0())
     {
         TESForm* active = *action9->FUN_006815c0();
         int ac = active->GetFormID();
-        g_save->FUN_00857a10(&ac, 4);
+        g_save->TESSaveLoadGame_SaveNumericID(&ac, 4);
         a38++;
         action9 = action9->FUN_00726070();
     }
@@ -1224,7 +1225,7 @@ void MyCand::WriteToSave()
         }
     }
 
-    if (g_save->FUN_00862110())
+    if (g_save->TESSaveLoadGame_UseSaveGameBlocks())
     {
         char* agg = g_save->GetCurrentPosition();
         char* agg4 = aa;
@@ -1237,7 +1238,7 @@ void MyCand::WriteToSave()
 extern "C" char DAT_01183108;
 extern "C" char DAT_01183028;
 extern "C" char DAT_01184704;
-TESForm* __cdecl FUN_004839c0(void*);
+TESForm* __cdecl TESForm_GetFormByNumericID(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct List009
 {
@@ -1272,17 +1273,17 @@ struct Host009
 // @fnv 0x009ec1a0
 void Host009::ReadFromStream(BGSLoadFormBuffer* apReader)
 {
-    apReader->FUN_00864980(&a, 4);
-    apReader->FUN_00864980(&b, 4);
-    apReader->FUN_00864980(&e, 1);
-    apReader->FUN_00864980(&g, 4);
-    apReader->FUN_00864980(&j, 4);
-    apReader->FUN_00864980(&k, 1);
-    apReader->FUN_00864980(&l, 4);
+    apReader->LoadData(&a, 4);
+    apReader->LoadData(&b, 4);
+    apReader->LoadData(&e, 1);
+    apReader->LoadData(&g, 4);
+    apReader->LoadData(&j, 4);
+    apReader->LoadData(&k, 1);
+    apReader->LoadData(&l, 4);
     field.FUN_009a5ff0(apReader);
     apReader->FUN_008648e0(&c);
     apReader->FUN_008648e0(&d);
-    f = dynamic_cast<TESBoundObject*>(FUN_004839c0(reinterpret_cast<void*>(apReader->FUN_008648a0())));
+    f = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(reinterpret_cast<void*>(apReader->FUN_008648a0())));
     apReader->FUN_008648e0(&h);
     {
         unsigned count = apReader->FUN_00864a60();
@@ -1299,7 +1300,7 @@ void Host009::ReadFromStream(BGSLoadFormBuffer* apReader)
         for (unsigned uiFactionIndex = 0; uiFactionIndex < uiFactionCount; uiFactionIndex++)
         {
             void* pFaction = 0;
-            pFaction = dynamic_cast<TESFaction*>(FUN_004839c0(reinterpret_cast<void*>(apReader->FUN_008648a0())));
+            pFaction = dynamic_cast<TESFaction*>(TESForm_GetFormByNumericID(reinterpret_cast<void*>(apReader->FUN_008648a0())));
             if (pFaction)
                 strings->FUN_005ae3d0(&pFaction);
         }
@@ -1331,26 +1332,26 @@ void AlarmPackageUnitOperations::SaveGameLegacy()
     if (*g_011de4e8.Bool())
         uiStart3 = g_TESSaveLoadGame->GetTimeStamp();
 
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int uiMagic_2 = 0x424c4f4b;
-        g_TESSaveLoadGame->FUN_008579b0(&uiMagic_2, 4);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&uiMagic_2, 4);
         pSizeTmp = (unsigned short*)g_TESSaveLoadGame->GetTimeStamp();
-        g_TESSaveLoadGame->FUN_008579b0(&usVersion7, 2);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&usVersion7, 2);
     }
 
     unsigned short m_usPassCountLocal = 0;
     unsigned short* aPCount = (unsigned short*)g_TESSaveLoadGame->GetTimeStamp();
-    g_TESSaveLoadGame->FUN_008579b0(&m_usPassCountLocal, 2);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&m_usPassCountLocal, 2);
 
     BSSimpleList<void*>* pNodeX = 0;
     while (pNodeX != 0 && !pNodeX->IsEmpty())
     {
         void* pv = pNodeX->GetItem();
         char cIndex2 = (char)((CrimeList*)pv)->FUN_00726070();
-        g_TESSaveLoadGame->FUN_008579b0(&cIndex2, 1);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&cIndex2, 1);
         unsigned short usResult6 = DAT_011e0e80.Crime_CreateIndex((int)cIndex2, static_cast<Crime*>(pv));
-        g_TESSaveLoadGame->FUN_008579b0(&usResult6, 2);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&usResult6, 2);
         m_usPassCountLocal++;
         pNodeX = pNodeX->GetNext();
     }
@@ -1374,7 +1375,7 @@ void AlarmPackageUnitOperations::SaveGameLegacy()
         }
     }
 
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int uiEnd9 = g_TESSaveLoadGame->GetTimeStamp();
         unsigned int uiStart2 = (unsigned int)pSizeTmp;
@@ -1409,11 +1410,12 @@ struct AlarmPackageData
     int unk18;
     AlarmActorList actors;
     TESForm* other;
-    void FUN_009ec400(void* unused);
+    void Crime_InitLoadGame(void* unused);
 };
 
 // @fnv 0x009ec400
-void AlarmPackageData::FUN_009ec400(void* unused)
+// src: XBOX_PDB 0x009ec400
+void AlarmPackageData::Crime_InitLoadGame(void* unused)
 {
     ref = ref ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)ref)) : 0;
     actor = actor ? dynamic_cast<Actor*>(GetFormByID((unsigned int)actor)) : 0;
@@ -1460,6 +1462,6 @@ void AlarmPackageData::FUN_009ec400(void* unused)
     }
     if (ref)
     {
-        ref->FUN_00564db0(1);
+        ref->TESObjectREFR_SetTargeted(1);
     }
 }

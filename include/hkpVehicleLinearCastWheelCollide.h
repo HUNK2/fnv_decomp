@@ -52,18 +52,18 @@ public:
     void addToWorld_00e36870(hkpWorld* world);
     void removeFromWorld();
     void SetTargetArg(void* arg);
-    void FUN_00e36900(int unused, unsigned char wheelIndex, hkVector4* result);
+    void centerWheelContactPoint(int unused, unsigned char wheelIndex, hkVector4* result);
     int getNumHits(int iWheel);
     unsigned int getNumCommands(unsigned char wheelIndex);
     void CastWheel(int hitOut, hkUint32 unused, unsigned char wheelIndex, int context);
     void SetWheelPhantoms(const hkpVehicleInstance* vehicle,
                           const hkArray<hkReferencedObject*>& phantoms);
-    hkpShape* FUN_00e36120(hkReal height, hkReal radius) throw();
-    void FUN_00e36700(const hkpVehicleInstance* vehicle, unsigned char wheelIndex,
+    hkpShape* hkpVehicleLinearCastWheelCollide_createWheelShape(hkReal height, hkReal radius) throw();
+    void hkpVehicleLinearCastWheelCollide_calcAabbOfWheel(const hkpVehicleInstance* vehicle, unsigned char wheelIndex,
                       hkAabb& aabb) throw();
-    void FUN_00e367d0(const hkpVehicleInstance* vehicle, unsigned char wheelIndex) throw();
-    void FUN_00e36700(unsigned char wheelIndex, unsigned char stateIndex, hkAabb* aabb);
-    void FUN_00e367d0(unsigned char wheelIndex, unsigned char stateIndex);
+    void hkpVehicleLinearCastWheelCollide_updateWheelState(const hkpVehicleInstance* vehicle, unsigned char wheelIndex) throw();
+    void hkpVehicleLinearCastWheelCollide_calcAabbOfWheel(unsigned char wheelIndex, unsigned char stateIndex, hkAabb* aabb);
+    void hkpVehicleLinearCastWheelCollide_updateWheelState(unsigned char wheelIndex, unsigned char stateIndex);
 
     hkUint32 m_uiWheelCount;
     hkArray<hkpVehicleLinearCastWheelCollideWheelState> m_kWheelStates;

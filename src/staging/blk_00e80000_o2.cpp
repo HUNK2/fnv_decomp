@@ -127,13 +127,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -213,7 +213,7 @@ void NiTStringTemplateMap<TPARENT, TVAL>::ClearValue(NiTMapItem<const char*, TVA
         NiFree((void*)item->m_key);
 }
 
-extern "C" void* __cdecl FUN_00aa1070(unsigned int length);
+extern "C" void* __cdecl _NiMalloc_00aa1070(unsigned int length);
 extern "C" void __cdecl FUN_00ec65a6(void* destination, unsigned int length, const char* source);
 
 template <class TPARENT, class TVAL>
@@ -222,7 +222,7 @@ void NiTStringTemplateMap<TPARENT, TVAL>::SetValue(
 {
     if (m_bCopy) {
         const unsigned int length = (unsigned int)strlen(text) + 1;
-        void* copied = FUN_00aa1070(length);
+        void* copied = _NiMalloc_00aa1070(length);
         item->m_key = static_cast<const char*>(copied);
         FUN_00ec65a6(copied, length, text);
     } else {
@@ -717,10 +717,11 @@ struct NiConsoleRenderStateStub {
     void* m_ppVirtualMethodTable;
 };
 struct FUN_00e89760_Class {
-    void __thiscall FUN_00e89760(NiConsoleRendererStub* renderer);
+    void __thiscall NiD3DShaderProgram_SetD3DRenderer(NiConsoleRendererStub* renderer);
 };
 // @fnv 0x00e89760
-void __thiscall FUN_00e89760_Class::FUN_00e89760(NiConsoleRendererStub* renderer)
+// src: XBOX_PDB 0x00e89760
+void __thiscall FUN_00e89760_Class::NiD3DShaderProgram_SetD3DRenderer(NiConsoleRendererStub* renderer)
 {
     *(NiConsoleRendererStub**)((char*)this + 0x24) = renderer;
     if (renderer)
@@ -1573,7 +1574,7 @@ struct SpawnedObject {
 };
 
 struct GlobalHolder {
-    void __thiscall FUN_00aa4060(SpawnedObject* p);
+    void __thiscall MemoryManager_Deallocate(SpawnedObject* p);
 };
 
 extern SpawnedObject* DAT_0126f72c;
@@ -1586,7 +1587,7 @@ void __cdecl ClearSpawnedObject()
     SpawnedObject* p = DAT_0126f72c;
     if (DAT_0126f72c != 0) {
         DAT_0126f72c->ReleaseResources();
-        DAT_011f6238.FUN_00aa4060(p);
+        DAT_011f6238.MemoryManager_Deallocate(p);
     }
     DAT_0126f72c = 0;
 }
@@ -8517,7 +8518,7 @@ struct Value {
 };
 struct Item { Item* next; Key* key; Value* value; };
 struct PoolNode { PoolNode* next; PoolNode* prev; void* data; };
-struct LockObj { unsigned int value; void FUN_0040fbf0(char*); };
+struct LockObj { unsigned int value; void BSSpinLock_Lock(char*); };
 extern LockObj DAT_011c5f80;
 extern unsigned int DAT_011c5f84;
 extern PoolNode* DAT_011c5f58;
@@ -8562,7 +8563,7 @@ void Target::FUN_00e8b630() {
   if(head) head->prev=0;
   else tail=0;
   node->data=0;
-  DAT_011c5f80.FUN_0040fbf0(0);
+  DAT_011c5f80.BSSpinLock_Lock(0);
   node->prev=0;
   node->next=DAT_011c5f58;
   --DAT_011c5f84;
@@ -8581,7 +8582,7 @@ void Target::FUN_00e8b630() {
 
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
+extern "C" void* __cdecl _NiMalloc_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct Observer {
     virtual void __stdcall Slot0();
@@ -8613,7 +8614,7 @@ MapProcessor* MapProcessor::NiDX9LightManager_NiDX9LightManager(void* context, O
     vtable = &DAT_010efdd8;
     bucketCount = 37;
     itemCount = 0;
-    buckets = FUN_00aa1070(148);
+    buckets = _NiMalloc_00aa1070(148);
     FUN_00ec61c0(buckets, 0, bucketCount * sizeof(void*));
     vtable = &DAT_010efdf8;
     field18 = 0;
@@ -9000,7 +9001,7 @@ namespace fnv_00e8f7c0 {
 extern unsigned char DAT_010f02b0[];
 
 struct FUN_00aa4060_Class {
-    void __thiscall FUN_00aa4060(void* object);
+    void __thiscall MemoryManager_Deallocate(void* object);
 };
 
 extern FUN_00aa4060_Class DAT_011f6238;
@@ -9023,7 +9024,7 @@ void* FUN_00e8f7c0_Class::FUN_00e8f7c0(unsigned char deleting)
     NiTPointerMap_RemoveAll_00b601a0();
     _NiFree_00aa10f0(m_data);
     if (deleting & 1) {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -9201,7 +9202,7 @@ extern int DAT_010c4cf8;
 void __cdecl _NiFree_00aa10f0(int aValue);
 
 struct FUN_00e94810_pool {
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 extern FUN_00e94810_pool DAT_011f6238;
 
@@ -9222,7 +9223,7 @@ FUN_00e94810_cls* FUN_00e94810_cls::FUN_00e94810(unsigned int acFlags)
     BaseCleanup();
     _NiFree_00aa10f0(m_08);
     if (acFlags & 1) {
-        DAT_011f6238.FUN_00aa4060(this);
+        DAT_011f6238.MemoryManager_Deallocate(this);
     }
     return this;
 }
@@ -10091,7 +10092,7 @@ public:
     char* m_kHandle;
 };
 
-FixedStr* FUN_00a63ae0(unsigned int ItemUpdateArray);   // array new
+FixedStr* NiTNewInterface_NiFixedString_Allocate(unsigned int ItemUpdateArray);   // array new
 void FUN_00a644a0(FixedStr* pkArray);           // array delete
 
 class FixedStrArray {
@@ -10111,7 +10112,7 @@ void FixedStrArray::FUN_00e8e290(unsigned int uiNewMaxSize)
         return;
     FixedStr* pkNew;
     if (uiNewMaxSize > 0) {
-        pkNew = FUN_00a63ae0(uiNewMaxSize);
+        pkNew = NiTNewInterface_NiFixedString_Allocate(uiNewMaxSize);
         for (unsigned int i = 0; i < m_uiSize; i++)
             pkNew[i] = m_pBase[i];
     } else {
@@ -10164,7 +10165,7 @@ void E98CB0Arr::NiPick_Results_ClearArray(bool bFree)
             if (p) {
                 p->second.Release();
                 p->first.Release();
-                DAT_011f6238.FUN_00aa4060((SpawnedObject*)p);
+                DAT_011f6238.MemoryManager_Deallocate((SpawnedObject*)p);
             }
         }
         for (unsigned short j = 0; j < m_usSize; j++)
@@ -10712,7 +10713,7 @@ struct LightInputNode { LightInputNode* next; SceneLight* light; };
 struct LightInput { unsigned int field00,field04,field08; LightInputNode* head; };
 inline SceneLight*& nextLight(PoolNode*& node) { SceneLight*& item=(SceneLight*&)node->data; node=node->next; return item; }
 struct ShadowSceneLightList { PoolNode* head; PoolNode* tail; unsigned int count; void* InsertHead(SceneLight* const*); SceneLight* FUN_004edf00();
- __forceinline void recycle(PoolNode* node) { node->data=0; DAT_011c5f80.FUN_0040fbf0(0); node->prev=0; node->next=DAT_011c5f58; --DAT_011c5f84; DAT_011c5f58=node; if (!DAT_011c5f84) DAT_011c5f80.value=0; }
+ __forceinline void recycle(PoolNode* node) { node->data=0; DAT_011c5f80.BSSpinLock_Lock(0); node->prev=0; node->next=DAT_011c5f58; --DAT_011c5f84; DAT_011c5f58=node; if (!DAT_011c5f84) DAT_011c5f80.value=0; }
  __forceinline SceneLight* remove(PoolNode*& node) { if(node==head) { PoolNode* old=head; head=old->next; if(head) head->prev=0; else tail=0; SceneLight* element=(SceneLight*)old->data; recycle(old); --count; return element; } else if(node==tail) { return FUN_004edf00(); } else { PoolNode* prev=node->prev; PoolNode* next=node->next; if(prev)prev->next=next; if(next)next->prev=prev; SceneLight* element=(SceneLight*)node->data; recycle(node); --count; return element; } }
 };
 extern const float runtimeFloatSettingDefault9;
@@ -12002,7 +12003,7 @@ struct AllocationBlock {
 };
 
 struct FUN_00a64330_Obj {
-    unsigned int __thiscall FUN_00a64330(AllocationBlock** key);
+    unsigned int __thiscall NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(AllocationBlock** key);
 };
 
 struct BlockAllocator {
@@ -12047,7 +12048,7 @@ unsigned int __thiscall BlockAllocator::NiVBBlock_AllocateChip(unsigned int size
     unk28 -= size;
 
     AllocationBlock* key = block;
-    block->unk00 = (void*)unk2C.FUN_00a64330(&key);
+    block->unk00 = (void*)unk2C.NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(&key);
     return (unsigned int)block;
 }
 

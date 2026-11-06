@@ -34,7 +34,7 @@ public:
                                                  const NiPropertyState* pkPropertyState,
                                                  const NiDynamicEffectState* pkDynamicEffectState,
                                                  unsigned int uiMaterialExtraData);
-    virtual NiShader* FUN_00aa07a0(int a, int b, int c, int d, int key);
+    virtual NiShader* GetCurrentShader(int a, int b, int c, int d, int key);
     virtual void ReleaseShader();
     virtual void vf21();
 

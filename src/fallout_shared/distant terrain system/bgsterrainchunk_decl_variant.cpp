@@ -316,7 +316,7 @@ struct ModelLoader
 };
 struct FUN_0043cc60_shell
 {
-    int FUN_0043cc60();
+    int IOTask_GetIOTaskPriority();
 };
 extern ModelLoader* g_modelLoader;
 void __cdecl BuildLODDiffuseTexturePath(char*, FakeObj*, int, short, short);
@@ -349,8 +349,8 @@ struct Obj006fac
     NiPoint3& FUN_00500940();
     float GetFieldCC();
     void FUN_00439920(void*);
-    void FUN_00a5a040();
-    void FUN_00a59c60(const FUN_0043d410&);
+    void UpdateProperties();
+    void NiAVObject_Update(const FUN_0043d410&);
     unsigned char GetByteAtOffset5C();
     unsigned char GetByteAt5D();
     virtual void v0();
@@ -572,9 +572,9 @@ struct PropState
     virtual void v69();
     virtual void* v70(NiGeometry*, NiProperty*);
 };
-int FUN_00438220();
+int NiShadeProperty_GetType();
 void __cdecl FUN_00b57e30(NiGeometry*, int, int);
-NiRenderer* FUN_0043c4b0();
+NiRenderer* NiXenonRenderer_GetRenderer();
 class TerrainChunk
 {
   public:
@@ -618,6 +618,6 @@ BGSTerrainChunkLoadTask::BGSTerrainChunkLoadTask(void* block, TESWorldSpace* spa
 {
     char fileName[260];
     BuildLodMeshPath(fileName, world, level, (short)x, (short)y);
-    FUN_00c3cee0(fileName + 5);
+    SetFileName_00c3cee0(fileName + 5);
     LookupFileEntryByArchive(0);
 }

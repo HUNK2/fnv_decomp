@@ -30,7 +30,7 @@ struct TPoint3
     }
     bool FUN_004390c0(const TPoint3& kPt) const;
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     TPoint3& FUN_00439180(float fScalar);
     TPoint3& FUN_0063c8a0(const TPoint3& kPt);
 };
@@ -145,14 +145,15 @@ struct TFieldModifier
     float m_fFieldStrength;
     TPoint3 m_kLightVector;
 
-    void FUN_00c26de0(float fTime, TPSysData* pkData);
+    void NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pkData);
     void FUN_00c269b0(float fTime, TPSysData* pkData);
     void FUN_00c26c00(float fTime, TPSysData* pkData);
     __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
 };
 
 // @fnv 0x00c26de0
-void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
+// src: XBOX_PDB 0x00c26de0
+void TFieldModifier::NiPSysVortexFieldModifier_Update(float fTime, TPSysData* pkData)
 {
     if (m_fInfluence == 0.0f)
         return;
@@ -192,7 +193,7 @@ void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
         NiPoint3 kRotatedDir = static_cast<const NiMatrix3&>(kFieldToPSys.m_Rotate).operator*(
             reinterpret_cast<const NiPoint3&>(m_kLightVector));
         TPoint3& kFieldDir = reinterpret_cast<TPoint3&>(kRotatedDir);
-        kFieldDir.FUN_004a0c10();
+        kFieldDir.Unitize_004a0c10();
 
         for (unsigned short i = 0; i < pkData->GetShaderParticleCount(); i++)
         {

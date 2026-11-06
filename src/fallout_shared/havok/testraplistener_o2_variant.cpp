@@ -48,8 +48,8 @@ struct FUN_0062e200_shell
 };
 struct FUN_0062e230_shell
 {
-    void* FUN_004a4960(unsigned int a, unsigned int b, unsigned int c);
-    void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
+    void* hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(unsigned int a, unsigned int b, unsigned int c);
+    void* hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator_hkArray_hkpWorldRayCastOutput_hkContainerHeapAllocator(unsigned int a, unsigned int b, unsigned int c);
 };
 
 // Adjustor (this-adjusting) thunk for FUN_0062e3a0: "sub ecx, 0x1c; jmp FUN_0062d870".

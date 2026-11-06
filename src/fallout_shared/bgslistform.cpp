@@ -146,7 +146,8 @@ void BGSListForm::ClearFormList()
 
 void _FUN_00485910(unsigned int, unsigned int);
 // @fnv 0x0058fcc0
-void BGSListForm::FUN_0058fcc0()
+// src: XBOX_PDB 0x0058fcc0
+void BGSListForm::Save_0058fcc0()
 {
     reinterpret_cast<TESForm*>(this)->FUN_004855a0();
     BSSimpleList<TESForm*>* pCondition = GetList();

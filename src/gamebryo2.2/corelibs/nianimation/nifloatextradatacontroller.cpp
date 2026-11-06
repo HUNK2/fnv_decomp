@@ -131,7 +131,8 @@ static void* Init(void* p)
 }
 
 // @fnv 0x00a41280
-void* __fastcall FUN_00a41280(CopyHelper* self, int edx, void* kCloning)
+// src: XBOX_PDB 0x00a41280
+void* __fastcall NiFloatExtraDataController_CreateClone(CopyHelper* self, int edx, void* kCloning)
 {
     void* pMemory = BSFadeNode::operator new(0x40);
     void* pkObject = pMemory ? Init(pMemory) : 0;

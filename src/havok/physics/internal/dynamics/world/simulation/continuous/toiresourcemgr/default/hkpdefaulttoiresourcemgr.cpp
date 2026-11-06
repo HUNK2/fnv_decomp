@@ -13,7 +13,8 @@ extern char g_0126955c_arg0;
 
 // Calls two virtual functions on self: one with a pointer to g_0126955c_arg0, then one with no arguments.
 // @fnv 0x00d9fb50
-void __stdcall FUN_00d9fb50(void* self, int aiUnused)
+// src: XBOX_PDB 0x00d9fb50
+void __stdcall hkpDefaultToiResourceMgr_calcContentStatistics(void* self, int aiUnused)
 {
     (*(void(__thiscall**)(void*, char*))(*(char**)self + 0x18))(self, &g_0126955c_arg0);
     (*(void(__thiscall**)(void*))(*(char**)self + 0x1c))(self);
@@ -123,7 +124,7 @@ int __stdcall FUN_00d9fb80(int arg0)
     return 0;
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 inline hkMemoryAllocator& solverAllocator(hkMemoryRouter& router)
 {
@@ -146,7 +147,7 @@ hkResult hkpDefaultToiResourceMgr::AllocateToiResources(const hkpToiEvent& event
     if (FUN_00d9fb40(event))
     {
         m_iNumToiResources = resourcesOut.m_iCharacterBufferSize = m_iMaxNumToiResources;
-        resourcesOut.m_pCharacterBuffer = solverAllocator(FUN_00c85750())._bufAlloc<char>(m_iNumToiResources);
+        resourcesOut.m_pCharacterBuffer = solverAllocator(hkMemoryRouter_getInstance())._bufAlloc<char>(m_iNumToiResources);
         resourcesOut.m_iThirdValue = 1000;
         resourcesOut.m_iFourthValue = 1000;
         resourcesOut.m_iSecondInteger = 1000;

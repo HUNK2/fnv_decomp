@@ -13,7 +13,7 @@ int NiPath_GetCurrentWorkingDirectory(int aiValue1, int aiValue2)
     return r;
 }
 
-extern "C" int __cdecl FUN_00aa1370(const char* a, const char* b, unsigned int n);
+extern "C" int __cdecl NiStrnicmp(const char* a, const char* b, unsigned int n);
 extern "C" char* __cdecl FUN_00ec7690(const char* s, int c);
 extern "C" int __cdecl FUN_00eca7f4(int c);
 
@@ -24,11 +24,11 @@ extern char DAT_01013444[];
 // @fnv 0x00aa2c50
 char* __cdecl SkipPathPrefix(char* szPath)
 {
-    if (FUN_00aa1370(szPath, str_010a2564, 2) == 0)
+    if (NiStrnicmp(szPath, str_010a2564, 2) == 0)
     {
         return FUN_00ec7690(szPath + 2, 0x5c) + 1;
     }
-    if (FUN_00aa1370(szPath, DAT_01013444, 1) == 0)
+    if (NiStrnicmp(szPath, DAT_01013444, 1) == 0)
     {
         goto skip;
     }

@@ -101,7 +101,7 @@ extern "C" __declspec(align(16)) const hkUint32 DAT_010c44d0[4];
 extern "C" __declspec(align(16)) const float DAT_010ec7f0[4];
 extern "C" const float DAT_010d5384;
 
-extern void* __cdecl FUN_00c85750();
+extern void* __cdecl hkMemoryRouter_getInstance();
 
 
 
@@ -296,12 +296,12 @@ __forceinline int hkVector4::getInt24W() const
 
 __forceinline void hkVector4::SetTransformedPoint(const hkTransform& a, const hkVector4& b)
 {
-    FUN_00c7f640(a, b);
+    setTransformedPos_00c7f640(a, b);
 }
 
 __forceinline void hkVector4::SetRotatedDirection(const hkRotation& a, const hkVector4& b)
 {
-    FUN_00c7f700(a, b);
+    hkVector4_setRotatedDir(a, b);
 }
 
 __forceinline void hkVector4::setRotatedInverseDir(const hkRotation& a, const hkVector4& b)
@@ -361,7 +361,7 @@ __forceinline const hkVector4& hkTransform::getTranslation() const
 
 __forceinline void hkTransform::SetMulInverse(const hkTransform& a, const hkTransform& b)
 {
-    FUN_00cb22f0(a, b);
+    hkTransform_setMulInverseMul(a, b);
 }
 
 __forceinline void hkVector4::_setMul3(const hkRotation& a, const hkVector4& b)
@@ -701,12 +701,12 @@ class ConvexShapePairCache
         shapeA->GetVerticesForIds(cache.m_kVertices, m_ucDimensionA, &m_akPackedVerticesA[0]);
         shapeB->GetVerticesForIds(cache.m_kVertices + m_ucDimensionA, m_ucDimensionB, &m_akPackedVerticesB[0]);
     }
-    int FUN_00daad40(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const hkTransform& aTb,
+    int hkpGsk_getClosestFeature(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const hkTransform& aTb,
                      hkVector4& separatingNormal);
     __forceinline int GetClosestPoint(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB,
                                         const hkTransform& aTb, hkVector4& separatingNormal)
     {
-        return FUN_00daad40(shapeA, shapeB, aTb, separatingNormal);
+        return hkpGsk_getClosestFeature(shapeA, shapeB, aTb, separatingNormal);
     }
     void hkpGsk_exitAndExportCacheImpl(ConvexFeaturePairCache& cache) const;
     __forceinline void WriteContactFeatureCache(ConvexFeaturePairCache& cache) const
@@ -774,7 +774,7 @@ __forceinline void hkStackMemory::deallocateStack(void* p)
 }
 __forceinline hkMemoryRouter& hkMemoryRouter::getInstance()
 {
-    return *static_cast<hkMemoryRouter*>(FUN_00c85750());
+    return *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 }
 
 template <typename T> __forceinline T* hkAllocateStack(int n, const char* what = 0)

@@ -181,9 +181,9 @@ public:
     virtual void ResetCurrentPackage(); // RTTI slot 145
     void SetAnimation(Animation*);
     void RefreshActorPackage(Actor*);
-    void FUN_0091db40(Actor*);
-    void FUN_00929260(unsigned char);
-    bool FUN_0044b130();
+    void ProcessCombat_0091db40(Actor*);
+    void BGSTerrainManager_SetNeedsImmediateUpdate(unsigned char);
+    bool BSCriticalSection_TryLock();
     void Revert(BGSLoadFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);

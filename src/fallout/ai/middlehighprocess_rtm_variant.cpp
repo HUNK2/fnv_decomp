@@ -74,7 +74,7 @@ using ::MiddleHighProcess;
 
 struct FurnitureLocation
 {
-    int FUN_00678ca0();
+    int PackageLocation_GetLocType();
     ::TESObjectCELL* FUN_0067f3e0();
 };
 struct FurniturePackage
@@ -91,7 +91,7 @@ struct FurnitureCell
 };
 struct FurnitureRef : ::TESObjectREFR
 {
-    ::TESForm* FUN_00567790();
+    ::TESForm* TESObjectREFR_GetOwner();
 };
 struct FurnitureList
 {
@@ -104,7 +104,7 @@ struct FurnitureList
 };
 struct FurnitureSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 struct FurnitureSearchManager
 {
@@ -139,17 +139,17 @@ void SearchFurnitureProcess::MiddleHighProcess_FindBedChairs(::Actor* actor, boo
     float i = 0.0f;
     if (f->FUN_0041ca90() == 3)
     {
-        if (s && s->FUN_00678ca0() == 1 && reinterpret_cast<FurnitureCell*>(s->FUN_0067f3e0())->FUN_00425fd0())
+        if (s && s->PackageLocation_GetLocType() == 1 && reinterpret_cast<FurnitureCell*>(s->FUN_0067f3e0())->FUN_00425fd0())
             i = 3.402823466e38f;
         else
             i = static_cast<float>(f->FUN_00676280(actor));
     }
     else if (!f->FUN_006728a0(actor, &i))
     {
-        if (s && s->FUN_00678ca0() == 1 && reinterpret_cast<FurnitureCell*>(s->FUN_0067f3e0())->FUN_00425fd0())
+        if (s && s->PackageLocation_GetLocType() == 1 && reinterpret_cast<FurnitureCell*>(s->FUN_0067f3e0())->FUN_00425fd0())
             i = 3.402823466e38f;
         else
-            i = *DAT_011cd24c.FUN_00403e20();
+            i = *DAT_011cd24c.Setting_Float_00403e20();
     }
     if (target)
     {
@@ -184,8 +184,8 @@ void SearchFurnitureProcess::MiddleHighProcess_FindBedChairs(::Actor* actor, boo
             {
                 ::TESObjectREFR* barterA = eb->FUN_006815c0();
                 ::TESObjectREFR* found = h->FUN_006815c0();
-                if (!static_cast<FurnitureRef*>(barterA)->FUN_00567790() &&
-                    static_cast<FurnitureRef*>(found)->FUN_00567790())
+                if (!static_cast<FurnitureRef*>(barterA)->TESObjectREFR_GetOwner() &&
+                    static_cast<FurnitureRef*>(found)->TESObjectREFR_GetOwner())
                 {
                     eb->FUN_00726c60(found);
                     h->FUN_00726c60(barterA);

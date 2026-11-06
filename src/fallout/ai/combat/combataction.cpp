@@ -115,7 +115,8 @@ char* CombatAction::GetCombatActionName()
 }
 
 // @fnv 0x00979e40
-float CombatAction::FUN_00979e40(CombatController* apCombatController, int aiActionValue)
+// src: XBOX_PDB 0x00979e40
+float CombatAction::GetCost_00979e40(CombatController* apCombatController, int aiActionValue)
 {
     return DAT_011a4280[reinterpret_cast<BSThread*>(this)->GetThreadID()].m_fPathingCostCur;
 }
@@ -126,7 +127,8 @@ struct TaskQueueInterface
 };
 
 // @fnv 0x00979e60
-void CombatAction::FUN_00979e60(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
+// src: XBOX_PDB 0x00979e60
+void CombatAction::GetDebugText(char* apDebugText, unsigned int aiMaxLength, int aiActionValue)
 {
     TaskQueueInterface::CopyStringToBuffer(apDebugText, aiMaxLength, GetCombatActionName());
 }
@@ -147,11 +149,12 @@ struct FUN_005e3fc0_shell
 };
 struct FUN_00979f70_shell
 {
-    void FUN_00979f70(unsigned int);
+    void CombatPlannerData_SetLinkLocation(unsigned int);
 };
 
 // @fnv 0x00979e90
-bool CombatAction::FUN_00979e90(CombatController* apCombatController, CombatWorldStateArray* apWorldStateArray,
+// src: XBOX_PDB 0x00979e90
+bool CombatAction::CanExecute(CombatController* apCombatController, CombatWorldStateArray* apWorldStateArray,
                                  int aiActionValue)
 {
     UnsignedIdHandle* pWorldState4;
@@ -174,7 +177,7 @@ bool CombatAction::FUN_00979e90(CombatController* apCombatController, CombatWorl
     _iCombatLocation = -1;
     if (HasRequirement(1, &_iCombatLocation))
         reinterpret_cast<FUN_00979f70_shell*>(reinterpret_cast<FUN_005e3fc0_shell*>(apCombatController)->Get())
-            ->FUN_00979f70(_iCombatLocation);
+            ->CombatPlannerData_SetLinkLocation(_iCombatLocation);
     return true;
 }
 
@@ -200,11 +203,12 @@ struct QuantityData
 
 struct FUN_00979f70_shell
 {
-    void FUN_00979f70(unsigned int aiQuantity);
+    void CombatPlannerData_SetLinkLocation(unsigned int aiQuantity);
 };
 
 // @fnv 0x00979f70
-void FUN_00979f70_shell::FUN_00979f70(unsigned int aiQuantity)
+// src: XBOX_PDB 0x00979f70
+void FUN_00979f70_shell::CombatPlannerData_SetLinkLocation(unsigned int aiQuantity)
 {
     (*reinterpret_cast<QuantityData**>(reinterpret_cast<char*>(this) + 4))->SetQuantity(aiQuantity);
 }
@@ -240,7 +244,7 @@ bool CombatAction_SetCombatActionCost(char* apCombatActionName, float afCost)
 struct CombatController;
 struct IMH
 {
-    CombatState* FUN_00586150();
+    CombatState* CombatController_GetCombatState();
 };
 extern double _gModifierZero;
 extern float DAT_0108ca80;
@@ -253,7 +257,7 @@ float GetWeaponDPSDeficit(CombatController* apCombatController, int aeWeaponType
     CombatState* pcombatState;
     float fmaxAttackDPS;
 
-    pcombatState = reinterpret_cast<IMH*>(apCombatController)->FUN_00586150();
+    pcombatState = reinterpret_cast<IMH*>(apCombatController)->CombatController_GetCombatState();
     fattackDPS = pcombatState->GetCombatWeaponDPS(aeWeaponType);
     if (fattackDPS == _gModifierZero)
         return DAT_0108ca80;
@@ -270,10 +274,10 @@ float CombatState::GetCombatWeaponDPS(int aiIndex)
 struct CombatController;
 struct CoordinateTriple
 {
-    double FUN_00527a40(CoordinateTriple*);
+    double BGSWorldLocation_GetDistanceSquared(CoordinateTriple*);
 };
-float __cdecl FUN_0040ebd0(float, float);
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMIN(float, float);
+float __cdecl BSMAX_00404010(float, float);
 extern float DAT_0108cb00;
 extern double DAT_0108cb08;
 
@@ -284,9 +288,9 @@ float CombatAction_GetMovementCost(CombatController* apCombatController, Coordin
 {
     float fmovementCost;
 
-    fmovementCost = arStartWorldLoc->FUN_00527a40(arEndWorldLoc) / DAT_0108cb08;
-    fmovementCost = FUN_0040ebd0(fmovementCost, DAT_0108cb00);
-    fmovementCost = FUN_00404010(fmovementCost, 0.01f);
+    fmovementCost = arStartWorldLoc->BGSWorldLocation_GetDistanceSquared(arEndWorldLoc) / DAT_0108cb08;
+    fmovementCost = BSMIN(fmovementCost, DAT_0108cb00);
+    fmovementCost = BSMAX_00404010(fmovementCost, 0.01f);
     return fmovementCost;
 }
 

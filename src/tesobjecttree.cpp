@@ -278,11 +278,12 @@ float FUN_006447b0_shell::GetField84Float()
 // float field getter at +0x38 (no RTTI evidence for its class)
 struct FUN_009a9350_shell
 {
-    float FUN_009a9350() const;
+    float TESCombatStyle_GetWeaponMinRangeMult() const;
 };
 
 // @fnv 0x009a9350
-float FUN_009a9350_shell::FUN_009a9350() const
+// src: XBOX_PDB 0x009a9350
+float FUN_009a9350_shell::TESCombatStyle_GetWeaponMinRangeMult() const
 {
     return *(const float*)((const char*)this + 0x38);
 }
@@ -303,7 +304,8 @@ unsigned int FUN_009acce0_shell::GetFieldC8()
 #include "../include/BSFadeNode.h"
 
 // @fnv 0x009ad610
-unsigned int BSFadeNode::FUN_009ad610()
+// src: XBOX_PDB 0x009ad610
+unsigned int BSFadeNode::QUserData()
 {
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xCC);
 }
@@ -932,7 +934,7 @@ void SoundListView::AddSoundEntry(float* apFirst, float* apSecond)
 namespace fnv_0051c220 {
 struct FUN_005e79a0_t
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct NiPoint2_shell
@@ -1076,7 +1078,7 @@ bool FUN_0051c220_shell::IsNotEqual(TESForm* apCompare)
             return true;
     }
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(i))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(i))
         return true;
 
     return false;
@@ -1211,12 +1213,13 @@ struct FUN_0051d250_Class
     float unk8C;
     float unk90;
 
-    bool __thiscall FUN_0051d250();
+    bool __thiscall TESObjectTREE_IsLargeEnoughForDistantLOD();
 };
 
 // Returns false if unk8C or unk90 falls within their respective ranges above DAT_01012060, otherwise true.
 // @fnv 0x0051d250
-bool __thiscall FUN_0051d250_Class::FUN_0051d250()
+// src: XBOX_PDB 0x0051d250
+bool __thiscall FUN_0051d250_Class::TESObjectTREE_IsLargeEnoughForDistantLOD()
 {
     if ((this->unk8C > DAT_01012060 && this->unk8C <= DAT_010179e0) ||
         (this->unk90 > DAT_01012060 && this->unk90 <= DAT_0102c188))
@@ -1269,7 +1272,7 @@ struct FUN_004891d0_shell
 struct FUN_0048e370_obj
 {
     int unk00, unk04, unk08;
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct S_00477f20
 {
@@ -1283,8 +1286,8 @@ struct TreeData
     float unk18, unk1c;
     void FUN_00414290();
 };
-bool __cdecl FUN_00401500();
-void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
+bool __cdecl TESForm_QEndianSwapOnSave();
+void __cdecl TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
 void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 void __cdecl ourMemset(void*, int, unsigned int);
 struct SaveTree
@@ -1298,14 +1301,15 @@ struct SaveTree
     float billboardX, billboardY;
     void FUN_004855a0();
     void FUN_00485680();
-    void FUN_0051bfb0();
+    void TESObjectTREE_Save();
 };
 // @fnv 0x0051bfb0
-void SaveTree::FUN_0051bfb0()
+// src: XBOX_PDB 0x0051bfb0
+void SaveTree::TESObjectTREE_Save()
 {
     FUN_004855a0();
     model.WriteToBuffer(0x4c444f4d, 0x54444f4d);
-    icon.FUN_0048e370(0x4e4f4349);
+    icon.TESTexture_Save(0x4e4f4349);
     destruct.FUN_00477f20();
     if (seeds.GetSize() > 0)
     {
@@ -1321,16 +1325,16 @@ void SaveTree::FUN_0051bfb0()
             if (uiSeedValue > 0)
                 count[value] = uiSeedValue;
         }
-        FUN_00485710(0x4d414e53, count, values);
+        TESForm_AddChunkArray_00485710(0x4d414e53, count, values);
     }
     if (data.unk14 < 0)
         data.unk14 = 128;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         data.FUN_00414290();
     AppendChunk(0x4d414e43, &data, 32);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         data.FUN_00414290();
-    FUN_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
+    TESForm_AddChunkArray_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
     FUN_00485680();
 }
 
@@ -1834,7 +1838,7 @@ class TreeBillboardBuilder : public FUN_0051d250_Class
 // @fnv 0x0051cba0
 TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
 {
-    if (!FUN_0051d250())
+    if (!TESObjectTREE_IsLargeEnoughForDistantLOD())
         return 0;
     AutoMemContext eb(0x23, true, treeSourceFile, 470);
     NiPointer<BillboardTexture> a(0);
@@ -2051,22 +2055,23 @@ FUN_0051d2c0_shell* FUN_0051d2c0_shell::Init(void* apField0, void* apField4, voi
 class TreeCopy : public TESObjectTREE
 {
   public:
-    void FUN_004851b0(TESForm*);
-    void FUN_0051c140(TESForm*);
+    void TESForm_CopyAllComponents(TESForm*);
+    void TESObjectTREE_Copy(TESForm*);
 };
 
 typedef TreeRecordData*(__thiscall* TreeDataGetter)(TESObjectTREE*);
 
 // Copies seed array, tree record data, and billboard dimensions from a source TESObjectTREE into this TreeCopy.
 // @fnv 0x0051c140
-void TreeCopy::FUN_0051c140(TESForm* source)
+// src: XBOX_PDB 0x0051c140
+void TreeCopy::TESObjectTREE_Copy(TESForm* source)
 {
     TESObjectTREE* tree;
     tree = dynamic_cast<TESObjectTREE*>(source);
     if (!tree)
         return;
 
-    FUN_004851b0(source);
+    TESForm_CopyAllComponents(source);
     {
         unsigned int count;
         count = tree->m_kSeedArray.GetSize();

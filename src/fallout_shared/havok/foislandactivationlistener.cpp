@@ -99,17 +99,18 @@ hkpIslandActivationListener* __fastcall InitializeIslandActivationListener(hkpIs
     return listener;
 }
 
-extern "C" int __cdecl FUN_00c7fa90(int);
+extern "C" int __cdecl bhkUtilFunctions_GetNiAVObject(int);
 struct FUN_00807730_shell
 {
-    TESObjectREFR* FUN_00807730(void* p);
+    TESObjectREFR* bhkCharacterListenerSpell_GetObjectREFR(void* p);
 };
 // Calls FUN_00c7fa90 on p; if it returns non-zero, resolves that value to a TESObjectREFR and returns it, otherwise returns null.
 // @fnv 0x00807730
-TESObjectREFR* FUN_00807730_shell::FUN_00807730(void* p)
+// src: XBOX_PDB 0x00807730
+TESObjectREFR* FUN_00807730_shell::bhkCharacterListenerSpell_GetObjectREFR(void* p)
 {
     TESObjectREFR* result = 0;
-    int blood = FUN_00c7fa90((int)p);
+    int blood = bhkUtilFunctions_GetNiAVObject((int)p);
     if (blood)
         result = TESObjectREFR::GetReferenceFromNiAVObject((void*)blood);
     return result;
@@ -126,20 +127,21 @@ void __cdecl BSShaderManager_AddMotionBluredObject()
 
 struct FUN_00573eb0_Class
 {
-    int FUN_0047b4d0(int);
+    int NiPathInterpolator_GetBit(int);
     int bhkNiCollisionObject_GSetLocal();
 };
 
-int FUN_00573eb0_Class::FUN_0047b4d0(int)
+// src: XBOX_PDB 0x0047b4d0
+int FUN_00573eb0_Class::NiPathInterpolator_GetBit(int)
 {
-    return FUN_0047b4d0(8);
+    return NiPathInterpolator_GetBit(8);
 }
 
 // @fnv 0x00624bb0
 // src: COMMUNITY 0x00624bb0
 int FUN_00573eb0_Class::bhkNiCollisionObject_GSetLocal()
 {
-    return FUN_0047b4d0(8);
+    return NiPathInterpolator_GetBit(8);
 }
 
 extern "C" unsigned int __cdecl GetExtraDataChecked(unsigned int);
@@ -259,20 +261,20 @@ struct FUN_005609f0_shell
 
 struct Type8
 {
-    int FUN_0043b540();
+    int hkpCollidable_getCollisionFilterInfo();
 };
 
 struct ArgType
 {
     FUN_005609f0_shell isActive_00c9bff0();
-    Type8* FUN_00460140();
+    Type8* TESDataHandler_GetWorldSpaceList();
 };
 
 struct CF845
 {
     int m_val;
     CF845(int);
-    int FUN_0043b4d0();
+    int CFilter_GetLayer();
 };
 
 class NiRTTI;
@@ -537,11 +539,11 @@ struct Type1
 };
 
 Type1* __cdecl FUN_004b5a50(void*);
-Type3* __cdecl FUN_0056f930(Type2*);
-bool __cdecl FUN_008c7aa0();
+Type3* __cdecl TESObjectREFR_FindReferenceFor3D(Type2*);
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 void __cdecl TESObjectCELL_QueueAttachChild(Type3*, Type5*);
 void* __cdecl bhkEntity_Getbhk(void*);
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
+bool __cdecl NiObject_IsKindOf(const NiRTTI*, void*);
 
 struct FUN_00624340_shell
 {
@@ -568,14 +570,14 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         {
             varC6 = FUN_004b5a50(apArg);
             _var8 = varC6 ? varC6->FUN_0044ddc0() : 0;
-            kVar4 = _var8 ? FUN_0056f930(_var8) : 0;
+            kVar4 = _var8 ? TESObjectREFR_FindReferenceFor3D(_var8) : 0;
             if (kVar4 && !kVar4->vfunc_100())
             {
                 varX = kVar4->FUN_008d6f30();
                 var5 = varX ? varX->FUN_005497a0() : 0;
                 if (var5)
                 {
-                    if (FUN_008c7aa0())
+                    if (AILinearTaskThreadManager_ShouldQueue3DTask())
                     {
                         TESObjectCELL_QueueAttachChild(kVar4, var5);
                     }
@@ -592,15 +594,15 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
         }
         else
         {
-            if (CF845(apArg->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 0x14)
+            if (CF845(apArg->TESDataHandler_GetWorldSpaceList()->hkpCollidable_getCollisionFilterInfo()).CFilter_GetLayer() == 0x14)
             {
                 var2 = FUN_004b5a50(apArg);
                 var1C8 = var2 ? var2->FUN_0044ddc0() : 0;
-                var18 = var1C8 ? FUN_0056f930(var1C8) : 0;
+                var18 = var1C8 ? TESObjectREFR_FindReferenceFor3D(var1C8) : 0;
                 if (var18 && !var18->vfunc_100())
                 {
                     varVal = bhkEntity_Getbhk(apArg);
-                    if (varVal && FUN_0043b300(&DAT_012681c0, varVal))
+                    if (varVal && NiObject_IsKindOf(&DAT_012681c0, varVal))
                     {
                         var3 = (Type7*)varVal;
                         var3->vfunc_e4(4);
@@ -614,9 +616,9 @@ void FUN_00624340_shell::ProcessArgType(ArgType* apArg)
 namespace fnv_00624580 {
 struct SceneList
 {
-    SceneList* FUN_00624700();
+    SceneList* GetExtraPartList();
     int FUN_00726070();
-    void** FUN_00629ab0(int offset);
+    void** NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(int offset);
 };
 struct Geometry
 {
@@ -628,8 +630,8 @@ struct SceneObject
     Geometry* FUN_008d6f30();
 };
 Geometry* __cdecl FUN_004b5a50(void* object);
-SceneObject* __cdecl FUN_0056f930(Geometry* object);
-bool __cdecl FUN_008c7aa0();
+SceneObject* __cdecl TESObjectREFR_FindReferenceFor3D(Geometry* object);
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 void __cdecl TESObjectCELL_QueueAttachChild(SceneObject* object, Geometry* geometry);
 void __cdecl BSShaderManager_AddMotionBluredObject();
 struct FUN_00624580_Class
@@ -642,15 +644,15 @@ void FUN_00624580_Class::FOIslandActivationListener_islandActivatedCallback(Scen
 {
     if (!pSceneList)
         return;
-    SceneList* count = pSceneList->FUN_00624700();
+    SceneList* count = pSceneList->GetExtraPartList();
     int iItemCount = count->FUN_00726070();
     void* pEntry;
     for (int sceneObject = 0; sceneObject < iItemCount; ++sceneObject)
     {
-        pEntry = *count->FUN_00629ab0(sceneObject);
+        pEntry = *count->NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(sceneObject);
         Geometry* handle = FUN_004b5a50(pEntry);
         Geometry* geometry = handle ? handle->FUN_0044ddc0() : 0;
-        SceneObject* parent = geometry ? FUN_0056f930(geometry) : 0;
+        SceneObject* parent = geometry ? TESObjectREFR_FindReferenceFor3D(geometry) : 0;
         if (parent)
         {
             typedef unsigned char(__thiscall * Predicate)(SceneObject*);
@@ -664,7 +666,7 @@ void FUN_00624580_Class::FOIslandActivationListener_islandActivatedCallback(Scen
                 target = owner ? owner->FUN_005497a0() : 0;
                 if (target)
                 {
-                    if (FUN_008c7aa0())
+                    if (AILinearTaskThreadManager_ShouldQueue3DTask())
                         TESObjectCELL_QueueAttachChild(parent, target);
                     else
                         reinterpret_cast<Dispatch>((*reinterpret_cast<void***>(target))[55])(

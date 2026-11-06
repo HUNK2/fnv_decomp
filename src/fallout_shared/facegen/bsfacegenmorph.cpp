@@ -71,7 +71,7 @@ void BSFaceGenMorphDifferential::ApplyDifferentialMorph(NiTriBasedGeom* geom, BS
 {
     if (!geom || weight <= 0.0 || weight > 1.0)
         return;
-    NiGeometryData* pData = geom->FUN_005495f0();
+    NiGeometryData* pData = geom->NiGeometry_GetModelData();
     GeometryVertexBuffer localC;
     pData->NiGeometryData_GetVerticesIterator(localC);
     NiPoint3 localD;
@@ -91,7 +91,7 @@ void BSFaceGenMorphStatistical::ApplyDifferentialMorph(NiTriBasedGeom* geom, BSF
     if (!geom || weight <= 0.0 || weight > 1.0 || !extra->GetVertices())
         return;
     NiPoint3* pData = extra->GetVertices();
-    NiGeometryData* pGeomData = geom->FUN_005495f0();
+    NiGeometryData* pGeomData = geom->NiGeometry_GetModelData();
     GeometryVertexBuffer localC;
     pGeomData->NiGeometryData_GetVerticesIterator(localC);
     NiPoint3 localD;

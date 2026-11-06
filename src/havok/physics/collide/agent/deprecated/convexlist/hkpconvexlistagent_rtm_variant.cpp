@@ -61,7 +61,7 @@ extern void* __cdecl hkpConvexListAgent_staticLinearCast();
 extern void* __cdecl hkpConvexListAgent_createConvexListConvexListAgent();
 void __cdecl RegisterConvexListAgentCollisionFuncs(hkpConvexListAgent* self);
 extern void __cdecl hkpAgentMachineUtil_calc1nStatistics(void*, void*, void*);
-void __cdecl FUN_00da42b0(void*, int, int, int);
+void __cdecl hkAgent1nMachine_Destroy(void*, int, int, int);
 void* __stdcall hkpConvexListAgent_linearCast(void* a, void* b, void* c, void* d, void* e);
 struct D338e0Agent
 {
@@ -94,11 +94,11 @@ struct D338e0Local
     int field18;
     int field1C;
 };
-extern "C" void __cdecl FUN_00da48e0(int*, D338e0Local*);
+extern "C" void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(int*, D338e0Local*);
 inline void D338e0Dispatch(D338e0Local* local, int* ownerField, int result)
 {
     local->field0C = result;
-    FUN_00da48e0(ownerField, local);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(ownerField, local);
 }
 void __cdecl ReleaseAllEntries(void* out, void* src, void* arg);
 void InitBlockPool(void* p);
@@ -181,7 +181,7 @@ void ContactAgent::hkpConvexListAgent_cleanup(void* input)
     }
     else
     {
-        FUN_00da42b0(&contact30, state80, collidable08, (int)input);
+        hkAgent1nMachine_Destroy(&contact30, state80, collidable08, (int)input);
     }
     Invalidate(1);
 }
@@ -205,11 +205,11 @@ struct __declspec(align(16)) S00d33940_Out
     float y3;
     float z3;
     float w3;
-    void FUN_00cb22f0(int a, int b);
+    void hkTransform_setMulInverseMul(int a, int b);
 };
 struct S00d33940_Sub
 {
-    void FUN_00dafcd0(int a, int b, S00d33940_Out* c);
+    void hkpGskCache_init(int a, int b, S00d33940_Out* c);
 };
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -553,7 +553,7 @@ struct Arg4
 struct CollObj
 {
     Vec4 a, b, c, d;
-    void __thiscall FUN_00cb22f0(Obj*, Obj*);
+    void __thiscall hkTransform_setMulInverseMul(Obj*, Obj*);
 };
 struct SStruct
 {
@@ -589,8 +589,8 @@ struct Big
 
 void FUN_00d33670(void* a);
 void hkpProcessCollisionOutputBackup_rollbackOutput(void* a, void* b, void* c, void* d);
-void* FUN_00cb22f0(void* a, void* b);
-int FUN_00dabca0(SStruct* a, void* b, void* c, void* d);
+void* hkTransform_setMulInverseMul(void* a, void* b);
+int hkpGsk_getClosestPoint(SStruct* a, void* b, void* c, void* d);
 void hkpConvexListAgent_switchToGskMode(void* a);
 void hkpConvexListAgent_switchToStreamMode(void* a);
 void FUN_00d42020(void* a, void* b, void* c, void* d);
@@ -600,7 +600,7 @@ struct AddressValue
     __forceinline AddressValue(void* p) : value(p)
     {}
 };
-void FUN_00da4aa0(void* a, const void* b, AddressValue wrapped, void* d, void* e);
+void hkAgent1nMachine_Process(void* a, const void* b, AddressValue wrapped, void* d, void* e);
 void ReleaseAllEntries(void* a, void* b, void* c);
 
 typedef void(__thiscall* Ws70Fn)(void*, const void*);
@@ -735,7 +735,7 @@ __forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const 
     LocalM128 motion = vec.m_vComponents;
     big.c = &c;
     big.vec.m_vComponents = motion;
-    big.co.FUN_00cb22f0(a.m_08, b.m_08);
+    big.co.hkTransform_setMulInverseMul(a.m_08, b.m_08);
     int count = bHead->count;
     // The shared router accessor is bound to 0x00c85750; its first slot holds the scratch cursor.
     hkMemoryRouter* pool = (&hkMemoryRouter::getInstance());
@@ -744,7 +744,7 @@ __forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const 
     for (int i = 0; i < count; i++)
         arr[i] = i;
     arr[count] = -1;
-    FUN_00da4aa0(&streaming(), &big, AddressValue(&bHead->unk14), arr, &d);
+    hkAgent1nMachine_Process(&streaming(), &big, AddressValue(&bHead->unk14), arr, &d);
     hkMemoryRouter* pool2 = (&hkMemoryRouter::getInstance());
     pool2->m_stack.m_next.m_storage = arr;
 }
@@ -870,7 +870,7 @@ stream: {
         goto sqrtpath;
     m_86 = 0x19;
     {
-        co.FUN_00cb22f0(a.m_08, b.m_08);
+        co.hkTransform_setMulInverseMul(a.m_08, b.m_08);
         SStruct& s = temp.query;
         Vec4 objD;
         s.a0 = a.m_00;
@@ -878,7 +878,7 @@ stream: {
         s.pCo = &co;
         s.pObjA = a.m_08;
         s.f = c.m_08;
-        int res = FUN_00dabca0(&s, &m_0c, &m_20w, &objD);
+        int res = hkpGsk_getClosestPoint(&s, &m_0c, &m_20w, &objD);
         if (res == 0)
         {
             streaming().distance = -m_20w.w;

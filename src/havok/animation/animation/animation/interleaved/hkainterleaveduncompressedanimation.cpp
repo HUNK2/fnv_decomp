@@ -232,7 +232,7 @@ class FUN_00e402e0 : public BaseAnimX
     FloatArrayX m_kFloats;
 };
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 extern int DAT_010e5474;
 
 // Copies transform and float track arrays from src into m_kTransforms and m_kFloats, resizing via the audio service heap manager when capacity is insufficient.
@@ -241,7 +241,7 @@ FUN_00e402e0::FUN_00e402e0(SrcAnimX* apSrcAnim)
     : BaseAnimX(apSrcAnim), m_vfptr((void*)&DAT_010e5474), m_kTransforms(), m_kFloats()
 {
     {
-        HeapMgrX* pHeapMgr = ((AudioSvcX*)FUN_00c85750())->m_pStreamAllocator;
+        HeapMgrX* pHeapMgr = ((AudioSvcX*)hkMemoryRouter_getInstance())->m_pStreamAllocator;
         int iCapacity = m_kTransforms.m_iCapacityState & 0x3FFFFFFF;
         if (iCapacity < apSrcAnim->m_kTransforms.m_iElementCount)
         {
@@ -263,7 +263,7 @@ FUN_00e402e0::FUN_00e402e0(SrcAnimX* apSrcAnim)
         }
     }
     {
-        HeapMgrX* pHeapMgr = ((AudioSvcX*)FUN_00c85750())->m_pStreamAllocator;
+        HeapMgrX* pHeapMgr = ((AudioSvcX*)hkMemoryRouter_getInstance())->m_pStreamAllocator;
         int iCapacity = m_kFloats.m_iCapacityState & 0x3FFFFFFF;
         if (iCapacity < apSrcAnim->m_kFloats.m_iElementCount)
         {
@@ -328,7 +328,7 @@ __forceinline int S00e3ffc0_getFrame(FUN_00e2f7c0_Obj* o, float t, float* d)
     o->hkaAnimation_getFrameAndDelta(t, &f, d);
     return f;
 }
-void __cdecl FUN_00e3fda0(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
+void __cdecl hkaInterleavedUncompressedAnimation_samplePartialWithDataChunks(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
                           SampleRec* recs, int n);
 
 struct hkaAnimSlot : hkaInterleavedUncompressedAnimation
@@ -399,7 +399,7 @@ void hkaAnimSlot::hkaInterleavedUncompressedAnimation_samplePartialTracks(float 
         int frame = S00e3ffc0_getFrame((FUN_00e2f7c0_Obj*)this, time, &u.delta);
         SampleRec recs[3];
         SampleIndividualTracks(frame, u.delta, S00e3ffc0_zero(recs), 3);
-        FUN_00e3fda0(frame, u.delta, nT, tOut, nF, fOut, recs, 3);
+        hkaInterleavedUncompressedAnimation_samplePartialWithDataChunks(frame, u.delta, nT, tOut, nF, fOut, recs, 3);
     }
     {
         hkMonitorStream* pProfLog = (hkMonitorStream*)pfnTlsGetValue(DAT_0126835c);

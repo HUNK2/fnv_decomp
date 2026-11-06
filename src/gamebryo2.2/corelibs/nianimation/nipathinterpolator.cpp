@@ -118,7 +118,8 @@ struct FloatDataHelper
 
 // Forwards the two float arguments to the FloatDataHelper stored at offset 0x1c, if that pointer is non-null.
 // @fnv 0x00a3dc50
-void __thiscall NiPathInterpolator::FUN_00a3dc50(float m_fStartTime, float m_fMaximumDistance)
+// src: XBOX_PDB 0x00a3dc50
+void __thiscall NiPathInterpolator::GuaranteeTimeRange_00a3dc50(float m_fStartTime, float m_fMaximumDistance)
 {
     FloatDataHelper* p = (FloatDataHelper*)m_pPathInterp;
     if (p)
@@ -209,7 +210,8 @@ class CloningProcess
 
 // Calls ProcessClone on this object and on the path and percentage objects if they are set.
 // @fnv 0x00a3dc80
-void __thiscall NiPathInterpolator::FUN_00a3dc80(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a3dc80
+void __thiscall NiPathInterpolator::ProcessClone_00a3dc80(CloningProcess& kCloning)
 {
     ((NiObject*)this)->NiObject::ProcessClone(kCloning);
     NiObject* pkPath = m_pPathObject;
@@ -222,13 +224,14 @@ void __thiscall NiPathInterpolator::FUN_00a3dc80(CloningProcess& kCloning)
 
 struct HC1Base
 {
-    bool __thiscall FUN_00aa0ad0(void*);
+    bool __thiscall BSPackedAdditionalGeometryData_RegisterStreamables(void*);
 };
 
 // @fnv 0x00a3dcc0
-bool NiPathInterpolator::FUN_00a3dcc0(void* pkStream)
+// src: XBOX_PDB 0x00a3dcc0
+bool NiPathInterpolator::RegisterStreamables_00a3dcc0(void* pkStream)
 {
-    if (!((HC1Base*)this)->FUN_00aa0ad0(pkStream))
+    if (!((HC1Base*)this)->BSPackedAdditionalGeometryData_RegisterStreamables(pkStream))
         return false;
     NiObject* pPath = m_pPathObject;
     if (pPath)
@@ -312,13 +315,13 @@ struct Stream
         return readProc(this, dst, count, &actual, 1);
     }
 };
-void __stdcall FUN_00aa0ac0(NiStream*);
+void __stdcall NiKeyBasedInterpolator_LoadBinary(NiStream*);
 
 // Reads channel, value38, value28, value2c and channel30 from the source's stream, accumulating bytesRead, then calls FUN_00a645b0 twice.
 // @fnv 0x00a3ed90
 void NiPathInterpolator::ReadFromStream(NiStream* source)
 {
-    FUN_00aa0ac0(source);
+    NiKeyBasedInterpolator_LoadBinary(source);
     Stream* stream = (Stream*)source->GetBinaryStream();
     stream->bytesRead += stream->Read(&m_uiObjectFlags, 2);
     unsigned int value;
@@ -456,7 +459,8 @@ inline PositionKeyInterpolator* NiPathInterpolator::GetPathKeys(unsigned int& co
 }
 
 // @fnv 0x00a3f2f0
-void NiPathInterpolator::FUN_00a3f2f0(NiPathInterpolator* pDest, CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a3f2f0
+void NiPathInterpolator::CopyMembers_00a3f2f0(NiPathInterpolator* pDest, CloningProcess& kCloning)
 {
     ((NiInterpolatorBase*)this)->CopyMemberData((NiInterpolatorBase*)pDest, kCloning);
     pDest->m_uiObjectFlags = m_uiObjectFlags;
@@ -652,7 +656,7 @@ void NiPathInterpolator::GetPercentLoc(float fTime, unsigned int& ri1, unsigned 
     }
     for (int it = 0; it < 32; it++)
     {
-        float fError = FUN_00a3e680(i1, i2, fLocalTime) - fAccumulatedDistance;
+        float fError = NiPathInterpolator_PathLength(i1, i2, fLocalTime) - fAccumulatedDistance;
         if ((float)fabs(fError) <= DAT_01032980)
             break;
         fLocalTime = (float)(fLocalTime - fError / SampleLength(i1, i2, fLocalTime));
@@ -804,7 +808,8 @@ template <class T> static __forceinline NiPointer<NiObject>& EqualityPointer(T*&
 
 // Compares base equality, path objects and interpolator, path lengths, total length, point count, flags, and timing state.
 // @fnv 0x00a3e7b0
-bool NiPathInterpolator::FUN_00a3e7b0(NiObject* pkObject)
+// src: XBOX_PDB 0x00a3e7b0
+bool NiPathInterpolator::IsEqual_00a3e7b0(NiObject* pkObject)
 {
     if (!BaseIsEqual(pkObject))
         return false;
@@ -870,7 +875,7 @@ struct FV3
         v.z = -z;
         return v;
     }
-    void __thiscall FUN_004a0c10();
+    void __thiscall Unitize_004a0c10();
     FV3 __thiscall FUN_004b3800(const FV3&) const;
     FV3 __thiscall FUN_00439e90(const FV3&) const;
 };
@@ -956,7 +961,7 @@ void __thiscall NiPathInterpolator::EvaluateBasis(unsigned int aiFirstKey, unsig
                                            type, &vOtherPos, &vOtherTangent, &normal, &otherCurvature);
                         vTangent =
                             FUN_004a3760(firstWeight, vTangent).FUN_00439e90(FUN_004a3760(secondWeight, vOtherTangent));
-                        vTangent.FUN_004a0c10();
+                        vTangent.Unitize_004a0c10();
                         curvature = firstWeight * curvature + secondWeight * otherCurvature;
                         normal = vPosition.FUN_004b3800(vTangent);
                     }
@@ -980,7 +985,7 @@ void __thiscall NiPathInterpolator::EvaluateBasis(unsigned int aiFirstKey, unsig
                                            &otherCurvature);
                         vTangent =
                             FUN_004a3760(firstWeight, vTangent).FUN_00439e90(FUN_004a3760(secondWeight, vOtherTangent));
-                        vTangent.FUN_004a0c10();
+                        vTangent.Unitize_004a0c10();
                         curvature = firstWeight * curvature + secondWeight * otherCurvature;
                         normal = vPosition.FUN_004b3800(vTangent);
                     }

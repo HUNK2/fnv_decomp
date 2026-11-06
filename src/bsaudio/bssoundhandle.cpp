@@ -28,7 +28,7 @@ void BSSoundHandle::SetCompletionCallback(CompletionCallback callback, void* con
     }
     if (iSoundID != 0xffffffff)
     {
-        BSAudioManager::GetRandomGenerator().FUN_00adbfd0(iSoundID, callback, context);
+        BSAudioManager::GetRandomGenerator().BSAudioManager_SetCompletionCallback(iSoundID, callback, context);
     }
 }
 
@@ -59,7 +59,7 @@ bool BSSoundHandle::PlayAfter(unsigned int delay, int startTime)
         return false;
     }
     eState = ASSUMED_STATE_PLAYING;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb4e0(iSoundID, delay, startTime);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_PlayAfter(iSoundID, delay, startTime);
 }
 
 // If a sound handle is set, passes it with fadeTime and 0x26 to BSAudioManager, clears the handle, and returns true; otherwise returns false.
@@ -81,7 +81,7 @@ bool SystemColorManager::GetColor(int id, NiColor& color)
     SystemColor* systemColor = Find(id);
     if (systemColor)
     {
-        systemColor->FUN_007193b0(color);
+        systemColor->SystemColorManager_SystemColor_GetColor(color);
         return true;
     }
     else
@@ -120,12 +120,13 @@ void __cdecl RefreshHUDTargetDisplay()
     }
 }
 
-void __cdecl FUN_0072fa80(int);
+void __cdecl abs_0072fa80(int);
 
 // @fnv 0x0072fa60
-void __cdecl FUN_0072fa60(int param_1)
+// src: XBOX_PDB 0x0072fa60
+void __cdecl BSAbs(int param_1)
 {
-    FUN_0072fa80(param_1);
+    abs_0072fa80(param_1);
 }
 
 // @fnv 0x00ad8830
@@ -134,7 +135,7 @@ bool BSSoundHandle::Play(bool v)
     if (iSoundID == 0xffffffff)
         return false;
     eState = ASSUMED_STATE_PLAYING;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb3e0(iSoundID, v);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_Play(iSoundID, v);
 }
 
 // @fnv 0x00ad89b0
@@ -150,7 +151,7 @@ bool BSSoundHandle::SetVolume(float aiNewVolume)
 {
     if (static_cast<int>(iSoundID) == -1)
         return false;
-    return BSAudioManager::GetRandomGenerator().FUN_00adc0d0(static_cast<int>(iSoundID), aiNewVolume);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_SetVolume(static_cast<int>(iSoundID), aiNewVolume);
 }
 
 // If id is valid, forwards id and v to BSAudioManager's FUN_00adb8e0 and returns its result; otherwise returns false.
@@ -169,7 +170,7 @@ bool BSSoundHandle::SetPosition(float x, float y, float z)
 {
     if (iSoundID == 0xFFFFFFFF)
         return false;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb970(iSoundID, x, y, z);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_SetPosition(iSoundID, x, y, z);
 }
 
 // @fnv 0x00ad8be0
@@ -207,7 +208,7 @@ void BSSoundHandle::SetObjectToFollow(NiAVObject* apObj)
         return;
     if (DAT_011f6e08)
         DAT_011f6e08(apObj);
-    BSAudioManager::GetRandomGenerator().FUN_00adc1e0(iSoundID, apObj);
+    BSAudioManager::GetRandomGenerator().BSAudioManager_SetObjectToFollow(iSoundID, apObj);
 }
 
 // @fnv 0x00ad8f70
@@ -239,11 +240,12 @@ void FUN_008bc240_h::Actor_SetActionSoundValue(unsigned int auiValue)
 
 struct Owner009b11c0
 {
-    void FUN_009b11c0();
+    void Explosion_StopSounds();
 };
 
 // @fnv 0x009b11c0
-void Owner009b11c0::FUN_009b11c0()
+// src: XBOX_PDB 0x009b11c0
+void Owner009b11c0::Explosion_StopSounds()
 {
     if (((BSSoundHandle*)((char*)this + 0xac))->IsValid())
     {
@@ -269,7 +271,7 @@ bool BSSoundHandle::Pause()
     if (iSoundID == (unsigned int)-1)
         return false;
     eState = ASSUMED_STATE_PAUSED;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb590(iSoundID);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_Pause(iSoundID);
 }
 
 // @fnv 0x00ad88f0
@@ -278,7 +280,7 @@ bool BSSoundHandle::Stop()
     if (iSoundID == (unsigned int)-1)
         return false;
     eState = ASSUMED_STATE_STOPPED;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb610(iSoundID);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_Stop(iSoundID);
 }
 
 // @fnv 0x00ad8980
@@ -294,7 +296,7 @@ float BSSoundHandle::GetVolume()
 {
     if (iSoundID == 0xFFFFFFFF)
         return 0.0f;
-    return BSAudioManager::GetRandomGenerator().FUN_00adc8b0(iSoundID);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_GetVolume(iSoundID);
 }
 
 // If the stored id is not -1, forwards the id and arg to BSAudioManager's FUN_00adb7c0 and returns its result; otherwise returns false.
@@ -321,7 +323,7 @@ int BSSoundHandle::GetDuration()
 {
     if (iSoundID == -1)
         return 0;
-    return BSAudioManager::GetRandomGenerator().FUN_00adc830(iSoundID);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_GetDuration(iSoundID);
 }
 
 // Returns false if id is -1, otherwise forwards id and the three floats to the audio manager's FUN_00adb9f0 and returns its result.
@@ -330,7 +332,7 @@ bool BSSoundHandle::SetBeamEnd(float a, float b, float c)
 {
     if (iSoundID == (unsigned int)-1)
         return false;
-    return BSAudioManager::GetRandomGenerator().FUN_00adb9f0(iSoundID, a, b, c);
+    return BSAudioManager::GetRandomGenerator().BSAudioManager_SetBeamEnd(iSoundID, a, b, c);
 }
 
 // If id is not -1, forwards id and the three floats to the audio manager's FUN_00adbf40 and returns its result; otherwise returns false.
@@ -393,7 +395,7 @@ void BSSoundHandle::SetFollowsListener(bool arg)
 {
     if (iSoundID == (unsigned int)-1)
         return;
-    BSAudioManager::GetRandomGenerator().FUN_00adc2e0(iSoundID, static_cast<unsigned char>(arg));
+    BSAudioManager::GetRandomGenerator().BSAudioManager_SetAtListener(iSoundID, static_cast<unsigned char>(arg));
 }
 
 // If the stored id is not -1, forwards it and arg to BSAudioManager::FUN_00adc360.

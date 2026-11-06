@@ -33,8 +33,8 @@ public:
                       const hkQsTransform* poseB, const hkQsTransform& worldFromModelB,
                       float deltaTime);
     void FUN_00ce2000(int bone, hkQsTransform& out);
-    void FUN_00ce2150(int bone, float time, hkQsTransform& out);
-    void FUN_00ce2150(int bone, float time, void* out);
+    void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int bone, float time, hkQsTransform& out);
+    void hkaRagdollInstance_getApproxWorldFromBoneTransformAt(int bone, float time, void* out);
     void hkaRagdollInstance_commonInit(const hkArray<hkpRigidBody*>& rigidBodies,
                       const hkArray<hkpConstraintInstance*>& constraints,
                       hkaSkeleton* skeleton);

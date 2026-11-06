@@ -49,8 +49,8 @@ struct Manager
     int unk0c;
     Allocator* allocator;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
-extern "C" void __cdecl FUN_00d41930(void*, void*, void*, void*);
+extern "C" Manager* __cdecl hkMemoryRouter_getInstance();
+extern "C" void __cdecl hkPredGskAgent3_sepNormal(void*, void*, void*, void*);
 extern double DAT_010cf218;
 struct Node
 {
@@ -3498,7 +3498,7 @@ Memory* memory();
 
 __forceinline Shape* makeShape(Shape* shape)
 {
-    Shape* p = (Shape*)FUN_00c85750()->allocator->allocate(64);
+    Shape* p = (Shape*)hkMemoryRouter_getInstance()->allocator->allocate(64);
     p->allocationSize = 64;
     float radius = shape->radius;
     float inflated = (float)(shape->FUN_00d571a0() + radius + 0.0020000000949949026);
@@ -3523,7 +3523,7 @@ struct Frame
 
 struct VectorOps
 {
-    void FUN_00c7f700(Transform*, CylAgentVector4*);
+    void hkVector4_setRotatedDir(Transform*, CylAgentVector4*);
 };
 
 void ReleaseAllEntries(void*, void*, void*);
@@ -3664,7 +3664,7 @@ Cache* __cdecl hkPredGskCylinderAgent3_process(Agent3ProcessInput* pair, State* 
 
     CylAgentVector4 direction;
 
-    FUN_00d41930(pair, state, cache, &direction);
+    hkPredGskAgent3_sepNormal(pair, state, cache, &direction);
 
     ContactData* contact = &cache->contactData;
     for (int i = 0; i < 2; ++i)
@@ -3687,7 +3687,7 @@ Cache* __cdecl hkPredGskCylinderAgent3_process(Agent3ProcessInput* pair, State* 
 
             sharedAxis.axisWorld.value = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), axis);
 
-            ((VectorOps*)&sharedAxis.axisWorld)->FUN_00c7f700((*bodies[i])->transform, &sharedAxis.axisWorld);
+            ((VectorOps*)&sharedAxis.axisWorld)->hkVector4_setRotatedDir((*bodies[i])->transform, &sharedAxis.axisWorld);
 
             __m128 dot = _mm_mul_ps(direction.value, sharedAxis.axisWorld.value);
 
@@ -3773,7 +3773,7 @@ Cache* __cdecl hkPredGskCylinderAgent3_process(Agent3ProcessInput* pair, State* 
 
                 Body** slot = refBodies[j];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = FUN_00c85750();
+                Manager* mgr = hkMemoryRouter_getInstance();
                 scalarScratch.node = mgr->allocator->allocate(0x40);
                 scalarScratch.node->unk04 = 0x40;
                 float v = record->unk10;
@@ -3903,7 +3903,7 @@ distant:
             {
                 Body** slot = bodies[k];
                 ExtendedRecord* record = (ExtendedRecord*)(*slot)->shape;
-                Manager* mgr = FUN_00c85750();
+                Manager* mgr = hkMemoryRouter_getInstance();
                 Node* node = mgr->allocator->allocate(64);
                 node->unk04 = 64;
                 lateScratch.radius = record->unk10;

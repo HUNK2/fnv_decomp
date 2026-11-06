@@ -32,10 +32,10 @@ extern "C" LocalM128 _mm_max_ps(LocalM128, LocalM128);
 #include "../../../../../include/hkArray.h"
 #include "../../../../../include/hkVector4.h"
 
-__declspec(nothrow) hkMemoryRouter* __cdecl FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return FUN_00c85750();
+    return hkMemoryRouter_getInstance();
 }
 
 __declspec(nothrow) void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* arr, int numElem, int sizeElem);
@@ -230,7 +230,7 @@ struct PairRecord
 
 struct AabbSink
 {
-    void FUN_00cf24a0(const hkAabb& aabb) throw();
+    void hkpAabbPhantom_setAabb(const hkAabb& aabb) throw();
 };
 
 struct PairTester
@@ -278,7 +278,7 @@ hkBool PairFinder::hkaDetectRagdollPenetration_detectPenetration(BoxSet* boxes, 
                 }
             }
             if (aabb.ValidateBounds())
-                m_sink->FUN_00cf24a0(aabb);
+                m_sink->hkpAabbPhantom_setAabb(aabb);
         }
         hkVector4 a, b, p0, p1;
         for (short i = 1; i < m_uiItemCount; i++)
@@ -329,7 +329,7 @@ hkBool PairFinder::hkaDetectRagdollPenetration_detectPenetration(BoxSet* boxes, 
 namespace fnv_00d1fe70 {
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d1fe70_cls
 {
@@ -352,7 +352,7 @@ struct FUN_00d1fe70_cls
 // @fnv 0x00d1fe70
 FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     int count = m_20;
     m_1c = 0;
@@ -365,7 +365,7 @@ FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder2 = FUN_00c85750();
+        hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, m_uSize);
     }

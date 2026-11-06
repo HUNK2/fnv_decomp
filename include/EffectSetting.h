@@ -122,7 +122,7 @@ public:
     bool HasFlag2();
     int UpdateCounter();
     void* TESDataHandler_GetRecipes();
-    TESEffectShader* FUN_00407820();
+    TESEffectShader* GetEffectShader_00407820();
     bool UsesAssociatedActorValue();
     bool HasNoAssociatedActorValue();
     bool IsAssociatedFormUsed();
@@ -152,8 +152,8 @@ public:
     void SaveAlt();
     int IncEffectLoadedCount();
     bool FUN_007df1b0();
-    bool FUN_00403e60(unsigned int flags);
-    void FUN_004ee4b0(float value);
+    bool IsFlagSet_00403e60(unsigned int flags);
+    void BSShaderProperty_SetDepthBias(float value);
     int FUN_004087e0();
     int FUN_004089c0();
     TESForm* FUN_005f5f80();

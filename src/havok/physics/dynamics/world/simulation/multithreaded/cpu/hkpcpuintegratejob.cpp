@@ -73,9 +73,9 @@ struct Special { Entry entry; Record* record; unsigned int field0c; };
 struct SpecialList { Special* data; int count; };
 struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
 struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
-void* __cdecl FUN_00c85750();
-inline void* Block::operator new(unsigned int) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x1000); }
-inline void* Group::operator new(unsigned int) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
+void* __cdecl hkMemoryRouter_getInstance();
+inline void* Block::operator new(unsigned int) throw() { return ((AllocationContext*)hkMemoryRouter_getInstance())->allocate(0x1000); }
+inline void* Group::operator new(unsigned int) throw() { return ((AllocationContext*)hkMemoryRouter_getInstance())->allocate(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
@@ -181,7 +181,7 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 #include <windows.h>
 extern "C" void _ReadWriteBarrier();
 inline void* operator new(unsigned int, void* ptr) { return ptr; }
-__declspec(nothrow) void* FUN_00c85750();
+__declspec(nothrow) void* hkMemoryRouter_getInstance();
 __declspec(nothrow) void hkArrayUtil__reserve(void*,void*,int,int);
 extern DWORD DAT_0126835c;
 struct FlagByte {
@@ -209,7 +209,7 @@ struct TaskMemory {
     int unknown04,unknown08;
     TaskAllocator* temporary;
     TaskAllocator* heap;
-    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
+    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)hkMemoryRouter_getInstance(); }
     TaskAllocator& tempAllocator() { return *temporary; }
     TaskAllocator& heapAllocator() { return *heap; }
     template<class T> T* takeStack(int n) {
@@ -292,7 +292,7 @@ class EntityIndexMap {
     IndexPair* data;
     int count,mask;
     void FUN_00cb1830(void*,int) throw();
-    int FUN_00cb1870(TaskAllocator*,unsigned long,unsigned long) throw();
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(TaskAllocator*,unsigned long,unsigned long) throw();
     unsigned long FUN_00cb1930(unsigned long,unsigned long) const throw();
     void FUN_00cb1a90(TaskAllocator*) throw();
     void FUN_00a29680() throw();
@@ -300,7 +300,7 @@ class EntityIndexMap {
 public:
     EntityIndexMap(void* ptr,int bytes) { FUN_00cb1830(ptr,bytes); }
     void closeMap() { FUN_00cb1a90(TaskMemory::GetMonitorStream().heap); FUN_00a29680(); }
-    void insert(unsigned long key,unsigned long val) { FUN_00cb1870(TaskMemory::GetMonitorStream().heap,key,val); }
+    void insert(unsigned long key,unsigned long val) { hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(TaskMemory::GetMonitorStream().heap,key,val); }
     unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return FUN_00cb1930(key,value); }
 };
 __declspec(noinline) unsigned long EntityIndexMap::FUN_00cb1930(unsigned long key,unsigned long fallback) const throw() {
@@ -896,7 +896,7 @@ struct TaskMemory {
     TaskAllocator* heapAlloc;
     TaskAllocator* debugAlloc;
     TaskAllocator* solverAlloc;
-    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
+    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)hkMemoryRouter_getInstance(); }
     __forceinline TaskAllocator& heap() { return *heapAlloc; }
     __forceinline TaskAllocator& solver() { return *solverAlloc; }
 };
@@ -1189,9 +1189,9 @@ struct AccumulatorsPacket : DynamicsPacket {
 };
 
 extern int __cdecl FUN_00d889f0(SceneIsland& island);
-extern int __cdecl FUN_00d28a30(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
-extern void __cdecl FUN_00d1a330(const void* input, void* const* entities, int numEntities);
-extern int __cdecl FUN_00d88b50(const StepTiming& timing, const SolverParams& solver, ConstraintQueryIn& queryIn, SceneIsland& island, void* buffer, int bufferSize, void* const* entities, int numEntities);
+extern int __cdecl hkRigidMotionUtilApplyForcesAndStep(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
+extern void __cdecl hkpEntityAabbUtil_entityBatchRecalcAabb(const void* input, void* const* entities, int numEntities);
+extern int __cdecl hkpConstraintSolverSetup_solve(const StepTiming& timing, const SolverParams& solver, ConstraintQueryIn& queryIn, SceneIsland& island, void* buffer, int bufferSize, void* const* entities, int numEntities);
 extern void __cdecl FUN_00d942f0(SceneIsland* island, TaskArray<void*>& splitIslands);
 extern int __cdecl FUN_00d883c0(const SceneIsland& island, char* buffer, int bufferSize, JobHeader& header);
 
@@ -1425,8 +1425,8 @@ int __cdecl integrateJob(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
                 stream.setEnd((char*)(ev + 1));
             }
         }
-        int inactiveFrames = FUN_00d28a30(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
-        FUN_00d1a330(island->getWorld()->getCollisionInput(), island->GetEntities().begin(), island->GetEntities().GetLogicalSize());
+        int inactiveFrames = hkRigidMotionUtilApplyForcesAndStep(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
+        hkpEntityAabbUtil_entityBatchRecalcAabb(island->getWorld()->getCollisionInput(), island->GetEntities().begin(), island->GetEntities().GetLogicalSize());
         if (inactiveFrames <= 5)
         {
             header->shouldDeactivate = 0;
@@ -1449,7 +1449,7 @@ int __cdecl integrateJob(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
         }
         {
             ConstraintQueryIn localQuery = owner.queryIn;
-            int inactiveFrames = FUN_00d88b50(stepCtx.timing, stepCtx.solver, localQuery, *island, buffer, bufferSize, entities, numEntities);
+            int inactiveFrames = hkpConstraintSolverSetup_solve(stepCtx.timing, stepCtx.solver, localQuery, *island, buffer, bufferSize, entities, numEntities);
             if (inactiveFrames <= 5)
             {
                 header->shouldDeactivate = 0;

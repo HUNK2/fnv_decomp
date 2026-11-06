@@ -75,7 +75,7 @@ class NiBound
     void SaveBinary(NiStream& stream);
     char* FormatToBuffer(char* buffer);
     char* FormatToBuffer(const char* prefix);
-    char* FUN_00a7fb20(const char* prefix);
+    char* GetViewerString_00a7fb20(const char* prefix);
 };
 
 typedef char NiBound_size_check[(sizeof(NiBound) == 16) ? 1 : -1];

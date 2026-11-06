@@ -65,7 +65,7 @@ extern const char* const g_011f5f14_arg1;
 // @fnv 0x00a990c0
 void NiParticleMeshes::AppendString(StrArr2* pkStrings)
 {
-    FUN_00a9b2e0(pkStrings);
+    NiParticles_GetViewerStrings(pkStrings);
     char* psz = _FUN_00a7d330(g_011f5f14_arg1);
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMax;
@@ -139,7 +139,7 @@ NiParticleMeshes* NiParticleMeshes::CreateAndInitObj(void* pArg)
     {
         pObj = 0;
     }
-    FUN_00a9b140(pObj, pArg);
+    NiParticleMeshes_CopyMembers(pObj, pArg);
     return pObj;
 }
 
@@ -200,7 +200,7 @@ void NiParticleMeshes::UpdateWorldData(NiUpdateData& kData)
     pkMeshes->UpdateDownwardPass(kData, 0);
     if (pkRenderer->m_bValueAt0C)
     {
-        FUN_00a5a040();
+        UpdateProperties();
         FUN_00a29680();
         pkRenderer->m_bValueAt0C = false;
     }

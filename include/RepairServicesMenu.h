@@ -16,8 +16,8 @@ public:
     {
     public:
         void* FUN_007a1910();
-        void FUN_007314c0(bool (__cdecl*)(void*, void*), void*, int);
-        void FUN_007314c0(void (__cdecl*)(Tile*, void*), int, int);
+        void ListBox_ItemChange_Traverse(bool (__cdecl*)(void*, void*), void*, int);
+        void ListBox_ItemChange_Traverse(void (__cdecl*)(Tile*, void*), int, int);
         void PopulateInventoryList(RepairPlayer*, bool (__cdecl*)(Holder*), int, int, int, int);
     };
 

@@ -149,7 +149,7 @@ static __forceinline void Dot3(float& result, __m128 u, __m128 v)
     __m128 z = _mm_shuffle_ps(m, m, 0xaa);
     _mm_store_ss(&result, _mm_add_ss(z, _mm_add_ss(y, m)));
 }
-int FUN_00d231b0(const __m128* pa, const __m128* pb, const __m128* pc, const __m128* pd, ClosestPointResult* out);
+int hkLineSegmentUtil_closestPointInfLineInfLine(const __m128* pa, const __m128* pb, const __m128* pc, const __m128* pd, ClosestPointResult* out);
 
 namespace MoppSimd {
 // Exe 0x00d2f0d0 FUN_00d2f0d0: retain this LocalM128 view; the CRT type does not preserve this unit.
@@ -199,7 +199,7 @@ struct MoppCastProfBuf
 struct MoppCastMatrix
 {
     hkVector4 col0, col1, col2, translation;
-    void FUN_00cb22f0(const MoppCastMatrix*, const MoppCastMatrix*);
+    void hkTransform_setMulInverseMul(const MoppCastMatrix*, const MoppCastMatrix*);
 };
 struct MoppCastBounds
 {
@@ -286,7 +286,7 @@ void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, in
     // Preserve uninitialized scratch storage without vector constructors or a GS buffer.
     __declspec(align(16)) void* geometryStorage[sizeof(MoppCastCastGeometry) / sizeof(void*)];
     MoppCastCastGeometry& ls = *(MoppCastCastGeometry*)geometryStorage;
-    ls.relative.FUN_00cb22f0(b->transform, a->transform);
+    ls.relative.hkTransform_setMulInverseMul(b->transform, a->transform);
 
     a->shape->Eval(&ls.relative, c->tolerance, &ls.bounds);
 

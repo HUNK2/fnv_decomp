@@ -94,13 +94,13 @@ class InterfaceInterfaceView
 };
 const char kMeshesFolder[] = "Meshes";
 unsigned int NiVertexColorProperty_GetType();
-bool FUN_00705100();
+bool DialogMenu_IsDialogActive();
 unsigned int HudMainMenu_GetMenuID();
-bool FUN_00707b50();
+bool Renderer_GetWidescreen();
 
 extern char* DAT_011f91c8;
 extern unsigned char DAT_011f91d8;
-void __fastcall FUN_00b5fd60(char*);
+void __fastcall ShadowSceneNode_ProcessQueuedLights(char*);
 // @fnv 0x00b60040
 // src: COMMUNITY 0x00b60040
 void ShadowSceneNode_ProcessAllQueuedLights()
@@ -109,7 +109,7 @@ void ShadowSceneNode_ProcessAllQueuedLights()
     do
     {
         if (*p)
-            FUN_00b5fd60(*p);
+            ShadowSceneNode_ProcessQueuedLights(*p);
         p += 1;
     } while ((int)p < (int)&DAT_011f91d8);
 }
@@ -166,5 +166,5 @@ extern "C" char DAT_010ade08[];
 // src: COMMUNITY 0x00b600c0
 bool QueuedTreeModel::GrassLoadTask_GetDescription(char* pBuf, unsigned int uiSize)
 {
-    return FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
+    return QueuedFileEntry_GetDescription(pBuf, uiSize, DAT_010ade08);
 }

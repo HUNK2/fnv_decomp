@@ -619,13 +619,13 @@ void AbstractHeap::Clear()
 
         while (list->pTail != 0)
         {
-            this->FUN_00aa9e50(list, list->pTail);
+            this->RemoveBlockFromFreeList_00aa9e50(list, list->pTail);
         }
     }
 
     while (LargeFreeList.pTail != 0)
     {
-        this->FUN_00aa9e50(&LargeFreeList, LargeFreeList.pTail);
+        this->RemoveBlockFromFreeList_00aa9e50(&LargeFreeList, LargeFreeList.pTail);
     }
 
     FreeHeapMemory(pMemHeap);
@@ -820,7 +820,7 @@ struct FUN_00aa5ff0_Class
     unsigned int m_uiItemCount;
     unsigned int m_uiThreadId;
 
-    void __thiscall FUN_00aa5ff0();
+    void __thiscall BSReadWriteLock_LockForRead();
 };
 
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
@@ -829,7 +829,8 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedCompareExchange(volat
                                                                            long comparand);
 
 // @fnv 0x00aa5ff0
-void __thiscall FUN_00aa5ff0_Class::FUN_00aa5ff0()
+// src: XBOX_PDB 0x00aa5ff0
+void __thiscall FUN_00aa5ff0_Class::BSReadWriteLock_LockForRead()
 {
     unsigned long threadId = GetCurrentThreadId();
 
@@ -974,7 +975,7 @@ void MemoryPool_SortFreeBlocks(int aiIndex)
     RecursiveSpinLock* pool;
     if (DAT_011f67b8[aiIndex])
     {
-        DAT_011f67b8[aiIndex]->m_kCriticalSection.FUN_0040fbf0(&DAT_010a2850);
+        DAT_011f67b8[aiIndex]->m_kCriticalSection.BSSpinLock_Lock(&DAT_010a2850);
         DAT_011f67b8[aiIndex]->MemoryPool_SortFreeBlockList();
         pool = &DAT_011f67b8[aiIndex]->m_kCriticalSection;
         pool->m_uiRecursionCount = pool->m_uiRecursionCount - 1;
@@ -1631,7 +1632,7 @@ struct FUN_00aa7300_pool
 {
     int m_00;
     int m_04;
-    void FUN_0040fbf0(const char* name);
+    void BSSpinLock_Lock(const char* name);
 };
 
 class FUN_00aa7300_cls
@@ -1664,7 +1665,7 @@ void FUN_00aa7300_cls::MemoryPool_CheckFreeBlocks()
     int scratch0;
     int scratch1;
     FUN_00aa7300_node* cur;
-    m_20.FUN_0040fbf0((const char*)"CheckFreeBlocks");
+    m_20.BSSpinLock_Lock((const char*)"CheckFreeBlocks");
     if (m_40 > 8)
     {
         cur = m_08;
@@ -1771,7 +1772,7 @@ void __cdecl CompleteJob(JobA* job)
 
 struct S_0044a730_Class
 {
-    void FUN_0044a730(int a, int b);
+    void fopen_0044a730(int a, int b);
 };
 
 struct S_00aba220_Class
@@ -1809,7 +1810,7 @@ S_00aba220_Class* S_00aba220_Class::FUN_00aba220()
     char* unk08;
     unk08 = &i;
 
-    unk0c->FUN_0044a730(0, 0);
+    unk0c->fopen_0044a730(0, 0);
 
     return this;
 }

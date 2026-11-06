@@ -91,7 +91,7 @@ void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r);
 __declspec(align(16)) struct FUN_00cb2450_cls
 {
     __m128 m_00;
-    void FUN_00cb2450(__m128* v, float a1);
+    void hkQuaternion_setAxisAngle(__m128* v, float a1);
 };
 struct LFrame
 {
@@ -100,7 +100,8 @@ struct LFrame
     volatile float s;
 };
 // @fnv 0x00cb2450
-void FUN_00cb2450_cls::FUN_00cb2450(__m128* v, float a1)
+// src: XBOX_PDB 0x00cb2450
+void FUN_00cb2450_cls::hkQuaternion_setAxisAngle(__m128* v, float a1)
 {
     LFrame f;
     f.x = (float)(a1 * 0.5);

@@ -95,14 +95,14 @@ struct Holder
     Pool* TESMain_GetThread();
 };
 
-Holder* __cdecl FUN_00c85750();
+Holder* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x0056d280
 ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
 {
     ReturnType* result;
     {
-        Pool* pool = FUN_00c85750()->TESMain_GetThread();
+        Pool* pool = hkMemoryRouter_getInstance()->TESMain_GetThread();
         result = pool->Alloc(nbytes);
     }
     result->unk04 = (unsigned short)nbytes;

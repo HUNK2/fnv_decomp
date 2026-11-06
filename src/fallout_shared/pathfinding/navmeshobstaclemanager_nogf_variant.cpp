@@ -31,7 +31,7 @@ struct S006c4ad0_Ptr
 struct S006c4ad0_Body;
 struct S006c4ad0_Ref2
 {
-    void* FUN_004b4ec0();
+    void* hkpRigidBody_getPosition();
 };
 struct S006c4ad0_Queue
 {
@@ -48,11 +48,11 @@ struct S006c4ad0_Body
 };
 struct S006c4ad0_Map
 {
-    bool FUN_006c62d0(S006c4ad0_Body* k, S006c4ad0_Ptr* out);
+    bool NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_GetAt(S006c4ad0_Body* k, S006c4ad0_Ptr* out);
 };
 struct S006c4ad0_List
 {
-    void FUN_00631620(const S006c4ad0_Ptr* p);
+    void BSSimpleList_NiPointer_bhkAction_Remove(const S006c4ad0_Ptr* p);
 };
 __declspec(align(16)) struct S006c4ad0_Holder3
 {
@@ -134,17 +134,17 @@ void ObsMgr::NavMeshObstacleManager_ProcessDeactivatedObstacles()
         S006c4ad0_Body* body;
         queueA0.LockFreeQueue_bhkRigidBody_Pop(&body);
         S006c4ad0_Ptr sp(0);
-        if (mapE0.FUN_006c62d0(body, &sp))
+        if (mapE0.NiTMapBase_DFALL_NiTMapItem_bhkRigidBody_NiPointer_ObstacleData_bhkRigidBody_NiPointer_ObstacleData_GetAt(body, &sp))
         {
             S006c4ad0_Holder3 h;
-            h.FUN_004a3c90(body->GetReferenceFlags()->FUN_004b4ec0());
+            h.FUN_004a3c90(body->GetReferenceFlags()->hkpRigidBody_getPosition());
             V3 v;
             v.FUN_006815c0();
             FUN_00458620(&v, &h);
             V3 tmp;
             if (v.FUN_00439ef0(&tmp, &sp.FUN_00559450()->pos)->FUN_004a7290() > kObsDist)
                 NavMeshObstacleManager_UpdateObstacle(&sp);
-            list3C.FUN_00631620(&sp);
+            list3C.BSSimpleList_NiPointer_bhkAction_Remove(&sp);
         }
     }
 }

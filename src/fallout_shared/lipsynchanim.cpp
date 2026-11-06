@@ -8,7 +8,7 @@ bool LipSyncAnimation::ApplyToAnimationData(BSFaceGenAnimationData* animation, f
     if (!animation)
         return false;
 
-    animation->SetTransitionDuration(FUN_0040ebd0(0.2f, GetNegativeMagnitude(false, true, true, true, false)));
+    animation->SetTransitionDuration(BSMIN(0.2f, GetNegativeMagnitude(false, true, true, true, false)));
 
     float phonemes[16];
     float modifiers[17];

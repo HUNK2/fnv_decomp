@@ -16,14 +16,14 @@ void* __cdecl NiViewerStrings_NiGetViewerString_Title(const void*);
 extern void* g_012026e0;
 struct NiPSysInitialRotSpeedCtlr
 {
-    void __thiscall FUN_00c32f60(StrArr*);
+    void __thiscall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
     void __thiscall AppendString(StrArr* pkStrings);
 };
 // Appends a string obtained from FUN_00a7d330(g_012026e0) to pkStrings, growing the array by its growth step when full.
 // @fnv 0x00c2a000
 void __thiscall NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* p = (char*)NiViewerStrings_NiGetViewerString_Title(g_012026e0);
     unsigned int nCount = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int nMax = *(unsigned short*)((char*)pkStrings + 8);
@@ -46,12 +46,13 @@ struct FUN_00c29fb0_cls
     unsigned int unk04;
     unsigned int unk08;
     void FUN_00c32de0(void* obj, unsigned int a1);
-    void* FUN_00c29fb0(unsigned int a1);
+    void* NiPSysInitialRotSpeedCtlr_CreateClone(unsigned int a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor, sets its vtable, passes it to FUN_00c32de0 with a1, and returns it.
 // @fnv 0x00c29fb0
-void* FUN_00c29fb0_cls::FUN_00c29fb0(unsigned int a1)
+// src: XBOX_PDB 0x00c29fb0
+void* FUN_00c29fb0_cls::NiPSysInitialRotSpeedCtlr_CreateClone(unsigned int a1)
 {
     FUN_00c29fb0_cls* p = (FUN_00c29fb0_cls*)FUN_00aa13e0(0x40);
     if (p != 0)

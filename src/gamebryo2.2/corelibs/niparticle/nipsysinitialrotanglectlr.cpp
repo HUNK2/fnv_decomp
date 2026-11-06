@@ -51,11 +51,12 @@ bool NiPSysInitialRotAngleCtlr::IsModifierOfType(NiObjectNET* pkTarget)
 }
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-void __stdcall FUN_00c32f60(StrArr*);
+void __stdcall NiPSysModifierFloatCtlr_GetViewerStrings(StrArr*);
 // @fnv 0x00c2a260
-void __stdcall FUN_00c2a260(StrArr* pkStrings)
+// src: XBOX_PDB 0x00c2a260
+void __stdcall NiPSysInitialRotAngleCtlr_GetViewerStrings(StrArr* pkStrings)
 {
-    FUN_00c32f60(pkStrings);
+    NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pStr = NiViewerStrings_NiGetViewerString_Title(g_012026f0.m_pcName);
     unsigned int iCount = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int iSize = *(unsigned short*)((char*)pkStrings + 8);

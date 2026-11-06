@@ -64,7 +64,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     rad4 = _mm_shuffle_ps(rad4, rad4, 0);
     hkVector4 cur;
     cur.m_vComponents = _mm_mul_ps(rad4, perp->m_vComponents);
-    cur.FUN_00c7f700(&rot, &cur);
+    cur.hkVector4_setRotatedDir(&rot, &cur);
     cur.m_vComponents = _mm_add_ps(center->m_vComponents, cur.m_vComponents);
     float stepAngle = (endAngle - startAngle) / numSegments;
     rot.FUN_00cb2e30(axis, stepAngle);
@@ -72,7 +72,7 @@ void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hk
     {
         hkVector4 next;
         next.m_vComponents = _mm_sub_ps(cur.m_vComponents, center->m_vComponents);
-        next.FUN_00c7f700(&rot, &next);
+        next.hkVector4_setRotatedDir(&rot, &next);
         next.m_vComponents = _mm_add_ps(center->m_vComponents, next.m_vComponents);
         ((DisplayTarget*)value)->DisplayLine(&cur, &next, a8, a9, a10);
         cur.m_vComponents = next.m_vComponents;

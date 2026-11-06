@@ -71,7 +71,7 @@ public:
     void UpdateProgress(float);
     void FOVATSEffectManager_UpdateScan(float);
     void DisableScan();                           // 0x008009d0
-    void FUN_00800ac0(int, int, int);
+    void FOVATSEffectManager_SetTarget(int, int, int);
     void ClearMultiTargets();                     // 0x00800ed0
     void FOVATSEffectManager_DrawTargetToTexture(RenderTexture*, int, unsigned char, int, int, unsigned char);
     void FOVATSEffectManager_DrawTarget(unsigned char, int);

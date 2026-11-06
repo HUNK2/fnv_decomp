@@ -2674,7 +2674,8 @@ FUN_00b9b930_class* FUN_00b9b930_class::FUN_00b9b930(bool abDelete)
 extern int DAT_011ff0f4;
 
 // @fnv 0x00b811e0
-int __cdecl FUN_00b811e0()
+// src: XBOX_PDB 0x00b811e0
+int __cdecl BSShaderBloodSplatterProperty_GetRTTI()
 {
     return reinterpret_cast<int>(&DAT_011ff0f4);
 }
@@ -2708,11 +2709,12 @@ struct FUN_00b811f0_cls
     int unk60;
     int unk64;
     unsigned int m_i68;
-    void FUN_00b811f0(unsigned int value);
+    void BSShaderBloodSplatterProperty_SetClampNI(unsigned int value);
 };
 
 // @fnv 0x00b811f0
-void FUN_00b811f0_cls::FUN_00b811f0(unsigned int value)
+// src: XBOX_PDB 0x00b811f0
+void FUN_00b811f0_cls::BSShaderBloodSplatterProperty_SetClampNI(unsigned int value)
 {
     m_i68 = value;
 }
@@ -2819,14 +2821,15 @@ struct FUN_00b812b0_class
     FNVRefCounted* m_refs[2];
     int m_68;
     int unk6c;
-    void __thiscall FUN_00ba8b10(FUN_00b812b0_class* dst, int flag);
-    void __thiscall FUN_00b812b0(FUN_00b812b0_class* dst, int flag);
+    void __thiscall BSShaderProperty_CopyMembers(FUN_00b812b0_class* dst, int flag);
+    void __thiscall BSShaderBloodSplatterProperty_CopyMembers(FUN_00b812b0_class* dst, int flag);
 };
 
 // @fnv 0x00b812b0
-void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, int flag)
+// src: XBOX_PDB 0x00b812b0
+void FUN_00b812b0_class::BSShaderBloodSplatterProperty_CopyMembers(FUN_00b812b0_class* dst, int flag)
 {
-    FUN_00ba8b10(dst, flag);
+    BSShaderProperty_CopyMembers(dst, flag);
     for (int i = 0; i < 2; i++)
     {
         FNVRefCounted* pOldRef = dst->m_refs[i];
@@ -12825,8 +12828,8 @@ void EffectB9B540::ImageSpaceEffectNoise_Render(void* renderer, void* target, vo
     parameters->FUN_00b8a790(5, DAT_011ffe8c, DAT_011ffe90, DAT_011ffe94, 0.0f);
     shader->SetAccumulatorAt(0, &temporaryTexture, 0);
     shader->SetAccumulatorAt(1, textures[1], 1);
-    textures[0]->FUN_00ba3760(3);
-    textures[1]->FUN_00ba3760(3);
+    textures[0]->NiShader_SetImplementation(3);
+    textures[1]->NiShader_SetImplementation(3);
     shader->Render(renderer, target, parameters, true);
     shader = static_cast<ShaderObject*>(shaders[1]);
     parameters = constants[1];
@@ -12836,8 +12839,8 @@ void EffectB9B540::ImageSpaceEffectNoise_Render(void* renderer, void* target, vo
     parameters->FUN_00b8a790(3, DAT_011ffe48, 0.0f, 0.0f, 0.0f);
     shader->SetAccumulatorAt(0, textures[0], 0);
     shader->SetAccumulatorAt(1, &temporaryTexture, 0);
-    textures[0]->FUN_00ba3760(3);
-    textures[1]->FUN_00ba3760(3);
+    textures[0]->NiShader_SetImplementation(3);
+    textures[1]->NiShader_SetImplementation(3);
     shader->Render(renderer, target, parameters, true);
     temporaryTexture.ImageSpaceTexture_ReturnRenderedTexture();
 }
@@ -14547,11 +14550,11 @@ struct List2_af60
 struct Lock_af60
 {
     int m_pOwnerObject;
-    void FUN_0040fbf0(int a);
+    void BSSpinLock_Lock(int a);
 };
 struct Mgr_af60
 {
-    void FUN_00aa4060(Entry_af60* e);
+    void MemoryManager_Deallocate(Entry_af60* e);
 };
 
 }  // namespace fnv_00b9af60
@@ -14607,7 +14610,7 @@ extern double DAT_01016978;
 void __cdecl ClearPassList(int* p, int a);
 void __cdecl BSRenderState_SetZWriteEnable(int a, int b);
 void __cdecl SendFloatAdd(float f, int a);
-void __cdecl FUN_00b994f0(Item_af60* item, unsigned int a, int b, int c, int d);
+void __cdecl BSBatchRenderer_RenderPassImmediately(Item_af60* item, unsigned int a, int b, int c, int d);
 extern "C" int __cdecl _isnan(double);
 
 
@@ -14624,7 +14627,7 @@ inline void List2_af60::RemoveHead()
         m_pTail = 0;
     }
     n->m_data = 0;
-    DAT_011c5f80.FUN_0040fbf0(0);
+    DAT_011c5f80.BSSpinLock_Lock(0);
     n->m_pSecondNode = 0;
     n->m_next = DAT_011c5f58;
     DAT_011c5f84 -= 1;
@@ -14682,7 +14685,7 @@ void BSBatchRenderer::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius,
             }
             e->m_02 = 0;
             e->FUN_00b9a410();
-            fnv_00b9af60::DAT_011f6238.FUN_00aa4060(e);
+            fnv_00b9af60::DAT_011f6238.MemoryManager_Deallocate(e);
             reinterpret_cast<List2_af60&>(AlphaGroupList[idx]).RemoveHead();
             e = reinterpret_cast<List2_af60&>(AlphaGroupList[idx]).m_uiItemCount ? reinterpret_cast<List2_af60&>(AlphaGroupList[idx]).m_pFirstNode->m_data : 0;
         }
@@ -14707,7 +14710,7 @@ void BSBatchRenderer::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius,
                 {
                     restore = false;
                 }
-                FUN_00b994f0(a, a->m_04, 1, 1, 1);
+                BSBatchRenderer_RenderPassImmediately(a, a->m_04, 1, 1, 1);
                 if (restore)
                 {
                     DAT_011ff9dc -= 1;
@@ -15649,7 +15652,7 @@ extern "C" void FUN_0045cec0();
 
 struct AllocFree_b9960 : AllocSvc
 {
-    void FUN_00aa4060(void* apMemory);
+    void MemoryManager_Deallocate(void* apMemory);
 };
 static inline AllocFree_b9960& GetAllocFree()
 {
@@ -15662,7 +15665,7 @@ struct Elem_b11320
     ~Elem_b11320();
     static void operator delete[](void* p)
     {
-        GetAllocFree().FUN_00aa4060(p);
+        GetAllocFree().MemoryManager_Deallocate(p);
     }
 };
 struct Sub58_b9960
@@ -15782,7 +15785,7 @@ extern "C" int DAT_01202410;
 extern "C" void __fastcall ClearConstantGroups(void*);
 struct Manager97690
 {
-    void FUN_00b6da10(unsigned int);
+    void BSTextureManager_ReturnRenderedTexture(unsigned int);
 };
 extern Manager97690* DAT_011f91a8;
 
@@ -16019,7 +16022,7 @@ FUN_00b97690::~FUN_00b97690()
         ClearTextures();
         ClearConstantGroups(&DAT_01202410);
         active = false;
-        DAT_011f91a8->FUN_00b6da10(m_textureId);
+        DAT_011f91a8->BSTextureManager_ReturnRenderedTexture(m_textureId);
     }
 }
 
@@ -19352,8 +19355,8 @@ inline const float& RMax(const float& a, const float& b)
 {
     return a > b ? a : b;
 }
-float FUN_00404010(float a, float b);
-float FUN_0040ebd0(float a, float b);
+float BSMAX_00404010(float a, float b);
+float BSMIN(float a, float b);
 
 struct LightStandIn
 {
@@ -19461,7 +19464,7 @@ float __fastcall ComputeShadowLightFade(ShadowSceneLight* self, void*, PointB9 p
         if (self->bPointLight)
         {
             float d = toLight.Length() / radius;
-            d = FUN_0040ebd0(1.0f, FUN_00404010(0.0f, d));
+            d = BSMIN(1.0f, BSMAX_00404010(0.0f, d));
             self->fLuminance = 1.0f - d * d;
         }
         PointB9 dir = target - pos;
@@ -19562,7 +19565,7 @@ class B9Point3
     {
         return (float)sqrt(x * x + y * y + z * z);
     }
-    __declspec(noinline) void FUN_004a0c10();
+    __declspec(noinline) void Unitize_004a0c10();
 };
 
 
@@ -19638,7 +19641,7 @@ struct B9Light
         ++revision;
     }
     B9Bounds* FUN_00a5bdd0(int);
-    void FUN_00a59c60(NiUpdateData&);
+    void NiAVObject_Update(NiUpdateData&);
 };
 
 struct B9List
@@ -19860,12 +19863,12 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     B9Light* primary = reinterpret_cast<B9Light*>(manager->primary->spLight.m_pObject);
     B9Point3 fallback = -primary->direction;
     fallback.z *= radius * DAT_010b7e98;
-    fallback.FUN_004a0c10();
+    fallback.Unitize_004a0c10();
     if (total == 0.0f)
     {
         direction = fallback;
         color = primary->diffuse;
-        direction.FUN_004a0c10();
+        direction.Unitize_004a0c10();
         float zmin = (float)(radius / DAT_010731a8);
         if (zmin > direction.z)
             direction.z = zmin;
@@ -19888,7 +19891,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
                         float& acc = distance;
                         acc += (reinterpret_cast<B9Light*>(entry->spLight.m_pObject)->attenuation.x * DAT_011ffea0[i] + other * 1000.0) * contribution;
                         B9Point3 delta = reinterpret_cast<B9Light*>(entry->spLight.m_pObject)->worldPosition - position;
-                        delta.FUN_004a0c10();
+                        delta.Unitize_004a0c10();
                         delta = delta * DAT_011ffea0[i] + fallback * (float)other;
                         direction += delta * contribution;
                         color += (light->diffuse * DAT_011ffea0[i] + primary->diffuse * (float)other) * contribution;
@@ -19897,23 +19900,24 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
             }
             entry = lights ? lights->BSShaderLightingProperty_GetNextActiveNonShadowLight(&cursor) : B9Mgr()->GetListItemAt(++scan);
         }
-        direction.FUN_004a0c10();
+        direction.Unitize_004a0c10();
         if (direction.z < DAT_0101de30)
             direction.z = DAT_01016264;
     }
-    direction.FUN_004a0c10();
+    direction.Unitize_004a0c10();
     float limitedDistance = ClipUpperRadius(radius);
     output->translation = position + (direction * limitedDistance) * (float)DAT_010b7e90;
     distance = (float)(limitedDistance * 8.0);
     NiUpdateData update;
-    output->FUN_00a59c60(update);
+    output->NiAVObject_Update(update);
     float intensity = (float)(color.r * (double)0.4f + color.g * (double)0.4f + color.b * (double)0.4f);
     float clamped = FinalClamp(intensity);
     output->SetDiffuse(NiColor(clamped, clamped, clamped));
     output->SetAttenuation(B9Point3(distance, 0.0f, 0.0f));
 }
 
-void B9Point3::FUN_004a0c10()
+// src: XBOX_PDB 0x004a0c10
+void B9Point3::Unitize_004a0c10()
 {
     float n = Length();
     if (n > DAT_01017cf8)

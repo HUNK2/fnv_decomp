@@ -295,7 +295,8 @@ extern int g_011f371c;
 char* NiViewerStrings_NiGetViewerString_Title(int);
 // Append base strings, the class name and the accumulated transform strings.
 // @fnv 0x00a3a6b0
-void __fastcall FUN_00a3a6b0(NiBlendAccumTransformInterpolator* self, int unused, NiTArray<char*, NiTMallocInterface<char*> >* strs)
+// src: XBOX_PDB 0x00a3a6b0
+void __fastcall NiBlendAccumTransformInterpolator_GetViewerStrings(NiBlendAccumTransformInterpolator* self, int unused, NiTArray<char*, NiTMallocInterface<char*> >* strs)
 {
     reinterpret_cast<void (__thiscall*)(NiBlendInterpolator*, NiTArray<char*, NiTMallocInterface<char*> >*)>(&AppendBlendInterpolatorStrings)(self, strs);
     char* s = NiViewerStrings_NiGetViewerString_Title(g_011f371c);
@@ -391,7 +392,7 @@ struct QQuatOps
 {
     float w, x, y, z;
     QQuatOps FUN_00a2bcf0(const QQuatOps&) const;
-    void FUN_004f0180(MatrixAccum*);
+    void NiQuaternion_ToRotation(MatrixAccum*);
 };
 extern QQuatOps DAT_011a9ea4;
 extern NiPoint3 DAT_011f426c;
@@ -434,7 +435,7 @@ void __fastcall UpdateAccumulationItem(NiBlendAccumTransformInterpolator* self, 
             secondRotation = *source;
         }
         QQuatOps productRotation = firstRotation.FUN_00a2bcf0(secondRotation);
-        productRotation.FUN_004f0180(reinterpret_cast<MatrixAccum*>(state->rotation));
+        productRotation.NiQuaternion_ToRotation(reinterpret_cast<MatrixAccum*>(state->rotation));
     }
     if (time < state->time && !self->m_bHasAccumulation)
     {
@@ -463,7 +464,7 @@ void __fastcall UpdateAccumulationItem(NiBlendAccumTransformInterpolator* self, 
                 firstRotation = *source;
             }
             QQuatOps productRotation = secondRotation.FUN_00a2bcf0(firstRotation);
-            productRotation.FUN_004f0180(reinterpret_cast<MatrixAccum*>(state->rotation));
+            productRotation.NiQuaternion_ToRotation(reinterpret_cast<MatrixAccum*>(state->rotation));
         }
         first.Invert(&inverse);
         state->value = inverse.CombineTransforms(static_cast<void*>(&current));

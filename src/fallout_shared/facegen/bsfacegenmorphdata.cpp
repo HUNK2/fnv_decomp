@@ -25,9 +25,9 @@ extern "C" void* __cdecl memset(void*, int, unsigned int);
 int __cdecl BSstricmp(const char*, const char*);
 const char* __cdecl PrepareScriptMessage(const char*, bool);
 int __cdecl Warning(const char*, ...);
-const char* __cdecl FUN_005dd830(unsigned int);
-const char* __cdecl FUN_005dd840(unsigned int);
-const char* __cdecl FUN_005dd850(unsigned int);
+const char* __cdecl BSFaceGenManager_GetFaceGenExpressionText(unsigned int);
+const char* __cdecl BSFaceGenManager_GetFaceGenModifierText(unsigned int);
+const char* __cdecl BSFaceGenManager_GetFaceGenPhonemeText(unsigned int);
 const char* __cdecl BSFaceGenManager_GetCustomMorphText(unsigned int);
 extern const char DAT_01065e40[];
 extern const char DAT_01065dd0[];
@@ -109,7 +109,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
         local.found = false;
         for (local.expression = 0; local.expression < 15; local.expression++)
         {
-            if (!BSstricmp(FUN_005dd830(local.expression), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenExpressionText(local.expression), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!expressions)
                 {
@@ -141,7 +141,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.modifier = 0; local.modifier < 17; local.modifier++)
         {
-            if (!BSstricmp(FUN_005dd840(local.modifier), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenModifierText(local.modifier), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!modifiers)
                 {
@@ -173,7 +173,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.phoneme = 0; local.phoneme < 16; local.phoneme++)
         {
-            if (!BSstricmp(FUN_005dd850(local.phoneme), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenPhonemeText(local.phoneme), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!phonemes)
                 {
@@ -242,7 +242,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
         local.found = false;
         for (local.expression = 0; local.expression < 15; local.expression++)
         {
-            if (!BSstricmp(FUN_005dd830(local.expression), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenExpressionText(local.expression), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!expressions)
                 {
@@ -272,7 +272,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.modifier = 0; local.modifier < 17; local.modifier++)
         {
-            if (!BSstricmp(FUN_005dd840(local.modifier), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenModifierText(local.modifier), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!modifiers)
                 {
@@ -302,7 +302,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.phoneme = 0; local.phoneme < 16; local.phoneme++)
         {
-            if (!BSstricmp(FUN_005dd850(local.phoneme), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
+            if (!BSstricmp(BSFaceGenManager_GetFaceGenPhonemeText(local.phoneme), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!phonemes)
                 {

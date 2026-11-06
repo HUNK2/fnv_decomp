@@ -13,11 +13,11 @@ struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 extern "C" const NiRTTI* g_011f3e64;
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
 {
-    bool FUN_00a40a20(NiObject*);
+    bool NiBlendTransformInterpolator_IsEqual(NiObject*);
 };
 struct FUN_00a36fd0_tgt
 {
-    char FUN_00a36fd0(NiObject*);
+    char NiBlendInterpolator_IsEqual(NiObject*);
 };
 class FUN_00a40980_base
 {
@@ -49,7 +49,7 @@ struct NiBlendObjectDerived_b9169 : NiBlendObject_b9169
 };
 struct NiUpdateOwner_b9169
 {
-    void FUN_00a37510(NiBlendObject_b9169* p, int a);
+    void NiBlendInterpolator_CopyMembers(NiBlendObject_b9169* p, int a);
 };
 struct FUN_00a40a50_cls : NiUpdateOwner_b9169
 {
@@ -63,7 +63,7 @@ extern unsigned int DAT_011f3708;
 extern unsigned int DAT_011f370c;
 extern unsigned int DAT_011f3710;
 extern float DAT_01096b8c;
-void __stdcall FUN_00a37980(void* a1);
+void __stdcall NiBlendInterpolator_LoadBinary(void* a1);
 class FUN_00a40ab0_obj
 {
   public:
@@ -136,7 +136,7 @@ class QuatBlockArg
     unsigned int m_1C;
     void Apply(FUN_00a40ab0_obj* apObj);
 };
-void __stdcall FUN_00a40ab0(FUN_00a40ab0_obj* a1);
+void __stdcall NiBlendTransformInterpolator_LoadBinary(FUN_00a40ab0_obj* a1);
 template <class T> class AGPrimArray
 {
   public:
@@ -163,9 +163,9 @@ template <class T> class AGPrimArray
 };
 typedef AGPrimArray<const char*> AGViewerStrings;
 extern "C" const char* DAT_011f3e64;
-void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
+void __stdcall NiBlendInterpolator_GetViewerStrings(AGViewerStrings* pkStrings);
 const char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-void __stdcall FUN_00a41170(AGViewerStrings* pkStrings);
+void __stdcall NiBlendTransformInterpolator_GetViewerStrings(AGViewerStrings* pkStrings);
 
 extern const float DAT_01015f5c;
 extern const float DAT_0109696c;
@@ -180,7 +180,8 @@ __forceinline void Invalidate850(NiQuatTransform& value)
     value.scale = value.qy = value.x = -3.402823466e+38F;
 }
 // @fnv 0x00a40b30
-bool NiBlendTransformInterpolator::FUN_00a40b30(float time, NiObjectNET* object, NiQuatTransform& value)
+// src: XBOX_PDB 0x00a40b30
+bool NiBlendTransformInterpolator::StoreSingleValue(float time, NiObjectNET* object, NiQuatTransform& value)
 {
     if (m_uiObjectFlags & 1)
         time = m_fSingleInterpolatorTime;

@@ -16,7 +16,7 @@ extern int DAT_0106b8a0;
 struct FUN_006cf9d0
 {
     int* vfptr;
-    void FUN_009a3d00(unsigned int maxSize, unsigned int growBy);
+    void BSSimpleArray_WeaponData_1024_InitialSetup(unsigned int maxSize, unsigned int growBy);
     FUN_006cf9d0(unsigned int maxSize, unsigned int growBy);
 };
 extern int DAT_0106b91c;
@@ -128,14 +128,14 @@ struct ArrHelper
 };
 struct S5460
 {
-    unsigned int __thiscall FUN_00978bc0();
+    unsigned int __thiscall BSSimpleArray_NiPoint3_1024_AddUninitialized();
 };
 struct FUN_006cf4c0_Array
 {
     ParentSpaceNode* pDummy;
     ParentSpaceNode* pBuffer;
     unsigned int iSize;
-    unsigned int FUN_006cf4c0(const ParentSpaceNode& aValue);
+    unsigned int BSSimpleArray_ParentSpaceNode_1024_Add(const ParentSpaceNode& aValue);
 };
 extern int DAT_0106c990;
 struct FUN_0069b1d0
@@ -203,7 +203,7 @@ struct FUN_006e9410_class
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006dc6e0_Class
 {
-    void __thiscall FUN_006dc6e0(char* a, char* b, unsigned int count);
+    void __thiscall BSSimpleArray_BSCompoundFrustum_FunctionOp_1024_MoveItems(char* a, char* b, unsigned int count);
 };
 struct FUN_006cf820
 {
@@ -360,7 +360,7 @@ struct FUN_006bf8f0_Class
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void __thiscall FUN_006bf8f0(unsigned int aiIndex, bool abShrink);
+    void __thiscall BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(unsigned int aiIndex, bool abShrink);
 };
 struct FUN_006a2270_class
 {
@@ -379,7 +379,7 @@ struct FUN_006cf000_Class
 };
 struct S5460_FUN_006e3d30_Helper
 {
-    void* __thiscall FUN_006e3d30(unsigned int newSize, unsigned int oldSize);
+    void* __thiscall BSSimpleArray_PathingAvoidNode_1024_ReallocateBuffer(unsigned int newSize, unsigned int oldSize);
 };
 struct BSSimpleArray_PathingAvoidNode_1024
 {
@@ -395,11 +395,11 @@ struct BSSimpleArray_PathingAvoidNode_1024
 };
 struct FUN_009f6540_Helper
 {
-    void __thiscall FUN_009f6540(unsigned int, unsigned int);
+    void __thiscall BSSimpleArray_TeleportLink_1024_ReallocateBuffer(unsigned int, unsigned int);
 };
 struct Host9f6340
 {
-    void __thiscall FUN_009f6460(int, int);
+    void __thiscall BSSimpleArray_SandBoxChoiceListItem_1024_ConstructItems(int, int);
 };
 struct FUN_009f6200_Class
 {
@@ -410,7 +410,7 @@ struct FUN_009f6200_Class
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
 
-    void FUN_009f6200(unsigned int aiNewSize, bool abFreeMemory);
+    void BSSimpleArray_SandBoxChoiceListItem_1024_SetSize(unsigned int aiNewSize, bool abFreeMemory);
 };
 struct FUN_0069cfe0_Elem
 {
@@ -445,12 +445,12 @@ struct HeapProvider
 {
     void* FUN_00aa42e0();
 };
-HeapProvider* __cdecl FUN_00401020();
+HeapProvider* __cdecl MemoryManager_Instance();
 struct FUN_006cf2a0 : FUN_005e0510
 {
     void* m_pStreamAllocator;
     FUN_006cf2a0(int first, int second, void* heap);
-    void FUN_006b3eb0(int first, int second);
+    void BSSimpleArray_float_1024_InitialSetup(int first, int second);
 };
 struct FUN_006cf700_cls
 {
@@ -552,7 +552,7 @@ struct FUN_006e3c90_cls
 };
 struct FUN_006e9470_Helper
 {
-    void FUN_006e9280(unsigned int count, int flag);
+    void BSSimpleArray_PathingNode_1024_SetSize(unsigned int count, int flag);
     void* FUN_006e8f80(int index, void* item);
 };
 struct FUN_006e9470_Obj
@@ -631,7 +631,7 @@ struct FUN_006e9280_shell
     void BSSimpleArray_PathingNode_1024_ReallocateBuffer(unsigned int uiNewAlloc, unsigned int uiCopy);
     void ConstructArray(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
     void FUN_006cff20(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
-    void FUN_006e9280(unsigned int uiNewSize, bool bShrink);
+    void BSSimpleArray_PathingNode_1024_SetSize(unsigned int uiNewSize, bool bShrink);
 };
 
 struct ArrayStub

@@ -750,11 +750,12 @@ struct MultiBoundOwner
     int unk8c;
     MultiBoundList m_kInactiveList;
     MultiBoundList m_kActiveList;
-    void FUN_00b6d4c0(BSMultiBound* pkBound);
+    void BSTextureManager_ReturnFrustumShadowTexture(BSMultiBound* pkBound);
 };
 
 // @fnv 0x00b6d4c0
-void MultiBoundOwner::FUN_00b6d4c0(BSMultiBound* pkBound)
+// src: XBOX_PDB 0x00b6d4c0
+void MultiBoundOwner::BSTextureManager_ReturnFrustumShadowTexture(BSMultiBound* pkBound)
 {
     if (!pkBound)
         return;

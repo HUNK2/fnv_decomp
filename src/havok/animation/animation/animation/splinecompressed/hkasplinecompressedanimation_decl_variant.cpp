@@ -44,7 +44,8 @@ static void invalidKey()
 }
 
 // @fnv 0x00e63c60
-int __cdecl FUN_00e63c60(bool* valid)
+// src: XBOX_PDB 0x00e63c60
+int __cdecl hkaProcessFlyingColors(bool* valid)
 {
     *valid = false;
     int status = 0;

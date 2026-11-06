@@ -47,10 +47,10 @@ template <> NiPointer<KFModel>& NiPointer<KFModel>::operator=(KFModel* object)
     if (m_pObject != object)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b050();
+            m_pObject->KFModel_DecRefCount();
         m_pObject = object;
         if (m_pObject)
-            m_pObject->FUN_0044b010();
+            m_pObject->KFModel_IncRefCount();
     }
     return *this;
 }
@@ -61,7 +61,7 @@ template <> NiPointer<LoadedFile>& NiPointer<LoadedFile>::operator=(LoadedFile* 
     if (m_pObject != object)
     {
         if (m_pObject)
-            m_pObject->FUN_0044b180();
+            m_pObject->LoadedFile_DecRefCount();
         m_pObject = object;
         if (m_pObject)
             m_pObject->LoadedFile_IncRefCount();
@@ -75,10 +75,10 @@ template <> NiPointer<WaitableObject>& NiPointer<WaitableObject>::operator=(cons
     if (m_pObject != other.m_pObject)
     {
         if (m_pObject)
-            m_pObject->FUN_00401970();
+            m_pObject->NiRefObject_DecRefCount();
         m_pObject = other.m_pObject;
         if (m_pObject)
-            m_pObject->FUN_0040f6e0();
+            m_pObject->NiRefObject_IncRefCount();
     }
     return *this;
 }
@@ -86,7 +86,8 @@ template <> NiPointer<WaitableObject>& NiPointer<WaitableObject>::operator=(cons
 class MemoryManager;
 extern MemoryManager g_memoryManager;
 // @fnv 0x00401020
-MemoryManager* FUN_00401020()
+// src: XBOX_PDB 0x00401020
+MemoryManager* MemoryManager_Instance()
 {
     return &g_memoryManager;
 }

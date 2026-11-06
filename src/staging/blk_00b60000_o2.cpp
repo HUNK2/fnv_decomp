@@ -128,12 +128,12 @@ class ShaderAccumulatorLocal : public BSShaderAccumulator
 public:
     virtual void PreparePasses();
     virtual void FinishPasses();
-    void FUN_00b66570();
+    void BSShaderAccumulator_FinishAccumulatingPostResolveDepth();
     void ApplyRenderMode();
     void BSShaderAccumulator_ClearBloodSplatter();
     void BSShaderAccumulator_ClearGroupPasses(unsigned int index);
-    void FUN_00b63b60();
-    void FUN_00b63070();
+    void BSShaderAccumulator_ClearSharedMap();
+    void BSShaderAccumulator_FinishAccumulating();
     int SumItemSubValues();
 };
 
@@ -306,7 +306,8 @@ void* FUN_00b664f0_class::FUN_00b664f0(unsigned int flags)
 void __cdecl BSShaderAccumulator_FinishAccumulating_Standard_PostResolveDepth(void*);
 
 // @fnv 0x00b66570
-void ShaderAccumulatorLocal::FUN_00b66570()
+// src: XBOX_PDB 0x00b66570
+void ShaderAccumulatorLocal::BSShaderAccumulator_FinishAccumulatingPostResolveDepth()
 {
     if (!*(int*)((char*)this + 0x19c))
         BSShaderAccumulator_FinishAccumulating_Standard_PostResolveDepth(this);
@@ -359,12 +360,12 @@ FUN_00b6b160_class* __thiscall FUN_00b6b160_class::FUN_00b6b160(int flags)
     return this;
 }
 
-void FUN_00ba91a0(void* dst, int size, const void* src);
+void BSShaderProperty_SetFlagRecurse(void* dst, int size, const void* src);
 
 // @fnv 0x00b6b910
 void __cdecl CopyBlock48(void* dst, const void* src)
 {
-    FUN_00ba91a0(dst, 0x30, src);
+    BSShaderProperty_SetFlagRecurse(dst, 0x30, src);
 }
 
 extern double DAT_010ae8b0;
@@ -440,7 +441,7 @@ void __thiscall FUN_00b7deb0_class::ShadowLightShader_SetupPass_ADT4_Opt()
 
 struct NiObjectNET_stub
 {
-    void FUN_00a5c6a0(int);
+    void NiObjectNET_PostLinkObject(int);
 };
 struct FUN_00b6f4f0_class
 {
@@ -452,7 +453,7 @@ struct FUN_00b6f4f0_class
 // @fnv 0x00b6f4f0
 void FUN_00b6f4f0_class::SetTextureByName(int a)
 {
-    ((NiObjectNET_stub*)this)->FUN_00a5c6a0(a);
+    ((NiObjectNET_stub*)this)->NiObjectNET_PostLinkObject(a);
     if (*(int*)((char*)this + 0x64))
         BSShaderManager::GetTexture((const char*)*(int*)((char*)this + 0x64), true, *(NiTexture**)((char*)this + 0x60),
                                     false, false);
@@ -543,7 +544,7 @@ void __cdecl BSShaderAccumulator_FinishAccumulating_WaterDepth(AccumWIP* self)
 }
 
 extern void(__cdecl* DAT_011f9f40[])(void*);
-void __cdecl FUN_00b65ae0(void*);
+void __cdecl BSShaderAccumulator_FinishAccumulating_Standard_PreResolveDepth(void*);
 
 // @fnv 0x00b66520
 void ShaderAccumulatorLocal::ApplyRenderMode()
@@ -551,7 +552,7 @@ void ShaderAccumulatorLocal::ApplyRenderMode()
     BSShaderManager::SetRenderMode(eRenderMode);
     if (!*(int*)((char*)this + 0x19c))
     {
-        FUN_00b65ae0(this);
+        BSShaderAccumulator_FinishAccumulating_Standard_PreResolveDepth(this);
         return;
     }
     if (DAT_011f9f40[*(unsigned int*)((char*)this + 0x19c)])
@@ -562,23 +563,24 @@ void ShaderAccumulatorLocal::ApplyRenderMode()
     DAT_011f9f40[0](this);
 }
 
-bool __stdcall FUN_00b70270(void*);
+bool __stdcall BSShaderLightingProperty_IsEqual(void*);
 // @fnv 0x00b665c0
-char __stdcall FUN_00b665c0(int a)
+// src: XBOX_PDB 0x00b665c0
+char __stdcall BSShaderPPLightingProperty_IsEqual(int a)
 {
-    FUN_00b70270((void*)a);
+    BSShaderLightingProperty_IsEqual((void*)a);
     return 0;
 }
 
 struct FUN_00b6f460_class
 {
-    void FUN_00b6f460(NiStream* s);
+    void BSShaderLightingProperty_LinkObject(NiStream* s);
     void LoadAndSetAdditional(NiStream* kStream);
 };
 // @fnv 0x00b66780
 void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
 {
-    FUN_00b6f460(kStream);
+    BSShaderLightingProperty_LinkObject(kStream);
     NiObject* pkAdditional = (NiObject*)kStream->GetLoadedObject();
     NiObject* old = *(NiObject**)((char*)this + 0xa4);
     if (old != pkAdditional)
@@ -640,7 +642,7 @@ struct FUN_00b7b930_Ctx
     int iValue;
 };
 
-FUN_00b7b930_Ctx* __cdecl FUN_00b4f5c0();
+FUN_00b7b930_Ctx* __cdecl BSShaderManager_GetAccumulator();
 extern FUN_00b7b930_Entry* DAT_011febe4;
 extern NiPoint3 DAT_011f474c;
 extern FUN_00b7b930_Matrix DAT_011fd968;
@@ -653,7 +655,7 @@ void __stdcall UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, int iIdentity, const N
         return;
     if (!pkArg->pTarget || pkArg->pTarget->iIndex == -1)
         return;
-    if (!FUN_00b4f5c0()->iValue)
+    if (!BSShaderManager_GetAccumulator()->iValue)
         return;
     FUN_00b7b930_Matrix kMat;
     if (!iIdentity)
@@ -879,7 +881,8 @@ void __stdcall WriteToSettingArray(StrArr* arr);
 
 // Appends the string returned by _FUN_00a7d330(g_011fa018) to arr, growing arr to idx plus the growth value when idx reaches capacity.
 // @fnv 0x00b6a670
-void __stdcall FUN_00b6a670(StrArr* pStrArr)
+// src: XBOX_PDB 0x00b6a670
+void __stdcall WaterShaderProperty_GetViewerStrings(StrArr* pStrArr)
 {
     WriteToSettingArray(pStrArr);
     char* p = _FUN_00a7d330(g_011fa018);
@@ -927,11 +930,12 @@ struct FUN_00b6f520_class
     char pad_00[0x60];
     int m_0x60;
 
-    void FUN_00b6f520();
+    void BSShaderNoLightingProperty_PrecacheTextures();
 };
 
 // @fnv 0x00b6f520
-void FUN_00b6f520_class::FUN_00b6f520()
+// src: XBOX_PDB 0x00b6f520
+void FUN_00b6f520_class::BSShaderNoLightingProperty_PrecacheTextures()
 {
     int value = m_0x60;
     if (value != 0)
@@ -944,7 +948,8 @@ void FUN_00b6f520_class::FUN_00b6f520()
 
 extern void* g_011fa05c;
 // @fnv 0x00b6fd00
-void* __cdecl FUN_00b6fd00()
+// src: XBOX_PDB 0x00b6fd00
+void* __cdecl BSShaderNoLightingProperty_GetRTTI()
 {
     return &g_011fa05c;
 }
@@ -1117,7 +1122,7 @@ template <> NiPointer<FnvB60280Ref>& NiPointer<FnvB60280Ref>::operator=(FnvB6028
 
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
@@ -1146,7 +1151,7 @@ void FUN_00b604b0_class::AssignString(AssignedString* out, const char* input, Ni
     if (copyText)
     {
         unsigned int length = strlen(input) + 1;
-        char* buffer = static_cast<char*>(FUN_00aa1070(length));
+        char* buffer = static_cast<char*>(_NiMalloc_00aa1070(length));
         out->text = buffer;
         strcpy_s(buffer, length, input);
     }
@@ -1306,7 +1311,8 @@ int* __cdecl TallGrassShaderProperty_GetRTTI()
 }
 
 // @fnv 0x00b63070
-void ShaderAccumulatorLocal::FUN_00b63070()
+// src: XBOX_PDB 0x00b63070
+void ShaderAccumulatorLocal::BSShaderAccumulator_FinishAccumulating()
 {
     PreparePasses();
     FinishPasses();
@@ -1591,13 +1597,13 @@ struct DecompOwner
     bool CheckAndNotify(int a);
 };
 
-bool __stdcall FUN_00bc3770(int a);
+bool __stdcall BSShaderLightingProperty_RegisterStreamables(int a);
 
 // Calls FUN_00bc3770(a); if it succeeds, invokes v21(a) on the stored target pointer when non-null and returns true, otherwise false.
 // @fnv 0x00b667e0
 bool DecompOwner::CheckAndNotify(int aiValue)
 {
-    if (!FUN_00bc3770(aiValue))
+    if (!BSShaderLightingProperty_RegisterStreamables(aiValue))
         return false;
     DecompTarget* pTarget = this->m_pFlagTarget;
     if (pTarget != 0)
@@ -1916,12 +1922,13 @@ struct ThisCls
     char unk84[0x130 - 0x84];
     int m_130;
     void FUN_00ba95e0(int a);
-    Ret30* FUN_00b69f30(ArgP* p);
-    Obj3c* FUN_00b69ff0(ArgP* p, int a2, int a3, int a4, int a5, int a6);
+    Ret30* WaterShaderProperty_GetWaterPass(ArgP* p);
+    Obj3c* WaterShaderProperty_GetRenderPasses(ArgP* p, int a2, int a3, int a4, int a5, int a6);
 };
 
 // @fnv 0x00b69ff0
-Obj3c* ThisCls::FUN_00b69ff0(ArgP* p, int a2, int a3, int a4, int a5, int a6)
+// src: XBOX_PDB 0x00b69ff0
+Obj3c* ThisCls::WaterShaderProperty_GetRenderPasses(ArgP* p, int a2, int a3, int a4, int a5, int a6)
 {
     TlsGuard guard;
     FlagSlot flagSlot;
@@ -2113,7 +2120,7 @@ Obj3c* ThisCls::FUN_00b69ff0(ArgP* p, int a2, int a3, int a4, int a5, int a6)
         m_3c->FUN_00ba9ee0((int)p, code, 1, 0, 0, 0, 0, 0);
         if (m_60 == 0 && m_61 == 0)
         {
-            Ret30* r = FUN_00b69f30(p);
+            Ret30* r = WaterShaderProperty_GetWaterPass(p);
             m_3c->FUN_00ba9ee0(r->m_iWordAt00, r->m_iWordAt04, 1, 0, 0, 0, 0, 0);
         }
         if (m_83 != 0 && m_130 != 0)
@@ -2253,7 +2260,8 @@ FUN_00b6a520::~FUN_00b6a520()
 extern int DAT_011fa018;
 
 // @fnv 0x00b6a660
-int* __cdecl FUN_00b6a660()
+// src: XBOX_PDB 0x00b6a660
+int* __cdecl WaterShaderProperty_GetRTTI()
 {
     return &DAT_011fa018;
 }
@@ -2792,7 +2800,7 @@ extern int DAT_011ab3c8;
 extern bool DAT_011ab3c4;
 extern int DAT_011bf400;
 
-void* __cdecl FUN_00ee8330(unsigned int size, NiRenderer* renderer, TexPrefs_b6d170& prefs);
+void* __cdecl Create_00ee8330(unsigned int size, NiRenderer* renderer, TexPrefs_b6d170& prefs);
 
 struct RenderTarget_b6d170
 {
@@ -2931,7 +2939,7 @@ RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(int aiUnused, unsigned
     bool b = !((flags >> 2) & 1);
     if (flags & 0x10)
     {
-        void* tex = FUN_00ee8330(w, DAT_011f9508, prefs);
+        void* tex = Create_00ee8330(w, DAT_011f9508, prefs);
         if (tex)
             result = new RenderTarget_b6d170(tex, 1, depth);
     }
@@ -2998,12 +3006,13 @@ struct FUN_00b6f480_cls
     int unk64;
     int unk68;
     int m_i6c;
-    void FUN_00b6f480(int a);
+    void BSShaderNoLightingProperty_SetClampD3D(int a);
 };
 
 // Stores 3 when the incoming value differs from 3, otherwise 0.
 // @fnv 0x00b6f480
-void FUN_00b6f480_cls::FUN_00b6f480(int a)
+// src: XBOX_PDB 0x00b6f480
+void FUN_00b6f480_cls::BSShaderNoLightingProperty_SetClampD3D(int a)
 {
     m_i6c = (a != 3) ? 3 : 0;
 }
@@ -3053,12 +3062,13 @@ struct FUN_00b6f8d0_class
     int unk5c;
     S_00b6f8d0_Object* unk60;
 
-    void __thiscall FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value);
+    void __thiscall BSShaderNoLightingProperty_GetTextureUse(void(__cdecl* callback)(void*, int, int), int value);
 };
 
 // Walks the linked list returned by unk60's vtable[2] looking for DAT_011f444c or DAT_011f4ac4, then calls callback with unk60, 0 and value.
 // @fnv 0x00b6f8d0
-void __thiscall FUN_00b6f8d0_class::FUN_00b6f8d0(void(__cdecl* callback)(void*, int, int), int value)
+// src: XBOX_PDB 0x00b6f8d0
+void __thiscall FUN_00b6f8d0_class::BSShaderNoLightingProperty_GetTextureUse(void(__cdecl* callback)(void*, int, int), int value)
 {
     S_00b6f8d0_Object* object = this->unk60;
 
@@ -3280,7 +3290,7 @@ static unsigned int ReadRaw(NiStream* stream, void* buf, unsigned int size)
 class FUN_00b6fb20_cls
 {
   public:
-    void FUN_00ba92c0(ObjOwner* p);
+    void BSShaderProperty_LoadBinary(ObjOwner* p);
     void LoadFromStream(ObjOwner* p);
 
   public:
@@ -3322,7 +3332,7 @@ class FUN_00b6fb20_cls
 // @fnv 0x00b6fb20
 void FUN_00b6fb20_cls::LoadFromStream(ObjOwner* p)
 {
-    FUN_00ba92c0(p);
+    BSShaderProperty_LoadBinary(p);
     ReadRaw(p->m_24c, &m_6C, 4);
     void* v = 0;
     p->FUN_00a64ce0(&v);
@@ -3754,7 +3764,7 @@ struct Context
     LightData* light;
 };
 extern unsigned char DAT_011f91c4;
-BSFogProperty* FUN_00b55520(int);
+BSFogProperty* BSShaderManager_GetFogProperty(int);
 extern V4 DAT_011fd8f4;
 extern V4 DAT_011fd904;
 extern float DAT_011fd85c;
@@ -3783,7 +3793,7 @@ void __stdcall UpdateLightAndFogGlobals(int enabled, Context* context)
         SetShaderVector(DAT_011fd934, 0, 0, 0, 0);
         if (enabled)
         {
-            BSFogProperty* fog = FUN_00b55520(DAT_011f91c4);
+            BSFogProperty* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
             if (fog)
             {
                 float nearDepth = fog->nearDepth;
@@ -4789,7 +4799,7 @@ struct FUN_00b7e300_cls
 // Global memory manager that takes back a released block.
 struct FUN_00b7e300_pool
 {
-    void __thiscall FUN_00aa4060(void* pBlock);
+    void __thiscall MemoryManager_Deallocate(void* pBlock);
 };
 
 extern char DAT_010ef53c;
@@ -4807,7 +4817,7 @@ void FUN_00b7e300_cls::DestroyDataArray()
     {
         int count = ((int*)pData)[-1];  // element count stored in the block header
         FUN_00ec5fce(pData, 4, count, FUN_0045cec0);
-        DAT_011f6238.FUN_00aa4060(pData - 1);
+        DAT_011f6238.MemoryManager_Deallocate(pData - 1);
     }
 }
 }  // namespace fnv_00b7e300
@@ -6181,7 +6191,7 @@ struct StageMgr
     void NiD3DPass_SetRenderState(int a, int b, int c);
 };
 
-MyContext* __cdecl FUN_00b55560(int id);
+MyContext* __cdecl BSShaderManager_GetShader(int id);
 void __cdecl SetShaderConstantMapEntryFlags(int a1);
 void __cdecl UpdateFlagHolders(int a1);
 
@@ -6198,10 +6208,10 @@ extern V4 DAT_011ad850;
 // src: COMMUNITY 0x00b7a870
 void __cdecl ShadowLightShader_EnableConstantsForPass(unsigned int uiStageId)
 {
-    MyContext* p1 = FUN_00b55560(1);
-    MyContext* pContext14 = FUN_00b55560(14);
-    MyContext* pContext15 = FUN_00b55560(15);
-    MyContext* pContext13 = FUN_00b55560(13);
+    MyContext* p1 = BSShaderManager_GetShader(1);
+    MyContext* pContext14 = BSShaderManager_GetShader(14);
+    MyContext* pContext15 = BSShaderManager_GetShader(15);
+    MyContext* pContext13 = BSShaderManager_GetShader(13);
 
     if (uiStageId - 0x24e <= 3)
     {
@@ -6771,7 +6781,7 @@ struct CopyObject : CopyBase
     NiRefObject* f140;
     NiRefObject* f144;
     NiRefObject* f148;
-    void FUN_00b6a6c0(CopyObject* dst, int arg);
+    void WaterShaderProperty_CopyMembers(CopyObject* dst, int arg);
 };
 static __forceinline void AssignRef(NiRefObject*& dst, NiRefObject* const& src)
 {
@@ -6820,7 +6830,8 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
 }
 // Copies base fields and a fixed set of member values into dst, reassigns the reference-counted pointers, and deep-copies the list into dst->list.
 // @fnv 0x00b6a6c0
-void CopyObject::FUN_00b6a6c0(CopyObject* dst, int arg)
+// src: XBOX_PDB 0x00b6a6c0
+void CopyObject::WaterShaderProperty_CopyMembers(CopyObject* dst, int arg)
 {
     CopyBaseFields(dst, arg);
     AssignRef(dst->f148, f148);
@@ -7181,7 +7192,7 @@ struct FogRenderOwner
 // @fnv 0x00b7c3a0
 void UpdateFogShaderConstants()
 {
-    BSFogProperty* fog = FUN_00b55520(DAT_011f91c4);
+    BSFogProperty* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
     if (fog)
     {
         float fNearDepth = fog->nearDepth;
@@ -7212,16 +7223,16 @@ struct FnvB60150Thunk : FUN_00b6f460_class
 // src: COMMUNITY 0x00b60150
 void __thiscall FnvB60150Thunk::TallGrassShaderProperty_LinkObject(NiStream* stream)
 {
-    FUN_00b6f460(stream);
+    BSShaderLightingProperty_LinkObject(stream);
 }
 
-void __cdecl FUN_00bc3770();
+void __cdecl BSShaderLightingProperty_RegisterStreamables();
 
 // @fnv 0x00b60160
 // src: COMMUNITY 0x00b60160
 void __cdecl TallGrassShaderProperty_RegisterStreamables()
 {
-    FUN_00bc3770();
+    BSShaderLightingProperty_RegisterStreamables();
 }
 
 class FUN_00b60b10 : public NiRefObject
@@ -7271,14 +7282,14 @@ struct FUN_00b6abb0
 };
 struct EntityManagerB6
 {
-    void FUN_00b6a6c0(FUN_00b6abb0* object, int context);
+    void WaterShaderProperty_CopyMembers(FUN_00b6abb0* object, int context);
     FUN_00b6abb0* CreateObject(int context);
 };
 // @fnv 0x00b6ade0
 FUN_00b6abb0* EntityManagerB6::CreateObject(int context)
 {
     FUN_00b6abb0* object = new (0x150) FUN_00b6abb0();
-    FUN_00b6a6c0(object, context);
+    WaterShaderProperty_CopyMembers(object, context);
     return object;
 }
 
@@ -7591,13 +7602,13 @@ void TallGrassShaderProperty_RemoveFromCell(unsigned int a, unsigned int b)
     }
 }
 
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 template <> inline NiTMapBase<DFALL<NiTMapItem<const char*, B61250Item*> >, const char*, B61250Item*>::NiTMapBase(unsigned int hashSize)
 {
     m_uiHashSize = hashSize;
     m_kItemCount.m_uiCount = 0;
-    m_ppkHashTable = (EntryType**)FUN_00aa1070(hashSize * sizeof(EntryType*));
+    m_ppkHashTable = (EntryType**)_NiMalloc_00aa1070(hashSize * sizeof(EntryType*));
     FUN_00ec61c0(m_ppkHashTable, 0, m_uiHashSize * sizeof(EntryType*));
 }
 template <> inline NiTMap<const char*, B61250Item*>::NiTMap(unsigned int hashSize)
@@ -7885,7 +7896,7 @@ unsigned char __cdecl ThisCall_Ret1()
 class TexturePool_b60d
 {
   public:
-    void FUN_00aa4060(void* pvHandle);
+    void MemoryManager_Deallocate(void* pvHandle);
 };
 extern TexturePool_b60d g_kTexturePoolB60D;
 
@@ -7897,7 +7908,7 @@ struct PooledTexture_b60d
     ~PooledTexture_b60d()
     {
         if (m_pvHandle)
-            g_kTexturePoolB60D.FUN_00aa4060(m_pvHandle);
+            g_kTexturePoolB60D.MemoryManager_Deallocate(m_pvHandle);
         m_pvHandle = 0;
         m_usSecondValue = 0;
         m_usFirstValue = 0;
@@ -8783,7 +8794,7 @@ extern __declspec(thread) TLSData g_tlsData;
 extern RSCmdOwnerParam DAT_011f4288;
 struct RSHelpers
 {
-    static RSEffect* __cdecl FUN_00b55560(int aiSoundId);
+    static RSEffect* __cdecl BSShaderManager_GetShader(int aiSoundId);
     static void __cdecl ShadowLightShader_EnableConstantsForPass(unsigned int uiId, int iFlag);
     static void __cdecl BSShaderAccumulator_RenderPassImmediately(RSCommand* pCmd, unsigned int uiId);
 };
@@ -8897,7 +8908,7 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                     }
                     else
                     {
-                        RSEffect* pEffect = RSHelpers::FUN_00b55560(1);
+                        RSEffect* pEffect = RSHelpers::BSShaderManager_GetShader(1);
                         RSHelpers::ShadowLightShader_EnableConstantsForPass(pCmd->m_usId, 0);
                         if (pEffect)
                         {
@@ -8937,7 +8948,7 @@ void FUN_00b66700_class::SetClamped(float afValue)
 
 struct Pool_b6c130
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern NiFixedString* DAT_011fa050;
 extern NiFixedString* DAT_011fa054;
@@ -8946,7 +8957,7 @@ static inline void DeleteHolder(NiFixedString* p)
     if (p)
     {
         p->~NiFixedString();
-        ((Pool_b6c130*)&DAT_011f6238)->FUN_00aa4060(p);
+        ((Pool_b6c130*)&DAT_011f6238)->MemoryManager_Deallocate(p);
     }
 }
 // Releases the two global string holders and nulls their pointers.
@@ -9305,7 +9316,7 @@ struct TexturePool
     unsigned unka4;
     unsigned unka8;
     void ResizeActivePool(int kind, unsigned count);
-    void FUN_00b6da10(PoolTexture*);
+    void BSTextureManager_ReturnRenderedTexture(PoolTexture*);
     void GetRenderTargetDesc(int, int, int*, int*, int*, int*, int*, int*);
     PoolTexture* BSTextureManager_BorrowRenderedTexture_0(int, int, int, int, int, int, int, int, int, int);
 };
@@ -9326,7 +9337,7 @@ void TexturePool::ResizeActivePool(int kind, unsigned count)
             {
                 NiPointer<PoolTexture> texture = list.PopBack();
                 texture.m_pObject->FUN_00b6b260()->Set(0);
-                FUN_00b6da10(texture.m_pObject);
+                BSTextureManager_ReturnRenderedTexture(texture.m_pObject);
             } while (--remaining);
         }
         else if (cur < wanted)
@@ -10487,7 +10498,7 @@ struct MorphGeomData
     {
         return vertices;
     }
-    void FUN_00a66bb0(unsigned short, NiPoint3*, void*, void*, void*, unsigned short, unsigned int);
+    void NiGeometryData_ReplaceData(unsigned short, NiPoint3*, void*, void*, void*, unsigned short, unsigned int);
 };
 struct ExtraGeometryData
 {
@@ -10600,7 +10611,7 @@ FUN_00537bf0* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
         void* stream8 = geometry->data28;
         NiPoint3* stream0 = geometry->data20;
         normalFlag &= 1;
-        geometry->FUN_00a66bb0(count, stream0, vertices, stream8, streamC, normalFlag, 0x1000);
+        geometry->NiGeometryData_ReplaceData(count, stream0, vertices, stream8, streamC, normalFlag, 0x1000);
     }
     if (input->extraData)
     {
@@ -10635,11 +10646,12 @@ struct TailTarget
 
 struct C_00b6f460
 {
-    void FUN_00b6f460();
+    void BSShaderLightingProperty_LinkObject();
 };
 
 // @fnv 0x00b6f460
-void C_00b6f460::FUN_00b6f460()
+// src: XBOX_PDB 0x00b6f460
+void C_00b6f460::BSShaderLightingProperty_LinkObject()
 {
     ((TailTarget*)this)->Tail();
 }
@@ -10890,7 +10902,7 @@ struct Setup051
     __declspec(noalias) void GetRenderTargetDesc(NiRenderer*, int, unsigned int*, unsigned int*, unsigned int*,
                                                  unsigned int*, unsigned int*, unsigned int*);
     Target051* BSTextureManager_BorrowRenderedTexture_0(NiRenderer*, int, int, int, int, int, int, int, int, int);
-    void FUN_00b6da10(Target051*);
+    void BSTextureManager_ReturnRenderedTexture(Target051*);
     __forceinline Target051* Create(NiRenderer* r, int kind)
     {
         unsigned int width, height, format, unused, flags, samples;
@@ -10995,7 +11007,7 @@ void Setup051::BSTextureManager_PrecreateTextures(NiRenderer* renderer)
         targets[count++] = Acquire(DAT_011f9508, 6);
         for (int i = 0; i < count; ++i)
             if (targets[i])
-                FUN_00b6da10(targets[i]);
+                BSTextureManager_ReturnRenderedTexture(targets[i]);
     }
     GetTexture(renderer, -1)->surface->Slot37();
     Target051* target;
@@ -12142,7 +12154,7 @@ class B61Stream
     int unk5c8;
     B61Stream();
     virtual ~B61Stream();
-    bool FUN_00c3a8a0(const char* pcName, bool bFlag);
+    bool BSStream_Load(const char* pcName, bool bFlag);
 };
 
 
@@ -12208,7 +12220,7 @@ B61Entry* __cdecl TallGrassShaderProperty_GetCachedGeometry(const char** ppcName
             char acPath[0x104];
             BuildAssetPath(*ppcName, acPath, 0x104);
             B61Stream kStream;
-            kStream.FUN_00c3a8a0(acPath, false);
+            kStream.BSStream_Load(acPath, false);
             if (kStream.m_uiTopSize)
             {
                 B61AVObject* root = kStream.m_ppkTop[0];
@@ -13146,14 +13158,15 @@ struct ShaderPassBuilder
     unsigned int cached;
     NiPointer<PassArray> array;
     void FUN_00ba95e0(int);
-    unsigned short FUN_00b707d0();
+    unsigned short BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     void* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void**);
     Light* FUN_00b70590(void**);
-    Light* FUN_00b70680(void**);
-    PassArray* FUN_00b60790(void*, unsigned int, int, unsigned int, int, int);
+    Light* BSShaderLightingProperty_GetNextActiveLight(void**);
+    PassArray* TallGrassShaderProperty_GetRenderPasses(void*, unsigned int, int, unsigned int, int, int);
 };
 // @fnv 0x00b60790
-PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, int unused, unsigned int variant,
+// src: XBOX_PDB 0x00b60790
+PassArray* ShaderPassBuilder::TallGrassShaderProperty_GetRenderPasses(void* geometry, unsigned int mode, int unused, unsigned int variant,
                                            int unused2, int FlushUsageData)
 {
     MemScope scope;
@@ -13162,7 +13175,7 @@ PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, in
         FUN_00ba95e0(2);
         array->count = 0;
         void* position = 0;
-        unsigned short lightCount = DAT_011f9ef0 ? FUN_00b707d0() : 0;
+        unsigned short lightCount = DAT_011f9ef0 ? BSShaderLightingProperty_GetNumberofActiveNonShadowLights() : 0;
         bool special = (flags & 0x400) > 0;
         bool textured = (flags & 0x1000) > 0;
         bool alternate = (flags & 0x2000) > 0;
@@ -13243,7 +13256,7 @@ PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, in
                                 array->FUN_00ba9ee0(geometry, 0x284, false, 1, light, 0, 0, 0);
                         }
                     }
-                    light = FUN_00b70680(&position);
+                    light = BSShaderLightingProperty_GetNextActiveLight(&position);
                 }
             }
         }
@@ -14162,7 +14175,8 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 // Clears the room-sharing map while holding its critical section.
 // @fnv 0x00b63b60
-void ShaderAccumulatorLocal::FUN_00b63b60()
+// src: XBOX_PDB 0x00b63b60
+void ShaderAccumulatorLocal::BSShaderAccumulator_ClearSharedMap()
 {
     EnterCriticalSection(&BSCPSharedCrit);
     kRoomSharedMap.RemoveAll();

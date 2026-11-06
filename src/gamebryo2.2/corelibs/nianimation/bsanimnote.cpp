@@ -123,7 +123,8 @@ void* BSAnimNotes::DestroyIfFlagged(unsigned int auiFlags)
 extern "C" unsigned char __stdcall MyHelper00a5d2f0(void* pObject);
 
 // @fnv 0x00a84c70
-bool __stdcall FUN_00a84c70(void* pObject)
+// src: XBOX_PDB 0x00a84c70
+bool __stdcall BSAnimNote_RegisterStreamables(void* pObject)
 {
     return MyHelper00a5d2f0(pObject);
 }
@@ -227,7 +228,8 @@ void BSAnimNote::GetViewerStrings(NiViewerStringsArray* apStrings)
 void __cdecl AppendCameraPathEntries();
 
 // @fnv 0x00a44910
-void __cdecl FUN_00a44910()
+// src: XBOX_PDB 0x00a44910
+void __cdecl BSAnimNotes_GetViewerStrings()
 {
     AppendCameraPathEntries();
 }

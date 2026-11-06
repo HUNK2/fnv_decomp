@@ -65,8 +65,8 @@ class BSFaceGenAnimationData : public NiExtraData
     bool UpdateFaceGenAnimation(float);
     void ClearLists(bool, bool, bool, bool);
     void BSFaceGenAnimationData_SetShouldHeadTrack(bool);
-    bool FUN_0064be40(float, unsigned int);
-    float FUN_005dd4a0(int);
+    bool BSFaceGenAnimationData_UpdateEyeTracking(float, unsigned int);
+    float BSFaceGenAnimationData_GetModifierValue(int);
     bool GetChanged();
     void SetModified(bool);
     bool GetDead();

@@ -126,7 +126,7 @@ struct S_00d056a0_Router {
     hkMemoryAllocator* m_pStreamAllocator;
     hkMemoryAllocator* heap() { return m_pStreamAllocator; }
 };
-S_00d056a0_Router* FUN_00c85750();
+S_00d056a0_Router* hkMemoryRouter_getInstance();
 struct S_00d056a0_Elem {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -451,7 +451,7 @@ struct D049D0World {
 
     void SetSimulationEnabled(int enabled);
 };
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 struct __declspec(align(16)) D04B90Object {
     int unk00;
     unsigned short m_usMemSizeAndFlags;
@@ -558,7 +558,7 @@ struct D04A20MemoryRouter {
 
     hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
 };
-namespace fnvc_adapt { extern "C" D04A20MemoryRouter& __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { extern "C" D04A20MemoryRouter& __cdecl hkMemoryRouter_getInstance(); }
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct D04A20Operation {
     void* m_object;
@@ -723,7 +723,7 @@ struct PoolTable
 {
     static void* operator new(unsigned int nbytes) throw()
     {
-        return FUN_00c85750()->heap()->blockAlloc(nbytes);
+        return hkMemoryRouter_getInstance()->heap()->blockAlloc(nbytes);
     }
 
     unsigned short m_counts[12];
@@ -823,12 +823,12 @@ int __cdecl defaultPopDispatchFunc(void* context, void* argument, void* item);
 template <typename T>
 inline T* hkAllocateChunk(int n)
 {
-    return static_cast<T*>(FUN_00c85750()->heap()->AllocateMemoryBlock(n * sizeof(T)));
+    return static_cast<T*>(hkMemoryRouter_getInstance()->heap()->AllocateMemoryBlock(n * sizeof(T)));
 }
 template <typename T>
 inline void hkDeallocateChunk(T* p, int n)
 {
-    FUN_00c85750()->heap()->ReleaseBlock(p, n * sizeof(T));
+    hkMemoryRouter_getInstance()->heap()->ReleaseBlock(p, n * sizeof(T));
 }
 struct hkQueue128
 {
@@ -869,7 +869,7 @@ struct LunaCallbackItem
     Item payload;
 };
 extern unsigned long DAT_0126835c;
-extern "C" void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 struct TimerEntry {
     const char* m_name;
     unsigned int m_uiCommandId;

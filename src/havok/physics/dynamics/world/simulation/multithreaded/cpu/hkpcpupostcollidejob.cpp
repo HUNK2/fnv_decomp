@@ -78,7 +78,7 @@ struct Caller
 struct Worker
 {
     void __thiscall EnterLock(Accum* a);
-    void __thiscall FUN_00c91210(Accum* a);
+    void __thiscall hkpWorld_unlockIslandForConstraintUpdate(Accum* a);
 };
 
 extern "C" int __cdecl hkPhysicsCommandMachineProcess(Worker* a, char* b, int c);
@@ -145,7 +145,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
     }
 
     apCaller->m_20->hkpAgentSectorHeader_deallocate();
-    (*a1)->FUN_00c91210(acc);
+    (*a1)->hkpWorld_unlockIslandForConstraintUpdate(acc);
 
     {
         TlsObject* tls3 = (TlsObject*)tlsGetValue();

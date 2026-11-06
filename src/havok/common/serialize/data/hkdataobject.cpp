@@ -8,10 +8,11 @@ struct FUN_00dba680_cls
     void* vtbl;
     void* p1;
     void* p2;
-    void __thiscall FUN_00dba680();
+    void __thiscall hkDataClass_getName();
 };
 // @fnv 0x00dba680
-void __thiscall FUN_00dba680_cls::FUN_00dba680()
+// src: XBOX_PDB 0x00dba680
+void __thiscall FUN_00dba680_cls::hkDataClass_getName()
 {
     void* self = *(void**)this;
     void** vt = *(void***)self;
@@ -65,11 +66,12 @@ struct Inner
 struct FUN_00dba6c0_cls
 {
     Inner* m_p;
-    void FUN_00dba6c0();
+    void hkDataClass_getWorld();
 };
 
 // @fnv 0x00dba6c0
-void FUN_00dba6c0_cls::FUN_00dba6c0()
+// src: XBOX_PDB 0x00dba6c0
+void FUN_00dba6c0_cls::hkDataClass_getWorld()
 {
     m_p->v1();
 }
@@ -294,11 +296,12 @@ int Target::QueryAndWriteResult()
 struct FUN_00dba980_cls
 {
     void* m_p00;
-    bool FUN_00dba980() const;
+    bool hkDataObject_isNull() const;
 };
 
 // @fnv 0x00dba980
-bool FUN_00dba980_cls::FUN_00dba980() const
+// src: XBOX_PDB 0x00dba980
+bool FUN_00dba980_cls::hkDataObject_isNull() const
 {
     return m_p00 == 0;
 }
@@ -356,11 +359,12 @@ struct FUN_00dba9c0_cls
 {
     FUN_00dba9c0_target* target;
     void* payload;
-    void FUN_00dba9c0();
+    void hkDataObject_Value_asString();
 };
 
 // @fnv 0x00dba9c0
-void FUN_00dba9c0_cls::FUN_00dba9c0()
+// src: XBOX_PDB 0x00dba9c0
+void FUN_00dba9c0_cls::hkDataObject_Value_asString()
 {
     target->Dispatch2c(payload);
 }
@@ -720,7 +724,7 @@ struct ValueProvider
 struct FUN_00dba760_cls
 {
     void* value;
-    void FUN_00dba760(void* newValue);
+    void hkDataObject_hkDataObject(void* newValue);
 };
 struct FUN_00dbaca0_cls
 {
@@ -732,7 +736,7 @@ struct FUN_00dbaca0_cls
 // @fnv 0x00dbaca0
 FUN_00dba760_cls* FUN_00dbaca0_cls::CreateValueInto(FUN_00dba760_cls* output)
 {
-    output->FUN_00dba760(provider->CreateValue(source));
+    output->hkDataObject_hkDataObject(provider->CreateValue(source));
     return output;
 }
 
@@ -1561,7 +1565,7 @@ void* __thiscall FUN_00dba9d0_cls::FUN_00dba9d0(FUN_00dba760_cls* arg)
 {
     void* result = m_00->v13(m_04);
 
-    arg->FUN_00dba760(result);
+    arg->hkDataObject_hkDataObject(result);
 
     return arg;
 }
@@ -2263,7 +2267,7 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
+S_Router* hkMemoryRouter_getInstance();
 void hkArrayUtil__reserve(S_Alloc& a, void* arr, int n, int esz);
 
 struct S_Obj
@@ -2339,7 +2343,7 @@ struct S_Arr
     }
     void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(hkMemoryRouter_getInstance()->heap(), n);
         size = n;
     }
 };
@@ -2496,7 +2500,7 @@ struct DB8000_Handle
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
-    void FUN_00dba760(void* p);
+    void hkDataObject_hkDataObject(void* p);
     void FUN_00dba7f0();
 };
 
@@ -2515,7 +2519,7 @@ struct DB8000_PtrArrayLocalForm
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)hkMemoryRouter_getInstance())->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2548,7 +2552,7 @@ struct DB8000_Out
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)hkMemoryRouter_getInstance())->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2603,21 +2607,22 @@ struct DB8000_Self
     virtual void v8();
     virtual unsigned int vfn9(const char* name);
 
-    void FUN_00dc7320(DB8000_Handle* h, const char* name);
+    void hkDataWorldDict_renameClass(DB8000_Handle* h, const char* name);
     void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
     void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
     void FUN_00dc7600(DB8000_Handle* h, int a);
     void InitAndRun(const char* name, DB8000_PtrArrayLocalForm* out);
     void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
     void CallWithReset(const char* name, DB8000_PtrArrayLocalForm* out);
-    void FUN_00dc7dc0(DB8000_Ref* ref, DB8000_Handle* h);
+    void hkDataWorldDict_castObject(DB8000_Ref* ref, DB8000_Handle* h);
     void ReleaseRef(DB8000_Handle* h);
-    void FUN_00dc72e0(DB8000_Handle* h, int a);
+    void hkDataWorldDict_setClassVersion(DB8000_Handle* h, int a);
 };
 
 // Iterates items, selects a name, and dispatches recognized operations through self; some item fields also control reference handling.
 // @fnv 0x00db8000
-static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_ItemArray* items)
+// src: XBOX_PDB 0x00db8000
+static __declspec(noinline) int __cdecl applyPatchesFinally(DB8000_Self* self, DB8000_ItemArray* items)
 {
     int i = 0;
     if (items->m_iElementCount > 0)
@@ -2653,7 +2658,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
 
             if (item->m_name0 != 0 && item->m_name1 != 0 && hkString_strCmp(item->m_name0, item->m_name1) != 0)
             {
-                self->FUN_00dc7320(&hMain, item->m_name1);
+                self->hkDataWorldDict_renameClass(&hMain, item->m_name1);
             }
 
             int jIndex = 0;
@@ -2682,7 +2687,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         for (int kIndex = 0; kIndex < arr4.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref4;
-                            ref4.FUN_00dba760(arr4.m_data[kIndex]);
+                            ref4.hkDataObject_hkDataObject(arr4.m_data[kIndex]);
                             pCallback(&ref4);
                             ref4.FUN_00dba7f0();
                         }
@@ -2708,8 +2713,8 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         for (int kIndex = 0; kIndex < arr5.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref5;
-                            ref5.FUN_00dba760(arr5.m_data[kIndex]);
-                            self->FUN_00dc7dc0(&ref5, &hSub5);
+                            ref5.hkDataObject_hkDataObject(arr5.m_data[kIndex]);
+                            self->hkDataWorldDict_castObject(&ref5, &hSub5);
                             ref5.FUN_00dba7f0();
                         }
                         arr5.ClearAndRelease();
@@ -2730,7 +2735,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
             }
             else if (item->m_unk08 != -1 && item->m_unk08 != unk0c)
             {
-                self->FUN_00dc72e0(&hMain, unk0c);
+                self->hkDataWorldDict_setClassVersion(&hMain, unk0c);
             }
 
             hMain.FUN_00dba660();
@@ -2745,7 +2750,7 @@ volatile DB8000_ItemArray* g_db8000_items;
 volatile int g_db8000_ret;
 void call_db8000()
 {
-    g_db8000_ret = FUN_00db8000((DB8000_Self*)g_db8000_self, (DB8000_ItemArray*)g_db8000_items);
+    g_db8000_ret = applyPatchesFinally((DB8000_Self*)g_db8000_self, (DB8000_ItemArray*)g_db8000_items);
 }
 
 struct DataClassMemberAccess
@@ -2985,11 +2990,12 @@ void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded)
 struct DataObjectHandle
 {
     RefObj* object;
-    DataObjectHandle* __thiscall FUN_00dba760(RefObj* p);
+    DataObjectHandle* __thiscall hkDataObject_hkDataObject(RefObj* p);
 };
 
 // @fnv 0x00dba760
-DataObjectHandle* DataObjectHandle::FUN_00dba760(RefObj* apObject)
+// src: XBOX_PDB 0x00dba760
+DataObjectHandle* DataObjectHandle::hkDataObject_hkDataObject(RefObj* apObject)
 {
     object = apObject;
     if (apObject != 0)

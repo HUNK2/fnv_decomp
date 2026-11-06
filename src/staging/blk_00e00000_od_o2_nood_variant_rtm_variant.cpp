@@ -822,7 +822,7 @@ struct EdgeMemory
     int unk0c;
     EdgeAllocator* allocator;
 };
-EdgeMemory* FUN_00c85750();
+EdgeMemory* hkMemoryRouter_getInstance();
 void hkArrayUtil__reserve(void*, void*, int, int);
 void FUN_00c90940(void*, void*, int);
 float FUN_00e13870(EdgeNode*, int);
@@ -840,7 +840,7 @@ template <class T> inline void EdgeAllocator::reserve(EdgeArray<T>& array, int n
 }
 template <class T> inline void EdgeArray<T>::grow(int elementSize)
 {
-    EdgeMemory* memory = FUN_00c85750();
+    EdgeMemory* memory = hkMemoryRouter_getInstance();
     if (size == (capacity & 0x3fffffff))
         FUN_00c90940(memory->allocator, this, elementSize);
 }

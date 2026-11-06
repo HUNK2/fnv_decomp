@@ -7,13 +7,14 @@
 
 struct FUN_00a37ec0_tgt
 {
-    void FUN_00a37ec0(NiStream& kStream);
+    void NiBlendInterpolator_SaveBinary(NiStream& kStream);
 };
 
 // @fnv 0x00a56040
-void NiBlendColorInterpolator::FUN_00a56040(NiStream& kStream)
+// src: XBOX_PDB 0x00a56040
+void NiBlendColorInterpolator::SaveBinary_00a56040(NiStream& kStream)
 {
-    ((FUN_00a37ec0_tgt*)this)->FUN_00a37ec0(kStream);
+    ((FUN_00a37ec0_tgt*)this)->NiBlendInterpolator_SaveBinary(kStream);
     m_kColorValue.SaveBinary(kStream);
 }
 
@@ -85,7 +86,8 @@ void NiBlendColorInterpolator::LoadBinary_00a56460(NiStream& kStream)
 
 // Tests whether the interpolator supports color values.
 // @fnv 0x00a55fd0
-bool __stdcall FUN_00a55fd0(NiInterpolator* pkInterpolator)
+// src: XBOX_PDB 0x00a55fd0
+bool __stdcall NiBlendColorInterpolator_InterpolatorIsCorrectType(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsColorAValueSupported();
 }
@@ -96,11 +98,12 @@ struct CloningProcess
 };
 struct CloneOwner
 {
-    void FUN_00a37510(void*, void*);
+    void NiBlendInterpolator_CopyMembers(void*, void*);
 };
 // Allocates a NiBlendColorInterpolator, initialises it from DAT_011a9430, copies color fields from this, and returns the clone.
 // @fnv 0x00a56090
-void* NiBlendColorInterpolator::FUN_00a56090(CloningProcess& kCloning)
+// src: XBOX_PDB 0x00a56090
+void* NiBlendColorInterpolator::CreateClone_00a56090(CloningProcess& kCloning)
 {
     NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
     if (pkObject)
@@ -117,7 +120,7 @@ void* NiBlendColorInterpolator::FUN_00a56090(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ((CloneOwner*)this)->FUN_00a37510(pkObject, &kCloning);
+    ((CloneOwner*)this)->NiBlendInterpolator_CopyMembers(pkObject, &kCloning);
     {
         char* pDest = (char*)pkObject;
         char* pSrc = (char*)this;
@@ -175,12 +178,13 @@ bool NiBlendColorInterpolator::GetColorAtTime(float fTime, NiObjectNET* pkTarget
     return false;
 }
 
-bool __stdcall FUN_00a36fd0(void* pkObject);
+bool __stdcall NiBlendInterpolator_IsEqual(void* pkObject);
 
 // @fnv 0x00a564a0
-bool NiBlendColorInterpolator::FUN_00a564a0(void* pkOther)
+// src: XBOX_PDB 0x00a564a0
+bool NiBlendColorInterpolator::IsEqual_00a564a0(void* pkOther)
 {
-    if (!FUN_00a36fd0(pkOther))
+    if (!NiBlendInterpolator_IsEqual(pkOther))
     {
         return false;
     }

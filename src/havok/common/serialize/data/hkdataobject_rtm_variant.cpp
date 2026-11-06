@@ -11,7 +11,7 @@ struct FUN_00dba680_cls
     void* vtbl;
     void* p1;
     void* p2;
-    void __thiscall FUN_00dba680();
+    void __thiscall hkDataClass_getName();
 };
 struct FUN_00dbaab0_cls
 {
@@ -145,7 +145,7 @@ struct DBA8C0Owner
 struct FUN_00dba980_cls
 {
     void* m_p00;
-    bool FUN_00dba980() const;
+    bool hkDataObject_isNull() const;
 };
 struct FUN_00dba9c0_target
 {
@@ -166,7 +166,7 @@ struct FUN_00dba9c0_cls
 {
     FUN_00dba9c0_target* target;
     void* payload;
-    void FUN_00dba9c0();
+    void hkDataObject_Value_asString();
 };
 struct Inner2
 {
@@ -370,7 +370,7 @@ struct ValueProvider
 struct FUN_00dba760_cls
 {
     void* value;
-    void FUN_00dba760(void* newValue);
+    void hkDataObject_hkDataObject(void* newValue);
 };
 struct FUN_00dbaca0_cls
 {
@@ -1328,7 +1328,7 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
+S_Router* hkMemoryRouter_getInstance();
 void hkArrayUtil__reserve(S_Alloc& a, void* arr, int n, int esz);
 struct S_Obj
 {
@@ -1400,7 +1400,7 @@ struct S_Arr
     }
     void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(hkMemoryRouter_getInstance()->heap(), n);
         size = n;
     }
 };
@@ -1497,7 +1497,7 @@ struct DB8000_Handle
 struct DB8000_Ref
 {
     void* m_pRetainedObject;
-    void FUN_00dba760(void* p);
+    void hkDataObject_hkDataObject(void* p);
     void FUN_00dba7f0();
 };
 typedef hkArray<void*> DB8000_PtrArray;
@@ -1522,7 +1522,7 @@ struct DB8000_Out
 
     void clearAndDeallocate()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)hkMemoryRouter_getInstance())->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -1570,18 +1570,18 @@ struct DB8000_Self
     virtual void v8();
     virtual unsigned int vfn9(const char* name);
 
-    void FUN_00dc7320(DB8000_Handle* h, const char* name);
+    void hkDataWorldDict_renameClass(DB8000_Handle* h, const char* name);
     void FUN_00dc73f0(DB8000_Handle* h, int a, int b);
     void FUN_00dc7d20(DB8000_Handle* h, int a, int b, int c, int d);
     void FUN_00dc7600(DB8000_Handle* h, int a);
     void InitAndRun(const char* name, DB8000_PtrArray* out);
     void AssignRefCountedSlot(DB8000_Handle* h1, DB8000_Handle* h2);
     void CallWithReset(const char* name, DB8000_PtrArray* out);
-    void FUN_00dc7dc0(DB8000_Ref* ref, DB8000_Handle* h);
+    void hkDataWorldDict_castObject(DB8000_Ref* ref, DB8000_Handle* h);
     void ReleaseRef(DB8000_Handle* h);
-    void FUN_00dc72e0(DB8000_Handle* h, int a);
+    void hkDataWorldDict_setClassVersion(DB8000_Handle* h, int a);
 };
-static int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_ItemArray* items);
+static int __cdecl applyPatchesFinally(DB8000_Self* self, DB8000_ItemArray* items);
 volatile DB8000_Self* g_db8000_self;
 volatile DB8000_ItemArray* g_db8000_items;
 volatile int g_db8000_ret;
@@ -1768,7 +1768,7 @@ void __fastcall FUN_00dbae70(ArrayBulkOwner* self, int forwarded);
 struct DataObjectHandle
 {
     RefObj* object;
-    DataObjectHandle* __thiscall FUN_00dba760(RefObj* p);
+    DataObjectHandle* __thiscall hkDataObject_hkDataObject(RefObj* p);
 };
 struct DataClassResult : FUN_00dba650_cls
 {

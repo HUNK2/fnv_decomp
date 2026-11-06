@@ -261,7 +261,7 @@ extern int DAT_010d1834;
 extern int DAT_010d1824;
 extern int DAT_010d1814;
 extern int DAT_010d1804;
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 struct S_D { virtual ~S_D() throw() {} };
 struct S_E { virtual ~S_E() throw() {} };
 struct S_Arr
@@ -271,7 +271,7 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        hkMemoryAllocator& heap = ((hkMemoryRouter*)FUN_00c85750())->heap();
+        hkMemoryAllocator& heap = ((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap();
         m_iElementCount = 0;
         if ((m_cap & 0x80000000) == 0) heap.bufFree(m_data, (m_cap & 0x3fffffff) * (int)sizeof(void*));
         m_data = 0;
@@ -430,7 +430,7 @@ m_next=p;
 
 __forceinline hkMemoryRouter& __cdecl hkMemoryRouter::getInstance()
 {
-return *static_cast<hkMemoryRouter*>(::FUN_00c85750());
+return *static_cast<hkMemoryRouter*>(::hkMemoryRouter_getInstance());
 }
 
 template<typename TYPE>
@@ -601,7 +601,7 @@ return *reinterpret_cast<const hkVector4*>(this);
 }
 inline hkQuaternion::hkQuaternion(const hkVector4&axis,hkReal angle)
 {
-FUN_00cb2450(axis,angle);
+hkQuaternion_setAxisAngle(axis,angle);
 }
 
 inline const hkVector4&hkContactPoint::getPosition()const

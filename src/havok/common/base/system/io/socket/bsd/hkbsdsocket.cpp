@@ -216,8 +216,8 @@ void InitWinsock()
     }
 }
 
-extern "C" void __cdecl FUN_00cb1280(void*, int, unsigned int);
-extern "C" void __cdecl FUN_00cb1260(void*, const void*, unsigned int);
+extern "C" void __cdecl hkString_memSet(void*, int, unsigned int);
+extern "C" void __cdecl hkString_memCpy(void*, const void*, unsigned int);
 extern "C" int __stdcall FUN_00ee6d74(int);
 extern "C" int __stdcall FUN_00ee6d6e(const char*);
 extern "C" int __stdcall FUN_00ee6d68(const char*);
@@ -250,7 +250,7 @@ int hkBsdSocket::connect(const char* host, int port)
     // Word storage preserves the original stack protection with the shared sin_zero character array.
     unsigned int targetStorage[sizeof(sockaddr_in) / sizeof(unsigned int)];
     sockaddr_in& target = *reinterpret_cast<sockaddr_in*>(targetStorage);
-    FUN_00cb1280(&target, 0, sizeof(target));
+    hkString_memSet(&target, 0, sizeof(target));
     target.sin_family = 2;
     target.sin_port = (unsigned short)FUN_00ee6d74(port);
 
@@ -263,7 +263,7 @@ int hkBsdSocket::connect(const char* host, int port)
         HostEntry* pHostEntry = (HostEntry*)FUN_00ee6d68(host);
         if (!pHostEntry)
             return 1;
-        FUN_00cb1260(&target.sin_addr.S_un.S_addr, pHostEntry->addresses[0], pHostEntry->address_length);
+        hkString_memCpy(&target.sin_addr.S_un.S_addr, pHostEntry->addresses[0], pHostEntry->address_length);
     }
 
     if (m_pSocket == -1 && createSocket())

@@ -14,7 +14,7 @@ struct S_00e3eaa0_Allocator
     virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
     virtual void ReturnMemory(void* p, int numBytes);
 };
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -22,7 +22,7 @@ template <class T> __forceinline void destruct(T* t, int n)
 }
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 {
-        { S_00e3eaa0_Allocator& alloc = *reinterpret_cast<S_00e3eaa0_Allocator*>(FUN_00c85750()->m_heap);
+        { S_00e3eaa0_Allocator& alloc = *reinterpret_cast<S_00e3eaa0_Allocator*>(hkMemoryRouter_getInstance()->m_heap);
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -64,7 +64,7 @@ inline void* __cdecl operator new(unsigned int, void* where) throw()
 
 struct S_00e3e950_Heap;
 namespace fnvc_adapt {
-hkMemoryRouter& FUN_00c85750();
+hkMemoryRouter& hkMemoryRouter_getInstance();
 inline S_00e3e950_Heap& heap(hkMemoryRouter& holder)
 {
     return *reinterpret_cast<S_00e3e950_Heap*>(holder.m_heap);
@@ -166,7 +166,7 @@ template <typename T> struct S_00e3e950_ArrayLocalForm
 
     __forceinline S_00e3e950_ArrayLocalForm& operator=(const S_00e3e950_ArrayLocalForm& a)
     {
-        _copyFromArray(fnvc_adapt::heap(fnvc_adapt::FUN_00c85750()), a);
+        _copyFromArray(fnvc_adapt::heap(fnvc_adapt::hkMemoryRouter_getInstance()), a);
         return *this;
     }
 };
@@ -199,7 +199,7 @@ FUN_00e3e950::FUN_00e3e950(const FUN_00e3e950& o)
 
 namespace fnv_00dfe360 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00dfe360_cls
 {
@@ -227,7 +227,7 @@ struct FUN_00dfe360_cls
 // @fnv 0x00dfe360
 void FUN_00dfe360_cls::FUN_00dfe360()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -238,7 +238,7 @@ void FUN_00dfe360_cls::FUN_00dfe360()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;

@@ -157,21 +157,21 @@ class hkpWorld : public hkReferencedObject
     void RemoveActionFromEntity(hkpUnaryAction* action, hkpEntity* entity);
     void __cdecl AddCollisionShape(void* entity) throw();
 
-    float FUN_00c91020();
+    float hkpWorld_getCurrentTime();
     float hkpWorld_getCurrentPsiTime();
     void nullsub_5(hkpSimulationIsland* island);
     void __thiscall nullsub_6();
     void FUN_00c91120();
     void FUN_00c91140();
-    void FUN_00c91160(void* operation);
+    void hkpWorld_queueOperation(void* operation);
     void* hkpWorld_addEntity(hkpRigidBody* entity, int activation);
     void hkpWorld_attachActionToEntity(hkpUnaryAction* action, hkpEntity* entity);
-    int __thiscall FUN_00c93570();
+    int __thiscall hkpWorld_getMemoryWatchDog();
     void hkpWorld_addPhantom(hkpPhantom* phantom);
     void hkpWorld_addWorldPostSimulationListener(void* listener);
     void hkpWorld_addWorldDeletionListener(void* listener);
     void hkpWorld_updateCollisionFilterOnEntity(void* entity, void* collection, int updateShape);
-    hkpWorld* FUN_00c95a80(const hkpWorldCinfo* info, unsigned int version = 0x111d4) throw();
+    hkpWorld* hkpWorld_hkpWorld(const hkpWorldCinfo* info, unsigned int version = 0x111d4) throw();
     void hkpWorld_updateCollisionFilterOnWorld(int a, int b) throw();
     void hkpWorld_addPhysicsSystem(hkpPhysicsSystem* system) throw();
 };

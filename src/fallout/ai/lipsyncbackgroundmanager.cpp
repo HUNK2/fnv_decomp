@@ -8,14 +8,15 @@
 
 struct FUN_00c3d0e0_stub
 {
-    bool __thiscall FUN_00c3d0e0(char* apDescription, unsigned int aiBufferSize, const char* apTag);
+    bool __thiscall QueuedFileEntry_GetDescription(char* apDescription, unsigned int aiBufferSize, const char* apTag);
 };
 
 
 // @fnv 0x00905e00
-bool LipTask::FUN_00905e00(char* apDescription, unsigned int aiBufferSize)
+// src: XBOX_PDB 0x00905e00
+bool LipTask::GetDescription_00905e00(char* apDescription, unsigned int aiBufferSize)
 {
-    return reinterpret_cast<FUN_00c3d0e0_stub*>(this)->FUN_00c3d0e0(apDescription, aiBufferSize, "liptask");
+    return reinterpret_cast<FUN_00c3d0e0_stub*>(this)->QueuedFileEntry_GetDescription(apDescription, aiBufferSize, "liptask");
 }
 
 struct FUN_009060f0_shell
@@ -62,14 +63,14 @@ struct FUN_00905dc0_shell
     int _m30;
     char _pad1[4];
     FUN_009060f0_shell* _m38;
-    void FUN_00c3cb70(int, void*);
+    void QueuedFile_Cancel(int, void*);
     void HandleStateChange(int, void*);
 };
 // Calls FUN_00c3cb70 with the previous state and task owner, then, unless the previous state is 5, calls CallVirtual5 on _m38 with _m30.
 // @fnv 0x00905dc0
 void FUN_00905dc0_shell::HandleStateChange(int aePreviousState, void* apTaskOwner)
 {
-    FUN_00c3cb70(aePreviousState, apTaskOwner);
+    QueuedFile_Cancel(aePreviousState, apTaskOwner);
     if (aePreviousState != 5)
     {
         _m38->CallVirtual5(_m30);
@@ -325,12 +326,13 @@ struct FUN_00905d20_cls
     UnkHolder* m_30;
     int m_34;
     FUN_009060f0_shell* m_38;
-    void FUN_00905d20();
+    void LipTask_Finish();
 };
 
 // If the holder's object exists, calls v224 with m_34, v220 with 0, and v221 with 1 when m_34 is 0, then calls m_38 with m_30.
 // @fnv 0x00905d20
-void FUN_00905d20_cls::FUN_00905d20()
+// src: XBOX_PDB 0x00905d20
+void FUN_00905d20_cls::LipTask_Finish()
 {
     if (m_30->FUN_008d8520() != 0)
     {
@@ -353,7 +355,7 @@ struct It
     unsigned char unk0c;
     It();
     ~It();
-    bool FUN_006ebde0();
+    bool LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished();
 };
 
 // GlobalObject_00528cb0 - a 4 byte smart pointer holder
@@ -389,7 +391,7 @@ FUN_00905e50_Class::~FUN_00905e50_Class()
 {
     {
         It iter;
-        while (!iter.FUN_006ebde0())
+        while (!iter.LockFreeMap_char_const_Model_LockFreeMapIterator_GetFinished())
         {
             int n = 0;
             G g2(0);

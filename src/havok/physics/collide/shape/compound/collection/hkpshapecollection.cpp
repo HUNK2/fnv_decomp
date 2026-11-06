@@ -33,7 +33,8 @@ int hkpShapeCollection_L::hkpShapeCollection_getContainer()
 extern char const* const DAT_01268910;
 void __cdecl hkReferencedObject_calcContentStatistics(char const* const* first, char const* const* second);
 // @fnv 0x00d213e0
-void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored)
+// src: XBOX_PDB 0x00d213e0
+void __cdecl hkpShapeCollection_calcContentStatistics(char const* const* first, char const* const* ignored)
 {
     hkReferencedObject_calcContentStatistics(first, &DAT_01268910);
 }
@@ -72,7 +73,7 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    MemorySystem* __thiscall FUN_00c85750();
+    MemorySystem* __thiscall hkMemoryRouter_getInstance();
     Holder* __thiscall Destroy(unsigned char flags);
 };
 // Sets shapeVtable and vtable, then frees the object via the memory system allocator if the low bit of flags is set.
@@ -83,7 +84,7 @@ Holder* __thiscall Holder::Destroy(unsigned char flags)
     vtable = &DAT_0102e388;
     if ((flags & 1) != 0)
     {
-        MemorySystem* memory = FUN_00c85750();
+        MemorySystem* memory = hkMemoryRouter_getInstance();
         memory->allocator->Free(this, memSizeAndFlags);
     }
     return this;

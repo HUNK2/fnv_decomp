@@ -21,7 +21,7 @@ extern MemoryManager g_memoryManager;
 void InitializeShaderBufferTables();
 struct FUN_00aa4060_Manager
 {
-    void* FUN_00aa4060(void* object);
+    void* MemoryManager_Deallocate(void* object);
 };
 extern FUN_00aa4060_Manager DAT_011f6238;
 extern void* DAT_010ef53c;
@@ -115,7 +115,7 @@ struct Thing_b9704
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        DAT_011f6238.MemoryManager_Deallocate(p);
     }
 };
 

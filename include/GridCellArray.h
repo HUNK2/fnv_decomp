@@ -41,7 +41,7 @@ public:
     bool SetGridCellPosition(int x, int y);
     void SetFrom(unsigned int, unsigned int, unsigned int, unsigned int);
     void SwapCells(unsigned int, unsigned int, unsigned int, unsigned int);
-    void FUN_004ba600();
+    void KillAll();
     void AttachAllLand3D();
     void AttachToWorld(NiNode* root, unsigned int gridX, unsigned int gridY);
     void UpdateManagedNodeTransforms();
@@ -50,7 +50,7 @@ public:
     void ShowLandBorders(bool show);
     void ToggleCollisionGeometry_004bad40();
     void TogglePrimitives_004bae20(bool detach);
-    void FUN_004baec0();
+    void ClearCanopyShadowMaskTexture();
     void RecreateCanopyShadowMaskTexture();
 
     GridCell* m_pGridCells;

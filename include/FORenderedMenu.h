@@ -34,7 +34,7 @@ public:
     virtual void v12();
     virtual void v13();
     virtual void HandleStaticEffect(float afTime);
-    virtual void FUN_007fb480(float a);
+    virtual void UpdateVertHold(float a);
     virtual void HandleShudderEffect(float afTime);
     virtual void HandlePulseEffect(float afDuration);
     virtual void UpdateNodePosition(float fTime);
@@ -43,7 +43,7 @@ public:
 
     bool GetInitialized();
     NiAVObject* GetMenuRoot();
-    void FUN_007fc6f0();
+    void ClearMenuLight();
     bool CreateMenuLight(const char*, ShadowSceneNode*);
     void SetDefaultTexture(NiTexture*);
     unsigned int GetCurrentTimeMilliseconds();
@@ -51,7 +51,7 @@ public:
     NiNode* GetSceneNode();
     void UpdateSlotSelection(int);
     bool IsUnk28Set();
-    void FUN_007fae70(int);
+    void SetScreenTexture(int);
     void OnMenuOpen_007fb040();
     void ResetMenuState();
     bool Pick_007fb790(void* pkUnused, float* pfX, float* pfY);

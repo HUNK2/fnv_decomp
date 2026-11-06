@@ -14,7 +14,8 @@
 extern "C" int __cdecl FUN_00ec7d40(int);
 
 // @fnv 0x0072fa80
-int __cdecl FUN_0072fa80(int param_1)
+// src: XBOX_PDB 0x0072fa80
+int __cdecl abs_0072fa80(int param_1)
 {
     return FUN_00ec7d40(param_1);
 }
@@ -57,7 +58,8 @@ struct BottomlessStack
 }
 
 // @fnv 0x00adad60
-void BSAudioManager::FUN_00adad60()
+// src: XBOX_PDB 0x00adad60
+void BSAudioManager::AudioMessageStack_Pop()
 {
     reinterpret_cast<fnv_00adad60::BottomlessStack*>(FreeMessages)->AudioMessageStack_Pop_00ae76b0();
 }
@@ -111,25 +113,25 @@ bool __thiscall AudioLoadTask::GetDescription(char* apDescription, unsigned int 
 
 struct FUN_00adcaa0_shell
 {
-    void FUN_00adcaa0(int param_2, int param_3);
+    void BSAudioManager_UnMuteAllOfType(int param_2, int param_3);
 };
 
 // Forwards the two arguments to BSAudioManager's FUN_00adcaa0.
 // @fnv 0x00ad84b0
 void BSAudio::ForwardToManager(unsigned int param_2, unsigned int param_3)
 {
-    ((FUN_00adcaa0_shell*)&BSAudioManager::GetRandomGenerator())->FUN_00adcaa0(param_2, param_3);
+    ((FUN_00adcaa0_shell*)&BSAudioManager::GetRandomGenerator())->BSAudioManager_UnMuteAllOfType(param_2, param_3);
 }
 
 struct FUN_00adcc10_shell
 {
-    void __thiscall FUN_00adcc10(int, int);
+    void __thiscall BSAudioManager_UnPauseAllOfType(int, int);
 };
 // Forwards param1 and param2 to the BSAudioManager method FUN_00adcc10.
 // @fnv 0x00ad8540
 void __thiscall BSAudio::ForwardToManager(unsigned int param1, bool param2)
 {
-    ((FUN_00adcc10_shell*)&BSAudioManager::GetRandomGenerator())->FUN_00adcc10(param1, param2);
+    ((FUN_00adcc10_shell*)&BSAudioManager::GetRandomGenerator())->BSAudioManager_UnPauseAllOfType(param1, param2);
 }
 
 struct S_00ae5f70
@@ -423,13 +425,14 @@ void* __thiscall S00a0d390::FUN_00ae9100(unsigned int auiFlags)
 
 struct Helper
 {
-    void __thiscall FUN_00ae6f10(void*);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove(void*);
 };
 // Calls a helper on the BSAudioManager singleton with this task, then assigns the task's pointer field to itself.
 // @fnv 0x00ae7360
-void AudioLoadTask::FUN_00ae7360()
+// src: XBOX_PDB 0x00ae7360
+void AudioLoadTask::Finish_00ae7360()
 {
-    ((Helper*)&BSAudioManager::GetRandomGenerator())->FUN_00ae6f10(this);
+    ((Helper*)&BSAudioManager::GetRandomGenerator())->NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove(this);
     SoundAssetTmp = SoundAssetTmp;
 }
 
@@ -838,13 +841,13 @@ struct Sound7390
 };
 struct AudioHelper7390
 {
-    void __thiscall FUN_00ae6f10();
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove();
 };
-AudioHelper7390* __stdcall FUN_00ad9060(AudioLoadTask*);
+AudioHelper7390* __stdcall BSAudioManager_QInstance_00ad9060(AudioLoadTask*);
 // @fnv 0x00ae7390
 void __thiscall AudioLoadTask::Cancel(BS_TASK_STATE, void*)
 {
-    FUN_00ad9060(this)->FUN_00ae6f10();
+    BSAudioManager_QInstance_00ad9060(this)->NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove();
     unsigned int uiSoundFlags;
     Sound7390* pDeleteFirst;
     Sound7390* pSoundToDelete;
@@ -1572,7 +1575,8 @@ struct FUN_00ad90e0_shell
 };
 // Returns a pointer to a static singleton instance of FUN_00ad90e0_shell.
 // @fnv 0x00ad9060
-FUN_00ad90e0_shell* __cdecl FUN_00ad9060()
+// src: XBOX_PDB 0x00ad9060
+FUN_00ad90e0_shell* __cdecl BSAudioManager_QInstance_00ad9060()
 {
     static FUN_00ad90e0_shell sInstance;
     return &sInstance;
@@ -1615,8 +1619,8 @@ void AudioManagerUpdate::BSAudioManager_Process()
     bool locked = fnv_Import_TryEnterCriticalSection(&m_cs) != 0;
     if (locked)
     {
-        reinterpret_cast<AudioHelperB*>(FUN_00ad9060())->ProcessAudioQueue();
-        reinterpret_cast<AudioHelperB*>(FUN_00ad9060())->BSAudioManager_ProcessSoundUpdates();
+        reinterpret_cast<AudioHelperB*>(BSAudioManager_QInstance_00ad9060())->ProcessAudioQueue();
+        reinterpret_cast<AudioHelperB*>(BSAudioManager_QInstance_00ad9060())->BSAudioManager_ProcessSoundUpdates();
         LeaveCriticalSection(&m_cs);
     }
 }
@@ -1695,7 +1699,7 @@ void BSAudioManagerThread::ExitThread_00ae7ac0()
 
 struct S00ae6f10_SubObj_00ae6f10
 {
-    void __thiscall FUN_00ae8150(void* p);
+    void __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSTextureManager_RenderedTextureData_RemovePos(void* p);
 };
 struct S00ae6f10_FUN_00ae6f10_cls
 {
@@ -1768,7 +1772,7 @@ struct S00ae6f10_FUN_00ae6f10_cls
     int unk108;
     CritSecA m_10c;
     S00ae6f10_SubObj_00ae6f10 m_124;
-    void FUN_00ae6f10(int arg);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove(int arg);
 };
 
 struct S00ae6f10_FUN_00ae6f10_frame
@@ -1789,11 +1793,12 @@ struct S00ae6f10_FUN_00ae6f10_frame
 
 // Locks m_10c, passes the address of arg to m_124.FUN_00ae8150, then unlocks m_10c.
 // @fnv 0x00ae6f10
-void S00ae6f10_FUN_00ae6f10_cls::FUN_00ae6f10(int aValue)
+// src: XBOX_PDB 0x00ae6f10
+void S00ae6f10_FUN_00ae6f10_cls::NiTPointerListBase_NiTPointerAllocator_unsigned_int_ShadowSceneLight_Remove(int aValue)
 {
     S00ae6f10_FUN_00ae6f10_frame frame;
     EnterCriticalSection(&m_10c);
-    m_124.FUN_00ae8150((void*)&aValue);
+    m_124.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSTextureManager_RenderedTextureData_RemovePos((void*)&aValue);
     LeaveCriticalSection(&m_10c);
 }
 
@@ -1812,7 +1817,7 @@ unsigned int BSAudioManagerThread::ThreadProc()
     {
         if (DAT_01202d98 != 0)
         {
-            reinterpret_cast<AudioManagerUpdate*>(FUN_00ad9060())->BSAudioManager_Process();
+            reinterpret_cast<AudioManagerUpdate*>(BSAudioManager_QInstance_00ad9060())->BSAudioManager_Process();
         }
         Sleep(1);
     }
@@ -1826,10 +1831,11 @@ struct BSMapBase
 };
 struct FUN_00adc8b0_shell
 {
-    float __thiscall FUN_00adc8b0(unsigned long);
+    float __thiscall BSAudioManager_GetVolume(unsigned long);
 };
 // @fnv 0x00adc8b0
-float __thiscall FUN_00adc8b0_shell::FUN_00adc8b0(unsigned long auiKey)
+// src: XBOX_PDB 0x00adc8b0
+float __thiscall FUN_00adc8b0_shell::BSAudioManager_GetVolume(unsigned long auiKey)
 {
     float fVol;
     {

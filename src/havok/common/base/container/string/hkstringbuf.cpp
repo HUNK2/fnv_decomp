@@ -6,7 +6,7 @@
 #include "../../../../../../include/hkMemoryRouter.h"
 #include <stdarg.h>
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 
 class BufferOwner
@@ -25,7 +25,7 @@ BufferOwner* BufferOwner::InitBuffer()
     m_pData = (char*)this + 0xc;
     m_iReferenceCount = 0;
     m_uiObjectFlags = 0x80000080;
-    hkMemoryRouter* pHolder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter* pHolder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     void* pAllocator = pHolder->m_temp;
     int iCount = (int)(m_uiObjectFlags & 0x3fffffff);
     if (iCount < 1)
@@ -43,7 +43,7 @@ BufferOwner* BufferOwner::InitBuffer()
     return this;
 }
 
-int __cdecl FUN_00cb0f50(char* buf, int size, const char* fmt, va_list args);
+int __cdecl hkString_vsnprintf(char* buf, int size, const char* fmt, va_list args);
 inline hkMemoryAllocator& GetStreamAllocator(hkMemoryRouter& router)
 {
     return *static_cast<hkMemoryAllocator*>(router.m_temp);
@@ -70,7 +70,7 @@ struct StringBuf : public BufferOwner
     }
     void SetSize(int n)
     {
-        Reserve(GetStreamAllocator(*reinterpret_cast<hkMemoryRouter*>(FUN_00c85750())), n);
+        Reserve(GetStreamAllocator(*reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())), n);
         m_iReferenceCount = n;
     }
     void SetLength(int n)
@@ -90,7 +90,7 @@ void StringBuf::hkStringBuf_printf(const char* fmt, ...)
     while (1)
     {
         int size = GetCapacity();
-        int iChars = FUN_00cb0f50(Begin(), size, fmt, args);
+        int iChars = hkString_vsnprintf(Begin(), size, fmt, args);
         if (iChars >= 0 && iChars < size)
         {
             SetLength(iChars);

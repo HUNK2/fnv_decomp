@@ -108,7 +108,7 @@ struct __declspec(align(16)) Dsub
 {
     Dvec4 v0, v1, v2, v3;
     Dvec4 unk40, unk50;
-    void FUN_00cb22f0(Dvec4* pts, Dvec4* other);
+    void hkTransform_setMulInverseMul(Dvec4* pts, Dvec4* other);
 };
 
 struct Dtask
@@ -155,7 +155,7 @@ void hkpGskfAgent::ProcessAgent(const hkpCdBody& bodyA, const hkpCdBody& bodyB, 
     res.f04 = a2;
     res.f10 = (int)m_pContactManager;
     res.f0c = a3;
-    res.sub.FUN_00cb22f0(a1->f08, a2->f08);
+    res.sub.hkTransform_setMulInverseMul(a1->f08, a2->f08);
     ProcessCollision(&res, &ctx.f0, &ctx.f1, (int*)m_pAccess, (int*)&m_kContactManifold, (int*)&m_vSeparatingNormal, a4);
 }
 

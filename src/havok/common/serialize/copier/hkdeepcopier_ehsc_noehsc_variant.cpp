@@ -33,14 +33,14 @@ struct hkMemRouter
     }
 };
 
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* alloc, void* arr, int elemSize);
 void* AllocateWithHeader(hkMemAlloc& alloc, int numBytes);
-void FUN_00cb1260(void* dst, const void* src, int n);
+void hkString_memCpy(void* dst, const void* src, int n);
 
 __forceinline hkMemRouter* GetRouter()
 {
-    return (hkMemRouter*)FUN_00c85750();
+    return (hkMemRouter*)hkMemoryRouter_getInstance();
 }
 
 template <class T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
@@ -128,7 +128,7 @@ struct PtrMapBase
     {}
     ~PtrMapBase();
     void EnsureCapacity(hkMemAlloc& alloc, int n);
-    void FUN_00cb1870(hkMemAlloc& alloc, const void* key, int val);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemAlloc& alloc, const void* key, int val);
     int FindSlot(const void* key);
     int LookupHashEntry(const void* key, int def);
     void ProcessArgument(hkMemAlloc& alloc);
@@ -151,7 +151,7 @@ struct PtrMap
     }
     __forceinline void insert(const void* key, int val)
     {
-        m_map.FUN_00cb1870(GetRouter()->heap(), key, val);
+        m_map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(GetRouter()->heap(), key, val);
     }
     __forceinline int FindValueForKey(const void* key, int def)
     {
@@ -319,7 +319,7 @@ void* FUN_00e4afe0(const void* dataIn, const ClassInfo& klassIn, PtrMap* previou
     if (buffer.getSize())
     {
         char* versioned = (char*)AllocateWithHeader(GetRouter()->heap(), buffer.getSize());
-        FUN_00cb1260(versioned, buffer.m_data, buffer.getSize());
+        hkString_memCpy(versioned, buffer.m_data, buffer.getSize());
 
         for (int i = 0; i < reloc.m_pTrailingData.getSize(); ++i)
             *(char**)(versioned + reloc.m_pTrailingData[i].m_iSourceOffset) =

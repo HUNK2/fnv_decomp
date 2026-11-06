@@ -411,11 +411,12 @@ struct ActList
     void* pad0;
     void* pad1;
     ActNode* head;
-    FormFlagRecord* FUN_005a90b0(TESForm* form, bool create);
+    FormFlagRecord* ScriptLocals_GetActionObject(TESForm* form, bool create);
 };
 // Returns a matching entry, or the last visited entry with a null form when create is true.
 // @fnv 0x005a90b0
-FormFlagRecord* ActList::FUN_005a90b0(TESForm* form, bool create)
+// src: XBOX_PDB 0x005a90b0
+FormFlagRecord* ActList::ScriptLocals_GetActionObject(TESForm* form, bool create)
 {
     if (!head)
         return 0;
@@ -441,11 +442,12 @@ struct RefList
 {
     void* m_item;
     RefList* m_pkNext;
-    bool FUN_005f65d0(void** item);
+    bool BSSimpleList_TESLevSpell_IsInList(void** item);
 };
 // Walks the linked list and returns true when a node's m_item matches the value pointed to by item.
 // @fnv 0x005f65d0
-bool RefList::FUN_005f65d0(void** item)
+// src: XBOX_PDB 0x005f65d0
+bool RefList::BSSimpleList_TESLevSpell_IsInList(void** item)
 {
     const RefList* pNode = this;
     while (pNode && pNode->m_item != *item)
@@ -502,11 +504,12 @@ struct TargetClass
     NodePointerWithRawComparison m_item;
     TargetClass* m_pkNext;
 
-    void FUN_00631540(const NiPointer<NiNode>& item);
+    void BSSimpleList_NiPointer_bhkAction_AddHead(const NiPointer<NiNode>& item);
 };
 
 // @fnv 0x00631540
-void TargetClass::FUN_00631540(const NiPointer<NiNode>& item)
+// src: XBOX_PDB 0x00631540
+void TargetClass::BSSimpleList_NiPointer_bhkAction_AddHead(const NiPointer<NiNode>& item)
 {
     if (item == 0)
         return;
@@ -531,11 +534,12 @@ struct ListReader
     ListReader* next;
     ~ListReader();
     bool IsEmpty();
-    void FUN_00631620(const NiPointer<NiNode>& value);
+    void BSSimpleList_NiPointer_bhkAction_Remove(const NiPointer<NiNode>& value);
 };
 // Removes the node whose item equals value; if it is the only node, clears item.
 // @fnv 0x00631620
-void ListReader::FUN_00631620(const NiPointer<NiNode>& value)
+// src: XBOX_PDB 0x00631620
+void ListReader::BSSimpleList_NiPointer_bhkAction_Remove(const NiPointer<NiNode>& value)
 {
     if (value == 0 || IsEmpty())
         return;
@@ -669,11 +673,12 @@ struct FlagS
 {
     char pad[0x2c];
     unsigned short flags;
-    void FUN_007a1950(unsigned int bit, bool on);
+    void ListBox_ItemChange_SetFlag(unsigned int bit, bool on);
 };
 // Sets or clears the bit at position bit in the flags field depending on the on parameter.
 // @fnv 0x007a1950
-void FlagS::FUN_007a1950(unsigned int bit, bool on)
+// src: XBOX_PDB 0x007a1950
+void FlagS::ListBox_ItemChange_SetFlag(unsigned int bit, bool on)
 {
     if (on)
         flags |= (1 << bit);
@@ -918,7 +923,7 @@ void S_00a0c7c0_List::AddToHead(void** apItem)
 
 struct ModifierEntryView
 {
-    char FUN_009373f0();
+    char TESTextureList_GetTextureCount();
 };
 
 struct ModifierFormView
@@ -962,7 +967,7 @@ struct ModifierActorValueView
 struct ModifierRoutingList : BSSimpleList<ModifierEntryView*>
 {
     void FUN_00937280(char, ModifierEntryView*);
-    void FUN_00937380(ModifierEntryView* mod);
+    void ModifierList_AddModifier(ModifierEntryView* mod);
 };
 
 namespace ActorValue {
@@ -971,11 +976,12 @@ ActorValueInfo* __cdecl GetActorValueInfo(Index);
 
 // Looks up the modifier key; calls the other routing method when info has bit 0 set, otherwise adds the entry at the head.
 // @fnv 0x00937380
-void ModifierRoutingList::FUN_00937380(ModifierEntryView* apEntry)
+// src: XBOX_PDB 0x00937380
+void ModifierRoutingList::ModifierList_AddModifier(ModifierEntryView* apEntry)
 {
     if (!apEntry)
         return;
-    char key = apEntry->FUN_009373f0();
+    char key = apEntry->TESTextureList_GetTextureCount();
     ActorValueInfo* info = ActorValue::GetActorValueInfo(static_cast<ActorValue::Index>(key));
     if (info && (reinterpret_cast<ModifierActorValueView*>(info)->flags & 1))
         FUN_00937280(key, apEntry);

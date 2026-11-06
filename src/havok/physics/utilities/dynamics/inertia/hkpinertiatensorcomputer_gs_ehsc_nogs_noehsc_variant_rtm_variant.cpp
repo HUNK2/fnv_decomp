@@ -42,7 +42,7 @@ struct State
     int count;
     int context;
 };
-void FUN_00cebbb0(void* state, float zero, void* receiver);
+void hkpInertiaTensorComputer_computeConvexHullMassProperties(void* state, float zero, void* receiver);
 int __cdecl ApplyLimitToReceiver(int owner, int context, int count, float limit, Receiver* receiver, float value);
 struct FUN_00cebe80_Struct
 {
@@ -165,7 +165,7 @@ struct S_00cee1c0_Arr
     unsigned int m_cap;
     unsigned int* m_pTrailingData;
 };
-S_00cee1c0_Router* FUN_00c85750();
+S_00cee1c0_Router* hkMemoryRouter_getInstance();
 float __cdecl hkInertiaTensorComputer_optimizeInertiasOfConstraintTreeInt(S_00cee1c0_Arr* arr, int unk, float value);
 void __cdecl ProcessArrayWithValue(unsigned int* source, int count, int unk, float value);
 namespace fnv_anon_00cec3d0 {}
@@ -259,7 +259,8 @@ struct CE50Body
         _mm_store_ps(&inertia.row2.x, _mm_setzero_ps());
     }
 };
-__declspec(noinline) void __cdecl FUN_00cebaf0(const float* radii, float mass, CE50Body* result)
+// src: XBOX_PDB 0x00cebaf0
+__declspec(noinline) void __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(const float* radii, float mass, CE50Body* result)
 {
     _mm_store_ps(&result->center.x, _mm_setzero_ps());
     result->mass = mass;
@@ -269,7 +270,8 @@ __declspec(noinline) void __cdecl FUN_00cebaf0(const float* radii, float mass, C
     result->inertia.row1.y = scale * (radii[0] * radii[0] + radii[2] * radii[2]);
     result->inertia.row2.z = scale * (radii[0] * radii[0] + radii[1] * radii[1]);
 }
-static __declspec(noinline) void FUN_00cebfd0(CE50Body* body, float scale)
+// src: XBOX_PDB 0x00cebfd0
+static __declspec(noinline) void hkMatrix3_mul(CE50Body* body, float scale)
 {
     body->mass *= scale;
     body->inertia.row0.x *= scale;
@@ -306,7 +308,7 @@ __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, f
         _mm_store_ps(a, _mm_sub_ps(hi, lo));
     }
 }
-__int64 __cdecl FUN_00cebaf0(float* source, float value, void* dest);
+__int64 __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(float* source, float value, void* dest);
 // distinct from Pair: exe 0x00ced8e0 passes this 16-byte-aligned floating output prefix to 0x00cebaf0; shared Pair holds two integers.
 __declspec(align(16)) struct InertiaOutputPrefix
 {
@@ -382,7 +384,8 @@ struct OutBlock
     float m10, m11, m12, m13;
     float m20, m21, m22, m23;
 };
-__declspec(noinline) __int64 __cdecl FUN_00cebaf0(float* source, float value, void* dest)
+// src: XBOX_PDB 0x00cebaf0
+__declspec(noinline) __int64 __cdecl hkpInertiaTensorComputer_computeBoxVolumeMassProperties(float* source, float value, void* dest)
 {
     if (value <= 0.0f)
         return 1;
@@ -490,9 +493,10 @@ struct S00cf0690_Xf
 {
     hkVector4 row0, row1, row2, translation;
 };
-void __cdecl FUN_00ceff00(void*, const S00cf0690_Xf*, float, S00cf0690_Mass*);
+void __cdecl computeRecursiveShapeVolumeMassProperties(void*, const S00cf0690_Xf*, float, S00cf0690_Mass*);
 extern const float DAT_01013ea4;
-static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
+// src: XBOX_PDB 0x00cebfd0
+static __declspec(noinline) void hkMatrix3_mul(S00cf0690_Mass* p, float density)
 {
     float newMass = density * p->volume;
     float k = newMass / p->mass;
@@ -502,7 +506,7 @@ static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
     *(__m128*)&p->row1 = _mm_mul_ps(*(__m128*)&p->row1, f);
     *(__m128*)&p->row2 = _mm_mul_ps(*(__m128*)&p->row2, f);
 }
-void __cdecl FUN_00cf0690(void* shape, float mass, S00cf0690_Mass* result);
+void __cdecl hkpInertiaTensorComputer_computeShapeVolumeMassProperties(void* shape, float mass, S00cf0690_Mass* result);
 
 #include <math.h>
 struct Triangle159

@@ -91,7 +91,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 extern const char* g_pcA81100Name;
 const char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
-const char* __cdecl FUN_00a7d5a0(char const* pcName, void* pvObj);
+const char* __cdecl NiGetViewerString_00a7d5a0(char const* pcName, void* pvObj);
 
 // @fnv 0x00a81100
 void NiCollisionObject::GetViewerStrings(NiViewerStringsArray* pkStrings)
@@ -115,7 +115,7 @@ void NiCollisionObject::AddViewerStrings(NiViewerStringsArray* pkStrings)
         pkStrings->SetAt(uiPos, p);
     }
     {
-        const char* q = FUN_00a7d5a0("m_pkSceneObject", m_pkSceneObject);
+        const char* q = NiGetViewerString_00a7d5a0("m_pkSceneObject", m_pkSceneObject);
         unsigned int uiPos = pkStrings->m_usSize;
         unsigned int uiSize = pkStrings->m_usMaxSize;
         if (uiPos >= uiSize)

@@ -355,11 +355,11 @@ struct StackAllocationCursor
 {
     char* m_pcCur;
 };
-extern "C" StackAllocationCursor* __cdecl FUN_00c85750();
+extern "C" StackAllocationCursor* __cdecl hkMemoryRouter_getInstance();
 
 template <class T> inline T* AllocateFreeListScratch(int iCount)
 {
-    StackAllocationCursor* pkStack = FUN_00c85750();
+    StackAllocationCursor* pkStack = hkMemoryRouter_getInstance();
     T* pResult = (T*)pkStack->m_pcCur;
     pkStack->m_pcCur = (char*)pResult + ((iCount * sizeof(T) + 127) & ~127);
     return pResult;
@@ -367,11 +367,11 @@ template <class T> inline T* AllocateFreeListScratch(int iCount)
 
 template <class T> inline void ReleaseFreeListScratch(T* p)
 {
-    FUN_00c85750()->m_pcCur = (char*)p;
+    hkMemoryRouter_getInstance()->m_pcCur = (char*)p;
 }
 
 bool __cdecl CompareLessThan(const hkFreeList::Element* pkA, const hkFreeList::Element* pkB);
-void __cdecl FUN_00dd7d00(hkFreeList::Element** ppArray, int iLow, int iHigh,
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(hkFreeList::Element** ppArray, int iLow, int iHigh,
                           bool(__cdecl* pfnLess)(const hkFreeList::Element*, const hkFreeList::Element*));
 
 // Removes elements in the block range, then sorts and relinks them; returns 1 for a fully free block.
@@ -415,7 +415,7 @@ int hkFreeList::_calcBlockFree(hkFreeList::Block* pkBlock)
     if (iNumFound > 0)
     {
         if (iNumFound > 1)
-            FUN_00dd7d00(ppElems, 0, iNumFound - 1, CompareLessThan);
+            hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(ppElems, 0, iNumFound - 1, CompareLessThan);
         Element* pkLast = ppElems[0];
         for (int i = 1; i < iNumFound; i++)
         {
@@ -811,13 +811,13 @@ struct BlockWalkServerInterface
 };
 
 bool __cdecl CompareLessThan(void* a, void* b);
-void __cdecl FUN_00dd7d00(void** arr, int lo, int hi, bool(__cdecl* cmpLess)(void*, void*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(void** arr, int lo, int hi, bool(__cdecl* cmpLess)(void*, void*));
 
 inline void quickSortPointers(void** arr, int numElem)
 {
     if (numElem > 1)
     {
-        FUN_00dd7d00(arr, 0, numElem - 1, CompareLessThan);
+        hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(arr, 0, numElem - 1, CompareLessThan);
     }
 }
 

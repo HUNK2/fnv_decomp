@@ -123,7 +123,7 @@ struct S_00ddecf0_Key
 };
 
 // This entry point is nonthrowing in the game; array cleanup depends on that contract.
-__declspec(nothrow) hkMemoryRouter* FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter* hkMemoryRouter_getInstance();
 
 
 template <typename T> __forceinline void hkMemoryAllocator::_bufFree(void* p, int numElem)
@@ -161,7 +161,7 @@ void S_00ddecf0::InsertKey(float t, float a, float b)
     key.t = t;
     key.a = a;
     key.b = b;
-    m_keys.FUN_00ddecd0(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap()), n, key);
+    m_keys.FUN_00ddecd0(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap()), n, key);
 }
 
 extern double DAT_010cd5a8;
@@ -346,7 +346,7 @@ __declspec(align(16)) struct QueryBuffer
     unsigned int unk1FC;
 };
 
-int FUN_00dde4c0(hkpShape* self, const hkpShape* a, void* b, int idx, int zero, int* out);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(hkpShape* self, const hkpShape* a, void* b, int idx, int zero, int* out);
 
 // Reads a flag, clears it, runs up to three sub-queries via FUN_00dde4c0, sets result false if any returns 1, then restores the flag.
 // @fnv 0x00dde930
@@ -366,7 +366,7 @@ bool* CheckSubQueries(bool* result, void* key, hkpShape* self)
     int n = 0;
     for (int i = 0; i < 3; i++)
     {
-        if (FUN_00dde4c0(self, sub, key, i, 0, &n) == 1)
+        if (hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(self, sub, key, i, 0, &n) == 1)
         {
             *result = false;
             break;
@@ -430,7 +430,7 @@ struct LocalBuffer
 
 char* IsDegenerateTriangle(char* out, const hkVector4* v0, const hkVector4* v1, const hkVector4* v2,
                            float eps);
-int FUN_00dde4c0(hkpShape* p2, const hkpTriangleShape* trans, void* p1, int i, void* p3, int* outLocal);
+int hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(hkpShape* p2, const hkpTriangleShape* trans, void* p1, int i, void* p3, int* outLocal);
 
 // @fnv 0x00dde880
 int __cdecl CheckTransformAndProcess(void* p1, hkpShape* pOuter, void* p3, short* outWord)
@@ -452,7 +452,7 @@ int __cdecl CheckTransformAndProcess(void* p1, hkpShape* pOuter, void* p3, short
     int local2 = 0;
     for (int i = 0; i < 3; ++i)
     {
-        int iRet = FUN_00dde4c0(pOuter, trans, p1, i, p3, &iResult);
+        int iRet = hkpMeshWeldingUtility_calcBitcodeForTriangleEdge(pOuter, trans, p1, i, p3, &iResult);
         if (iRet == 1)
         {
             local2 = iRet;
@@ -794,7 +794,7 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 // hkArray bodies (allocator = the memory router's heap).
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap());
+    return reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap());
 }
 template <typename T> __forceinline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& alloc)
 {
@@ -1008,11 +1008,12 @@ struct S00dde760_ScratchVector
 };
 
 extern "C" Matrix44 DAT_01268370;
-extern "C" void __cdecl FUN_00dddcd0(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
+extern "C" void __cdecl hkpMeshWeldingUtility_computeWeldingInfoMultiShape(const Matrix44*, int, int, S00dde760_ScratchVector*, int);
 
 // Copies DAT_01268370 into a local Item, allocates a scratch vector from the pool, and passes it to FUN_00dddcd0.
 // @fnv 0x00dde760
-void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
+// src: XBOX_PDB 0x00dde760
+void __cdecl hkpMeshWeldingUtility_computeWeldingInfo(int a, int aiPayload, int c, int d)
 {
     Item item;
     welding_simd::_mm_store_ps(&item.transform.row0.x, welding_simd::_mm_load_ps(&DAT_01268370.row0.x));
@@ -1024,13 +1025,13 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
     vector.elements = 0;
     vector.size = 0;
     vector.encodedCapacity = 0x80000000;
-    hkMemoryRouter* poolState = FUN_00c85750();
+    hkMemoryRouter* poolState = hkMemoryRouter_getInstance();
     char* cursor = reinterpret_cast<char*&>(poolState->m_stack.m_next.m_storage);
     reinterpret_cast<char*&>(poolState->m_stack.m_next.m_storage) = cursor + 0x80;
     vector.elements = reinterpret_cast<Item*>(cursor);
     vector.encodedCapacity = 0x80000001;
     vector.originalCursor = cursor;
-    poolState = FUN_00c85750();
+    poolState = hkMemoryRouter_getInstance();
     if (vector.size == (vector.encodedCapacity & 0x3fffffff))
     {
         ResizeAudioStream(reinterpret_cast<hkMemoryAllocator*>(poolState->m_heap), &vector, 0x50);
@@ -1040,12 +1041,12 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
         reinterpret_cast<FUN_00ddea00_cls*>(destination)
             ->CopyFromSource(reinterpret_cast<const FUN_00ddea00_src*>(&item));
     ++vector.size;
-    FUN_00dddcd0(&DAT_01268370, a, c, &vector, d);
+    hkpMeshWeldingUtility_computeWeldingInfoMultiShape(&DAT_01268370, a, c, &vector, d);
     char* finalCursor = vector.originalCursor;
     if (finalCursor == reinterpret_cast<char*>(vector.elements))
         vector.size = 0;
-    reinterpret_cast<char*&>(FUN_00c85750()->m_stack.m_next.m_storage) = finalCursor;
-    poolState = FUN_00c85750();
+    reinterpret_cast<char*&>(hkMemoryRouter_getInstance()->m_stack.m_next.m_storage) = finalCursor;
+    poolState = hkMemoryRouter_getInstance();
     hkMemoryAllocator* currentAllocator = reinterpret_cast<hkMemoryAllocator*>(poolState->m_heap);
     vector.size = 0;
     if ((vector.encodedCapacity & 0x80000000u) == 0)

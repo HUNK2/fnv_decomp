@@ -152,7 +152,7 @@ struct GlobalObject_00633c90
 
 struct List4b0910_Ptrs
 {
-    void FUN_00631540(const GlobalObject_00633c90& kItem);
+    void BSSimpleList_NiPointer_bhkAction_AddHead(const GlobalObject_00633c90& kItem);
     int m_pInventoryEntryData;
     List4b0910_Ptrs* m_pNext;
 };
@@ -220,6 +220,6 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     {
         FUN_004ad050 kArgTmp(1.0f);
         int iObject2 = pkKey->FUN_00a5d2c0(&kArgTmp);
-        pkFound4->m_kList.FUN_00631540(iObject2);
+        pkFound4->m_kList.BSSimpleList_NiPointer_bhkAction_AddHead(iObject2);
     }
 }

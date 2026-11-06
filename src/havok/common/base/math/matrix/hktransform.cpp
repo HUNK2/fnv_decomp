@@ -21,7 +21,7 @@ struct __declspec(align(16)) Matrix43
     float m10, m11, m12, m13;
     float m20, m21, m22, m23;
     float m30, m31, m32, m33;
-    void FUN_00cb2240(Matrix43* a, Matrix43* b);
+    void hkTransform_setMul(Matrix43* a, Matrix43* b);
     void hkTransform_setMul_00cb22c0(Transform* a, Matrix43* b);
 };
 // @fnv 0x00cb22c0
@@ -30,17 +30,17 @@ void Matrix43::hkTransform_setMul_00cb22c0(Transform* apTransform, Matrix43* apM
 {
     Matrix43 temp;
     apTransform->FUN_00ce5300(&temp);
-    this->FUN_00cb2240(&temp, apMatrix);
+    this->hkTransform_setMul(&temp, apMatrix);
 }
 
 struct Matrix44;
 struct FUN_00cb21e0_shell
 {
-    void __thiscall FUN_00cb21e0(const Matrix44* source);
+    void __thiscall hkTransform_setInverse(const Matrix44* source);
 };
 struct FUN_00cb2240_shell
 {
-    void __thiscall FUN_00cb2240(const Matrix44* left, const Matrix44* right);
+    void __thiscall hkTransform_setMul(const Matrix44* left, const Matrix44* right);
 };
 __declspec(align(16)) struct Matrix44
 {
@@ -56,8 +56,8 @@ void Matrix44::hkTransform_setMulMulInverse(const Matrix44* left, const Matrix44
 {
     __m128 tempStorage[4];
     Matrix44& tempMatrix = *reinterpret_cast<Matrix44*>(tempStorage);
-    ((FUN_00cb21e0_shell*)&tempMatrix)->FUN_00cb21e0(right);
-    ((FUN_00cb2240_shell*)this)->FUN_00cb2240(left, &tempMatrix);
+    ((FUN_00cb21e0_shell*)&tempMatrix)->hkTransform_setInverse(right);
+    ((FUN_00cb2240_shell*)this)->hkTransform_setMul(left, &tempMatrix);
 }
 
 // The shared vector does not yet declare this method; retain only its call interface.
@@ -181,7 +181,7 @@ __forceinline void SetRotatedInverseDir(hkVector4& out, const hkMatrix3& r, cons
 class __declspec(align(16)) hkTransformCB22
 {
   public:
-    void FUN_00cb22f0(const hkTransformCB22& kA, const hkTransformCB22& kB);
+    void hkTransform_setMulInverseMul(const hkTransformCB22& kA, const hkTransformCB22& kB);
 
     hkMatrix3 m_rotation;
     hkVector4 m_vTranslation;
@@ -189,7 +189,8 @@ class __declspec(align(16)) hkTransformCB22
 
 // Sets the transform to the inverse of kA multiplied by kB, combining rotation via SetMulInverse and translation via a rotated difference.
 // @fnv 0x00cb22f0
-void hkTransformCB22::FUN_00cb22f0(const hkTransformCB22& kA, const hkTransformCB22& kB)
+// src: XBOX_PDB 0x00cb22f0
+void hkTransformCB22::hkTransform_setMulInverseMul(const hkTransformCB22& kA, const hkTransformCB22& kB)
 {
     MatrixMulInverse(m_rotation, kA.m_rotation, kB.m_rotation);
     __m128 kDiff = _mm_sub_ps(kB.m_vTranslation.m_vComponents, kA.m_vTranslation.m_vComponents);
@@ -215,7 +216,7 @@ struct Matrix
 
 struct Obj : Matrix
 {
-    void __thiscall FUN_00cb2240(Matrix* m, int a);
+    void __thiscall hkTransform_setMul(Matrix* m, int a);
     void __thiscall FUN_00cb23e0(int a);
 };
 
@@ -228,7 +229,7 @@ void __thiscall Obj::FUN_00cb23e0(int a)
     localMatrix.r1.v = r1.v;
     localMatrix.r2.v = r2.v;
     localMatrix.r3.v = r3.v;
-    FUN_00cb2240(&localMatrix, a);
+    hkTransform_setMul(&localMatrix, a);
 }
 
 extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
@@ -272,12 +273,13 @@ struct FUN_00cb20b0_shell
     hkVector4 row2;
     hkVector4 row3;
 
-    const Matrix44* __thiscall FUN_00cb20b0(const Matrix44* source);
+    const Matrix44* __thiscall hkTransform_set4x4ColumnMajor(const Matrix44* source);
 };
 
 // Applies g_absMask to the first three source rows, shuffles source row3 with g_rowMask, stores the results, and returns source.
 // @fnv 0x00cb20b0
-const Matrix44* FUN_00cb20b0_shell::FUN_00cb20b0(const Matrix44* source)
+// src: XBOX_PDB 0x00cb20b0
+const Matrix44* FUN_00cb20b0_shell::hkTransform_set4x4ColumnMajor(const Matrix44* source)
 {
     _mm_store_ps(&row0.x, _mm_and_ps(_mm_load_ps(&source->row0.x), _mm_load_ps(g_absMask)));
     _mm_store_ps(&row1.x, _mm_and_ps(_mm_load_ps(&source->row1.x), _mm_load_ps(g_absMask)));
@@ -321,7 +323,8 @@ __forceinline void S_00cb21e0_Transform::Body(const S_00cb21e0_Transform& t)
 }
 
 // @fnv 0x00cb21e0
-void FUN_00cb21e0_shell::FUN_00cb21e0(const Matrix44* source)
+// src: XBOX_PDB 0x00cb21e0
+void FUN_00cb21e0_shell::hkTransform_setInverse(const Matrix44* source)
 {
     ((S_00cb21e0_Transform*)this)->Body(*(const S_00cb21e0_Transform*)source);
 }

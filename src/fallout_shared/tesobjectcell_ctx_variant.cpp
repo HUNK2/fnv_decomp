@@ -56,7 +56,7 @@ class FUN_00569ac0_shell
 class FUN_005656d0_shell
 {
   public:
-    bool FUN_005656d0();
+    bool TESObjectREFR_HasScript();
 };
 
 class FUN_0056a250_shell
@@ -167,12 +167,12 @@ void Cell_Sub::TESObjectCELL_CreateLoadedData()
     }
     CellRefLockEnter();
     BSSimpleList<TESObjectREFR*> localList9;
-    BSSimpleList<TESObjectREFR*>* iter = (BSSimpleList<TESObjectREFR*>*)FUN_009604f0();
+    BSSimpleList<TESObjectREFR*>* iter = (BSSimpleList<TESObjectREFR*>*)GetRefList_009604f0();
     while (iter != 0 && !iter->IsEmpty())
     {
         TESObjectREFR* item5 = iter->GetItem();
         iter = iter->GetNext();
-        if (!((TESForm*)item5)->GetDeleted() || g_BGSSaveLoadGame->FUN_0042ce10())
+        if (!((TESForm*)item5)->GetDeleted() || g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
         {
             if (((FUN_00439f90_shell*)item5)->TESObjectREFR_IsMultiBoundRef())
             {
@@ -186,7 +186,7 @@ void Cell_Sub::TESObjectCELL_CreateLoadedData()
             {
                 if (!((TESForm*)item5)->IsActor())
                 {
-                    if (((FUN_005656d0_shell*)item5)->FUN_005656d0())
+                    if (((FUN_005656d0_shell*)item5)->TESObjectREFR_HasScript())
                     {
                         ((CellC4Holder*)this)->unkC4->list4C.AddHead(item5);
                     }

@@ -212,14 +212,16 @@ PositionModifierOperations* PositionModifierOperations::Clone(CloningProcess& kC
 }
 
 // @fnv 0x00c28b50
-void NiPSysModifier::FUN_00c28b50(NiStream& a1)
+// src: XBOX_PDB 0x00c28b50
+void NiPSysModifier::NiPSysPositionModifier_LoadBinary(NiStream& a1)
 {
     NiPSysModifier::LoadBinary(a1);
 }
 
 void __cdecl FUN_00c31830();
 // @fnv 0x00c28b80
-void __cdecl FUN_00c28b80()
+// src: XBOX_PDB 0x00c28b80
+void __cdecl NiPSysPositionModifier_IsEqual()
 {
     FUN_00c31830();
 }
@@ -227,7 +229,8 @@ void __cdecl FUN_00c28b80()
 void __cdecl FUN_00c31950();
 
 // @fnv 0x00c28b70
-void __cdecl FUN_00c28b70()
+// src: XBOX_PDB 0x00c28b70
+void __cdecl NiPSysPositionModifier_SaveBinary()
 {
     FUN_00c31950();
 }

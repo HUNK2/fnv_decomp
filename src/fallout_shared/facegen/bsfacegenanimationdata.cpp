@@ -64,7 +64,7 @@ void BSFaceGenAnimationData::AddModifierKeyframe(float* values, float time)
         return;
     frame.SetTime(time);
     for (unsigned i = 0; i < 17; i++)
-        frame.FUN_0064a4d0(i, values[i]);
+        frame.SetQuantity_0064a4d0(i, values[i]);
     frame.InsertIntoKeyframeList((NiTPointerList<BSFaceGenKeyframe*>*)((char*)this + 0x88));
 }
 // @fnv 0x0064ad20
@@ -108,7 +108,7 @@ void BSFaceGenAnimationData::InsertPhonemeKeyframe(float* values, float time)
     }
     frame.SetTime(time);
     for (i = 0; i < 16; i++)
-        frame.FUN_0064a4d0(i, values[i]);
+        frame.SetQuantity_0064a4d0(i, values[i]);
     frame.InsertIntoKeyframeList((NiTPointerList<BSFaceGenKeyframe*>*)((char*)this + 0xbc));
 }
 // @fnv 0x0064b2b0
@@ -125,7 +125,7 @@ void BSFaceGenAnimationData::SetExpressionWeight(int expression, float quantity)
     }
     if (expression == -1 || quantity == 0.0)
         return;
-    target->FUN_0064a4d0(expression, quantity);
+    target->SetQuantity_0064a4d0(expression, quantity);
     if (!((BSFaceGenKeyframeMultiple*)((char*)this + 0x10))->vfn_2c(target))
         ClearTransitionTarget();
 }
@@ -133,9 +133,9 @@ void BSFaceGenAnimationData::SetExpressionWeight(int expression, float quantity)
 // @fnv 0x0064a100
 bool BSFaceGenAnimationData::CalculateRotationQuaternion(NiQuaternion& rotation)
 {
-    float fX = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->FUN_005dd4e0(16);
-    float fZ = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->FUN_005dd4e0(15);
-    float fY = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->FUN_005dd4e0(14);
+    float fX = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->BSFaceGenKeyframeMultiple_GetQuantity(16);
+    float fZ = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->BSFaceGenKeyframeMultiple_GetQuantity(15);
+    float fY = ((BSFaceGenKeyframeMultiple*)((char*)this + 0xa8))->BSFaceGenKeyframeMultiple_GetQuantity(14);
     if (fX == DAT_010231b0)
         fX = 0.0f;
     fX = fX > DAT_01064f58 ? (fX < DAT_01064f50 ? fX : DAT_01064f50) : DAT_01064f58;
@@ -187,7 +187,8 @@ void BSFaceGenAnimationData::FadeOutMorphs(float time, bool expression, bool pho
 }
 // If index is within count and quantities[index] differs from value, stores value there and returns true; otherwise returns false.
 // @fnv 0x0064a4d0
-bool BSFaceGenKeyframeMultiple::FUN_0064a4d0(unsigned int index, float value)
+// src: XBOX_PDB 0x0064a4d0
+bool BSFaceGenKeyframeMultiple::SetQuantity_0064a4d0(unsigned int index, float value)
 {
     if (index < m_uiFaceGenValueCount && m_pfFaceGenValues[index] != value)
     {
@@ -241,9 +242,9 @@ void BSFaceGenAnimationData::ResetFaceGenAnimationData(float afTime, bool abRese
             if (abForDeath)
             {
                 reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0xa8)
-                    ->FUN_0064a4d0(0, 1.0f);
+                    ->SetQuantity_0064a4d0(0, 1.0f);
                 reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0xa8)
-                    ->FUN_0064a4d0(1, 1.0f);
+                    ->SetQuantity_0064a4d0(1, 1.0f);
             }
         }
         if (abResetPhoneme)
@@ -380,28 +381,28 @@ void BSFaceGenAnimationData::SetMoodExpression(int aiMoodindex, bool abTalking)
     switch (aiMoodindex)
     {
     case 0:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(5, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(5, 1.0f);
         break;
     case 1:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(6, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(6, 1.0f);
         break;
     case 2:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(7, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(7, 1.0f);
         break;
     case 3:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(8, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(8, 1.0f);
         break;
     case 4:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(9, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(9, 1.0f);
         break;
     case 5:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(10, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(10, 1.0f);
         break;
     case 6:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(11, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(11, 1.0f);
         break;
     case 7:
-        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->FUN_0064a4d0(12, 1.0f);
+        (*reinterpret_cast<BSFaceGenKeyframeMultiple**>(reinterpret_cast<char*>(this) + 0x0c))->SetQuantity_0064a4d0(12, 1.0f);
         break;
     }
 
@@ -511,7 +512,7 @@ typedef char _sizecheck_NiPoint2[sizeof(NiPoint2) == 8 ? 1 : -1];
 
 extern double _gModifierZero;
 float RandomFloat0To1();
-bool FUN_0064bcb0();
+bool BSFaceGenManager_GetUseProceduralEyeBlinking();
 extern Setting originalRuntimeFloatSetting1263;
 extern Setting originalRuntimeFloatSetting1264;
 extern Setting originalRuntimeFloatSetting1265;
@@ -553,13 +554,13 @@ bool BSFaceGenAnimationData::UpdateFaceGenAnimation(float afTime)
     bool bchangedSpeech;
     float ftime = afTime;
     bool bchangedExp;
-    float flookdown = reinterpret_cast<BSFaceGenKeyframeMultiple*>((char*)this + 0xa8)->FUN_005dd4e0(8);
+    float flookdown = reinterpret_cast<BSFaceGenKeyframeMultiple*>((char*)this + 0xa8)->BSFaceGenKeyframeMultiple_GetQuantity(8);
     bool bchangedAnim;
     bool bchangedCust;
     bool bchangedMod;
     bool bchangedPhon;
 
-    if (fnv_0064b630::FUN_0064bcb0() && !*((bool*)this + 0x18e) && reinterpret_cast<NiTPointerList<BSFaceGenKeyframe*>*>((char*)this + 0x88)->IsEmpty() &&
+    if (fnv_0064b630::BSFaceGenManager_GetUseProceduralEyeBlinking() && !*((bool*)this + 0x18e) && reinterpret_cast<NiTPointerList<BSFaceGenKeyframe*>*>((char*)this + 0x88)->IsEmpty() &&
         *originalRuntimeFloatSetting1263.Float() > fnv_0064b630::_gModifierZero &&
         *originalRuntimeFloatSetting1264.Float() > fnv_0064b630::_gModifierZero &&
         *originalRuntimeFloatSetting1265.Float() > fnv_0064b630::_gModifierZero &&
@@ -686,7 +687,8 @@ bool BSFaceGenAnimationData::UpdateFaceGenAnimation(float afTime)
 extern unsigned char DAT_011d59e0;
 
 // @fnv 0x0064bcb0
-unsigned char __cdecl FUN_0064bcb0()
+// src: XBOX_PDB 0x0064bcb0
+unsigned char __cdecl BSFaceGenManager_GetUseProceduralEyeBlinking()
 {
     return DAT_011d59e0;
 }
@@ -859,7 +861,7 @@ void BSFaceGenAnimationData::SetExpressionKeyframes(float* apQuantities)
     target = new BSFaceGenKeyframeMultiple(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15);
 
     for (unsigned int iexp = 0; iexp < 15; ++iexp)
-        target->FUN_0064a4d0(iexp, apQuantities[iexp]);
+        target->SetQuantity_0064a4d0(iexp, apQuantities[iexp]);
 
     if (!reinterpret_cast<BSFaceGenKeyframe*>(reinterpret_cast<char*>(this) + 0x10)->vfn_2c(target))
         ClearTransitionTarget();
@@ -886,7 +888,7 @@ void BSFaceGenAnimationData::SetKeyframeQuantities(float* quantities, float time
     keyframe.SetTime(time);
     for (unsigned int i = 0; i < 1; ++i)
     {
-        keyframe.FUN_0064a4d0(i, quantities[i]);
+        keyframe.SetQuantity_0064a4d0(i, quantities[i]);
     }
     keyframe.AddToCompatibleList(
         reinterpret_cast<NiTPointerList<BSFaceGenKeyframe*>*>(reinterpret_cast<char*>(this) + 0xf0));
@@ -954,10 +956,10 @@ unsigned char BSFaceGenAnimationData::Check(int aiMode)
     return 1;
 }
 
-unsigned char FUN_0064bcb0();
+unsigned char BSFaceGenManager_GetUseProceduralEyeBlinking();
 void ComputeAngleRange(float*, float*);
 void ClampMinMaxFromSetting(float*, float*);
-void FUN_005330e0(float&, float, float);
+void BSClamp_float(float&, float, float);
 
 class BSFaceGenEyeData
 {
@@ -1051,31 +1053,31 @@ void BSFaceGenEyeData::SetEyeHeadingAndPitch(float heading, float pitch)
     float maxHeading9;
     float minHeading3;
     float minPitch;
-    if (!FUN_0064bcb0())
+    if (!BSFaceGenManager_GetUseProceduralEyeBlinking())
         return;
     ComputeAngleRange(&minHeading3, &maxHeading9);
     ClampMinMaxFromSetting(&maxPitch6, &minPitch);
-    FUN_005330e0(heading, minHeading3, maxHeading9);
-    FUN_005330e0(pitch, maxPitch6, minPitch);
+    BSClamp_float(heading, minHeading3, maxHeading9);
+    BSClamp_float(pitch, maxPitch6, minPitch);
     if (heading >= 0.0)
     {
-        modifiers.FUN_0064a4d0(10, heading / maxHeading9);
-        modifiers.FUN_0064a4d0(9, 0.0f);
+        modifiers.SetQuantity_0064a4d0(10, heading / maxHeading9);
+        modifiers.SetQuantity_0064a4d0(9, 0.0f);
     }
     else
     {
-        modifiers.FUN_0064a4d0(10, 0.0f);
-        modifiers.FUN_0064a4d0(9, heading / minHeading3);
+        modifiers.SetQuantity_0064a4d0(10, 0.0f);
+        modifiers.SetQuantity_0064a4d0(9, heading / minHeading3);
     }
     if (pitch >= 0.0)
     {
-        modifiers.FUN_0064a4d0(11, pitch / minPitch);
-        modifiers.FUN_0064a4d0(8, 0.0f);
+        modifiers.SetQuantity_0064a4d0(11, pitch / minPitch);
+        modifiers.SetQuantity_0064a4d0(8, 0.0f);
     }
     else
     {
-        modifiers.FUN_0064a4d0(11, 0.0f);
-        modifiers.FUN_0064a4d0(8, pitch / maxPitch6);
+        modifiers.SetQuantity_0064a4d0(11, 0.0f);
+        modifiers.SetQuantity_0064a4d0(8, pitch / maxPitch6);
     }
     eyeHeading = heading;
     eyePitch = pitch;

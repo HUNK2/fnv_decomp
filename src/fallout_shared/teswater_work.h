@@ -42,7 +42,7 @@ class WaterSurface
 
 int TruncateFloatToInt(float);
 int FUN_00ec7d40(int);
-void FUN_00452e40(bool);
+void BSTaskThread_SetUpdateSleepEnabled(bool);
 float BSShaderManager_GetTimer(bool);
 extern bool DAT_011c3c0c, DAT_011f94aa;
 extern float DAT_011f94ac;

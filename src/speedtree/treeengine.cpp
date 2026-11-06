@@ -189,7 +189,7 @@ float __thiscall FUN_00b2bd40_Obj::GetNormalizedValue()
 
 struct FUN_00b3d720_String
 {
-    void __thiscall FUN_0044a730(bool a, unsigned int b);
+    void __thiscall fopen_0044a730(bool a, unsigned int b);
     int unk00;
     int unk04;
     int unk08;
@@ -217,7 +217,7 @@ struct FUN_00b3d720_Class
     float unk4C;
     float unk50;
 
-    FUN_00b3d720_Class* __thiscall FUN_00b3d720();
+    FUN_00b3d720_Class* __thiscall SIdvLeafTexture_SIdvLeafTexture();
 };
 
 extern float DAT_01030ff0;
@@ -228,7 +228,8 @@ extern float DAT_01017b78;
 
 // Sets unk00 false, fills float triples at unk04, unk30, unk3C, unk48 from globals/constants, sets unk10, and calls FUN_0044a730(false, 0) on unk14.
 // @fnv 0x00b3d720
-FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::FUN_00b3d720()
+// src: XBOX_PDB 0x00b3d720
+FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::SIdvLeafTexture_SIdvLeafTexture()
 {
     int unused01;
     int unused02;
@@ -256,7 +257,7 @@ FUN_00b3d720_Class* __thiscall FUN_00b3d720_Class::FUN_00b3d720()
 
         stringlPointer = &this->unk14;
         bufferPointer = &buffer_;
-        stringlPointer->FUN_0044a730(false, 0);
+        stringlPointer->fopen_0044a730(false, 0);
 
         color24Pointer9 = &this->unk30;
         color24Pointer9[0] = DAT_01016248;

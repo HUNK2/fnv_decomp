@@ -210,10 +210,10 @@ struct SceneNode
     static void* operator new(unsigned int size);
     static void operator delete(void* p, unsigned int size);
     SceneNode* NiAVObject_GetParent();
-    void FUN_004f00e0(void* arg);
+    void NiAVObject_SetWorldTranslate(void* arg);
 };
 
-void* __fastcall FUN_0045bb80(SceneNode* node);
+void* __fastcall NiAVObject_GetWorldTranslate(SceneNode* node);
 
 template <class T> struct NodePtr
 {
@@ -275,7 +275,7 @@ void FUN_0058ccf0_Class::SetSceneNode(SceneNode* node)
     else
     {
         node64 = new SceneNode(0);
-        ((SceneNode*)node64)->FUN_004f00e0(FUN_0045bb80(node));
+        ((SceneNode*)node64)->NiAVObject_SetWorldTranslate(NiAVObject_GetWorldTranslate(node));
     }
     SceneNode* root = node;
     while (root != 0 && root->IsRootCandidate() == 0)

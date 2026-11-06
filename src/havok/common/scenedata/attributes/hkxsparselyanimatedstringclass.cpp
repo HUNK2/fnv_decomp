@@ -19,7 +19,7 @@ struct S_00e01900_Router
     int unk8;
     int unkC;
     S_00e01900_Allocator* m_pStreamAllocator;
-    static S_00e01900_Router& FUN_00c85750();
+    static S_00e01900_Router& hkMemoryRouter_getInstance();
     S_00e01900_Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -38,7 +38,7 @@ struct S_00e01900_Ref
 
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 {
-        { S_00e01900_Allocator& alloc = S_00e01900_Router::FUN_00c85750().heap();
+        { S_00e01900_Allocator& alloc = S_00e01900_Router::hkMemoryRouter_getInstance().heap();
         T* p = m_data;
         int n = m_iElementCount;
         for (int i = 0; i < n; i++)
@@ -89,7 +89,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -104,7 +104,7 @@ CpuObject* CpuObject::FUN_00e019a0(unsigned int flags)
     FUN_00e01900();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;

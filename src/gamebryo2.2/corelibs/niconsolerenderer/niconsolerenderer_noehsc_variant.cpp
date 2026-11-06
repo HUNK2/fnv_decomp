@@ -641,7 +641,7 @@ struct FUN_00e752b0_shell
         void* data;
     } *m_Head, *m_Tail;
     NodePoolView m_Pool;
-    void FUN_00e752b0(void* pkD3DShader);
+    void NiXenonRenderer_RegisterD3DShader(void* pkD3DShader);
 };
 struct VBase765
 {
@@ -4737,7 +4737,7 @@ extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
-RefObject* __cdecl FUN_00a5ff10(RenderResource* resource, const char* name, ResourceParameters* parameters);
+RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge
 {
     RendererStateSlot* State(unsigned int idx)

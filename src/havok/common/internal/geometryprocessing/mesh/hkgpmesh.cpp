@@ -109,7 +109,7 @@ public:
     MeshPacketCallLocal_00e16e50(float x, float y, float z, float w);
     MeshPacketCallLocal_00e16e50(const __m128& vector);
 
-    MeshPacketCallLocal_00e16e50* FUN_005532a0(float x, float y, float z, float w);
+    MeshPacketCallLocal_00e16e50* hkVector4_hkVector4(float x, float y, float z, float w);
     void FUN_004a3f10(MeshPacketCallLocal_00e16e50* vector);
     void __thiscall FUN_004b4db0(const MeshPacketCallLocal_00e16e50* vector);
     MeshPacketCallLocal_00e16e50& FUN_00e531a0(int parameter);
@@ -386,7 +386,7 @@ E122D0Edge E122D0Mesh::FindEdge(int vertexA, int vertexB)
 struct Allocator { virtual void v00(); virtual void* allocate(int); virtual void v08(); virtual void v0c(); __declspec(nothrow) virtual void freeBlock(void*,int); };
 
 inline Allocator& meshHeap(hkMemoryRouter& router) { return *reinterpret_cast<Allocator*>(router.m_heap); }
-__declspec(nothrow) hkMemoryRouter& __cdecl FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct VectorArray {MeshPacketCallLocal_00e16e50* data; int size; int capacity;
  VectorArray():data(0),size(0),capacity(0x80000000) {}
@@ -397,7 +397,7 @@ struct Options {unsigned int unk00,unk04; unsigned char flag08,flag09,flag0a,fla
 struct FUN_00d76ca0 {__declspec(nothrow) virtual ~FUN_00d76ca0(); unsigned short memorySize,referenceCount; int unk08,unk0c,unk10;
  __declspec(nothrow) FUN_00d76ca0();
  static void* allocate(Allocator& heap,unsigned int bytes) { void* memory=heap.allocate(bytes); ((FUN_00d76ca0*)memory)->memorySize=(unsigned short)bytes; return memory;}
- static void* operator new(unsigned int bytes) {return allocate(meshHeap(FUN_00c85750()),bytes);}
+ static void* operator new(unsigned int bytes) {return allocate(meshHeap(hkMemoryRouter_getInstance()),bytes);}
  __declspec(nothrow) void hkgpConvexHull_build(MeshPacketCallLocal_00e16e50*,int,const Options&);
  __declspec(nothrow) int FUN_00d74e10();
 };
@@ -461,7 +461,7 @@ unsigned int unkdc;
 unsigned int unke0;
 FUN_00d76ca0* builder;
  __declspec(nothrow) void ReleaseSubobject();
- __declspec(nothrow) void FUN_00e12640(VectorArray&);
+ __declspec(nothrow) void hkgpMesh_fetchPositions(VectorArray&);
  bool BuildHull();
 };
 // Calls ReleaseSubobject, then if count>3 builds a FUN_00d76ca0 from the vertices with options flag09=0/flag0a=1, returning false if FUN_00d74e10()!=3.
@@ -472,15 +472,15 @@ bool Hull::BuildHull() {
   Options options; options.hkgpConvexHull_BuildConfig_BuildConfig(); options.flag09=0; options.flag0a=1;
   builder=new FUN_00d76ca0;
   VectorArray vertices;
-  FUN_00e12640(vertices);
+  hkgpMesh_fetchPositions(vertices);
   builder->hkgpConvexHull_build(vertices.data,vertices.size,options);
   if(builder->FUN_00d74e10()!=3) {
    delete builder;
    builder=0;
-   vertices.release(meshHeap(FUN_00c85750()));
+   vertices.release(meshHeap(hkMemoryRouter_getInstance()));
    return false;
   }
-  vertices.release(meshHeap(FUN_00c85750()));
+  vertices.release(meshHeap(hkMemoryRouter_getInstance()));
  }
  return true;
 }
@@ -850,7 +850,7 @@ namespace fnv_00e234e0 {
 
 
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00e234e0_cls {
     void** m_ppItems;
@@ -866,7 +866,7 @@ void FUN_00e234e0_cls::FreeAllItems()
 {
     for (int i = 0; i < m_iArrayLength; i++) {
         void* pItem = m_ppItems[i];
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(pItem, 0xa08);
     }
@@ -879,7 +879,7 @@ void FUN_00e234e0_cls::FreeAllItems()
 namespace fnv_00e23670 {
 
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(hkMemoryAllocator* alloc, void* arr, int elemSize);
 
 struct S_e23670_Elem {
@@ -903,7 +903,7 @@ struct S_e23670 {
 // src: HAVOK_LIB 0x00e23670
 S_e23670_Block* S_e23670::hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Vertex_32_struct_hkContainerHeapAllocator_allocateNewPool()
 {
-    hkMemoryAllocator& heap = FUN_00c85750()->heap();
+    hkMemoryAllocator& heap = hkMemoryRouter_getInstance()->heap();
     S_e23670_Elem* next = 0;
     S_e23670_Block* b = (S_e23670_Block*)heap.blockAlloc(sizeof(S_e23670_Block));
     S_e23670_Elem* e;
@@ -914,7 +914,7 @@ S_e23670_Block* S_e23670::hkGeometryProcessing_PoolAllocator_struct_hkgpTriangul
     }
     b->m_iAllocatedCount = 0;
     b->m_free = e;
-    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance()->heap();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(&alloc, this, sizeof(S_e23670_Block*));
     S_e23670_Block** p = m_data + m_iElementCount;
@@ -935,11 +935,11 @@ namespace fnv_00e23860 {
 
 
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 inline void freeBlock(void* p)
 {
-    FUN_00c85750()->heap().blockFree(p, 0xa08);
+    hkMemoryRouter_getInstance()->heap().blockFree(p, 0xa08);
 }
 
 // Frees each pointer in m_data via freeBlock, resets the count, then clears and releases the array storage.
@@ -956,7 +956,7 @@ void __fastcall FreeAllBlocks(hkArray<void*>* array)
 
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return fnv_00e23860::FUN_00c85750()->heap();
+    return fnv_00e23860::hkMemoryRouter_getInstance()->heap();
 }
 
 template <typename T>
@@ -991,7 +991,7 @@ struct EntryHandlerRecord
     int unk0c;
     EntryHandler* handler;
 };
-EntryHandlerRecord* __cdecl FUN_00c85750();
+EntryHandlerRecord* __cdecl hkMemoryRouter_getInstance();
 
 struct EntryListNode
 {
@@ -1010,7 +1010,7 @@ void EntryListNode::ProcessEntries()
     while (i < count)
     {
         void* entry = entries[i];
-        EntryHandlerRecord* context = FUN_00c85750();
+        EntryHandlerRecord* context = hkMemoryRouter_getInstance();
         context->handler->Process(entry, 0x288);
         ++i;
     }
@@ -1025,7 +1025,7 @@ namespace fnv_00e23a60 {
 
 
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 inline void copyPtrs(void** dst, void* const* src, int n)
 {
@@ -1041,7 +1041,7 @@ inline void copyPtrs(void** dst, void* const* src, int n)
 template <>
 hkArray<void*>& hkArray<void*>::operator=(const hkArray<void*>& aSource)
 {
-    hkMemoryAllocator& alloc = *fnv_00e23a60::FUN_00c85750()->m_heap;
+    hkMemoryAllocator& alloc = *fnv_00e23a60::hkMemoryRouter_getInstance()->m_heap;
     if (getCapacity() < aSource.m_iElementCount) {
         if ((m_iCapacityState & 0x80000000) == 0) {
             alloc.bufFree(m_data, getCapacity() * sizeof(void*));
@@ -1063,7 +1063,7 @@ namespace fnv_00e23c70 {
 
 
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct PtrArrayBase {
     void** m_ppData;
@@ -1072,7 +1072,7 @@ struct PtrArrayBase {
 
     ~PtrArrayBase() throw()
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -1093,7 +1093,7 @@ FUN_00e23c70::~FUN_00e23c70() throw()
 {
     for (int i = 0; i < m_iArrayLength; i++) {
         void* pItem = m_ppData[i];
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(pItem, 0x388);
     }
@@ -1105,7 +1105,7 @@ namespace fnv_00e23d70 {
 
 
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct S_00e23d70_Array { // distinct from hkArrayBase: own cleanup 0x00e23d70 frees pointed-to 0x488-byte blocks before the storage.
     void** m_data;
@@ -1130,10 +1130,10 @@ void S_00e23d70_Array::FUN_00e23d70()
 {
     for (int i = 0; i < m_iElementCount; i++) {
         void* block = m_data[i];
-        FUN_00c85750()->heap().blockFree(block, 0x488);
+        hkMemoryRouter_getInstance()->heap().blockFree(block, 0x488);
     }
     m_iElementCount = 0;
-    _clearAndDeallocate(FUN_00c85750()->heap());
+    _clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
 }
 }  // namespace fnv_00e23d70
 
@@ -1412,7 +1412,7 @@ struct CpuAllocatorHolder {
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -1424,7 +1424,7 @@ CpuObject* CpuObject::FUN_00e24f70(unsigned int flags)
 {
     FUN_00e18a50();
     if (flags & 1) {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -2105,7 +2105,7 @@ inline void Components::copy(const VecData* from) { x=from->x; y=from->y; z=from
 struct VectorGroup { int unk00,unk04; VecData* first; VecData* second; VecData* third; };
 struct InputPacket { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c; VectorGroup* group; };
 struct Triple { Components first,second,third; };
-int __cdecl FUN_00deab10(void*,const Triple*);
+int __cdecl hkGeometryProcessing_checkTrianglesIntersection(void*,const Triple*);
 struct FUN_00e22270_Class { int unk00; unsigned int flags; int unk08,unk0c,output; float hkgpMeshInternals_TriangleOverlap_addLeaf(InputPacket*); };
 // @fnv 0x00e22270
 // src: HAVOK_LIB 0x00e22270
@@ -2115,7 +2115,7 @@ float FUN_00e22270_Class::hkgpMeshInternals_TriangleOverlap_addLeaf(InputPacket*
  values.first.copy(group->first);
  values.second.copy(group->second);
  values.third.copy(group->third);
- flags |= !!FUN_00deab10(&output,&values);
+ flags |= !!hkGeometryProcessing_checkTrianglesIntersection(&output,&values);
  volatile float outcome;
  if(flags) outcome=0.0f; else outcome=1.0f;
  return outcome;
@@ -3288,7 +3288,7 @@ CC0280Writer& CC0280Writer::WriteInt(int iValue)
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance(); }
 
 struct FUN_00d9be30_cls { int m_vptr; void FUN_00d9be30(); };
 struct FUN_00d9c010_cls { void ClearBuffers(); };
@@ -3369,7 +3369,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_vptr00 = (int)&DAT_010eb000;
     ResetState();
 
-    hkMemoryRouter* pHolder = (hkMemoryRouter*)fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder = (hkMemoryRouter*)fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCap = m_cap1;
     m_cnt1 = 0;
@@ -3379,7 +3379,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_data1 = 0;
     m_cap1 = 0x80000000u;
 
-    pHolder = (hkMemoryRouter*)fnvc_adapt::FUN_00c85750();
+    pHolder = (hkMemoryRouter*)fnvc_adapt::hkMemoryRouter_getInstance();
     pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     uCap = m_cap2;
     m_cnt2 = 0;
@@ -3389,7 +3389,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_data2 = 0;
     m_cap2 = 0x80000000u;
 
-    pHolder = (hkMemoryRouter*)fnvc_adapt::FUN_00c85750();
+    pHolder = (hkMemoryRouter*)fnvc_adapt::hkMemoryRouter_getInstance();
     pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     uCap = m_cap3;
     m_cnt3 = 0;
@@ -3423,7 +3423,7 @@ extern int DAT_010eacf4;
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750() throw(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw(); }
 
 struct FUN_00e21e00_cls {
     int m_vptr;
@@ -3437,7 +3437,7 @@ FUN_00e21e00_cls* FUN_00e21e00_cls::FUN_00e21e00(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010eacf4;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, 0x30);
     }
@@ -3452,7 +3452,7 @@ extern int DAT_010cd664;
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750() throw(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw(); }
 
 struct FUN_00e22d80_cls {
     int m_vptr;
@@ -3466,7 +3466,7 @@ FUN_00e22d80_cls* FUN_00e22d80_cls::FUN_00e22d80(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010cd664;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, 0x14);
     }
@@ -3477,7 +3477,7 @@ FUN_00e22d80_cls* FUN_00e22d80_cls::FUN_00e22d80(unsigned char acFlags)
 namespace fnv_00e23710 {
 
 
-namespace fnvc_adapt { hkMemoryRouter* FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* hkMemoryRouter_getInstance(); }
 void ResizeAudioStream(hkMemoryAllocator& heap, void* arr, int elemSize);
 
 struct S_00e23710_Elem {
@@ -3502,7 +3502,7 @@ struct S_00e23710_Array {
 // src: HAVOK_LIB 0x00e23710
 S_00e23710_Block* S_00e23710_Array::hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Triangle_32_struct_hkContainerHeapAllocator_allocateNewPool()
 {
-    hkMemoryAllocator& heap = fnvc_adapt::FUN_00c85750()->heap();
+    hkMemoryAllocator& heap = fnvc_adapt::hkMemoryRouter_getInstance()->heap();
     S_00e23710_Elem* prev = 0;
     S_00e23710_Block* block = (S_00e23710_Block*)heap.blockAlloc(sizeof(S_00e23710_Block));
     for (int i = 31; i >= 0; i--) {
@@ -3513,7 +3513,7 @@ S_00e23710_Block* S_00e23710_Array::hkGeometryProcessing_PoolAllocator_struct_hk
     block->used = 0;
     block->freeList = prev;
 
-    hkMemoryRouter* r = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* r = fnvc_adapt::hkMemoryRouter_getInstance();
     if (m_iElementCount == (m_cap & 0x3fffffff))
         ResizeAudioStream(r->heap(), this, 4);
     S_00e23710_Block** p = m_data + m_iElementCount;
@@ -3533,7 +3533,7 @@ namespace fnv_00e23af0 {
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750() throw(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw(); }
 
 struct FUN_00e23af0_cls {
     void* m_pData;
@@ -3547,7 +3547,7 @@ struct FUN_00e23af0_cls {
 // @fnv 0x00e23af0
 FUN_00e23af0_cls* FUN_00e23af0_cls::ClearAndFree(unsigned char acFlags)
 {
-    hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
@@ -3558,7 +3558,7 @@ FUN_00e23af0_cls* FUN_00e23af0_cls::ClearAndFree(unsigned char acFlags)
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder2 = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder2 = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, 12);
     }
@@ -3574,7 +3574,7 @@ extern "C" void* DAT_0102e388;
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750() throw(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw(); }
 
 struct SpawnedSub {
     void** m_ppItems;
@@ -3622,7 +3622,7 @@ SpawnedObject* SpawnedObject::DestroySpawnedObject(unsigned char acFlags)
     m_sub08.FreeAllBlocks();
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -3641,7 +3641,7 @@ struct FixedAllocator {
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* hkMemoryRouter_getInstance(); }
 
 struct FUN_00e23cf0_cls {
     void** m_pItems;
@@ -3659,14 +3659,14 @@ void FUN_00e23cf0_cls::ClearAndFreeItems()
     if (i < m_iArrayLength) {
         do {
             void* item = m_pItems[i];
-            hkMemoryRouter* holder = fnvc_adapt::FUN_00c85750();
+            hkMemoryRouter* holder = fnvc_adapt::hkMemoryRouter_getInstance();
             reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockFree(item, 0x288);
             i++;
         } while (i < m_iArrayLength);
     }
 
     m_iArrayLength = 0;
-    hkMemoryRouter* holder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* holder = fnvc_adapt::hkMemoryRouter_getInstance();
     FixedAllocator* alloc = reinterpret_cast<FixedAllocator*>(holder->m_heap);
     unsigned int cap = m_uCapBits;
     m_iArrayLength = 0;
@@ -3689,7 +3689,7 @@ struct SpawnedAllocator {
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* hkMemoryRouter_getInstance(); }
 
 struct FUN_00e24760_cls {
     int unk00;
@@ -3703,7 +3703,7 @@ struct FUN_00e24760_cls {
 // @fnv 0x00e24760
 void FUN_00e24760_cls::ClearAndFreeBuffer()
 {
-    hkMemoryRouter* holder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* holder = fnvc_adapt::hkMemoryRouter_getInstance();
     SpawnedAllocator* alloc = reinterpret_cast<SpawnedAllocator*>(holder->m_heap);
     unsigned int flags = m_0C;
     m_08 = 0;
@@ -3720,7 +3720,7 @@ namespace fnv_00e27df0 {
 
 
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750() throw(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw(); }
 extern int DAT_010eb0e0;
 extern int DAT_010eb088;
 extern int DAT_0102e388;
@@ -3907,7 +3907,7 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
     m_vptr00 = (int)&DAT_010eb0e0;
     hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_reset(1);
     m_sub250.FUN_00e23c70();
-    hkMemoryRouter* pHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     m_iArrayLength = 0;
     unsigned int uCap = m_uCapBits;
@@ -3925,7 +3925,7 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
     m_vptr08 = (int)&DAT_0102e388;
     m_vptr00 = (int)&DAT_0102e388;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder2 = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* pHolder2 = fnvc_adapt::hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, m_uSize);
     }
@@ -4001,7 +4001,7 @@ struct CastBody {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     CastTri* m_tri;
 };
-bool __cdecl FUN_00dea6b0(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
+bool __cdecl hkGeometryProcessing_checkPointInsideTriangle(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
 
 static inline MeshSimdQuad Dot3(__m128 a, __m128 b)
 {
@@ -4043,7 +4043,7 @@ float TriRayCaster::RayCastBody(CastBody* pkBody)
         kPoint.Set(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(t, t, 0), kWorldPosition), kStart));
         if (ToReal(t) > 0.0f && ToReal(t) < m_fHitDistance)
         {
-            if (FUN_00dea6b0(&kPoint, pkTri->GetVertex(0), pkTri->GetVertex(1), pkTri->GetVertex(2), DAT_010c8440))
+            if (hkGeometryProcessing_checkPointInsideTriangle(&kPoint, pkTri->GetVertex(0), pkTri->GetVertex(1), pkTri->GetVertex(2), DAT_010c8440))
             {
                 m_fHitDistance = ToReal(t);
                 m_hitTri = pkTri;
@@ -4078,7 +4078,7 @@ struct SceneSet {
     SceneBone* m_10;
 };
 
-void __cdecl FUN_00cbeb70(void* v, int count, void* p);
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(void* v, int count, void* p);
 
 typedef unsigned int BufferAddress138;
 struct FUN_00e227f0_cls {
@@ -4129,7 +4129,7 @@ void* FUN_00e227f0_cls::FUN_00e227f0(BufferAddress138 bufferAddress) {
     _mm_store_ps(&L[5].x, _mm_add_ps(t, _mm_load_ps(&L[5].x)));
     *(unsigned int*)&L[5].w = 0x3f000005u;
 
-    FUN_00cbeb70(L, 6, result);
+    hkAabbUtil_calcAabb_00cbeb70(L, 6, result);
     return result;
 }
 
@@ -4287,7 +4287,7 @@ struct S_00e12260_Collector : S_00e12260_CollectorBase
     virtual void AddHit(int hit);
 };
 
-void FUN_00cbeb70(const S_00e12260_Vector4* verts, int numVerts, S_00e12260_Aabb& aabbOut);
+void hkAabbUtil_calcAabb_00cbeb70(const S_00e12260_Vector4* verts, int numVerts, S_00e12260_Aabb& aabbOut);
 void FUN_00d1d570(void* tree, const S_00e12260_Aabb& aabb, S_00e12260_Collector* collector);
 
 struct S_00e12260
@@ -4318,7 +4318,7 @@ int S_00e12260::FUN_00e12260(const S_00e12260_Vector4& a, const S_00e12260_Vecto
 {
     S_00e12260_Collector collector(a, b, c);
     S_00e12260_Aabb aabb;
-    FUN_00cbeb70(collector.m_verts, 3, aabb);
+    hkAabbUtil_calcAabb_00cbeb70(collector.m_verts, 3, aabb);
     FUN_00d1d570(&unk40, aabb, &collector);
     return collector.m_uiItemCount;
 }
@@ -4328,7 +4328,7 @@ namespace fnv_00e12640 {
 
 
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int numElements, int sizeElem);
 
 
@@ -4374,14 +4374,15 @@ struct E12640Mesh {
     E12640Vertex* m_kVertices;
     int m_iStridedVertexCount;
 
-    int FUN_00e12640(E12640VectorArrayLocalForm& out);
+    int hkgpMesh_fetchPositions(E12640VectorArrayLocalForm& out);
 };
 
 // @fnv 0x00e12640
-int E12640Mesh::FUN_00e12640(E12640VectorArrayLocalForm& out)
+// src: XBOX_PDB 0x00e12640
+int E12640Mesh::hkgpMesh_fetchPositions(E12640VectorArrayLocalForm& out)
 {
     int numVertices = m_iStridedVertexCount;
-    hkVector4* dst = out._expandBy(FUN_00c85750().heap(), numVertices);
+    hkVector4* dst = out._expandBy(hkMemoryRouter_getInstance().heap(), numVertices);
     for (E12640Vertex* v = m_kVertices; v; v = v->m_next) {
         *dst++ = v->m_vContactPosition;
     }
@@ -4830,7 +4831,7 @@ struct FUN_00e221e0_Input {
     FUN_00e221e0_Triangle* unk20;
 };
 
-float __cdecl FUN_00de9f10(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest, Float4* weights);
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToTriangle(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest, Float4* weights);
 
 struct FUN_00e221e0_Collector {
     int unk00;
@@ -4855,7 +4856,7 @@ float FUN_00e221e0_Collector::UpdateClosestPoint(FUN_00e221e0_Input* input)
     FUN_00e221e0_Triangle* tri = input->unk20;
     Float4 closest;
     Float4 weights;
-    float dist = FUN_00de9f10(&unk10, &tri->unk08->unk10, &tri->unk0C->unk10, &tri->unk10->unk10, &closest, &weights);
+    float dist = hkGeometryProcessing_squaredDistanceFromPointToTriangle(&unk10, &tri->unk08->unk10, &tri->unk0C->unk10, &tri->unk10->unk10, &closest, &weights);
     if (dist < unk20) {
         unk20 = dist;
         unk30.getQuad() = *(const __m128*)&closest;
@@ -4896,10 +4897,11 @@ template <class T> struct ArrAB {
 };
 struct FUN_00e22f90_cls {
     ArrAB<PoolBlockAB*> m_kBlocks;
-    void FUN_00e22f90(PoolItemAB* item);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(PoolItemAB* item);
 };
 // @fnv 0x00e22f90
-void FUN_00e22f90_cls::FUN_00e22f90(PoolItemAB* item)
+// src: XBOX_PDB 0x00e22f90
+void FUN_00e22f90_cls::hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(PoolItemAB* item)
 {
     if (item)
     {
@@ -4910,7 +4912,7 @@ void FUN_00e22f90_cls::FUN_00e22f90(PoolItemAB* item)
                 if (--m_kBlocks[i]->m_iAllocatedCount == 0)
                 {
                     PoolBlockAB* pBlock = m_kBlocks[i];
-                    ((BlockAllocAB&)meshHeap(FUN_00c85750())).ReleaseBlock(pBlock, sizeof(PoolBlockAB));
+                    ((BlockAllocAB&)meshHeap(hkMemoryRouter_getInstance())).ReleaseBlock(pBlock, sizeof(PoolBlockAB));
                     m_kBlocks.removeAt(i);
                 }
                 return;
@@ -4989,7 +4991,7 @@ struct TrianglePool {
     TriangleNode* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(void* p);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(void* p);
     __forceinline void remove(TriangleNode* t) {
         TriangleNode* next = t->m_next;
         TriangleNode* prev = t->m_pSecondNode;
@@ -4997,7 +4999,7 @@ struct TrianglePool {
         if (prev) prev->m_next = next;
         else m_pFirstNode = next;
         m_uiItemCount--;
-        FUN_00e22f90(t);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(t);
     }
 };
 
@@ -5168,7 +5170,7 @@ struct MeshFaceList {
     int unk00, unk04, unk08;
     S_00e13910_Triangle* tail;
     int count;
-    void FUN_00e22f90(S_00e13910_Triangle* face);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(S_00e13910_Triangle* face);
     __forceinline void remove(S_00e13910_Triangle* face) {
         S_00e13910_Triangle* previous = (S_00e13910_Triangle*)face->m_unk00;
         S_00e13910_Triangle* next = (S_00e13910_Triangle*)face->m_unk04;
@@ -5176,7 +5178,7 @@ struct MeshFaceList {
         if (next) next->m_unk00 = (int)previous;
         else tail = previous;
         --count;
-        FUN_00e22f90(face);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(face);
     }
 };
 struct FanAnchor474 { S_00e13910_Triangle* triangle; void* vertex; unsigned int index; };
@@ -5257,7 +5259,7 @@ struct FUN_00e21d40_cls {
     hkVector4 m_10;
     hkVector4 m_20;
 
-    void FUN_00e21d40(const hkVector4* dir, hkVector4* out);
+    void hkgpMesh_LineShape_getSupportingVertex(const hkVector4* dir, hkVector4* out);
 };
 
 static float DotProduct3(__m128 a, __m128 b)
@@ -5272,7 +5274,8 @@ static float DotProduct3(__m128 a, __m128 b)
 
 // Compares the dot product of dir against m_10 and m_20, then stores the one with the larger product into out.
 // @fnv 0x00e21d40
-void FUN_00e21d40_cls::FUN_00e21d40(const hkVector4* dir, hkVector4* out)
+// src: XBOX_PDB 0x00e21d40
+void FUN_00e21d40_cls::hkgpMesh_LineShape_getSupportingVertex(const hkVector4* dir, hkVector4* out)
 {
     float da = DotProduct3(dir->v, m_10.v);
     float db = DotProduct3(m_20.v, dir->v);
@@ -5372,7 +5375,7 @@ struct FUN_00c7f640_Obj {
     int z;
     int w;
 
-    void __thiscall FUN_00c7f640(int value, hkVector4* data);
+    void __thiscall setTransformedPos_00c7f640(int value, hkVector4* data);
 };
 
 struct S_00e11a90_Node {
@@ -5410,7 +5413,7 @@ void S_00e11a90_Class::FUN_00e11a90(int value) {
         reinterpret_cast<int*>(&data)[2] = values[2];
         reinterpret_cast<int*>(&data)[3] = values[3];
 
-        source->FUN_00c7f640(value, &data);
+        source->setTransformedPos_00c7f640(value, &data);
     }
 
     ResetNodeVectors();
@@ -5522,7 +5525,7 @@ inline void HullFloodStack::release(Allocator& heap) {
     if (!(m_cap & 0x80000000)) heap.freeBlock(m_data, (m_cap & 0x3fffffff) * 8);
 }
 inline void HullFloodStack::AddBack(const HullFloodEdge& edge) {
-    hkMemoryRouter& mgr = FUN_00c85750();
+    hkMemoryRouter& mgr = hkMemoryRouter_getInstance();
     if (m_iElementCount == (int)(m_cap & 0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(mgr.m_heap), this, sizeof(HullFloodEdge));
     ::new (static_cast<void*>(m_data + m_iElementCount)) HullFloodEdge(edge);
     m_iElementCount++;
@@ -5567,7 +5570,7 @@ int HullConnectivity::hkgpMesh_floodFillDetachedParts() {
             stack.AddBack(HullFloodEdge(e.m_node, b));
         } while (stack.m_iElementCount != 0);
     }
-    stack.release(meshHeap(FUN_00c85750()));
+    stack.release(meshHeap(hkMemoryRouter_getInstance()));
     return counter;
 }
 
@@ -5612,7 +5615,7 @@ struct HullWorkArrayLocalForm { // local form of hkArray: 0x00e12bc0 needs the o
     HullWorkArrayLocalForm() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     void ClearAndRelease()
     {
-        Allocator& heap = meshHeap(FUN_00c85750());
+        Allocator& heap = meshHeap(hkMemoryRouter_getInstance());
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) heap.freeBlock(m_data, (cap & 0x3fffffff) * sizeof(T));
@@ -5621,7 +5624,7 @@ struct HullWorkArrayLocalForm { // local form of hkArray: 0x00e12bc0 needs the o
     T& operator[](int i) { return m_data[i]; }
     void AddBack(const T& t)
     {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         m_data[m_iElementCount] = t;
         m_iElementCount++;
@@ -5635,7 +5638,7 @@ struct VertexList {
     Vertex* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(Vertex* vertex);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(Vertex* vertex);
     void remove(Vertex* vertex)
     {
         Vertex* next = vertex->m_next;
@@ -5644,7 +5647,7 @@ struct VertexList {
         if (prev) prev->m_next = next;
         else m_pFirstNode = next;
         --m_uiItemCount;
-        FUN_00e22f90(vertex);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(vertex);
     }
 };
 
@@ -5885,7 +5888,7 @@ struct E14a90List {
     E14a90Node* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(E14a90Node* node);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(E14a90Node* node);
     __forceinline void remove(E14a90Node* node)
     {
         E14a90Node* next = node->m_next;
@@ -5897,7 +5900,7 @@ struct E14a90List {
         else
             m_pFirstNode = next;
         m_uiItemCount--;
-        FUN_00e22f90(node);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(node);
     }
 };
 
@@ -5992,12 +5995,13 @@ struct EdgeMeshFlip {
     unsigned char m_101;
 
     void hkgpMesh_bindEdgeList(PairArray* arr);
-    void FUN_00e150e0(int a1);
+    void hkgpMesh_flipPartOrientation(int a1);
 };
 
 // For nodes whose m_30 equals a1, scales m_20, swaps the first two vertices and clears edge links, then passes the collected edges to FUN_00e124d0.
 // @fnv 0x00e150e0
-void EdgeMeshFlip::FUN_00e150e0(int a1) {
+// src: XBOX_PDB 0x00e150e0
+void EdgeMeshFlip::hkgpMesh_flipPartOrientation(int a1) {
     PairArray arr;
     arr.m_data = 0;
     arr.m_iElementCount = 0;
@@ -6011,7 +6015,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
                 __m128 sc = _mm_shuffle_ps(tsc, tsc, 0);
                 n->m_20 = _mm_mul_ps(n->m_20, sc);
                 for (int i = 0; i < 3; ++i) {
-                    hkMemoryRouter& r = FUN_00c85750();
+                    hkMemoryRouter& r = hkMemoryRouter_getInstance();
                     if (arr.m_iElementCount == (int)(arr.m_cap & 0x3fffffff)) {
                         ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap), (int*)&arr.m_data, 8);
                     }
@@ -6041,7 +6045,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
     this->hkgpMesh_bindEdgeList(&arr);
     this->m_101 = 0;
 
-    hkMemoryRouter& r2 = FUN_00c85750();
+    hkMemoryRouter& r2 = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(r2.m_heap);
     int cap = arr.m_cap;
     arr.m_iElementCount = 0;
@@ -6074,7 +6078,7 @@ struct E153F0PointsLocalForm
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void reserve(int n)
     {
-        Allocator& alloc = meshHeap(FUN_00c85750());
+        Allocator& alloc = meshHeap(hkMemoryRouter_getInstance());
         int cap = getCapacity();
         if (cap < n)
         {
@@ -6084,7 +6088,7 @@ struct E153F0PointsLocalForm
     }
     void AddBack(const hkVector4& t)
     {
-        Allocator& alloc = meshHeap(FUN_00c85750());
+        Allocator& alloc = meshHeap(hkMemoryRouter_getInstance());
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&alloc, this, sizeof(hkVector4));
         E153F0ConstructWithCopy(m_data + m_iElementCount, 1, t);
@@ -6132,7 +6136,8 @@ struct E153F0Aabb
 
 // Returns the sum of the x, y and z extents of the AABB around all edge start and end points, or 0.0f if the edge set is empty.
 // @fnv 0x00e153f0
-float __cdecl FUN_00e153f0(const E153F0Edges* edges)
+// src: XBOX_PDB 0x00e153f0
+float __cdecl getLoopSurfaceArea(const E153F0Edges* edges)
 {
     if (edges->m_iElementCount != 0)
     {
@@ -6145,12 +6150,12 @@ float __cdecl FUN_00e153f0(const E153F0Edges* edges)
         }
 
         E153F0Aabb aabb;
-        FUN_00cbeb70(points.m_data, points.m_iElementCount, &aabb);
+        hkAabbUtil_calcAabb_00cbeb70(points.m_data, points.m_iElementCount, &aabb);
         __m128 extent = _mm_sub_ps(aabb.m_kMaximumCorner.m_vComponents, aabb.m_kMinimumCorner.m_vComponents);
         float result;
         _mm_store_ss(&result, _mm_add_ss(_mm_shuffle_ps(extent, extent, 0xaa), _mm_add_ss(_mm_shuffle_ps(extent, extent, 0x55), extent)));
 
-        points.ClearAndRelease(meshHeap(FUN_00c85750()));
+        points.ClearAndRelease(meshHeap(hkMemoryRouter_getInstance()));
         return result;
     }
     return 0.0f;
@@ -6165,7 +6170,7 @@ struct __declspec(align(16)) AabbE21F {
     VecE21F m_kMaximumCorner;
 };
 
-void __cdecl FUN_00cbeb70(const VecE21F* pElementBuffer, int iNumPoints, AabbE21F& kAabbOut);
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(const VecE21F* pElementBuffer, int iNumPoints, AabbE21F& kAabbOut);
 
 struct VertE21F {
     int unk;
@@ -6199,7 +6204,7 @@ AabbE21F FUN_00e21fc0_cls::hkgpMesh_TriangleShape_getBoundingBox() const
     verts[1] = m_tri->m_verts[1]->m_pos;
     verts[2] = m_tri->m_verts[2]->m_pos;
     AabbE21F kAabb;
-    FUN_00cbeb70(verts, 3, kAabb);
+    hkAabbUtil_calcAabb_00cbeb70(verts, 3, kAabb);
     return kAabb;
 }
 
@@ -6511,7 +6516,7 @@ struct FUN_00e25ba0_cls {
 // @fnv 0x00e25ba0
 // src: HAVOK_LIB 0x00e25ba0
 void FUN_00e25ba0_cls::hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_createEdgeDataHashTable() {
-    hkMemoryRouter* audio1 = (hkMemoryRouter*)&FUN_00c85750();
+    hkMemoryRouter* audio1 = (hkMemoryRouter*)&hkMemoryRouter_getInstance();
     FUN_00e25ba0_Table* t = (FUN_00e25ba0_Table*)audio1->m_heap->blockAlloc(0x10);
     if (t != 0) {
     t->m_pSlots = 0;
@@ -6519,7 +6524,7 @@ void FUN_00e25ba0_cls::hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBa
     t->m_uiItemCount = 0;
     t->m_unk0C = 0;
 
-    hkMemoryRouter* audio2 = (hkMemoryRouter*)&FUN_00c85750();
+    hkMemoryRouter* audio2 = (hkMemoryRouter*)&hkMemoryRouter_getInstance();
     MemAllocator* alloc = reinterpret_cast<MemAllocator*>(audio2->m_heap);
     int cap = t->m_cap & 0x3fffffff;
     if (cap < 0x407) {
@@ -6537,7 +6542,7 @@ void FUN_00e25ba0_cls::hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBa
         int* w = base + 2;
         int k = n;
         do {
-            hkMemoryRouter* audio3 = (hkMemoryRouter*)&FUN_00c85750();
+            hkMemoryRouter* audio3 = (hkMemoryRouter*)&hkMemoryRouter_getInstance();
             MemAllocator* a3 = reinterpret_cast<MemAllocator*>(audio3->m_heap);
             w[-1] = 0;
             if ((w[0] & 0x80000000) == 0) {
@@ -6807,7 +6812,7 @@ void __cdecl hkArrayUtil__reserve(Allocator* alloc, void* arr, int numElem, int 
 template <class T>
 __forceinline T* expandGeometryArray(::hkArray<T>& array, int n)
 {
-    Allocator& alloc = meshHeap(FUN_00c85750());
+    Allocator& alloc = meshHeap(hkMemoryRouter_getInstance());
     int oldSize = array.m_iElementCount;
     int newSize = oldSize + n;
     int cap = array.m_iCapacityState & 0x3fffffff;
@@ -6848,7 +6853,7 @@ struct HashEntryTable {
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    HashEntryTable() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1) { reserve(meshHeap(FUN_00c85750()), 0); }
+    HashEntryTable() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1) { reserve(meshHeap(hkMemoryRouter_getInstance()), 0); }
     ~HashEntryTable() throw();
     int GetLogicalSize() const { return m_iCapacityFlags & 0x7fffffff; }
     void reserve(Allocator& alloc, int n) throw();
@@ -6860,11 +6865,11 @@ struct HashEntryTable {
 struct PointerKeyIntegerMap {
     HashEntryTable m_map;
 
-    void reserve(int n) { m_map.reserve(meshHeap(FUN_00c85750()), n); }
-    void insert(const void* key, int val) { m_map.insert(meshHeap(FUN_00c85750()), key, val); }
+    void reserve(int n) { m_map.reserve(meshHeap(hkMemoryRouter_getInstance()), n); }
+    void insert(const void* key, int val) { m_map.insert(meshHeap(hkMemoryRouter_getInstance()), key, val); }
     int FindValueForKey(const void* key, int def) const { return m_map.FindValueForKey(key, def); }
     int GetLogicalSize() const { return m_map.GetLogicalSize(); }
-    ~PointerKeyIntegerMap() { m_map.ClearAndRelease(meshHeap(FUN_00c85750())); }
+    ~PointerKeyIntegerMap() { m_map.ClearAndRelease(meshHeap(hkMemoryRouter_getInstance())); }
 };
 
 template <class T> __forceinline void hkSwap(T& a, T& b) { T t = a; a = b; b = t; }
@@ -6884,12 +6889,13 @@ struct hkgpConvexHullImpl {
     hkgpTriangle* m_firstTriangle;
     int m_iTriangleCount;
 
-    void FUN_00e126c0(hkGeometry& geom, bool flip);
+    void hkgpMesh_appendToGeometry(hkGeometry& geom, bool flip);
 };
 
 // Appends the convex hull's vertices and triangles to the given hkGeometry, remapping vertex indices and optionally flipping winding order.
 // @fnv 0x00e126c0
-void hkgpConvexHullImpl::FUN_00e126c0(hkGeometry& geom, bool abFlipWinding)
+// src: XBOX_PDB 0x00e126c0
+void hkgpConvexHullImpl::hkgpMesh_appendToGeometry(hkGeometry& geom, bool abFlipWinding)
 {
     if (m_iTriangleCount <= 0)
         return;
@@ -7077,13 +7083,13 @@ template<class T> struct CellArray {
     T* data; int size, capacity;
     CellArray() throw() : data(0), size(0), capacity(0x80000000) {}
     __forceinline T& expand() throw() {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         return data[size++];
     }
     __forceinline void push(const T& value) throw() {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         T* p = data + size;
@@ -7091,7 +7097,7 @@ template<class T> struct CellArray {
         ++size;
     }
     __forceinline void pushVector(const T& value) throw() {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (size == (capacity & 0x3fffffff))
             ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         T* p = data + size;
@@ -7099,7 +7105,7 @@ template<class T> struct CellArray {
         ++size;
     }
     __forceinline void release() throw() {
-        Allocator& heap = meshHeap(FUN_00c85750());
+        Allocator& heap = meshHeap(hkMemoryRouter_getInstance());
         int cap = capacity;
         size = 0;
         if (!(cap & 0x80000000)) heap.freeBlock(data, (cap & 0x3fffffff)*sizeof(T));
@@ -7107,7 +7113,7 @@ template<class T> struct CellArray {
     }
 };
 struct CellMesh {
-    void FUN_00e12640(CellArray<MeshPacketCallLocal_00e16e50>&) throw();
+    void hkgpMesh_fetchPositions(CellArray<MeshPacketCallLocal_00e16e50>&) throw();
     CellBounds FUN_00e11530() throw();
     float FUN_00e13660(const CellVec&, CellVec*, bool*) throw();
     void CollectPoints(int depthLimit, float scale, CellArray<CellVec>& output, bool invert);
@@ -7119,7 +7125,7 @@ void CellMesh::CollectPoints(int depthLimit, float scale, CellArray<CellVec>& ou
     CellBuild::FUN_00d76ca0 builder;
     {
     CellArray<MeshPacketCallLocal_00e16e50> vertices;
-    FUN_00e12640(vertices);
+    hkgpMesh_fetchPositions(vertices);
     BuildInput input;
     input.data = vertices.data;
     input.count = vertices.size;
@@ -7184,10 +7190,11 @@ void CellMesh::CollectPoints(int depthLimit, float scale, CellArray<CellVec>& ou
     pending.release();
 }
 
-struct FUN_00e21dd0_cls { __m128 unk00; __m128 unk10; __m128 unk20; void FUN_00e21dd0(__m128* result); };
+struct FUN_00e21dd0_cls { __m128 unk00; __m128 unk10; __m128 unk20; void hkgpMesh_LineShape_getBoundingBox(__m128* result); };
 // Stores the element-wise minimum and maximum of unk10 and unk20 into result[0] and result[1].
 // @fnv 0x00e21dd0
-void FUN_00e21dd0_cls::FUN_00e21dd0(__m128* result) {
+// src: XBOX_PDB 0x00e21dd0
+void FUN_00e21dd0_cls::hkgpMesh_LineShape_getBoundingBox(__m128* result) {
     __m128 a = unk10;
     __m128 b = unk20;
     __m128 lower = a;
@@ -7219,12 +7226,13 @@ struct FUN_00e21e60_cls {
     float m_f20;
     unsigned int m_u24;
 
-    float FUN_00e21e60(FUN_00e21e60_pair* p);
+    float hkgpMesh_WeldingPolicy_addLeaf(FUN_00e21e60_pair* p);
 };
 
 // If the squared distance from m_v10 to the scaled sum of p's two vectors is <= m_f20, stores p->m_u20 in m_u24; always returns 1.0f.
 // @fnv 0x00e21e60
-float FUN_00e21e60_cls::FUN_00e21e60(FUN_00e21e60_pair* p)
+// src: XBOX_PDB 0x00e21e60
+float FUN_00e21e60_cls::hkgpMesh_WeldingPolicy_addLeaf(FUN_00e21e60_pair* p)
 {
     __m128 sum = _mm_add_ps(p->m_v10, p->m_v00);
     __m128 half = _mm_load_ss(&DAT_01016248);
@@ -7257,12 +7265,13 @@ __declspec(align(16)) struct Vec4Packet {
 struct FUN_00e22480_cls {
     virtual void Slot00();
     virtual void Slot01(Vec4Packet* out, unsigned int arg);
-    void FUN_00e22480(unsigned int a1, unsigned int a2, unsigned int a3);
+    void IConvexOverlapImpl_ShapeBridge_convertVertexIdsToVertices(unsigned int a1, unsigned int a2, unsigned int a3);
 };
 
 // Stores a Vec4Packet with DAT_01012068 and DAT_01011d78 values and calls Slot01 with a3.
 // @fnv 0x00e22480
-void FUN_00e22480_cls::FUN_00e22480(unsigned int auiUnused1, unsigned int auiUnused2, unsigned int a3)
+// src: XBOX_PDB 0x00e22480
+void FUN_00e22480_cls::IConvexOverlapImpl_ShapeBridge_convertVertexIdsToVertices(unsigned int auiUnused1, unsigned int auiUnused2, unsigned int a3)
 {
     Vec4Packet v;
     _mm_store_ps((float*)&v, _mm_setr_ps(DAT_01012068, DAT_01011d78, DAT_01011d78, DAT_01011d78));
@@ -7594,8 +7603,8 @@ struct EMesh {
     ENode* nodes;
     int unk18,unk1c,unk20,unk24,unk28;
     EFace* faces;
-    __declspec(noalias) float FUN_00e16e50(float value,EVec* point,int filter);
-    void FUN_00e17010(EParams* p,EArray* out);
+    __declspec(noalias) float hkgpMesh_projectPointOnSurface(float value,EVec* point,int filter);
+    void hkgpMesh_generateSurfaceSamples(EParams* p,EArray* out);
 };
 static __m128 load(const EVec& v) {return _mm_load_ps(&v.x);}
 static void store(EVec& v,__m128 a) {_mm_store_ps(&v.x,a);}
@@ -7608,7 +7617,8 @@ static float sum3(__m128 p) {
 }
 // Populates out with node and edge-interpolated points offset by normals, keeping those within tolerance of the target value.
 // @fnv 0x00e17010
-void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
+// src: XBOX_PDB 0x00e17010
+void EMesh::hkgpMesh_generateSurfaceSamples(EParams* apParams,EArray* out) {
     float tolerance=apParams->tolerance*apParams->value;
     float matrix=apParams->offset*apParams->value;
     ENode* t;
@@ -7618,10 +7628,10 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
             
             EVec point;
             store(point,_mm_add_ps(_mm_mul_ps(_mm_set1_ps(matrix),load(t->normal)),load(t->position)));
-            float r=FUN_00e16e50(apParams->value,&point,apParams->filter);
+            float r=hkgpMesh_projectPointOnSurface(apParams->value,&point,apParams->filter);
             if(r>tolerance) {
                 point.w=(float)fabs(r);
-                hkMemoryRouter& router=FUN_00c85750();
+                hkMemoryRouter& router=hkMemoryRouter_getInstance();
                 if(out->size==(int)(out->capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap),out,16);
                 store(EAppend(out),load(point));
                 
@@ -7686,11 +7696,11 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
                         EVec point;
                         __m128 tVec=_mm_set1_ps(node);
                         store(point,_mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0,tVec),face->vertices[i]->position.quad()),_mm_mul_ps(load((*pick)->position),tVec)),_mm_mul_ps(_mm_set1_ps(matrix),normal.simd)));
-                        float r=FUN_00e16e50(apParams->value,&point,apParams->filter);
+                        float r=hkgpMesh_projectPointOnSurface(apParams->value,&point,apParams->filter);
                         float delta=r-apParams->value;
                         if((float)fabs(delta)<tolerance) {
                             point.w=(float)fabs(r);
-                            hkMemoryRouter& router=FUN_00c85750();
+                            hkMemoryRouter& router=hkMemoryRouter_getInstance();
                             if(out->size==(int)(out->capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap),out,16);
                             store(EAppend(out),load(point));
                             
@@ -7714,7 +7724,7 @@ struct FUN_00e21e30 {
 // @fnv 0x00e21e30
     virtual ~FUN_00e21e30() {}
     void operator delete(void* p, unsigned int nbytes) {
-        (*reinterpret_cast<hkMemoryRouter*>(&::FUN_00c85750())).heap().blockFree(p, static_cast<int>(nbytes));
+        (*reinterpret_cast<hkMemoryRouter*>(&::hkMemoryRouter_getInstance())).heap().blockFree(p, static_cast<int>(nbytes));
     }
 };
 
@@ -7746,7 +7756,7 @@ struct S_00e22db0_Iface {
     virtual void release(void* p, unsigned short size);
 };
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance(); }
 
 struct FUN_00e22db0 {
     int unk04;
@@ -7778,7 +7788,7 @@ struct FUN_00e22db0 {
     virtual ~FUN_00e22db0() {}
     static void operator delete(void* p, unsigned int size)
     {
-        hkMemoryRouter* sv = fnvc_adapt::FUN_00c85750();
+        hkMemoryRouter* sv = fnvc_adapt::hkMemoryRouter_getInstance();
         sv->m_heap->blockFree(p, 0x60);
     }
 };
@@ -8141,7 +8151,7 @@ struct BoundsMesh {
     __declspec(noinline) void ResetNodeVectors();
     void FUN_00e11b00(__m128* p);
     void BuildHull();
-    float FUN_00e13fa0(__m128* a1, __m128* a2, float a3);
+    float hkgpMesh_normalize(__m128* a1, __m128* a2, float a3);
 };
 
 
@@ -8190,7 +8200,8 @@ void BoundsMesh::ResetNodeVectors() {
 }
 // Computes min/max of the node vectors; a1 becomes a scaled center, a2 the smallest extent divided by a3; runs helper passes, then BuildHull if m_e4 was set.
 // @fnv 0x00e13fa0
-float BoundsMesh::FUN_00e13fa0(__m128* a1, __m128* a2, float a3)
+// src: XBOX_PDB 0x00e13fa0
+float BoundsMesh::hkgpMesh_normalize(__m128* a1, __m128* a2, float a3)
 {
     { __m128* __restrict start=a1;
     *start = _mm_setr_ps(DAT_01011d78,DAT_01011d78,DAT_01011d78,DAT_01011d78);
@@ -8273,7 +8284,7 @@ struct NakedArray
     }
     void append(const NakedEdgeRef& edge)
     {
-        Allocator& heap = meshHeap(FUN_00c85750());
+        Allocator& heap = meshHeap(hkMemoryRouter_getInstance());
         if (size == (int)(cap & 0x3fffffff))
             ResizeAudioStream(&heap, this, 8);
         new (data + size) NakedEdgeRef(edge);
@@ -8371,7 +8382,7 @@ void MeshEdgeRepair::hkgpMesh_fixBindings()
     arr.cap = 0x80000000;
 
     int fixed = 0;
-    arr.reserve(meshHeap(FUN_00c85750()), 0x400);
+    arr.reserve(meshHeap(hkMemoryRouter_getInstance()), 0x400);
 
     for (NakedFace* face = m_pHead2c; face != 0; face = (NakedFace*)face->m_unk00)
     {
@@ -8421,23 +8432,23 @@ void MeshEdgeRepair::hkgpMesh_fixBindings()
     }
 
     m_b101 = 0;
-    arr.release(meshHeap(FUN_00c85750()));
+    arr.release(meshHeap(hkMemoryRouter_getInstance()));
 }
 
 
 
-namespace hkRouter { __declspec(nothrow) hkMemoryRouter& __cdecl FUN_00c85750() throw(); }
+namespace hkRouter { __declspec(nothrow) hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw(); }
 __declspec(nothrow) void __cdecl ResizeAudioStream(void*,void*,int) throw();
 template<class T> struct HullArray {
  T* data; int size; int capacityAndFlags;
  __declspec(nothrow) __forceinline HullArray():data(0),size(0),capacityAndFlags(0x80000000) {}
  __declspec(nothrow) __forceinline ~HullArray() {
-  hkMemoryAllocator& heap=hkRouter::FUN_00c85750().heap();
+  hkMemoryAllocator& heap=hkRouter::hkMemoryRouter_getInstance().heap();
   size=0;
   if((capacityAndFlags&0x80000000u)==0) heap.bufFree(data,(capacityAndFlags&0x3fffffff)*sizeof(T));
  }
  __forceinline void AddBack(const T& value) {
-  hkMemoryRouter& router=hkRouter::FUN_00c85750();
+  hkMemoryRouter& router=hkRouter::hkMemoryRouter_getInstance();
   if(size==(capacityAndFlags&0x3fffffff)) ResizeAudioStream(router.m_heap,this,sizeof(T));
   data[size]=value; ++size;
  }
@@ -8449,7 +8460,7 @@ template<class T> struct HullArray {
 template<class T> struct HullLocalArray : HullArray<T> {
  T* localMemory;
  __declspec(nothrow) __forceinline HullLocalArray(int capacity) {
-  hkMemoryRouter& router=hkRouter::FUN_00c85750();
+  hkMemoryRouter& router=hkRouter::hkMemoryRouter_getInstance();
   T* memory=static_cast<T*>(static_cast<void*>(reinterpret_cast<char*&>(router.m_stack.m_next.m_storage)));
   reinterpret_cast<char*&>(router.m_stack.m_next.m_storage)+=((capacity*sizeof(T)+127)&~127);
   this->data=memory;
@@ -8460,7 +8471,7 @@ template<class T> struct HullLocalArray : HullArray<T> {
   if(!wasReallocated()) this->size=0; deallocateStack(localMemory);
  }
  __forceinline bool wasReallocated() const { return localMemory!=this->data; }
- static __forceinline void deallocateStack(void* p) { reinterpret_cast<char*&>(hkRouter::FUN_00c85750().m_stack.m_next.m_storage)=static_cast<char*>(p);
+ static __forceinline void deallocateStack(void* p) { reinterpret_cast<char*&>(hkRouter::hkMemoryRouter_getInstance().m_stack.m_next.m_storage)=static_cast<char*>(p);
  }
 };
 struct HullDescriptor {
@@ -8536,13 +8547,13 @@ template<class T> struct ZArray {
     ZArray():data(0),size(0),capacity(0x80000000) {
     }
     void append(const T& item) {
-        Allocator& a=meshHeap(FUN_00c85750());
+        Allocator& a=meshHeap(hkMemoryRouter_getInstance());
         if(size==(capacity&0x3fffffff)) ResizeAudioStream(&a,this,sizeof(T));
         new(data+size) T(item);
         ++size;
     }
     void release() {
-        Allocator& a=meshHeap(FUN_00c85750());
+        Allocator& a=meshHeap(hkMemoryRouter_getInstance());
         size=0;
         if(!(capacity&0x80000000)) a.freeBlock(data,(capacity&0x3fffffff)*sizeof(T));
         data=0;
@@ -8563,7 +8574,7 @@ struct ZNode {
 }
 ;
 template<> void ZArray<ZNode*>::append(ZNode* const& item) {
-    Allocator& a=meshHeap(FUN_00c85750());
+    Allocator& a=meshHeap(hkMemoryRouter_getInstance());
     if(size==(capacity&0x3fffffff)) ResizeAudioStream(&a,this,4);
     data[size++]=item;
 }
@@ -8638,7 +8649,7 @@ struct E1D960ArrayLocalForm { // local form of hkArray: 0x00e1d960 needs the ori
     E1D960ArrayLocalForm() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     ~E1D960ArrayLocalForm() throw()
     {
-        Allocator& alloc = meshHeap(FUN_00c85750());
+        Allocator& alloc = meshHeap(hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -8653,7 +8664,7 @@ struct E1D960ArrayLocalForm { // local form of hkArray: 0x00e1d960 needs the ori
     }
     void AddBack(const T& t) throw()
     {
-        Allocator& alloc = meshHeap(FUN_00c85750());
+        Allocator& alloc = meshHeap(hkMemoryRouter_getInstance());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(&alloc, this, sizeof(T));
         E153F0ConstructWithCopy(m_data + m_iElementCount, 1, t);
@@ -8676,7 +8687,7 @@ struct QueryCtx : QueryBase {
     QueryCtx(E1D960ArrayLocalForm<E1D960Pair>* a) throw() : arr(a) {}
 };
 void __cdecl FUN_00d1d890(void* a, void* b, QueryCtx* ctx) throw();
-bool __cdecl FUN_00e19d60(void* self, E12160Triangle* fa, void* obj, E12160Triangle* fb, float f) throw();
+bool __cdecl hkgpMesh_clipTriangles(void* self, E12160Triangle* fa, void* obj, E12160Triangle* fb, float f) throw();
 struct DelTarget {
     virtual ~DelTarget();
 };
@@ -8693,7 +8704,7 @@ struct MeshMerge960 {
 FUN_00e1b750* MeshMerge960::hkgpMesh_trim(Builder* apBuilder)
 {
     bool phaseFlag = false;
-    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate(meshHeap(FUN_00c85750()), 0x110)) FUN_00e1b750();
+    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate(meshHeap(hkMemoryRouter_getInstance()), 0x110)) FUN_00e1b750();
     ((FUN_00e1d900_cls*)obj)->hkgpMesh_appendFromConvexHull(apBuilder);
     {
         unsigned int buf[0x80];
@@ -8717,7 +8728,7 @@ FUN_00e1b750* MeshMerge960::hkgpMesh_trim(Builder* apBuilder)
         for (int i = 0; i < pairs.m_iElementCount; i++) {
             E12160Triangle* ta = pairs.m_data[i].a->m_pTriangle;
             E12160Triangle* tb = pairs.m_data[i].b->m_pTriangle;
-            if (FUN_00e19d60(this, ta, obj, tb, DAT_01013ea4)) {
+            if (hkgpMesh_clipTriangles(this, ta, obj, tb, DAT_01013ea4)) {
                 found = true;
                 phaseFlag = true;
             }
@@ -8825,7 +8836,7 @@ int* Factory360::hkgpMesh_cutAndCap(int* result, int input, Pieces* output, floa
         if (*out == 0) {
             for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
                 Piece** item = &pieces[i];
-                hkMemoryRouter& router = FUN_00c85750();
+                hkMemoryRouter& router = hkMemoryRouter_getInstance();
                 if (output->size == (output->capacity & 0x3fffffff))
                     ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), output, 4);
                 Piece** slot = &output->data[output->size];
@@ -8839,7 +8850,7 @@ int* Factory360::hkgpMesh_cutAndCap(int* result, int input, Pieces* output, floa
                 _ReadWriteBarrier();
             }
         }
-        Allocator& heap = meshHeap(FUN_00c85750());
+        Allocator& heap = meshHeap(hkMemoryRouter_getInstance());
         pieces.size = 0;
         if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*4);
     }
@@ -8861,7 +8872,7 @@ extern "C" __m128 _mm_load_ss(const float* p);
 
 struct S00e4c730_Obj
 {
-    int FUN_00e4c730(void* p1, int p2, void* p3);
+    int hkGsk_getClosestPoint(void* p1, int p2, void* p3);
 };
 
 struct QuadFields { unsigned int x,y,z,w; };
@@ -8977,7 +8988,8 @@ struct S00e22de0_frame
 
 // Fills a local frame from a, b, c and DAT_01268370..DAT_012683a0, calls FUN_00e4c730, and returns the w of its output, or DAT_0104e148 if it returns nonzero.
 // @fnv 0x00e22de0
-float __stdcall FUN_00e22de0(int a, int b, bool c)
+// src: XBOX_PDB 0x00e22de0
+float __stdcall IConvexOverlapImpl_distance(int a, int b, bool c)
 {
     S00e22de0_frame f;
     S00e22de0_frame* __restrict q = &f;
@@ -8995,7 +9007,7 @@ float __stdcall FUN_00e22de0(int a, int b, bool c)
     *(__m128*)&q->m_v40 = *(const __m128*)&DAT_012683a0;
     *(__m128*)&q->m_v60 = _mm_load_ss(&DAT_0104da48);
     q->m_flag = flag;
-    if (q->m_obj.FUN_00e4c730(&q->m_v10, 0, &q->m_out) == 0)
+    if (q->m_obj.hkGsk_getClosestPoint(&q->m_v10, 0, &q->m_out) == 0)
     {
         _mm_store_ss((float*)&q->m_f, _mm_shuffle_ps(*(__m128*)&q->m_out, *(__m128*)&q->m_out, 0xff));
         q->m_f = q->m_f;
@@ -9114,7 +9126,7 @@ struct S_00e248b0_Arr {
     int m_iElementCount;
     int m_cap;
     S_00e248b0_Arr() : m_data(0), m_iElementCount(0), m_cap(0x80000000) {}
-    static void* operator new(unsigned int size) { return S_00e248b0_heap(FUN_00c85750())->blockAlloc(size); }
+    static void* operator new(unsigned int size) { return S_00e248b0_heap(hkMemoryRouter_getInstance())->blockAlloc(size); }
 };
 
 static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248b0_Edge start) { S_00e248b0_Arr* arr=0;
@@ -9122,7 +9134,7 @@ static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248
         arr = new S_00e248b0_Arr;
         do
         {
-            hkMemoryRouter& r = FUN_00c85750();
+            hkMemoryRouter& r = hkMemoryRouter_getInstance();
             if (arr->m_iElementCount == (arr->m_cap & 0x3fffffff))
                 ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap), arr, 0x40);
             S_00e248b0_Elem* el = &arr->m_data[arr->m_iElementCount++];
@@ -9160,14 +9172,14 @@ static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248
                         goto done;
                 }
             }
-            hkMemoryAllocator* heap = S_00e248b0_heap(FUN_00c85750());
+            hkMemoryAllocator* heap = S_00e248b0_heap(hkMemoryRouter_getInstance());
             int cap = arr->m_cap;
             arr->m_iElementCount = 0;
             if ((cap & 0x80000000) == 0)
                 heap->bufFree(arr->m_data, (cap & 0x3fffffff) * sizeof(S_00e248b0_Elem));
             arr->m_data = 0;
             arr->m_cap = 0x80000000;
-            S_00e248b0_heap(FUN_00c85750())->blockFree(arr, 12);
+            S_00e248b0_heap(hkMemoryRouter_getInstance())->blockFree(arr, 12);
             return 0;
         }
 done:
@@ -9679,7 +9691,7 @@ void hkgpMesh::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
 extern "C" __m128 _mm_set_ss(float);
 
 extern float DAT_0106c2e0;
-void __stdcall FUN_00c7f640(int arg, void* p);
+void __stdcall setTransformedPos_00c7f640(int arg, void* p);
 
 struct Ex_Holder {
     int unk00;
@@ -9792,7 +9804,7 @@ void LocalOwner::FUN_00e15020(int key, int arg2, unsigned int arg3, unsigned cha
 __m128 K = _mm_shuffle_ps(t,t,0);
                 a.add(node->m_10->m_10);
                 a.mul(K);
-                FUN_00c7f640(arg2, &a);
+                setTransformedPos_00c7f640(arg2, &a);
                 Ex_Scratch obj;
                 obj.FUN_00e22ca0();
                 ((Ex_Target*)(*(volatile unsigned int*)&arg3))->FUN_00e13210(&a, &obj);
@@ -9818,7 +9830,7 @@ struct E17Mem
     virtual void freeBlock(void* p, int size);
 };
 
-__forceinline E17Mem& e17Heap() { return *(E17Mem*)&meshHeap(FUN_00c85750()); }
+__forceinline E17Mem& e17Heap() { return *(E17Mem*)&meshHeap(hkMemoryRouter_getInstance()); }
 
 void __cdecl ResizeAudioStream(E17Mem* alloc, void* array, int elemSize);
 
@@ -9908,7 +9920,7 @@ typedef E17ArrayLocalForm<E17Edge> E17Loop;
 
 typedef hkArray<E17Loop*> E17LoopList;
 
-float __cdecl FUN_00e153f0(const E17Loop* loop);
+float __cdecl getLoopSurfaceArea(const E17Loop* loop);
 
 template <class T>
 __forceinline void e17Swap(T& a, T& b)
@@ -10002,10 +10014,10 @@ int E17Mesh::hkgpMesh_extractAllLoops(E17LoopList* apOutLoops, int material) thr
     }
 
     int bestIndex = 0;
-    float best = FUN_00e153f0(loops[0]);
+    float best = getLoopSurfaceArea(loops[0]);
     for (int i = 1; i < loops.GetLogicalSize(); i++)
     {
-        float area = FUN_00e153f0(loops[i]);
+        float area = getLoopSurfaceArea(loops[i]);
         if (area > best)
         {
             best = area;
@@ -10113,7 +10125,7 @@ namespace fnv_00e1b820 {
 struct VertexCopy;
 // A moving corner view pairs the current vertex with its corresponding edge.
 struct CornerStore {VertexCopy* vertex;unsigned word04,word08,link;};
-struct FUN_00cb18f0_t { int FUN_00cb1fb0(int); };
+struct FUN_00cb18f0_t { int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int); };
 extern const float s_faderClearedAlpha;
 extern const float g_011c5aa8_arg1;
 
@@ -10166,14 +10178,14 @@ struct PartsMap {
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
     void EnsureCapacity(Allocator*,int);
     unsigned long LookupHashEntry(unsigned long,unsigned long) const;
-    int FUN_00cb1870(Allocator*,unsigned long,unsigned long);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator*,unsigned long,unsigned long);
     void ProcessArgument(Allocator*);
     void FUN_00a29680();
     static void* operator new(unsigned n,Allocator* heap){return heap->allocate(n);}
-    __forceinline void reserve(int n){EnsureCapacity(&meshHeap(FUN_00c85750()),n);}
+    __forceinline void reserve(int n){EnsureCapacity(&meshHeap(hkMemoryRouter_getInstance()),n);}
     __forceinline unsigned long lookup(unsigned long k)const{return LookupHashEntry(k,0);}
-    __forceinline void insert(unsigned long k,unsigned long v){FUN_00cb1870(&meshHeap(FUN_00c85750()),k,v);}
-    __forceinline void record(Allocator& a,unsigned long k,unsigned long v){FUN_00cb1870(&a,k,v);}
+    __forceinline void insert(unsigned long k,unsigned long v){hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(&meshHeap(hkMemoryRouter_getInstance()),k,v);}
+    __forceinline void record(Allocator& a,unsigned long k,unsigned long v){hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(&a,k,v);}
 };
 template<class T> struct PartArray {
     T* data; int size,capacity;
@@ -10191,7 +10203,7 @@ struct PartMesh {
     CopyPool<TriangleCopy> triangles;
     int material;
     int hkgpMesh_countParts()const;
-    void FUN_00e17f40(float*);
+    void hkgpMesh_simplify(float*);
     void BuildHull();
     int hkgpMesh_explodeParts(PartArray<PartMesh*>& output,bool simplify,bool convex)const;
 };
@@ -10205,25 +10217,25 @@ int PartMesh::hkgpMesh_explodeParts(PartArray<PartMesh*>& output,bool simplify,b
     if(!parts)return 0;
     PartArray<PartsMap*> maps;
     PartsMap edgeMap;
-    PartMesh** destinations=output.expand(meshHeap(FUN_00c85750()),parts);
+    PartMesh** destinations=output.expand(meshHeap(hkMemoryRouter_getInstance()),parts);
     int edgeCount=triangles.count;
-    Allocator* edgeHeap=&meshHeap(FUN_00c85750());
+    Allocator* edgeHeap=&meshHeap(hkMemoryRouter_getInstance());
     edgeMap.EnsureCapacity(edgeHeap,edgeCount*3);
     {
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
         int c=maps.capacity&0x3fffffff;
         if(c<parts){int n=c+c;if(parts>=n)n=parts;hkArrayUtil__reserve((int)&heap,&maps,n,4);}
     }
     maps.size=parts;
     for(int i=0;i<parts;++i){
         destinations[i]=0;
-        maps[i]=new (&meshHeap(FUN_00c85750())) PartsMap;
+        maps[i]=new (&meshHeap(hkMemoryRouter_getInstance())) PartsMap;
     }
     for(const TriangleCopy* source=triangles.head;source;source=source->next){
         int group=source->part;
         if(group!=-1){
             if(!destinations[group]){
-                PartMesh* mesh=(PartMesh*)meshHeap(FUN_00c85750()).allocate(0x110);
+                PartMesh* mesh=(PartMesh*)meshHeap(hkMemoryRouter_getInstance()).allocate(0x110);
                 mesh->memorySize=0x110;
                 mesh=(PartMesh*)new (mesh) FUN_00e1b750;
                 destinations[group]=mesh;
@@ -10238,7 +10250,7 @@ int PartMesh::hkgpMesh_explodeParts(PartArray<PartMesh*>& output,bool simplify,b
                 VertexCopy* vertex=(VertexCopy*)map->lookup((unsigned long)old);
                 if(!vertex){
                     vertex=destinations[group]->vertices.clone(*old);
-                    map->record(meshHeap(FUN_00c85750()),(unsigned long)old,(unsigned long)vertex);
+                    map->record(meshHeap(hkMemoryRouter_getInstance()),(unsigned long)old,(unsigned long)vertex);
                 }
                 CornerStore* destination=(CornerStore*)to; destination->vertex=vertex; destination->link=0;
             }
@@ -10252,7 +10264,7 @@ int PartMesh::hkgpMesh_explodeParts(PartArray<PartMesh*>& output,bool simplify,b
                     if(mapped.isValid()){
                         target.m_pkTriangle->m_ppLinks[target.m_uiEdgeIndex]=(unsigned long)mapped.m_pkTriangle+mapped.m_uiEdgeIndex;
                         mapped.m_pkTriangle->m_ppLinks[mapped.m_uiEdgeIndex]=(unsigned long)target.m_pkTriangle+target.m_uiEdgeIndex;
-                        ((FUN_00cb18f0_t*)&edgeMap)->FUN_00cb1fb0(key);
+                        ((FUN_00cb18f0_t*)&edgeMap)->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(key);
                     } else {
                         edgeMap.insert((unsigned long)edge.m_pkTriangle+edge.m_uiEdgeIndex,(unsigned long)target.m_pkTriangle+target.m_uiEdgeIndex);
                         target.m_pkTriangle->m_ppLinks[target.m_uiEdgeIndex]=key;
@@ -10265,22 +10277,22 @@ int PartMesh::hkgpMesh_explodeParts(PartArray<PartMesh*>& output,bool simplify,b
     for(int i=0;i<result;++i){
         PartsMap* map=maps[i];
         if(map){
-            map->ProcessArgument(&meshHeap(FUN_00c85750()));
+            map->ProcessArgument(&meshHeap(hkMemoryRouter_getInstance()));
             map->FUN_00a29680();
-            ((hkMemoryAllocator*)&meshHeap(FUN_00c85750()))->blockFree(map,12);
+            ((hkMemoryAllocator*)&meshHeap(hkMemoryRouter_getInstance()))->blockFree(map,12);
         }
         if(simplify){
             float tolerance[2];
             PartMesh* mesh=destinations[i];
             tolerance[0]=s_faderClearedAlpha;tolerance[1]=g_011c5aa8_arg1;
-            mesh->FUN_00e17f40(tolerance);
+            mesh->hkgpMesh_simplify(tolerance);
         }
         if(convex)destinations[i]->BuildHull();
     }
-    FUN_00c85750();FUN_00c85750();
-    edgeMap.ProcessArgument(&meshHeap(FUN_00c85750()));
+    hkMemoryRouter_getInstance();hkMemoryRouter_getInstance();
+    edgeMap.ProcessArgument(&meshHeap(hkMemoryRouter_getInstance()));
     edgeMap.FUN_00a29680();
-    Allocator& heap=meshHeap(FUN_00c85750());
+    Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
     maps.size=0;
     if(!(maps.capacity&0x80000000u))heap.freeBlock(maps.data,(maps.capacity&0x3fffffff)*4);
     return result;
@@ -10395,7 +10407,7 @@ struct CutFreeList {
 template<class T> struct CutPool : CutFreeList {
     T* head;
     int count;
-    void FUN_00e22f90(T*);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(T*);
     __forceinline void remove(T* node) {
         T* next=(T*)node->next;
         T* prev=(T*)node->prev;
@@ -10403,7 +10415,7 @@ template<class T> struct CutPool : CutFreeList {
         if(prev) prev->next=next;
         else head=next;
         --count;
-        FUN_00e22f90(node);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(node);
     }
     __forceinline T* allocate(const typename T::Data& source) {
         CutBlock* block;
@@ -10566,7 +10578,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
         for(int j=0;j<3;++j) distances[j]=((CutVertex*)face->m_kVertices[j])->distance.component(0);
         float sum=distances[0]+distances[1]+distances[2];
         if(sum==0.0f) {
-            hkMemoryRouter& r=FUN_00c85750();
+            hkMemoryRouter& r=hkMemoryRouter_getInstance();
             if(remove.size==(remove.capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap),&remove,4);
             remove.data[remove.size++]=face;
         } else face->side=sum>=0.0f?0:1;
@@ -10589,7 +10601,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
         ResolveLinkNodes();
     }
     *result=0;
-    hkMemoryRouter& r=FUN_00c85750();
+    hkMemoryRouter& r=hkMemoryRouter_getInstance();
     Allocator* allocator=reinterpret_cast<Allocator*>(r.m_heap);
     remove.size=0;
     if((remove.capacity&0x80000000)==0) allocator->freeBlock(remove.data,(remove.capacity&0x3fffffff)*4);
@@ -10660,7 +10672,7 @@ struct S_00e22050 {
     S_00e22050_Support* m_pSupport;
     char m_bHasHit;
     char m_flag;
-    float FUN_00e22050(S_00e22050_Arg* a);
+    float hkgpMesh_CollideShapeTriangle_addLeaf(S_00e22050_Arg* a);
 };
 
 static __forceinline float getReal(N::__m128 v) {
@@ -10683,7 +10695,8 @@ static N::__m128 Dot4B(N::__m128 a, N::__m128 b) {
 
 // Queries m_pSupport along the plane normal and its negation; if both band checks pass, calls m_cast->v1, sets m_bHasHit and returns 0 when below m_tol, else 1.
 // @fnv 0x00e22050
-float S_00e22050::FUN_00e22050(S_00e22050_Arg* a)
+// src: XBOX_PDB 0x00e22050
+float S_00e22050::hkgpMesh_CollideShapeTriangle_addLeaf(S_00e22050_Arg* a)
 {
     S_00e22050_Plane* pPlane = a->m_kTriangleNormal;
     S_00e22050_V4 n;
@@ -10827,7 +10840,7 @@ struct EdgeArrayLocalForm { // local form of hkArray: 0x00e24b70 needs the origi
     void clear() { m_iElementCount = 0; }
 
     void AddBack(const T& val) throw() {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) {
             ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         }
@@ -10847,7 +10860,7 @@ struct InplaceEdgeArray : public EdgeArrayLocalForm<T> {
     }
 
     ~InplaceEdgeArray() throw() {
-        Allocator& heap = meshHeap(FUN_00c85750());
+        Allocator& heap = meshHeap(hkMemoryRouter_getInstance());
         this->m_iElementCount = 0;
         if ((this->m_iCapacityState & 0x80000000) == 0) {
             heap.freeBlock(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -10940,13 +10953,13 @@ template<class T> struct S00e25cd0_ArrayLocalForm { // local form of hkArray: 0x
         return -1;
     }
     __forceinline T& AllocatePair() {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if(m_iElementCount == (m_iCapacityState & 0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         for(int i=0; i<1; ++i) new(m_data+m_iElementCount+i) T;
         return m_data[m_iElementCount++];
     }
     __forceinline void AddBack(const T& t) {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         if(m_iElementCount == (m_iCapacityState & 0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap), this, sizeof(T));
         S00e25cd0_constructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -11508,14 +11521,14 @@ void Mesh::hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hk
     m_08.Do();
     for (int i=0;i<256;i++) grid[i]=0;
     if (m_24c) {
-        AllocOps* pAllocOps = (AllocOps*)reinterpret_cast<Allocator*>(FUN_00c85750().m_heap);
+        AllocOps* pAllocOps = (AllocOps*)reinterpret_cast<Allocator*>(hkMemoryRouter_getInstance().m_heap);
         m_24c->FUN_00e25f00(0);
         pAllocOps->Free(m_24c, 0x10);
         m_24c = 0;
     }
     for (int i = 0; i < m_254; i++) {
         int* p = m_250[i];
-        hkMemoryRouter& r = FUN_00c85750();
+        hkMemoryRouter& r = hkMemoryRouter_getInstance();
         AllocOps* pAllocOps = (AllocOps*)reinterpret_cast<Allocator*>(r.m_heap);
         pAllocOps->Free(p, 0x388);
     }
@@ -11543,7 +11556,7 @@ extern double DAT_01029790;
 struct BigConst { Float4 v[4]; };
 extern BigConst DAT_0126a3e0;
 struct PointsArg { float* m_data; int m_uiItemCount; int m_iElementIndex; };
-struct TailA { Float4 columns[4]; void FUN_00de8da0(const BigConst* a, const Float4* b); };
+struct TailA { Float4 columns[4]; void hkMatrix4_setMul(const BigConst* a, const Float4* b); };
 struct TailB { Float4 columns[4]; void FUN_00de8c50(const TailA* p, float z); };
 struct E27850This {
     void FUN_00e27850(PointsArg* pts, Float4* mat, unsigned char flagA, unsigned char flagB);
@@ -12013,7 +12026,7 @@ void E27850This::FUN_00e27850(PointsArg* apPoints, Float4* apMatrix, unsigned ch
     ws.v[1].y = range / s.y;
     ws.v[3].x = f - ws.v[0].x * mn.f[0];
     (*(ws.v + 3)).y = f - ws.v[1].y * mn.f[1];
-    m_6a0.FUN_00de8da0(&ws, apMatrix);
+    m_6a0.hkMatrix4_setMul(&ws, apMatrix);
     m_660.FUN_00de8c50(&m_6a0, 0.0f);
     hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_reset(1);
 }
@@ -12070,7 +12083,7 @@ struct FUN_00e12890_cls {
     void hkgpMesh_fetchAreaSortedTriangles(FUN_00e12890_List* out, int flag);
 };
 
-FUN_00e12890_Holder* __cdecl FUN_00c85750();
+FUN_00e12890_Holder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(void* allocator, void* list, int count, int elemSize);
 void __cdecl FUN_00e22a50(void* data, int start, int end, int flag);
 
@@ -12080,7 +12093,7 @@ void __cdecl FUN_00e22a50(void* data, int start, int end, int flag);
 void FUN_00e12890_cls::hkgpMesh_fetchAreaSortedTriangles(FUN_00e12890_List* apList, int flag) {
     apList->m_04 = 0;
     int need = m_30;
-    FUN_00e12890_Holder* holder = (FUN_00e12890_Holder*)FUN_00c85750();
+    FUN_00e12890_Holder* holder = (FUN_00e12890_Holder*)hkMemoryRouter_getInstance();
     if ((int)(apList->m_08 & 0x3fffffff) < need) {
         hkArrayUtil__reserve(holder->m_10, apList, need, 4);
     }
@@ -12113,7 +12126,7 @@ inline void* __cdecl operator new(unsigned int, void* where) throw() { return wh
 
 
 
-hkMemoryRouter& FUN_00c85750() throw();
+hkMemoryRouter& hkMemoryRouter_getInstance() throw();
 void ResizeAudioStream(hkMemoryAllocator& alloc, void* array, int elemSize) throw();
 
 template <typename T>
@@ -12123,7 +12136,7 @@ struct S_00e15830_ArrayLocalForm { // local form of hkArray: 0x00e15830 needs th
     int m_iCapacityState;
 
     S_00e15830_ArrayLocalForm() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00e15830_ArrayLocalForm() throw() { _clearAndDeallocate(FUN_00c85750().heap()); }
+    ~S_00e15830_ArrayLocalForm() throw() { _clearAndDeallocate(hkMemoryRouter_getInstance().heap()); }
 
     int getCapacity() const throw() { return m_iCapacityState & 0x3fffffff; }
     int GetLogicalSize() const throw() { return m_iElementCount; }
@@ -12138,7 +12151,7 @@ struct S_00e15830_ArrayLocalForm { // local form of hkArray: 0x00e15830 needs th
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
-    void AddBack(const T& t) throw() { _pushBack(FUN_00c85750().heap(), t); }
+    void AddBack(const T& t) throw() { _pushBack(hkMemoryRouter_getInstance().heap(), t); }
 
     void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
@@ -12269,7 +12282,7 @@ private:
 TYPE m_kStorage;};
 template<typename T>struct QhkSizeOfTypeOrVoid{enum{val=sizeof(T)};};
 class Qmemrouter;
-namespace Qr{Qmemrouter&__cdecl FUN_00c85750() throw();}
+namespace Qr{Qmemrouter&__cdecl hkMemoryRouter_getInstance() throw();}
 void __cdecl ResizeAudioStream(void*,void*,int) throw();
 class Qmemalloc
 {
@@ -12302,7 +12315,7 @@ class Qmemrouter
 public:
 __forceinline void*__cdecl operator new(Qhk_size_t,void*p){return p;}
 typedef Qmemalloc Allocator;
-static Qmemrouter&__cdecl GetMonitorStream(){return Qr::FUN_00c85750();}inline Allocator&heap(){return*m_pStreamAllocator;}
+static Qmemrouter&__cdecl GetMonitorStream(){return Qr::hkMemoryRouter_getInstance();}inline Allocator&heap(){return*m_pStreamAllocator;}
 protected:
 QhkStackMemory m_aiEntries;
 Allocator*m_pTemp;
@@ -12903,7 +12916,7 @@ inline void* __cdecl operator new(unsigned int, void* where) throw() { return wh
 
 
 
-hkMemoryRouter& FUN_00c85750() throw();
+hkMemoryRouter& hkMemoryRouter_getInstance() throw();
 void ResizeAudioStream(hkMemoryAllocator& alloc, void* array, int elemSize) throw();
 
 template <typename T>
@@ -12912,7 +12925,7 @@ struct S_00e1a7a0_ArrayLocalForm { // local form of hkArray: 0x00e1a7a0 needs th
     int m_iElementCount;
     int m_iCapacityState;
 
-    ~S_00e1a7a0_ArrayLocalForm() throw() { _clearAndDeallocate(FUN_00c85750().heap()); }
+    ~S_00e1a7a0_ArrayLocalForm() throw() { _clearAndDeallocate(hkMemoryRouter_getInstance().heap()); }
 
     int getCapacity() const throw() { return m_iCapacityState & 0x3fffffff; }
     int GetLogicalSize() const throw() { return m_iElementCount; }
@@ -12925,7 +12938,7 @@ struct S_00e1a7a0_ArrayLocalForm { // local form of hkArray: 0x00e1a7a0 needs th
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
-    void AddBack(const T& t) throw() { _pushBack(FUN_00c85750().heap(), t); }
+    void AddBack(const T& t) throw() { _pushBack(hkMemoryRouter_getInstance().heap(), t); }
 
     void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
@@ -13143,7 +13156,7 @@ struct __declspec(align(16)) S_e1ce10_Vec4 {
     __forceinline void setSub4(const S_e1ce10_Vec4& a, const S_e1ce10_Vec4& b) { q() = _mm_sub_ps(a.q(), b.q()); }
     __forceinline void setAdd4(const S_e1ce10_Vec4& a, const S_e1ce10_Vec4& b) { q() = _mm_add_ps(a.q(), b.q()); }
     __forceinline float& operator()(int i) { return (&x)[i]; }
-    void FUN_00c7f640(const struct S_e1ce10_Transform& transform, const S_e1ce10_Vec4& p) throw();
+    void setTransformedPos_00c7f640(const struct S_e1ce10_Transform& transform, const S_e1ce10_Vec4& p) throw();
 };
 struct S_e1ce10_Bool {
     char m_cBooleanValue;
@@ -13197,7 +13210,7 @@ template <class T> struct S_e1ce10_ArrayLocalForm { // local form of hkArray: 0x
     int m_iElementCount;
     int m_iCapacityState;
     S_e1ce10_ArrayLocalForm() throw() : m_data(0), m_iElementCount(0), m_iCapacityState((int)0x80000000) {}
-    __forceinline ~S_e1ce10_ArrayLocalForm() throw() { _clearAndDeallocate(meshHeap(FUN_00c85750())); }
+    __forceinline ~S_e1ce10_ArrayLocalForm() throw() { _clearAndDeallocate(meshHeap(hkMemoryRouter_getInstance())); }
     int GetLogicalSize() const { return m_iElementCount; }
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     T& operator[](int i) { return m_data[i]; }
@@ -13238,8 +13251,8 @@ template <class T> struct S_e1ce10_ArrayLocalForm { // local form of hkArray: 0x
         S_e1ce10_ArrayUtil::constructWithCopy(m_data + m_iElementCount, n - m_iElementCount, fill, typename S_e1ce10_IsPod<T>::type());
         m_iElementCount = n;
     }
-    __forceinline void SetSizeAndGrow(int n) throw() { _setSize(meshHeap(FUN_00c85750()), n); }
-    __forceinline void SetSizeAndGrow(int n, const T& fill) throw() { _setSize(meshHeap(FUN_00c85750()), n, fill); }
+    __forceinline void SetSizeAndGrow(int n) throw() { _setSize(meshHeap(hkMemoryRouter_getInstance()), n); }
+    __forceinline void SetSizeAndGrow(int n, const T& fill) throw() { _setSize(meshHeap(hkMemoryRouter_getInstance()), n, fill); }
     __forceinline T& _expandOne(Allocator& alloc) throw()
     {
         if (m_iElementCount == getCapacity())
@@ -13247,7 +13260,7 @@ template <class T> struct S_e1ce10_ArrayLocalForm { // local form of hkArray: 0x
         S_e1ce10_ArrayUtil::construct(m_data + m_iElementCount, 1, typename S_e1ce10_IsPod<T>::type());
         return m_data[m_iElementCount++];
     }
-    __forceinline T& AllocatePair() throw() { return _expandOne(meshHeap(FUN_00c85750())); }
+    __forceinline T& AllocatePair() throw() { return _expandOne(meshHeap(hkMemoryRouter_getInstance())); }
     __forceinline void _pushBack(Allocator& alloc, const T& t) throw()
     {
         if (m_iElementCount == getCapacity())
@@ -13255,7 +13268,7 @@ template <class T> struct S_e1ce10_ArrayLocalForm { // local form of hkArray: 0x
         S_e1ce10_ArrayUtil::constructWithCopy(m_data + m_iElementCount, 1, t, typename S_e1ce10_IsPod<T>::type());
         m_iElementCount++;
     }
-    __forceinline void AddBack(const T& t) throw() { _pushBack(meshHeap(FUN_00c85750()), t); }
+    __forceinline void AddBack(const T& t) throw() { _pushBack(meshHeap(hkMemoryRouter_getInstance()), t); }
     __forceinline int indexOf(const T& t, int startIdx = 0, int endIdx = -1) const throw()
     {
         if (endIdx < 0)
@@ -13309,7 +13322,7 @@ struct S_e1ce10_Triangle : S_e1ce10_TriangleBase {
 // fixed-size pool blocks (0x50-byte slots)
 struct S_e1ce10_PoolBase {
     void* FUN_00e23530() throw(); // allocate a new block
-    void FUN_00e22f90(void* item) throw();   // release an item
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(void* item) throw();   // release an item
 };
 template <class T> struct S_e1ce10_PoolItem { unsigned char m_data[sizeof(T)]; };
 template <class T> struct S_e1ce10_Block {
@@ -13357,7 +13370,7 @@ template <class T> struct S_e1ce10_List {
         else
             m_pFirstNode = next;
         m_uiItemCount--;
-        m_pThreadAllocator.FUN_00e22f90(item);
+        m_pThreadAllocator.hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(item);
     }
 };
 // edge hash
@@ -13569,7 +13582,7 @@ void S_e1ce10_Mesh::hkgpMesh_appendFromGeometry(const hkGeometry& geom, const S_
     int numVertices = reinterpret_cast<const S_e1ce10_ArrayLocalForm<S_e1ce10_Vec4>&>(geom.m_kVertices).GetLogicalSize();
     for (int i = 0; i < numVertices; i++) {
         S_e1ce10_Vec4 v;
-        reinterpret_cast<hkVector4&>(v).FUN_00c7f640(reinterpret_cast<const hkTransform&>(transform), reinterpret_cast<const hkVector4*>(reinterpret_cast<const S_e1ce10_ArrayLocalForm<S_e1ce10_Vec4>&>(geom.m_kVertices).m_data)[i]);
+        reinterpret_cast<hkVector4&>(v).setTransformedPos_00c7f640(reinterpret_cast<const hkTransform&>(transform), reinterpret_cast<const hkVector4*>(reinterpret_cast<const S_e1ce10_ArrayLocalForm<S_e1ce10_Vec4>&>(geom.m_kVertices).m_data)[i]);
         S_e1ce10_Collector collector(v, m_weldTolerance);
         S_e1ce10_Aabb aabb;
         S_e1ce10_calcAabb(v, m_weldTolerance, aabb);
@@ -13680,7 +13693,7 @@ struct CapVertex {
     float weight;
 };
 struct PtObj {
-    void FUN_00c7f700(void *dst, void *src);
+    void hkVector4_setRotatedDir(void *dst, void *src);
 };
 
 struct AllocCtx {
@@ -13696,7 +13709,7 @@ struct AllocSvc {
 };
 
 
-__forceinline AllocSvc* capMemory() {return (AllocSvc*)&FUN_00c85750();}
+__forceinline AllocSvc* capMemory() {return (AllocSvc*)&hkMemoryRouter_getInstance();}
 
 struct SubArr {
     void *m_pData;
@@ -13771,11 +13784,11 @@ struct PartsMap {
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
     void EnsureCapacity(Allocator*,int);
     unsigned long LookupHashEntry(unsigned long,unsigned long) const;
-    int FUN_00cb1870(Allocator*,unsigned long,unsigned long);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator*,unsigned long,unsigned long);
     void ProcessArgument(Allocator*);
     void FUN_00a29680();
-    void FUN_00cb1fb0(int);
-    __forceinline void reserve(int n) {EnsureCapacity(&meshHeap(FUN_00c85750()),n);}
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int);
+    __forceinline void reserve(int n) {EnsureCapacity(&meshHeap(hkMemoryRouter_getInstance()),n);}
 };
 struct PoolObj {
     int unk_00_000;     int unk_00_004;     int unk_00_008;     int unk_00_00c;     int unk_00_010;     int unk_00_014;
@@ -14353,7 +14366,7 @@ union SharedB51 {TriNode* face; SubArr* array;}; SharedB51 scratchB;
                         Rec *obj = &((Rec*)sub->m_pData)[inner51_1];
                         float *key = (float *)&obj->projected;
                         void *pVertexPos = &((CapVertex*)((TriNode*)obj->m_00)->m_aiIndexedValues[obj->m_04])->position;
-                        ((PtObj *)key)->FUN_00c7f700(ok, pVertexPos);
+                        ((PtObj *)key)->hkVector4_setRotatedDir(ok, pVertexPos);
                         if (0 == scratchA.index && inner51_1 == 0)
                         {
                             tmp138 = idx = obj->projected;
@@ -14466,7 +14479,7 @@ if(va==q)continue;hkgpMesh_replaceVertex(*(SlotToken*)&va,*(SlotToken*)&q);
                         created = obj->m_04 + obj->m_00;
                         int tmp = (int)((TriNode*)point.m_04)->m_aiIndexedValues[point.m_08];
                         AllocSvc *val = capMemory();
-                        a.FUN_00cb1870((Allocator*)val->m_10, tmp, created);
+                        a.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert((Allocator*)val->m_10, tmp, created);
                     }
                 }
                 int iFailed = 0;
@@ -14508,7 +14521,7 @@ if(va==q)continue;hkgpMesh_replaceVertex(*(SlotToken*)&va,*(SlotToken*)&q);
                         RecPoint *zz = &((Rec*)n)[(1 + pVertexPos) % iPointCount].point;
                         Int2 ptr = slotPtr.hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_locateExistingEdge_00e24aa0( obj->point.x, obj->point.y, zz->x, zz->y);
                         AllocSvc *val = capMemory();
-                        edgeRecords.FUN_00cb1870((Allocator*)val->m_10, ptr.m_00 + ptr.m_04, originalEdge.packed());
+                        edgeRecords.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert((Allocator*)val->m_10, ptr.m_00 + ptr.m_04, originalEdge.packed());
                     }
                 }
                 {
@@ -14583,12 +14596,12 @@ if(va==q)continue;hkgpMesh_replaceVertex(*(SlotToken*)&va,*(SlotToken*)&q);
                             {
                                 obj->p.m_14[mn] = (int)p + sum;
                                 ((TriNode*)p)->m_aiIndexedValues[3 + sum] = (TriNode*)rawy;
-                                edgeRecords.FUN_00cb1fb0(ptr);
+                                edgeRecords.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(ptr);
                             }
                             else
                             {
                                 AllocSvc *val = capMemory();
-                                edgeRecords.FUN_00cb1870((Allocator*)val->m_10, (int)((char*)scratchB.face + mn), (int)rawy);
+                                edgeRecords.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert((Allocator*)val->m_10, (int)((char*)scratchB.face + mn), (int)rawy);
                                 obj->p.m_14[mn] = 0;
                             }
                             ++rawy;
@@ -14692,13 +14705,13 @@ template<class T> struct MeshArray {
  MeshArray() throw():data(0),size(0),capacity(0x80000000){}
  __forceinline void clear() throw() { destroyRange(data,size);size=0; }
  __forceinline void release(Allocator& heap) throw() { clear(); if(!(capacity&0x80000000)) heap.freeBlock(data,(capacity&0x3fffffff)*sizeof(T)); data=0; capacity=0x80000000; }
- __forceinline ~MeshArray() throw(){release(meshHeap(FUN_00c85750()));}
+ __forceinline ~MeshArray() throw(){release(meshHeap(hkMemoryRouter_getInstance()));}
  __forceinline void reserve(Allocator& heap,int count) throw() {
   int cap=capacity&0x3fffffff;
   if(cap<count) {int grown=2*cap; if(count>=grown)grown=count; hkArrayUtil__reserve(heap,this,grown,sizeof(T));}
  }
  __forceinline void resize(int count) throw() {
-  reserve(meshHeap(FUN_00c85750()),count);
+  reserve(meshHeap(hkMemoryRouter_getInstance()),count);
   int removeCount=size-count;
   T* begin=data+count;
   destroyRange(begin,removeCount);
@@ -14708,12 +14721,12 @@ template<class T> struct MeshArray {
   size=count;
  }
  __forceinline void resize(int count,const T& value) throw() {
-  reserve(meshHeap(FUN_00c85750()),count);
+  reserve(meshHeap(hkMemoryRouter_getInstance()),count);
   fillRange(data+size,count-size,value);
   size=count;
  }
  __forceinline void push(const T& value) throw() {
-  Allocator& heap=meshHeap(FUN_00c85750());
+  Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
   if(size==(capacity&0x3fffffff)) ResizeAudioStream(heap,this,sizeof(T));
   new(data+size) T(value); ++size;
  }
@@ -14751,7 +14764,7 @@ template<> __forceinline void destroyRange<MeshEdge*>(MeshEdge**,int)throw(){}
 template<> __forceinline void constructRange<MeshEdge*>(MeshEdge**,int)throw(){}
 
 template<> __forceinline void MeshArray<MeshEdge*>::push(MeshEdge* const& value) throw() {
- Allocator& heap=meshHeap(FUN_00c85750());
+ Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
  if(size==(capacity&0x3fffffff)) ResizeAudioStream(heap,this,sizeof(MeshEdge*));
  data[size++]=value;
 }
@@ -14924,7 +14937,7 @@ void RebuildMesh::FUN_00e21100() {
      face->vertices[0]=outputVertices[0];face->vertices[1]=outputVertices[1];face->vertices[2]=outputVertices[2];
     }
    }
-   FUN_00c85750();
+   hkMemoryRouter_getInstance();
   }
  }while(++group<edges.size);
  }
@@ -14952,7 +14965,7 @@ struct PoolHolder {
     DynamicMemoryAllocator* m_pAllocator;
 };
 
-PoolHolder* __cdecl FUN_00c85750();
+PoolHolder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(DynamicMemoryAllocator* apAllocator, void* apVector, unsigned int auiElemSize);
 
 struct FUN_00e23530_cls {
@@ -14967,7 +14980,7 @@ struct FUN_00e23530_cls {
 // @fnv 0x00e23530
 void* FUN_00e23530_cls::FUN_00e23530()
 {
-    PoolHolder* pHolder = FUN_00c85750();
+    PoolHolder* pHolder = hkMemoryRouter_getInstance();
     DynamicMemoryAllocator* pAllocator = pHolder->m_pAllocator;
     void* pPrev = 0;
     char* pBlock = (char*)pAllocator->Alloc(0xa08);
@@ -14986,7 +14999,7 @@ void* FUN_00e23530_cls::FUN_00e23530()
     *(int*)(pBlock + 0xa04) = 0;
     *(char**)(pBlock + 0xa00) = pHead;
 
-    PoolHolder* pHolder2 = FUN_00c85750();
+    PoolHolder* pHolder2 = hkMemoryRouter_getInstance();
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
         ResizeAudioStream(pHolder2->m_pAllocator, this, 4);
     }
@@ -15022,7 +15035,7 @@ struct PoolHolder {
     DynamicMemoryAllocator* m_pAllocator;
 };
 
-PoolHolder* __cdecl FUN_00c85750();
+PoolHolder* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(DynamicMemoryAllocator* apAllocator, void* apVector, unsigned int auiElemSize);
 
 struct FUN_00e235d0_cls {
@@ -15038,7 +15051,7 @@ struct FUN_00e235d0_cls {
 // src: HAVOK_LIB 0x00e235d0
 void* FUN_00e235d0_cls::hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_32_struct_hkContainerHeapAllocator_allocateNewPool()
 {
-    PoolHolder* pHolder = FUN_00c85750();
+    PoolHolder* pHolder = hkMemoryRouter_getInstance();
     DynamicMemoryAllocator* pAllocator = pHolder->m_pAllocator;
     void* pPrev = 0;
     char* pBlock = (char*)pAllocator->Alloc(0x388);
@@ -15057,7 +15070,7 @@ void* FUN_00e235d0_cls::hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulat
     *(int*)(pBlock + 0x384) = 0;
     *(char**)(pBlock + 0x380) = pHead;
 
-    PoolHolder* pHolder2 = FUN_00c85750();
+    PoolHolder* pHolder2 = hkMemoryRouter_getInstance();
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
         ResizeAudioStream(pHolder2->m_pAllocator, this, 4);
     }
@@ -15086,19 +15099,20 @@ struct FUN_00e237b0_List {
     unsigned int size;
     unsigned int capacityAndFlags;
 };
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl ResizeAudioStream(void*, FUN_00e237b0_List*, unsigned int);
 struct FUN_00e237b0_Owner {
     void* unk00;
     FUN_00e237b0_List list;
-    double FUN_00e237b0(FUN_00e237b0_Input* input);
+    double hkgpMeshInternals_SimpleCollector_addLeaf(FUN_00e237b0_Input* input);
 };
 // Appends input->entry to the owner's list, growing the list by 4 if it is at capacity, and returns 1.0.
 // @fnv 0x00e237b0
-double FUN_00e237b0_Owner::FUN_00e237b0(FUN_00e237b0_Input* input) {
+// src: XBOX_PDB 0x00e237b0
+double FUN_00e237b0_Owner::hkgpMeshInternals_SimpleCollector_addLeaf(FUN_00e237b0_Input* input) {
     void* entry = input->entry;
     FUN_00e237b0_List* values = &list;
-    hkMemoryRouter* alloc = FUN_00c85750();
+    hkMemoryRouter* alloc = hkMemoryRouter_getInstance();
     if (values->size == (values->capacityAndFlags & 0x3fffffff))
         ResizeAudioStream(static_cast<void*>(alloc->m_heap), values, 4);
     void** destination = values->data + values->size;
@@ -15111,7 +15125,7 @@ double FUN_00e237b0_Owner::FUN_00e237b0(FUN_00e237b0_Input* input) {
 
 namespace fnv_00e23800 {
 extern "C" void __cdecl Deallocate(void*);
-extern void* __cdecl FUN_00c85750();
+extern void* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00e23800_Vtbl {
     void* v0;
@@ -15151,7 +15165,7 @@ struct FUN_00e23800_Class {
 // @fnv 0x00e23800
 void* FUN_00e23800_Class::FUN_00e23800(int flags)
 {
-    TlsHolder* holder = (TlsHolder*)FUN_00c85750();
+    TlsHolder* holder = (TlsHolder*)hkMemoryRouter_getInstance();
     Holder* h = holder->unk10;
     int c = this->unk0c;
 
@@ -15176,7 +15190,7 @@ namespace fnv_00e23a10 {
 
 
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct E23A10Element {
     E23A10Element* m_next;
@@ -15213,7 +15227,7 @@ void E23A10List::hkgpAbstractMeshDefinitions_List_struct_hkgpTriangulatorType_st
 {
     for (int i = 0; i < m_iBlockCount; i++) {
         E23A10Block* block = m_kBlocks[i];
-        FUN_00c85750().heap().blockFree(block, sizeof(E23A10Block));
+        hkMemoryRouter_getInstance().heap().blockFree(block, sizeof(E23A10Block));
     }
     m_iBlockCount = 0;
     m_pFirstNode = 0;
@@ -15226,7 +15240,7 @@ namespace fnv_00e24de0 {
 
 
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct SpawnedBase {
     unsigned short m_uSize;
@@ -15275,7 +15289,7 @@ SpawnedObject* SpawnedObject::hkgpAbstractMesh_hkgpTriangulatorType_hkgpTriangul
 {
     this->SpawnedObject::~SpawnedObject();
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -15585,7 +15599,7 @@ struct StackSol {
     __forceinline EdgeSol& back() { return data[size-1]; }
     __forceinline void popBack() { --size; }
     __forceinline void push(const EdgeSol& value) {
-        hkMemoryRouter& r=FUN_00c85750();
+        hkMemoryRouter& r=hkMemoryRouter_getInstance();
         if(size==(cap&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap),this,8);
         new(data+size) EdgeSol(value);
         ++size;
@@ -15630,7 +15644,7 @@ struct FUN_00e27400_holder : FUN_00e27400_interface {
     FUN_00e27400_interface* unk010;
 };
 
-extern FUN_00e27400_holder* FUN_00c85750();
+extern FUN_00e27400_holder* hkMemoryRouter_getInstance();
 
 struct FUN_00e27400_layout {
     int unk000;
@@ -15793,7 +15807,7 @@ struct FUN_00e27400_ : FUN_00e27400_layout {
 void FUN_00e27400_::hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_destroyEdgeDataHashTable()
 {
     if (this->unk24c != 0) {
-        FUN_00e27400_interface* object = FUN_00c85750()->unk010;
+        FUN_00e27400_interface* object = hkMemoryRouter_getInstance()->unk010;
         this->unk24c->FUN_00e25f00(0);
         object->FUN_00e27400_virtual_2(this->unk24c, 0x10);
         this->unk24c = 0;
@@ -15912,7 +15926,7 @@ struct __declspec(align(16)) ClipVertex160 {
     __forceinline ClipVertex160() {}
     __forceinline __m128 get() const {return value;}
     __forceinline void set(__m128 v) {value=v;}
-    void FUN_00c7f640(const void*,const ClipVertex160*);
+    void setTransformedPos_00c7f640(const void*,const ClipVertex160*);
 };
 struct ClipTriangle160 {
     ClipVertex160 vertices[3];
@@ -15935,9 +15949,9 @@ template<class T> struct Buffer:ClipBufferBase<T> {};
 struct OutputMesh {Buffer<ClipVertex160> vertices;Buffer<TriangleIndex> triangles;};
 struct SourceMesh {Buffer<ClipVertex160> vertices;Buffer<TriangleIndex> triangles;};
 extern void __cdecl ResizeAudioStream(Allocator*,void*,int);
-extern void __cdecl FUN_00cbeb70(const ClipTriangle160*,int,ClipVertex160*);
+extern void __cdecl hkAabbUtil_calcAabb_00cbeb70(const ClipTriangle160*,int,ClipVertex160*);
 extern void __cdecl FUN_00d1d570(void*,const ClipVertex160*,void*);
-extern int __cdecl FUN_00deab10(const ClipTriangle160*,const ClipVertex160*);
+extern int __cdecl hkGeometryProcessing_checkTrianglesIntersection(const ClipTriangle160*,const ClipVertex160*);
 struct CollisionVertex {int unk00,unk04,unk08,unk0c;ClipVertex160 point;};
 struct CollisionTriangle {
     int unk00,unk04;CollisionVertex* a;CollisionVertex* b;CollisionVertex* c;
@@ -15976,7 +15990,7 @@ static __forceinline __m128 Intersection160(const ClipVertex160& a,const ClipVer
     return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0,t),a.get()),_mm_mul_ps(t,b.get()));
 }
 template<class T> static __forceinline void Reserve160(Buffer<T>& b,int count,int elementSize) {
-    Allocator& allocator=meshHeap(FUN_00c85750());
+    Allocator& allocator=meshHeap(hkMemoryRouter_getInstance());
     int cap=b.capacity&0x3fffffff;
     if(cap<count) {
         int next=cap*2;
@@ -15985,14 +15999,14 @@ template<class T> static __forceinline void Reserve160(Buffer<T>& b,int count,in
     }
 }
 static __forceinline void AppendTriangle160(Buffer<ClipTriangle160>& b,const ClipTriangle160& value) {
-    hkMemoryRouter& router=FUN_00c85750();
+    hkMemoryRouter& router=hkMemoryRouter_getInstance();
     if(b.count==(int)(b.capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap),&b,48);
     ClipTriangle160* destination=((ClipTriangle160*)b.data)+b.count;
     if(destination) *destination=value;
     ++b.count;
 }
 template<class T> static __forceinline void Release160(Buffer<T>& b,int elementSize) {
-    Allocator& allocator=meshHeap(FUN_00c85750());
+    Allocator& allocator=meshHeap(hkMemoryRouter_getInstance());
     b.count=0;
     if(!(b.capacity&0x80000000u)) allocator.freeBlock(b.data,(b.capacity&0x3fffffff)*elementSize);
     b.data=0;b.capacity=0x80000000u;
@@ -16007,12 +16021,12 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         original.count=0;contacts.count=0;
         ClipTriangle160 triangle;
         int iTriOffset=faceIndex*16;
-        triangle.vertices[0].FUN_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->a]);
-        triangle.vertices[1].FUN_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->b]);
-        triangle.vertices[2].FUN_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->c]);
+        triangle.vertices[0].setTransformedPos_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->a]);
+        triangle.vertices[1].setTransformedPos_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->b]);
+        triangle.vertices[2].setTransformedPos_00c7f640(inputTransform,&apSourceMesh->vertices[((TriangleIndex*)((char*)apSourceMesh->triangles.data+iTriOffset))->c]);
         AppendTriangle160(original,triangle);
         ClipVertex160 bounds[2];
-        FUN_00cbeb70(&triangle,3,bounds);
+        hkAabbUtil_calcAabb_00cbeb70(&triangle,3,bounds);
         __m128 vBoundMax=bounds[1].value;
         __m128 expansion=_mm_load_ss(&DAT_01011d78);
         expansion=_mm_shuffle_ps(expansion,expansion,0);
@@ -16022,7 +16036,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         for(int hitIndex=0;hitIndex<contacts.count;++hitIndex) {
             CollisionTriangle* hit=contacts.data[hitIndex];
             ClipVertex160 other[3]={hit->a->point,hit->b->point,hit->c->point};
-            if(!FUN_00deab10(&triangle,other)) {
+            if(!hkGeometryProcessing_checkTrianglesIntersection(&triangle,other)) {
                 --contacts.count;
                 if(contacts.count!=hitIndex) contacts.data[hitIndex]=contacts.data[contacts.count];
                 --hitIndex;
@@ -16097,7 +16111,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
             }
             int generatedCount=generated.count;
             const ClipTriangle160* generatedData=(const ClipTriangle160*)generated.data;
-            Allocator& heap=meshHeap(FUN_00c85750());
+            Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
             original.AppendItems(&heap,generatedData,generatedCount);
             generated.count=0;
         }
@@ -16108,7 +16122,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         int iVertexOffset=0;
         do {
             unsigned long base=apOutputMesh->vertices.count;
-            Allocator& vertexHeap=meshHeap(FUN_00c85750());
+            Allocator& vertexHeap=meshHeap(hkMemoryRouter_getInstance());
             int oldCount=apOutputMesh->vertices.count;
             long needed=oldCount+3;
             int capacity=apOutputMesh->vertices.capacity&0x3fffffff;
@@ -16119,10 +16133,10 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
             }
             ClipVertex160* destination=((ClipVertex160*)apOutputMesh->vertices.data)+oldCount;
             apOutputMesh->vertices.count+=3;
-            destination[0].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[0]);
-            destination[1].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[1]);
-            destination[2].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[2]);
-            hkMemoryRouter& router=FUN_00c85750();
+            destination[0].setTransformedPos_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[0]);
+            destination[1].setTransformedPos_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[1]);
+            destination[2].setTransformedPos_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[2]);
+            hkMemoryRouter& router=hkMemoryRouter_getInstance();
             Buffer<TriangleIndex>& outputTriangles=apOutputMesh->triangles;
             if(outputTriangles.count==(int)(outputTriangles.capacity&0x3fffffff))
                 ResizeAudioStream(reinterpret_cast<Allocator*>(router.m_heap),&outputTriangles,16);
@@ -16132,7 +16146,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         } while(i<original.size());
         }
     }
-    Allocator& allocator=meshHeap(FUN_00c85750());
+    Allocator& allocator=meshHeap(hkMemoryRouter_getInstance());
     contacts.count=0;
     if(!(contacts.capacity&0x80000000u)) allocator.freeBlock(contacts.data,(contacts.capacity&0x3fffffff)*4);
     contacts.data=0;contacts.capacity=0x80000000u;contacts.vtable=DAT_010cd664;
@@ -16174,18 +16188,19 @@ static __forceinline float copyReal(const float& x) { return x; }
 
 struct S_00e16e50 {
     double FUN_00e13660(MeshPacketCallLocal_00e16e50* in, MeshPacketCallLocal_00e16e50* out, bool* flag);
-    float FUN_00e16e50(float scale, MeshPacketCallLocal_00e16e50* v, int n);
+    float hkgpMesh_projectPointOnSurface(float scale, MeshPacketCallLocal_00e16e50* v, int n);
 };
 
 // Repeats n times updating v by a scaled correction and saving each result, then sets v to the average of the saved vectors and returns a signed length.
 // @fnv 0x00e16e50
-float S_00e16e50::FUN_00e16e50(float scale, MeshPacketCallLocal_00e16e50* v, int n)
+// src: XBOX_PDB 0x00e16e50
+float S_00e16e50::hkgpMesh_projectPointOnSurface(float scale, MeshPacketCallLocal_00e16e50* v, int n)
 {
     bool flag = false;
     MeshPacketCallLocal_00e16e50 tmp0;
     MeshPacketCallLocal_00e16e50 tmp = tmp0;
     S_00e16e50_Local loc;
-    loc.reserve(meshHeap(FUN_00c85750()), n);
+    loc.reserve(meshHeap(hkMemoryRouter_getInstance()), n);
     for (int i = 0; i < n; i++) {
         float r0 = (float)sqrt(FUN_00e13660(v, &tmp, &flag));
         float s; (volatile float&)s = r0;
@@ -16208,7 +16223,7 @@ float S_00e16e50::FUN_00e16e50(float scale, MeshPacketCallLocal_00e16e50* v, int
     float r0 = (float)sqrt(FUN_00e13660(v, &tmp, &flag));
         float s; (volatile float&)s = r0;
         if (flag) s = -s;
-    loc.ClearAndRelease(meshHeap(FUN_00c85750()));
+    loc.ClearAndRelease(meshHeap(hkMemoryRouter_getInstance()));
     return s;
 }
 
@@ -16277,11 +16292,11 @@ __forceinline DistanceScalar splitPlaneDot(__m128 point, __m128 plane) {
 __forceinline void splitCopy(Components& out,const SplitVertex* v) {
     out = *reinterpret_cast<const Components*>(&v->position);
 }
-extern "C" int __cdecl FUN_00deab10(const SplitPoint*,const SplitPoint*);
+extern "C" int __cdecl hkGeometryProcessing_checkTrianglesIntersection(const SplitPoint*,const SplitPoint*);
 __forceinline int overlapFaces(const PartSplitFace* a,const PartSplitFace* b) {
     SplitPoint ta[3]={a->point(0),a->point(1),a->point(2)};
     SplitPoint tb[3]={b->point(0),b->point(1),b->point(2)};
-    return FUN_00deab10(ta,tb);
+    return hkGeometryProcessing_checkTrianglesIntersection(ta,tb);
 }
 __forceinline void setMagnitude(volatile float& out,float value) { out=(float)fabs((double)value); }
 __forceinline float splitArea(const SplitPoint& v0,const SplitPoint& v1,const SplitPoint& v2) {
@@ -16380,7 +16395,7 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
         }
     }
     flag101=0;
-    Allocator& allocator=meshHeap(FUN_00c85750());
+    Allocator& allocator=meshHeap(hkMemoryRouter_getInstance());
     pairs.size=0;
     if(!(pairs.capacity & 0x80000000u)) allocator.freeBlock(pairs.data,(pairs.capacity&0x3fffffff)*8);
 }
@@ -16651,7 +16666,7 @@ struct ConstraintEdges {
 
     __forceinline void push(const ConstraintEdge& edge) {
 
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
 
         if(size==(capacity&0x3fffffff)) ResizeAudioStream(&heap,this,8);
 
@@ -17139,7 +17154,7 @@ __declspec(noinline) void ConstraintMesh::hkgpTriangulatorType_struct_hkgpTriang
 
         ++links->size;
 
-        if(bucket.size==(bucket.capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(FUN_00c85750().m_heap),&bucket,12);
+        if(bucket.size==(bucket.capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(hkMemoryRouter_getInstance().m_heap),&bucket,12);
 
         new(bucket.data+bucket.size) ConstraintHashEntry();
 
@@ -17169,7 +17184,7 @@ __declspec(noinline) void ConstraintMesh::hkgpTriangulatorType_struct_hkgpTriang
 
             const int* value=&source->data[i];
 
-            if(dest->size==(dest->capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(FUN_00c85750().m_heap),dest,4);
+            if(dest->size==(dest->capacity&0x3fffffff)) ResizeAudioStream(reinterpret_cast<Allocator*>(hkMemoryRouter_getInstance().m_heap),dest,4);
 
             dest->data[dest->size]=*value;
 
@@ -17187,7 +17202,7 @@ struct __declspec(align(16)) S_00e27c90_V {
 
 struct S_00e27c90_T {
     S_00e27c90_V c0, c1, c2, c3;
-    void FUN_00cb2d90(const void* q);
+    void hkRotation_set(const void* q);
 };
 
 struct __declspec(align(16)) S_00e27c90_Q {
@@ -17225,7 +17240,7 @@ void S_00e27c90_Obj::FUN_00e27c90(int a, int angle, int b, int c)
     *reinterpret_cast<__m128*>(&t.c1) = *reinterpret_cast<__m128*>(&v1);
     *reinterpret_cast<__m128*>(&t.c2) = *reinterpret_cast<__m128*>(&v2);
     *reinterpret_cast<__m128*>(&t.c3) = *reinterpret_cast<__m128*>(&v3);
-    t.FUN_00cb2d90(&q);
+    t.hkRotation_set(&q);
     S_00e27c90_U u;
     u.FUN_00de90f0(&t);
     FUN_00e27850(a, &u, b, c);
@@ -17323,7 +17338,7 @@ struct EdgeSelection { Pair first,second; };
 struct PairArrRaw {
     Pair *m_pData; int m_iArrayLength; int m_iCap;
     __forceinline void append(const Pair& value) throw() {
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
         if(m_iArrayLength==(m_iCap&0x3fffffff)) ResizeAudioStream(&heap,this,8);
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
@@ -17460,7 +17475,7 @@ __forceinline void initializeMap() throw() {edgeMap=0;}
         vtable=&DAT_010eb0e0;
         hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_reset(1);
         tail.FUN_00e23c70();
-        Allocator& ctx=meshHeap(FUN_00c85750());
+        Allocator& ctx=meshHeap(hkMemoryRouter_getInstance());
         int cap=m_40arr.m_iCap;
         m_40arr.m_iArrayLength=0;
         if((cap&0x80000000)==0) ctx.freeBlock(m_40arr.m_pData,(cap&0x3fffffff)*8);
@@ -17484,7 +17499,7 @@ initializeMap();
     __forceinline HArr() throw() : m_pData(0), m_iArrayLength(0), m_iCap((int)0x80000000) {}
     __forceinline ~HArr() throw()
     {
-        hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+        hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
         Allocator *ctx = reinterpret_cast<Allocator*>(svc->m_heap);
         int cap = m_iCap;
         m_iArrayLength = 0;
@@ -17496,7 +17511,7 @@ initializeMap();
 };
 struct PairArr : HArr<Pair> {
     __forceinline void append(const Pair& value) throw() {
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
         if(m_iArrayLength==(m_iCap&0x3fffffff)) ResizeAudioStream(&heap,this,8);
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
@@ -17505,7 +17520,7 @@ struct PairArr : HArr<Pair> {
 
 __forceinline void SubArrInt::append(const int &value) throw()
 {
-    hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+    hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
     if (m_iArrayLength == (m_iCap & 0x3fffffff))
         ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), this, 4);
     m_pData[m_iArrayLength] = value;
@@ -17584,7 +17599,7 @@ struct ObjASub20 {
 };
 struct ObjASub8 {
     void *data; int size; int capacity; void *head; int count; int unknown;
-    __declspec(nothrow) void FUN_00e22f90(void *node) throw();
+    __declspec(nothrow) void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(void *node) throw();
     __forceinline void removeVertex(struct VertexRecord *v) throw();
 };
 
@@ -17675,7 +17690,7 @@ __forceinline void ObjASub8::removeVertex(VertexRecord *v) throw()
     else
         head = nxt;
     count -= 1;
-    FUN_00e22f90(v);
+    hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(v);
 }
 struct TEdgeB {
     BNode *t; int i;
@@ -17767,7 +17782,7 @@ static __forceinline void buildGrid(HArr<OptVec4>& arr,OptVec4& akGridVector) th
         pt.y = (float)(i / DAT_01015a40);
         for (int sv = 0; sv < 8; sv++) {
             pt.x = (float)(sv / DAT_01015a40);
-            hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+            hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
             if (arr.m_iArrayLength == (arr.m_iCap & 0x3fffffff))
                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &arr, 0x10);
             OptVec4 *elem = &((OptVec4*)arr.m_pData)[arr.m_iArrayLength];
@@ -17985,7 +18000,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
         pt.y = (float)(i / DAT_01015a40);
         for (int sv = 0; sv < 8; sv++) {
             pt.x = (float)(sv / DAT_01015a40);
-            hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+            hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
             if (arr.m_iArrayLength == (arr.m_iCap & 0x3fffffff))
                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &arr, 0x10);
             OptVec4 *elem = &((OptVec4*)arr.m_pData)[arr.m_iArrayLength];
@@ -18024,7 +18039,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
             HArr<OptVec4> aPositions;
             {
                 int need = arr2.m_iArrayLength;
-                hkMemoryRouter& router = FUN_00c85750();
+                hkMemoryRouter& router = hkMemoryRouter_getInstance();
                 Allocator *ctx=(Allocator*)reinterpret_cast<Allocator*>(router.m_heap);
                 int capMask = aPositions.m_iCap & 0x3fffffff;
                 if (capMask < need) {
@@ -18086,7 +18101,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                     for (int iConstraint = 0; iConstraint < res->m_04; iConstraint++) {
                         {
                             const Pair &source = res->m_00[iConstraint].edge;
-                            hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &pairs, 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(source);
@@ -18098,7 +18113,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             value.b = (9 >> (source->b << 1)) & 3;
                             value.a = source->a;
                             hkMemoryRouter *svc;
-                            svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &pairs, 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
@@ -18110,7 +18125,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             value.b = (0x12 >> (source->b << 1)) & 3;
                             value.a = source->a;
                             hkMemoryRouter *svc;
-                            svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &pairs, 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
@@ -18122,7 +18137,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         intArr.m_iCap = (int)0x80000004;
                         {
                             hkMemoryRouter *svc;
-                            svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             if (intArr.m_iArrayLength == (intArr.m_iCap & 0x3fffffff))
                                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &intArr, 4);
                             intArr.m_pData[intArr.m_iArrayLength] = iConstraint;
@@ -18138,7 +18153,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         if (0 != out26010.status)
                             flag = false;
                         {
-                            hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             Allocator *ctx = reinterpret_cast<Allocator*>(svc->m_heap);
                             int cap = intArr.m_iCap;
                             intArr.m_iArrayLength = 0;
@@ -18201,7 +18216,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                         }
                         {
                             hkMemoryRouter *svc;
-                            svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             if (aNewNodes.m_iArrayLength == (aNewNodes.m_iCap & 0x3fffffff))
                                 ResizeAudioStream(reinterpret_cast<Allocator*>(svc->m_heap), &aNewNodes, 4);
                             aNewNodes.m_pData[aNewNodes.m_iArrayLength] = (int)pNewNode;
@@ -18222,7 +18237,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                             m_kVertices.removeVertex((VertexRecord *)arr2.m_pData[ui]);
                         }
                         {
-                            hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+                            hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
                             Allocator *ctx = reinterpret_cast<Allocator*>(svc->m_heap);
                             int cap = arr2.m_iCap;
                             int capacity;
@@ -18247,7 +18262,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
     }
     } while (counterC4);
     {
-        hkMemoryRouter *svc = ((hkMemoryRouter*)&FUN_00c85750());
+        hkMemoryRouter *svc = ((hkMemoryRouter*)&hkMemoryRouter_getInstance());
         Allocator *ctx = reinterpret_cast<Allocator*>(svc->m_heap);
         int cap = arr2.m_iCap;
         arr2.m_iArrayLength = 0;
@@ -18314,7 +18329,8 @@ struct PointBoundsOutput {
 // Axis-aligned bounds of count points into p[0] (min) and p[1] (max); an empty set gives the inverted default box.
 // Writes the min and max of count vectors, each ANDed with DAT_010c4c10, to the two vectors at p; for count 0 writes splats of two globals.
 // @fnv 0x00cbeb70
-void __cdecl FUN_00cbeb70(void* apPoints, int count, PointBoundsOutput p)
+// src: XBOX_PDB 0x00cbeb70
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(void* apPoints, int count, PointBoundsOutput p)
 {
     if (count == 0) {
         __m128* dst = (__m128*)*(void* volatile*)&p.value;
@@ -18496,7 +18512,7 @@ struct TriPtrArr {
 };
 __forceinline void VecArr::AddBack(const Vec4A& v)
 {
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     if (size == (int)(cap & 0x3fffffff))
         ::ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap), this, 16);
     data[size].set(v);
@@ -18504,7 +18520,7 @@ __forceinline void VecArr::AddBack(const Vec4A& v)
 }
 __forceinline void TriPtrArr::AddBack(PTri* t)
 {
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     if (size == (int)(cap & 0x3fffffff))
         ::ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap), this, 4);
     PTri** dst = data + size;
@@ -18516,7 +18532,7 @@ __forceinline void TriPtrArr::AddBack(PTri* t)
 
 static __forceinline void PushEdge(EdgeArr& arr, const PEdge& e)
 {
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     if (arr.size == (int)(arr.cap & 0x3fffffff))
         ::ResizeAudioStream(reinterpret_cast<Allocator*>(r.m_heap), &arr, 8);
     PEdge* dst = arr.data + arr.size;
@@ -18527,7 +18543,7 @@ static __forceinline void PushEdge(EdgeArr& arr, const PEdge& e)
 }
 static __forceinline void FreeEdgeArr(EdgeArr& arr, int elem)
 {
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     Allocator* ao = reinterpret_cast<Allocator*>(r.m_heap);
     int cap = (int)arr.cap;
     arr.size = 0;
@@ -18538,7 +18554,7 @@ static __forceinline void FreeEdgeArr(EdgeArr& arr, int elem)
 }
 static __forceinline void FreePtrArr(PtrArr& arr, int elem)
 {
-    hkMemoryRouter& r = FUN_00c85750();
+    hkMemoryRouter& r = hkMemoryRouter_getInstance();
     Allocator* ao = reinterpret_cast<Allocator*>(r.m_heap);
     int cap = (int)arr.cap;
     arr.size = 0;
@@ -18577,12 +18593,13 @@ struct E13B00This {
     VecArr m_CC;
     TriPtrArr m_D8;
     void hkgpMesh_fetchAreaSortedTriangles(PtrArr* arr, int flag);
-    int FUN_00e13b00(float a1, float a2, bool a3);
+    int hkgpMesh_buildPlaneIndices(float a1, float a2, bool a3);
 };
 
 // Flood-fills groups of linked triangles whose plane dot is at least a1 and w difference at most a2, storing group planes in m_CC and seed triangles in m_D8.
 // @fnv 0x00e13b00
-int E13B00This::FUN_00e13b00(float afMinDot, float afMaxWDiff, bool a3)
+// src: XBOX_PDB 0x00e13b00
+int E13B00This::hkgpMesh_buildPlaneIndices(float afMinDot, float afMaxWDiff, bool a3)
 {
     m_CC.size = 0;
     m_D8.size = 0;
@@ -18737,13 +18754,13 @@ struct CollapseEdgeArray {
     Slot storage[16];
     __forceinline CollapseEdgeArray() throw(): data(reinterpret_cast<CollapseEdge*>(storage)),size(0),capacity(0x80000010) {}
     __forceinline void append(const CollapseEdge& e) throw() {
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
         if (size == (capacity & 0x3fffffff)) ResizeAudioStream(&heap,this,8);
         new(data+size) CollapseEdge(e); ++size;
     }
     __forceinline void operator()(const CollapseEdge& e) throw() {append(e);}
     __forceinline ~CollapseEdgeArray() throw() {
-        Allocator& heap=meshHeap(FUN_00c85750());
+        Allocator& heap=meshHeap(hkMemoryRouter_getInstance());
         size=0;
         if (!(capacity & 0x80000000)) heap.freeBlock(data,(capacity & 0x3fffffff)*8);
         data=0; capacity=0x80000000;
@@ -18763,7 +18780,7 @@ struct E17F40Hull {
     __declspec(noinline) __declspec(nothrow) void FUN_00e114f0(const CollapsePosition*,const CollapsePosition*,const CollapsePosition*);
     __declspec(noinline) __declspec(nothrow) bool FUN_00e11710(const CollapsePosition*,const CollapsePosition*,const CollapsePosition*,CollapsePosition*,bool);
     __declspec(noinline) __declspec(nothrow) bool hkgpMesh_setPlane(const volatile CollapseTriangle*,CollapsePosition*,bool);
-    void FUN_00e17f40(float* options);
+    void hkgpMesh_simplify(float* options);
 };
 void E17F40Hull::FUN_00e11500(const CollapsePosition*,const CollapsePosition*) {error=true;}
 void E17F40Hull::FUN_00e114f0(const CollapsePosition*,const CollapsePosition*,const CollapsePosition*) {error=true;}
@@ -18807,7 +18824,8 @@ __forceinline void CollapseContext::operator()(CollapseEdge cursor) {
 }
 // Iteratively collapses mesh edges whose fan area error and plane dot product stay within the given thresholds, then finalises the hull.
 // @fnv 0x00e17f40
-void E17F40Hull::FUN_00e17f40(float* options)
+// src: XBOX_PDB 0x00e17f40
+void E17F40Hull::hkgpMesh_simplify(float* options)
 {
     bool changed;
     do {

@@ -124,7 +124,7 @@ class FUN_00e402e0 : public BaseAnimX
     XformArrayX m_kTransforms;
     FloatArrayX m_kFloats;
 };
-void* FUN_00c85750();
+void* hkMemoryRouter_getInstance();
 extern int DAT_010e5474;
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -170,7 +170,7 @@ __forceinline int S00e3ffc0_getFrame(FUN_00e2f7c0_Obj* o, float t, float* d)
     o->hkaAnimation_getFrameAndDelta(t, &f, d);
     return f;
 }
-void __cdecl FUN_00e3fda0(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
+void __cdecl hkaInterleavedUncompressedAnimation_samplePartialWithDataChunks(int frame, float delta, unsigned int nT, QsT* tOut, unsigned int nF, float* fOut,
                           SampleRec* recs, int n);
 struct hkaAnimSlot : hkaInterleavedUncompressedAnimation
 {
@@ -249,7 +249,8 @@ struct TransformLane
 
 extern "C" void _ReadWriteBarrier();
 // @fnv 0x00e3fda0
-void FUN_00e3fda0(unsigned int frameIndex, float frameDelta, unsigned int maxNumTransformTracks,
+// src: XBOX_PDB 0x00e3fda0
+void hkaInterleavedUncompressedAnimation_samplePartialWithDataChunks(unsigned int frameIndex, float frameDelta, unsigned int maxNumTransformTracks,
                   hkQsTransform* transformOutArg, int maxNumFloatTracks, float* floatOutArg,
                   const DataChunk* dataChunks, int numDataChunks)
 {

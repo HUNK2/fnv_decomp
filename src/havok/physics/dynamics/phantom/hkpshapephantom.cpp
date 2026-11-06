@@ -187,7 +187,7 @@ struct S00c9e830_Owner
     unsigned char unkA3;
     int unkA4;
 
-    void FUN_00c91160(S00c9e830_Operation* operation);
+    void hkpWorld_queueOperation(S00c9e830_Operation* operation);
     void FUN_00c91120();
     void FUN_00c91140();
     __forceinline void unlockAndAttemptToExecutePendingOperations()
@@ -237,7 +237,7 @@ unsigned int S00c9e830_Obj::hkpShapePhantom_setShape(S00c9e830_Shape* apShape)
         operation.type = 5;
         operation.object = this;
         operation.parameter = reinterpret_cast<unsigned int>(apShape);
-        unk08->FUN_00c91160(&operation);
+        unk08->hkpWorld_queueOperation(&operation);
         return 0;
     }
 
@@ -376,12 +376,13 @@ class FUN_00c9e910_Class
     __m128 unkE0;
 
     void hkpPhantom_updateBroadPhase(void* value);
-    void FUN_00c9e910(int value);
+    void hkpShapePhantom_setTransform(int value);
 };
 
 // Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to FUN_00d07ec0.
 // @fnv 0x00c9e910
-void FUN_00c9e910_Class::FUN_00c9e910(int value)
+// src: XBOX_PDB 0x00c9e910
+void FUN_00c9e910_Class::hkpShapePhantom_setTransform(int value)
 {
     const float* pMatrixData = reinterpret_cast<const float*>(value);
 
@@ -521,12 +522,13 @@ struct FUN_00c9e990_cls
     int unkD8;
     int unkDC;
     __m128 unkE0;
-    void FUN_00c9e990(__m128* a, float b);
+    void hkpShapePhantom_setPosition(__m128* a, float b);
     void hkpPhantom_updateBroadPhase(void* a1);
 };
 // Stores *a in unkE0 and, if m_08 is set, calls m_10->M7 with &unkB0, b plus half of m_08->unk78->unk08, and a local buffer, then FUN_00d07ec0 on it.
 // @fnv 0x00c9e990
-void FUN_00c9e990_cls::FUN_00c9e990(__m128* a, float b)
+// src: XBOX_PDB 0x00c9e990
+void FUN_00c9e990_cls::hkpShapePhantom_setPosition(__m128* a, float b)
 {
     unkE0 = *a;
     if (m_08 != 0)

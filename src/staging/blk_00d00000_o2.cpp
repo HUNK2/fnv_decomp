@@ -117,7 +117,7 @@ public:
     virtual void Free(void* p, unsigned int size);
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d06c30_cls
@@ -131,7 +131,7 @@ struct FUN_00d06c30_cls
 // src: HAVOK_LIB 0x00d06c30
 extern "C" void __cdecl hkSmallArrayUtil__reserve(FUN_00d06c30_cls* self, unsigned int newCap, unsigned int elemSize)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
     char* newBuf = (char*)alloc->Alloc(newCap * elemSize);
     FUN_00ec44d0(newBuf, self->m_pData, self->m_usElementCount * elemSize);
@@ -139,7 +139,7 @@ extern "C" void __cdecl hkSmallArrayUtil__reserve(FUN_00d06c30_cls* self, unsign
     {
         unsigned int size = (self->m_usCap & 0x3fff) * elemSize;
         char* oldBuf = self->m_pData;
-        holder = FUN_00c85750();
+        holder = hkMemoryRouter_getInstance();
         alloc = reinterpret_cast<Allocator*>(holder->m_heap);
         alloc->Free(oldBuf, size);
     }
@@ -487,11 +487,11 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     }
 }
 
-int __fastcall FUN_00d04380(void*);
+int __fastcall hkSemaphore_acquire(void*);
 // @fnv 0x00d043b0
 int __cdecl FUN_00d043b0(void* ap)
 {
-    return FUN_00d04380(ap);
+    return hkSemaphore_acquire(ap);
 }
 
 // @fnv 0x00d043d0
@@ -583,7 +583,7 @@ int __thiscall FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 
     if (flag & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         unsigned short value = unk04;
         holder->m_heap->blockFree(reinterpret_cast<void*>(this), value);
     }
@@ -599,10 +599,11 @@ void nullsub_30()
 
 struct FnvCpu_FUN_00d081d0_CpuObject
 {
-    char* FUN_00d081d0();
+    char* hkpLinkedCollidable_getCollisionEntriesDeterministicUnchecked();
 };
 // @fnv 0x00d081d0
-char* FnvCpu_FUN_00d081d0_CpuObject::FUN_00d081d0()
+// src: XBOX_PDB 0x00d081d0
+char* FnvCpu_FUN_00d081d0_CpuObject::hkpLinkedCollidable_getCollisionEntriesDeterministicUnchecked()
 {
     return reinterpret_cast<char*>(this) + 80;
 }
@@ -636,11 +637,12 @@ class FUN_00d081e0_cls
     int unk48;
     int unk4C;
     FUN_00d081e0_ret unk50;
-    FUN_00d081e0_ret* FUN_00d081e0();
+    FUN_00d081e0_ret* hkpLinkedCollidable_getCollisionEntriesDeterministicUnchecked_00d081e0();
 };
 
 // @fnv 0x00d081e0
-FUN_00d081e0_ret* FUN_00d081e0_cls::FUN_00d081e0()
+// src: XBOX_PDB 0x00d081e0
+FUN_00d081e0_ret* FUN_00d081e0_cls::hkpLinkedCollidable_getCollisionEntriesDeterministicUnchecked_00d081e0()
 {
     return &unk50;
 }
@@ -1212,11 +1214,12 @@ struct QueryObj
     LocalM128 max;
 };
 
-void __cdecl FUN_00d1b4d0(const void* a, int b, const Vec4* c, const Vec4* d, int e, int f, int g, int h, int i, int j);
+void __cdecl hkKdTreeAabbQueryUtils_queryAabbInternal(const void* a, int b, const Vec4* c, const Vec4* d, int e, int f, int g, int h, int i, int j);
 
 // Records two HkTimer profiling markers around a call to FUN_00d1b4d0 with the QueryObj vertex data and bounds.
 // @fnv 0x00d1b850
-void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
+// src: XBOX_PDB 0x00d1b850
+void __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative(QueryObj* obj, int arg1, int arg2)
 {
     HkTimer* prof = (HkTimer*)TlsGetValue(DAT_0126835c);
     char* cur = prof->head;
@@ -1235,7 +1238,7 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
     LocalM128 dv = _mm_sub_ps(obj->max, obj->min);
     const Vec4* delta = (const Vec4*)&dv;
     int count = obj->unk0c > 0 ? obj->unk0c : 128;
-    FUN_00d1b4d0(verts, vcount, delta, &mn, arg1, count, arg2, 0, 0, 0);
+    hkKdTreeAabbQueryUtils_queryAabbInternal(verts, vcount, delta, &mn, arg1, count, arg2, 0, 0, 0);
 
     prof = (HkTimer*)TlsGetValue(DAT_0126835c);
     cur = prof->head;
@@ -1249,11 +1252,12 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
     }
 }
 
-extern "C" void __cdecl FUN_00d1b4d0(int, int, const LocalM128*, const int*, int, int, int, int, int, int);
+extern "C" void __cdecl hkKdTreeAabbQueryUtils_queryAabbInternal(int, int, const LocalM128*, const int*, int, int, int, int, int, int);
 
 // Builds a frame from the vectors at p->m30 and p->m40 (start and difference) and calls FUN_00d1b4d0 with count m0C, or 128 if that is not positive.
 // @fnv 0x00d1b930
-void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, int argD)
+// src: XBOX_PDB 0x00d1b930
+void __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b930(S00d1b7f0_Input* p, int argB, int argC, int argD)
 {
     S00d1b7f0_Frame frame;
     LocalM128 end = _mm_load_ps(reinterpret_cast<const float*>(&p->m40));
@@ -1269,7 +1273,7 @@ void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, int argD)
     int count = p->m0C;
     if (count <= 0)
         count = 128;
-    FUN_00d1b4d0(first, second, &frame.diff, &frame.v0, argB, count, 0, 0, argC, argD);
+    hkKdTreeAabbQueryUtils_queryAabbInternal(first, second, &frame.diff, &frame.v0, argB, count, 0, 0, argC, argD);
 }
 
 struct FUN_00d1ba90
@@ -1356,7 +1360,7 @@ void __cdecl ResizeAudioStream(void* allocator, void* arr, int elemSize);
 
 struct MemSource
 {
-    static void* FUN_00c85750();
+    static void* hkMemoryRouter_getInstance();
 };
 
 struct KdNode
@@ -1528,7 +1532,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
             _mm_and_ps(_mm_cmple_ps(lower, _mm_load_ps(query->max)), _mm_cmple_ps(_mm_load_ps(query->min), upper));
         if ((_mm_movemask_ps(cmp) & 7) == 7)
         {
-            hkMemoryRouter* holder = (hkMemoryRouter*)MemSource::FUN_00c85750();
+            hkMemoryRouter* holder = (hkMemoryRouter*)MemSource::hkMemoryRouter_getInstance();
             if (hits->size == (hits->capacity & 0x3fffffff))
                 ResizeAudioStream((void*)holder->m_temp, hits, 4);
             int* dst = hits->data + hits->size;
@@ -1674,7 +1678,8 @@ typedef void*(__stdcall* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
 
 // Records a TtqueryAabb timer, calls FUN_00d1b4d0 with the query AABB and count, then records an Et timer.
 // @fnv 0x00d1b9b0
-void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
+// src: XBOX_PDB 0x00d1b9b0
+void __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b9b0(QueryObj* pQuery, int p1, int p2)
 {
     volatile unsigned int tick;
     S00d1b9b0_TlsGet pfnTls = TlsGetValue;
@@ -1697,7 +1702,7 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
     int count = pQuery->unk0c;
     if (count <= 0)
         count = 0x80;
-    FUN_00d1b4d0(a, b, &vExtent, &vMin, p1, count, 0, p2, 0, 0);
+    hkKdTreeAabbQueryUtils_queryAabbInternal(a, b, &vExtent, &vMin, p1, count, 0, p2, 0, 0);
 
     pBuf = (HkTimer*)pfnTls(DAT_0126835c);
     if (pBuf->head < pBuf->end)
@@ -1885,7 +1890,8 @@ static __forceinline void copyResult(unsigned* target, int count, const unsigned
         target[i] = value;
 }
 // @fnv 0x00d1b4d0
-int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const RealVec& scale, const RealVec& offset,
+// src: XBOX_PDB 0x00d1b4d0
+int __cdecl hkKdTreeAabbQueryUtils_queryAabbInternal(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const RealVec& scale, const RealVec& offset,
                          S00d1b4d0_Bounds* query, int capacity, S00d1b4d0_List* list, S00d1b4d0_Callback* callback,
                          unsigned** output, int limit)
 {
@@ -1893,7 +1899,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
     S00d1b4d0_Id id;
     __declspec(align(16)) S00d1b4d0_NodeCopy n;
     n.set(cur);
-    hkMemoryRouter* alloc = FUN_00c85750();
+    hkMemoryRouter* alloc = hkMemoryRouter_getInstance();
     S00d1b4d0_Node** base = (S00d1b4d0_Node**)alloc->m_stack.m_next.m_storage;
     S00d1b4d0_Node** top = base;
     int bytes = (capacity * 4 + 127) & ~127;
@@ -1982,7 +1988,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                         }
                         else if (list)
                         {
-                            hkMemoryRouter* grow = FUN_00c85750();
+                            hkMemoryRouter* grow = hkMemoryRouter_getInstance();
                             if (list->size == (int)(list->capacity & 0x3fffffff))
                                 ResizeAudioStream((void*)grow->m_temp, list, 4);
                             copyResult(list->data + list->size, 1, *(unsigned*)&id);
@@ -2006,6 +2012,6 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
         n.set(cur);
     }
 done:
-    FUN_00c85750()->m_stack.m_next.m_storage = (void*)((int)base);
+    hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = (void*)((int)base);
     return found;
 }

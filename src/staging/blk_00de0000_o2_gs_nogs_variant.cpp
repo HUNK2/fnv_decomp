@@ -266,7 +266,7 @@ struct FUN_00de87c0_class
 void __cdecl FUN_00de81a0(void* self, void* arg);
 struct FUN_00d21ce0_cls
 {
-    void __thiscall FUN_00d21ce0(void*);
+    void __thiscall hkpBridgeConstraintAtom_init(void*);
 };
 struct FUN_00de8550_t
 {
@@ -493,7 +493,7 @@ void __cdecl FUN_00dffe60(FUN_00dffe60_vt* p);
 typedef void(__thiscall* Vfn0)(void*, int);
 void __cdecl FUN_00dfff00(void* p);
 extern int DAT_0102e388;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00de10e0_cls
 {
     int m_vptr;
@@ -994,7 +994,7 @@ struct FUN_00de8570_cls
     int m_00;
     int m_04;
     int m_08;
-    void __thiscall FUN_00d21ce0(int value);
+    void __thiscall hkpBridgeConstraintAtom_init(int value);
 };
 void __cdecl FUN_00de8570(FUN_00de8570_cls* pTarget, int nIndex);
 extern int DAT_0126a378;
@@ -2978,7 +2978,7 @@ struct DF30D0Pair
 };
 static void CopyPairAtIndex(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
 void DF30D0Caller(DF30D0Pair* dst, unsigned int idx, const DF30D0Pair* src);
-void FUN_00df3160();
+void hkKdTreeBuilderSparseWriter_flush();
 void nullsub_184();
 void __cdecl nullsub_185();
 struct FUN_00df7210_Inner
@@ -3273,7 +3273,7 @@ struct ExecutionContext
 extern unsigned long DAT_0126835c;
 extern "C" const char str_010db918[];
 extern "C" const char str_010c41f8[];
-int __cdecl FUN_00d1b930(void* processor, WorkItem* item, unsigned int* value, int remaining);
+int __cdecl hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b930(void* processor, WorkItem* item, unsigned int* value, int remaining);
 void __cdecl ProcessWorkQueue(ExecutionContext* context, WorkQueue* queue);
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 extern "C" unsigned long DAT_0126835c;
@@ -3309,7 +3309,7 @@ struct Job
     int m_28;
     int m_2c;
 };
-void __cdecl FUN_00df6e00(Job* job, int a, int b, int c);
+void __cdecl hkCpuPairGetClosestPointsImplementation(Job* job, int a, int b, int c);
 struct Scheduler
 {
     int ProcessCallback(Key* key, int b, int a);
@@ -3342,7 +3342,7 @@ static __declspec(noinline) float rand01(void)
 }
 static void WriteFloatToVector(float a, float b, float* out);
 void dummy_caller(void);
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dfb5a0_cls
 {
     int unk00;

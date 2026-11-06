@@ -16,13 +16,13 @@ inline hkMemoryAllocator& GetHeap(hkMemoryRouter& holder)
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
 
-namespace fnvc_adapt { hkMemoryRouter& __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter& __cdecl hkMemoryRouter_getInstance(); }
 
 inline void* operator new(unsigned int, void* p) { return p; }
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return GetHeap(fnvc_adapt::FUN_00c85750());
+    return GetHeap(fnvc_adapt::hkMemoryRouter_getInstance());
 }
 
 template <typename T>
@@ -211,12 +211,12 @@ int* FUN_00d9ce00_Class::PopItem(int first, int second, int* output)
     return (int*)(((*output * 3) << 4) + base);
 }
 
-struct Owner { int unknown00, unknown04, unknown08; hkArray<unsigned short> buffer; hkMemoryRouter* FUN_00c85750(); unsigned short* AppendElement(unsigned short value); };
+struct Owner { int unknown00, unknown04, unknown08; hkArray<unsigned short> buffer; hkMemoryRouter* hkMemoryRouter_getInstance(); unsigned short* AppendElement(unsigned short value); };
 // Grows the buffer if it is full, appends value at the end, increments the count and returns a pointer to the stored element.
 // @fnv 0x00d9bef0
 unsigned short* Owner::AppendElement(unsigned short value) {
     hkArray<unsigned short>* pBuffer = &buffer;
-    hkMemoryRouter* context = FUN_00c85750();
+    hkMemoryRouter* context = hkMemoryRouter_getInstance();
     if (pBuffer->m_iElementCount == (pBuffer->m_iCapacityState & 0x3fffffff))
         hkArrayUtil::_reserveMore(*reinterpret_cast<hkMemoryAllocator*>(context->m_heap), pBuffer, 2);
     unsigned short* pElement = pBuffer->m_data + pBuffer->m_iElementCount;
@@ -225,7 +225,7 @@ unsigned short* Owner::AppendElement(unsigned short value) {
     return pElement;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
@@ -234,7 +234,7 @@ struct S_d9bf30_Rec {
 
 __forceinline void RefillFreeRecordIndices(hkArray<unsigned short>& freeIndices, unsigned short newSize, int oldCount)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
 
     unsigned int cap = freeIndices.m_iCapacityState & 0x3fffffffu;
@@ -268,7 +268,7 @@ void FUN_00d9bf30_cls::AllocateRecords(unsigned short newSize, S_d9bf30_Rec** ap
     int oldCount = m_uiItemCount;
     int n = newSize;
 
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     Allocator* alloc;
     alloc = reinterpret_cast<Allocator*>(holder->m_heap);
 
@@ -320,7 +320,7 @@ namespace fnv_00d9c010 {
 // ---------------------------------------------------------------------------
 
 // The thread holder getter lives in another translation unit.
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // The object that owns the two buffers: items of 48 bytes and items of 4
 // bytes, each with its own data pointer, item count and capacity.
@@ -338,7 +338,7 @@ struct FUN_00d9c010_cls {
 void FUN_00d9c010_cls::ClearBuffers()
 {
     {
-        hkMemoryRouter* audio = FUN_00c85750();
+        hkMemoryRouter* audio = hkMemoryRouter_getInstance();
         hkMemoryAllocator* sink = reinterpret_cast<hkMemoryAllocator*>(audio->m_heap);
         int capacity = m_capacity1;
         m_count1 = 0;
@@ -348,7 +348,7 @@ void FUN_00d9c010_cls::ClearBuffers()
         m_capacity1 = 0x80000000;
     }
     {
-        hkMemoryRouter* audio = FUN_00c85750();
+        hkMemoryRouter* audio = hkMemoryRouter_getInstance();
         hkMemoryAllocator* sink = reinterpret_cast<hkMemoryAllocator*>(audio->m_heap);
         int capacity = m_capacity0;
         m_count0 = 0;
@@ -362,7 +362,7 @@ void FUN_00d9c010_cls::ClearBuffers()
 
 namespace fnv_00d9c090 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d9c090_cls {
     void* m_pData2;
@@ -378,7 +378,7 @@ struct FUN_00d9c090_cls {
 // @fnv 0x00d9c090
 void FUN_00d9c090_cls::ClearArrays()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -388,7 +388,7 @@ void FUN_00d9c090_cls::ClearArrays()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -473,7 +473,7 @@ Glyph20* FUN_00d9c280_cls::PopGlyphRecord(int* outRecord, unsigned short* inChar
 namespace fnv_00d9c320 {
 extern int DAT_010d40ac;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct SubObject_b3483 {
     int unk00;
@@ -502,7 +502,7 @@ FUN_00d9c320_cls* FUN_00d9c320_cls::Destroy(unsigned char acFlags)
     BaseRelease();
     m_sub.Release();
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         reinterpret_cast<hkMemoryAllocator*>(pAllocator)->blockFree(this, 0x80);
     }
@@ -512,7 +512,7 @@ FUN_00d9c320_cls* FUN_00d9c320_cls::Destroy(unsigned char acFlags)
 
 namespace fnv_00d9c360 {
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct D9C360Node {
     int unk00;
@@ -535,7 +535,7 @@ struct D9C360NodeArray {
 
 inline void PushTreeNode(hkArrayBase<D9C360Node*>& stack, D9C360Node* n)
 {
-    hkMemoryAllocator& alloc = GetHeap(FUN_00c85750());
+    hkMemoryAllocator& alloc = GetHeap(hkMemoryRouter_getInstance());
     if (stack.m_iElementCount == stack.getCapacity())
         hkArrayUtil::_reserveMore(alloc, &stack, sizeof(D9C360Node*));
     stack.m_data[stack.m_iElementCount++] = n;
@@ -573,7 +573,7 @@ void D9C360Tree::TraverseTree(D9C360Node* node, void* context)
         D9C360Node* sibling = (node->m_sibling != 0x7fffffff) ? m_kNodeCollection.get(node->m_sibling) : 0;
         PushTreeNode(stack, sibling);
     }
-    stack._clearAndDeallocate(GetHeap(FUN_00c85750()));
+    stack._clearAndDeallocate(GetHeap(hkMemoryRouter_getInstance()));
 }
 }  // namespace fnv_00d9c360
 
@@ -735,14 +735,14 @@ void Pool_d9c520::TraverseNodeTree(Node_d9c520* node, int second)
             {
                 node = resolver.GetEntryOffset(node->unk0C);
                 Node_d9c520* child = node->unk12 != 0x7fff ? resolver.ResolveChild(node->unk12) : 0;
-                hkMemoryRouter* holder = FUN_00c85750();
+                hkMemoryRouter* holder = hkMemoryRouter_getInstance();
                 if (nodeStack.m_iElementCount == (nodeStack.m_iCapacityState & 0x3fffffff))
                     hkArrayUtil::_reserveMore(*reinterpret_cast<hkMemoryAllocator*>(holder->m_heap), &nodeStack, 4);
                 nodeStack.m_data[nodeStack.m_iElementCount] = child;
                 nodeStack.m_iElementCount = nodeStack.m_iElementCount + 1;
             }
         }
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         Allocator* allocator = reinterpret_cast<Allocator*>(holder->m_heap);
         int capacity = nodeStack.m_iCapacityState;
         nodeStack.m_iElementCount = 0;
@@ -1024,7 +1024,7 @@ TreeDeleteD9C2* TreeDeleteD9C2::FUN_00d9c2e0(unsigned char flags)
     FUN_00d9be30();
     m_kNodeCollection.ClearBuffers();
     if (flags & 1) {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockFree(this, 0x80);
     }
     return this;

@@ -112,7 +112,8 @@ void __fastcall FUN_00a8d590(char* this_ptr, int, unsigned char* pSrcIndices, un
 
 int __cdecl NiStricmp(const char*, const char*);
 // @fnv 0x00a8c0e0
-bool __stdcall FUN_00a8c0e0(const char* extension)
+// src: XBOX_PDB 0x00a8c0e0
+bool __stdcall NiDDSReader_CanReadFile(const char* extension)
 {
     if (NiStricmp(extension, ".dds") != 0)
         return false;
@@ -346,7 +347,7 @@ struct ClsSub
 };
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
 extern void __cdecl _NiFree_00aa10f0(void* p);
-extern void* __cdecl FUN_00aa1070(unsigned int size);
+extern void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 extern void(__stdcall* DAT_00fdf05c)(void*);
 extern void(__stdcall* DAT_00fdf100)(void*);
 
@@ -470,7 +471,7 @@ NiPixelData* ClsReader::ReadImage(NiBinaryStream* stream, NiPixelData* image)
     {
         m_pRayCursor = count;
         _NiFree_00aa10f0(m_buffer);
-        m_buffer = (unsigned char*)FUN_00aa1070(m_pRayCursor);
+        m_buffer = (unsigned char*)_NiMalloc_00aa1070(m_pRayCursor);
     }
     int iOffset = (int)*image->m_puiOffsetInBytes + (int)image->m_pucPixels;
     int step = image->m_uiPixelStride * (int)*image->m_puiWidth;
@@ -566,7 +567,8 @@ __declspec(noinline) bool NiDDSReader::IsValidBitDepth(unsigned int uiRedMask, u
 
 // Parses a DDS header from kIst, validating magic, size, and pixel format, then sets uiWidth, uiHeight, kFormat, bMipmap, and uiFaces.
 // @fnv 0x00a8c1e0
-bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight,
+// src: XBOX_PDB 0x00a8c1e0
+bool NiDDSReader::ReadHeader_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsigned int& uiHeight,
                                NiPixelFormat& kFormat, bool& bMipmap, unsigned int& uiFaces)
 {
     Lock();
@@ -803,7 +805,8 @@ struct FormatView
 };
 // Reads one mip level from a stream and expands its packed pixels into RGBA bytes, forcing alpha to 255 when the source format has no alpha channel.
 // @fnv 0x00a8c7a0
-void __cdecl FUN_00a8c7a0(NiBinaryStream* stream, NiPixelData* data, NiPixelFormat source, NiPixelFormat dest,
+// src: XBOX_PDB 0x00a8c7a0
+void __cdecl NiDDSReader_Read32Bit(NiBinaryStream* stream, NiPixelData* data, NiPixelFormat source, NiPixelFormat dest,
                           unsigned int level, unsigned int face)
 {
     unsigned char* __restrict pixels = data->m_pucPixels + data->m_puiOffsetInBytes[level] + data->m_puiOffsetInBytes[data->m_uiMipmapLevels] * face;
@@ -1236,7 +1239,8 @@ template <int C> static inline unsigned char Expand(unsigned int raw, const Chan
 
 // Reads packed pixel data from stream into buf, expands each channel via ChannelInfo, and writes RGBA or RGB bytes into data->m_pucPixels for the given mip and face.
 // @fnv 0x00a8cc40
-void __cdecl FUN_00a8cc40(NiBinaryStream* stream, NiPixelData* apPixelData, NiPixelFormat srcFmt, NiPixelFormat dstFmt,
+// src: XBOX_PDB 0x00a8cc40
+void __cdecl NiDDSReader_Read16Bit(NiBinaryStream* stream, NiPixelData* apPixelData, NiPixelFormat srcFmt, NiPixelFormat dstFmt,
                           unsigned int mip, unsigned int face)
 {
     unsigned char* dst =

@@ -38,7 +38,7 @@ public:
 
     NiQuaternion FUN_00a39120(float scalar) const;
     void FUN_00a38560();
-    void FUN_004f0180(Mat112* matrix);
+    void NiQuaternion_ToRotation(Mat112* matrix);
 
     void SetW(float value);
     void SetX(float value);

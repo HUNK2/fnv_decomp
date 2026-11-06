@@ -28,7 +28,7 @@ struct Obj18
 };
 struct NodeX
 {
-    unsigned FUN_00453470();
+    unsigned NiNode_GetChildCount();
     Obj18* FUN_0043b4a0(unsigned i);
 };
 struct RootX
@@ -58,7 +58,7 @@ struct StreamX
     char buf[0x5cc];
     StreamX();
     ~StreamX();
-    bool FUN_00c3a8a0(int f);
+    bool BSStream_Load(int f);
     RootX* GetStringAt(unsigned i);
     unsigned GetRefAt21C();
 };
@@ -73,7 +73,7 @@ void BGSTerrainChunkLoadTask::Run()
     BSFile* iFile = GetFile(0, 1);
     StreamX kStreamVal;
     // Preserve the original call's extra file argument and integer result ABI.
-    if (kStreamVal.FUN_00c3a8a0(
+    if (kStreamVal.BSStream_Load(
             (this->*reinterpret_cast<int (QueuedFileEntry::*)(BSFile*)>(&QueuedFileEntry::GetFileName))(iFile)))
     {
         RootX* pkRoot = kStreamVal.GetStringAt(0);
@@ -82,7 +82,7 @@ void BGSTerrainChunkLoadTask::Run()
             reinterpret_cast<PN&>(unk54).FUN_0066b0d0(kStreamVal.GetStringAt(0));
             reinterpret_cast<PV&>(unk48).FUN_0066b0d0(
                 reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(0));
-            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_00453470() > 1 && *g_kTerrainChunkSetting.Bool())
+            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->NiNode_GetChildCount() > 1 && *g_kTerrainChunkSetting.Bool())
             {
                 reinterpret_cast<PQ&>(unk4c).FUN_0066b0d0(
                     reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(1)->F18());
@@ -90,7 +90,7 @@ void BGSTerrainChunkLoadTask::Run()
                     reinterpret_cast<PQ&>(unk4c).FUN_00559450()->F28()->GetFlagOrValue() == 3)
                     reinterpret_cast<PQ&>(unk4c).FUN_0066b0d0(0);
             }
-            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_00453470() > 2 && *g_kTerrainChunkSetting.Bool())
+            if (reinterpret_cast<PN&>(unk54).FUN_00559450()->NiNode_GetChildCount() > 2 && *g_kTerrainChunkSetting.Bool())
                 reinterpret_cast<PV&>(unk50).FUN_0066b0d0(
                     reinterpret_cast<PN&>(unk54).FUN_00559450()->FUN_0043b4a0(2)->F18());
         }

@@ -170,7 +170,7 @@ void __fastcall LoadSortAdjustNode(NiSortAdjustNode* self, void*, NiStream& stre
     if (SortAdjustMode(self) >= 2)
         SortAdjustMode(self) = 0;
     if (stream.GetFileVersion() < 0x14000004)
-        stream.FUN_00a645b0();
+        stream.ReadLinkID();
 }
 
 // @fnv 0x00a95350
@@ -197,9 +197,10 @@ void __fastcall CullSortAdjustNode(NiSortAdjustNode* self, void*, SortAdjustCull
     }
 }
 
-void __cdecl FUN_00a5dce0();
+void __cdecl NiNode_ProcessClone();
 // @fnv 0x00a95290
-void __cdecl FUN_00a95290()
+// src: XBOX_PDB 0x00a95290
+void __cdecl NiSortAdjustNode_ProcessClone()
 {
-    FUN_00a5dce0();
+    NiNode_ProcessClone();
 }

@@ -131,7 +131,7 @@ struct FnvCpu_FUN_00cb9220_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00cb9220_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00cb9220_CpuAllocatorHolder* __cdecl FUN_00c85750();
+FnvCpu_FUN_00cb9220_CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 
 // Destroys the hinge and, when requested, frees its recorded allocation size through the Havok allocator.
 // @fnv 0x00cb9220
@@ -140,7 +140,7 @@ hkpLimitedHingeConstraintData* __fastcall DeleteLimitedHinge(hkpLimitedHingeCons
     reinterpret_cast<void (__thiscall*)(hkpLimitedHingeConstraintData*)>(DestroyLimitedHingeMotor)(self);
     if (flags & 1)
     {
-        FnvCpu_FUN_00cb9220_CpuAllocatorHolder* pAllocatorHolder = FUN_00c85750();
+        FnvCpu_FUN_00cb9220_CpuAllocatorHolder* pAllocatorHolder = hkMemoryRouter_getInstance();
         pAllocatorHolder->allocator->Invoke(self, self->m_usMemSizeAndFlags);
     }
     return self;

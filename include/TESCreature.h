@@ -63,11 +63,11 @@ public:
     NiNode* Create3DModel(TESObjectREFR* reference);
     void UpdateModel3D(TESObjectREFR* reference, bool weapon, bool armor, bool update);
 
-    bool FUN_005f9b90(TESForm* otherForm);
-    bool FUN_00485270(TESCreature* other);
+    bool Compare_005f9b90(TESForm* otherForm);
+    bool TESForm_CompareAllComponents(TESCreature* other);
     unsigned char ShadowSceneNode_GetDisableLightUpdate();
-    float FUN_00821640();
-    float FUN_00567470();
+    float TESObjectWEAP_GetShotsPerSecond();
+    float TESEffectShader_GetAddOnScaleStart();
     float GetFootWeight();
     SOUND_LEVEL FUN_009c0070();
     void TESBoundObject_CopyBoundData(TESCreature* other);
@@ -75,9 +75,9 @@ public:
     void FUN_005fbdb0(unsigned char value);
     void FUN_005f8bd0(BGSListForm* list);
     void FUN_00507780(float value);
-    SoundOps* FUN_005f92d0(int type);
+    SoundOps* PickCreatureSound(int type);
     void* Return_0();
-    bool FUN_005fbf20() const;
+    bool IsHumanoidCreature() const;
     void FUN_005f9e00(Actor* actor, bool weapon, bool armor, bool update);
 
     union

@@ -6,7 +6,7 @@
 
 struct FUN_00e37940_Item
 {
-    void FUN_00e37940();
+    void hkpVehicleInstance_updateBeforeCollisionDetection();
 };
 struct FUN_00e42910_List
 {
@@ -23,5 +23,5 @@ void FUN_00e42910_List::hkpVehicleCastBatchingManager_updateBeforeCollisionDetec
 {
     int countSnapshot = count;
     for (int index = 0; index < countSnapshot; ++index)
-        items[index]->FUN_00e37940();
+        items[index]->hkpVehicleInstance_updateBeforeCollisionDetection();
 }

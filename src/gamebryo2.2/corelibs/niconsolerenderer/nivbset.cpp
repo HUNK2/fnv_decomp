@@ -271,7 +271,7 @@ void HashTableBase::InsertOrUpdate(unsigned int key, unsigned int value)
 
 struct VBArr
 {
-    unsigned int FUN_00a64330(NiVBBlock** ppBlock);
+    unsigned int NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(NiVBBlock** ppBlock);
 };
 
 struct VBDev;
@@ -335,7 +335,7 @@ NiVBBlock* VBSetX::NiVBSet_CreateBlock(unsigned int uiSize)
     NiVBBlock* pBlock = p;
     NiVBBlock* __restrict usageBlock = p;
     usageBlock->m_18 = m_u14;
-    p->m_04 = m_kArr.FUN_00a64330(&pBlock);
+    p->m_04 = m_kArr.NiTArray_void_cdecl_NiStream_NiObject_NiTMallocInterface_void_cdecl_NiStream_NiObject_AddFirstEmpty(&pBlock);
     return p;
 }
 

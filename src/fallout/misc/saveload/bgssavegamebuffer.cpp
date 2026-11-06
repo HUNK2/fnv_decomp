@@ -48,7 +48,7 @@ struct FUN_00846330_shell
 // @fnv 0x00865c80
 void BGSSaveGameBuffer::Save(SaveLoadFile* a1, unsigned int a2)
 {
-    if (DAT_011de134->FUN_00424940())
+    if (DAT_011de134->InterfaceManager_GetMenuMode())
     {
         if (a2)
         {
@@ -67,7 +67,8 @@ void BGSSaveGameBuffer::Save(SaveLoadFile* a1, unsigned int a2)
 void __cdecl _fnv_call_845cc0(const char* fmt, unsigned int value);
 
 // @fnv 0x00865f60
-void BGSSaveGameBuffer::FUN_00865f60(unsigned int aiVariableValue)
+// src: XBOX_PDB 0x00865f60
+void BGSSaveGameBuffer::SaveVariableSizedValue(unsigned int aiVariableValue)
 {
     unsigned char cvalue3;
     unsigned short svalue9;
@@ -117,11 +118,12 @@ struct FUN_009f3850_shell
     int m_04;
     int m_08;
     int m_0c;
-    void __thiscall FUN_009f3850(BGSSaveFormBuffer* apBuffer);
+    void __thiscall SandBoxChoiceListItem_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x009f3850
-void __thiscall FUN_009f3850_shell::FUN_009f3850(BGSSaveFormBuffer* apBuffer)
+// src: XBOX_PDB 0x009f3850
+void __thiscall FUN_009f3850_shell::SandBoxChoiceListItem_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(&m_04, 4, 0);
     apBuffer->SaveData(&m_08, 4, 0);
@@ -201,11 +203,12 @@ struct FUN_008579b0_shell
     int m_14;
     int m_18;
     int m_1c;
-    void __thiscall FUN_008579b0(void* a1, unsigned int a2);
+    void __thiscall TESSaveLoadGame_SaveGameDataOLD(void* a1, unsigned int a2);
 };
 // Copies a2 bytes from a1 into the buffer at this+0x14, then calls Init with a2.
 // @fnv 0x008579b0
-void __thiscall FUN_008579b0_shell::FUN_008579b0(void* apSource, unsigned int uiSize)
+// src: XBOX_PDB 0x008579b0
+void __thiscall FUN_008579b0_shell::TESSaveLoadGame_SaveGameDataOLD(void* apSource, unsigned int uiSize)
 {
     __memcpy(*(void**)((char*)this + 0x14), apSource, uiSize);
     ((FUN_00857bd0*)this)->Init(uiSize);
@@ -267,7 +270,7 @@ void BGSSaveGameBuffer::SerializeFormData(TESForm* apForm, unsigned aiUnusuedMet
 {
     unsigned formID;
     fnv_00865df0::PackedFormID formIDIndex;
-    formID = apForm ? apForm->FUN_0084e3a0() : 0;
+    formID = apForm ? apForm->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
     formIDIndex.ClearNumericIDIndex();
     formIDIndex.WriteFormIDBytes(formID);
     WriteAtOffset(&formIDIndex, 3, 0);
@@ -292,7 +295,8 @@ void BGSSaveGameBuffer::SaveData(NiMatrix3* aMatrix, unsigned int aiUnused1, uns
 
 // Appends a single '#' character at iBufferPosition and returns the previous position.
 // @fnv 0x00865f20
-unsigned int BGSSaveGameBuffer::FUN_00865f20()
+// src: XBOX_PDB 0x00865f20
+unsigned int BGSSaveGameBuffer::StartVariableSizedValue()
 {
     char cvalue;
     unsigned int iposition;
@@ -335,7 +339,8 @@ void BGSSaveGameBuffer::SaveGameString(const char* apString, int aiUnusedMetaDat
 }
 
 // @fnv 0x00865ff0
-void BGSSaveGameBuffer::FUN_00865ff0(unsigned int uiValue, unsigned int a2)
+// src: XBOX_PDB 0x00865ff0
+void BGSSaveGameBuffer::SaveVariableSizedValue_00865ff0(unsigned int uiValue, unsigned int a2)
 {
     if (uiValue < 0x40)
     {
@@ -379,14 +384,14 @@ void BGSSaveGameBuffer::SaveData(void* pSource, unsigned int uiLength, unsigned 
         static_cast<BGSSaveGameBufferGrowth*>(this)->GrowBuffer();
     }
 
-    if (!DAT_011de134->FUN_00424940())
+    if (!DAT_011de134->InterfaceManager_GetMenuMode())
     {
         FUN_00401460(pBuffer + a3, pSource, uiLength);
     }
 
     if ((unsigned char)a4 == 0)
     {
-        if (!DAT_011de134->FUN_00424940())
+        if (!DAT_011de134->InterfaceManager_GetMenuMode())
         {
             pBuffer[a3 + uiLength] = 0x7c;
         }

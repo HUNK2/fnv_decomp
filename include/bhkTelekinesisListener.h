@@ -17,5 +17,5 @@ public:
     void* Destroy(unsigned int flags);
     void bhkTelekinesisListener_entityDeletedCallback(void* entity);
     void bhkTelekinesisListener_entityDeactivatedCallback(hkpEntity* entity);
-    void FUN_00807a10(hkpEntity* entity);
+    void bhkTelekinesisListener_Finish(hkpEntity* entity);
 };

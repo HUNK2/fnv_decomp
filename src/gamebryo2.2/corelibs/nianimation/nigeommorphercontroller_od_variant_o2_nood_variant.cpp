@@ -19,7 +19,7 @@ NiFixedString::operator const char*() const
     return m_kHandle;
 }
 char* NiViewerStrings_NiGetViewerString_Title(char*);
-char* FUN_00a7d510(const char*, unsigned int);
+char* NiGetViewerString_00a7d510(const char*, unsigned int);
 void* NiMalloc(unsigned int);
 extern char* DAT_011f3728;
 extern NiRTTI DAT_011f3e58, DAT_011f3738;
@@ -73,10 +73,11 @@ struct FloatValueView : InterpolatorView
 };
 struct MorphViewer : NiGeomMorpherController
 {
-    void FUN_00a3b700(StrArr*);
+    void NiGeomMorpherController_GetViewerStrings(StrArr*);
 };
 // @fnv 0x00a3b700
-void MorphViewer::FUN_00a3b700(StrArr* array)
+// src: XBOX_PDB 0x00a3b700
+void MorphViewer::NiGeomMorpherController_GetViewerStrings(StrArr* array)
 {
     union HeaderScratch
     {
@@ -86,11 +87,11 @@ void MorphViewer::FUN_00a3b700(StrArr* array)
     {
         header.text = NiViewerStrings_NiGetViewerString_Title(DAT_011f3728);
         array->append(header.text);
-        header.text = FUN_00a7d510("NumTargets",
+        header.text = NiGetViewerString_00a7d510("NumTargets",
                                    m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumTargets : 0);
         array->append(header.text);
         header.text =
-            FUN_00a7d510("NumVertsPerTarget",
+            NiGetViewerString_00a7d510("NumVertsPerTarget",
                          m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumVertsPerTarget : 0);
         array->append(header.text);
     }

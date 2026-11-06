@@ -13,7 +13,7 @@
 
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct UnkRet
 {
     int a;
@@ -72,7 +72,7 @@ struct ObjectHandle
 struct StringHandle
 {
     void* object;
-    __declspec(nothrow) int FUN_00dba980();
+    __declspec(nothrow) int hkDataObject_isNull();
     __declspec(nothrow) void FUN_00dba7f0();
     ~StringHandle()
     {
@@ -124,7 +124,7 @@ struct AudioResourceState
 };
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 struct ArrayDeallocator
 {
@@ -209,7 +209,7 @@ struct CallbackTarget
 int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source);
 struct Obj
 {
-    void __thiscall FUN_00d605d0(unsigned char);
+    void __thiscall hkOArchive_write8u(unsigned char);
     void __thiscall WriteVarint(__int64);
 };
 struct FUN_00dbe8c0_cls
@@ -342,7 +342,7 @@ struct S_00dc0500_Str
     int unk04;
     int unk08;
     int unk0c;
-    void __thiscall FUN_00d874d0(int* s, int n);
+    void __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int* s, int n);
 };
 struct FUN_00d87790 : S_00dc0500_Str
 {
@@ -355,7 +355,7 @@ struct S_00dc0500_Holder : UnkHolder
         a = 0;
         b = 0;
         c = -1;
-        BSAudio* p = FUN_00c85750();
+        BSAudio* p = hkMemoryRouter_getInstance();
         FUN_00dbedb0((UnkRet*)((hkMemoryRouter*)p)->m_heap, 0);
     }
 };
@@ -387,7 +387,7 @@ struct S_dbf1a0_Map
     int unk00;
     int unk04;
     int __thiscall GetValue(const char* name, int defValue) throw();
-    void __thiscall FUN_00d874d0(const char* name, int value) throw();
+    void __thiscall hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* name, int value) throw();
 };
 struct S_dbf1a0_Handle
 {
@@ -407,7 +407,7 @@ struct S_dbf1a0_Handle
 
     void __thiscall FUN_00dba650(void* p) throw();
     void __thiscall FUN_00dba660() throw();
-    const char* __thiscall FUN_00dba680() const throw();
+    const char* __thiscall hkDataClass_getName() const throw();
     int __thiscall FUN_00dba690() const throw();
     S_dbf1a0_Handle __thiscall SetShiftedValue() const throw();
     int __thiscall FUN_00dba6f0() const throw();
@@ -460,7 +460,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline S_dbf1a0_Array(int n) throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)hkMemoryRouter_getInstance())->heap();
         T* p = n ? alloc._bufAlloc<T>(n) : 0;
         int cap = n ? n : 0x80000000;
         m_data = p;
@@ -479,7 +479,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline ~S_dbf1a0_Array() throw()
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)hkMemoryRouter_getInstance())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -607,7 +607,7 @@ __forceinline void initializeRecords(hkArrayBase<Rec>& out,int n)
     out.m_data = 0;
     out.m_iElementCount = 0;
     out.m_iCapacityState = (int)0x80000000;
-    BSAudio* router = FUN_00c85750();
+    BSAudio* router = hkMemoryRouter_getInstance();
     AllocV* allocator = (AllocV*)&((hkMemoryRouter*)router)->temp();
     Rec* data = allocateRecords(allocator, capacity);
     int flags = capacity ? capacity : (int)0x80000000;
@@ -621,13 +621,13 @@ extern "C" void __cdecl hkArrayUtil__reserve(void* owner, hkArrayBase<Rec>* arr,
 struct Host
 {
     __declspec(nothrow) void WriteArray(const Wrap& arg0, int count);
-    __declspec(nothrow) void FUN_00d605d0(int v);
+    __declspec(nothrow) void hkOArchive_write8u(int v);
     __declspec(nothrow) void WriteVarint(__int64 v);
     __declspec(nothrow) void HashUInt(float f);
     __declspec(nothrow) void WriteFloatArray(void* p, int v);
     __declspec(nothrow) void FUN_00dc00b0(const StringHandle& v);
     __declspec(nothrow) void WriteString(int v);
-    __declspec(nothrow) void FUN_00d607b0(void* p, int n);
+    __declspec(nothrow) void hkOArchive_writeRaw(void* p, int n);
     __declspec(nothrow) int IsTruthy(Pair* p);
 };
 struct S_00dbfef0_A;
@@ -645,7 +645,7 @@ struct S_00dbfef0_Node
     int FUN_00dba990();
     float FUN_00dbaa00();
     int DispatchToInterface(int n);
-    int FUN_00dba9c0();
+    int hkDataObject_Value_asString();
     int FUN_00dba9d0(S_00dbfef0_B* out);
     void GetResult(S_00dbfef0_A* out);
 };
@@ -653,7 +653,7 @@ struct S_00dbfef0_B
 {
     S_00dbfef0_X* p;
     void FUN_00dba7f0();
-    int FUN_00dba680();
+    int hkDataClass_getName();
     void FUN_00dba660();
 };
 struct S_00dbfef0_A
@@ -679,7 +679,7 @@ struct S_00dbfef0_Visitor
     int unk18;
     int unk1C;
     S_00dbfef0_Sub m_sub;
-    void FUN_00d605d0(int v);
+    void hkOArchive_write8u(int v);
     void HashUInt(float v);
     void WriteFloatArray(int p, int n);
     void WriteVarint(__int64 v);
@@ -735,7 +735,7 @@ struct MemRouter
 };
 __forceinline MemRouter& router()
 {
-    return *(MemRouter*)FUN_00c85750();
+    return *(MemRouter*)hkMemoryRouter_getInstance();
 }
 void __cdecl ResizeAudioStream(ContainerHeap& heap, void* arr, int elemSize);
 struct HandleMap

@@ -19,7 +19,7 @@ public:
     char m_kBridgeAtoms[0xA0];
 
     void setMaxLinearImpulse(float value);
-    float FUN_00cbe1a0();
+    float getMaxLinearImpulse();
     void setBodyToNotify(int index);
     unsigned int getNotifiedBodyIndex();
     void* __thiscall getConstraintInfo(int param);
@@ -70,7 +70,8 @@ void hkpHingeConstraintData::setMaxLinearImpulse(float value)
 }
 
 // @fnv 0x00cbe1a0
-float hkpHingeConstraintData::FUN_00cbe1a0()
+// src: XBOX_PDB 0x00cbe1a0
+float hkpHingeConstraintData::getMaxLinearImpulse()
 {
     return *reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + 0xA8);
 }
@@ -139,7 +140,7 @@ union hkVector4qView_00cbe240
     }
 
     void hkVector4_setRotatedInverseDir(const hkRotation& r, const hkVector4qView_00cbe240& v);
-    void FUN_00c7f690(const hkTransform& t, const hkVector4& v);
+    void hkVector4_setTransformedInversePos(const hkTransform& t, const hkVector4& v);
 };
 
 struct hkpSetLocalTransformsAtom
@@ -229,12 +230,12 @@ void hkpHingeConstraintData::SetLocalTransforms(const hkTransform& bodyATransfor
     t.m_kRotationA[0].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, axle);
     t.m_kRotationA[1].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle1);
     t.m_kRotationA[2].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle2);
-    t.m_kTranslationA.FUN_00c7f690(bodyATransform, pivot);
+    t.m_kTranslationA.hkVector4_setTransformedInversePos(bodyATransform, pivot);
 
     t.m_kRotationB[0].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, axle);
     t.m_kRotationB[1].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle1);
     t.m_kRotationB[2].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle2);
-    t.m_kTranslationB.FUN_00c7f690(bodyBTransform, pivot);
+    t.m_kTranslationB.hkVector4_setTransformedInversePos(bodyBTransform, pivot);
 }
 
 

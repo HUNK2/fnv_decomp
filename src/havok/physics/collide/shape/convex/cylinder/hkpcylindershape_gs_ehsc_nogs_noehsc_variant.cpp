@@ -9,7 +9,7 @@
 int __cdecl FUN_00d571b0();
 extern char DAT_01268940[];
 void __cdecl hkReferencedObject_calcContentStatistics(void* item, const char* type);
-void __cdecl FUN_00d571c0(void* item, const char*);
+void __cdecl hkpCylinderShape_calcContentStatistics(void* item, const char*);
 struct C00d573e0 {
     char  pad00[0x10];
     volatile float f10;
@@ -79,7 +79,7 @@ struct S00d57aa0_Obj {
     float unk38;
     float unk3c;
 
-    void* __thiscall FUN_00d57aa0(
+    void* __thiscall hkpCylinderShape_hkpCylinderShape(
         const float* a,
         const float* b,
         float c,
@@ -88,7 +88,8 @@ struct S00d57aa0_Obj {
 };
 
 // @fnv 0x00d57aa0
-void* __thiscall S00d57aa0_Obj::FUN_00d57aa0(
+// src: XBOX_PDB 0x00d57aa0
+void* __thiscall S00d57aa0_Obj::hkpCylinderShape_hkpCylinderShape(
     const float* a,
     const float* b,
     float c,

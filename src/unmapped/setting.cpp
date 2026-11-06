@@ -224,25 +224,26 @@ struct EntryEnumerator
     virtual void v10();
     virtual bool v14(int data);
     bool FUN_00404d30();
-    DataListEntry* FUN_0044faa0();
-    DataListEntry* FUN_0044fac0(DataListEntry* current);
-    bool FUN_0044f9c0();
+    DataListEntry* SettingCollectionList_Setting_Head();
+    DataListEntry* SettingCollectionList_Setting_Next(DataListEntry* current);
+    bool SettingCollectionList_Setting_ReadSettings();
 };
 // @fnv 0x0044f9c0
-bool EntryEnumerator::FUN_0044f9c0()
+// src: XBOX_PDB 0x0044f9c0
+bool EntryEnumerator::SettingCollectionList_Setting_ReadSettings()
 {
     AutoMemHelper guard(9, true, str_0101608c, 0x357);
     bool succeeded = FUN_00404d30();
     if (succeeded)
     {
-        DataListEntry* current = FUN_0044faa0();
+        DataListEntry* current = SettingCollectionList_Setting_Head();
         while (current != 0)
         {
             if (*current->FUN_006815c0() != 0)
             {
                 succeeded = succeeded & v14(*current->FUN_006815c0());
             }
-            current = FUN_0044fac0(current);
+            current = SettingCollectionList_Setting_Next(current);
         }
     }
     return succeeded;

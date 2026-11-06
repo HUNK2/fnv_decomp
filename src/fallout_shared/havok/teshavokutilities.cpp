@@ -43,22 +43,23 @@ void FUN_006295a0_shell::hkAabb_setEmpty()
     ((FUN_006295a0_shell*)((char*)this + 0x10))->hkVector4_setAll(DAT_0104e148);
 }
 
-float FUN_0062c300(NiAVObject* object);
+float TESHavokUtilities_GetSceneGraphMass(NiAVObject* object);
 // @fnv 0x0062c300
-float FUN_0062c300(NiAVObject* object)
+// src: XBOX_PDB 0x0062c300
+float TESHavokUtilities_GetSceneGraphMass(NiAVObject* object)
 {
     float fmass = 0.0f;
     if (object)
     {
         bhkCollisionObject* pCollisionObject = bhkCollisionObject::GetFromNiAVObject(object);
-        bhkWorldObject* pWorldObject = pCollisionObject ? pCollisionObject->FUN_006fa820() : 0;
+        bhkWorldObject* pWorldObject = pCollisionObject ? pCollisionObject->bhkNiCollisionObject_GetWorldObject() : 0;
         if (pWorldObject)
-            fmass += pWorldObject->FUN_004b5400();
+            fmass += pWorldObject->bhkRigidBody_GetMass();
         NiNode* pnode = (NiNode*)object->IsSceneNode();
         if (pnode && pnode->GetNumChildren())
         {
             for (unsigned int i = 0; i < pnode->GetNumChildren(); ++i)
-                fmass += FUN_0062c300(pnode->GetAt(i));
+                fmass += TESHavokUtilities_GetSceneGraphMass(pnode->GetAt(i));
         }
     }
     return fmass;
@@ -77,15 +78,16 @@ void FUN_0062be70_shell::FUN_0062be70()
     m_node.FUN_00726070();
 }
 
-extern "C" void* __cdecl FUN_00c7fa90(void*);
+extern "C" void* __cdecl bhkUtilFunctions_GetNiAVObject(void*);
 
 // @fnv 0x0062b4e0
-TESObjectREFR* __cdecl FUN_0062b4e0(void* object)
+// src: XBOX_PDB 0x0062b4e0
+TESObjectREFR* __cdecl TESHavokUtilities_FindCollidableRef(void* object)
 {
     TESObjectREFR* result = 0;
     if (object)
     {
-        void* reference = FUN_00c7fa90(object);
+        void* reference = bhkUtilFunctions_GetNiAVObject(object);
         if (reference)
             result = TESObjectREFR::GetReferenceFromNiAVObject(reference);
     }
@@ -108,7 +110,7 @@ float TESHavokUtilities_ScaleGameplayImpulseForce(float value, bhkWorldObject* o
         return value;
     float fMultiplier = 1.0f;
     bhkFilter layer = object->bhkWorldObject_GetCollisionFilter();
-    switch (layer.FUN_0043b4d0())
+    switch (layer.CFilter_GetLayer())
     {
     case 14:
         fMultiplier *= *originalRuntimeFloatSetting1035.Float();
@@ -129,7 +131,7 @@ float TESHavokUtilities_ScaleGameplayImpulseForce(float value, bhkWorldObject* o
     }
     if (scale)
     {
-        float f = object->FUN_004b5400();
+        float f = object->bhkRigidBody_GetMass();
         if (f < *originalRuntimeFloatSetting1038.Float())
             fMultiplier *= f / *originalRuntimeFloatSetting1038.Float();
     }
@@ -172,7 +174,8 @@ void* FUN_0043b560_shell::GetSourceFilesFromObject()
 }
 
 // @fnv 0x0062bc10
-void __cdecl FUN_0062bc10(NiAVObject* pObject)
+// src: XBOX_PDB 0x0062bc10
+void __cdecl TESHavokUtilities_RemoveHavokFromSceneGraph(NiAVObject* pObject)
 {
     if (pObject != 0)
     {
@@ -186,7 +189,7 @@ void __cdecl FUN_0062bc10(NiAVObject* pObject)
             NiNode* self = static_cast<NiNode*>(pObject);
             for (unsigned int i = 0; i < self->FUN_0043b480(); i++)
             {
-                FUN_0062bc10(self->FUN_0043b4a0(i));
+                TESHavokUtilities_RemoveHavokFromSceneGraph(self->FUN_0043b4a0(i));
             }
         }
     }
@@ -235,10 +238,10 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
         bhkCollisionObject* collision4 = bhkCollisionObject::GetFromNiAVObject(object);
         if (collision4)
         {
-            bhkWorldObject* world7 = collision4->FUN_006fa820();
+            bhkWorldObject* world7 = collision4->bhkNiCollisionObject_GetWorldObject();
             if (world7)
             {
-                ShapeWrapper* wrapper_2 = reinterpret_cast<ShapeWrapper*>(world7->FUN_004ae6a0());
+                ShapeWrapper* wrapper_2 = reinterpret_cast<ShapeWrapper*>(world7->bhkWorldObject_GetShape());
                 CollisionShape* shape5 = wrapper_2 ? wrapper_2->GetShape() : 0;
                 if (shape5)
                 {
@@ -388,10 +391,11 @@ struct FUN_0061f890_shell
 {
     char pad[0x18];
     MapH m_map;
-    bool FUN_0061f890(NiAVObject* object, bool flag);
+    bool BGSAcousticSpaceListener_DequeueRemoval(NiAVObject* object, bool flag);
 };
 // @fnv 0x0061f890
-bool FUN_0061f890_shell::FUN_0061f890(NiAVObject* object, bool flag)
+// src: XBOX_PDB 0x0061f890
+bool FUN_0061f890_shell::BGSAcousticSpaceListener_DequeueRemoval(NiAVObject* object, bool flag)
 {
     bool removed = m_map.RemoveAt((unsigned int)object);
     if (removed && flag)
@@ -404,7 +408,8 @@ unsigned int GetBSXFlags(unsigned int handle, unsigned int type);
 
 // Returns true for an actor with health or a knocked state, or if GetBSXFlags(handle, 0x48) equals 0x48.
 // @fnv 0x0062c3c0
-bool FUN_0062c3c0(TESObjectREFR* refr, unsigned int handle)
+// src: XBOX_PDB 0x0062c3c0
+bool TESHavokUtilities_Should3DRagDoll(TESObjectREFR* refr, unsigned int handle)
 {
     if (refr != 0 && refr->IsActor() && (refr->HasHealth(0) || refr->GetHasKnockedState()))
     {
@@ -422,10 +427,10 @@ struct __declspec(align(16)) PhysicsTransform
 {
     __m128 vector;
     void FUN_006815c0();
-    void FUN_00961190(unsigned int operation);
-    void FUN_0062aea0();
-    void FUN_00627920(void* data);
-    void FUN_00553f70(int value);
+    void hkVector4_sub4(unsigned int operation);
+    void normalize3_0062aea0();
+    void hkVector4_mul4(void* data);
+    void hkVector4_add4(int value);
 };
 struct __declspec(align(16)) PhysicsData
 {
@@ -434,7 +439,7 @@ struct __declspec(align(16)) PhysicsData
 };
 struct PhysicsState
 {
-    int FUN_00560dc0();
+    int hkpRigidBody_getLinearVelocity();
     void OnTrigger(PhysicsTransform* data);
 };
 struct PhysicsObject
@@ -522,10 +527,10 @@ void __cdecl SetCollisionScale(NiAVObject* node, unsigned int operation, float s
         bhkCollisionObject* runtime = bhkCollisionObject::GetFromNiAVObject(node);
         if (runtime)
         {
-            PhysicsObject* body = reinterpret_cast<PhysicsObject*>(runtime->FUN_006fa820());
+            PhysicsObject* body = reinterpret_cast<PhysicsObject*>(runtime->bhkNiCollisionObject_GetWorldObject());
             if (body)
             {
-                int code = reinterpret_cast<bhkWorldObject*>(body)->bhkWorldObject_GetCollisionFilter().FUN_006240b0();
+                int code = reinterpret_cast<bhkWorldObject*>(body)->bhkWorldObject_GetCollisionFilter().CFilter_GetBipedPart();
                 float coefficient = DAT_0119acc8[code];
                 if (material && material->kind != -1)
                 {
@@ -546,13 +551,13 @@ void __cdecl SetCollisionScale(NiAVObject* node, unsigned int operation, float s
                 PhysicsTransform transform;
                 transform.FUN_006815c0();
                 body->UpdateTransform(&transform);
-                transform.FUN_00961190(operation);
-                transform.FUN_0062aea0();
+                transform.hkVector4_sub4(operation);
+                transform.normalize3_0062aea0();
                 PhysicsState* state = body->GetReferenceFlags();
                 PhysicsData volume;
                 volume.FUN_005dbf20(scale);
-                transform.FUN_00627920(&volume);
-                transform.FUN_00553f70(state->FUN_00560dc0());
+                transform.hkVector4_mul4(&volume);
+                transform.hkVector4_add4(state->hkpRigidBody_getLinearVelocity());
                 state->OnTrigger(&transform);
             }
         }
@@ -580,7 +585,7 @@ struct Inner62c
 struct NiSeq
 {
     Inner62c* FUN_0044ddc0();
-    unsigned int FUN_009ad610();
+    unsigned int QUserData();
 };
 
 struct SeqArray
@@ -591,7 +596,7 @@ struct SeqArray
     SeqArray();
     ~SeqArray();
     int FUN_00726070();
-    NiSeq*& FUN_00629ab0(unsigned int i);
+    NiSeq*& NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned int i);
 };
 
 struct UnkACobj
@@ -770,7 +775,8 @@ void __cdecl hkpWorldOperationUtil_mergeIslands(Inner62c* a, NiSeq* b, NiSeq* c)
 
 // Copies or collects entries into a local array, then compares each later entry’s owner and value with the first entry.
 // @fnv 0x0062c430
-void __cdecl FUN_0062c430(VtObj* apVtObj)
+// src: XBOX_PDB 0x0062c430
+void __cdecl TESHavokUtilities_ConsolidateSimIslands(VtObj* apVtObj)
 {
     if (apVtObj != 0)
     {
@@ -783,7 +789,7 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
 
         if (arr5.FUN_00726070() != 0)
         {
-            Inner62c* owner3 = arr5.FUN_00629ab0(0)->FUN_0044ddc0();
+            Inner62c* owner3 = arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0)->FUN_0044ddc0();
 
             if (owner3 != 0)
             {
@@ -793,10 +799,10 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
                 {
                     unsigned int b;
                     unsigned int a2;
-                    a2 = arr5.FUN_00629ab0(0)->FUN_009ad610();
-                    b = arr5.FUN_00629ab0(i)->FUN_009ad610();
-                    if (owner3 == arr5.FUN_00629ab0(i)->FUN_0044ddc0() && a2 != b)
-                        hkpWorldOperationUtil_mergeIslands(owner3, arr5.FUN_00629ab0(0), arr5.FUN_00629ab0(i));
+                    a2 = arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0)->QUserData();
+                    b = arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(i)->QUserData();
+                    if (owner3 == arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(i)->FUN_0044ddc0() && a2 != b)
+                        hkpWorldOperationUtil_mergeIslands(owner3, arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(0), arr5.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(i));
                 }
 
                 owner3->FUN_00483710();

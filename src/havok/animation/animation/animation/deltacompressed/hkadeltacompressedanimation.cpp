@@ -201,7 +201,8 @@ struct StreamHolder {
 
 // Reads an element from src, computes its byte size, and writes it to the binary stream wrapped by h.
 // @fnv 0x00e34ab0
-static __declspec(noinline) void FUN_00e34ab0(Source* apSource, int aiElementIndex, StreamHolder* apStreamHolder, int aiElementCount)
+// src: XBOX_PDB 0x00e34ab0
+static __declspec(noinline) void releaseToCache_00e34ab0(Source* apSource, int aiElementIndex, StreamHolder* apStreamHolder, int aiElementCount)
 {
     int data = apSource->GetData(aiElementIndex);
     int size = apSource->m_iElementIndex * aiElementCount * 4;
@@ -212,8 +213,8 @@ static __declspec(noinline) void FUN_00e34ab0(Source* apSource, int aiElementInd
 
 void Caller_00e34ab0(Source* src, int a, StreamHolder* h, int count)
 {
-    FUN_00e34ab0(src, a, h, count);
-    FUN_00e34ab0(src, count, h, a);
+    releaseToCache_00e34ab0(src, a, h, count);
+    releaseToCache_00e34ab0(src, count, h, a);
 }
 
 struct S00e34c10_Block {
@@ -507,7 +508,8 @@ static void decompressBlockToCache_00e34d80(const hkaDeltaCompressedAnimation* a
 
 // Locks the chunk access manager, retrieves or allocates a chunk, and returns its data pointer or null.
 // @fnv 0x00e34e80
-static void* FUN_00e34e80(ChunkCacheRef* cache, const hkaDeltaCompressedAnimation* anim, int block, int numPoses)
+// src: XBOX_PDB 0x00e34e80
+static void* retrieveFromCache_00e34e80(ChunkCacheRef* cache, const hkaDeltaCompressedAnimation* anim, int block, int numPoses)
 {
     hkTimer("TtcacheD");
     hkUint32 key = ((hkaDeltaAnimExt*)anim)->getBlockKey(block);
@@ -555,7 +557,7 @@ void* SampleCaller(const hkaDeltaCompressedAnimation* anim, int block, int numPo
 {
     ChunkCacheRef ref;
     ref.m_pAccessManager = (ChunkAccessManager*)anim->m_pExtractedMotion;
-    return FUN_00e34e80(&ref, anim, block, numPoses);
+    return retrieveFromCache_00e34e80(&ref, anim, block, numPoses);
 }
 }  // namespace fnv_00e34e80
 
@@ -630,12 +632,12 @@ struct SampleScratch {
     RecomposeParameters m_kRecomposeParameters;
 };
 struct ScratchAllocator { char* current; };
-extern "C" ScratchAllocator* FUN_00c85750();
+extern "C" ScratchAllocator* hkMemoryRouter_getInstance();
 void __cdecl AnalyzeTrackWithZeroCount(const hkUint16*, const hkUint16*, unsigned int, unsigned int, TrackStatistics*);
-void __cdecl FUN_00e4f640(const RecomposeParameters*, hkQsTransform*, float*);
+void __cdecl hkaTrackAnalysis_recompose(const RecomposeParameters*, hkQsTransform*, float*);
 void __cdecl DecodeQuantizedBlock(const hkUint8*, const Quantization*, float*, int);
 void __cdecl PrefixSum(float*, int);
-int __cdecl FUN_00e51da0(int, const Quantization*);
+int __cdecl hkCalcQuantizedSize(int, const Quantization*);
 
 // src: HAVOK_LIB 0x00e349c0
 static void _decompress_00e349c0(float* output, DecodeParameters parameters)
@@ -650,7 +652,7 @@ static void _decompress_00e349c0(float* output, DecodeParameters parameters)
         DecodeQuantizedBlock(parameters.data + byteOffset, &quantization, output, parameters.numValues);
         PrefixSum(output, parameters.numValues);
         output += parameters.blockSize;
-        byteOffset += FUN_00e51da0(parameters.numValues, &quantization);
+        byteOffset += hkCalcQuantizedSize(parameters.numValues, &quantization);
     }
 }
 
@@ -711,12 +713,12 @@ void __cdecl hkaDeltaCompressedAnimation_samplePartialWithDataChunks(unsigned in
     float& inverseDelta = blend.inverseDelta;
     inverseDelta = 1.0f - delta;
     unsigned int bufferValues = r->m_iDofCount * numDOFs;
-    ScratchAllocator* c = FUN_00c85750();
+    ScratchAllocator* c = hkMemoryRouter_getInstance();
     float* decompressed;
     decompressed = reinterpret_cast<float*>(c->current);
     int iAlignMask = ~127;
     c->current += (bufferValues * sizeof(float) + 127) & iAlignMask;
-    c = FUN_00c85750();
+    c = hkMemoryRouter_getInstance();
     float* interpolated = reinterpret_cast<float*>(c->current);
     int tmp1 = ~127;
     c->current = c->current + ((numDOFs * sizeof(float) + 127) & tmp1);
@@ -803,9 +805,9 @@ void __cdecl hkaDeltaCompressedAnimation_samplePartialWithDataChunks(unsigned in
     m_kRecomposeParameters.dynamicFloats = interpolated + resultAnimation->m_uiScaleDataOffset;
     const hkInt32 iNumTransformTracks = resultAnimation->m_iNumTransformTracks;
     m_kRecomposeParameters.floatMasks = (masks + iNumTransformTracks);
-    FUN_00e4f640(&m_kRecomposeParameters, transforms, floats);
-    FUN_00c85750()->current = reinterpret_cast<char*>(interpolated);
-    FUN_00c85750()->current = reinterpret_cast<char*>(decompressed);
+    hkaTrackAnalysis_recompose(&m_kRecomposeParameters, transforms, floats);
+    hkMemoryRouter_getInstance()->current = reinterpret_cast<char*>(interpolated);
+    hkMemoryRouter_getInstance()->current = reinterpret_cast<char*>(decompressed);
     pStream = static_cast<hkMonitorStream*>(TlsGetValue(DAT_0126835c));
     if (pStream->m_end.m_storage < pStream->m_capacityMinus16.m_storage) {
         volatile hkMonitorStream::TimerBeginListCommand* record = reinterpret_cast<volatile hkMonitorStream::TimerBeginListCommand*>(pStream->m_end.m_storage);
@@ -877,7 +879,7 @@ struct ThreadMemory {
     int unk0c;
     HeapAllocator* m_pStreamAllocator;
 };
-ThreadMemory* __cdecl FUN_00c85750();
+ThreadMemory* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(HeapAllocator* alloc, void* arr, int cap, int elemSize);
 
 struct LocalFloatArray {
@@ -888,7 +890,7 @@ struct LocalFloatArray {
 
     __forceinline LocalFloatArray(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        ThreadMemory* r = FUN_00c85750();
+        ThreadMemory* r = hkMemoryRouter_getInstance();
         char* p = r->m_stackCur;
         r->m_stackCur = p + ((n * 4 + 0x7f) & ~0x7f);
         m_data = (float*)p;
@@ -905,7 +907,7 @@ struct LocalFloatArray {
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        ThreadMemory* r = FUN_00c85750();
+        ThreadMemory* r = hkMemoryRouter_getInstance();
         reserve(r->m_pStreamAllocator, n);
         m_iElementCount = n;
     }
@@ -922,8 +924,8 @@ struct LocalFloatArray {
         float* mem = m_pStackAllocation;
         if (mem == m_data)
             m_iElementCount = 0;
-        FUN_00c85750()->m_stackCur = (char*)mem;
-        ThreadMemory* r = FUN_00c85750();
+        hkMemoryRouter_getInstance()->m_stackCur = (char*)mem;
+        ThreadMemory* r = hkMemoryRouter_getInstance();
         destroy(r->m_pStreamAllocator);
     }
 };
@@ -962,7 +964,7 @@ struct RecomposeJob {
     const float* m_dynamicFloats;
     const float* m_dynamicEnd;
 };
-void __cdecl FUN_00e4f640(RecomposeJob* job, hkQsTransform* transforms, float* floats);
+void __cdecl hkaTrackAnalysis_recompose(RecomposeJob* job, hkQsTransform* transforms, float* floats);
 
 struct ChunkCache {
     virtual void v00();
@@ -1164,7 +1166,7 @@ void DeltaSampler::hkaDeltaCompressedAnimation_samplePartialTracks(float time, h
     job.m_staticEnd = staticDOFs + m_uiOffsetDataOffset;
     job.m_dynamicEnd = dynamicDOFs.m_data + m_uiScaleDataOffset;
     job.m_maskEnd = staticMask + m_iNumTransformTracks;
-    FUN_00e4f640(&job, transformTracksOut, floatTracksOut);
+    hkaTrackAnalysis_recompose(&job, transformTracksOut, floatTracksOut);
     }
 
     TimerSplit("lt");

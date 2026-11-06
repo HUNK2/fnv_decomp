@@ -305,7 +305,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern unsigned int DAT_0126835c;
 extern char DAT_010cc678[];
 extern char DAT_010c41f8[];
-void* __cdecl FUN_00c85750(void);
+void* __cdecl hkMemoryRouter_getInstance(void);
 struct S00cfac20_Ray
 {
     hkVector4 from;
@@ -429,7 +429,7 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
     }
     S00cfac20_Aabb aabb;
     S00cfac20_calcAabb(rays, count, aabb);
-    char* mem = S00cfac20_alloc(static_cast<hkMemoryRouter*>(FUN_00c85750()), b->GetLogicalSize());
+    char* mem = S00cfac20_alloc(static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance()), b->GetLogicalSize());
     b->init(&aabb, mem);
     S00cfac20_Ray* r = rays;
     dst = out;
@@ -438,7 +438,7 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
         RecordAndDispatch(b, r++, ctx, mem, dst);
         dst += 0x60;
     }
-    S00cfac20_release(static_cast<hkMemoryRouter*>(FUN_00c85750()), mem);
+    S00cfac20_release(static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance()), mem);
     {
         S00cfac20_Mon* mon = (S00cfac20_Mon*)TlsGetValue(DAT_0126835c);
         char* p = mon->cur;
@@ -489,12 +489,12 @@ template <typename T> __forceinline void hkMemoryAllocator::_bufFree(void* p, in
     bufFree(p, numElem * sizeof(T));
 }
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 
 __forceinline hkMemoryAllocator& containerHeap()
 {
-    return static_cast<hkMemoryRouter*>(FUN_00c85750())->heap();
+    return static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->heap();
 }
 
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int reqCapacity, int sizeElem);

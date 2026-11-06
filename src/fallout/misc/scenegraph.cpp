@@ -42,7 +42,7 @@ void* Wrapper_00878610::SceneGraph_SceneGraph(char* apSceneGraphName, bool abMen
 
 struct FUN_008786b0_shell : public SceneGraph
 {
-    float FUN_008786b0();
+    float SceneGraph_GetFarDistance();
 };
 
 extern TES* g_TES;
@@ -56,7 +56,8 @@ extern double _gModifierZero;
 float __cdecl LinearInterpolate(float, float, float, float, float);
 
 // @fnv 0x008786b0
-float FUN_008786b0_shell::FUN_008786b0()
+// src: XBOX_PDB 0x008786b0
+float FUN_008786b0_shell::SceneGraph_GetFarDistance()
 {
     float ffar;
     if (*((bool*)this + 0xb8))
@@ -65,7 +66,7 @@ float FUN_008786b0_shell::FUN_008786b0()
     }
     else if (!g_TES || !g_TES->GetHitSound() || g_TES->GetHitSound()->GetWorldTerrainManager()->FUN_00454b70())
     {
-        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->FUN_00476c90() == 1)
+        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->Sky_GetMode() == 1)
         {
             ffar = ((TESObjectCELL*)((BGSCameraPath*)g_TES)->GetPrevPath())->GetInteriorLightValue();
             if (ffar <= _gModifierZero || ffar > DAT_010c26d8)
@@ -81,7 +82,7 @@ float FUN_008786b0_shell::FUN_008786b0()
     else
     {
         float ffarMax;
-        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->FUN_00476c90() == 1)
+        if (g_TES && ((BGSCameraPath*)g_TES)->GetPrevPath() && g_TES->GetLogDate()->Sky_GetMode() == 1)
         {
             ffarMax = ((TESObjectCELL*)((BGSCameraPath*)g_TES)->GetPrevPath())->GetInteriorLightValue();
             if (ffarMax <= _gModifierZero || ffarMax > g_0120312c.Float()->f)

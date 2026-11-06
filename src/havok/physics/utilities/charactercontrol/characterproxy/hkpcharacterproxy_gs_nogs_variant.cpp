@@ -144,7 +144,7 @@ struct FUN_00cad6f0_class
 };
 struct FUN_00cade20_Class
 {
-    void __thiscall FUN_00cade20(int, int, int, int, int, int);
+    void __thiscall hkpCharacterProxy_integrateImplementation(int, int, int, int, int, int);
 };
 struct FUN_00cafbd0_Class
 {
@@ -162,7 +162,7 @@ struct FNVMemoryManager
         return *reinterpret_cast<FNVAllocator**>(reinterpret_cast<char*>(this) + 0x10);
     }
 };
-FNVMemoryManager* __cdecl FUN_00c85750();
+FNVMemoryManager* __cdecl hkMemoryRouter_getInstance();
 struct FNVArray
 {
     int* values;
@@ -177,7 +177,7 @@ struct FNVBuffers
     FNVArray elements;
     static void* operator new(unsigned int bytes)
     {
-        return FUN_00c85750()->GetAllocator()->Allocate(bytes);
+        return hkMemoryRouter_getInstance()->GetAllocator()->Allocate(bytes);
     }
 };
 void __cdecl hkSmallArrayUtil__reserveMore(FNVArray*, unsigned int);
@@ -281,7 +281,7 @@ struct CpuObject
     unsigned int unk28;
     unsigned int unk2c;
     CpuScalar* value;
-    unsigned int FUN_00cac910();
+    unsigned int hkpCharacterProxy_getPosition();
 };
 extern float DAT_0101e2bc;
 struct FUN_00cacf10_cls
@@ -467,7 +467,7 @@ struct FUN_00cad900_cls
     int m9c;
     int ma0;
 
-    void FUN_00cad900(FUN_00cad900_arg* a1, int a2);
+    void hkpCharacterProxy_calcContentStatistics(FUN_00cad900_arg* a1, int a2);
 };
 extern char str_0102f13c[];
 extern char DAT_0104e3d0[];
@@ -476,7 +476,7 @@ extern char DAT_010c8488[];
 extern char DAT_010c8470[];
 struct FUN_00cad500_Class
 {
-    void __thiscall FUN_00cad500(void* arg);
+    void __thiscall hkpCharacterProxy_updateFromCinfo(void* arg);
 };
 struct FUN_00cada70_cls
 {
@@ -527,7 +527,7 @@ struct FUN_00cada70_cls
 };
 struct Query289
 {
-    __declspec(nothrow) void FUN_00cade20(void*, void*, hkpCdPointCollector*, hkpCdPointCollector*, unsigned,
+    __declspec(nothrow) void hkpCharacterProxy_integrateImplementation(void*, void*, hkpCdPointCollector*, hkpCdPointCollector*, unsigned,
                                           unsigned) throw();
     void CollectAllContactPoints(void*, void*);
 };
@@ -558,7 +558,7 @@ __declspec(nothrow) inline ContactArray289::ContactArray289()
 
 __declspec(nothrow) __forceinline ContactArray289::~ContactArray289()
 {
-    FNVMemoryManager* manager = FUN_00c85750();
+    FNVMemoryManager* manager = hkMemoryRouter_getInstance();
     unsigned int flags = capacity;
     Allocator197* heap = reinterpret_cast<Allocator197*>(manager->GetAllocator());
     count = 0;

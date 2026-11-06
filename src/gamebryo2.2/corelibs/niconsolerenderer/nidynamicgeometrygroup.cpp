@@ -42,7 +42,8 @@ struct NiVBChip
     NiStream* m_pkOwningStream;
 };
 // @fnv 0x00e951e0
-void __stdcall FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+// src: XBOX_PDB 0x00e951e0
+void __stdcall NiDynamicGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     if (uiStream < pkBuffData->m_uiRegisterStreamCount)
     {

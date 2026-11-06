@@ -21,7 +21,7 @@ typedef ::__m128 LocalM128;
 #include "../../include/hkReferencedObject.h"
 #include "../../include/hkpPhysicsContext.h"
 #include "../../include/hkSmallArray.h"
-void __cdecl FUN_00d687c0(void);
+void __cdecl hkpInactiveContactPointViewer_create(void);
 struct Registry_00dd9380
 {
     void* Register(char const*, void(__cdecl*)(void));
@@ -55,14 +55,14 @@ struct FUN_00d68770_cls
 };
 void* __stdcall hkpInactiveContactPointViewer_getIslands(char* a1);
 struct FnvCpu_FUN_00d687c0_CpuBlock;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d687c0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d687c0_CpuBlock* Construct(unsigned int value);
 };
-void* __cdecl FUN_00d687c0(unsigned int value);
+void* __cdecl hkpInactiveContactPointViewer_create(unsigned int value);
 extern "C" int DAT_010d203c;
 extern "C" int DAT_010d201c;
 extern "C" int DAT_010d200c;
@@ -399,7 +399,7 @@ class FUN_00d63370_class
 };
 extern int DAT_01268fc8;
 int __cdecl FUN_00d63420();
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 class FUN_00d63340
 {
   public:
@@ -409,7 +409,7 @@ class FUN_00d63340
 
     static void operator delete(void* p) throw()
     {
-        ((hkMemoryRouter*)FUN_00c85750())
+        ((hkMemoryRouter*)hkMemoryRouter_getInstance())
             ->heap()
             .blockFree(p, static_cast<FUN_00d63340*>(p)->m_usMemSizeAndFlags);
     }
@@ -469,14 +469,14 @@ class FUN_00d64260 : public FUN_00ddccb0, public hkIfaceAD642, public hkIfaceBD6
     virtual void b0();
 };
 struct FnvCpu_FUN_00d645f0_CpuBlock;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d645f0_CpuBlock
 {
     unsigned int unk00;
     unsigned short size;
     FnvCpu_FUN_00d645f0_CpuBlock* FUN_00d64260(unsigned int value);
 };
-void* __cdecl FUN_00d645f0(unsigned int value);
+void* __cdecl hkpSweptTransformDisplayViewer_create(unsigned int value);
 struct FUN_00d65250_cls
 {
     int unk00;
@@ -634,7 +634,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     void FUN_00d65290(unsigned char arg0);
 };
 void __cdecl nullsub_103();
-extern "C" void __cdecl FUN_00d72e90();
+extern "C" void __cdecl hkMathUtil_decompose4x4ColTransform();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0
 {
@@ -704,7 +704,7 @@ struct S
     R IsLessThan(int other) const;
 };
 namespace hkRouterD62 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 // The 0x00d62f20 snapshot-viewer factory returns this +8 interface; hkpCollisionAgent has a reference-counted base and contact-manager field.
 class SnapshotViewerProcessInterface

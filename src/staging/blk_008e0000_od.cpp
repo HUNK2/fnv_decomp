@@ -522,12 +522,13 @@ class FUN_008e26a0_C
     char unk00[0xe0];
     float m_fValue;
 
-    float FUN_008e26a0();
+    float CombatController_GetCombatPosition();
 };
 
 // Returns m_fValue clamped to a minimum of 0.0f.
 // @fnv 0x008e26a0
-float FUN_008e26a0_C::FUN_008e26a0()
+// src: XBOX_PDB 0x008e26a0
+float FUN_008e26a0_C::CombatController_GetCombatPosition()
 {
     return m_fValue < 0.0 ? 0.0f : m_fValue;
 }

@@ -169,7 +169,7 @@ struct FUN_00a69400 : FUN_00a693e0
     FUN_00a69400(void*);
     ~FUN_00a69400()
     {}
-    void FUN_00a694a0(void*);
+    void NiCullingProcess_SetFrustum(void*);
 };
 // @fnv 0x00b9c020
 // src: COMMUNITY 0x00b9c020
@@ -200,10 +200,10 @@ unsigned char __stdcall ShadowSceneLight_FrustumFrustumIntersection(FNVCuboid* p
     vertsB[4] = pos + farDist * forward - farDist * up - farDist * right;
     FUN_00a69400 scratch(0);
     scratch.camera = p1;
-    scratch.FUN_00a694a0(&p1->fdc);
+    scratch.NiCullingProcess_SetFrustum(&p1->fdc);
     first = scratch.poly;
     scratch.camera = p2;
-    scratch.FUN_00a694a0(&p2->fdc);
+    scratch.NiCullingProcess_SetFrustum(&p2->fdc);
     second = scratch.poly;
     FNVPlaneArray active;
     FNVVec3* verts = 0;

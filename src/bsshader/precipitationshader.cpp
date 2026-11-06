@@ -107,7 +107,8 @@ template <class T> inline NiPointer<T>::operator T*() const
 extern "C" void* g_012005c0;
 
 // @fnv 0x00bb0540
-void* __cdecl FUN_00bb0540()
+// src: XBOX_PDB 0x00bb0540
+void* __cdecl PrecipitationShader_GetRTTI()
 {
     return &g_012005c0;
 }
@@ -115,29 +116,32 @@ void* __cdecl FUN_00bb0540()
 extern void* g_012005fc;
 
 // @fnv 0x00bb0d10
-void* __cdecl FUN_00bb0d10()
+// src: XBOX_PDB 0x00bb0d10
+void* __cdecl PrecipitationShaderProperty_GetRTTI()
 {
     return &g_012005fc;
 }
 
 struct FUN_00bb0d20_shell
 {
-    void* __thiscall FUN_00bb0d20();
+    void* __thiscall PrecipitationShaderProperty_GetClampNI();
 };
 
 // @fnv 0x00bb0d20
-void* FUN_00bb0d20_shell::FUN_00bb0d20()
+// src: XBOX_PDB 0x00bb0d20
+void* FUN_00bb0d20_shell::PrecipitationShaderProperty_GetClampNI()
 {
     return *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94);
 }
 
 struct FUN_00bb0d30_shell
 {
-    void __thiscall FUN_00bb0d30(int value);
+    void __thiscall PrecipitationShaderProperty_SetClampNI(int value);
 };
 
 // @fnv 0x00bb0d30
-void __thiscall FUN_00bb0d30_shell::FUN_00bb0d30(int value)
+// src: XBOX_PDB 0x00bb0d30
+void __thiscall FUN_00bb0d30_shell::PrecipitationShaderProperty_SetClampNI(int value)
 {
     *(int*)((char*)this + 0x94) = value;
 }
@@ -347,11 +351,12 @@ struct FUN_00bb0cf0_cls : BSShader
     int unk8C;
     int unk90;
     int m_94;
-    void __thiscall FUN_00bb0cf0(int value);
+    void __thiscall PrecipitationShaderProperty_SetClampD3D(int value);
 };
 
 // @fnv 0x00bb0cf0
-void FUN_00bb0cf0_cls::FUN_00bb0cf0(int value)
+// src: XBOX_PDB 0x00bb0cf0
+void FUN_00bb0cf0_cls::PrecipitationShaderProperty_SetClampD3D(int value)
 {
     m_94 = (value != 3) ? 3 : 0;
 }

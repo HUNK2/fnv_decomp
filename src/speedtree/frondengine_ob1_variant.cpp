@@ -2280,19 +2280,19 @@ struct FUN_0044a4c0
     int iRes;
     FUN_0044a4c0()
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
     }
     FUN_0044a4c0(const char* s);
     FUN_0044a4c0(const FUN_0044a4c0& r)
     {
-        FUN_0044a730(false, 0);
+        fopen_0044a730(false, 0);
         AssignSubstring(r, 0, *(unsigned*)&DAT_010173f0);
     }
     ~FUN_0044a4c0()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
     FUN_0044a4c0& AssignSubstring(const FUN_0044a4c0& r, unsigned o, unsigned n);
     FUN_0044a4c0& operator=(const FUN_0044a4c0& r)
     {
@@ -2314,7 +2314,7 @@ struct FUN_00b09480 : FUN_00b096a0
 struct RQ : FUN_0044a4c0
 {
 };
-FUN_0044a4c0 FUN_00b18860(const char* fmt, ...);
+FUN_0044a4c0 IdvFormatString(const char* fmt, ...);
 struct RQ;
 struct ByteVec
 {
@@ -2463,7 +2463,7 @@ void Frond::CFrondEngine_Parse(Parser* p)
                         kInfo.fD = p->CTreeFileAccess_ParseFloat();
                         break;
                     default:
-                        throw FUN_00b09480(FUN_00b18860("malformed frond texture information (token %d)", iToken),
+                        throw FUN_00b09480(IdvFormatString("malformed frond texture information (token %d)", iToken),
                                            false);
                     }
                     iToken = p->GetNextElement();
@@ -2473,7 +2473,7 @@ void Frond::CFrondEngine_Parse(Parser* p)
             break;
         }
         default:
-            throw FUN_00b09480(FUN_00b18860("malformed frond info (token %d)", iToken), false);
+            throw FUN_00b09480(IdvFormatString("malformed frond info (token %d)", iToken), false);
         }
         iToken = p->GetNextElement();
     } while (iToken != 0x32c9);
@@ -7698,7 +7698,8 @@ struct EraseElement
     {
         EraseTraits::assign(data()[length = size], char());
     }
-    void FUN_0044a730(bool built, unsigned int size)
+// src: XBOX_PDB 0x0044a730
+    void fopen_0044a730(bool built, unsigned int size)
     {
         if (!built)
             ;
@@ -7714,7 +7715,7 @@ struct EraseElement
     }
     ~EraseElement()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
 };
 unsigned int __cdecl FUN_00ec7c56();
@@ -10862,14 +10863,14 @@ struct ElQ
     char ac[44];
     ElQ(const ElQ&);
     ElQ& operator=(const ElQ&);
-    void FUN_0044a730(bool, int);
+    void fopen_0044a730(bool, int);
     ~ElQ()
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
     }
     void DelQ(unsigned f)
     {
-        FUN_0044a730(true, 0);
+        fopen_0044a730(true, 0);
         if (f & 1)
             FreeQ(this);
     }
@@ -25373,7 +25374,7 @@ inline void* operator new(unsigned int, void* p)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct FUN_00b22f80
 {
@@ -25383,7 +25384,7 @@ struct FUN_00b22f80
 };
 inline void Del(FUN_00b22f80* p, unsigned int f)
 {
-    p->s.FUN_0044a730(true, 0);
+    p->s.fopen_0044a730(true, 0);
     if (f & 1)
         FormHeapFreeAndLog_00401030(p);
 }
@@ -27230,7 +27231,7 @@ inline void* operator new(unsigned int, void* p)
 struct StrY
 {
     char b[0x1c];
-    void FUN_0044a730(bool b, unsigned n);
+    void fopen_0044a730(bool b, unsigned n);
 };
 struct FUN_00b22f80
 {
@@ -27240,7 +27241,7 @@ struct FUN_00b22f80
 };
 inline void Del(FUN_00b22f80* p, unsigned int f)
 {
-    p->s.FUN_0044a730(true, 0);
+    p->s.fopen_0044a730(true, 0);
     if (f & 1)
         FormHeapFreeAndLog_00401030(p);
 }
@@ -28390,7 +28391,7 @@ FUN_00b189f0::~FUN_00b189f0()
     FUN_00b1e970();
 }
 
-extern "C" void* __cdecl FUN_0044d670(unsigned int, int);
+extern "C" void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int, int);
 
 extern double FUN_00ec9f30(double);
 extern double FUN_00eca060(double);
@@ -28450,7 +28451,7 @@ struct FUN_00b1e3e0 : FUN_00b39460, FUN_00b1fca0
     void FUN_00b1fbe0(unsigned int);
     FUN_00b1e3e0()
     {
-        void** allocated = (void**)FUN_0044d670(1, 0);
+        void** allocated = (void**)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(1, 0);
         void** proxy = allocated;
         allocator = (int)(proxy ? (*proxy = this, proxy) : 0);
         FUN_00b1fbe0(0);
@@ -30168,7 +30169,7 @@ inline IdvFileError::IdvFileError(const std::string& message, bool systemError)
     : std::runtime_error(message + " [" +
                          (systemError ? std::string(GetErrorText(*GetErrorNumber())) : std::string("")) + "]")
 {}
-FUN_0044a4c0 __cdecl FUN_00b18860(const char*, ...);
+FUN_0044a4c0 __cdecl IdvFormatString(const char*, ...);
 struct FrondGuide;
 template <class T> struct FrondVector
 {
@@ -30254,7 +30255,7 @@ void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
         }
     }
     if (vertexCount > 65535)
-        throw std::runtime_error(*(const std::string*)&FUN_00b18860(vertexLimitMessage, 65535));
+        throw std::runtime_error(*(const std::string*)&IdvFormatString(vertexLimitMessage, 65535));
     geometry->CIndexedGeometry_SetNumLodLevels(geometryType);
     switch (mode)
     {

@@ -38,7 +38,8 @@ __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);
 
 unsigned long g_tlsIdx = 0;
 
-__declspec(noinline) void* FUN_00c85750()
+// src: XBOX_PDB 0x00c85750
+__declspec(noinline) void* hkMemoryRouter_getInstance()
 {
     unsigned long idx = g_tlsIdx;
     return TlsGetValue(idx);
@@ -55,7 +56,7 @@ hkpAction* hkpDashpotAction::clone_00d4d9d0(const hkArray<hkpEntity*>& newEntiti
     if (removedEntities.m_iElementCount != 0)
         return 0;
 
-    hkMemoryRouter* router = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* router = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkpDashpotAction* pDashpot = (hkpDashpotAction*)router->m_heap->blockAlloc(0x60);
     pDashpot->m_usMemSizeAndFlags = 0x60;
     pDashpot = pDashpot->FUN_00d4d980(reinterpret_cast<int>(newEntities.m_data[0]),

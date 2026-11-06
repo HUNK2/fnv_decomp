@@ -24,7 +24,7 @@ struct CallbackManager
     int unk0c;
     Callback* callback;
 };
-CallbackManager* FUN_00c85750();
+CallbackManager* hkMemoryRouter_getInstance();
 extern int DAT_0102e388;
 struct Owner
 {
@@ -64,7 +64,7 @@ Owner* Owner::FUN_00dfe620(unsigned int flags)
     vtable = &DAT_0102e388;
     if (flags & 1)
     {
-        CallbackManager* manager = FUN_00c85750();
+        CallbackManager* manager = hkMemoryRouter_getInstance();
         manager->callback->Invoke(this, unk04);
     }
     return this;

@@ -80,7 +80,7 @@ void* __thiscall FUN_0062d840_shell::TrapEntry_TrapEntry(unsigned int a, unsigne
 
 struct Member140
 {
-    void __thiscall FUN_00620720(unsigned int a, unsigned int b);
+    void __thiscall bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(unsigned int a, unsigned int b);
 };
 extern int DAT_0104d9cc[];
 struct FUN_0061fc10
@@ -94,7 +94,7 @@ struct FUN_0061fc10
 // @fnv 0x0061fc10
 FUN_0061fc10::FUN_0061fc10(unsigned int uiFirst, unsigned int uiSecond)
 {
-    ((Member140*)((char*)this + 4))->FUN_00620720(uiFirst, uiSecond);
+    ((Member140*)((char*)this + 4))->bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(uiFirst, uiSecond);
     m0 = DAT_0104d9cc;
     _14 = 0;
 }
@@ -104,14 +104,14 @@ struct FUN_0061fe70_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __thiscall FUN_0061fba0(unsigned int a, unsigned int b);
+    void __thiscall TargetEntry_TargetEntry(unsigned int a, unsigned int b);
     void* __thiscall Construct(unsigned int a, unsigned int b);
 };
 // Calls FUN_0061fba0 with a and b, stores the address of DAT_0104d9d8 at this, and returns this.
 // @fnv 0x0061fe70
 void* __thiscall FUN_0061fe70_shell::Construct(unsigned int a, unsigned int b)
 {
-    FUN_0061fba0(a, b);
+    TargetEntry_TargetEntry(a, b);
     *reinterpret_cast<void**>(this) = &DAT_0104d9d8;
     return this;
 }
@@ -122,12 +122,13 @@ struct FUN_00620720_shell
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
-    FUN_00620720_shell* __thiscall FUN_00620720(void* a, void* b);
+    FUN_00620720_shell* __thiscall bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(void* a, void* b);
 };
 
 // Stores the two arguments into the object's fields and clears the other two pointers, then returns this.
 // @fnv 0x00620720
-FUN_00620720_shell* __thiscall FUN_00620720_shell::FUN_00620720(void* pFirst, void* pSecond)
+// src: XBOX_PDB 0x00620720
+FUN_00620720_shell* __thiscall FUN_00620720_shell::bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(void* pFirst, void* pSecond)
 {
     m_iThirdValue = pFirst;
     m_8 = pSecond;
@@ -138,7 +139,7 @@ FUN_00620720_shell* __thiscall FUN_00620720_shell::FUN_00620720(void* pFirst, vo
 
 struct FUN_0061fef0_Node
 {
-    void* FUN_0061fef0();
+    void* TargetEntry_QNextEntry();
 };
 struct FUN_0061fea0_shell
 {
@@ -155,7 +156,7 @@ void FUN_0061fea0_shell::ClearList()
     {
         void* tmp;
         void* pNext;
-        pNext = ((FUN_0061fef0_Node*)pNode)->FUN_0061fef0();
+        pNext = ((FUN_0061fef0_Node*)pNode)->TargetEntry_QNextEntry();
         tmp = pNode;
         CallWithParam((int)tmp);
         pNode = pNext;
@@ -302,7 +303,7 @@ extern int DAT_0104d9c4;
 
 struct S_0061fba0_Member
 {
-    void __thiscall FUN_00620720(unsigned int a, unsigned int b);
+    void __thiscall bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(unsigned int a, unsigned int b);
 };
 
 struct S_0061fba0_Sub
@@ -312,7 +313,7 @@ struct S_0061fba0_Sub
     int unk08;
     int unk0c;
     void __thiscall FUN_006815c0();
-    void __thiscall FUN_00538f40();
+    void __thiscall hkVector4_setZero4();
 };
 
 struct S_0061fba0_Obj
@@ -328,18 +329,19 @@ struct S_0061fba0_Obj
     S_0061fba0_Sub m_20;
     S_0061fba0_Sub m_30;
     int unk40;
-    S_0061fba0_Obj* __thiscall FUN_0061fba0(unsigned int a, unsigned int b);
+    S_0061fba0_Obj* __thiscall TargetEntry_TargetEntry(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x0061fba0
-S_0061fba0_Obj* __thiscall S_0061fba0_Obj::FUN_0061fba0(unsigned int a, unsigned int b)
+// src: XBOX_PDB 0x0061fba0
+S_0061fba0_Obj* __thiscall S_0061fba0_Obj::TargetEntry_TargetEntry(unsigned int a, unsigned int b)
 {
-    m_10.FUN_00620720(a, b);
+    m_10.bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(a, b);
     vtbl = (const void*)&DAT_0104d9c4;
     m_20.FUN_006815c0();
     m_30.FUN_006815c0();
-    m_20.FUN_00538f40();
-    m_30.FUN_00538f40();
+    m_20.hkVector4_setZero4();
+    m_30.hkVector4_setZero4();
     unk40 = 0x24;
     return this;
 }
@@ -364,7 +366,8 @@ struct LinkedOwnerLayout : OwnerPrefix, EmbeddedLink
 
 // Returns the embedded link call result cast to LinkedOwnerLayout*.
 // @fnv 0x0061fef0
-void* FUN_0061fef0_Node::FUN_0061fef0()
+// src: XBOX_PDB 0x0061fef0
+void* FUN_0061fef0_Node::TargetEntry_QNextEntry()
 {
     return static_cast<LinkedOwnerLayout*>(reinterpret_cast<LinkedOwnerLayout*>(this)->FUN_00726070());
 }

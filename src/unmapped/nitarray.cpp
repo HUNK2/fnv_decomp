@@ -123,12 +123,12 @@ void __cdecl DeleteNiNodePointerArray(NiPointer<NiNode>* pNodePointerArray)
     }
 }
 
-void* __cdecl FUN_00aa1070(unsigned int auiSize);
+void* __cdecl _NiMalloc_00aa1070(unsigned int auiSize);
 void __cdecl _NiFree_00aa10f0(void* apMemory);
 
 template <> inline KeyPair** NiTMallocInterface<KeyPair*>::Allocate(unsigned int auiCount)
 {
-    return (KeyPair**)FUN_00aa1070(sizeof(KeyPair*) * auiCount);
+    return (KeyPair**)_NiMalloc_00aa1070(sizeof(KeyPair*) * auiCount);
 }
 
 // Resizes the key-pair array to auiNewSize, clearing dropped entries, reallocating, copying old entries and freeing the old buffer.
@@ -301,7 +301,7 @@ template <> inline NiPointer<NiShaderConstantMapEntry>& NiPointer<NiShaderConsta
 
 typedef NiPointer<NiObject> ObjectPtr;
 
-ObjectPtr* __cdecl FUN_00c1d790(unsigned int auiCount);
+ObjectPtr* __cdecl NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(unsigned int auiCount);
 void __cdecl ReleaseObjectArray(ObjectPtr* pkArray);
 
 // Resizes the object array to uiMaxSize, releasing surplus elements and reallocating m_pBase while preserving existing entries.
@@ -329,7 +329,7 @@ template <> void NiTArray<ObjectPtr, NiTNewInterface<ObjectPtr> >::SetSize(unsig
     this->m_usMaxSize = (unsigned short)uiCapacity;
     if (uiCapacity > 0)
     {
-        this->m_pBase = FUN_00c1d790(this->m_usMaxSize);
+        this->m_pBase = NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(this->m_usMaxSize);
         for (i = 0; i < this->m_usSize; i++)
             this->m_pBase[i] = pSaveBase[i];
         for (i = this->m_usSize; i < this->m_usMaxSize; i++)
@@ -652,7 +652,7 @@ template <class T> struct TFixedArray
     int unk0c;
     TFixedArray(unsigned int uiSize) : m_uiSize(uiSize), unk0c(0)
     {
-        m_pData = (T*)FUN_00aa1070(uiSize * sizeof(T));
+        m_pData = (T*)_NiMalloc_00aa1070(uiSize * sizeof(T));
         FUN_00ec61c0(m_pData, 0, m_uiSize * sizeof(T));
     }
     virtual ~TFixedArray();

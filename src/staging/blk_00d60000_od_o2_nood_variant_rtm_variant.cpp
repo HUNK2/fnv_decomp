@@ -152,7 +152,7 @@ struct FUN_004b4ab0_Class
         __m128 value;
     };
     void hkVector4_setRotatedInverseDir(int basis, int vector);
-    void FUN_00c7f700(const Basis* basis, const FUN_004b4ab0_Class* vector);
+    void hkVector4_setRotatedDir(const Basis* basis, const FUN_004b4ab0_Class* vector);
 };
 struct MotionInput
 {
@@ -261,7 +261,7 @@ struct D6Idx
     unsigned char unk01;
     unsigned char idx02;
 };
-extern "C" void __cdecl FUN_00dcf280(D6Vec3* s, void* d, void* e);
+extern "C" void __cdecl hk1dLinearBilateralConstraintBuildJacobian(D6Vec3* s, void* d, void* e);
 extern "C" V16* __cdecl D6GetArray(void);
 void FUN_00d6c030(D6Owner* a, V16* b, D6Idx* c, void* d, void* e);
 volatile D6Owner* g_d6Owner;
@@ -497,7 +497,7 @@ static __declspec(noinline) void FUN_00d6b510(Binding* binding, Weight* weights,
             reference.rotation = *reinterpret_cast<const hkQuaternion*>(&node->m_160);
             PoseQsTransform composed;
             composed.SetProduct(reference, input);
-            local.rotation.FUN_00cb2850(local.rotation, composed.rotation, weight);
+            local.rotation.D3D_ComputeClearColor(local.rotation, composed.rotation, weight);
             local.position.quad() = blendPosition(local.position, composed.position, weight);
         }
         PoseVector4 offset;

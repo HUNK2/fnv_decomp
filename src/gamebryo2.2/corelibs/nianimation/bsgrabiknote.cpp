@@ -73,7 +73,7 @@ struct BSGrabIKNote : ArmNoteBase
     float m_fGain;
     unsigned int m_eAnimationState;
     void* Clone(CloningProcess* process);
-    void FUN_00a44650(ViewerStrings* pkStrings);
+    void GetViewerStrings_00a44650(ViewerStrings* pkStrings);
 };
 
 // @fnv 0x00a44380
@@ -96,18 +96,19 @@ void* __cdecl BSGrabIKNote_CreateObject()
 
 struct BSAnimNote_shell
 {
-    char __thiscall FUN_00a84c70(NiStream&);
+    char __thiscall BSAnimNote_RegisterStreamables(NiStream&);
 };
 
 struct FUN_00a43f10_shell : BSAnimNote_shell
 {
-    bool __thiscall FUN_00a43f10(NiStream&);
+    bool __thiscall BSGrabIKNote_RegisterStreamables(NiStream&);
 };
 
 // @fnv 0x00a43f10
-bool FUN_00a43f10_shell::FUN_00a43f10(NiStream& arStream)
+// src: XBOX_PDB 0x00a43f10
+bool FUN_00a43f10_shell::BSGrabIKNote_RegisterStreamables(NiStream& arStream)
 {
-    return BSAnimNote_shell::FUN_00a84c70(arStream);
+    return BSAnimNote_shell::BSAnimNote_RegisterStreamables(arStream);
 }
 
 struct FUN_00a44850_holder
@@ -378,7 +379,7 @@ void FUN_00a445c0_cls::ReadFromStream(StreamOwner* stream)
 }
 
 char* NiGetViewerStr(const char* pcName, const char* pcValue);
-char* FUN_00a7d550(const char* pcName, float fValue);
+char* NiGetViewerString_00a7d550(const char* pcName, float fValue);
 
 struct ViewerStrings
 {
@@ -402,7 +403,8 @@ struct ViewerStrings
 
 // Appends the arm, gain and state viewer strings to pkStrings after the base viewer strings.
 // @fnv 0x00a44650
-void BSGrabIKNote::FUN_00a44650(ViewerStrings* pkStrings)
+// src: XBOX_PDB 0x00a44650
+void BSGrabIKNote::GetViewerStrings_00a44650(ViewerStrings* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     switch (m_eArm)
@@ -414,7 +416,7 @@ void BSGrabIKNote::FUN_00a44650(ViewerStrings* pkStrings)
     default:
         pkStrings->Add(NiGetViewerStr("Arm", ""));
     }
-    pkStrings->Add(FUN_00a7d550("Gain", m_fGain));
+    pkStrings->Add(NiGetViewerString_00a7d550("Gain", m_fGain));
     switch (m_eAnimationState)
     {
     case 1:
@@ -452,12 +454,13 @@ struct S00a44430_Obj : TextKeyHandlerBase
     unsigned int m_10;
     float m_14;
     unsigned int m_18;
-    bool FUN_00a44430(const char* apTextKey);
+    bool BSGrabIKNote_ParseTextKey(const char* apTextKey);
 };
 
 // Parses apTextKey for a prefix, side flag, gain value, and mode string, storing results in m_10, m_14, and m_18.
 // @fnv 0x00a44430
-bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
+// src: XBOX_PDB 0x00a44430
+bool S00a44430_Obj::BSGrabIKNote_ParseTextKey(const char* apTextKey)
 {
     bool bret = FUN_00a44930(apTextKey);
     const char* ptext = (const char*)*(void**)((char*)apTextKey + 4);

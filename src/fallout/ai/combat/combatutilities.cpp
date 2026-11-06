@@ -83,13 +83,14 @@ struct CombatPoint3
 // src/fallout/ai/combat/combatutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern "C" float __cdecl FUN_005b9e80(float);
+extern "C" float __cdecl NiCos(float);
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
-float __cdecl FUN_009a7dd0(float afNumerator, float afInput, float c)
+// src: XBOX_PDB 0x009a7dd0
+float __cdecl CombatUtilities_ComputeProjectileTime(float afNumerator, float afInput, float c)
 {
-    return afNumerator / (FUN_005b9e80(afInput) * c);
+    return afNumerator / (NiCos(afInput) * c);
 }
 
 extern int DAT_011a558c;
@@ -125,7 +126,8 @@ void __thiscall CombatPlan::SetFieldE0(float value)
 }
 
 // @fnv 0x009a7f80
-bool BGSProjectile::FUN_009a7f80() const
+// src: XBOX_PDB 0x009a7f80
+bool BGSProjectile::GetHitScan() const
 {
     return GetFlag(1);
 }
@@ -141,7 +143,8 @@ long __cdecl ScaleByRatio(float afValue)
 float __cdecl GetScaleOrHeightDelta(TESObjectREFR* a, int b);
 // Returns the attacker's position with its z raised by the value from GetScaleOrHeightDelta(apAttacker, 0).
 // @fnv 0x009a8250
-CombatPoint3 FUN_009a8250(TESObjectREFR* apAttacker)
+// src: XBOX_PDB 0x009a8250
+CombatPoint3 CombatUtilities_GetAttackerFiringLocationSimple(TESObjectREFR* apAttacker)
 {
     CombatPoint3 shooterLocation;
     shooterLocation = *(CombatPoint3*)static_cast<const TESObjectREFR*>(apAttacker)->GetPos();
@@ -151,26 +154,27 @@ CombatPoint3 FUN_009a8250(TESObjectREFR* apAttacker)
 
 namespace fnv_009a8600 {
 typedef int ACTOR_SEGMENT_INVIEW;
-float __cdecl FUN_009a8460(TESObjectREFR*, ACTOR_SEGMENT_INVIEW, int);
+float __cdecl CombatUtilities_GetTargetFiringZOffset(TESObjectREFR*, ACTOR_SEGMENT_INVIEW, int);
 // Returns the target position with its z raised by FUN_009a8460 for the given segment.
 // @fnv 0x009a8600
 CombatPoint3 __cdecl GetTargetLocationWithOffset(TESObjectREFR* apTarget, ACTOR_SEGMENT_INVIEW aeTargetSegmentInView)
 {
     CombatPoint3 targetLocation;
     targetLocation = *(CombatPoint3*)apTarget->GetPos();
-    targetLocation.z += FUN_009a8460(apTarget, aeTargetSegmentInView, 0);
+    targetLocation.z += CombatUtilities_GetTargetFiringZOffset(apTarget, aeTargetSegmentInView, 0);
     return targetLocation;
 }
 }  // namespace fnv_009a8600
 
 namespace fnv_009a9370 {
-void __cdecl FUN_009a93a0(CombatController*, CombatPoint3*, CombatPoint3*, CombatPoint3*, CombatPoint3*);
+void __cdecl CombatUtilities_CalculateCoverPositions_009a93a0(CombatController*, CombatPoint3*, CombatPoint3*, CombatPoint3*, CombatPoint3*);
 // Calls FUN_009a93a0 with the combat controller and the two CombatPoint3 members at offsets 0x14 and 0x70 of the given object, plus the two passed points.
 // @fnv 0x009a9370
-void __cdecl FUN_009a9370(CombatController* apCombatController, CombatCoverPointData_combatutilities* b, CombatPoint3* apPoint1,
+// src: XBOX_PDB 0x009a9370
+void __cdecl CombatUtilities_CalculateCoverPositions(CombatController* apCombatController, CombatCoverPointData_combatutilities* b, CombatPoint3* apPoint1,
                           CombatPoint3* apPoint2)
 {
-    FUN_009a93a0(apCombatController, reinterpret_cast<CombatPoint3*>(&b->unk14),
+    CombatUtilities_CalculateCoverPositions_009a93a0(apCombatController, reinterpret_cast<CombatPoint3*>(&b->unk14),
                  reinterpret_cast<CombatPoint3*>(&b->unk70), apPoint1, apPoint2);
 }
 }  // namespace fnv_009a9370
@@ -238,7 +242,8 @@ int ExpandFlagBits(int flags, char index)
 }
 
 // @fnv 0x00966980
-float __thiscall BGSProjectile::FUN_00966980()
+// src: XBOX_PDB 0x00966980
+float __thiscall BGSProjectile::GetGravity_00966980()
 {
     return ((BGSProjectile*)this)->GetFlag(0x20000) ? 1.0f : this->Data.afGravity;
 }
@@ -249,23 +254,23 @@ struct A69C0Weapon
 };
 
 bool __fastcall A69C0IsMeleeWeapon(A69C0Weapon* pkWeapon);
-float __cdecl FUN_006463e0(float fValue);
+float __cdecl CombatFormulas_CalcWeaponReach(float fValue);
 
 // @fnv 0x009a69c0
 float __cdecl GetActorReach(Actor* pkActor, A69C0Weapon* pkWeapon)
 {
-    float fScale = pkActor->FUN_00567400();
+    float fScale = pkActor->TESObjectREFR_GetScale_00567400();
     if (!pkWeapon)
         return pkActor->GetUnarmedReach() * fScale;
     if (!A69C0IsMeleeWeapon(pkWeapon))
         return fScale * 128.0;
-    return FUN_006463e0(pkWeapon->GetReachValue()) * fScale;
+    return CombatFormulas_CalcWeaponReach(pkWeapon->GetReachValue()) * fScale;
 }
 
-float FUN_004579e0(float);
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
-float FUN_00755660(float);
+float NiSqrt_004579e0(float);
+float BSMAX_00404010(float, float);
+float BSMIN(float, float);
+float NiATan(float);
 extern float runtimeInitializationFloat1935;
 // Solves the ballistic trajectory for a launch angle from distance, height, speed and gravity, returning a fallback value when the discriminant is not positive.
 // @fnv 0x009a7c60
@@ -276,15 +281,15 @@ float ComputeLaunchAngle(float distance, float height, float speed, float gravit
     if (discriminant > 0.0)
     {
         float lower;
-        float selected = FUN_004579e0(discriminant);
+        float selected = NiSqrt_004579e0(discriminant);
         float angle = (squared - selected) / (distance * gravity);
         lower = (squared + selected) / (distance * gravity);
         float root;
         if (lowArc)
-            root = FUN_00404010(angle, lower);
+            root = BSMAX_00404010(angle, lower);
         else
-            root = FUN_0040ebd0(angle, lower);
-        float upper = FUN_00755660(root);
+            root = BSMIN(angle, lower);
+        float upper = NiATan(root);
         return upper;
     }
     return runtimeInitializationFloat1935 * 0.25;
@@ -294,12 +299,13 @@ extern "C" double DAT_01012060;
 extern "C" float DAT_011f1c00;
 // Reads a base value; if not flagged, scales arg (or a queried value) squared by a queried value times a constant when above a threshold.
 // @fnv 0x009a7f00
-float __cdecl FUN_009a7f00(BGSProjectile* obj, float arg)
+// src: XBOX_PDB 0x009a7f00
+float __cdecl CombatUtilities_GetProjectileMaximumRange(BGSProjectile* obj, float arg)
 {
     float a = obj->FUN_009a7c40();
-    if (obj->FUN_009a7f80())
+    if (obj->GetHitScan())
         return a;
-    float value = obj->FUN_00966980();
+    float value = obj->GetGravity_00966980();
     if (value <= DAT_01012060)
         return a;
     value *= DAT_011f1c00;
@@ -335,17 +341,17 @@ struct FollowerNode
 
 struct FUN_00422700_shell
 {
-    ExtraFollower* FUN_00422700();
+    ExtraFollower* ExtraDataList_GetFollowerExtra();
 };
 
 struct ExtraDataList;
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR* ref);
+ExtraDataList* __fastcall BSFile_GetDevice(TESObjectREFR* ref);
 
 struct ContNode;
 ContNode* __fastcall FUN_00717e50(void* p);
 unsigned int __fastcall FUN_0044ddc0(TESObjectREFR* ref);
 
-float __cdecl FUN_009a64d0(Actor* a, Actor* b, int c);
+float __cdecl CombatUtilities_GetDistanceBetweenFacingActors(Actor* a, Actor* b, int c);
 bool IsTargetInCone(Actor* a, Actor* b, float* outDist);
 
 extern int DAT_011e0e80;
@@ -354,10 +360,11 @@ extern float DAT_01016970;
 extern Actor* g_thePlayer;
 
 // @fnv 0x009a60e0
-Actor* FUN_009a60e0(Actor* actor, float maxDist)
+// src: XBOX_PDB 0x009a60e0
+Actor* CombatUtilities_GetFacingTarget(Actor* actor, float maxDist)
 {
-    Actor* target7 = actor->GetCombatController() ? (Actor*)((AlchemyItem*)actor->GetCombatController())->FUN_004030b0() : 0;
-    if (target7 && IsTargetInCone(actor, target7, 0) && FUN_009a64d0(actor, target7, 1) <= maxDist)
+    Actor* target7 = actor->GetCombatController() ? (Actor*)((AlchemyItem*)actor->GetCombatController())->CombatController_GetTarget() : 0;
+    if (target7 && IsTargetInCone(actor, target7, 0) && CombatUtilities_GetDistanceBetweenFacingActors(actor, target7, 1) <= maxDist)
     {
         return target7;
     }
@@ -370,9 +377,9 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
     float bestDist3 = DAT_01016970;
     Actor* actorAt4 = 0;
     Actor* cand7 = 0;
-    for (unsigned int i = 0; i < ((TopicInfoArray*)FUN_00717e50(&DAT_011e0e80))->FUN_005be5c0(0); i++)
+    for (unsigned int i = 0; i < ((TopicInfoArray*)FUN_00717e50(&DAT_011e0e80))->ProcessArray_GetProcessLevelTail(0); i++)
     {
-        actorAt4 = ((TopicInfoArray*)FUN_00717e50(&DAT_011e0e80))->FUN_00968670(i);
+        actorAt4 = ((TopicInfoArray*)FUN_00717e50(&DAT_011e0e80))->ProcessArray_GetItem(i);
         if (actorAt4 && actorAt4->IsActor())
         {
             cand7 = actorAt4;
@@ -386,7 +393,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
             continue;
         }
         if (cand7 && cand7 != actor && (!cand7->HasHealth(false) || actor == g_thePlayer) && cand7->GetNiNode() &&
-            FUN_009a64d0(actor, cand7, 0) <= maxDist)
+            CombatUtilities_GetDistanceBetweenFacingActors(actor, cand7, 0) <= maxDist)
         {
             float _dist = DAT_01016970;
             bool aOk = IsTargetInCone(actor, cand7, &_dist);
@@ -398,7 +405,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
         }
         if (cand7)
         {
-            ExtraFollower* extra_2 = ((FUN_00422700_shell*)FUN_005d43c0((TESObjectREFR*)cand7))->FUN_00422700();
+            ExtraFollower* extra_2 = ((FUN_00422700_shell*)BSFile_GetDevice((TESObjectREFR*)cand7))->ExtraDataList_GetFollowerExtra();
             if (extra_2)
             {
                 FollowerNode* nodeB = (FollowerNode*)extra_2->list;
@@ -407,7 +414,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
                     Actor* follower = *nodeB->FUN_006815c0();
                     if (follower && !follower->FUN_00931850() && follower != actor &&
                         (!cand7->HasHealth(false) || actor == g_thePlayer) && follower->GetNiNode() &&
-                        FUN_009a64d0(actor, follower, 0) <= maxDist)
+                        CombatUtilities_GetDistanceBetweenFacingActors(actor, follower, 0) <= maxDist)
                     {
                         float followerDist3 = DAT_01016970;
                         bool followerOk3 = IsTargetInCone(actor, follower, &followerDist3);
@@ -425,7 +432,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
 
     if (actor != g_thePlayer)
     {
-        float playerDist2 = FUN_009a64d0(actor, g_thePlayer, 0);
+        float playerDist2 = CombatUtilities_GetDistanceBetweenFacingActors(actor, g_thePlayer, 0);
         float playerLosTmp = DAT_01016970;
         bool playerOk4 = IsTargetInCone(actor, g_thePlayer, &playerLosTmp);
         if (playerDist2 <= maxDist && playerOk4 && playerLosTmp <= bestDist3)
@@ -434,7 +441,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
         }
     }
 
-    if (best3 && actor->IsPlayerRef() && !((PlayerCharacter*)g_thePlayer)->FUN_0088b880(1, best3, 1, 0, 0))
+    if (best3 && actor->IsPlayerRef() && !((PlayerCharacter*)g_thePlayer)->Actor_LineOfSight(1, best3, 1, 0, 0))
     {
         best3 = 0;
     }
@@ -456,11 +463,12 @@ struct S_9a64d0_Setting
 };
 extern S_9a64d0_Setting DAT_011ce4a0;
 
-float FUN_00408860(float f);
-float FUN_009a6770(Actor* a, Actor* b);
+float fabsf_00408860(float f);
+float CombatUtilities_GetAttackerTargetExtentSum(Actor* a, Actor* b);
 
 // @fnv 0x009a64d0
-float FUN_009a64d0(Actor* a, Actor* b, bool checkHeight)
+// src: XBOX_PDB 0x009a64d0
+float CombatUtilities_GetDistanceBetweenFacingActors(Actor* a, Actor* b, bool checkHeight)
 {
     float adjust8;
     float dist3;
@@ -475,12 +483,12 @@ float FUN_009a64d0(Actor* a, Actor* b, bool checkHeight)
         Actor* pB6 = (Actor*)b;
         if (pA3 && pB6)
         {
-            bool kBoth = pA3->FUN_005a2030() && pB6->FUN_005a2030();
+            bool kBoth = pA3->IsSwimming_005a2030() && pB6->IsSwimming_005a2030();
             S_9a64d0_Pt posA9 = *(S_9a64d0_Pt*)static_cast<const TESObjectREFR*>(pA3)->GetPos();
             S_9a64d0_Pt posB_2 = *(S_9a64d0_Pt*)static_cast<const TESObjectREFR*>(pB6)->GetPos();
             S_9a64d0_Pt ptA = posA9;
             S_9a64d0_Pt aPtB = posB_2;
-            if (kBoth || (checkHeight && FUN_00408860(ptA.z - aPtB.z) >= *DAT_011ce4a0.Float()))
+            if (kBoth || (checkHeight && fabsf_00408860(ptA.z - aPtB.z) >= *DAT_011ce4a0.Float()))
             {
                 ptA.z = 0.0f;
                 aPtB.z = 0.0f;
@@ -497,7 +505,7 @@ float FUN_009a64d0(Actor* a, Actor* b, bool checkHeight)
             }
         }
     }
-    adjust8 = FUN_009a6770(a, b);
+    adjust8 = CombatUtilities_GetAttackerTargetExtentSum(a, b);
     return dist3 - adjust8;
 }
 
@@ -508,11 +516,12 @@ struct S_009a6770_Pt
     float z;
 };
 // The shared Actor header does not yet declare this entry point.
-extern "C" void FUN_008be420();
+extern "C" void Actor_GetForwardLength();
 
 // Sums a's Y position times its scale (or FUN_008be420 if IsX) with b's same value when b is non-null, returning the total.
 // @fnv 0x009a6770
-float __cdecl FUN_009a6770(Actor* pRefA, Actor* pRefB)
+// src: XBOX_PDB 0x009a6770
+float __cdecl CombatUtilities_GetAttackerTargetExtentSum(Actor* pRefA, Actor* pRefB)
 {
     float total2 = 0.0f;
     Actor* r1;
@@ -522,38 +531,39 @@ float __cdecl FUN_009a6770(Actor* pRefA, Actor* pRefB)
     if (pRefA->IsActor())
     {
         r1 = pRefA;
-        total2 = reinterpret_cast<float (__thiscall*)(Actor*)>(FUN_008be420)(r1);
+        total2 = reinterpret_cast<float (__thiscall*)(Actor*)>(Actor_GetForwardLength)(r1);
     }
     else
     {
-        total2 = reinterpret_cast<S_009a6770_Pt* (__thiscall*)(Actor*, S_009a6770_Pt*)>((*reinterpret_cast<void***>(pRefA))[0x1dc / 4])(pRefA, &pt5)->y * pRefA->FUN_00567400();
+        total2 = reinterpret_cast<S_009a6770_Pt* (__thiscall*)(Actor*, S_009a6770_Pt*)>((*reinterpret_cast<void***>(pRefA))[0x1dc / 4])(pRefA, &pt5)->y * pRefA->TESObjectREFR_GetScale_00567400();
     }
     if (pRefB)
     {
         if (pRefB->IsActor())
         {
             r2 = pRefB;
-            total2 = reinterpret_cast<float (__thiscall*)(Actor*)>(FUN_008be420)(r2) + total2;
+            total2 = reinterpret_cast<float (__thiscall*)(Actor*)>(Actor_GetForwardLength)(r2) + total2;
         }
         else
         {
-            total2 = reinterpret_cast<S_009a6770_Pt* (__thiscall*)(Actor*, S_009a6770_Pt*)>((*reinterpret_cast<void***>(pRefB))[0x1dc / 4])(pRefB, &pt3)->y * pRefB->FUN_00567400() + total2;
+            total2 = reinterpret_cast<S_009a6770_Pt* (__thiscall*)(Actor*, S_009a6770_Pt*)>((*reinterpret_cast<void***>(pRefB))[0x1dc / 4])(pRefB, &pt3)->y * pRefB->TESObjectREFR_GetScale_00567400() + total2;
         }
     }
     return total2;
 }
 
-float __cdecl FUN_009a6770(Actor* pkActor, int iType);
+float __cdecl CombatUtilities_GetAttackerTargetExtentSum(Actor* pkActor, int iType);
 
 // @fnv 0x009a6830
-float __cdecl FUN_009a6830(Actor* pkActor, int iType, float afModifier)
+// src: XBOX_PDB 0x009a6830
+float __cdecl CombatUtilities_ComputeFaceTargetDistance(Actor* pkActor, int iType, float afModifier)
 {
-    float fBase2 = FUN_009a6770(pkActor, iType);
+    float fBase2 = CombatUtilities_GetAttackerTargetExtentSum(pkActor, iType);
     if (afModifier == -1.0)
         afModifier = GetActorReach(pkActor, (A69C0Weapon*)pkActor->GetEquippedWeapon());
     float fResult = afModifier * 0.5;
     fResult = fResult + fBase2;
-    fResult = FUN_00404010(fResult, 0.0f);
+    fResult = BSMAX_00404010(fResult, 0.0f);
     return fResult;
 }
 
@@ -567,37 +577,38 @@ struct S_009a68b0_Pt
     S_009a68b0_Pt FUN_00439ef0(S_009a68b0_Pt* other);
     S_009a68b0_Pt FUN_00439e90(S_009a68b0_Pt* other);
     S_009a68b0_Pt* FUN_00439180(float f);
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 
 struct S_009a68b0_Z
 {
-    float FUN_008e26a0();
+    float CombatController_GetCombatPosition();
 };
 
 extern S_009a68b0_Pt DAT_011f426c;
 extern double DAT_01023128;
 bool __cdecl AssignCombatPlanAngles(Actor* a, Actor* b);
-float __cdecl FUN_009a6830(Actor* a, Actor* b, float c);
-void __cdecl FUN_004169a0(float a, float* s, float* c);
+float __cdecl CombatUtilities_ComputeFaceTargetDistance(Actor* a, Actor* b, float c);
+void __cdecl NiSinCos_004169a0(float a, float* s, float* c);
 
 // @fnv 0x009a68b0
-S_009a68b0_Pt FUN_009a68b0(Actor* ref, Actor* obj, S_009a68b0_Pt* apPoint, float f)
+// src: XBOX_PDB 0x009a68b0
+S_009a68b0_Pt CombatUtilities_ComputeFaceTargetLocation(Actor* ref, Actor* obj, S_009a68b0_Pt* apPoint, float f)
 {
     S_009a68b0_Pt dir3 = DAT_011f426c;
     Actor* target2 = obj->IsActor() ? obj : 0;
     S_009a68b0_Z* z2 = (S_009a68b0_Z*)ref->GetCombatController();
     if (z2 && target2 && AssignCombatPlanAngles(target2, ref))
     {
-        float angle = z2->FUN_008e26a0();
-        FUN_004169a0(angle * DAT_01023128, &dir3.x, &dir3.y);
+        float angle = z2->CombatController_GetCombatPosition();
+        NiSinCos_004169a0(angle * DAT_01023128, &dir3.x, &dir3.y);
     }
     else
     {
         S_009a68b0_Pt diff = ((S_009a68b0_Pt*)static_cast<const TESObjectREFR*>((TESObjectREFR*)ref)->GetPos())->FUN_00439ef0(apPoint);
-        diff.FUN_004a0c10();
+        diff.Unitize_004a0c10();
     }
-    dir3.FUN_00439180(FUN_009a6830(ref, obj, f));
+    dir3.FUN_00439180(CombatUtilities_ComputeFaceTargetDistance(ref, obj, f));
     return apPoint->FUN_00439e90(&dir3);
 }
 
@@ -875,14 +886,14 @@ extern PlayerCharacter* g_thePlayer_011dea3c;
 
 struct ConeSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern ConeSetting g_s_011cfa58;
 extern ConeSetting g_s_011cfda4;
 
 float __cdecl FUN_004b1550(ConePoint* pkDir);
 void* __cdecl BSUtilities_GetObjectByName(void* pkRoot, const char* pcName);
-float __cdecl FUN_00408860(float f);
+float __cdecl fabsf_00408860(float f);
 float __cdecl FUN_00408840(float f);
 float __cdecl GetCombatHitConesAngles(int iSkill);
 
@@ -905,20 +916,20 @@ bool __cdecl IsTargetInCone(Actor* pkShooter, Actor* pkTarget, float* pfAngleOut
     {
         float fX_2 = 0.0f;
         float fYA = 0.0f;
-        void* pkNodeRes = BSUtilities_GetObjectByName(g_thePlayer_011dea3c->FUN_00950bb0(0), s_szProjectileNode);
+        void* pkNodeRes = BSUtilities_GetObjectByName(g_thePlayer_011dea3c->PlayerCharacter_Get3D_00950bb0(0), s_szProjectileNode);
         g_thePlayer_011dea3c->UpdateAim(0, pkNodeRes, &fX_2, &fYA, 0, 1.175494351e-38F, 1.175494351e-38F);
-        if (g_thePlayer_011dea3c->FUN_00963730())
+        if (g_thePlayer_011dea3c->PlayerCharacter_GetAutoAimActor())
             fAimDirectionOffset = fX_2;
     }
     float fAngleA =
-        FUN_00408860(pkShooter->GetCurrentTargetDistance(0) + fAimDirectionOffset - fHeadingLoc) * 57.2957763671875f;
+        fabsf_00408860(pkShooter->GetCurrentTargetDistance(0) + fAimDirectionOffset - fHeadingLoc) * 57.2957763671875f;
     if (fAngleA > 180.0)
         fAngleA = FUN_00408840(fAngleA - 360.0);
     float fConeTmp = 0.0f;
     if (pkShooter == (Actor*)g_thePlayer_011dea3c)
         fConeTmp = GetCombatHitConesAngles(iSkillOut);
     else
-        fConeTmp = *g_s_011cfa58.FUN_00403e20();
+        fConeTmp = *g_s_011cfa58.Setting_Float_00403e20();
     if (kDeltaA.FUN_00457990() < 128.0)
         fConeTmp = fConeTmp * 3.0;
     if (fAngleA <= fConeTmp)
@@ -930,7 +941,7 @@ bool __cdecl IsTargetInCone(Actor* pkShooter, Actor* pkTarget, float* pfAngleOut
         Actor* pkActor = pkTarget;
         if (pkActor->HasHealth(false))
         {
-            fConeTmp = fConeTmp * *g_s_011cfda4.FUN_00403e20();
+            fConeTmp = fConeTmp * *g_s_011cfda4.Setting_Float_00403e20();
             if (fAngleA <= fConeTmp)
                 bInConeX = true;
         }
@@ -948,9 +959,9 @@ struct S_009a6d70_Point
     S_009a6d70_Point(const S_009a6d70_Point& o) : x(o.x), y(o.y), z(o.z)
     {}
 };
-S_009a6d70_Point FUN_009a88e0(Actor* actor, CombatPoint3 target);
+S_009a6d70_Point CombatUtilities_GetAngleToProjectedPoint(Actor* actor, CombatPoint3 target);
 float FUN_004b1480(float angle);
-float FUN_004b15e0(float from, float to, float* out);
+float GetAngleDelta(float from, float to, float* out);
 float FUN_00408840(float value);
 extern "C" double DAT_0101ff48;
 extern "C" double DAT_01011588;
@@ -958,13 +969,13 @@ extern "C" double DAT_01011588;
 // @fnv 0x009a6d70
 bool IsWithinAimLimits(Actor* actor, CombatPoint3* target, float afMaxHeadingDiff, float afMaxPitchDiff)
 {
-    S_009a6d70_Point angles4 = FUN_009a88e0(actor, *target);
+    S_009a6d70_Point angles4 = CombatUtilities_GetAngleToProjectedPoint(actor, *target);
     if (afMaxHeadingDiff < DAT_0101ff48)
     {
         float heading5 = actor->GetAdjustedAngle();
         angles4.z = FUN_004b1480(angles4.z);
         float signZ5 = 0.0f;
-        float diffZ = FUN_00408840(FUN_004b15e0(heading5, angles4.z, &signZ5));
+        float diffZ = FUN_00408840(GetAngleDelta(heading5, angles4.z, &signZ5));
         if (afMaxHeadingDiff * DAT_01011588 < diffZ)
             return false;
     }
@@ -973,7 +984,7 @@ bool IsWithinAimLimits(Actor* actor, CombatPoint3* target, float afMaxHeadingDif
         float pitch4 = actor->FUN_00931d70();
         angles4.x = FUN_004b1480(angles4.x);
         float signX3 = 0.0f;
-        float diffX = FUN_00408840(FUN_004b15e0(pitch4, angles4.x, &signX3));
+        float diffX = FUN_00408840(GetAngleDelta(pitch4, angles4.x, &signX3));
         if (afMaxPitchDiff * DAT_01011588 < diffX)
             return false;
     }
@@ -988,30 +999,31 @@ struct S_009a7670_P3
 };
 struct S_009a7670_Setting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern S_009a7670_Setting DAT_011cf95c;
 extern S_009a7670_Setting DAT_011cfb78;
 extern "C" double DAT_0101a6b0;
-S_009a7670_P3 FUN_009a8f00(S_009a7670_P3 a, S_009a7670_P3 b, S_009a7670_P3 c, float r, float v, unsigned char flag);
-bool FUN_009a6e90(void* a, BGSProjectile* obj, float f, S_009a7670_P3 p, S_009a7670_P3 q, int zero, int* found,
+S_009a7670_P3 CombatUtilities_GetProjectedPointForTarget(S_009a7670_P3 a, S_009a7670_P3 b, S_009a7670_P3 c, float r, float v, unsigned char flag);
+bool CombatUtilities_CalculateProjectileLOS(void* a, BGSProjectile* obj, float f, S_009a7670_P3 p, S_009a7670_P3 q, int zero, int* found,
                   float* dist);
 
 // @fnv 0x009a7670
-bool FUN_009a7670(void* a, int b, BGSProjectile* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
+// src: XBOX_PDB 0x009a7670
+bool CombatUtilities_CheckProjectileArc_009a7670(void* a, int b, BGSProjectile* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
                   unsigned char* flag, S_009a7670_P3* out, float maxDist)
 {
     if (!a || !b)
         return false;
     if (maxDist == DAT_0101a6b0)
-        maxDist = *DAT_011cf95c.FUN_00403e20();
+        maxDist = *DAT_011cf95c.Setting_Float_00403e20();
     float dist8 = 0.0f;
     int found = 0;
-    float v = obj->FUN_00966980() * DAT_011f1c00;
+    float v = obj->GetGravity_00966980() * DAT_011f1c00;
     if (v == DAT_01012060)
     {
-        S_009a7670_P3 hit = FUN_009a8f00(p1, p2, p3, obj->GetFloatAtOffset68(), v, *flag);
-        bool ok = FUN_009a6e90(a, obj, 0, p1, hit, 0, &found, &dist8);
+        S_009a7670_P3 hit = CombatUtilities_GetProjectedPointForTarget(p1, p2, p3, obj->GetFloatAtOffset68(), v, *flag);
+        bool ok = CombatUtilities_CalculateProjectileLOS(a, obj, 0, p1, hit, 0, &found, &dist8);
         if (ok && found != b && dist8 < maxDist)
             return false;
         *out = hit;
@@ -1024,13 +1036,13 @@ bool FUN_009a7670(void* a, int b, BGSProjectile* obj, S_009a7670_P3 p1, S_009a76
             *flag = *flag ? 0 : 1;
         float k;
         if (*flag)
-            k = *DAT_011cfb78.FUN_00403e20();
+            k = *DAT_011cfb78.Setting_Float_00403e20();
         else
             k = 1.0f;
         float r2 = obj->GetFloatAtOffset68() * k;
         bool ok;
-        S_009a7670_P3 point = FUN_009a8f00(p1, p2, p3, r2, v, *flag);
-        ok = FUN_009a6e90(a, obj, r2, p1, point, 0, &found, &dist8);
+        S_009a7670_P3 point = CombatUtilities_GetProjectedPointForTarget(p1, p2, p3, r2, v, *flag);
+        ok = CombatUtilities_CalculateProjectileLOS(a, obj, r2, p1, point, 0, &found, &dist8);
         if (!ok || found == b || dist8 > maxDist)
         {
             *out = point;
@@ -1043,7 +1055,7 @@ bool FUN_009a7670(void* a, int b, BGSProjectile* obj, S_009a7670_P3 p1, S_009a76
 
 struct GlobalSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern GlobalSetting g_011cfb78;
 
@@ -1056,17 +1068,17 @@ float __cdecl ComputeProjectileFlightTime(BGSProjectile* actor, NiPoint3 from, N
     {
         fVel = actor->GetFloatAtOffset68();
     }
-    if (actor->FUN_00966980() != DAT_01012060)
+    if (actor->GetGravity_00966980() != DAT_01012060)
     {
         if (flag && speed == DAT_01012060)
         {
-            speed = speed * *g_011cfb78.FUN_00403e20();
+            speed = speed * *g_011cfb78.Setting_Float_00403e20();
         }
         float fAngleDifference = vDelta.z;
-        float afGravity = vDelta.FUN_00589850();
+        float afGravity = vDelta.NiPoint3_XYLength();
         float m_fGlyphExtent =
-            ComputeLaunchAngle(afGravity, fAngleDifference, speed, actor->FUN_00966980() * DAT_011f1c00, false);
-        return FUN_009a7dd0(afGravity, m_fGlyphExtent, fVel);
+            ComputeLaunchAngle(afGravity, fAngleDifference, speed, actor->GetGravity_00966980() * DAT_011f1c00, false);
+        return CombatUtilities_ComputeProjectileTime(afGravity, m_fGlyphExtent, fVel);
     }
     return vDelta.FUN_00457990() / speed;
 }
@@ -1091,7 +1103,7 @@ float __cdecl GetScaleOrHeightDelta(TESObjectREFR* apRefr, int aiFlag)
         selfX = reinterpret_cast<Actor*>(apRefr);
         if (selfX->FUN_004997b0() && (unsigned char)aiFlag == 0)
         {
-            fValue8 = selfX->FUN_008854d0(0);
+            fValue8 = selfX->Actor_GetSneakHeight(0);
         }
         else
         {
@@ -1127,15 +1139,15 @@ struct S_009a82b0_Point2
     float Length() const;
 };
 
-void FUN_004169a0(float angle, float& s, float& c);
-S_009a82b0_Point3 FUN_009a8050(Actor* apRef);
+void NiSinCos_004169a0(float angle, float& s, float& c);
+S_009a82b0_Point3 CombatUtilities_GetAttackerFiringLocation(Actor* apRef);
 extern "C" double DAT_01030f38;
 
 // Local names were chosen so the /Od stack slots land where the original has them.
 // @fnv 0x009a82b0
 S_009a82b0_Point3 GetAdjustedPosition(Actor* apRef)
 {
-    S_009a82b0_Point3 kPos = FUN_009a8050(apRef);
+    S_009a82b0_Point3 kPos = CombatUtilities_GetAttackerFiringLocation(apRef);
     if (apRef->IsActor())
     {
         Actor* pWho = apRef;
@@ -1143,7 +1155,7 @@ S_009a82b0_Point3 GetAdjustedPosition(Actor* apRef)
         float fFacing = pWho->GetCurrentTargetDistance(0);
         float fSinYaw = 0.0f;
         float fYawCos = 0.0f;
-        FUN_004169a0(fFacing + DAT_01030f38, fSinYaw, fYawCos);
+        NiSinCos_004169a0(fFacing + DAT_01030f38, fSinYaw, fYawCos);
         S_009a82b0_Point2 kAim(fSinYaw, fYawCos);
         S_009a82b0_Point2 kDelta(kPos.x - kStart.x, kPos.y - kStart.y);
         float fProjectionAlongAim = kDelta.Dot(kAim);
@@ -1153,7 +1165,7 @@ S_009a82b0_Point3 GetAdjustedPosition(Actor* apRef)
         float fLook = pWho->FUN_00931d70();
         float fLookSin = 0.0f;
         float fB = 0.0f;
-        FUN_004169a0(fLook, fLookSin, fB);
+        NiSinCos_004169a0(fLook, fLookSin, fB);
         S_009a82b0_Point2 kToPoint(kPos.x - kProjected.x, kPos.y - kProjected.y);
         float fHoriz = kToPoint.Length();
         float fDZ = fHoriz * fLookSin / fB;
@@ -1165,7 +1177,8 @@ S_009a82b0_Point3 GetAdjustedPosition(Actor* apRef)
 }
 
 // @fnv 0x009a8460
-float __cdecl FUN_009a8460(Actor* actor, int type, bool flag)
+// src: XBOX_PDB 0x009a8460
+float __cdecl CombatUtilities_GetTargetFiringZOffset(Actor* actor, int type, bool flag)
 {
     float f;
     Actor* act;
@@ -1175,9 +1188,9 @@ float __cdecl FUN_009a8460(Actor* actor, int type, bool flag)
     {
         act = actor;
         b = act->FUN_004997b0() && !flag;
-        f = b ? act->FUN_008854d0(0) : act->GetActorHeight();
+        f = b ? act->Actor_GetSneakHeight(0) : act->GetActorHeight();
 
-        if (act->GetHasKnockedState() || act->FUN_00579670() || act->HasHealth(false))
+        if (act->GetHasKnockedState() || act->Actor_IsSleeping() || act->HasHealth(false))
         {
             return f * 0.1f;
         }
@@ -1202,7 +1215,7 @@ float __cdecl FUN_009a8460(Actor* actor, int type, bool flag)
     {
         CombatPoint3 p2;
         CombatPoint3 p1;
-        return (reinterpret_cast<CombatPoint3* (__thiscall*)(Actor*, CombatPoint3*)>((*reinterpret_cast<void***>(actor))[0x1dc / 4])(actor, &p2)->z - reinterpret_cast<CombatPoint3* (__thiscall*)(Actor*, CombatPoint3*)>((*reinterpret_cast<void***>(actor))[0x1d8 / 4])(actor, &p1)->z) * actor->FUN_00567400() * 0.5f;
+        return (reinterpret_cast<CombatPoint3* (__thiscall*)(Actor*, CombatPoint3*)>((*reinterpret_cast<void***>(actor))[0x1dc / 4])(actor, &p2)->z - reinterpret_cast<CombatPoint3* (__thiscall*)(Actor*, CombatPoint3*)>((*reinterpret_cast<void***>(actor))[0x1d8 / 4])(actor, &p1)->z) * actor->TESObjectREFR_GetScale_00567400() * 0.5f;
     }
 
     return 0.0f;
@@ -1221,7 +1234,8 @@ struct NiVecOps
 void __cdecl GetPitchYaw(CombatPoint3* out, CombatPoint3 a, CombatPoint3 b);
 
 // @fnv 0x009a8970
-CombatPoint3* __cdecl FUN_009a8970(CombatPoint3* out, CombatPoint3 a, CombatPoint3 b, float afUnused, CombatPoint3 c)
+// src: XBOX_PDB 0x009a8970
+CombatPoint3* __cdecl CombatUtilities_GetAngleToProjectedPoint_009a8970(CombatPoint3* out, CombatPoint3 a, CombatPoint3 b, float afUnused, CombatPoint3 c)
 {
     CombatPoint3 tmp;
     float t3;
@@ -1246,7 +1260,7 @@ CombatPoint3* __cdecl FUN_009a8970(CombatPoint3* out, CombatPoint3 a, CombatPoin
 
     if (t3 < DAT_011a5594 * DAT_011a5594)
     {
-        s2 = FUN_004579e0(t3);
+        s2 = NiSqrt_004579e0(t3);
         c = *reinterpret_cast<NiVecOps*>(&b)->FUN_00439e90(
             &r3, reinterpret_cast<NiVecOps*>(&tmp)->ApplyScaled(&r8, DAT_011a5594 / s2));
     }
@@ -1268,7 +1282,7 @@ struct TrajVec
     float z;
 };
 // The shared projectile header does not yet declare its explosion accessor.
-extern "C" void FUN_004fd3c0();
+extern "C" void BGSProjectile_GetExplosion();
 
 struct TrajWeapon
 {
@@ -1302,16 +1316,16 @@ TrajOut* __cdecl ComputeTrajectory(TrajOut* out, Actor* target, void* a3, void* 
         }
     }
 
-    if (flag && actor->FUN_00966980() != DAT_01012060)
+    if (flag && actor->GetGravity_00966980() != DAT_01012060)
     {
         mode = 2;
     }
     else
     {
         bool f5;
-        TrajWeapon* w2 = reinterpret_cast<TrajWeapon* (__thiscall*)(BGSProjectile*)>(FUN_004fd3c0)(actor);
+        TrajWeapon* w2 = reinterpret_cast<TrajWeapon* (__thiscall*)(BGSProjectile*)>(BGSProjectile_GetExplosion)(actor);
         f5 = false;
-        if (actor->FUN_009a7f80() || (double)actor->GetFloatAtOffset68() >
+        if (actor->GetHitScan() || (double)actor->GetFloatAtOffset68() >
                                          *reinterpret_cast<SettingT<GameSettingCollection>*>(&DAT_011cebd4)->Float())
         {
             f5 = true;
@@ -1377,8 +1391,8 @@ struct FUN_009a8df0_vec
     float z;
 };
 
-FUN_009a8df0_vec* __cdecl FUN_009a8050(FUN_009a8df0_vec* tmp, int a);
-void __cdecl FUN_009a8f00(FUN_009a8df0_vec* out, FUN_009a8df0_vec c, FUN_009a8df0_vec b, FUN_009a8df0_vec a, float f1,
+FUN_009a8df0_vec* __cdecl CombatUtilities_GetAttackerFiringLocation(FUN_009a8df0_vec* tmp, int a);
+void __cdecl CombatUtilities_GetProjectedPointForTarget(FUN_009a8df0_vec* out, FUN_009a8df0_vec c, FUN_009a8df0_vec b, FUN_009a8df0_vec a, float f1,
                           float f2, unsigned char flag);
 
 // @fnv 0x009a8df0
@@ -1388,7 +1402,7 @@ FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8d
     float f;
     FUN_009a8df0_vec L;
 
-    if (obj->FUN_009a7f80())
+    if (obj->GetHitScan())
     {
         *out = vecB;
         return out;
@@ -1401,14 +1415,14 @@ FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8d
     else
     {
         FUN_009a8df0_vec T;
-        L = *FUN_009a8050(&T, a2);
+        L = *CombatUtilities_GetAttackerFiringLocation(&T, a2);
     }
-    f = obj->FUN_00966980() * DAT_011f1c00;
+    f = obj->GetGravity_00966980() * DAT_011f1c00;
     if ((double)a30 == DAT_01012060)
     {
         a30 = obj->GetFloatAtOffset68();
     }
-    FUN_009a8f00(out, L, vecB, vecA, a30, f, a34);
+    CombatUtilities_GetProjectedPointForTarget(out, L, vecB, vecA, a30, f, a34);
     return out;
 }
 
@@ -1423,19 +1437,20 @@ struct AimPoint
 
 struct AimIntSetting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 extern AimIntSetting g_s_011cfc08;
 
 float __cdecl ComputeLaunchAngle(float fDist, float m_fGlyphExtent, float fSpeed, float afGravity, bool bArc);
-float __cdecl FUN_009a7dd0(float fDist, float fAngleDifference, float fSpeed);
-float __cdecl FUN_0057dd70(float fAngleDifference);
+float __cdecl CombatUtilities_ComputeProjectileTime(float fDist, float fAngleDifference, float fSpeed);
+float __cdecl tan_0057dd70(float fAngleDifference);
 
 // @fnv 0x009a8f00
-AimPoint __cdecl FUN_009a8f00(AimPoint kTarget, AimPoint kStart, AimPoint kMotionVelocity, float fSpeed,
+// src: XBOX_PDB 0x009a8f00
+AimPoint __cdecl CombatUtilities_GetProjectedPointForTarget(AimPoint kTarget, AimPoint kStart, AimPoint kMotionVelocity, float fSpeed,
                               float afGravity, bool bArc)
 {
-    int iIterationsVal2 = *g_s_011cfc08.FUN_0043d4d0();
+    int iIterationsVal2 = *g_s_011cfc08.Setting_Int();
     if (kMotionVelocity.x == 0.0 && kMotionVelocity.y == 0.0 && kMotionVelocity.z == 0.0)
         iIterationsVal2 = 1;
     float kFTime = 0.0f;
@@ -1467,20 +1482,20 @@ AimPoint __cdecl FUN_009a8f00(AimPoint kTarget, AimPoint kStart, AimPoint kMotio
             if (kFHeight > 8192.0 || fHorizDistX < 1.0 || fHorizDistX > 8192.0)
                 break;
             fAngleTmp = ComputeLaunchAngle(fHorizDistX, kFHeight, fSpeed, afGravity, bArc);
-            kFTime = FUN_009a7dd0(fHorizDistX, fAngleTmp, fSpeed);
+            kFTime = CombatUtilities_ComputeProjectileTime(fHorizDistX, fAngleTmp, fSpeed);
             kPos4 = kStart.FUN_00439e90(kMotionVelocity.ApplyScaled(kFTime));
         }
         AimPoint kFlatVal2 = kPos4.FUN_00439ef0(kTarget);
         kFlatVal2.z = 0.0f;
         fHorizDistX = kFlatVal2.FUN_00457990();
-        kPos4.z = FUN_0057dd70(fAngleTmp) * fHorizDistX + kTarget.z;
+        kPos4.z = tan_0057dd70(fAngleTmp) * fHorizDistX + kTarget.z;
     }
     return kPos4;
 }
 
 struct S_009a9180_Weapon
 {
-    float FUN_009a9350();
+    float TESCombatStyle_GetWeaponMinRangeMult();
     float FUN_00508050();
 };
 
@@ -1494,46 +1509,47 @@ struct S_009a9180_Data
 
 struct S_009a9180_Setting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 
 extern S_009a9180_Setting DAT_011ce87c;
 extern S_009a9180_Setting DAT_011ceab0;
 
 // @fnv 0x009a9180
-void FUN_009a9180(Actor* pActor, S_009a9180_Data* pData, float* pfMin, float* pfMax, float* pfDerived)
+// src: XBOX_PDB 0x009a9180
+void CombatUtilities_ComputeOptimalWeaponRanges(Actor* pActor, S_009a9180_Data* pData, float* pfMin, float* pfMax, float* pfDerived)
 {
     *pfMin = 512.0f;
     *pfMax = 1024.0f;
-    S_009a9180_Weapon* pWeapon = (S_009a9180_Weapon*)pActor->FUN_00980070();
+    S_009a9180_Weapon* pWeapon = (S_009a9180_Weapon*)pActor->GetCurrentCombatStyle();
     if (pData)
     {
         *pfMin = pData->GetFloatAt120();
         *pfMax = pData->GetField124Float();
         if (!pData->IsFlag20Set())
         {
-            *pfMin = pWeapon->FUN_009a9350() * *pfMin;
+            *pfMin = pWeapon->TESCombatStyle_GetWeaponMinRangeMult() * *pfMin;
             *pfMax = pWeapon->FUN_00508050() * *pfMax;
         }
-        *pfDerived = *pfMax * *DAT_011ce87c.FUN_00403e20();
+        *pfDerived = *pfMax * *DAT_011ce87c.Setting_Float_00403e20();
         BGSProjectile* pObj = pData->GetOrFallback(pActor->GetFieldBC());
         if (pObj)
         {
-            float fValue = FUN_009a7f00(pObj, 0.0f);
-            *pfMax = FUN_0040ebd0(*pfMax, fValue * *DAT_011ceab0.FUN_00403e20());
-            *pfDerived = FUN_0040ebd0(*pfDerived, fValue);
-            Standin77900* pProjectile = reinterpret_cast<Standin77900* (__thiscall*)(BGSProjectile*)>(FUN_004fd3c0)(pObj);
+            float fValue = CombatUtilities_GetProjectileMaximumRange(pObj, 0.0f);
+            *pfMax = BSMIN(*pfMax, fValue * *DAT_011ceab0.Setting_Float_00403e20());
+            *pfDerived = BSMIN(*pfDerived, fValue);
+            Standin77900* pProjectile = reinterpret_cast<Standin77900* (__thiscall*)(BGSProjectile*)>(BGSProjectile_GetExplosion)(pObj);
             if (pProjectile)
-                *pfMin = FUN_00404010(*pfMin, pProjectile->FUN_00477900());
-            *pfMin = FUN_0040ebd0(*pfMin, *pfMax - 256.0);
-            *pfMin = FUN_00404010(*pfMin, 0.0f);
+                *pfMin = BSMAX_00404010(*pfMin, pProjectile->FUN_00477900());
+            *pfMin = BSMIN(*pfMin, *pfMax - 256.0);
+            *pfMin = BSMAX_00404010(*pfMin, 0.0f);
         }
     }
     else
     {
-        *pfMin = pWeapon->FUN_009a9350() * *pfMin;
+        *pfMin = pWeapon->TESCombatStyle_GetWeaponMinRangeMult() * *pfMin;
         *pfMax = pWeapon->FUN_00508050() * *pfMax;
-        *pfDerived = *pfMax * *DAT_011ce87c.FUN_00403e20();
+        *pfDerived = *pfMax * *DAT_011ce87c.Setting_Float_00403e20();
     }
 }
 
@@ -1556,7 +1572,7 @@ class GlobalObject_0044f440
 };
 extern GlobalObject_0044f440 g_011f1c24;
 
-NiAVObject* __cdecl FUN_004b3890(const DebugPoint& kStart, const NiColorA& kStartColor, const DebugPoint& kEnd,
+NiAVObject* __cdecl MakeLine(const DebugPoint& kStart, const NiColorA& kStartColor, const DebugPoint& kEnd,
                                  const NiColorA& kEndColor, bool bArg);
 NiAVObject* __cdecl CreateOctahedron(float fRadius, const NiColorA& kColor, bool bArg);
 
@@ -1567,15 +1583,15 @@ void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int
     NiColorA aKTipColor = pkTipColor ? *pkTipColor : NiColorA(1.0f, 0.0f, 0.0f, 1.0f);
     NiColorA kLineColor6 = pkLineColor ? *pkLineColor : NiColorA(1.0f, 1.0f, 0.0f, 1.0f);
     DebugPoint kMid = bScaled ? (kEnd.FUN_00439ef0(kStart)).ApplyScaled(fScale).FUN_00439e90(kStart) : kEnd;
-    NiAVObject* pkLine_ = FUN_004b3890(kStart, kLineColor6, kMid, kLineColor6, true);
+    NiAVObject* pkLine_ = MakeLine(kStart, kLineColor6, kMid, kLineColor6, true);
     g_TES->FUN_00458e20(pkLine_, *g_011f1c24.Float());
     if (bScaled)
     {
         NiAVObject* pkSphere4 = CreateOctahedron(5.0f, aKTipColor, true);
-        pkSphere4->FUN_00a5a040();
-        pkSphere4->FUN_00440460(kMid);
+        pkSphere4->UpdateProperties();
+        pkSphere4->NiAVObject_SetTranslate(kMid);
         g_TES->FUN_00458e20(pkSphere4, *g_011f1c24.Float());
-        NiAVObject* pkTipLine = FUN_004b3890(kMid, aKTipColor, kEnd, aKTipColor, true);
+        NiAVObject* pkTipLine = MakeLine(kMid, aKTipColor, kEnd, aKTipColor, true);
         g_TES->FUN_00458e20(pkTipLine, *g_011f1c24.Float());
     }
 }
@@ -1642,7 +1658,7 @@ struct Effect
 
 struct Holder
 {
-    Actor** __thiscall FUN_006a7ad0(int i);
+    Actor** __thiscall BSSimpleArray_NiAVObject_1024_GetAt(int i);
     unsigned int __thiscall FUN_0044ddc0();
 };
 
@@ -1699,13 +1715,13 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
                 value = FUN_0042f5a0(value, 0x40);
                 for (unsigned int e = 0; e < value; e++)
                 {
-                    Actor* slot = *ptr->FUN_006a7ad0(e);
+                    Actor* slot = *ptr->BSSimpleArray_NiAVObject_1024_GetAt(e);
                     {
                         CombatPlan* m;
                         m = slot ? (CombatPlan*)slot->GetCombatController() : 0;
                         if (m)
                         {
-                            if ((m->FUN_00981940(7) || m->FUN_00981940(8)))
+                            if ((m->CombatController_CombatPlanContainsAction(7) || m->CombatController_CombatPlanContainsAction(8)))
                             {
                                 holder[layout.count].obj = m;
                                 holder[layout.count].pos = *(NiPoint3*)slot->FUN_00436aa0();
@@ -1769,20 +1785,21 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
     return result;
 }
 
-S_009a82b0_Point3 FUN_009a8250(Actor* actor);
-S_009a6d70_Point FUN_009a8970(FUN_009a8df0_vec a, S_009a82b0_Point3 b, float time, CombatPoint3 target);
+S_009a82b0_Point3 CombatUtilities_GetAttackerFiringLocationSimple(Actor* actor);
+S_009a6d70_Point CombatUtilities_GetAngleToProjectedPoint_009a8970(FUN_009a8df0_vec a, S_009a82b0_Point3 b, float time, CombatPoint3 target);
 // Calls FUN_009a8970 with FUN_009a8050's output, FUN_009a8250(actor), zero time, and target.
 // @fnv 0x009a88e0
-S_009a6d70_Point FUN_009a88e0(Actor* actor, CombatPoint3 target)
+// src: XBOX_PDB 0x009a88e0
+S_009a6d70_Point CombatUtilities_GetAngleToProjectedPoint(Actor* actor, CombatPoint3 target)
 {
     FUN_009a8df0_vec direction;
-    FUN_009a8050(&direction, (int)actor);
+    CombatUtilities_GetAttackerFiringLocation(&direction, (int)actor);
     float time = 0.0f;
-    return FUN_009a8970(direction, FUN_009a8250(actor), time, target);
+    return CombatUtilities_GetAngleToProjectedPoint_009a8970(direction, CombatUtilities_GetAttackerFiringLocationSimple(actor), time, target);
 }
 
 extern double DAT_0101ff58;
-float __cdecl FUN_004b54c0(float fValue);
+float __cdecl NiASin_004b54c0(float fValue);
 float __cdecl FUN_004b1550(NiPoint3* pkPt);
 
 // Computes two angles from the point difference, adjusts each using the shown 2π bounds, and returns them in x and z.
@@ -1794,7 +1811,7 @@ NiPoint3 GetPitchYaw(NiPoint3 kFrom, NiPoint3 kTo)
     NiPoint3 kPt = kTo - kFrom;
     float m_fGlyphExtent = kPt.z;
     float fLen = kPt.FUN_00457910();
-    float fAsin = FUN_004b54c0(m_fGlyphExtent / fLen);
+    float fAsin = NiASin_004b54c0(m_fGlyphExtent / fLen);
     fClampedPitch = -fAsin;
     if (fClampedPitch <= DAT_0101ff58)
         fClampedPitch += 6.2831854820251465;
@@ -1813,13 +1830,13 @@ namespace s9a8050 {
 
 struct Weapon
 {
-    bool FUN_004c0c30();
+    bool TESObjectWEAP_IsRangedWeapon();
     int FUN_00446390();
 };
 
 struct Process
 {
-    Weapon* FUN_007031c0();
+    Weapon* GetCurrentWeapon();
 };
 
 extern PlayerCharacter* DAT_011dea3c;
@@ -1828,7 +1845,8 @@ float GetScaleOrHeightDelta(Actor* pkActor, int iUnk);
 
 // Returns a head or bone position when available; otherwise adds a height delta to the reference position.
 // @fnv 0x009a8050
-CombatPoint3 FUN_009a8050(Actor* pkRef)
+// src: XBOX_PDB 0x009a8050
+CombatPoint3 CombatUtilities_GetAttackerFiringLocation(Actor* pkRef)
 {
     CombatPoint3 kPos;
     if (pkRef->IsActor())
@@ -1839,28 +1857,28 @@ CombatPoint3 FUN_009a8050(Actor* pkRef)
         // The shared process accessor is nonvirtual; the original dispatches through slot 0x428.
         Process* pkProc = reinterpret_cast<Process* (__thiscall*)(Actor*)>((*reinterpret_cast<void***>(pkActor))[0x428 / 4])(pkActor);
         if (pkProc)
-            pkWeap = pkProc->FUN_007031c0();
+            pkWeap = pkProc->GetCurrentWeapon();
         else
-            pkWeap = (Weapon*)pkActor->FUN_008a1710();
-        if (!pkWeap || pkWeap->FUN_004c0c30())
+            pkWeap = (Weapon*)pkActor->Actor_GetCurrentWeapon();
+        if (!pkWeap || pkWeap->TESObjectWEAP_IsRangedWeapon())
         {
             NiNode* pkRoot = (NiNode*)pkActor->FUN_008d8520();
             if (pkActor && pkRoot &&
                 (!pkWeap || pkWeap->FUN_00446390() == 0xa || pkWeap->FUN_00446390() == 0xb ||
                  pkWeap->FUN_00446390() == 0xd || pkWeap->FUN_00446390() == 0xc))
             {
-                int iBone = bIsPC ? DAT_011dea3c->FUN_00950b00(DAT_011dea3c->FUN_004eaf60()) : reinterpret_cast<int (__thiscall*)(Actor*)>((*reinterpret_cast<void***>(pkActor))[0x1EC / 4])(pkActor);
+                int iBone = bIsPC ? DAT_011dea3c->GetBiped(DAT_011dea3c->PlayerCharacter_Is3rdPerson()) : reinterpret_cast<int (__thiscall*)(Actor*)>((*reinterpret_cast<void***>(pkActor))[0x1EC / 4])(pkActor);
                 // The shared bone lookup is nonvirtual; this call uses the original slot 0x190.
                 NiAVObject* pkBone = reinterpret_cast<NiAVObject* (__thiscall*)(NiNode*, int)>(
                     (*reinterpret_cast<void***>(pkRoot))[100])(pkRoot, iBone);
                 if (pkBone)
-                    return *(const CombatPoint3*)&pkBone->FUN_0045bb80();
+                    return *(const CombatPoint3*)&pkBone->NiAVObject_GetWorldTranslate();
             }
             else
             {
                 NiAVObject* pkHead = reinterpret_cast<NiAVObject* (__thiscall*)(Actor*)>((*reinterpret_cast<void***>(pkActor))[0x20C / 4])(pkActor);
                 if (pkHead)
-                    return *(const CombatPoint3*)&pkHead->FUN_0045bb80();
+                    return *(const CombatPoint3*)&pkHead->NiAVObject_GetWorldTranslate();
             }
         }
     }

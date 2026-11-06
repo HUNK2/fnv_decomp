@@ -61,9 +61,9 @@ struct S_00d54cd0_Result
     int unk28;
     bool unk2C;
 };
-S_00d54cd0_Result* FUN_00d54a40(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
+S_00d54cd0_Result* hkpMoppUtility_buildCodeInternal(S_00d54cd0_Base* col, void* world, S_00d54cd0_Input* in, void* out) throw();
 S_00d54cd0_Result* hkpMoppUtility_buildCode(void* world, S_00d54cd0_Input* pInput, void* out);
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct Record
 {
     int m_i00;
@@ -102,7 +102,7 @@ struct RecordArray
 
     ~RecordArray() throw()
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -271,7 +271,7 @@ struct FUN_00dd5de0
     static void operator delete(void* p, unsigned int nbytes)
     {
         FUN_00dd5de0* b = static_cast<FUN_00dd5de0*>(p);
-        reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap)->bufFree(p, static_cast<int>(b->m_usMemSizeAndFlags));
+        reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap)->bufFree(p, static_cast<int>(b->m_usMemSizeAndFlags));
     }
 };
 struct OutCollection

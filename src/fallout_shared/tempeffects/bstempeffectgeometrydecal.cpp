@@ -559,7 +559,7 @@ struct Obj_cls
     virtual void v58(void* p);
     Obj_cls* FUN_00559450();
     Obj_cls* NiAVObject_GetParent();
-    int FUN_00453470();
+    int NiNode_GetChildCount();
     void RemoveEffect(void* p);
 };
 
@@ -601,7 +601,7 @@ bool BSTempEffectGeometryDecal::Update_006888a0(float afValue)
         }
         if (outTmp != 0)
         {
-            if (((Obj_cls*)m_sp34.operator->())->FUN_00453470() == 0)
+            if (((Obj_cls*)m_sp34.operator->())->NiNode_GetChildCount() == 0)
             {
                 ((Obj_cls*)m_sp34.operator->())->NiAVObject_GetParent()->v58(((Obj_cls*)m_sp34.operator->()));
                 DAT_011c57f0 = DAT_011c57f0 - 1;
@@ -614,7 +614,7 @@ bool BSTempEffectGeometryDecal::Update_006888a0(float afValue)
 
 struct GlobalRuntime
 {
-    bool __thiscall FUN_00862110();
+    bool __thiscall TESSaveLoadGame_UseSaveGameBlocks();
     char* __thiscall FUN_004fd3e0();
 };
 
@@ -629,8 +629,8 @@ extern char str_01012c78;
 extern char str_01012cb0;
 extern char str_01069ba0;
 
-void* __cdecl FUN_004839c0(void* object);
-void __cdecl FUN_0040fbe0(const char* format, ...);
+void* __cdecl TESForm_GetFormByNumericID(void* object);
+void __cdecl ProgramFlow(const char* format, ...);
 
 typedef unsigned int(__fastcall* VirtualQuery)(void* object);
 
@@ -641,7 +641,7 @@ unsigned short BSTempEffectGeometryDecal::GetRuntimeFlags()
     unsigned short usFlags = 0;
     unsigned short usInitialFlags = usFlags;
 
-    if (DAT_011de45c->FUN_00862110())
+    if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         usFlags += 4;
         usFlags += 2;
@@ -652,14 +652,14 @@ unsigned short BSTempEffectGeometryDecal::GetRuntimeFlags()
         char* current = DAT_011de45c->FUN_004fd3e0();
         if (current)
         {
-            void* related = FUN_004839c0(*reinterpret_cast<void**>(current));
-            FUN_0040fbe0(&str_01012cb0, usFlags - usInitialFlags, *reinterpret_cast<void**>(current),
+            void* related = TESForm_GetFormByNumericID(*reinterpret_cast<void**>(current));
+            ProgramFlow(&str_01012cb0, usFlags - usInitialFlags, *reinterpret_cast<void**>(current),
                          reinterpret_cast<VirtualQuery>((*reinterpret_cast<void***>(related))[0x4c])(related),
                          *reinterpret_cast<unsigned int*>(current + 5), 0x72f, &str_01069ba0);
         }
         else
         {
-            FUN_0040fbe0(&str_01012c78, usFlags - usInitialFlags, 0x72f, &str_01069ba0);
+            ProgramFlow(&str_01012c78, usFlags - usInitialFlags, 0x72f, &str_01069ba0);
         }
     }
     return usFlags;
@@ -688,7 +688,7 @@ extern double DAT_01030f28;
 extern double DAT_01011588;
 extern double DAT_010231d8;
 void __cdecl NiMatrix3_TransformVertices(void* a, void* b, int c, void* d, void* e);
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 float __cdecl FUN_00408840(float a);
 struct Calc685
 {
@@ -752,7 +752,7 @@ struct BigObj2c
     BigObj2c();
     ~BigObj2c();
 };
-void* __cdecl FUN_00aa1070(unsigned int n);
+void* __cdecl _NiMalloc_00aa1070(unsigned int n);
 void* __cdecl FUN_00aa13e0(unsigned int n);
 struct Obj18c
 {
@@ -770,11 +770,11 @@ void __cdecl FormHeapFreeAndLog_00401030(void* p);
 extern double DAT_01012060;
 extern void(__cdecl* DAT_00fdf0c8)();
 extern GlobalObjectO2_00a7b610 g_011f49d8;
-unsigned char __cdecl FUN_0045bad0(GlobalObjectO2_00a7b610* g, void* p);
+unsigned char __cdecl NiObject_IsExactKindOf(GlobalObjectO2_00a7b610* g, void* p);
 void __cdecl ourMemset(void* p, int v, unsigned int n);
 struct GeomObj
 {
-    NiSkinInstance* FUN_0043fad0();
+    NiSkinInstance* NiGeometry_GetSkinInstance();
 };
 struct CtrlObj
 {
@@ -802,11 +802,11 @@ struct ThirteenDw
 };
 struct ConvObjA
 {
-    NineDw* FUN_00461130();
+    NineDw* NiAVObject_GetWorldRotate();
 };
 struct ConvObjB
 {
-    ThirteenDw* FUN_00461130();
+    ThirteenDw* NiAVObject_GetWorldRotate();
 };
 struct Obj1bc
 {
@@ -851,7 +851,7 @@ struct RetC4
     int m_1c;
     int m_20;
 };
-RetC4 __cdecl FUN_00c4b600(NiPoint3 pt);
+RetC4 __cdecl BSUtilities_GetRotationZToVector(NiPoint3 pt);
 struct SphC
 {
     Pt3Obj m_afExtents;
@@ -889,7 +889,7 @@ struct Small
 };
 struct ChainObj
 {
-    void* FUN_004a8a90();
+    void* NiTimeController_GetNext();
     unsigned short FUN_0047d370();
     unsigned char FUN_00a67360(int a);
     void NiGeometryData_GetVerticesIterator(Small* p);
@@ -901,7 +901,7 @@ struct ChainObj
 };
 struct MidObj
 {
-    ChainObj* FUN_005495f0();
+    ChainObj* NiGeometry_GetModelData();
 };
 struct Entry4
 {
@@ -933,7 +933,7 @@ struct Ctrl150
 };
 struct CtrlHolder
 {
-    Ctrl150* FUN_0084e3a0();
+    Ctrl150* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct SkinMid
 {
@@ -1017,9 +1017,9 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     unsigned short word14LocalBL;
     Obj16* arr10LocalCD;
 
-    skinInstLocalAA = ((GeomObj*)((const char*)m_sp2C.operator->()))->FUN_0043fad0();
+    skinInstLocalAA = ((GeomObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetSkinInstance();
     savedLocalAB = 0;
-    if (FUN_0045bad0(&g_011f49d8, skinInstLocalAA))
+    if (NiObject_IsExactKindOf(&g_011f49d8, skinInstLocalAA))
         savedLocalAB = skinInstLocalAA;
     else
         return;
@@ -1027,7 +1027,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
 
     sph1LocalAC.m_afExtents.FUN_006815c0();
 
-    nineLocalBC = *((ConvObjA*)((const char*)m_sp2C.operator->()))->FUN_00461130();
+    nineLocalBC = *((ConvObjA*)((const char*)m_sp2C.operator->()))->NiAVObject_GetWorldRotate();
 
     nineLocalBC.FUN_004b45b0(&obj1bcLocalAE);
 
@@ -1036,9 +1036,9 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
 
     sph3LocalCK.m_afExtents.FUN_006815c0();
     sph3LocalCK.FUN_004a0c90(m_54);
-    sph1LocalAC = sph3LocalCK.FUN_0043f8d0(FUN_00c4b600(m_44));
+    sph1LocalAC = sph3LocalCK.FUN_0043f8d0(BSUtilities_GetRotationZToVector(m_44));
 
-    thirteenLocalAI = *((ConvObjB*)((const char*)m_sp2C.operator->()))->FUN_00461130();
+    thirteenLocalAI = *((ConvObjB*)((const char*)m_sp2C.operator->()))->NiAVObject_GetWorldRotate();
     ((Obj160*)&thirteenLocalAI.m_24)->Subtract((Src38*)&m_38);
 
     s1LocalBB.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
@@ -1046,7 +1046,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     s3LocalBN.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
     s4LocalAA.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
     s5LocalAF.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
-    p144LocalEF = ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_004a8a90();
+    p144LocalEF = ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->NiTimeController_GetNext();
     z140LocalBM = 0;
     data38LocalAM = 0;
     arr198LocalAB = 0;
@@ -1058,16 +1058,16 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     if (data38LocalAM == 0)
         return;
     cntFcLocalBB = (int)((ChainObj*)p144LocalEF)->FUN_0047d370();
-    byteE9LocalBH = ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_00a67360(0);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->NiGeometryData_GetVerticesIterator(&s1LocalBB);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetBounds(&s2LocalAK);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetKeyAndMode(0, &s3LocalBN);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetOutRec(&s4LocalAA);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FillOutRec674(&s5LocalAF);
+    byteE9LocalBH = ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->FUN_00a67360(0);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->NiGeometryData_GetVerticesIterator(&s1LocalBB);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->GetBounds(&s2LocalAK);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->GetKeyAndMode(0, &s3LocalBN);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->GetOutRec(&s4LocalAA);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->FillOutRec674(&s5LocalAF);
     word110LocalBC = 0;
     byte89LocalAD = 0;
     count194LocalBA = 0;
-    ctrl150LocalAG = ((CtrlHolder*)((SkinBase*)skinInstLocalAA)->NiObjectNET_GetControllers())->FUN_0084e3a0();
+    ctrl150LocalAG = ((CtrlHolder*)((SkinBase*)skinInstLocalAA)->NiObjectNET_GetControllers())->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     flag13cLocalAL = ctrl150LocalAG->m_22 > 0;
     (void)flag13cLocalAL;
     for (int iValueDA = 0; iValueDA < (int)flagsLocalBC; iValueDA = iValueDA + 1)
@@ -1168,7 +1168,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
             NiMatrix3_TransformVertices(&sph1LocalAC, &DAT_011f426c, 1, &(*reinterpret_cast<NiPoint3*>(gPtBValueBI)), &(*reinterpret_cast<NiPoint3*>(gPtAValueAG)));
             arr34LocalCA[kValueBC].x = (*reinterpret_cast<NiPoint3*>(gPtAValueAG)).x / m_50 + 0.5f;
             arr34LocalCA[kValueBC].y = (*reinterpret_cast<NiPoint3*>(gPtAValueAG)).y / m_50 + 0.5f;
-            tmp1e4ValueAC = 1.0f - FUN_00404010(0.0f, (*reinterpret_cast<NiPoint3*>(ptE4LocalAB)).DotProduct((NiPoint3*)&ptCCLocalAD));
+            tmp1e4ValueAC = 1.0f - BSMAX_00404010(0.0f, (*reinterpret_cast<NiPoint3*>(ptE4LocalAB)).DotProduct((NiPoint3*)&ptCCLocalAD));
             arr34LocalCA[kValueBC].z =
                 Calc685::ForwardFloatAndInt(tmp1e4ValueAC, 10) * (1.0f - FUN_00408840((*reinterpret_cast<NiPoint3*>(gPtAValueAG)).z) / 256.0f);
         }
@@ -1367,22 +1367,22 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
                         int tmp278ValueAL;
 
                         arr54LocalAD[count194LocalBA].m_1e = (unsigned short)((int)word218ValueAB / 3);
-                        arr54LocalAD[count194LocalBA].m_14 = FUN_00aa1070((unsigned int)word218ValueAB << 1);
+                        arr54LocalAD[count194LocalBA].m_14 = _NiMalloc_00aa1070((unsigned int)word218ValueAB << 1);
                         FUN_00401460(arr54LocalAD[count194LocalBA].m_14, a1c4LocalAF,
                                      (unsigned int)word218ValueAB << 1);
                         arr54LocalAD[count194LocalBA].m_1c = word224ValueAP;
-                        arr54LocalAD[count194LocalBA].m_0c = FUN_00aa1070((unsigned int)word224ValueAP << 1);
+                        arr54LocalAD[count194LocalBA].m_0c = _NiMalloc_00aa1070((unsigned int)word224ValueAP << 1);
                         FUN_00401460(arr54LocalAD[count194LocalBA].m_0c, aD0LocalBA, (unsigned int)word224ValueAP << 1);
                         arr54LocalAD[count194LocalBA].m_20 = (unsigned short)((BigEntry*)ctrl150LocalAG)[mValueBC].t20;
                         arr54LocalAD[count194LocalBA].m_04 =
-                            FUN_00aa1070((unsigned int)(unsigned short)((BigEntry*)ctrl150LocalAG)[mValueBC].t20 << 1);
+                            _NiMalloc_00aa1070((unsigned int)(unsigned short)((BigEntry*)ctrl150LocalAG)[mValueBC].t20 << 1);
                         FUN_00401460(arr54LocalAD[count194LocalBA].m_04,
                                      (void*)((BigEntry*)ctrl150LocalAG)[mValueBC].m_04,
                                      (unsigned int)(unsigned short)((BigEntry*)ctrl150LocalAG)[mValueBC].t20 << 1);
                         arr54LocalAD[count194LocalBA].m_24 = (unsigned short)((BigEntry*)ctrl150LocalAG)[mValueBC].t24;
                         tmp278ValueAL = (int)arr54LocalAD[count194LocalBA].m_24 * (int)word224ValueAP;
-                        arr54LocalAD[count194LocalBA].m_08 = FUN_00aa1070((unsigned int)tmp278ValueAL << 2);
-                        arr54LocalAD[count194LocalBA].m_10 = FUN_00aa1070((unsigned int)tmp278ValueAL);
+                        arr54LocalAD[count194LocalBA].m_08 = _NiMalloc_00aa1070((unsigned int)tmp278ValueAL << 2);
+                        arr54LocalAD[count194LocalBA].m_10 = _NiMalloc_00aa1070((unsigned int)tmp278ValueAL);
                         FUN_00401460(arr54LocalAD[count194LocalBA].m_08, a1c0LocalAN,
                                      (unsigned int)((int)arr54LocalAD[count194LocalBA].m_24 * 4 *
                                                     (int)arr54LocalAD[count194LocalBA].m_1c));
@@ -1480,7 +1480,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     delete a114LocalBI;
     delete a148LocalAD;
     if (byteE9LocalBH)
-        ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->NiGeometryData_UnlockPackedVertexData();
+        ((MidObj*)((const char*)m_sp2C.operator->()))->NiGeometry_GetModelData()->NiGeometryData_UnlockPackedVertexData();
     (void)cnt88LocalFB;
     (void)arr54LocalAD;
     (void)(*reinterpret_cast<NiPoint3*>(ptE4LocalAB));
@@ -1541,7 +1541,7 @@ struct DBone
 struct DPartitionData
 {
     unsigned int FUN_0044ddc0();
-    DPartition* FUN_0084e3a0();
+    DPartition* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct DSkinData
 {
@@ -1557,14 +1557,14 @@ struct DSkin
 struct DGeometryData
 {
     unsigned short FUN_004a8ae0();
-    DPoint* FUN_007af430();
+    DPoint* BGSSaveFormBuffer_GetForm();
     DPoint* FUN_0059bb30();
 };
 struct DGeometry
 {
-    DSkin* FUN_0043fad0();
-    DTransform& FUN_00461130();
-    DGeometryData* FUN_005495f0();
+    DSkin* NiGeometry_GetSkinInstance();
+    DTransform& NiAVObject_GetWorldRotate();
+    DGeometryData* NiGeometry_GetModelData();
 };
 struct DNewPartition
 {
@@ -1576,10 +1576,10 @@ struct DNewPartition
 };
 extern GlobalObjectO2_00a7b610 g_011f49d8;
 extern DPoint NiPoint3_ZERO;
-bool __cdecl FUN_0045bad0(GlobalObjectO2_00a7b610*, DSkin*);
-DMatrix __cdecl FUN_00c4b600(DPoint);
+bool __cdecl NiObject_IsExactKindOf(GlobalObjectO2_00a7b610*, DSkin*);
+DMatrix __cdecl BSUtilities_GetRotationZToVector(DPoint);
 void __cdecl NiMatrix3_TransformVertices(DMatrix*, DPoint*, int, DPoint*, DPoint*);
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMAX_00404010(float, float);
 float __cdecl DecalPower(float, int);
 float __cdecl FloatAbs(float);
 void* __cdecl operator new[](unsigned int);
@@ -1628,22 +1628,22 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     unsigned short outputVertexCount_4;
     if (m_60 == 0)
         return;
-    skin_1 = ((DGeometry*)m_sp2C.operator->())->FUN_0043fad0();
+    skin_1 = ((DGeometry*)m_sp2C.operator->())->NiGeometry_GetSkinInstance();
     dismember_9 = 0;
-    if (FUN_0045bad0(&g_011f49d8, skin_1))
+    if (NiObject_IsExactKindOf(&g_011f49d8, skin_1))
         dismember_9 = skin_1;
     else
         return;
     partitionCount_10 = skin_1->NiObjectNET_GetControllers()->FUN_0044ddc0();
     DMatrix basis_6;
-    DMatrix worldRotation_4 = ((DGeometry*)m_sp2C.operator->())->FUN_00461130().rotation;
+    DMatrix worldRotation_4 = ((DGeometry*)m_sp2C.operator->())->NiAVObject_GetWorldRotate().rotation;
     DMatrix inverse_11 = worldRotation_4.FUN_004b45b0();
     DPoint localDirection_29;
     localDirection_29 = inverse_11.FUN_004b4500(&(*(DPoint*)&m_44));
     DMatrix rotation_6;
     rotation_6.FUN_004a0c90(m_54);
-    basis_6 = rotation_6.FUN_0043f8d0(&FUN_00c4b600((*(DPoint*)&m_44)));
-    DTransform transform_40 = ((DGeometry*)m_sp2C.operator->())->FUN_00461130();
+    basis_6 = rotation_6.FUN_0043f8d0(&BSUtilities_GetRotationZToVector((*(DPoint*)&m_44)));
+    DTransform transform_40 = ((DGeometry*)m_sp2C.operator->())->NiAVObject_GetWorldRotate();
     transform_40.position.Subtract((*(DPoint*)&m_38));
     boneData_4 = skin_1->FUN_005585e0()->FUN_008d6f30();
     if (boneData_4 == 0 || boneData_4->weights == 0)
@@ -1653,13 +1653,13 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     newBones_3 = 0;
     skinData_1 = 0;
     partitions_15 = 0;
-    sourceVertexCount_3 = ((DGeometry*)m_sp2C.operator->())->FUN_005495f0()->FUN_004a8ae0();
+    sourceVertexCount_3 = ((DGeometry*)m_sp2C.operator->())->NiGeometry_GetModelData()->FUN_004a8ae0();
     triangleCount_33 = 0;
     triangleData_17 = 0;
     vertexMap_22 = 0;
     selected_21 = false;
     selectedCount_12 = 0;
-    partitions_15 = skin_1->NiObjectNET_GetControllers()->FUN_0084e3a0();
+    partitions_15 = skin_1->NiObjectNET_GetControllers()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     strips_17 = partitions_15->stripCount > 0;
     for (int scanPartitionIndex = 0; scanPartitionIndex < partitionCount_10; scanPartitionIndex++)
     {
@@ -1699,7 +1699,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     normals_17 = 0;
     positions_6 = new DPoint[sourceVertexCount_3];
     normals_17 = new DPoint[sourceVertexCount_3];
-    skin_1->ForwardActorBaseData(((DGeometry*)m_sp2C.operator->())->FUN_005495f0(), positions_6, normals_17, 0, 0, 12);
+    skin_1->ForwardActorBaseData(((DGeometry*)m_sp2C.operator->())->NiGeometry_GetModelData(), positions_6, normals_17, 0, 0, 12);
     skinData_1 = skin_1->FUN_005585e0();
     bones_53 = skinData_1->FUN_008d6f30();
     boneCount_4 = skinData_1->FUN_008041a0();
@@ -1727,7 +1727,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
         NiMatrix3_TransformVertices(&basis_6, &NiPoint3_ZERO, 1, &world_20, &projected_8);
         texcoords_0[projectionVertex].x = projected_8.x / m_50 + 0.5f;
         texcoords_0[projectionVertex].y = projected_8.y / m_50 + 0.5f;
-        float opacity_6 = 1.0f - FUN_00404010(0.0f, normalDirection_1.DotProduct(normal_35));
+        float opacity_6 = 1.0f - BSMAX_00404010(0.0f, normalDirection_1.DotProduct(normal_35));
         texcoords_0[projectionVertex].z = DecalPower(opacity_6, 10) * (1.0f - FloatAbs(projected_8.z) / 200.0f);
     }
     indexCount_11 = 0;
@@ -1885,8 +1885,8 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     {
         unsigned short* finalIndices_1 = new unsigned short[indexCount_11];
         memcpy(finalIndices_1, indices_3, indexCount_11 * 2);
-        DPoint* sourcePositions_18 = ((DGeometry*)m_sp2C.operator->())->FUN_005495f0()->FUN_007af430();
-        DPoint* sourceNormals_7 = ((DGeometry*)m_sp2C.operator->())->FUN_005495f0()->FUN_0059bb30();
+        DPoint* sourcePositions_18 = ((DGeometry*)m_sp2C.operator->())->NiGeometry_GetModelData()->BGSSaveFormBuffer_GetForm();
+        DPoint* sourceNormals_7 = ((DGeometry*)m_sp2C.operator->())->NiGeometry_GetModelData()->FUN_0059bb30();
         DPoint* finalPositions_26 = new DPoint[outputVertexCount_4];
         DPoint* finalTexcoords_13 = new DPoint[outputVertexCount_4];
         for (int iSourceVertexIndex = 0; iSourceVertexIndex < sourceVertexCount_3; iSourceVertexIndex++)
@@ -1951,7 +1951,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
 struct NiObj;
 struct ObjC;
 
-unsigned char __cdecl FUN_0043b300(const NiRTTI* rtti, NiAVObject* obj);
+unsigned char __cdecl NiObject_IsKindOf(const NiRTTI* rtti, NiAVObject* obj);
 void __cdecl FUN_00b57e30(void* a, int b, int c);
 extern const NiRTTI DAT_011f444c;
 
@@ -2073,7 +2073,7 @@ struct ObjB
     static void* operator new(unsigned int n);
     static void operator delete(void*, unsigned int);
     ObjB();
-    void FUN_004ee4b0(float f);
+    void BSShaderProperty_SetDepthBias(float f);
 };
 struct SkinDataX
 {
@@ -2124,12 +2124,12 @@ struct ObjE
 };
 struct GeomX
 {
-    int FUN_0043c490();
-    int FUN_006a9540();
+    int GetTranslate_0043c490();
+    int NiAVObject_GetRotate_006a9540();
     float GetFloatAt64();
-    int FUN_0045bb80();
-    NineDw* FUN_00461130();
-    float FUN_008d01e0();
+    int NiAVObject_GetWorldTranslate();
+    NineDw* NiAVObject_GetWorldRotate();
+    float NiAVObject_GetWorldScale();
 };
 
 // Builds a NiTriShape from the given points and indices, attaches skin/partition data and copies transform properties from the geometry, then stores the shape.
@@ -2143,16 +2143,16 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
     objA->AssignFixedString(*FixedStrings_GetDecal());
     ObjB* entries;
     entries = new ObjB();
-    objA->FUN_00439410(entries);
-    entries->FUN_004ee4b0(1.0f);
+    objA->NiAVObject_AttachProperty(entries);
+    entries->BSShaderProperty_SetDepthBias(1.0f);
     GO strLocal(0);
     ((VSubOwner*)m_58)->sub.v36(0, &strLocal);
     NiObj* partCount;
     partCount = strLocal;
-    if (FUN_0043b300(&DAT_011f444c, (NiAVObject*)partCount))
+    if (NiObject_IsKindOf(&DAT_011f444c, (NiAVObject*)partCount))
         entries->m_7c.FUN_0066b0d0(partCount);
     SkinX* count;
-    count = (SkinX*)geom->FUN_0043fad0();
+    count = (SkinX*)geom->NiGeometry_GetSkinInstance();
     int objD;
     objD = count->FUN_005585e0()->FUN_008041a0();
     ObjC* textObj;
@@ -2208,7 +2208,7 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
     {
         ObjE* val;
         val = new ObjE();
-        if (val->NiSkinPartition_MakePartitions(objA->FUN_005495f0(textObj, 0x12, 4, 1, 0, 0, 0)))
+        if (val->NiSkinPartition_MakePartitions(objA->NiGeometry_GetModelData(textObj, 0x12, 4, 1, 0, 0, 0)))
         {
             arr1->BSMultiBound_SetShape((NiSkinPartition*)val);
             objA->SetSkinInstance(arr1);
@@ -2219,14 +2219,14 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
             delete arr1;
         }
     }
-    objA->FUN_00440460(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_0043c490());
-    objA->FUN_0043fa80(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_006a9540());
-    objA->FUN_00440490(((GeomX*)((DGeometry*)m_sp2C.operator->()))->GetFloatAt64());
-    objA->FUN_004f00e0(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_0045bb80());
-    objA->NiAVObject_SetWorldRotate(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_00461130());
-    objA->SetValue(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_008d01e0());
+    objA->NiAVObject_SetTranslate(((GeomX*)((DGeometry*)m_sp2C.operator->()))->GetTranslate_0043c490());
+    objA->SetRotate_0043fa80(((GeomX*)((DGeometry*)m_sp2C.operator->()))->NiAVObject_GetRotate_006a9540());
+    objA->NiAVObject_SetScale(((GeomX*)((DGeometry*)m_sp2C.operator->()))->GetFloatAt64());
+    objA->NiAVObject_SetWorldTranslate(((GeomX*)((DGeometry*)m_sp2C.operator->()))->NiAVObject_GetWorldTranslate());
+    objA->NiAVObject_SetWorldRotate(((GeomX*)((DGeometry*)m_sp2C.operator->()))->NiAVObject_GetWorldRotate());
+    objA->SetValue(((GeomX*)((DGeometry*)m_sp2C.operator->()))->NiAVObject_GetWorldScale());
     objA->UpdateWorldBound();
-    objA->FUN_00a5a040();
+    objA->UpdateProperties();
     FUN_00b57e30(objA, 0, 0);
     m_spGeometry = objA;
     unk20 = (int)((DGeometry*)m_sp2C.operator->());
@@ -2251,7 +2251,7 @@ BSTempEffectGeometryDecal::~BSTempEffectGeometryDecal()
 struct SaveGameBuffer688
 {
     char* FUN_00825c00();
-    void FUN_008579b0(const void* pvData, unsigned int uiSize);
+    void TESSaveLoadGame_SaveGameDataOLD(const void* pvData, unsigned int uiSize);
 };
 struct SaveForm688
 {
@@ -2345,12 +2345,12 @@ void BSTempEffectGeometryDecal::SaveGameTES_00688b00()
     char* pStart = ((SaveGameBuffer688*)DAT_011de45c)->FUN_00825c00();
     if (*DAT_011de4e8.FUN_00408d60())
         pStart = ((SaveGameBuffer688*)DAT_011de45c)->FUN_00825c00();
-    if (DAT_011de45c->FUN_00862110())
+    if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int uiTag = 'BLOK';
-        ((SaveGameBuffer688*)DAT_011de45c)->FUN_008579b0(&uiTag, 4);
+        ((SaveGameBuffer688*)DAT_011de45c)->TESSaveLoadGame_SaveGameDataOLD(&uiTag, 4);
         pcSizePos = ((SaveGameBuffer688*)DAT_011de45c)->FUN_00825c00();
-        ((SaveGameBuffer688*)DAT_011de45c)->FUN_008579b0(&usSize, 2);
+        ((SaveGameBuffer688*)DAT_011de45c)->TESSaveLoadGame_SaveGameDataOLD(&usSize, 2);
     }
 
     if (*DAT_011de4e8.FUN_00408d60())
@@ -2359,20 +2359,20 @@ void BSTempEffectGeometryDecal::SaveGameTES_00688b00()
         char* pcRecord = DAT_011de45c->FUN_004fd3e0();
         if (pcRecord)
         {
-            SaveForm688* pForm = (SaveForm688*)FUN_004839c0(*(void**)pcRecord);
-            FUN_0040fbe0(
+            SaveForm688* pForm = (SaveForm688*)TESForm_GetFormByNumericID(*(void**)pcRecord);
+            ProgramFlow(
                 "SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s", pcEnd - pStart,
                 *(unsigned int*)pcRecord, pForm->GetName(), *(unsigned int*)(pcRecord + 5), 0x783,
                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectGeometryDecal.cpp");
         }
         else
         {
-            FUN_0040fbe0(
+            ProgramFlow(
                 "SaveGame(): %-5i ending at line %i in file %s", pcEnd - pStart, 0x783,
                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectGeometryDecal.cpp");
         }
     }
-    if (DAT_011de45c->FUN_00862110())
+    if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         char* pCur = ((SaveGameBuffer688*)DAT_011de45c)->FUN_00825c00();
         char* pBlock = pcSizePos;
@@ -2444,7 +2444,7 @@ struct DecalLoad688Header
 };
 struct DecalLoad688Reader
 {
-    void FUN_008579e0(void* data, unsigned int size);
+    void TESSaveLoadGame_LoadGameDataOLD(void* data, unsigned int size);
 };
 struct DecalLoad688Version
 {
@@ -2456,7 +2456,7 @@ struct DecalLoad688Buffer
 };
 struct DecalLoad688Runtime
 {
-    DecalLoad688Header* FUN_004fd3c0();
+    DecalLoad688Header* BGSProjectile_GetExplosion();
 };
 void __cdecl Warning_005b5e40(const char* format, ...);
 
@@ -2468,16 +2468,16 @@ bool BSTempEffectGeometryDecal::LoadGameTES_00688c90()
     bool result5 = 1;
     unsigned short count = 0;
     unsigned int base = 0;
-    if (DAT_011de45c->FUN_00862110())
+    if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int blok;
-        ((DecalLoad688Reader*)DAT_011de45c)->FUN_008579e0(&blok, 4);
+        ((DecalLoad688Reader*)DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&blok, 4);
         if (blok != 0x424c4f4b)
         {
-            DecalLoad688Header* form7 = ((DecalLoad688Runtime*)DAT_011de45c)->FUN_004fd3c0();
+            DecalLoad688Header* form7 = ((DecalLoad688Runtime*)DAT_011de45c)->BGSProjectile_GetExplosion();
             if (form7)
             {
-                SaveForm688* obj_2 = (SaveForm688*)FUN_004839c0((void*)(form7->formID));
+                SaveForm688* obj_2 = (SaveForm688*)TESForm_GetFormByNumericID((void*)(form7->formID));
                 Warning_005b5e40(str_01015718, &str_01069ba0, 1932, form7->formID, obj_2->GetName(), form7->version,
                              *(int*)&form7->dataSize);
             }
@@ -2487,15 +2487,15 @@ bool BSTempEffectGeometryDecal::LoadGameTES_00688c90()
             }
         }
         base = ((DecalLoad688Buffer*)DAT_011de45c)->FUN_00825c00();
-        ((DecalLoad688Reader*)DAT_011de45c)->FUN_008579e0(&count, 2);
+        ((DecalLoad688Reader*)DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&count, 2);
     }
-    if (DAT_011de45c->FUN_00862110())
+    if (DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int cur4 = ((DecalLoad688Buffer*)DAT_011de45c)->FUN_00825c00();
-        DecalLoad688Header* form2 = ((DecalLoad688Runtime*)DAT_011de45c)->FUN_004fd3c0();
+        DecalLoad688Header* form2 = ((DecalLoad688Runtime*)DAT_011de45c)->BGSProjectile_GetExplosion();
         if (form2)
         {
-            SaveForm688* obj3 = (SaveForm688*)FUN_004839c0((void*)(form2->formID));
+            SaveForm688* obj3 = (SaveForm688*)TESForm_GetFormByNumericID((void*)(form2->formID));
             if (cur4 > count + base)
             {
                 Warning_005b5e40(str_01015588, cur4 - (count + base), &str_01069ba0, 2104, form2->formID, obj3->GetName(),

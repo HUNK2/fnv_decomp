@@ -130,7 +130,7 @@ void __fastcall LoadFloatsExtraDataController(
 extern int DAT_01099270;
 void __stdcall FUN_00a57420(NiStream* stream);
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* source);
-void* __cdecl FUN_00a7d4d0(int* name, void* object);
+void* __cdecl NiGetViewerString_00a7d4d0(int* name, void* object);
 
 // @fnv 0x00a4f1e0
 void __fastcall RegisterFloatsExtraDataController(
@@ -142,7 +142,7 @@ void __fastcall RegisterFloatsExtraDataController(
     if (index >= reinterpret_cast<unsigned short*>(stream)[4])
         stream->FUN_0096ad30(index + reinterpret_cast<unsigned short*>(stream)[7]);
     stream->FUN_0096ae90(index, reinterpret_cast<const unsigned int*>(&value));
-    value = FUN_00a7d4d0(&DAT_01099270, reinterpret_cast<void*>(controller->m_iFloatsExtraDataIndex));
+    value = NiGetViewerString_00a7d4d0(&DAT_01099270, reinterpret_cast<void*>(controller->m_iFloatsExtraDataIndex));
     index = reinterpret_cast<unsigned short*>(stream)[5];
     if (index >= reinterpret_cast<unsigned short*>(stream)[4])
         stream->FUN_0096ad30(index + reinterpret_cast<unsigned short*>(stream)[7]);
@@ -195,7 +195,7 @@ void __fastcall UpdateFloatsExtraDataController(NiFloatsExtraDataController* con
     {
         controller->m_fControllerTime = DAT_01096324;
     }
-    else if (controller->FUN_00a36250(*updateData))
+    else if (controller->DontDoUpdate(*updateData))
     {
         if (!controller->m_spControllerInterpolator.m_pObject ||
             !controller->m_spControllerInterpolator.m_pObject->AlwaysUpdate())

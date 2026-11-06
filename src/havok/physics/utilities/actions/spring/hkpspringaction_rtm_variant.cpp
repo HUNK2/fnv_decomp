@@ -170,7 +170,7 @@ struct __declspec(align(16)) SpringVector
     {
         q = v;
     }
-    void __thiscall FUN_00c7f640(const void* transform, const hkVector4* local);
+    void __thiscall setTransformedPos_00c7f640(const void* transform, const hkVector4* local);
 };
 struct SpringMotion
 {
@@ -261,8 +261,8 @@ void SpringAction::hkpSpringAction_applyAction(const SpringStep& step)
     hkpEntity* a = m_pEntityA;
     hkpEntity* b = m_pEntityB;
     SpringVector pointA, pointB, direction, velocityA, velocityB;
-    pointA.FUN_00c7f640(&a->m_pMotionState.m_kMotionState.m_kMotionTransform, &m_kPositionA);
-    pointB.FUN_00c7f640(&b->m_pMotionState.m_kMotionState.m_kMotionTransform, &m_kPositionB);
+    pointA.setTransformedPos_00c7f640(&a->m_pMotionState.m_kMotionState.m_kMotionTransform, &m_kPositionA);
+    pointB.setTransformedPos_00c7f640(&b->m_pMotionState.m_kMotionState.m_kMotionTransform, &m_kPositionB);
     float tolerance = DAT_01017d00;
     LocalM128 displacement = _mm_sub_ps(pointB.get(), pointA.get());
     float length = SpringLength3(displacement);
@@ -273,8 +273,8 @@ void SpringAction::hkpSpringAction_applyAction(const SpringStep& step)
         return;
     if (!m_bElastic && length > m_fRestLength)
         return;
-    a->FUN_00ca0c40(&pointA, &velocityA);
-    b->FUN_00ca0c40(&pointB, &velocityB);
+    a->hkpRigidBody_getPointVelocity(&pointA, &velocityA);
+    b->hkpRigidBody_getPointVelocity(&pointB, &velocityB);
     float force = (length - m_fRestLength) * m_fSpringStrength +
                   m_fMotorDamping * SpringDot3(_mm_sub_ps(velocityB.get(), velocityA.get()), direction.get());
     _mm_store_ps(&m_kLastForce.x, _mm_mul_ps(SpringSplatRef(-force), direction.get()));

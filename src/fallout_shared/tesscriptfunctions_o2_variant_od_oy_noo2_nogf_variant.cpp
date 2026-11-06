@@ -82,8 +82,8 @@ class NodeC4
 };
 
 float __cdecl FUN_005c5420();
-float __cdecl FUN_005c53d0(float fAngleDifference);
-float __cdecl FUN_005b9e80(float fAngleDifference);
+float __cdecl NiSin_005c53d0(float fAngleDifference);
+float __cdecl NiCos(float fAngleDifference);
 
 class HitFlagC4
 {
@@ -656,7 +656,7 @@ RefC4* __cdecl PlaceAtMe(RefC4* pkRef, TESForm* pkForm, int iCount, int iDistanc
         for (int i = 0; i < 8; i++)
         {
             akPos[iIndex] =
-                kPos + NiPoint3C4(FUN_005b9e80(fAngleDifference), FUN_005c53d0(fAngleDifference), 0.0f) * 100.0f;
+                kPos + NiPoint3C4(NiCos(fAngleDifference), NiSin_005c53d0(fAngleDifference), 0.0f) * 100.0f;
             iIndex++;
             fAngleDifference += 0.785398185253143310546875;
         }
@@ -780,7 +780,7 @@ class NiMatrix3DB
     void ExtractEulerAnglesXYZ(float& fX, float& fY, float& fZ);
     float m_afEntries[3][3];
 };
-NiMatrix3DB __cdecl FUN_00c4b8a0(NiPoint3DB kNormal);
+NiMatrix3DB __cdecl BSUtilities_GetRotationZToVectorTranspose(NiPoint3DB kNormal);
 
 class NodeDB;
 class SceneNodeDB
@@ -834,7 +834,7 @@ class CollObjDB
     bool IsHavokFlag(unsigned int uiFlag);
     bool IsKeyFlag(int iKey, unsigned int uiFlag);
 };
-CollObjDB* __cdecl FUN_004a3a40(ShapeDB* pkShape);
+CollObjDB* __cdecl bhkShape_Getbhk(ShapeDB* pkShape);
 
 class CollidableDB
 {
@@ -860,7 +860,7 @@ class PickFlagsDB
     void SetTarget(void* pvTarget);
     int m_iValue;
 };
-void* __cdecl FUN_005dbe10();
+void* __cdecl bhkCollisionFilter_GetNewSystemGroup();
 
 class PickQueryDB
 {
@@ -1064,7 +1064,7 @@ bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const c
         PickQueryDB kQuery;
         PickFlagsDB kFlags(0);
         kFlags.SetType(0x27);
-        kFlags.SetTarget(FUN_005dbe10());
+        kFlags.SetTarget(bhkCollisionFilter_GetNewSystemGroup());
         kQuery.SetFlags(kFlags);
         NiPoint3DB kStart = kPos;
         kStart.z += 32.0;
@@ -1077,7 +1077,7 @@ bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const c
         {
             bool bSurface = false;
             ShapeDB* pkShape = kQuery.m_pkCollidable->GetShape();
-            CollObjDB* pkObj = FUN_004a3a40(pkShape);
+            CollObjDB* pkObj = bhkShape_Getbhk(pkShape);
             bSurface = pkObj->IsHavokFlag(0x40);
             if (!bSurface)
             {
@@ -1097,7 +1097,7 @@ bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const c
                     pkLast = pkCur;
                     pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], kBuffer.GetAt(i));
                 }
-                CollObjDB* pkLastObj = FUN_004a3a40(pkLast);
+                CollObjDB* pkLastObj = bhkShape_Getbhk(pkLast);
                 if (pkLastObj)
                     bSurface = pkLastObj->IsKeyFlag(iKey, 0x40);
             }
@@ -1111,7 +1111,7 @@ bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const c
             {
                 FUN_00458620(kNormal, kQuery.m_kHit);
             }
-            NiMatrix3DB kRotate = FUN_00c4b8a0(kNormal);
+            NiMatrix3DB kRotate = BSUtilities_GetRotationZToVectorTranspose(kNormal);
             kRotate.ExtractEulerAnglesXYZ(kAngle.x, kAngle.y, kAngle.z);
             bAligned = true;
             kQuery.GetHitPoint(kPos);
@@ -1162,7 +1162,7 @@ class SceneDF
   public:
     SceneNodeDF* GetNode();
 };
-SceneDF* __cdecl FUN_0045c670();
+SceneDF* __cdecl Main_GetWorldSceneGraph();
 
 class HandleDF
 {
@@ -1336,8 +1336,8 @@ class RefDF
   public:
     unsigned int GetRefID();
 };
-RefDF* __cdecl FUN_0056f930(void* pvHit);
-float __cdecl FUN_0040ebd0(float fA, float fB);
+RefDF* __cdecl TESObjectREFR_FindReferenceFor3D(void* pvHit);
+float __cdecl BSMIN(float fA, float fB);
 void __cdecl FUN_005acc70(unsigned int* puiID, double& rdResult);
 
 // @fnv 0x005df5d0
@@ -1354,11 +1354,11 @@ bool __cdecl Cmd_ObjectUnderReticle_Execute(const ScriptParameter* paramInfo, co
     if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList,
                      &fAngleDifference, &fDistance))
         return false;
-    fDistance = FUN_0040ebd0(fDistance, 50000.0f);
+    fDistance = BSMIN(fDistance, 50000.0f);
     PickQueryDF kQuery;
     NiPoint3DF kEnd(0.0f, fDistance, 0.0f);
     NiPoint3DF kStart = *g_pkPlayerDF->GetLookAt();
-    SceneNodeDF* pkNode = FUN_0045c670()->GetNode();
+    SceneNodeDF* pkNode = Main_GetWorldSceneGraph()->GetNode();
     NiMatrix3DF kRotate = pkNode->GetRotate();
     NiMatrix3DF kSwizzled;
     NiPoint3DF kRow;
@@ -1378,7 +1378,7 @@ bool __cdecl Cmd_ObjectUnderReticle_Execute(const ScriptParameter* paramInfo, co
     kQuery.SetOrigin(kStart);
     kQuery.SetEnd(kEnd);
     void* pvHit = g_pkPickWorldDF->Pick(kQuery);
-    RefDF* pkRef = pvHit ? FUN_0056f930(pvHit) : 0;
+    RefDF* pkRef = pvHit ? TESObjectREFR_FindReferenceFor3D(pvHit) : 0;
     if (pkRef)
     {
         unsigned int uiID = pkRef->GetRefID();

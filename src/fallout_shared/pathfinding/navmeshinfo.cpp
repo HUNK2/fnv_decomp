@@ -177,7 +177,7 @@ void NavMeshInfo::CopyTo(NavMeshInfo* other)
 // @fnv 0x0069aee0
 template <> BSSimpleArray<NavMeshInfo*, 1024>::BSSimpleArray()
 {
-    FUN_006b3eb0(0, false);
+    BSSimpleArray_float_1024_InitialSetup(0, false);
 }
 
 // Deletes this NavMeshInfo object by calling delete on itself.
@@ -198,12 +198,13 @@ struct NavmeshinfoOffset08View
 
 struct FUN_0069c460_shell
 {
-    int FUN_0069c460();
+    int NavMeshBounds_GetBoundsChunkSize();
 };
 
 // Computes a size by summing fixed offsets with flag counts from the ArrSI objects at offsets 0x28 and 0x18 scaled by 0xc and 6.
 // @fnv 0x0069c460
-int FUN_0069c460_shell::FUN_0069c460()
+// src: XBOX_PDB 0x0069c460
+int FUN_0069c460_shell::NavMeshBounds_GetBoundsChunkSize()
 {
     int result = 0;
     result += 0x18;
@@ -279,7 +280,7 @@ void* FUN_006b4850_t::NavMeshBounds_Destroy(unsigned int flags)
     return this;
 }
 
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 struct NavMeshInfoHelper
 {
     bool AcquireNavMesh(NavMeshPtr& ptr);
@@ -306,7 +307,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                 unsigned int uiTemp;
 
                 uiTemp = ((NavmeshinfoOffset08View*)&m_kConnectedNavMeshInfos)->GetFlags();
-                if (FUN_00401500())
+                if (TESForm_QEndianSwapOnSave())
                     BSEndian(&uiTemp, EndianSizeTag<4>());
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
@@ -318,8 +319,8 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (((NavMeshInfoHelper*)pInfo)->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((TESForm*)(unsigned int)navMeshPtr)->FUN_0084e3a0();
-                        if (FUN_00401500())
+                        uiTemp = ((TESForm*)(unsigned int)navMeshPtr)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+                        if (TESForm_QEndianSwapOnSave())
                             BSEndian(&uiTemp, EndianSizeTag<4>());
                         *(unsigned int*)apData = uiTemp;
                     }
@@ -327,7 +328,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                 }
 
                 uiTemp = ((NavmeshinfoOffset08View*)&m_kPreferredConnections)->GetFlags();
-                if (FUN_00401500())
+                if (TESForm_QEndianSwapOnSave())
                     BSEndian(&uiTemp, EndianSizeTag<4>());
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
@@ -339,8 +340,8 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (((NavMeshInfoHelper*)pInfo)->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((TESForm*)(unsigned int)navMeshPtr)->FUN_0084e3a0();
-                        if (FUN_00401500())
+                        uiTemp = ((TESForm*)(unsigned int)navMeshPtr)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+                        if (TESForm_QEndianSwapOnSave())
                             BSEndian(&uiTemp, EndianSizeTag<4>());
                         *(unsigned int*)apData = uiTemp;
                     }
@@ -348,7 +349,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                 }
 
                 uiTemp = ((NavmeshinfoOffset08View*)&m_kDoorReferences)->GetFlags();
-                if (FUN_00401500())
+                if (TESForm_QEndianSwapOnSave())
                     BSEndian(&uiTemp, EndianSizeTag<4>());
                 *(unsigned int*)apData = uiTemp;
                 apData += 4;
@@ -359,8 +360,8 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     pRefr = (TESObjectREFR*)*((Arr*)&m_kDoorReferences)->GetAt(k);
                     if (pRefr)
                     {
-                        uiTemp = ((TESForm*)pRefr)->FUN_0084e3a0();
-                        if (FUN_00401500())
+                        uiTemp = ((TESForm*)pRefr)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+                        if (TESForm_QEndianSwapOnSave())
                             BSEndian(&uiTemp, EndianSizeTag<4>());
                         *(unsigned int*)apData = uiTemp;
                     }
@@ -397,38 +398,38 @@ void FUN_006b48f0_shell::WriteToChunkBuffer(char* apChunkBuffer)
     float temppoint[sizeof(NiPoint3) / sizeof(float)];
 
     itempint = this->uiFlags;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         BSEndian(&itempint, EndianSizeTag<4>());
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     if (this->m_pLocationNavMesh)
     {
-        if (reinterpret_cast<TESForm*>(this->m_pLocationNavMesh)->FUN_0084e3a0() != this->m_uiNavMeshID)
-            this->m_uiNavMeshID = reinterpret_cast<TESForm*>(this->m_pLocationNavMesh)->FUN_0084e3a0();
+        if (reinterpret_cast<TESForm*>(this->m_pLocationNavMesh)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() != this->m_uiNavMeshID)
+            this->m_uiNavMeshID = reinterpret_cast<TESForm*>(this->m_pLocationNavMesh)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     }
 
     itempint = this->m_uiNavMeshID;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         BSEndian(&itempint, EndianSizeTag<4>());
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
-    this->m_uiParentSpaceID = this->m_pParentSpace->FUN_0084e3a0();
+    this->m_uiParentSpaceID = this->m_pParentSpace->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     itempint = this->m_uiParentSpaceID;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         BSEndian(&itempint, EndianSizeTag<4>());
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     itempint = this->m_uiPathingFlags;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         BSEndian(&itempint, EndianSizeTag<4>());
     __memcpy(apChunkBuffer, &itempint, 4);
     apChunkBuffer += 4;
 
     *reinterpret_cast<NiPoint3*>(temppoint) = this->m_kNavMeshPosition;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
     {
         BSEndian(reinterpret_cast<unsigned int*>(&temppoint[0]), EndianSizeTag<4>());
         BSEndian(reinterpret_cast<unsigned int*>(&temppoint[1]), EndianSizeTag<4>());
@@ -440,11 +441,11 @@ void FUN_006b48f0_shell::WriteToChunkBuffer(char* apChunkBuffer)
     if (this->pBounds)
     {
         reinterpret_cast<FUN_0069c4c0_shell*>(this->pBounds)->WriteToBuffer(apChunkBuffer);
-        apChunkBuffer += reinterpret_cast<FUN_0069c460_shell*>(this->pBounds)->FUN_0069c460();
+        apChunkBuffer += reinterpret_cast<FUN_0069c460_shell*>(this->pBounds)->NavMeshBounds_GetBoundsChunkSize();
     }
 
     ftempFloat = this->m_fStoredValue;
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         BSEndian(reinterpret_cast<unsigned int*>(&ftempFloat), EndianSizeTag<4>());
     __memcpy(apChunkBuffer, &ftempFloat, 4);
     apChunkBuffer += 4;
@@ -512,7 +513,7 @@ void FUN_006b4b50_shell::LoadNavMeshInfo(char* apChunkBuffer, TESFile* apFile, i
             this->pBounds = new NavMeshBounds;
 
         ((FUN_0069c8f0_shell*)this->pBounds)->ReadFromBuffer(apChunkBuffer, apFile, aiFileVersionNumber);
-        apChunkBuffer += ((FUN_0069c460_shell*)this->pBounds)->FUN_0069c460();
+        apChunkBuffer += ((FUN_0069c460_shell*)this->pBounds)->NavMeshBounds_GetBoundsChunkSize();
     }
 
     if (aiFileVersionNumber >= 10)
@@ -582,13 +583,13 @@ struct MeshTriangle
     bool NavMeshTriangle_HasEdgeExtraInfo();
     bool HasFlag40();
     bool IsEdgeFlagSet(int);
-    unsigned short FUN_0068f2c0(int);
+    unsigned short GetEdgeExtraInfo_0068f2c0(int);
 };
 struct NavInfo;
 struct NavInfoPointer
 {
     NavInfo* pointer;
-    bool FUN_0069e090();
+    bool NavMeshTriangleEdgePortal_IsValid();
 };
 struct MeshLink
 {
@@ -598,14 +599,14 @@ struct MeshLink
 struct MeshSource
 {
     TESForm* GetDoorForm();
-    unsigned int FUN_00558200();
+    unsigned int NavMesh_GetTriangleCount();
     MeshTriangle* FUN_005582f0(unsigned short);
     MeshLink* GetEdge(unsigned short);
     unsigned int NavMesh_GetNumDoorPortals();
     NavInfo* const& FUN_0068f6b0(unsigned short);
     MeshCell* FUN_0059bb30();
     unsigned int GetArrFlags();
-    const NiPoint3& FUN_0068f0a0(unsigned short);
+    const NiPoint3& GetVertex_0068f0a0(unsigned short);
     bool FUN_00440d80();
 };
 struct MeshArray
@@ -616,7 +617,7 @@ struct MeshArray
     void FUN_008454f0(bool);
     unsigned int FUN_0044ddc0();
     NavInfo*& FUN_00877a30(unsigned int);
-    void FUN_009a4320(unsigned int, bool);
+    void BSSimpleArray_Actor_1024_RemoveFast(unsigned int, bool);
     void FUN_007cb2e0(NavInfo* const&);
 };
 struct NavInfo
@@ -631,7 +632,7 @@ struct NavInfo
     NavMeshBounds* bounds;
     bool FUN_00690860(NavMeshPtr&);
     void FUN_00693ef0(bool);
-    void FUN_00693d50(float);
+    void BaseProcess_SetLastTimeProcessed(float);
     void FUN_004534f0(bool);
     void InitializeFromMeshSource(MeshSource*);
 };
@@ -641,9 +642,9 @@ int PackShortPair(int, int);
 // @fnv 0x006b5560
 void NavInfo::InitializeFromMeshSource(MeshSource* source)
 {
-    id = reinterpret_cast<TESForm*>(source)->FUN_0084e3a0();
+    id = reinterpret_cast<TESForm*>(source)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     parent = source->GetDoorForm();
-    parentId = source->GetDoorForm()->FUN_0084e3a0();
+    parentId = source->GetDoorForm()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     adjacent.FUN_008454f0(true);
     preferredAdjacent.FUN_008454f0(true);
     doors.FUN_008454f0(true);
@@ -656,7 +657,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
     if (reinterpret_cast<TESForm*>(source)->FUN_00440da0())
         FUN_00693ef0(true);
     {
-        unsigned int count = source->FUN_00558200();
+        unsigned int count = source->NavMesh_GetTriangleCount();
         for (unsigned int i = 0; i < count; ++i)
         {
             MeshTriangle* triangle = source->FUN_005582f0((unsigned short)i);
@@ -667,8 +668,8 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
             {
                 if (!triangle->IsEdgeFlagSet(edge))
                     continue;
-                MeshLink* link = source->GetEdge(triangle->FUN_0068f2c0(edge));
-                if (link->info.FUN_0069e090())
+                MeshLink* link = source->GetEdge(triangle->GetEdgeExtraInfo_0068f2c0(edge));
+                if (link->info.NavMeshTriangleEdgePortal_IsValid())
                 {
                     bool add3 = true;
                     NavMeshPtr reference;
@@ -682,7 +683,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
                             for (unsigned int j = 0; j < size; ++j)
                                 if (adjacent.FUN_00877a30(j) == link->info.pointer)
                                 {
-                                    adjacent.FUN_009a4320(j, true);
+                                    adjacent.BSSimpleArray_Actor_1024_RemoveFast(j, true);
                                     break;
                                 }
                             size = preferredAdjacent.FUN_0044ddc0();
@@ -733,10 +734,10 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
     if (vertices > 0)
     {
         for (unsigned int v = 0; v < vertices; ++v)
-            point.FUN_0063c8a0(source->FUN_0068f0a0((unsigned short)v));
+            point.FUN_0063c8a0(source->GetVertex_0068f0a0((unsigned short)v));
         point.ScaleByInverse((float)vertices);
     }
-    unsigned int triangles = source->FUN_00558200();
+    unsigned int triangles = source->NavMesh_GetTriangleCount();
     if (triangles)
     {
         unsigned int preferredCount = 0;
@@ -746,7 +747,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
             if (triangle2->HasFlag40())
                 ++preferredCount;
         }
-        FUN_00693d50((float)preferredCount / (float)triangles);
+        BaseProcess_SetLastTimeProcessed((float)preferredCount / (float)triangles);
     }
     FUN_004534f0(true);
 }

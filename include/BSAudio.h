@@ -53,7 +53,7 @@ class BSAudio
     void* pfnSynchUnPausedCallback;
 
     static BSAudio* GetSingleton();
-    static BSAudio* FUN_00453a70();
+    static BSAudio* BSAudio_QInstance();
     static BSAudio* GetRandomGenerator();
     static void EnableAudio();
     static void DeactivateAudio();
@@ -94,25 +94,25 @@ class BSAudio
     BSSoundHandle BSAudio_GetSoundHandleByFilename(const char* path, unsigned int flags, unsigned int sound);
     BSSndHStruct BSAudio_GetSoundHandleByFilename(const char* path, unsigned int flags, SoundObj* sound);
     BSSoundHandle BSAudio_GetSoundHandleByEditorName(const char* editorID, unsigned int flags);
-    BSSoundHandle FUN_00ad7620(unsigned int formID, unsigned int flags, NiPoint3 position, unsigned int id);
+    BSSoundHandle BSAudio_SpawnSoundReference(unsigned int formID, unsigned int flags, NiPoint3 position, unsigned int id);
 
     int GetCurrentTimeMilliseconds();
     unsigned int GetSynchTime();
     void* GetAudioBackendData();
     void (__cdecl* GetCallback())(char*);
 
-    bool FUN_005bb4d0();
-    void FUN_0070bc00();
+    bool TESRegionData_GetPriority();
+    void BSAudio_UnPauseWorldVoices();
     void BSAudio_PauseWorldSounds();
     unsigned int FUN_0044ddc0();
     unsigned int Deallocate();
     unsigned int GetFlags();
-    InputManager* FUN_00877720();
-    BSShaderAccumulator* FUN_004e2190();
+    InputManager* Main_GetControls();
+    BSShaderAccumulator* Main_QDrawWorldAccum();
     void OrientListener(NiPoint3, NiPoint3);
     void SetListenerUnderwater(bool);
-    void FUN_00ad79b0(unsigned int);
-    void FUN_00ad79b0(int);
+    void SetEnvironment(unsigned int);
+    void SetEnvironment(int);
     float GetFootVolume();
     float GetVoiceVolume();
     float GetEffectsVolume();
@@ -121,7 +121,7 @@ class BSAudio
     void SetVoiceVolume(float);
     void SetEffectsVolume(float);
     void SetMusicVolume(float);
-    void FUN_00ad7c00(float);
+    void SetRadioVolume(float);
     bool IsListenerUnderwater_00ad7c50();
     float GetMasterSecondaryVolume();
     void SetConditions(float, unsigned int);
@@ -130,12 +130,12 @@ class BSAudio
     void Precache_00ad8100(unsigned int, unsigned int, unsigned int);
     void SetAudioThreadModeAndForward(unsigned int);
     void BSAudio_SetCacheEnabled(bool);
-    void FUN_00ad84e0(int, bool);
+    void BSAudio_KillAllOfType(int, bool);
     void BSAudio_PauseAllOfType(int, int);
-    void FUN_00ad8570(NiAVObject*, float, bool);
-    void FUN_00ad8570(NiAVObject*, float, unsigned int);
-    void FUN_00ad85a0();
-    void FUN_00ad8740();
+    void BSAudio_StopMovingSounds(NiAVObject*, float, bool);
+    void BSAudio_StopMovingSounds(NiAVObject*, float, unsigned int);
+    void EnterDialogue();
+    void UnPauseSynchTimer();
     void FUN_00ad8780(int);
     void* FUN_00ad8790(unsigned int flags);
 

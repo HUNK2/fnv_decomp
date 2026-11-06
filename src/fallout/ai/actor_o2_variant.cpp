@@ -337,7 +337,7 @@ struct RArr
     void ConstructElementArray(RElem*, int);
 };
 struct RCtx;
-RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
+RObj* __cdecl BSUtilities_GetObjectByName_00c4b470(RCtx*, RKey*, int);
 
 // @fnv 0x00c7bcb0
 // src: COMMUNITY 0x00c7bcb0
@@ -347,7 +347,7 @@ void __cdecl CopyPoseFunctor(RCtx* ctx, RObj* obj, RArr* arr)
     key.obj = obj;
     if (key.name.Equals("Bip01 NonAccum"))
         key.obj = obj->parent;
-    RObj* bone = FUN_00c4b470(ctx, &key, 1);
+    RObj* bone = BSUtilities_GetObjectByName_00c4b470(ctx, &key, 1);
     if (bone)
     {
         RElem e;
@@ -381,7 +381,8 @@ inline unsigned char GetFlag6(unsigned short w)
 }
 
 // @fnv 0x00c7d3b0
-void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5)
+// src: XBOX_PDB 0x00c7d3b0
+void __cdecl bhkRagdollController_CopyPoseTo3D(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5)
 {
     NiCollisionObject* node = bhkUtilFunctions_FindNextCollisionObject(param_1);
     char flag;
@@ -483,20 +484,21 @@ struct FUN_00c7d630_t
     NiNode* m_pkNode;
     char pad5c[4];
     NiMatrix3 m_kRot;
-    void FUN_00c7d630(float);
+    void bhkRagdollController_DoRagdollAnim(float);
     void bhkRagdollController_GetSGPoseLocalSpace();
     void bhkRagdollController_UpdateDebugLines(int);
-    void FUN_00c76350(void*);
+    void bhkRagdollController_DoFootIK(void*);
     void bhkRagdollController_DoGrabIK(void*);
-    void FUN_00c7aa60(void*);
+    void bhkRagdollController_DoLookAtIK(void*);
     void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
-    void FUN_00c7d030(void*);
+    void bhkRagdollController_UpdateRagdollRigidBodies(void*);
     void bhkRagdollController_DoRagdollFeedback();
     void bhkRagdollController_SetSGPoseLocalSpace();
 };
 
 // @fnv 0x00c7d630
-void FUN_00c7d630_t::FUN_00c7d630(float)
+// src: XBOX_PDB 0x00c7d630
+void FUN_00c7d630_t::bhkRagdollController_DoRagdollAnim(float)
 {
     char* self = (char*)this;
     if (*(bool*)(self + 0x43) && !*(bool*)(self + 0xb3) && !*(bool*)(self + 0x222) && !*(bool*)(self + 0x21e) &&
@@ -516,16 +518,16 @@ void FUN_00c7d630_t::FUN_00c7d630(float)
             bhkRagdollController_GetSGPoseLocalSpace();
             bhkRagdollController_UpdateDebugLines(0);
             if (DAT_01267c34 && (*(bool*)(self + 0x222) || *(bool*)(self + 0x223)))
-                FUN_00c76350(self + 0x10);
+                bhkRagdollController_DoFootIK(self + 0x10);
             if (DAT_01267c40 && *(bool*)(self + 0x21e))
                 bhkRagdollController_DoGrabIK(self + 0x10);
             if (DAT_01267c4c && *(bool*)(self + 0xb3))
-                FUN_00c7aa60(self + 0x10);
+                bhkRagdollController_DoLookAtIK(self + 0x10);
         }
         unsigned int count = m_48->GetInner()->GetCount();
         bool bOk = false;
         RagScrapMarker kScrap(count);
-        FUN_00c7d030((DAT_01267c64 && *(bool*)(self + 0x256) && (bhkRagdollController_DoPoseMatching(self + 0x10, kScrap.p, &bOk), bOk))
+        bhkRagdollController_UpdateRagdollRigidBodies((DAT_01267c64 && *(bool*)(self + 0x256) && (bhkRagdollController_DoPoseMatching(self + 0x10, kScrap.p, &bOk), bOk))
                          ? kScrap.p
                          : 0);
         bhkRagdollController_UpdateDebugLines(1);
@@ -551,12 +553,13 @@ struct XObj
 struct FUN_00c7d810_Cls
 {
     void bhkRagdollController_GetSGPoseLocalSpace();
-    void FUN_00c7d030(int);
-    void FUN_00c7d810();
+    void bhkRagdollController_UpdateRagdollRigidBodies(int);
+    void bhkRagdollController_SyncRagdollTo3D();
 };
 
 // @fnv 0x00c7d810
-void FUN_00c7d810_Cls::FUN_00c7d810()
+// src: XBOX_PDB 0x00c7d810
+void FUN_00c7d810_Cls::bhkRagdollController_SyncRagdollTo3D()
 {
     NiTransform nitrans;
     nitrans = *(NiTransform*)((char*)(*(void**)((char*)this + 0x58)) + 0x68);
@@ -566,7 +569,7 @@ void FUN_00c7d810_Cls::FUN_00c7d810()
     bhkRagdollController_GetSGPoseLocalSpace();
     int etype = *(int*)((char*)this + 0xc);
     *(int*)((char*)this + 0xc) = 1;
-    FUN_00c7d030(0);
+    bhkRagdollController_UpdateRagdollRigidBodies(0);
     *(int*)((char*)this + 0xc) = etype;
     XObj* p = *(XObj**)((char*)this + 0x4c);
     if (p)
@@ -661,7 +664,8 @@ extern void* DAT_011afecc;
 S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
 void __cdecl bhkWorld_DoObjectRec(void* obj, S_c6a200_Ev* ev, void* extra);
 // @fnv 0x00c6a200
-bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
+// src: XBOX_PDB 0x00c6a200
+bool __cdecl bhkWorld_SetDisabled(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
 {
     bool r = false;
     if (obj)
@@ -684,16 +688,17 @@ bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigne
 
 struct FlagController
 {
-    void FUN_00c7b6a0(int);
-    void FUN_00c7ba10(bool);
+    void bhkRagdollController_SetRagdollFeedbackActive(int);
+    void bhkRagdollController_EnableRagdollFeedback(bool);
 };
 // @fnv 0x00c7ba10
-void FlagController::FUN_00c7ba10(bool enabled)
+// src: XBOX_PDB 0x00c7ba10
+void FlagController::bhkRagdollController_EnableRagdollFeedback(bool enabled)
 {
     unsigned char* state = (unsigned char*)this;
     bool target = state[0x28c] && enabled;
     if (!target && state[0x28e])
-        FUN_00c7b6a0(0);
+        bhkRagdollController_SetRagdollFeedbackActive(0);
     state[0x28d] = target;
 }
 
@@ -886,7 +891,7 @@ void FUN_00c7d520_cls::FUN_00c7d520()
 // hkMemoryRouter::m_pAllocator (+0x10) is the thread's heap, an hkMemoryAllocator (slot 4 = bufFree); the
 // "AudioAllocator" stand-in used here before was that class.
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00c7d5c0_elem
 {
@@ -906,7 +911,7 @@ struct FUN_00c7d5c0_cls
 // @fnv 0x00c7d5c0
 void FUN_00c7d5c0_cls::FUN_00c7d5c0()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     FUN_00c7d5c0_elem* pElem = m_pData;
     if (m_iArrayLength > 0)
@@ -1003,7 +1008,7 @@ class BCB9810Registry
 {
   public:
     void AppendTailPair(void* pvOwner, BCB9810Node* pkNode);
-    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+    void bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode);
 
     int unk00;
     int unk04;
@@ -1012,7 +1017,8 @@ class BCB9810Registry
 };
 
 // @fnv 0x00cb9810
-void BCB9810Registry::FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode)
+// src: XBOX_PDB 0x00cb9810
+void BCB9810Registry::bhkFilteredCdBodyCollector_addCdBodyPair(void* pvOwner, BCB9810Node* pkNode)
 {
     BCB9810AllocTagScope kScope(0x10);
     bool bFound = false;
@@ -1072,7 +1078,7 @@ struct CE4360Context
     int m_iMode;
 };
 
-void __cdecl FUN_00ce3a00(CE4360Context* pkContext, int a, int b, int c, int d);
+void __cdecl mapPose(CE4360Context* pkContext, int a, int b, int c, int d);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(CE4360Context* pkContext, int a, int b, int c);
 
 // @fnv 0x00ce4360
@@ -1083,7 +1089,7 @@ void __cdecl hkaSkeletonMapper_mapPose(CE4360Context* pkContext, CE4360Iter* pkF
     {
         int a = *pkFrom->GetFirst();
         int b = *pkTo->GetSecond();
-        FUN_00ce3a00(pkContext, a, b, *pkTo->GetThird(), iValue);
+        mapPose(pkContext, a, b, *pkTo->GetThird(), iValue);
     }
     else if (pkContext->m_iMode == 1)
     {
@@ -1208,7 +1214,8 @@ __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
 }
 
 // @fnv 0x00c9bdf0
-void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
+// src: XBOX_PDB 0x00c9bdf0
+void __cdecl bhkBlendController_DoGetUp(Obj_c9b* pkObj, float f)
 {
     if (pkObj && IsNode_c9b(pkObj) && pkObj->m_usElementCount > 0)
     {
@@ -1324,7 +1331,8 @@ struct FUN_00cb9650_Object
 extern const char DAT_012683f4[];
 
 // @fnv 0x00cb9650
-void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
+// src: XBOX_PDB 0x00cb9650
+void __cdecl bhkForceController_RemoveForce(FUN_00cb9650_Object* object)
 {
     if (object != 0)
     {
@@ -1339,7 +1347,7 @@ void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
         {
             for (unsigned int index = 0; index < node->m_kChildren.m_usSize; ++index)
             {
-                FUN_00cb9650((FUN_00cb9650_Object*)node->m_kChildren.m_pBase[index].m_pObject);
+                bhkForceController_RemoveForce((FUN_00cb9650_Object*)node->m_kChildren.m_pBase[index].m_pObject);
             }
         }
     }
@@ -1377,10 +1385,11 @@ struct RagController
     {
         return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x180);
     }
-    void FUN_00c75580(unsigned char enabled);
+    void bhkRagdollController_SetLookIKActive(unsigned char enabled);
 };
 // @fnv 0x00c75580
-void RagController::FUN_00c75580(unsigned char enabled)
+// src: XBOX_PDB 0x00c75580
+void RagController::bhkRagdollController_SetLookIKActive(unsigned char enabled)
 {
     int state;
     if (controlFlag() == 0)
@@ -1471,7 +1480,7 @@ struct ScrapMarker
     unsigned int size;
     ScrapMarker(unsigned int count)
     {
-        char** top = (char**)FUN_00c85750();
+        char** top = (char**)hkMemoryRouter_getInstance();
         unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
         char* old = *top;
         *top = old + size;
@@ -1479,7 +1488,7 @@ struct ScrapMarker
     }
     ~ScrapMarker()
     {
-        *(char**)FUN_00c85750() = p;
+        *(char**)hkMemoryRouter_getInstance() = p;
     }
 };
 
@@ -1773,7 +1782,7 @@ struct RagEntry
 };
 struct RagSystem
 {
-    void FUN_00c6b320(RagEntry* entry);
+    void bhkWorld_Add_00c6b320(RagEntry* entry);
 };
 struct RagWorld
 {
@@ -2028,7 +2037,7 @@ struct RagCtrl48
         {
             RagEntry* e = entries[i];
             if (!e->owner)
-                sys->FUN_00c6b320(e);
+                sys->bhkWorld_Add_00c6b320(e);
         }
     }
 };
@@ -2227,12 +2236,13 @@ struct RagdollCtl
     RagSkel* skel;
     int unk2a8;
     int unk2ac;
-    void FUN_00c7b6a0(bool);
-    void FUN_00c7c150(bool);
+    void bhkRagdollController_SetRagdollFeedbackActive(bool);
+    void bhkRagdollController_DisableRagdollAnim(bool);
 };
 
 // @fnv 0x00c7c150
-void RagdollCtl::FUN_00c7c150(bool b)
+// src: XBOX_PDB 0x00c7c150
+void RagdollCtl::bhkRagdollController_DisableRagdollAnim(bool b)
 {
     if (active)
     {
@@ -2249,7 +2259,7 @@ void RagdollCtl::FUN_00c7c150(bool b)
         unk180 = true;
         unk130 = true;
         if (unk28d)
-            FUN_00c7b6a0(false);
+            bhkRagdollController_SetRagdollFeedbackActive(false);
         if (skel)
         {
             int n = skel->info->boneCount;
@@ -2343,7 +2353,7 @@ struct S_Out
 };
 struct S_Inner
 {
-    int FUN_00c85c80(int arg);
+    int bhkWorldObject_GetAVObject(int arg);
 };
 struct S_Val
 {
@@ -2374,7 +2384,7 @@ struct S_Elem
     int unk08;
     S_Inner* unk0c;
 };
-int* __cdecl FUN_00c85ef0(S_Out* out, void* ptr, void* tag);
+int* __cdecl bhkWorldObject_GetProperty(S_Out* out, void* ptr, void* tag);
 inline void* GetOwner(S_Obj* c)
 {
     return (char*)c + c->unk10;
@@ -2388,24 +2398,25 @@ inline S_Elem* GetPhantom(S_Obj* c)
     return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
 }
 // @fnv 0x00c7fa90
-int __cdecl FUN_00c7fa90(S_Obj* p)
+// src: XBOX_PDB 0x00c7fa90
+int __cdecl bhkUtilFunctions_GetNiAVObject(S_Obj* p)
 {
     int result = 0;
     if (S_Elem* e = GetEntity(p))
     {
         S_Out out;
-        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, e, &DAT_01267b70);
+        S_Val* v = *(S_Val**)bhkWorldObject_GetProperty(&out, e, &DAT_01267b70);
         if (v)
             result = v->unk08;
     }
     else if (S_Elem* ph = GetPhantom(p))
     {
         S_Out out;
-        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, ph, &DAT_01267b70);
+        S_Val* v = *(S_Val**)bhkWorldObject_GetProperty(&out, ph, &DAT_01267b70);
         if (v)
             result = v->unk08;
         else if (ph->unk0c)
-            result = ph->unk0c->FUN_00c85c80(0);
+            result = ph->unk0c->bhkWorldObject_GetAVObject(0);
     }
     return result;
 }
@@ -2737,7 +2748,7 @@ bhkRagdollController::~bhkRagdollController()
 }
 
 namespace fnv_00cda110 {
-void sub_00cb1260(void*, void*, unsigned int);
+void hkString_memCpy(void*, void*, unsigned int);
 
 struct A
 {
@@ -2765,7 +2776,7 @@ struct S
 void __fastcall hkaPose_setToReferencePose(S* s)
 {
     int i;
-    sub_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
+    hkString_memCpy(s->p04, s->a->p24, s->a->count * 0x30);
     for (i = 0; i < s->a->count; i++)
         s->arr1c[i] = 2;
     s->b28 = 0;
@@ -2924,10 +2935,11 @@ struct KNode : KObject
     }
 };
 
-__declspec(noalias) void* FUN_00c81c50(void* node);
+__declspec(noalias) void* bhkBlendCollisionObject_GetFirstCollisionObject(void* node);
 
 // @fnv 0x00c821b0
-void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
+// src: XBOX_PDB 0x00c821b0
+void bhkBlendCollisionObject_SetBipTransform(KObject* root, KPoint3* outDelta, bool update)
 {
     bool weightless;
     bool fromNode;
@@ -2948,7 +2960,7 @@ void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
     KNode* grand = c1->GetAsNode();
     if (!grand)
         return;
-    KRagInfo* info = (KRagInfo*)FUN_00c81c50(child);
+    KRagInfo* info = (KRagInfo*)bhkBlendCollisionObject_GetFirstCollisionObject(child);
     if (!info)
         return;
     weightless = true;
@@ -3054,7 +3066,7 @@ template <class T> __forceinline void AlternateFree(hkMemoryAllocator& a, void* 
 }
 template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 {
-        hkMemoryAllocator& alloc = *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+        hkMemoryAllocator& alloc = *reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
         int sz = m_iElementCount;
         T* p = m_data;
         for (int i = 0; i < sz; ++i, ++p)
@@ -3074,7 +3086,7 @@ template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
 }
 template<> __forceinline hkArray<LocalFrameOnBone>::~hkArray()
 {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         hkMemoryAllocator& alloc = *reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
         int sz = m_iElementCount;
         LocalFrameOnBone* const p = m_data;
@@ -3100,7 +3112,7 @@ template<> __forceinline hkArray<LocalFrameOnBone>::~hkArray()
 }
 template<> __forceinline hkArray<short>::~hkArray()
 {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         hkMemoryAllocator& alloc = *reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
         unsigned int flag = 0x80000000;
         unsigned int cap = m_iCapacityState;
@@ -3115,7 +3127,7 @@ template<> __forceinline hkArray<short>::~hkArray()
 }
 template<> __forceinline hkArray<QsTransform>::~hkArray()
 {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         hkMemoryAllocator& alloc = *reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
         unsigned int flag = 0x80000000;
         unsigned int cap = m_iCapacityState;
@@ -3159,7 +3171,7 @@ struct RagdollAnimationResetView
 
 struct RagdollAnimBodyView
 {
-    void FUN_00c68d50(int a1);
+    void bhkWorld_Remove_00c68d50(int a1);
 };
 
 struct RagdollAnimEntry
@@ -3587,11 +3599,12 @@ struct RagdollAnimControllerView
     u8 unk28D;
     u8 b28E;
     u8 unk28F;
-    int FUN_00c7a8d0();
+    int bhkRagdollController_EnableRagdollAnim();
 };
 
 // @fnv 0x00c7a8d0
-int RagdollAnimControllerView::FUN_00c7a8d0()
+// src: XBOX_PDB 0x00c7a8d0
+int RagdollAnimControllerView::bhkRagdollController_EnableRagdollAnim()
 {
     if (b41 == 0 && p4C != 0)
     {
@@ -3623,7 +3636,7 @@ int RagdollAnimControllerView::FUN_00c7a8d0()
                 RagdollAnimEntry* b = z->arr14[i];
                 if (!!b->p08)
                 {
-                    obj->FUN_00c68d50((int)b);
+                    obj->bhkWorld_Remove_00c68d50((int)b);
                 }
             }
         }

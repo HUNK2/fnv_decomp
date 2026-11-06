@@ -28,14 +28,15 @@ struct ReadWriteLock
 typedef char _sizecheck_BSReadWriteLock[sizeof(ReadWriteLock) == 8 ? 1 : -1];
 struct FUN_00aa62e0_shell : public ReadWriteLock
 {
-    void FUN_00aa62e0();
+    void BSReadWriteLock_UnlockWrite();
 };
 
 __declspec(dllimport) long __stdcall InterlockedCompareExchange(long volatile* Destination, long Exchange,
                                                                 long Comperand);
 
 // @fnv 0x00aa62e0
-void FUN_00aa62e0_shell::FUN_00aa62e0()
+// src: XBOX_PDB 0x00aa62e0
+void FUN_00aa62e0_shell::BSReadWriteLock_UnlockWrite()
 {
     m_uiLockState -= 1;
     if (m_uiLockState == 0x80000000)
@@ -206,10 +207,11 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile lo
 struct Lock00aa62c0
 {
     long count;
-    void FUN_00aa62c0();
+    void BSReadWriteLock_UnlockRead();
 };
 // @fnv 0x00aa62c0
-void Lock00aa62c0::FUN_00aa62c0()
+// src: XBOX_PDB 0x00aa62c0
+void Lock00aa62c0::BSReadWriteLock_UnlockRead()
 {
     InterlockedDecrement(&count);
 }

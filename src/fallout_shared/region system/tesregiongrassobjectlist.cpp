@@ -157,7 +157,7 @@ struct ListNodeX
 
 struct IntOpsX
 {
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 struct FUN_004f5f80_cls
@@ -176,8 +176,8 @@ FUN_004f5f80_obj* FUN_004f5f80_cls::TESRegionGrassObjectList_Find(int a1, int a2
     while (it9 != 0 && *it9->FUN_006815c0() != 0)
     {
         obj = (FUN_004f5f80_obj*)*it9->FUN_006815c0();
-        if (((IntOpsX*)(int)obj->unk04())->FUN_0084e3a0() == a1 &&
-            ((a2 >= 0 && obj->unk0c() != 0 && ((IntOpsX*)(int)obj->unk0c())->FUN_0084e3a0() == a2) ||
+        if (((IntOpsX*)(int)obj->unk04())->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == a1 &&
+            ((a2 >= 0 && obj->unk0c() != 0 && ((IntOpsX*)(int)obj->unk0c())->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == a2) ||
              (a2 < 0 && obj->unk0c() == 0)))
         {
             result = obj;

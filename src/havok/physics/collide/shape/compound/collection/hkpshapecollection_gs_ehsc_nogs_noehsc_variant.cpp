@@ -19,7 +19,7 @@ class hkpShapeCollection_L
 };
 extern char const* const DAT_01268910;
 void __cdecl hkReferencedObject_calcContentStatistics(char const* const* first, char const* const* second);
-void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored);
+void __cdecl hkpShapeCollection_calcContentStatistics(char const* const* first, char const* const* ignored);
 void __stdcall nullsub_53(int, int);
 void __stdcall nullsub_52(int a1);
 struct Allocator
@@ -46,7 +46,7 @@ struct Holder
     unsigned int userData;
     unsigned int shapeType;
     void* shapeVtable;
-    MemorySystem* __thiscall FUN_00c85750();
+    MemorySystem* __thiscall hkMemoryRouter_getInstance();
     Holder* __thiscall Destroy(unsigned char flags);
 };
 extern "C" __declspec(dllimport) void* __stdcall TlsGetValue(unsigned long dwTlsIndex);

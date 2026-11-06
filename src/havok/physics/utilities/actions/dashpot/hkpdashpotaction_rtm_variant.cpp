@@ -53,8 +53,8 @@ void hkpDashpotAction::applyAction_00d4da60(hkPadSpu<const hkStepInfo*> stepInfo
     hkpEntity* entityB = m_pEntityB;
 
     struct DashpotScratch { hkVector4 points[2]; hkVector4 opposite; } scratch;
-    scratch.points[1].FUN_00c7f640(entityA->m_pMotionState.m_kMotionState.m_kMotionTransform, m_kPoint[0]);
-    scratch.points[0].FUN_00c7f640(entityB->m_pMotionState.m_kMotionState.m_kMotionTransform, m_kPoint[1]);
+    scratch.points[1].setTransformedPos_00c7f640(entityA->m_pMotionState.m_kMotionState.m_kMotionTransform, m_kPoint[0]);
+    scratch.points[0].setTransformedPos_00c7f640(entityB->m_pMotionState.m_kMotionState.m_kMotionTransform, m_kPoint[1]);
 
     __m128 relVel = _mm_sub_ps(entityA->m_pMotionState.m_kTranslationalVelocity.m_vComponents, entityB->m_pMotionState.m_kTranslationalVelocity.m_vComponents);
     __m128 dir = _mm_sub_ps(scratch.points[1].m_vComponents, scratch.points[0].m_vComponents);

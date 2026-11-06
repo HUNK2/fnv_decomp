@@ -8,7 +8,7 @@ template class BSSimpleList<InventoryStackRecord*>;
 
 struct Memory185
 {
-    void FUN_00aa4060(void*);
+    void MemoryManager_Deallocate(void*);
 };
 extern Memory185 g_memoryManager;
 struct Node185
@@ -23,7 +23,7 @@ struct Node185
     }
     static inline void operator delete(void* pointer)
     {
-        g_memoryManager.FUN_00aa4060(pointer);
+        g_memoryManager.MemoryManager_Deallocate(pointer);
     }
 };
 void Node185::FUN_00ae83e0()

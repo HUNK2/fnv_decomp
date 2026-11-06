@@ -45,7 +45,8 @@ __forceinline void hkVector4::mul4(const float& factor)
 }
 
 // @fnv 0x00e46080
-void hkpGravityGun::FUN_00e46080(hkTransform* a4, hkpRigidBody* a3, hkpWorld* world)
+// src: XBOX_PDB 0x00e46080
+void hkpGravityGun::gravityGunPull(hkTransform* a4, hkpRigidBody* a3, hkpWorld* world)
 {
     hkVector4* direction = (hkVector4*)a4;
     int argC = (int)a3;
@@ -65,7 +66,7 @@ void hkpGravityGun::FUN_00e46080(hkTransform* a4, hkpRigidBody* a3, hkpWorld* wo
         {
             if (gun->m_kPickedBodies.m_iElementCount < gun->m_iMaxPickedBodies)
             {
-                gun->FUN_00e46000(target);
+                gun->takeObject(target);
                 return;
             }
         }

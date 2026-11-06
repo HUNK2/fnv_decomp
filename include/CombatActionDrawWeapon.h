@@ -10,5 +10,5 @@ public:
     CombatActionDrawWeapon(COMBAT_ACTION type);
 
     void AddProcedureToController_0097c790(CombatController* apCombatController, int aiActionValue);
-    void FUN_0097c990(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
+    void GetDebugText_0097c990(char* apDebugText, unsigned int aiMaxLength, int aiActionValue);
 };

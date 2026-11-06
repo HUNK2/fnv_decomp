@@ -245,7 +245,7 @@ struct WheelCollide
     int unk08;
     int unk0C;
     LcWheelState* m_kWheelStates;
-    void FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum);
+    void hkpVehicleLinearCastWheelCollide_updateWheelState(LcVehicle* vehicle, unsigned char wheelNum);
 };
 
 static inline __m128 splat(const float& r)
@@ -255,7 +255,8 @@ static inline __m128 splat(const float& r)
 }
 
 // @fnv 0x00e367d0
-void WheelCollide::FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum)
+// src: XBOX_PDB 0x00e367d0
+void WheelCollide::hkpVehicleLinearCastWheelCollide_updateWheelState(LcVehicle* vehicle, unsigned char wheelNum)
 {
     LcWheelInfo& wheelInfo = vehicle->m_kWheelInfoArray[wheelNum];
     LcWheelState& wheelState = m_kWheelStates[wheelNum];
@@ -264,7 +265,7 @@ void WheelCollide::FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum)
     rotation.setMul(&vehicle->m_pChassisCollidable->m_rotation, &wheelInfo.m_steeringOrientation);
 
     LcTransform& transform = wheelState.m_kMotionTransform;
-    transform.m_rotation.FUN_00cb2d90(*reinterpret_cast<const hkQuaternion*>(&rotation));
+    transform.m_rotation.hkRotation_set(*reinterpret_cast<const hkQuaternion*>(&rotation));
     transform.m_vTranslation = wheelInfo.m_vContactPointVelocity;
 
     __m128 length = splat(vehicle->m_pSuspension->m_kWheelParams[wheelNum].m_fRestLength);

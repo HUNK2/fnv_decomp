@@ -332,16 +332,16 @@ __forceinline void* shapeNew(int nbytes)
 // The shared headers omit these pointer-returning initializers, vector
 // overloads and cylinder getter. Typed thiscall adapters retain the original
 // entry points without duplicating a game class.
-extern "C" void FUN_00c7f640();
-extern "C" void FUN_00c7f700();
+extern "C" void setTransformedPos_00c7f640();
+extern "C" void hkVector4_setRotatedDir();
 extern "C" void FUN_00cf5990();
 extern "C" void FUN_00d22590();
 extern "C" void FUN_00d571a0();
-extern "C" void FUN_00d57aa0();
+extern "C" void hkpCylinderShape_hkpCylinderShape();
 extern "C" void hkpConvexTransformShape_hkpConvexTransformShape();
 __forceinline void transformPoint(hkVector4& result, const hkTransform* transform, const hkVector4* point)
 {
-    reinterpret_cast<void(__thiscall*)(hkVector4*, const hkTransform*, const hkVector4*)>(FUN_00c7f640)(&result, transform, point);
+    reinterpret_cast<void(__thiscall*)(hkVector4*, const hkTransform*, const hkVector4*)>(setTransformedPos_00c7f640)(&result, transform, point);
 }
 __forceinline const hkpShape* hkpTransformShape::GetShapeForKey() const { return m_pContainedShape.getChild(); }
 __forceinline const hkTransform& hkpTransformShape::getTransform() const { return m_kMotionTransform; }
@@ -499,7 +499,7 @@ const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& opti
             hkVector4 parentB;
             transformPoint(parentB, &parentFromChild, childB);
             hkpCylinderShape* newCylinderMem = static_cast<hkpCylinderShape*>(shapeNew(0x60));
-            hkpCylinderShape* newCylinder = reinterpret_cast<hkpCylinderShape*(__thiscall*)(hkpCylinderShape*, const hkVector4&, const hkVector4&, float, float)>(FUN_00d57aa0)(newCylinderMem, parentA, parentB, cylRadius, radius);
+            hkpCylinderShape* newCylinder = reinterpret_cast<hkpCylinderShape*(__thiscall*)(hkpCylinderShape*, const hkVector4&, const hkVector4&, float, float)>(hkpCylinderShape_hkpCylinderShape)(newCylinderMem, parentA, parentB, cylRadius, radius);
             sharedShapeData.SetEntryValue(reinterpret_cast<int>(transformShape), reinterpret_cast<int>(newCylinder));
             resultsOut.m_iFirstResult++;
             return newCylinder;
@@ -522,7 +522,7 @@ const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& opti
                 hkVector4 plane;
                 _mm_store_ps(reinterpret_cast<float*>(&plane.m_vComponents), planes[p].m_vComponents);
                 const float newDist = plane(3) - pivotShift.dot3(plane);
-                reinterpret_cast<void(__thiscall*)(hkVector4*, const hkRotation&, const hkVector4&)>(FUN_00c7f700)(&plane, parentFromChild.getRotation(), plane);
+                reinterpret_cast<void(__thiscall*)(hkVector4*, const hkRotation&, const hkVector4&)>(hkVector4_setRotatedDir)(&plane, parentFromChild.getRotation(), plane);
                 plane(3) = newDist;
                 newplanes[p] = plane;
             }

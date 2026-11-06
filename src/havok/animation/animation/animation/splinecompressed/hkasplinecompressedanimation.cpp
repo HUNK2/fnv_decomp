@@ -19,14 +19,14 @@ int hkaSplineCompressedAnimation::getSizeInBytes() const
 }
 
 extern bool DAT_0126efb8;
-void __cdecl FUN_00e63c60(bool*);
+void __cdecl hkaProcessFlyingColors(bool*);
 
 // @fnv 0x00e52fa0
 int __cdecl GetIndexedValueWithOffset(int offset, const int* values, int index, int count)
 {
     if (!DAT_0126efb8)
     {
-        FUN_00e63c60(&DAT_0126efb8);
+        hkaProcessFlyingColors(&DAT_0126efb8);
         if (!DAT_0126efb8)
             return 0;
     }
@@ -293,7 +293,8 @@ void __cdecl hkaSplineCompressedAnimation_readNURBSCurve(const hkUint8*& dataInO
 // Calls FUN_00e33a30 when mask is nonzero; otherwise assigns DAT_01268720 to out, then aligns dataInOut to a 4-byte boundary.
 // Keep the original out-of-line calls from both track samplers.
 // @fnv 0x00e33e90
-__declspec(noinline) void hkaSplineCompressedAnimation::FUN_00e33e90(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask,
+// src: XBOX_PDB 0x00e33e90
+__declspec(noinline) void hkaSplineCompressedAnimation::sampleScale(hkReal blockTime, hkUint8 quantizedTime, hkUint8 mask,
                                                     int quantization, const hkUint8*& dataInOut,
                                                     hkVector4& out) const
 {
@@ -334,7 +335,7 @@ void hkaSplineCompressedAnimation_samplePartialWithDataChunks(unsigned int frame
                                  transformsOut[i].m_vTranslation);
             anim->ExtractFrame(blockTime, quantizedTime, *mask++, (quantizationTypes >> 2) & 15, dataPtr,
                                transformsOut[i].m_rotation);
-            anim->FUN_00e33e90(blockTime, quantizedTime, *mask++, quantizationTypes >> 6, dataPtr,
+            anim->sampleScale(blockTime, quantizedTime, *mask++, quantizationTypes >> 6, dataPtr,
                                transformsOut[i].m_vScale);
         }
     }
@@ -348,7 +349,7 @@ void hkaSplineCompressedAnimation_samplePartialWithDataChunks(unsigned int frame
         for (unsigned int uiFloatIndex = 0; uiFloatIndex < maxNumFloatTracks; uiFloatIndex++)
         {
             unsigned char ucFloatMask = *floatMask++;
-            anim->FUN_00e33f10(blockTime, quantizedTime, ucFloatMask & 0xf9, (ucFloatMask >> 1) & 3, floatData,
+            anim->hkaSplineCompressedAnimation_sampleFloat(blockTime, quantizedTime, ucFloatMask & 0xf9, (ucFloatMask >> 1) & 3, floatData,
                                floatsOut[uiFloatIndex]);
         }
     }
@@ -414,7 +415,7 @@ void hkaSplineCompressedAnimation::sampleIndividualTransformTracks(hkReal time, 
                            transformTracksOut[i].m_vTranslation);
             ExtractFrame(blockTime, quantizedTime, mask[2], (quantizationTypes >> 2) & 0xf, dataStream,
                          transformTracksOut[i].m_rotation);
-            FUN_00e33e90(blockTime, quantizedTime, mask[3], quantizationTypes >> 6, dataStream,
+            sampleScale(blockTime, quantizedTime, mask[3], quantizationTypes >> 6, dataStream,
                          transformTracksOut[i].m_vScale);
         }
         else
@@ -463,7 +464,7 @@ void hkaSplineCompressedAnimation::sampleIndividualFloatTracks(hkReal time, cons
             const hkUint8 mask =
                 *GetIndexedValueWithOffset(&hkArrayAtE344(m_data, 0), &hkArrayAtE344(m_kFirstUInt32Array, 0), block,
                                            4 * m_iNumTransformTracks + track);
-            FUN_00e33f10(blockTime, quantizedTime, mask & 0xf9, (mask >> 1) & 3, dataStream, *floatTracksOut);
+            hkaSplineCompressedAnimation_sampleFloat(blockTime, quantizedTime, mask & 0xf9, (mask >> 1) & 3, dataStream, *floatTracksOut);
         }
         else
         {
@@ -472,7 +473,7 @@ void hkaSplineCompressedAnimation::sampleIndividualFloatTracks(hkReal time, cons
     }
 }
 
-extern void* __cdecl FUN_00c85750(void);
+extern void* __cdecl hkMemoryRouter_getInstance(void);
 extern void __cdecl FUN_00dfb5a0(int value);
 extern void __cdecl FUN_00c905b0(void);
 
@@ -501,7 +502,7 @@ void __fastcall DestroySplineCompressedAnimation(hkaSplineCompressedAnimation* a
     *reinterpret_cast<int**>(animation) = &DAT_010de0ec;
 
     {
-        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(FUN_00c85750());
+        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* track = manager->m_heap;
 
         int val = animation->m_data.m_iCapacityState;
@@ -515,7 +516,7 @@ void __fastcall DestroySplineCompressedAnimation(hkaSplineCompressedAnimation* a
     }
 
     {
-        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(FUN_00c85750());
+        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* track = manager->m_heap;
 
         int val = animation->m_kFloatOffsets.m_iCapacityState;
@@ -529,7 +530,7 @@ void __fastcall DestroySplineCompressedAnimation(hkaSplineCompressedAnimation* a
     }
 
     {
-        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(FUN_00c85750());
+        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* track = manager->m_heap;
 
         int val = animation->m_kTransformOffsets.m_iCapacityState;
@@ -543,7 +544,7 @@ void __fastcall DestroySplineCompressedAnimation(hkaSplineCompressedAnimation* a
     }
 
     {
-        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(FUN_00c85750());
+        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* track = manager->m_heap;
 
         int val = animation->m_kFloatBlockOffsets.m_iCapacityState;
@@ -557,7 +558,7 @@ void __fastcall DestroySplineCompressedAnimation(hkaSplineCompressedAnimation* a
     }
 
     {
-        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(FUN_00c85750());
+        SplineMemoryRouter* manager = static_cast<SplineMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* track = manager->m_heap;
 
         int val = animation->m_kFirstUInt32Array.m_iCapacityState;

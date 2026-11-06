@@ -117,7 +117,7 @@ public:
     void SetTile(int id, Tile* tile);
     void __thiscall FUN_007b9020();
     void* __thiscall Destroy(unsigned int flags);
-    bool FUN_007bed70(int);
+    bool SetBet(int);
     bool IsEyesListBelowThreshold(int);
     void ApplyValueToChain(int, float);
     bool RemoveEntryById(int);
@@ -129,12 +129,12 @@ public:
     void UpdateBetTileText();
     void InitRouletteScene();
     void InitRouletteWheel();
-    int FUN_007bf390();
-    void FUN_007bf670();
-    void FUN_007bf7a0();
-    void FUN_007bf840();
-    void FUN_007bed00(int, Tile*);
-    void FUN_007bd2a0();
+    int GetBetIndex();
+    void SpinWheel();
+    void ResetBetChips();
+    void SetBetChip();
+    void DoEnter_007bed00(int, Tile*);
+    void DoIdle_007bd2a0();
     int GetMenuID_007b8f30();
     void FUN_007b9000();
     NiNode* BlackJackMenu_SetupCamera();

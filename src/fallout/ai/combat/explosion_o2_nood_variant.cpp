@@ -30,14 +30,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void __cdecl _Deallocate(void*);
 extern NiRTTI g_01268420;
-NavMesh* NavMeshPtr::FUN_00458b50()
+// src: XBOX_PDB 0x00458b50
+NavMesh* NavMeshPtr::AnimatingText_GetFullText()
 {
     return 0;
 }
 struct FUN_009afc30_shell
 {
     NavMeshPtr m_navMeshPtr;
-    NavMesh* FUN_009afc30();
+    NavMesh* hkpFixedBufferCdPointCollector_getHits();
 };
 struct FUN_009afbb0_shell
 {
@@ -58,7 +59,7 @@ struct FUN_009afc50_shell
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    NavMesh* FUN_009afc30();
+    NavMesh* hkpFixedBufferCdPointCollector_getHits();
 };
 void __cdecl FUN_009ac940(void*);
 struct FUN_009ac910_shell
@@ -158,7 +159,7 @@ struct FUN_009ae0f0
     float mC;
     float m10;
     float m14;
-    void __thiscall FUN_00537bb0();
+    void __thiscall hkUnaryActionCinfo_hkUnaryActionCinfo();
     FUN_009ae0f0();
 };
 void* __cdecl operator new(unsigned int);
@@ -500,10 +501,10 @@ struct BaseObject
 {
     virtual ~BaseObject();
     unsigned int unk04;
-    void __thiscall FUN_00621060();
+    void __thiscall hkpCdPointCollector_hkpCdPointCollector();
     BaseObject()
     {
-        FUN_00621060();
+        hkpCdPointCollector_hkpCdPointCollector();
     }
 };
 struct FUN_009afaf0 : BaseObject
@@ -663,7 +664,7 @@ struct MatrixWater
 };
 struct SaveX
 {
-    bool FUN_0042ce10();
+    bool BGSSaveLoadGame_GetSaveGameLoading();
 };
 extern SaveX* g_BGSSaveLoadGame;
 struct SceneX
@@ -733,9 +734,9 @@ struct SceneX
     virtual void v62();
     virtual void v63();
     void FUN_00450f90(bool);
-    void FUN_00476ab0();
-    void FUN_00440460(const NiPoint3&);
-    void FUN_00a5a040();
+    void BSFadeNode_TurnFadeNodeOn();
+    void NiAVObject_SetTranslate(const NiPoint3&);
+    void UpdateProperties();
 };
 struct IdFlagState
 {
@@ -751,14 +752,14 @@ struct AudioX
 {
     IdFlagState BSAudio_GetSoundHandleByEditorName(const char*, unsigned);
 };
-AudioX* FUN_00453a70();
+AudioX* BSAudio_QInstance();
 extern Setting DAT_011d0520, DAT_011d0280, DAT_011d0da4, DAT_011d0ce4, DAT_011d0a78, DAT_011c7ae8;
 struct CellX
 {
     void RemoveReference(Explosion*);
     void AddReference(Explosion*, bool);
     SceneX* FUN_005497a0();
-    float FUN_005471e0();
+    float TESObjectCELL_GetWaterHeight();
 };
 struct ActorProcX
 {
@@ -834,7 +835,7 @@ struct ActorPtrX
 extern Explosion* DAT_011dea3c;
 struct ExtraX
 {
-    void FUN_00422220(float);
+    void ExtraDataList_SetRadius(float);
 };
 struct HandlerX
 {
@@ -844,7 +845,7 @@ extern HandlerX* DAT_011c3f2c;
 extern ProcessLists DAT_011e0e80;
 struct ListX
 {
-    void FUN_0076b660(Explosion* const&);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_AddHead(Explosion* const&);
 };
 extern ListX DAT_011c7b8c;
 struct TesX
@@ -853,13 +854,13 @@ struct TesX
 };
 extern TesX* DAT_011dea10;
 SceneX* CreateOctahedron(float, const NiColorA*, int);
-void* FUN_009ad630();
+void* TESImageSpaceModifier_GetExplosionInFace();
 void FUN_005299a0(void*, float, SceneX*);
 float ComputeSquaredRatioComplement(float, float);
 float GetAnimValueByPrefix(SceneX*, const char*, const char*);
 void UpdateDistanceFade(float, const NiPoint3&);
-float FUN_004a4240();
-void FUN_00689210(CellX*, float, const char*, MatrixWater, NiPoint3, float, int, int);
+float RandomFloatTwoPi();
+void BSTempEffectParticle_Spawn_00689210(CellX*, float, const char*, MatrixWater, NiPoint3, float, int, int);
 
 extern MemoryManager g_memoryManager;
 
@@ -1085,11 +1086,11 @@ struct __declspec(align(8)) LiquidResult
 
 extern const unsigned DAT_01267b70, DAT_012043f8;
 
-LiquidResult* __cdecl FUN_00c85ef0(LiquidResult*, void*, const void*);
+LiquidResult* __cdecl bhkWorldObject_GetProperty(LiquidResult*, void*, const void*);
 
 __declspec(noalias) LiquidVec& __cdecl FUN_00458620(LiquidVec*, const LiquidFour*);
 
-LiquidVec& __cdecl FUN_004a3970(LiquidVec*, const LiquidFour*);
+LiquidVec& __cdecl HK2NINS(LiquidVec*, const LiquidFour*);
 
 extern const LiquidVec DAT_011f426c, DAT_011a9484;
 
@@ -1539,7 +1540,7 @@ struct LiquidActionCandidate
     LiquidVec position, normal;
     unsigned char pending;
 
-    void __thiscall FUN_00cbcbd0(LiquidLink*);
+    void __thiscall bhkLiquidAction_SetTargetObject(LiquidLink*);
 
     __forceinline LiquidLink* GetLink()
     {
@@ -1559,7 +1560,7 @@ struct LiquidActionCandidate
         return l ? l->body : 0;
     }
 
-    void FUN_00cbccb0(float);
+    void bhkLiquidAction_Update(float);
 };
 
 __forceinline float LiquidPick(bool c, float a, float b)
@@ -1586,7 +1587,8 @@ __declspec(noinline) bool LiquidVec::FUN_004390c0(const LiquidVec& p)
 }
 
 // @fnv 0x00cbccb0
-void LiquidActionCandidate::FUN_00cbccb0(float delta)
+// src: XBOX_PDB 0x00cbccb0
+void LiquidActionCandidate::bhkLiquidAction_Update(float delta)
 
 {
 
@@ -1610,7 +1612,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
                 LiquidRigid* obj = body->object;
 
-                LiquidCast* found = FUN_00c85ef0(&lookup, obj, &DAT_01267b70)->object;
+                LiquidCast* found = bhkWorldObject_GetProperty(&lookup, obj, &DAT_01267b70)->object;
 
                 if (found)
                 {
@@ -1623,7 +1625,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
                         LiquidOwner* nested = (LiquidOwner*)other->unk08;
 
                         if (nested->link)
-                            FUN_00cbcbd0(nested->link);
+                            bhkLiquidAction_SetTargetObject(nested->link);
                     }
                 }
             }
@@ -1681,7 +1683,7 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
                                     FUN_00458620(&position, &contact.position);
 
-                                    FUN_004a3970(&normal, &contact.normal);
+                                    HK2NINS(&normal, &contact.normal);
 
                                     velocity.value = _mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
                                 }

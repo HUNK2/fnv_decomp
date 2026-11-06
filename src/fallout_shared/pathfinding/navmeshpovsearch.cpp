@@ -51,7 +51,7 @@ class CircularArc
   public:
     SineCosine start, end;
     int direction;
-    bool FUN_006a0660(const SineCosine&) const;
+    bool AngleSinCosArc_WithinRange(const SineCosine&) const;
 };
 class Sphere
 {
@@ -72,7 +72,7 @@ class SphereTangents
     int count;
     SphereTangent tangents[2];
 };
-float FUN_004019b0(float);
+float sqrt_004019b0(float);
 
 // Copies min, max, vertices and triangles from this NavMeshBounds into dest.
 // @fnv 0x0069cc80
@@ -85,7 +85,8 @@ void NavMeshBounds::CopyTo(NavMeshBounds* dest)
 }
 // Picks start/end by direction, computes the span and the angle relative to the first endpoint, and tests the relative angle against the span.
 // @fnv 0x006a0660
-bool CircularArc::FUN_006a0660(const SineCosine& angle) const
+// src: XBOX_PDB 0x006a0660
+bool CircularArc::AngleSinCosArc_WithinRange(const SineCosine& angle) const
 {
     const SineCosine& first9182 = direction == 0 ? start : end;
     const SineCosine& last81336 = direction == 0 ? end : start;
@@ -125,7 +126,7 @@ int NavMeshPOVSearch::FindSphereTangents(const Sphere& aSphereA, const Sphere& a
     if (r2 >= distance)
     {
         float tangent = 1.0f / r2;
-        float inverse = FUN_004019b0(r2 - distance);
+        float inverse = sqrt_004019b0(r2 - distance);
         if (direction == 0)
         {
             aTangents.tangents[sumSquared].direction = ANGLE_DIRECTION_AD_CCW;
@@ -147,7 +148,7 @@ int NavMeshPOVSearch::FindSphereTangents(const Sphere& aSphereA, const Sphere& a
     if (r2 >= differenceSquared)
     {
         float inverse2 = 1.0f / r2;
-        float tangent2 = FUN_004019b0(r2 - differenceSquared);
+        float tangent2 = sqrt_004019b0(r2 - differenceSquared);
         if (direction == 0)
         {
             aTangents.tangents[sumSquared].direction = ANGLE_DIRECTION_AD_CW;
@@ -376,10 +377,11 @@ ASC6a0e90* ASC6a0e90::Multiply(ASC6a0e90* out, const ASC6a0e90* apOther)
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_006a1400(unsigned int f);
+    bool BSSimpleArray_PathingAvoidNode_1024_GetAt(unsigned int f);
 };
 // @fnv 0x006a1400
-bool S3e60::FUN_006a1400(unsigned int auiFlag)
+// src: XBOX_PDB 0x006a1400
+bool S3e60::BSSimpleArray_PathingAvoidNode_1024_GetAt(unsigned int auiFlag)
 {
     return GetFlag(auiFlag);
 }
@@ -482,7 +484,7 @@ FUN_006a0c10::FUN_006a0c10(NavMeshEdgeData const& aSource, S12 const& aOther) : 
 
 struct AX
 {
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 extern int DAT_0106b3b0;
 struct C006a14b0
@@ -494,7 +496,7 @@ struct C006a14b0
 C006a14b0* C006a14b0::FUN_006a14b0()
 {
     *(void**)this = (void*)&DAT_0106b3b0;
-    ((AX*)this)->FUN_006b3eb0(0, 0);
+    ((AX*)this)->BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -3351,13 +3353,13 @@ class B6A1330NodePtr
 
 extern B6A1330NodePtr g_spB6A1330Root;
 
-B6A1330Node* __cdecl FUN_004b3890(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
+B6A1330Node* __cdecl MakeLine(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
 
 // @fnv 0x006a1330
 // src: COMMUNITY 0x006a1330
 void __cdecl NavMeshPOVSearch_DrawLine(const char* pcPath, int iParamA, int iParamB)
 {
-    B6A1330NodePtr spNode7 = FUN_004b3890(pcPath, iParamB, iParamA, iParamB, true);
+    B6A1330NodePtr spNode7 = MakeLine(pcPath, iParamB, iParamA, iParamB, true);
     B6A1330UpdateData kData(0.0f, false, false);
     spNode7->UpdatePropertiesUpward();
     spNode7->Update(kData);
@@ -3436,7 +3438,7 @@ struct Mesh
     unsigned int CollectTrianglePOVs(unsigned short, Words*);
     unsigned int FUN_0069a940(unsigned short, Words*);
     bool FUN_0069a9d0(unsigned short, EdgePair*);
-    const NiPoint3& FUN_0068f0a0(unsigned short);
+    const NiPoint3& GetVertex_0068f0a0(unsigned short);
     Tri* FUN_005582f0(unsigned short);
     void NavMesh_GetEdgeVertices_0(VertPair*, unsigned short, int);
 };
@@ -5625,7 +5627,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                 continue;
             Record* recordA = new Record;
             recordA->type = 0;
-            recordA->position = current2->mesh->FUN_0068f0a0(current2->index);
+            recordA->position = current2->mesh->GetVertex_0068f0a0(current2->index);
             recordA->radius = request->GetFloatAtOffset68();
             recordA->index = current2->index;
             Tri* triA5 = current2->mesh->FUN_005582f0(edges7.first.GetMaskedValue());
@@ -5650,13 +5652,13 @@ bool Owner::BuildGroups(Input* input, Groups* output)
             Handle* currentB = second7.At(groupB)->At(indexB);
             Record* recordB5 = new Record;
             recordB5->type = 2;
-            recordB5->position = currentB->mesh->FUN_0068f0a0(currentB->index);
+            recordB5->position = currentB->mesh->GetVertex_0068f0a0(currentB->index);
             recordB5->radius = request->GetFloatAtOffset68();
             recordB5->index = currentB->index;
             output->At(groupB)->Add(recordB5);
             Record* partner2 = new Record;
             partner2->type = 2;
-            partner2->position = currentB->mesh->FUN_0068f0a0(currentB->index);
+            partner2->position = currentB->mesh->GetVertex_0068f0a0(currentB->index);
             partner2->radius = 10.0f;
             partner2->index = currentB->index;
             partner2->cost = 2.0f;
@@ -5734,7 +5736,7 @@ struct P072Arc
     int direction;
     P072Arc(const P072Angle&, const P072Angle&, int);
     P072Arc(const P072Arc&);
-    bool FUN_006a0660(const P072Angle&);
+    bool AngleSinCosArc_WithinRange(const P072Angle&);
     float FUN_006a07a0(float);
 };
 struct P072Sphere
@@ -5795,7 +5797,7 @@ struct P072Node
     P072Details* FUN_007d6bb0();
     P072Node* GetField54();
     float FUN_006a7f50();
-    void FUN_0052ce20(float);
+    void TESRegionPoint_SetX(float);
 };
 struct P072List
 {
@@ -7965,7 +7967,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                         previous.FUN_006a0580(P072Angle(4.71238899230957f));
                     }
                     P072Arc excluded(previous, groupCount->angle, info->direction);
-                    if (excluded.FUN_006a0660(distance.tangents[tangent].start))
+                    if (excluded.AngleSinCosArc_WithinRange(distance.tangents[tangent].start))
                         continue;
                 }
                 start = DAT_011f426c;
@@ -8081,7 +8083,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     arcCost->second.FUN_006cf900(crossFirst);
                     arcCost->start.CopyFloatPair(distance.tangents[tangent].start);
                     arcCost->end.CopyFloatPair(distance.tangents[tangent].end);
-                    arcCost->FUN_0052ce20(direction);
+                    arcCost->TESRegionPoint_SetX(direction);
                     pOutputList->FUN_007cb2e0(arcCost);
                     break;
                 }
@@ -8217,7 +8219,7 @@ struct Handle
     unsigned short triangle;
     unsigned short flags;
     int edge;
-    Handle* FUN_006c4350(const Handle&);
+    Handle* FastNavMeshEdgeHandle_FastNavMeshEdgeHandle(const Handle&);
     Handle* FUN_0069a6c0(Mesh*, unsigned short, int);
     Handle& operator=(const Handle&);
 };
@@ -8248,7 +8250,7 @@ struct EdgeInfo
 };
 struct Triangle
 {
-    bool FUN_00693b90();
+    bool IsNoLargeCreature();
 };
 struct Vertices
 {
@@ -8260,7 +8262,7 @@ struct Mesh
     Hit FindEdgeIntersection(unsigned short, int, const NiPoint3&, const NiPoint3&);
     bool MatchNavMesh(const Handle&, NeighborEdgeHandle&);
     Triangle* FUN_005582f0(unsigned short);
-    EdgeInfo* FUN_0068f230(unsigned short, int);
+    EdgeInfo* GetEdgeExtraInfo(unsigned short, int);
     Vertices NavMesh_GetEdgeVertices_0(unsigned short, int);
 };
 struct PathResult
@@ -10370,10 +10372,10 @@ bool Walker::FindPath(const Start* start, const NiPoint3& target, Output* output
     NiPoint3 origin6 = start->position;
     NiPoint3 destination5 = target;
     NiPoint3 direction = destination5 - origin6;
-    direction.FUN_004a0c10();
+    direction.Unitize_004a0c10();
     NiPoint3 current = origin6;
     Handle handle8;
-    handle8.FUN_006c4350(start->handle);
+    handle8.FastNavMeshEdgeHandle_FastNavMeshEdgeHandle(start->handle);
     while (true)
     {
         Hit hit2 = handle8.mesh->FindEdgeIntersection(handle8.triangle, handle8.edge, current, destination5);
@@ -10390,10 +10392,10 @@ bool Walker::FindPath(const Start* start, const NiPoint3& target, Output* output
             bool kPass4 = edge7.mesh->MatchNavMesh(edge7, next);
             if (kPass4)
             {
-                if (request->GetFloatAtOffset68() > *DAT_011d6ef0.FUN_00403e20() &&
-                    next.mesh->FUN_005582f0(next.triangle)->FUN_00693b90())
+                if (request->GetFloatAtOffset68() > *DAT_011d6ef0.Setting_Float_00403e20() &&
+                    next.mesh->FUN_005582f0(next.triangle)->IsNoLargeCreature())
                     kPass4 = false;
-                EdgeInfo* info = edge7.mesh->FUN_0068f230(edge7.triangle, edge7.edge);
+                EdgeInfo* info = edge7.mesh->GetEdgeExtraInfo(edge7.triangle, edge7.edge);
                 if (info && info->type == 1)
                     kPass4 = false;
             }

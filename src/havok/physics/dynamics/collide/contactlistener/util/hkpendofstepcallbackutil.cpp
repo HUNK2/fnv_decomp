@@ -178,7 +178,7 @@ FUN_00d9e860::FUN_00d9e860()
     unk34 = (int)0x80000000;
 }
 
-extern "C" void* __cdecl FUN_00c85750(void);
+extern "C" void* __cdecl hkMemoryRouter_getInstance(void);
 extern "C" void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize);
 
 struct S_00d9e3f0_Item
@@ -193,7 +193,7 @@ struct S_00d9e3f0_Arr
     unsigned m_cap;
     S_00d9e3f0_Item& AllocatePair()
     {
-        hkMemoryRouter& r = *static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter& r = *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         if (m_iElementCount == (int)(m_cap & 0x3fffffff))
             ResizeAudioStream(r.m_heap, this, sizeof(S_00d9e3f0_Item));
         return m_data[m_iElementCount++];
@@ -368,7 +368,7 @@ setRecursionStart:
 }
 
 namespace fnv_00d9ee20 {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d9ee20_cls
 {
@@ -390,7 +390,7 @@ FUN_00d9ee20_cls* FUN_00d9ee20_cls::hkpEndOfStepCallbackUtil_Destroy(unsigned ch
     FUN_00d0b0d0();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -405,7 +405,7 @@ extern DWORD DAT_0126835c;
 
 static inline hkMemoryRouter& GetMonitorStream()
 {
-    return *static_cast<hkMemoryRouter*>(FUN_00c85750());
+    return *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 }
 
 static __forceinline hkMemoryAllocator& GetStreamHeap(hkMemoryRouter& holder)
@@ -801,7 +801,7 @@ static __forceinline void ElemArrayD9E_init(hkArrayBase<StripCollisionD9E>& self
 
 static __forceinline hkMemoryAllocator* ElemArrayD9E_heap()
 {
-        return reinterpret_cast<hkMemoryAllocator*>(static_cast<hkMemoryRouter*>(FUN_00c85750())->m_heap);
+        return reinterpret_cast<hkMemoryAllocator*>(static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())->m_heap);
     }
 
 static __forceinline int ElemArrayD9E_indexOf(hkArrayBase<StripCollisionD9E>& self, const StripCollisionD9E& t)
@@ -852,7 +852,7 @@ static __forceinline void ElemArrayD9E_init(hkArrayBase<StripCollisionD9E>& self
         self.m_data = 0;
         self.m_iElementCount = 0;
         self.m_iCapacityState = (int)0x80000000;
-        hkMemoryRouter* router = static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* router = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(router->m_heap);
         p = cap ? bufAllocD9E(alloc, cap) : 0;
         flags = cap ? cap : (int)0x80000000;
@@ -958,7 +958,7 @@ void __cdecl mergeArrays(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
         return;
 
     int iTotalCount = pkOut->m_uiLogicalSize + pkNew->m_uiLogicalSize;
-    hkMemoryRouter& kRouter0 = *static_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter& kRouter0 = *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkValue8b0* pkData = AllocArray8b0(reinterpret_cast<hkMemoryAllocator*>(kRouter0.m_heap), iTotalCount);
     int iCapacity = iTotalCount ? iTotalCount : 0x80000000;
     hkArray12_8b0 kMerged;
@@ -983,7 +983,7 @@ void __cdecl mergeArrays(hkArray16_8b0* pkNew, hkArray12_8b0* volatile argOut)
 
     ((hkMergeTarget8b0*)argOut)->SwapThreeInts((int*)&kMerged);
     pkNew->m_uiLogicalSize = 0;
-    hkMemoryRouter& kRouter = *static_cast<hkMemoryRouter*>(FUN_00c85750());
+    hkMemoryRouter& kRouter = *static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* pkHeap = reinterpret_cast<hkMemoryAllocator*>(kRouter.m_heap);
     if ((kMerged.m_iCapacityAndFlags & 0x80000000) == 0)
         pkHeap->bufFree(kMerged.m_pData, (kMerged.m_iCapacityAndFlags & 0x3fffffff) * (int)sizeof(hkValue8b0));
@@ -1065,7 +1065,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
 {
     __forceinline BatchBuffer(int size) : BatchArrayView<S_00d9e3f0_Item>()
     {
-        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* heap = reinterpret_cast<hkMemoryAllocator*>(context->m_heap);
         S_00d9e3f0_Item* allocation = size ? makeAllocation(heap, size) : 0;
         int cap = size ? size : 0x80000000;
@@ -1075,7 +1075,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
     }
     __forceinline void resize(int size)
     {
-        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* heap = reinterpret_cast<hkMemoryAllocator*>(context->m_heap);
         int cap = capacity & 0x3fffffff;
         if (cap < size)
@@ -1084,7 +1084,7 @@ struct BatchBuffer : BatchArrayView<S_00d9e3f0_Item>
     }
     __forceinline void clear()
     {
-        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* context = static_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* heap = reinterpret_cast<hkMemoryAllocator*>(context->m_heap);
         count = 0;
         if ((capacity & 0x80000000) == 0)

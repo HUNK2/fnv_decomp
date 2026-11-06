@@ -93,7 +93,7 @@ FUN_00582570_Data* FUN_00582570_Data::FUN_00582570()
 unsigned int __cdecl DialogueRandom();
 struct FUN_005827d0_list : public BSSimpleList<WeatherEntry*>
 {
-    TESWeather* FUN_005827d0();
+    TESWeather* TESWeatherList_GetRandomWeather();
 };
 struct FUN_005827d0_node
 {
@@ -101,7 +101,8 @@ struct FUN_005827d0_node
 };
 
 // @fnv 0x005827d0
-TESWeather* FUN_005827d0_list::FUN_005827d0()
+// src: XBOX_PDB 0x005827d0
+TESWeather* FUN_005827d0_list::TESWeatherList_GetRandomWeather()
 {
     BSSimpleList<WeatherEntry*>* pCurrent7;
     {
@@ -164,7 +165,7 @@ struct SoundListView
 };
 struct FUN_005827d0_shell
 {
-    bool FUN_005827d0();
+    bool TESWeatherList_GetRandomWeather();
 };
 struct FUN_005825a0_shell : public TESWeatherList
 {
@@ -177,7 +178,7 @@ void FUN_005825a0_shell::CopyWeatherList(const TESWeatherList* apCopyWL, bool ab
         return;
     if (!abAppend)
         ClearWeatherSounds();
-    if (!((FUN_005827d0_shell*)apCopyWL)->FUN_005827d0())
+    if (!((FUN_005827d0_shell*)apCopyWL)->TESWeatherList_GetRandomWeather())
     {
         BSSimpleList<WeatherEntry*>* pSourceNode = (BSSimpleList<WeatherEntry*>*)apCopyWL;
         while (pSourceNode)

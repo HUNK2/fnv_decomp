@@ -1318,11 +1318,12 @@ struct LodShaderBase
 
 struct FUN_00b71b90_class : LodShaderBase
 {
-    void FUN_00be08b0();
+    void NiDX9FragmentShader_RecreateRendererData();
 };
 
 // @fnv 0x00be08b0
-void FUN_00b71b90_class::FUN_00be08b0()
+// src: XBOX_PDB 0x00be08b0
+void FUN_00b71b90_class::NiDX9FragmentShader_RecreateRendererData()
 {
     FUN_00e814b0();
 }
@@ -1394,7 +1395,7 @@ Zero4* Zero4::Zero()
 namespace fnv_00be0f10 {
 struct ShaderManager
 {
-    void FUN_00e75340(void*);
+    void NiXenonRenderer_PurgeD3DShader(void*);
 };
 extern ShaderManager* DAT_011f9508;
 }  // namespace fnv_00be0f10
@@ -1410,7 +1411,7 @@ BSShader::~BSShader()
             p->FUN_00e80190();
         spPass[0].m_pObject = 0;
     }
-    fnv_00be0f10::DAT_011f9508->FUN_00e75340(this);
+    fnv_00be0f10::DAT_011f9508->NiXenonRenderer_PurgeD3DShader(this);
 }
 
 namespace fnv_00be0fe0 {
@@ -1698,7 +1699,7 @@ inline void Cat(char* d, unsigned n, const char* s)
 {
     strcat_s(d, n, s);
 }
-extern "C" int FUN_00406d00(char*, int, const char*, ...);
+extern "C" int BSsprintf(char*, int, const char*, ...);
 extern "C" void* memset(void*, int, unsigned int);
 class FileView;
 struct FileViewMethods
@@ -1769,7 +1770,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
             cacheExists = FileFinder::GetFileTime(cachePath, ftCacheTime, 32);
         }
         if (!sourceExists)
-            FUN_00406d00(message, 260, (const char*)DAT_010bc82c, source);
+            BSsprintf(message, 260, (const char*)DAT_010bc82c, source);
         if (!cacheExists)
             useCache = false;
     }
@@ -1802,7 +1803,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
         {
             if (pSourceFile)
                 delete pSourceFile;
-            FUN_00406d00(message, 260, (const char*)DAT_010bc7b8, source);
+            BSsprintf(message, 260, (const char*)DAT_010bc7b8, source);
             goto failure;
         }
         unsigned int sourceSize = pSourceFile->GetSize();
@@ -1838,7 +1839,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
                 Cat(defines, 1300, (const char*)DAT_01012630);
             }
         }
-        FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc808, source, profile, defines);
+        BSsprintf(diagnostic, 1300, (const char*)DAT_010bc808, source, profile, defines);
         long lCompileStatus =
             D3DXCompileShader(sourceData, sourceSize, macros, (ID3DXInclude*)&include, (const char*)DAT_01094d90,
                               profile, 0, (ID3DXBuffer**)&pCompiledShader, (ID3DXBuffer**)&pCompileErrors, &constants);
@@ -1857,7 +1858,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
                 }
                 Cat(defines, 1300, (const char*)DAT_01012630);
             }
-            FUN_00406d00(diagnostic, 1300, (const char*)DAT_010bc7fc, source, defines,
+            BSsprintf(diagnostic, 1300, (const char*)DAT_010bc7fc, source, defines,
                          pCompileErrors->GetBufferPointer());
             pCompileErrors->Release();
             pCompileErrors = 0;
@@ -1874,7 +1875,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
             }
             else
             {
-                FUN_00406d00(message, 255, (const char*)DAT_010bc7e4, cachePath);
+                BSsprintf(message, 255, (const char*)DAT_010bc7e4, cachePath);
             }
             bytecode = (char*)pCompiledShader->GetBufferPointer();
         }
@@ -1920,7 +1921,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
         }
         else
         {
-            FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc754, cachePath);
+            BSsprintf(errorMessage, 260, (const char*)DAT_010bc754, cachePath);
             goto failure;
         }
     }
@@ -1941,7 +1942,7 @@ NiD3DVertexShader* BSShader::CompileVertexShader(const char* source, const _D3DX
         g_memoryManager.Deallocate(bytecode);
     return result;
 deviceError:
-    FUN_00406d00(errorMessage, 260, (const char*)DAT_010bc784, cachePath);
+    BSsprintf(errorMessage, 260, (const char*)DAT_010bc784, cachePath);
 failure:
     _ReadWriteBarrier();
     return result;

@@ -395,11 +395,12 @@ struct VProduct
 struct MProduct
 {
     VProduct columns[3];
-    void FUN_00cd55b0(const MProduct& a, const MProduct& b);
+    void hkMatrix3_setMul(const MProduct& a, const MProduct& b);
 };
 // Computes the matrix product of a and b, storing the result in columns.
 // @fnv 0x00cd55b0
-void MProduct::FUN_00cd55b0(const MProduct& aLeft, const MProduct& aRight)
+// src: XBOX_PDB 0x00cd55b0
+void MProduct::hkMatrix3_setMul(const MProduct& aLeft, const MProduct& aRight)
 {
     MProduct m = aLeft;
     for (int i = 2; i >= 0; --i)
@@ -524,7 +525,8 @@ static __forceinline MatrixInverseVector& inverseColumn(hkMatrix3& m, int i)
 
 // Computes the inverse via cofactor columns, returning 0 on success.
 // @fnv 0x00cd4f10
-int hkMatrix3::FUN_00cd4f10(float epsilon)
+// src: XBOX_PDB 0x00cd4f10
+int hkMatrix3::invert_00cd4f10(float epsilon)
 {
     MatrixInverseVector r0;
     r0.setCross(inverseColumn(*this, 1), inverseColumn(*this, 2));
@@ -665,7 +667,7 @@ class DiagMat
     }
     int FUN_00cd56c0(DiagMat& vectors, DiagVec& values, int maxIter, float epsilon) const;
     void hkMatrix3f_mul(const DiagMat& other);
-    void FUN_00cd55b0(const DiagMat& a, const DiagMat& b);
+    void hkMatrix3_setMul(const DiagMat& a, const DiagMat& b);
     void FUN_00cd4b60();
     float offnorm()
     {
@@ -707,7 +709,7 @@ int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int a
         DiagMat transposed(jacobi);
         transposed.FUN_00cd4b60();
         current.hkMatrix3f_mul(jacobi);
-        current.FUN_00cd55b0(transposed, current);
+        current.hkMatrix3_setMul(transposed, current);
         apEigenvectors.hkMatrix3f_mul(jacobi);
         ++iteration;
         norm = current.offnorm();
@@ -792,7 +794,7 @@ extern "C" LocalM128 _mm_load_ps(float const* p);
 
 struct FUN_00cd55b0_cls
 {
-    void FUN_00cd55b0(const void* src, int arg);
+    void hkMatrix3_setMul(const void* src, int arg);
 };
 
 struct FUN_00cd5680_cls
@@ -826,7 +828,7 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
 void FUN_00cd5680_cls::hkMatrix3f_mul(int arg)
 {
     FUN_00cd5680_tmp tmp;
-    ((FUN_00cd55b0_cls*)&tmp)->FUN_00cd55b0(this, arg);
+    ((FUN_00cd55b0_cls*)&tmp)->hkMatrix3_setMul(this, arg);
     this->m_v0 = _mm_load_ps((float*)&tmp.unk00);
     this->m_v1 = _mm_load_ps((float*)&tmp.unk10);
     this->m_v2 = _mm_load_ps((float*)&tmp.unk20);

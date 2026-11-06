@@ -5,7 +5,7 @@
 
 struct AlphaColor
 {
-    void FUN_0052ce20(float);
+    void TESRegionPoint_SetX(float);
 };
 struct FUN_006a7d30_shell
 {
@@ -15,7 +15,7 @@ struct FUN_006a7d30_shell
 // src: COMMUNITY 0x006a7d30
 void FUN_006a7d30_shell::AStarSearch_NavMeshSearchNode_NavMeshSearchLink_SetMaxFitness(float afValue)
 {
-    ((AlphaColor*)((char*)this + 0x1ff4))->FUN_0052ce20(afValue);
+    ((AlphaColor*)((char*)this + 0x1ff4))->TESRegionPoint_SetX(afValue);
 }
 
 // @fnv 0x006a7f50
@@ -41,7 +41,7 @@ void GlobalObject_00869f00::FUN_006a7f90()
 
 struct AX
 {
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 struct FUN_006a7f60
 {
@@ -53,5 +53,5 @@ struct FUN_006a7f60
 FUN_006a7f60::FUN_006a7f60()
 {
     vtable = &DAT_0106b660;
-    ((AX*)this)->FUN_006b3eb0(0, 0);
+    ((AX*)this)->BSSimpleArray_float_1024_InitialSetup(0, 0);
 }

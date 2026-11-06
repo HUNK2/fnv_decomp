@@ -5,7 +5,7 @@ class TESObjectCELL;
 class TESQueuedCellManager
 {
 public:
-    void FUN_00528540();
+    void ExteriorCellLoader_CancelAllCellLoads();
     void SubmitQueuedItems();
     void ExteriorCellLoader_QueueCellLoad(TESObjectCELL*);
     int CallVirtual17();

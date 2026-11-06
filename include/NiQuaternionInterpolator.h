@@ -37,7 +37,7 @@ class NiQuaternionInterpolator : public NiKeyBasedInterpolator
 
     NiAnimationKey::KeyContent __stdcall GetKeyContent();
     NiAnimationKey::KeyContent __stdcall FUN_00a487e0();
-    void FUN_00a48960(float m_fStartTime, float m_fMaximumDistance);
+    void GuaranteeTimeRange_00a48960(float m_fStartTime, float m_fMaximumDistance);
     bool TimeHasChanged(float fTime);
     TimedRotationKey* GetKeys(unsigned int& uiNumKeys, int& eType, unsigned char& ucSize) const;
     bool GetQuaternionAtTime(float fTime, NiObjectNET* pkInterpTarget, NiQuaternion& kValue);

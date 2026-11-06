@@ -346,7 +346,7 @@ struct P2
 struct BObj
 {
     V4 v0;
-    void FUN_00c7f700(void* a, void* b);
+    void hkVector4_setRotatedDir(void* a, void* b);
 };
 class Seg
 {
@@ -369,7 +369,8 @@ __declspec(noinline) float Seg::FUN_00e39e80() const
 {
     return v1.w;
 }
-__declspec(noinline) void hkpTyremarksWheel::FUN_00e39f50(hkpTyremark* tyremark)
+// src: XBOX_PDB 0x00e39f50
+__declspec(noinline) void hkpTyremarksWheel::addTyremarkPoint(hkpTyremark* tyremark)
 {
     Seg* o = reinterpret_cast<Seg*>(tyremark);
     if (o->FUN_00e39e80() != 0.0f || reinterpret_cast<Seg*>(m_data)[(m_iMaxNumTyremarks + m_numTyremarks - 1) % m_numTyremarks].FUN_00e39e80() != 0.0f)
@@ -402,7 +403,7 @@ void hkpTyremarksInfo::updateTyremarksInfo(float p1, void* vehicle)
     V4 A;
     A.scaled(p1, p2->f18->f_1b0);
     BObj B;
-    B.FUN_00c7f700(&p2->f18->f_f0, &p2->f1c->f_50);
+    B.hkVector4_setRotatedDir(&p2->f18->f_f0, &p2->f1c->f_50);
     for (int i = 0; i < p2->f1c->count20; ++i)
     {
         Obj* obj = &p2->f48[i];
@@ -436,6 +437,6 @@ void hkpTyremarksInfo::updateTyremarksInfo(float p1, void* vehicle)
         seg.v1.y = (W.laneAt(1) + A.laneAt(1));
         seg.v1.z = (W.laneAt(2) + A.laneAt(2));
         seg.v1.w = energy;
-        m_kTyremarksWheels.m_data[i]->FUN_00e39f50(reinterpret_cast<hkpTyremark*>(&seg));
+        m_kTyremarksWheels.m_data[i]->addTyremarkPoint(reinterpret_cast<hkpTyremark*>(&seg));
     }
 }

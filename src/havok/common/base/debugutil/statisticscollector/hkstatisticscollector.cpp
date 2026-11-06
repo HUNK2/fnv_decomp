@@ -90,7 +90,7 @@ class Allocator
     virtual int ComputeHash(const void* data, int len);
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 
 struct GrowBuf
@@ -114,7 +114,7 @@ void __cdecl hkSmallArrayUtil__reserveMore(GrowBuf* buf, unsigned int elemSize)
         newCount = 1;
     }
 
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     void* newData = holder->m_heap->blockAlloc(newCount * elemSize);
     FUN_00ec44d0(newData, buf->m_pData, (unsigned int)buf->m_uCap * elemSize);
 
@@ -122,7 +122,7 @@ void __cdecl hkSmallArrayUtil__reserveMore(GrowBuf* buf, unsigned int elemSize)
     {
         void* oldData = buf->m_pData;
         unsigned int oldBytes = (buf->m_uiObjectFlags & 0x3fffu) * elemSize;
-        hkMemoryRouter* pAllocHolder2 = FUN_00c85750();
+        hkMemoryRouter* pAllocHolder2 = hkMemoryRouter_getInstance();
         pAllocHolder2->m_heap->blockFree(oldData, oldBytes);
     }
 
@@ -245,7 +245,7 @@ void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
     if ((flags & 1) == 0)
     {
         int b = GetFlagsOrProcess(a);
-        int r = (&FUN_00c85750()->heap())->getAllocatedSize((const void*)a, b);
+        int r = (&hkMemoryRouter_getInstance()->heap())->getAllocatedSize((const void*)a, b);
         slot14(0, 0, a, b, r);
     }
 }
@@ -278,7 +278,7 @@ void FUN_00d06e10_cls::hkStatisticsCollector_addObjectMemory(int pSource, int pD
     if ((flag & 1) == 0)
     {
         int len = ((FUN_00d06e10_src*)pSource)->Read();
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         int hash = holder->m_heap->getAllocatedSize((const void*)pData, len);
         Emit(0, 0, (const char*)pData, len, hash);
     }
@@ -319,7 +319,7 @@ extern "C" int __cdecl hkStatisticsCollector_getAllocatedSize(const char* pcStri
 {
     if (pcString)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         return holder->m_heap->getAllocatedSize(pcString, iLength);
     }
 

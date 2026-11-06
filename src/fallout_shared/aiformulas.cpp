@@ -12,8 +12,8 @@
 
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting326;
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting314;
-float __cdecl FUN_00406ce0(float);
-float __cdecl FUN_004e4450(float);
+float __cdecl floorf(float);
+float __cdecl ceilf(float);
 class AIFormulas
 {
   public:
@@ -30,8 +30,8 @@ namespace ActorValue
 float __cdecl AIFormulas::CalculateSkillValue(float base, float attribute, float luck)
 {
     float result = base;
-    result += FUN_00406ce0(attribute * originalRuntimeFloatSetting326.Float()->f);
-    result += FUN_004e4450(luck * originalRuntimeFloatSetting314.Float()->f);
+    result += floorf(attribute * originalRuntimeFloatSetting326.Float()->f);
+    result += ceilf(luck * originalRuntimeFloatSetting314.Float()->f);
     return result;
 }
 
@@ -39,7 +39,8 @@ extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting293;
 
 // Returns 1 if afHeightOrLength is not above the runtime float setting, otherwise the integer quotient of afHeightOrLength divided by that setting.
 // @fnv 0x00642e80
-int __cdecl FUN_00642e80(float afHeightOrLength)
+// src: XBOX_PDB 0x00642e80
+int __cdecl AiFormulas_GetActorDetectionSize(float afHeightOrLength)
 {
     int iresult = 1;
     if (afHeightOrLength > originalRuntimeFloatSetting293.Float()->f)
@@ -259,7 +260,7 @@ float AiFormulas_AVDeriveFromPrimary(ActorValueOwner* owner, int value)
     switch (value)
     {
     case 17: {
-        float fClampedValue = FUN_00406ce0(static_cast<float>(
+        float fClampedValue = floorf(static_cast<float>(
             ((static_cast<double>(owner->GetActorValueFloatByIndex(5)) + originalRuntimeFloatSetting313.Float()->f) *
              g_011cd12c.Float()->f)));
 
@@ -284,7 +285,7 @@ struct SettingSlot16
 
 extern SettingSlot16 DAT_011cd680[];
 
-float __cdecl FUN_006429e0(float a, float b);
+float __cdecl AiFormulas_RandomHour(float a, float b);
 float __cdecl FUN_00476b70(float a, float b);
 
 // Reads four floats from the setting slot at aiIndex, combines the first two into afOutA and the last two into afOutB.
@@ -292,7 +293,7 @@ float __cdecl FUN_00476b70(float a, float b);
 void __cdecl GetSettingPairValues(int aiIndex, float* afOutA, float* afOutB)
 {
     SettingSlot16* slot = &DAT_011cd680[aiIndex];
-    *afOutA = FUN_006429e0(slot->m_00->Float()->f, slot->m_04->Float()->f);
+    *afOutA = AiFormulas_RandomHour(slot->m_00->Float()->f, slot->m_04->Float()->f);
     *afOutB = FUN_00476b70(slot->m_08->Float()->f, slot->m_0c->Float()->f);
 }
 }  // namespace fnv_00643540
@@ -366,8 +367,8 @@ extern SettingT_GameSettingCollection_ g_011cdb84;
 extern SettingT_GameSettingCollection_ g_011cdeec;
 extern SettingT_GameSettingCollection_ g_011cd310;
 extern SettingT_GameSettingCollection_ g_011cd8c0, g_011cd13c, g_011cd4c0;
-int FUN_00647b70(int, int);
-float FUN_00404010(float, float);
+int BSMAX_00647b70(int, int);
+float BSMAX_00404010(float, float);
 double FUN_00ec9ac0(double, double);
 // @fnv 0x00642ed0
 int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDamage, float afCurrentHealth, int a1c,
@@ -409,10 +410,10 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
     result7 = 0;
     fTotal4 = originalRuntimeFloatSetting86.Float()->f;
     base14 = aiBaseDamage;
-    extra6 = *g_011cd8c0.FUN_0043d4d0();
-    base14 += *g_011cd13c.FUN_0043d4d0() * (a64 - a60);
-    extra6 -= a64 * *g_011cd4c0.FUN_0043d4d0();
-    base14 += FUN_00647b70(extra6, 0);
+    extra6 = *g_011cd8c0.Setting_Int();
+    base14 += *g_011cd13c.Setting_Int() * (a64 - a60);
+    extra6 -= a64 * *g_011cd4c0.Setting_Int();
+    base14 += BSMAX_00647b70(extra6, 0);
     base14 -= aiPenalty;
     flag6 = 0;
     flagVal5 = 0;
@@ -451,7 +452,7 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
         flag2cB = 1;
     maximum3 = abMaxHealth ? originalRuntimeFloatSetting101.Float()->f * originalRuntimeFloatSetting87.Float()->f
                            : originalRuntimeFloatSetting87.Float()->f;
-    ratio2 = FUN_00404010((maximum3 - afCurrentHealth) / maximum3, 0.0f);
+    ratio2 = BSMAX_00404010((maximum3 - afCurrentHealth) / maximum3, 0.0f);
     ratio2 = FUN_00ec9ac0(ratio2, originalRuntimeFloatSetting102.Float()->f);
     adjusted = ratio2;
     if (!flagA && aiBonusType != 1)
@@ -462,14 +463,14 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
         multiplier9 = originalRuntimeFloatSetting91.Float()->f;
     attackVal *= multiplier9;
     count101 = (int)g_011cd080.Float()->f * aiCount;
-    first3 = FUN_00404010(adjusted * originalRuntimeFloatSetting93.Float()->f * (count101 + attackVal), 0.0f);
+    first3 = BSMAX_00404010(adjusted * originalRuntimeFloatSetting93.Float()->f * (count101 + attackVal), 0.0f);
     *apFirstDamage = first3;
     factors4 =
         1.0 + flag2cB * originalRuntimeFloatSetting95.Float()->f + flag3 * originalRuntimeFloatSetting96.Float()->f;
     level5 = (g_011cdb84.Float()->f + a1c) * originalRuntimeFloatSetting92.Float()->f;
     percentTmp = (100 - aiPercent) / 100;
     repeats4 = aiRepeats <= 1 ? 1.0 : 1.0 + (aiRepeats - 1.0) * g_011cdeec.Float()->f;
-    secondary8 = FUN_00404010(damage * ratio2 * factors4 * level5 * percentTmp * repeats4, 0.0f);
+    secondary8 = BSMAX_00404010(damage * ratio2 * factors4 * level5 * percentTmp * repeats4, 0.0f);
     if (a24)
         secondary8 *= g_011cd310.Float()->f;
     *apSecondaryDamage = secondary8;
@@ -486,14 +487,14 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
 }
 
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting327;
-bool __cdecl FUN_0047f060(int);
+bool __cdecl ActorValue_IsSkill(int);
 void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, float* afBase);
 float __cdecl CalcSkillBase(float, float, float);
 // @fnv 0x00643c90
 float __cdecl GetSkillValue(ActorValueOwner* apActor, int aiSkill, bool abCurrent)
 {
     float fResult = 0.0f;
-    if (FUN_0047f060(aiSkill))
+    if (ActorValue_IsSkill(aiSkill))
     {
         int iAttribute = -1;
         GetSkillAttributeAndBase(aiSkill, &iAttribute, &fResult);
@@ -537,7 +538,7 @@ float __cdecl GetSkillValue(ActorValueOwner* apActor, int aiSkill, bool abCurren
 namespace fnv_00643ff0 {
 struct ExtraData
 {
-    ExtraFollower* FUN_00422700();
+    ExtraFollower* ExtraDataList_GetFollowerExtra();
 };
 struct FollowerEntry
 {
@@ -561,14 +562,14 @@ struct FollowerArray
 };
 extern SettingT_GameSettingCollection_ g_011cde98;
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting291;
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMAX_00404010(float, float);
 
 // Builds a sorted list of the leader's followers whose current package is type 1 and returns the accumulated spacing offset up to the given actor.
 // @fnv 0x00643ff0
 float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
 {
     float offset = 0.0f;
-    ExtraFollower* pExtraFollower = leader ? reinterpret_cast<ExtraData*>(leader->FUN_005d43c0())->FUN_00422700() : 0;
+    ExtraFollower* pExtraFollower = leader ? reinterpret_cast<ExtraData*>(leader->BSFile_GetDevice())->ExtraDataList_GetFollowerExtra() : 0;
     if (pExtraFollower)
     {
         unsigned int count = 0;
@@ -599,7 +600,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                     entry.actor = follower;
                     entry.distance = (*static_cast<const Actor*>(leader)->GetPos() -
                                       *static_cast<const Actor*>(follower)->GetPos()).FUN_004a7290();
-                    entry.spacing = (float)*g_011cde98.FUN_0043d4d0();
+                    entry.spacing = (float)*g_011cde98.Setting_Int();
                     entry.radius = follower->FUN_008be1b0();
                     entry.spacing = package->GetPackageResult(actor, false);
                     ++index;
@@ -614,7 +615,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                 if (index > 0)
                     distance += followerList.FUN_00558dd0(index - 1).radius + entry.radius +
                                 originalRuntimeFloatSetting291.Float()->f;
-                distance = FUN_00404010(distance, entry.spacing);
+                distance = BSMAX_00404010(distance, entry.spacing);
                 if (followerList.FUN_00558dd0(index).actor == actor)
                 {
                     offset = distance - followerList.FUN_00558dd0(index).spacing;

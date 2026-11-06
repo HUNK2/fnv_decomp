@@ -338,8 +338,8 @@ public:
     void RaiseBlurRadius(float);
     void AddDoubleVision(float);
     void RenderWithTextures(ISM_EFFECT_TYPE()*, void*, void*, void*, int, int);
-    static ImageSpaceManager* FUN_004e3270();
-    ISM_EFFECT_TYPE()* FUN_004ebbc0(int);
+    static ImageSpaceManager* BSShaderManager_GetImageSpaceManager();
+    ISM_EFFECT_TYPE()* GetEffect_004ebbc0(int);
     bool ImageSpaceManager_SetMotionBlur(float);
     void ApplyBlurRadiusParamModifierWeather_00b8af40(float);
     void ApplyMotionBlurStrengthParamModifierWeather_00b8af90(float);
@@ -354,7 +354,7 @@ public:
     void FUN_00b8b610(NiColorA&);
     void FUN_00b8b690(NiColorA&);
     void FUN_00b8b6e0(float, float, float, float, float, const NiPoint2&);
-    void FUN_00b8b760(float, float, float, float, float, const NiBound&);
+    void ApplyRadialBlurParamModifier(float, float, float, float, float, const NiBound&);
     void __thiscall ImageSpaceManager_SetActiveImageSpaceParams(void*);
     void ApplyParamModifier_00b8cb30(int, int, float*, float);
     void ImageSpaceManager_RenderEffect(int, NiRenderer*, BSRenderedTexture*, BSRenderedTexture*, int, bool);

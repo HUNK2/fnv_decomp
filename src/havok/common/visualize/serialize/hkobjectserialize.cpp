@@ -15,7 +15,7 @@ inline hkMemoryAllocator& GetAudioAllocator(hkMemoryRouter& holder)
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct C68E30PrimaryBase
@@ -56,7 +56,7 @@ struct C68E30Pair
 typedef hkArray<C68E30Pair> C68E30PairArray;
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-return reinterpret_cast<hkMemoryAllocator&>(GetAudioAllocator(FUN_00c85750()));
+return reinterpret_cast<hkMemoryAllocator&>(GetAudioAllocator(hkMemoryRouter_getInstance()));
 }
 template<> __forceinline void hkArrayBase<C68E30Pair>::_pushBack(hkMemoryAllocator& sharedAlloc, C68E30Pair const& pair)
 {
@@ -105,11 +105,12 @@ struct C68E30Owner
     int unk78;
     C68E30PairArray m_kListeners;
 
-    void FUN_00c68e30(C68E30Holder* holder, int value);
+    void bhkWorld_SetDebugObjectColor(C68E30Holder* holder, int value);
 };
 
 // @fnv 0x00c68e30
-void C68E30Owner::FUN_00c68e30(C68E30Holder* holder, int value)
+// src: XBOX_PDB 0x00c68e30
+void C68E30Owner::bhkWorld_SetDebugObjectColor(C68E30Holder* holder, int value)
 {
     C68E30Pair pair;
     pair.m_uiFilterValue = value;
@@ -121,7 +122,7 @@ void C68E30Owner::FUN_00c68e30(C68E30Holder* holder, int value)
 }
 
 namespace fnvc_adapt {
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(void* apOwner, void* apArray, int aiSize, int aiAlign);
 
@@ -185,7 +186,7 @@ void FUN_00d641f0_cls::ClearSweptEntry(int aiIndex)
     }
 
     SweptItemArray* pArray = &pEntry->m_04;
-    hkMemoryRouter* pAudioHolder = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = fnvc_adapt::hkMemoryRouter_getInstance();
     // Preserve the original volatile allocator read.
     void* pAllocator = *reinterpret_cast<hkMemoryAllocator* volatile*>(&pAudioHolder->m_heap);
     int iCapacity = (int)(pArray->m_08 & 0x3fffffffu);
@@ -237,7 +238,7 @@ struct Buffer
     void FUN_00d60830(Sink*, ByteSwap) throw();
     void FUN_00d609a0(unsigned int, unsigned int) throw();
     void WriteInt(unsigned int) throw();
-    void FUN_00d60960(unsigned int) throw();
+    void hkOArchive_write32u(unsigned int) throw();
     void FUN_00d60590() throw();
 };
 
@@ -266,7 +267,7 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
         return -1;
     }
     count = data->pairCount;
-    buffer.FUN_00d60960(count);
+    buffer.hkOArchive_write32u(count);
     bytes = 0x14;
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -280,7 +281,7 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
         bytes += 8;
     }
     count = data->tripleCount;
-    buffer.FUN_00d60960(count);
+    buffer.hkOArchive_write32u(count);
     bytes += 4;
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -294,7 +295,7 @@ static __declspec(noinline) int _writeData(unsigned int a1, unsigned int a2, uns
         }
         bytes += 20;
     }
-    buffer.FUN_00d60960(payloadBytes);
+    buffer.hkOArchive_write32u(payloadBytes);
     if (!*sink->Get(&status))
     {
         buffer.FUN_00d60590();
@@ -390,12 +391,12 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(&numRelocs, 4);
     if (!stream->IsStreamValid())
     {
-        ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+        ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
         return 0;
     }
 
     int count = numRelocs;
-    SetSizeAndGrow(relocs, GetAudioAllocator(FUN_00c85750()), count);
+    SetSizeAndGrow(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()), count);
     for (i = 0; i < (unsigned int)numRelocs; ++i)
     {
         Reloc& r = relocs[i];
@@ -403,7 +404,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
         stream->read(&r.toOffset, 4);
         if (!stream->IsStreamValid())
         {
-            ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+            ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
             return 0;
         }
     }
@@ -411,12 +412,12 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(&numItems, 4);
     if (!stream->IsStreamValid())
     {
-        ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+        ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
         return 0;
     }
 
     count = numItems;
-    SetSizeAndGrow(outItems, GetAudioAllocator(FUN_00c85750()), count);
+    SetSizeAndGrow(outItems, GetAudioAllocator(hkMemoryRouter_getInstance()), count);
     for (i = 0; i < (unsigned int)numItems; ++i)
     {
         char* item = (char*)&outItems[i];
@@ -425,7 +426,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
         stream->read(item + 16, 8);
         if (!stream->IsStreamValid())
         {
-            ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+            ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
             return 0;
         }
     }
@@ -433,17 +434,17 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(outAllocSize, 4);
     if (!stream->IsStreamValid())
     {
-        ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+        ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
         return 0;
     }
 
     int iAllocationSize = *outAllocSize;
-    char* buffer = (char*)AllocateWithHeader(&GetAudioAllocator(FUN_00c85750()), iAllocationSize);
+    char* buffer = (char*)AllocateWithHeader(&GetAudioAllocator(hkMemoryRouter_getInstance()), iAllocationSize);
     stream->read(buffer, *outAllocSize);
     if (!stream->IsStreamValid())
     {
-        hkMemoryRouter_easyFree(&GetAudioAllocator(FUN_00c85750()), buffer);
-        ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+        hkMemoryRouter_easyFree(&GetAudioAllocator(hkMemoryRouter_getInstance()), buffer);
+        ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
         return 0;
     }
 
@@ -458,7 +459,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
 
     *outBuffer = buffer;
     unsigned __int64 ret = header;
-    ClearAndRelease(relocs, GetAudioAllocator(FUN_00c85750()));
+    ClearAndRelease(relocs, GetAudioAllocator(hkMemoryRouter_getInstance()));
     return ret;
 }
 
@@ -500,7 +501,7 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
         return -1;
     }
     count = fixups->pairCount;
-    archive.FUN_00d60960(count);
+    archive.hkOArchive_write32u(count);
     total = 20;
     for (unsigned int j = 0; j < count; ++j)
     {
@@ -514,7 +515,7 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
         total += 8;
     }
     count = fixups->tripleCount;
-    archive.FUN_00d60960(count);
+    archive.hkOArchive_write32u(count);
     total += 4;
     for (unsigned int j = 0; j < count; ++j)
     {
@@ -528,7 +529,7 @@ static __declspec(noinline) int _writeData(FixupLists* fixups, Sink* output, uns
         }
         total += 20;
     }
-    archive.FUN_00d60960(payloadSize);
+    archive.hkOArchive_write32u(payloadSize);
     if (!*output->Get(&ok))
     {
         archive.FUN_00d60590();
@@ -623,7 +624,7 @@ struct ObjectWriteX
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00e02bb0(ObjectWriteInfo* info);
+    void hkPlatformObjectWriter_hkPlatformObjectWriter(ObjectWriteInfo* info);
     void hkPlatformObjectWriter_writeObject(ObjectWriteZ* z, int a, int b, ObjectWriteW* w);
     void FUN_00e02c70();
 };
@@ -637,7 +638,7 @@ int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigne
                          unsigned int p6, ObjectWriteArrItem* out)
 {
     ObjectWriteX x;
-    x.FUN_00e02bb0(p2);
+    x.hkPlatformObjectWriter_hkPlatformObjectWriter(p2);
     ObjectWriteArrByte y;
     y.m_data = 0;
     y.m_iElementCount = 0;
@@ -661,7 +662,7 @@ int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigne
     x.hkPlatformObjectWriter_writeObject(&z, p5, p6, &w);
 
     int need = out->m_iElementCount + w.m_a1.m_iElementCount;
-    hkMemoryAllocator& alloc = GetAudioAllocator(FUN_00c85750());
+    hkMemoryAllocator& alloc = GetAudioAllocator(hkMemoryRouter_getInstance());
     if ((out->m_cap & 0x3fffffff) < need)
     {
         int iDoubled = (out->m_cap & 0x3fffffff) * 2;
@@ -669,7 +670,7 @@ int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigne
     }
     for (int i = 0; i < w.m_a1.m_iElementCount; i++)
     {
-        hkMemoryRouter* router = &FUN_00c85750();
+        hkMemoryRouter* router = &hkMemoryRouter_getInstance();
         if (out->m_iElementCount == (out->m_cap & 0x3fffffff))
             ResizeAudioStream(router->m_heap, out, 0x18);
         ObjectWriteItem* p = out->m_data + out->m_iElementCount;
@@ -684,7 +685,7 @@ int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigne
                          ObjectWriteFlag(p2->m_01 != DAT_011b7b89));
     w.FUN_00e028e0();
     z.FUN_00cc0780();
-    hkMemoryAllocator& allocY = GetAudioAllocator(FUN_00c85750());
+    hkMemoryAllocator& allocY = GetAudioAllocator(hkMemoryRouter_getInstance());
     y.m_iElementCount = 0;
     if ((y.m_cap & 0x80000000) == 0)
         allocY.bufFree(y.m_data, y.m_cap & 0x3fffffff);

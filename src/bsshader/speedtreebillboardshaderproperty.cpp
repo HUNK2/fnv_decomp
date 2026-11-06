@@ -71,13 +71,13 @@ int* __cdecl SpeedTreeBillboardShaderProperty_GetRTTI()
     return &DAT_0120043c;
 }
 
-void __stdcall FUN_00b665c0(void* apValue);
+void __stdcall BSShaderPPLightingProperty_IsEqual(void* apValue);
 
 // @fnv 0x00ba8670
 // src: COMMUNITY 0x00ba8670
 bool __stdcall SpeedTreeBillboardShaderProperty_IsEqual(void* apValue)
 {
-    FUN_00b665c0(apValue);
+    BSShaderPPLightingProperty_IsEqual(apValue);
     return false;
 }
 
@@ -88,7 +88,7 @@ struct ACS00bac
 
 struct A5A040Cls
 {
-    void FUN_00a5a040();
+    void UpdateProperties();
 };
 
 struct BA86C0Owner
@@ -138,15 +138,16 @@ struct BA86C0Owner
     int unkA8;
     int* unkAC;
 
-    int FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3);
+    int SpeedTreeBillboardShaderProperty_ClarifyShader(A5A040Cls* pArg, int arg2, int arg3);
 };
 
 // Calls FUN_00a5a040 when pArg+0x9c is null and clears unk58 when *unkAC is zero, then returns 0.
 // @fnv 0x00ba86c0
-int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
+// src: XBOX_PDB 0x00ba86c0
+int BA86C0Owner::SpeedTreeBillboardShaderProperty_ClarifyShader(A5A040Cls* pArg, int arg2, int arg3)
 {
     if ((char*)pArg + 0x9c == 0)
-        pArg->FUN_00a5a040();
+        pArg->UpdateProperties();
     if (*unkAC == 0)
         unk58 = 0;
     return 0;
@@ -255,7 +256,7 @@ int* SpawnerHost::CreateSpawnedObject(int aiFlags)
 }
 
 extern int DAT_0120043c;
-void __stdcall FUN_00b690d0(void* p);
+void __stdcall BSShaderPPLightingProperty_GetViewerStrings(void* p);
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(int v);
 
 struct ObjHdr
@@ -275,7 +276,7 @@ struct ObjHdr
 void __stdcall SpeedTreeBillboardShaderProperty_GetViewerStrings(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
-    FUN_00b690d0(pObj);
+    BSShaderPPLightingProperty_GetViewerStrings(pObj);
     void* pValue = NiViewerStrings_NiGetViewerString_Title(DAT_0120043c);
     unsigned int count = pObj->unkA;
     if (count >= pObj->unk8)

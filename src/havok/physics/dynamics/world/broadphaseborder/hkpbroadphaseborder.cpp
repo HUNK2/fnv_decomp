@@ -130,7 +130,8 @@ typedef bool (*S_00e10760_Less)(S_00e10760_Item* a, S_00e10760_Item* b);
 
 // Sorts the range [d, h] of pArr in place using a Hoare-partition quicksort with cmpLess, recursing on the left part and looping on the right.
 // @fnv 0x00e10760
-void FUN_00e10760(S_00e10760_Item** apItems, int aiLow, int aiHigh, S_00e10760_Less apLess)
+// src: XBOX_PDB 0x00e10760
+void hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(S_00e10760_Item** apItems, int aiLow, int aiHigh, S_00e10760_Less apLess)
 {
     int i, iRight;
     __declspec(align(16)) S_00e10760_Item* pPivot;
@@ -160,7 +161,7 @@ begin:
     } while (i <= iRight);
     if (aiLow < iRight)
     {
-        FUN_00e10760(apItems, aiLow, iRight, apLess);
+        hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(apItems, aiLow, iRight, apLess);
     }
     if (i < aiHigh)
     {
@@ -197,7 +198,7 @@ void FUN_00d0b530_cls::hkpBroadPhaseBorder_worldDeletedCallback(int unused)
 struct D0B630Entity;
 
 int __cdecl CompareByOffsetD4(const void* a, const void* b);
-void __cdecl FUN_00e10760(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(D0B630Entity** data, int lo, int hi, int(__cdecl* cmp)(const void*, const void*));
 void __cdecl hkReferencedObject_removeReferences(D0B630Entity** objects, int numObjects, int strideInBytes);
 
 class D0B630Primary
@@ -243,7 +244,7 @@ void D0B630Collector::FlushDeferredEntities(const void* event)
     if (m_numDeferred)
     {
         if (m_numDeferred > 1)
-            FUN_00e10760(m_deferred, 0, m_numDeferred - 1, CompareByOffsetD4);
+            hkAlgorithm_quickSortRecursive_hkMonitorStreamAnalyzerPrintByTypeInfo_bool_cdecl_hkMonitorStreamAnalyzerPrintByTypeInfo_const_hkMonitorStreamAnalyzerPrintByTypeInfo_const(m_deferred, 0, m_numDeferred - 1, CompareByOffsetD4);
         for (int i = 0; i < m_numDeferred; i++)
             entityAdded(m_deferred[i]);
         hkReferencedObject_removeReferences(m_deferred, m_numDeferred, sizeof(D0B630Entity*));
@@ -251,7 +252,7 @@ void D0B630Collector::FlushDeferredEntities(const void* event)
     }
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 struct D0B6A0Collidable
@@ -287,7 +288,7 @@ static __forceinline void D0B6A0EntityArray_construct(hkReferencedObject** p, in
 
 static __forceinline void D0B6A0EntityArray_AddBack(hkArrayBase<hkReferencedObject*>& self, hkReferencedObject* const& e)
 {
-        hkMemoryRouter& holder = FUN_00c85750();
+        hkMemoryRouter& holder = hkMemoryRouter_getInstance();
         if (self.m_iElementCount == self.getCapacity())
             ResizeAudioStream(holder.m_heap, (&self), sizeof(hkReferencedObject*));
         D0B6A0EntityArray_construct(self.m_data + self.m_iElementCount, 1, e);
@@ -356,7 +357,7 @@ void D0B6A0Collector::HandleEvent(const D0B6A0Event& event)
 class BSAudio;
 namespace fnv_00d0bb20 {
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 extern int DAT_010cd3c4;
 extern int DAT_010cd3b4;
@@ -412,7 +413,7 @@ void FUN_00d0bb20_cls::Destroy()
         pEntry++;
         i--;
     } while (i != 0);
-    hkMemoryRouter* pAudioHolder = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* pAudioHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAudioAllocator = reinterpret_cast<hkMemoryAllocator*>(pAudioHolder->m_heap);
     m_iArrayLength = i;
     unsigned int uiCapBits = m_uCapBits;
@@ -519,7 +520,7 @@ struct Manager
     Allocator* allocator;
 };
 
-extern "C" Manager* __cdecl FUN_00c85750();
+extern "C" Manager* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00d0bbf0
 {
@@ -538,7 +539,7 @@ struct FUN_00d0bbf0
     void* unk2c;
     static void operator delete(void* object)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = hkMemoryRouter_getInstance();
         manager->allocator->Deallocate(object, ((FUN_00d0bbf0*)object)->unk04);
     }
 };

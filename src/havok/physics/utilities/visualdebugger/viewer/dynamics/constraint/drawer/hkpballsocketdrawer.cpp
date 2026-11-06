@@ -71,9 +71,9 @@ void Obj::FireMotionEvent(Body* apBody, Listener* apListener, int aiArg, int aiA
     hkVector4* pVec40;
     hkVector4* pVec50;
     pVec50 = &m50;
-    pVec50->FUN_00c7f640(t, pMotion->v20);   // 0x00c7f640 = hkVector4::_setTransformedPos
+    pVec50->setTransformedPos_00c7f640(t, pMotion->v20);   // 0x00c7f640 = hkVector4::_setTransformedPos
     pVec40 = &m40;
-    pVec40->FUN_00c7f640(r, pMotion->v10);
+    pVec40->setTransformedPos_00c7f640(r, pMotion->v10);
     hkpConstraintDrawer_drawPivots(aiArg, aiArg2);
     hkpConstraintDrawer_drawBodyFrames(aiArg, aiArg2);
     apListener->Fire(pVec40, pVec50, 0xffff0000, aiArg, aiArg2);

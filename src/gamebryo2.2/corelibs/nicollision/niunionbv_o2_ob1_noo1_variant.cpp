@@ -26,7 +26,7 @@
 extern MemoryManager g_memoryManager;
 struct S
 {
-    S* FUN_00e9ee60(void*);
+    S* NiUnionBV_NiUnionBV(void*);
 };
 S* __fastcall NiUnionBV_Clone(void* self);
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.

@@ -11,11 +11,11 @@
 
 // The shared router layout has its heap at +0x10; all router calls bind to 0x00c85750.
 namespace HavokHeap {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return HavokHeap::FUN_00c85750().heap();
+    return HavokHeap::hkMemoryRouter_getInstance().heap();
 }
 template <class T>
 __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
@@ -53,7 +53,7 @@ __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n, con
 }
 inline void hkReferencedObject::operator delete(void* p)
 {
-    HavokHeap::FUN_00c85750().heap().blockFree(
+    HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(
         p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
@@ -195,7 +195,7 @@ void FUN_00d46770_cls::WriteBufferToWriter(FNVWriter* writer, int unused)
 
 inline void hkDeallocateChunkD469(void* p, int iNumBytes)
 {
-    HavokHeap::FUN_00c85750().heap().blockFree(p, iNumBytes);
+    HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(p, iNumBytes);
 }
 
 class hkBlockPoolD469
@@ -234,7 +234,7 @@ struct FUN_00d46be0_Cls
 void FUN_00d46be0_Cls::FUN_00d46be0()
 {
     reinterpret_cast<FUN_00d469e0_Obj*>(this)->FreeAllChunks();
-    hkMemoryRouter* res = &HavokHeap::FUN_00c85750();
+    hkMemoryRouter* res = &HavokHeap::hkMemoryRouter_getInstance();
     hkMemoryAllocator* pInner = res->m_heap;
     int v = m10;
     m0c = 0;
@@ -262,7 +262,7 @@ class FUN_00d46be0_class
     }
     static void operator delete(void* p) throw()
     {
-        HavokHeap::FUN_00c85750().heap().blockFree(p, sizeof(FUN_00d46be0_class));
+        HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(p, sizeof(FUN_00d46be0_class));
     }
 };
 
@@ -327,14 +327,14 @@ FnvCpu_FUN_00d46cc0_CpuObject* FnvCpu_FUN_00d46cc0_CpuObject::Destroy(unsigned i
     FUN_00d46c30();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = &HavokHeap::FUN_00c85750();
+        hkMemoryRouter* holder = &HavokHeap::hkMemoryRouter_getInstance();
         holder->m_heap->blockFree(this, size);
     }
     return this;
 }
 }  // namespace fnv_00d46cc0
 
-void __cdecl FUN_00cb1260(void* dst, const void* src, int nbytes);
+void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
 
 class hkBlockStreamD466
 {
@@ -360,10 +360,10 @@ void hkBlockStreamD466::Read(void* apDest, int aiByteCount, int offset)
         int avail = size - blockOffset;
         if (aiByteCount <= avail)
         {
-            FUN_00cb1260(apDest, src, aiByteCount);
+            hkString_memCpy(apDest, src, aiByteCount);
             return;
         }
-        FUN_00cb1260(apDest, src, avail);
+        hkString_memCpy(apDest, src, avail);
         apDest = (char*)apDest + avail;
         aiByteCount -= avail;
         block++;
@@ -463,7 +463,7 @@ class Stream_d467
 };
 
 void __cdecl ResizeAudioStream(void*, void*, int);
-void __cdecl FUN_00cb1260(void* dst, const void* src, int count);
+void __cdecl hkString_memCpy(void* dst, const void* src, int count);
 
 // Copies iSize bytes from pcData into the stream's block array, allocating new blocks from the heap when the current block is full.
 // @fnv 0x00d467c0
@@ -481,10 +481,10 @@ void Stream_d467::FUN_00d467c0(const char* pcData, int iSize)
 
             if (available == 0)
             {
-                hkMemoryAllocator& heap = HavokHeap::FUN_00c85750().heap();
+                hkMemoryAllocator& heap = HavokHeap::hkMemoryRouter_getInstance().heap();
                 char* block = (char*)heap.blockAlloc(blockSize);
 
-                hkMemoryRouter* router = &HavokHeap::FUN_00c85750();
+                hkMemoryRouter* router = &HavokHeap::hkMemoryRouter_getInstance();
                 if (blocks->m_iElementCount == (blocks->m_iCapacityState & 0x3fffffff))
                 {
                     ResizeAudioStream(router->m_heap, blocks, 4);
@@ -503,14 +503,14 @@ void Stream_d467::FUN_00d467c0(const char* pcData, int iSize)
 
             if (iSize > available)
             {
-                FUN_00cb1260(destination, pcData, available);
+                hkString_memCpy(destination, pcData, available);
                 pcData += available;
                 iSize -= available;
                 m_offset = m_iDofCount;
             }
             else
             {
-                FUN_00cb1260(destination, pcData, iSize);
+                hkString_memCpy(destination, pcData, iSize);
                 m_offset += iSize;
                 return;
             }
@@ -534,7 +534,7 @@ int hkArrayStreamWriter::write(const void* mem, int size)
     {
         (*m_aiIndexedValues)[m_aiIndexedValues->GetLogicalSize()] = 0;
     }
-    FUN_00cb1260(m_aiIndexedValues->m_data + m_offset, mem, size);
+    hkString_memCpy(m_aiIndexedValues->m_data + m_offset, mem, size);
     m_offset += size;
     return size;
 }
@@ -569,16 +569,16 @@ void V46a50Owner::hkMemoryTrack_appendByMove(V46a50List* apList)
         V46a50Elem* e = apList->m_data[i];
         doElem(e, apList->m0);
         int k = apList->m0;
-        HavokHeap::FUN_00c85750().heap().blockFree(e, k);
+        HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(e, k);
     }
     if (n != 0)
     {
         V46a50Elem* e = apList->m_data[n - 1];
         doElem(e, apList->m4);
         int k = apList->m0;
-        HavokHeap::FUN_00c85750().heap().blockFree(e, k);
+        HavokHeap::hkMemoryRouter_getInstance().heap().blockFree(e, k);
     }
-    hkMemoryAllocator& a = HavokHeap::FUN_00c85750().heap();
+    hkMemoryAllocator& a = HavokHeap::hkMemoryRouter_getInstance().heap();
     apList->m_iElementCount = 0;
     if ((apList->m_capFlags & 0x80000000) == 0)
         a.bufFree(apList->m_data, (apList->m_capFlags & 0x3fffffff) * sizeof(V46a50Elem*));

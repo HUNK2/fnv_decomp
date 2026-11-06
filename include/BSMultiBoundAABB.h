@@ -20,7 +20,7 @@ public:
     void setExtent(const Vec57& extent);
 
     float GetPointLength();
-    void FUN_00c39270(NiPoint3* points);
-    void FUN_00c389e0(Vec4* point);
+    void BSMultiBoundAABB_GetVertices(NiPoint3* points);
+    void GetNiBound(Vec4* point);
     void* FUN_004a7060(unsigned int flags);
 };

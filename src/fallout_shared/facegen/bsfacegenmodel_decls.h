@@ -113,7 +113,7 @@ class BSFaceGenTexture
     FaceGenTextureFile* m_pTextureData;
     BSFaceGenTexture();
 };
-void FUN_00652140();
+void BSFaceGenManager_LockFaceGenAccess();
 void BSFaceGenManager_UnlockFaceGenAccess();
 bool BSFaceGenManager_LoadEGMData(BSFaceGenModel*);
 BSFaceGenBaseMorphExtraData* GetExtraDataIfPresent(NiTriBasedGeom*);
@@ -141,7 +141,7 @@ extern TES* g_TES;
 extern const char* DAT_0119b734[];
 int __cdecl BSstricmp(const char*, const char*);
 int Warning(const char*, ...);
-int FUN_004af340();
+int NiTexturingProperty_GetType();
 bool fffReadTriFile(const NarrowString&, FaceGenTriData*);
 FaceGenTextureFile* BSFaceGenModel_EGTData_Create(const char*);
 NiAVObject* GetGeomExtraData(NiAVObject*);

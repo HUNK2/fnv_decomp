@@ -4,10 +4,10 @@
 
 extern "C" void __cdecl InitAndReturnTail(void*, void*, void*);
 extern "C" void __cdecl hkpCollectionCollectionAgent3_updateFilter(void*, void*, void*);
-extern "C" void __cdecl FUN_00d34d30(void*, void*, void*);
+extern "C" void __cdecl hkpCollectionCollectionAgent3_calcStatistics(void*, void*, void*);
 extern "C" void __cdecl ForwardCall(void*, void*, void*);
 extern "C" void __cdecl FUN_00d34d80(void*, void*, void*);
-extern "C" void __cdecl FUN_00d35770(void*, void*, void*);
+extern "C" void __cdecl process_00d35770(void*, void*, void*);
 extern "C" void __cdecl FUN_00da6dc0(void*, void*, void*);
 
 struct FUN_00d36270_s {
@@ -31,14 +31,14 @@ struct FUN_00d36270_s {
 void FUN_00d36270(FUN_00d36270_s* self)
 {
     self->m_vt = &InitAndReturnTail;
-    self->m_k = &FUN_00d35770;
+    self->m_k = &process_00d35770;
     self->m_iUnknownValue = 0;
     self->m_kPointB = 0;
     self->m_iThirdValue = 0;
     self->m_iFourthElementInteger = 0;
     self->m_usTrailingValue = 0;
     self->m_f = &hkpCollectionCollectionAgent3_updateFilter;
-    self->m_g = &FUN_00d34d30;
+    self->m_g = &hkpCollectionCollectionAgent3_calcStatistics;
     self->m_h = &ForwardCall;
     self->m_i = &FUN_00d34d80;
     self->m_kPointA = &FUN_00da6dc0;
@@ -128,7 +128,8 @@ struct S00d34d30_Obj
 };
 
 // @fnv 0x00d34d30
-void __cdecl FUN_00d34d30(void* a, void* b, void* c, void* d)
+// src: XBOX_PDB 0x00d34d30
+void __cdecl hkpCollectionCollectionAgent3_calcStatistics(void* a, void* b, void* c, void* d)
 {
     S00d34d30_Obj* obj = (S00d34d30_Obj*)d;
     obj->m6(str_010ceca8);
@@ -477,7 +478,8 @@ static __forceinline void copyCachedAabbs(const BoundingVolumeData& bvd, int use
 }
 
 // @fnv 0x00d351c0
-int __cdecl FUN_00d351c0(const hkpCdBodyq* body, int useCache, const hkpShapeContainerq* container,
+// src: XBOX_PDB 0x00d351c0
+int __cdecl hkCollectionBvTreeAgent3_extractCachedAabbsOrRecalculate(const hkpCdBodyq* body, int useCache, const hkpShapeContainerq* container,
                          const hkpProcessCollisionInputq* input, hkAabbUint32Key* aabbsOut)
 {
     SweptTransformSamples samples;

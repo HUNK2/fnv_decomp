@@ -10,7 +10,7 @@ class NiRenderedCubeMap : public NiRenderedTexture
 
     void __thiscall FUN_00ee82b0();
 
-    static NiRenderedCubeMap* FUN_00ee8330(unsigned int uiFaceSize, NiRenderer* pkRenderer,
+    static NiRenderedCubeMap* Create_00ee8330(unsigned int uiFaceSize, NiRenderer* pkRenderer,
                                          NiTexture::TextureFormatPreferences& kPrefs);
 
     int unk48;

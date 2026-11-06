@@ -323,7 +323,7 @@ struct B006815c0
     B006815c0();
     void FUN_00a59780(float, float, float);
 };
-float FUN_004b5550(float, float);
+float NiATan2(float, float);
 struct FUN_00682b00 : FUN_006827b0
 {
     Ptr682 node;
@@ -348,7 +348,7 @@ FUN_00682b00::FUN_00682b00(TESObjectCELL* cell, float duration, const char* name
     float owner = scene.z;
     scene.z = 0.0f;
     float active = scene.FUN_00457990();
-    existing.FUN_00a59780(FUN_004b5550(scene.x, scene.y), 0.0f, -FUN_004b5550(owner, active));
+    existing.FUN_00a59780(NiATan2(scene.x, scene.y), 0.0f, -NiATan2(owner, active));
     SpawnDebris(p4, p5, &existing, p7, p8, f, flag);
 }
 
@@ -441,11 +441,11 @@ struct CellContext
 struct SceneObject
 {
     SceneObject* FUN_00a5d2c0(CloneContext&);
-    void FUN_00440460(int);
-    void FUN_0043fa80(int);
-    void FUN_00440490(float);
-    void FUN_00a5a040();
-    void FUN_00a59c60(UpdateContext&);
+    void NiAVObject_SetTranslate(int);
+    void SetRotate_0043fa80(int);
+    void NiAVObject_SetScale(float);
+    void UpdateProperties();
+    void NiAVObject_Update(UpdateContext&);
 };
 struct ScenePointer : MemberPtr
 {
@@ -453,7 +453,7 @@ struct ScenePointer : MemberPtr
 };
 struct ModelService
 {
-    SceneObject* FUN_00447080(int, int, bool, bool, bool, bool);
+    SceneObject* ModelLoader_LoadFile(int, int, bool, bool, bool, bool);
 };
 struct QueueService
 {
@@ -461,20 +461,20 @@ struct QueueService
 };
 struct EffectRegistry
 {
-    void FUN_00973fd0(FUN_00682c40*);
+    void ProcessLists_AddTempEffect(FUN_00682c40*);
 };
 extern ModelService* g_011c3b3c;
 extern QueueService* g_011dea10;
 extern EffectRegistry g_011e0e80;
 extern float DAT_011c3c08;
 void ProcessPropertyTree(SceneObject*, int);
-void FUN_0062b8d0(SceneObject*, int, bool);
-void FUN_0062ba80(SceneObject*, int, bool);
+void TESHavokUtilities_AddVelocity(SceneObject*, int, bool);
+void TESHavokUtilities_AddAngularVelocity(SceneObject*, int, bool);
 void BSTempEffectDebris_LimitDebrisObjects();
 struct DebrisEffect : FUN_00682c40
 {
     void FUN_007e6580(bool);
-    CellContext* FUN_0084e3a0();
+    CellContext* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void AttachCollisionObject(int);
     void SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool b10);
 };
@@ -482,7 +482,7 @@ struct DebrisEffect : FUN_00682c40
 void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool abUseQueue)
 {
     FUN_007e6580(false);
-    SceneObject* update = g_011c3b3c->FUN_00447080(m_1c, 0, true, false, false, false);
+    SceneObject* update = g_011c3b3c->ModelLoader_LoadFile(m_1c, 0, true, false, false, false);
     if (abUseQueue)
     {
         if (g_011dea10)
@@ -495,22 +495,22 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
         CloneContext clone(1.0f);
         m_18.FUN_0066b0d0((int)update->FUN_00a5d2c0(clone));
     }
-    if (!static_cast<ScenePointer&>(m_18).FUN_00559450() || !FUN_0084e3a0())
+    if (!static_cast<ScenePointer&>(m_18).FUN_00559450() || !GetHavokWorldObjectCountInSceneGraph_0084e3a0())
         return;
-    SceneNode* model = FUN_0084e3a0()->GetDynamicNode();
+    SceneNode* model = GetHavokWorldObjectCountInSceneGraph_0084e3a0()->GetDynamicNode();
     if (model)
         model->AttachChildInAvailableSlot(static_cast<ScenePointer&>(m_18).FUN_00559450(), true);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00440460(a5);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_0043fa80(a6);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00440490(f9);
+    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_SetTranslate(a5);
+    static_cast<ScenePointer&>(m_18).FUN_00559450()->SetRotate_0043fa80(a6);
+    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_SetScale(f9);
     ProcessPropertyTree(static_cast<ScenePointer&>(m_18).FUN_00559450(), 5);
     AttachCollisionObject(a4);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00a5a040();
+    static_cast<ScenePointer&>(m_18).FUN_00559450()->UpdateProperties();
     UpdateContext node(DAT_011c3c08, true, false);
-    static_cast<ScenePointer&>(m_18).FUN_00559450()->FUN_00a59c60(node);
-    FUN_0062b8d0(static_cast<ScenePointer&>(m_18).FUN_00559450(), a7, true);
-    FUN_0062ba80(static_cast<ScenePointer&>(m_18).FUN_00559450(), a8, true);
-    g_011e0e80.FUN_00973fd0(this);
+    static_cast<ScenePointer&>(m_18).FUN_00559450()->NiAVObject_Update(node);
+    TESHavokUtilities_AddVelocity(static_cast<ScenePointer&>(m_18).FUN_00559450(), a7, true);
+    TESHavokUtilities_AddAngularVelocity(static_cast<ScenePointer&>(m_18).FUN_00559450(), a8, true);
+    g_011e0e80.ProcessLists_AddTempEffect(this);
     if ((unsigned char)m_20)
     {
         BSTempEffectDebris_AddtoDebrisCounter(this);
@@ -616,8 +616,8 @@ struct TaskQueueInterface
     void QueueDetach(NiAVObject* obj);
 };
 
-void FUN_00c6a270(NiAVObject* obj, bool a, bool b, int c);
-void FUN_00c69ee0(NiAVObject* obj, bool a, int b);
+void bhkWorld_Activate(NiAVObject* obj, bool a, bool b, int c);
+void bhkWorld_RemoveObjects(NiAVObject* obj, bool a, int b);
 
 class FUN_00682f40 : public BSTempEffect
 {
@@ -642,8 +642,8 @@ FUN_00682f40::~FUN_00682f40()
     }
     if (g_011c3ea4.IsEnabled(1))
     {
-        FUN_00c6a270(m_pSceneObject, true, true, 0);
-        FUN_00c69ee0(m_pSceneObject, true, 0);
+        bhkWorld_Activate(m_pSceneObject, true, true, 0);
+        bhkWorld_RemoveObjects(m_pSceneObject, true, 0);
     }
     else
     {
@@ -683,12 +683,12 @@ struct WorldNode
 };
 struct WorldFade
 {
-    WorldObj* FUN_0045bc00(bool bArg);
+    WorldObj* NiNode_GetAtChecked(bool bArg);
 };
 struct WorldFilter
 {
     unsigned int iFilter;
-    int FUN_004a3a20();
+    int CFilter_GetGroup();
     WorldFilter();
 };
 struct WorldActor
@@ -819,10 +819,10 @@ struct WorldHavok
 };
 struct WorldCell;
 extern const void* const DAT_011f9140;
-WorldFade* FUN_00653270(const void* pkRTTI, WorldNode* pkObj);
-unsigned int FUN_004a8b00(WorldObj* pkObj);
-WorldHavok* __fastcall FUN_004543c0(WorldCell* pkCell);
-void FUN_00c6a3d0(WorldObj* pkObj, int iFilter, int a, int b);
+WorldFade* NiObject_DynamicCast(const void* pkRTTI, WorldNode* pkObj);
+unsigned int bhkNiCollisionObject_GetbhkNiCollisionObject(WorldObj* pkObj);
+WorldHavok* __fastcall TESObjectCELL_GetbhkWorld(WorldCell* pkCell);
+void bhkWorld_SetGroup(WorldObj* pkObj, int iFilter, int a, int b);
 struct FUN_00683190_shell
 {
     virtual void v000();
@@ -864,7 +864,7 @@ struct FUN_00683190_shell
     virtual void v036();
     virtual void v037();
     virtual WorldNode* Get3D();
-    WorldCell* FUN_0084e3a0();
+    WorldCell* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void AttachCollisionObject(WorldActor* pkActor);
 };
 // @fnv 0x006830a0
@@ -904,35 +904,35 @@ void FUN_00683190_shell::AttachCollisionObject(WorldActor* pkActor)
     WorldObj* pkObj = (WorldObj*)pk3D;
     if (pk3D)
     {
-        WorldNode* pkNode = (WorldNode*)FUN_00653270(&DAT_011f9140, pk3D);
+        WorldNode* pkNode = (WorldNode*)NiObject_DynamicCast(&DAT_011f9140, pk3D);
         if (pkNode)
         {
-            pkObj = ((WorldFade*)pkNode)->FUN_0045bc00(false);
+            pkObj = ((WorldFade*)pkNode)->NiNode_GetAtChecked(false);
         }
         else
         {
             pkNode = pk3D->IsSceneNode();
-            unsigned int uiObjType = FUN_004a8b00(pkObj);
+            unsigned int uiObjType = bhkNiCollisionObject_GetbhkNiCollisionObject(pkObj);
             if (!uiObjType && pkNode && pkNode->FUN_0043b480() && pkNode->FUN_0043b4a0(0))
             {
                 pkObj = pkNode->FUN_0043b4a0(0);
-                unsigned int uiChildType = FUN_004a8b00(pkObj);
+                unsigned int uiChildType = bhkNiCollisionObject_GetbhkNiCollisionObject(pkObj);
                 if (!uiChildType && pkNode && pkNode->FUN_0043b480() > 1 && pkNode->FUN_0043b4a0(1))
                     pkObj = pkNode->FUN_0043b4a0(1);
             }
         }
         if (pkObj)
         {
-            WorldCell* pkCell = FUN_0084e3a0();
+            WorldCell* pkCell = GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             if (pkCell)
             {
-                WorldHavok* pkWorld = FUN_004543c0(pkCell);
+                WorldHavok* pkWorld = TESObjectCELL_GetbhkWorld(pkCell);
                 if (pkWorld)
                 {
                     if (pkActor && pkActor->IsCollidable())
                     {
                         WorldActor* pkCollider = pkActor;
-                        FUN_00c6a3d0(pkObj, pkCollider->FUN_00931ed0().FUN_004a3a20(), 1, 1);
+                        bhkWorld_SetGroup(pkObj, pkCollider->FUN_00931ed0().CFilter_GetGroup(), 1, 1);
                     }
                     pkWorld->AddObject(pkObj, pk3D);
                 }
@@ -946,7 +946,7 @@ extern void* g_011cf3e4;
 struct FUN_006833b0_glob
 {
     bool IsFieldCZero();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void* FUN_0044ddc0();
     void* GetSecondField(void* p);
     void** AddEight(void* p);
@@ -954,7 +954,7 @@ struct FUN_006833b0_glob
 
 struct FUN_006833b0_cf
 {
-    unsigned int* FUN_0043d4d0();
+    unsigned int* Setting_Int();
 };
 
 struct FUN_006833b0_item
@@ -972,11 +972,11 @@ void BSTempEffectDebris_LimitDebrisObjects()
 
     if (!reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->IsFieldCZero())
     {
-        if (reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0084e3a0() >
-            *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->FUN_0043d4d0())
+        if (reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() >
+            *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->Setting_Int())
         {
-            n = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0084e3a0() -
-                *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->FUN_0043d4d0();
+            n = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() -
+                *reinterpret_cast<FUN_006833b0_cf*>(&g_011cf3e4)->Setting_Int();
             for (p2 = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->FUN_0044ddc0(); p2 != 0 && n > 0;
                  p2 = reinterpret_cast<FUN_006833b0_glob*>(&g_011d6a74)->GetSecondField(p2))
             {

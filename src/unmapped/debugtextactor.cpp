@@ -11,8 +11,8 @@ extern S_009aae70_Entry DAT_011a55b4[];
 
 const char* __cdecl CombatWorldState_GetStateValueText(int type, unsigned int value);
 const char* __cdecl CombatWorldState_GetStateName(int type);
-int __cdecl FUN_00406d00(char* buf, int size, const char* fmt, ...);
-unsigned int __cdecl FUN_0044a670(const char* s);
+int __cdecl BSsprintf(char* buf, int size, const char* fmt, ...);
+unsigned int __cdecl BSstrlen(const char* s);
 int __cdecl FUN_00406d50(char* dst, unsigned int size, const char* src);
 
 struct S_009aae70
@@ -34,22 +34,22 @@ void S_009aae70::FormatFlagsString(char* pBuffer, unsigned int size, int type)
             {
                 if (!any)
                 {
-                    FUN_00406d00(pBuffer, size, "%s: %s", CombatWorldState_GetStateName(type), CombatWorldState_GetStateValueText(type, uiBit));
+                    BSsprintf(pBuffer, size, "%s: %s", CombatWorldState_GetStateName(type), CombatWorldState_GetStateValueText(type, uiBit));
                 }
                 else
                 {
                     char acTemp[260];
-                    FUN_00406d00(acTemp, 0x104, ", %s", CombatWorldState_GetStateValueText(type, uiBit));
-                    FUN_00406d50(pBuffer, size - FUN_0044a670(pBuffer), acTemp);
+                    BSsprintf(acTemp, 0x104, ", %s", CombatWorldState_GetStateValueText(type, uiBit));
+                    FUN_00406d50(pBuffer, size - BSstrlen(pBuffer), acTemp);
                 }
                 any = true;
             }
         }
         if (!any)
-            FUN_00406d00(pBuffer, size, "%s: None", CombatWorldState_GetStateName(type));
+            BSsprintf(pBuffer, size, "%s: None", CombatWorldState_GetStateName(type));
     }
     else
     {
-        FUN_00406d00(pBuffer, size, "%s: %s", CombatWorldState_GetStateName(type), CombatWorldState_GetStateValueText(type, mask));
+        BSsprintf(pBuffer, size, "%s: %s", CombatWorldState_GetStateName(type), CombatWorldState_GetStateValueText(type, mask));
     }
 }

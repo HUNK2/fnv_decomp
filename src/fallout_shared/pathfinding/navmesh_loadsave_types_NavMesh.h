@@ -340,7 +340,7 @@ class NavMesh : public TESForm, public TESChildCell, public NiRefObject
     void ForceSetFormID(unsigned int formID);
     void InitItem();
     void CopyNavMeshDataTo(class NavMeshPtr&);
-    const NavMeshInfo* FUN_0068efb0();
+    const NavMeshInfo* GetNavMeshInfo_0068efb0();
     void SetDeletionState(bool);
     void InitializeNavMeshData();
     // base TESForm at +0x0, size 24

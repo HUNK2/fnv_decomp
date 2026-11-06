@@ -18,7 +18,7 @@ void FalloutAudioMedia::BeginMediaUpdate()
 {
     GetCurrentThreadId();
     StartMenu::UpdateMedia();
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x008304c0
@@ -27,7 +27,7 @@ void FalloutAudioMedia::EndMediaUpdate()
     GetCurrentThreadId();
     DAT_011dd310 &= ~2;
     DAT_011dd311 &= ~2;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x00830010
@@ -65,7 +65,7 @@ void FalloutAudioMedia::FadeOutMedia(int fadeTime, MEDIATYPE mediaType)
             DAT_011dd360 = currentTime + DAT_011dd35c;
         }
     }
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 namespace fnv_anon_falloutaudiomedia {}
@@ -83,7 +83,7 @@ unsigned int FAMThread::ThreadProc()
             RunAudioChannel(&threadID);
     }
     state &= ~2;
-    FUN_00c80240(&event);
+    DoThreadShutdown(&event);
     return 0;
 }
 }
@@ -107,7 +107,7 @@ char FalloutAudioMedia::IsRadioPlaying()
     else
         state.isRadio = 1;
     state.result = (char)state.isRadio;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
     return state.result;
 }
 
@@ -136,7 +136,7 @@ unsigned int __fastcall FUN_0082f7b0(FAMThread* pThis)
             RunAudioChannel(&pThis->threadID);
     }
     pThis->state &= ~2;
-    FUN_00c80240(&pThis->event);
+    DoThreadShutdown(&pThis->event);
     return 0;
 }
 
@@ -153,7 +153,7 @@ extern double DAT_01032980;
 extern float const g_011c5aa8_arg1;
 
 float __cdecl log_0082ffd0(float);
-float __cdecl FUN_004dd130(float, float);
+float __cdecl pow_004dd130(float, float);
 
 // Computes a volume from the media type's setting or BSAudio value, applies attenuation and dB clamping, then scales by the BSAudio factor and clamps the result.
 // @fnv 0x0082fec0
@@ -181,7 +181,7 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
     else if (fVolumeDb > _gModifierZero)
         fVolumeDb = 0.0f;
 
-    vol = FUN_004dd130(10.0f, (float)(fVolumeDb / DAT_01073490));
+    vol = pow_004dd130(10.0f, (float)(fVolumeDb / DAT_01073490));
     vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->GetMasterVolume() * vol;
 
     if (vol < DAT_01032980)
@@ -239,7 +239,8 @@ float BGSMusicType::GetAttenuation()
 extern ActorTaskManager g_011dd3d8;
 
 // @fnv 0x00830470
-void FUN_00830470()
+// src: XBOX_PDB 0x00830470
+void FalloutAudioMedia_MediaAccessEnter()
 {
     g_011dd3d8.QueryPerformanceCounter(0);
 }
@@ -247,11 +248,12 @@ void FUN_00830470()
 extern char DAT_011dd312;
 
 // @fnv 0x00830660
-void FUN_00830660()
+// src: XBOX_PDB 0x00830660
+void FalloutAudioMedia_MediaMenuUnPause()
 {
     GetCurrentThreadId();
     DAT_011dd312 = 0;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x00830680
@@ -276,7 +278,7 @@ void __cdecl StartFade(int aiFadeTime, int aeType)
         DAT_011dd35c = aiFadeTime;
         DAT_011dd360 = ticks + DAT_011dd35c;
     }
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x00830750
@@ -309,7 +311,7 @@ bool __cdecl FalloutAudioMedia_MediaIsPlaying(unsigned long aeType, bool abInclu
                   (DAT_011dd368 != 0 && DAT_011dd348 == aeType && (DAT_011dd311 & 8) == 0);
         }
     }
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
     return ret;
 }
 
@@ -334,7 +336,7 @@ int __cdecl FalloutAudioMedia_MediaGetSubDuration(int auiThreadId)
         result = DAT_011dd324;
     else if (DAT_011dd36c == 0 && DAT_011dd368 != 0 && DAT_011dd348 == (unsigned long)auiThreadId)
         result = DAT_011dd358;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
     return result;
 }
 
@@ -368,7 +370,7 @@ unsigned long __cdecl FalloutAudioMedia_MediaGetPosition(unsigned long param_1)
     {
         result = DAT_011dd350;
     }
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
     return result;
 }
 }  // namespace fnv_00830a20
@@ -377,7 +379,8 @@ namespace fnv_00830490 {
 extern ActorTaskManager g_011dd3d8;
 
 // @fnv 0x00830490
-void __cdecl FUN_00830490()
+// src: XBOX_PDB 0x00830490
+void __cdecl FalloutAudioMedia_MediaAccessLeave()
 {
     g_011dd3d8.WaitForTasksDuringRendering();
 }
@@ -417,16 +420,17 @@ void FalloutAudioMedia_MediaStop()
         DAT_011dd31c = 0;
         DAT_011dd311 |= 1;
     }
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x008305e0
-void FUN_008305e0()
+// src: XBOX_PDB 0x008305e0
+void FalloutAudioMedia_MediaPause()
 {
     GetCurrentThreadId();
     DAT_011dd310 |= 4;
     DAT_011dd311 |= 4;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 // @fnv 0x00830610
@@ -435,7 +439,7 @@ void ResetThreadFlags()
     GetCurrentThreadId();
     DAT_011dd310 &= -5;
     DAT_011dd311 &= -5;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 extern char DAT_011dd312;
@@ -446,7 +450,7 @@ void __cdecl FalloutAudioMedia_MediaMenuPause()
 {
     GetCurrentThreadId();
     DAT_011dd312 = 1;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 
 extern int DAT_011dd36c;
@@ -470,7 +474,7 @@ unsigned int FalloutAudioMedia_MediaGetDuration(unsigned long aeType)
         ret = DAT_011dd320;
     else if (DAT_011dd36c == 0 && DAT_011dd368 && DAT_011dd348 == aeType)
         ret = DAT_011dd354;
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
     return ret;
 }
 
@@ -508,7 +512,7 @@ class AudioClock
   public:
     unsigned int GetSynchTime();
 };
-AudioClock* FUN_00453a70();
+AudioClock* BSAudio_QInstance();
 class WorldSpace
 {
   public:
@@ -698,7 +702,7 @@ extern PlayerMedia* g_thePlayer;
 extern MediaLocationController* DAT_011dd374;
 extern MediaSet* DAT_011dd378;
 extern MediaLocationRecord* DAT_011dd380;
-bool FUN_007027b0(int);
+bool Menu_IsMenuVisible(int);
 bool FUN_00830ad0();
 // @fnv 0x0082fb70
 void UpdateMediaLocation()
@@ -718,10 +722,10 @@ void UpdateMediaLocation()
         time = DAT_011dd348;
     else
         time = DAT_011dd314;
-    unsigned int mediaType = FUN_00453a70()->GetSynchTime();
+    unsigned int mediaType = BSAudio_QInstance()->GetSynchTime();
     bool combat =
         BGSSaveLoadGlobalDataWorldlocationPtr ? BGSSaveLoadGlobalDataWorldlocationPtr->UpdateCombatMusic() : false;
-    if (FUN_007027b0(1007))
+    if (Menu_IsMenuVisible(1007))
         return;
     if (!DAT_011dd378 || (DAT_011dd378 && !DAT_011dd378->Update(mediaType, combat, 0)))
     {
@@ -792,7 +796,8 @@ extern ::FAMThread* DAT_011dd1f4;
 
 // Allocates two FAMThread objects, initializes each with a 0x4000 stack and name, sets priority 1, and calls FUN_00aa6550 with 0.
 // @fnv 0x0082f830
-void __cdecl FUN_0082f830()
+// src: XBOX_PDB 0x0082f830
+void __cdecl FalloutAudioMedia_Startup()
 {
     DAT_011dd1f4 = new ::FAMThread[2];
     DAT_011dd1f4->Initialize(0x4000, DAT_0107cc08, false);
@@ -858,19 +863,19 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
     if (aeMediaType == 9)
     {
         StartMenu::UpdateMedia();
-        FUN_00830490();
+        FalloutAudioMedia_MediaAccessLeave();
         return;
     }
 
     if (aeMediaType != 8 && DAT_011dcfa5)
     {
-        FUN_00830490();
+        FalloutAudioMedia_MediaAccessLeave();
         return;
     }
 
     if (!apFileName || !apFileName[0])
     {
-        FUN_00830490();
+        FalloutAudioMedia_MediaAccessLeave();
         return;
     }
 
@@ -878,7 +883,7 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
                      (aeMediaType < static_cast<int>(DAT_011dd348) && DAT_011dd36c == 0)))
     {
         _FNV_Warning("FalloutAudioMedia: Trying to open media out of priority");
-        FUN_00830490();
+        FalloutAudioMedia_MediaAccessLeave();
         return;
     }
 
@@ -888,7 +893,7 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
         if (!fileCheck.Write())
         {
             _FNV_Warning("FalloutAudioMedia: File '%s' does not exist!", apFileName);
-            FUN_00830490();
+            FalloutAudioMedia_MediaAccessLeave();
             return;
         }
     }
@@ -951,6 +956,6 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
         DAT_011dd32c = DAT_011dd360;
     }
 
-    FUN_00830490();
+    FalloutAudioMedia_MediaAccessLeave();
 }
 }  // namespace fnv_008300c0

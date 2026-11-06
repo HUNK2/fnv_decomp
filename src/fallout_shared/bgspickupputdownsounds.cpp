@@ -92,7 +92,7 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
 }
 
 extern int DAT_0101abd8;
-void __fastcall FUN_0047b540(void* pThis);
+void __fastcall BGSPickupPutdownSounds_InitializeDataComponent(void* pThis);
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x0047b4f0
@@ -101,12 +101,13 @@ void* __fastcall BGSPickupPutdownSounds_BGSPickupPutdownSounds(BaseFormComponent
 {
     apComponent->BaseFormComponent::BaseFormComponent();
     *(int**)apComponent = &DAT_0101abd8;
-    FUN_0047b540(apComponent);
+    BGSPickupPutdownSounds_InitializeDataComponent(apComponent);
     return apComponent;
 }
 
 // @fnv 0x0047b540
-void __fastcall FUN_0047b540(void* pThis)
+// src: XBOX_PDB 0x0047b540
+void __fastcall BGSPickupPutdownSounds_InitializeDataComponent(void* pThis)
 {
     *(int*)((char*)pThis + 4) = 0;
     *(int*)((char*)pThis + 8) = 0;
@@ -145,19 +146,19 @@ struct ItemList
 {
     void* GetItem();
 };
-extern "C" void __cdecl FUN_00485910(int, int);
+extern "C" void __cdecl TESForm_AddChunk_00485910(int, int);
 // @fnv 0x0047b560
 void __fastcall LogFormIDs(BGSPickupPutdownSounds* sounds)
 {
     if (((ItemList*)sounds)->GetItem())
     {
         unsigned int id = ((TESForm*)((ItemList*)sounds)->GetItem())->GetFormID();
-        FUN_00485910(0x4d414e59, id);
+        TESForm_AddChunk_00485910(0x4d414e59, id);
     }
     if (((BgspickupputdownsoundsOffset08View*)sounds)->GetFlags())
     {
         unsigned int id = ((TESForm*)((BgspickupputdownsoundsOffset08View*)sounds)->GetFlags())->GetFormID();
-        FUN_00485910(0x4d414e5a, id);
+        TESForm_AddChunk_00485910(0x4d414e5a, id);
     }
 }
 }  // namespace fnv_0047b560

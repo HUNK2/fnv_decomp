@@ -55,14 +55,15 @@ struct hkpRigidBodyCinfo;
 struct RigidBodyConstruction : hkpRigidBody
 {
     void FUN_00c9cce0(const hkpShape* shape) throw();
-    void FUN_00ca8150(const hkpShape* shape, hkVector4* result) throw();
+    void hkpRigidBody_updateCachedShapeInfo(const hkpShape* shape, hkVector4* result) throw();
     void hkpRigidBody_enableDeactivation(bool enabled) throw();
-    void FUN_00561800(const hkVector4& velocity) throw();
+    void hkpRigidBody_setAngularVelocity(const hkVector4& velocity) throw();
     RigidBodyConstruction* FUN_00ca8c90(const hkpRigidBodyCinfo& info);
 };
 
 // @fnv 0x00ca8150
-void RigidBodyConstruction::FUN_00ca8150(const hkpShape* seg, hkVector4* dst) throw()
+// src: XBOX_PDB 0x00ca8150
+void RigidBodyConstruction::hkpRigidBody_updateCachedShapeInfo(const hkpShape* seg, hkVector4* dst) throw()
 {
     hkAabb pair;
     seg->CalculateAabb(reinterpret_cast<const hkTransform&>(DAT_01268370), 0.0f, pair);
@@ -174,7 +175,7 @@ RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCin
             info.mass, info.inertia, info.centerOfMass, info.maxLinear, info.maxAngular, &m_pMotionState);
         static_cast<RigidMotionInitialization&>(m_pMotionState).FUN_00c86420(info.deactivationClass);
         OnTrigger(info.linearVelocity);
-        FUN_00561800(info.angularVelocity);
+        hkpRigidBody_setAngularVelocity(info.angularVelocity);
         m_kCollidable.m_pMotionState = &m_pMotionState.m_kMotionState.m_kMotionTransform;
         m_kCollidable.m_fAllowedPenetrationDepth = info.penetrationDepth;
     }
@@ -184,7 +185,7 @@ RigidBodyConstruction* RigidBodyConstruction::FUN_00ca8c90(const hkpRigidBodyCin
     if (m_kCollidable.m_pCollisionShape)
     {
         hkVector4 halfExtents;
-        FUN_00ca8150(m_kCollidable.m_pCollisionShape, &halfExtents);
+        hkpRigidBody_updateCachedShapeInfo(m_kCollidable.m_pCollisionShape, &halfExtents);
         if (m_kCollidable.m_fAllowedPenetrationDepth <= 0.0f)
             ComputeScaledMinimum(&m_kCollidable, halfExtents);
     }

@@ -17,7 +17,7 @@
 
 
 extern "C" void _ReadWriteBarrier();
-extern "C" void* __cdecl FUN_00cb1280(void*, int, unsigned int);
+extern "C" void* __cdecl hkString_memSet(void*, int, unsigned int);
 
 enum hkPlacementNewArg
 {
@@ -189,9 +189,10 @@ struct SourceArg
     {}
 };
 // @fnv 0x00d4a2b0
-void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
+// src: XBOX_PDB 0x00d4a2b0
+void hkpStorageExtendedMeshShape::addTrianglesSubpart(SourceArg sourceArg)
 {
-    Subpart* destination = FUN_00d562f0();
+    Subpart* destination = hkpExtendedMeshShape_expandOneTriangleSubparts();
     const Subpart& source = *sourceArg.p;
     destination->FUN_00d4abf0(source);
     hkpStorageExtendedMeshShapeMeshSubpartStorage* created = new hkpStorageExtendedMeshShapeMeshSubpartStorage;
@@ -218,7 +219,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned char);
         int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned char* data = Buffer_grow(storage->indices8, count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned char));
+        hkString_memSet(data, 0, count * sizeof(unsigned char));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -239,7 +240,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned short);
         int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned short* data = Buffer_grow(storage->indices16, count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned short));
+        hkString_memSet(data, 0, count * sizeof(unsigned short));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -260,7 +261,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
         destination->indexStride = stride * sizeof(unsigned int);
         int count = numIndices_00d49c20(inputStride, source.numTriangles);
         unsigned int* data = Buffer_grow(storage->indices32, count);
-        FUN_00cb1280(data, 0, count * sizeof(unsigned int));
+        hkString_memSet(data, 0, count * sizeof(unsigned int));
         const char* input = source.indexBase;
         indices = data;
         for (int i = 0; i < source.numTriangles; ++i)
@@ -401,7 +402,7 @@ void hkpStorageExtendedMeshShape::FUN_00d4a2b0(SourceArg sourceArg)
             }
         }
     }
-    FUN_00d55950();
+    hkpExtendedMeshShape_recalcAabbExtents();
     int last = m_kTrianglesSubparts.m_iElementCount - 1;
     m_iNumTriangles += Vec4(destination, last);
 }

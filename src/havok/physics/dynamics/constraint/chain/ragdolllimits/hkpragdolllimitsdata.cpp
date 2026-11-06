@@ -23,7 +23,8 @@ void FUN_00d4f130_StandIn::hkpRagdollLimitsData_getConstraintInfo(unsigned int a
 }
 
 // @fnv 0x00d4f150
-void __stdcall FUN_00d4f150(int aiUnused, int* b)
+// src: XBOX_PDB 0x00d4f150
+void __stdcall hkpRagdollLimitsData_getRuntimeInfo(int aiUnused, int* b)
 {
     b[1] = 3;
     b[0] = 0x1c;

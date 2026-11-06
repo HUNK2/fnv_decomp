@@ -72,7 +72,8 @@ D88310Bool __cdecl hkpConstraintSolverSetup_internalIsMemoryOkForNewAccumulators
 }
 
 // @fnv 0x00d88300
-void __cdecl FUN_00d88300()
+// src: XBOX_PDB 0x00d88300
+void __cdecl hkpConstraintSolverSetup_shutdownSolver()
 {}
 
 struct D88470Sub
@@ -224,7 +225,7 @@ struct S88_Router
     }
 };
 
-S88_Router* __cdecl FUN_00c85750();
+S88_Router* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(S88_Allocator& a, void* array, int sizeElem);
 
 template <typename T> struct S88_PadSpu
@@ -398,7 +399,7 @@ struct S88_SchemaInfo
 
 static __forceinline S88_SchemaInfo& S88_Array_AllocatePair(hkArrayBase<S88_SchemaInfo>& self)
 {
-        S88_Allocator& alloc = FUN_00c85750()->heap();
+        S88_Allocator& alloc = hkMemoryRouter_getInstance()->heap();
         if (self.m_iElementCount == self.getCapacity())
         {
             ResizeAudioStream(alloc, (&self), sizeof(S88_SchemaInfo));
@@ -416,24 +417,25 @@ template <typename T> inline T S88_min2(T x, T y)
     return x < y ? x : y;
 }
 
-void __cdecl FUN_00d92900(S88_ConstraintData* data, const S88_QueryIn* in, S88_Atom* atom, int type);
-void __cdecl FUN_00d72190(S88_Atom* atom, const S88_QueryIn& in, D88310Bool writeHeader, S88_QueryOut& out);
-void __cdecl FUN_00d6f460(const S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out);
+void __cdecl hkSimpleContactConstraintData_fireCallbacks(S88_ConstraintData* data, const S88_QueryIn* in, S88_Atom* atom, int type);
+void __cdecl hkSimpleContactConstraintDataBuildJacobian(S88_Atom* atom, const S88_QueryIn& in, D88310Bool writeHeader, S88_QueryOut& out);
+void __cdecl hkSolverBuildJacobianFromAtomsNotContact(const S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out);
 
 inline void S88_buildJacobianFromAtoms(S88_Atom* atoms, int atomsSize, const S88_QueryIn& in, S88_QueryOut& out)
 {
     if (atoms->m_type == 0x16)
     {
-        FUN_00d72190(atoms, in, D88310Bool(true), out);
+        hkSimpleContactConstraintDataBuildJacobian(atoms, in, D88310Bool(true), out);
     }
     else
     {
-        FUN_00d6f460(atoms, atomsSize, in, out);
+        hkSolverBuildJacobianFromAtomsNotContact(atoms, atomsSize, in, out);
     }
 }
 
 // @fnv 0x00d88760
-void __cdecl FUN_00d88760(hkpConstraintSolverResources& s, S88_Instance** constraints, int numConstraints, hkArrayBase<S88_SchemaInfo>& constraintStatus)
+// src: XBOX_PDB 0x00d88760
+void __cdecl hkpConstraintSolverSetup_internalAddJacobianSchemas(hkpConstraintSolverResources& s, S88_Instance** constraints, int numConstraints, hkArrayBase<S88_SchemaInfo>& constraintStatus)
 {
     S88_QueryIn& in = *reinterpret_cast<S88_QueryIn*>(s.m_pConstraintQueryIn);
     S88_QueryOut out;
@@ -481,7 +483,7 @@ void __cdecl FUN_00d88760(hkpConstraintSolverResources& s, S88_Instance** constr
         if (instance->getData()->getType() == 11)
         {
             S88_ConstraintData* data = instance->getDataRw();
-            FUN_00d92900(data, &in, data->m_pAtom, 1);
+            hkSimpleContactConstraintData_fireCallbacks(data, &in, data->m_pAtom, 1);
         }
 
         if (instance->m_pConstraintInternal->m_ucCallbackRequest & 4)
@@ -716,7 +718,7 @@ struct S88b50_Router
     }
     static S88b50_Router& GetMonitorStream()
     {
-        return *(S88b50_Router*)FUN_00c85750();
+        return *(S88b50_Router*)hkMemoryRouter_getInstance();
     }
 };
 static __forceinline char* S88b50_allocateStack(int n)
@@ -941,7 +943,7 @@ void __cdecl hkExportImpulsesAndRhs(const void* solverInfo, char* elemTemps, cha
 int __cdecl hkRigidMotionUtilApplyAccumulators(const void* solverInfo, const hkStepInfo* stepInfo,
                          const hkpVelocityAccumulator* accums, hkpEntity* const* bodies, int numBodies,
                          int offset);
-void __cdecl FUN_00d1a330(const void* input, hkpEntity* const* bodies, int numBodies);
+void __cdecl hkpEntityAabbUtil_entityBatchRecalcAabb(const void* input, hkpEntity* const* bodies, int numBodies);
 void __cdecl hkpWorldCallbackUtil_fireContactImpulseLimitBreached(void* world, void* elems, int n);
 
 // hkMatrix3
@@ -1067,7 +1069,7 @@ static __forceinline void S88b50_buildJacobianElements(S88_QueryIn& in, hkpEntit
                 {
                     S88_ConstraintData* data = c->m_pHavokConstraint->getDataRw();
                     S88_Atom* atom = data->m_pAtom;
-                    FUN_00d92900(data, &in, atom, 2);
+                    hkSimpleContactConstraintData_fireCallbacks(data, &in, atom, 2);
                 }
                 if (c->m_ucCallbackRequest & 4)
                 {
@@ -1111,13 +1113,14 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
                                            int numBodies)
 {
     int numInactiveFrames = hkRigidMotionUtilApplyAccumulators(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
-    FUN_00d1a330(((S88b50_World*)bodies[0]->m_pOwningWorld)->getCollisionInput(), bodies, numBodies);
+    hkpEntityAabbUtil_entityBatchRecalcAabb(((S88b50_World*)bodies[0]->m_pOwningWorld)->getCollisionInput(), bodies, numBodies);
     return numInactiveFrames;
 }
 
 // Allocates solver buffers, builds velocity accumulators and Jacobian schemas, solves the constraint system, and integrates the island bodies.
 // @fnv 0x00d88b50
-int __cdecl FUN_00d88b50(const hkStepInfo& stepInfo, const void* solverInfo, S88_QueryIn& constraintQueryIn,
+// src: XBOX_PDB 0x00d88b50
+int __cdecl hkpConstraintSolverSetup_solve(const hkStepInfo& stepInfo, const void* solverInfo, S88_QueryIn& constraintQueryIn,
                          S88b50_Island& island, void* preallocatedBuffer, int preallocatedBufferSize,
                          hkpEntity* const* bodies, int numBodies)
 {

@@ -29,7 +29,7 @@ void* NiSCMExtraData::Destroy(unsigned int auiFlags)
     return this;
 }
 
-void* __cdecl FUN_00aa1070(int);
+void* __cdecl _NiMalloc_00aa1070(int);
 
 // The shared header has no initialization method or named fields for these counts.
 // @fnv 0x00ee8910
@@ -42,7 +42,7 @@ NiSCMExtraData* __fastcall FUN_00ee8910(NiSCMExtraData* self, void*, int a, int 
     *reinterpret_cast<int*>(reinterpret_cast<char*>(self) + 0x18) = 0;
     if (aiCountA != 0)
     {
-        self->m_24 = FUN_00aa1070(aiCountA * 8);
+        self->m_24 = _NiMalloc_00aa1070(aiCountA * 8);
     }
     else
     {
@@ -52,7 +52,7 @@ NiSCMExtraData* __fastcall FUN_00ee8910(NiSCMExtraData* self, void*, int a, int 
     *reinterpret_cast<int*>(reinterpret_cast<char*>(self) + 0x20) = 0;
     if (aiCountB != 0)
     {
-        self->m_2c = FUN_00aa1070(aiCountB * 8);
+        self->m_2c = _NiMalloc_00aa1070(aiCountB * 8);
     }
     else
     {

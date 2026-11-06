@@ -58,7 +58,7 @@ ConsoleManager* ConsoleManager::Instance(bool bCreate)
 // @fnv 0x0071b210
 bool ConsoleManager::Idle(int aiKeyCode)
 {
-    if (cVisible <= 0 || !InterfaceManager_GetSingleton()->FUN_007023a0())
+    if (cVisible <= 0 || !InterfaceManager_GetSingleton()->IsInMenuMode())
         return false;
 
     struct InputState
@@ -165,7 +165,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"tag"))
                 {
-                    TESObjectREFR* reference = manager->FUN_007031c0();
+                    TESObjectREFR* reference = manager->GetCurrentWeapon();
                     if (reference)
                     {
                         BSStringT<char> label;
@@ -178,9 +178,9 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
                 else if (!_mbsnbicmp_(text, "reload strings", 14))
                 {
-                    delete manager->FUN_004fd400();
+                    delete manager->GetAVEffect();
                     Menu::ReadMenuDefinition("Data\\Menus\\globals.xml", 0);
-                    Tile* tile = manager->FUN_00586150()->ReadFile("Data\\Menus\\globals.xml");
+                    Tile* tile = manager->CombatController_GetCombatState()->ReadFile("Data\\Menus\\globals.xml");
                     tile->SetParent(0, 0);
                     manager->BGSTerminal_SetPassword(tile);
                 }
@@ -194,7 +194,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"reload mainmenu"))
                 {
                     DebugText::ClearDebugText();
-                    delete FindMenuById(FUN_0070ede0());
+                    delete FindMenuById(StartMenu_GetClassStatic());
                     StartMenu::Create(false, false);
                 }
                 else if (!_mbsnbicmp_(text, "reload ", 7))
@@ -229,7 +229,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                  reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(
                                                              MenuSystem::Instance(true)->GetFrontmostMenu())
                                                              ->GetNext())
-                                     ->FUN_00700300());
+                                     ->GetName_00700300());
                 else if (!_mbsnbcmp_(text, "stack", 5))
                 {
                     int i = 0;
@@ -382,7 +382,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             script.NotifySaveLoadGameOfFormChange();
                                             script.SetText(batchLine);
                                             script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER,
-                                                                     InterfaceManager_GetSingleton()->FUN_007031c0());
+                                                                     InterfaceManager_GetSingleton()->GetCurrentWeapon());
                                         }
                                     }
                                 }
@@ -424,7 +424,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                 {
                                     char batchLine[100];
                                     sprintf_s(batchLine, 100, "%s\r\n", m_aacCommandHistory[i]);
-                                    file->FUN_00473180(static_cast<const void*>(batchLine), BSStringLength(batchLine));
+                                    file->NiBinaryStream_Write(static_cast<const void*>(batchLine), BSStringLength(batchLine));
                                 }
                                 file->Close();
                                 DebugLog("Batch file '%s' created.", filename);
@@ -454,7 +454,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     script.SetText(text);
-                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, InterfaceManager_GetSingleton()->FUN_007031c0());
+                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, InterfaceManager_GetSingleton()->GetCurrentWeapon());
                 }
             }
         }
@@ -533,7 +533,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         if (reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)->GetSize())
                         {
                             m_iCommandHistoryPosition--;
-                            m_iCommandHistoryPosition = FUN_00647b70(m_iCommandHistoryPosition, 0);
+                            m_iCommandHistoryPosition = BSMAX_00647b70(m_iCommandHistoryPosition, 0);
                             BSStringT<char> line;
                             {
                                 void* position = 0;
@@ -815,7 +815,7 @@ void FUN_0071d620_shell::MenuConsole_SetVisible(char acState)
         {
             MenuconsoleInterfaceView::PrintDebugMessage();
 
-            if (_FUN_004b7210()->FUN_007023a0())
+            if (_FUN_004b7210()->IsInMenuMode())
             {
                 DebugText::Instance(true)->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                                  DAT_011d8d38.Int()->i, 0);
@@ -890,10 +890,10 @@ struct ConsoleLines
 };
 struct ConsoleTextRenderer
 {
-    void FUN_00a0f8b0(const char* text, float x, float y, int color, int state, float opacity, int alignment,
+    void DebugText_Print(const char* text, float x, float y, int color, int state, float opacity, int alignment,
                       int style);
 };
-ConsoleTextRenderer* __cdecl FUN_00a0d9e0(int mode);
+ConsoleTextRenderer* __cdecl DebugText_Instance(int mode);
 extern float _DAT_01012054;
 struct ConsoleDisplay
 {
@@ -913,7 +913,7 @@ void ConsoleDisplay::DrawConsoleLines()
     int lineIndex = lastLine - DAT_011d8cfc.Int()->i;
     while (lineIndex < 0)
     {
-        FUN_00a0d9e0(1)->FUN_00a0f8b0(0, (float)m_iConsoleX, (float)lineY, 1, -1, _DAT_01012054, 0, 0);
+        DebugText_Instance(1)->DebugText_Print(0, (float)m_iConsoleX, (float)lineY, 1, -1, _DAT_01012054, 0, 0);
         ++lineIndex;
         lineY += iConsoleLineSpacing;
     }
@@ -921,7 +921,7 @@ void ConsoleDisplay::DrawConsoleLines()
         node = strings.DereferenceIfNotNull(node);
     while (lineIndex < lastLine)
     {
-        FUN_00a0d9e0(1)->FUN_00a0f8b0(strings.AddEight(node)->FUN_00559450(), (float)m_iConsoleX, (float)lineY, 1, -1,
+        DebugText_Instance(1)->DebugText_Print(strings.AddEight(node)->FUN_00559450(), (float)m_iConsoleX, (float)lineY, 1, -1,
                                       _DAT_01012054, DAT_011d8d38.Int()->i, 0);
         node = strings.DereferenceIfNotNull(node);
         ++lineIndex;
@@ -958,11 +958,12 @@ class FUN_0071d580_cls
     signed char m_38;
 
     void Call_0071d620(int);
-    bool FUN_0071d580();
+    bool MenuConsole_ToggleVisible();
 };
 
 // @fnv 0x0071d580
-bool FUN_0071d580_cls::FUN_0071d580()
+// src: XBOX_PDB 0x0071d580
+bool FUN_0071d580_cls::MenuConsole_ToggleVisible()
 {
     ToggleGlobalFlag();
     if (m_38 == 0)
@@ -1046,7 +1047,7 @@ struct DumpRTTI
 {
 };
 extern DumpRTTI DAT_011f444c;
-bool FUN_0043b300(const DumpRTTI*, DumpTexture*);
+bool NiObject_IsKindOf(const DumpRTTI*, DumpTexture*);
 struct DumpSetting
 {
     bool* FUN_00408d60();
@@ -1054,7 +1055,7 @@ struct DumpSetting
 extern DumpSetting g_011dec98;
 struct DumpFullName
 {
-    const char* FUN_00408da0();
+    const char* TESModel_GetModel();
 };
 struct DumpWorld
 {
@@ -1089,7 +1090,7 @@ void DumpConsole::DumpLoadedTextures()
         a1 = NiTexture_GetListHead();
         while (a1)
         {
-            if (FUN_0043b300(&DAT_011f444c, a1))
+            if (NiObject_IsKindOf(&DAT_011f444c, a1))
             {
                 a9 = a1;
                 a7 = a9->FUN_0059bb30();
@@ -1130,10 +1131,10 @@ void DumpConsole::DumpLoadedTextures()
                 g_TES->FUN_00457070() ? g_TES->FUN_00457070()->TESFullName::GetFullName() : "{unknown}", g_TES->FUN_0059bb30(),
                 g_TES->FUN_0045cd60(),
                 g_TES->FUN_00457070() ? (g_TES->FUN_00457070()->GetParentWorldSpace()
-                                             ? reinterpret_cast<DumpWorld*>(g_TES->FUN_00457070()->GetParentWorldSpace())->name.FUN_00408da0()
+                                             ? reinterpret_cast<DumpWorld*>(g_TES->FUN_00457070()->GetParentWorldSpace())->name.TESModel_GetModel()
                                              : "{unknown}")
                                       : "{unknown}");
-            a8->FUN_00473180(static_cast<const void*>(buffer), BSStringLength(buffer));
+            a8->NiBinaryStream_Write(static_cast<const void*>(buffer), BSStringLength(buffer));
             {
                 for (int k = 0; k < 200 && a0[k]; k++)
                 {
@@ -1141,11 +1142,11 @@ void DumpConsole::DumpLoadedTextures()
                     unsigned int name;
                     name = a0[k]->FUN_0059bb30();
                     a7 = a0[k]->v9c()->FUN_0043b1b0();
-                    a8->FUN_00473180(static_cast<const void*>(buffer), BSStringLength(buffer));
+                    a8->NiBinaryStream_Write(static_cast<const void*>(buffer), BSStringLength(buffer));
                 }
             }
             sprintf_s(buffer, 1024, "---------------------------------------\nTotal memory: %dkb", a6);
-            a8->FUN_00473180(static_cast<const void*>(buffer), BSStringLength(buffer));
+            a8->NiBinaryStream_Write(static_cast<const void*>(buffer), BSStringLength(buffer));
             a8->Close();
             DebugLog("200 largest loaded textures dumped to the file textures.txt.");
         }

@@ -65,7 +65,8 @@ NiDirectionalLight* __fastcall FUN_00a75c80(NiDirectionalLight* light, void*, in
 
 // Calls NiAVObject::UpdateWorldData, copies three floats from offsets 0x68/0x74/0x80 to 0xf0/0xf4/0xf8, and increments the int at 0xa8.
 // @fnv 0x00a75cb0
-void __fastcall FUN_00a75cb0(NiDirectionalLight* light, void*, NiUpdateData* UpdateData)
+// src: XBOX_PDB 0x00a75cb0
+void __fastcall NiDirectionalLight_UpdateWorldData(NiDirectionalLight* light, void*, NiUpdateData* UpdateData)
 {
     light->NiAVObject::UpdateWorldData(*UpdateData);
     char* p = reinterpret_cast<char*>(light);
@@ -89,7 +90,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f4a68;
 char* _FUN_00a7d330(const char*);
 // @fnv 0x00a75d70
-void __fastcall FUN_00a75d70(NiDirectionalLight* light, void*, NiTPrimitiveArray<char*>* apArray)
+// src: XBOX_PDB 0x00a75d70
+void __fastcall NiDirectionalLight_GetViewerStrings(NiDirectionalLight* light, void*, NiTPrimitiveArray<char*>* apArray)
 {
     reinterpret_cast<NiLightViewerOperations*>(light)->AppendEffectProperties(apArray);
     char* s = _FUN_00a7d330(g_011f4a68.p);
@@ -113,7 +115,8 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 
 // Allocates a NiDirectionalLight, initializes it via FUN_00a75c20, copies member data and m_kWorldDir from the source, and returns the new object.
 // @fnv 0x00a75cf0
-NiObject* __fastcall FUN_00a75cf0(NiDirectionalLight* light, void*, CloningProcess* kCloning)
+// src: XBOX_PDB 0x00a75cf0
+NiObject* __fastcall NiDirectionalLight_CreateClone(NiDirectionalLight* light, void*, CloningProcess* kCloning)
 {
     NiDirectionalLight* pkObject = (NiDirectionalLight*)FUN_00aa13e0(sizeof(NiDirectionalLight));
 

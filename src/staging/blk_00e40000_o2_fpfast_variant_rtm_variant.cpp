@@ -111,7 +111,7 @@ struct FUN_00e426f0_class
 };
 struct FUN_00e61480_class
 {
-    void FUN_00e61480(int);
+    void hkxMeshSection_collectVertexPositions(int);
 };
 struct FUN_00e4ab50_class
 {
@@ -1504,7 +1504,7 @@ struct Ref
 {
     void FUN_00c90510();
 };
-int FUN_00e60cb0(unsigned char, int);
+int hkMeshPrimitiveUtil_calculateNumIndices(unsigned char, int);
 struct Entry
 {
     Ref* name;
@@ -1522,15 +1522,15 @@ struct Entry
     int length() const
     {
         int t = type;
-        return FUN_00e60cb0(t, count);
+        return hkMeshPrimitiveUtil_calculateNumIndices(t, count);
     }
 };
 struct Allocator
 {
 };
-int FUN_00e60cb0(unsigned char type, int count);
+int hkMeshPrimitiveUtil_calculateNumIndices(unsigned char type, int count);
 extern "C" void hkArrayUtil__reserve(Allocator*, void*, int, int);
-void FUN_00cb1260(void*, const void*, int);
+void hkString_memCpy(void*, const void*, int);
 struct String
 {
     void* value;
@@ -1936,7 +1936,7 @@ struct GtrStand_
     int unk14;
     void* FUN_00e4af40();
 };
-hkMemoryRouter* __cdecl FUN_00e4e3f0();
+hkMemoryRouter* __cdecl hkStackMemory_getInstance();
 void nullsub_293();
 void __cdecl nullsub_294();
 void nullsub_292();

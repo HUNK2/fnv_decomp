@@ -42,7 +42,7 @@ class SoundSystem
     SoundResult BSAudioManager_InitSoundPath(int a, int b, int c);
 };
 
-SoundSystem* FUN_00ad9060();
+SoundSystem* BSAudioManager_QInstance_00ad9060();
 
 class SoundWrapper
 {
@@ -55,5 +55,5 @@ class SoundWrapper
 SoundResult SoundWrapper::BSAudio_GetSoundHandleByFilename(int a, int b, int c)
 {
     MemContextGuard kGuard(11);
-    return FUN_00ad9060()->BSAudioManager_InitSoundPath(a, b, c);
+    return BSAudioManager_QInstance_00ad9060()->BSAudioManager_InitSoundPath(a, b, c);
 }

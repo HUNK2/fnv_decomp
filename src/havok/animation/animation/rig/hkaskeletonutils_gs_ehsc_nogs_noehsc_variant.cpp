@@ -188,7 +188,7 @@ struct ScanObj
 {
     void FUN_00cde940(int a, int b, void* c);
 };
-HolderRec* FUN_00c85750();
+HolderRec* hkMemoryRouter_getInstance();
 unsigned char* WalkChainUntilLimit(unsigned char* pOut, ScanRec* rec, short limit, short start, ScanObj* obj);
 
 // ---------------------------------------------------------------------------

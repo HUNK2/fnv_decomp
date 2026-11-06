@@ -146,17 +146,18 @@ void* FUN_005e0370_Class::NiTPrimitiveArray_TESModel_NiTPrimitiveArray(int aiArg
 // @fnv 0x005e05b0
 void* NavMeshPtr::FUN_005e05b0(int index)
 {
-    return (char*)FUN_00458b50() + (index << 9);
+    return (char*)AnimatingText_GetFullText() + (index << 9);
 }
 
 struct QuantityData
 {
     void SetQuantity(unsigned int);
-    void FUN_005e0b80(unsigned int quantity);
+    void hkStackMemory_deallocateStack(unsigned int quantity);
 };
 
 // @fnv 0x005e0b80
-void QuantityData::FUN_005e0b80(unsigned int quantity)
+// src: XBOX_PDB 0x005e0b80
+void QuantityData::hkStackMemory_deallocateStack(unsigned int quantity)
 {
     SetQuantity(quantity);
 }
@@ -175,11 +176,12 @@ void ScriptRuntimeOperations::AddProfileTime(float value)
 
 struct FUN_005e2850_class
 {
-    bool FUN_005e2850();
+    bool ScriptRunner_IsRunning();
 };
 
 // @fnv 0x005e2850
-bool FUN_005e2850_class::FUN_005e2850()
+// src: XBOX_PDB 0x005e2850
+bool FUN_005e2850_class::ScriptRunner_IsRunning()
 {
     return *(int*)((char*)this + 0x14) != 0;
 }
@@ -503,11 +505,12 @@ void FUN_005f4b90_Class::SetByteAtOffset2B(unsigned char aucValue)
 
 struct FUN_005f5f60_class
 {
-    int FUN_005f5f60();
+    int TESChallenge_GetRecurring();
 };
 
 // @fnv 0x005f5f60
-int FUN_005f5f60_class::FUN_005f5f60()
+// src: XBOX_PDB 0x005f5f60
+int FUN_005f5f60_class::TESChallenge_GetRecurring()
 {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x5c) & 2;
 }
@@ -633,7 +636,7 @@ void FUN_005f4bd0_class::SetEntryByte(unsigned int index, unsigned char value)
 }
 
 extern int DAT_0103d408;
-void __cdecl FUN_004ede70(void*);
+void __cdecl NiTMallocInterface_unsigned_int_Deallocate(void*);
 struct Standin005e03a0
 {
     void* vtbl;
@@ -645,7 +648,7 @@ struct Standin005e03a0
 void __thiscall Standin005e03a0::FUN_005e03a0()
 {
     vtbl = (void*)&DAT_0103d408;
-    FUN_004ede70(m4);
+    NiTMallocInterface_unsigned_int_Deallocate(m4);
 }
 
 int __cdecl FUN_005e0aa0(void* a, int b);
@@ -834,19 +837,19 @@ void* __thiscall FUN_005e0800_class::FUN_005e0800(unsigned int flags)
     return this;
 }
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct ref_006815c0_class
 {
     ref_006815c0_class* ref_006815c0(void* a, void* b);
-    void FUN_005e0ad0();
+    void hkStackMemory_allocateStack();
 };
 // @fnv 0x005e0aa0
 void FUN_005e0aa0(int a, int b)
 {
-    ref_006815c0_class* obj = reinterpret_cast<ref_006815c0_class*>(FUN_00c85750());
+    ref_006815c0_class* obj = reinterpret_cast<ref_006815c0_class*>(hkMemoryRouter_getInstance());
     reinterpret_cast<ref_006815c0_class*>(
         obj->ref_006815c0(reinterpret_cast<void*>((a << 9) + 0x7f & 0xffffff80), reinterpret_cast<void*>(b)))
-        ->FUN_005e0ad0();
+        ->hkStackMemory_allocateStack();
 }
 
 struct FUN_005e0b10_holder
@@ -856,14 +859,15 @@ struct FUN_005e0b10_holder
 unsigned int __cdecl hkAddByteOffset_005e0b50(void*, int);
 struct S_005e0ad0
 {
-    void* __thiscall FUN_005e0ad0(int a, int b);
+    void* __thiscall hkStackMemory_allocateStack(int a, int b);
 };
 // @fnv 0x005e0ad0
-void* __thiscall S_005e0ad0::FUN_005e0ad0(int aiValue, int aiUnused)
+// src: XBOX_PDB 0x005e0ad0
+void* __thiscall S_005e0ad0::hkStackMemory_allocateStack(int aiValue, int aiUnused)
 {
     void* p;
     ((FUN_005e0b10_holder*)this)->hkStackMemory_getFreeStackSize();
-    p = ((NavMeshPtr*)this)->FUN_00458b50();
+    p = ((NavMeshPtr*)this)->AnimatingText_GetFullText();
     ((QuantityData*)this)->SetQuantity(hkAddByteOffset_005e0b50(p, aiValue));
     return p;
 }
@@ -881,7 +885,7 @@ struct FUN_005e0b10_Cls
 // src: COMMUNITY 0x005e0b10
 void __thiscall FUN_005e0b10_Cls::hkStackMemory_getFreeStackSize()
 {
-    FUN_005e0b40(m0.FUN_00458b50(), m8.FUN_00458b50());
+    FUN_005e0b40(m0.AnimatingText_GetFullText(), m8.AnimatingText_GetFullText());
 }
 
 template <int N> struct EndianSizeTag
@@ -930,7 +934,7 @@ bool FUN_005ed160_Class::Equals(int arg)
 
 struct FUN_00692290_class
 {
-    void __thiscall FUN_00692290(unsigned int, unsigned int);
+    void __thiscall BSSimpleArray_unsigned_short_1024_InitialSetup(unsigned int, unsigned int);
 };
 struct FUN_005eee30_class
 {
@@ -943,7 +947,7 @@ struct FUN_005eee30_class
 FUN_005eee30_class* __thiscall FUN_005eee30_class::BSSimpleArray_short_1024_BSSimpleArray_short_1024()
 {
     vtbl = (void*)&DAT_010472e4;
-    ((FUN_00692290_class*)this)->FUN_00692290(0, 0);
+    ((FUN_00692290_class*)this)->BSSimpleArray_unsigned_short_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -1412,7 +1416,7 @@ void FUN_005ff5d0_class::TESIdleForm_RemoveChild(unsigned int uiValue)
     }
 }
 
-char** __cdecl FUN_005e0ba0(unsigned int);
+char** __cdecl NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(unsigned int);
 
 struct FUN_005e08e0_class
 {
@@ -1436,7 +1440,7 @@ FUN_005e08e0_class* __thiscall FUN_005e08e0_class::NiTArray_NiPointer_NiTexture_
     b = 0;
     c = 0;
     if (a > 0)
-        data = FUN_005e0ba0(a);
+        data = NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(a);
     else
         data = 0;
     return this;
@@ -1560,20 +1564,20 @@ struct FUN_005f6f70_Class
 // src: COMMUNITY 0x005f6f70
 void FUN_005f6f70_Class::TESClass_SaveGameTES()
 {
-    g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x44, 0x1c);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((char*)this + 0x44, 0x1c);
     unsigned char a;
     a = 0;
     if (((FNStub*)((char*)this + 0x18))->GetFullName())
         a = BSStringLength(((FNStub*)((char*)this + 0x18))->GetFullName());
-    g_TESSaveLoadGame->FUN_008579b0(&a, 1);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&a, 1);
     if (a)
-        g_TESSaveLoadGame->FUN_008579b0(((FNStub*)((char*)this + 0x18))->GetFullName(), a);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(((FNStub*)((char*)this + 0x18))->GetFullName(), a);
     a = 0;
     if (((FNStub*)((char*)this + 0x2c))->GetFullName())
         a = BSStringLength(((FNStub*)((char*)this + 0x2c))->GetFullName());
-    g_TESSaveLoadGame->FUN_008579b0(&a, 1);
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&a, 1);
     if (a)
-        g_TESSaveLoadGame->FUN_008579b0(((FNStub*)((char*)this + 0x2c))->GetFullName(), a);
+        g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(((FNStub*)((char*)this + 0x2c))->GetFullName(), a);
 }
 
 struct FUN_005e0950
@@ -1766,7 +1770,7 @@ void BSSimpleArray<GrabIK_DATA__GrabIK_Arm_DATA, 1024>::ReallocateStorage(unsign
     }
 }
 
-void __cdecl FUN_005e0b60(void*);
+void __cdecl hkDeallocateStack_char(void*);
 struct FUN_005e0600_Class
 {
     void FUN_005e0600();
@@ -1774,15 +1778,16 @@ struct FUN_005e0600_Class
 // @fnv 0x005e0600
 void FUN_005e0600_Class::FUN_005e0600()
 {
-    FUN_005e0b60((void*)(unsigned int)*(GO*)this);
+    hkDeallocateStack_char((void*)(unsigned int)*(GO*)this);
 }
 
 void* __cdecl FUN_00885750();
 // @fnv 0x005e0b60
-void FUN_005e0b60(void* p)
+// src: XBOX_PDB 0x005e0b60
+void hkDeallocateStack_char(void* p)
 {
     reinterpret_cast<QuantityData*>(&reinterpret_cast<BSSimpleList<unsigned int>*>(FUN_00885750())->GetItem())
-        ->FUN_005e0b80((unsigned int)p);
+        ->hkStackMemory_deallocateStack((unsigned int)p);
 }
 
 struct FUN_005e3fe0_class
@@ -2290,11 +2295,12 @@ struct FUN_005efa80_cls
     void* m_0c;
     void Helper(void* a, void* b, unsigned int c);
     void Finish();
-    void FUN_005efa80(void* a1, unsigned int a2);
+    void BSSimpleArray_PathingLocation_1024_ReallocateBuffer(void* a1, unsigned int a2);
 };
 
 // @fnv 0x005efa80
-void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
+// src: XBOX_PDB 0x005efa80
+void FUN_005efa80_cls::BSSimpleArray_PathingLocation_1024_ReallocateBuffer(void* a1, unsigned int a2)
 {
     if (m_04 != 0)
     {
@@ -2992,7 +2998,7 @@ class B5FA120Form
 {
   public:
     int GetFormType();
-    bool FUN_0046e8c0();
+    bool TESObjectWEAP_IsEmbeddedWeapon();
 };
 
 class B5FA120Checker
@@ -3013,7 +3019,7 @@ bool B5FA120Checker::TESCreature_CanWearItem(B5FA120Form* pkForm)
     case 0x29:
         return true;
     }
-    if (pkForm->GetFormType() == 0x28 && pkForm->FUN_0046e8c0())
+    if (pkForm->GetFormType() == 0x28 && pkForm->TESObjectWEAP_IsEmbeddedWeapon())
         return true;
     return false;
 }
@@ -3024,8 +3030,8 @@ struct FUN_005fbdd0_cls
     void* FUN_00717e50();
     void* FUN_006815c0();
     int FUN_00401170();
-    unsigned char FUN_0046e8c0();
-    int FUN_00522c00();
+    unsigned char TESObjectWEAP_IsEmbeddedWeapon();
+    int TESObjectWEAP_GetEmbeddedWeaponNode();
     void FUN_00481790(void* item);
     void* FUN_00726070();
 };
@@ -3053,8 +3059,8 @@ void FUN_005fbdd0_cls::TESCreature_CheckEmbeddedWeaponNodes(int a1)
         if (ptr != 0 && ((FUN_005fbdd0_cls*)((void**)ptr)[1])->FUN_00401170() == 0x28)
         {
             tmp = ((void**)ptr)[1];
-            if (((FUN_005fbdd0_cls*)tmp)->FUN_0046e8c0() &&
-                BSUtilities_GetObjectByName(a1, ((FUN_005fbdd0_cls*)tmp)->FUN_00522c00()) == 0)
+            if (((FUN_005fbdd0_cls*)tmp)->TESObjectWEAP_IsEmbeddedWeapon() &&
+                BSUtilities_GetObjectByName(a1, ((FUN_005fbdd0_cls*)tmp)->TESObjectWEAP_GetEmbeddedWeaponNode()) == 0)
             {
                 ((FUN_005fbdd0_cls*)((char*)this + 0x64))->FUN_00481790(ptr);
                 node2 = ((FUN_005fbdd0_cls*)((char*)this + 0x64))->FUN_00717e50();
@@ -3494,7 +3500,7 @@ struct StringArray005ed1e0 : Array005ed1e0
 {
     const char*& FUN_00877a30(unsigned int index);
 };
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 struct Target005ed1e0
 {
     unsigned char unknown_00;
@@ -3522,7 +3528,7 @@ bool Target005ed1e0::BGSRagdoll_GrabIK_Compare(Target005ed1e0* other)
     if (!different)
     {
         for (unsigned int j = 0; j < strings_04.FUN_0044ddc0() && !different; ++j)
-            different = different || FUN_00408b20(strings_04.FUN_00877a30(j), other->strings_04.FUN_00877a30(j));
+            different = different || BSstrcmp(strings_04.FUN_00877a30(j), other->strings_04.FUN_00877a30(j));
     }
     if (different || unknown_00 != other->unknown_00)
         different = true;
@@ -3596,7 +3602,7 @@ struct ChallengeNode
 };
 struct ChallengeName
 {
-    const char* FUN_00408da0();
+    const char* TESModel_GetModel();
     int unk00;
     int unk04;
     int unk08;
@@ -3612,11 +3618,11 @@ struct ChallengeDescription
 };
 struct ChallengeView : TESChallenge
 {
-    int FUN_005a6150();
-    int FUN_005f5f60();
+    int TESChallenge_GetCompleted();
+    int TESChallenge_GetRecurring();
     int FUN_005f5930();
-    int FUN_005a60d0();
-    unsigned int FUN_0084e3a0();
+    int TESChallenge_GetUnlocked();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int FUN_005e3fa0();
     int FUN_006286d0();
     int GetField54();
@@ -3635,10 +3641,10 @@ extern ChallengeNode DAT_011cb448;
 extern GlobalObject_0045cf30 g_011cb4d4;
 extern void* DAT_011dea3c;
 void __cdecl FUN_004d5c60(int);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
-const char* __cdecl FUN_0048e730(ChallengeView*, int);
+int __cdecl BSsprintf(char*, int, const char*, ...);
+const char* __cdecl TESTexture_GetTextureName(ChallengeView*, int);
 bool __cdecl QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void __cdecl FUN_00706f30(int);
+void __cdecl Interface_PlayMenuSound(int);
 void __cdecl FUN_005f5880();
 
 // @fnv 0x005f6110
@@ -3654,17 +3660,17 @@ bool __cdecl IncrementScriptedChallenge(ChallengeView* pSourceChallenge, int amo
         bool sameType = true;
         if (found)
         {
-            if (found->FUN_005a6150() && !found->FUN_005f5f60())
+            if (found->TESChallenge_GetCompleted() && !found->TESChallenge_GetRecurring())
             {
                 pNode = pNode->FUN_00726070();
                 continue;
             }
-            if (found->FUN_005f5930() && !found->FUN_005a60d0())
+            if (found->FUN_005f5930() && !found->TESChallenge_GetUnlocked())
             {
                 pNode = pNode->FUN_00726070();
                 continue;
             }
-            if (pSourceChallenge->FUN_0084e3a0() != found->FUN_0084e3a0())
+            if (pSourceChallenge->GetHavokWorldObjectCountInSceneGraph_0084e3a0() != found->GetHavokWorldObjectCountInSceneGraph_0084e3a0())
             {
                 sameType = false;
                 pNode = pNode->FUN_00726070();
@@ -3677,15 +3683,15 @@ bool __cdecl IncrementScriptedChallenge(ChallengeView* pSourceChallenge, int amo
                     ((ChallengeReward*)reinterpret_cast<ChallengeNode*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName) + sizeof(TESDescription))->FUN_00726070())->RunScriptOnTarget(DAT_011dea3c, 0);
                 if (found->GetField54() != 11 || found->GetShortAtOffset64() != 27)
                     FUN_004d5c60(27);
-                if (reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->FUN_00408da0() && reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544) && *g_011cb4d4.Bool())
+                if (reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->TESModel_GetModel() && reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544) && *g_011cb4d4.Bool())
                 {
                     char message[512];
-                    FUN_00406d00(message, 512, "%s   %d\\%d\n%s", reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->FUN_00408da0(), found->FUN_006286d0(),
+                    BSsprintf(message, 512, "%s   %d\\%d\n%s", reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->TESModel_GetModel(), found->FUN_006286d0(),
                                  found->FUN_006286d0(), reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544));
-                    QueueUIMessage(message, 0, FUN_0048e730(found, 0), 0, 2.0f, false);
-                    FUN_00706f30(21);
+                    QueueUIMessage(message, 0, TESTexture_GetTextureName(found, 0), 0, 2.0f, false);
+                    Interface_PlayMenuSound(21);
                 }
-                if (found->FUN_005f5f60() && !found->HasFlag8())
+                if (found->TESChallenge_GetRecurring() && !found->HasFlag8())
                 {
                     int remainder = found->FUN_005e3fa0() - found->FUN_006286d0();
                     found->ClearField6C();
@@ -3706,14 +3712,14 @@ bool __cdecl IncrementScriptedChallenge(ChallengeView* pSourceChallenge, int amo
                 {
                     if (current == 0)
                     {
-                        if (reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->FUN_00408da0() && reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544) &&
+                        if (reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->TESModel_GetModel() && reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544) &&
                             *g_011cb4d4.Bool())
                         {
                             char message[512];
-                            FUN_00406d00(message, 512, "%s   %d\\%d\n%s", reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->FUN_00408da0(),
+                            BSsprintf(message, 512, "%s   %d\\%d\n%s", reinterpret_cast<ChallengeName*>(reinterpret_cast<char*>(found) + sizeof(TESForm))->TESModel_GetModel(),
                                          found->FUN_005e3fa0(), found->FUN_006286d0(),
                                          reinterpret_cast<ChallengeDescription*>(reinterpret_cast<char*>(found) + sizeof(TESForm) + sizeof(TESFullName))->GetText(0, 0x43534544));
-                            QueueUIMessage(message, 0, FUN_0048e730(found, 0), 0, 2.0f, false);
+                            QueueUIMessage(message, 0, TESTexture_GetTextureName(found, 0), 0, 2.0f, false);
                         }
                     }
                 }
@@ -3726,7 +3732,7 @@ bool __cdecl IncrementScriptedChallenge(ChallengeView* pSourceChallenge, int amo
     return true;
 }
 
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 #include "../../include/NavMeshStaticAvoidNode.h"
 struct NodeArray : BSSimpleArray<NavMeshStaticAvoidNode*, 1024>
 {
@@ -3767,7 +3773,7 @@ unsigned char FUN_005ece50_class::BGSRagdoll_LookIK_Compare(FUN_005ece50_class* 
         {
             for (uStack_c = 0; uStack_c < m4.GetSize() && bStack_5 == 0; ++uStack_c)
             {
-                bStack_5 = (bStack_5 == 0 && FUN_00408b20(m4.GetAt((int)uStack_c), other->m4.GetAt((int)uStack_c)) == 0)
+                bStack_5 = (bStack_5 == 0 && BSstrcmp(m4.GetAt((int)uStack_c), other->m4.GetAt((int)uStack_c)) == 0)
                                ? 0
                                : 1;
             }
@@ -3887,13 +3893,13 @@ void TESSound::CopyFromSound(TESForm* form)
         return;
     }
     m_cSoundFlag = sound->m_cSoundFlag;
-    FUN_004851b0(form);
+    TESForm_CopyAllComponents(form);
     reinterpret_cast<SoundPlaybackParameters&>(data) = sound->CopyBig();
 }
 
 void __cdecl TESForm_AddChunk_3(unsigned int chunkId, unsigned char value);
 void __cdecl AppendChunk(unsigned int chunkId, void* data, unsigned int size);
-unsigned char __cdecl FUN_00401500();
+unsigned char __cdecl TESForm_QEndianSwapOnSave();
 
 // The shared sound header has no save/compare declarations. This method-only
 // adapter supplies those operations without duplicating the sound layout.
@@ -3912,14 +3918,14 @@ void SoundRecordOperations::Save()
     reinterpret_cast<TESSound*>(this)->TESSoundFile::Save();
     TESForm_AddChunk_3(0x4d414e52, reinterpret_cast<TESSound*>(this)->m_cSoundFlag);
 
-    if (FUN_00401500() != 0)
+    if (TESForm_QEndianSwapOnSave() != 0)
     {
         reinterpret_cast<TESSound*>(this)->data.SwapEndian();
     }
 
     AppendChunk(0x44444e53, &reinterpret_cast<TESSound*>(this)->data, 0x24);
 
-    if (FUN_00401500() != 0)
+    if (TESForm_QEndianSwapOnSave() != 0)
     {
         reinterpret_cast<TESSound*>(this)->data.SwapEndian();
     }
@@ -3933,7 +3939,7 @@ bool __fastcall FUN_008256d0(ContNode* node);
 ContNode* __fastcall FUN_00726070(ContNode* node);
 struct FUN_00408da0_Class
 {
-    int* FUN_00408da0();
+    int* TESModel_GetModel();
 };
 struct ListNodeHelper
 {
@@ -3942,26 +3948,27 @@ struct ListNodeHelper
 class DataHandler
 {
   public:
-    BSSimpleList<TESSound*>* FUN_0045c650();
+    BSSimpleList<TESSound*>* hkpMotion_getLinearVelocity();
 };
 extern DataHandler* g_dataHandler;
 
 // Searches the data handler's sound list for a TESSound whose stored name matches filename, returning the first match or null.
 // @fnv 0x005e3570
-TESSound* __cdecl FUN_005e3570(char const* filename)
+// src: XBOX_PDB 0x005e3570
+TESSound* __cdecl TESSound_FindSoundByFilename(char const* filename)
 {
     TESSound* result = 0;
     if (filename != 0)
     {
-        ContNode* node = reinterpret_cast<ContNode*>(g_dataHandler->FUN_0045c650());
+        ContNode* node = reinterpret_cast<ContNode*>(g_dataHandler->hkpMotion_getLinearVelocity());
         while (node != 0 && !FUN_008256d0(node))
         {
             TESSound* sound = reinterpret_cast<TESSound*>(*reinterpret_cast<ListNodeHelper*>(node)->FUN_006815c0());
-            if (reinterpret_cast<FUN_00408da0_Class*>(reinterpret_cast<char*>(sound) + 0x30)->FUN_00408da0() != 0)
+            if (reinterpret_cast<FUN_00408da0_Class*>(reinterpret_cast<char*>(sound) + 0x30)->TESModel_GetModel() != 0)
             {
                 if (BSstricmp(reinterpret_cast<char const*>(
                                      reinterpret_cast<FUN_00408da0_Class*>(reinterpret_cast<char*>(sound) + 0x30)
-                                         ->FUN_00408da0()),
+                                         ->TESModel_GetModel()),
                                  filename) == 0)
                 {
                     result = sound;
@@ -3982,7 +3989,7 @@ bool __cdecl ResolveArchivePath(const char*, char*, int);
 BSSimpleList<char*>* __cdecl FileFinder_BuildFileList(const char*, char*, int, int);
 unsigned int __cdecl DialogueRandom();
 unsigned int __cdecl FUN_00ae9d80(const char*);
-unsigned int __cdecl FUN_005a00a0(unsigned int);
+unsigned int __cdecl RandomUnsignedInt(unsigned int);
 
 extern unsigned int DAT_011caf04[10];
 extern char DAT_011caf2c[10];
@@ -4034,7 +4041,7 @@ bool FindDialogueFile(char* apPath)
                     {
                         while (uiChosen == (unsigned int)DAT_011caf2c[iIndex])
                         {
-                            uiChosen = FUN_005a00a0(aCount);
+                            uiChosen = RandomUnsignedInt(aCount);
                         }
                         break;
                     }
@@ -4269,7 +4276,7 @@ extern "C" void* __fastcall FNV_GetObjectReference(void*);
 __declspec(dllimport) long __stdcall QueryPerformanceCounter(__int64*);
 __declspec(dllimport) long __stdcall QueryPerformanceFrequency(__int64*);
 
-bool FUN_00702fc0();
+bool Interface_IsDebugTextVisible();
 void Warning_005b5e40(const char* fmt, int a, int b);
 
 struct Clist
@@ -4416,7 +4423,7 @@ struct Runner
 // @fnv 0x005e0d20
 bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, char a6, char a7, float a8)
 {
-    bool vf = FUN_00702fc0();
+    bool vf = Interface_IsDebugTextVisible();
     __int64 ve = 0;
     __int64 vo;
     if (vf)
@@ -4552,8 +4559,8 @@ struct InitTag5E35
 {
 };
 
-void __cdecl FUN_00401080(int* p, InitTag5E35 tag);
-void __cdecl FUN_00407a90(short* p, InitTag5E35 tag);
+void __cdecl BSEndian_00401080(int* p, InitTag5E35 tag);
+void __cdecl BSEndian_00407a90(short* p, InitTag5E35 tag);
 
 // 0x005e3510 also binds TESSound__SOUND_DATA2::Endian; it swaps a word and two shorts at 0x04/0x08/0x0a, unlike Data.h.
 struct SoundConversionFields
@@ -4570,9 +4577,9 @@ struct SoundConversionFields
 // @fnv 0x005e3510
 void SoundConversionFields::FUN_005e3510()
 {
-    FUN_00401080(&m_04, InitTag5E35());
-    FUN_00407a90(&m_08, InitTag5E35());
-    FUN_00407a90(&m_0A, InitTag5E35());
+    BSEndian_00401080(&m_04, InitTag5E35());
+    BSEndian_00407a90(&m_08, InitTag5E35());
+    BSEndian_00407a90(&m_0A, InitTag5E35());
 }
 
 void __cdecl operator delete(void*);
@@ -4625,14 +4632,14 @@ struct Node55 : Object55
 };
 struct Geometry55 : Object55
 {
-    Skin55* FUN_0043fad0();
+    Skin55* NiGeometry_GetSkinInstance();
 };
 struct Name55
 {
     const char* SkyObject_GetNiNode();
 };
 extern const NiRTTI_S DAT_011f4acc;
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, BaseObject55*);
+extern "C" void* __cdecl NiObject_DynamicCast(const NiRTTI_S*, BaseObject55*);
 extern "C" Object55* __cdecl BSUtilities_GetObjectByName(Object55*, const char*);
 struct Body55
 {
@@ -4674,10 +4681,10 @@ void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int
                 {
                     Skin55* skin5;
                     Geometry55* geometry = node2
-                                               ? (Geometry55*)FUN_00653270(&DAT_011f4acc, node2->FUN_0043b4a0(index++))
-                                               : (Geometry55*)FUN_00653270(&DAT_011f4acc, object);
-                    skin5 = geometry ? geometry->FUN_0043fad0() : 0;
-                    Part55* partition2 = (Part55*)FUN_00653270(&g_011f49d8, skin5);
+                                               ? (Geometry55*)NiObject_DynamicCast(&DAT_011f4acc, node2->FUN_0043b4a0(index++))
+                                               : (Geometry55*)NiObject_DynamicCast(&DAT_011f4acc, object);
+                    skin5 = geometry ? geometry->NiGeometry_GetSkinInstance() : 0;
+                    Part55* partition2 = (Part55*)NiObject_DynamicCast(&g_011f49d8, skin5);
                     if (partition2)
                         partition2->SetEntryStateByKey((unsigned short)i, false);
                 } while (node2 && index < node2->FUN_0043b480());
@@ -4703,12 +4710,12 @@ struct SceneObject : SceneBase
 };
 struct SceneNode : SceneObject
 {
-    SceneObject* FUN_0045bc00(unsigned int);
+    SceneObject* NiNode_GetAtChecked(unsigned int);
     unsigned int FUN_0043b480();
 };
 struct Geometry : SceneObject
 {
-    SkinInst_S* FUN_0043fad0();
+    SkinInst_S* NiGeometry_GetSkinInstance();
 };
 struct PartitionSkin
 {
@@ -4719,7 +4726,7 @@ struct ObjectName
     const char* SkyObject_GetNiNode();
 };
 extern "C" SceneObject* __cdecl BSUtilities_GetObjectByName(SceneObject*, const char*);
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, SceneBase*);
+extern "C" void* __cdecl NiObject_DynamicCast(const NiRTTI_S*, SceneBase*);
 extern const NiRTTI_S DAT_011f4acc;
 struct PartitionOwner
 {
@@ -4759,10 +4766,10 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
                 SkinInst_S* skin;
                 do
                 {
-                    Geometry* geom = node ? (Geometry*)FUN_00653270(&DAT_011f4acc, node->FUN_0045bc00(childIndex++))
-                                          : (Geometry*)FUN_00653270(&DAT_011f4acc, source);
-                    skin = geom ? geom->FUN_0043fad0() : 0;
-                    PartitionSkin* partitions = (PartitionSkin*)FUN_00653270(&g_011f49d8, (SceneBase*)skin);
+                    Geometry* geom = node ? (Geometry*)NiObject_DynamicCast(&DAT_011f4acc, node->NiNode_GetAtChecked(childIndex++))
+                                          : (Geometry*)NiObject_DynamicCast(&DAT_011f4acc, source);
+                    skin = geom ? geom->NiGeometry_GetSkinInstance() : 0;
+                    PartitionSkin* partitions = (PartitionSkin*)NiObject_DynamicCast(&g_011f49d8, (SceneBase*)skin);
                     if (partitions)
                     {
                         for (int j = 0; j < 15; ++j)
@@ -4794,7 +4801,7 @@ void EntryPointFunction_MultiplyValue(void* pvArg0, void* pvArg1, unsigned char 
         return;
     float* pfValue = *ppfValue;
     Actor* pkTarget = pkActor;
-    *pfValue = pkTarget->FUN_006b9130() * *pfValue;
+    *pfValue = pkTarget->CombatTimer_GetTargetTime() * *pfValue;
 }
 
 }
@@ -5073,7 +5080,8 @@ struct FUN_005e6540 : s5e63f0::Base
 
 // Allocates and returns a new variant object of the type indicated by n, or null for an unknown type.
 // @fnv 0x005e6280
-void* __cdecl FUN_005e6280(int aiType)
+// src: XBOX_PDB 0x005e6280
+void* __cdecl BGSEntryPointFunctionData_CreateFunctionDataOfType(int aiType)
 {
     switch (aiType)
     {
@@ -5094,7 +5102,8 @@ class AnimIdle;
 
 // Allocates an array of NiPointer<AnimIdle> of the given count and returns it as a char pointer.
 // @fnv 0x005e0ba0
-char** FUN_005e0ba0(unsigned int count)
+// src: XBOX_PDB 0x005e0ba0
+char** NiTObjectArray_NiPointer_NiTexture_NiTObjectArray_NiPointer_NiTexture(unsigned int count)
 {
     return reinterpret_cast<char**>(new NiPointer<AnimIdle>[count]);
 }

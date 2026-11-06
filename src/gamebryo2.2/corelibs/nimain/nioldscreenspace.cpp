@@ -304,14 +304,14 @@ namespace fnv_00a91890 {
 // Declaration-only adapters provide legacy base calls missing from the shared camera API.
 struct CameraViewerCalls
 {
-    void __thiscall FUN_00a71920(StrArr*);
+    void __thiscall NiCamera_GetViewerStrings(StrArr*);
 };
 char* __cdecl _FUN_00a7d330(const char*);
 // Calls the base implementation, then appends the string returned by _FUN_00a7d330 to pkStrings, growing it if needed.
 // @fnv 0x00a91890
 void __fastcall AppendScreenSpaceCameraStrings(NiScreenSpaceCamera* self, void*, StrArr* pkStrings)
 {
-    reinterpret_cast<CameraViewerCalls*>(self)->FUN_00a71920(pkStrings);
+    reinterpret_cast<CameraViewerCalls*>(self)->NiCamera_GetViewerStrings(pkStrings);
     char* tmp = _FUN_00a7d330(*(const char**)&g_011f5e6c);
     unsigned int sz = *(unsigned short*)((char*)pkStrings + 0xa);
     if (sz >= *(unsigned short*)((char*)pkStrings + 8))
@@ -873,8 +873,8 @@ inline unsigned int StrArr::AddInline(char* element)
 
 void __stdcall AppendCameraPathEntries(StrArr* apViewerStrings);
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-char* __cdecl FUN_00a7d490(const char* pcPrefix, unsigned short usValue);
-char* __cdecl FUN_00a7d5a0(const char* pcPrefix, const void* pvValue);
+char* __cdecl NiGetViewerString_00a7d490(const char* pcPrefix, unsigned short usValue);
+char* __cdecl NiGetViewerString_00a7d5a0(const char* pcPrefix, const void* pvValue);
 
 extern NiRTTI ms_RTTI_ScreenPolygon;
 
@@ -886,19 +886,19 @@ void __fastcall AppendScreenPolygonStrings(NiScreenPolygon* self, void*, StrArr*
 {
     AppendCameraPathEntries(apViewerStrings);
     apViewerStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(ms_RTTI_ScreenPolygon.m_pcName));
-    apViewerStrings->AddInline(FUN_00a7d490("m_usVertices", ScreenPolygonMember<unsigned short>(self->unk0C)));
-    apViewerStrings->AddInline(FUN_00a7d5a0("m_pkVertex", self->unk10));
-    apViewerStrings->AddInline(FUN_00a7d5a0("m_pkTexture", self->unk14));
-    apViewerStrings->AddInline(FUN_00a7d5a0("m_pkColor", self->unk18));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d490("m_usVertices", ScreenPolygonMember<unsigned short>(self->unk0C)));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d5a0("m_pkVertex", self->unk10));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d5a0("m_pkTexture", self->unk14));
+    apViewerStrings->AddInline(NiGetViewerString_00a7d5a0("m_pkColor", self->unk18));
     for (unsigned int i = 0; i < 7; i++)
     {
         NiProperty* pkProp = reinterpret_cast<NiPropertyState*>(self->unk08)->m_aspProps[i];
         const char* pcRTTIName = pkProp->GetRTTI()->m_pcName;
-        apViewerStrings->AddInline(FUN_00a7d5a0(pcRTTIName, pkProp));
+        apViewerStrings->AddInline(NiGetViewerString_00a7d5a0(pcRTTIName, pkProp));
     }
 }
 
-void* FUN_00c1d790(unsigned int ItemUpdateArray) throw();
+void* NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(unsigned int ItemUpdateArray) throw();
 
 struct ScreenCameraUpdateData
 {
@@ -930,7 +930,7 @@ inline void InitializeScreenCameraArray(NiScreenSpaceCamera::PrimitiveArray<T>& 
     array.m_usGrowBy = growBy;
     array.m_usSize = 0;
     array.m_usESize = 0;
-    array.m_pBase = (T*)FUN_00c1d790(array.m_usMaxSize);
+    array.m_pBase = (T*)NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(array.m_usMaxSize);
     *reinterpret_cast<void**>(&array) = primitiveVtable;
 }
 
@@ -1069,11 +1069,12 @@ class NiPSysOwnerA90
 {
   public:
     void CopyMemberData(NiPSysBaseA90* pkDest, void* pvProcess);
-    NiPSysBaseA90* FUN_00a90070(void* pvProcess);
+    NiPSysBaseA90* NiScreenGeometry_CreateClone(void* pvProcess);
 };
 
 // @fnv 0x00a90070
-NiPSysBaseA90* NiPSysOwnerA90::FUN_00a90070(void* pvProcess)
+// src: XBOX_PDB 0x00a90070
+NiPSysBaseA90* NiPSysOwnerA90::NiScreenGeometry_CreateClone(void* pvProcess)
 {
     NiPSysDerivedA90* pkClone = new NiPSysDerivedA90;
     CopyMemberData(pkClone, pvProcess);
@@ -1214,26 +1215,29 @@ void __cdecl DestroyGlobalPool()
     DestroyPool(DAT_011f5e50);
 }
 
-void __cdecl FUN_00a71450();
+void __cdecl NiCamera_LoadBinary();
 
 // @fnv 0x00a90000
-void __cdecl FUN_00a90000()
+// src: XBOX_PDB 0x00a90000
+void __cdecl NiScreenSpaceCamera_LoadBinary()
 {
-    FUN_00a71450();
+    NiCamera_LoadBinary();
 }
 
-void FUN_00a716c0();
+void NiCamera_SaveBinary();
 
 // @fnv 0x00a90020
-void FUN_00a90020()
+// src: XBOX_PDB 0x00a90020
+void NiScreenSpaceCamera_SaveBinary()
 {
-    FUN_00a716c0();
+    NiCamera_SaveBinary();
 }
 
 extern "C" void __cdecl IsEqualTo();
 
 // @fnv 0x00a90030
-extern "C" void __cdecl FUN_00a90030()
+// src: XBOX_PDB 0x00a90030
+extern "C" void __cdecl NiScreenSpaceCamera_IsEqual()
 {
     IsEqualTo();
 }
@@ -1591,7 +1595,7 @@ struct Pool91950
     }
 };
 
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 // Loads the geometry base data, screen flag, legacy fields, and vertex/color/texture elements.
 // @fnv 0x00a91950
 void __fastcall LoadScreenGeometryData(NiScreenGeometryData* self, void*, NiStream& stream)
@@ -1617,7 +1621,7 @@ void __fastcall LoadScreenGeometryData(NiScreenGeometryData* self, void*, NiStre
             self->m_uiTriListLength = legacyCount;
             if (legacyCount > 0)
             {
-                self->m_pusTriList = (unsigned short*)FUN_00aa1070(legacyCount * sizeof(unsigned short));
+                self->m_pusTriList = (unsigned short*)_NiMalloc_00aa1070(legacyCount * sizeof(unsigned short));
                 Read91950(Input91950(stream), self->m_pusTriList, legacyCount);
             }
         }

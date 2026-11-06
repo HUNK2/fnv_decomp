@@ -58,7 +58,7 @@ template <class T>
         ListBoxItem<T>* GetAt(unsigned int auiIndex, bool abFiltered);
         void SetFlag(int aeFlag, bool abSet);
         bool GetFlag(int aeFlag);
-        bool FUN_007d7580();
+        bool ListBox_StartMenu_Option_IsEnabled();
         void Traverse(void (__cdecl* apCallback)(Tile*, T), int aiFirst, int aiLast);
         void vfn_00();
         Tile* GetSelectedTile();
@@ -71,11 +71,11 @@ template <class T>
         void FUN_007a36e0();
         void FUN_007a43a0();
         void FUN_007a50f0();
-        void FUN_007a2350(bool a);
+        void ListBox_TESQuest_SetEnabled(bool a);
         void SetEnabledTrait(bool a);
-        void FUN_007a30e0(bool a);
-        void FUN_007a5a30(bool a);
-        void FUN_007a59a0(bool a);
+        void ListBox_BGSNote_SetEnabled(bool a);
+        void ListBox_BGSNote_SetVisible(bool a);
+        void ListBox_TESChallenge_SetEnabled(bool a);
         void FUN_007312e0();
         Tile* FindItemData(T& item);
         void UpdateScrollSelection(bool a);
@@ -83,8 +83,8 @@ template <class T>
         Tile* ListBox_unsigned_int_GetLastItem();
         Tile* GetNextEnabledTile(int aiKey);
         void AddTile(Tile* apTile);
-        void FUN_0072c000();
-        Tile* FUN_0072ba50();
+        void ListBox_TESRecipe_SetTotalListHeight();
+        Tile* ListBox_TESRecipe_GetLastItem();
         void RefreshHighlight();
         void vfn_08();
         void vfn_0c();

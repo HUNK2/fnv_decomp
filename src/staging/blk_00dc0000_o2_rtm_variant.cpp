@@ -201,7 +201,7 @@ struct AllocatorState
         return pool;
     }
 };
-extern "C" AllocatorState* __cdecl FUN_00c85750();
+extern "C" AllocatorState* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, ArrayBlock*, int, int);
 struct ArrayHost
 {
@@ -718,12 +718,12 @@ extern "C" unsigned char* GetPtr();
 void Caller(unsigned char* a);
 // The c85750 router exposes its heap at +0x10, as in the shared hkMemoryRouter.
 namespace hkRouterDDFB {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return *hkRouterDDFB::FUN_00c85750().m_heap;
+    return *hkRouterDDFB::hkMemoryRouter_getInstance().m_heap;
 }
 struct hkPairDDFB
 {
@@ -919,7 +919,7 @@ struct S00dcd270_cls
 };
 // The original 0x00dd8c40 chunk validator belongs to hkLargeBlockAllocator;
 // its unused local declaration and partial Chunk copy are unnecessary in this RTM unit.
-extern "C" int FUN_00d86940();
+extern "C" int getCstyleArraySize();
 int FUN_00dc1be0();
 struct S_00dc6fc0_Target
 {
@@ -1081,7 +1081,7 @@ struct OW
     OW(const LocalM128* q) : p(q)
     {}
 };
-static int FUN_00dd3120(const LocalM128* self, OW other, const LocalM128* a);
+static int hkpProcessFlyingColors(const LocalM128* self, OW other, const LocalM128* a);
 volatile int g_s, g_a, g_o, g_r;
 void mask_test_caller();
 static void CopyFloatsFromBytes(float* dst, const unsigned char* src);
@@ -1133,7 +1133,7 @@ struct Table
 {
     int a, b, c;
     Entry* entries;
-    unsigned int FUN_00dcb2b0(unsigned int);
+    unsigned int StructArrayImplementation__find(unsigned int);
     DispatchTarget* entryAt(unsigned int i)
     {
         return entries[i].target;
@@ -1144,11 +1144,12 @@ struct Owner
     int a, b, c;
     Table* table;
     int context;
-    void FUN_00dcb460(unsigned int);
+    void StructArrayImplementation_Object_asObject(unsigned int);
 };
-void Owner::FUN_00dcb460(unsigned int i)
+// src: XBOX_PDB 0x00dcb460
+void Owner::StructArrayImplementation_Object_asObject(unsigned int i)
 {
-    table->entryAt(table->FUN_00dcb2b0(i))->forward(context);
+    table->entryAt(table->StructArrayImplementation__find(i))->forward(context);
 }
 #include <stdlib.h>
 // Text reader: read the next number as a double.
@@ -1440,7 +1441,7 @@ struct S_00dd1180_Hdr
     float f08;
     float f0c;
 };
-void FUN_00dd1180(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp);
+void hkStiffSpringChainBuildJacobian(int n, float a, float b, float c, char** src, int stride, int u1, int u2, char** pp);
 typedef LocalM128* V;
 struct Wrap
 {

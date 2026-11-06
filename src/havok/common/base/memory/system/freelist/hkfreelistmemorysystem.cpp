@@ -7,10 +7,11 @@
 
 struct FUN_00cd06c0_t
 {
-    void __thiscall FUN_00cd06c0(int v);
+    void __thiscall hkFreeListMemorySystem_setAllocator(int v);
 };
 // @fnv 0x00cd06c0
-void __thiscall FUN_00cd06c0_t::FUN_00cd06c0(int v)
+// src: XBOX_PDB 0x00cd06c0
+void __thiscall FUN_00cd06c0_t::hkFreeListMemorySystem_setAllocator(int v)
 {
     *(int*)((char*)this + 4) = v;
     *(int*)((char*)this + 0x18) = v;
@@ -67,7 +68,7 @@ void Outer::hkFreeListMemorySystem_garbageCollect()
     inner.v16();
 }
 
-void __cdecl FUN_00d2cab0(void*, int, unsigned int);
+void __cdecl hkMemUtil_memSet(void*, int, unsigned int);
 struct FUN_00cd0940_record
 {
     virtual void slot00() = 0;
@@ -122,11 +123,11 @@ void __thiscall FUN_00cd0940_shell::ResetRecordState(int* aiParams, unsigned cha
         record->slot13();
         *(volatile int*)((unsigned char*)record + 0x128) = 0;
         *(volatile unsigned char*)((unsigned char*)record + 0x12c) = 0;
-        FUN_00d2cab0(aiParams, 0, 0x24);
+        hkMemUtil_memSet(aiParams, 0, 0x24);
     }
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct PtrArrayMember
 {
@@ -136,7 +137,7 @@ struct PtrArrayMember
 
     ~PtrArrayMember() throw()
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_debug);
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -1580,7 +1581,7 @@ namespace fnv_00cd0b30 {
 extern "C" char str_010cade0;
 extern "C" char str_010cadb4;
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize);
 
 struct Target_cc01
@@ -1661,7 +1662,7 @@ void FUN_00cd0b30_cls::hkFreeListMemorySystem_printStatistics(int apTarget)
     {
         if (*(p - 8) != 0)
         {
-            hkMemoryRouter* holder = FUN_00c85750();
+            hkMemoryRouter* holder = hkMemoryRouter_getInstance();
             if (localData.m_nCallbackId == (localData.m_cA & 0x3fffffffu))
             {
                 ResizeAudioStream(holder->m_debug, &localData.m_ppA, 4);
@@ -1669,7 +1670,7 @@ void FUN_00cd0b30_cls::hkFreeListMemorySystem_printStatistics(int apTarget)
             localData.m_ppA[localData.m_nCallbackId] = (void*)(p - 0x134);
             localData.m_nCallbackId++;
 
-            holder = FUN_00c85750();
+            holder = hkMemoryRouter_getInstance();
             if (localData.m_nB == (localData.m_cB & 0x3fffffffu))
             {
                 ResizeAudioStream(holder->m_debug, &localData.m_pB, 4);

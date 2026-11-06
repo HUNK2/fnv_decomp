@@ -12,7 +12,7 @@ struct FUN_00cb18f0_t
 {
     int unk00;
     int unk04;
-    int FUN_00cb1fb0(int value);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(int value);
 };
 struct FUN_00dd95b0_Outer
 {
@@ -32,7 +32,7 @@ void FUN_00dd95b0_Outer::hkCommandRouter_unregisterProcess(FUN_00dd95b0_Source* 
     count = 0;
     source->GetBytes(&bytes, &count);
     for (int i = 0; i < count; ++i)
-        output.FUN_00cb1fb0((unsigned char)bytes[i]);
+        output.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove((unsigned char)bytes[i]);
 }
 
 struct InputProvider
@@ -49,10 +49,10 @@ struct MessageContext
     void* unk0c;
     void* active;
 };
-MessageContext* __cdecl FUN_00c85750();
+MessageContext* __cdecl hkMemoryRouter_getInstance();
 struct MessageSink
 {
-    void __thiscall FUN_00cb1870(void* active, unsigned int value, InputProvider* source);
+    void __thiscall hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void* active, unsigned int value, InputProvider* source);
 };
 struct MessageProcessor
 {
@@ -71,8 +71,8 @@ void MessageProcessor::ProcessInputData(InputProvider* source)
     for (int i = 0; i < length; ++i)
     {
         unsigned char value = bytes[i];
-        MessageContext* context = FUN_00c85750();
-        sink.FUN_00cb1870(context->active, value, source);
+        MessageContext* context = hkMemoryRouter_getInstance();
+        sink.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(context->active, value, source);
     }
 }
 

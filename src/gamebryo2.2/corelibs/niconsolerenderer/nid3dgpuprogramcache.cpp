@@ -674,9 +674,9 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const NiFixedSt
 }
 
 #include <string.h>
-bool __cdecl FUN_00ee8d20();
+bool __cdecl NiGPUProgramCache_ValidateDirectory();
 void __cdecl fnv_StandardizeFilePath(char* path);
-bool __cdecl FUN_00aa1ab0(const char* dir);
+bool __cdecl NiFile_DirectoryExists(const char* dir);
 bool __cdecl NiFile_CreateDirectoryRecursive(const char* dir);
 
 inline unsigned int NiBinaryStream::Write(const void* pvBuffer, unsigned int uiBytes)
@@ -692,7 +692,7 @@ inline unsigned int NiBinaryStream::Write(const void* pvBuffer, unsigned int uiB
 // @fnv 0x00e8dd70
 bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
 {
-    if (FUN_00ee8d20())
+    if (NiGPUProgramCache_ValidateDirectory())
     {
         char acDir[260];
         strcpy_s(acDir, 260, pcFileName);
@@ -701,7 +701,7 @@ bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
         if (pcSlash || (pcSlash = strrchr(acDir, '\\')) != 0)
             *pcSlash = 0;
 
-        if (FUN_00aa1ab0(acDir) || NiFile_CreateDirectoryRecursive(acDir))
+        if (NiFile_DirectoryExists(acDir) || NiFile_CreateDirectoryRecursive(acDir))
         {
             NiFile* pkFile = NiFile::GetFile(pcFileName, NiFile::WRITE_ONLY, 0x8000);
             if (pkFile)
@@ -715,12 +715,12 @@ bool __stdcall WriteTextToFile(const char* pcFileName, const char* pcText)
     return false;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 void __cdecl _NiFree_00aa10f0(void* p);
 void* __cdecl FUN_00aa13e0(unsigned int size);
 __declspec(nothrow) void FUN_00a305b0(char*, unsigned int, const char*, ...);
 char* __cdecl FUN_00a5b690(const char* name);
-void* __cdecl FUN_00e93850(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int a,
+void* __cdecl NiD3DShaderProgramFactory_CreateVertexShaderFromBuffer(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int a,
                            int b, int c, int d);
 void* __cdecl NiD3DShaderProgramFactory_CreatePixelShaderFromBuffer(char* text, unsigned int len, char* path, char* path2, const char* entry, int target, int d);
 
@@ -867,12 +867,13 @@ class S00e8eb80_Obj
     unsigned char unk43;
     const char* m_44;
 
-    RefCountedBase* FUN_00e8eb80(const char* name, const char* src, ArrayHolder* refs);
+    RefCountedBase* NiD3DGPUProgramCache_GenerateProgram(const char* name, const char* src, ArrayHolder* refs);
 };
 
 // Compiles shader source into a ShaderNode, adds refs, and inserts it into the ShaderMap keyed by name.
 // @fnv 0x00e8eb80
-RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSource, ArrayHolder* refs)
+// src: XBOX_PDB 0x00e8eb80
+RefCountedBase* S00e8eb80_Obj::NiD3DGPUProgramCache_GenerateProgram(const char* name, const char* apSource, ArrayHolder* refs)
 {
     if (!m_3a)
     {
@@ -881,7 +882,7 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
         pObj.m_p = 0;
 
         unsigned int srcLen = strlen(apSource);
-        char* text = (char*)FUN_00aa1070(srcLen + 0x208);
+        char* text = (char*)_NiMalloc_00aa1070(srcLen + 0x208);
 
         if (m_3c == 0)
         {
@@ -891,7 +892,7 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             FUN_00a305b0(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
             unsigned int len = strlen(text);
             int tgt = m_24;
-            RefCountedBase* r = (RefCountedBase*)FUN_00e93850(text, len, path, path, "Main", tgt, 0, 0, 0, 1);
+            RefCountedBase* r = (RefCountedBase*)NiD3DShaderProgramFactory_CreateVertexShaderFromBuffer(text, len, path, path, "Main", tgt, 0, 0, 0, 1);
             pObj.FUN_00a5f860(r);
         }
         else if (m_3c == 2)

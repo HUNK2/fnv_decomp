@@ -432,7 +432,7 @@ struct S_00df71d0_Router
     }
 };
 
-S_00df71d0_Router* FUN_00c85750();
+S_00df71d0_Router* hkMemoryRouter_getInstance();
 
 struct S_00df71d0_B0
 {
@@ -501,7 +501,7 @@ struct FUN_00df71d0 : S_00df71d0_B0, S_00df71d0_B1, S_00df71d0_B2, S_00df71d0_B3
     {}
     static void operator delete(void* p, unsigned int n)
     {
-        FUN_00c85750()->heap().ReleaseBlock(p, n);
+        hkMemoryRouter_getInstance()->heap().ReleaseBlock(p, n);
     }
 };
 

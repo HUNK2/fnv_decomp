@@ -191,7 +191,7 @@ struct Singleton
     int s0c;
     PoolObj* pool;
 };
-Singleton* __cdecl FUN_00c85750();
+Singleton* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(PoolObj* pool, PtrVec* vec, int count, int elemSize);
 int __cdecl FUN_00cabb00(int a, int b, int c, int d);
 extern int DAT_01267e30;
@@ -295,21 +295,21 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
     {
         Buf40 bufferA, bufferB;
         hkpConstraintDrawer_updateCommonParameters(p1, &bufferA, &bufferB);
-        receivers.m50.FUN_00c7f640(&bufferA, &DAT_01267e30);
-        m40.FUN_00c7f640(&bufferB, &DAT_01267e30);
+        receivers.m50.setTransformedPos_00c7f640(&bufferA, &DAT_01267e30);
+        m40.setTransformedPos_00c7f640(&bufferB, &DAT_01267e30);
     }
     hkpConstraintDrawer_drawPivots(p3, p4);
     const RotationColumns& localA = mat->rotationA;
     const RotationColumns& localB = mat->rotationB;
     Vec4::Aligned t80(Vec4::Uninitialized);
-    t80.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m90), localB.getColumn(0));
+    t80.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m90), localB.getColumn(0));
     const Vec4* matrixColumn60 = &localB.getColumn(1);
     Vec4::Aligned t70(Vec4::Uninitialized);
     t70.setCross(localB.getColumn(0), localB.getColumn(1));
     t70.normalize3();
-    t70.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m90), t70);
+    t70.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m90), t70);
     Vec4::Aligned t60(Vec4::Uninitialized);
-    t60.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m90), *matrixColumn60);
+    t60.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m90), *matrixColumn60);
     Vec4::Aligned tb0(Vec4::Uninitialized);
     {
         __m128 a = localA.getColumn(1).getQuad();
@@ -325,9 +325,9 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 
     tb0.normalize3();
     Vec4::Aligned t90(Vec4::Uninitialized);
-    t90.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m60), tb0);
+    t90.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m60), tb0);
     Vec4::Aligned tc0(Vec4::Uninitialized);
-    tc0.FUN_00c7f700(reinterpret_cast<const RotationColumns&>(m60), localA.getColumn(0));
+    tc0.hkVector4_setRotatedDir(reinterpret_cast<const RotationColumns&>(m60), localA.getColumn(0));
     float prod1 = f1c * f0c;
     mC0.FUN_00e10d50(&receivers.m50, &t80, &t70, 0xff008000, prod1, p3, p4);
     mC0.FUN_00e10d50(&m40, &tc0, &t90, FUN_00cabb00(0xff, 0xff, 0, 0xff), f1c * f0c, p3, p4);
@@ -356,7 +356,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         vec2.buf = 0;
         vec2.len = 0;
         vec2.cap = (int)0x80000000;
-        Singleton* sing = FUN_00c85750();
+        Singleton* sing = hkMemoryRouter_getInstance();
         PoolObj* pool = sing->pool;
         if ((vec1.cap & 0x3fffffff) < 1)
         {
@@ -366,7 +366,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             hkArrayUtil__reserve(pool, &vec1, nc, 4);
         }
         vec1.len = 1;
-        sing = FUN_00c85750();
+        sing = hkMemoryRouter_getInstance();
         pool = sing->pool;
         if ((vec2.cap & 0x3fffffff) < 1)
         {
@@ -376,7 +376,7 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
             hkArrayUtil__reserve(pool, &vec2, nc, 4);
         }
         vec2.len = 1;
-        sing = FUN_00c85750();
+        sing = hkMemoryRouter_getInstance();
         pool = sing->pool;
         if ((vec3.cap & 0x3fffffff) < 2)
         {
@@ -393,21 +393,21 @@ void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
         p2->DrawVec(&vec1, 0xffffff00, p3, p4);
         p2->DrawVec(&vec3, 0xffff0000, p3, p4);
         p2->DrawVec(&vec2, FUN_00cabb00(0xff, 0, 0xff, 0xff), p3, p4);
-        sing = FUN_00c85750();
+        sing = hkMemoryRouter_getInstance();
         pool = sing->pool;
         vec2.len = 0;
         if (!(vec2.cap & (int)0x80000000))
             pool->Release(vec2.buf, (vec2.cap & 0x3fffffff) * 4);
         vec2.buf = 0;
         vec2.cap = (int)0x80000000;
-        sing = FUN_00c85750();
+        sing = hkMemoryRouter_getInstance();
         pool = sing->pool;
         vec3.len = 0;
         if (!(vec3.cap & (int)0x80000000))
             pool->Release(vec3.buf, (vec3.cap & 0x3fffffff) * 4);
         vec3.buf = 0;
         vec3.cap = (int)0x80000000;
-        sing = FUN_00c85750();
+        sing = hkMemoryRouter_getInstance();
         pool = sing->pool;
         vec1.len = 0;
         if (!(vec1.cap & (int)0x80000000))

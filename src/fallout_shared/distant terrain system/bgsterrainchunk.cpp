@@ -109,7 +109,8 @@ extern int _sprintf_s(char*, unsigned int, const char*, ...);
 
 // Formats the chunk's X, Y and level into apDescription using _sprintf_s and returns true.
 // @fnv 0x006fc400
-bool BGSTerrainChunkLoadTask::FUN_006fc400(char* apDescription, unsigned int aiBufferSize)
+// src: XBOX_PDB 0x006fc400
+bool BGSTerrainChunkLoadTask::GetDescription_006fc400(char* apDescription, unsigned int aiBufferSize)
 {
     _sprintf_s(apDescription, aiBufferSize, "Terrain LOD Task for chunk ( %i, %i ) at level ( %i )", this->iX, this->iY,
                this->iLevel);
@@ -326,7 +327,7 @@ void FUN_006fb760_shell::BGSTerrainChunk_Show()
 
 struct FUN_006fbcd0_shell
 {
-    void FUN_00c3cb70(int a, int b);
+    void QueuedFile_Cancel(int a, int b);
     void SetFlagAndCall(int a, int b);
 };
 // Sets the bool at offset 0x58 to true, then forwards both arguments to FUN_00c3cb70.
@@ -334,7 +335,7 @@ struct FUN_006fbcd0_shell
 void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, int aiArg2)
 {
     *(bool*)((char*)this + 0x58) = true;
-    FUN_00c3cb70(aiArg1, aiArg2);
+    QueuedFile_Cancel(aiArg1, aiArg2);
 }
 
 struct FUN_006fbfe0_shell
@@ -360,7 +361,7 @@ struct FUN_006f7140_shell : IOTask
 // @fnv 0x006f7140
 void FUN_006f7140_shell::ProcessTask()
 {
-    if (FUN_0043caa0())
+    if (QueuedFile_GetAllChildrenFinished())
     {
         if (b30)
         {
@@ -528,7 +529,7 @@ void TerrainChunkTaskOperations::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     g_modelLoader->QueueModelFilePath(pdiffuseTextureFileName,
-                                      reinterpret_cast<IOTask*>(this)->FUN_0043cc60(),
+                                      reinterpret_cast<IOTask*>(this)->IOTask_GetIOTaskPriority(),
                                       reinterpret_cast<QueuedFile*>(this));
 
     BuildLodNormalTexturePath(
@@ -537,7 +538,7 @@ void TerrainChunkTaskOperations::LoadTerrainChunkTextures()
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     g_modelLoader->QueueModelFilePath(pnormalTextureFileName,
-                                      reinterpret_cast<IOTask*>(this)->FUN_0043cc60(),
+                                      reinterpret_cast<IOTask*>(this)->IOTask_GetIOTaskPriority(),
                                       reinterpret_cast<QueuedFile*>(this));
 
     unk30 = true;
@@ -587,8 +588,8 @@ struct Obj006fac
     NiPoint3& FUN_00500940();
     float GetFieldCC();
     void FUN_00439920(void*);
-    void FUN_00a5a040();
-    void FUN_00a59c60(const FUN_0043d410&);
+    void UpdateProperties();
+    void NiAVObject_Update(const FUN_0043d410&);
     unsigned char GetByteAtOffset5C();
     unsigned char GetByteAt5D();
     virtual void v0();
@@ -757,12 +758,12 @@ void Target006fac::BGSTerrainChunk_Attach()
         {
             FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->attach(r4.FUN_00559450(), 1);
         }
-        r4.FUN_00559450()->FUN_00a5a040();
+        r4.FUN_00559450()->UpdateProperties();
         FUN_0043d410 a(0.0f, false, false);
-        r4.FUN_00559450()->FUN_00a59c60(a);
+        r4.FUN_00559450()->NiAVObject_Update(a);
         UpdateWaterReferences(0);
         FUN_0043d410 h(0.0f, false, false);
-        FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->FUN_00a59c60(h);
+        FUN_00559450()->FUN_00559450()->BGSTerrainManager_GetLODLandRoot()->NiAVObject_Update(h);
         BGSTerrainChunk_InitializeShaderProperty();
         AddSelfToList();
         done = 1;
@@ -884,9 +885,9 @@ struct PropState
     virtual void* v70(NiGeometry*, NiProperty*);
 };
 
-int FUN_00438220();
+int NiShadeProperty_GetType();
 void __cdecl FUN_00b57e30(NiGeometry*, int, int);
-NiRenderer* FUN_0043c4b0();
+NiRenderer* NiXenonRenderer_GetRenderer();
 
 class TerrainChunk
 {
@@ -918,16 +919,16 @@ void TerrainChunk::BGSTerrainChunk_InitializeShaderProperty()
     {
         if (m_spGeom)
         {
-            NiProperty* prop = ((NiGeometry*)m_spGeom)->GetProperty(static_cast<unsigned int>(FUN_00438220()));
-            prop->FUN_00441130(0x21, 1);
+            NiProperty* prop = ((NiGeometry*)m_spGeom)->GetProperty(static_cast<unsigned int>(NiShadeProperty_GetType()));
+            prop->BSShaderProperty_SetFlag(0x21, 1);
             reinterpret_cast<TerrainChunkProperty*>(prop)->BSShaderPPLightingProperty_SetLODTexParams(0.0f, 0.0f, 1.0f);
             FUN_00b57e30(m_spGeom, 0, 0);
             m_spProperty = (NiNode*)prop;
             ((NiGeometry*)m_spGeom)->GetModelData()->SetByteAtOffset38(0);
             ((NiGeometry*)m_spGeom)->GetModelData()->FUN_00a67050(0x4000);
             ((NiGeometry*)m_spGeom)->GetModelData()->FUN_004410f0(1);
-            FUN_0043c4b0()->PrecacheGeometry(m_spGeom, 0, 0, static_cast<NiD3DShaderDeclaration*>(reinterpret_cast<PropState*>(((NiGeometry*)m_spGeom)->GetGeometryShaderObject())->v70(m_spGeom, prop)));
-            FUN_0043c4b0()->NiDX9Renderer_PerformPrecache();
+            NiXenonRenderer_GetRenderer()->PrecacheGeometry(m_spGeom, 0, 0, static_cast<NiD3DShaderDeclaration*>(reinterpret_cast<PropState*>(((NiGeometry*)m_spGeom)->GetGeometryShaderObject())->v70(m_spGeom, prop)));
+            NiXenonRenderer_GetRenderer()->NiDX9Renderer_PerformPrecache();
             m_bFlag = true;
         }
     }
@@ -1050,7 +1051,7 @@ struct PS
 };
 struct MgrX
 {
-    R4e* FUN_0070ec90(Q28* a, G3* b, int c, void* d, int e);
+    R4e* DetailedActorPathHandler_GetCurrentNodeIndex(Q28* a, G3* b, int c, void* d, int e);
 };
 extern MgrX* g_pkMgr;
 extern bool g_bFlag;
@@ -1077,7 +1078,7 @@ void SelfX::UpdateWaterReferences(bool bForce)
         if (mc.FUN_00559450())
         {
             m20 = g_pkMgr
-                      ->FUN_0070ec90(mc.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
+                      ->DetailedActorPathHandler_GetCurrentNodeIndex(mc.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
                                      m0.FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers(), m18.FUN_00559450(), 1)
                       ->CreateWaterReference();
             m18.FUN_0066b0d0(0);
@@ -1089,7 +1090,7 @@ void SelfX::UpdateWaterReferences(bool bForce)
         if (m8.FUN_00559450())
         {
             m1c = g_pkMgr
-                      ->FUN_0070ec90(m8.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
+                      ->DetailedActorPathHandler_GetCurrentNodeIndex(m8.FUN_00559450(), m0.FUN_00559450()->FUN_00559450()->FUN_00559450(),
                                      m0.FUN_00559450()->FUN_00559450()->NiObjectNET_GetControllers(), m14.FUN_00559450(), 0)
                       ->CreateWaterReference();
             m14.FUN_0066b0d0(0);
@@ -1122,20 +1123,21 @@ struct Cls6fabc0
 {
     ObjB* m_iWordAt00;
     Sub4 m_iWordAt04;
-    int FUN_006fabc0(int arg);
+    int BGSTerrainChunk_GetTexture(int arg);
 };
 
-extern int FUN_00438220();
+extern int NiShadeProperty_GetType();
 extern "C" int DAT_0106e180;
 int __cdecl Warning_005b5e40(void*, int, int, int);
 
 // @fnv 0x006fabc0
-int Cls6fabc0::FUN_006fabc0(int abFloat)
+// src: XBOX_PDB 0x006fabc0
+int Cls6fabc0::BGSTerrainChunk_GetTexture(int abFloat)
 {
     int result = 0;
     if (m_iWordAt04.FUN_00559450())
     {
-        ObjC* q = m_iWordAt04.FUN_00559450()->FUN_00a59d30(FUN_00438220());
+        ObjC* q = m_iWordAt04.FUN_00559450()->FUN_00a59d30(NiShadeProperty_GetType());
         ObjC* p = (q == 0 ? 0 : (q->FUN_00441110() >= 8 && q->FUN_00441110() <= 0xc)) ? q : 0;
         if (p)
         {
@@ -1252,7 +1254,7 @@ struct D6Queue
 };
 struct D6Manager
 {
-    D6Queue* FUN_0070ec90();
+    D6Queue* DetailedActorPathHandler_GetCurrentNodeIndex();
 };
 struct D6Detacher
 {
@@ -1282,9 +1284,9 @@ void D6Detacher::BGSTerrainChunk_RemoveWaterFromSystem(bool force)
     {
         if (kChildA.FUN_00559450() && pObjectA)
         {
-            if (DAT_011dea10->FUN_0070ec90())
+            if (DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex())
             {
-                DAT_011dea10->FUN_0070ec90()->DetachRef(pObjectA, pOwner->FUN_00559450()->FUN_00559450(),
+                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectA, pOwner->FUN_00559450()->FUN_00559450(),
                                                         pOwner->FUN_00559450()->NiObjectNET_GetControllers());
             }
             if (kAttachA.FUN_00559450())
@@ -1296,9 +1298,9 @@ void D6Detacher::BGSTerrainChunk_RemoveWaterFromSystem(bool force)
         }
         if (kChildB.FUN_00559450() && pObjectB)
         {
-            if (DAT_011dea10->FUN_0070ec90())
+            if (DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex())
             {
-                DAT_011dea10->FUN_0070ec90()->DetachRef(pObjectB, pOwner->FUN_00559450()->FUN_00559450(),
+                DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->DetachRef(pObjectB, pOwner->FUN_00559450()->FUN_00559450(),
                                                         pOwner->FUN_00559450()->NiObjectNET_GetControllers());
             }
             if (kAttachB.FUN_00559450())

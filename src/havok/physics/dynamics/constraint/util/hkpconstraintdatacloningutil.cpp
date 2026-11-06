@@ -20,7 +20,7 @@ struct Heap858
         return m_pHeapAllocator->Allocate(uiSize);
     }
 };
-extern "C" Heap858* __cdecl FUN_00c85750();
+extern "C" Heap858* __cdecl hkMemoryRouter_getInstance();
 
 struct Clonable858
 {
@@ -82,7 +82,7 @@ struct Raw858
 
 inline Raw858* Allocate858(unsigned int uiSize)
 {
-    Object858* pkObject = (Object858*)FUN_00c85750()->Allocate(uiSize);
+    Object858* pkObject = (Object858*)hkMemoryRouter_getInstance()->Allocate(uiSize);
     pkObject->usSize = (unsigned short)uiSize;
     return (Raw858*)pkObject;
 }
@@ -146,7 +146,7 @@ struct Heap858b
 };
 template <class T> __forceinline T* AllocA(unsigned int uiSize)
 {
-    Object858* p = (Object858*)((Heap858b*)FUN_00c85750())->heap().Allocate(uiSize);
+    Object858* p = (Object858*)((Heap858b*)hkMemoryRouter_getInstance())->heap().Allocate(uiSize);
     p->usSize = (unsigned short)uiSize;
     return (T*)p;
 }

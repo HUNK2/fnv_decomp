@@ -111,7 +111,7 @@ void* AbstractHeap::BaseAllocate(unsigned int size)
             {
                 HeapFreeBlock* pNewBlock = 0;
                 bool bDecommitted = pBlock->IsDecommitted();
-                FUN_00aa9e50(pSizeClassFreeList, pBlock);
+                RemoveBlockFromFreeList_00aa9e50(pSizeClassFreeList, pBlock);
                 if (iExtra)
                 {
                     if (bDecommitted)
@@ -280,7 +280,7 @@ void AbstractHeap::BaseFree(void* pointer)
 // @fnv 0x00aaa660
 inline void AbstractHeap::RemoveBlockFromFreeList(HeapFreeBlock* block)
 {
-    FUN_00aa9e50(GetFreeList(block->GetSize()), block);
+    RemoveBlockFromFreeList_00aa9e50(GetFreeList(block->GetSize()), block);
 }
 
 // Clears the block's fields, marks it free, adds it to the free list for its size, and updates the free-block and sub-bucket counters.
@@ -297,7 +297,8 @@ void AbstractHeap::AddBlockToFreeList(HeapFreeBlock* block)
     IncrementSubBucket(block->GetSize());
 }
 // @fnv 0x00aa9e50
-void AbstractHeap::FUN_00aa9e50(HeapFreeList* apFreeList, HeapFreeBlock* block)
+// src: XBOX_PDB 0x00aa9e50
+void AbstractHeap::RemoveBlockFromFreeList_00aa9e50(HeapFreeList* apFreeList, HeapFreeBlock* block)
 {
     HeapFreeBlock* pPrev = block->m_pPrevFree;
     HeapFreeBlock* pNext = block->m_pNextFree;

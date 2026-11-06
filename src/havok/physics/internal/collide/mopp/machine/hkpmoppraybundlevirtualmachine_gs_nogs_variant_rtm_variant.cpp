@@ -305,7 +305,8 @@ static __forceinline FourFloats RefineReciprocal(__m128 difference) {
 
 }
 
-static __declspec(noinline) int FUN_00dd3120(const FourFloats* mask, const FourFloats* start, const FourFloats* end) {
+// src: XBOX_PDB 0x00dd3120
+static __declspec(noinline) int hkpProcessFlyingColors(const FourFloats* mask, const FourFloats* start, const FourFloats* end) {
 
     __m128 less=_mm_and_ps(_mm_cmpgt_ps(end->getQuad(),start->getQuad()),mask->getQuad());
 
@@ -480,7 +481,7 @@ struct RayBundleTraversalMachine {
     unsigned int chunkMask;
 
 __forceinline void UpdateNext(const QueryState* state,RayQuerySet* next);
-    void __thiscall FUN_00dd3210(const QueryState* state, const unsigned char* code,
+    void __thiscall hkpMoppRayBundleVirtualMachine_queryRayOnTree(const QueryState* state, const unsigned char* code,
 
                                 RayQuerySet* rays, unsigned int chunk);
 
@@ -528,7 +529,8 @@ __m128 beyond=_mm_sub_ps(DAT_010c7170.getQuad(),hitFractions.getQuad());
 }
 
 // @fnv 0x00dd3210
-void RayBundleTraversalMachine::FUN_00dd3210(const QueryState* state, const unsigned char* code,
+// src: XBOX_PDB 0x00dd3210
+void RayBundleTraversalMachine::hkpMoppRayBundleVirtualMachine_queryRayOnTree(const QueryState* state, const unsigned char* code,
 
                                RayQuerySet* rays, unsigned int chunk) {
 
@@ -812,9 +814,9 @@ right.ends[1].axis[2]=rays->ends[1].axis[2];
 RayQuerySet* next;
 int offset;
 int nextJump;
- int rightFirst=!FUN_00dd3120(&rays->active,&startDistance,&endDistance);
+ int rightFirst=!hkpProcessFlyingColors(&rays->active,&startDistance,&endDistance);
 OrderChild(rightFirst!=0,first,next,offset,nextJump,&left,&right,leftJump,rightJump);
- FUN_00dd3210(state,code+offset,first,chunk);
+ hkpMoppRayBundleVirtualMachine_queryRayOnTree(state,code+offset,first,chunk);
 
 UpdateNext(state,next);
             if(3 > axis) {

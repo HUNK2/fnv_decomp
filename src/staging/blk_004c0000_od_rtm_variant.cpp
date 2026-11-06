@@ -56,7 +56,7 @@ struct BlkOffset08View
 };
 struct FUN_004d7d50_StandIn
 {
-    unsigned int __thiscall FUN_004d7d50();
+    unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
 struct FUN_004d8510_StandIn
 {
@@ -65,7 +65,7 @@ struct FUN_004d8510_StandIn
 };
 struct TESObjectREFR;
 struct bhkShape;
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
 {
@@ -114,7 +114,7 @@ struct FUN_004d9190_Class
 struct FUN_004dc020_Class
 {
     unsigned int m_p288;
-    unsigned int FUN_004dc020();
+    unsigned int NiXenonRenderer_GetD3DDevice();
 };
 struct FUN_004dc1c0_Class
 {
@@ -163,7 +163,7 @@ struct GlobalObject_004aff00
 };
 struct FUN_004def90_Class
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
 };
 struct FUN_004dfe80_Class
 {
@@ -176,9 +176,9 @@ struct MersenneTwister
 };
 struct FUN_004dfec0_StandIn
 {
-    void FUN_004dfec0();
+    void BSRandom_FloatNeg1To1();
 };
-void FUN_004dfea0();
+void RandomFloatNeg1To1();
 void _NiFreeAlias(void*);
 struct FUN_004d4f10_StandIn : public NiTPointerMap<int, int>
 {
@@ -526,7 +526,7 @@ struct FUN_004d5b60
 extern void* DAT_011c6d50[43];
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 void __cdecl ClearGlobalArray(void);
-int __cdecl FUN_004d5e00();
+int __cdecl StatsMenu_GetClassStatic();
 extern int DAT_011f36f4;
 extern int DAT_011f36f8;
 void __cdecl _Deallocate(void* p);
@@ -605,7 +605,7 @@ struct ClearMap64
     int unk00;
     void __thiscall FUN_00438af0();
 };
-const char* __cdecl FUN_00464f30(const char* value, bool format);
+const char* __cdecl ConvertFromUni(const char* value, bool format);
 typedef int(__stdcall* SendMessageResult64)(void*, int, int, int);
 extern void(__stdcall* DAT_00fdf288)(void*, int);
 extern void(__stdcall* DAT_00fdf284)(void*);
@@ -652,7 +652,7 @@ void __cdecl ourMemset(void* destination, int pNodeValue, unsigned int size);
 typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
 struct FUN_004d74c0_Value
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 struct FUN_004d74c0_Node
 {
@@ -683,7 +683,7 @@ int FUN_00406d30(char* pcDest, unsigned int uiSize, const char* pcSrc);
 int FUN_00406d50(char* pcDest, unsigned int uiSize, const char* pcSrc);
 int TreeCtrlCallback(NiObject* pkObject, int iType, int iCommand);
 extern const NiRTTI DAT_012024e0;
-NiObject* __cdecl FUN_00653270(const NiRTTI*, NiObject*);
+NiObject* __cdecl NiObject_DynamicCast(const NiRTTI*, NiObject*);
 const char* __cdecl PrepareScriptMessage(const char* msg, bool flag);
 class BGSAddonNode;
 struct Holder_004d9100 : public NiTArray<BGSAddonNode*, NiTMallocInterface<BGSAddonNode*> >
@@ -691,7 +691,7 @@ struct Holder_004d9100 : public NiTArray<BGSAddonNode*, NiTMallocInterface<BGSAd
     Holder_004d9100(int a, int b);
 };
 struct NiTArray_Layout;
-void __fastcall FUN_005e03d0(NiTArray_Layout*);
+void __fastcall NiTArray_char_NiTMallocInterface_char_RemoveAll(NiTArray_Layout*);
 class ActorPathingMessageQueue;
 struct Name
 {
@@ -787,7 +787,7 @@ struct Node7
     virtual void v22();
     virtual void v23();
     virtual void v24(void*);
-    void* FUN_006fa820();
+    void* bhkNiCollisionObject_GetWorldObject();
 };
 struct FUN_004d9100
 {
@@ -796,10 +796,10 @@ struct FUN_004d9100
     char pad[12];
     unsigned GetShortAtOffsetA();
     char** FUN_00877a30(unsigned);
-    void FUN_005e03d0();
+    void NiTArray_char_NiTMallocInterface_char_RemoveAll();
 };
-Node7* __cdecl FUN_00653270(void*, Node7*);
-const char* __cdecl FUN_00464f30(const char*, bool);
+Node7* __cdecl NiObject_DynamicCast(void*, Node7*);
+const char* __cdecl ConvertFromUni(const char*, bool);
 const char* __fastcall FUN_00559450(void*);
 void __cdecl BSstrncpy(char*, const char*, unsigned);
 struct Insert7
@@ -864,8 +864,8 @@ struct Palette4d86;
 struct Object4d86
 {
     Palette4d86* GetStringAtOffset();
-    unsigned int FUN_00495d00();
-    NiControllerSequence* FUN_00495d20(unsigned int uiIndex);
+    unsigned int GetSequenceCount_00495d00();
+    NiControllerSequence* GetSequenceAt_00495d20(unsigned int uiIndex);
 };
 struct TreeCtrl4d86
 {
@@ -938,7 +938,7 @@ struct FUN_004d9210
 class DepthDevice;
 extern DepthDevice* DAT_0126f0d8;
 unsigned int __cdecl NiDX9Renderer_GetDirect3D();
-unsigned char __cdecl FUN_004dc0a0();
+unsigned char __cdecl BSShaderManager_GetUseRefractionShader();
 extern int DAT_011f94b8;
 int __cdecl BSRenderState_GetGPUVendor();
 char* DAT_01202fa0;
@@ -946,9 +946,9 @@ char** BSUtilities_GetPersonalPath();
 extern int DAT_011c6fbc;
 int __cdecl TESRenderer_GetHWND();
 extern unsigned int DAT_0118947c;
-unsigned int __cdecl FUN_004dc1f0();
+unsigned int __cdecl Renderer_GetScreenWidth();
 extern int DAT_01189480;
-int __cdecl FUN_004dc200();
+int __cdecl Renderer_GetScreenHeight();
 extern unsigned int DAT_01189478;
 unsigned int __cdecl TESRenderer_GetFlags();
 extern int DAT_011c70d4;
@@ -1041,7 +1041,7 @@ struct FUN_00559450_Helper
 };
 struct FUN_0066b0d0_Helper
 {
-    void FUN_004def90();
+    void NiNode_RemoveAllChildren();
     void FUN_0066b0d0(int);
 };
 void FUN_004def20();
@@ -1322,8 +1322,8 @@ extern double DAT_010229b8;
 extern double DAT_01012070;
 struct FUN_004dfec0_Class
 {
-    unsigned int FUN_00476be0();
-    float FUN_004dfec0();
+    unsigned int BSRandom_UnsignedInt();
+    float BSRandom_FloatNeg1To1();
 };
 class FUN_004d4f10
 {
@@ -1348,7 +1348,7 @@ class ListT
   public:
     unsigned int FUN_0044ddc0();
     void* FUN_00559450();
-    ListT* FUN_0057cbe0(void**);
+    ListT* NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void**);
 };
 class Owner
 {
@@ -1421,7 +1421,7 @@ struct DoorTeleportLoadData
 };
 struct FUN_008579e0_shell
 {
-    void FUN_008579e0(void*, unsigned int);
+    void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
 };
 extern FUN_008579e0_shell* g_TESSaveLoadGame;
 struct DoorTeleportArray
@@ -1443,18 +1443,18 @@ extern int(__stdcall* DAT_00fdf2ec)(int, int);
 extern int(__stdcall* DAT_00fdf2e8)(unsigned int, int);
 extern int(__stdcall* DAT_00fdf310)(OutT*, int, int);
 extern int(__stdcall* DAT_00fdf2a4)(unsigned int, int, int);
-unsigned int FUN_004bc3f0();
+unsigned int Renderer_GetNIRenderer();
 struct FUN_004dc540_shell
 {
-    void FUN_004dc540(NiAVObject*);
+    void NiTexturingProperty_Map_SetTexture(NiAVObject*);
 };
 extern BGSMoviePlayer* DAT_0126fac4;
 extern BSAudio* g_osGlobals;
 struct FUN_00b7b930_Ctx
 {
-    void FUN_00b631d0();
+    void BSShaderAccumulator_ClearAllQueries();
 };
-FUN_00b7b930_Ctx* FUN_00b4f5c0();
+FUN_00b7b930_Ctx* BSShaderManager_GetAccumulator();
 struct GO45
 {
     void FUN_0045ce80(int);
@@ -1478,9 +1478,9 @@ class GlobalObject_00633c90
 extern GlobalObject_00633c90 g_011c73b4;
 struct FUN_00558310_node
 {
-    void FUN_00c52520();
+    void BSSceneGraph_UpdateCameraFOV();
 };
-FUN_00558310_node* FUN_0045c670();
+FUN_00558310_node* Main_GetWorldSceneGraph();
 class E73shell
 {
   public:

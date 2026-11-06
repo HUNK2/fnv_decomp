@@ -112,7 +112,8 @@ void* __fastcall FUN_00a75650(void* pThis);
 extern void* DAT_011f4a64;
 
 // @fnv 0x00a759e0
-void __cdecl FUN_00a759e0()
+// src: XBOX_PDB 0x00a759e0
+void __cdecl NiMaterialProperty__SDMInit()
 {
     void* pMemory = BSFadeNode::operator new(0x4c);
     NiRefObject* pFadeNode = (NiRefObject*)(pMemory ? FUN_00a75650(pMemory) : 0);
@@ -238,7 +239,7 @@ struct MaterialViewerStringsArray
 
 extern NiRTTI g_011f4a5c;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
+char* __cdecl NiGetViewerString_00a7d550(const char* pcPrefix, float fValue);
 
 // Appends the RTTI name, spec, emit (external or local), shine, alpha and emit multiplier strings to the viewer strings array.
 // @fnv 0x00a75a70
@@ -253,7 +254,7 @@ void __fastcall NiMaterialProperty_GetViewerStrings(NiMaterialProperty* pThis, v
         pkStrings->Add(externalEmit->GetFormattedString("m_external_emit"));
     else
         pkStrings->Add(reinterpret_cast<NiColor*>(&pThis->unk28)->GetFormattedString("m_emit"));
-    pkStrings->Add(FUN_00a7d550("m_fShine", *reinterpret_cast<float*>(&pThis->unk38)));
-    pkStrings->Add(FUN_00a7d550("m_fAlpha", *reinterpret_cast<float*>(&pThis->unk3c)));
-    pkStrings->Add(FUN_00a7d550("m_fEmitMult", *reinterpret_cast<float*>(&pThis->unk40)));
+    pkStrings->Add(NiGetViewerString_00a7d550("m_fShine", *reinterpret_cast<float*>(&pThis->unk38)));
+    pkStrings->Add(NiGetViewerString_00a7d550("m_fAlpha", *reinterpret_cast<float*>(&pThis->unk3c)));
+    pkStrings->Add(NiGetViewerString_00a7d550("m_fEmitMult", *reinterpret_cast<float*>(&pThis->unk40)));
 }

@@ -292,7 +292,8 @@ inline void* operator new[](unsigned int uiSize, MemoryManager& allocator)
 namespace sc1d790 {
 
 // @fnv 0x00c1d790
-NiPointer<NiD3DPass>* FUN_00c1d790(unsigned int ItemUpdateArray)
+// src: XBOX_PDB 0x00c1d790
+NiPointer<NiD3DPass>* NiTObjectArray_NiPointer_NiScreenTexture_NiTObjectArray_NiPointer_NiScreenTexture(unsigned int ItemUpdateArray)
 {
     return new (DAT_011f6238) NiPointer<NiD3DPass>[ItemUpdateArray];
 }

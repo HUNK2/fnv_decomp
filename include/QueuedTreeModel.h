@@ -22,14 +22,14 @@ public:
     virtual unsigned char GetFileIndex() override;
     virtual void vf12() override;
 
-    bool FUN_00c3d0e0(char* apDescription, unsigned int aiBufferSize, const char* apName);
+    bool QueuedFileEntry_GetDescription(char* apDescription, unsigned int aiBufferSize, const char* apName);
     bool GetTreeModelDescription(char* apDescription, unsigned int aiBufferSize);
     bool GrassLoadTask_GetDescription(char* pBuf, unsigned int uiSize);
-    bool FUN_0043c6b0(char* apDescription, unsigned int aiBufferSize);
-    bool FUN_0043e550(char* apDescription, unsigned int aiBufferSize);
-    bool FUN_0043d510(char* apDescription, unsigned int aiBufferSize);
+    bool QueuedTexture_GetDescription(char* apDescription, unsigned int aiBufferSize);
+    bool QueuedKF_GetDescription(char* apDescription, unsigned int aiBufferSize);
+    bool QueuedModel_GetDescription(char* apDescription, unsigned int aiBufferSize);
     void QueueTreeModelLoad();
-    void FUN_0043da00();
+    void Run_0043da00();
     void FUN_0043d8f0();
     void* FUN_0043d8c0(unsigned int flags);
 

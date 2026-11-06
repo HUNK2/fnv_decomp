@@ -127,7 +127,7 @@ void S_cd3b20_cls::hkpClosestCdPointCollector_addCdPoint(S_cd3b20_cls* src)
     m_04 = src->m_1c;
 }
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct FUN_00c6d9c0
 {
@@ -171,7 +171,7 @@ struct FUN_00c6d9c0
 
     static void operator delete(void* apMemory)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         // This allocator dispatches Free through its third vtable slot.
         typedef void (__thiscall *FreeFunction)(hkMemoryAllocator*, void*, unsigned int);

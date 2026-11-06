@@ -87,7 +87,7 @@ class NiTexture : public NiObjectNET
     int FUN_00726070();
     NiTexture* FUN_0055b980();
     NiTexture* BSFaceGenImage_GetCompressedImage(float lo, float hi, float scale, void* srcv);
-    const ExtraName& FUN_00a62660();
+    const ExtraName& GetFilename_00a62660();
 
     TextureFormatPreferences m_kFormatPrefs;
     RendererData* m_pkRendererData;

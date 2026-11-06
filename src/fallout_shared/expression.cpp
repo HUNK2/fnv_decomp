@@ -7,13 +7,14 @@
 // @fnv 0x00593490
 ExpressionEvaluator::ExpressionEvaluator()
 {
-    reinterpret_cast<ExpressionCharStackInit*>(&m_kOperatorStack)->FUN_00594b60();
+    reinterpret_cast<ExpressionCharStackInit*>(&m_kOperatorStack)->Stack_enum_EXPRESSION_OPERATORS_64_Stack_enum_EXPRESSION_OPERATORS_64();
     reinterpret_cast<ExpressionOperandStackInit*>(&m_kOperandStack)->InitStack();
     m_eExpressionError = static_cast<EXPRESSION_ERROR>(0);
 }
 
 // @fnv 0x00594b60
-void* __fastcall FUN_00594b60(void* pThis)
+// src: XBOX_PDB 0x00594b60
+void* __fastcall Stack_enum_EXPRESSION_OPERATORS_64_Stack_enum_EXPRESSION_OPERATORS_64(void* pThis)
 {
     *(int*)((char*)pThis + 0x100) = -1;
     return pThis;

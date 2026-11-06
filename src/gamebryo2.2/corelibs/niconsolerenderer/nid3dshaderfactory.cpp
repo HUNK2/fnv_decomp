@@ -170,13 +170,14 @@ NiShaderFactory* NiD3DShaderFactory::Create()
 
 struct FUN_00e91f40_shell : public NiD3DShaderFactory
 {
-    char* FUN_00e91f40(void**);
+    char* NiD3DShaderFactory_GetNextProgramDirectory(void**);
 };
 
 NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance();
 
 // @fnv 0x00e91f40
-char* FUN_00e91f40_shell::FUN_00e91f40(void** kIter)
+// src: XBOX_PDB 0x00e91f40
+char* FUN_00e91f40_shell::NiD3DShaderFactory_GetNextProgramDirectory(void** kIter)
 {
     NiD3DShaderProgramFactory* pkSPFactory = NiD3DShaderProgramFactory_GetInstance();
     if (!pkSPFactory)
@@ -187,18 +188,19 @@ char* FUN_00e91f40_shell::FUN_00e91f40(void** kIter)
 namespace fnv_00e91fa0 {
 struct FUN_00e91fa0_shell : public NiD3DShaderFactory
 {
-    void FUN_00e91fa0();
+    void NiD3DShaderFactory_RemoveAllProgramDirectories();
 };
 
 void* __cdecl NiD3DShaderProgramFactory_GetInstance();
-void __fastcall FUN_00e93cc0(void* pThis);
+void __fastcall NiD3DShaderProgramFactory_RemoveAllProgramDirectories(void* pThis);
 
 // @fnv 0x00e91fa0
-void FUN_00e91fa0_shell::FUN_00e91fa0()
+// src: XBOX_PDB 0x00e91fa0
+void FUN_00e91fa0_shell::NiD3DShaderFactory_RemoveAllProgramDirectories()
 {
     void* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
-        FUN_00e93cc0(pkFactory);
+        NiD3DShaderProgramFactory_RemoveAllProgramDirectories(pkFactory);
 }
 }  // namespace fnv_00e91fa0
 
@@ -220,7 +222,8 @@ void __fastcall NiD3DShaderFactory_PurgeAllShaderRendererData(FUN_00e91ea0_cls* 
 }
 
 // @fnv 0x00e91eb0
-unsigned int __stdcall FUN_00e91eb0(unsigned int uiVersion)
+// src: XBOX_PDB 0x00e91eb0
+unsigned int __stdcall NiD3DShaderFactory_GetMinorVertexShaderVersion(unsigned int uiVersion)
 {
     return uiVersion & 0xFF;
 }
@@ -232,19 +235,22 @@ unsigned int __stdcall MakeVersionCode(unsigned int uiMajor, unsigned int uiMino
 }
 
 // @fnv 0x00e91ee0
-unsigned int __stdcall FUN_00e91ee0(unsigned int uiVersion)
+// src: XBOX_PDB 0x00e91ee0
+unsigned int __stdcall NiD3DShaderFactory_GetMajorVertexShaderVersion(unsigned int uiVersion)
 {
     return (uiVersion >> 8) & 0xFF;
 }
 
 // @fnv 0x00e91ef0
-unsigned int __stdcall FUN_00e91ef0(unsigned int a, unsigned int b)
+// src: XBOX_PDB 0x00e91ef0
+unsigned int __stdcall NiD3DShaderFactory_CreateVertexShaderVersion(unsigned int a, unsigned int b)
 {
     return ((0xFFFFFE00 | a) << 8) | b;
 }
 
 // @fnv 0x00e91f10
-void* __cdecl FUN_00e91f10()
+// src: XBOX_PDB 0x00e91f10
+void* __cdecl NiD3DShaderFactory_GetD3DShaderFactory()
 {
     return DAT_0126fa0c;
 }
@@ -253,13 +259,14 @@ namespace fnv_00e91f20 {
 extern char* NiD3D10ShaderProgramFactory_GetFirstProgramDirectory();
 struct FUN_00e91f20_shell : public NiD3DShaderFactory
 {
-    char* FUN_00e91f20(void**);
+    char* NiD3DShaderFactory_GetFirstProgramDirectory(void**);
 };
 
 extern NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance(void);
 
 // @fnv 0x00e91f20
-char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
+// src: XBOX_PDB 0x00e91f20
+char* FUN_00e91f20_shell::NiD3DShaderFactory_GetFirstProgramDirectory(void** kIter)
 {
     NiD3DShaderProgramFactory* pkSPFactory = NiD3DShaderProgramFactory_GetInstance();
     if (!pkSPFactory)
@@ -274,7 +281,8 @@ namespace fnv_00e91f60 {
 NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance(void);
 
 // @fnv 0x00e91f60
-void __stdcall FUN_00e91f60(const char* pacDirectory)
+// src: XBOX_PDB 0x00e91f60
+void __stdcall NiD3DShaderFactory_AddProgramDirectory(const char* pacDirectory)
 {
     NiD3DShaderProgramFactory* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
@@ -287,7 +295,8 @@ namespace fnv_00e91f80 {
 NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance();
 
 // @fnv 0x00e91f80
-void __stdcall FUN_00e91f80(char* pacDirectory)
+// src: XBOX_PDB 0x00e91f80
+void __stdcall NiD3DShaderFactory_RemoveProgramDirectory(char* pacDirectory)
 {
     NiD3DShaderProgramFactory* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
@@ -309,12 +318,13 @@ extern int _ref_00ec408c;
 struct NiD3DShaderFactory_shell
 {
     ShaderMapBase* m_pShaderMapStorage;
-    void __thiscall FUN_00e923f0(const char* pcName, unsigned int uiImplementation);
+    void __thiscall NiD3DShaderFactory_RemoveShader(const char* pcName, unsigned int uiImplementation);
 };
 
 // Builds a name from pcName and uiImplementation and removes the matching entry from the map at offset 0x28 if present.
 // @fnv 0x00e923f0
-void __thiscall NiD3DShaderFactory_shell::FUN_00e923f0(const char* pcName, unsigned int uiImplementation)
+// src: XBOX_PDB 0x00e923f0
+void __thiscall NiD3DShaderFactory_shell::NiD3DShaderFactory_RemoveShader(const char* pcName, unsigned int uiImplementation)
 {
     char acFullName[260];
     if (*(ShaderMapBase**)((char*)this + 0x28))
@@ -857,7 +867,7 @@ struct ShaderLibrary
 };
 struct ShaderRenderer
 {
-    void FUN_00e752b0(ShaderLibrary* library);
+    void NiXenonRenderer_RegisterD3DShader(ShaderLibrary* library);
 };
 struct ShaderFactoryShell : NiD3DShaderFactory
 {
@@ -886,7 +896,7 @@ void ShaderFactoryShell::NiD3DShaderFactory_RestoreAllShaderRendererData()
                 {
                     library.FUN_00e818d0(m_pOwnerShader);
                     library.ReleaseResources();
-                    static_cast<ShaderRenderer*>(m_pOwnerShader)->FUN_00e752b0(&library);
+                    static_cast<ShaderRenderer*>(m_pOwnerShader)->NiXenonRenderer_RegisterD3DShader(&library);
                 }
             }
         }
@@ -932,10 +942,11 @@ struct ReferenceObject_92c40
 struct FUN_00e92c40_shell : NiD3DShaderFactory
 {
     ShaderLibrary_92c40* NiD3DShaderFactory_GetFirstLibrary();
-    void FUN_00e92c40();
+    void NiD3DShaderFactory_RemoveAllLibraries();
 };
 // @fnv 0x00e92c40
-void FUN_00e92c40_shell::FUN_00e92c40()
+// src: XBOX_PDB 0x00e92c40
+void FUN_00e92c40_shell::NiD3DShaderFactory_RemoveAllLibraries()
 {
     if (!m_pShaderLibraryStorage)
         return;
@@ -963,7 +974,7 @@ extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* crit
 
 struct ShaderFactoryShutdown : NiD3DShaderFactory
 {
-    void FUN_00e92c40();
+    void NiD3DShaderFactory_RemoveAllLibraries();
     void FUN_00aa05a0();
     void FUN_00e92dc0();
 };
@@ -976,7 +987,7 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     if (shaderMap)
         shaderMap->RemoveAll();
 
-    FUN_00e92c40();
+    NiD3DShaderFactory_RemoveAllLibraries();
 
     if (m_pShaderMapStorage)
         delete static_cast<ShaderMapBase*>(m_pShaderMapStorage);
@@ -1141,12 +1152,13 @@ class OwnerE92A
     void* unk2C;
     ShaderLibraryMapBase* m_pTaskMap;
 
-    void FUN_00e92ae0(const char* pcName);
+    void NiD3DShaderFactory_RemoveLibrary(const char* pcName);
 };
 
 // Looks up pcName in m_pTaskMap; if found with refcount 2, removes it and decrements the reference, otherwise just decrements the reference.
 // @fnv 0x00e92ae0
-void OwnerE92A::FUN_00e92ae0(const char* pcName)
+// src: XBOX_PDB 0x00e92ae0
+void OwnerE92A::NiD3DShaderFactory_RemoveLibrary(const char* pcName)
 {
     NiRefObject* pkVal = 0;
     bool bFound = m_pTaskMap->GetAt(pcName, *reinterpret_cast<NiPointer<NiShaderLibrary>*>(&pkVal));
@@ -1371,7 +1383,7 @@ void ShaderMaterialCacheSlot::UpdateShaderMaterialCache(void* parameter)
     }
 }
 
-extern "C" void __cdecl FUN_00aa0020(int, int, const char*, ...);
+extern "C" void __cdecl NiShaderFactory_ReportError(int, int, const char*, ...);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" char UNK_010f0b84[];
@@ -1450,11 +1462,12 @@ class ShaderFactory
     int unk7C;
     int m_kShaderMap;
 
-    ShaderLibrary* FUN_00e920a0(const char* pcName, unsigned int uiImplementation, bool bReportFailure);
+    ShaderLibrary* NiD3DShaderFactory_RetrieveShader(const char* pcName, unsigned int uiImplementation, bool bReportFailure);
 };
 // Acquires a ShaderLibrary by name, creating and registering it via producer interfaces if not already present, and optionally logs a failure.
 // @fnv 0x00e920a0
-ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiImplementation, bool bReportFailure)
+// src: XBOX_PDB 0x00e920a0
+ShaderLibrary* ShaderFactory::NiD3DShaderFactory_RetrieveShader(const char* pcName, unsigned int uiImplementation, bool bReportFailure)
 {
     if (!m_pOwnerShader)
     {
@@ -1464,7 +1477,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
     }
     if (!pcName || !*pcName)
     {
-        FUN_00aa0020(1, 0, UNK_010f0b20);
+        NiShaderFactory_ReportError(1, 0, UNK_010f0b20);
         return 0;
     }
     ShaderLibrary* pkShader = AcquireShader(pcName, uiImplementation);
@@ -1482,7 +1495,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
                 if (pkShader)
                 {
                     RegisterShader(pkShader, uiImplementation);
-                    m_pOwnerShader->FUN_00e752b0(pkShader);
+                    m_pOwnerShader->NiXenonRenderer_RegisterD3DShader(pkShader);
                     pkShader->FUN_00e818d0(m_pOwnerShader);
                     break;
                 }
@@ -1492,7 +1505,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
         LeaveCriticalSection(pCriticalSection);
     }
     if (bReportFailure && !pkShader)
-        FUN_00aa0020(1, 0, UNK_010f0b54, pcName, uiImplementation);
+        NiShaderFactory_ReportError(1, 0, UNK_010f0b54, pcName, uiImplementation);
     return pkShader;
 }
 
@@ -1535,14 +1548,15 @@ struct FUN_00e92330_cls
     virtual FUN_00e92330_item* GetNext();
     unsigned int unk04[31];
     FUN_00e92330_critsec m_lock;
-    bool FUN_00e92330(unsigned int a1);
+    bool NiD3DShaderFactory_ReleaseShaderFromLibrary(unsigned int a1);
 };
 
 typedef FUN_00e92330_item*(__thiscall* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
 
 // Checks whether the collection contains the item identified by a1, using a virtual Match lookup and a Test predicate under a critical section.
 // @fnv 0x00e92330
-bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
+// src: XBOX_PDB 0x00e92330
+bool FUN_00e92330_cls::NiD3DShaderFactory_ReleaseShaderFromLibrary(unsigned int apItem)
 {
     if (apItem == 0)
     {

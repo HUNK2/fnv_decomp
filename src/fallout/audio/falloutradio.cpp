@@ -438,7 +438,8 @@ BSSimpleList<FalloutRadio::RadioReceiver*>* __fastcall _ref_00726070(void*);
 
 // Walks the DAT_011dd58c list until an entry whose first int equals param_1 is found, returning that entry or null.
 // @fnv 0x00832930
-FalloutRadio::RadioReceiver* __cdecl FUN_00832930(int param_1)
+// src: XBOX_PDB 0x00832930
+FalloutRadio::RadioReceiver* __cdecl FalloutRadio_GetActiveReceiver(int param_1)
 {
     FalloutRadio::RadioReceiver* result = 0;
     BSSimpleList<FalloutRadio::RadioReceiver*>* node = &DAT_011dd58c;
@@ -465,7 +466,7 @@ struct FORadioReceiver_Stub
     bool bFlag;
 };
 
-FORadioReceiver_Stub* __cdecl FUN_00832930(TESObjectREFR*);
+FORadioReceiver_Stub* __cdecl FalloutRadio_GetActiveReceiver(TESObjectREFR*);
 
 // If the reference has a radio emitter, stops and releases its sound, clears the flag and reference pointer.
 // @fnv 0x00835980
@@ -475,7 +476,7 @@ void __cdecl FalloutRadio_DisableNPCRadio(TESObjectREFR* apNPCRadio)
     if (!apNPCRadio->IsActor())
         return;
 
-    FORadioReceiver_Stub* pemitter = FUN_00832930(apNPCRadio);
+    FORadioReceiver_Stub* pemitter = FalloutRadio_GetActiveReceiver(apNPCRadio);
     if (pemitter)
     {
         pemitter->sound.Stop();
@@ -545,8 +546,8 @@ class SettingFloat
 
 bool __cdecl QueueUIMessage(const char* apText, int aiUnk, const char* apIcon, const char* apSound, float afTime,
                             bool abUnk);
-bool __cdecl FUN_005aa680(RadioStationRef* apRef);
-void __cdecl FUN_00832240(void* apForm, bool abUnk);
+bool __cdecl Script_IsPendingEnabledReference(RadioStationRef* apRef);
+void __cdecl FalloutRadio_TunePipboyToStation(void* apForm, bool abUnk);
 void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apStation);
 extern unsigned char DAT_011a179c;
 extern SettingString g_011d4348;
@@ -577,7 +578,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
         for (BSSimpleList<RadioStationRef*>* pstationObj = &stationlist; pstationObj && pstationObj->GetItem();
              pstationObj = pstationObj->GetNext())
         {
-            if (!pstationObj->GetItem()->GetDisabled() || FUN_005aa680(pstationObj->GetItem()))
+            if (!pstationObj->GetItem()->GetDisabled() || Script_IsPendingEnabledReference(pstationObj->GetItem()))
             {
                 if (!DAT_011dd59c.IsInList((unsigned int&)pstationObj->GetItem()))
                 {
@@ -661,7 +662,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                 QueueUIMessage(strtemp, 0, "Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds", 0, 2.0f,
                                false);
                 FalloutRadio::SetRadioEnabled(true);
-                FUN_00832240(pstation->form, false);
+                FalloutRadio_TunePipboyToStation(pstation->form, false);
                 DAT_011dd430 = 0;
             }
             FalloutRadio_UpdateStation(pstation);
@@ -811,12 +812,13 @@ struct FUN_00832440_shell
     unsigned int pad3_c;
     unsigned int pad4_10;
     unsigned int flags;
-    void FUN_00832440(bool enabled);
+    void FalloutRadio_StationState_SetShouldBePlaying(bool enabled);
 };
 
 // Sets or clears bit 0 of the flags field according to enabled.
 // @fnv 0x00832440
-void FUN_00832440_shell::FUN_00832440(bool enabled)
+// src: XBOX_PDB 0x00832440
+void FUN_00832440_shell::FalloutRadio_StationState_SetShouldBePlaying(bool enabled)
 {
     enabled ? flags |= 1 : flags &= ~1;
 }
@@ -847,23 +849,25 @@ struct FUN_00833100_shell
     int m_iFourthElementInteger;                // +0x0c
     int m_usTrailingValue;  // +0x10
     int m_flags;            // +0x14
-    void FUN_00833100(bool enabled);
+    void FalloutRadio_StationState_SetContBroadcast(bool enabled);
 };
 
 // Sets or clears bit 0x20 in m_flags according to enabled.
 // @fnv 0x00833100
-void FUN_00833100_shell::FUN_00833100(bool enabled)
+// src: XBOX_PDB 0x00833100
+void FUN_00833100_shell::FalloutRadio_StationState_SetContBroadcast(bool enabled)
 {
     enabled ? m_flags |= 0x20 : m_flags &= ~0x20;
 }
 
 struct FUN_00833be0_shell
 {
-    int FUN_00833be0();
+    int FalloutRadio_StationState_IsTransmitting();
 };
 
 // @fnv 0x00833be0
-int FUN_00833be0_shell::FUN_00833be0()
+// src: XBOX_PDB 0x00833be0
+int FUN_00833be0_shell::FalloutRadio_StationState_IsTransmitting()
 {
     return (reinterpret_cast<int*>(this)[5] & 0x10) != 0;
 }
@@ -873,10 +877,11 @@ struct FUN_00833c20_shell
 // @fnv 0x00833c20
     virtual ~FUN_00833c20_shell()
     {}
-    unsigned char FUN_00833c20();
+    unsigned char ActiveEffect_IsActive();
 };
 
-unsigned char FUN_00833c20_shell::FUN_00833c20()
+// src: XBOX_PDB 0x00833c20
+unsigned char FUN_00833c20_shell::ActiveEffect_IsActive()
 {
     return ((char*)this)[0x10];
 }
@@ -1019,7 +1024,8 @@ struct FUN_00833040_shell
 };
 // Returns false if DAT_011dd436 is set; otherwise resolves the target's object reference to a station and returns whether IsFlag20Set on it succeeds.
 // @fnv 0x00835b90
-bool FUN_00835b90(TESObjectREFR* apTargetStation)
+// src: XBOX_PDB 0x00835b90
+bool FalloutRadio_GetBroadcastState(TESObjectREFR* apTargetStation)
 {
     FalloutRadio::RadioConversation* pstation;
     bool bretValue;
@@ -1073,11 +1079,12 @@ struct FUN_0083b9f0_shell
     int _pad0;
     int _pad4;
     FUN_0083b9f0_node* _f8;
-    bool FUN_0083b9f0();
+    bool Conversation_NextItem();
 };
 // If _f8 is set, replaces it with the result of _ref_00726070, then returns whether _f8 is non-null and its _ref_006815c0 value is non-zero.
 // @fnv 0x0083b9f0
-bool FUN_0083b9f0_shell::FUN_0083b9f0()
+// src: XBOX_PDB 0x0083b9f0
+bool FUN_0083b9f0_shell::Conversation_NextItem()
 {
     if (_f8)
         _f8 = _f8->_ref_00726070();
@@ -1091,10 +1098,11 @@ void* __fastcall _ref_00726070(void*);
 void __fastcall ProcessNodeChain(void*);
 struct FUN_0083c470_holder
 {
-    void FUN_0083c470();
+    void Conversation_PrecacheSounds();
 };
 // @fnv 0x0083c470
-void FUN_0083c470_holder::FUN_0083c470()
+// src: XBOX_PDB 0x0083c470
+void FUN_0083c470_holder::Conversation_PrecacheSounds()
 {
     void* pNode = this;
     while (pNode && !_ref_008256d0(pNode))
@@ -1210,7 +1218,8 @@ struct RadioConversation
 }  // namespace fnv_008372e0
 
 // @fnv 0x008372e0
-void RadioConvTask::FUN_008372e0()
+// src: XBOX_PDB 0x008372e0
+void RadioConvTask::Run_008372e0()
 {
     typedef fnv_008372e0::RadioConversation RadioConversation;
     if (pStation && !reinterpret_cast<RadioConversation*>(pStation)->m_pkConversation)
@@ -1421,12 +1430,13 @@ void GridHolder::Load(LoadBuffer* apBuffer)
     }
 }
 
-unsigned int __fastcall FUN_007af430(void* pForm);
+unsigned int __fastcall BGSSaveFormBuffer_GetForm(void* pForm);
 bool __fastcall FUN_00440da0(void* pForm);
-unsigned int __fastcall FUN_0056b210(void* pForm);
+unsigned int __fastcall TESObjectREFR_GetRadioStationRangeType(void* pForm);
 
 // @fnv 0x00832830
-FalloutRadio::RadioReceiver* __cdecl FUN_00832830(unsigned int aiFormID)
+// src: XBOX_PDB 0x00832830
+FalloutRadio::RadioReceiver* __cdecl FalloutRadio_GetActiveStation(unsigned int aiFormID)
 {
     BSSimpleList<FalloutRadio::RadioReceiver*>* pNode;
     FalloutRadio::RadioReceiver* pFound2 = 0;
@@ -1438,14 +1448,14 @@ FalloutRadio::RadioReceiver* __cdecl FUN_00832830(unsigned int aiFormID)
 
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (aiFormID == FUN_007af430(pNode->GetItem()->form))
+        if (aiFormID == BGSSaveFormBuffer_GetForm(pNode->GetItem()->form))
         {
             if (pFound2 == 0 || (FUN_00440da0(pFound2->form) && !FUN_00440da0(pNode->GetItem()->form)) ||
-                (iFoundState == 0 && FUN_0056b210(pNode->GetItem()->form)) ||
-                (iFoundState != 1 && FUN_0056b210(pNode->GetItem()->form) == 1))
+                (iFoundState == 0 && TESObjectREFR_GetRadioStationRangeType(pNode->GetItem()->form)) ||
+                (iFoundState != 1 && TESObjectREFR_GetRadioStationRangeType(pNode->GetItem()->form) == 1))
             {
                 pFound2 = pNode->GetItem();
-                iFoundState = FUN_0056b210(pFound2->form);
+                iFoundState = TESObjectREFR_GetRadioStationRangeType(pFound2->form);
             }
         }
         pNode = pNode->GetNext();
@@ -1523,13 +1533,13 @@ RadioConvTask::~RadioConvTask()
 namespace fnv_00832240 {
 struct RefView
 {
-    void* FUN_007af430();
+    void* BGSSaveFormBuffer_GetForm();
 };
 struct AudioClock
 {
     unsigned int FUN_0063d040();
 };
-AudioClock* FUN_00453a70();
+AudioClock* BSAudio_QInstance();
 void ourMemset(void*, int, unsigned int);
 extern char DAT_011dd448[260];
 struct RadioSub
@@ -1537,7 +1547,7 @@ struct RadioSub
     unsigned int unk00, unk04, unk08, unk0c, unk10, flags;
     bool IsFlag100Set();
     void SetFlag100(bool);
-    void FUN_00832440(bool);
+    void FalloutRadio_StationState_SetShouldBePlaying(bool);
 };
 struct RadioState
 {
@@ -1545,12 +1555,13 @@ struct RadioState
     RadioSub sub;
 };
 extern RadioState* g_011dd42c;
-RadioState* FUN_00832830(void*);
+RadioState* FalloutRadio_GetActiveStation(void*);
 RadioState* CreateRadioStationState(RefView*, int);
 void FUN_008324e0(int);
 // Clears DAT_011dd448, resolves a radio station from the player or the given form, stores it in g_011dd42c and updates its sub-state timers and flags.
 // @fnv 0x00832240
-bool FUN_00832240(RefView* form, bool flag)
+// src: XBOX_PDB 0x00832240
+bool FalloutRadio_TunePipboyToStation(RefView* form, bool flag)
 {
     if (!DAT_011dd434 || DAT_011dd436)
         return false;
@@ -1561,7 +1572,7 @@ bool FUN_00832240(RefView* form, bool flag)
         BSSimpleList<RadioStationRef*> item;
         BGSTalkingActivator::FindRadioStations((TESObjectREFR*)g_thePlayer, &item, 0);
         BSSimpleList<RadioStationRef*>* list = &item;
-        if (list && list->GetItem() && ((RefView*)list->GetItem())->FUN_007af430())
+        if (list && list->GetItem() && ((RefView*)list->GetItem())->BGSSaveFormBuffer_GetForm())
             form = (RefView*)list->GetItem();
     }
     else if (flag)
@@ -1569,7 +1580,7 @@ bool FUN_00832240(RefView* form, bool flag)
         DAT_011dd430 = 0;
         UpdateRadioSignals(true);
     }
-    g_011dd42c = FUN_00832830(form->FUN_007af430());
+    g_011dd42c = FalloutRadio_GetActiveStation(form->BGSSaveFormBuffer_GetForm());
     if (!g_011dd42c)
     {
         g_011dd42c = CreateRadioStationState(form, 0);
@@ -1578,16 +1589,16 @@ bool FUN_00832240(RefView* form, bool flag)
         if (!flag)
             UpdateRadioSignals(true);
     }
-    else if (g_011dd42c->form->FUN_007af430() == form->FUN_007af430())
+    else if (g_011dd42c->form->BGSSaveFormBuffer_GetForm() == form->BGSSaveFormBuffer_GetForm())
     {
         g_011dd42c->form = form;
     }
     if (g_011dd42c->sub.IsFlag100Set())
     {
-        g_011dd42c->sub.unk08 = FUN_00453a70()->FUN_0063d040() + 50;
+        g_011dd42c->sub.unk08 = BSAudio_QInstance()->FUN_0063d040() + 50;
         g_011dd42c->sub.SetFlag100(false);
     }
-    g_011dd42c->sub.FUN_00832440(true);
+    g_011dd42c->sub.FalloutRadio_StationState_SetShouldBePlaying(true);
     DAT_011dd430 = 0;
     return true;
 }
@@ -1604,11 +1615,11 @@ extern BSSoundHandle DAT_011dd638, DAT_011dd5bc;
 extern Setting DAT_011d25f8;
 struct Activator
 {
-    const char* FUN_0055d520();
+    const char* TESObjectREFR_GetFullName();
 };
 struct SoundForm
 {
-    const char* FUN_00511840();
+    const char* TESSound_GetFilename();
 };
 struct Info
 {
@@ -1617,9 +1628,9 @@ struct Info
 };
 struct Entry
 {
-    SoundForm* FUN_007af430();
+    SoundForm* BGSSaveFormBuffer_GetForm();
     ::BSStringT<char>* FUN_006815c0();
-    Info* FUN_00460140();
+    Info* TESDataHandler_GetWorldSpaceList();
 };
 struct Track
 {
@@ -1636,11 +1647,11 @@ struct State
     int unk04;
     unsigned int elapsed;
     int duration;
-    unsigned char FUN_00833c20();
+    unsigned char ActiveEffect_IsActive();
     bool FUN_00833bc0();
     bool IsFlag20Set();
     bool IsFlag80Set();
-    bool FUN_00833be0();
+    bool FalloutRadio_StationState_IsTransmitting();
     void FalloutRadio_StationState_SetPlayingSong(bool);
     void SetFlag40(bool);
 };
@@ -1658,7 +1669,7 @@ struct Manager
     unsigned int FUN_0063d040();
     float FUN_00ad7ae0();
 };
-Manager* FUN_00453a70();
+Manager* BSAudio_QInstance();
 struct UI
 {
     void AddMessage(const char*, int, const char*, int, float, int);
@@ -1794,17 +1805,17 @@ struct Player
     virtual const NiPoint3& Position();
 };
 extern Player* DAT_011dea3c;
-void FUN_00406f60(::BSStringT<char>*, const char*, ...);
+void BSStringT_char_SPrintF(::BSStringT<char>*, const char*, ...);
 void FUN_008324e0(int);
-float FUN_004dd150(float, float);
+float powf_004dd150(float, float);
 bool FalloutAudioMedia_MediaIsPlaying(int, int);
 bool FalloutRadio_GetIsDialogueOnlyRadio();
 bool FalloutAudio_IsRadioMute();
-unsigned int FUN_0044a670(const char*);
+unsigned int BSstrlen(const char*);
 int FUN_00ec7750(const char*, const char*);
 void FalloutRadio_SoundCompletionCallback(Station*);
-void FUN_00705210(const char*, BSSoundHandle, NiPoint3, Player*, bool);
-void FUN_00406d00(char*, unsigned int, const char*, ...);
+void Interface_ShowSubtitle(const char*, BSSoundHandle, NiPoint3, Player*, bool);
+void BSsprintf(char*, unsigned int, const char*, ...);
 void FUN_00406d30(char*, unsigned int, const char*);
 void PlayAudioMedia(int, const char*, int, int, int, float, unsigned int);
 unsigned int FalloutAudioMedia_MediaGetDuration(int);
@@ -1813,14 +1824,14 @@ extern char DAT_011dd448[260];
 // @fnv 0x008331c0
 void UpdateRadio(bool force)
 {
-    float volume = DAT_011dd42c ? DAT_011dd42c->state.FUN_00833c20() / DAT_01017a40 : 0.0;
+    float volume = DAT_011dd42c ? DAT_011dd42c->state.ActiveEffect_IsActive() / DAT_01017a40 : 0.0;
     bool volumeSet = false;
     if (DAT_011dd42c && DAT_011dd42c->state.FUN_00833bc0())
     {
         ::BSStringT<char> message3;
-        BSSoundHandle sound = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce80, 0x100121);
+        BSSoundHandle sound = BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce80, 0x100121);
         sound.Play(0);
-        FUN_00406f60(&message3, DAT_011d25f8.FUN_00403df0(), DAT_011dd42c->form->FUN_0055d520());
+        BSStringT_char_SPrintF(&message3, DAT_011d25f8.FUN_00403df0(), DAT_011dd42c->form->TESObjectREFR_GetFullName());
         DAT_011dd430 = DAT_011dd42c;
         FUN_008324e0(0);
         DAT_011dd638.Stop();
@@ -1828,19 +1839,19 @@ void UpdateRadio(bool force)
         DAT_011d96c0->AddMessage(message3.String(), 0, DAT_0107ce44, 0, DAT_010162c0, 0);
         return;
     }
-    else if (DAT_011dd42c && DAT_011dd42c->state.FUN_00833c20() < 100)
+    else if (DAT_011dd42c && DAT_011dd42c->state.ActiveEffect_IsActive() < 100)
     {
         if (!DAT_011dd638.IsValid())
         {
             DAT_011dd638.Stop();
             DAT_011dd638.Release();
-            DAT_011dd638 = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce34, 0x100031);
+            DAT_011dd638 = BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce34, 0x100031);
             DAT_011dd638.Play(0);
         }
         DAT_011dd638.SetVolume(
-            FUN_004dd150((100 - DAT_011dd42c->state.FUN_00833c20()) / DAT_01017a40, DAT_01016264));
+            powf_004dd150((100 - DAT_011dd42c->state.ActiveEffect_IsActive()) / DAT_01017a40, DAT_01016264));
     }
-    else if (DAT_011dd42c && DAT_011dd42c->state.FUN_00833c20() == 100 && DAT_011dd638.IsValid())
+    else if (DAT_011dd42c && DAT_011dd42c->state.ActiveEffect_IsActive() == 100 && DAT_011dd638.IsValid())
     {
         DAT_011dd638.Stop();
         DAT_011dd638.Release();
@@ -1858,7 +1869,7 @@ void UpdateRadio(bool force)
         unsigned int kindB = 0;
         if (!track->FUN_0083c820())
             track->FUN_0083c7b0();
-        if (track->FUN_0083c820() && track->FUN_0083c820()->FUN_007af430() && !FalloutRadio_GetIsDialogueOnlyRadio())
+        if (track->FUN_0083c820() && track->FUN_0083c820()->BGSSaveFormBuffer_GetForm() && !FalloutRadio_GetIsDialogueOnlyRadio())
         {
             hasVoice_ = true;
             if (DAT_011dd42c)
@@ -1871,41 +1882,41 @@ void UpdateRadio(bool force)
         }
         if (track->FUN_0083c820() && track->FUN_0083c820()->FUN_006815c0()->String())
         {
-            kindB = FUN_0044a670(track->FUN_0083c820()->FUN_006815c0()->String());
-            hasSound3 = kindB > 2 && track->FUN_0083c820()->FUN_00460140()->FUN_00700270(0);
-            if (!hasSound3 && track->FUN_0083c820()->FUN_007af430() &&
-                FUN_00ec7750(track->FUN_0083c820()->FUN_007af430()->FUN_00511840(), DAT_0107ce2c))
+            kindB = BSstrlen(track->FUN_0083c820()->FUN_006815c0()->String());
+            hasSound3 = kindB > 2 && track->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00700270(0);
+            if (!hasSound3 && track->FUN_0083c820()->BGSSaveFormBuffer_GetForm() &&
+                FUN_00ec7750(track->FUN_0083c820()->BGSSaveFormBuffer_GetForm()->TESSound_GetFilename(), DAT_0107ce2c))
                 hasSound3 = true;
         }
-        unsigned int age = FUN_00453a70()->FUN_0063d040() - DAT_011dd42c->state.elapsed;
+        unsigned int age = BSAudio_QInstance()->FUN_0063d040() - DAT_011dd42c->state.elapsed;
         if (hasSound3)
         {
-            bool formSound = track->FUN_0083c820()->FUN_007af430() != 0;
+            bool formSound = track->FUN_0083c820()->BGSSaveFormBuffer_GetForm() != 0;
             DAT_011dd5bc.Stop();
             DAT_011dd5bc.Release();
             if (formSound)
-                DAT_011dd5bc = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->FUN_007af430()->FUN_00511840(),
-                                                            0x100101, track->FUN_0083c820()->FUN_007af430());
+                DAT_011dd5bc = BSAudio_QInstance()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->BGSSaveFormBuffer_GetForm()->TESSound_GetFilename(),
+                                                            0x100101, track->FUN_0083c820()->BGSSaveFormBuffer_GetForm());
             else
                 DAT_011dd5bc =
-                    FUN_00453a70()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->FUN_00460140()->FUN_00559450(), 0x100101, 0);
+                    BSAudio_QInstance()->BSAudio_GetSoundHandleByFilename(track->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450(), 0x100101, 0);
             DAT_011dd5bc.SetCompletionCallback(
                 reinterpret_cast<BSSoundHandle::CompletionCallback>(FalloutRadio_SoundCompletionCallback), DAT_011dd42c);
             DAT_011dd5bc.SetSynchStartTime(DAT_011dd42c->state.elapsed);
             if (FalloutAudio_IsRadioMute())
                 DAT_011dd5bc.SetVolume(volume * DAT_0101ffa0);
             else
-                DAT_011dd5bc.SetVolume(FUN_00453a70()->FUN_00ad7ae0() * volume);
+                DAT_011dd5bc.SetVolume(BSAudio_QInstance()->FUN_00ad7ae0() * volume);
             volumeSet = true;
             DAT_011dd5bc.Play(0);
             if (!DAT_011dd5bc.IsValid())
-                FUN_00705210(track->FUN_0083c820()->FUN_006815c0()->String(), DAT_011dd5bc,
+                Interface_ShowSubtitle(track->FUN_0083c820()->FUN_006815c0()->String(), DAT_011dd5bc,
                              DAT_011dea3c->Position(), DAT_011dea3c, false);
         }
         if (hasVoice_ && !FalloutRadio_GetIsDialogueOnlyRadio())
         {
             char path2[260];
-            FUN_00406d00(path2, 260, DAT_0101996c, DAT_0107ce20, track->FUN_0083c820()->FUN_007af430()->FUN_00511840());
+            BSsprintf(path2, 260, DAT_0101996c, DAT_0107ce20, track->FUN_0083c820()->BGSSaveFormBuffer_GetForm()->TESSound_GetFilename());
             ::BSStringT<char> filename(path2);
             PlayAudioMedia(7, path2, 500, 0, 1, 0.0f, DAT_011dd42c->state.elapsed);
             FUN_00406d30(DAT_011dd448, 260, path2);
@@ -1919,11 +1930,11 @@ void UpdateRadio(bool force)
             DAT_011dd42c->state.duration = 1;
     }
     else if (!DAT_011dd42c->state.IsFlag20Set() && !DAT_011dd42c->state.IsFlag80Set() &&
-             !DAT_011dd42c->state.FUN_00833be0() && !DAT_011dd5bc.IsPlaying())
+             !DAT_011dd42c->state.FalloutRadio_StationState_IsTransmitting() && !DAT_011dd5bc.IsPlaying())
     {
         DAT_011dd5bc.Stop();
         DAT_011dd5bc.Release();
-        DAT_011dd5bc = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce34, 0x100031);
+        DAT_011dd5bc = BSAudio_QInstance()->BSAudio_GetSoundHandleByEditorName(DAT_0107ce34, 0x100031);
         DAT_011dd5bc.SetAssumeSuccess(1);
         DAT_011dd5bc.Play(0);
         DAT_011dd42c->state.SetFlag40(true);
@@ -1934,14 +1945,14 @@ void UpdateRadio(bool force)
         if (FalloutAudio_IsRadioMute())
             DAT_011dd5bc.SetVolume(volume * DAT_0101ffa0);
         else
-            DAT_011dd5bc.SetVolume(FUN_00453a70()->FUN_00ad7ae0() * volume);
+            DAT_011dd5bc.SetVolume(BSAudio_QInstance()->FUN_00ad7ae0() * volume);
     }
 }
 }
 
 struct S_008356e0_Item
 {
-    int FUN_007af430();
+    int BGSSaveFormBuffer_GetForm();
 };
 struct S_008356e0_Node
 {
@@ -1969,9 +1980,9 @@ S_008356e0_Item* __cdecl FalloutRadio_GetRadioRefrForStation(int a, S_008356e0_R
     }
     S_008356e0_Node* node = (S_008356e0_Node*)&_list;
     bool foundTmp = false;
-    while (!foundTmp && node && *node->FUN_006815c0() && (*node->FUN_006815c0())->FUN_007af430())
+    while (!foundTmp && node && *node->FUN_006815c0() && (*node->FUN_006815c0())->BGSSaveFormBuffer_GetForm())
     {
-        if (a == (*node->FUN_006815c0())->FUN_007af430())
+        if (a == (*node->FUN_006815c0())->BGSSaveFormBuffer_GetForm())
         {
             result = *node->FUN_006815c0();
             foundTmp = true;
@@ -2010,14 +2021,14 @@ struct StationView
 };
 struct ReferenceView
 {
-    void* FUN_007af430();
+    void* BGSSaveFormBuffer_GetForm();
 };
 struct AudioView
 {
     unsigned int FUN_0063d040();
 };
-AudioView* FUN_00453a70();
-StationView* FUN_00832830(void*);
+AudioView* BSAudio_QInstance();
+StationView* FalloutRadio_GetActiveStation(void*);
 StationView* CreateRadioStationState(void*, ReferenceView*);
 // Creates or finds the radio station for ref, marks it active/playing/changed, registers it with the receiver list and enables the receiver state.
 // @fnv 0x00835810
@@ -2025,14 +2036,14 @@ StationView* CreateRadioStationState(void*, ReferenceView*);
 void FalloutRadio_EnableNPCRadio(TESObjectREFR* ref, ReferenceView* source)
 {
     int elapsed = 0;
-    radio_detail::FUN_008327d0* station = (radio_detail::FUN_008327d0*)FUN_00832930(ref);
+    radio_detail::FUN_008327d0* station = (radio_detail::FUN_008327d0*)FalloutRadio_GetActiveReceiver(ref);
     unsigned int soundTime = 0;
     bool created = false;
     if (DAT_011dd436)
         return;
-    StationView* receiver = FUN_00832830(source->FUN_007af430());
+    StationView* receiver = FalloutRadio_GetActiveStation(source->BGSSaveFormBuffer_GetForm());
     if (receiver)
-        soundTime = FUN_00453a70()->FUN_0063d040() - receiver->state.pad2_8;
+        soundTime = BSAudio_QInstance()->FUN_0063d040() - receiver->state.pad2_8;
     else
     {
         receiver = CreateRadioStationState(ref, source);
@@ -2053,7 +2064,7 @@ void FalloutRadio_EnableNPCRadio(TESObjectREFR* ref, ReferenceView* source)
     if (created)
         ((ReceiverList*)&DAT_011dd58c)->FUN_005ae3d0(&station);
     receiver->receivers.FUN_005ae3d0(&station);
-    receiver->state.FUN_00832440(true);
+    receiver->state.FalloutRadio_StationState_SetShouldBePlaying(true);
 }
 
 namespace fnv_008359e0 {
@@ -2067,7 +2078,7 @@ struct RadioStateData
     unsigned int unk04, unk08, unk0c, unk10, flags;
     bool IsFlag20Set();
     void SetFlag(bool);
-    void FUN_00833100(bool);
+    void FalloutRadio_StationState_SetContBroadcast(bool);
 };
 struct RadioStation
 {
@@ -2081,12 +2092,12 @@ struct RadioRef
 };
 struct RadioSource
 {
-    RadioRef* FUN_007af430();
+    RadioRef* BGSSaveFormBuffer_GetForm();
 };
-RadioStation* FUN_00832830(RadioRef*);
+RadioStation* FalloutRadio_GetActiveStation(RadioRef*);
 struct GlobalObject_0044fae0
 {
-    void FUN_004538a0(const char*);
+    void BSCriticalSection_Enter(const char*);
     void FUN_004538c0();
 };
 extern GlobalObject_0044fae0 g_011dd5e8;
@@ -2099,9 +2110,9 @@ void FalloutRadio_SetBroadcastState(RadioSource* source, bool enabled)
 {
     if (DAT_011dd436)
         return;
-    RadioStation* station = FUN_00832830(source->FUN_007af430());
-    g_011dd5e8.FUN_004538a0("FalloutRadio::SetBroadcastState");
-    source->FUN_007af430()->SetRefFlag40000000(enabled);
+    RadioStation* station = FalloutRadio_GetActiveStation(source->BGSSaveFormBuffer_GetForm());
+    g_011dd5e8.BSCriticalSection_Enter("FalloutRadio::SetBroadcastState");
+    source->BGSSaveFormBuffer_GetForm()->SetRefFlag40000000(enabled);
     if (station)
     {
         if (station->data.IsFlag20Set() && !enabled)
@@ -2132,7 +2143,7 @@ void FalloutRadio_SetBroadcastState(RadioSource* source, bool enabled)
             delete station->data.conversation;
             station->data.conversation = 0;
         }
-        station->data.FUN_00833100(enabled);
+        station->data.FalloutRadio_StationState_SetContBroadcast(enabled);
     }
     g_011dd5e8.FUN_004538c0();
 }
@@ -2238,7 +2249,7 @@ class Rec;
 // This station field is a radio conversation, separate from the receiver's handles.
 struct RadioStationConversationView : public FalloutRadio::RadioConversation
 {
-    void FUN_00832440(bool);
+    void FalloutRadio_StationState_SetShouldBePlaying(bool);
     bool IsFlag100Set();
     void SetFlag100(bool);
 };
@@ -2284,27 +2295,28 @@ class Ref
 
 
 
-Rec* __cdecl FUN_00832930(Ref*);
-Sta* __cdecl FUN_00832830(TESSound*);
+Rec* __cdecl FalloutRadio_GetActiveReceiver(Ref*);
+Sta* __cdecl FalloutRadio_GetActiveStation(TESSound*);
 Sta* __cdecl CreateRadioStationState(Ref*, bool);
 void __cdecl FUN_008329a0(bool);
 
 class Shell
 {
   public:
-    static void FUN_008325b0(Ref* ref, bool bArg);
+    static void FalloutRadio_ActivateRadio(Ref* ref, bool bArg);
 };
 
 // Enables or disables the bolt sound for a reference, creating or releasing its sound record and updating the sound state.
 // @fnv 0x008325b0
-void Shell::FUN_008325b0(Ref* ref, bool abEnable)
+// src: XBOX_PDB 0x008325b0
+void Shell::FalloutRadio_ActivateRadio(Ref* ref, bool abEnable)
 {
     if (DAT_011dd436)
     {
         return;
     }
     TESSound* pSound8 = 0;
-    Rec* rec = FUN_00832930(ref);
+    Rec* rec = FalloutRadio_GetActiveReceiver(ref);
     int iUnused = 0;
     bool bNewRec = false;
     if (rec != 0 && ((abEnable && rec->active) || (!abEnable && !rec->active)))
@@ -2319,7 +2331,7 @@ void Shell::FUN_008325b0(Ref* ref, bool abEnable)
     {
         return;
     }
-    Sta* sta = FUN_00832830(pSound8);
+    Sta* sta = FalloutRadio_GetActiveStation(pSound8);
     if (abEnable)
     {
         if (sta == 0)
@@ -2344,7 +2356,7 @@ void Shell::FUN_008325b0(Ref* ref, bool abEnable)
             ((RecList*)&DAT_011dd58c)->SetItem(rec);
         }
         sta->receivers.SetItem(rec);
-        sta->sound.FUN_00832440(1);
+        sta->sound.FalloutRadio_StationState_SetShouldBePlaying(1);
         if (sta->sound.IsFlag100Set())
         {
             sta->sound.nextUpdate = BSAudio::GetSingleton()->GetSynchTime() + 0x32;
@@ -2389,7 +2401,7 @@ class FUN_00832160
 class FUN_00833100_shell
 {
   public:
-    void FUN_00833100(bool);
+    void FalloutRadio_StationState_SetContBroadcast(bool);
 };
 
 class FUN_00833040_shell
@@ -2526,7 +2538,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
     ((StationData*)state3)->unk10 = 1;
 
     ((FUN_00833100_shell*)((char*)state3 + 4))
-        ->FUN_00833100(((P01ObjA*)((StationData*)state3)->form)->GetNext()->Unk_2D());
+        ->FalloutRadio_StationState_SetContBroadcast(((P01ObjA*)((StationData*)state3)->form)->GetNext()->Unk_2D());
     ((FUN_008330b0_shell*)((char*)state3 + 4))->SetFlag(((FUN_00833040_shell*)((char*)state3 + 4))->IsFlag20Set());
     ((FUN_00833060_shell*)((char*)state3 + 4))->FalloutRadio_StationState_SetJustTurnedOn(true);
 
@@ -2551,9 +2563,9 @@ struct LoadBuffer : BGSLoadGameBuffer
 
     void __thiscall FUN_00865e70(void*, unsigned int);
 
-    unsigned int __thiscall FUN_00865f20();
+    unsigned int __thiscall StartVariableSizedValue();
 
-    void __thiscall FUN_00865ff0(unsigned int, unsigned int);
+    void __thiscall SaveVariableSizedValue_00865ff0(unsigned int, unsigned int);
 
     void __thiscall FUN_00865df0(unsigned int, unsigned int);
 };
@@ -2566,7 +2578,7 @@ struct RadioStationSaveView : FalloutRadio::RadioStationState
 struct RadioForm
 {
 
-    unsigned int __thiscall FUN_007af430();
+    unsigned int __thiscall BGSSaveFormBuffer_GetForm();
 };
 
 // Reads radio receiver, station, and form data from a load buffer, initializing each item and writing back the counts.
@@ -2612,7 +2624,7 @@ void __cdecl FalloutRadio_SaveGame(LoadBuffer* buffer)
 
     firstID2 = 0;
 
-    formCount = buffer->FUN_00865f20();
+    formCount = buffer->StartVariableSizedValue();
 
     stationPosition4 = &DAT_011dd58c;
 
@@ -2632,11 +2644,11 @@ void __cdecl FalloutRadio_SaveGame(LoadBuffer* buffer)
         stationPosition4 = stationPosition4->GetNext();
     }
 
-    buffer->FUN_00865ff0(firstID2, formCount);
+    buffer->SaveVariableSizedValue_00865ff0(firstID2, formCount);
 
     stationCount = 0;
 
-    receiverCount = buffer->FUN_00865f20();
+    receiverCount = buffer->StartVariableSizedValue();
 
     formNode2 = &DAT_011dd554;
 
@@ -2656,13 +2668,13 @@ void __cdecl FalloutRadio_SaveGame(LoadBuffer* buffer)
         formNode2 = formNode2->GetNext();
     }
 
-    buffer->FUN_00865ff0(stationCount, receiverCount);
+    buffer->SaveVariableSizedValue_00865ff0(stationCount, receiverCount);
 
     secondID5 = 0;
 
     if (DAT_011dd42c)
 
-        secondID5 = (*(RadioForm**)DAT_011dd42c)->FUN_007af430();
+        secondID5 = (*(RadioForm**)DAT_011dd42c)->BGSSaveFormBuffer_GetForm();
 
     buffer->FUN_00865df0(secondID5, 0);
 
@@ -2670,13 +2682,13 @@ void __cdecl FalloutRadio_SaveGame(LoadBuffer* buffer)
 
     if (DAT_011dd430)
 
-        receiverNode4 = (*(RadioForm**)DAT_011dd430)->FUN_007af430();
+        receiverNode4 = (*(RadioForm**)DAT_011dd430)->BGSSaveFormBuffer_GetForm();
 
     buffer->FUN_00865df0(receiverNode4, 0);
 
     station_2 = 0;
 
-    formPosition4 = buffer->FUN_00865f20();
+    formPosition4 = buffer->StartVariableSizedValue();
 
     stationNode = &DAT_011dd59c;
 
@@ -2696,7 +2708,7 @@ void __cdecl FalloutRadio_SaveGame(LoadBuffer* buffer)
         stationNode = stationNode->GetNext();
     }
 
-    buffer->FUN_00865ff0(station_2, formPosition4);
+    buffer->SaveVariableSizedValue_00865ff0(station_2, formPosition4);
 }
 }  // namespace fnv_008366e0
 
@@ -2725,7 +2737,7 @@ class RadioUpdateSnd
 class RadioUpdateBoundName
 {
   public:
-    const char* FUN_00511840();
+    const char* TESSound_GetFilename();
 };
 
 
@@ -2740,22 +2752,22 @@ class RadioUpdateObj
 {
   public:
     RadioUpdateObj* FUN_0083c820();
-    TESBoundObject* FUN_007af430();
-    RadioUpdateObj* FUN_0084e3a0();
-    bool FUN_00579200();
-    void FUN_0061f170(int, RadioUpdateObj*);
+    TESBoundObject* BGSSaveFormBuffer_GetForm();
+    RadioUpdateObj* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    bool TESTopicInfo_IsRunImmediately();
+    void TESTopicInfo_RunResult(int, RadioUpdateObj*);
     bool FUN_0083c7b0();
-    bool FUN_0083c7e0();
-    bool FUN_0083b9f0();
-    void FUN_0083c470();
-    void FUN_0083b9a0();
+    bool NextResponse_0083c7e0();
+    bool Conversation_NextItem();
+    void Conversation_PrecacheSounds();
+    void Conversation_FirstItem();
     bool FUN_00440da0();
     RadioUpdateSnd* FUN_00407840();
     RadioUpdateObj* FUN_006815c0();
-    RadioUpdateObj* FUN_00460140();
-    const char* FUN_00511840();
+    RadioUpdateObj* TESDataHandler_GetWorldSpaceList();
+    const char* TESSound_GetFilename();
     const char* FUN_00559450();
-    void* FUN_00575d70();
+    void* TESObjectREFR_GetWorldSpace();
     TESObjectCELL* FUN_008d6f30();
     int FUN_004181e0();
     int FUN_00639b40();
@@ -2931,7 +2943,7 @@ class RadioUpdateRefObj
     virtual void vf160();
     virtual float v284(char*, BSSoundHandle*, void*, RadioUpdateObj*, int, void*, void*, RadioUpdateRefObj*, int,
                        int, int, int, int);
-    void* FUN_00575d70();
+    void* TESObjectREFR_GetWorldSpace();
     TESObjectCELL* FUN_008d6f30();
     int FUN_004181e0();
 };
@@ -2966,7 +2978,7 @@ class RadioUpdateSub4
     void FUN_008330b0(int);
     bool GetByteAtOffset17();
     void RadioEntry_Data_SetLastSignalStrength(bool);
-    unsigned char FUN_00833c20();
+    unsigned char ActiveEffect_IsActive();
     bool RadioEntry_Data_GetFlags1();
     bool IsFlag8Set();
     void FalloutRadio_StationState_SetPlayingSong(int);
@@ -3002,19 +3014,19 @@ class RadioUpdateAudio
 class RadioUpdateProf
 {
   public:
-    void FUN_004538a0(const char*);
+    void BSCriticalSection_Enter(const char*);
     void FUN_004538c0();
 };
 
 class RadioUpdateFSetting
 {
   public:
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 
 int __cdecl FalloutAudioMedia_MediaGetDuration(int);
 void __cdecl FUN_008324e0(int);
-void __cdecl FUN_008305e0();
+void __cdecl FalloutAudioMedia_MediaPause();
 void __cdecl ResetThreadFlags();
 unsigned char __cdecl FalloutRadio_GetIsDialogueOnlyRadio();
 void __cdecl FUN_008304a0();
@@ -3023,8 +3035,8 @@ void __cdecl PlayAudioMedia(int, const char*, unsigned int, bool, bool, float, u
 void __cdecl FUN_008304c0();
 void __cdecl AdvanceConversation(RadioUpdateState*, int);
 void __cdecl UpdateRadio(int);
-float __cdecl FUN_004dd150(float, float);
-unsigned int __cdecl FUN_0044a670(RadioUpdateObj*);
+float __cdecl powf_004dd150(float, float);
+unsigned int __cdecl BSstrlen(RadioUpdateObj*);
 void __cdecl FUN_00406d30(char*, unsigned int, const char*);
 void __cdecl FUN_00406d50(char*, unsigned int, const char*);
 int __cdecl FUN_004812f0(const char*, const char*);
@@ -3061,8 +3073,8 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
     bool bCurrentVal = ((RadioUpdateState*)apState) == ((RadioUpdateState*)DAT_011dd42c);
     float aBound = 3000.0f;
     RadioUpdateVec3 aLight;
-    ((RadioUpdateAudio*)::FUN_00453a70())->BSAudio_GetListenerPosition(&aLight);
-    DAT_011dd5e8.FUN_004538a0(radioUpdateProfile);
+    ((RadioUpdateAudio*)::BSAudio_QInstance())->BSAudio_GetListenerPosition(&aLight);
+    DAT_011dd5e8.BSCriticalSection_Enter(radioUpdateProfile);
     RadioUpdateObj* aActor =
         ((RadioUpdateState*)apState)->sub.ptr ? ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820() : 0;
     RadioUpdateRList* aNext = &((RadioUpdateState*)apState)->list;
@@ -3079,7 +3091,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
     RadioUpdateSnd* aData = ((RadioUpdateSnd*)DAT_011dd440);
     if (((RadioUpdateState*)apState) && ((RadioUpdateState*)apState)->form)
     {
-        TESObjectACTI* act = dynamic_cast<TESObjectACTI*>(((RadioUpdateState*)apState)->form->FUN_007af430());
+        TESObjectACTI* act = dynamic_cast<TESObjectACTI*>(((RadioUpdateState*)apState)->form->BGSSaveFormBuffer_GetForm());
         if (act && ((RadioUpdateActivator*)act)->FUN_00407840())
             aData = ((RadioUpdateActivator*)act)->FUN_00407840();
     }
@@ -3120,7 +3132,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 if (aTag)
                 {
                     DAT_011dd638.Pause();
-                    FUN_008305e0();
+                    FalloutAudioMedia_MediaPause();
                 }
                 else if (bVal)
                 {
@@ -3147,11 +3159,11 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
     {
         if (DAT_011dd5bc.IsValid())
             ((RadioUpdateState*)apState)->f10 = DAT_011dd5bc.GetDuration();
-        else if (aActor && aActor->FUN_0083c820()->FUN_007af430() && FalloutAudioMedia_MediaGetDuration(7))
+        else if (aActor && aActor->FUN_0083c820()->BGSSaveFormBuffer_GetForm() && FalloutAudioMedia_MediaGetDuration(7))
             ((RadioUpdateState*)apState)->f10 = FalloutAudioMedia_MediaGetDuration(7);
     }
 
-    unsigned int aIndex = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040();
+    unsigned int aIndex = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040();
     if (((RadioUpdateState*)apState)->fc > aIndex + 100)
         ((RadioUpdateState*)apState)->fc = aIndex;
 
@@ -3161,17 +3173,17 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
         bool b4d = false;
         if (((RadioUpdateState*)apState)->sub.ptr && ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820())
         {
-            if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083b9f0())
+            if (((RadioUpdateState*)apState)->sub.ptr->Conversation_NextItem())
             {
                 b4d = true;
-                if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0084e3a0() &&
-                    !((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0084e3a0()->FUN_00579200())
+                if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() &&
+                    !((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->GetHavokWorldObjectCountInSceneGraph_0084e3a0()->TESTopicInfo_IsRunImmediately())
                     ((RadioUpdateState*)apState)
                         ->sub.ptr->FUN_0083c820()
-                        ->FUN_0084e3a0()
-                        ->FUN_0061f170(0, ((RadioUpdateState*)apState)->form);
+                        ->GetHavokWorldObjectCountInSceneGraph_0084e3a0()
+                        ->TESTopicInfo_RunResult(0, ((RadioUpdateState*)apState)->form);
                 ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0083c7b0();
-                ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040() + 50;
+                ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040() + 50;
                 ((RadioUpdateState*)apState)->f10 = 0;
                 if (((RadioUpdateState*)apState)->list.FUN_008256d0() && !((RadioUpdateState*)DAT_011dd42c))
                     ((RadioUpdateState*)apState)->sub.SetFlag100(1);
@@ -3212,19 +3224,19 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
             {
                 ((RadioUpdateState*)apState)->sub.FUN_008330b0(1);
                 AdvanceConversation(((RadioUpdateState*)apState), 0);
-                ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c470();
-                ((RadioUpdateState*)apState)->sub.ptr->FUN_0083b9a0();
+                ((RadioUpdateState*)apState)->sub.ptr->Conversation_PrecacheSounds();
+                ((RadioUpdateState*)apState)->sub.ptr->Conversation_FirstItem();
                 if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820())
                 {
                     aActor = ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820();
-                    if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0084e3a0() &&
-                        !((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0084e3a0()->FUN_00579200())
+                    if (((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->GetHavokWorldObjectCountInSceneGraph_0084e3a0() &&
+                        !((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->GetHavokWorldObjectCountInSceneGraph_0084e3a0()->TESTopicInfo_IsRunImmediately())
                         ((RadioUpdateState*)apState)
                             ->sub.ptr->FUN_0083c820()
-                            ->FUN_0084e3a0()
-                            ->FUN_0061f170(0, ((RadioUpdateState*)apState)->form);
+                            ->GetHavokWorldObjectCountInSceneGraph_0084e3a0()
+                            ->TESTopicInfo_RunResult(0, ((RadioUpdateState*)apState)->form);
                     ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820()->FUN_0083c7b0();
-                    ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040() + 50;
+                    ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040() + 50;
                     ((RadioUpdateState*)apState)->f10 = 0;
                     aNext = &((RadioUpdateState*)apState)->list;
                     while (aNext && !aNext->FUN_008256d0())
@@ -3250,15 +3262,15 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
     if (((RadioUpdateState*)apState)->sub.ptr && ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820())
     {
         aActor = ((RadioUpdateState*)apState)->sub.ptr->FUN_0083c820();
-        if (!aActor->FUN_0083c820() && !aActor->FUN_0083c7e0())
+        if (!aActor->FUN_0083c820() && !aActor->NextResponse_0083c7e0())
         {
-            ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040() + 50;
+            ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040() + 50;
             ((RadioUpdateState*)apState)->f10 = 1;
         }
     }
 
     ((RadioUpdateState*)apState)->sub.RadioEntry_Data_SetLastSignalStrength(((RadioUpdateState*)apState)->sub.GetByteAtOffset17());
-    aTmp = ((RadioUpdateState*)apState)->sub.FUN_00833c20();
+    aTmp = ((RadioUpdateState*)apState)->sub.ActiveEffect_IsActive();
     if (aTmp < 100)
         bFound = true;
 
@@ -3289,8 +3301,8 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
             continue;
         }
 
-        if ((((RadioUpdateObj*)::DAT_011dea3c)->FUN_00575d70() &&
-             ((RadioUpdateObj*)::DAT_011dea3c)->FUN_00575d70() != (*aNext->FUN_006815c0())->ref->FUN_00575d70()) ||
+        if ((((RadioUpdateObj*)::DAT_011dea3c)->TESObjectREFR_GetWorldSpace() &&
+             ((RadioUpdateObj*)::DAT_011dea3c)->TESObjectREFR_GetWorldSpace() != (*aNext->FUN_006815c0())->ref->TESObjectREFR_GetWorldSpace()) ||
             (((RadioUpdateObj*)::DAT_011dea3c)->FUN_008d6f30()->IsInterior() &&
              (*aNext->FUN_006815c0())->ref->FUN_008d6f30() != ((RadioUpdateObj*)::DAT_011dea3c)->FUN_008d6f30()))
         {
@@ -3306,15 +3318,15 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
             (*aNext->FUN_006815c0())->snd10.Stop();
             (*aNext->FUN_006815c0())->snd10.Release();
             (*aNext->FUN_006815c0())->snd10 =
-                ((RadioUpdateAudio*)::FUN_00453a70())->BSAudio_GetSoundHandleByEditorName(radioUpdateStaticSound, 0x100012);
+                ((RadioUpdateAudio*)::BSAudio_QInstance())->BSAudio_GetSoundHandleByEditorName(radioUpdateStaticSound, 0x100012);
             (*aNext->FUN_006815c0())->snd10.SetAssumeSuccess(1);
             (*aNext->FUN_006815c0())->snd10.SetPosition(pos.x, pos.y, pos.z);
-            (*aNext->FUN_006815c0())->snd10.SetVolume(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
+            (*aNext->FUN_006815c0())->snd10.SetVolume(powf_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
             (*aNext->FUN_006815c0())->snd10.Play(0);
         }
         else if (bFound)
         {
-            (*aNext->FUN_006815c0())->snd10.SetVolume(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
+            (*aNext->FUN_006815c0())->snd10.SetVolume(powf_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
             (*aNext->FUN_006815c0())->snd10.SetPosition(pos.x, pos.y, pos.z);
         }
         else if (!bFound && (*aNext->FUN_006815c0())->snd10.IsValid())
@@ -3330,17 +3342,17 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
             if (aActor && aActor->FUN_0083c820())
             {
                 char buf[0x104];
-                if (aActor->FUN_0083c820()->FUN_007af430())
+                if (aActor->FUN_0083c820()->BGSSaveFormBuffer_GetForm())
                     aEnabled = true;
                 if (aActor->FUN_0083c820() && aActor->FUN_0083c820()->FUN_006815c0()->FUN_00559450())
                 {
-                    aCont = FUN_0044a670((RadioUpdateObj*)aActor->FUN_0083c820()->FUN_006815c0()->FUN_00559450());
-                    aSame = aCont > 1 && aActor->FUN_0083c820()->FUN_00460140()->FUN_00559450();
+                    aCont = BSstrlen((RadioUpdateObj*)aActor->FUN_0083c820()->FUN_006815c0()->FUN_00559450());
+                    aSame = aCont > 1 && aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450();
                 }
                 if (aEnabled)
                 {
                     FUN_00406d30(buf, 0x104,
-                                 ((RadioUpdateBoundName*)aActor->FUN_0083c820()->FUN_007af430())->FUN_00511840());
+                                 ((RadioUpdateBoundName*)aActor->FUN_0083c820()->BGSSaveFormBuffer_GetForm())->TESSound_GetFilename());
                     if (!FUN_004812f0(buf, radioUpdateMonoSuffix))
                     {
                         char* dot = FUN_0043b9d0(buf, '.');
@@ -3357,7 +3369,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 }
                 else if (aSame)
                 {
-                    FUN_00406d30(buf, 0x104, aActor->FUN_0083c820()->FUN_00460140()->FUN_00559450());
+                    FUN_00406d30(buf, 0x104, aActor->FUN_0083c820()->TESDataHandler_GetWorldSpaceList()->FUN_00559450());
                     ((RadioUpdateState*)apState)->sub.FalloutRadio_StationState_SetPlayingSong(0);
                 }
                 else
@@ -3374,7 +3386,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 if ((*aNext->FUN_006815c0())->ref && (*aNext->FUN_006815c0())->ref->v100())
                 {
                     aRec = (*aNext->FUN_006815c0())->ref;
-                    if (aActor->FUN_0084e3a0() && aRec->FUN_004181e0() == aActor->FUN_0084e3a0()->FUN_00639b40())
+                    if (aActor->GetHavokWorldObjectCountInSceneGraph_0084e3a0() && aRec->FUN_004181e0() == aActor->GetHavokWorldObjectCountInSceneGraph_0084e3a0()->FUN_00639b40())
                         bSame = true;
                     if (aRec->v21c())
                         bNpcVal = true;
@@ -3382,18 +3394,18 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 if (aData && !bNpcVal)
                     aBound = aData->GetField45() * 110.0;
                 else if (bNpcVal)
-                    aBound = *DAT_011dd62c.FUN_00403e20() * 1.100000023841858;
+                    aBound = *DAT_011dd62c.Setting_Float_00403e20() * 1.100000023841858;
 
                 if (aBound < (aLight - pos).FUN_00457990())
                 {
                     aNext = aNext->FUN_00726070();
                     continue;
                 }
-                int elapsed = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040() - ((RadioUpdateState*)apState)->fc;
+                int elapsed = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040() - ((RadioUpdateState*)apState)->fc;
                 if (aRec && bSame)
                 {
                     aRec->v284(buf, &(*aNext->FUN_006815c0())->snd4, aActor->FUN_0083c820()->FUN_0044ddc0(),
-                               aActor->FUN_0083c820()->FUN_0084e3a0(), 0x96, aActor->FUN_0083c820()->NiAVObject_GetParent(),
+                               aActor->FUN_0083c820()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), 0x96, aActor->FUN_0083c820()->NiAVObject_GetParent(),
                                aActor->FUN_0083c820()->FUN_00441110(), (*aNext->FUN_006815c0())->ref, 0, 0, 0, 1, 1);
                 }
                 else
@@ -3402,14 +3414,14 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                     if (bNpcVal)
                     {
                         (*aNext->FUN_006815c0())->snd4 =
-                            ((RadioUpdateAudio*)::FUN_00453a70())->BSAudio_GetSoundHandleByFilename(buf, flags | 0x500102, 0);
+                            ((RadioUpdateAudio*)::BSAudio_QInstance())->BSAudio_GetSoundHandleByFilename(buf, flags | 0x500102, 0);
                         (*aNext->FUN_006815c0())
-                            ->snd4.SetMinMax(*DAT_011dd5b0.FUN_00403e20(), *DAT_011dd62c.FUN_00403e20());
+                            ->snd4.SetMinMax(*DAT_011dd5b0.Setting_Float_00403e20(), *DAT_011dd62c.Setting_Float_00403e20());
                     }
                     else
                     {
                         (*aNext->FUN_006815c0())->snd4 =
-                            ((RadioUpdateAudio*)::FUN_00453a70())->BSAudio_GetSoundHandleByFilename(buf, flags | 0x500102, aData);
+                            ((RadioUpdateAudio*)::BSAudio_QInstance())->BSAudio_GetSoundHandleByFilename(buf, flags | 0x500102, aData);
                     }
                     (*aNext->FUN_006815c0())->snd4.SetCompletionCallback(
                         reinterpret_cast<BSSoundHandle::CompletionCallback>(Callback57e0), ((RadioUpdateState*)apState));
@@ -3426,9 +3438,9 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                 if ((*aNext->FUN_006815c0())->b1d)
                     (*aNext->FUN_006815c0())->b1d = 0;
             }
-            else if (aActor && !aActor->FUN_0083c7e0() && !aActor->FUN_0083c7b0())
+            else if (aActor && !aActor->NextResponse_0083c7e0() && !aActor->FUN_0083c7b0())
             {
-                ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::FUN_00453a70())->FUN_0063d040() + 50;
+                ((RadioUpdateState*)apState)->fc = ((RadioUpdateAudio*)::BSAudio_QInstance())->FUN_0063d040() + 50;
                 ((RadioUpdateState*)apState)->f10 = 1;
             }
         }
@@ -3447,7 +3459,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
 class RadioLoadBufferView : public BGSLoadGameBuffer
 {
   public:
-    void FUN_00864980(void* apDest, unsigned int auiSize);
+    void LoadData(void* apDest, unsigned int auiSize);
     char* FUN_008649a0(char* apDest);
     unsigned int FUN_00864a60();
     unsigned int FUN_008648a0();
@@ -3465,7 +3477,7 @@ template <class T> struct RadioLoadListView : public BSSimpleList<T>
     void FUN_005ae3d0(T* item);
 };
 
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 
 struct RadioLoadStationEntry : public ::fnv_00832cb0::FUN_00833150
 {
@@ -3484,7 +3496,8 @@ struct RadioLoadStationView : public FalloutRadio::RadioStationState
 };
 
 // @fnv 0x008368b0
-void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
+// src: XBOX_PDB 0x008368b0
+void FalloutRadio_LoadGame(BGSLoadGameBuffer* apBuffer)
 {
     ::TESBoundObject* f;
     ::TESBoundObject* eb;
@@ -3498,8 +3511,8 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
     unsigned int e;
     unsigned int j;
 
-    ((RadioLoadBufferView*)apBuffer)->FUN_00864980(&::fnv_008366e0::DAT_011dd428, 4);
-    ((RadioLoadBufferView*)apBuffer)->FUN_00864980(&DAT_011dd434, 1);
+    ((RadioLoadBufferView*)apBuffer)->LoadData(&::fnv_008366e0::DAT_011dd428, 4);
+    ((RadioLoadBufferView*)apBuffer)->LoadData(&DAT_011dd434, 1);
     ((RadioLoadBufferView*)apBuffer)->FUN_008649a0(::fnv_00832240::DAT_011dd448);
 
     cf = ((RadioLoadBufferView*)apBuffer)->FUN_00864a60();
@@ -3519,11 +3532,11 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
     }
 
     f = 0;
-    f = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(((RadioLoadBufferView*)apBuffer)->FUN_008648a0()));
+    f = dynamic_cast< ::TESBoundObject*>(TESForm_GetFormByNumericID(((RadioLoadBufferView*)apBuffer)->FUN_008648a0()));
     DAT_011dd42c = (unsigned int)f;
 
     eb = 0;
-    eb = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(((RadioLoadBufferView*)apBuffer)->FUN_008648a0()));
+    eb = dynamic_cast< ::TESBoundObject*>(TESForm_GetFormByNumericID(((RadioLoadBufferView*)apBuffer)->FUN_008648a0()));
     DAT_011dd430 = (unsigned int)eb;
 
     if (apBuffer->GetVersion() >= 10)

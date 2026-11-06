@@ -39,10 +39,11 @@ bool FileEntryList::ClearData()
 
 struct FUN_008c1be0_shell
 {
-    void FUN_008c1be0(int param_1);
+    void bhkTTNode_TESObjectREFR_GetFlags(int param_1);
 };
 
-void FUN_008c1be0_shell::FUN_008c1be0(int param_1)
+// src: XBOX_PDB 0x008c1be0
+void FUN_008c1be0_shell::bhkTTNode_TESObjectREFR_GetFlags(int param_1)
 {}
 
 struct FUN_004898c0_shell
@@ -54,7 +55,7 @@ struct FUN_004898c0_shell
 // src: COMMUNITY 0x004898c0
 void FUN_004898c0_shell::BSArchive_GetFlag_(int param_1)
 {
-    ((FUN_008c1be0_shell*)((char*)this + 0xc))->FUN_008c1be0(param_1);
+    ((FUN_008c1be0_shell*)((char*)this + 0xc))->bhkTTNode_TESObjectREFR_GetFlags(param_1);
 }
 
 extern bool DAT_011acdf8;
@@ -298,14 +299,14 @@ struct FUN_00489120_cls
 };
 
 void __cdecl FUN_00406d30(char* dst, int maxLen, const char* src);
-char* __cdecl FUN_0040ab30(const char* s, int ch);
+char* __cdecl strrchr_0040ab30(const char* s, int ch);
 
 // @fnv 0x00489120
 void FUN_00489120_cls::SetFarPath(char* path)
 {
     char* ext;
     FUN_00406d30(path, 0x104, GetPath());
-    ext = FUN_0040ab30(path, 0x2e);
+    ext = strrchr_0040ab30(path, 0x2e);
     if (ext != 0)
     {
         FUN_00406d30(ext, 0x104 - (ext - path), "_far.NIF");
@@ -487,7 +488,7 @@ void FileEntryList::WriteFileEntryToBuffer(FileFormCollection* aElems, unsigned 
                     {
                         Warning_005b5e40(
                             "MASTERFILE: Failed to find archive file entry for texture on model '%s' for form %s (%08X).",
-                            model, form->GetName(), form->FUN_0084e3a0());
+                            model, form->GetName(), form->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                     }
                     else if (model != 0)
                     {
@@ -505,7 +506,7 @@ void FileEntryList::WriteFileEntryToBuffer(FileFormCollection* aElems, unsigned 
     }
 }
 
-void __cdecl FUN_004856f0(char* pcDest, const char* pcSrc, unsigned int uiSize);
+void __cdecl TESForm_AddChunkArray(char* pcDest, const char* pcSrc, unsigned int uiSize);
 
 struct FUN_004891d0_hash
 {
@@ -534,7 +535,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
     if (FUN_0048cee0())
     {
         if (pcBuffer)
-            FUN_004856f0(pcBuffer, GetPath(), FUN_0048cee0() + 1);
+            TESForm_AddChunkArray(pcBuffer, GetPath(), FUN_0048cee0() + 1);
         if (pkOut)
             m_kObjectMap.FUN_008d0600(pkOut, GetPath());
     }
@@ -555,16 +556,17 @@ extern "C" char FNV_RTTI_TESForm;
 extern "C" char FNV_RTTI_TESObjectREFR;
 extern unsigned char DAT_011831e8;
 
-FUN_004895b0_model* FUN_00481010(TESForm* form, TESObjectREFR* ref);
+FUN_004895b0_model* TESBipedModelForm_GetWorldTESModel(TESForm* form, TESObjectREFR* ref);
 
 // Calls FNV_DynamicCast and FUN_00481010, then returns v5() or an empty string.
 // @fnv 0x004895b0
-const char* FUN_004895b0(TESForm* apForm)
+// src: XBOX_PDB 0x004895b0
+const char* TESModel_GetModel_004895b0(TESForm* apForm)
 {
     FUN_004895b0_model* m = (FUN_004895b0_model*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &DAT_011831e8, 0);
     if (m == 0)
     {
-        m = FUN_00481010(apForm,
+        m = TESBipedModelForm_GetWorldTESModel(apForm,
                          (TESObjectREFR*)FNV_DynamicCast(apForm, 0, &FNV_RTTI_TESForm, &FNV_RTTI_TESObjectREFR, 0));
     }
     if (m != 0)
@@ -580,7 +582,8 @@ struct DistantModelView : TESModel
 };
 // If apForm is a TESModel, cast it to DistantModelView and call FUN_00489120 with apModelName.
 // @fnv 0x00489190
-void FUN_00489190(char* apModelName, TESForm* apForm)
+// src: XBOX_PDB 0x00489190
+void TESModel_GetDistantModelName(char* apModelName, TESForm* apForm)
 {
     TESModel* pmodel;
     if (apForm)
@@ -595,7 +598,8 @@ void FUN_00489190(char* apModelName, TESForm* apForm)
 
 // Loads texture file entries into the model's texture list from the given file, using the model's path and form context.
 // @fnv 0x004893e0
-void FUN_004893e0(TESModel* model, TESFile* file)
+// src: XBOX_PDB 0x004893e0
+void TESModel_LoadModelTextureChunk(TESModel* model, TESFile* file)
 {
     if (model && file)
         model->m_pTextureSwapData.Load(file, dynamic_cast<TESForm*>(model), model->GetModelFilePath());
@@ -612,14 +616,15 @@ void TESModel::BaseFormRecord(BaseFormComponent* component)
 }
 
 // @fnv 0x00489540
-unsigned int __cdecl FUN_00489540(void* apForm)
+// src: XBOX_PDB 0x00489540
+unsigned int __cdecl TESModel_GetModelLength(void* apForm)
 {
     void* result;
 
     result = ::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm, &::DAT_011831e8, 0);
     if (result == 0)
     {
-        result = ::FUN_00481010((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm,
+        result = ::TESBipedModelForm_GetWorldTESModel((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &::FNV_RTTI_TESForm,
                                                                                         &::FNV_RTTI_TESObjectREFR, 0));
     }
     if (result != 0)
@@ -631,7 +636,7 @@ unsigned int __cdecl FUN_00489540(void* apForm)
 
 struct ReferenceOwnerView481010
 {
-    TESForm* FUN_00567790();
+    TESForm* TESObjectREFR_GetOwner();
 };
 
 struct ActorSexView481010
@@ -643,7 +648,8 @@ int __fastcall _FNV_GetFormType(TESForm*);
 
 // Returns the biped model for a TESBipedModelForm, selecting the male or female variant based on the owner actor's sex when a reference is provided.
 // @fnv 0x00481010
-FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREFR* apReference)
+// src: XBOX_PDB 0x00481010
+FUN_004895b0_model* __cdecl TESBipedModelForm_GetWorldTESModel(TESForm* apBipedModelForm, TESObjectREFR* apReference)
 {
     TESBipedModelForm* sex = dynamic_cast<TESBipedModelForm*>(apBipedModelForm);
     TESForm* biped;
@@ -654,7 +660,7 @@ FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREF
     if (apReference == 0)
         return reinterpret_cast<FUN_004895b0_model*>(&sex->groundModel[0]);
 
-    biped = reinterpret_cast<ReferenceOwnerView481010*>(apReference)->FUN_00567790();
+    biped = reinterpret_cast<ReferenceOwnerView481010*>(apReference)->TESObjectREFR_GetOwner();
     iOwnerSex = 0;
     if (biped != 0 && _FNV_GetFormType(biped) == 0x2a)
         iOwnerSex = reinterpret_cast<ActorSexView481010*>(biped)->FUN_005f0cc0();

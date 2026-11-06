@@ -13,7 +13,7 @@ struct Sink
 };
 struct Link
 {
-    void FUN_00cb1fb0(Sink*);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(Sink*);
 };
 struct Item
 {
@@ -99,7 +99,7 @@ struct BSAudio
     int unk00, unk04, unk08, unk0C;
     void* allocator;
 };
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 class FUN_00d67ce0 : public FUN_00ddccb0,
                      public hkpContactListener,
                      public hkpWorldPostSimulationListener,
@@ -143,7 +143,7 @@ extern S_00d67e10_Registry* g_00d67e10_registry;
 extern int g_00d67e10_toiCounterId;
 void RegisterToiCounter();
 struct BSAudio;
-__declspec(nothrow) BSAudio* FUN_00c85750();
+__declspec(nothrow) BSAudio* hkMemoryRouter_getInstance();
 struct AudioHeap
 {
     char pad[0x10];
@@ -203,7 +203,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        Release(((AudioHeap*)FUN_00c85750())->heap);
+        Release(((AudioHeap*)hkMemoryRouter_getInstance())->heap);
     }
 };
 struct FUN_00d67fa0 : Base0, Iface1, Iface2, Iface3
@@ -352,7 +352,7 @@ struct Alloc
     virtual void Grow(SpawnedObject** out, unsigned int size);
 };
 struct BSAudio;
-BSAudio* FUN_00c85750() throw();
+BSAudio* hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(void* a, void* arr, unsigned int size) throw();
 struct Map
 {
@@ -387,7 +387,7 @@ struct Map
         return it <= m_hashModMask;
     }
 
-    void FUN_00cb1fb0(SpawnedObject* o) throw();
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(SpawnedObject* o) throw();
 };
 struct Array
 {
@@ -397,7 +397,7 @@ struct Array
 
     void clear()
     {
-        BSAudio* h = FUN_00c85750();
+        BSAudio* h = hkMemoryRouter_getInstance();
         Alloc* al = (Alloc*)h->allocator;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
@@ -492,7 +492,7 @@ struct BSAudioString
 
     void Release()
     {
-        hkMemoryAllocator* allocator = ((AudioCoreView*)FUN_00c85750())->m_pThreadAllocator;
+        hkMemoryAllocator* allocator = ((AudioCoreView*)hkMemoryRouter_getInstance())->m_pThreadAllocator;
         m_fRestLength = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
             allocator->bufFree(m_data, m_pRayCursor & 0x3fffffff);

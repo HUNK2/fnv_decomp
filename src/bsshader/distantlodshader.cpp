@@ -207,18 +207,20 @@ void __fastcall ReleaseLodObjects(LodShaderBase* shader, int)
 extern "C" void* g_012023c8;
 
 // @fnv 0x00bd5460
-void* __cdecl FUN_00bd5460()
+// src: XBOX_PDB 0x00bd5460
+void* __cdecl DistantLODShader_GetRTTI()
 {
     return &g_012023c8;
 }
 
 struct FUN_00bd5470_shell
 {
-    void __thiscall FUN_00bd5470(int a, char b);
+    void __thiscall DistantLODShader_SetCurrentPass(int a, char b);
 };
 
 // @fnv 0x00bd5470
-void __thiscall FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
+// src: XBOX_PDB 0x00bd5470
+void __thiscall FUN_00bd5470_shell::DistantLODShader_SetCurrentPass(int a, char b)
 {
     *reinterpret_cast<int*>(this + 0x74) = a;
     *reinterpret_cast<char*>(this + 0x78) = b;
@@ -484,7 +486,7 @@ struct FUN_00b66f20
 };
 struct MM_011f6238
 {
-    void FUN_00aa4060(void* ptr);
+    void MemoryManager_Deallocate(void* ptr);
 };
 extern MM_011f6238 DAT_011f6238;
 struct FUN_00bd5330 : BSShader
@@ -522,7 +524,7 @@ FUN_00bd5330::~FUN_00bd5330()
     }
     void* allocated = instance94;
     count98 = 0;
-    DAT_011f6238.FUN_00aa4060(allocated);
+    DAT_011f6238.MemoryManager_Deallocate(allocated);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* apValue);
@@ -725,9 +727,9 @@ struct LodCompiler
     NiRefObject* FUN_00be1750(void*, void*, unsigned int, const char*);
 };
 extern unsigned int DAT_011f91c0;
-extern "C" unsigned int __cdecl FUN_00bd5460(unsigned int);
+extern "C" unsigned int __cdecl DistantLODShader_GetRTTI(unsigned int);
 extern "C" int __cdecl FUN_00be0c00(const char*, void*);
-extern "C" int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+extern "C" int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 extern const char str_010bc23c[], str_010b8ba0[], str_010b8bc4[], str_010b8b7c[], str_010b8b74[];
 // Builds shader records and calls shader routines for the selected branch, using vs_1_1 or vs_2_0.
 // @fnv 0x00bd4f30
@@ -764,18 +766,18 @@ void LodCompiler::CompileDistanceLodShaders()
     pix[1].field0c = 0;
     pix[1].field10 = 0;
     memset(&pix[1].field14, 0, 0x38);
-    unsigned int uiShaderProfile = FUN_00bd5460(1);
+    unsigned int uiShaderProfile = DistantLODShader_GetRTTI(1);
     char scratch[260], name[260];
     if (DAT_011f91c0 == 1)
     {
         for (int i = 0; i < 2; ++i)
         {
             FUN_00be0c00(vert[i].name, scratch);
-            FUN_00406d00(name, 260, "DISTLOD1%03i.vso", i);
+            BSsprintf(name, 260, "DISTLOD1%03i.vso", i);
             vertex[i] = FUN_00be0fe0(scratch, &vert[i].shader, "vs_1_1", name);
         }
         FUN_00be0c00(pix[0].name, scratch);
-        FUN_00406d00(name, 260, "DISTLOD1%03i.pso", 0);
+        BSsprintf(name, 260, "DISTLOD1%03i.pso", 0);
         pixel[0] = FUN_00be1750(scratch, &pix[0].shader, uiShaderProfile, name);
     }
     else
@@ -783,11 +785,11 @@ void LodCompiler::CompileDistanceLodShaders()
         for (int i = 2; i < 4; ++i)
         {
             FUN_00be0c00(vert[i].name, scratch);
-            FUN_00406d00(name, 260, "DISTLOD2%03i.vso", i);
+            BSsprintf(name, 260, "DISTLOD2%03i.vso", i);
             vertex[i] = FUN_00be0fe0(scratch, &vert[i].shader, "vs_2_0", name);
         }
         FUN_00be0c00(pix[1].name, scratch);
-        FUN_00406d00(name, 260, "DISTLOD2%03i.pso", 1);
+        BSsprintf(name, 260, "DISTLOD2%03i.pso", 1);
         pixel[1] = FUN_00be1750(scratch, &pix[1].shader, uiShaderProfile, name);
     }
 }

@@ -386,7 +386,7 @@ struct SizeClassPool
     void* AllocateElement();
 };
 
-void __cdecl FUN_00d88040(int);
+void __cdecl hkSetOutOfMemoryState(int);
 
 struct ScopedCs
 {
@@ -466,7 +466,7 @@ void hkFreeListAllocator::blockAllocBatch_00d5fd70(void** apOut, int aCount, int
     self->m_20 = (int)grow;
     if (avail >= (unsigned int)self->m_a94)
     {
-        FUN_00d88040(1);
+        hkSetOutOfMemoryState(1);
     }
     LeaveCriticalSection(guard.cs);
 }
@@ -553,13 +553,13 @@ struct hkLargeBlockAllocatorW
 };
 
 bool __cdecl CompareLessThan(void* a, void* b);
-void __cdecl FUN_00dd7d00(void** arr, int lo, int hi, bool(__cdecl* cmpLess)(void*, void*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(void** arr, int lo, int hi, bool(__cdecl* cmpLess)(void*, void*));
 
 inline void quickSortPointers(void** arr, int numElem)
 {
     if (numElem > 1)
     {
-        FUN_00dd7d00(arr, 0, numElem - 1, CompareLessThan);
+        hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(arr, 0, numElem - 1, CompareLessThan);
     }
 }
 
@@ -948,7 +948,7 @@ void* hkFreeListAllocator::bufAlloc_00d5fca0(int* apSize)
         maxFree = free;
     this->m_maxFree = maxFree;
     if (free >= this->m_pFreeList)
-        FUN_00d88040(1);
+        hkSetOutOfMemoryState(1);
     LeaveCriticalSection(&this->m_lock);
     return result;
 }

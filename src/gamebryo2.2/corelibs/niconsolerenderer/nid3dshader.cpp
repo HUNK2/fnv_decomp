@@ -313,14 +313,14 @@ void __fastcall BuildVertexShader(NiD3DShader* shader, void*)
 }
 
 // Render-state group helper.
-void __fastcall FUN_00e7ef40(void*);
+void __fastcall NiD3DRenderStateGroup_RestoreRenderStates(void*);
 
 // @fnv 0x00e805f0
 unsigned int __fastcall UpdateGeometryEffects(NiD3DShader* shader, void*, void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7)
 {
     void* decl = shader->m_pkRenderStateGroup;
     if (decl)
-        FUN_00e7ef40(decl);
+        NiD3DRenderStateGroup_RestoreRenderStates(decl);
     return 0;
 }
 
@@ -409,7 +409,7 @@ struct ShaderLibrary
     virtual void v18();
     virtual void ReleaseShaderInstance(const char* pcName, unsigned int uiImpl);
 };
-ShaderLibrary* FUN_00e91f10();
+ShaderLibrary* NiD3DShaderFactory_GetD3DShaderFactory();
 
 // NiDX9Renderer::PurgeShader (0x00e75310) is not declared by the shared header.
 void PurgeD3DShader();
@@ -424,7 +424,7 @@ NiD3DShader::~NiD3DShader() throw()
 {
     if (m_kName.Exists() && m_kName.GetLength() != 0)
     {
-        ShaderLibrary* pkLib = FUN_00e91f10();
+        ShaderLibrary* pkLib = NiD3DShaderFactory_GetD3DShaderFactory();
         if (this == pkLib->AcquireShader(m_kName, GetImplementation(this)))
             pkLib->ReleaseShaderInstance(m_kName, GetImplementation(this));
         if (m_bIsBestImplementation)
@@ -1582,7 +1582,8 @@ extern "C" void __cdecl BindShaderConstants(NiD3DShader* shader, NiGeometry* geo
 extern "C" void __cdecl FUN_00e81a90();
 
 // @fnv 0x00e80570
-void __cdecl FUN_00e80570()
+// src: XBOX_PDB 0x00e80570
+void __cdecl NiD3DShader_Initialize()
 {
     FUN_00e81a90();
 }

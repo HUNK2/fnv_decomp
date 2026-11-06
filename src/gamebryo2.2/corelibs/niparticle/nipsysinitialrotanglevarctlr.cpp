@@ -74,7 +74,7 @@ extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcT
 
 struct C2A110Base
 {
-    void FUN_00c32f60(C2A110StringArray* pkStrings);
+    void NiPSysModifierFloatCtlr_GetViewerStrings(C2A110StringArray* pkStrings);
 };
 
 struct C2A110Object : C2A110Base
@@ -101,7 +101,7 @@ struct C2A110Object : C2A110Base
 // @fnv 0x00c2a110
 void C2A110Object::AppendRTTIName(C2A110StringArray* pkStrings)
 {
-    C2A110Base::FUN_00c32f60(pkStrings);
+    C2A110Base::NiPSysModifierFloatCtlr_GetViewerStrings(pkStrings);
     char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
 }

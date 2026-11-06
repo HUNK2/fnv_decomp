@@ -159,13 +159,13 @@ NiNode* TESCreature::Create3DModel(TESObjectREFR* reference)
 NiNode* TESObjectDOOR::Create3DModel(TESObjectREFR* reference)
 {
     NiNode* node = TESBoundObject::Clone3DAlt(reference);
-    if (((TESChallenge*)this)->GetFormTwo() && !BSAudio::GetSingleton()->FUN_005bb4d0())
-        BSAudio::GetSingleton()->Precache(((TESSound*)((TESChallenge*)this)->GetFormTwo())->FUN_00511840(), 0x121,
+    if (((TESChallenge*)this)->GetFormTwo() && !BSAudio::GetSingleton()->TESRegionData_GetPriority())
+        BSAudio::GetSingleton()->Precache(((TESSound*)((TESChallenge*)this)->GetFormTwo())->TESSound_GetFilename(), 0x121,
                                           ((TESChallenge*)this)->GetFormTwo());
     if (node)
     {
         NiTimeController* controller = node->GetController((const NiRTTI*)&g_011dfeac);
-        if (FUN_00517fa0() && (!reference || !reference->FUN_00477ba0()))
+        if (IsAutomaticDoor() && (!reference || !reference->FUN_00477ba0()))
         {
             if (!controller)
             {
@@ -175,13 +175,13 @@ NiNode* TESObjectDOOR::Create3DModel(TESObjectREFR* reference)
                 ((BGSAcousticSpace*)doorController)->SetNoonSound((TESSound*)&TESObjectDOOR::UpdateDoorNode);
                 doorController->SetTarget(node);
             }
-            NiExtraData* extra = node->GetExtraData(FUN_00448a80());
+            NiExtraData* extra = node->GetExtraData(BSXFlags_Tag());
             if (!extra)
             {
                 extra = new BSXFlags;
-                node->AddExtraData(FUN_00448a80(), extra);
+                node->AddExtraData(BSXFlags_Tag(), extra);
             }
-            static_cast<BSXFlags*>(extra)->FUN_00519230(true, true);
+            static_cast<BSXFlags*>(extra)->BSXFlags_SetFlags(true, true);
         }
         else if (controller)
         {
@@ -322,10 +322,11 @@ template <class C, class T, class A> class basic_string
 void __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 struct FUN_0044a730_cls : public std::basic_string<char, std::char_traits<char>, std::allocator<char> >
 {
-    void FUN_0044a730(bool, unsigned int);
+    void fopen_0044a730(bool, unsigned int);
 };
 // @fnv 0x0044a730
-void FUN_0044a730_cls::FUN_0044a730(bool _Built, unsigned int _Newsize)
+// src: XBOX_PDB 0x0044a730
+void FUN_0044a730_cls::fopen_0044a730(bool _Built, unsigned int _Newsize)
 {
     if (!_Built)
     {
@@ -466,7 +467,7 @@ void FUN_0050eaa0_shell::TESBoundObject_CopyBoundData(TESBoundObject* apCopy)
 namespace fnv_0050ebf0 {
 struct FUN_0050ebf0_shell : public TESBoundObject
 {
-    float FUN_0050ebf0();
+    float TESBoundObject_GetBoundSize();
 };
 
 struct ActorValueShortVector
@@ -480,13 +481,14 @@ struct ActorValueShortVector
 };
 
 extern double DAT_01011588;
-double __fastcall FUN_0050ec80(const ActorValueShortVector*);
+double __fastcall NiNPShortPoint3_Length(const ActorValueShortVector*);
 
 // Subtracts the ActorValueShortVector at offset 0x2a from the one at 0x24, passes the result to FUN_0050ec80, and scales it by DAT_01011588.
 // @fnv 0x0050ebf0
-float FUN_0050ebf0_shell::FUN_0050ebf0()
+// src: XBOX_PDB 0x0050ebf0
+float FUN_0050ebf0_shell::TESBoundObject_GetBoundSize()
 {
-    return FUN_0050ec80(&(((ActorValueShortVector*)((char*)this + 0x24))
+    return NiNPShortPoint3_Length(&(((ActorValueShortVector*)((char*)this + 0x24))
                               ->Subtract(*(const ActorValueShortVector*)((char*)this + 0x2a)))) *
            DAT_01011588;
 }
@@ -511,24 +513,25 @@ typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -
 typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0050ee20_shell : public TESBoundAnimObject
 {
-    bool FUN_0050ee20(char*);
+    bool TESBoundObject_Clone3D(char*);
 };
 
 // Calls the virtual function at vtable offset 0x14c with pfilename and 0, returning its bool result.
 // @fnv 0x0050ee20
-bool FUN_0050ee20_shell::FUN_0050ee20(char* pfilename)
+// src: XBOX_PDB 0x0050ee20
+bool FUN_0050ee20_shell::TESBoundObject_Clone3D(char* pfilename)
 {
     return (this->*(*(bool(FUN_0050ee20_shell::***)(char*, int))this)[0x14c / 4])(pfilename, 0);
 }
 
-void __fastcall FUN_006c8df0(void*);
+void __fastcall FindTriangleForLocationFilter_FindTriangleForLocationFilter(void*);
 extern int DAT_0106c92c;
 
 // @fnv 0x0050f6f0
 // src: EXE 0x0050f6f0
 void* __fastcall TESBoundAnimObject_TESBoundAnimObject(void* pThis)
 {
-    FUN_006c8df0(pThis);
+    FindTriangleForLocationFilter_FindTriangleForLocationFilter(pThis);
     *(int**)pThis = &DAT_0106c92c;
     return pThis;
 }
@@ -549,13 +552,13 @@ void FUN_0050f740_shell::FUN_0050f740()
 }
 
 namespace fnv_0050f7a0 {
-void __fastcall FUN_006c8df0(void*);
+void __fastcall FindTriangleForLocationFilter_FindTriangleForLocationFilter(void*);
 extern int DAT_0106c92c;
 
 // @fnv 0x0050f7a0
 void* __fastcall FUN_0050f7a0(void* pThis)
 {
-    FUN_006c8df0(pThis);
+    FindTriangleForLocationFilter_FindTriangleForLocationFilter(pThis);
     *(int**)pThis = &DAT_0106c92c;
     return pThis;
 }
@@ -639,12 +642,13 @@ FUN_005100d0_s* FUN_005100d0_s::FUN_005100d0(int)
 
 struct FUN_005102b0_shell : public TESFormList
 {
-    TESObject* FUN_005102b0(TESObject*);
+    TESObject* TESObjectList_lnk_Append(TESObject*);
 };
 
 // Calls a helper with the object and returns the resulting TESObject pointer.
 // @fnv 0x005102b0
-TESObject* FUN_005102b0_shell::FUN_005102b0(TESObject* lpNew)
+// src: XBOX_PDB 0x005102b0
+TESObject* FUN_005102b0_shell::TESObjectList_lnk_Append(TESObject* lpNew)
 {
     lpNew = InsertObjectAfter(m_pSecondObject, lpNew);
     return lpNew;
@@ -698,7 +702,8 @@ void* FUN_0050e990::DeleteThis(unsigned int flags)
 extern int DAT_012031e4;
 
 // @fnv 0x0050ea90
-int FUN_0050ea90()
+// src: XBOX_PDB 0x0050ea90
+int BSBound_Tag()
 {
     return DAT_012031e4;
 }
@@ -803,11 +808,12 @@ float ShortPoint3::GetFloatZ()
 
 struct FUN_0059b820_class : TESBoundObject
 {
-    NiNode* FUN_0059b820(TESObjectREFR* reference, bool flag);
+    NiNode* TESCaravanCard_Clone3D(TESObjectREFR* reference, bool flag);
 };
 
 // @fnv 0x0059b820
-NiNode* FUN_0059b820_class::FUN_0059b820(TESObjectREFR* reference, bool flag)
+// src: XBOX_PDB 0x0059b820
+NiNode* FUN_0059b820_class::TESCaravanCard_Clone3D(TESObjectREFR* reference, bool flag)
 {
     NiAVObject* result = Get3DObject(reference, flag);
     return static_cast<NiNode*>(result);
@@ -815,13 +821,14 @@ NiNode* FUN_0059b820_class::FUN_0059b820(TESObjectREFR* reference, bool flag)
 
 struct FUN_006055d0_class
 {
-    void FUN_0050fbf0(int);
-    void FUN_006055d0(int a);
+    void TESObject_UnClone3D(int);
+    void TESNPC_UnClone3D(int a);
 };
 // @fnv 0x006055d0
-void FUN_006055d0_class::FUN_006055d0(int a)
+// src: XBOX_PDB 0x006055d0
+void FUN_006055d0_class::TESNPC_UnClone3D(int a)
 {
-    FUN_0050fbf0(a);
+    TESObject_UnClone3D(a);
 }
 
 extern "C" void __cdecl FUN_00ec3205(int);
@@ -966,10 +973,11 @@ struct Holder
     virtual void v93() = 0;
     virtual void v94() = 0;
     virtual void vt(const char*) = 0;
-    void FUN_0050f5d0();
+    void TESBoundObject_ReplaceModel();
 };
 // @fnv 0x0050f5d0
-void Holder::FUN_0050f5d0()
+// src: XBOX_PDB 0x0050f5d0
+void Holder::TESBoundObject_ReplaceModel()
 {
     vt(TESModel::GetModelFilePath((TESObject*)this));
 }
@@ -1051,18 +1059,19 @@ struct FUN_0050ece0_class
 {
     char p[0x24];
     TESObjectBound bound;
-    void FUN_0050ece0();
+    void TESBoundObject_SaveObjectBound();
 };
-bool __cdecl FUN_00401500();
+bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl AppendChunk(char*, char*, int);
 // Calls FUN_00401500 twice around a AppendChunk call on the bound member with 0xc, invoking bound.FUN_0050ed30 when it returns true.
 // @fnv 0x0050ece0
-void FUN_0050ece0_class::FUN_0050ece0()
+// src: XBOX_PDB 0x0050ece0
+void FUN_0050ece0_class::TESBoundObject_SaveObjectBound()
 {
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         bound.TESBoundObject_BOUND_DATA_SwapEndian();
     AppendChunk((char*)0x444e424f, (char*)&bound, 0xc);
-    if (FUN_00401500())
+    if (TESForm_QEndianSwapOnSave())
         bound.TESBoundObject_BOUND_DATA_SwapEndian();
 }
 
@@ -1209,11 +1218,11 @@ void FUN_004fb990_cls::ApplyIfReady(Fb990Arg* a)
 
 struct Extra503
 {
-    short FUN_00418770();
+    short ExtraDataList_GetCount();
 };
 struct Ref503
 {
-    Extra503* FUN_005d43c0();
+    Extra503* BSFile_GetDevice();
 };
 extern Setting g_011c846c;
 struct Parent503;
@@ -1330,15 +1339,15 @@ const NiFixedString& FixedStrings_GetArrowQuiver();
 void bhkRigidBody_RemoveAllActionConstraints(Root503*);
 struct Shell503
 {
-    Root503* FUN_0050ee50(Ref503*, bool);
+    Root503* TESBoundObject_Clone3D_0050ee50(Ref503*, bool);
     Root503* GetRootAndRemoveChildren(Ref503*, bool);
 };
 // @fnv 0x00503820
 Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
 {
-    Root503* count = FUN_0050ee50(ref, flag);
-    int root = ref ? ref->FUN_005d43c0()->FUN_00418770() : 1;
-    if (count && root < *g_011c846c.FUN_0043d4d0())
+    Root503* count = TESBoundObject_Clone3D_0050ee50(ref, flag);
+    int root = ref ? ref->BSFile_GetDevice()->ExtraDataList_GetCount() : 1;
+    if (count && root < *g_011c846c.Setting_Int())
     {
         Child503* child;
         if (root == 1)
@@ -1350,7 +1359,7 @@ Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
         }
         else
         {
-            for (int i = root; i < *g_011c846c.FUN_0043d4d0(); i++)
+            for (int i = root; i < *g_011c846c.Setting_Int(); i++)
             {
                 BSStringT<char> name;
                 name.PrintfString("Arrow%d", i);
@@ -1377,7 +1386,7 @@ struct FUN_0048cee0_class
 
 struct FUN_0045a5e0_class
 {
-    void __thiscall FUN_0045a5e0(int value);
+    void __thiscall ModelLoader_ReleaseFile(int value);
 };
 
 extern FUN_0045a5e0_class* DAT_011c3b3c;
@@ -1401,15 +1410,16 @@ struct FUN_0050d600_shell
     int unk38;
     FUN_0048cee0_class unk3c;
 
-    void __thiscall FUN_0050d600(int value);
+    void __thiscall TESObjectLIGH_UnClone3D(int value);
 };
 
 // @fnv 0x0050d600
-void __thiscall FUN_0050d600_shell::FUN_0050d600(int value)
+// src: XBOX_PDB 0x0050d600
+void __thiscall FUN_0050d600_shell::TESObjectLIGH_UnClone3D(int value)
 {
     if (unk3c.FUN_0048cee0())
     {
-        DAT_011c3b3c->FUN_0045a5e0(unk3c.Slot05());
+        DAT_011c3b3c->ModelLoader_ReleaseFile(unk3c.Slot05());
     }
 }
 }  // namespace fnv_0050d600
@@ -1671,7 +1681,7 @@ struct Owner
     int FUN_00401170();
     Record* CreateRecord(Param* target, int unused);
 };
-void* __cdecl FUN_00664840(unsigned int);
+void* __cdecl BSTreeManager_GetInstance(unsigned int);
 // If FUN_00401170 returns 0x25, creates a Record via CreateTreeInstance, notifies it, and passes its secondary effect's FUN_008d6f30 result to target.
 // @fnv 0x0050f810
 Record* Owner::CreateRecord(Param* target, int unused)
@@ -1679,9 +1689,9 @@ Record* Owner::CreateRecord(Param* target, int unused)
     Record* created = 0;
     if (FUN_00401170() != 0x25)
         return 0;
-    if (FUN_00664840(1))
+    if (BSTreeManager_GetInstance(1))
     {
-        created = static_cast<FUN_00664f50_class*>(FUN_00664840(1))->CreateTreeInstance(target, this);
+        created = static_cast<FUN_00664f50_class*>(BSTreeManager_GetInstance(1))->CreateTreeInstance(target, this);
     }
     Notify(created);
     if (created && created->GetSecondary() && target)
@@ -1725,13 +1735,13 @@ struct ModelBaseType
 };
 struct ModelReference
 {
-    bool FUN_00444ed0();
-    ModelBaseType* FUN_007af430();
-    float FUN_00567400();
+    bool TESObjectREFR_IsMarker();
+    ModelBaseType* BGSSaveFormBuffer_GetForm();
+    float TESObjectREFR_GetScale_00567400();
 };
 struct CachedModel
 {
-    void FUN_0092c870();
+    void Model_IncManualRefCount();
     NiNode* NiObjectNET_GetControllers();
 };
 struct CachedModelPointer
@@ -1743,8 +1753,8 @@ struct CachedModelPointer
 };
 struct ModelCache
 {
-    void FUN_004472a0(const char*, CachedModelPointer*);
-    NiNode* FUN_00447080(const char*, unsigned int, bool, bool, bool, bool);
+    void ModelLoader_FindModel(const char*, CachedModelPointer*);
+    NiNode* ModelLoader_LoadFile(const char*, unsigned int, bool, bool, bool, bool);
 };
 extern ModelCache* DAT_011c3b3c;
 extern unsigned int DAT_011c90ac;
@@ -1754,38 +1764,38 @@ struct ModelOwner
     void FormatScaledName(ModelReference*, char*);
     NiNode* GetModelNode(ModelReference*);
 };
-unsigned int FUN_0045c6b0(ModelOwner*);
+unsigned int TES_GetLODMult(ModelOwner*);
 // @fnv 0x0050fe50
 NiNode* ModelOwner::GetModelNode(ModelReference* reference)
 {
     const char* pModelName = GetModelPathHook(reference);
     NiNode* pNode = 0;
-    if (reference && reference->FUN_00444ed0() && reference->FUN_007af430()->FUN_00401170() != 30)
+    if (reference && reference->TESObjectREFR_IsMarker() && reference->BGSSaveFormBuffer_GetForm()->FUN_00401170() != 30)
     {
         CachedModelPointer cachedModel(0);
-        DAT_011c3b3c->FUN_004472a0(pModelName, &cachedModel);
+        DAT_011c3b3c->ModelLoader_FindModel(pModelName, &cachedModel);
         if (cachedModel.FUN_00559450())
-            cachedModel.FUN_00559450()->FUN_0092c870();
+            cachedModel.FUN_00559450()->Model_IncManualRefCount();
         pNode = new BSFadeNode;
     }
     else
     {
-        unsigned int flags = FUN_0045c6b0(this);
-        if (reference && reference->FUN_00567400() != 1.0)
+        unsigned int flags = TES_GetLODMult(this);
+        if (reference && reference->TESObjectREFR_GetScale_00567400() != 1.0)
         {
             char scaledName[260];
             FormatScaledName(reference, scaledName);
             CachedModelPointer cachedScaled(0);
-            DAT_011c3b3c->FUN_004472a0(scaledName, &cachedScaled);
+            DAT_011c3b3c->ModelLoader_FindModel(scaledName, &cachedScaled);
             if (cachedScaled.FUN_00559450())
             {
-                cachedScaled.FUN_00559450()->FUN_0092c870();
+                cachedScaled.FUN_00559450()->Model_IncManualRefCount();
                 pNode = cachedScaled.FUN_00559450()->NiObjectNET_GetControllers();
                 ++DAT_011c90ac;
             }
         }
         if (!pNode)
-            pNode = DAT_011c3b3c->FUN_00447080(pModelName, flags, true, false, false, false);
+            pNode = DAT_011c3b3c->ModelLoader_LoadFile(pModelName, flags, true, false, false, false);
     }
     return pNode;
 }
@@ -1793,22 +1803,23 @@ NiNode* ModelOwner::GetModelNode(ModelReference* reference)
 
 struct Ev510Node
 {
-    void FUN_00a5a040();
-    void FUN_00a59c60(NiUpdateData& data);
+    void UpdateProperties();
+    void NiAVObject_Update(NiUpdateData& data);
 };
 
 struct Ev510Obj : TESObject
 {
-    bool FUN_00510080();
+    bool TESObject_ReplaceModel();
 };
 
 // @fnv 0x00510080
-bool Ev510Obj::FUN_00510080()
+// src: XBOX_PDB 0x00510080
+bool Ev510Obj::TESObject_ReplaceModel()
 {
     Ev510Node* p = (Ev510Node*)CreateNiNode(0);
-    p->FUN_00a5a040();
+    p->UpdateProperties();
     NiUpdateData data(0.0f, false, false);
-    p->FUN_00a59c60(data);
+    p->NiAVObject_Update(data);
     return true;
 }
 
@@ -1837,12 +1848,12 @@ void FUN_005f0d30_cls::ApplyFlagIfProbeMatches(unsigned char flag)
 
 struct FUN_0050ee50_obj
 {
-    void FUN_0050ee50(TESObjectREFR* a1, int a2);
+    void TESBoundObject_Clone3D_0050ee50(TESObjectREFR* a1, int a2);
 };
 
 struct FUN_007af430_ref
 {
-    TESForm* FUN_007af430();
+    TESForm* BGSSaveFormBuffer_GetForm();
 };
 
 struct FUN_005f8bf0_form
@@ -1955,11 +1966,11 @@ void FUN_005f8bf0_shell::CalcLeveledCreature(TESObjectREFR* pRef)
     if (GetUsesLeveledTemplate() && pRef && !pRef->HasLeveledCreatureCalced())
     {
         SetTemplateReference(pRef);
-        reinterpret_cast<FUN_005f8bf0_form*>(reinterpret_cast<FUN_007af430_ref*>(pRef)->FUN_007af430())->slot94(pRef);
+        reinterpret_cast<FUN_005f8bf0_form*>(reinterpret_cast<FUN_007af430_ref*>(pRef)->BGSSaveFormBuffer_GetForm())->slot94(pRef);
     }
     else
     {
-        reinterpret_cast<FUN_0050ee50_obj*>(this)->FUN_0050ee50(pRef, 0);
+        reinterpret_cast<FUN_0050ee50_obj*>(this)->TESBoundObject_Clone3D_0050ee50(pRef, 0);
     }
 }
 
@@ -1984,11 +1995,11 @@ class NodeLike
 class MgrLike
 {
   public:
-    void FUN_0045a5e0(char*);
+    void ModelLoader_ReleaseFile(char*);
 };
 extern MgrLike* DAT_011c3b3c;
 int FUN_00406d30(char*, unsigned int, int);
-char* FUN_0040ab30(char*, int);
+char* strrchr_0040ab30(char*, int);
 
 class FUN_005f8c70_cls
 {
@@ -1996,12 +2007,13 @@ class FUN_005f8c70_cls
     char unk00[0xdc];
     SubObj m_dc;
     char unkE0[0x118 - 0xe0];
-    void FUN_0050fbf0(int);
-    void FUN_005f8c70(int arg);
+    void TESObject_UnClone3D(int);
+    void TESCreature_UnClone3D(int arg);
 };
 
 // @fnv 0x005f8c70
-void FUN_005f8c70_cls::FUN_005f8c70(int arg)
+// src: XBOX_PDB 0x005f8c70
+void FUN_005f8c70_cls::TESCreature_UnClone3D(int arg)
 {
     char acBuffer[0x104];
     char* pcInsert;
@@ -2009,12 +2021,12 @@ void FUN_005f8c70_cls::FUN_005f8c70(int arg)
     while (p != 0 && !p->FUN_008256d0())
     {
         FUN_00406d30(acBuffer, 0x104, m_dc.s5());
-        pcInsert = FUN_0040ab30(acBuffer, 0x5c);
+        pcInsert = strrchr_0040ab30(acBuffer, 0x5c);
         FUN_00406d30(pcInsert + 1, 0x104 - (pcInsert - acBuffer) - 1, *p->FUN_006815c0());
-        DAT_011c3b3c->FUN_0045a5e0(acBuffer);
+        DAT_011c3b3c->ModelLoader_ReleaseFile(acBuffer);
         p = p->FUN_00726070();
     }
-    FUN_0050fbf0(arg);
+    TESObject_UnClone3D(arg);
 }
 }  // namespace fnv_005f8c70
 
@@ -2027,7 +2039,7 @@ struct FUN_0065de30
 struct FUN_007ab050_Class
 {
     void FUN_0044a7b0(FUN_0065de30 value);
-    void FUN_0044a730(unsigned int a, unsigned int b);
+    void fopen_0044a730(unsigned int a, unsigned int b);
     void AssignSubstring(unsigned int a, unsigned int b, unsigned int c);
     FUN_007ab050_Class* FUN_007ab050(unsigned int a, unsigned int b, unsigned int c, void* source);
 };
@@ -2036,7 +2048,7 @@ FUN_007ab050_Class* FUN_007ab050_Class::FUN_007ab050(unsigned int uiFirst, unsig
                                                      void* source)
 {
     FUN_0044a7b0(FUN_0065de30(source));
-    FUN_0044a730(0, 0);
+    fopen_0044a730(0, 0);
     AssignSubstring(uiFirst, uiSecond, uiThird);
     return this;
 }
@@ -2150,11 +2162,12 @@ struct FUN_00ac5430_cls
     unsigned int unk00;
     FUN_0044a7f0_sub m_04;
     void* m_3c;
-    void FUN_00ac5430();
+    void FutBinaryFileC_close();
 };
 
 // @fnv 0x00ac5430
-void FUN_00ac5430_cls::FUN_00ac5430()
+// src: XBOX_PDB 0x00ac5430
+void FUN_00ac5430_cls::FutBinaryFileC_close()
 {
     if (m_3c != 0)
     {
@@ -2239,11 +2252,11 @@ namespace fnv_0050ee50 {
 class Model;
 struct RefOps
 {
-    bool FUN_00444ed0();
-    TESBoundObject* FUN_007af430();
+    bool TESObjectREFR_IsMarker();
+    TESBoundObject* BGSSaveFormBuffer_GetForm();
     void FUN_00693ef0(bool);
-    float FUN_00567400();
-    const char* FUN_0055d520();
+    float TESObjectREFR_GetScale_00567400();
+    const char* TESObjectREFR_GetFullName();
 };
 struct ObjectOps
 {
@@ -2261,16 +2274,16 @@ struct NodeOps
     float GetFloatAt64();
     NiAVObject* FUN_00a5d2c0(CloningProcess&);
     void* FUN_00a5bdd0(void*);
-    void FUN_00440490(float);
+    void NiAVObject_SetScale(float);
     void FUN_00450f90(int);
-    void FUN_0043fa80(void*);
-    void FUN_00440460(void*);
+    void SetRotate_0043fa80(void*);
+    void NiAVObject_SetTranslate(void*);
     int NiAVObject_GetParent();
     void NiAVObject_DetachParent();
 };
 struct ChildOps
 {
-    void* FUN_0045bc00(unsigned int);
+    void* NiNode_GetAtChecked(unsigned int);
     Model* FUN_0043b4a0(unsigned int);
 };
 class Model
@@ -2280,7 +2293,7 @@ class Model
     Model(const char*, NiAVObject*);
     ~Model();
     NiAVObject* NiObjectNET_GetControllers();
-    void FUN_0092c870();
+    void Model_IncManualRefCount();
     void* FUN_004431f0(unsigned int);
 };
 struct ModelPointerOps
@@ -2294,16 +2307,16 @@ struct ControllerOps
 };
 struct NamedObjectOps
 {
-    void* FUN_0047a520(NiFixedString*);
+    void* NiControllerManager_GetSequenceByName(NiFixedString*);
 };
 struct LoaderOps
 {
-    void FUN_004472a0(const char*, NiPointer<Model>&);
+    void ModelLoader_FindModel(const char*, NiPointer<Model>&);
     bool CallFoo(const char*, Model*);
 };
 struct CacheOps
 {
-    NodeOps* FUN_00457ba0(NiNode*, CloningProcess&);
+    NodeOps* TES_CreateDeepCopySameTextures(NiNode*, CloningProcess&);
 };
 struct FUN_00a5ecb0 : NiMemObject
 {
@@ -2417,25 +2430,26 @@ extern unsigned int DAT_011c90a8;
 extern char DAT_011f36ac;
 extern char DAT_011a9448;
 extern char DAT_011f426c;
-bool FUN_004b5bf0(NiNode*);
-bool FUN_0062c3c0(TESObjectREFR*, NiNode*);
+bool HasMorpherController(NiNode*);
+bool TESHavokUtilities_Should3DRagDoll(TESObjectREFR*, NiNode*);
 bool TESModelTextureSwap_HasTextureSwap(TESBoundObject*, TESObjectREFR*);
-bool FUN_00569410(NiNode*);
-void* FUN_00653270(void*, NiAVObject*);
+bool FindEmittanceProperty(NiNode*);
+void* NiObject_DynamicCast(void*, NiAVObject*);
 void Warning_005b5e40(const char*, ...);
 struct CloneObject17 : TESBoundObject
 {
-    NiAVObject* FUN_0050ee50(TESObjectREFR*, bool);
+    NiAVObject* TESBoundObject_Clone3D_0050ee50(TESObjectREFR*, bool);
 };
 // @fnv 0x0050ee50
-NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClone)
+// src: XBOX_PDB 0x0050ee50
+NiAVObject* CloneObject17::TESBoundObject_Clone3D_0050ee50(TESObjectREFR* reference, bool forceClone)
 {
     NiAVObject* p = 0;
     if (this == (TESBoundObject*)DAT_011ca220 || this == (TESBoundObject*)DAT_011ca250)
         reference = 0;
     NiNode* h = CreateNiNode(reference);
-    if (reference && ((RefOps*)reference)->FUN_00444ed0() &&
-        ((ObjectOps*)((RefOps*)reference)->FUN_007af430())->FUN_00401170() != 30)
+    if (reference && ((RefOps*)reference)->TESObjectREFR_IsMarker() &&
+        ((ObjectOps*)((RefOps*)reference)->BGSSaveFormBuffer_GetForm())->FUN_00401170() != 30)
         return h;
     if (h)
     {
@@ -2448,7 +2462,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
             {
             case 21:
             case 43:
-                if (FUN_004b5bf0(h))
+                if (HasMorpherController(h))
                     forceClone = true;
             case 40:
             case 41:
@@ -2461,22 +2475,22 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
             case 28: {
                 canReuse = true;
                 NiNode* node = ((NodeOps*)h)->asNode();
-                if (node && ((ChildOps*)node)->FUN_0045bc00(0) && ((ChildOps*)node)->FUN_0043b4a0(0)->NiObjectNET_GetControllers())
+                if (node && ((ChildOps*)node)->NiNode_GetAtChecked(0) && ((ChildOps*)node)->FUN_0043b4a0(0)->NiObjectNET_GetControllers())
                 {
                     NiAVObject* p = ((ChildOps*)node)->FUN_0043b4a0(0)->NiObjectNET_GetControllers();
-                    NamedObjectOps* h = (NamedObjectOps*)FUN_00653270(&DAT_011f36ac, p);
-                    if (h && h->FUN_0047a520(get_ni_Unequip()))
+                    NamedObjectOps* h = (NamedObjectOps*)NiObject_DynamicCast(&DAT_011f36ac, p);
+                    if (h && h->NiControllerManager_GetSequenceByName(get_ni_Unequip()))
                         canReuse = false;
                 }
                 break;
             }
             default:
-                canReuse = !FUN_0062c3c0(reference, h);
+                canReuse = !TESHavokUtilities_Should3DRagDoll(reference, h);
                 break;
             }
             if (canReuse)
             {
-                ControllerOps* controller = (ControllerOps*)((NodeOps*)h)->FUN_00a5bdd0((void*)&FUN_00448a80());
+                ControllerOps* controller = (ControllerOps*)((NodeOps*)h)->FUN_00a5bdd0((void*)&BSXFlags_Tag());
                 if (controller)
                 {
                     ControllerOps* testController = controller;
@@ -2486,11 +2500,11 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
             }
             if (canReuse && TESModelTextureSwap_HasTextureSwap(this, reference))
                 canReuse = false;
-            if (canReuse && FUN_00569410(h))
+            if (canReuse && FindEmittanceProperty(h))
                 canReuse = false;
             if (canReuse)
             {
-                if (!reference || ((RefOps*)reference)->FUN_00567400() == ((NodeOps*)h)->GetFloatAt64())
+                if (!reference || ((RefOps*)reference)->TESObjectREFR_GetScale_00567400() == ((NodeOps*)h)->GetFloatAt64())
                     p = h;
             }
         }
@@ -2498,19 +2512,19 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
         {
             float scale = 1.0f;
             if (reference)
-                scale = ((RefOps*)reference)->FUN_00567400();
+                scale = ((RefOps*)reference)->TESObjectREFR_GetScale_00567400();
             if (scale == ((NodeOps*)h)->GetFloatAt64())
                 scale = 1.0f;
             if (scale == 0.0)
             {
                 Warning_005b5e40("MODELS: %s has a scale of 0.  Change it in the editor.",
-                             ((RefOps*)reference)->FUN_0055d520());
+                             ((RefOps*)reference)->TESObjectREFR_GetFullName());
                 scale = 1.0f;
             }
             CloningProcess process(scale);
             if (forceClone)
             {
-                NodeOps* pCachedNode = DAT_011dea10->FUN_00457ba0(h, process);
+                NodeOps* pCachedNode = DAT_011dea10->TES_CreateDeepCopySameTextures(h, process);
                 if (pCachedNode && pCachedNode->asNode())
                     p = pCachedNode->asNode();
                 else
@@ -2524,15 +2538,15 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 p = ((NodeOps*)h)->FUN_00a5d2c0(process);
             if (scale != 1.0 && ((NodeOps*)h)->GetFloatAt64() == 1.0)
             {
-                ((NodeOps*)p)->FUN_00440490(scale);
+                ((NodeOps*)p)->NiAVObject_SetScale(scale);
                 char filename[260];
                 ((ObjectOps*)this)->FormatScaledName(reference, filename);
                 NiPointer<Model> model(0);
-                DAT_011c3b3c->FUN_004472a0(filename, model);
+                DAT_011c3b3c->ModelLoader_FindModel(filename, model);
                 if (!((ModelPointerOps*)&model)->FUN_00559450())
                 {
                     ((ModelPointerOps*)&model)->FUN_0044aed0(new Model(filename, p));
-                    ((ModelPointerOps*)&model)->FUN_00559450()->FUN_0092c870();
+                    ((ModelPointerOps*)&model)->FUN_00559450()->Model_IncManualRefCount();
                     if (!DAT_011c3b3c->CallFoo(filename, ((ModelPointerOps*)&model)->FUN_00559450()))
                     {
                         Model* pFailedModel = ((ModelPointerOps*)&model)->FUN_00559450();
@@ -2548,7 +2562,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 {
                     if (((ModelPointerOps*)&model)->FUN_00559450()->NiObjectNET_GetControllers() &&
                         ((NodeOps*)((ModelPointerOps*)&model)->FUN_00559450()->NiObjectNET_GetControllers())->GetFloatAt64() ==
-                            ((RefOps*)reference)->FUN_00567400())
+                            ((RefOps*)reference)->TESObjectREFR_GetScale_00567400())
                     {
                         NiAVObject* replacement = _CreateNiNode(reference, forceClone);
                         return replacement;
@@ -2560,10 +2574,10 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
         }
         if (p)
         {
-            ((NodeOps*)p)->FUN_00440490(1.0f);
+            ((NodeOps*)p)->NiAVObject_SetScale(1.0f);
             ((NodeOps*)p)->FUN_00450f90(0);
-            ((NodeOps*)p)->FUN_0043fa80(&DAT_011a9448);
-            ((NodeOps*)p)->FUN_00440460(&DAT_011f426c);
+            ((NodeOps*)p)->SetRotate_0043fa80(&DAT_011a9448);
+            ((NodeOps*)p)->NiAVObject_SetTranslate(&DAT_011f426c);
             if (((NodeOps*)p)->NiAVObject_GetParent())
                 ((NodeOps*)p)->NiAVObject_DetachParent();
         }
@@ -2600,7 +2614,7 @@ class ModelForm0050fbf0
     void GetScaledModelPath(PlayerCharacter* apPlayer, char* apBuffer);
     int GetFormType();
     void TESNPC_ClearFaceGenModels();
-    void FUN_0050fbf0(PlayerCharacter* apPlayer);
+    void TESObject_UnClone3D(PlayerCharacter* apPlayer);
 };
 
 extern ModelForm0050fbf0* g_pSkipModelFormA;
@@ -2610,7 +2624,8 @@ extern int g_iReleasedModelCount;
 extern int g_iKeptModelCount;
 
 // @fnv 0x0050fbf0
-void ModelForm0050fbf0::FUN_0050fbf0(PlayerCharacter* apPlayer)
+// src: XBOX_PDB 0x0050fbf0
+void ModelForm0050fbf0::TESObject_UnClone3D(PlayerCharacter* apPlayer)
 {
     if (this == g_pSkipModelFormA || this == g_pSkipModelFormB)
         apPlayer = 0;
@@ -2854,7 +2869,7 @@ struct GrowString
     unsigned int capacity;
     unsigned int FUN_0044a9d0();
     char* std_allocator_char_allocate(unsigned int);
-    void FUN_0044a730(bool, unsigned int);
+    void fopen_0044a730(bool, unsigned int);
     char* std_string__Myptr();
     void ResizeString(unsigned int);
     void ResizeBuffer(unsigned int requested, unsigned int oldSize);
@@ -2882,13 +2897,13 @@ void GrowString::ResizeBuffer(unsigned int requested, unsigned int oldSize)
         }
         catch (...)
         {
-            FUN_0044a730(true, 0);
+            fopen_0044a730(true, 0);
             throw;
         }
     }
     if (oldSize > 0)
         std_Traits_helper_copy_s_std_char_traits_char(pNewData, uiNewCapacity + 1, std_string__Myptr(), oldSize);
-    FUN_0044a730(true, 0);
+    fopen_0044a730(true, 0);
     data = pNewData;
     capacity = uiNewCapacity;
     ResizeString(oldSize);
@@ -2905,13 +2920,13 @@ struct BaseModelForm
 };
 struct RefTarget
 {
-    BaseModelForm* FUN_009d9f00();
+    BaseModelForm* Projectile_GetSecondaryItemChange();
 };
 extern ModelLoader* DAT_011c3b3c;
 struct ProjectileShell
 {
-    int FUN_004fd4f0();
-    void FUN_0050fbf0(RefTarget* arg);
+    int BGSProjectile_GetMotionType();
+    void TESObject_UnClone3D(RefTarget* arg);
     void LoadModel(RefTarget* arg);
 };
 // For a non-null reference, passes its model name to the loader or calls FUN_0050fbf0 on selected paths.
@@ -2920,22 +2935,22 @@ void ProjectileShell::LoadModel(RefTarget* apRef)
 {
     if (apRef)
     {
-        switch (FUN_004fd4f0())
+        switch (BGSProjectile_GetMotionType())
         {
         case 0x40000:
         case 0x100000:
-            FUN_0050fbf0(apRef);
+            TESObject_UnClone3D(apRef);
             break;
         default:
             RefTarget* ref = apRef;
-            if (ref && ref->FUN_009d9f00() && ref->FUN_009d9f00()->FUN_0044ddc0())
+            if (ref && ref->Projectile_GetSecondaryItemChange() && ref->Projectile_GetSecondaryItemChange()->FUN_0044ddc0())
             {
-                const char* name = ref->FUN_009d9f00()->FUN_0044ddc0()->GetModelPathHook(0);
+                const char* name = ref->Projectile_GetSecondaryItemChange()->FUN_0044ddc0()->GetModelPathHook(0);
                 DAT_011c3b3c->QueueModelLoad(name);
             }
             else
             {
-                FUN_0050fbf0(apRef);
+                TESObject_UnClone3D(apRef);
             }
             break;
         }

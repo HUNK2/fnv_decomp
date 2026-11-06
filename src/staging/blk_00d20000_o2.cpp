@@ -128,7 +128,7 @@ void __cdecl hkpListAgent_initAgentFunc(void* apObject)
 }
 
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 
@@ -137,7 +137,7 @@ void FUN_00daf8e0();
 void __cdecl FUN_00d3dbe0(void* apObject)
 {
     ((void**)apObject)[0] = (void*)&CreateRetObj;
-    ((void**)apObject)[1] = (void*)&FUN_00d3d3e0;
+    ((void**)apObject)[1] = (void*)&hkpSphereTriangleAgent_staticGetPenetrations;
     ((void**)apObject)[2] = (void*)&FUN_00d3d8c0;
     ((void**)apObject)[3] = (void*)&FUN_00daf8e0;
     ((unsigned char*)apObject)[0x10] = 0;
@@ -163,8 +163,8 @@ void FUN_00d3dc10(void* apObject)
 
 namespace fnv_00d3fce0 {
 extern "C" void __cdecl FUN_00d3f620();
-extern "C" void __cdecl FUN_00d3f6a0();
-extern "C" void __cdecl FUN_00d3fb20();
+extern "C" void __cdecl hkpSphereSphereAgent_staticGetPenetrations();
+extern "C" void __cdecl hkpSphereSphereAgent_staticGetClosestPoints();
 extern "C" void __cdecl FUN_00daf8e0();
 
 // Stores four function pointers (FUN_00d3f620, FUN_00d3f6a0, FUN_00d3fb20, FUN_00daf8e0) into the first four slots of the object at p.
@@ -174,8 +174,8 @@ void __cdecl hkpSphereSphereAgent_initAgentFunc(void* apObject)
 {
     void** a = (void**)apObject;
     a[0] = (void*)FUN_00d3f620;
-    a[1] = (void*)FUN_00d3f6a0;
-    a[2] = (void*)FUN_00d3fb20;
+    a[1] = (void*)hkpSphereSphereAgent_staticGetPenetrations;
+    a[2] = (void*)hkpSphereSphereAgent_staticGetClosestPoints;
     a[3] = (void*)FUN_00daf8e0;
 }
 }  // namespace fnv_00d3fce0
@@ -371,7 +371,7 @@ int* values=*entries; int* current=*entries; int* end=current+count;while(curren
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
 struct IndexRemapper { IndexStorage* entries; int length; void hkUnionFind_collapseTree(); void RemapIndices(IndexBuffer*); };
 // @fnv 0x00d28120
@@ -381,7 +381,7 @@ void IndexRemapper::RemapIndices(IndexBuffer* output) {
   int* values=entries->data; int value=values[i];
   if(value<0) {
    value=-value;
-   hkMemoryRouter* manager=FUN_00c85750();
+   hkMemoryRouter* manager=hkMemoryRouter_getInstance();
    if(output->size == (output->capacityFlags & 0x3fffffffU)) ResizeAudioStream(manager->m_heap,output,4);
    int* slot = output->data + output->size; __assume(slot != 0); new (slot) int(value);
    ++output->size; entries->data[i]=nextIndex++;
@@ -485,7 +485,7 @@ inline hkMemoryAllocator& HeapD2F240(hkMemoryRouter& holder)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct D2F240Shape {
     int unk00;
@@ -522,7 +522,7 @@ public:
     virtual ~D2F240Agent();
 
     static void* operator new(unsigned int uiSize) {
-        void* p = HeapD2F240(FUN_00c85750()).blockAlloc(uiSize);
+        void* p = HeapD2F240(hkMemoryRouter_getInstance()).blockAlloc(uiSize);
         static_cast<D2F240Agent*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -634,7 +634,7 @@ int SearchObject::FUN_00d2f3d0(unsigned int arg0, unsigned int arg1, unsigned in
 }
 
 namespace fnv_00d2f430 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d2f430_CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -646,7 +646,7 @@ FnvCpu_FUN_00d2f430_CpuObject* FnvCpu_FUN_00d2f430_CpuObject::FUN_00d2f430(unsig
 {
     DestroyArray();
     if (flags & 1) {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         (reinterpret_cast<hkMemoryAllocator*>(holder->m_heap))->blockFree(this, size);
     }
     return this;
@@ -676,7 +676,7 @@ extern int DAT_010ceaa8;
 extern int DAT_0102e388;
 
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d327e0_cls {
     int m_vptr;
@@ -696,7 +696,7 @@ struct FUN_00d327e0_cls {
 FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010ceaa8;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     m_10 = 0;
     int count = m_uiItemCount;
@@ -707,7 +707,7 @@ FUN_00d327e0_cls* FUN_00d327e0_cls::Destroy(unsigned char acFlags)
     m_uiItemCount = 0x80000000;
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1) {
-        hkMemoryRouter* pHolder2 = FUN_00c85750();
+        hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
         pAllocator2->blockFree(this, m_uSize);
     }
@@ -763,13 +763,13 @@ struct FUN_00d36be0_cls
 };
 
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x00d36be0
 // src: HAVOK_LIB 0x00d36be0
 void* __cdecl hkpListAgent_createListAAgent(int a1, int a2, int a3, int a4)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     FUN_00d36be0_cls* pBlock = (FUN_00d36be0_cls*)pAlloc->blockAlloc(0x1c);
     pBlock->m_04 = 0x1c;
@@ -824,12 +824,12 @@ struct FUN_00d36f50_Obj
 };
 
 extern int DAT_0102e388;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x00d36f50
 FUN_00d36f50_Obj* __thiscall FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
 {
-    hkMemoryRouter* manager = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* manager = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(manager->m_heap);
     int capacity = unk18;
 
@@ -843,7 +843,7 @@ FUN_00d36f50_Obj* __thiscall FUN_00d36f50_Obj::FUN_00d36f50(unsigned char flag)
 
     if (flag & 1)
     {
-        manager = (hkMemoryRouter*)FUN_00c85750();
+        manager = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         allocator = reinterpret_cast<hkMemoryAllocator*>(manager->m_heap);
         allocator->blockFree(this, unk04);
     }
@@ -866,12 +866,13 @@ public:
 class D37B90Agent {
 public:
     void hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
-    void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
+    void hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
 
 // Constructs a D37B90Collector with iFilter and runs FUN_00d37010 with pkB, pkA, pkInput and the collector.
 // @fnv 0x00d37b90
-void D37B90Agent::FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter)
+// src: XBOX_PDB 0x00d37b90
+void D37B90Agent::hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, int iFilter)
 {
     D37B90Collector kCollector(iFilter);
     hkpMultiRayConvexAgent_getClosestPoints(pkB, pkA, pkInput, &kCollector);
@@ -884,7 +885,7 @@ inline hkMemoryAllocator& HeapD37DA0(hkMemoryRouter* holder)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
 }
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 
 
@@ -909,7 +910,7 @@ struct S_00d37da0_Plane {
     int unkC;
 };
 
-void FUN_00cd7160(const void* verts, S_00d37da0_Plane* out) throw();
+void hkpCollideTriangleUtil_setupClosestPointTriangleCache(const void* verts, S_00d37da0_Plane* out) throw();
 
 struct S_00d37da0_TriAgent : S_00d37da0_Agent {
     S_00d37da0_Plane m_kTriangleNormal;
@@ -919,7 +920,7 @@ struct S_00d37da0_TriAgent : S_00d37da0_Agent {
     {
         for (int i = 0; i < 8; i++)
             m_ids[i] = 0xffff;
-        FUN_00cd7160(bodyA.m_pCollisionShape + 0x20, &m_kTriangleNormal);
+        hkpCollideTriangleUtil_setupClosestPointTriangleCache(bodyA.m_pCollisionShape + 0x20, &m_kTriangleNormal);
     }
 };
 
@@ -940,7 +941,7 @@ void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5)
 }
 
 namespace fnv_00d398c0 {
-extern "C" void* __cdecl FUN_00c85750();
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl ComputeInverseLengths(const void*, void*);
 
 struct FUN_00d398c0_Vtable
@@ -991,7 +992,7 @@ extern "C" void* __cdecl CreateObjectFromFactory(
     int aiValue)
 {
     hkMemoryRouter* factory =
-        reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+        reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
 
     FUN_00d398c0_Object* object =
         reinterpret_cast<FUN_00d398c0_Object*>(
@@ -1029,7 +1030,7 @@ struct FUN_00d3b380_object
 };
 
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Allocates a 0x14-byte object from the singleton's allocator and initializes its fields, storing param_4 and a global pointer.
 // @fnv 0x00d3b380
@@ -1037,7 +1038,7 @@ extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
 void __cdecl hkpCapsuleCapsuleAgent_createCapsuleCapsuleAgent(int aiUnused1, int aiUnused2, int aiUnused3,
                          unsigned int auiValue)
 {
-    hkMemoryRouter* singleton = FUN_00c85750();
+    hkMemoryRouter* singleton = hkMemoryRouter_getInstance();
     FUN_00d3b380_object* object = static_cast<FUN_00d3b380_object*>(reinterpret_cast<hkMemoryAllocator*>(singleton->m_heap)->blockAlloc(0x14));
 
     object->unk04 = 0x14;
@@ -1055,11 +1056,12 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d3f480_CpuObject {
     void hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
-    void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, unsigned int);
 };
 // Builds a call-data record from the fourth argument, a global float and a global byte, then forwards it with the other arguments to FUN_00d3e850.
 // @fnv 0x00d3f480
-void FnvCpu_FUN_00d3f480_CpuObject::FUN_00d3f480(void* first, void* second, unsigned int third, unsigned int fourth)
+// src: XBOX_PDB 0x00d3f480
+void FnvCpu_FUN_00d3f480_CpuObject::hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getClosestPoints(void* first, void* second, unsigned int third, unsigned int fourth)
 {
     FnvCpu_FUN_00d3f480_CpuCallData data;
     data.value = fourth;
@@ -1093,7 +1095,7 @@ namespace fnv_00d3f620 {
 inline hkMemoryAllocator& HeapD3F620(hkMemoryRouter* holder)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
-}hkMemoryRouter* FUN_00c85750() throw();
+}hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 struct S_00d3f620_Mid : hkReferencedObject {
     int unk08;
@@ -1273,11 +1275,12 @@ extern int DAT_010ce81c;
 struct SpawnedBuf { void* m_iWordAt00; unsigned char m_iWordAt04; int m_8; };
 struct Wrapper {
     void ForwardToFunction(int,int,int,SpawnedBuf*);
-    void FUN_00d37bd0(int a,int b,int c,int d);
+    void hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getPenetrations(int a,int b,int c,int d);
 };
 // Builds a SpawnedBuf pointing at DAT_010ce81c with the given value and passes it to ForwardToFunction along with b, a and c.
 // @fnv 0x00d37bd0
-void Wrapper::FUN_00d37bd0(int a,int b,int c,int d) {
+// src: XBOX_PDB 0x00d37bd0
+void Wrapper::hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getPenetrations(int a,int b,int c,int d) {
     SpawnedBuf s;
     s.m_8=d; s.m_iWordAt04=0; s.m_iWordAt00=&DAT_010ce81c;
     ForwardToFunction(b,a,c,&s);
@@ -1286,7 +1289,7 @@ void Wrapper::FUN_00d37bd0(int a,int b,int c,int d) {
 typedef void (*CallbackD3D)();
 
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 void CreateTargetAgent();
@@ -1308,7 +1311,7 @@ struct AgentFuncsD3D {
 static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateRetObj;
-    pkFuncs->m_pfnB = FUN_00d3d3e0;
+    pkFuncs->m_pfnB = hkpSphereTriangleAgent_staticGetPenetrations;
     pkFuncs->m_pfnC = FUN_00d3d8c0;
     pkFuncs->m_pfnD = FUN_00daf8e0;
     pkFuncs->m_bA = false;
@@ -1496,7 +1499,7 @@ FOUND:
     }
 
     int size = curr->m_usModifierAtomSize;
-    hkMemoryRouter* mgr = FUN_00c85750();
+    hkMemoryRouter* mgr = hkMemoryRouter_getInstance();
     (reinterpret_cast<hkMemoryAllocator*>(mgr->m_heap))->blockFree(curr, size);
 }
 
@@ -1866,7 +1869,7 @@ void nullsub_15()
 
 typedef void (*CallbackD3D)();
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 void CreateTargetAgent();
@@ -2001,7 +2004,7 @@ inline hkMemoryAllocator& HeapD262(hkMemoryRouter& holder)
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
 namespace hkRouterD262 {
-    extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+    extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 
 class FUN_00d496d0 {
@@ -2014,7 +2017,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        HeapD262(hkRouterD262::FUN_00c85750()).blockFree(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
+        HeapD262(hkRouterD262::hkMemoryRouter_getInstance()).blockFree(p, static_cast<FUN_00d496d0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d496d0* FUN_00d262e0(unsigned int uiFlags) throw();
@@ -2129,7 +2132,7 @@ extern unsigned int DAT_010cefdc;
 // @fnv 0x00d3c380
 D3C380_Obj* __cdecl CreateD3C380Obj(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    hkMemoryRouter* mgr = FUN_00c85750();
+    hkMemoryRouter* mgr = hkMemoryRouter_getInstance();
     D3C380_Obj* o = (D3C380_Obj*)reinterpret_cast<hkMemoryAllocator*>(mgr->m_heap)->blockAlloc(0x10);
     o->w4 = 0x10;
     o->w6 = 1;
@@ -2158,21 +2161,21 @@ struct RetObj
 };
 
 extern int DAT_010cf060;
-extern void __cdecl FUN_00cd7160(void* src, void* dst);
+extern void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* src, void* dst);
 
 // Allocates a 0x20-byte object, sets its header fields and vtable pointer, and passes *a2 + 0x20 and its m10 block to FUN_00cd7160.
 // @fnv 0x00d3d1a0
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int aiValue)
 {
     hkMemoryRouter* o;
-    o = (hkMemoryRouter*)FUN_00c85750();
+    o = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     RetObj* mgr = (RetObj*)reinterpret_cast<hkMemoryAllocator*>(o->m_heap)->blockAlloc(0x20);
     mgr->f04 = 0x20;
     mgr->f06 = 1;
     mgr->f08 = aiValue;
     mgr->f0c = 0xffff;
     mgr->vtbl = (void*)&DAT_010cf060;
-    FUN_00cd7160(*a2 + 0x20, &mgr->m10);
+    hkpCollideTriangleUtil_setupClosestPointTriangleCache(*a2 + 0x20, &mgr->m10);
     return mgr;
 }
 
@@ -2196,7 +2199,7 @@ struct D3E270_mgr {
 // @fnv 0x00d3e270
 D3E270_obj* __cdecl FUN_00d3e270(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue)
 {
-    D3E270_mgr* mgr = (D3E270_mgr*)FUN_00c85750();
+    D3E270_mgr* mgr = (D3E270_mgr*)hkMemoryRouter_getInstance();
     D3E270_obj* o = static_cast<D3E270_obj*>(mgr->r10->blockAlloc(0x10));
     o->f04 = 0x10;
     o->f06 = 1;
@@ -2257,12 +2260,13 @@ struct D212D0Obj {
     int unk6C;
     __m128 row70;
 
-    unsigned char* FUN_00d212d0(unsigned char* out, D212D0Seg* seg, void* p3);
+    unsigned char* hkNormalTriangleShape_castRay(unsigned char* out, D212D0Seg* seg, void* p3);
 };
 
 // Normalizes the segment direction and dots it with row70; if negative calls v20, and stores in *out whether a hit was reported, else 0.
 // @fnv 0x00d212d0
-unsigned char* D212D0Obj::FUN_00d212d0(unsigned char* apHit, D212D0Seg* apSegment, void* p3)
+// src: XBOX_PDB 0x00d212d0
+unsigned char* D212D0Obj::hkNormalTriangleShape_castRay(unsigned char* apHit, D212D0Seg* apSegment, void* p3)
 {
     __m128 a = apSegment->a;
     __m128 b = apSegment->b;
@@ -2613,12 +2617,13 @@ public:
     float m_fCoefficientA;
     float m_fB;
 
-    AgentB110* FUN_00d2b110(const InputB110* pA, const InputB110* pB);
+    AgentB110* hkOrientHingedBodyAction_clone(const InputB110* pA, const InputB110* pB);
 };
 
 // Creates an AgentB110 from pA's collision body shape when pA is type 2 and pB is type 0, otherwise returns null.
 // @fnv 0x00d2b110
-AgentB110* AgentFactoryB110::FUN_00d2b110(const InputB110* apInputA, const InputB110* apInputB)
+// src: XBOX_PDB 0x00d2b110
+AgentB110* AgentFactoryB110::hkOrientHingedBodyAction_clone(const InputB110* apInputA, const InputB110* apInputB)
 {
     AutoMemContext kContext(0x10);
     if (apInputA->m_type != 2)
@@ -2657,7 +2662,7 @@ struct CountD2C9 {
 
 class FactoryD2C9 {
 public:
-    AgentD2C9* FUN_00d2c9d0(RequestD2C9* req, CountD2C9* cnt);
+    AgentD2C9* hkLiquidAction_clone(RequestD2C9* req, CountD2C9* cnt);
 
     int unk00;
     int unk04;
@@ -2672,7 +2677,8 @@ public:
 
 // Creates an AgentD2C9 when the request kind is 2 and the count is zero, copying m_v20 from the factory.
 // @fnv 0x00d2c9d0
-AgentD2C9* FactoryD2C9::FUN_00d2c9d0(RequestD2C9* apRequest, CountD2C9* apCount)
+// src: XBOX_PDB 0x00d2c9d0
+AgentD2C9* FactoryD2C9::hkLiquidAction_clone(RequestD2C9* apRequest, CountD2C9* apCount)
 {
     AutoMemContext kContext(0x10);
     if (apRequest->m_iKind != 2)
@@ -3336,7 +3342,7 @@ struct FUN_00d36b20
 
     static __forceinline void* operator new(unsigned int size) throw()
     {
-        hkMemoryRouter* manager = FUN_00c85750();
+        hkMemoryRouter* manager = hkMemoryRouter_getInstance();
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(reinterpret_cast<hkMemoryAllocator*>(manager->m_heap)->blockAlloc(size));
         object->m_usMemSizeAndFlags = (unsigned short)size;
         return object;
@@ -3358,7 +3364,7 @@ inline hkMemoryAllocator& HeapD2DC10(hkMemoryRouter& holder)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class D2DC10BaseObject {
 public:
@@ -3374,7 +3380,7 @@ public:
 
     static void* operator new(unsigned int, void* p) { return p; }
     static void operator delete(void*, void*) {}
-    static void operator delete(void* p, unsigned int nbytes) { HeapD2DC10(FUN_00c85750()).blockFree(p, nbytes); }
+    static void operator delete(void* p, unsigned int nbytes) { HeapD2DC10(hkMemoryRouter_getInstance()).blockFree(p, nbytes); }
 
     int unk04;
     int unk08;
@@ -3763,7 +3769,7 @@ struct C85Ret
 };
 
 void hkArrayUtil__reserve(void* a, void* b, int c, int d);
-int FUN_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
+int process_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
 
 static __forceinline int maxSize(int minimum, int value) {
     _ReadWriteBarrier();
@@ -3812,9 +3818,9 @@ int hkpCollectionAgent3_process(A1Rec* a1, int a2, int a3, int a4, int a5)
     o1.unk00 = &cb.z;
     cb.z.unk00 = cfret;
     cb.z.unk04 = -1;
-    result = FUN_00d35770(&o1, a2, a3, a4, a5);
+    result = process_00d35770(&o1, a2, a3, a4, a5);
     int* r18 = &shape->r18_00;
-    hkMemoryRouter* q = FUN_00c85750();
+    hkMemoryRouter* q = hkMemoryRouter_getInstance();
     void* mgr = q->m_heap;
     _ReadWriteBarrier();
     int masked = r18[2] & 0x3fffffff;

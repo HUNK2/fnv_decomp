@@ -28,7 +28,7 @@ struct FUN_00dee6b0_Class
     float FUN_00dee6b0(int testFlag);
 };
 extern int DAT_010cd664;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00dee6c0_cls
 {
     int m_vptr;
@@ -186,7 +186,8 @@ static __forceinline void calcEdgeAxis(const hkVector4& a0, const hkVector4& a1,
 }
 
 // @fnv 0x00deab10
-int __cdecl FUN_00deab10(const hkVector4* triA, const hkVector4* triB)
+// src: XBOX_PDB 0x00deab10
+int __cdecl hkGeometryProcessing_checkTrianglesIntersection(const hkVector4* triA, const hkVector4* triB)
 {
     hkVector4 axis;
     Interval a;
@@ -377,12 +378,13 @@ struct FourPointArray
 };
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator*, void*, int, int);
 // @fnv 0x00dedcf0
-void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
+// src: XBOX_PDB 0x00dedcf0
+void __cdecl hkGeometryProcessing_buildTransposedArray(const VertexArray& vertices, FourPointArray& output)
 {
     Point4 points[4];
     int used = 0;
     int count = (vertices.size + 3) >> 2;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);
     int start = output.size;
     int required = start + count;

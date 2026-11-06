@@ -50,8 +50,8 @@ public:
     void FUN_00d59200(hkArray<hkVector4>& vertices) const;
     void FUN_00d59200(hkArrayq<hkVector4q>& vertices) const throw();
     void FUN_00d59870();
-    void FUN_00d59900(const float* vertices, int byteStriding, int numVertices);
-    void FUN_00d59900(int vertices, int byteStriding, int numVertices);
+    void hkpConvexVerticesShape_copyVertexData(const float* vertices, int byteStriding, int numVertices);
+    void hkpConvexVerticesShape_copyVertexData(int vertices, int byteStriding, int numVertices);
     void FUN_00d59f40();
     hkpConvexVerticesShape* FUN_00d5a4e0(unsigned char deleting);
 

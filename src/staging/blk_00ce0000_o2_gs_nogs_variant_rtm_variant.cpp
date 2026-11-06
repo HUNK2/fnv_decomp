@@ -129,7 +129,7 @@ struct FnvSpawnedObject {
 bool __cdecl hkaSkeletonMapper_checkTransform(int unused, FnvSpawnedObject* obj);
 void __cdecl FUN_00ce2ca0(int a1, int a2, int* a3, int a4);
 void __cdecl hkaSkeletonMapper_mapExtractedMotion(int param_1, int param_2, int param_3);
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(int a1, int a2, int a3, int a4, int a5, int a6);
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4);
 struct FnvKeyRec {
     unsigned short m_iOwnerObjectOffset;
@@ -156,19 +156,19 @@ struct FUN_00ce5480_cls {
     int m_uiItemCount;
 };
 void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pBox);
-void __cdecl FUN_00d86160(void* stream, void* self);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(void* stream, void* self);
 struct FUN_00cf4490_cls {
     char unk00[0x14];
     unsigned int m_14;
     unsigned int m_18;
     unsigned char m_1c;
-    void FUN_00cf4490(void* stream);
+    void bhkVelocityConstraintMotor_SaveBinary(void* stream);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
 CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI();
 struct SerializedObject { int base00,base04,base08,base0C,base10,word14,word18;void __thiscall SerializeToStream(int source); };
-extern "C" void __cdecl FUN_00d86160(int,SerializedObject*);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(int,SerializedObject*);
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
 extern __declspec(thread) int g_iCF4BC0AllocTag;
 struct CF4BC0AllocTagScope {
@@ -214,10 +214,10 @@ public:
     void SetObject(CF4BC0Object* pkObject);
 };
 CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
-void __cdecl FUN_00cf4bc0(NiStream& kStream, CF4BC0Object* pkObject);
+void __cdecl bhkConstraintManager_SaveBinary(NiStream& kStream, CF4BC0Object* pkObject);
 extern int DAT_010cc2fc;
 extern int DAT_0102e388;
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct SubObject_b3813 {
     int unk00;
     void Release();
@@ -455,7 +455,7 @@ static inline void WriteData(NiBinaryStream* s, void* data, int size)
     unsigned int count = size;
     s->BinaryWrite(data, size, &count, 1);
 }
-void FUN_00cf09a0(NiStream* owner, Record* rec);
+void bhkPoseArray_bhkPose_SaveBinary(NiStream* owner, Record* rec);
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct ArrayData {
     unsigned int* m_data;
@@ -494,11 +494,11 @@ struct FUN_00cf4190 : FUN_00cdf560 {
 };
 extern int DAT_01268730;
 int* bhkPositionConstraintMotor_GetRTTI();
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(void* view, void* object);
 struct SerializedRecord {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     unsigned int m_14, m_18, m_1c, m_20;
-    void FUN_00cf41c0(NiStream* view);
+    void bhkPositionConstraintMotor_LoadBinary(NiStream* view);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
@@ -509,7 +509,7 @@ inline void NiStreamSaveBinaryCF46(NiBinaryStream& kStream, const T& kValue)
     unsigned int uiSize = sizeof(T);
     kStream.BinaryWrite(&kValue, sizeof(T), &uiSize, 1);
 }
-void __cdecl FUN_00d86100(NiStream* ar, void* obj);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream* ar, void* obj);
 class hkObjCF46 {
 public:
     int unk00;
@@ -787,7 +787,7 @@ inline void NiStreamLoadBinaryCF42(NiBinaryStream& kStream, T& kValue)
     kStream.BinaryRead(&kValue, sizeof(T), &uiSize, 1);
 }
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStream& kStream, SerializableCF42* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(NiStream& kStream, SerializableCF42* pkObject);
 class SerializableCF42 {
 public:
     int unk00, unk04, unk08, unk0C, unk10;
@@ -796,7 +796,7 @@ public:
     unsigned int m_uiValue1C;
     unsigned int m_uiValue20;
 
-    void FUN_00cf4260(NiStream& kStream);
+    void bhkPositionConstraintMotor_SaveBinary(NiStream& kStream);
 };
 // bhkVelocityConstraintMotor ctor (hkpVelocityConstraintMotor chain):
 // vptr(0), memSizeAndFlags(4), referenceCount(6), motor type(8), min/max force, tau, damping, velocity-clamp bool.
@@ -826,7 +826,7 @@ inline void NiStreamLoadBinaryCF44(NiBinaryStream& kStream, T& kValue)
     kStream.BinaryRead(&kValue, sizeof(T), &uiSize, 1);
 }
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStream& kStream, SerializableCF44* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream& kStream, SerializableCF44* pkObject);
 class SerializableCF44 {
 public:
     int unk00, unk04, unk08, unk0C, unk10;
@@ -834,7 +834,7 @@ public:
     unsigned int m_uiValue18;
     unsigned char m_ucValue1C;
 
-    void FUN_00cf4400(NiStream& kStream);
+    void bhkVelocityConstraintMotor_LoadBinary(NiStream& kStream);
 };
 class CF4BC0SaverLoader {
 public:
@@ -847,7 +847,7 @@ public:
 struct TagState { int oldTag; int newTag; };
 __forceinline TagState GetTag(int tag) { TagState state={g_iCF4BC0AllocTag,tag}; return state; }
 struct AllocScope { int saved; AllocScope(TagState t):saved(t.oldTag){g_iCF4BC0AllocTag=t.newTag;} ~AllocScope(){g_iCF4BC0AllocTag=saved;} };
-hkReferencedObject* __cdecl FUN_00cf4af0(NiStream& kStream);
+hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream);
 void FUN_00cf6d10();
 class hkRefObjCF70 : public hkBaseObject {
 public:
@@ -883,7 +883,7 @@ static void FUN_00ce2a50(hkVector4* a, hkVector4* b);
 void CallerX(hkVector4* a, hkVector4* b);
 struct SubMatrix {
     __m128 m_row[4];
-    void FUN_00cb2d90(const float* pQuat);
+    void hkRotation_set(const float* pQuat);
 };
 struct TransformOwner {
     int unk00;
@@ -1156,10 +1156,10 @@ struct MapperX {
     PoseX motion;
     BoolX keepLocal;
     int property;
-    void __cdecl FUN_00ce3090(const PoseX*, PoseX*, const short*, const short*, bool) const;
+    void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(const PoseX*, PoseX*, const short*, const short*, bool) const;
 };
 extern void __cdecl FUN_00ce2f30(const PoseX*, const PoseX*, const short*, int, PoseX*) throw();
-extern void __cdecl FUN_00ce2f40(const PoseX*, const PoseX*, const short*, int, PoseX*) throw();
+extern void __cdecl hkaSkeletonMapper_additivePoseFromCombinedPoseAndReferencePose(const PoseX*, const PoseX*, const short*, int, PoseX*) throw();
 extern void __cdecl FUN_00ce2ca0(int, PoseX&, const PoseX&, const PoseX&) throw();
 
 struct ClockEventX { const char* tag; unsigned stamp; int unused; };
@@ -1204,7 +1204,7 @@ public:
     __forceinline T get() const throw() { return value; }
 };
 template<class T> __forceinline T* stackAllocateX(int n) {
-    T** top=(T**)FUN_00c85750();
+    T** top=(T**)hkMemoryRouter_getInstance();
     T* result=*top;
     *top=(T*)((char*)result+((n*int(sizeof(T))+127)&~127));
     return result;
@@ -1214,7 +1214,7 @@ template<class T> struct BufferX {
     int debugSize;
     __forceinline BufferX(int n) throw() { data=stackAllocateX<T>(n); }
     __forceinline T* begin() throw() { return data; }
-    __forceinline ~BufferX() throw() { *(T**)FUN_00c85750()=data.get(); }
+    __forceinline ~BufferX() throw() { *(T**)hkMemoryRouter_getInstance()=data.get(); }
 };
 static __declspec(noinline) void FUN_00ce2a50(hkVector4& a,hkVector4& b) throw() {
     hkVector4 al; al.getQuad()=a.dot3(a).broadcast();
@@ -1229,7 +1229,8 @@ static __declspec(noinline) void FUN_00ce2a50(hkVector4& a,hkVector4& b) throw()
 }
 
 // @fnv 0x00ce3090
-void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const short* mapA,const short* mapB,bool additive) const {
+// src: XBOX_PDB 0x00ce3090
+void __cdecl MapperX::hkaSkeletonMapper_mapPoseLocalSpace(const PoseX* original,PoseX* output,const short* mapA,const short* mapB,bool additive) const {
     {
         ClockX& timer=ClockX::instance();
         if(timer.current<timer.end) {
@@ -1329,7 +1330,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             output[d].rotation.setMul(r.end.rotation,input[b].rotation);
         }
     }
-    if(additive) FUN_00ce2f40(output,second->reference.begin(),mapB,second->bones.count(),output);
+    if(additive) hkaSkeletonMapper_additivePoseFromCombinedPoseAndReferencePose(output,second->reference.begin(),mapB,second->bones.count(),output);
     {
         ClockX& timer=ClockX::instance();
         if(timer.current<timer.end) {

@@ -188,7 +188,7 @@ public:
 class JobTarget
 {
 public:
-    void FUN_00d04380();
+    void hkSemaphore_acquire();
 };
 struct __declspec(align(16)) AutoJob
 {
@@ -342,7 +342,7 @@ template <class T> __forceinline void ArrClearFree(hkArray<T>& arr)
     arr.m_data = 0;
     arr.m_iCapacityState = 0x80000000;
 }
-void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
+void __cdecl hkTreeBundleRayCastUtil_startWorldRayCastWithAutoBundleJobs(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
 extern "C" LocalM128 _mm_max_ps(LocalM128, LocalM128);
 namespace SplineMax {
 // Kept POD: FUN_00e314c0 returns this vector by value through the hidden pointer.

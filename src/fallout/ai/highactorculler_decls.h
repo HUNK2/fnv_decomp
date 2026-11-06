@@ -38,7 +38,7 @@ class MobileObject : public TESObjectREFR
 class HighActorCullerCell : public TESObjectCELL
 {
   public:
-    BSPortalGraph* FUN_009d9f20();
+    BSPortalGraph* GetPortalGraph_009d9f20();
 };
 class TESWorldSpace
 {
@@ -66,13 +66,13 @@ class NiAVObject
 class BSFadeNode : public NiAVObject
 {
   public:
-    bool FUN_00552470() const;
+    bool NiNode_QNotVisible() const;
     void SetTaskFlag(bool culled);
 };
 class NiCamera : public NiAVObject
 {
   public:
-    const NiPoint3& FUN_0045bb80() const;
+    const NiPoint3& NiAVObject_GetWorldTranslate() const;
 };
 
 class NiFrustum

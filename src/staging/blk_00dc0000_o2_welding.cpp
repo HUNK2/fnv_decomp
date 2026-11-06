@@ -18,7 +18,7 @@ struct S_00ddecf0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddecf0_Router* FUN_00c85750();
+S_00ddecf0_Router* hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* heap, void* arr, int elemSize) throw();
 
 extern const char DAT_010d8038[];
@@ -85,7 +85,7 @@ static __declspec(noinline) S00ddf070_Node* _newNode(S00ddf070_Node* parent, con
             {
                 S00ddf070_StringPtr strName;
                 strName.FUN_00cb0b80(name);
-                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&FUN_00c85750()->heap();
+                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&hkMemoryRouter_getInstance()->heap();
                 if (strings->m_iElementCount == (strings->m_iCapacityState & 0x3fffffff))
                     ResizeAudioStream(&heap, strings, 4);
                 S00ddf070_StringPtr* dest = strings->m_data + strings->m_iElementCount;
@@ -96,7 +96,7 @@ static __declspec(noinline) S00ddf070_Node* _newNode(S00ddf070_Node* parent, con
             }
             name = strings->back().cString();
         }
-        void* mem = ((S00ddf070_Heap*)&FUN_00c85750()->heap())->AllocateMemoryBlock(0x58);
+        void* mem = ((S00ddf070_Heap*)&hkMemoryRouter_getInstance()->heap())->AllocateMemoryBlock(0x58);
         child = mem ? ((S00ddf070_Node*)mem)->FUN_00e0d000(parent, name, 1) : 0;
     }
     child->m_uiFilterValue[0] += (float)value;

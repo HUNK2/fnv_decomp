@@ -7,7 +7,7 @@
 class PathingRequestUnknown : public PathingRequest
 {
 };
-bool FUN_006d0b10(PathingRequest*, PathingSolution*);
+bool Pathing_Pathfind(PathingRequest*, PathingSolution*);
 bool Pathing_BuildFleePath(PathingRequestClosePoint*, PathingSolution*);
 bool Pathing_BuildCoveredMovePath(PathingRequestUnknown*, PathingSolution*);
 

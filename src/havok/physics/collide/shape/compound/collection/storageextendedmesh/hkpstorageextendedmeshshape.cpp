@@ -489,7 +489,7 @@ class FUN_00d569c0 : public hkpShape, public hkpShapeContainer
     char m_padE8[0x8];
 
     FUN_00d569c0(hkReal fRadius, int iNumBitsForSubpartIndex) throw();
-    void FUN_00d55950() throw();
+    void hkpExtendedMeshShape_recalcAabbExtents() throw();
 };
 
 class FUN_00d4aa70 : public FUN_00d569c0
@@ -500,7 +500,7 @@ class FUN_00d4aa70 : public FUN_00d569c0
     char m_pad108[0x8];
 
     FUN_00d4aa70(const FUN_00d569c0* pkMesh) throw();
-    void FUN_00d4a2b0(const hkpTrianglesSubpartD4AA& kPart) throw();
+    void addTrianglesSubpart(const hkpTrianglesSubpartD4AA& kPart) throw();
     void addShapesSubpart(const hkpShapesSubpartD4AA& kPart) throw();
 };
 
@@ -516,13 +516,13 @@ FUN_00d4aa70::FUN_00d4aa70(const FUN_00d569c0* pkMesh) throw()
     m_bDisableWelding = pkMesh->m_bDisableWelding;
 
     for (int i = 0; i < pkMesh->m_kTrianglesSubparts.GetLogicalSize(); i++)
-        FUN_00d4a2b0(pkMesh->m_kTrianglesSubparts[i]);
+        addTrianglesSubpart(pkMesh->m_kTrianglesSubparts[i]);
     for (int i = 0; i < pkMesh->m_kShapesSubparts.GetLogicalSize(); i++)
         addShapesSubpart(pkMesh->m_kShapesSubparts[i]);
 
     m_kWeldingInfo = pkMesh->m_kWeldingInfo;
     m_eWeldingType = pkMesh->m_eWeldingType;
-    FUN_00d55950();
+    hkpExtendedMeshShape_recalcAabbExtents();
 }
 }  // namespace fnv_00d4aa70
 
@@ -900,8 +900,8 @@ int hkpStorageExtendedMeshShape::addShapesSubpart(const TrianglesSubpart& partIn
         part.m_pIndexBase = materials.begin();
     }
 
-    FUN_00d55950();
-    m_iNumTriangles += FUN_00d55520(part);
+    hkpExtendedMeshShape_recalcAabbExtents();
+    m_iNumTriangles += hkpExtendedMeshShape__getNumChildShapesInShapesSubpart(part);
     return m_kShapesSubparts.m_iElementCount - 1;
 }
 

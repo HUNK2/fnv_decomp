@@ -75,7 +75,7 @@ struct StubHeapHolder
     int unk0C;
     void* heap;
 };
-StubHeapHolder* FUN_00c85750();
+StubHeapHolder* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* heap, void* arr, int elemSize);
 
 template <class T> struct StubArray
@@ -94,7 +94,7 @@ template <class T> struct StubArray
     }
     void Add(const T& v)
     {
-        StubHeapHolder* h = FUN_00c85750();
+        StubHeapHolder* h = hkMemoryRouter_getInstance();
         if (count == (int)(capacity & 0x3fffffff))
             ResizeAudioStream(h->heap, this, sizeof(T));
         Construct(data + count, 1, v);
@@ -108,7 +108,7 @@ struct StubVecArray
     unsigned int capacity;
     void Add(const __m128& v)
     {
-        StubHeapHolder* h = FUN_00c85750();
+        StubHeapHolder* h = hkMemoryRouter_getInstance();
         if (count == (int)(capacity & 0x3fffffff))
             ResizeAudioStream(h->heap, this, sizeof(__m128));
         data[count] = v;

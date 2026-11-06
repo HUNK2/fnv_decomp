@@ -136,7 +136,7 @@ struct LongRayVm
     const void* m_pShapeCollection;
     int m_iCurrentChunkId;
 
-    void FUN_00dd1f30(const LongRayQueryInt* query, const unsigned char* PC, LongRayQueryFloat* fq, int level);
+    void hkpMoppLongRayVirtualMachine_queryRayOnTree(const LongRayQueryInt* query, const unsigned char* PC, LongRayQueryFloat* fq, int level);
     LongRayBool FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
                              void* collector);
 };
@@ -168,13 +168,14 @@ LongRayBool LongRayVm::FUN_00dd2df0(const void* collection, const LongRayCode* c
         query.m_iIndex = 0;
         query.m_properties0 = 0;
         m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
-        FUN_00dd1f30(&query, PC, &fq, 0);
+        hkpMoppLongRayVirtualMachine_queryRayOnTree(&query, PC, &fq, 0);
         return m_bRayCastEnabled;
     }
 }
 
 extern void continueRayTraversal(LongRayVm*, const LongRayQueryInt*, const unsigned char*, LongRayQueryFloat*, int);
-__declspec(noinline) void LongRayVm::FUN_00dd1f30(const LongRayQueryInt* query, const unsigned char* PC,
+// src: XBOX_PDB 0x00dd1f30
+__declspec(noinline) void LongRayVm::hkpMoppLongRayVirtualMachine_queryRayOnTree(const LongRayQueryInt* query, const unsigned char* PC,
                                                   LongRayQueryFloat* fq, int level)
 {
     LongRayQueryFloat ray = *fq;
@@ -337,10 +338,11 @@ struct MoppMachine
         return fraction;
     }
     __forceinline void GetHitDistance(unsigned, const unsigned*);
-    void FUN_00dd1f30(const RayState*, const unsigned char*, RayPair*, int);
+    void hkpMoppLongRayVirtualMachine_queryRayOnTree(const RayState*, const unsigned char*, RayPair*, int);
 };
 // @fnv 0x00dd1f30
-void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code, RayPair* ray, int codeOffset)
+// src: XBOX_PDB 0x00dd1f30
+void MoppMachine::hkpMoppLongRayVirtualMachine_queryRayOnTree(const RayState* state, const unsigned char* code, RayPair* ray, int codeOffset)
 {
     RayState localState;
     if (!DAT_01269cbd)
@@ -481,7 +483,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromLower / (fromLower - toLower);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                FUN_00dd1f30(state, code + skipLeft - skipRight, &branch, codeOffset);
+                hkpMoppLongRayVirtualMachine_queryRayOnTree(state, code + skipLeft - skipRight, &branch, codeOffset);
                 if (toUpper * fromUpper < 0.0)
                 {
                     float ratio = fromUpper / (fromUpper - toUpper);
@@ -506,7 +508,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromUpper / (fromUpper - toUpper);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                FUN_00dd1f30(state, code, &branch, codeOffset);
+                hkpMoppLongRayVirtualMachine_queryRayOnTree(state, code, &branch, codeOffset);
                 if (toLower * fromLower < 0.0)
                 {
                     float ratio = fromLower / (fromLower - toLower);

@@ -335,10 +335,11 @@ struct NiPSysParticle
     unsigned char m_ucSpawnGeneration;
     float m_fMass;
     float m_pfTreeSize;
-    void FUN_00c32020(NiPSysParticle* dst, CloningProcess* proc);
+    void NiPSysFieldModifier_CopyMembers(NiPSysParticle* dst, CloningProcess* proc);
 };
 // @fnv 0x00c32020
-void NiPSysParticle::FUN_00c32020(NiPSysParticle* dst, CloningProcess* proc)
+// src: XBOX_PDB 0x00c32020
+void NiPSysParticle::NiPSysFieldModifier_CopyMembers(NiPSysParticle* dst, CloningProcess* proc)
 {
     ((NiPSysModifier*)this)->CopyMemberData((NiPSysModifier*)dst, *proc);
     dst->m_pSys = m_pSys;
@@ -949,18 +950,20 @@ BSFadeNode* __cdecl CreatePSysFactoryObjectB52()
 extern bool __cdecl IsEquivalentTo(int param1, int param2);
 
 // @fnv 0x00c32df0
-bool __cdecl FUN_00c32df0(int param1, int param2)
+// src: XBOX_PDB 0x00c32df0
+bool __cdecl NiPSysModifierBoolCtlr_IsEqual(int param1, int param2)
 {
     return IsEquivalentTo(param1, param2);
 }
 
 struct NiPSysBoxEmitterWrapper : NiPSysBoxEmitter
 {
-    void FUN_00c31b10(NiPSysModifier* destination, CloningProcess& process);
+    void NiPSysVolumeEmitter_CopyMembers(NiPSysModifier* destination, CloningProcess& process);
 };
 
 // @fnv 0x00c31b10
-void NiPSysBoxEmitterWrapper::FUN_00c31b10(NiPSysModifier* destination, CloningProcess& process)
+// src: XBOX_PDB 0x00c31b10
+void NiPSysBoxEmitterWrapper::NiPSysVolumeEmitter_CopyMembers(NiPSysModifier* destination, CloningProcess& process)
 {
     CopyTo(destination, process);
 }
@@ -1003,7 +1006,7 @@ struct TrailFrame
     TrailVector* normal;
     TrailVector* binormal;
 };
-void __cdecl FUN_00a62be0(TrailFrame*, TrailRecord*, TrailVector*, float, TrailVector*, TrailVector*, TrailVector*);
+void __cdecl NiRenderer_PackParticleStripUtil_GetVerts(TrailFrame*, TrailRecord*, TrailVector*, float, TrailVector*, TrailVector*, TrailVector*);
 struct TrailSystem
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1043,7 +1046,7 @@ void TrailSystem::AddTrailPoint(unsigned short index, float unused)
             frame.normal = &buffer->records[before].normal;
             frame.binormal = &buffer->records[before].binormal;
         }
-        FUN_00a62be0(&frame, &buffer->records[previous], &positions[index], buffer->records[previous].Radius(),
+        NiRenderer_PackParticleStripUtil_GetVerts(&frame, &buffer->records[previous], &positions[index], buffer->records[previous].Radius(),
                      &buffer->records[previous].direction, &buffer->records[previous].normal,
                      &buffer->records[previous].tangent);
     }
@@ -1072,7 +1075,7 @@ void TrailSystem::AddTrailPoint(unsigned short index, float unused)
     buffer->records[next].scale = scales[index];
     if (colors)
         buffer->records[next].color = colors[index];
-    FUN_00a62be0(&frame, &buffer->records[next], 0, buffer->records[next].Radius(), &buffer->records[next].direction,
+    NiRenderer_PackParticleStripUtil_GetVerts(&frame, &buffer->records[next], 0, buffer->records[next].Radius(), &buffer->records[next].direction,
                  &buffer->records[next].normal, &buffer->records[next].tangent);
     if (buffer->count < maxCount)
     {

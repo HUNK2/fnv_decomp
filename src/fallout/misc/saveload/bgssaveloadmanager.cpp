@@ -27,7 +27,7 @@ public:
     void XGamerProfile_SetPlayingFlag(bool);
     bool XGamerProfile_GetRumbleDefault();
     bool XGamerProfile_RedeemCode(char*);
-    bool FUN_00a26020(char const*);
+    bool XGamerProfile_IsCodeRedeemed(char const*);
     void XGamerProfile_RevokeCode(char*);
 };
 #include "../../../../include/BSAudio.h"
@@ -133,7 +133,7 @@ class ChallengeManager
 class ModelLoader
 {
   public:
-    void FUN_00448620(bool);
+    void ModelLoader_ClearUnusedModels(bool);
     void CancelAllFiles_00448420();
 };
 class VATS
@@ -146,26 +146,26 @@ class VATS
 class GlobalObject_009c6a30
 {
   public:
-    void FUN_009c8950(bool, bool);
+    void QuitVATSPlayback(bool, bool);
 };
 extern GlobalObject_009c6a30 g_011f2250;
 extern PlayerCharacter* g_thePlayer;
 extern TES* g_TES;
 extern ModelLoader* g_modelLoader;
-BGSSaveLoadUI_bgssaveloadmanager* __cdecl FUN_00a25920();
+BGSSaveLoadUI_bgssaveloadmanager* __cdecl XGamerProfile_Instance();
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting16;
-void __cdecl FUN_00830660();
+void __cdecl FalloutAudioMedia_MediaMenuUnPause();
 class GlobalObject_0096d020
 {
   public:
-    void FUN_00977660();
+    void ProcessLists_RebuildActorsCloseToPlayer();
 };
 extern GlobalObject_0096d020 g_011e0e80;
 class PathManager
 {
   public:
     static PathManager* GetRandomGenerator();
-    void FUN_006ebcd0();
+    void PathManager_Resume();
     bool CallMemberFunction();
     void CallInner();
 };
@@ -346,7 +346,7 @@ bool BGSSaveLoadManager::LoadGame(const char* name, int deviceID, bool recent, b
         if (pSaveLoadFile)
             file = pSaveLoadFile;
         else
-            file = FUN_00850030(name, 0, 1, deviceID);
+            file = OpenSaveFile_00850030(name, 0, 1, deviceID);
         result = false;
         if (file)
         {
@@ -440,8 +440,8 @@ void BGSSaveLoadManager::FinishLoadingGame()
     ChallengeManager::CheckCompletedChallenges();
     reinterpret_cast<Main*>(g_osGlobals)->OnGameLoaded();
     reinterpret_cast<Main*>(g_osGlobals)->RunScripts();
-    g_modelLoader->FUN_00448620(false);
-    g_TES->FUN_00459a00();
+    g_modelLoader->ModelLoader_ClearUnusedModels(false);
+    g_TES->TES_UpdateFadeNodesForAttachedCells();
     reinterpret_cast<ActorMover*>(g_osGlobals)->RefreshMovementState();
     reinterpret_cast<GridCellArray*>(reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(g_TES)->GetSize())
         ->ReleaseGridCells();
@@ -449,21 +449,21 @@ void BGSSaveLoadManager::FinishLoadingGame()
     TESWorldSpace* world = g_thePlayer->GetParentWorldSpace();
     if (world)
         world->GetWorldTerrainManager()->Update(*static_cast<const TESObjectREFR*>(g_thePlayer)->GetPos(), 15);
-    if (FUN_00a25920())
+    if (XGamerProfile_Instance())
     {
-        FUN_00a25920()->XGamerProfile_SetPlayingFlag(true);
-        FUN_00a25920()->XGamerProfile_ForcePresenceUpdate();
+        XGamerProfile_Instance()->XGamerProfile_SetPlayingFlag(true);
+        XGamerProfile_Instance()->XGamerProfile_ForcePresenceUpdate();
     }
     reinterpret_cast<FaderManager*>(DAT_011d8804)
         ->BeginFade((FADER_ENUM)1, *originalRuntimeFloatSetting16.Float(), true);
     LoadingMenu::UpdateLoadingScreenThread();
     g_TES->RefreshWorldState(0, 0, 0);
-    BSAudio::GetSingleton()->FUN_00ad8740();
-    FUN_00830660();
-    g_011e0e80.FUN_00977660();
-    g_BGSSaveLoadGame->FUN_0084cc40(false);
+    BSAudio::GetSingleton()->UnPauseSynchTimer();
+    FalloutAudioMedia_MediaMenuUnPause();
+    g_011e0e80.ProcessLists_RebuildActorsCloseToPlayer();
+    g_BGSSaveLoadGame->SetPlayerLocationInvalid_0084cc40(false);
     NavMeshObstacleManager::GetSingleton()->ResetObstacles();
-    PathManager::GetRandomGenerator()->FUN_006ebcd0();
+    PathManager::GetRandomGenerator()->PathManager_Resume();
 }
 
 // @fnv 0x00850c20
@@ -474,15 +474,15 @@ void BGSSaveLoadManager::ProcessQueuedLoads()
     Script_ClearButtonPressed();
     Script_ClearOptimizations();
     ScriptLocals_ClearOptimizations();
-    BSAudio::GetSingleton()->FUN_00ad84e0(-1, false);
-    bool wasMultiThreaded = BSAudio::GetSingleton()->FUN_005bb4d0();
+    BSAudio::GetSingleton()->BSAudio_KillAllOfType(-1, false);
+    bool wasMultiThreaded = BSAudio::GetSingleton()->TESRegionData_GetPriority();
     BSAudio::GetSingleton()->SetUseMultipleThreads(false);
     for (unsigned int index = 0; index < 10; ++index)
         BSAudio::GetSingleton()->Update(false);
     BSAudio::GetSingleton()->SetUseMultipleThreads(wasMultiThreaded);
     if (reinterpret_cast<HUDMainMenu*>(&g_011f2250)->RefreshTargetDisplay())
     {
-        g_011f2250.FUN_009c8950(true, false);
+        g_011f2250.QuitVATSPlayback(true, false);
         reinterpret_cast<NiPoint3Interpolator*>(&g_011f2250)->CreateObject(0, false);
     }
     reinterpret_cast<GameTimerRecord*>(&g_timeGlobal)->SetGlobalTimeMultiplier(1.0f, true);
@@ -532,8 +532,8 @@ bool BGSSaveLoadManager::CanSave(bool skipMenus)
 {
     if (g_thePlayer)
     {
-        if ((unsigned int)((GameSettingCollection*)g_thePlayer)->FUN_004f8960() == 2 ||
-            (unsigned int)((GameSettingCollection*)g_thePlayer)->FUN_004f8960() == 1)
+        if ((unsigned int)((GameSettingCollection*)g_thePlayer)->GameSettingCollection_File() == 2 ||
+            (unsigned int)((GameSettingCollection*)g_thePlayer)->GameSettingCollection_File() == 1)
             return false;
         if (g_thePlayer->GetUnderAIControl())
             return false;
@@ -615,7 +615,7 @@ void BGSSaveLoadManager::EnsureFosExtension(char* apFileName, char* apFullFileNa
         SaveLoadString::strcat_s(apFullFileName, 0x104, ".fos");
 }
 
-int __cdecl FUN_00408b20(const char*, const char*);
+int __cdecl BSstrcmp(const char*, const char*);
 
 // @fnv 0x00851250
 void BGSSaveLoadManager::SetSaveFileName(char* apSaveFileName, int aiDeviceID)
@@ -623,7 +623,7 @@ void BGSSaveLoadManager::SetSaveFileName(char* apSaveFileName, int aiDeviceID)
     if (!apSaveFileName)
         return;
 
-    if (pMostRecentSaveGame && !FUN_00408b20(pMostRecentSaveGame, apSaveFileName))
+    if (pMostRecentSaveGame && !BSstrcmp(pMostRecentSaveGame, apSaveFileName))
         return;
 
     delete pMostRecentSaveGame;
@@ -635,15 +635,15 @@ void BGSSaveLoadManager::SetSaveFileName(char* apSaveFileName, int aiDeviceID)
 
 struct IOManager;
 extern IOManager* DAT_01202d98;
-extern void __fastcall FUN_00c3e340(IOManager*);
+extern void __fastcall IOManager_Resume(IOManager*);
 
 // Calls FUN_00c3e340 on DAT_01202d98, then calls FUN_006ebcd0 on the PathManager singleton.
 // @fnv 0x00850bf0
 // src: COMMUNITY 0x00850bf0
 void BGSSaveLoadManager::EndSaveGame()
 {
-    FUN_00c3e340(DAT_01202d98);
-    PathManager::GetRandomGenerator()->FUN_006ebcd0();
+    IOManager_Resume(DAT_01202d98);
+    PathManager::GetRandomGenerator()->PathManager_Resume();
 }
 
 struct FUN_00765340_shell
@@ -722,14 +722,14 @@ void BGSSaveLoadManager::LoadQuickSave()
     LoadGame(g_quicksaveName, -1, false, true);
 }
 
-float __cdecl FUN_00453850();
+float __cdecl Main_QFrameAnimTime();
 // Clears two fields on this manager, updates the current AI process's Sky with FUN_00453850(), then calls FUN_008503b0(DAT_0107fae0, -1, 0).
 // @fnv 0x00850a40
 void BGSSaveLoadManager::ResetAndUpdate()
 {
     cQueuedAutosave = 0;
     bhandledCorrupt = 0;
-    ((Sky*)((MobileObject*)g_TES)->GetCurrentAIProcess())->Update(FUN_00453850());
+    ((Sky*)((MobileObject*)g_TES)->GetCurrentAIProcess())->Update(Main_QFrameAnimTime());
     SaveGame_008503b0(DAT_0107fae0, -1, 0);
 }
 
@@ -738,19 +738,19 @@ extern IOManager* DAT_01202d98;
 void __fastcall IOManager_Pause(IOManager*);
 struct FUN_006ebc70_shell
 {
-    void FUN_006ebc70();
+    void PathManager_Pause();
 };
 struct FUN_006ebc90_shell
 {
-    bool FUN_006ebc90();
+    bool PathManager_QPaused();
 };
 // @fnv 0x00850ba0
 // src: COMMUNITY 0x00850ba0
 void BGSSaveLoadManager::StartSaveGame()
 {
-    ((FUN_006ebc70_shell*)PathManager::GetRandomGenerator())->FUN_006ebc70();
+    ((FUN_006ebc70_shell*)PathManager::GetRandomGenerator())->PathManager_Pause();
     IOManager_Pause(DAT_01202d98);
-    while (!((FUN_006ebc90_shell*)PathManager::GetRandomGenerator())->FUN_006ebc90())
+    while (!((FUN_006ebc90_shell*)PathManager::GetRandomGenerator())->PathManager_QPaused())
     {
         reinterpret_cast<void (__fastcall*)(PathManager*)>(&ScriptLocals::ProcessPendingTasks)(
             PathManager::GetRandomGenerator());
@@ -763,7 +763,8 @@ struct FUN_00847d00_shell
 };
 void __cdecl BGSSaveLoadHeader_SaveHeader(void*);
 // @fnv 0x00850ea0
-void BGSSaveLoadManager::FUN_00850ea0(void* apArg)
+// src: XBOX_PDB 0x00850ea0
+void BGSSaveLoadManager::SaveGameHeader_00850ea0(void* apArg)
 {
     reinterpret_cast<FUN_00847d00_shell*>(g_BGSSaveLoadGame)->SetFlag4(true);
     BGSSaveLoadHeader_SaveHeader(apArg);
@@ -774,11 +775,12 @@ struct S00851cd0
     unsigned char _pad[0x78C];
     unsigned int f78C;
     unsigned int f790;
-    void FUN_00851cd0();
+    void PlayerCharacter_UpdateTotalPlayingTime();
 };
 // Adds the elapsed time since the last tick to f790 and calls UpdateSaveTimestamp on the BGSSaveLoadManager.
 // @fnv 0x00851cd0
-void S00851cd0::FUN_00851cd0()
+// src: XBOX_PDB 0x00851cd0
+void S00851cd0::PlayerCharacter_UpdateTotalPlayingTime()
 {
     f790 += gm_GetTickCount() - f78C;
     ((BGSSaveLoadManager*)this)->UpdateSaveTimestamp();
@@ -810,7 +812,7 @@ void BGSSaveLoadManager::FormatPlayTime(char* output, bool useThreeDigitHours)
 namespace fnv_00851cb0 {
 struct S00851cd0
 {
-    void __thiscall FUN_00851cd0();
+    void __thiscall PlayerCharacter_UpdateTotalPlayingTime();
     int m_790;
     int __thiscall GetField790();
 };
@@ -818,7 +820,7 @@ struct S00851cd0
 // @fnv 0x00851cb0
 int __thiscall S00851cd0::GetField790()
 {
-    FUN_00851cd0();
+    PlayerCharacter_UpdateTotalPlayingTime();
     return ((int*)this)[0x1e4];
 }
 }  // namespace fnv_00851cb0
@@ -869,7 +871,7 @@ struct FUN_00404eb0
     FUN_00404eb0(int category, int level, const char* sourceName, int messageId);
     ~FUN_00404eb0();
 };
-bool __fastcall FUN_009373f0(InterfaceManager* manager);
+bool __fastcall TESTextureList_GetTextureCount(InterfaceManager* manager);
 struct MessageSink
 {
     void __thiscall AddMessage(int a, int b, int c, int d, float value, unsigned char option);
@@ -882,7 +884,7 @@ extern "C" const char str_0106eb78[];
 bool __cdecl DispatchMessageToSink(int aiArg1, int aiArg2, int aiArg3, int aiArg4, float value, unsigned char option)
 {
     FUN_00404eb0 scope(13, 1, str_0106eb78, 0x901);
-    if (InterfaceManager_GetSingleton() && FUN_009373f0(InterfaceManager_GetSingleton()) && DAT_011d96c0)
+    if (InterfaceManager_GetSingleton() && TESTextureList_GetTextureCount(InterfaceManager_GetSingleton()) && DAT_011d96c0)
         DAT_011d96c0->AddMessage(aiArg1, aiArg2, aiArg3, aiArg4, value, option);
     return false;
 }
@@ -944,7 +946,7 @@ bool BGSSaveLoadManager::SaveGame_008503b0(const char* acFileName, int mode, boo
     if (pSaveLoadFile)
         i = pSaveLoadFile;
     else
-        i = FUN_00850030(acFileName, 1, 2, mode);
+        i = OpenSaveFile_00850030(acFileName, 1, 2, mode);
     if (!i)
     {
         EndSaveGame();
@@ -955,7 +957,7 @@ bool BGSSaveLoadManager::SaveGame_008503b0(const char* acFileName, int mode, boo
         bAutosaveDisabledForDiskspace = false;
         QueueUIMessage(g_011d4930.GetString(), 0, str_010208e0, 0, DAT_010162c0, true);
     }
-    FUN_00850ea0(i);
+    SaveGameHeader_00850ea0(i);
     ((SaveGameOps*)g_BGSSaveLoadGame)->FUN_00847850(i);
     if (((SaveGameOps*)g_BGSSaveLoadGame)->FUN_005621d0())
     {
@@ -1021,7 +1023,7 @@ class Tile_
     Menu* GetMenu();
 };
 
-Tile_* __cdecl FUN_00a09030(int id);
+Tile_* __cdecl Tile_GetMenuByClass(int id);
 
 // If a modifier key is held, look up tile 0x3f1, cast its menu to DialogMenu, and call SetActive on it.
 // @fnv 0x00705110
@@ -1030,7 +1032,7 @@ void __cdecl SetDialogMenuActive(bool abActive)
     if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
     {
         DialogMenu* pkMenu;
-        Tile_* pkTile = FUN_00a09030(0x3f1);
+        Tile_* pkTile = Tile_GetMenuByClass(0x3f1);
         pkMenu = pkTile ? dynamic_cast<DialogMenu*>(pkTile->GetMenu()) : 0;
         if (pkMenu)
             pkMenu->SetActive(abActive);
@@ -1044,7 +1046,7 @@ struct S7010
     unsigned int Length();
 };
 
-float __cdecl FUN_00453850(void);
+float __cdecl Main_QFrameAnimTime(void);
 
 // @fnv 0x00850a90
 // src: COMMUNITY 0x00850a90
@@ -1055,7 +1057,7 @@ void BGSSaveLoadManager::SystemSave()
     bShouldSystemSave = 0;
     bhandledCorrupt = 0;
 
-    reinterpret_cast<Sky*>(reinterpret_cast<Actor*>(g_TES)->FUN_008d8520())->Update(FUN_00453850());
+    reinterpret_cast<Sky*>(reinterpret_cast<Actor*>(g_TES)->FUN_008d8520())->Update(Main_QFrameAnimTime());
 
     BGSSaveLoadManager::BuildAutosaveName(autosaveName);
 

@@ -68,7 +68,7 @@ extern "C" void __cdecl GetClosestPointsShapeCollection();
 extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast();
 void __cdecl hkpListAgent_initAgentFunc(void* apObject);
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 void __cdecl FUN_00d3dbe0(void* apObject);
@@ -143,7 +143,7 @@ inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
-AllocationManager* __cdecl FUN_00c85750();
+AllocationManager* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*, IndexBuffer*, int);
 struct IndexRemapper { IndexStorage* entries; int length; void hkUnionFind_collapseTree(); void RemapIndices(IndexBuffer*); };
 struct hkMemAllocStub
@@ -268,7 +268,7 @@ public:
 class D37B90Agent {
 public:
     void hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, D37B90Collector* pkCollector);
-    void FUN_00d37b90(void* pkA, void* pkB, void* pkInput, int iFilter);
+    void hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getClosestPoints(void* pkA, void* pkB, void* pkInput, int iFilter);
 };
 void __cdecl ReleaseHandles(int a1, int a2, int a3, int a4);
 void __cdecl FUN_00d39130(int a1, int a2, int a3, int a4, int a5);
@@ -277,7 +277,7 @@ extern float DAT_0104da48;
 extern unsigned char DAT_010ce7fc;
 struct FnvCpu_FUN_00d3f480_CpuObject {
     void hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, FnvCpu_FUN_00d3f480_CpuCallData*);
-    void FUN_00d3f480(void*, void*, unsigned int, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpSphereCapsuleAgent_getClosestPoints(void*, void*, unsigned int, unsigned int);
 };
 extern float DAT_0104da48;
 struct S_00d3f4c0_Obj {
@@ -356,11 +356,11 @@ extern int DAT_010ce81c;
 struct SpawnedBuf { void* m_iWordAt00; unsigned char m_iWordAt04; int m_8; };
 struct Wrapper {
     void ForwardToFunction(int,int,int,SpawnedBuf*);
-    void FUN_00d37bd0(int a,int b,int c,int d);
+    void hkpSymmetricAgentLinearCast_hkpMultiRayConvexAgent_getPenetrations(int a,int b,int c,int d);
 };
 typedef void (*CallbackD3D)();
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 void CreateTargetAgent();
@@ -380,7 +380,7 @@ struct AgentFuncsD3D {
 static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateRetObj;
-    pkFuncs->m_pfnB = FUN_00d3d3e0;
+    pkFuncs->m_pfnB = hkpSphereTriangleAgent_staticGetPenetrations;
     pkFuncs->m_pfnC = FUN_00d3d8c0;
     pkFuncs->m_pfnD = FUN_00daf8e0;
     pkFuncs->m_bA = false;
@@ -656,7 +656,7 @@ void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned s
 void nullsub_15();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
-void FUN_00d3d3e0();
+void hkpSphereTriangleAgent_staticGetPenetrations();
 void FUN_00d3d8c0();
 void FUN_00daf8e0();
 void CreateTargetAgent();
@@ -826,7 +826,7 @@ struct AllocMgr
     IAlloc* allocator;
 };
 extern int DAT_010cf060;
-extern void __cdecl FUN_00cd7160(void* src, void* dst);
+extern void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* src, void* dst);
 void* __cdecl CreateRetObj(int a1, char** a2, int a3, int a4);
 extern int DAT_010cf0e4;
 struct D3E270_obj;
@@ -893,7 +893,7 @@ struct D212D0Obj {
     int unk6C;
     __m128 row70;
 
-    unsigned char* FUN_00d212d0(unsigned char* out, D212D0Seg* seg, void* p3);
+    unsigned char* hkNormalTriangleShape_castRay(unsigned char* out, D212D0Seg* seg, void* p3);
 };
 namespace sd21cc0 {
 
@@ -1063,7 +1063,7 @@ public:
     float m_fCoefficientA;
     float m_fB;
 
-    AgentB110* FUN_00d2b110(const InputB110* pA, const InputB110* pB);
+    AgentB110* hkOrientHingedBodyAction_clone(const InputB110* pA, const InputB110* pB);
 };
 class AgentD2C9 : public hkReferencedObject {
 public:
@@ -1089,7 +1089,7 @@ struct CountD2C9 {
 };
 class FactoryD2C9 {
 public:
-    AgentD2C9* FUN_00d2c9d0(RequestD2C9* req, CountD2C9* cnt);
+    AgentD2C9* hkLiquidAction_clone(RequestD2C9* req, CountD2C9* cnt);
 
     int unk00;
     int unk04;
@@ -1390,7 +1390,7 @@ struct FUN_00d36b20
 
     static __forceinline void* operator new(unsigned int size) throw()
     {
-        AllocationManager* manager = FUN_00c85750();
+        AllocationManager* manager = hkMemoryRouter_getInstance();
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(static_cast<D36B70_Heap*>(manager->allocator)->AllocateMemoryBlock(size));
         object->m_usMemSizeAndFlags = (unsigned short)size;
         return object;
@@ -1634,7 +1634,7 @@ struct C85Ret
     int unk10;
 };
 void hkArrayUtil__reserve(void* a, void* b, int c, int d);
-int FUN_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
+int process_00d35770(O1T* o1, int a2, int a3, int a4, int a5);
 static __forceinline int maxSize(int minimum, int value) {
     _ReadWriteBarrier();
     return value <= minimum ? minimum : value;
@@ -1759,11 +1759,12 @@ struct hkOrientHingedBodyAction {
     float m_fConeAngle;
     bool m_bSlotEnabled;
 
-    void __thiscall FUN_00d2ad50(const hkStepInfo& stepInfo);
+    void __thiscall applyAction_00d2ad50(const hkStepInfo& stepInfo);
 };
 
 // @fnv 0x00d2ad50
-void hkOrientHingedBodyAction::FUN_00d2ad50(const hkStepInfo& stepInfo)
+// src: XBOX_PDB 0x00d2ad50
+void hkOrientHingedBodyAction::applyAction_00d2ad50(const hkStepInfo& stepInfo)
 {
     if (m_bSlotEnabled)
     {
@@ -2056,7 +2057,7 @@ struct S00d386c0_TriangleResult
     S00d386c0_PadSpu<float> distance;
 };
 
-int __cdecl FUN_00cd7850(const S00d386c0_Vector4& position, const S00d386c0_Vector4* vertices,
+int __cdecl hkpCollideTriangleUtil_closestPointTriangle(const S00d386c0_Vector4& position, const S00d386c0_Vector4* vertices,
     const S00d386c0_TriangleCache& cache, S00d386c0_TriangleResult& result, void* featureOutput);
 
 // @fnv 0x00d386c0
@@ -2082,7 +2083,7 @@ void __cdecl FUN_00d386c0(const S00d386c0_CdBody& bodyA, const S00d386c0_CdBody&
     {
         {
             const S00d386c0_Vector4* verts = triB->GetIndexedVertices();
-            FUN_00cd7160(const_cast<S00d386c0_Vector4*>(verts), &cache);
+            hkpCollideTriangleUtil_setupClosestPointTriangleCache(const_cast<S00d386c0_Vector4*>(verts), &cache);
         }
 
         for (int i = 0; i < numSpheres; i++)
@@ -2091,7 +2092,7 @@ void __cdecl FUN_00d386c0(const S00d386c0_CdBody& bodyA, const S00d386c0_CdBody&
             float radiusSum = localSpheres[i](3) + triB->getRadius();
 
             S00d386c0_TriangleResult cptr;
-            FUN_00cd7850(spherePos, triVertices, cache, cptr, 0);
+            hkpCollideTriangleUtil_closestPointTriangle(spherePos, triVertices, cache, cptr, 0);
 
             float checkDistance = input.getTolerance() + radiusSum;
             if (cptr.distance < checkDistance)
@@ -2120,7 +2121,7 @@ struct S_00d3dca0_Obj {
 __declspec(noinline) void FUN_00d3dbe0(void* storage) {
     S_00d3dca0_Fns* f = static_cast<S_00d3dca0_Fns*>(storage);
     f->fn0 = reinterpret_cast<void*>(static_cast<void (*)()>(&CreateRetObj));
-    f->fn4 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d3e0));
+    f->fn4 = reinterpret_cast<void*>(static_cast<void (*)()>(&hkpSphereTriangleAgent_staticGetPenetrations));
     f->fn8 = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00d3d8c0));
     f->fnC = reinterpret_cast<void*>(static_cast<void (*)()>(&FUN_00daf8e0));
     f->b10 = 0;

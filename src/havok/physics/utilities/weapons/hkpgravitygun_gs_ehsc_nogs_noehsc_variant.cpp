@@ -31,10 +31,11 @@ struct World_e45e
     Body_e45e** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    Body_e45e* FUN_00e45e60(int index);
+    Body_e45e* hkpGravityGun_dropObject(int index);
 };
 // @fnv 0x00e45e60
-Body_e45e* World_e45e::FUN_00e45e60(int index)
+// src: XBOX_PDB 0x00e45e60
+Body_e45e* World_e45e::hkpGravityGun_dropObject(int index)
 {
     Body_e45e** volatile* pdata = (Body_e45e * * volatile*)&m_data;
     Body_e45e* body = (*pdata)[index];

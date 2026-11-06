@@ -13,12 +13,12 @@
 #include "../../../../../../../include/hkpShapeCollection.h"
 #include "../../../../../../../include/hkpShapeContainer.h"
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 
 // Allocator-backed hkArray bodies are unit-defined, as declared in hkArray.h.
@@ -43,7 +43,7 @@ template <typename T, typename A> __forceinline hkArray<T, A>::~hkArray()
 
 template <typename T, typename A> __forceinline hkArray<T, A>& hkArray<T, A>::operator=(const hkArray& a)
 {
-    hkMemoryAllocator& kHeap = FUN_00c85750().heap();
+    hkMemoryAllocator& kHeap = hkMemoryRouter_getInstance().heap();
     if (getCapacity() < a.m_iElementCount)
     {
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -156,7 +156,7 @@ class FUN_00d4bc00 : public hkReferencedObject
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().blockFree(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter_getInstance().heap().blockFree(p, static_cast<FUN_00d4bc00*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d4bc00* DestroyAndFree(unsigned int uiFlags) throw();
@@ -192,7 +192,7 @@ FUN_00d4be00_cls* FUN_00d4be00_cls::FUN_00d4be00(int flags)
     ((FUN_00d4b400_Obj*)this)->FUN_00d4b400();
     if (flags & 1)
     {
-        hkMemoryRouter* mem = &FUN_00c85750();
+        hkMemoryRouter* mem = &hkMemoryRouter_getInstance();
         hkMemoryAllocator* alloc = mem->m_heap;
         alloc->blockFree(this, m_usMemSizeAndFlags);
     }
@@ -321,7 +321,7 @@ template <class T> __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocato
 
 template <class Arr> __forceinline void GrowIfFull480(Arr& arr, int elemSize)
 {
-    hkMemoryRouter& router = FUN_00c85750();
+    hkMemoryRouter& router = hkMemoryRouter_getInstance();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router.m_heap, &arr, elemSize);
 }
@@ -361,7 +361,7 @@ void FUN_00dcd310::hkpStorageMeshShape_addSubpart(const hkpMeshShapeSubpartD4B& 
 {
     hkpMeshShapeSubpartD4B* pSubpart = ExpandInit480(m_kSubparts);
 
-    Storage480* storage = (Storage480*)FUN_00c85750().heap().blockAlloc(0x50);
+    Storage480* storage = (Storage480*)hkMemoryRouter_getInstance().heap().blockAlloc(0x50);
     storage->m_usMemSizeAndFlags = 0x50;
     storage = storage->FUN_00d4bbb0();
 
@@ -695,7 +695,7 @@ struct FUN_00dcebd0_Class : hkpShapeCollection
 void FUN_00dcebd0_Class::hkpPhysicsSystemWithContacts_copy(const FUN_00dcebd0_Class& source)
 {
     FUN_00d06290(source);
-    hkMemoryAllocator* allocator = FUN_00c85750().m_heap;
+    hkMemoryAllocator* allocator = hkMemoryRouter_getInstance().m_heap;
     int capacity = m_iCapacityState & 0x3fffffff;
     if (capacity < source.m_iElementCount)
     {

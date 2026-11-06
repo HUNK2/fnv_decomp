@@ -10,10 +10,10 @@
 
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
+__declspec(nothrow) BSAudio* __cdecl hkMemoryRouter_getInstance();
 inline hkMemoryRouter* audio()
 {
-    return (hkMemoryRouter*)FUN_00c85750();
+    return (hkMemoryRouter*)hkMemoryRouter_getInstance();
 }
 
 __declspec(nothrow) void __cdecl ResizeAudioStream(void*, void*, int);
@@ -155,7 +155,7 @@ FUN_00e40fa0::FUN_00e40fa0()
 namespace fnv_00e40fd0 {
 extern int DAT_010e56d4;
 extern int DAT_0102e388;
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 struct Allocator;
 typedef void(__thiscall* FreeFunction)(Allocator*, void*, unsigned int);
 struct AllocatorVTable
@@ -183,7 +183,7 @@ struct Owner
 void Owner::ClearItems()
 {
     vtable = &DAT_010e56d4;
-    Allocator* allocator = (Allocator*)((hkMemoryRouter*)FUN_00c85750())->m_heap;
+    Allocator* allocator = (Allocator*)((hkMemoryRouter*)hkMemoryRouter_getInstance())->m_heap;
     hkReferencedObject** pItems = items;
     int n = count;
     for (int i = 0; i < n; ++i)
@@ -290,7 +290,7 @@ inline S_00e40800_Allocator& heap(hkMemoryRouter* holder) throw()
     return *(S_00e40800_Allocator*)holder->m_heap;
 }
 
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 int hkString_strLen(const char* s) throw();
 char* hkString_strCpy(char* dst, const char* src) throw();
 void hkArrayUtil__reserve(S_00e40800_Allocator& alloc, void* array, int numElem, int sizeElem) throw();
@@ -306,7 +306,7 @@ template <typename T> struct S_00e40800_ArrayLocalForm
 
     __forceinline S_00e40800_ArrayLocalForm(int size, const T& fill) throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        S_00e40800_Allocator& a = heap(FUN_00c85750());
+        S_00e40800_Allocator& a = heap(hkMemoryRouter_getInstance());
         T* p = size ? a._bufAlloc<T>(size) : 0;
         int cap = size ? size : 0x80000000;
         m_data = p;
@@ -343,7 +343,7 @@ template <typename T> struct S_00e40800_ArrayLocalForm
 
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        _setSize(heap(FUN_00c85750()), n);
+        _setSize(heap(hkMemoryRouter_getInstance()), n);
     }
 };
 
@@ -431,7 +431,7 @@ struct CpuAllocator
     virtual void slot04();
     virtual void Invoke(void* block, unsigned int size);
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -446,7 +446,7 @@ CpuObject* CpuObject::FUN_00e41050(unsigned int flags)
     FUN_00e40cb0();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         ((CpuAllocator*)holder->m_heap)->Invoke(this, size);
     }
     return this;
@@ -462,7 +462,7 @@ inline void FreeAudioArray(hkMemoryAllocator* allocator, void* memory, unsigned 
 }
 
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 extern int DAT_010e58c8;
 extern int DAT_0102e388;
 
@@ -482,7 +482,7 @@ struct FUN_00e41e20_cls
 void FUN_00e41e20_cls::FUN_00e41e20()
 {
     m_vptr00 = (int)&DAT_010e58c8;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;

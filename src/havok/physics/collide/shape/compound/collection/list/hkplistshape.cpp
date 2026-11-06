@@ -233,7 +233,7 @@ int hkListShapeCF58::FindNextEnabledChild(int oldKey) const
     return -1;
 }
 
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 struct FnvCpu_FUN_00cf5890_CpuObject
 {
     unsigned int unk00;
@@ -248,7 +248,7 @@ FnvCpu_FUN_00cf5890_CpuObject* FnvCpu_FUN_00cf5890_CpuObject::Destroy(unsigned i
     FUN_00cf5750();
     if (flags & 1)
     {
-        hkMemoryRouter* pAllocatorHolder = FUN_00c85750();
+        hkMemoryRouter* pAllocatorHolder = hkMemoryRouter_getInstance();
         pAllocatorHolder->heap().blockFree(this, size);
     }
     return this;
@@ -259,7 +259,7 @@ void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750()->heap();
+    return hkMemoryRouter_getInstance()->heap();
 }
 
 template <class T>
@@ -362,7 +362,7 @@ struct ListShapeCF54 : public hkpListShape
 void ListShapeCF54::hkpListShape_setShapes(int* shapes, int count, int* shapeData, int flag)
 {
     hkArray<hkpListShapeChildInfo>& children = m_kChildInfoList;
-    hkMemoryAllocator& heap = FUN_00c85750()->heap();
+    hkMemoryAllocator& heap = hkMemoryRouter_getInstance()->heap();
     int capacity = children.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
@@ -448,12 +448,13 @@ class hkpListShapeq
     hkVector4q m_kAabbCenter;
 
     void hkpListShape_recalcAabbExtents();
-    void FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out);
+    void hkpListShape_getAabb(const hkTransform& localToWorld, float tolerance, hkAabbq& out);
 };
 
 // Computes the combined AABB of all child shapes by querying each child's AABB and merging the min and max corners.
 // @fnv 0x00cf5590
-void hkpListShapeq::FUN_00cf5590(const hkTransform& localToWorld, float tolerance, hkAabbq& out)
+// src: XBOX_PDB 0x00cf5590
+void hkpListShapeq::hkpListShape_getAabb(const hkTransform& localToWorld, float tolerance, hkAabbq& out)
 {
     if (m_kAabbHalfExtents.compareLessThanEqual4(DAT_01267e30) == 15)
     {

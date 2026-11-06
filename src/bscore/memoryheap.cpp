@@ -37,11 +37,12 @@ unsigned int MemoryHeap::CommitRange(void* base, unsigned int offset, unsigned i
 __declspec(dllimport) int __stdcall VirtualFree(void*, unsigned long, unsigned long);
 struct FUN_00aa7ab0_s
 {
-    unsigned int FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
+    unsigned int MemoryHeap_CleanExtraPages(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
 };
 
 // @fnv 0x00aa7ab0
-unsigned int FUN_00aa7ab0_s::FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize)
+// src: XBOX_PDB 0x00aa7ab0
+unsigned int FUN_00aa7ab0_s::MemoryHeap_CleanExtraPages(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize)
 {
     uiSize &= ~(*(unsigned int*)((char*)this + 0x10) - 1);
     if (uiSize >= *(unsigned int*)((char*)this + 0x10))
@@ -71,12 +72,13 @@ unsigned int FUN_00aa7a30_shell::FreeVirtualMemory(const void* apMemory)
 
 struct FUN_00aa7c00_shell
 {
-    unsigned int __thiscall FUN_00aa7c00(const void* apPointer);
+    unsigned int __thiscall MemoryHeap_TotalSize(const void* apPointer);
 };
 
 // Reads the low 28 bits of the word before apPointer, masks them, and returns that value plus 8.
 // @fnv 0x00aa7c00
-unsigned int __thiscall FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
+// src: XBOX_PDB 0x00aa7c00
+unsigned int __thiscall FUN_00aa7c00_shell::MemoryHeap_TotalSize(const void* apPointer)
 {
     unsigned int offset = *(unsigned int*)((char*)apPointer - 4) & 0x0FFFFFFF;
     return offset + 8;
@@ -130,10 +132,11 @@ struct FUN_00aa7d60_cls
 {
     char pad0[0x10];
     unsigned int m_uiPage;
-    void FUN_00aa7d60(FUN_00aa7d60_blk* pBlock);
+    void MemoryHeap_DecommitPages(FUN_00aa7d60_blk* pBlock);
 };
 // @fnv 0x00aa7d60
-void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
+// src: XBOX_PDB 0x00aa7d60
+void FUN_00aa7d60_cls::MemoryHeap_DecommitPages(FUN_00aa7d60_blk* pBlock)
 {
     unsigned int uiSize = pBlock->flags & 0xFFFFFFF;
     if (uiSize >= m_uiPage)
@@ -220,11 +223,12 @@ struct FUN_00aa7ca0_cls
     char pad0[0x20f0];
     bool m_bFlag;
     unsigned int WriteBucketInfo(FUN_00aa7ca0_obj* p);
-    unsigned int FUN_00aa7ca0(FUN_00aa7ca0_obj* p);
+    unsigned int MemoryHeap_OutputBucketInfo(FUN_00aa7ca0_obj* p);
 };
 
 // @fnv 0x00aa7ca0
-unsigned int FUN_00aa7ca0_cls::FUN_00aa7ca0(FUN_00aa7ca0_obj* pObj)
+// src: XBOX_PDB 0x00aa7ca0
+unsigned int FUN_00aa7ca0_cls::MemoryHeap_OutputBucketInfo(FUN_00aa7ca0_obj* pObj)
 {
     unsigned int r = 0;
     if (!m_bFlag)
@@ -2359,11 +2363,12 @@ struct AA7D00Saver
     bool m_bSkip;
 
     int ValueReferencePair(AA7D00Stream* pkStream, bool bFlag);
-    int FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag);
+    int MemoryHeap_OutputBlockInfo(AA7D00Stream* pkStream, bool bFlag);
 };
 
 // @fnv 0x00aa7d00
-int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
+// src: XBOX_PDB 0x00aa7d00
+int AA7D00Saver::MemoryHeap_OutputBlockInfo(AA7D00Stream* pkStream, bool bFlag)
 {
     int iResult = 0;
     if (!m_bSkip)

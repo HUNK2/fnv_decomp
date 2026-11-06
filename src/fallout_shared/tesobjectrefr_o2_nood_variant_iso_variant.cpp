@@ -84,8 +84,8 @@ struct Arg_00c9f830
 struct Obj_00c9f830
 {
     void FillOutputFromState(Arg_00c9f830* value);
-    void FUN_006288c0(__m128* value);
-    void FUN_00c9f830(Arg_00c9f830* value);
+    void bhkAabbPhantom_GetAabb(__m128* value);
+    void bhkAabbPhantom_CopyCinfo(Arg_00c9f830* value);
 };
 extern __m128 DAT_01267e30;
 extern __m128 DAT_010c71b0;
@@ -99,7 +99,7 @@ struct FUN_00cb31a0_cls
 
     void Sub_b(__m128* p);
     void Sub_c(FUN_00cb31a0_cls* p);
-    void FUN_00cb31a0(FUN_00cb31a0_cls* src);
+    void bhkRigidBodyT_PostInit(FUN_00cb31a0_cls* src);
 };
 struct Sub
 {
@@ -111,7 +111,7 @@ struct Cls
     char pad[0x20];
     Sub m_20;
     void FUN_00c8d130(__m128* out);
-    Arg* FUN_00cb3200(Arg* arg);
+    Arg* bhkRigidBodyT_GetRotation(Arg* arg);
 };
 struct Arg
 {
@@ -126,7 +126,7 @@ class S00cb3250_Object
 {
   public:
     void FUN_00c8d1a0(S00cb3250_Query* pQuery);
-    void FUN_00cb3250(int iArg);
+    void bhkRigidBodyT_SetRotation(int iArg);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -152,7 +152,7 @@ struct RotationResult
     int unk28;
     int unk2c;
     __m128 translation;
-    void FUN_00cb2d90(const __m128*);
+    void hkRotation_set(const __m128*);
 };
 struct ShapeFrame
 {
@@ -211,7 +211,7 @@ struct ShapeFrame
     virtual void vd0();
     virtual void GetTranslation(__m128*);
     virtual void GetRotation(__m128*);
-    RotationResult* FUN_00cb3310(RotationResult*);
+    RotationResult* bhkRigidBodyT_GetTransform(RotationResult*);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern unsigned long DAT_0126fd98;
@@ -232,7 +232,7 @@ struct F9_Router
         return *m_pStreamAllocator;
     }
 };
-F9_Router* __cdecl FUN_00c85750();
+F9_Router* __cdecl hkMemoryRouter_getInstance();
 struct F9_Ctx
 {
     int unk000;
@@ -543,7 +543,7 @@ struct F9_Obj
     void FUN_00c905b0();
     static void* operator new(unsigned int n)
     {
-        F9_Alloc& h = FUN_00c85750()->heap();
+        F9_Alloc& h = hkMemoryRouter_getInstance()->heap();
         void* p = h.alloc((int)n);
         ((F9_Obj*)p)->unk04 = (short)n;
         return p;
@@ -601,7 +601,7 @@ struct F9_Owner
     virtual void v45();
     virtual void v46();
     virtual void post(F9_Arg* a);
-    void FUN_00c9f050(F9_Arg* arg);
+    void bhkSimpleShapePhantom_Init(F9_Arg* arg);
 };
 struct PositionSource
 {
@@ -622,13 +622,13 @@ struct PositionOwner
     int unk00;
     int unk04;
     PositionSource* m_pkSource;
-    void FUN_00ca02b0(NiNode* pkParent, int iUnused);
+    void bhkBoxShape_BuildDisplayGeometry(NiNode* pkParent, int iUnused);
 };
 extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" __m128 _mm_setzero_ps();
 struct Vec16Helper
 {
-    void FUN_00c7f700(char* a, void* b);
+    void hkVector4_setRotatedDir(char* a, void* b);
 };
 struct Obj08
 {
@@ -1016,7 +1016,7 @@ class MotionObject
     Obj570 m_570;
     Obj594* m_594;
     void bhkCharacterController_UnMarkWrite();
-    void FUN_00c6e390(__m128* v);
+    void bhkCharacterController_SetPosition(__m128* v);
 };
 extern "C" __m128 _mm_setzero_ps(void);
 struct C9FA20_TlsBlock
@@ -1259,8 +1259,8 @@ struct C9FA20_Owner
     int unk04;
     int m_08;
     C9FA20_Data* m_pData;
-    void FUN_00c9f830(C9FA20_Data* data);
-    C9FA20_Data* FUN_00c9fa20(bool* created);
+    void bhkAabbPhantom_CopyCinfo(C9FA20_Data* data);
+    C9FA20_Data* bhkAabbPhantom_CreateCinfo(bool* created);
 };
 
 // The former quaternion wrapper binds setInverseMul/normalize to 0x00c66320/0x005611c0,
@@ -1395,7 +1395,7 @@ class RigidMotionDAD : public RigidMotionBaseDAD
 {
   public:
     void FUN_00c8d170(const hkVector4& position);
-    void FUN_00cb3480(const hkVector4& position);
+    void bhkRigidBodyT_SetPosition(const hkVector4& position);
 
     hkVector4 m_localTranslation;
 };
@@ -1403,7 +1403,8 @@ class RigidMotionDAD : public RigidMotionBaseDAD
 // Preserve stack protection for the shared quaternion's scalar storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00cb3480
-void RigidMotionDAD::FUN_00cb3480(const hkVector4& position)
+// src: XBOX_PDB 0x00cb3480
+void RigidMotionDAD::bhkRigidBodyT_SetPosition(const hkVector4& position)
 {
     if (this && m_pkWorldObject)
     {

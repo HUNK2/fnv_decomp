@@ -35,22 +35,23 @@ struct FormInfoRecord
 struct FormBufferContext
 {
     char* pBuffer;
-    char* FUN_00866390();
+    char* BGSUnloadedFormBuffer_GetAdvancedBuffer();
 };
 
-unsigned int __cdecl FUN_00845d70(unsigned int);
-unsigned int __fastcall FUN_00864520(void*);
+unsigned int __cdecl GetSizeTypeSize(unsigned int);
+unsigned int __fastcall BGSSaveLoadFormInfo_GetSizeType(void*);
 
 // If pBuffer is set, computes a size from the header via FUN_00864520 and FUN_00845d70 and returns pBuffer plus that size plus 2; otherwise returns 0.
 // @fnv 0x00866390
-char* FormBufferContext::FUN_00866390()
+// src: XBOX_PDB 0x00866390
+char* FormBufferContext::BGSUnloadedFormBuffer_GetAdvancedBuffer()
 {
     FormInfoRecord* punloadedHeader;
     unsigned int isizeTypeSize;
     if (pBuffer)
     {
         punloadedHeader = (FormInfoRecord*)pBuffer;
-        isizeTypeSize = FUN_00845d70(FUN_00864520(punloadedHeader));
+        isizeTypeSize = GetSizeTypeSize(BGSSaveLoadFormInfo_GetSizeType(punloadedHeader));
         return (char*)(pBuffer + isizeTypeSize + 2);
     }
     return 0;
@@ -58,13 +59,13 @@ char* FormBufferContext::FUN_00866390()
 
 typedef unsigned int SIZE_TYPE;
 
-SIZE_TYPE __fastcall FUN_00864520(void*);
+SIZE_TYPE __fastcall BGSSaveLoadFormInfo_GetSizeType(void*);
 
 // @fnv 0x00866430
 // src: COMMUNITY 0x00866430
 SIZE_TYPE __fastcall BGSUnloadedFormBuffer_GetSizeType(void* a)
 {
-    return FUN_00864520(*(void**)a);
+    return BGSSaveLoadFormInfo_GetSizeType(*(void**)a);
 }
 
 struct FUN_00866450_shell
@@ -73,13 +74,13 @@ struct FUN_00866450_shell
     unsigned int __thiscall GetAdjustedValue();
 };
 
-unsigned int __cdecl FUN_00845d70(unsigned int);
+unsigned int __cdecl GetSizeTypeSize(unsigned int);
 
 // Calls FUN_00845d70 on the result of FUN_00866430 and returns that value plus 9.
 // @fnv 0x00866450
 unsigned int __thiscall FUN_00866450_shell::GetAdjustedValue()
 {
-    unsigned int result = FUN_00845d70(BGSUnloadedFormBuffer_GetSizeType());
+    unsigned int result = GetSizeTypeSize(BGSUnloadedFormBuffer_GetSizeType());
     return result + 9;
 }
 
@@ -131,7 +132,7 @@ BGSLoadFormBuffer* FUN_00866480_shell::BGSUnloadedFormBuffer_FillLoadFormBuffer(
     BGSLoadFormBuffer* ploadFormBuffer;
 
     ploadFormBuffer = new BGSLoadFormBuffer;
-    ploadFormBuffer->FUN_008a8150(reinterpret_cast<FUN_0084b450_Class*>(this)->BGSUnloadedFormBuffer_GetVersion());
+    ploadFormBuffer->ExtraDismemberedLimbs_SetEaten(reinterpret_cast<FUN_0084b450_Class*>(this)->BGSUnloadedFormBuffer_GetVersion());
     esizeType = this->BGSUnloadedFormBuffer_GetSizeType();
     iposition = 2;
     padvancedBuffer = this->pBuffer + 2;

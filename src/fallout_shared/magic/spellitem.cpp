@@ -168,11 +168,11 @@ bool MagicItem::SpellItem_CompareMagicItemData(MagicItem* apItem)
     return false;
 }
 
-bool FUN_00401500();
+bool TESForm_QEndianSwapOnSave();
 void __cdecl AppendChunk(int iValue, void* pData, int iSize);
 struct SubE360
 {
-    void FUN_005a6b10();
+    void TESRegionSound_Endian();
 };
 struct PadE360
 {
@@ -207,11 +207,11 @@ struct ObjE360 : PadE360, IfaceE360
 // src: COMMUNITY 0x0040e360
 void ObjE360::EnchantmentItem_Endian()
 {
-    if (FUN_00401500())
-        m_sub.FUN_005a6b10();
+    if (TESForm_QEndianSwapOnSave())
+        m_sub.TESRegionSound_Endian();
     AppendChunk(GetValue(), &m_sub, 0x10);
-    if (FUN_00401500())
-        m_sub.FUN_005a6b10();
+    if (TESForm_QEndianSwapOnSave())
+        m_sub.TESRegionSound_Endian();
 }
 
 struct MagicEffectKind
@@ -227,7 +227,7 @@ struct MagicEffectKind
 float __cdecl ScaleBySettingBlend(float cost, int value, int adjustment);
 struct FUN_0040e520_shell
 {
-    int FUN_004065e0();
+    int EffectItemList_GetAssociatedSkill();
     float GetTotalCost(Actor* caster);
     float SpellItem_GetCost(Actor* caster);
 };
@@ -246,7 +246,7 @@ float FUN_0040e520_shell::SpellItem_GetCost(Actor* caster)
         if (effectiveCaster)
         {
             cost =
-                ScaleBySettingBlend(cost, ((ActorValues*)((char*)effectiveCaster + 0xa4))->FUN_0066ef20(FUN_004065e0()),
+                ScaleBySettingBlend(cost, ((ActorValues*)((char*)effectiveCaster + 0xa4))->FUN_0066ef20(EffectItemList_GetAssociatedSkill()),
                                     ((ActorValues*)((char*)effectiveCaster + 0xa4))->FUN_0066ef20(11));
         }
     }

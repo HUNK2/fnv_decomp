@@ -173,13 +173,13 @@ TESRegionDataManager* FUN_00740940_shell::GetRegionDataManager()
     return *(TESRegionDataManager**)((char*)this + 0x624);
 }
 
-void __fastcall FUN_005827d0(char*);
+void __fastcall TESWeatherList_GetRandomWeather(char*);
 
 // @fnv 0x004f10b0
 // src: COMMUNITY 0x004f10b0
 void __fastcall TESWeatherList_GetRandomWeather_(char* param_1)
 {
-    FUN_005827d0(param_1 + 8);
+    TESWeatherList_GetRandomWeather(param_1 + 8);
 }
 
 struct RDL_004f3330
@@ -255,7 +255,7 @@ TESRegion* TESRegion::Clone(TESRegion* destination)
 
 struct S_004f1300_Item
 {
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     float TESTopic_GetPriority_GetUnk28();
 };
 
@@ -276,8 +276,8 @@ struct S_004f1300_Mgr
 struct S_004f1300_Save
 {
     unsigned short* FUN_00825c00();
-    void FUN_008579b0(void* apData, unsigned int auiSize);
-    void FUN_00857a10(void* apData, unsigned int auiSize);
+    void TESSaveLoadGame_SaveGameDataOLD(void* apData, unsigned int auiSize);
+    void TESSaveLoadGame_SaveNumericID(void* apData, unsigned int auiSize);
 };
 
 extern S_004f1300_Save* DAT_011de45c;
@@ -288,7 +288,7 @@ void __cdecl FUN_004f1300()
 {
     unsigned short m_usPassCountLocal = 0;
     unsigned short* pusCount4 = DAT_011de45c->FUN_00825c00();
-    DAT_011de45c->FUN_008579b0(&m_usPassCountLocal, 2);
+    DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&m_usPassCountLocal, 2);
 
     BSSimpleList<S_004f1300_Item*>* pNodeX = DAT_011c3f2c->TESDataHandler_GetRegionList();
     while (pNodeX && !pNodeX->IsEmpty())
@@ -298,11 +298,11 @@ void __cdecl FUN_004f1300()
         float fSecondFunctionValue = 0.0f;
         if (pItem)
         {
-            iID2 = pItem->FUN_0084e3a0();
+            iID2 = pItem->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             fSecondFunctionValue = pItem->TESTopic_GetPriority_GetUnk28();
         }
-        DAT_011de45c->FUN_00857a10(&iID2, 4);
-        DAT_011de45c->FUN_008579b0(&fSecondFunctionValue, 4);
+        DAT_011de45c->TESSaveLoadGame_SaveNumericID(&iID2, 4);
+        DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&fSecondFunctionValue, 4);
         m_usPassCountLocal++;
         pNodeX = pNodeX->GetNext();
     }
@@ -330,10 +330,10 @@ void TESRegion::UpdateWeather()
     }
 }
 
-void __cdecl FUN_00485910(unsigned int uiType, unsigned int uiID_ldrt);
+void __cdecl TESForm_AddChunk_00485910(unsigned int uiType, unsigned int uiID_ldrt);
 struct RefQ
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct ElemQ
 {
@@ -364,8 +364,8 @@ void TESRegion::SaveForm()
     RefQ* pRef_gmplt = (RefQ*)GetParentWorldSpace();
     if (pRef_gmplt)
     {
-        unsigned int uiID_ldrt = pRef_gmplt->FUN_0084e3a0();
-        FUN_00485910(0x4d414e57, uiID_ldrt);
+        unsigned int uiID_ldrt = pRef_gmplt->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e57, uiID_ldrt);
     }
     LstAQ* pIterA_kkeo = (LstAQ*)FUN_00441110();
     while (pIterA_kkeo && !pIterA_kkeo->FUN_008256d0())

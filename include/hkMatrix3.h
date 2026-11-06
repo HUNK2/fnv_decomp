@@ -46,7 +46,7 @@ public:
     hkResult DiagonalizeSymmetric(hkMatrix3& eigenVec, hkVector4& eigenVal,
                                  int maxIter = 5, float epsilon = 1e-4f) const throw();
 
-    int FUN_00cd4f10(float epsilon);
+    int invert_00cd4f10(float epsilon);
     void __thiscall FUN_00cd4bf0(char* a, char* b);
     hkBool isOk_00cd4af0() const;
     unsigned char* FUN_00cd4e00(unsigned char* result, const hkMatrix3* other, float epsilon);

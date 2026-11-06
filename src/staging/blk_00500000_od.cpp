@@ -57,18 +57,20 @@ void FUN_00507570_Class::ParticleShaderProperty_SetLifetimeVar(float value)
 
 
 // @fnv 0x00507610
-void PathingRequest::FUN_00507610(float value)
+// src: XBOX_PDB 0x00507610
+void PathingRequest::PathingRequestClosePoint_SetMinDistance(float value)
 {
     *(float*)((char*)this + 0xb0) = value;
 }
 
 struct FUN_005076c0Class
 {
-    void __thiscall FUN_005076c0(float value);
+    void __thiscall PathingRequestCoveredMove_SetAttackerHealth(float value);
 };
 
 // @fnv 0x005076c0
-void __thiscall FUN_005076c0Class::FUN_005076c0(float value)
+// src: XBOX_PDB 0x005076c0
+void __thiscall FUN_005076c0Class::PathingRequestCoveredMove_SetAttackerHealth(float value)
 {
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xC0) = value;
 }
@@ -131,11 +133,12 @@ void FUN_00507780::SetBoltsRadiusStrength(float afStrength)
 
 struct FUN_005077a0_Class
 {
-    void FUN_005077a0(float value);
+    void BoltShaderProperty_SetSegmentVariance(float value);
 };
 
 // @fnv 0x005077a0
-void FUN_005077a0_Class::FUN_005077a0(float value)
+// src: XBOX_PDB 0x005077a0
+void FUN_005077a0_Class::BoltShaderProperty_SetSegmentVariance(float value)
 {
     *(float*)((char*)this + 0x148) = value;
 }
@@ -147,11 +150,12 @@ struct Flt
 
 struct FUN_00507d80_Class
 {
-    unsigned int FUN_00507d80();
+    unsigned int FOPipboyManager_Get3rdPersonPipboyRoot();
 };
 
 // @fnv 0x00507d80
-unsigned int FUN_00507d80_Class::FUN_00507d80()
+// src: XBOX_PDB 0x00507d80
+unsigned int FUN_00507d80_Class::FOPipboyManager_Get3rdPersonPipboyRoot()
 {
     return *(Flt*)((char*)this + 0xdc);
 }
@@ -169,11 +173,12 @@ float FUN_00508050_Class::FUN_00508050()
 
 struct FUN_00508070_class
 {
-    float FUN_00508070();
+    float Projectile_GetDistanceMoved();
 };
 
 // @fnv 0x00508070
-float FUN_00508070_class::FUN_00508070()
+// src: XBOX_PDB 0x00508070
+float FUN_00508070_class::Projectile_GetDistanceMoved()
 {
     return *(float*)((char*)this + 0x110);
 }
@@ -333,7 +338,8 @@ void FUN_00519020_Class::SetField688(int value)
 
 
 // @fnv 0x005194d0
-bool TESObjectDOOR::FUN_005194d0()
+// src: XBOX_PDB 0x005194d0
+bool TESObjectDOOR::IsRandomDoor()
 {
     if (!m_kRandomTeleportTargets.IsEmpty())
         return true;
@@ -359,7 +365,7 @@ void* __thiscall FUN_00519b20_cls::FUN_00519b20(void* arg)
 }
 
 namespace fnv_0051cee0 {
-extern "C" void* __cdecl FUN_00664840(int);
+extern "C" void* __cdecl BSTreeManager_GetInstance(int);
 struct Flt
 {
     operator unsigned int();
@@ -367,7 +373,7 @@ struct Flt
 // @fnv 0x0051cee0
 unsigned int __cdecl GetFloatAsUInt()
 {
-    return ((Flt*)((char*)FUN_00664840(1) + 0xc))->operator unsigned int();
+    return ((Flt*)((char*)BSTreeManager_GetInstance(1) + 0xc))->operator unsigned int();
 }
 }  // namespace fnv_0051cee0
 
@@ -516,10 +522,11 @@ struct FUN_00501cd0_class
     void* m_0c;
     unsigned int m_10;
     void* m_14;
-    void* __thiscall FUN_00501cd0();
+    void* __thiscall DoorLock_DoorLock();
 };
 // @fnv 0x00501cd0
-void* __thiscall FUN_00501cd0_class::FUN_00501cd0()
+// src: XBOX_PDB 0x00501cd0
+void* __thiscall FUN_00501cd0_class::DoorLock_DoorLock()
 {
     m_00 = 0;
     m_04 = 0;
@@ -533,7 +540,8 @@ void* __thiscall FUN_00501cd0_class::FUN_00501cd0()
 TESForm* __cdecl GetFormByID(unsigned int id);
 
 // @fnv 0x00505000
-TESForm* __cdecl FUN_00505000()
+// src: XBOX_PDB 0x00505000
+TESForm* __cdecl TESCombatStyle_GetDefaultCombatStyle()
 {
     return GetFormByID(0x3d);
 }
@@ -602,11 +610,11 @@ void __thiscall FUN_00507690_Class::ParticleShaderProperty_SetColor3(NiPoint4 aP
 
 struct FUN_00508100_shell
 {
-    float FUN_00508100();
+    float GetEndKeyTime_00508100();
 };
 struct FUN_00759450_shell
 {
-    float FUN_00759450();
+    float NiPSysSpawnModifier_GetLifeSpan();
 };
 struct FUN_005082b0_shell
 {
@@ -615,11 +623,11 @@ struct FUN_005082b0_shell
 
 struct FUN_00508090_shell
 {
-    float FUN_009a9350() const;
+    float TESCombatStyle_GetWeaponMinRangeMult() const;
     float GetActorRadius();
-    float FUN_00508100();
-    float FUN_00508120();
-    float FUN_00759450();
+    float GetEndKeyTime_00508100();
+    float NiControllerSequence_GetLastTime();
+    float NiPSysSpawnModifier_GetLifeSpan();
     void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
     void TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d);
 };
@@ -629,7 +637,7 @@ struct FUN_00508090_shell
 // src: COMMUNITY 0x00508090
 void __thiscall FUN_00508090_shell::TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d)
 {
-    UpdateEnvelope(a, b, c, d, FUN_009a9350(), GetActorRadius(), FUN_00508100(), FUN_00508120(), FUN_00759450());
+    UpdateEnvelope(a, b, c, d, TESCombatStyle_GetWeaponMinRangeMult(), GetActorRadius(), GetEndKeyTime_00508100(), NiControllerSequence_GetLastTime(), NiPSysSpawnModifier_GetLifeSpan());
 }
 
 struct FUN_0050e640_Holder
@@ -645,12 +653,13 @@ bool __thiscall FUN_0050e640_Holder::MatchesValue(unsigned char v)
     return this ? _4 == v : false;
 }
 
-float __cdecl FUN_004579e0(float);
+float __cdecl NiSqrt_004579e0(float);
 // Returns the square root of the sum of squares of the three short components pointed to by p.
 // @fnv 0x0050ec80
-float __fastcall FUN_0050ec80(short* pComponents)
+// src: XBOX_PDB 0x0050ec80
+float __fastcall NiNPShortPoint3_Length(short* pComponents)
 {
-    return FUN_004579e0(
+    return NiSqrt_004579e0(
         (float)(*pComponents * *pComponents + pComponents[1] * pComponents[1] + pComponents[2] * pComponents[2]));
 }
 
@@ -671,7 +680,7 @@ int __thiscall FUN_00514fd0_class::TESObjectBOOK_GetTeaches()
     return AVH::GetActorValueForSectionIndex(2, reinterpret_cast<const unsigned char*>(this)[0xc1]);
 }
 
-bool __cdecl FUN_00519570(int);
+bool __cdecl TESObjectDOOR_CanBeRandomTeleport(int);
 struct LH
 {
     bool IsInList(int&);
@@ -685,7 +694,7 @@ struct FUN_00519500_class
 bool FUN_00519500_class::HasEntry(int aiValue)
 {
     bool r = false;
-    if (aiValue && FUN_00519570(aiValue) && ((LH*)((char*)this + 0x88))->IsInList(aiValue))
+    if (aiValue && TESObjectDOOR_CanBeRandomTeleport(aiValue) && ((LH*)((char*)this + 0x88))->IsInList(aiValue))
         r = true;
     return r;
 }
@@ -900,7 +909,7 @@ bool __thiscall FUN_00516cd0_class::CanUseLockedRef(TESObjectREFR* ref, Actor* a
         return true;
 
     pLock = 0;
-    if (iCount->pKey != 0 && pActor->FUN_00891db0(iCount->pKey, 0, 1, 0, pLock))
+    if (iCount->pKey != 0 && pActor->Actor_HasObjects(iCount->pKey, 0, 1, 0, pLock))
     {
         return true;
     }
@@ -908,7 +917,7 @@ bool __thiscall FUN_00516cd0_class::CanUseLockedRef(TESObjectREFR* ref, Actor* a
     {
         if (useLockpick)
         {
-            if (pActor->FUN_00891db0(g_pLockpickItem, 0, 1, 0, pLock))
+            if (pActor->Actor_HasObjects(g_pLockpickItem, 0, 1, 0, pLock))
                 return true;
         }
     }
@@ -1088,9 +1097,9 @@ class FUN_00507da0_cls
 {
   public:
     int unk00;
-    float FUN_008d01e0();
-    float FUN_00644930(float value);
-    float FUN_00507e10(float value);
+    float NiAVObject_GetWorldScale();
+    float Explosion_GetRadius(float value);
+    float BGSProjectile_GetMuzzleFlashDuration(float value);
     float GetField90Float(float value);
     float FUN_0051b8e0(float value);
     void UpdateEnvelope(float a, float b, float c, unsigned char flag, float value);
@@ -1102,13 +1111,13 @@ class FUN_00507da0_cls
 // src: COMMUNITY 0x00507da0
 void FUN_00507da0_cls::TESEffectShader_BirthParticles(float a, float b, float c, unsigned char flag)
 {
-    UpdateEnvelope(a, b, c, flag, FUN_0051b8e0(GetField90Float(FUN_00507e10(FUN_00644930(FUN_008d01e0())))));
+    UpdateEnvelope(a, b, c, flag, FUN_0051b8e0(GetField90Float(BGSProjectile_GetMuzzleFlashDuration(Explosion_GetRadius(NiAVObject_GetWorldScale())))));
 }
 
 extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
 
-float FUN_004e44b0(float fValue);
+float sin_004e44b0(float fValue);
 
 class B5081D0Actor
 {
@@ -1124,7 +1133,7 @@ class B5081D0Actor
 float B5081D0Actor::TESEffectShader_CalculateEdgeAlphaPulse(float fTime)
 {
     if (GetFloatAt64() > gModifierZero)
-        return GetFloatAt64() * FUN_004e44b0(fTime * runtimeInitializationFloat2255 * GetFloatAtOffset68());
+        return GetFloatAt64() * sin_004e44b0(fTime * runtimeInitializationFloat2255 * GetFloatAtOffset68());
     else
         return 1.0f;
 }
@@ -1156,8 +1165,8 @@ float C508240Ref::TESEffectShader_CalculateFillAlphaPulse(float afValue)
 namespace std {
 float abs(float);
 }
-float FUN_00404010(float, float);
-float FUN_0040ebd0(float, float);
+float BSMAX_00404010(float, float);
+float BSMIN(float, float);
 unsigned int FUN_00ba52d0();
 struct Envelope
 {
@@ -1180,17 +1189,17 @@ float Envelope::UpdateEnvelope(float current, float rate, float elapsed, unsigne
             if (scale < 0.33f)
                 scale = 0.33f;
             scale = FUN_00ba52d0() * rate * scale;
-            current = FUN_00404010(0.0f, current - scale);
+            current = BSMAX_00404010(0.0f, current - scale);
         }
     }
     if (!releasing)
     {
         if (elapsed < attack)
-            current = FUN_0040ebd0(maximum, current + rate / attack * maximum);
+            current = BSMIN(maximum, current + rate / attack * maximum);
         else if (hold > elapsed - attack)
             current = maximum;
         else if (decay > elapsed - attack - hold)
-            current = FUN_00404010(minimum, current - rate / decay * std::abs(maximum - minimum));
+            current = BSMAX_00404010(minimum, current - rate / decay * std::abs(maximum - minimum));
         else
             current = minimum;
     }
@@ -1811,7 +1820,7 @@ struct Item
 
 struct T
 {
-    void __thiscall FUN_004bc450(void* p);
+    void __thiscall NiMaterialProperty_SetEmittance(void* p);
 };
 
 extern void* DAT_011f4998;
@@ -1834,7 +1843,7 @@ void __cdecl ProcessListItems(List* list)
                 if (t != 0)
                 {
                     T* local = (T*)t;
-                    local->FUN_004bc450(&DAT_011f4998);
+                    local->NiMaterialProperty_SetEmittance(&DAT_011f4998);
                 }
             }
         }
@@ -1864,22 +1873,22 @@ extern double DAT_01016408;
 extern float DAT_0101e2bc;
 extern float DAT_010181bc;
 unsigned int __cdecl FUN_00487f50();
-float __cdecl FUN_004e44b0(float v);
-float __cdecl FUN_0040ebd0(float a, float b);
-float __cdecl FUN_00404010(float a, float b);
+float __cdecl sin_004e44b0(float v);
+float __cdecl BSMIN(float a, float b);
+float __cdecl BSMAX_00404010(float a, float b);
 float __cdecl FUN_00408840(float v);
 struct Obj
 {
-    float FUN_004e4600();
-    float FUN_006447d0();
-    float FUN_004e4620();
+    float Projectile_GetSpreadLooking();
+    float Sky_GetCurrentWeatherPct();
+    float TESObjectWEAP_GetSpeed();
     void FUN_0050c630(float v);
     void FUN_0050c660(float v);
     void FUN_0050c690(float v);
-    void FUN_004bc1f0(float a, float b, float c);
-    void FUN_00a59c60(NiUpdateData& u);
+    void NiAVObject_SetTranslate_004bc1f0(float a, float b, float c);
+    void NiAVObject_Update(NiUpdateData& u);
     float TESCombatStyle_GetDodgeDuringAttackMult();
-    void FUN_0050dd20(float v);
+    void NiLight_SetDimmer(float v);
 };
 struct Ptr
 {
@@ -1898,7 +1907,7 @@ struct TQ
     void TaskQueueInterface_QueueObjectUpdate();
 };
 TQ* __stdcall FUN_004537b0(void* p);
-bool __cdecl FUN_008c7aa0();
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 struct Host
 {
     int unk00;
@@ -1967,9 +1976,9 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
             float x = 0.0f;
             if (s)
             {
-                b = s->FUN_004e4600();
-                flag = s->FUN_006447d0();
-                x = s->FUN_004e4620();
+                b = s->Projectile_GetSpreadLooking();
+                flag = s->Sky_GetCurrentWeatherPct();
+                x = s->TESObjectWEAP_GetSpeed();
             }
             if (m_a8 & 0x40)
                 base = (float)(base / DAT_01011590);
@@ -1990,35 +1999,35 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
                 s->FUN_0050c690(x);
             }
             float idx;
-            idx = FUN_004e44b0((float)((b + DAT_010290d8) * 2.0));
+            idx = sin_004e44b0((float)((b + DAT_010290d8) * 2.0));
             float a2;
-            a2 = FUN_004e44b0((float)((flag + DAT_01011588) * DAT_010290d8));
+            a2 = sin_004e44b0((float)((flag + DAT_01011588) * DAT_010290d8));
             float cost;
-            cost = FUN_004e44b0((float)((x + DAT_010290d0) * DAT_010290c8));
+            cost = sin_004e44b0((float)((x + DAT_010290d0) * DAT_010290c8));
             float unk24;
-            unk24 = *DAT_011c8fcc.FUN_00403e20();
+            unk24 = *DAT_011c8fcc.Setting_Float_00403e20();
             float p;
             p = (float)(unk24 * idx * a2 / DAT_01011590);
             unk24 = (unk24 + p > DAT_01012060) ? p : 0.0f;
-            p1.FUN_00559450()->FUN_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
-            if (FUN_008c7aa0())
+            p1.FUN_00559450()->NiAVObject_SetTranslate_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
+            if (AILinearTaskThreadManager_ShouldQueue3DTask())
             {
                 FUN_004537b0(p1.FUN_00559450())->TaskQueueInterface_QueueObjectUpdate();
             }
             else
             {
                 NiUpdateData upd(0.0f, false, 0);
-                p1.FUN_00559450()->FUN_00a59c60(upd);
+                p1.FUN_00559450()->NiAVObject_Update(upd);
             }
             float frac;
             frac =
-                (float)((FUN_004e44b0((float)((DAT_010290d0 + x) * DAT_01021928)) / DAT_01020998) +
-                        (((FUN_004e44b0((float)((flag + DAT_01011588) * DAT_010290e0)) + DAT_01012070) / DAT_01011590) *
-                         (FUN_004e44b0((float)((b + DAT_010290d8) * DAT_010290f8)) + DAT_01012070)) /
+                (float)((sin_004e44b0((float)((DAT_010290d0 + x) * DAT_01021928)) / DAT_01020998) +
+                        (((sin_004e44b0((float)((flag + DAT_01011588) * DAT_010290e0)) + DAT_01012070) / DAT_01011590) *
+                         (sin_004e44b0((float)((b + DAT_010290d8) * DAT_010290f8)) + DAT_01012070)) /
                             DAT_01011590 / DAT_01021928);
-            frac = FUN_00404010(DAT_01012054, FUN_0040ebd0(1.0f, frac));
+            frac = BSMAX_00404010(DAT_01012054, BSMIN(1.0f, frac));
             frac = (float)(frac * DAT_01011588 + DAT_01011588);
-            p1.FUN_00559450()->FUN_0050dd20((float)((frac * DAT_010290c0 + DAT_010290b8) * m_b4));
+            p1.FUN_00559450()->NiLight_SetDimmer((float)((frac * DAT_010290c0 + DAT_010290b8) * m_b4));
         }
         else
         {
@@ -2035,7 +2044,7 @@ bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
                     tim2 = (float)(tim2 + fin * cnt);
                 else
                     tim2 = (float)(tim2 - fin * cnt);
-                p1.FUN_00559450()->FUN_0050dd20(tim2);
+                p1.FUN_00559450()->NiLight_SetDimmer(tim2);
                 if (FUN_00408840((float)(tim2 - *apTime)) < fin)
                 {
                     if (p3 && *reinterpret_cast<const float*>(reinterpret_cast<const char*>(p3) + 0x0C) == 0.0)
@@ -2348,18 +2357,19 @@ struct TeleportableReference
     void SetVec(const NiPoint3& arRot);
 };
 
-float __cdecl FUN_00404010(float, float);
+float __cdecl BSMAX_00404010(float, float);
 extern Setting g_011c9398;
 extern Setting g_011c93c4;
 
 // Links two door references by setting each door's teleport data to point at the other, using marker positions or computed offsets.
 // @fnv 0x00519810
-void __cdecl FUN_00519810(TESObjectREFR* apDoorA, TESObjectREFR* apDoorB)
+// src: XBOX_PDB 0x00519810
+void __cdecl TESObjectDOOR_LinkRandomTeleportDoors(TESObjectREFR* apDoorA, TESObjectREFR* apDoorB)
 {
     if (apDoorA && apDoorB && apDoorA != apDoorB)
     {
-        TESObjectDOOR* pBaseA = dynamic_cast<TESObjectDOOR*>(apDoorA->FUN_007af430());
-        TESObjectDOOR* pBaseDoorB = dynamic_cast<TESObjectDOOR*>(apDoorB->FUN_007af430());
+        TESObjectDOOR* pBaseA = dynamic_cast<TESObjectDOOR*>(apDoorA->BGSSaveFormBuffer_GetForm());
+        TESObjectDOOR* pBaseDoorB = dynamic_cast<TESObjectDOOR*>(apDoorB->BGSSaveFormBuffer_GetForm());
         if (pBaseA && pBaseDoorB)
         {
             if (!reinterpret_cast<GetDoorDataFn>(ReferenceGetDoorData)(apDoorA) && !reinterpret_cast<GetDoorDataFn>(ReferenceGetDoorData)(apDoorB))
@@ -2369,7 +2379,7 @@ void __cdecl FUN_00519810(TESObjectREFR* apDoorA, TESObjectREFR* apDoorB)
                 if (pTeleportDataA && pTeleportDataB)
                 {
                     float fDist = *g_011c9398.Float();
-                    float afValueAfterThirdFloat = FUN_00404010(fDist, *g_011c93c4.Float() + 100.0);
+                    float afValueAfterThirdFloat = BSMAX_00404010(fDist, *g_011c93c4.Float() + 100.0);
                     float fPi = 3.1415927f;
 
                     pTeleportDataA->FUN_00537e90(apDoorB);
@@ -2383,7 +2393,7 @@ void __cdecl FUN_00519810(TESObjectREFR* apDoorA, TESObjectREFR* apDoorB)
                     {
                         float kOffsetB[3];
                         reinterpret_cast<GetDoorOffsetFn>(ReferenceGetDoorOffset)(apDoorB, reinterpret_cast<NiPoint3*>(kOffsetB), fPi);
-                        if (pBaseDoorB->FUN_00517fa0())
+                        if (pBaseDoorB->IsAutomaticDoor())
                             (*reinterpret_cast<NiPoint3*>(kOffsetB)) *= afValueAfterThirdFloat;
                         else
                             (*reinterpret_cast<NiPoint3*>(kOffsetB)) *= fDist;
@@ -2402,7 +2412,7 @@ void __cdecl FUN_00519810(TESObjectREFR* apDoorA, TESObjectREFR* apDoorB)
                     {
                         float kOffsetA[3];
                         reinterpret_cast<GetDoorOffsetFn>(ReferenceGetDoorOffset)(apDoorA, reinterpret_cast<NiPoint3*>(kOffsetA), fPi);
-                        if (pBaseA->FUN_00517fa0())
+                        if (pBaseA->IsAutomaticDoor())
                             (*reinterpret_cast<NiPoint3*>(kOffsetA)) *= afValueAfterThirdFloat;
                         else
                             (*reinterpret_cast<NiPoint3*>(kOffsetA)) *= fDist;
@@ -2421,7 +2431,8 @@ struct TESObjectCELL_Ext : TESForm
 };
 // Returns true if p is a cell (type 0x39) that is interior, or if p has form type 0x41.
 // @fnv 0x00519570
-bool FUN_00519570(TESForm* apForm)
+// src: XBOX_PDB 0x00519570
+bool TESObjectDOOR_CanBeRandomTeleport(TESForm* apForm)
 {
     bool result = false;
     if (apForm)

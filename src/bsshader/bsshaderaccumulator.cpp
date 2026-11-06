@@ -232,7 +232,8 @@ struct Self_00b655b0
 
 // Pops every node from the list, frees each node's element and payload, and returns the nodes to a free pool.
 // @fnv 0x00b655b0
-void __fastcall FUN_00b655b0(Self_00b655b0* self)
+// src: XBOX_PDB 0x00b655b0
+void __fastcall BSShaderAccumulator_ClearAllBoundVolumes(Self_00b655b0* self)
 {
     while (self->count != 0)
     {
@@ -507,7 +508,7 @@ namespace fnv_00b63620 {
 void __fastcall FUN_00c4ed40(void*);
 struct QueryStub
 {
-    unsigned char FUN_00c4edf0(unsigned int*, int);
+    unsigned char BSOcclusionQuery_GetResult(unsigned int*, int);
 };
 struct QEntry
 {
@@ -532,7 +533,7 @@ void __fastcall BSShaderAccumulator_ClearSunQueries(AccumStub* self)
         unsigned int uiData = 0;
         if (self->m_aEntries[i].query)
         {
-            self->m_aEntries[i].query->FUN_00c4edf0(&uiData, 1);
+            self->m_aEntries[i].query->BSOcclusionQuery_GetResult(&uiData, 1);
             QueryStub* q = self->m_aEntries[i].query;
             if (q)
             {
@@ -570,7 +571,7 @@ extern bool DAT_011f9fc3;
 extern bool DAT_011f9fc4;
 struct QueryStub
 {
-    unsigned char FUN_00c4edf0(unsigned int*, int);
+    unsigned char BSOcclusionQuery_GetResult(unsigned int*, int);
 };
 struct VolNode
 {
@@ -618,7 +619,7 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
                 do
                 {
                     r = reinterpret_cast<QueryStub*>(vol->m_pRenderQuery)
-                            ->FUN_00c4edf0(reinterpret_cast<unsigned int*>(&abRunQuery), 1);
+                            ->BSOcclusionQuery_GetResult(reinterpret_cast<unsigned int*>(&abRunQuery), 1);
                 } while (r == 1);
                 if (r == 0)
                 {
@@ -690,24 +691,25 @@ void __fastcall FUN_00b65570(char* self, int unused)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011fa000;
 // @fnv 0x00b65a80
-GlobalObjectO2_00a7b610* __cdecl FUN_00b65a80()
+// src: XBOX_PDB 0x00b65a80
+GlobalObjectO2_00a7b610* __cdecl BSShaderAccumulator_GetRTTI()
 {
     return &g_011fa000;
 }
 
-void __cdecl FUN_00b65ae0(void*);
+void __cdecl BSShaderAccumulator_FinishAccumulating_Standard_PreResolveDepth(void*);
 void __cdecl BSShaderAccumulator_FinishAccumulating_Standard_PostResolveDepth(void*);
 // @fnv 0x00b665a0
 // src: COMMUNITY 0x00b665a0
 void __cdecl BSShaderAccumulator_FinishAccumulating_Standard(void* p)
 {
-    FUN_00b65ae0(p);
+    BSShaderAccumulator_FinishAccumulating_Standard_PreResolveDepth(p);
     BSShaderAccumulator_FinishAccumulating_Standard_PostResolveDepth(p);
 }
 
 namespace fnv_00b64f90 {
 void __cdecl BSBatchRenderer_EndPass();
-void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
+void __cdecl BSBatchRenderer_RenderPassImmediately(void*, unsigned short, int, int, int);
 extern RecursiveSpinLock g_011c5f80;
 typedef PoolAllocatorBase<unsigned int> PoolAlloc;
 // Exe 0x00b64f90: unit-local ListNode view; declarations and layout are preserved.
@@ -782,7 +784,7 @@ void AccumS::BSShaderAccumulator_RenderTiles()
     for (void* p = First(); p; p = Next())
     {
         kPass.pPass = p;
-        FUN_00b994f0(&kPass, kPass.usIndex, 1, 1, 1);
+        BSBatchRenderer_RenderPassImmediately(&kPass, kPass.usIndex, 1, 1, 1);
     }
     if (pList)
     {
@@ -1118,7 +1120,8 @@ struct AccumView
 };
 
 // @fnv 0x00b65ae0
-void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
+// src: XBOX_PDB 0x00b65ae0
+void __cdecl BSShaderAccumulator_FinishAccumulating_Standard_PreResolveDepth(AccumWIP* pAccum)
 {
     if (pAccum->m_pkCamera)
     {
@@ -1244,7 +1247,7 @@ struct ShaderLocal
     ShaderStageLocal* stage30;
     ShaderStageLocal* stage34;
 };
-ShaderLocal* __cdecl FUN_00b55560(int);
+ShaderLocal* __cdecl BSShaderManager_GetShader(int);
 void __cdecl ShadowLightShader_EnableConstantsForPass(int, int);
 struct ManagerLocal
 {
@@ -1252,7 +1255,7 @@ struct ManagerLocal
 };
 extern ManagerLocal* DAT_011f4748;
 void __cdecl FUN_00ba8ec0(void*, void*, unsigned short, unsigned char, bool, bool);
-void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
+void __cdecl BSBatchRenderer_RenderPassImmediately(void*, unsigned short, int, int, int);
 struct FUN_00ba8cd0 : BSShaderAccumulator::BSShaderProperty__RenderPass
 {
     FUN_00ba8cd0(void* geometry, unsigned short pass, unsigned char hint, bool first, bool last)
@@ -1276,14 +1279,14 @@ void Candidate::RenderGeometryPass(void* geometry, unsigned int index, void* cam
     }
     if (pSunTests[index].m_pRenderQuery)
     {
-        ShaderLocal* shader = FUN_00b55560(1);
+        ShaderLocal* shader = BSShaderManager_GetShader(1);
         ShadowLightShader_EnableConstantsForPass(9, 0);
         shader->stage34->Reset();
         shader->stage30->Reset();
         reinterpret_cast<QueryLocal*>(pSunTests[index].m_pRenderQuery)->BSOcclusionQuery_Begin();
         DAT_011f4748->SetFromCamera(camera);
         FUN_00ba8cd0 pass(geometry, 9, 1, false, false);
-        FUN_00b994f0(&pass, 9, 0, 0, 0);
+        BSBatchRenderer_RenderPassImmediately(&pass, 9, 0, 0, 0);
         reinterpret_cast<QueryLocal*>(pSunTests[index].m_pRenderQuery)->BSOcclusionQuery_End();
         pSunTests[index].m_bQueryPending = true;
         pSunTests[index].m_uiQueryResult = 0;
@@ -1942,12 +1945,13 @@ struct FUN_00b64a00_Pass
     int unk04;
     ShCamera* m_pkAccumulationCamera;
     void FUN_00b639e0(int aiPass, int aiFlags);
-    void FUN_00b64a00(ShCamera* pkCamera, ShCamera* pkOther);
+    void BSShaderAccumulator_RenderDepth(ShCamera* pkCamera, ShCamera* pkOther);
 };
 
 // Sets a white background, configures the accumulation camera, and issues pass commands, optionally using pkOther's frustum.
 // @fnv 0x00b64a00
-void FUN_00b64a00_Pass::FUN_00b64a00(ShCamera* pkCamera, ShCamera* pkOther)
+// src: XBOX_PDB 0x00b64a00
+void FUN_00b64a00_Pass::BSShaderAccumulator_RenderDepth(ShCamera* pkCamera, ShCamera* pkOther)
 {
     ShRenderer* pkRenderer = g_pShRenderer;
     NiColorA kSaved;
@@ -3569,15 +3573,16 @@ struct LightingShaderView
     void AddTexture(NiRefObject*);
 };
 extern RenderManagerView* DAT_011f4748;
-LightingShaderView* __cdecl FUN_00b55560(int);
+LightingShaderView* __cdecl BSShaderManager_GetShader(int);
 struct DepthAccumulator : BSShaderAccumulator
 {
     void FUN_00b639e0(int, bool);
-    bool FUN_00b64570(NiCamera* camera, BSRenderedTexture* target);
+    bool BSShaderAccumulator_RenderNormals(NiCamera* camera, BSRenderedTexture* target);
 };
 // Processes geometry groups using a depth surface and may update a lighting shader texture; restores the saved rectangle and camera.
 // @fnv 0x00b64570
-bool DepthAccumulator::FUN_00b64570(NiCamera* camera, BSRenderedTexture* target)
+// src: XBOX_PDB 0x00b64570
+bool DepthAccumulator::BSShaderAccumulator_RenderNormals(NiCamera* camera, BSRenderedTexture* target)
 {
     if (!target)
         return false;
@@ -3644,7 +3649,7 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, BSRenderedTexture* target)
         {
             NiRefObject* texture =
                 (depth ? reinterpret_cast<const AccumulatorPointer<NiRefObject>&>(depth->spTexture[0]) : (const AccumulatorPointer<NiRefObject>&)AccumulatorPointer<NiRefObject>()).m_pObject;
-            LightingShaderView* shader = FUN_00b55560(9);
+            LightingShaderView* shader = BSShaderManager_GetShader(9);
             shader->AddTexture(texture);
         }
     }
@@ -3761,7 +3766,7 @@ struct FUN_00bd9120
     FUN_00bd9120();
 };
 void* __cdecl FUN_00aa13e0(unsigned);
-void* __cdecl FUN_00aa1070(unsigned);
+void* __cdecl _NiMalloc_00aa1070(unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);
 void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 template <>
@@ -3769,7 +3774,7 @@ inline NiTMapBase<NiTPointerAllocator<unsigned int>, NiAVObject*, bool>::NiTMapB
 {
     m_uiHashSize = hashSize;
     m_kItemCount.m_uiCount = 0;
-    m_ppkHashTable = static_cast<NiTMapItem<NiAVObject*, bool>**>(FUN_00aa1070(hashSize * 4));
+    m_ppkHashTable = static_cast<NiTMapItem<NiAVObject*, bool>**>(_NiMalloc_00aa1070(hashSize * 4));
     unsigned bytes = m_uiHashSize * 4;
     FUN_00ec61c0(m_ppkHashTable, 0, bytes);
 }

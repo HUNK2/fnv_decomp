@@ -37,7 +37,7 @@ struct FUN_00d21ce0_cls
     void* m_base;
     void* m_pBridge;
     void* m_pConstraintData;
-    void FUN_00d21ce0(void* data);
+    void hkpBridgeConstraintAtom_init(void* data);
 };
 int __cdecl hkpModifierConstraintAtom_addAllModifierDataToConstraintInfo(void* pNode, void* a, void* b);
 void __stdcall nullsub_31(int, int, int, int, int, int);

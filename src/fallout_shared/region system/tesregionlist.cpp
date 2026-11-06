@@ -63,13 +63,13 @@ struct FUN_004f64b0
     virtual ~FUN_004f64b0();
     IntList regions;
     bool ownsCache;
-    void FUN_004f6640();
+    void TESRegionList_Clear();
 };
 // Calls FUN_004f6640, then if ownsCache and the instance count drops to zero, deletes both caches in each of the 9 slots.
 // @fnv 0x004f64b0
 FUN_004f64b0::~FUN_004f64b0()
 {
-    FUN_004f6640();
+    TESRegionList_Clear();
     if (ownsCache && --instanceCount == 0)
     {
         Cache* second = 0;
@@ -93,7 +93,7 @@ FUN_004f64b0::~FUN_004f64b0()
 }
 
 extern float DAT_01017d00;
-extern bool __cdecl FUN_0040eb10(float a, float b, float c);
+extern bool __cdecl FloatEQ(float a, float b, float c);
 struct PointObject;
 struct RegionNode
 {
@@ -110,7 +110,7 @@ bool PointObject::IsInRegion(RegionNode* region, float value)
 {
     if (region == 0)
         return false;
-    if (FUN_0040eb10(value, position, DAT_01017d00))
+    if (FloatEQ(value, position, DAT_01017d00))
     {
         if (region->j_8TESRegionPoint_QEBA_NAEBV0_Z(this))
             return true;

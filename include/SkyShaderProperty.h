@@ -12,9 +12,9 @@ public:
     NiPointer<NiTexture> m_spTexture;
 
     void SetTexture(NiTexture*);
-    void FUN_00634900(const NiFixedString&);
-    void FUN_00634900(int*);
+    void SetTextureFile(const NiFixedString&);
+    void SetTextureFile(int*);
     void SkyShaderProperty_SetBlendValue(float);
     void NiPhysXProp_SetSnapshot(NiTexture*);
-    NiTexture* FUN_009c8680();
+    NiTexture* BGSCameraShot_GetImagespaceTarget();
 };

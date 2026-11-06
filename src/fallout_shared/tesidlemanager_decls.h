@@ -67,7 +67,7 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-char* FUN_0040ab30(char*, int);
+char* strrchr_0040ab30(char*, int);
 char* FUN_004812f0(const char*, const char*);
 void FUN_00406d50(char*, unsigned int, const char*);
 char* strrchr(const char* string, int character);

@@ -51,7 +51,7 @@ struct FUN_00c7be20_arr
     int m_uiItemCount;
     unsigned int m_capFlags;
 };
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 struct FUN_00c7be20_cls
 {
     int unk00;
@@ -115,13 +115,13 @@ struct FUN_00d63280_cls
 };
 
 
-void* __cdecl FUN_00c85750() throw();
+void* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00c7be20_arr;
 
 inline hkMemoryAllocator& containerHeap()
 {
-    return ((hkMemoryRouter*)FUN_00c85750())->heap();
+    return ((hkMemoryRouter*)hkMemoryRouter_getInstance())->heap();
 }
 
 inline hkCharArray::~hkCharArray()
@@ -171,10 +171,10 @@ hkBool __cdecl hkpHavokSnapshot_save_00cc0d60(hkpWorld* world, hkArrayStreamWrit
 
 struct hkDisplaySerializeOStream
 {
-    void FUN_00d60960(int n);
-    void FUN_00d605d0(unsigned int b);
+    void hkOArchive_write32u(int n);
+    void hkOArchive_write8u(unsigned int b);
     void WriteInt(int n);
-    void FUN_00d607b0(const char* buf, int n);
+    void hkOArchive_writeRaw(const char* buf, int n);
 };
 
 inline int hkpPhysicsContext::getNumWorlds() const
@@ -220,14 +220,14 @@ void FUN_00d63040_cls::hkpWorldSnapshotViewer_step(float frameTimeInMs)
             int length = storage.GetLogicalSize();
             if (length >= 1)
             {
-                m_pDisplayStream->FUN_00d60960(length + 9);
-                m_pDisplayStream->FUN_00d605d0(0xd0);
-                m_pDisplayStream->FUN_00d605d0(rules.m_ucBytesInPointer);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bLittleEndian);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bReusePaddingOptimization);
-                m_pDisplayStream->FUN_00d605d0(rules.m_bEmptyBaseClassOptimization);
+                m_pDisplayStream->hkOArchive_write32u(length + 9);
+                m_pDisplayStream->hkOArchive_write8u(0xd0);
+                m_pDisplayStream->hkOArchive_write8u(rules.m_ucBytesInPointer);
+                m_pDisplayStream->hkOArchive_write8u(rules.m_bLittleEndian);
+                m_pDisplayStream->hkOArchive_write8u(rules.m_bReusePaddingOptimization);
+                m_pDisplayStream->hkOArchive_write8u(rules.m_bEmptyBaseClassOptimization);
                 m_pDisplayStream->WriteInt(length);
-                m_pDisplayStream->FUN_00d607b0(storage.begin(), length);
+                m_pDisplayStream->hkOArchive_writeRaw(storage.begin(), length);
             }
         }
     }

@@ -248,11 +248,11 @@ struct MyCls
     int _40;
     int _44;
     void _Call_a5d3a0();
-    void FUN_00a853c0(int);
+    void NiSkinData_ComputeBoneBounds(int);
     MyCls* InitFromData(int, int, const Dummy13&, int);
 };
 extern int DAT_0109e574;
-int __cdecl FUN_00a853c0();
+int __cdecl NiSkinData_ComputeBoneBounds();
 // Initialises the object: sets the vtable, clears _08, copies a3 into _0c, stores a2 and a1, then calls FUN_00a853c0(a4) and returns this.
 // @fnv 0x00a854c0
 MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
@@ -263,7 +263,7 @@ MyCls* MyCls::InitFromData(int a1, int a2, const Dummy13& aData, int a4)
     _0c = aData;
     _40 = a2;
     _44 = a1;
-    FUN_00a853c0(a4);
+    NiSkinData_ComputeBoneBounds(a4);
     return this;
 }
 
@@ -1149,12 +1149,13 @@ class SkinPartitionOwner : public SkinObjectBase
     NiSkinPartition::Partition* m_pPartitions;
 
     virtual ~SkinPartitionOwner();
-    void FUN_00a846e0(SkinViewerStrings* pkStrings);
+    void NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings);
 };
 
 // Appends the RTTI name and one line per partition listing its bone count to the viewer strings array.
 // @fnv 0x00a846e0
-void SkinPartitionOwner::FUN_00a846e0(SkinViewerStrings* pkStrings)
+// src: XBOX_PDB 0x00a846e0
+void SkinPartitionOwner::NiSkinPartition_GetViewerStrings(SkinViewerStrings* pkStrings)
 {
     SkinObjectBase::GetViewerStrings(pkStrings);
     pkStrings->Add(SkinGetViewerString(g_kSkinPartitionRTTI.GetName()));
@@ -1521,12 +1522,13 @@ class SaverA83C : public FUN_00a89af0_helper
     unsigned int m_uiCount;
     PartitionSave* m_pkElems;
 
-    void FUN_00a83ce0(NiStream& kStream);
+    void NiSkinPartition_SaveBinary(NiStream& kStream);
 };
 
 // Calls the base serialization method, writes m_uiCount, then serializes each partition.
 // @fnv 0x00a83ce0
-void SaverA83C::FUN_00a83ce0(NiStream& kStream)
+// src: XBOX_PDB 0x00a83ce0
+void SaverA83C::NiSkinPartition_SaveBinary(NiStream& kStream)
 {
     nullsub_3(kStream);
     SerializeValue(kStream, m_uiCount);

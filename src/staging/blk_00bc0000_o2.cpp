@@ -154,13 +154,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -360,7 +360,8 @@ inline bool IsKindOfType(const NiObject* object, const NiRTTI* type)
 }
 
 // @fnv 0x00bc0f70
-void* __cdecl FUN_00bc0f70()
+// src: XBOX_PDB 0x00bc0f70
+void* __cdecl BoltShader_GetRTTI()
 {
     return &g_01201f5c;
 }
@@ -369,7 +370,8 @@ extern MemoryManager g_memoryManager;
 extern void* DAT_01201f4c;
 
 // @fnv 0x00bc0c50
-void __cdecl FUN_00bc0c50()
+// src: XBOX_PDB 0x00bc0c50
+void __cdecl BoltShader_ClearSegmentIndexArray()
 {
     if (DAT_01201f4c)
         g_memoryManager.Deallocate(DAT_01201f4c);
@@ -452,11 +454,12 @@ FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
 
 struct FUN_00bc34a0_class
 {
-    void* __thiscall FUN_00bc34a0(float* out);
+    void* __thiscall BSRefractionStrengthController_GetTargetFloatValue(float* out);
 };
 
 // @fnv 0x00bc34a0
-void* __thiscall FUN_00bc34a0_class::FUN_00bc34a0(float* out)
+// src: XBOX_PDB 0x00bc34a0
+void* __thiscall FUN_00bc34a0_class::BSRefractionStrengthController_GetTargetFloatValue(float* out)
 {
     *out = *(float*)((char*)*(void**)((char*)this + 0x2c) + 0xe0);
     return *(void**)((char*)this + 0x2c);
@@ -467,13 +470,14 @@ struct NiStream;
 struct FUN_00bc3780_Class : BSShaderProperty
 {
     // BSShaderProperty does not yet declare its stream override.
-    void __thiscall FUN_00ba9380(NiStream&);
-    void __thiscall FUN_00bc3780(NiStream& stream);
+    void __thiscall BSShaderProperty_SaveBinary(NiStream&);
+    void __thiscall VolumetricFogShaderProperty_SaveBinary(NiStream& stream);
 };
 // @fnv 0x00bc3780
-void __thiscall FUN_00bc3780_Class::FUN_00bc3780(NiStream& stream)
+// src: XBOX_PDB 0x00bc3780
+void __thiscall FUN_00bc3780_Class::VolumetricFogShaderProperty_SaveBinary(NiStream& stream)
 {
-    FUN_00ba9380(stream);
+    BSShaderProperty_SaveBinary(stream);
     ((void (__thiscall*)(NiColorA*, NiStream&))NiColorA_SaveBinary)((NiColorA*)((char*)this + 0x60), stream);
 }
 
@@ -498,11 +502,12 @@ void* __thiscall FUN_00bc3800_Class::FUN_00bc3800(int flags)
 
 struct FUN_00bc4980_class
 {
-    void __thiscall FUN_00bc4980(void* p, char c);
+    void __thiscall ParticleShader_SetCurrentPass(void* p, char c);
 };
 
 // @fnv 0x00bc4980
-void __thiscall FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
+// src: XBOX_PDB 0x00bc4980
+void __thiscall FUN_00bc4980_class::ParticleShader_SetCurrentPass(void* p, char c)
 {
     *(void**)((char*)this + 0x6c) = p;
     *(char*)((char*)this + 0x64) = c;
@@ -626,10 +631,11 @@ struct LodShaderBase
 };
 struct FUN_00bc0970_class : LodShaderBase
 {
-    void FUN_00bc0970();
+    void BoltShader_RecreateRendererData();
 };
 // @fnv 0x00bc0970
-void FUN_00bc0970_class::FUN_00bc0970()
+// src: XBOX_PDB 0x00bc0970
+void FUN_00bc0970_class::BoltShader_RecreateRendererData()
 {
     if (*(int*)((char*)this + 0x28))
     {
@@ -649,11 +655,12 @@ extern int _DAT_011f4274;
 
 struct FUN_00bc2bd0_class
 {
-    int* __thiscall FUN_00bc2bd0();
+    int* __thiscall BSOrderedNode_BSOrderedNode();
 };
 
 // @fnv 0x00bc2bd0
-int* __thiscall FUN_00bc2bd0_class::FUN_00bc2bd0()
+// src: XBOX_PDB 0x00bc2bd0
+int* __thiscall FUN_00bc2bd0_class::BSOrderedNode_BSOrderedNode()
 {
     FUN_00c5f570();
     *(int**)(char*)this = &DAT_010ba730;
@@ -666,12 +673,13 @@ int* __thiscall FUN_00bc2bd0_class::FUN_00bc2bd0()
 }
 
 // @fnv 0x00bc3040
-void __fastcall FUN_00bc3040(void* self, int, float* out)
+// src: XBOX_PDB 0x00bc3040
+void __fastcall BSMaterialEmittanceMultController_GetTargetFloatValue(void* self, int, float* out)
 {
     *out = *(float*)((char*)*(int**)((char*)self + 0x2c) + 0x40);
 }
 
-void __stdcall FUN_00a576c0(StrArr*);
+void __stdcall NiFloatInterpController_GetViewerStrings(StrArr*);
 struct GlobalObjectO2_00a7b610
 {
     char* pData;
@@ -679,9 +687,10 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_01201f90;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 // @fnv 0x00bc31f0
-void __stdcall FUN_00bc31f0(StrArr* pStrArr)
+// src: XBOX_PDB 0x00bc31f0
+void __stdcall BSMaterialEmittanceMultController_GetViewerStrings(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
+    NiFloatInterpController_GetViewerStrings(pStrArr);
     char* p = NiViewerStrings_NiGetViewerString_Title(g_01201f90.pData);
     unsigned int i = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int j = *(unsigned short*)((char*)pStrArr + 0x8);
@@ -837,9 +846,10 @@ extern GlobalObjectO2_00a7b610_2 g_01201f9c;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 
 // @fnv 0x00bc3450
-void __stdcall FUN_00bc3450(StrArr* pArray)
+// src: XBOX_PDB 0x00bc3450
+void __stdcall BSRefractionFirePeriodController_GetViewerStrings(StrArr* pArray)
 {
-    FUN_00a576c0((StrArr*)pArray);
+    NiFloatInterpController_GetViewerStrings((StrArr*)pArray);
     char* s = NiViewerStrings_NiGetViewerString_Title(g_01201f9c.pData);
     unsigned int i = *(unsigned short*)((char*)pArray + 0xa);
     if (i >= *(unsigned short*)((char*)pArray + 8))
@@ -918,12 +928,13 @@ int FUN_00bd9f90_class::BSShaderProperty_AddPass_ZOnly_TexEffect(NiGeometry* geo
 struct Shader_00bdf650
 {
     BSShaderProperty::ShaderPassList* pPasses;
-    void FUN_00bdf650(NiGeometry* geom, bool a, bool b, ShadowSceneLight* light);
+    void BSShaderPPLightingProperty_AddDepthMapPass_2x(NiGeometry* geom, bool a, bool b, ShadowSceneLight* light);
 };
 
 // Selects a pass index from the two bool flags and adds geom to the pass list at this+0x40 with the light from light+0x1a0.
 // @fnv 0x00bdf650
-void Shader_00bdf650::FUN_00bdf650(NiGeometry* geom, bool abFirstFlag, bool abSecondFlag, ShadowSceneLight* light)
+// src: XBOX_PDB 0x00bdf650
+void Shader_00bdf650::BSShaderPPLightingProperty_AddDepthMapPass_2x(NiGeometry* geom, bool abFirstFlag, bool abSecondFlag, ShadowSceneLight* light)
 {
     ShadowSceneLight* l = (ShadowSceneLight*)*(int*)((char*)light + 0x1a0);
     if (!abFirstFlag)
@@ -1293,16 +1304,18 @@ void __thiscall FUN_00bc1cc0_class::BoltShaderProperty_CleanupBolt(float f1, flo
 
 struct FUN_00bc3240_class
 {
-    void FUN_00bc3240(float* out);
+    void BSRefractionFirePeriodController_GetTargetFloatValue(float* out);
 };
 // @fnv 0x00bc3240
-void FUN_00bc3240_class::FUN_00bc3240(float* out)
+// src: XBOX_PDB 0x00bc3240
+void FUN_00bc3240_class::BSRefractionFirePeriodController_GetTargetFloatValue(float* out)
 {
     *out = *reinterpret_cast<long*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x2c) + 0xe4);
 }
 
 // @fnv 0x00bc3340
-GlobalObjectO2_00a7b610_2* __cdecl FUN_00bc3340()
+// src: XBOX_PDB 0x00bc3340
+GlobalObjectO2_00a7b610_2* __cdecl BSRefractionFirePeriodController_GetRTTI()
 {
     return &g_01201f9c;
 }
@@ -1315,9 +1328,10 @@ extern GlobalObjectO2_00a7b610_3 g_01201fa8;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 
 // @fnv 0x00bc3700
-void __stdcall FUN_00bc3700(StrArr* pStrArr)
+// src: XBOX_PDB 0x00bc3700
+void __stdcall BSRefractionStrengthController_GetViewerStrings(StrArr* pStrArr)
 {
-    FUN_00a576c0(pStrArr);
+    NiFloatInterpController_GetViewerStrings(pStrArr);
     char* p = NiViewerStrings_NiGetViewerString_Title(g_01201fa8.pData);
     unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
     unsigned int size = *(unsigned short*)((char*)pStrArr + 8);
@@ -1329,13 +1343,13 @@ void __stdcall FUN_00bc3700(StrArr* pStrArr)
 struct FUN_00bc3750_class : BSShaderProperty
 {
     // BSShaderProperty does not yet declare its stream override.
-    void FUN_00ba92c0(NiStream&);
+    void BSShaderProperty_LoadBinary(NiStream&);
     void LoadFromStream(NiStream& stream);
 };
 // @fnv 0x00bc3750
 void FUN_00bc3750_class::LoadFromStream(NiStream& stream)
 {
-    FUN_00ba92c0(stream);
+    BSShaderProperty_LoadBinary(stream);
     ((void (__thiscall*)(NiColorA*, NiStream&))NiColorA_LoadBinary)((NiColorA*)((char*)this + 0x60), stream);
 }
 
@@ -2389,7 +2403,8 @@ void BC1C10Graph::RemoveFromEnd(int iCount)
 // FUN_00bc1f90 : a one-line function - getter
 extern int g_target_00bc1f90;
 // @fnv 0x00bc1f90
-void* FUN_00bc1f90()
+// src: XBOX_PDB 0x00bc1f90
+void* BoltShaderProperty_GetRTTI()
 {
     return &g_target_00bc1f90;
 }
@@ -2412,12 +2427,13 @@ struct SpawnedObj_b10020 : SpawnedBase_b10020
 
 struct FUN_00bc2020_cls : BSShaderProperty
 {
-    SpawnedBase_b10020* FUN_00bc2020(unsigned int arg);
+    SpawnedBase_b10020* BoltShaderProperty_CreateClone(unsigned int arg);
 };
 
 // Allocates a SpawnedObj_b10020, initializes it via FUN_00ba8b10 with arg, and returns it as a SpawnedBase_b10020 pointer.
 // @fnv 0x00bc2020
-SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(unsigned int arg)
+// src: XBOX_PDB 0x00bc2020
+SpawnedBase_b10020* FUN_00bc2020_cls::BoltShaderProperty_CreateClone(unsigned int arg)
 {
     SpawnedBase_b10020* obj = new SpawnedObj_b10020();
     CopyMemberData(reinterpret_cast<BSShaderProperty*>(obj), reinterpret_cast<CloningProcess*>(arg));
@@ -2426,10 +2442,11 @@ SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(unsigned int arg)
 
 struct FUN_00bc2540_class : BSShaderProperty
 {
-    BSShaderProperty::ShaderPassList* __thiscall FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
+    BSShaderProperty::ShaderPassList* __thiscall BoltShaderProperty_GetRenderPasses(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C);
 };
 // @fnv 0x00bc2540
-BSShaderProperty::ShaderPassList* FUN_00bc2540_class::FUN_00bc2540(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C)
+// src: XBOX_PDB 0x00bc2540
+BSShaderProperty::ShaderPassList* FUN_00bc2540_class::BoltShaderProperty_GetRenderPasses(NiGeometry* geom, int a0C, int a10, int a14, int a18, int a1C)
 {
     CheckCreateRenderPassArray(1);
     BSShaderProperty::ShaderPassList* passes = static_cast<BSShaderProperty::ShaderPassList*>(pRenderPassList);
@@ -2544,7 +2561,7 @@ class FUN_00bc2590_cls
     unsigned char unk175;
     unsigned char unk176;
     unsigned char unk177;
-    void FUN_00bc20a0(int i, int cursor, int prev, int wrap);
+    void BoltShaderProperty_CreateSegment(int i, int cursor, int prev, int wrap);
     void BoltShaderProperty_ExtendSegments(int count);
 };
 
@@ -2594,7 +2611,7 @@ void FUN_00bc2590_cls::BoltShaderProperty_ExtendSegments(int count)
                 {
                     wrap = cursor - m_74;
                 }
-                FUN_00bc20a0(i, cursor, prev, wrap);
+                BoltShaderProperty_CreateSegment(i, cursor, prev, wrap);
             }
             remaining -= step;
         } while (remaining != 0);
@@ -2655,10 +2672,11 @@ struct S_00bc2ae0_Foo
     BSShaderAccumulator* unkC4;
 };
 
-extern void __stdcall FUN_00a5dbe0(S_00bc2ae0_Foo*);
+extern void __stdcall NiNode_OnVisible(S_00bc2ae0_Foo*);
 
 // @fnv 0x00bc2ae0
-void __stdcall FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
+// src: XBOX_PDB 0x00bc2ae0
+void __stdcall BSClearZNode_OnVisible(S_00bc2ae0_Foo* pFoo)
 {
     BSShaderAccumulator* target = pFoo->unkC4;
 
@@ -2668,7 +2686,7 @@ void __stdcall FUN_00bc2ae0(S_00bc2ae0_Foo* pFoo)
         target->_unverified_eAccumulationMode = BSShaderAccumulator::BSSA_ACCUMLOD;
     }
 
-    FUN_00a5dbe0(pFoo);
+    NiNode_OnVisible(pFoo);
 
     if (target)
     {
@@ -2871,7 +2889,7 @@ struct FUN_00bc2d20_cls
     int unkA8;
     FUN_00bc2d20_sub m_ac;
     unsigned char m_bc;
-    bool FUN_00a5e600(FUN_00bc2d20_cls* other);
+    bool NiNode_IsEqual(FUN_00bc2d20_cls* other);
     unsigned char Equals(FUN_00bc2d20_cls* other);
 };
 
@@ -2879,7 +2897,7 @@ struct FUN_00bc2d20_cls
 // @fnv 0x00bc2d20
 unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
 {
-    unsigned char ok = FUN_00a5e600(other);
+    unsigned char ok = NiNode_IsEqual(other);
     if (ok)
     {
         if (m_bc != other->m_bc)
@@ -2894,7 +2912,8 @@ unsigned char FUN_00bc2d20_cls::Equals(FUN_00bc2d20_cls* other)
 struct CpuOpaque;
 extern CpuOpaque DAT_01201f90;
 // @fnv 0x00bc3100
-CpuOpaque* __cdecl FUN_00bc3100()
+// src: XBOX_PDB 0x00bc3100
+CpuOpaque* __cdecl BSMaterialEmittanceMultController_GetRTTI()
 {
     return &DAT_01201f90;
 }
@@ -2919,12 +2938,13 @@ struct SpawnedObj_b9523 : SpawnedBase_b9523
 struct FUN_00bc3110_cls
 {
     void FUN_00a57620(SpawnedBase_b9523* p, unsigned int arg);
-    SpawnedBase_b9523* FUN_00bc3110(unsigned int arg);
+    SpawnedBase_b9523* BSMaterialEmittanceMultController_CreateClone(unsigned int arg);
 };
 
 // Allocates a SpawnedObj_b9523, initializes it via FUN_00a57620 with arg, and returns it as a SpawnedBase_b9523 pointer.
 // @fnv 0x00bc3110
-SpawnedBase_b9523* FUN_00bc3110_cls::FUN_00bc3110(unsigned int arg)
+// src: XBOX_PDB 0x00bc3110
+SpawnedBase_b9523* FUN_00bc3110_cls::BSMaterialEmittanceMultController_CreateClone(unsigned int arg)
 {
     SpawnedBase_b9523* p = new SpawnedObj_b9523();
     FUN_00a57620(p, arg);
@@ -3001,11 +3021,12 @@ class BBC3370DerivedController : public BBC3370Controller
     {}
     virtual ~BBC3370DerivedController();
 
-    BBC3370Controller* FUN_00bc3370(BBC3370CloningProcess& kCloning);
+    BBC3370Controller* BSRefractionFirePeriodController_CreateClone(BBC3370CloningProcess& kCloning);
 };
 
 // @fnv 0x00bc3370
-BBC3370Controller* BBC3370DerivedController::FUN_00bc3370(BBC3370CloningProcess& kCloning)
+// src: XBOX_PDB 0x00bc3370
+BBC3370Controller* BBC3370DerivedController::BSRefractionFirePeriodController_CreateClone(BBC3370CloningProcess& kCloning)
 {
     BBC3370DerivedController* pkClone = new BBC3370DerivedController;
     CopyMemberData(pkClone, kCloning);
@@ -3047,7 +3068,8 @@ Derived_00bc33f0* __cdecl CreateDerived()
 struct CpuOpaque;
 extern CpuOpaque DAT_01201fa8;
 // @fnv 0x00bc3610
-CpuOpaque* __cdecl FUN_00bc3610()
+// src: XBOX_PDB 0x00bc3610
+CpuOpaque* __cdecl BSRefractionStrengthController_GetRTTI()
 {
     return &DAT_01201fa8;
 }
@@ -3112,7 +3134,8 @@ void* __cdecl CreateInterpDerivedBc36()
 extern unsigned char DAT_01201fb0;
 
 // @fnv 0x00bc37a0
-void* __cdecl FUN_00bc37a0()
+// src: XBOX_PDB 0x00bc37a0
+void* __cdecl VolumetricFogShaderProperty_GetRTTI()
 {
     return &DAT_01201fb0;
 }
@@ -3248,12 +3271,13 @@ class BC3930Property : public BSShaderProperty
     bool IsEqualBase(BSShaderProperty* pkOther);
     BC3930Key m_kControlPoint;
 
-    bool FUN_00bc3930(BC3930Property* pkOther);
+    bool VolumetricFogShaderProperty_IsEqual(BC3930Property* pkOther);
 };
 
 // Returns false if the control-point keys differ, otherwise compares the base property.
 // @fnv 0x00bc3930
-bool BC3930Property::FUN_00bc3930(BC3930Property* pkOther)
+// src: XBOX_PDB 0x00bc3930
+bool BC3930Property::VolumetricFogShaderProperty_IsEqual(BC3930Property* pkOther)
 {
     if (pkOther->m_kControlPoint != m_kControlPoint)
         return false;
@@ -4055,11 +4079,12 @@ struct FUN_00bc4640_cls : LodShaderBase
     int unkB4;
     LodChildA* m_b8;
     LodChildB* m_bc;
-    void FUN_00bc4640();
+    void BeamShader_RecreateRendererData();
 };
 // If m_28 is nonzero, calls v28 on m_b8 and v22 on m_bc, then calls LodShaderBase::FUN_00e814b0.
 // @fnv 0x00bc4640
-void FUN_00bc4640_cls::FUN_00bc4640()
+// src: XBOX_PDB 0x00bc4640
+void FUN_00bc4640_cls::BeamShader_RecreateRendererData()
 {
     if (m_28 != 0)
     {
@@ -4072,7 +4097,7 @@ void FUN_00bc4640_cls::FUN_00bc4640()
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 const char* __cdecl FUN_00b4f380(bool);
 struct BeamDesc
 {
@@ -4164,12 +4189,12 @@ void TargetBeam::BeamShader_LoadShaders()
     char sourcePath[260];
     char binaryPath[260];
     FUN_00be0c00(vertexDesc.file, sourcePath);
-    FUN_00406d00(binaryPath, 260, "BEAM.vso");
+    BSsprintf(binaryPath, 260, "BEAM.vso");
     vertex.Assign(FUN_00be0fe0(sourcePath, &vertexDesc.count, "vs_1_1", binaryPath));
     const char* profile = FUN_00b4f380(true);
     BeamDesc pixelDesc("beam\\p\\beam.p.hlsl");
     FUN_00be0c00(pixelDesc.file, sourcePath);
-    FUN_00406d00(binaryPath, 260, "BEAM.pso");
+    BSsprintf(binaryPath, 260, "BEAM.pso");
     pixel.Assign(FUN_00be1750(sourcePath, &pixelDesc.count, profile, binaryPath));
 }
 
@@ -4324,7 +4349,8 @@ FUN_00bc4830::FUN_00bc4830(CountedRef* pSource)
 extern char DAT_01201fc8;
 
 // @fnv 0x00bc4970
-void* FUN_00bc4970()
+// src: XBOX_PDB 0x00bc4970
+void* BeamShader_GetRTTI()
 {
     return &DAT_01201fc8;
 }
@@ -4536,11 +4562,12 @@ struct FUN_00bc52f0_class
     int field70;
     int field74;
 
-    void __thiscall FUN_00bc52f0();
+    void __thiscall VolumetricFogShader_ClearPassStages();
 };
 
 // @fnv 0x00bc52f0
-void __thiscall FUN_00bc52f0_class::FUN_00bc52f0()
+// src: XBOX_PDB 0x00bc52f0
+void __thiscall FUN_00bc52f0_class::VolumetricFogShader_ClearPassStages()
 {
     int* p = &field6c;
     int count = 3;
@@ -4614,7 +4641,8 @@ FUN_00bc5320_Class::~FUN_00bc5320_Class()
 // FUN_00bc5440 : a one-line function - getter
 extern int g_target_00bc5440;
 // @fnv 0x00bc5440
-void* FUN_00bc5440()
+// src: XBOX_PDB 0x00bc5440
+void* VolumetricFogShader_GetRTTI()
 {
     return &g_target_00bc5440;
 }
@@ -4764,7 +4792,8 @@ FUN_00bc58a0::FUN_00bc58a0()
 extern int DAT_01202228;
 
 // @fnv 0x00bcb450
-void* __cdecl FUN_00bcb450()
+// src: XBOX_PDB 0x00bcb450
+void* __cdecl GeometryDecalShader_GetRTTI()
 {
     return &DAT_01202228;
 }
@@ -5505,7 +5534,8 @@ struct ShaderObj
 
 // Creates a pass with six stages, finishes it, constructs a ShaderObj from it, runs several init calls, sets the pass and returns the object.
 // @fnv 0x00bcd680
-ShaderObj* __cdecl FUN_00bcd680()
+// src: XBOX_PDB 0x00bcd680
+ShaderObj* __cdecl ParallaxShader_CreateShader()
 {
     PassStub* pass = NiDX9ShaderDeclaration_Create(DAT_011f9508, 6, 1);
     pass->SetStage(0, 0, 0, 2, 0);
@@ -6042,7 +6072,7 @@ extern char DAT_01011584;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 void* __cdecl FUN_00ec61c0(void* dst, int val, unsigned int n);
 void __cdecl FUN_00be0c00(void* val, void* buf);
-void __cdecl FUN_00406d00(char* dst, unsigned int n, const char* fmt, int i);
+void __cdecl BSsprintf(char* dst, unsigned int n, const char* fmt, int i);
 
 struct Elem540
 {
@@ -6198,7 +6228,7 @@ void FUN_00bd0540_class::InitRefObjects()
         if (arrA[i].f00 != 0)
         {
             FUN_00be0c00((void*)arrA[i].f00, bufB);
-            FUN_00406d00(bufA, 0x104, str_010bbaf8, i);
+            BSsprintf(bufA, 0x104, str_010bbaf8, i);
             RefObject* nv = FUN_00be0fe0(bufB, &arrA[i].f04, str_010a93ec, bufA);
             RefObject* old = m_arr94[i];
             if (old != nv)
@@ -6219,7 +6249,7 @@ void FUN_00bd0540_class::InitRefObjects()
         for (int i = 0; i < 7; i++)
         {
             FUN_00be0c00((void*)arrB[i].f00, bufB);
-            FUN_00406d00(bufA, 0x104, str_010bbae8, i);
+            BSsprintf(bufA, 0x104, str_010bbae8, i);
             RefObject* nv = FUN_00be0fe0(bufB, &arrB[i].f04, str_010a93e4, bufA);
             RefObject* old = m_arrBC[i];
             if (old != nv)
@@ -7750,7 +7780,8 @@ FUN_00bd74a0::~FUN_00bd74a0()
 extern int DAT_012023e8;
 
 // @fnv 0x00bd7610
-int* __cdecl FUN_00bd7610()
+// src: XBOX_PDB 0x00bd7610
+int* __cdecl BSCubeMapCamera_GetRTTI()
 {
     return &DAT_012023e8;
 }
@@ -7887,13 +7918,13 @@ struct FUN_00bd92b0_mgr
     virtual void v0();
     virtual void v1(int a, int b, int c, int d);
     void SetAccumulatorAt(int idx, int val, int flag);
-    void FUN_00b6da10(int v);
+    void BSTextureManager_ReturnRenderedTexture(int v);
 };
 
 struct FUN_00bd92b0_sub
 {
     void ImageSpaceTexture_ClearTexture();
-    int FUN_00ba3770();
+    int ImageSpaceTexture_GetRenderedTexture();
 };
 
 extern int DAT_011f91a8;
@@ -7948,8 +7979,8 @@ void FUN_00bd92b0_class::ImageSpaceEffectRefraction_Render(int a1, int a2, int a
     pMgr->SetAccumulatorAt(2, 0, 0);
 
     FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)DAT_011f91a8;
-    int r = sub->FUN_00ba3770();
-    g->FUN_00b6da10(r);
+    int r = sub->ImageSpaceTexture_GetRenderedTexture();
+    g->BSTextureManager_ReturnRenderedTexture(r);
     sub->ImageSpaceTexture_ClearTexture();
 }
 
@@ -9249,8 +9280,8 @@ struct DebugStrGlobal
 };
 extern DebugStrGlobal g_01201fb8;
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
-char* __cdecl FUN_00a7d5a0(const char*, void*);
-char* __cdecl FUN_00a7d370(const char*, bool);
+char* __cdecl NiGetViewerString_00a7d5a0(const char*, void*);
+char* __cdecl NiGetViewerString(const char*, bool);
 
 struct ShaderBase_00b690d0
 {
@@ -9358,19 +9389,20 @@ struct TerrainShader : ShaderBase_00b690d0
     {
         return (flags24 & mask) > 0;
     }
-    void FUN_00bc4460(StrArray* arr);
+    void HairShaderProperty_GetViewerStrings(StrArray* arr);
 };
 
 // Appends base debug info plus height map, light flags and point-light status strings to arr.
 // @fnv 0x00bc4460
-void TerrainShader::FUN_00bc4460(StrArray* arr)
+// src: XBOX_PDB 0x00bc4460
+void TerrainShader::HairShaderProperty_GetViewerStrings(StrArray* arr)
 {
     GetDebugInfo_b690d0(arr);
     arr->Add(NiViewerStrings_NiGetViewerString_Title(g_01201fb8.pData));
-    arr->Add(FUN_00a7d5a0("height map", m_kTerrainTexture));
-    arr->Add(FUN_00a7d370("primary light is point", GetFlag(0x80)));
-    arr->Add(FUN_00a7d370("second light", GetFlag(0x100)));
-    arr->Add(FUN_00a7d370("third light", GetFlag(0x200)));
+    arr->Add(NiGetViewerString_00a7d5a0("height map", m_kTerrainTexture));
+    arr->Add(NiGetViewerString("primary light is point", GetFlag(0x80)));
+    arr->Add(NiGetViewerString("second light", GetFlag(0x100)));
+    arr->Add(NiGetViewerString("third light", GetFlag(0x200)));
 }
 
 struct FUN_00bc5050_base
@@ -9462,11 +9494,12 @@ struct FUN_00bc5050_base
 
 struct FUN_00bc5050_class : FUN_00bc5050_base
 {
-    void FUN_00bc5050();
+    void PrecipitationShader_ReloadShaders();
 };
 
 // @fnv 0x00bc5050
-void FUN_00bc5050_class::FUN_00bc5050()
+// src: XBOX_PDB 0x00bc5050
+void FUN_00bc5050_class::PrecipitationShader_ReloadShaders()
 {
     vf4f();
     vf52();
@@ -9558,7 +9591,7 @@ void FUN_00bc5070_shell::LoadVolumetricFogShaders()
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern bool DAT_011ad80e;
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, int, const char*, ...);
+int __cdecl BSsprintf(char*, int, const char*, ...);
 
 struct ShaderMacro
 {
@@ -9639,7 +9672,7 @@ void VolumetricFog::CreatePixelShaders()
         FUN_00be0c00(shaderDescs[i].filename, szFullPath);
 
         char szShaderName[260];
-        FUN_00406d00(szShaderName, 260, "VolumetricFog%03d.pso", i);
+        BSsprintf(szShaderName, 260, "VolumetricFog%03d.pso", i);
 
         RefObject* pShader =
             FUN_00be1750(szFullPath, (unsigned int*)shaderDescs[i].macros, shaderTargets[i], szShaderName);
@@ -10538,7 +10571,7 @@ extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 void __cdecl FUN_00be0c00(const char*, char*);
 
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 
 struct FeatureManager
 {
@@ -10825,7 +10858,7 @@ void FeatureManager::LoadAllFeatures()
 
             FUN_00be0c00(descriptor->name, qualifiedName);
 
-            FUN_00406d00(formatBuffer, 0x104, &DAT_010bb96c, index);
+            BSsprintf(formatBuffer, 0x104, &DAT_010bb96c, index);
 
             FeatureObject* next = LoadFeature(qualifiedName, &descriptor->family, &str_010a93cc, formatBuffer);
 
@@ -11093,12 +11126,12 @@ struct Obj1090
     Ptr1090 m_88;
     void ShadowLightShader_CreateConstantMapsAlt();
 };
-Obj1090* __cdecl FUN_00b55560(int);
+Obj1090* __cdecl BSShaderManager_GetShader(int);
 // @fnv 0x00bd1090
 // src: COMMUNITY 0x00bd1090
 void Obj1090::ShadowLightShader_CreateConstantMapsAlt()
 {
-    Obj1090* source = FUN_00b55560(1);
+    Obj1090* source = BSShaderManager_GetShader(1);
     Ptr1090 first(source->m_30);
     Ptr1090 second(source->m_34);
     m_34 = second.value;
@@ -12019,8 +12052,8 @@ struct PassOwner
 extern GeomStub** DAT_011f91e0;
 extern Bound DAT_011f4288;
 extern unsigned char DAT_011f91c4;
-FogStub* __cdecl FUN_00b55520(int idx);
-PassOwner* __cdecl FUN_00b55560(int idx);
+FogStub* __cdecl BSShaderManager_GetFogProperty(int idx);
+PassOwner* __cdecl BSShaderManager_GetShader(int idx);
 struct FUN_00bd4ba0_class
 {
     virtual void v00();
@@ -12138,9 +12171,9 @@ void FUN_00bd4ba0_class::ApplyPasses(PassArg* pPassArg)
     int bc = geom->unkbc;
     int x = pPassArg->unk08;
     Method_00b7dab0(pPassArg);
-    FogStub* fog = FUN_00b55520(DAT_011f91c4);
+    FogStub* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
     Apply(geom, fog, x);
-    PassOwner* owner = FUN_00b55560(1);
+    PassOwner* owner = BSShaderManager_GetShader(1);
     owner->unk30->SetupPass((void*)DAT_0126f74c->unk44, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     owner->unk34->SetupPass(DAT_0126f74c->handler, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     PassShader* pShader30 = unk30;
@@ -12392,7 +12425,7 @@ struct Geometry : Ref
     {
         return FUN_00aa13e0(size);
     }
-    void FUN_00439410(Ref*);
+    void NiAVObject_AttachProperty(Ref*);
 };
 struct FUN_00c1a480 : Geometry
 {
@@ -12489,9 +12522,9 @@ FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
         geometry = new FUN_00c1a660(data);
     Ref* prop = DAT_011f91c0 < 2 ? src->prop2 : src->prop1;
     if (prop)
-        geometry->FUN_00439410(prop);
+        geometry->NiAVObject_AttachProperty(prop);
     if (src->prop3)
-        geometry->FUN_00439410(src->prop3);
+        geometry->NiAVObject_AttachProperty(src->prop3);
     FUN_00b57f90* shader = new FUN_00b57f90;
     shader->texture = src->texture;
     shader->parent = this;
@@ -12519,7 +12552,7 @@ FUN_00bd6190::FUN_00bd6190(Source* src, int argValue, bool flag)
             shader->dirty = 0;
         shader->flags24 &= ~0x2000;
     }
-    geometry->FUN_00439410(shader);
+    geometry->NiAVObject_AttachProperty(shader);
     property = shader;
     FUN_00b57e30(geometry, 0, 0);
     Owner* owner = geometry->owner;
@@ -12724,10 +12757,11 @@ struct Bd84Owner : FUN_00bd74a0
 {
     void RenderFaces();
     void BSCubeMapCamera_ClickCubeMapWithMask(int arg);
-    void FUN_00bd84b0(int arg);
+    void BSCubeMapCamera_Click(int arg);
 };
 // @fnv 0x00bd84b0
-void Bd84Owner::FUN_00bd84b0(int arg)
+// src: XBOX_PDB 0x00bd84b0
+void Bd84Owner::BSCubeMapCamera_Click(int arg)
 {
     switch (unk114)
     {
@@ -14919,7 +14953,7 @@ struct Shader91
     int unk34;
     int unk38;
     Passes91* passes;
-    unsigned char FUN_00b707d0();
+    unsigned char BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     Light91* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void*&);
     Light91* BSShaderLightingProperty_GetNextActiveNonShadowLight(void*&);
     bool FUN_004a2020(int);
@@ -14936,7 +14970,7 @@ Pass91* Shader91::BSShaderPPLightingProperty_AddPass_Opt(Geometry91* geometry, L
     {
         passes->FUN_00ba9ee0(geometry, 0, true, 0, 0, 0, 0, 0);
         pass = passes->entries[passes->size - 1];
-        pass->capacity = pass->count = FUN_00b707d0() + 1;
+        pass->capacity = pass->count = BSShaderLightingProperty_GetNumberofActiveNonShadowLights() + 1;
         pass->BSShaderProperty_RenderPass_ClearSceneLights();
         pass->AllocateElemArray(pass->count);
         pass->lights[0] = light;
@@ -15708,7 +15742,7 @@ void ParallaxShader::CreateParallaxShaders()
         for (int i = 0; i < 20; ++i)
         {
             FUN_00be0c00(descriptors[i].file, sourceName);
-            FUN_00406d00(binaryName, 260, "PAR2%03i.vso", i);
+            BSsprintf(binaryName, 260, "PAR2%03i.vso", i);
             shaders[i].Assign(FUN_00be0fe0(sourceName, (unsigned int*)descriptors[i].macros, "vs_2_0", binaryName));
         }
     }
@@ -15757,16 +15791,18 @@ void* GetOrCreateTable()
     return DAT_01201f4c;
 }
 
-void __cdecl FUN_00ba8a80();
+void __cdecl BSShaderProperty_RegisterStreamables();
 // @fnv 0x00bc3770
-void __cdecl FUN_00bc3770()
+// src: XBOX_PDB 0x00bc3770
+void __cdecl BSShaderLightingProperty_RegisterStreamables()
 {
-    FUN_00ba8a80();
+    BSShaderProperty_RegisterStreamables();
 }
 
 void __cdecl FUN_00be0870();
 // @fnv 0x00bc4600
-void __cdecl FUN_00bc4600()
+// src: XBOX_PDB 0x00bc4600
+void __cdecl ParticleShader_Initialize()
 {
     FUN_00be0870();
 }
@@ -16307,7 +16343,7 @@ extern int DAT_010bc560;
 
 struct TextureManager_9160
 {
-    void FUN_00b6da10(int texture);
+    void BSTextureManager_ReturnRenderedTexture(int texture);
 };
 extern int DAT_011f91a8;
 
@@ -16324,7 +16360,7 @@ struct TextureList_9160
 struct TextureWrapper_9160
 {
     int ImageSpaceTexture_GetTexture();
-    int FUN_00ba3770();
+    int ImageSpaceTexture_GetRenderedTexture();
     void ImageSpaceTexture_ClearTexture();
     void FUN_00ba3a00();
     ~TextureWrapper_9160()
@@ -16379,7 +16415,7 @@ FUN_00bd9160::~FUN_00bd9160()
     if (m_texture.ImageSpaceTexture_GetTexture())
     {
         TextureManager_9160* manager = reinterpret_cast<TextureManager_9160*>(DAT_011f91a8);
-        manager->FUN_00b6da10(m_texture.FUN_00ba3770());
+        manager->BSTextureManager_ReturnRenderedTexture(m_texture.ImageSpaceTexture_GetRenderedTexture());
         m_texture.ImageSpaceTexture_ClearTexture();
     }
 }
@@ -16642,7 +16678,7 @@ extern const char DAT_010aebf4;
 extern const char DAT_010aec10;
 extern const char DAT_010aed54;
 void __cdecl FUN_00be0c00(const char*, char*);
-int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 struct ShaderTail
 {
     const char* arg12;
@@ -16983,7 +17019,7 @@ void ShaderManager::InitShaderPrograms()
             if (entry.filename)
             {
                 FUN_00be0c00(entry.filename, path);
-                FUN_00406d00(name, 260, &DAT_010bb95c, i);
+                BSsprintf(name, 260, &DAT_010bb95c, i);
                 m_programs[i] = FUN_00be0fe0(path, &entry.arg00, &DAT_010a93e4, name);
             }
         }
@@ -18005,10 +18041,11 @@ struct FloatTarget3080
 };
 struct FloatController3080 : ShaderRefractionController
 {
-    void FUN_00bc3080(NiUpdateData& kUpdateData);
+    void BSMaterialEmittanceMultController_Update(NiUpdateData& kUpdateData);
 };
 // @fnv 0x00bc3080
-void FloatController3080::FUN_00bc3080(NiUpdateData& kUpdateData)
+// src: XBOX_PDB 0x00bc3080
+void FloatController3080::BSMaterialEmittanceMultController_Update(NiUpdateData& kUpdateData)
 {
     if (GetManagerControlled())
     {
@@ -18095,11 +18132,12 @@ struct IntTargetBC3
 };
 struct IntControllerBC3 : ShaderRefractionController
 {
-    void FUN_00bc3290(NiUpdateData& kUpdateData);
+    void BSRefractionFirePeriodController_Update(NiUpdateData& kUpdateData);
 };
 // Advances controller time unless manager-controlled, evaluates the interpolator, and stores its value rounded half away from zero in the target's unkE4.
 // @fnv 0x00bc3290
-void IntControllerBC3::FUN_00bc3290(NiUpdateData& kUpdateData)
+// src: XBOX_PDB 0x00bc3290
+void IntControllerBC3::BSRefractionFirePeriodController_Update(NiUpdateData& kUpdateData)
 {
     if (GetManagerControlled())
     {
@@ -19458,7 +19496,7 @@ extern NLPt4 DAT_01202148;
 extern NLPt4 DAT_01202158;
 extern Lighting30Packet4 DAT_011a9bd0;
 extern unsigned char DAT_011f91c4;
-BSFogProperty* __cdecl FUN_00b55520(int);
+BSFogProperty* __cdecl BSShaderManager_GetFogProperty(int);
 struct FogFlag
 {
     int unk0;
@@ -19576,7 +19614,7 @@ void FogShader::SetFogMode(unsigned int mode)
         fogColor->enabled = true;
     else
         fogColor->enabled = false;
-    BSFogProperty* fog = FUN_00b55520(DAT_011f91c4);
+    BSFogProperty* fog = BSShaderManager_GetFogProperty(DAT_011f91c4);
     if (fog)
     {
         float start = fog->nearDepth;
@@ -20131,8 +20169,8 @@ struct S3e40_Passes
     void FUN_00ba9ee0(S3e40_Geom*, unsigned short, bool, unsigned char, S3e40_Light*, S3e40_Light*, S3e40_Light*,
                       S3e40_Light*);
 };
-S3e40_View* __cdecl FUN_00b4f5c0();
-float __cdecl FUN_00404010(float, float);
+S3e40_View* __cdecl BSShaderManager_GetAccumulator();
+float __cdecl BSMAX_00404010(float, float);
 bool __cdecl BSShaderManager_GetShadows();
 struct S3e40_Shader
 {
@@ -20208,13 +20246,13 @@ struct S3e40_Shader
     S3e40_Light* GetPasses(S3e40_Geom*, unsigned int, unsigned short*, int, S3e40_Light*, bool);
     void SetPassEnabled(S3e40_Geom*, bool, int);
     void FUN_00ba95e0(int);
-    unsigned short FUN_00b707d0();
+    unsigned short BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     S3e40_Light* BSShaderLightingProperty_GetFirstActiveNonShadowLight(int*);
     S3e40_Light* BSShaderLightingProperty_GetNextActiveNonShadowLight(int*);
-    void FUN_00441130(unsigned int, bool);
-    void FUN_00bdf650(S3e40_Geom*, bool, bool, S3e40_Light*);
+    void BSShaderProperty_SetFlag(unsigned int, bool);
+    void BSShaderPPLightingProperty_AddDepthMapPass_2x(S3e40_Geom*, bool, bool, S3e40_Light*);
     void BSShaderProperty_TexEffect(S3e40_Geom*, unsigned short*, bool, bool*, int);
-    S3e40_Light* FUN_00bc3e40(S3e40_Geom* geom, unsigned int subType, S3e40_Count counter, int passType,
+    S3e40_Light* HairShaderProperty_GetRenderPasses(S3e40_Geom* geom, unsigned int subType, S3e40_Count counter, int passType,
                               S3e40_Light* preferred, bool insert);
 };
 __forceinline bool S3e40_Less(const float& a, const double& b)
@@ -20222,7 +20260,8 @@ __forceinline bool S3e40_Less(const float& a, const double& b)
     return a < b;
 }
 // @fnv 0x00bc3e40
-S3e40_Light* S3e40_Shader::FUN_00bc3e40(S3e40_Geom* geom, unsigned int subType, S3e40_Count counter, int passType,
+// src: XBOX_PDB 0x00bc3e40
+S3e40_Light* S3e40_Shader::HairShaderProperty_GetRenderPasses(S3e40_Geom* geom, unsigned int subType, S3e40_Count counter, int passType,
                                         S3e40_Light* preferred, bool insert)
 {
     TlsGuard_t guard(0x28);
@@ -20259,8 +20298,8 @@ regular:
             *counter.ptr = 0;
         }
 
-        S3e40_Light* sceneLight = FUN_00b4f5c0()->root->currentLight;
-        if (FUN_00b707d0() == 0)
+        S3e40_Light* sceneLight = BSShaderManager_GetAccumulator()->root->currentLight;
+        if (BSShaderLightingProperty_GetNumberofActiveNonShadowLights() == 0)
         {
             if (insert == true)
             {
@@ -20293,7 +20332,7 @@ regular:
                 ps = primary->state;
                 {
                     S3e40_Vec delta = {ps->posX - world.bound.px, ps->posY - world.bound.py, ps->posZ - world.bound.pz};
-                    quality = FUN_00404010(0.0f, delta.FUN_00457990() - world.bound.angle);
+                    quality = BSMAX_00404010(0.0f, delta.FUN_00457990() - world.bound.angle);
                 }
             }
             {
@@ -20353,7 +20392,7 @@ regular:
                                 primary = BSShaderLightingProperty_GetNextActiveNonShadowLight(&passType);
                                 secondary = primary;
                                 SetFlag(0x100, true);
-                                FUN_00441130(0x29, primary != 0);
+                                BSShaderProperty_SetFlag(0x29, primary != 0);
                             }
                             else
                             {
@@ -20377,7 +20416,7 @@ regular:
             if (!ref)
                 ref = geom->fallback;
             bool marked = ref && (ref->Mode() != 0);
-            FUN_00bdf650(geom, geom->shader != 0, marked, preferred);
+            BSShaderPPLightingProperty_AddDepthMapPass_2x(geom, geom->shader != 0, marked, preferred);
         }
     }
     if (callback)
@@ -21440,7 +21479,7 @@ struct ShaderPassBuilder : DynCastHelper
     int* renderContext;
     unsigned int unkb8, unkbc, unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8;
     ExtraPassContext* extraContext;
-    unsigned short FUN_00b707d0();
+    unsigned short BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     DrawLight* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void**);
     DrawLight* BSShaderLightingProperty_GetNextActiveNonShadowLight(void**);
     BSShaderProperty::ShaderPassEntry* BSShaderProperty_AddPass_ZOnly(SceneGeometry*, unsigned short*, unsigned char, bool*, bool, bool);
@@ -21448,7 +21487,7 @@ struct ShaderPassBuilder : DynCastHelper
     void BSShaderProperty_AmbientDirAndPoint(SceneGeometry*, DrawLight*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool);
     void BSShaderProperty_AddPass_Ambient(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
     void BSShaderProperty_AddPass_DiffuseDirOrPoint(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool);
-    void FUN_00bdac00(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
+    void BSShaderPPLightingProperty_AddTexturePass_1x(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
                       bool);
     void BSShaderProperty_AddPass_SpecularAmbientDirPoint(SceneGeometry*, DrawLight*, unsigned short*, unsigned char, bool*, bool, bool, bool, bool, bool,
                       bool);
@@ -21506,7 +21545,7 @@ struct ShaderPassBuilder : DynCastHelper
                                               bool blockedByEffect, bool allowFirstPass, bool specialBlend,
                                               bool hasHighFlags, bool lightingCondition, bool extraLight, bool useAlpha,
                                               bool useAlternate, DrawLight* primaryLight);
-    void FUN_00bdb4a0(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
+    void BSShaderPPLightingProperty_GetRenderPasses_1x(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
                       LightConfiguration* config, unsigned char effectType);
 };
 extern unsigned int DAT_010a91d4;
@@ -21519,7 +21558,7 @@ extern int DAT_011f4998;
 extern int DAT_01200788;
 extern int DAT_012024c8;
 extern int DAT_012007a0;
-extern void* __cdecl FUN_00b4f5c0();
+extern void* __cdecl BSShaderManager_GetAccumulator();
 struct DefaultRenderer
 {
     unsigned int unk00;
@@ -21687,7 +21726,7 @@ struct ShaderEngine
 };
 static DrawLight* GetDefaultLight()
 {
-    return static_cast<ShaderEngine*>(FUN_00b4f5c0())->renderer->light;
+    return static_cast<ShaderEngine*>(BSShaderManager_GetAccumulator())->renderer->light;
 }
 __forceinline void ShaderPassBuilder::GenerateLightingPasses(
     SceneGeometry* geometry, unsigned int passMask, unsigned short* count, unsigned char effectType, bool hasNoBasePass,
@@ -21704,7 +21743,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
     }
     if ((propertyFlags & 0x40) > 0)
         BSShaderProperty_AddPass_NormalsClear(geometry, count, effectType, &first, hasNoOverlay)->m_ucLightIndex = 7;
-    unsigned short numLights = FUN_00b707d0();
+    unsigned short numLights = BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     if (allowFirstPass && (needsShadow || passMask == DAT_010a91d4))
     {
         if (!needsShadow && opaque)
@@ -21733,7 +21772,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                 if (light->Matches(&DAT_011f4998))
                     BSShaderProperty_AddPass_DiffuseDirOrPoint(geometry, light, count, effectType, &first, hasNoOverlay, true, false, attr0);
             }
-            FUN_00bdac00(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
+            BSShaderPPLightingProperty_AddTexturePass_1x(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
                          needsNormal, attr0, specialBlend);
             if (basePass)
             {
@@ -21799,7 +21838,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
                     BSShaderProperty_AddPass_DiffuseDirOrPoint(geometry, light, count, effectType, &first, hasNoOverlay, true, false, attr0);
         }
         if (passMask & 4)
-            FUN_00bdac00(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
+            BSShaderPPLightingProperty_AddTexturePass_1x(geometry, primaryLight, count, effectType, &first, hasNoOverlay, false, needsExtraPass,
                          needsNormal, attr0, specialBlend);
         if (basePass && (passMask & 8))
         {
@@ -21854,7 +21893,8 @@ afterLighting:
             passes->entries[i]->m_ucLightIndex = static_cast<unsigned char>(missingPassStatus);
 }
 // @fnv 0x00bdb4a0
-void ShaderPassBuilder::FUN_00bdb4a0(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
+// src: XBOX_PDB 0x00bdb4a0
+void ShaderPassBuilder::BSShaderPPLightingProperty_GetRenderPasses_1x(SceneGeometry* geometry, unsigned int passMask, unsigned short* count, int mode,
                                      LightConfiguration* config, unsigned char effectType)
 {
     const unsigned int initialFlags = renderFlags;
@@ -22693,18 +22733,18 @@ struct PShader
     virtual void virtual43();
     virtual void virtual44();
     virtual void fallback(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
-    void FUN_00bdf790(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
+    void BSShaderPPLightingProperty_GetRenderPasses_2x(PGeom*, int, unsigned short*, int, PRenderer*, unsigned char);
     void* FUN_00653290(const void*);
     bool FUN_004a2020(unsigned int);
     bool IsSpecial() const
     {
         return (flags2 & 0x800000) > 0;
     }
-    unsigned short FUN_00b707d0();
+    unsigned short BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     PLight* BSShaderLightingProperty_GetFirstActiveNonShadowLight(PNode**);
     PLight* BSShaderLightingProperty_GetNextActiveNonShadowLight(PNode**);
     PLight* FUN_00b70590(PNode**);
-    PLight* FUN_00b70680(PNode**);
+    PLight* BSShaderLightingProperty_GetNextActiveLight(PNode**);
     void BSShaderProperty_AddPass_ZOnly(PGeom*, unsigned short*, unsigned char, bool*, bool, bool);
     void BSShaderProperty_AddPass_ZOnly_TexEffect(PGeom*, unsigned short*, unsigned char, bool*, bool);
     void BSShaderProperty_AddPass_NormalsClear(PGeom*, unsigned short*, unsigned char, bool*, bool);
@@ -22749,10 +22789,11 @@ extern float DAT_011f9468, DAT_011f9460, DAT_011f9458;
 extern unsigned int DAT_010a91d4;
 extern char DAT_011f9422, DAT_011ad80d;
 extern GlobalObjectO2_00a7b610 g_01200788, g_012024c8, g_012007a0;
-PContext* __cdecl FUN_00b4f5c0();
+PContext* __cdecl BSShaderManager_GetAccumulator();
 bool __cdecl BSShaderManager_GetShadows();
 // @fnv 0x00bdf790
-void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, int mode, PRenderer* renderer,
+// src: XBOX_PDB 0x00bdf790
+void PShader::BSShaderPPLightingProperty_GetRenderPasses_2x(PGeom* geom, int renderFlags, unsigned short* count, int mode, PRenderer* renderer,
                            unsigned char passMode)
 {
     bool diffusePass = (flags & 1) > 0;
@@ -22769,8 +22810,8 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         data = true;
     data |= ((flags2 & 0x20) > 0);
     bool special = !DAT_011f9427 && DAT_011f95e4 && (DAT_011f91d8 & 0x20) && DAT_011f91c0 >= 2 &&
-                   !((flags & 0x2000) > 0) && (unsigned int)DAT_011fd890 && FUN_00b4f5c0()->state->mode != 1 &&
-                   FUN_00b4f5c0()->state->mode != 3;
+                   !((flags & 0x2000) > 0) && (unsigned int)DAT_011fd890 && BSShaderManager_GetAccumulator()->state->mode != 1 &&
+                   BSShaderManager_GetAccumulator()->state->mode != 3;
     bool castA = FUN_00653290(&g_01200788) != 0;
     bool castB = FUN_00653290(&g_012024c8) != 0;
     bool castC = FUN_00653290(&g_012007a0) != 0;
@@ -22809,7 +22850,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         if (DAT_011f9458 != 0.0 && intensity >= DAT_011f9458)
             diffusePass = false;
     }
-    PScene* scene = (PScene*)FUN_00b4f5c0()->state->scene;
+    PScene* scene = (PScene*)BSShaderManager_GetAccumulator()->state->scene;
     PLight* sceneLight = (PLight*)scene;
     bool blackAmbient = diffusePass && ((PSceneColors*)scene->colors)->ambient.FUN_00439090(DAT_011f4998);
     bool first = true;
@@ -22832,7 +22873,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
         BSShaderProperty_AddPass_ZOnly_TexEffect(geom, count, passMode, &firstPass, skinned);
         passes->items[passes->count - 1]->type = 14;
     }
-    unsigned short lightCount = FUN_00b707d0();
+    unsigned short lightCount = BSShaderLightingProperty_GetNumberofActiveNonShadowLights();
     bool doBase = (renderFlags & 1) > 0;
     bool doDiffuse = (renderFlags & 2) > 0;
     bool doSpecular = (renderFlags & 4) > 0;
@@ -22881,7 +22922,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                     pass->shader = shader;
                     pass->enabled = true;
                 }
-                light = FUN_00b70680(&activePosition);
+                light = BSShaderLightingProperty_GetNextActiveLight(&activePosition);
             } while (light);
         }
     }
@@ -23142,7 +23183,7 @@ inline void BoltScale(float& x, float& y, double s)
 }
 struct BoltDirection : public LocalVec3
 {
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 
 struct Point4
@@ -23234,11 +23275,12 @@ struct ShellBC
     int unk140;
     float unk144;
     float unk148;
-    void FUN_00bc20a0(int row, int col, int previous, int next);
+    void BoltShaderProperty_CreateSegment(int row, int col, int previous, int next);
 };
 // Computes points[row*width+col] from the previous point plus a scaled direction and random x/z jitter, then pulls its x/z toward a target when beyond unk130.
 // @fnv 0x00bc20a0
-void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
+// src: XBOX_PDB 0x00bc20a0
+void ShellBC::BoltShaderProperty_CreateSegment(int row, int col, int previous, int next)
 {
     int index = row * unk140 + col;
     Point4 a = points[row * unk140 + previous];
@@ -23251,7 +23293,7 @@ void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
     if (dir.y < 0.0f)
         memcpy(&dir, &NiPoint3_ZERO, sizeof(NiPoint3));
     dir.y += 1.0;
-    dir.FUN_004a0c10();
+    dir.Unitize_004a0c10();
     float speed = unk144;
     dir.x *= speed;
     dir.y *= speed;
@@ -23445,7 +23487,8 @@ struct FUN_00bd44c0 : NiMemObject
 };
 // Creates an NiD3DShaderDeclaration via FUN_00e76700 with fixed SetEntry/SetEntryAlt entries, wraps it in a FUN_00bd44c0, calls setup methods and returns it.
 // @fnv 0x00bd4750
-FUN_00bd44c0* FUN_00bd4750()
+// src: XBOX_PDB 0x00bd4750
+FUN_00bd44c0* SpeedTreeBranchShader_CreateShader()
 {
     NiD3DShaderDeclaration* pDecl = (NiD3DShaderDeclaration*)NiDX9ShaderDeclaration_Create(DAT_011f9508, 6, 1);
     pDecl->SetEntry(0, 0, (NiShaderDeclaration::ShaderParameter)0, (NiShaderDeclaration::ShaderParameterType)2, 0);
@@ -23558,11 +23601,11 @@ int SingleLightPassSelector::BSShaderProperty_AddPass_SpecularAmbientDirPoint(Ni
 }
 
 extern int DAT_01201f64;
-__declspec(noinline) void __cdecl FUN_00bc0c50();
+__declspec(noinline) void __cdecl BoltShader_ClearSegmentIndexArray();
 
 struct PoolFreeStandIn
 {
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 
 class FUN_00bc1fa0 : public BSShaderProperty
@@ -23576,9 +23619,9 @@ class FUN_00bc1fa0 : public BSShaderProperty
 // @fnv 0x00bc1fa0
 FUN_00bc1fa0::~FUN_00bc1fa0()
 {
-    reinterpret_cast<PoolFreeStandIn*>(&DAT_011f6238)->FUN_00aa4060(m_p60);
+    reinterpret_cast<PoolFreeStandIn*>(&DAT_011f6238)->MemoryManager_Deallocate(m_p60);
     if (--DAT_01201f64 == 0)
-        FUN_00bc0c50();
+        BoltShader_ClearSegmentIndexArray();
 }
 
 struct BSMaterialEmittanceMultController : NiFloatInterpController

@@ -480,7 +480,7 @@ struct MoppMemoryRouter
     int unk00, unk04, unk08, unk0c;
     void* heap;
 };
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* heap, MoppResults* array, int elementSize);
 struct MoppErrorSink
 {
@@ -722,7 +722,7 @@ void MoppFindAllVM::hkpMoppFindAllVirtualMachine_queryOnTreeRight(const MoppQuer
         terminal:
             primitive += current->primitiveOffset;
             MoppResults* array = results;
-            MoppMemoryRouter* router = (MoppMemoryRouter*)FUN_00c85750();
+            MoppMemoryRouter* router = (MoppMemoryRouter*)hkMemoryRouter_getInstance();
             if (array->count == (array->capacity & 0x3fffffff))
                 ResizeAudioStream(router->heap, array, 4);
             unsigned int* dest = &array->data[array->count++];

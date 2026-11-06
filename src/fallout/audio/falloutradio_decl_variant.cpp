@@ -31,9 +31,9 @@ class Conversation
   public:
     BSSimpleList<DialogueItem*> items;
     BSSimpleList<DialogueItem*>* current;
-    bool FUN_0083b9f0();
-    void FUN_0083c470();
-    bool FUN_0083b9a0();
+    bool Conversation_NextItem();
+    void Conversation_PrecacheSounds();
+    bool Conversation_FirstItem();
     DialogueItem* FUN_0083c820();
     ~Conversation();
 };
@@ -47,7 +47,7 @@ void FUN_008304c0();
 class ATM
 {
   public:
-    void FUN_004538a0(const char*);
+    void BSCriticalSection_Enter(const char*);
     void FUN_004538c0();
 };
 extern ATM g_011dd5e8;
@@ -75,14 +75,14 @@ void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* to
     if (!station || station->form->FUN_00440da0())
         return;
     bool f = station->station.IsFlag20Set();
-    g_011dd5e8.FUN_004538a0("FalloutRadio::StartRadioConversation");
+    g_011dd5e8.BSCriticalSection_Enter("FalloutRadio::StartRadioConversation");
     if (station->station.conversation)
-        while (station->station.conversation->FUN_0083b9f0())
+        while (station->station.conversation->Conversation_NextItem())
         {
         }
-    if (station->station.FUN_00833be0())
+    if (station->station.FalloutRadio_StationState_IsTransmitting())
     {
-        station->station.FUN_00833100(false);
+        station->station.FalloutRadio_StationState_SetContBroadcast(false);
         station->station.state = 1;
         FalloutRadio_UpdateStation(station);
     }
@@ -108,8 +108,8 @@ void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* to
     }
     AdvanceConversation(station, a);
     station->station.state = 0;
-    station->station.conversation->FUN_0083c470();
-    station->station.conversation->FUN_0083b9a0();
+    station->station.conversation->Conversation_PrecacheSounds();
+    station->station.conversation->Conversation_FirstItem();
     if (!station->station.conversation->FUN_0083c820())
     {
         delete station->station.conversation;
@@ -134,8 +134,8 @@ void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* to
     }
     if (station->station.state > 1)
         station->station.state = 0;
-    station->station.nextUpdate = BSAudio::FUN_00453a70()->GetSynchTime() + 50;
+    station->station.nextUpdate = BSAudio::BSAudio_QInstance()->GetSynchTime() + 50;
     station->station.SetFlag80(true);
-    station->station.FUN_00833100(f);
+    station->station.FalloutRadio_StationState_SetContBroadcast(f);
     g_011dd5e8.FUN_004538c0();
 }

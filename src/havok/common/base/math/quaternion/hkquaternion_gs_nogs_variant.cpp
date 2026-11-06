@@ -112,7 +112,7 @@ void hkQuaternion::removeAxisComponent(const hkVector4& v)
         axis(i1) = v(i2);
         axis(i2) = -v(i1);
 
-        FUN_00cb2450(axis, DAT_0102b3c8);
+        hkQuaternion_setAxisAngle(axis, DAT_0102b3c8);
         return;
     }
 
@@ -138,5 +138,5 @@ void hkQuaternion::removeAxisComponent(const hkVector4& v)
 
     axis.m_vComponents = _mm_mul_ps(inv_len_bcast, cross2);
 
-    FUN_00cb2450(axis, ClampedAcos(dot));
+    hkQuaternion_setAxisAngle(axis, ClampedAcos(dot));
 }

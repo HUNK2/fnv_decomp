@@ -35,14 +35,15 @@ struct FUN_00692290_class
     virtual void v0();
     virtual int Write(unsigned int);
     void FUN_005ef650(int, unsigned int);
-    void FUN_00692290(unsigned int requested, unsigned int savedSize);
+    void BSSimpleArray_unsigned_short_1024_InitialSetup(unsigned int requested, unsigned int savedSize);
     int iSize;
     int iPosition;
     int iDataLength;
 };
 
 // @fnv 0x00692290
-void FUN_00692290_class::FUN_00692290(unsigned int requested, unsigned int savedSize)
+// src: XBOX_PDB 0x00692290
+void FUN_00692290_class::BSSimpleArray_unsigned_short_1024_InitialSetup(unsigned int requested, unsigned int savedSize)
 {
     iSize = 0;
     iPosition = 0;
@@ -204,17 +205,18 @@ void FUN_0068ab80_class::FUN_0068ab80()
     NiTMallocInterface<ActorCombatGroup*>::Deallocate(q);
 }
 
-extern "C" void __cdecl FUN_004a4650(void*);
+extern "C" void __cdecl NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll(void*);
 
 struct FUN_0068e740_class
 {
-    void FUN_0068e740();
+    void NiAVObject_DetachAllProperties();
 };
 
 // @fnv 0x0068e740
-void FUN_0068e740_class::FUN_0068e740()
+// src: XBOX_PDB 0x0068e740
+void FUN_0068e740_class::NiAVObject_DetachAllProperties()
 {
-    ((void(__thiscall*)(void*))FUN_004a4650)((char*)this + 0x24);
+    ((void(__thiscall*)(void*))NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll)((char*)this + 0x24);
 }
 
 extern int DAT_0106a038;
@@ -336,7 +338,7 @@ void FUN_00691fe0_class::FUN_00691fe0()
 
 struct PositionRotation
 {
-    void* __fastcall FUN_00692710();
+    void* __fastcall PathingAvoidNode_PathingAvoidNode();
     unsigned short wFlags;
 };
 struct FUN_006926e0_class
@@ -348,7 +350,7 @@ struct FUN_006926e0_class
 // src: COMMUNITY 0x006926e0
 PositionRotation* __thiscall FUN_006926e0_class::NavMeshStaticAvoidNode_NavMeshStaticAvoidNode()
 {
-    ((PositionRotation*)this)->FUN_00692710();
+    ((PositionRotation*)this)->PathingAvoidNode_PathingAvoidNode();
     *(unsigned short*)((char*)this + 0x24) = 0xffff;
     return (PositionRotation*)this;
 }
@@ -655,11 +657,12 @@ struct DA00694f80
 
 struct FUN_0069dec0_class
 {
-    unsigned short& FUN_0069dec0(int index);
+    unsigned short& BSSimpleArray_unsigned_short_1024_GetAt(int index);
 };
 
 // @fnv 0x0069dec0
-unsigned short& FUN_0069dec0_class::FUN_0069dec0(int index)
+// src: XBOX_PDB 0x0069dec0
+unsigned short& FUN_0069dec0_class::BSSimpleArray_unsigned_short_1024_GetAt(int index)
 {
     return ((DA00694f80*)this)->GetAt(index);
 }
@@ -901,7 +904,7 @@ void* FUN_0068ab60_shell::FUN_0068ac10(unsigned int flags)
 struct AX
 {
     int* vtable;
-    void FUN_006b3eb0(unsigned int, unsigned int);
+    void BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
     AX* BSSimpleArray_DecalVertex_1024_BSSimpleArray();
 };
 // @fnv 0x0068eb00
@@ -909,7 +912,7 @@ struct AX
 AX* AX::BSSimpleArray_DecalVertex_1024_BSSimpleArray()
 {
     vtable = &DAT_0106a038;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -1183,13 +1186,14 @@ struct FUN_00692740_class
     virtual void v0();
     virtual int Write(unsigned int);
     void ConstructItems(int, unsigned int);
-    void FUN_00692740(unsigned int requested, unsigned int savedSize);
+    void BSSimpleArray_NavMeshStaticAvoidNode_1024_InitialSetup(unsigned int requested, unsigned int savedSize);
     int iSize;
     int iPosition;
     int iDataLength;
 };
 // @fnv 0x00692740
-void FUN_00692740_class::FUN_00692740(unsigned int requested, unsigned int savedSize)
+// src: XBOX_PDB 0x00692740
+void FUN_00692740_class::BSSimpleArray_NavMeshStaticAvoidNode_1024_InitialSetup(unsigned int requested, unsigned int savedSize)
 {
     iSize = 0;
     iPosition = 0;
@@ -1240,7 +1244,7 @@ struct FUN_0069ada0_class : FUN_00692290_class
 FUN_0069ada0_class* FUN_0069ada0_class::BSSimpleArray_unsigned_short_1024_BSSimpleArray_0069ada0(unsigned int a, unsigned int b)
 {
     *(void**)this = (void*)&DAT_0106abe4;
-    FUN_00692290(a, b);
+    BSSimpleArray_unsigned_short_1024_InitialSetup(a, b);
     return this;
 }
 
@@ -1325,7 +1329,7 @@ void* FUN_0069b730_class::FUN_0069b870(unsigned int flags)
 
 struct FUN_0042f830_struct
 {
-    void FUN_0042f9c0(unsigned char);
+    void BSSimpleArray_NavMeshPtr_1024_Clear(unsigned char);
 };
 #include "../../include/NavMeshTriangleReference.h"
 struct AStarConnectionArray
@@ -1347,7 +1351,7 @@ void FUN_0069bca0_class::NavMeshArray_AddToGarbageCollector()
     unsigned int i = 0;
     for (; i < GetFlags(); ++i)
         AddNavMeshToGarbageCollector(*(NavMeshPtr*)BSSimpleArray_FastNavMeshEdgeHandle_1024_BSSimpleArray_FastNavMeshEdgeHandle_1024(i));
-    FUN_0042f9c0(1);
+    BSSimpleArray_NavMeshPtr_1024_Clear(1);
 }
 
 extern int DAT_0106b28c;
@@ -1451,7 +1455,7 @@ struct FUN_0069df10
 FUN_0069df10::FUN_0069df10(NavMeshTriangleEdgeReference* pParam)
 {
     ((Dummy006815c0*)this)->_ref_006815c0();
-    m0 = const_cast<NavMeshInfo*>(pParam->m_pLocationNavMesh->FUN_0068efb0());
+    m0 = const_cast<NavMeshInfo*>(pParam->m_pLocationNavMesh->GetNavMeshInfo_0068efb0());
     m4 = pParam->m_usTriangleIdentifier;
     m8 = pParam->m_iEdgeIndex;
 }
@@ -1484,11 +1488,12 @@ struct FUN_0069e090_class
 {
     int f0;
     unsigned short f4;
-    bool FUN_0069e090();
+    bool NavMeshTriangleEdgePortal_IsValid();
 };
 // Returns false when f0 is zero or f4 equals 0xffff, otherwise returns true.
 // @fnv 0x0069e090
-bool FUN_0069e090_class::FUN_0069e090()
+// src: XBOX_PDB 0x0069e090
+bool FUN_0069e090_class::NavMeshTriangleEdgePortal_IsValid()
 {
     if (!f0)
         return false;
@@ -1562,9 +1567,9 @@ struct FUN_006925b0_class
     void* p;
     int iCount;
     int iSize;
-    bool FUN_00438b90();
-    unsigned int FUN_009a3910();
-    void FUN_005efa80(unsigned int, int);
+    bool BSSimpleArray_NavMeshInfo_1024_ShouldGrow();
+    unsigned int BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
+    void BSSimpleArray_PathingLocation_1024_ReallocateBuffer(unsigned int, int);
     int AppendSlot();
 };
 
@@ -1572,7 +1577,7 @@ struct FUN_006925b0_class
 // @fnv 0x006925b0
 int FUN_006925b0_class::AppendSlot()
 {
-    if (FUN_00438b90())
+    if (BSSimpleArray_NavMeshInfo_1024_ShouldGrow())
     {
         if (iSize == 0)
         {
@@ -1582,8 +1587,8 @@ int FUN_006925b0_class::AppendSlot()
         }
         else
         {
-            unsigned int n = FUN_009a3910();
-            FUN_005efa80(n, iCount);
+            unsigned int n = BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
+            BSSimpleArray_PathingLocation_1024_ReallocateBuffer(n, iCount);
             iSize = n;
         }
     }
@@ -1785,8 +1790,8 @@ struct S5460
 {
     virtual void v0();
     virtual void* v1(int);
-    bool FUN_00438b90();
-    unsigned int FUN_009a3910();
+    bool BSSimpleArray_NavMeshInfo_1024_ShouldGrow();
+    unsigned int BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
     void SetOrReplace(unsigned int, int);
     void* pData;
     int iPosition;
@@ -1796,7 +1801,7 @@ struct S5460
 // @fnv 0x00692200
 int S5460::GetNextPosition()
 {
-    if (FUN_00438b90())
+    if (BSSimpleArray_NavMeshInfo_1024_ShouldGrow())
     {
         if (iDataLength == 0)
         {
@@ -1806,7 +1811,7 @@ int S5460::GetNextPosition()
         }
         else
         {
-            unsigned int newSize = FUN_009a3910();
+            unsigned int newSize = BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
             SetOrReplace(newSize, iPosition);
             iDataLength = newSize;
         }
@@ -2095,7 +2100,8 @@ extern B82380Command DAT_01190900[];
 unsigned int __cdecl FUN_00682270(unsigned short* pusCommand);
 
 // @fnv 0x00682380
-bool __cdecl FUN_00682380(unsigned short* pusCommand, unsigned int uiParam)
+// src: XBOX_PDB 0x00682380
+bool __cdecl TESParameters_GetParamIsScriptVariable(unsigned short* pusCommand, unsigned int uiParam)
 {
     bool bResult = false;
     if (pusCommand && uiParam < FUN_00682270(pusCommand))
@@ -2221,7 +2227,7 @@ float __cdecl PowFloat(float base, int exponent)
 
 struct SoundObject
 {
-    float* FUN_0045bb80();
+    float* NiAVObject_GetWorldTranslate();
 };
 struct SoundObjectRef
 {
@@ -2230,7 +2236,7 @@ struct SoundObjectRef
 };
 struct SoundRecord
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct SoundPair
 {
@@ -2252,7 +2258,7 @@ struct AudioManager
 {
     ManagedSound GetSoundHandleByFormID_00ad73b0(unsigned int, unsigned int);
 };
-AudioManager* FUN_00453a70();
+AudioManager* BSAudio_QInstance();
 struct LoopSoundState
 {
     unsigned int unk00;
@@ -2291,17 +2297,17 @@ void LoopSoundState::InitLoopSounds()
     {
         if (sounds->GetField4C())
         {
-            unsigned int firstId = sounds->GetField4C()->FUN_0084e3a0();
-            first = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(firstId, 0x102);
-            first.SetPositionFromArray(object.FUN_00559450()->FUN_0045bb80());
+            unsigned int firstId = sounds->GetField4C()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            first = BSAudio_QInstance()->GetSoundHandleByFormID_00ad73b0(firstId, 0x102);
+            first.SetPositionFromArray(object.FUN_00559450()->NiAVObject_GetWorldTranslate());
             first.FUN_00ad8f20(object.FUN_00559450());
             first.FUN_00ad8830(false);
         }
         if (sounds->GetGrass())
         {
-            unsigned int secondId = sounds->GetGrass()->FUN_0084e3a0();
-            second = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(secondId, 0x102);
-            second.SetPositionFromArray(object.FUN_00559450()->FUN_0045bb80());
+            unsigned int secondId = sounds->GetGrass()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            second = BSAudio_QInstance()->GetSoundHandleByFormID_00ad73b0(secondId, 0x102);
+            second.SetPositionFromArray(object.FUN_00559450()->NiAVObject_GetWorldTranslate());
             second.FUN_00ad8f20(object.FUN_00559450());
             second.FUN_00ad8830(false);
         }
@@ -2314,13 +2320,13 @@ extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_0043f8d0();
 struct NavMeshChain_0068aa50
 {
-    NavMeshChain_0068aa50* FUN_00461130();
+    NavMeshChain_0068aa50* NiAVObject_GetWorldRotate();
     void FUN_004b45b0();
 };
 struct NavMeshNode_0068aa50
 {
     NavMeshChain_0068aa50* NiAVObject_GetParent(NiMatrix3*);
-    void FUN_0043fa80(NiMatrix3*);
+    void SetRotate_0043fa80(NiMatrix3*);
 };
 struct NavMeshSearchList_0068aa50
 {
@@ -2337,10 +2343,11 @@ extern float DAT_0102b3c8;
 struct FUN_0068aa50_shell
 {
     void CollectUniqueChildValues(void*, NavMeshSearchList_0068aa50*, unsigned int*);
-    void FUN_0068aa50(void*);
+    void BSTempEffectParticle_ResetGravity(void*);
 };
 // @fnv 0x0068aa50
-void FUN_0068aa50_shell::FUN_0068aa50(void* searchArg)
+// src: XBOX_PDB 0x0068aa50
+void FUN_0068aa50_shell::BSTempEffectParticle_ResetGravity(void* searchArg)
 {
     NavMeshSearchList_0068aa50 items(10, 1);
     {
@@ -2353,12 +2360,12 @@ void FUN_0068aa50_shell::FUN_0068aa50(void* searchArg)
             {
                 // These matrices are uninitialized in the original; only b calls the empty constructor.
                 float a[sizeof(NiMatrix3) / sizeof(float)];
-                node->NiAVObject_GetParent(reinterpret_cast<NiMatrix3*>(a))->FUN_00461130()->FUN_004b45b0();
+                node->NiAVObject_GetParent(reinterpret_cast<NiMatrix3*>(a))->NiAVObject_GetWorldRotate()->FUN_004b45b0();
                 float b[sizeof(NiMatrix3) / sizeof(float)];
                 ((void (__thiscall*)(NiMatrix3*))FUN_006815c0)(reinterpret_cast<NiMatrix3*>(b));
                 reinterpret_cast<NiMatrix3*>(b)->MakeYRotation(DAT_0102b3c8);
                 float c[sizeof(NiMatrix3) / sizeof(float)];
-                node->FUN_0043fa80(((NiMatrix3* (__thiscall*)(NiMatrix3*, NiMatrix3*, const NiMatrix3*))FUN_0043f8d0)(reinterpret_cast<NiMatrix3*>(a), reinterpret_cast<NiMatrix3*>(c), reinterpret_cast<const NiMatrix3*>(b)));
+                node->SetRotate_0043fa80(((NiMatrix3* (__thiscall*)(NiMatrix3*, NiMatrix3*, const NiMatrix3*))FUN_0043f8d0)(reinterpret_cast<NiMatrix3*>(a), reinterpret_cast<NiMatrix3*>(c), reinterpret_cast<const NiMatrix3*>(b)));
             }
         }
     }
@@ -2408,7 +2415,7 @@ struct FUN_00691c10_class
     virtual void v0();
     void* m4;
 
-    int FUN_00978bc0();
+    int BSSimpleArray_NiPoint3_1024_AddUninitialized();
     void ConstructEntries(int, int);
     int BSSimpleArray_EdgeExtraInfo_1024_Add(S00691c60 const&);
 };
@@ -2417,7 +2424,7 @@ struct FUN_00691c10_class
 // src: COMMUNITY 0x00691c10
 int __thiscall FUN_00691c10_class::BSSimpleArray_EdgeExtraInfo_1024_Add(S00691c60 const& aEntry)
 {
-    int count = FUN_00978bc0();
+    int count = BSSimpleArray_NiPoint3_1024_AddUninitialized();
 
     ConstructEntries(count * 12 + reinterpret_cast<int>(m4), 1);
 
@@ -2539,8 +2546,8 @@ void FUN_006927d0_cls::ConstructPairCells(PairCell* cells, unsigned int count)
     }
 }
 
-void FUN_00401080(void* p, bool flag);
-void FUN_00407a90(void* p, bool flag);
+void BSEndian_00401080(void* p, bool flag);
+void BSEndian_00407a90(void* p, bool flag);
 
 struct SpawnedFlag
 {
@@ -2558,19 +2565,19 @@ class FUN_00693c10_cls
 void FUN_00693c10_cls::NavMeshTriangle_endianSwap()
 {
     SpawnedFlag f0 = {};
-    FUN_00401080((char*)this + 0xc, f0.m_bValue);
+    BSEndian_00401080((char*)this + 0xc, f0.m_bValue);
     SpawnedFlag f8 = {};
-    FUN_00407a90((char*)this + 0, f8.m_bValue);
+    BSEndian_00407a90((char*)this + 0, f8.m_bValue);
     SpawnedFlag f2 = {};
-    FUN_00407a90((char*)this + 2, f2.m_bValue);
+    BSEndian_00407a90((char*)this + 2, f2.m_bValue);
     SpawnedFlag fX = {};
-    FUN_00407a90((char*)this + 4, fX.m_bValue);
+    BSEndian_00407a90((char*)this + 4, fX.m_bValue);
     SpawnedFlag f9 = {};
-    FUN_00407a90((char*)this + 6, f9.m_bValue);
+    BSEndian_00407a90((char*)this + 6, f9.m_bValue);
     SpawnedFlag f5 = {};
-    FUN_00407a90((char*)this + 8, f5.m_bValue);
+    BSEndian_00407a90((char*)this + 8, f5.m_bValue);
     SpawnedFlag f7 = {};
-    FUN_00407a90((char*)this + 0xa, f7.m_bValue);
+    BSEndian_00407a90((char*)this + 0xa, f7.m_bValue);
 }
 
 // @fnv 0x00693db0
@@ -2862,14 +2869,14 @@ FUN_00682600::~FUN_00682600()
 
 struct P03MMHeap
 {
-    void FUN_00aa5610(void*);
+    void ScrapHeap_Deallocate(void*);
 };
 struct P03MM
 {
     P03MMHeap* FUN_00aa42e0();
 };
-P03MM* FUN_00401020();
-void* FUN_00aa1070(unsigned int);
+P03MM* MemoryManager_Instance();
+void* _NiMalloc_00aa1070(unsigned int);
 struct FUN_004a7800
 {
     float x, y, z, w;
@@ -2948,26 +2955,26 @@ struct ResizeMesh
 // @fnv 0x0068e760
 void ResizeMesh::ResizeMeshBuffers()
 {
-    P03MMHeap* heap = FUN_00401020()->FUN_00aa42e0();
+    P03MMHeap* heap = MemoryManager_Instance()->FUN_00aa42e0();
     positions = new NiPoint3[vertexCount];
     __memcpy(positions, oldPositions, vertexCount * sizeof(NiPoint3));
-    heap->FUN_00aa5610(oldPositions);
+    heap->ScrapHeap_Deallocate(oldPositions);
     oldPositions = 0;
     normals = new NiPoint3[vertexCount];
     __memcpy(normals, oldNormals, vertexCount * sizeof(NiPoint3));
-    heap->FUN_00aa5610(oldNormals);
+    heap->ScrapHeap_Deallocate(oldNormals);
     oldNormals = 0;
     coordinates = new NiPoint2[vertexCount];
     __memcpy(coordinates, oldCoordinates, vertexCount * sizeof(NiPoint2));
-    heap->FUN_00aa5610(oldCoordinates);
+    heap->ScrapHeap_Deallocate(oldCoordinates);
     oldCoordinates = 0;
     colors = new FUN_004a7800[vertexCount];
     __memcpy(colors, oldColors, vertexCount * sizeof(FUN_004a7800));
-    heap->FUN_00aa5610(oldColors);
+    heap->ScrapHeap_Deallocate(oldColors);
     oldColors = 0;
-    triangles = (Triangle6*)FUN_00aa1070((triangleCount * 3) * sizeof(unsigned short));
+    triangles = (Triangle6*)_NiMalloc_00aa1070((triangleCount * 3) * sizeof(unsigned short));
     __memcpy(triangles, oldTriangles, triangleCount * sizeof(Triangle6));
-    heap->FUN_00aa5610(oldTriangles);
+    heap->ScrapHeap_Deallocate(oldTriangles);
     oldTriangles = 0;
 }
 
@@ -3043,7 +3050,7 @@ void PathBounds69B::NavMeshBounds_NavMeshBounds_0()
 
 namespace bounds_detail {
 extern const NiPoint3 pathingrequestZero;
-bool __cdecl FUN_006b9cf0(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, float&, float, float);
+bool __cdecl NavMeshMath_IsPointInsideTriangle(const NiPoint3&, const NiPoint3&, const NiPoint3&, const NiPoint3&, float&, float, float);
 NiPoint3 __cdecl GetClosestPointOnSegment(const NiPoint3&, const NiPoint3&, const NiPoint3&);
 
 }  // namespace bounds_detail
@@ -3052,7 +3059,7 @@ NiPoint3 __cdecl GetClosestPointOnSegment(const NiPoint3&, const NiPoint3&, cons
 // src: COMMUNITY 0x0069c070
 NiPoint3 NavMeshBounds::DistanceFromPointToBounds(const NiPoint3& point)
 {
-    if (!vertices.FUN_0076b610())
+    if (!vertices.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
     {
         float fPointHeight = 3.402823466e38f;
         NiPoint3 kClosest;
@@ -3066,7 +3073,7 @@ NiPoint3 NavMeshBounds::DistanceFromPointToBounds(const NiPoint3& point)
                 kTriangle[1] = vertices.FUN_006a1440(triangles.GetAt((int)i).b);
                 kTriangle[2] = vertices.FUN_006a1440(triangles.GetAt((int)i).c);
                 m_fGlyphExtent = max.z - min.z;
-                if (bounds_detail::FUN_006b9cf0(kTriangle[0], kTriangle[1], kTriangle[2], point, fZ, m_fGlyphExtent, m_fGlyphExtent))
+                if (bounds_detail::NavMeshMath_IsPointInsideTriangle(kTriangle[0], kTriangle[1], kTriangle[2], point, fZ, m_fGlyphExtent, m_fGlyphExtent))
                     return NiPoint3(0.0f, 0.0f, fZ);
                 for (int j = 0; j < 3; j++)
                 {
@@ -3245,7 +3252,7 @@ void LDMesh::ReadFromBuffer(char* apData, LDFile* apFile, int aiUnused)
     }
 }
 
-float FUN_00406ce0(float);
+float floorf(float);
 void ClampInt(int* value, int lo, int hi);
 struct Pt_0069d4b0
 {
@@ -3255,14 +3262,14 @@ struct Pt_0069d4b0
 struct Tris_0069d4b0
 {
     unsigned int FUN_0044ddc0();
-    unsigned short& FUN_0069dec0(int index);
+    unsigned short& BSSimpleArray_unsigned_short_1024_GetAt(int index);
 };
 struct Out_0069d4b0
 {
     unsigned int FUN_0044ddc0();
-    unsigned short& FUN_0069dec0(int index);
+    unsigned short& BSSimpleArray_unsigned_short_1024_GetAt(int index);
     unsigned int Append(const unsigned short* tri);
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     void FUN_0069aeb0(int (*cmp)(const unsigned short*, const unsigned short*));
     void BSSimpleArray_RemoveFast_1(unsigned int index, unsigned int count);
 };
@@ -3274,7 +3281,7 @@ struct Dups_0069d4b0
     int unk0c;
     Dups_0069d4b0();
     ~Dups_0069d4b0();
-    bool FUN_0076b610();
+    bool NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty();
     unsigned int FUN_0044ddc0();
     unsigned int FUN_007cb2e0(const unsigned int& index);
     unsigned int& FUN_00877a30(unsigned int index);
@@ -3297,16 +3304,16 @@ void Sub0069d4b0::NavMeshGrid_GetTriangleDataForAABB(Pt_0069d4b0* a1, Pt_0069d4b
     float dy2 = a1->y - m_originY;
     float fx = dx9 / m_cellW;
     float fy4 = dy2 / m_cellH;
-    int x9 = (int)FUN_00406ce0(fx);
-    int y0 = (int)FUN_00406ce0(fy4);
+    int x9 = (int)floorf(fx);
+    int y0 = (int)floorf(fy4);
     ClampInt(&y0, 0, m_uiItemCount - 1);
     ClampInt(&x9, 0, m_uiItemCount - 1);
     dx9 = a1->x - m_originX;
     dy2 = a1->y - m_originY;
     fx = dx9 / m_cellW;
     fy4 = dy2 / m_cellH;
-    int x5 = (int)FUN_00406ce0(fx);
-    int y8 = (int)FUN_00406ce0(fy4);
+    int x5 = (int)floorf(fx);
+    int y8 = (int)floorf(fy4);
     ClampInt(&y8, 0, m_uiItemCount - 1);
     ClampInt(&x5, 0, m_uiItemCount - 1);
     for (int y7 = y0; y7 <= y8; y7++)
@@ -3316,22 +3323,22 @@ void Sub0069d4b0::NavMeshGrid_GetTriangleDataForAABB(Pt_0069d4b0* a1, Pt_0069d4b
             Tris_0069d4b0* tris = NavMeshGrid_GetTriangleArray(x7, y7);
             for (unsigned int i = 0; i < tris->FUN_0044ddc0(); i++)
             {
-                apOut->Append(&tris->FUN_0069dec0(i));
+                apOut->Append(&tris->BSSimpleArray_unsigned_short_1024_GetAt(i));
             }
         }
     }
-    if (apOut->FUN_0076b610())
+    if (apOut->NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
         return;
     apOut->FUN_0069aeb0(FUN_0069ae60);
     Dups_0069d4b0 dups_;
     for (unsigned int i = 0; i < apOut->FUN_0044ddc0() - 1; i++)
     {
-        if (apOut->FUN_0069dec0(i + 1) == apOut->FUN_0069dec0(i))
+        if (apOut->BSSimpleArray_unsigned_short_1024_GetAt(i + 1) == apOut->BSSimpleArray_unsigned_short_1024_GetAt(i))
         {
             dups_.FUN_007cb2e0(i + 1);
         }
     }
-    if (dups_.FUN_0076b610())
+    if (dups_.NiTListBase_DFALL_NiTListItem_BSAnimGroupSequence_const_BSAnimGroupSequence_const_IsEmpty())
         return;
     for (int j = dups_.FUN_0044ddc0() - 1; j >= 0; j--)
     {
@@ -3413,7 +3420,7 @@ void* operator new(unsigned int n);
 void* __cdecl FUN_00aa13e0(unsigned int n);
 void* __cdecl FormHeap_Allocate(unsigned int n);
 void* __stdcall GetPathManager(void* p, int a);
-void* __cdecl FUN_00c56680(float f, int a, int b, void* p);
+void* __cdecl BSTestObjects_CreateSphere(float f, int a, int b, void* p);
 void __cdecl AttachLightingPropertyRecursive(void* p);
 void __cdecl FUN_00b57e30(void* p, int a, int b);
 
@@ -3629,14 +3636,14 @@ struct ResObj
     virtual void vf53();
     virtual void vf54();
     virtual void vtarget(void* p, int a);
-    void FUN_00440460(void* p);
-    void FUN_00439410(void* p);
-    void FUN_00a5a040();
-    void FUN_00a59c60(void* p);
+    void NiAVObject_SetTranslate(void* p);
+    void NiAVObject_AttachProperty(void* p);
+    void UpdateProperties();
+    void NiAVObject_Update(void* p);
 };
 struct AuxObj
 {
-    void FUN_0049ed90(int a);
+    void NiAlphaProperty_SetAlphaBlending(int a);
 };
 struct ObjB
 {
@@ -3681,7 +3688,7 @@ struct DelObj
 };
 struct NavLike
 {
-    void* FUN_0068efb0();
+    void* GetNavMeshInfo_0068efb0();
 };
 
 struct VRes
@@ -3742,8 +3749,8 @@ struct VRes
     virtual void vf53();
     virtual void vf54();
     virtual void vtarget(void* p, int a);
-    void FUN_00a5a040();
-    void FUN_00a59c60(void* p);
+    void UpdateProperties();
+    void NiAVObject_Update(void* p);
 };
 struct GObj
 {
@@ -5884,18 +5891,18 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
                               (float)((double)i / (double)m_2068.FUN_0044ddc0()), DAT_01030ff4);
                     {
                         ObjB objB2(
-                            FUN_00c56680(*(float*)((char*)*(((ArrObj*)m_2068.FUN_00558dd0(i))->FUN_00877a30(j)) + 0x10),
+                            BSTestObjects_CreateSphere(*(float*)((char*)*(((ArrObj*)m_2068.FUN_00558dd0(i))->FUN_00877a30(j)) + 0x10),
                                          10, 10, &objA));
-                        objB2.FUN_00559450()->FUN_00440460(
+                        objB2.FUN_00559450()->NiAVObject_SetTranslate(
                             (char*)*(((ArrObj*)m_2068.FUN_00558dd0(i))->FUN_00877a30(j)) + 4);
                         auxPtr = (AuxObj*)new ObjY();
-                        auxPtr->FUN_0049ed90(1);
-                        objB2.FUN_00559450()->FUN_00439410(auxPtr);
+                        auxPtr->NiAlphaProperty_SetAlphaBlending(1);
+                        objB2.FUN_00559450()->NiAVObject_AttachProperty(auxPtr);
                         AttachLightingPropertyRecursive(objB2.FUN_00559450());
                         FUN_00b57e30(objB2.FUN_00559450(), 0, 0);
-                        objB2.FUN_00559450()->FUN_00a5a040();
+                        objB2.FUN_00559450()->UpdateProperties();
                         VecObj vobjL(0.0f, 0, 0);
-                        objB2.FUN_00559450()->FUN_00a59c60(&vobjL);
+                        objB2.FUN_00559450()->NiAVObject_Update(&vobjL);
                         DAT_011d6ddc.FUN_00559450()->vtarget(objB2.FUN_00559450(), 1);
                     }
                 }
@@ -5940,18 +5947,18 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
             for (k = 0; k < m_20e8.FUN_0044ddc0(); k++)
             {
                 StrObj str1((char*)m_20e8.GetBufferElementAddress(k) + 0x1c,
-                            ((NavLike*)m_20e8.GetBufferElementAddress(k)->m_10)->FUN_0068efb0());
+                            ((NavLike*)m_20e8.GetBufferElementAddress(k)->m_10)->GetNavMeshInfo_0068efb0());
                 apResult->PathingSolution_AddPathingNode(&str1, &DAT_011f426c);
                 StrObj str2((char*)m_20e8.GetBufferElementAddress(k) + 0x34,
-                            ((NavLike*)m_20e8.GetBufferElementAddress(k)->m_28)->FUN_0068efb0());
+                            ((NavLike*)m_20e8.GetBufferElementAddress(k)->m_28)->GetNavMeshInfo_0068efb0());
                 apResult->PathingSolution_AddPathingNode(&str2, &DAT_011f426c);
             }
         }
         if (DAT_011d6dcc)
         {
-            DAT_011d6ddc.FUN_00559450()->FUN_00a5a040();
+            DAT_011d6ddc.FUN_00559450()->UpdateProperties();
             VecObj vobj(0.0f, 0, 0);
-            DAT_011d6ddc.FUN_00559450()->FUN_00a59c60(&vobj);
+            DAT_011d6ddc.FUN_00559450()->NiAVObject_Update(&vobj);
             ((GRes2*)GetPathManager(&DAT_011d6ddc, 1))->ForwardToHost();
         }
         {
@@ -6058,10 +6065,11 @@ struct ScriptParamDataView
 };
 
 
-Script* __cdecl FUN_004826d0(TESForm* formID);
+Script* __cdecl TESScriptableForm_GetFormScript(TESForm* formID);
 
 // @fnv 0x006823d0
-Script* FUN_006823d0(unsigned int index, FunctionData const* data)
+// src: XBOX_PDB 0x006823d0
+Script* TESParameters_GetScriptFromParam(unsigned int index, FunctionData const* data)
 {
     Script* result = 0;
 
@@ -6084,8 +6092,8 @@ Script* FUN_006823d0(unsigned int index, FunctionData const* data)
 
                 if (object)
                 {
-                    formID = reinterpret_cast<TESForm*>(object->FUN_007af430());
-                    result = FUN_004826d0(formID);
+                    formID = reinterpret_cast<TESForm*>(object->BGSSaveFormBuffer_GetForm());
+                    result = TESScriptableForm_GetFormScript(formID);
                 }
             }
         }

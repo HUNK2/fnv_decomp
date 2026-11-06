@@ -219,7 +219,7 @@ class DurationData
 {
   public:
     char month;  // +0x0
-    int FUN_00678ca0();
+    int PackageLocation_GetLocType();
 };
 #include "../../include/BGSChangeFlags.h"
 // BaseForm_tesobjectrefr: local type (was include/BaseForm.h, which had no evidence of one real class); its methods are 0x00401170 TESForm::GetFormType
@@ -252,7 +252,8 @@ GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton()
 
 // This global default-zone getter has no reference object; keep its static ABI.
 // @fnv 0x00546a90
-BGSEncounterZone* FUN_00546a90()
+// src: XBOX_PDB 0x00546a90
+BGSEncounterZone* BGSEncounterZone_GetNoZone()
 {
     return DAT_011c9520;
 }
@@ -299,7 +300,8 @@ float TESObjectREFR::GetScale()
 }
 
 // @fnv 0x00678ca0
-int DurationData::FUN_00678ca0()
+// src: XBOX_PDB 0x00678ca0
+int DurationData::PackageLocation_GetLocType()
 {
     return month;
 }
@@ -417,7 +419,8 @@ using ::BaseExtraList;
 
 // Looks up extra data of type 0x2e and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x004216f0
-int __fastcall FUN_004216f0(BaseExtraList* _this)
+// src: XBOX_PDB 0x004216f0
+int __fastcall ExtraDataList_GetLevCreaOriginalBase(BaseExtraList* _this)
 {
     BSExtraData* pextra = _this->GetExtraData(0x2e);
     if (pextra)
@@ -522,7 +525,7 @@ struct blob12
 };
 struct FUN_0043fcd0_shell : public TESObjectREFR
 {
-    NiAVObject* FUN_0043fcd0();
+    NiAVObject* TESObjectREFR_Get3D();
 };
 
 template <typename T> struct LocalBSStringT
@@ -540,7 +543,8 @@ struct TLS_Pad_0043fcd0
 __declspec(thread) TLS_Pad_0043fcd0 g_tls_0043fcd0;
 
 // @fnv 0x0043fcd0
-NiAVObject* FUN_0043fcd0_shell::FUN_0043fcd0()
+// src: XBOX_PDB 0x0043fcd0
+NiAVObject* FUN_0043fcd0_shell::TESObjectREFR_Get3D()
 {
     return (this == g_tls_0043fcd0.val264)
                ? g_tls_0043fcd0.val260
@@ -692,7 +696,7 @@ struct ModelLoader
 typedef char _sizecheck_ModelLoader[sizeof(ModelLoader) == 48 ? 1 : -1];
 struct FUN_004409e0_shell : public ModelLoader
 {
-    void FUN_004409e0(TESObjectREFR*);
+    void ModelLoader_RemoveReferenceFromMap(TESObjectREFR*);
 };
 
 struct _Vtbl004409e0
@@ -706,7 +710,8 @@ struct _Vtbl004409e0
 };
 
 // @fnv 0x004409e0
-void FUN_004409e0_shell::FUN_004409e0(TESObjectREFR* apRef)
+// src: XBOX_PDB 0x004409e0
+void FUN_004409e0_shell::ModelLoader_RemoveReferenceFromMap(TESObjectREFR* apRef)
 {
     reinterpret_cast<_Vtbl004409e0*>(m_pQueuedReferenceMap)->v14(apRef);
 }
@@ -742,7 +747,7 @@ struct PlayerTargetLocation
 typedef char _sizecheck_PLAYER_TARGET_LOC[sizeof(PlayerTargetLocation) == 52 ? 1 : -1];
 struct FUN_00456540_shell : public PlayerTargetLocation
 {
-    void FUN_00456540();
+    void PLAYER_TARGET_LOC_PLAYER_TARGET_LOC();
 };
 
 
@@ -751,7 +756,8 @@ extern NiPoint3 _NiPoint3_ZERO;
 
 // Clears the location and angle vectors, world, cell, flag, and reference pointers, then returns pThis.
 // @fnv 0x00456540
-PlayerTargetLocation* __fastcall FUN_00456540(PlayerTargetLocation* pThis)
+// src: XBOX_PDB 0x00456540
+PlayerTargetLocation* __fastcall PLAYER_TARGET_LOC_PLAYER_TARGET_LOC(PlayerTargetLocation* pThis)
 {
     (_ref_006815c0)(&pThis->Location);
     _ref_006815c0(pThis->Angle);
@@ -785,16 +791,17 @@ struct blob16
 using ::NiPoint3;
 typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 
-float __cdecl FUN_004a3e90(float);
+float __cdecl NI2HK_004a3e90(float);
 
 
 // Stores the results of FUN_004a3e90 applied to arNiP.x, .y and .z into arhkV slots 0-2, sets slot 3 to 0.0f, and returns arhkV.
 // @fnv 0x004a3e00
-bhkCharacterController& __cdecl FUN_004a3e00(bhkCharacterController& arhkV, const NiPoint3& arNiP)
+// src: XBOX_PDB 0x004a3e00
+bhkCharacterController& __cdecl NI2HK(bhkCharacterController& arhkV, const NiPoint3& arNiP)
 {
-    arhkV.GetVectorElement(0) = FUN_004a3e90(arNiP.x);
-    arhkV.GetVectorElement(1) = FUN_004a3e90(arNiP.y);
-    arhkV.GetVectorElement(2) = FUN_004a3e90(arNiP.z);
+    arhkV.GetVectorElement(0) = NI2HK_004a3e90(arNiP.x);
+    arhkV.GetVectorElement(1) = NI2HK_004a3e90(arNiP.y);
+    arhkV.GetVectorElement(2) = NI2HK_004a3e90(arNiP.z);
     arhkV.GetVectorElement(3) = 0.0f;
     return arhkV;
 }
@@ -817,19 +824,20 @@ using ::InventoryChanges;
 typedef char _sizecheck_InventoryChanges[sizeof(InventoryChanges) == 20 ? 1 : -1];
 
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR*);
 
 // Returns the container of pRef via FUN_0055d310, or null when pRef is null.
 // @fnv 0x004bffb0
 TESContainer* InventoryChanges::GetOriginalContainer()
 {
-    return pRef ? FUN_0055d310((TESObjectREFR*)pRef) : 0;
+    return pRef ? TESObjectREFR_HasContainer((TESObjectREFR*)pRef) : 0;
 }
 
 using ::RecursiveSpinLock;
 
 // @fnv 0x00541ae0
-void __fastcall FUN_00541ae0(char* this_ptr)
+// src: XBOX_PDB 0x00541ae0
+void __fastcall TESObjectCELL_CellRefLockLeave(char* this_ptr)
 {
     ((RecursiveSpinLock*)(this_ptr + 0x80))->Unlock();
 }
@@ -985,7 +993,7 @@ using ::TESFullName;
 typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0055d420_shell : public TESObjectREFR
 {
-    void FUN_0055d420(bool);
+    void TESObjectREFR_SetAltered(bool);
 };
 
 using ::TESForm;
@@ -1049,7 +1057,8 @@ struct FUN_0055d420_Holder
 };
 // If the form is not temporary and altered is set, gets the target from the holder at offset 0x18 and sets its flag, then calls SetAltered on the form.
 // @fnv 0x0055d420
-void FUN_0055d420_shell::FUN_0055d420(bool altered)
+// src: XBOX_PDB 0x0055d420
+void FUN_0055d420_shell::TESObjectREFR_SetAltered(bool altered)
 {
     if (!((TESForm*)this)->IsTemporary() && altered)
     {
@@ -1063,7 +1072,7 @@ void FUN_0055d420_shell::FUN_0055d420(bool altered)
 
 struct FUN_0055d520_shell : public TESObjectREFR
 {
-    char* FUN_0055d520();
+    char* TESObjectREFR_GetFullName();
 };
 
 using ::TESForm;
@@ -1071,7 +1080,8 @@ using ::TESFullName;
 using ::TESFile;
 
 // @fnv 0x0055d520
-char* FUN_0055d520_shell::FUN_0055d520()
+// src: XBOX_PDB 0x0055d520
+char* FUN_0055d520_shell::TESObjectREFR_GetFullName()
 {
     return (char*)TESFullName::GetFullName(*(TESForm**)((TESFile*)this)->GetName());
 }
@@ -1090,7 +1100,8 @@ typedef char _sizecheck_TESActorBaseData[sizeof(TESActorBaseData) == 52 ? 1 : -1
 
 // Returns true when flag bit 0x200 is not set on the actor base data.
 // @fnv 0x0055e200
-bool __fastcall FUN_0055e200(TESActorBaseData* pThis)
+// src: XBOX_PDB 0x0055e200
+bool __fastcall TESActorBaseData_GetRunsInLow(TESActorBaseData* pThis)
 {
     return !pThis->GetFlagBit(0x200);
 }
@@ -1136,15 +1147,16 @@ struct blob8
     char b[8];
 };
 
-const hkVector4& __cdecl FUN_00458b20(void);
+const hkVector4& __cdecl hkVector4_getZero(void);
 hkpRigidBody* __fastcall FUN_004ae750(void*);
-const hkVector4& __fastcall FUN_00560dc0(hkpRigidBody*);
+const hkVector4& __fastcall hkpRigidBody_getLinearVelocity(hkpRigidBody*);
 
 // @fnv 0x00560d80
-const hkVector4& __fastcall FUN_00560d80(void* pThis)
+// src: XBOX_PDB 0x00560d80
+const hkVector4& __fastcall bhkRigidBody_GetLinearVelocity_00560d80(void* pThis)
 {
     hkpRigidBody* pb = FUN_004ae750(pThis);
-    return pb ? FUN_00560dc0(pb) : FUN_00458b20();
+    return pb ? hkpRigidBody_getLinearVelocity(pb) : hkVector4_getZero();
 }
 }  // namespace fnv_00560d80
 
@@ -1153,12 +1165,13 @@ class BGSRagdoll;
 
 
 
-int __fastcall FUN_004b4f20(void* pThis);
+int __fastcall hkpMotion_getTransform(void* pThis);
 
 // @fnv 0x00560dc0
-int __fastcall FUN_00560dc0(TESDataHandler* apDataHandler)
+// src: XBOX_PDB 0x00560dc0
+int __fastcall hkpRigidBody_getLinearVelocity(TESDataHandler* apDataHandler)
 {
-    return FUN_004b4f20(apDataHandler->GetBGSRagdollList());
+    return hkpMotion_getTransform(apDataHandler->GetBGSRagdollList());
 }
 
 class Modifier
@@ -1180,7 +1193,8 @@ class RegionPoint
 
 // Copies four float values from src into dst's indexed slots 0-3 and returns dst.
 // @fnv 0x00561500
-bhkCharacterController* __cdecl FUN_00561500(bhkCharacterController* apDest, void* apSource)
+// src: XBOX_PDB 0x00561500
+bhkCharacterController* __cdecl NI2HK_00561500(bhkCharacterController* apDest, void* apSource)
 {
     apDest->GetVectorElement(0) = ((Modifier*)apSource)->GetValue();
     apDest->GetVectorElement(1) = ((BSFaceGenKeyframe*)apSource)->GetTime();
@@ -1309,7 +1323,7 @@ void __cdecl UpdatePackagesFromBuffer(void*, BGSLoadFormBuffer*, float);
 
 struct FakeExtra
 {
-    void __thiscall FUN_00422850(const char*);
+    void __thiscall ExtraDataList_SetLastFinishedSequence(const char*);
 };
 
 struct FakeREFR
@@ -1339,7 +1353,7 @@ void FUN_005636e0_shell::TESObjectREFR_LoadAnimationBGS(BGSLoadFormBuffer* apLoa
     if (BSStringLength<char>(plastFinishedSequence) != 0)
     {
         reinterpret_cast<FakeExtra*>(const_cast<ExtraDataList*>(reinterpret_cast<FakeREFR*>(this)->GetExtra()))
-            ->FUN_00422850(plastFinishedSequence);
+            ->ExtraDataList_SetLastFinishedSequence(plastFinishedSequence);
         bool bstartSequence = false;
         if (BGSOpenCloseForm::HasOpenCloseComponent(reinterpret_cast<FakeREFR*>(this)->_FNV_GetObjectReference()))
         {
@@ -1363,7 +1377,8 @@ void FUN_005636e0_shell::TESObjectREFR_LoadAnimationBGS(BGSLoadFormBuffer* apLoa
 
 // Returns true if type is one of 0x3A-0x40 or 0x69, otherwise false.
 // @fnv 0x00564900
-bool __cdecl FUN_00564900(int type)
+// src: XBOX_PDB 0x00564900
+bool __cdecl TESObjectREFR_IsReferenceFormType(int type)
 {
     switch (type)
     {
@@ -1384,7 +1399,7 @@ bool __cdecl FUN_00564900(int type)
 namespace fnv_00564930 {
 struct FUN_00564930_shell : public TESObjectREFR
 {
-    void FUN_00564930(bool);
+    void TESObjectREFR_SetDelete(bool);
 };
 
 using ::TESForm;
@@ -1393,11 +1408,12 @@ using ::BGSSaveLoadGame;
 extern TESDataHandler* g_dataHandler;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 // @fnv 0x00564930
-void FUN_00564930_shell::FUN_00564930(bool abDeleted)
+// src: XBOX_PDB 0x00564930
+void FUN_00564930_shell::TESObjectREFR_SetDelete(bool abDeleted)
 {
     if (abDeleted)
     {
-        if (!g_dataHandler->FUN_004226e0())
+        if (!g_dataHandler->TESDataHandler_GetClearingData())
         {
             if (g_dataHandler->FormIDExists(((TESForm*)this)->GetFormID()))
             {
@@ -1423,7 +1439,8 @@ struct TESObjectREFR_GetFlags_Helper
 
 // Returns true if _this has an object reference whose form type is not 0x1c and whose flags include 0x100.
 // @fnv 0x00564c10
-bool __fastcall FUN_00564c10(TESObjectREFR* apRefr)
+// src: XBOX_PDB 0x00564c10
+bool __fastcall TESObjectREFR_GetDroppedRef(TESObjectREFR* apRefr)
 {
     if (_FNV_GetObjectReference(apRefr) && (_FNV_GetFormType)(_FNV_GetObjectReference(apRefr)) != 0x1c)
     {
@@ -1525,7 +1542,8 @@ bool __fastcall TESObjectREFR_GetCenterOnCreation(VTable64* apObject)
 }
 
 // @fnv 0x00564e40
-bool __fastcall FUN_00564e40(unsigned int* pThis)
+// src: XBOX_PDB 0x00564e40
+bool __fastcall TESForm_GetMustBeVisibleDistant(unsigned int* pThis)
 {
     return (pThis[2] & 0x8000) ? true : false;
 }
@@ -1534,7 +1552,7 @@ using ::BSExtraData;
 using ::TESForm;
 struct FUN_00564f00_shell : public TESObjectREFR
 {
-    bool FUN_00564f00();
+    bool TESObjectREFR_GetIsImposter();
 };
 
 struct TESObjectREFR_Helper
@@ -1546,7 +1564,8 @@ unsigned int __fastcall GetFormID(BSExtraData*);
 
 // Reads extra data 0x92 from this reference and returns true if the flags returned by GetFormID have bit 2 set.
 // @fnv 0x00564f00
-bool FUN_00564f00_shell::FUN_00564f00()
+// src: XBOX_PDB 0x00564f00
+bool FUN_00564f00_shell::TESObjectREFR_GetIsImposter()
 {
     BSExtraData* pOEIExtra = ((const TESObjectREFR_Helper*)this)->GetExtraData(0x92);
     if (pOEIExtra)
@@ -1614,13 +1633,14 @@ bool FUN_00565090_shell::TESObjectREFR_GetIsInvisibleLODMultType()
 
 struct FUN_005651e0_shell : public TESObjectREFR
 {
-    bool FUN_005651e0();
+    bool TESObjectREFR_HasTemp3D();
 };
 
 unsigned int __fastcall TESObjectREFR_GetFlags(TESObjectREFR*);
 
 // @fnv 0x005651e0
-bool FUN_005651e0_shell::FUN_005651e0()
+// src: XBOX_PDB 0x005651e0
+bool FUN_005651e0_shell::TESObjectREFR_HasTemp3D()
 {
     unsigned int iflags = TESObjectREFR_GetFlags(this);
     if (iflags & 0x80000)
@@ -1631,7 +1651,7 @@ bool FUN_005651e0_shell::FUN_005651e0()
 
 struct FUN_00565210_shell : public TESObjectREFR
 {
-    void FUN_00565210(bool);
+    void TESObjectREFR_SetHasTemp3D(bool);
 };
 
 struct TESObjectREFR_Flags : public TESObjectREFR
@@ -1641,7 +1661,8 @@ struct TESObjectREFR_Flags : public TESObjectREFR
 };
 
 // @fnv 0x00565210
-void FUN_00565210_shell::FUN_00565210(bool abVal)
+// src: XBOX_PDB 0x00565210
+void FUN_00565210_shell::TESObjectREFR_SetHasTemp3D(bool abVal)
 {
     unsigned int iflags = ((TESObjectREFR_Flags*)this)->GetFlags();
     if (abVal)
@@ -1664,7 +1685,7 @@ using ::TESFile;
 typedef char _sizecheck_TESFile[sizeof(TESFile) == 1068 ? 1 : -1];
 struct FUN_005653d0_shell : public TESObjectREFR
 {
-    bool FUN_005653d0();
+    bool TESObjectREFR_GetRefPersists_005653d0();
 };
 
 
@@ -1679,30 +1700,32 @@ struct _FNVHelper
 
 struct _Helper5450
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
 };
 
 // @fnv 0x005653d0
-bool FUN_005653d0_shell::FUN_005653d0()
+// src: XBOX_PDB 0x005653d0
+bool FUN_005653d0_shell::TESObjectREFR_GetRefPersists_005653d0()
 {
     TESFile* pf = reinterpret_cast<_FNVHelper*>(this)->_FNV_GetFile(-1);
-    if (pf && !g_dataHandler->FUN_004516b0() && !g_TESSaveLoadGame->GetLoading() && !g_dataHandler->FUN_004226e0() &&
+    if (pf && !g_dataHandler->FUN_004516b0() && !g_TESSaveLoadGame->GetLoading() && !g_dataHandler->TESDataHandler_GetClearingData() &&
         !pf->IsMasterFile())
         return true;
-    return reinterpret_cast<_Helper5450*>(this)->FUN_00565450();
+    return reinterpret_cast<_Helper5450*>(this)->TESObjectREFR_GetPersistFlagValue();
 }
 }  // namespace fnv_005653d0
 
 struct FUN_00565450_shell : public TESObjectREFR
 {
-    bool FUN_00565450();
+    bool TESObjectREFR_GetPersistFlagValue();
 };
 
 unsigned int __fastcall FUN_0044ddc0(TESObjectREFR* pThis);
 
 // Calls FUN_0044ddc0 on this object and returns true if bit 0x400 is set in the returned flags.
 // @fnv 0x00565450
-bool FUN_00565450_shell::FUN_00565450()
+// src: XBOX_PDB 0x00565450
+bool FUN_00565450_shell::TESObjectREFR_GetPersistFlagValue()
 {
     unsigned int iflags = FUN_0044ddc0(this);
     if (iflags & 0x400)
@@ -1714,7 +1737,7 @@ bool FUN_00565450_shell::FUN_00565450()
 struct ScriptLocals;
 struct FUN_005673e0_shell : public TESObjectREFR
 {
-    ScriptLocals* FUN_005673e0();
+    ScriptLocals* TESObjectREFR_GetScriptVariables();
 };
 
 using ::ExtraDataList;
@@ -1725,13 +1748,15 @@ struct TESObjectREFR_GetExtra : public TESObjectREFR
 };
 
 // @fnv 0x005673e0
-ScriptLocals* FUN_005673e0_shell::FUN_005673e0()
+// src: XBOX_PDB 0x005673e0
+ScriptLocals* FUN_005673e0_shell::TESObjectREFR_GetScriptVariables()
 {
     return const_cast<ExtraDataList*>(((const TESObjectREFR_GetExtra*)this)->GetExtra())->GetScriptLocalData();
 }
 
 // @fnv 0x00567470
-float __fastcall FUN_00567470(char* pThis)
+// src: XBOX_PDB 0x00567470
+float __fastcall TESEffectShader_GetAddOnScaleStart(char* pThis)
 {
     return *(float*)(pThis + 0x13c);
 }
@@ -1755,17 +1780,18 @@ namespace fnv_00567770 {
 using ::TESForm;
 struct FUN_00567770_shell : public TESObjectREFR
 {
-    TESForm* FUN_00567770();
+    TESForm* TESObjectREFR_GetMyOwner();
 };
 
 using ::ExtraDataList;
 
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR*);
+ExtraDataList* __fastcall BSFile_GetDevice(TESObjectREFR*);
 
 // @fnv 0x00567770
-TESForm* FUN_00567770_shell::FUN_00567770()
+// src: XBOX_PDB 0x00567770
+TESForm* FUN_00567770_shell::TESObjectREFR_GetMyOwner()
 {
-    return fnv_00567770::FUN_005d43c0(this)->GetOwner();
+    return fnv_00567770::BSFile_GetDevice(this)->GetOwner();
 }
 }  // namespace fnv_00567770
 
@@ -1794,35 +1820,36 @@ using ::BaseFormComponent;
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00567960_shell : public TESObjectREFR
 {
-    TESGlobal* FUN_00567960();
+    TESGlobal* TESObjectREFR_GetOwnershipGlobal();
 };
 
 using ::ExtraDataList;
 
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
-TESGlobal* __fastcall FUN_00418690(const ExtraDataList* pThis);
+const ExtraDataList* __fastcall BSFile_GetDevice(const TESObjectREFR* pThis);
+TESGlobal* __fastcall ExtraDataList_GetGlobal(const ExtraDataList* pThis);
 TeleportableReference* __fastcall FUN_00568e50(TESObjectREFR* pThis);
 const TESObjectREFR* __fastcall FUN_00559450(TeleportableReference* pThis);
 TESObjectCELL* __fastcall FUN_008d6f30(TESObjectREFR* pThis);
-TESGlobal* __fastcall FUN_00546aa0(TESObjectCELL* pThis);
+TESGlobal* __fastcall GetOwnershipGlobal(TESObjectCELL* pThis);
 
 // @fnv 0x00567960
-TESGlobal* FUN_00567960_shell::FUN_00567960()
+// src: XBOX_PDB 0x00567960
+TESGlobal* FUN_00567960_shell::TESObjectREFR_GetOwnershipGlobal()
 {
-    TESGlobal* pglobal = FUN_00418690(fnv_00567960::FUN_005d43c0(this));
+    TESGlobal* pglobal = ExtraDataList_GetGlobal(fnv_00567960::BSFile_GetDevice(this));
     if (!pglobal)
     {
         TeleportableReference* pTel = FUN_00568e50(this);
         if (pTel && FUN_00559450(pTel))
         {
-            pglobal = FUN_00418690(fnv_00567960::FUN_005d43c0(FUN_00559450(pTel)));
+            pglobal = ExtraDataList_GetGlobal(fnv_00567960::BSFile_GetDevice(FUN_00559450(pTel)));
         }
     }
     if (!pglobal)
     {
         if (FUN_008d6f30(this))
         {
-            pglobal = FUN_00546aa0(FUN_008d6f30(this));
+            pglobal = GetOwnershipGlobal(FUN_008d6f30(this));
         }
     }
     return pglobal;
@@ -1830,7 +1857,8 @@ TESGlobal* FUN_00567960_shell::FUN_00567960()
 }  // namespace fnv_00567960
 
 // @fnv 0x00567ab0
-int __fastcall FUN_00567ab0(char* pThis)
+// src: XBOX_PDB 0x00567ab0
+int __fastcall BGSEncounterZone_QOwnerFactionRank(char* pThis)
 {
     return pThis[0x1c];
 }
@@ -1852,7 +1880,7 @@ using ::BaseFormComponent;
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00567dd0_shell : public TESObjectREFR
 {
-    void FUN_00567dd0(BGSEncounterZone*);
+    void TESObjectREFR_SetEncounterZone(BGSEncounterZone*);
 };
 
 struct FUN_00567dd0_X
@@ -1886,7 +1914,8 @@ struct FUN_00567dd0_Y
     ExtraDataList* GetExtra(BGSEncounterZone* z) const;
 };
 // @fnv 0x00567dd0
-void FUN_00567dd0_shell::FUN_00567dd0(BGSEncounterZone* apZone)
+// src: XBOX_PDB 0x00567dd0
+void FUN_00567dd0_shell::TESObjectREFR_SetEncounterZone(BGSEncounterZone* apZone)
 {
     (FNV2062_ExtraDataList_FUN_00421c60)(((FUN_00567dd0_Y*)this)->GetExtra(apZone));
     ((FUN_00567dd0_X*)this)->Fn(0x20000000);
@@ -1897,7 +1926,8 @@ namespace fnv_00567ec0 {
 using ::BGSEncounterZone;
 
 // @fnv 0x00567ec0
-unsigned short __fastcall FUN_00567ec0(BGSEncounterZone* _this)
+// src: XBOX_PDB 0x00567ec0
+unsigned short __fastcall BGSEncounterZone_QZoneLevel(BGSEncounterZone* _this)
 {
     return _this->GameData.m_usDetachRecordValue == 0 ? _this->GetCalculatedLevel() : _this->GameData.m_usDetachRecordValue;
 }
@@ -1905,7 +1935,7 @@ unsigned short __fastcall FUN_00567ec0(BGSEncounterZone* _this)
 
 struct FUN_00568260_shell : public TESObjectREFR
 {
-    bool FUN_00568260(bool);
+    bool TESObjectREFR_HasFreeMarker(bool);
 };
 
 void* __fastcall _FNV_GetObjectReference(const void* self);
@@ -1913,18 +1943,19 @@ int __fastcall _FNV_GetFormType(const void* self);
 
 struct FUN_005682c0_caller
 {
-    int FUN_005682c0(bool);
+    int TESObjectREFR_GetFirstFreeMarkerIndex(bool);
 };
 
 // @fnv 0x00568260
-bool FUN_00568260_shell::FUN_00568260(bool abIgnoreReservations)
+// src: XBOX_PDB 0x00568260
+bool FUN_00568260_shell::TESObjectREFR_HasFreeMarker(bool abIgnoreReservations)
 {
     bool bretval = false;
     if (_FNV_GetObjectReference(this))
     {
         if ((::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x27 || !abIgnoreReservations)
         {
-            bretval = ((FUN_005682c0_caller*)this)->FUN_005682c0(abIgnoreReservations) != -1;
+            bretval = ((FUN_005682c0_caller*)this)->TESObjectREFR_GetFirstFreeMarkerIndex(abIgnoreReservations) != -1;
         }
     }
     return bretval;
@@ -2060,7 +2091,7 @@ struct blob12
 };
 struct FUN_00568bb0_shell : public TESObjectREFR
 {
-    void FUN_00568bb0(ExtraDataList*);
+    void TESObjectREFR_SetExtra(ExtraDataList*);
 };
 
 void __fastcall ExtraDataList_CopyList(const ExtraDataList*, int, ExtraDataList*);
@@ -2077,7 +2108,8 @@ struct TESObjectREFR_helper
 };
 
 // @fnv 0x00568bb0
-void FUN_00568bb0_shell::FUN_00568bb0(ExtraDataList* pextra)
+// src: XBOX_PDB 0x00568bb0
+void FUN_00568bb0_shell::TESObjectREFR_SetExtra(ExtraDataList* pextra)
 {
     ((TESObjectREFR_helper*)this)->GetExtra()->ExtraDataList_CopyList(pextra);
 }
@@ -2086,17 +2118,18 @@ void FUN_00568bb0_shell::FUN_00568bb0(ExtraDataList* pextra)
 struct MapMarkerData;
 struct FUN_00569060_shell : public TESObjectREFR
 {
-    MapMarkerData* FUN_00569060();
+    MapMarkerData* TESObjectREFR_GetMapMarkerData();
 };
 
 using ::ExtraDataList;
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR*);
-MapMarkerData* __fastcall FUN_00418490(ExtraDataList*);
+ExtraDataList* __fastcall BSFile_GetDevice(TESObjectREFR*);
+MapMarkerData* __fastcall ExtraDataList_GetMapMarkerData(ExtraDataList*);
 
 // @fnv 0x00569060
-MapMarkerData* FUN_00569060_shell::FUN_00569060()
+// src: XBOX_PDB 0x00569060
+MapMarkerData* FUN_00569060_shell::TESObjectREFR_GetMapMarkerData()
 {
-    return FUN_00418490(::FUN_005d43c0(this));
+    return ExtraDataList_GetMapMarkerData(::BSFile_GetDevice(this));
 }
 
 using ::BGSLoadGameBuffer;
@@ -2168,7 +2201,7 @@ struct TeleportableReference
 typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
 struct FUN_00569160_shell : public TESObjectREFR
 {
-    LockExtraData* FUN_00569160();
+    LockExtraData* TESObjectREFR_GetLock();
 };
 
 template <typename T> struct LocalBSStringT
@@ -2184,7 +2217,8 @@ struct TESObjectREFR_ext
 };
 
 // @fnv 0x00569160
-LockExtraData* FUN_00569160_shell::FUN_00569160()
+// src: XBOX_PDB 0x00569160
+LockExtraData* FUN_00569160_shell::TESObjectREFR_GetLock()
 {
     LockExtraData* plock = reinterpret_cast<TESObjectREFR_ext*>(this)->GetMyLock();
     if (!plock)
@@ -2216,7 +2250,7 @@ struct blob16
 };
 struct FUN_005691f0_shell : public TESObjectREFR
 {
-    ExtraLock* FUN_005691f0();
+    ExtraLock* TESObjectREFR_GetExtraLock();
 };
 
 template <class T> class LocalBSStringT
@@ -2234,7 +2268,8 @@ struct TESObjectREFR_Helper
 };
 
 // @fnv 0x005691f0
-ExtraLock* FUN_005691f0_shell::FUN_005691f0()
+// src: XBOX_PDB 0x005691f0
+ExtraLock* FUN_005691f0_shell::TESObjectREFR_GetExtraLock()
 {
     ExtraLock* plock = reinterpret_cast<ExtraLock*>(reinterpret_cast<TESObjectREFR_Helper*>(this)->GetExtraData(0x2a));
     if (!plock)
@@ -2244,7 +2279,7 @@ ExtraLock* FUN_005691f0_shell::FUN_005691f0()
         if (pTel && static_cast<const char*>(*pTel))
         {
             plock = reinterpret_cast<FUN_005691f0_shell*>(const_cast<char*>(static_cast<const char*>(*pTel)))
-                        ->FUN_005691f0();
+                        ->TESObjectREFR_GetExtraLock();
         }
     }
     return plock;
@@ -2255,23 +2290,24 @@ using ::BSExtraData;
 struct LockExtraData;
 struct FUN_00569250_shell : public TESObjectREFR
 {
-    void FUN_00569250();
+    void TESObjectREFR_Lock();
 };
 
 using ::ExtraLock;
 
-ExtraLock* __fastcall FUN_005691f0(void*);
-void __fastcall FUN_005789b0(void*);
+ExtraLock* __fastcall TESObjectREFR_GetExtraLock(void*);
+void __fastcall TESObjectREFR_AddLockChange(void*);
 
 // Gets the ExtraLock for this reference; if present, locks it and calls FUN_005789b0 on this reference.
 // @fnv 0x00569250
-void FUN_00569250_shell::FUN_00569250()
+// src: XBOX_PDB 0x00569250
+void FUN_00569250_shell::TESObjectREFR_Lock()
 {
-    ExtraLock* plock = FUN_005691f0(this);
+    ExtraLock* plock = TESObjectREFR_GetExtraLock(this);
     if (plock)
     {
         plock->Lock();
-        ::FUN_005789b0(this);
+        ::TESObjectREFR_AddLockChange(this);
     }
 }
 
@@ -2280,40 +2316,42 @@ using ::BSExtraData;
 struct LockExtraData;
 struct FUN_005692a0_shell : public TESObjectREFR
 {
-    void FUN_005692a0();
+    void TESObjectREFR_UnLock();
 };
 
 using ::ExtraLock;
 
-ExtraLock* __fastcall FUN_005691f0(TESObjectREFR* pThis);
-void __fastcall FUN_005789b0(TESObjectREFR* pThis);
+ExtraLock* __fastcall TESObjectREFR_GetExtraLock(TESObjectREFR* pThis);
+void __fastcall TESObjectREFR_AddLockChange(TESObjectREFR* pThis);
 
 // Gets the reference's ExtraLock; if present, unlocks it and calls FUN_005789b0 on this reference.
 // @fnv 0x005692a0
-void FUN_005692a0_shell::FUN_005692a0()
+// src: XBOX_PDB 0x005692a0
+void FUN_005692a0_shell::TESObjectREFR_UnLock()
 {
-    ExtraLock* plock = FUN_005691f0(this);
+    ExtraLock* plock = TESObjectREFR_GetExtraLock(this);
     if (plock)
     {
         plock->Unlock();
-        fnv_005692a0::FUN_005789b0(this);
+        fnv_005692a0::TESObjectREFR_AddLockChange(this);
     }
 }
 }  // namespace fnv_005692a0
 
 struct FUN_00569b80_shell : public TESObjectREFR
 {
-    TESObjectREFR* FUN_00569b80();
+    TESObjectREFR* TESObjectREFR_GetLinkedRef();
 };
 
 using ::ExtraDataList;
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR*);
-TESObjectREFR* __fastcall FUN_0041da10(const ExtraDataList*);
+const ExtraDataList* __fastcall BSFile_GetDevice(const TESObjectREFR*);
+TESObjectREFR* __fastcall ExtraDataList_GetEnableStateParent(const ExtraDataList*);
 
 // @fnv 0x00569b80
-TESObjectREFR* FUN_00569b80_shell::FUN_00569b80()
+// src: XBOX_PDB 0x00569b80
+TESObjectREFR* FUN_00569b80_shell::TESObjectREFR_GetLinkedRef()
 {
-    return FUN_0041da10(::FUN_005d43c0(this));
+    return ExtraDataList_GetEnableStateParent(::BSFile_GetDevice(this));
 }
 
 namespace fnv_0056a250 {
@@ -2361,7 +2399,7 @@ struct WorldLocation
 typedef char _sizecheck_WORLD_LOCATION[sizeof(WorldLocation) == 20 ? 1 : -1];
 struct FUN_0056ad30_shell : public TESObjectREFR
 {
-    TESWorldSpace* FUN_0056ad30();
+    TESWorldSpace* TESObjectREFR_GetPackageStartLocationWorld();
 };
 
 using ::ExtraDataList;
@@ -2371,14 +2409,15 @@ struct TESObjectREFR_GetExtra_Helper
     const ExtraDataList* GetExtra() const;
 };
 
-WorldLocation* __fastcall FUN_00418b70(const ExtraDataList* pExtra);
+WorldLocation* __fastcall ExtraDataList_GetPackageStartLocation(const ExtraDataList* pExtra);
 int __fastcall _FNV_GetFormType(TESForm* pForm);
 
 // Returns the extra data's form as a TESWorldSpace if it exists and has form type 0x41, otherwise null.
 // @fnv 0x0056ad30
-TESWorldSpace* FUN_0056ad30_shell::FUN_0056ad30()
+// src: XBOX_PDB 0x0056ad30
+TESWorldSpace* FUN_0056ad30_shell::TESObjectREFR_GetPackageStartLocationWorld()
 {
-    WorldLocation* pLoc = FUN_00418b70(reinterpret_cast<const TESObjectREFR_GetExtra_Helper*>(this)->GetExtra());
+    WorldLocation* pLoc = ExtraDataList_GetPackageStartLocation(reinterpret_cast<const TESObjectREFR_GetExtra_Helper*>(this)->GetExtra());
     if (pLoc && pLoc->m_pWorldSpace && (::_FNV_GetFormType)(pLoc->m_pWorldSpace) == 0x41)
     {
         return reinterpret_cast<TESWorldSpace*>(pLoc->m_pWorldSpace);
@@ -2406,8 +2445,8 @@ struct DummyForm56b0b0
 };
 
 unsigned int __fastcall GetFormID(DummyForm56b0b0*);
-bool __fastcall FUN_0056af40(TESObjectREFR*);
-DummyForm56b0b0* __fastcall FUN_004216f0(const ExtraDataList*);
+bool __fastcall TESObjectREFR_IsLeveledCreature(TESObjectREFR*);
+DummyForm56b0b0* __fastcall ExtraDataList_GetLevCreaOriginalBase(const ExtraDataList*);
 
 struct TESObjectREFR_GetExtra_Caller
 {
@@ -2422,11 +2461,11 @@ void FUN_0056b0b0_shell::TESObjectREFR_RestoreLeveledCreatureOriginalBase()
     {
         if (g_dataHandler->FormIDExists(fnv_0056b0b0::GetFormID(*(DummyForm56b0b0**)((char*)this + 0x20))))
         {
-            if (FUN_0056af40(this))
+            if (TESObjectREFR_IsLeveledCreature(this))
             {
                 delete *(DummyForm56b0b0**)((char*)this + 0x20);
                 *(DummyForm56b0b0**)((char*)this + 0x20) =
-                    FUN_004216f0(((const TESObjectREFR_GetExtra_Caller*)this)->GetExtra());
+                    ExtraDataList_GetLevCreaOriginalBase(((const TESObjectREFR_GetExtra_Caller*)this)->GetExtra());
             }
         }
     }
@@ -2445,11 +2484,11 @@ struct RadioReferenceData
 typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b140_shell : public TESObjectREFR
 {
-    TESObjectREFR* FUN_0056b140();
+    TESObjectREFR* TESObjectREFR_GetRadioStationPositionRef();
 };
 
 using ::ExtraDataList;
-RadioReferenceData* __fastcall FUN_004182e0(const ExtraDataList* pExtra);
+RadioReferenceData* __fastcall ExtraDataList_GetRadioData(const ExtraDataList* pExtra);
 
 struct TESObjectREFR_Fake
 {
@@ -2457,10 +2496,11 @@ struct TESObjectREFR_Fake
 };
 
 // @fnv 0x0056b140
-TESObjectREFR* __fastcall FUN_0056b140(TESObjectREFR* pThis)
+// src: XBOX_PDB 0x0056b140
+TESObjectREFR* __fastcall TESObjectREFR_GetRadioStationPositionRef(TESObjectREFR* pThis)
 {
     TESObjectREFR* pretref = 0;
-    RadioReferenceData* pdata = (FUN_004182e0)(reinterpret_cast<TESObjectREFR_Fake*>(pThis)->GetExtra());
+    RadioReferenceData* pdata = (ExtraDataList_GetRadioData)(reinterpret_cast<TESObjectREFR_Fake*>(pThis)->GetExtra());
     if (pdata && pdata->m_iIntegerValue == 0)
     {
         pretref = pdata->m_pRadioReference;
@@ -2481,7 +2521,7 @@ struct RadioReferenceData
 typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b190_shell : public TESObjectREFR
 {
-    float FUN_0056b190();
+    float TESObjectREFR_GetRadioStationRadius();
 };
 
 using ::ExtraDataList;
@@ -2491,13 +2531,14 @@ struct TESObjectREFR_GetExtra_Caller
     const ExtraDataList* GetExtra() const;
 };
 
-RadioReferenceData* __fastcall FUN_004182e0(const ExtraDataList* pExtra);
+RadioReferenceData* __fastcall ExtraDataList_GetRadioData(const ExtraDataList* pExtra);
 
 // @fnv 0x0056b190
-float FUN_0056b190_shell::FUN_0056b190()
+// src: XBOX_PDB 0x0056b190
+float FUN_0056b190_shell::TESObjectREFR_GetRadioStationRadius()
 {
     float fval = 0.0f;
-    RadioReferenceData* pdata = (FUN_004182e0)(((const TESObjectREFR_GetExtra_Caller*)this)->GetExtra());
+    RadioReferenceData* pdata = (ExtraDataList_GetRadioData)(((const TESObjectREFR_GetExtra_Caller*)this)->GetExtra());
     if (pdata && pdata->m_iIntegerValue == 0)
     {
         fval = pdata->fRadius;
@@ -2519,13 +2560,13 @@ struct RadioReferenceData
 typedef char _sizecheck_RADIO_DATA[sizeof(RadioReferenceData) == 16 ? 1 : -1];
 struct FUN_0056b210_shell : public TESObjectREFR
 {
-    int FUN_0056b210();
+    int TESObjectREFR_GetRadioStationRangeType();
 };
 
 using ::ExtraDataList;
 extern "C++"
 {
-    RadioReferenceData* __fastcall FUN_004182e0(const ExtraDataList*);
+    RadioReferenceData* __fastcall ExtraDataList_GetRadioData(const ExtraDataList*);
 }
 
 struct GetExtra_helper
@@ -2534,10 +2575,11 @@ struct GetExtra_helper
 };
 
 // @fnv 0x0056b210
-int FUN_0056b210_shell::FUN_0056b210()
+// src: XBOX_PDB 0x0056b210
+int FUN_0056b210_shell::TESObjectREFR_GetRadioStationRangeType()
 {
     int eval = 0;
-    RadioReferenceData* pdata = (FUN_004182e0)(reinterpret_cast<const GetExtra_helper*>(this)->GetExtra());
+    RadioReferenceData* pdata = (ExtraDataList_GetRadioData)(reinterpret_cast<const GetExtra_helper*>(this)->GetExtra());
     if (pdata != 0)
     {
         eval = pdata->m_iIntegerValue;
@@ -2550,41 +2592,44 @@ struct Dummy_0056c7d0
 {
     char pad[0xcc];
     void* pData;
-    void FUN_0056c7d0(void* apData);
+    void BSFadeNode_SetUserData(void* apData);
 };
 
 // @fnv 0x0056c7d0
-void Dummy_0056c7d0::FUN_0056c7d0(void* apData)
+// src: XBOX_PDB 0x0056c7d0
+void Dummy_0056c7d0::BSFadeNode_SetUserData(void* apData)
 {
     pData = apData;
 }
 
 struct FUN_0056c880_L
 {
-    void FUN_0056c8b0(unsigned int f, bool v);
+    void LOADED_REF_DATA_SetFlag(unsigned int f, bool v);
 };
 struct FUN_0056c880_S
 {
     char pad[0x64];
     FUN_0056c880_L* pLoaded;
-    void FUN_0056c880(unsigned int aiFlag, bool abValue);
+    void TESObjectREFR_SetLoadedDataFlag(unsigned int aiFlag, bool abValue);
 };
 // Forwards the flag and value to the loaded object's FUN_0056c8b0 if pLoaded is set.
 // @fnv 0x0056c880
-void FUN_0056c880_S::FUN_0056c880(unsigned int aiFlag, bool abValue)
+// src: XBOX_PDB 0x0056c880
+void FUN_0056c880_S::TESObjectREFR_SetLoadedDataFlag(unsigned int aiFlag, bool abValue)
 {
     if (pLoaded)
-        pLoaded->FUN_0056c8b0(aiFlag, abValue);
+        pLoaded->LOADED_REF_DATA_SetFlag(aiFlag, abValue);
 }
 
 struct FUN_0056d300_S
 {
     char pad[0x30];
     hkVector4 in;
-    void FUN_0056d300(const void* p);
+    void bhkRigidBodyCinfo_SetPosition(const void* p);
 };
 // @fnv 0x0056d300
-void FUN_0056d300_S::FUN_0056d300(const void* p)
+// src: XBOX_PDB 0x0056d300
+void FUN_0056d300_S::bhkRigidBodyCinfo_SetPosition(const void* p)
 {
     in.FUN_004a3f10((hkVector4*)p);
 }
@@ -2617,11 +2662,12 @@ void __fastcall FUN_0056d730(void* pThis)
 struct _Dummy_0056e090
 {
     void FUN_0056e0b0();
-    _Dummy_0056e090* FUN_0056e090();
+    _Dummy_0056e090* hkSimpleShapePhantomCinfo_hkSimpleShapePhantomCinfo();
 };
 
 // @fnv 0x0056e090
-_Dummy_0056e090* _Dummy_0056e090::FUN_0056e090()
+// src: XBOX_PDB 0x0056e090
+_Dummy_0056e090* _Dummy_0056e090::hkSimpleShapePhantomCinfo_hkSimpleShapePhantomCinfo()
 {
     FUN_0056e0b0();
     return this;
@@ -2639,17 +2685,18 @@ struct HavokTransformData
 typedef char _sizecheck_bhkTransform[sizeof(HavokTransformData) == 64 ? 1 : -1];
 struct FUN_0056e120_shell : public HavokTransformData
 {
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
 };
 
-void __fastcall FUN_0056e140(void*);
-void __fastcall FUN_004b4fc0(void*);
+void __fastcall bhkMatrix3_setIdentity(void*);
+void __fastcall bhkVector4_setZero4(void*);
 
 // @fnv 0x0056e120
-void FUN_0056e120_shell::FUN_0056e120()
+// src: XBOX_PDB 0x0056e120
+void FUN_0056e120_shell::bhkTransform_setIdentity()
 {
-    FUN_0056e140(this);
-    FUN_004b4fc0(Trans);
+    bhkMatrix3_setIdentity(this);
+    bhkVector4_setZero4(Trans);
 }
 
 void __fastcall bhkSphereRepShape_bhkSphereRepShape(void* pThis);
@@ -2673,7 +2720,7 @@ unsigned int __fastcall bhkBoxShape_GetCinfoSize(const void* pThis)
     return 0x20;
 }
 
-void __fastcall FUN_0056ea40(void*);
+void __fastcall hkSphereShapeCinfo_hkSphereShapeCinfo(void*);
 
 struct _bhkSphereShape_vtbl_helper
 {
@@ -2732,10 +2779,11 @@ struct _hkSphereShapeCinfo_no_gs
 
 // Builds a sphere shape info with the given radius and passes it to the virtual method vb0.
 // @fnv 0x0056ea00
-void __fastcall FUN_0056ea00(_bhkSphereShape_vtbl_helper* pThis, float afRadius)
+// src: XBOX_PDB 0x0056ea00
+void __fastcall bhkSphereShape_Init(_bhkSphereShape_vtbl_helper* pThis, float afRadius)
 {
     _hkSphereShapeCinfo_no_gs si;
-    FUN_0056ea40(&si);
+    hkSphereShapeCinfo_hkSphereShapeCinfo(&si);
     si.m_fSphereRadius = afRadius;
     pThis->vb0(&si);
 }
@@ -2801,7 +2849,7 @@ struct ExtraVec
 {
     void BSBound_GetBoundMax(V3* out);
 };
-int FUN_0050ea90();
+int BSBound_Tag();
 extern V3 g_011ca3d4;
 extern V3 _NiPoint3_ZERO;
 // Returns the vector stored in obj's extra data (via FUN_0050ea50 into g_011ca3d4), or _NiPoint3_ZERO if obj or its extra data is missing.
@@ -2811,7 +2859,7 @@ V3 TESObjectREFR_GetBoundMax(::NiAVObject* obj)
 {
     if (obj)
     {
-        ::NiExtraData* pExtraData = obj->GetExtraData(*(const NiFixedString*)FUN_0050ea90());
+        ::NiExtraData* pExtraData = obj->GetExtraData(*(const NiFixedString*)BSBound_Tag());
         if (pExtraData)
         {
             ExtraVec* pExtraVec = (ExtraVec*)pExtraData;
@@ -2842,7 +2890,7 @@ using ::BGSSaveLoadGame;
 typedef char _sizecheck_BGSSaveLoadGame[sizeof(BGSSaveLoadGame) == 588 ? 1 : -1];
 
 
-bool __fastcall FUN_00462480(BGSSaveLoadGame* pThis);
+bool __fastcall BGSSaveLoadGame_GetThreadAllowChanges(BGSSaveLoadGame* pThis);
 bool __fastcall BGSSaveLoadGame_GetGlobalAllowChanges(BGSSaveLoadGame* pThis);
 
 // Returns true when both FUN_00462480 and FUN_00570f40 return true for this save/load game.
@@ -2852,14 +2900,14 @@ bool __fastcall BGSSaveLoadGame_GetGlobalAllowChanges(BGSSaveLoadGame* pThis);
 // @fnv 0x00570f00
 bool BGSSaveLoadGame::GetAllowChanges()
 {
-    return fnv_00570f00::FUN_00462480(this) && fnv_00570f00::BGSSaveLoadGame_GetGlobalAllowChanges(this);
+    return fnv_00570f00::BGSSaveLoadGame_GetThreadAllowChanges(this) && fnv_00570f00::BGSSaveLoadGame_GetGlobalAllowChanges(this);
 }
 
 namespace fnv_00571080 {
 using ::NiAVObject;
 struct FUN_00571080_shell : public TESObjectREFR
 {
-    void FUN_00571080(NiAVObject*);
+    void TESObjectREFR_Set3DVerySimple(NiAVObject*);
 };
 
 template <class T> class LocalNiPointer
@@ -2868,21 +2916,22 @@ template <class T> class LocalNiPointer
     LocalNiPointer<T>& operator=(T*);
 };
 
-void __fastcall FUN_0057c180(TESObjectREFR*);
-void __fastcall FUN_0057c300(TESObjectREFR*);
+void __fastcall TESObjectREFR_CreateLoadedData(TESObjectREFR*);
+void __fastcall TESObjectREFR_FreeLoadedData(TESObjectREFR*);
 
 // @fnv 0x00571080
-void FUN_00571080_shell::FUN_00571080(NiAVObject* ap3D)
+// src: XBOX_PDB 0x00571080
+void FUN_00571080_shell::TESObjectREFR_Set3DVerySimple(NiAVObject* ap3D)
 {
     if (ap3D)
     {
-        FUN_0057c180(this);
+        TESObjectREFR_CreateLoadedData(this);
         *reinterpret_cast<LocalNiPointer<NiNode>*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0x64) + 0x14) =
             reinterpret_cast<NiNode*>(ap3D);
     }
     else
     {
-        FUN_0057c300(this);
+        TESObjectREFR_FreeLoadedData(this);
     }
 }
 }  // namespace fnv_00571080
@@ -2893,28 +2942,30 @@ using ::NiFixedString;
 typedef char _sizecheck_NiFixedString[sizeof(NiFixedString) == 4 ? 1 : -1];
 struct FUN_00571530_shell : public TESObjectREFR
 {
-    NiAVObject* FUN_00571530(NiAVObject*, NiFixedString*);
+    NiAVObject* TESObjectREFR_GetActorBone_00571530(NiAVObject*, NiFixedString*);
 };
 
-NiAVObject* __cdecl FUN_00c4b470(NiAVObject*, NiFixedString*, bool);
+NiAVObject* __cdecl BSUtilities_GetObjectByName_00c4b470(NiAVObject*, NiFixedString*, bool);
 
 // @fnv 0x00571530
-NiAVObject* FUN_00571530_shell::FUN_00571530(NiAVObject* apRoot, NiFixedString* apSearch)
+// src: XBOX_PDB 0x00571530
+NiAVObject* FUN_00571530_shell::TESObjectREFR_GetActorBone_00571530(NiAVObject* apRoot, NiFixedString* apSearch)
 {
-    return FUN_00c4b470(apRoot, apSearch, true);
+    return BSUtilities_GetObjectByName_00c4b470(apRoot, apSearch, true);
 }
 }  // namespace fnv_00571530
 
 // Returns true if either of the two bool flags at offsets 0x64f and 0x64d in pThis is set.
 // @fnv 0x005721e0
-bool __fastcall FUN_005721e0(const bool* pThis)
+// src: XBOX_PDB 0x005721e0
+bool __fastcall PlayerCharacter_GetTempPerson(const bool* pThis)
 {
     return (pThis[0x64f] || pThis[0x64d]) ? true : false;
 }
 
 struct FUN_00572350_shell : public TESObjectREFR
 {
-    bool FUN_00572350();
+    bool TESObjectREFR_Is3DCritical();
 };
 
 struct FUN_00572350_Vtbl
@@ -2988,7 +3039,8 @@ struct FUN_00572350_Vtbl
 
 // Returns false if virtual slot 64 returns true, otherwise returns true.
 // @fnv 0x00572350
-bool FUN_00572350_shell::FUN_00572350()
+// src: XBOX_PDB 0x00572350
+bool FUN_00572350_shell::TESObjectREFR_Is3DCritical()
 {
     if (reinterpret_cast<FUN_00572350_Vtbl*>(this)->v64())
         return false;
@@ -3051,7 +3103,7 @@ struct Sub2
 struct ExtraStub
 {
     NameStr* ExtraDataList_GetLight();
-    NameStr* FUN_00418280();
+    NameStr* ExtraDataList_GetSpellEffectLight();
     Sub2* ExtraDataList_GetLitWaterRefs();
 };
 struct FormTypeStub
@@ -3075,7 +3127,7 @@ void FUN_005728c0_shell::TESObjectREFR_AddLight(bool abMagic)
     SSLight* psslight;
     if (((FormStub*)this)->IsDeleted() || ((FormStub*)this)->GetDisabled())
         return;
-    lightPtr = abMagic ? ((ExtraStub*)((FormStub*)this)->GetExtra())->FUN_00418280()
+    lightPtr = abMagic ? ((ExtraStub*)((FormStub*)this)->GetExtra())->ExtraDataList_GetSpellEffectLight()
                        : ((ExtraStub*)((FormStub*)this)->GetExtra())->ExtraDataList_GetLight();
     if (lightPtr && (const char*)*lightPtr)
     {
@@ -3099,7 +3151,7 @@ void FUN_005728c0_shell::TESObjectREFR_AddLight(bool abMagic)
 namespace fnv_00572d30 {
 struct FUN_00572d30_shell : public TESObjectREFR
 {
-    bool FUN_00572d30(int);
+    bool TESObjectREFR_GetAction_00572d30(int);
 };
 
 using ::ExtraDataList;
@@ -3113,7 +3165,8 @@ struct TESObjectREFR_GetExtra_helper
 };
 
 // @fnv 0x00572d30
-bool FUN_00572d30_shell::FUN_00572d30(int type)
+// src: XBOX_PDB 0x00572d30
+bool FUN_00572d30_shell::TESObjectREFR_GetAction_00572d30(int type)
 {
     return (FNV2062_ExtraDataList_FUN_0041b3a0)(((const TESObjectREFR_GetExtra_helper*)this)->GetExtra(), type);
 }
@@ -3121,12 +3174,12 @@ bool FUN_00572d30_shell::FUN_00572d30(int type)
 
 struct FUN_00572d50_shell : public TESObjectREFR
 {
-    void FUN_00572d50(int);
+    void TESObjectREFR_SetAction(int);
 };
 
 struct ExtraDataList_helper
 {
-    void FUN_0041b440(int);
+    void ExtraDataList_SetAction(int);
 };
 
 struct TESObjectREFR_helper
@@ -3151,16 +3204,17 @@ struct TESObjectREFR_helper
     virtual void v44();
     virtual void v48(unsigned int);
     virtual void v4c(unsigned int);
-    bool FUN_00561d90();
-    ExtraDataList_helper* FUN_005d43c0();
+    bool TESObjectREFR_GetOriginalOpenByDefaultState();
+    ExtraDataList_helper* BSFile_GetDevice();
 };
 
 // @fnv 0x00572d50
-void FUN_00572d50_shell::FUN_00572d50(int action)
+// src: XBOX_PDB 0x00572d50
+void FUN_00572d50_shell::TESObjectREFR_SetAction(int action)
 {
     if (action == 4)
     {
-        if (reinterpret_cast<TESObjectREFR_helper*>(this)->FUN_00561d90())
+        if (reinterpret_cast<TESObjectREFR_helper*>(this)->TESObjectREFR_GetOriginalOpenByDefaultState())
         {
             reinterpret_cast<TESObjectREFR_helper*>(this)->v4c(0x800000);
         }
@@ -3169,17 +3223,17 @@ void FUN_00572d50_shell::FUN_00572d50(int action)
             reinterpret_cast<TESObjectREFR_helper*>(this)->v48(0x800000);
         }
     }
-    reinterpret_cast<TESObjectREFR_helper*>(this)->FUN_005d43c0()->FUN_0041b440(action);
+    reinterpret_cast<TESObjectREFR_helper*>(this)->BSFile_GetDevice()->ExtraDataList_SetAction(action);
 }
 
 struct FUN_00572db0_shell : public TESObjectREFR
 {
-    void FUN_00572db0(int);
+    void TESObjectREFR_ClearAction(int);
 };
 
 struct FUN_00572db0_Extra
 {
-    void FUN_0041b470(int);
+    void ExtraDataList_ClearAction(int);
 };
 
 struct FUN_00572db0_Helper
@@ -3205,16 +3259,17 @@ struct FUN_00572db0_Helper
     virtual void v48(unsigned int);
     virtual void v4c(unsigned int);
 
-    bool FUN_00561d90();
+    bool TESObjectREFR_GetOriginalOpenByDefaultState();
     FUN_00572db0_Extra* GetExtra();
 };
 
 // @fnv 0x00572db0
-void FUN_00572db0_shell::FUN_00572db0(int type)
+// src: XBOX_PDB 0x00572db0
+void FUN_00572db0_shell::TESObjectREFR_ClearAction(int type)
 {
     if (type == 4)
     {
-        if (reinterpret_cast<FUN_00572db0_Helper*>(this)->FUN_00561d90())
+        if (reinterpret_cast<FUN_00572db0_Helper*>(this)->TESObjectREFR_GetOriginalOpenByDefaultState())
         {
             reinterpret_cast<FUN_00572db0_Helper*>(this)->v48(0x800000);
         }
@@ -3223,23 +3278,24 @@ void FUN_00572db0_shell::FUN_00572db0(int type)
             reinterpret_cast<FUN_00572db0_Helper*>(this)->v4c(0x800000);
         }
     }
-    reinterpret_cast<FUN_00572db0_Helper*>(this)->GetExtra()->FUN_0041b470(type);
+    reinterpret_cast<FUN_00572db0_Helper*>(this)->GetExtra()->ExtraDataList_ClearAction(type);
 }
 
 struct FUN_00572e30_shell : public TESObjectREFR
 {
-    TESObjectREFR* FUN_00572e30();
+    TESObjectREFR* TESObjectREFR_GetActionRef();
 };
 
 using ::ExtraDataList;
 
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
-TESObjectREFR* __fastcall FUN_0041b520(const ExtraDataList* pExtra);
+const ExtraDataList* __fastcall BSFile_GetDevice(const TESObjectREFR* pThis);
+TESObjectREFR* __fastcall ExtraDataList_GetActionRef(const ExtraDataList* pExtra);
 
 // @fnv 0x00572e30
-TESObjectREFR* FUN_00572e30_shell::FUN_00572e30()
+// src: XBOX_PDB 0x00572e30
+TESObjectREFR* FUN_00572e30_shell::TESObjectREFR_GetActionRef()
 {
-    return FUN_0041b520(::FUN_005d43c0(this));
+    return ExtraDataList_GetActionRef(::BSFile_GetDevice(this));
 }
 
 struct TempShell_005737e0
@@ -3253,31 +3309,35 @@ struct TempShell_005737e0
 };
 
 // @fnv 0x005737e0
-bool __fastcall FUN_005737e0(TempShell_005737e0* pThis)
+// src: XBOX_PDB 0x005737e0
+bool __fastcall PlayerCharacter_GetWant3rdPerson(TempShell_005737e0* pThis)
 {
     return pThis->val;
 }
 
 // @fnv 0x00573f20
-void __fastcall FUN_00573f20(char* pThis, float value)
+// src: XBOX_PDB 0x00573f20
+void __fastcall bhkCharacterController_SetFallStartHeight(char* pThis, float value)
 {
     *(float*)(pThis + 0x544) = value;
 }
 
 // @fnv 0x00574900
-unsigned char __fastcall FUN_00574900(const unsigned char* _this)
+// src: XBOX_PDB 0x00574900
+unsigned char __fastcall MobileObject_IsTalkingActivator(const unsigned char* _this)
 {
     return _this[0x81];
 }
 
 struct FUN_00575770_shell : public TESObjectREFR
 {
-    void FUN_00575770(float);
+    void TESObjectREFR_SetAngleOnReferenceX(float);
 };
 
 // Stores afx at offset 0x24 of this object, then calls the virtual function at vtable offset 0x48 with argument 2.
 // @fnv 0x00575770
-void FUN_00575770_shell::FUN_00575770(float afx)
+// src: XBOX_PDB 0x00575770
+void FUN_00575770_shell::TESObjectREFR_SetAngleOnReferenceX(float afx)
 {
     *(float*)((char*)this + 0x24) = afx;
     typedef void(__thiscall * VFn)(void*, unsigned int);
@@ -3286,14 +3346,15 @@ void FUN_00575770_shell::FUN_00575770(float afx)
 
 struct FUN_005757d0_shell : public TESObjectREFR
 {
-    void FUN_005757d0(float);
+    void TESObjectREFR_SetAngleOnReferenceZ(float);
 };
 
 float __cdecl WrapAngle(float);
 
 // Stores afz at offset 0x2c, wraps it if the virtual check at vtable+0x100 returns true, then calls the virtual at vtable+0x48 with 2.
 // @fnv 0x005757d0
-void FUN_005757d0_shell::FUN_005757d0(float afz)
+// src: XBOX_PDB 0x005757d0
+void FUN_005757d0_shell::TESObjectREFR_SetAngleOnReferenceZ(float afz)
 {
     *(float*)((char*)this + 0x2c) = afz;
     if ((*(bool(__thiscall**)(void*))(*(int*)this + 0x100))(this))
@@ -3362,7 +3423,7 @@ using ::TESFullName;
 typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_00575d10_shell : public TESObjectREFR
 {
-    bool FUN_00575d10();
+    bool TESObjectREFR_GetInterior();
 };
 
 using ::BSOcclusionPlane;
@@ -3381,7 +3442,8 @@ struct ChildCellHelper
 
 // Returns whether the reference's cell is interior; if no cell, checks the parent cell's worldspace and returns false when present.
 // @fnv 0x00575d10
-bool FUN_00575d10_shell::FUN_00575d10()
+// src: XBOX_PDB 0x00575d10
+bool FUN_00575d10_shell::TESObjectREFR_GetInterior()
 {
     bool bretval = true;
     TESObjectCELL* pcell = reinterpret_cast<TESObjectCELL*>(reinterpret_cast<BSOcclusionPlane*>(this)->GetCullResult());
@@ -3468,7 +3530,7 @@ using ::TESTexture;
 typedef char _sizecheck_TESTexture[sizeof(TESTexture) == 12 ? 1 : -1];
 struct FUN_00575d70_shell : public TESObjectREFR
 {
-    TESWorldSpace* FUN_00575d70();
+    TESWorldSpace* TESObjectREFR_GetWorldSpace();
 };
 
 using ::BSOcclusionPlane;
@@ -3494,7 +3556,8 @@ struct DummyREFR : DummyPad24, DummyChildCell
 };
 
 // @fnv 0x00575d70
-TESWorldSpace* FUN_00575d70_shell::FUN_00575d70()
+// src: XBOX_PDB 0x00575d70
+TESWorldSpace* FUN_00575d70_shell::TESObjectREFR_GetWorldSpace()
 {
     TESWorldSpace* pretworld = 0;
     TESObjectCELL* pcell = reinterpret_cast<TESObjectCELL*>(reinterpret_cast<BSOcclusionPlane*>(this)->GetCullResult());
@@ -3537,7 +3600,7 @@ using ::TESContainer;
 typedef char _sizecheck_TESContainer[sizeof(TESContainer) == 12 ? 1 : -1];
 struct FUN_00576260_shell : public TESObjectREFR
 {
-    InventoryStackRecord* FUN_00576260(TESBoundObject*, unsigned int);
+    InventoryStackRecord* TESObjectREFR_GetInventoryItem_00576260(TESBoundObject*, unsigned int);
 };
 
 using ::InventoryChanges;
@@ -3551,7 +3614,8 @@ struct REFRExtraStandIn
 };
 // Returns the item change for the given object and count from this reference's extra data inventory changes, or null if there are none.
 // @fnv 0x00576260
-InventoryStackRecord* FUN_00576260_shell::FUN_00576260(TESBoundObject* pObject, unsigned int b)
+// src: XBOX_PDB 0x00576260
+InventoryStackRecord* FUN_00576260_shell::TESObjectREFR_GetInventoryItem_00576260(TESBoundObject* pObject, unsigned int b)
 {
     InventoryChanges* pinventory = ((REFRExtraStandIn*)this)->GetExtra()->GetContainerChangeData();
     InventoryStackRecord* pItemChange = 0;
@@ -3881,7 +3945,7 @@ struct VTable576330
     virtual void v227();
     virtual int v228();
 
-    NiAVObject* FUN_0043fcd0();
+    NiAVObject* TESObjectREFR_Get3D();
 };
 
 // @fnv 0x00576330
@@ -3892,7 +3956,7 @@ BSFaceGenNiNode* FUN_00576330_shell::TESObjectREFR_GetFaceGenNodeBiped(NiNode* a
         return 0;
     if (!((VTable576330*)this)->v228())
         return 0;
-    return (BSFaceGenNiNode*)SceneObjectLookup::GetObjectByName(((VTable576330*)this)->FUN_0043fcd0(),
+    return (BSFaceGenNiNode*)SceneObjectLookup::GetObjectByName(((VTable576330*)this)->TESObjectREFR_Get3D(),
                                                                 "BSFaceGenNiNodeBiped");
 }
 }  // namespace fnv_00576330
@@ -3980,7 +4044,7 @@ struct FUN_00576390_shell : public TESObjectREFR
     BSFaceGenNiNode* TESObjectREFR_GetFaceGenNodeSkinned(NiNode*);
 };
 
-NiAVObject* __fastcall FUN_0043fcd0(TESObjectREFR*);
+NiAVObject* __fastcall TESObjectREFR_Get3D(TESObjectREFR*);
 
 struct SceneObjectLookup
 {
@@ -4229,7 +4293,7 @@ BSFaceGenNiNode* FUN_00576390_shell::TESObjectREFR_GetFaceGenNodeSkinned(NiNode*
         return 0;
     if (!((VTable_00576390*)this)->v228())
         return 0;
-    return (BSFaceGenNiNode*)SceneObjectLookup::GetObjectByName(FUN_0043fcd0(this), "BSFaceGenNiNodeSkinned");
+    return (BSFaceGenNiNode*)SceneObjectLookup::GetObjectByName(TESObjectREFR_Get3D(this), "BSFaceGenNiNodeSkinned");
 }
 }  // namespace fnv_00576390
 
@@ -4602,26 +4666,28 @@ BSFaceGenAnimationData* FUN_00576420_shell::TESObjectREFR_CreateFaceAnimationDat
 }
 }  // namespace fnv_00576420
 
-void* __fastcall FUN_005771f0(void* _this);
-void* __cdecl FUN_005771d0(void* pc);
+void* __fastcall bhkBvTreeShape_GethkShapeCollection(void* _this);
+void* __cdecl bhkShapeCollection_Getbhk(void* pc);
 
 // Calls FUN_005771f0 on _this, then FUN_005771d0 on the result if non-null, otherwise returns 0.
 // @fnv 0x00577190
-void* __fastcall FUN_00577190(void* _this)
+// src: XBOX_PDB 0x00577190
+void* __fastcall bhkBvTreeShape_GetShapeCollection(void* _this)
 {
-    void* pc = FUN_005771f0(_this);
-    return pc ? FUN_005771d0(pc) : 0;
+    void* pc = bhkBvTreeShape_GethkShapeCollection(_this);
+    return pc ? bhkShapeCollection_Getbhk(pc) : 0;
 }
 
 // @fnv 0x00577310
-float __fastcall FUN_00577310(char* pThis)
+// src: XBOX_PDB 0x00577310
+float __fastcall PlayerCharacter_GetRockItAmmoWeight(char* pThis)
 {
     return *(float*)(pThis + 0xe04);
 }
 
 struct PX
 {
-    void FUN_004d9910(void* r);
+    void RagDollData_UpdateReferenceFromData(void* r);
 };
 struct EDL
 {
@@ -4632,17 +4698,18 @@ struct FUN_00577330_cls
 {
     int GetReferenceType();
     const EDL* GetExtra() const;
-    void FUN_00577330(PX* p);
+    void TESObjectREFR_RestoreRagDollData(PX* p);
 };
 // @fnv 0x00577330
-void FUN_00577330_cls::FUN_00577330(PX* p)
+// src: XBOX_PDB 0x00577330
+void FUN_00577330_cls::TESObjectREFR_RestoreRagDollData(PX* p)
 {
     if (GetReferenceType())
     {
         if (!p)
             p = GetExtra()->ExtraDataList_GetRagDollData();
         if (p)
-            p->FUN_004d9910(this);
+            p->RagDollData_UpdateReferenceFromData(this);
     }
     else if (p)
         GetExtra()->ExtraDataList_SetRagDollDataFromCopy(p);
@@ -4660,7 +4727,7 @@ struct Tmp577
 };
 struct Y577
 {
-    TESForm* FUN_00ca86c0();
+    TESForm* hkpRigidBody_getStoredDynamicMotion_00ca86c0();
     float hkpRigidBody_getMaxLinearVelocity();
 };
 struct X577
@@ -4671,7 +4738,7 @@ struct X577
 struct Y577b;
 struct A577
 {
-    Y577* FUN_00ca86c0();
+    Y577* hkpRigidBody_getStoredDynamicMotion_00ca86c0();
     float hkpRigidBody_getMaxLinearVelocity();
 };
 struct Obj577
@@ -4687,7 +4754,7 @@ float Obj577::bhkRigidBody_GethkMaxLinearVelocity()
     float result;
     if (a)
     {
-        TESForm* b = (TESForm*)a->FUN_00ca86c0();
+        TESForm* b = (TESForm*)a->hkpRigidBody_getStoredDynamicMotion_00ca86c0();
         Z577* c;
         {
             Tmp577 tmp;
@@ -4750,13 +4817,14 @@ using ::NiAVObject;
 
 
 
-NiFixedString const& __cdecl FUN_00448a80(void);
+NiFixedString const& __cdecl BSXFlags_Tag(void);
 
 // Reads the BSXFlags extra data from apNode and returns true if GetAddon reports the addon flag.
 // @fnv 0x005784b0
-bool __cdecl FUN_005784b0(NiNode* apNode)
+// src: XBOX_PDB 0x005784b0
+bool __cdecl TESObjectREFR_HasAddonFlags(NiNode* apNode)
 {
-    NiExtraData* pextraData = apNode->GetExtraData(FUN_00448a80());
+    NiExtraData* pextraData = apNode->GetExtraData(BSXFlags_Tag());
     if (pextraData)
     {
         BSXFlags* pbsx = (BSXFlags*)pextraData;
@@ -4767,7 +4835,8 @@ bool __cdecl FUN_005784b0(NiNode* apNode)
 }
 
 // @fnv 0x00578770
-bool __fastcall FUN_00578770(int param_1)
+// src: XBOX_PDB 0x00578770
+bool __fastcall TESFaction_GetAllowSell(int param_1)
 {
     return (*(unsigned int*)(param_1 + 0x34) & 0x200) ? true : false;
 }
@@ -4821,7 +4890,7 @@ struct TeleportableReference
 typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
 struct FUN_005789b0_shell : public TESObjectREFR
 {
-    void FUN_005789b0();
+    void TESObjectREFR_AddLockChange();
 };
 
 template <class T> struct LocalBSStringT
@@ -4858,7 +4927,8 @@ struct RefrExt : public VT18
     ExtraRadioData* GetExtraRadioData();
 };
 // @fnv 0x005789b0
-void FUN_005789b0_shell::FUN_005789b0()
+// src: XBOX_PDB 0x005789b0
+void FUN_005789b0_shell::TESObjectREFR_AddLockChange()
 {
     LocalBSStringT<char>* radio;
     if (reinterpret_cast<RefrExt*>(this)->GetMyLock())
@@ -4881,13 +4951,15 @@ void FUN_005789b0_shell::FUN_005789b0()
 }  // namespace fnv_005789b0
 
 // @fnv 0x00579200
-bool __fastcall FUN_00579200(const char* pData)
+// src: XBOX_PDB 0x00579200
+bool __fastcall TESTopicInfo_IsRunImmediately(const char* pData)
 {
     return (bool)(pData[0x25] & 8);
 }
 
 // @fnv 0x00579670
-bool __fastcall FUN_00579670(char* pThis)
+// src: XBOX_PDB 0x00579670
+bool __fastcall Actor_IsSleeping(char* pThis)
 {
     return *(int*)(pThis + 0x1ac) == 9 ? true : false;
 }
@@ -4895,23 +4967,24 @@ bool __fastcall FUN_00579670(char* pThis)
 namespace fnv_0057a3c0 {
 struct FUN_0057a3c0_shell : public TESObjectREFR
 {
-    void FUN_0057a3c0(bool);
+    void TESObjectREFR_UpdateAddonNodeSounds(bool);
 };
 
 struct TESObjectREFR_Helper
 {
     void* GetReferenceType();
-    bool FUN_004523e0(int);
-    void FUN_0057a410(void*, bool);
+    bool TESObjectREFR_GetLoadedDataFlag(int);
+    void TESObjectREFR_UpdateAddonNodeSoundsRecursive(void*, bool);
 };
 
 // @fnv 0x0057a3c0
-void FUN_0057a3c0_shell::FUN_0057a3c0(bool abDetachAll)
+// src: XBOX_PDB 0x0057a3c0
+void FUN_0057a3c0_shell::TESObjectREFR_UpdateAddonNodeSounds(bool abDetachAll)
 {
     void* proot = ((TESObjectREFR_Helper*)this)->GetReferenceType();
-    if (proot && ((TESObjectREFR_Helper*)this)->FUN_004523e0(2))
+    if (proot && ((TESObjectREFR_Helper*)this)->TESObjectREFR_GetLoadedDataFlag(2))
     {
-        ((TESObjectREFR_Helper*)this)->FUN_0057a410(proot, abDetachAll);
+        ((TESObjectREFR_Helper*)this)->TESObjectREFR_UpdateAddonNodeSoundsRecursive(proot, abDetachAll);
     }
 }
 }  // namespace fnv_0057a3c0
@@ -4989,7 +5062,7 @@ using ::BaseFormComponent;
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_0057ace0_shell : public TESObjectREFR
 {
-    void FUN_0057ace0(TESTopicInfo*);
+    void TESObjectREFR_SetSayToTopicInfo(TESTopicInfo*);
 };
 
 using ::ExtraDataList;
@@ -5026,7 +5099,8 @@ struct TESObjectREFR_vtable_helper
 };
 
 // @fnv 0x0057ace0
-void FUN_0057ace0_shell::FUN_0057ace0(TESTopicInfo* apInfo)
+// src: XBOX_PDB 0x0057ace0
+void FUN_0057ace0_shell::TESObjectREFR_SetSayToTopicInfo(TESTopicInfo* apInfo)
 {
     (FNV2062_ExtraDataList_FUN_0042ec70)(reinterpret_cast<const TESObjectREFR_GetExtra_helper*>(this)->GetExtra(), apInfo);
     reinterpret_cast<TESObjectREFR_vtable_helper*>(this)->vfn_18(0x80000000);
@@ -5059,7 +5133,7 @@ using ::TESFullName;
 typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct FUN_0057ad20_shell : public TESObjectREFR
 {
-    void FUN_0057ad20(TESTopic*);
+    void TESObjectREFR_SetSayToTopic(TESTopic*);
 };
 
 using ::ExtraDataList;
@@ -5074,7 +5148,8 @@ struct VTable_0057ad20
 };
 
 // @fnv 0x0057ad20
-void FUN_0057ad20_shell::FUN_0057ad20(TESTopic* apTopic)
+// src: XBOX_PDB 0x0057ad20
+void FUN_0057ad20_shell::TESObjectREFR_SetSayToTopic(TESTopic* apTopic)
 {
     (FNV2062_ExtraDataList_FUN_0042ee00)(reinterpret_cast<const ExtraDataList*>(this)->GetExtra(), apTopic);
     (*reinterpret_cast<VTable_0057ad20**>(this))->vfn_18(this, 0x80000000);
@@ -5084,7 +5159,7 @@ void FUN_0057ad20_shell::FUN_0057ad20(TESTopic* apTopic)
 namespace fnv_0057ad60 {
 struct FUN_0057ad60_shell : public TESObjectREFR
 {
-    void FUN_0057ad60(unsigned int);
+    void TESObjectREFR_SetSayToResponseID(unsigned int);
 };
 
 using ::ExtraDataList;
@@ -5121,7 +5196,8 @@ struct Helper_TESObjectREFR
 };
 
 // @fnv 0x0057ad60
-void FUN_0057ad60_shell::FUN_0057ad60(unsigned int anResponseID)
+// src: XBOX_PDB 0x0057ad60
+void FUN_0057ad60_shell::TESObjectREFR_SetSayToResponseID(unsigned int anResponseID)
 {
     (FNV2062_ExtraDataList_FUN_0042eec0)(reinterpret_cast<Helper_TESObjectREFR*>(this)->GetExtra(), anResponseID);
     reinterpret_cast<VTable_0057ad60*>(this)->vfn_18(0x80000000);
@@ -5130,25 +5206,27 @@ void FUN_0057ad60_shell::FUN_0057ad60(unsigned int anResponseID)
 
 struct FUN_0057b0a0_shell : public TESObjectREFR
 {
-    float FUN_0057b0a0();
+    float TESObjectREFR_GetRelevantWaterHeight();
 };
 
 extern float const DAT_01015f5c;
 
 // Returns the float at offset 8 of the object at this+0x64, or DAT_01015f5c when that pointer is null.
 // @fnv 0x0057b0a0
-float FUN_0057b0a0_shell::FUN_0057b0a0()
+// src: XBOX_PDB 0x0057b0a0
+float FUN_0057b0a0_shell::TESObjectREFR_GetRelevantWaterHeight()
 {
     return *(int*)((char*)this + 0x64) ? *(float*)(*(int*)((char*)this + 0x64) + 8) : DAT_01015f5c;
 }
 
-float __cdecl FUN_004a3e90(float);
+float __cdecl NI2HK_004a3e90(float);
 
 // Stores the result of FUN_004a3e90(afHeight) into the float field at offset 0x53c of pThis.
 // @fnv 0x0057b1d0
-void __fastcall FUN_0057b1d0(char* pThis, float afHeight)
+// src: XBOX_PDB 0x0057b1d0
+void __fastcall bhkCharacterController_SetWaterHeight(char* pThis, float afHeight)
 {
-    *(float*)(pThis + 0x53c) = FUN_004a3e90(afHeight);
+    *(float*)(pThis + 0x53c) = NI2HK_004a3e90(afHeight);
 }
 
 struct FUN_0057bd10_S
@@ -5156,11 +5234,12 @@ struct FUN_0057bd10_S
     int a;
     char b;
     int c;
-    FUN_0057bd10_S* FUN_0057bd10(int v);
+    FUN_0057bd10_S* BSSoundHandle_BSSoundHandle(int v);
 };
 // Stores v in a, sets b and c to 0, and returns this.
 // @fnv 0x0057bd10
-FUN_0057bd10_S* FUN_0057bd10_S::FUN_0057bd10(int aiValue)
+// src: XBOX_PDB 0x0057bd10
+FUN_0057bd10_S* FUN_0057bd10_S::BSSoundHandle_BSSoundHandle(int aiValue)
 {
     a = aiValue;
     b = 0;
@@ -5175,7 +5254,7 @@ struct FUN_0057bd40_shell : public TESObjectREFR
 };
 
 using ::ExtraDataList;
-TESTopic* __fastcall FUN_0042ed30(const ExtraDataList* pExtra);
+TESTopic* __fastcall ExtraDataList_GetExtraSayToTopic(const ExtraDataList* pExtra);
 
 namespace fnv_anon_tesobjectrefr {}
 using namespace fnv_anon_tesobjectrefr;
@@ -5189,7 +5268,7 @@ struct TESObjectREFR_Access
 // @fnv 0x0057bd40
 TESTopic* FUN_0057bd40_shell::FUN_0057bd40()
 {
-    return FUN_0042ed30(reinterpret_cast<const TESObjectREFR_Access*>(this)->GetExtra());
+    return ExtraDataList_GetExtraSayToTopic(reinterpret_cast<const TESObjectREFR_Access*>(this)->GetExtra());
 }
 
 class BSSoundHandle;
@@ -5221,12 +5300,13 @@ struct Dummy
 {
     char pad[0x70];
     MobileObject* m_pMobileObject;
-    void FUN_0057bd60(MobileObject* pref);
+    void EffectSetting_SetLight(MobileObject* pref);
 };
 }
 
 // @fnv 0x0057bd60
-void Dummy::FUN_0057bd60(MobileObject* apMobileObject)
+// src: XBOX_PDB 0x0057bd60
+void Dummy::EffectSetting_SetLight(MobileObject* apMobileObject)
 {
     m_pMobileObject = apMobileObject;
 }
@@ -5234,7 +5314,7 @@ void Dummy::FUN_0057bd60(MobileObject* apMobileObject)
 
 void* __cdecl operator new(unsigned int);
 extern float const DAT_01015f5c;
-float __fastcall FUN_005471e0(void*);
+float __fastcall TESObjectCELL_GetWaterHeight(void*);
 void* __fastcall FUN_0057c2a0(void*);
 
 
@@ -5263,7 +5343,8 @@ struct TempLoadedRefData
 };
 
 // @fnv 0x0057c180
-void __fastcall FUN_0057c180(char* this_ptr)
+// src: XBOX_PDB 0x0057c180
+void __fastcall TESObjectREFR_CreateLoadedData(char* this_ptr)
 {
     if (!*(TempLoadedRefData**)(this_ptr + 0x64))
     {
@@ -5272,7 +5353,7 @@ void __fastcall FUN_0057c180(char* this_ptr)
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk04 = 0;
         TESObjectCELL* pcell = (TESObjectCELL*)((BSOcclusionPlane*)this_ptr)->GetCullResult();
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk08 =
-            (pcell && pcell->HasWater()) ? FUN_005471e0(pcell) : DAT_01015f5c;
+            (pcell && pcell->HasWater()) ? TESObjectCELL_GetWaterHeight(pcell) : DAT_01015f5c;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk0c = -1.0f;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk10 = 0;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->spNode14 = 0;
@@ -5318,11 +5399,12 @@ struct FUN_0057c300_cls
 {
     char pad[0x64];
     Obj57* obj;
-    void FUN_0057c300();
+    void TESObjectREFR_FreeLoadedData();
 };
 // If obj is set, clears its two NiPtr fields, calls FUN_0057c370(1) on it, then sets obj to null.
 // @fnv 0x0057c300
-void FUN_0057c300_cls::FUN_0057c300()
+// src: XBOX_PDB 0x0057c300
+void FUN_0057c300_cls::TESObjectREFR_FreeLoadedData()
 {
     Obj57* q;
     if (obj)
@@ -5338,13 +5420,15 @@ void FUN_0057c300_cls::FUN_0057c300()
 }
 
 // @fnv 0x005d9f90
-int __fastcall FUN_005d9f90(char* pThis)
+// src: XBOX_PDB 0x005d9f90
+int __fastcall Character_GetBiped(char* pThis)
 {
     return *(int*)(pThis + 0x1b4);
 }
 
 // @fnv 0x006a9540
-void* __fastcall FUN_006a9540(char* pThis)
+// src: XBOX_PDB 0x006a9540
+void* __fastcall NiAVObject_GetRotate_006a9540(char* pThis)
 {
     return pThis + 0x34;
 }
@@ -5597,7 +5681,8 @@ void __fastcall Actor_UpdateRefLight(TESObjectREFR_Helper* pThis)
 using ::ActorMover;
 
 // @fnv 0x008b3ad0
-void __fastcall FUN_008b3ad0(void* thisPtr)
+// src: XBOX_PDB 0x008b3ad0
+void __fastcall Actor_ForceStopMoving(void* thisPtr)
 {
     (*(ActorMover**)((char*)thisPtr + 0x190))->ForceStopMoving();
 }
@@ -5690,7 +5775,7 @@ extern double _gModifierZero;
 
 struct CombatLOS
 {
-    bool FUN_00884920();
+    bool BaseProcess_HasCachedValues();
     float BaseProcess_GetParalysis(ActorValueOwner*);
 };
 
@@ -5717,7 +5802,7 @@ struct DummyActor : public TESObjectREFR
 bool __fastcall Actor_IsParalyzed(DummyActor* pThis)
 {
     if (*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68) &&
-        (*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68))->FUN_00884920())
+        (*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68))->BaseProcess_HasCachedValues())
     {
         return (*reinterpret_cast<CombatLOS**>(reinterpret_cast<char*>(pThis) + 0x68))
                    ->BaseProcess_GetParalysis(pThis ? reinterpret_cast<ActorValueOwner*>(&pThis->vfptr_avo) : 0) > _gModifierZero;
@@ -5742,7 +5827,7 @@ struct Inner8E
 {
     char pad[0x1c];
     float f1c;
-    bool FUN_00884e90(int a);
+    bool CachedValues_IsDirty(int a);
 };
 struct FUN_008be5a0_cls
 {
@@ -5755,7 +5840,7 @@ struct FUN_008be5a0_cls
 // src: COMMUNITY 0x008be5a0
 float FUN_008be5a0_cls::BaseProcess_GetParalysis(Arg8E* apArg)
 {
-    return !inner ? 0.0f : (!inner->FUN_00884e90(0x20) ? inner->f1c : apArg->V1c());
+    return !inner ? 0.0f : (!inner->CachedValues_IsDirty(0x20) ? inner->f1c : apArg->V1c());
 }
 
 struct Sky;
@@ -6216,7 +6301,8 @@ struct VTable_008c13d0_1
 
 // Returns true when v214() is not 0, 4 or 9 and the log date's v4d4() buffer exists with byte 0xe at most 0x14.
 // @fnv 0x008c13d0
-bool __fastcall FUN_008c13d0(VTable_008c13d0_1* pThis)
+// src: XBOX_PDB 0x008c13d0
+bool __fastcall Actor_IsTryingToEnterFurniture(VTable_008c13d0_1* pThis)
 {
     bool bHasResultObj = false;
     if (pThis->v214() != 0 && pThis->v214() != 4 && pThis->v214() != 9)
@@ -6232,7 +6318,7 @@ bool __fastcall FUN_008c13d0(VTable_008c13d0_1* pThis)
     return bHasResultObj;
 }
 
-int FUN_0050ea90();
+int BSBound_Tag();
 struct Holder
 {
     virtual void v0();
@@ -6622,18 +6708,19 @@ struct FUN_009335b0_cls
 {
     char pad[0x68];
     Holder* holder;
-    ::NiAVObject* FUN_0056b2d0(unsigned char a);
+    ::NiAVObject* TESObjectREFR_Load3D(unsigned char a);
     void SetReferenceFlag(bool b);
-    ::NiAVObject* FUN_009335b0(unsigned char a);
+    ::NiAVObject* MobileObject_Load3D(unsigned char a);
 };
 // @fnv 0x009335b0
-::NiAVObject* FUN_009335b0_cls::FUN_009335b0(unsigned char a)
+// src: XBOX_PDB 0x009335b0
+::NiAVObject* FUN_009335b0_cls::MobileObject_Load3D(unsigned char a)
 {
-    ::NiAVObject* obj = FUN_0056b2d0(a);
+    ::NiAVObject* obj = TESObjectREFR_Load3D(a);
     SetReferenceFlag(false);
     if (obj && holder)
     {
-        ::NiExtraData* extra = obj->GetExtraData(*(const NiFixedString*)FUN_0050ea90());
+        ::NiExtraData* extra = obj->GetExtraData(*(const NiFixedString*)BSBound_Tag());
         if (extra)
         {
             ::NiExtraData* pExtraData = extra;
@@ -6650,7 +6737,7 @@ template <typename T> class LocalBSStringT
     operator const T*() const;
 };
 
-const char* __fastcall FUN_0043fcd0(TESObjectREFR*);
+const char* __fastcall TESObjectREFR_Get3D(TESObjectREFR*);
 
 // @fnv 0x00950b60
 // src: COMMUNITY 0x00950b60
@@ -6658,7 +6745,7 @@ const char* __fastcall PlayerCharacter_Get3D(TESObjectREFR* apThis)
 {
     if (!*(bool*)((char*)apThis + 0x64a) && (const char*)*(LocalBSStringT<char>*)((char*)apThis + 0x694))
         return *(LocalBSStringT<char>*)((char*)apThis + 0x694);
-    return FUN_0043fcd0(apThis);
+    return TESObjectREFR_Get3D(apThis);
 }
 }  // namespace fnv_00950b60
 
@@ -6686,7 +6773,7 @@ void FurnitureMark::SetPosition(void* arPos)
 
 unsigned int __fastcall _FNV_GetFormType(void*);
 extern const float g_011c5aa8_arg1;
-bool __cdecl FUN_0040eb10(float, float, float);
+bool __cdecl FloatEQ(float, float, float);
 struct HealthForm
 {
     virtual void v0();
@@ -6697,7 +6784,7 @@ struct HealthForm
 };
 struct ExtraL
 {
-    void FUN_00419700(void*);
+    void ExtraDataList_SetOwnership(void*);
     void SetExtraDataValue(int);
     void FUN_004198a0(int);
     void SetExtraHealth(float);
@@ -6707,11 +6794,12 @@ struct Fn40ea20
     void* form;
     int count;
     float health;
-    void FUN_0040ea20(ExtraL* apExtra, HealthForm* apHealthForm);
+    void ContainerItemExtra_AddToExtraDataList(ExtraL* apExtra, HealthForm* apHealthForm);
 };
 // Applies the stored form, count and health to an ExtraL: sets the form, dispatches count by form type, and sets extra health scaled by the form's health.
 // @fnv 0x0040ea20
-void Fn40ea20::FUN_0040ea20(ExtraL* apExtra, HealthForm* apHealthForm)
+// src: XBOX_PDB 0x0040ea20
+void Fn40ea20::ContainerItemExtra_AddToExtraDataList(ExtraL* apExtra, HealthForm* apHealthForm)
 {
     unsigned int uiBaseHealth;
     float fScaledHealth;
@@ -6719,7 +6807,7 @@ void Fn40ea20::FUN_0040ea20(ExtraL* apExtra, HealthForm* apHealthForm)
     {
         if (form)
         {
-            apExtra->FUN_00419700(form);
+            apExtra->ExtraDataList_SetOwnership(form);
             switch ((_FNV_GetFormType)(form))
             {
             case 0x2a:
@@ -6734,7 +6822,7 @@ void Fn40ea20::FUN_0040ea20(ExtraL* apExtra, HealthForm* apHealthForm)
         }
         if (apHealthForm)
         {
-            if (!FUN_0040eb10(health, 1.0f, g_011c5aa8_arg1))
+            if (!FloatEQ(health, 1.0f, g_011c5aa8_arg1))
             {
                 uiBaseHealth = apHealthForm->GetHealth();
                 if (uiBaseHealth)
@@ -6760,11 +6848,12 @@ struct Fn47a520
 {
     char _p[0x50];
     DummyPointerMap map;
-    unsigned int FUN_0047a520(NFSHelper* name);
+    unsigned int NiControllerManager_GetSequenceByName(NFSHelper* name);
 };
 // Looks up the string key of name in map and returns the stored value, or 0 if not found.
 // @fnv 0x0047a520
-unsigned int Fn47a520::FUN_0047a520(NFSHelper* name)
+// src: XBOX_PDB 0x0047a520
+unsigned int Fn47a520::NiControllerManager_GetSequenceByName(NFSHelper* name)
 {
     unsigned int value;
     if (map.GetAt((unsigned int)(char const*)*name, value))
@@ -6799,8 +6888,8 @@ struct NodeObj
     virtual void v3();
     virtual BSFadeNode* GetFadeNode();
 };
-void __fastcall FUN_00476ab0(BSFadeNode_Dummy*);
-void __fastcall FUN_0054b800(void*);
+void __fastcall BSFadeNode_TurnFadeNodeOn(BSFadeNode_Dummy*);
+void __fastcall BSFadeNode_TurnFadeNodeOff(void*);
 // @fnv 0x0055d6d0
 // src: COMMUNITY 0x0055d6d0
 void __cdecl UpdateLODMultInvisibility(FUN_00565090_shell* ref, NodeObj* node)
@@ -6818,12 +6907,12 @@ void __cdecl UpdateLODMultInvisibility(FUN_00565090_shell* ref, NodeObj* node)
                     if (wanted)
                     {
                         ((FUN_00705b10_Dummy*)fade)->Set(9);
-                        FUN_0054b800(fade);
+                        BSFadeNode_TurnFadeNodeOff(fade);
                     }
                     else
                     {
                         ((FUN_00705b10_Dummy*)fade)->Set(TESLODH::GetModelResourceType(_FNV_GetObjectReference(ref)));
-                        FUN_00476ab0((BSFadeNode_Dummy*)fade);
+                        BSFadeNode_TurnFadeNodeOn((BSFadeNode_Dummy*)fade);
                     }
                 }
             }
@@ -6870,11 +6959,11 @@ struct RoomH
 struct TQI
 {
     static TQI* __cdecl GetInstance();
-    void FUN_0087b1e0(NiAVObject*, int);
+    void TaskQueueInterface_QueueHavokMotionChange(NiAVObject*, int);
 };
 
 bool __cdecl IsConditionMet();
-void __cdecl FUN_00c6a270(NiAVObject*, bool, bool, int);
+void __cdecl bhkWorld_Activate(NiAVObject*, bool, bool, int);
 struct Fn5672c0
 {
     virtual void v0();
@@ -6998,10 +7087,11 @@ struct Fn5672c0
     void* form;
     char _q[0x1c];
     RoomH* room;
-    void FUN_005672c0(NiAVObject* obj);
+    void TESObjectREFR_EndSequence(NiAVObject* obj);
 };
 // @fnv 0x005672c0
-void Fn5672c0::FUN_005672c0(NiAVObject* apObject)
+// src: XBOX_PDB 0x005672c0
+void Fn5672c0::TESObjectREFR_EndSequence(NiAVObject* apObject)
 {
     switch ((_FNV_GetFormType)(form))
     {
@@ -7009,10 +7099,10 @@ void Fn5672c0::FUN_005672c0(NiAVObject* apObject)
     case 0x1c:
         if ((_stricmp)(apObject->GetName(), DAT_01197b5c) == 0 && room && room->GetRoomId())
         {
-            FUN_00c6a270(v116(), true, true, 1);
+            bhkWorld_Activate(v116(), true, true, 1);
             if (IsConditionMet())
             {
-                TQI::GetInstance()->FUN_0087b1e0(v116(), 1);
+                TQI::GetInstance()->TaskQueueInterface_QueueHavokMotionChange(v116(), 1);
             }
             else
             {
@@ -7042,11 +7132,12 @@ struct MarkH
 };
 struct Fn567f80 : public XActor
 {
-    bool FUN_00567f80(unsigned int aiMarkerIndex, bool abIgnoreReservations);
+    bool TESObjectREFR_GetMarkerUsed(unsigned int aiMarkerIndex, bool abIgnoreReservations);
 };
 // Checks extra data 0x12 for the marker index, falling back to extra data 0x82 unless reservations are ignored; returns whether either matched.
 // @fnv 0x00567f80
-bool Fn567f80::FUN_00567f80(unsigned int aiMarkerIndex, bool abIgnoreReservations)
+// src: XBOX_PDB 0x00567f80
+bool Fn567f80::TESObjectREFR_GetMarkerUsed(unsigned int aiMarkerIndex, bool abIgnoreReservations)
 {
     bool bretval = false;
     BSExtraData* pextra = GetExtra()->GetExtraData(0x12);
@@ -7074,10 +7165,11 @@ struct Flt
 struct Fn568fa0
 {
     Flt* GetExtraRadioData();
-    NiPoint3 const& FUN_00568fa0();
+    NiPoint3 const& TESObjectREFR_GetLinkedDoorTeleportPosition();
 };
 // @fnv 0x00568fa0
-NiPoint3 const& Fn568fa0::FUN_00568fa0()
+// src: XBOX_PDB 0x00568fa0
+NiPoint3 const& Fn568fa0::TESObjectREFR_GetLinkedDoorTeleportPosition()
 {
     Fn568fa0* m_pDoorRef;
     Flt* pTel = GetExtraRadioData();
@@ -7110,15 +7202,16 @@ struct NiNodeHelper
 {
     NiAVObject* GetAt(unsigned int);
 };
-unsigned int FUN_00438220();
+unsigned int NiShadeProperty_GetType();
 // Checks whether apObj or any child node has a property whose flag 0x1d is set, recursing through children.
 // @fnv 0x00569410
-bool FUN_00569410(NiAVObject* apObj)
+// src: XBOX_PDB 0x00569410
+bool FindEmittanceProperty(NiAVObject* apObj)
 {
     bool bfound = false;
     if (apObj)
     {
-        Fake_FUN_004a2020* pprop = (Fake_FUN_004a2020*)((PropHelper*)apObj)->GetProperty(FUN_00438220());
+        Fake_FUN_004a2020* pprop = (Fake_FUN_004a2020*)((PropHelper*)apObj)->GetProperty(NiShadeProperty_GetType());
         if (pprop && pprop->GetFlag(0x1d))
         {
             bfound = true;
@@ -7131,7 +7224,7 @@ bool FUN_00569410(NiAVObject* apObj)
                 unsigned int icount = pnode->GetNumChildren();
                 for (unsigned int i = 0; i < icount; i++)
                 {
-                    if (FUN_00569410(((NiNodeHelper*)pnode)->GetAt(i)))
+                    if (FindEmittanceProperty(((NiNodeHelper*)pnode)->GetAt(i)))
                     {
                         bfound = true;
                         break;
@@ -7199,7 +7292,7 @@ struct FUN_0050ea10_class
 {
     void BSBound_GetBoundMin(NiPoint3&) const;
 };
-int FUN_0050ea90();
+int BSBound_Tag();
 extern NiPoint3 g_011ca3b8;
 extern NiPoint3 _NiPoint3_ZERO;
 // @fnv 0x0056fb10
@@ -7209,7 +7302,7 @@ NiPoint3 RandHelper::TESObjectREFR_GetMinBounds()
     ::NiAVObject* p3D = GetReferenceType();
     if (p3D)
     {
-        ::NiExtraData* pextraData = p3D->GetExtraData(*(const NiFixedString*)FUN_0050ea90());
+        ::NiExtraData* pextraData = p3D->GetExtraData(*(const NiFixedString*)BSBound_Tag());
         if (pextraData)
         {
             FUN_0050ea10_class* pbsBound = (FUN_0050ea10_class*)pextraData;
@@ -7231,18 +7324,19 @@ using ::NiPoint3;
 typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00572380_shell : public TESObjectREFR
 {
-    float FUN_00572380(void*);
+    float TESObjectREFR_GetDistanceFromPoint(void*);
 };
 
 struct Fn572380
 {
     char _p[0x30];
     NiPoint3 pt;
-    float FUN_00572380(NiPoint3* other);
+    float TESObjectREFR_GetDistanceFromPoint(NiPoint3* other);
 };
 // Computes the vector from pt to other and returns its length.
 // @fnv 0x00572380
-float Fn572380::FUN_00572380(NiPoint3* other)
+// src: XBOX_PDB 0x00572380
+float Fn572380::TESObjectREFR_GetDistanceFromPoint(NiPoint3* other)
 {
     NiPoint3 d = *other - pt;
     return d.Length();
@@ -7279,7 +7373,7 @@ namespace fnv_005728c0 {
 struct NameStr;
 struct ExtraStub
 {
-    NameStr* FUN_00418280();
+    NameStr* ExtraDataList_GetSpellEffectLight();
 };
 }
 using ::NiAdditionalGeometryData;
@@ -7289,7 +7383,7 @@ void __fastcall ExtraDataList_RemoveSpellEffectLightPtr(const XExtraList*);
 // src: COMMUNITY 0x00572a50
 void __fastcall TESObjectREFR_KillLight(XActor* self, BoolArg abUseAltExtra)
 {
-    NP_0081c630* lightPtr = abUseAltExtra.v ? (NP_0081c630*)((fnv_005728c0::ExtraStub*)self->GetExtra())->FUN_00418280()
+    NP_0081c630* lightPtr = abUseAltExtra.v ? (NP_0081c630*)((fnv_005728c0::ExtraStub*)self->GetExtra())->ExtraDataList_GetSpellEffectLight()
                                             : (NP_0081c630*)(ExtraDataList_GetLight)((const ExtraDataList*)self->GetExtra());
     if (lightPtr)
     {
@@ -7307,10 +7401,10 @@ void __fastcall TESObjectREFR_KillLight(XActor* self, BoolArg abUseAltExtra)
 }
 }  // namespace fnv_00572a50
 
-bool __cdecl FUN_004753d0(void*);
+bool __cdecl BGSDestructibleObjectForm_IsDestructible(void*);
 struct ABD575
 {
-    bool FUN_0055e200();
+    bool TESActorBaseData_GetRunsInLow();
 };
 struct DestrH
 {
@@ -7447,19 +7541,20 @@ struct Fn575690
     virtual void v126(bool);
     char _p[0x1c];
     void* obj;
-    void FUN_00575690(void* apObject);
+    void TESObjectREFR_SetObjectReference(void* apObject);
 };
 // Stores apObject in obj, sets destructible from FUN_004753d0(obj), and if v63() is true calls v126 with FUN_0055e200() on the object at offset 0x30.
 // @fnv 0x00575690
-void Fn575690::FUN_00575690(void* apObject)
+// src: XBOX_PDB 0x00575690
+void Fn575690::TESObjectREFR_SetObjectReference(void* apObject)
 {
     ABD575* pbase;
     obj = apObject;
-    ((DestrH*)this)->SetDestructible(FUN_004753d0(obj));
+    ((DestrH*)this)->SetDestructible(BGSDestructibleObjectForm_IsDestructible(obj));
     if (v63())
     {
         pbase = (ABD575*)apObject;
-        v126(((ABD575*)((char*)pbase + 0x30))->FUN_0055e200());
+        v126(((ABD575*)((char*)pbase + 0x30))->TESActorBaseData_GetRunsInLow());
     }
 }
 
@@ -7595,7 +7690,7 @@ struct Helper62d0
 };
 struct NodeH
 {
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
 };
 struct PC605
 {
@@ -7616,10 +7711,10 @@ void Fn9624d0::PlayerCharacter_UpdateRefLight()
     ReferenceLightData* apTargetLight = (ExtraDataList_GetLight)((const ExtraDataList*)((XActor*)this)->GetExtra());
     if (apTargetLight)
     {
-        if (((NPH*)apTargetLight)->operator==(*(NPH*)((char*)this + 0x864)) && ((PC605*)this)->GetNode(true)->FUN_00456610())
+        if (((NPH*)apTargetLight)->operator==(*(NPH*)((char*)this + 0x864)) && ((PC605*)this)->GetNode(true)->GetAppCulled_00456610())
             *(Helper62d0*)apTargetLight = *(void**)((char*)this + 0x868);
         else if (((NPH*)apTargetLight)->operator==(*(NPH*)((char*)this + 0x868)) &&
-                 ((PC605*)this)->GetNode(false)->FUN_00456610())
+                 ((PC605*)this)->GetNode(false)->GetAppCulled_00456610())
             *(Helper62d0*)apTargetLight = *(void**)((char*)this + 0x864);
         ((Fn88b4e0*)this)->Actor_UpdateRefLight();
     }
@@ -7650,12 +7745,12 @@ void* DelStandIn::FUN_0055a3d0(unsigned int flags)
 namespace fnv_00561d90 {
 struct FUN_00561d90_shell : public TESObjectREFR
 {
-    bool FUN_00561d90();
+    bool TESObjectREFR_GetOriginalOpenByDefaultState();
 };
 
 struct FUN_0041b3a0_shell
 {
-    bool FUN_0041b3a0(int);
+    bool ExtraDataList_GetAction(int);
 };
 struct ShellH;
 using ::TESForm;
@@ -7669,15 +7764,16 @@ class XActor
 using ::BGSSaveLoadGame;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 // @fnv 0x00561d90
-bool FUN_00561d90_shell::FUN_00561d90()
+// src: XBOX_PDB 0x00561d90
+bool FUN_00561d90_shell::TESObjectREFR_GetOriginalOpenByDefaultState()
 {
     if (((bool (__thiscall *)(BGSSaveLoadGame*, TESForm*, FormChangeMask))FNV2062_HasFormChangeFlags)(g_BGSSaveLoadGame, (TESForm*)this, 0x400000))
     {
-        return !((FUN_0041b3a0_shell*)((XActor*)this)->GetExtra())->FUN_0041b3a0(8);
+        return !((FUN_0041b3a0_shell*)((XActor*)this)->GetExtra())->ExtraDataList_GetAction(8);
     }
     else
     {
-        return ((FUN_0041b3a0_shell*)((XActor*)this)->GetExtra())->FUN_0041b3a0(8);
+        return ((FUN_0041b3a0_shell*)((XActor*)this)->GetExtra())->ExtraDataList_GetAction(8);
     }
 }
 }  // namespace fnv_00561d90
@@ -7687,8 +7783,8 @@ struct FUN_0056e370
 {
     FUN_0056e370();
     virtual ~FUN_0056e370();
-    void FUN_00c9f050(const void*);
-    void FUN_0056e350();
+    void bhkSimpleShapePhantom_Init(const void*);
+    void bhkPhantom_ResetPhantomFlags();
 };
 class FUN_0056e2d0 : public FUN_0056e370
 {
@@ -7699,14 +7795,14 @@ class FUN_0056e2d0 : public FUN_0056e370
 // @fnv 0x0056e2d0
 FUN_0056e2d0::FUN_0056e2d0(const void* arInfo)
 {
-    FUN_00c9f050(arInfo);
+    bhkSimpleShapePhantom_Init(arInfo);
     ++DAT_0126822c;
-    FUN_0056e350();
+    bhkPhantom_ResetPhantomFlags();
 }
 
 struct V4_538f40
 {
-    void FUN_00538f40();
+    void hkVector4_setZero4();
     float v[4];
 };
 struct FUN_00437c10
@@ -7732,8 +7828,8 @@ class FUN_0056e4e0 : public FUN_0056e180
 // @fnv 0x0056e4e0
 FUN_0056e4e0::FUN_0056e4e0()
 {
-    aabb.m_kMinimumCorner.FUN_00538f40();
-    aabb.m_kMaximumCorner.FUN_00538f40();
+    aabb.m_kMinimumCorner.hkVector4_setZero4();
+    aabb.m_kMaximumCorner.hkVector4_setZero4();
 }
 
 namespace fnv_0056e550 {
@@ -7742,8 +7838,8 @@ struct FUN_0056e370
 {
     FUN_0056e370();
     virtual ~FUN_0056e370();
-    void FUN_00c9f050(const void*);
-    void FUN_0056e350();
+    void bhkSimpleShapePhantom_Init(const void*);
+    void bhkPhantom_ResetPhantomFlags();
 };
 class FUN_0056e550 : public FUN_0056e370
 {
@@ -7754,9 +7850,9 @@ class FUN_0056e550 : public FUN_0056e370
 // @fnv 0x0056e550
 FUN_0056e550::FUN_0056e550(const void* arInfo)
 {
-    FUN_00c9f050(arInfo);
+    bhkSimpleShapePhantom_Init(arInfo);
     ++DAT_0126822c;
-    FUN_0056e350();
+    bhkPhantom_ResetPhantomFlags();
 }
 }  // namespace fnv_0056e550
 
@@ -7780,7 +7876,7 @@ using ::NiPoint3;
 typedef char _sizecheck_NiPoint3[sizeof(NiPoint3) == 12 ? 1 : -1];
 struct FUN_00575700_shell : public TESObjectREFR
 {
-    void FUN_00575700(struct blob12);
+    void TESObjectREFR_SetAngleOnReference(struct blob12);
 };
 
 float __cdecl WrapAngle(float);
@@ -7851,11 +7947,12 @@ struct RefrV
     virtual void v62();
     virtual void v63();
     virtual bool v64();
-    void FUN_00575700(NiPoint3 aPoint);
+    void TESObjectREFR_SetAngleOnReference(NiPoint3 aPoint);
 };
 // Stores aPoint at offset 0x24, wraps the angle at 0x2c if v64() is true, then calls v18(2).
 // @fnv 0x00575700
-void RefrV::FUN_00575700(NiPoint3 aPoint)
+// src: XBOX_PDB 0x00575700
+void RefrV::TESObjectREFR_SetAngleOnReference(NiPoint3 aPoint)
 {
     *reinterpret_cast<NiPoint3*>((char*)this + 0x24) = reinterpret_cast<const NiPoint3&>(aPoint);
     if (v64())
@@ -7907,7 +8004,7 @@ struct FUN_0055a2f0 : public TESForm, public TESChildCell
     char pad_extra[0x64 - 0x44 - sizeof(ExtraDataList_helper)];
     void* m_pRenderData;  // at 0x64
 
-    void FUN_0055ac90();
+    void TESObjectREFR_InitializeData();
     FUN_0055a2f0();
 };
 
@@ -7916,7 +8013,7 @@ FUN_0055a2f0::FUN_0055a2f0()
 {
     ((SFTX*)this)->SetFormType(0x3a);
     m_pRenderData = 0;
-    FUN_0055ac90();
+    TESObjectREFR_InitializeData();
     m_teleport.unk00 = 0;
     m_pOwningCell = 0;
     m_pSoundForm = 0;
@@ -8031,7 +8128,7 @@ struct XActor
 
 struct FUN_0041fbe0_shell
 {
-    void* FUN_0041fbe0();
+    void* ExtraDataList_GetPrimitive();
 };
 
 struct FUN_00413fc0_Class
@@ -8069,7 +8166,7 @@ struct FUN_00569880_cls : public TESObjectREFR
 void* FUN_00569880_cls::TESObjectREFR_GetMultiBoundHalfExtent()
 {
     DataHelper* pdata = this->TESObjectREFR_GetMultiBoundData();
-    FUN_00413fc0_Class* pprim = (FUN_00413fc0_Class*)((FUN_0041fbe0_shell*)((XActor*)this)->GetExtra())->FUN_0041fbe0();
+    FUN_00413fc0_Class* pprim = (FUN_00413fc0_Class*)((FUN_0041fbe0_shell*)((XActor*)this)->GetExtra())->ExtraDataList_GetPrimitive();
     if (pprim)
     {
         if (pdata)
@@ -8100,7 +8197,7 @@ int* MultiBoundMarkerData_GetDefaultHalfExtents()
 namespace fnv_0056a8d0 {
 extern int g_011c7d34;
 
-bool FUN_0045bad0(void*, void*);
+bool NiObject_IsExactKindOf(void*, void*);
 
 struct ChildHelper
 {
@@ -8325,7 +8422,7 @@ void FUN_0056a8d0_cls::TESObjectREFR_RemoveDecals()
             void* child = ((NiNode*)node)->GetAt(i);
             if (child)
             {
-                if (FUN_0045bad0(&g_011c7d34, child))
+                if (NiObject_IsExactKindOf(&g_011c7d34, child))
                 {
                     ((ChildHelper*)child)->NiAVObject_DetachParent();
                     ((VtblF8*)node)->SetAt(i, 0);
@@ -8459,7 +8556,7 @@ using ::NiPoint3;
 extern NiPoint3 g_011ca3d4;
 extern NiPoint3 _NiPoint3_ZERO;
 
-int FUN_0050ea90();
+int BSBound_Tag();
 
 
 struct ExtraHelper
@@ -8480,7 +8577,7 @@ NiPoint3* FUN_0056fba0_cls::TESObjectREFR_GetMaxBounds(NiPoint3* out)
     int anim = this->GetReferenceType();
     if (anim)
     {
-        ::NiExtraData* extra = ((::NiAVObject*)anim)->GetExtraData(*(const NiFixedString*)FUN_0050ea90());
+        ::NiExtraData* extra = ((::NiAVObject*)anim)->GetExtraData(*(const NiFixedString*)BSBound_Tag());
         if (extra)
         {
             ExtraHelper* helper = (ExtraHelper*)extra;
@@ -8709,7 +8806,7 @@ struct blob4
 
 typedef char _sizecheck_BGSChangeFlags[sizeof(FormChangeMask) == 4 ? 1 : -1];
 
-bool __cdecl FUN_00564900(int);
+bool __cdecl TESObjectREFR_IsReferenceFormType(int);
 
 struct DataHandler
 {
@@ -8719,9 +8816,10 @@ struct DataHandler
 extern DataHandler* g_dataHandler;
 
 // @fnv 0x0084e730
-int __cdecl FUN_0084e730(unsigned int aiFormID, int aeFormType, FormChangeMask aiChangeFlags)
+// src: XBOX_PDB 0x0084e730
+int __cdecl BGSSaveLoadInitialData_GetInitialDataType(unsigned int aiFormID, int aeFormType, FormChangeMask aiChangeFlags)
 {
-    if (FUN_00564900(aeFormType))
+    if (TESObjectREFR_IsReferenceFormType(aeFormType))
     {
         if (g_dataHandler->FormIDExists(aiFormID))
             return 5;
@@ -8777,10 +8875,11 @@ bool FUN_0055abe0_class::TESForm_IsRecentPCDrop() const
 
 struct FUN_0055ac00_t
 {
-    void* FUN_0055ac00();
+    void* TES_GetBedChairList();
 };
 // @fnv 0x0055ac00
-void* FUN_0055ac00_t::FUN_0055ac00()
+// src: XBOX_PDB 0x0055ac00
+void* FUN_0055ac00_t::TES_GetBedChairList()
 {
     return reinterpret_cast<unsigned char*>(this) + 0x94;
 }
@@ -8858,7 +8957,7 @@ struct PhysicsAccessNotification
 };
 struct FUN_00561800_
 {
-    void __thiscall FUN_00561800(int value);
+    void __thiscall hkpRigidBody_setAngularVelocity(int value);
 };
 
 struct FUN_005617c0_
@@ -8874,7 +8973,7 @@ void __thiscall FUN_005617c0_::bhkRigidBody_SetAngularVelocity_005617c0(int valu
     if (result)
     {
         ((PhysicsAccessNotification*)this)->CheckAccess();
-        ((FUN_00561800_*)result)->FUN_00561800(value);
+        ((FUN_00561800_*)result)->hkpRigidBody_setAngularVelocity(value);
         ((PhysicsAccessNotification*)this)->CheckAccess();
     }
 }
@@ -8916,7 +9015,7 @@ using ::NiUpdateData;
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 struct FUN_00562020_shell : public TESObjectREFR
 {
-    void FUN_00562020();
+    void TESObjectREFR_Update3DPosition();
 };
 
 struct RA_H
@@ -8930,11 +9029,11 @@ struct M3
 };
 struct FUN_00440460_S
 {
-    void FUN_00440460(const void*);
+    void NiAVObject_SetTranslate(const void*);
 };
 struct CharCtl_S
 {
-    void FUN_005620e0(void*);
+    void SetPosition_005620e0(void*);
 };
 struct S_00931f80
 {
@@ -8958,10 +9057,11 @@ struct F56_H
 {
     M3 TESObjectREFR_GetOrientation();
 };
-void __cdecl FUN_00c69f50(void*, int, int);
+void __cdecl bhkWorld_UpdatePosition(void*, int, int);
 
 // @fnv 0x00562020
-void __fastcall FUN_00562020(TESObjectREFR* self)
+// src: XBOX_PDB 0x00562020
+void __fastcall TESObjectREFR_Update3DPosition(TESObjectREFR* self)
 {
     MobileObject* pmob;
     CharCtl_S* pcon;
@@ -8975,11 +9075,11 @@ void __fastcall FUN_00562020(TESObjectREFR* self)
             pmob = (MobileObject*)self;
             pcon = ((S_00931f80*)pmob)->GetPhysicsCharacterController();
             if (pcon)
-                pcon->FUN_005620e0((char*)self + 0x30);
+                pcon->SetPosition_005620e0((char*)self + 0x30);
         }
-        ((FUN_00440460_S*)pobj3D2)->FUN_00440460((char*)self + 0x30);
+        ((FUN_00440460_S*)pobj3D2)->NiAVObject_SetTranslate((char*)self + 0x30);
         ((NiAVObject_H*)pobj3D2)->SetLocalRotation(((F56_H*)self)->TESObjectREFR_GetOrientation());
-        FUN_00c69f50(pobj3D2, 1, 0);
+        bhkWorld_UpdatePosition(pobj3D2, 1, 0);
         UpDataB.NiUpdateData(0.0f, false, false);
         ((NiNode_H*)pobj3D2)->Update(UpDataB);
     }
@@ -8995,12 +9095,13 @@ struct LockExtraData
 struct P01RefA
 {
     LockExtraData* GetLock();
-    int FUN_005691b0();
+    int TESObjectREFR_GetLockLevel();
 };
 
 // Returns the lock's level for this reference, or 0 if it has no lock.
 // @fnv 0x005691b0
-int P01RefA::FUN_005691b0()
+// src: XBOX_PDB 0x005691b0
+int P01RefA::TESObjectREFR_GetLockLevel()
 {
     int ilevel = 0;
     LockExtraData* plock = GetLock();
@@ -9045,18 +9146,19 @@ namespace fnv_00569b20 {
 struct XActor
 {
     void* GetExtra() const;
-    void FUN_00569b20();
+    void TESObjectREFR_GetRandomTeleportMarker();
 };
 
 struct ShellH
 {
-    void FUN_0041e220();
+    void ExtraDataList_GetRandomTeleportMarker();
 };
 
 // @fnv 0x00569b20
-void XActor::FUN_00569b20()
+// src: XBOX_PDB 0x00569b20
+void XActor::TESObjectREFR_GetRandomTeleportMarker()
 {
-    ((ShellH*)GetExtra())->FUN_0041e220();
+    ((ShellH*)GetExtra())->ExtraDataList_GetRandomTeleportMarker();
 }
 }  // namespace fnv_00569b20
 
@@ -9068,19 +9170,20 @@ struct RadioReferenceData
     int m_unk4;
     float m_unk8;
 };
-RadioReferenceData* __fastcall FUN_004182e0(ExtraDataList const*);
+RadioReferenceData* __fastcall ExtraDataList_GetRadioData(ExtraDataList const*);
 
 struct XActor
 {
     ExtraDataList* GetExtra(void) const;
-    float FUN_0056b1d0();
+    float TESObjectREFR_GetRadioStaticPct();
 };
 
 // @fnv 0x0056b1d0
-float XActor::FUN_0056b1d0()
+// src: XBOX_PDB 0x0056b1d0
+float XActor::TESObjectREFR_GetRadioStaticPct()
 {
     float value = 0.0f;
-    RadioReferenceData* radio = (FUN_004182e0)(GetExtra());
+    RadioReferenceData* radio = (ExtraDataList_GetRadioData)(GetExtra());
     if (radio && !radio->m_unk4)
         value = radio->m_unk8;
     return value;
@@ -9093,11 +9196,12 @@ struct FUN_0056c760_Class
     int m_iWordAt04;
     unsigned int m_8;
 
-    bool FUN_0056c760();
+    bool TESForm_GetDisableFade();
 };
 
 // @fnv 0x0056c760
-bool FUN_0056c760_Class::FUN_0056c760()
+// src: XBOX_PDB 0x0056c760
+bool FUN_0056c760_Class::TESForm_GetDisableFade()
 {
     return (m_8 & 0x8000000) ? true : false;
 }
@@ -9109,12 +9213,13 @@ struct FUN_0056c8b0_Class
     unsigned int m_0x08;
     unsigned int m_0x0c;
     unsigned int m_0x10;
-    void FUN_0056c8b0(unsigned int flags, bool set);
+    void LOADED_REF_DATA_SetFlag(unsigned int flags, bool set);
 };
 
 // Sets or clears the given flag bits in m_0x10 depending on set.
 // @fnv 0x0056c8b0
-void FUN_0056c8b0_Class::FUN_0056c8b0(unsigned int flags, bool set)
+// src: XBOX_PDB 0x0056c8b0
+void FUN_0056c8b0_Class::LOADED_REF_DATA_SetFlag(unsigned int flags, bool set)
 {
     if (set)
         m_0x10 |= flags;
@@ -9124,24 +9229,26 @@ void FUN_0056c8b0_Class::FUN_0056c8b0(unsigned int flags, bool set)
 
 struct S3e60
 {
-    bool FUN_0056d340(unsigned int index);
-    bool FUN_0056d320(unsigned int index);
+    bool bhkPickData_SetFrom_0056d340(unsigned int index);
+    bool bhkRigidBodyCinfo_SetRotation(unsigned int index);
 };
 
 // @fnv 0x0056d320
-bool S3e60::FUN_0056d320(unsigned int index)
+// src: XBOX_PDB 0x0056d320
+bool S3e60::bhkRigidBodyCinfo_SetRotation(unsigned int index)
 {
-    return ((S3e60*)((char*)this + 0x40))->FUN_0056d340(index);
+    return ((S3e60*)((char*)this + 0x40))->bhkPickData_SetFrom_0056d340(index);
 }
 
-void __fastcall FUN_004b4fc0(void* p);
+void __fastcall bhkVector4_setZero4(void* p);
 
 // @fnv 0x0056e140
-void __fastcall FUN_0056e140(void* apObject)
+// src: XBOX_PDB 0x0056e140
+void __fastcall bhkMatrix3_setIdentity(void* apObject)
 {
-    FUN_004b4fc0(apObject);
-    FUN_004b4fc0((char*)apObject + 0x10);
-    FUN_004b4fc0((char*)apObject + 0x20);
+    bhkVector4_setZero4(apObject);
+    bhkVector4_setZero4((char*)apObject + 0x10);
+    bhkVector4_setZero4((char*)apObject + 0x20);
     *(float*)apObject = 1.0F;
     *(float*)((char*)apObject + 0x14) = 1.0F;
     *(float*)((char*)apObject + 0x28) = 1.0F;
@@ -9149,10 +9256,11 @@ void __fastcall FUN_0056e140(void* apObject)
 
 struct FUN_0056e350_t
 {
-    void FUN_0056e350();
+    void bhkPhantom_ResetPhantomFlags();
 };
 // @fnv 0x0056e350
-void FUN_0056e350_t::FUN_0056e350()
+// src: XBOX_PDB 0x0056e350
+void FUN_0056e350_t::bhkPhantom_ResetPhantomFlags()
 {
     *(reinterpret_cast<unsigned char*>(this) + 0x14) = 0;
 }
@@ -9263,19 +9371,20 @@ void* FUN_0056ea60::ScalarDeletingDestructor(unsigned int flags)
 namespace fnv_00572d10 {
 struct S0041b470
 {
-    unsigned int FUN_0041b370();
+    unsigned int ExtraDataList_GetActionFlag();
 };
 
 struct XActor
 {
     S0041b470* GetExtra() const;
-    unsigned int FUN_00572d10();
+    unsigned int TESObjectREFR_GetActionFlag();
 };
 
 // @fnv 0x00572d10
-unsigned int XActor::FUN_00572d10()
+// src: XBOX_PDB 0x00572d10
+unsigned int XActor::TESObjectREFR_GetActionFlag()
 {
-    return GetExtra()->FUN_0041b370();
+    return GetExtra()->ExtraDataList_GetActionFlag();
 }
 }  // namespace fnv_00572d10
 
@@ -9293,24 +9402,25 @@ unsigned char FUN_00572fa0_t::TESDataHandler_GetCheckingModels()
 struct FUN_00573eb0_Class
 {
     int bhkNiCollisionObject_HasNotify();
-    int FUN_0047b4d0(int);
+    int NiPathInterpolator_GetBit(int);
 };
 
 // @fnv 0x00573eb0
 // src: COMMUNITY 0x00573eb0
 int FUN_00573eb0_Class::bhkNiCollisionObject_HasNotify()
 {
-    return FUN_0047b4d0(4);
+    return NiPathInterpolator_GetBit(4);
 }
 
 struct _dummy_4d9fa0
 {
     void FUN_004d9fc0(bool, unsigned short);
-    void FUN_00573f00(bool argument0);
+    void bhkNiCollisionObject_SetSetLocal(bool argument0);
 };
 
 // @fnv 0x00573f00
-void _dummy_4d9fa0::FUN_00573f00(bool argument0)
+// src: XBOX_PDB 0x00573f00
+void _dummy_4d9fa0::bhkNiCollisionObject_SetSetLocal(bool argument0)
 {
     FUN_004d9fc0(argument0, 8);
 }
@@ -9332,14 +9442,15 @@ namespace fnv_00576660 {
 struct TaskQueueInterface
 {
     void SetTaskFlagDWord(bool, unsigned int);
-    void FUN_00576660(bool value);
+    void NiAVObject_SetSelectiveUpdateRigid(bool value);
 };
 
 void TaskQueueInterface::SetTaskFlagDWord(bool, unsigned int)
 {}
 
 // @fnv 0x00576660
-void TaskQueueInterface::FUN_00576660(bool value)
+// src: XBOX_PDB 0x00576660
+void TaskQueueInterface::NiAVObject_SetSelectiveUpdateRigid(bool value)
 {
     SetTaskFlagDWord(value, 0x10);
 }
@@ -9347,11 +9458,12 @@ void TaskQueueInterface::FUN_00576660(bool value)
 
 namespace fnv_005771d0 {
 
-bhkShape* __cdecl FUN_004a3a40(void*);
+bhkShape* __cdecl bhkShape_Getbhk(void*);
 // @fnv 0x005771d0
-bhkShape* FUN_005771d0(void* ref)
+// src: XBOX_PDB 0x005771d0
+bhkShape* bhkShapeCollection_Getbhk(void* ref)
 {
-    return FUN_004a3a40(ref);
+    return bhkShape_Getbhk(ref);
 }
 }  // namespace fnv_005771d0
 
@@ -9418,10 +9530,10 @@ class XActor
 {
   public:
     ExtraDataList* GetExtra() const;
-    Script* FUN_005673c0();
+    Script* TESObjectREFR_GetScriptPointer();
 };
 
-Script* __fastcall FUN_00418800(ExtraDataList*);
+Script* __fastcall ExtraDataList_GetScript(ExtraDataList*);
 
 ExtraDataList* XActor::GetExtra() const
 {
@@ -9429,9 +9541,10 @@ ExtraDataList* XActor::GetExtra() const
 }
 
 // @fnv 0x005673c0
-Script* XActor::FUN_005673c0()
+// src: XBOX_PDB 0x005673c0
+Script* XActor::TESObjectREFR_GetScriptPointer()
 {
-    return FUN_00418800(GetExtra());
+    return ExtraDataList_GetScript(GetExtra());
 }
 }  // namespace fnv_005673c0
 
@@ -9449,16 +9562,16 @@ void* bhkWorldObject::FUN_0056d4c0(unsigned int flags)
 
 struct FUN_0056e2a0
 {
-    void FUN_004b4fa0();
+    void bhkVector4_bhkVector4();
     FUN_0056e2a0();
 };
 
 // @fnv 0x0056e2a0
 FUN_0056e2a0::FUN_0056e2a0()
 {
-    FUN_004b4fa0();
-    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x10))->FUN_004b4fa0();
-    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x20))->FUN_004b4fa0();
+    bhkVector4_bhkVector4();
+    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x10))->bhkVector4_bhkVector4();
+    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x20))->bhkVector4_bhkVector4();
 }
 
 
@@ -9491,7 +9604,7 @@ using ::BSExtraData;
 
 struct FUN_00418280_Class
 {
-    BSExtraData* FUN_00418280();
+    BSExtraData* ExtraDataList_GetSpellEffectLight();
 };
 
 struct XActor
@@ -9503,7 +9616,7 @@ struct XActor
 // @fnv 0x00572750
 BSExtraData* XActor::FUN_00572750()
 {
-    return GetExtra()->FUN_00418280();
+    return GetExtra()->ExtraDataList_GetSpellEffectLight();
 }
 }  // namespace fnv_00572750
 
@@ -9511,17 +9624,18 @@ namespace fnv_00573ed0 {
 struct _dummy_4d9fa0
 {
     void FUN_004d9fc0(bool, unsigned short);
-    void FUN_00573f00(bool);
-    void FUN_00573ed0(bool value);
+    void bhkNiCollisionObject_SetSetLocal(bool);
+    void bhkNiCollisionObject_SetNotify(bool value);
 };
 
 // Calls FUN_004d9fc0 with the given bool and 4, then calls FUN_00573f00(true) when the bool is set.
 // @fnv 0x00573ed0
-void _dummy_4d9fa0::FUN_00573ed0(bool value)
+// src: XBOX_PDB 0x00573ed0
+void _dummy_4d9fa0::bhkNiCollisionObject_SetNotify(bool value)
 {
     FUN_004d9fc0(value, 4);
     if (value)
-        FUN_00573f00(true);
+        bhkNiCollisionObject_SetSetLocal(true);
 }
 }  // namespace fnv_00573ed0
 
@@ -9538,11 +9652,12 @@ void TESObjectCELL_IsRefInMultiboundTestMap(unsigned int index)
 
 struct FUN_005a3790Class
 {
-    bool FUN_005a3790();
+    bool TESForm_GetIgnoreFriendlyHits();
 };
 
 // @fnv 0x005a3790
-bool FUN_005a3790Class::FUN_005a3790()
+// src: XBOX_PDB 0x005a3790
+bool FUN_005a3790Class::TESForm_GetIgnoreFriendlyHits()
 {
     return (*reinterpret_cast<unsigned int*>(this + 8) & 0x100000) ? true : false;
 }
@@ -9580,7 +9695,7 @@ void __cdecl bhkCharacterController_SetGravFrictDampSpeed(float value)
 }
 
 using ::hkVector4;
-NiPoint3& FUN_004a3970(NiPoint3& dst, const hkVector4& src);
+NiPoint3& HK2NINS(NiPoint3& dst, const hkVector4& src);
 void* bhkRigidBody_GetAngularVelocity();
 struct FUN_00560de0_class
 {
@@ -9591,7 +9706,7 @@ struct FUN_00560de0_class
 // src: COMMUNITY 0x00560de0
 void __thiscall FUN_00560de0_class::bhkRigidBody_GetAngularVelocityNi(void* pDest)
 {
-    FUN_004a3970(*(NiPoint3*)pDest, *(const hkVector4*)bhkRigidBody_GetAngularVelocity());
+    HK2NINS(*(NiPoint3*)pDest, *(const hkVector4*)bhkRigidBody_GetAngularVelocity());
 }
 
 namespace fnv_00569080 {
@@ -9656,7 +9771,8 @@ void* FUN_0056a990_Class::TESObjectREFR_GetMerchantContainer()
 }  // namespace fnv_0056a990
 
 // @fnv 0x0056c7f0
-NiNode* Tile::FUN_0056c7f0()
+// src: XBOX_PDB 0x0056c7f0
+NiNode* Tile::GetModel_0056c7f0()
 {
     return m_pRenderedNodeEntry;
 }
@@ -9704,11 +9820,12 @@ struct FUN_0056d490_class
     virtual void vfn_94();
     virtual void vfn_98();
     virtual void vfn_9c(void*);
-    virtual void FUN_0056d490(void*);
+    virtual void bhkWorldObject_ForceAdd(void*);
 };
 // Calls the virtual function vfn_9c with arg, forwarding the argument unchanged.
 // @fnv 0x0056d490
-void FUN_0056d490_class::FUN_0056d490(void* arg)
+// src: XBOX_PDB 0x0056d490
+void FUN_0056d490_class::bhkWorldObject_ForceAdd(void* arg)
 {
     vfn_9c(arg);
 }
@@ -9733,13 +9850,14 @@ void* FUN_0056d580::Init(void* arg)
 
 struct FUN_0056ea40_class
 {
-    void FUN_0056e8d0();
-    void* FUN_0056ea40();
+    void hkConvexShapeCinfo_hkConvexShapeCinfo();
+    void* hkSphereShapeCinfo_hkSphereShapeCinfo();
 };
 // @fnv 0x0056ea40
-void* FUN_0056ea40_class::FUN_0056ea40()
+// src: XBOX_PDB 0x0056ea40
+void* FUN_0056ea40_class::hkSphereShapeCinfo_hkSphereShapeCinfo()
 {
-    FUN_0056e8d0();
+    hkConvexShapeCinfo_hkConvexShapeCinfo();
     return this;
 }
 
@@ -9826,7 +9944,7 @@ void XActor::TESObjectREFR_GetIgnoredBySandbox()
 
 struct FUN_0057b700_class
 {
-    int FUN_0057b730(int a);
+    int ZoneEntry_GetTargetEntry(int a);
     void ZoneEntry_RemoveTargetEntry(int a);
     void ZoneEntry_RemoveTarget(int a);
 };
@@ -9835,12 +9953,12 @@ struct FUN_0057b700_class
 // src: COMMUNITY 0x0057b700
 void FUN_0057b700_class::ZoneEntry_RemoveTarget(int a)
 {
-    ZoneEntry_RemoveTargetEntry(FUN_0057b730(a));
+    ZoneEntry_RemoveTargetEntry(ZoneEntry_GetTargetEntry(a));
 }
 
 struct FUN_0057b750_struct
 {
-    void FUN_0057b750(int a);
+    void TargetEntry_GetTargetEntry(int a);
 };
 struct FUN_0057b730_struct
 {
@@ -9850,12 +9968,13 @@ struct FUN_0057b730_struct
     int d;
     int e;
     FUN_0057b750_struct* f;
-    void FUN_0057b730(int a);
+    void ZoneEntry_GetTargetEntry(int a);
 };
 // @fnv 0x0057b730
-void FUN_0057b730_struct::FUN_0057b730(int a)
+// src: XBOX_PDB 0x0057b730
+void FUN_0057b730_struct::ZoneEntry_GetTargetEntry(int a)
 {
-    f->FUN_0057b750(a);
+    f->TargetEntry_GetTargetEntry(a);
 }
 
 namespace fnv_006546e0 {
@@ -9879,10 +9998,11 @@ unsigned int FUN_006546e0_Class::Explosion_GetActorCause()
 
 struct FUN_00922650_cls
 {
-    void FUN_00922650(int a, int b);
+    void Animation_SetLoopCount(int a, int b);
 };
 // @fnv 0x00922650
-void FUN_00922650_cls::FUN_00922650(int aiIndex, int aiValue)
+// src: XBOX_PDB 0x00922650
+void FUN_00922650_cls::Animation_SetLoopCount(int aiIndex, int aiValue)
 {
     *(int*)((char*)this + aiIndex * 4 + 0x7c) = aiValue;
 }
@@ -9923,7 +10043,7 @@ using ::BGSLoadFormBuffer;
 typedef char _sizecheck_BGSLoadFormBuffer[sizeof(BGSLoadFormBuffer) == 48 ? 1 : -1];
 struct FUN_005627c0_shell : public TESObjectREFR
 {
-    void FUN_005627c0(BGSLoadFormBuffer*);
+    void TESObjectREFR_FinishLoadGame(BGSLoadFormBuffer*);
 };
 
 struct VRefr005627c0
@@ -10050,7 +10170,7 @@ struct VRefr005627c0
 using ::TESForm;
 struct ShellH
 {
-    void FUN_0042d9e0(BGSLoadFormBuffer*);
+    void ExtraDataList_FinishLoadGame(BGSLoadFormBuffer*);
 };
 struct XActor
 {
@@ -10058,67 +10178,68 @@ struct XActor
 };
 struct FUN_00572db0_Helper
 {
-    bool FUN_00561d90();
+    bool TESObjectREFR_GetOriginalOpenByDefaultState();
 };
 struct FUN_00572db0_shell
 {
-    void FUN_00572db0(int);
+    void TESObjectREFR_ClearAction(int);
 };
 struct FUN_00572d50_shell
 {
-    void FUN_00572d50(int);
+    void TESObjectREFR_SetAction(int);
 };
-void FUN_0047b360(TESObjectREFR*);
+void BGSOpenCloseForm_SnapHavokTo3D(TESObjectREFR*);
 using ::TESObjectCELL;
 using ::BGSSaveLoadGame;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct RefX
 {
-    bool FUN_00437b90();
+    bool TESForm_GetDisabledOrDeleted();
 };
 using ::BSOcclusionPlane;
 struct TES_s
 {
-    void* FUN_00458be0(int, int);
+    void* TES_GetCellPriority(int, int);
 };
 extern TES_s* g_TES;
 struct Loader_S
 {
-    void FUN_00444850(TESObjectREFR*, void*, int);
+    void ModelLoader_QueueReference(TESObjectREFR*, void*, int);
 };
 extern Loader_S* g_modelLoader;
 
 // @fnv 0x005627c0
-void FUN_005627c0_shell::FUN_005627c0(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: XBOX_PDB 0x005627c0
+void FUN_005627c0_shell::TESObjectREFR_FinishLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     ((TESForm*)this)->Revert((unsigned int)apLoadGameBuffer);
     int iextraFlags = ((VRefr005627c0*)this)->IsActorV() ? 0xA4061840 : 0xA4021C40;
     if (apLoadGameBuffer->GetChangeFlags(static_cast<unsigned int>(iextraFlags)).operator bool())
-        ((XActor*)this)->GetExtra()->FUN_0042d9e0(apLoadGameBuffer);
+        ((XActor*)this)->GetExtra()->ExtraDataList_FinishLoadGame(apLoadGameBuffer);
     if (!((VRefr005627c0*)this)->IsActorV() && apLoadGameBuffer->GetChangeFlags(static_cast<unsigned int>(0x800000)).operator bool())
     {
-        if (((FUN_00572db0_Helper*)this)->FUN_00561d90())
+        if (((FUN_00572db0_Helper*)this)->TESObjectREFR_GetOriginalOpenByDefaultState())
         {
-            ((FUN_00572db0_shell*)this)->FUN_00572db0(4);
-            FUN_0047b360(this);
+            ((FUN_00572db0_shell*)this)->TESObjectREFR_ClearAction(4);
+            BGSOpenCloseForm_SnapHavokTo3D(this);
             NavMeshObstacleManager::GetSingleton()->AddObstacleReference(this);
         }
         else
         {
-            ((FUN_00572d50_shell*)this)->FUN_00572d50(4);
-            FUN_0047b360(this);
+            ((FUN_00572d50_shell*)this)->TESObjectREFR_SetAction(4);
+            BGSOpenCloseForm_SnapHavokTo3D(this);
             NavMeshObstacleManager::GetSingleton()->RemoveObstacleReference(this);
         }
     }
     if (*(TESObjectCELL**)((char*)this + 0x40) && apLoadGameBuffer->GetChangeFlags(static_cast<unsigned int>(0x4000000)).operator bool())
-        (*(TESObjectCELL**)((char*)this + 0x40))->FUN_005455c0((TESObjectREFR*)this);
+        (*(TESObjectCELL**)((char*)this + 0x40))->AddActivatingRef((TESObjectREFR*)this);
     if (!g_BGSSaveLoadGame->IsLoading())
     {
-        if (((RefX*)this)->FUN_00437b90())
+        if (((RefX*)this)->TESForm_GetDisabledOrDeleted())
             ((VRefr005627c0*)this)->Slot73(0, 0);
         else if (!((VRefr005627c0*)this)->Slot74() && ((BSOcclusionPlane*)this)->GetCullResult() &&
                  ((TESObjectCELL*)((BSOcclusionPlane*)this)->GetCullResult())->IsOutdoorCell())
-            g_modelLoader->FUN_00444850(this, g_TES->FUN_00458be0(((BSOcclusionPlane*)this)->GetCullResult(), 0), 1);
+            g_modelLoader->ModelLoader_QueueReference(this, g_TES->TES_GetCellPriority(((BSOcclusionPlane*)this)->GetCullResult(), 0), 1);
     }
 }
 }  // namespace fnv_005627c0
@@ -10174,9 +10295,9 @@ struct UpdData
 };
 struct FUN_005672c0_shell
 {
-    void FUN_005672c0(BSAnimGroupSequence*);
+    void TESObjectREFR_EndSequence(BSAnimGroupSequence*);
 };
-void __cdecl FUN_00c6bd00(NiNode*, bool);
+void __cdecl bhkNiCollisionObject_ResetSim(NiNode*, bool);
 int __cdecl FUN_00ec6da0(const char*, const char*);
 extern float DAT_0102f510;
 
@@ -10214,10 +10335,10 @@ bool FUN_00563d80_shell::TESObjectREFR_SetSequencePosition(NiControllerManager* 
                 foffset = (FNV2062_NiControllerSequence_FUN_00508100)(pSequence);
             }
             (FNV2062_NiControllerSequence_FUN_0098adb0)(pSequence, foffset);
-            FUN_00c6bd00((NiNode*)pobj3D, true);
+            bhkNiCollisionObject_ResetSim((NiNode*)pobj3D, true);
             UpdateData.NiUpdateData(fkeyTime, true, false);
             ((NiNode*)pobj3D)->Update(*(NiUpdateData*)&UpdateData);
-            ((FUN_005672c0_shell*)this)->FUN_005672c0(pSequence);
+            ((FUN_005672c0_shell*)this)->TESObjectREFR_EndSequence(pSequence);
             apManager->StopSequence(pSequence, 0.0f);
             ((TaskQueueInterface*)apManager)->QueueReferenceStateTask(false);
             return true;
@@ -10333,7 +10454,7 @@ using ::BaseFormComponent;
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00565870_shell : public TESObjectREFR
 {
-    bool FUN_00565870();
+    bool TESObjectREFR_RunScript();
 };
 
 struct VS00565870
@@ -10464,7 +10585,7 @@ struct XScript
 struct XEDL
 {
     void* GetScriptLocalData();
-    ExtraSayToTopicInfo* FUN_0042ede0();
+    ExtraSayToTopicInfo* ExtraDataList_GetSayToExtra();
 };
 struct XActor
 {
@@ -10487,13 +10608,14 @@ struct XActorP
 struct XInv
 {
     static XInv* CreateForReference(void*);
-    bool FUN_004d2480(void*);
+    bool InventoryChanges_RunScripts(void*);
 };
-XScript* __fastcall FUN_00418800(XEDL*);
-void* __fastcall FUN_0055d310(void*);
+XScript* __fastcall ExtraDataList_GetScript(XEDL*);
+void* __fastcall TESObjectREFR_HasContainer(void*);
 
 // @fnv 0x00565870
-bool FUN_00565870_shell::FUN_00565870()
+// src: XBOX_PDB 0x00565870
+bool FUN_00565870_shell::TESObjectREFR_RunScript()
 {
     XScript* pScript;
     bool bInvalidateCellList;
@@ -10511,16 +10633,16 @@ bool FUN_00565870_shell::FUN_00565870()
         if (pact->GetLogDate() && !pact->GetCurrentProcessLevel() && !((VS00565870*)pact)->v116())
             return false;
     case 0x1b:
-        pCont = FUN_0055d310(this);
+        pCont = TESObjectREFR_HasContainer(this);
         if (pCont)
         {
             pinventory = XInv::CreateForReference(this);
-            if (pinventory && pinventory->FUN_004d2480(this))
+            if (pinventory && pinventory->InventoryChanges_RunScripts(this))
                 bInvalidateCellList = true;
         }
         break;
     }
-    pScript = FUN_00418800(((XActor*)this)->GetExtra());
+    pScript = ExtraDataList_GetScript(((XActor*)this)->GetExtra());
     if (pScript)
     {
         ExtraSayToTopicInfo* pSayToTopicInfo;
@@ -10530,7 +10652,7 @@ bool FUN_00565870_shell::FUN_00565870()
             bInvalidateCellList = true;
         else if (pscriptlocals)
             ((VS00565870*)this)->v18(0x80000000);
-        pSayToTopicInfo = ((XActor*)this)->GetExtra()->FUN_0042ede0();
+        pSayToTopicInfo = ((XActor*)this)->GetExtra()->ExtraDataList_GetSayToExtra();
         if (pSayToTopicInfo && !((VS00565870*)this)->v63())
             ((VS00565870*)this)->v80();
     }
@@ -10542,7 +10664,7 @@ namespace fnv_00568020 {
 using ::BSExtraData;
 struct FUN_00568020_shell : public TESObjectREFR
 {
-    void FUN_00568020(unsigned int, bool);
+    void TESObjectREFR_SetMarkerUsed(unsigned int, bool);
 };
 
 using ::BSExtraData;
@@ -10585,7 +10707,8 @@ struct FNVVirtStub
 
 // If the reference's object is form type 0x27, flags it changed and sets or creates the ExtraUsedMarkers extra, removing it when its count reaches zero.
 // @fnv 0x00568020
-void FUN_00568020_shell::FUN_00568020(unsigned int aiMarkerIndex, bool abVal)
+// src: XBOX_PDB 0x00568020
+void FUN_00568020_shell::TESObjectREFR_SetMarkerUsed(unsigned int aiMarkerIndex, bool abVal)
 {
     ExtraUsedMarkers* pextra;
     if (((FNVRefStub*)this)->_FNV_GetObjectReference() &&
@@ -10613,7 +10736,7 @@ namespace fnv_00568150 {
 using ::BSExtraData;
 struct FUN_00568150_shell : public TESObjectREFR
 {
-    void FUN_00568150(unsigned int, bool);
+    void TESObjectREFR_SetMarkerReserved(unsigned int, bool);
 };
 
 struct VS00568150
@@ -10646,7 +10769,8 @@ struct XActor
 };
 
 // @fnv 0x00568150
-void FUN_00568150_shell::FUN_00568150(unsigned int aiMarkerIndex, bool abVal)
+// src: XBOX_PDB 0x00568150
+void FUN_00568150_shell::TESObjectREFR_SetMarkerReserved(unsigned int aiMarkerIndex, bool abVal)
 {
     ((VS00568150*)this)->v18(0x80000000);
     ExtraReservedMarkers* pextra = (ExtraReservedMarkers*)((XActor*)this)->GetExtra()->GetExtraData(0x82);
@@ -10696,7 +10820,7 @@ struct blob12
 };
 struct FUN_005682c0_shell : public TESObjectREFR
 {
-    int FUN_005682c0(bool);
+    int TESObjectREFR_GetFirstFreeMarkerIndex(bool);
 };
 
 using ::BSExtraData;
@@ -10714,7 +10838,8 @@ struct XActor
 };
 
 // @fnv 0x005682c0
-int FUN_005682c0_shell::FUN_005682c0(bool abIgnoreReservations)
+// src: XBOX_PDB 0x005682c0
+int FUN_005682c0_shell::TESObjectREFR_GetFirstFreeMarkerIndex(bool abIgnoreReservations)
 {
     ExtraUsedMarkers* pused;
     ExtraReservedMarkers* preserved;
@@ -10828,7 +10953,7 @@ struct XActor
 // 0x004fd400 is a folded getter (also InterfaceManager::FUN_004fd400); the object read here is a form of type 0x1e (light), not an InterfaceManager
 struct Getter4fd400View
 {
-    unsigned int FUN_004fd400();
+    unsigned int GetAVEffect();
 };
 struct GlobalObject_0045cfe0
 {
@@ -10839,7 +10964,7 @@ struct LoadedRefData_00568cb0
     char pad[0xc];
     float fRadius;
 };
-bool __cdecl FUN_0040eb10(float, float, float);
+bool __cdecl FloatEQ(float, float, float);
 extern double _gModifierZero;
 extern const float runtimeFloatSettingDefault247;
 extern FNVForm_00568cb0* DAT_011ca224;
@@ -10863,7 +10988,7 @@ float FUN_00568cb0_shell::TESObjectREFR_GetRadius()
     {
     case 0x1e: {
         Getter4fd400View* plight = (Getter4fd400View*)((FNVRef_00568cb0*)this)->_FNV_GetObjectReference();
-        fVal = (float)plight->FUN_004fd400();
+        fVal = (float)plight->GetAVEffect();
         fVal += ((XActor*)this)->GetExtra()->GetRadius();
     }
     break;
@@ -10875,13 +11000,13 @@ float FUN_00568cb0_shell::TESObjectREFR_GetRadius()
         else if (((FNVRef_00568cb0*)this)->_FNV_GetObjectReference() == DAT_011ca224)
         {
             fVal = ((XActor*)this)->GetExtra()->GetRadius();
-            if (FUN_0040eb10(fVal, 0.0f, 0.001f))
+            if (FloatEQ(fVal, 0.0f, 0.001f))
                 fVal = (float)*g_011d0bd8.Int();
         }
         else if (((FNVRef_00568cb0*)this)->_FNV_GetObjectReference() == DAT_011ca228)
         {
             fVal = ((XActor*)this)->GetExtra()->GetRadius();
-            if (FUN_0040eb10(fVal, 0.0f, 0.001f))
+            if (FloatEQ(fVal, 0.0f, 0.001f))
                 fVal = runtimeFloatSettingDefault247;
         }
         break;
@@ -10900,7 +11025,7 @@ struct FUN_0056e2a0
 };
 struct Mem4fa0
 {
-    void FUN_004b4fa0();
+    void bhkVector4_bhkVector4();
 };
 struct FUN_0056e270 : FUN_0056e2a0
 {
@@ -10911,7 +11036,7 @@ struct FUN_0056e270 : FUN_0056e2a0
 // @fnv 0x0056e270
 FUN_0056e270::FUN_0056e270()
 {
-    m30.FUN_004b4fa0();
+    m30.bhkVector4_bhkVector4();
 }
 }  // namespace fnv_0056e270
 
@@ -10920,12 +11045,13 @@ struct FUN_0056e900_shell
     int _0;
     float _4;
     void StepAndReturnThis();
-    FUN_0056e900_shell* FUN_0056e8d0();
+    FUN_0056e900_shell* hkConvexShapeCinfo_hkConvexShapeCinfo();
 };
 extern float DAT_010c72bc;
 // Calls StepAndReturnThis, stores DAT_010c72bc into _4, and returns this.
 // @fnv 0x0056e8d0
-FUN_0056e900_shell* FUN_0056e900_shell::FUN_0056e8d0()
+// src: XBOX_PDB 0x0056e8d0
+FUN_0056e900_shell* FUN_0056e900_shell::hkConvexShapeCinfo_hkConvexShapeCinfo()
 {
     StepAndReturnThis();
     _4 = DAT_010c72bc;
@@ -10944,10 +11070,11 @@ struct Holder
     float _a;
     float _b;
     float _c;
-    void FUN_0056fa90(float p1, float p2, float p3, float p4, float p5, float p6, float p7, float p8, float p9);
+    void TESObjectREFR_SetOrientation(float p1, float p2, float p3, float p4, float p5, float p6, float p7, float p8, float p9);
 };
 // @fnv 0x0056fa90
-void Holder::FUN_0056fa90(float p1, float p2, float p3, float p4, float p5, float p6, float p7, float p8, float p9)
+// src: XBOX_PDB 0x0056fa90
+void Holder::TESObjectREFR_SetOrientation(float p1, float p2, float p3, float p4, float p5, float p6, float p7, float p8, float p9)
 {
     ((FakeMat*)&p1)->DecomposeToEulerAngles(_a, _b, _c);
 }
@@ -11020,11 +11147,12 @@ struct S5757a0
     virtual void v18(int);
     unsigned char _pad[36];
     float fld28;
-    void FUN_005757a0(float);
+    void TESObjectREFR_SetAngleOnReferenceY(float);
 };
 // Stores a into fld28 and calls v18 with 2.
 // @fnv 0x005757a0
-void S5757a0::FUN_005757a0(float afValue)
+// src: XBOX_PDB 0x005757a0
+void S5757a0::TESObjectREFR_SetAngleOnReferenceY(float afValue)
 {
     fld28 = afValue;
     v18(2);
@@ -11045,7 +11173,7 @@ struct TaskQueueInterface
 };
 struct FUN_00576660_t
 {
-    void FUN_00576660(bool);
+    void NiAVObject_SetSelectiveUpdateRigid(bool);
 };
 // Exe 0x005764f0: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct TesobjectrefrOffset08View
@@ -11089,14 +11217,14 @@ void TESObjectREFR_FilteredAddObject(TesobjectrefrOffset08View* apObj, UpdateArg
                 if (!bQueue && pRef->_FNV_GetObjectReference()->_FNV_GetFormType() == 0x1e)
                 {
                     TESObjectLIGH* apTargetLight = (TESObjectLIGH*)pRef->_FNV_GetObjectReference();
-                    if (apTargetLight && !apTargetLight->FUN_0046f070())
+                    if (apTargetLight && !apTargetLight->GetCanCarry())
                         bQueue = true;
                 }
                 if (!bQueue)
                 {
                     ((void (__thiscall *)(NiNode*, bool))FNV2062_NodeSetFlag)(pNiNode, false);
                     ((TaskQueueInterface*)pNiNode)->NiAVObject_SetSelectiveUpdateTransforms(false);
-                    ((FUN_00576660_t*)pNiNode)->FUN_00576660(true);
+                    ((FUN_00576660_t*)pNiNode)->NiAVObject_SetSelectiveUpdateRigid(true);
                     apArg->bPending = false;
                 }
             }
@@ -11109,13 +11237,13 @@ void TESObjectREFR_FilteredAddObject(TesobjectrefrOffset08View* apObj, UpdateArg
         NiNode* pNode2 = apObj->GetFlags();
         ((void (__thiscall *)(NiNode*, bool))FNV2062_NodeSetFlag)(pNode2, false);
         ((TaskQueueInterface*)pNode2)->NiAVObject_SetSelectiveUpdateTransforms(false);
-        ((FUN_00576660_t*)pNode2)->FUN_00576660(true);
+        ((FUN_00576660_t*)pNode2)->NiAVObject_SetSelectiveUpdateRigid(true);
         apArg->bPending = false;
     }
 }
 }  // namespace fnv_005764f0
 
-void __cdecl FUN_00c6bd00(NiNode*, bool);
+void __cdecl bhkNiCollisionObject_ResetSim(NiNode*, bool);
 struct Unknown
 {
     virtual void f1() = 0;
@@ -11242,7 +11370,7 @@ struct Unknown
 // src: COMMUNITY 0x00578920
 void Unknown::TESObjectREFR_MoveHavok(bool value)
 {
-    FUN_00c6bd00(GetNode(), value);
+    bhkNiCollisionObject_ResetSim(GetNode(), value);
 }
 
 class BSMultiBoundNode;
@@ -11577,7 +11705,7 @@ struct blob16
 };
 struct FUN_0057b520_shell : public TESObjectREFR
 {
-    void FUN_0057b520(bool);
+    void TESObjectREFR_RemoveFromAllWater(bool);
 };
 
 struct ShellH;
@@ -11621,7 +11749,7 @@ struct S_00631370
 };
 struct ExtraListRemover
 {
-    void FUN_00410020(BSExtraData*, bool);
+    void BaseExtraList_RemoveExtra(BSExtraData*, bool);
 };
 using ::MobileObject;
 struct S_004e5fe0
@@ -11635,7 +11763,7 @@ struct S_00931f80
 };
 using ::Actor;
 
-void __fastcall FUN_0057b1d0(char*, float);
+void __fastcall bhkCharacterController_SetWaterHeight(char*, float);
 struct VRefStandin
 {
     virtual void v0();
@@ -11706,7 +11834,8 @@ struct VRefStandin
 };
 
 // @fnv 0x0057b520
-void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
+// src: XBOX_PDB 0x0057b520
+void FUN_0057b520_shell::TESObjectREFR_RemoveFromAllWater(bool abTraverseAllZones)
 {
     ExtraWaterZoneMap* pextra;
     TESWaterSystem* pwater;
@@ -11753,7 +11882,7 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
         }
     }
     if (pextra)
-        ((ExtraListRemover*)((XActor*)this)->GetExtra())->FUN_00410020((BSExtraData*)pextra, true);
+        ((ExtraListRemover*)((XActor*)this)->GetExtra())->BaseExtraList_RemoveExtra((BSExtraData*)pextra, true);
     if (*(int*)((char*)this + 0x40) && ((TESObjectCELL*)*(void**)((char*)this + 0x40))->HasWater())
         pwater->UpdateWaterZone(0, this, ((MobileObject*)this)->GetRelevantWaterHeight());
     if (((EffectSetting*)g_TES)->GetEffectID())
@@ -11765,7 +11894,7 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
         pactor = (Actor*)this;
         pcon = (bhkCharacterController*)((S_00931f80*)pactor)->GetPhysicsCharacterController();
         if (pcon)
-            FUN_0057b1d0((char*)pcon, ((MobileObject*)this)->GetRelevantWaterHeight());
+            bhkCharacterController_SetWaterHeight((char*)pcon, ((MobileObject*)this)->GetRelevantWaterHeight());
     }
     if (*(int*)((char*)this + 0x64))
     {
@@ -11778,7 +11907,7 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
 namespace fnv_00560870 {
 using ::NiRTTI;
 using ::NiAVObject;
-int FUN_00408b20(const char*, const char*);
+int BSstrcmp(const char*, const char*);
 class NiFixedStr
 {
   public:
@@ -11788,7 +11917,7 @@ struct SeqObj
 {
     NiFixedStr& GetName();
 };
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 // Exe 0x00560870: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct TesobjectrefrOffset08View
 {
@@ -11888,17 +12017,18 @@ struct VisitDataStandIn
 };
 
 // @fnv 0x00560870
-void FUN_00560870(NiAVObject* pObject, VisitDataStandIn* pData)
+// src: XBOX_PDB 0x00560870
+void TESObjectREFR_GetCollisionObjectSize(NiAVObject* pObject, VisitDataStandIn* pData)
 {
     NiAVObject* pkParent;
     CountInfoStandIn* pCount = pData->pCount;
-    if (FUN_0043b300(&g_0126817c, pObject))
+    if (NiObject_IsKindOf(&g_0126817c, pObject))
         pCount->m_ucEntryType |= 8;
     pkParent = (NiAVObject*)((TesobjectrefrOffset08View*)pObject)->GetFlags();
     if (pObject != pCount->pRoot && pkParent && (const char*)((SeqObj*)pkParent)->GetName() &&
-        !FUN_00408b20(((SeqObj*)pkParent)->GetName(), "Arrow"))
+        !BSstrcmp(((SeqObj*)pkParent)->GetName(), "Arrow"))
         return;
-    if (pCount->pRef->IsActor() && FUN_0043b300((const NiRTTI*)&DAT_011f9140, pkParent))
+    if (pCount->pRef->IsActor() && NiObject_IsKindOf((const NiRTTI*)&DAT_011f9140, pkParent))
         return;
     {
         bhkWorldObject* pCollision = (FNV2062_bhkCollisionObject_FUN_006fa820)(((bhkCollisionObject*)pObject));
@@ -11909,7 +12039,7 @@ void FUN_00560870(NiAVObject* pObject, VisitDataStandIn* pData)
             {
                 if (pObject == pCount->pRoot)
                     pCount->m_ucEntryType |= 2;
-                if (((bhkRigidBody*)pCollisionEntry)->FUN_005609b0())
+                if (((bhkRigidBody*)pCollisionEntry)->IsActive_005609b0())
                     pCount->usActive++;
                 else
                     pCount->usInactive++;
@@ -11991,7 +12121,7 @@ struct RefH
 };
 struct S
 {
-    void FUN_00484af0(bool);
+    void TESForm_SetDisabled(bool);
     N::TESForm* _FNV_GetObjectReference();
 };
 struct XActor
@@ -12078,9 +12208,9 @@ void FUN_00562660_shell::TESObjectREFR_InitLoadGameBGS(BGSLoadFormBuffer* apLoad
     if (penableparent)
     {
         if (((bool (__thiscall *)(InventoryChanges*))FNV2062_createForReferenceBool)((InventoryChanges*)this))
-            ((S*)this)->FUN_00484af0(!((RefH*)penableparent)->GetDisabled());
+            ((S*)this)->TESForm_SetDisabled(!((RefH*)penableparent)->GetDisabled());
         else
-            ((S*)this)->FUN_00484af0(((RefH*)penableparent)->GetDisabled());
+            ((S*)this)->TESForm_SetDisabled(((RefH*)penableparent)->GetDisabled());
     }
     iextraFlags = ((VT*)this)->v64() ? 0xa4061840 : 0xa4021c40;
     if (apLoadGameBuffer->GetChangeFlags(static_cast<unsigned int>(iextraFlags)).operator bool())
@@ -12135,7 +12265,7 @@ using ::BaseFormComponent;
 typedef char _sizecheck_BaseFormComponent[sizeof(BaseFormComponent) == 4 ? 1 : -1];
 struct FUN_00568500_shell : public TESObjectREFR
 {
-    bool FUN_00568500(int, FurnitureMark*);
+    bool TESObjectREFR_GetMarkerAtIndex(int, FurnitureMark*);
 };
 
 struct BSFurnitureMarker;
@@ -12145,8 +12275,8 @@ struct StackArg
 {
     int i;
 };
-int __fastcall FUN_00509490(char*);
-FurnitureMark* __fastcall FUN_005094d0(DummyThis*, StackArg);
+int __fastcall BSFurnitureMarker_QNumMarks(char*);
+FurnitureMark* __fastcall BSFurnitureMarker_QMark(DummyThis*, StackArg);
 using ::NiPoint3;
 struct M3
 {
@@ -12159,12 +12289,12 @@ struct FUN_0056fa00_shell
 };
 
 
-void __fastcall FUN_00c54550(FurnitureMark*, float);
+void __fastcall FurnitureMark_SetHeading(FurnitureMark*, float);
 void* __fastcall _ref_006815c0(FurnitureMark*);
 void __cdecl NiMatrix3_TransformVertices(const M3&, const NiPoint3*, unsigned int, NiPoint3*, FurnitureMark*);
 void* __fastcall _FNV_GetObjectReference(void*);
 int __fastcall _FNV_GetFormType(void*);
-NiAVObject* __cdecl FUN_00c54400(NiNode*);
+NiAVObject* __cdecl BSFurnitureMarker_Find(NiNode*);
 struct VRef
 {
     virtual void* V0();
@@ -12296,7 +12426,8 @@ struct VRef
 };
 
 // @fnv 0x00568500
-bool FUN_00568500_shell::FUN_00568500(int aiIndex, FurnitureMark* aOutMarker)
+// src: XBOX_PDB 0x00568500
+bool FUN_00568500_shell::TESObjectREFR_GetMarkerAtIndex(int aiIndex, FurnitureMark* aOutMarker)
 {
     bool bretval = false;
     if (_FNV_GetObjectReference(this) && (fnv_00568500::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x27 &&
@@ -12305,18 +12436,18 @@ bool FUN_00568500_shell::FUN_00568500(int aiIndex, FurnitureMark* aOutMarker)
         TESFurniture* pfurn = (TESFurniture*)_FNV_GetObjectReference(this);
         if (pfurn)
         {
-            BSFurnitureMarker* pmarkdata = (BSFurnitureMarker*)FUN_00c54400((NiNode*)((VRef*)this)->V116());
+            BSFurnitureMarker* pmarkdata = (BSFurnitureMarker*)BSFurnitureMarker_Find((NiNode*)((VRef*)this)->V116());
             if (pmarkdata)
             {
-                unsigned int icount = FUN_00509490((char*)pmarkdata);
+                unsigned int icount = BSFurnitureMarker_QNumMarks((char*)pmarkdata);
                 if (icount > (unsigned int)aiIndex)
                 {
                     bretval = true;
-                    *aOutMarker = *FUN_005094d0((DummyThis*)pmarkdata, *(StackArg*)&aiIndex);
+                    *aOutMarker = *BSFurnitureMarker_QMark((DummyThis*)pmarkdata, *(StackArg*)&aiIndex);
                     NiPoint3 loc = *(NiPoint3*)(_ref_006815c0)(aOutMarker);
                     NiMatrix3_TransformVertices(((FUN_0056fa00_shell*)this)->TESObjectREFR_GetOrientation(), (NiPoint3*)((VRef*)this)->V125(), 1, &loc,
                                  aOutMarker);
-                    FUN_00c54550(aOutMarker,
+                    FurnitureMark_SetHeading(aOutMarker,
                                  ((FurnitureMark*)aOutMarker)->GetCurrentTargetDistance() + ((TESRecipe*)this)->GetData()->field08);
                 }
             }
@@ -12336,8 +12467,8 @@ struct DropList_t
 };
 struct ShellH : ExtraDataList
 {
-    DropList_t* FUN_0041df90();
-    void FUN_0041de40(TESObjectREFR*);
+    DropList_t* ExtraDataList_GetDroppedItemList();
+    void ExtraDataList_SetItemDropper(TESObjectREFR*);
 };
 struct XActor
 {
@@ -12363,11 +12494,11 @@ extern void FNV2062_InventoryChanges_FUN_0042cde0_target();
 #define FNV2062_InventoryChanges_FUN_0042cde0 ((bool (__thiscall *)(InventoryChanges*))FNV2062_InventoryChanges_FUN_0042cde0_target)
 struct ResetInvContainerLookup
 {
-    static TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+    static TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR*);
 };
 struct FUN_008adc50_shell
 {
-    void FUN_008adc50();
+    void Actor_ClearProcessItems();
 };
 struct RefV
 {
@@ -12460,25 +12591,26 @@ struct RefV
     virtual void v158();
     virtual void v15c();
     virtual bool v160();
-    bool FUN_00577de0();
-    void FUN_00572270();
+    bool TESObjectREFR_HasQuestObject();
+    void TESObjectREFR_MarkAsDeleted();
 };
 
 struct FUN_00574920_t : public TESObjectREFR
 {
-    void FUN_00574920(bool);
+    void TESObjectREFR_ResetInventory(bool);
 };
 
 // @fnv 0x00574920
-void FUN_00574920_t::FUN_00574920(bool abLeveledOnly)
+// src: XBOX_PDB 0x00574920
+void FUN_00574920_t::TESObjectREFR_ResetInventory(bool abLeveledOnly)
 {
     TESContainer* pContainer;
     InventoryChanges* pinventory;
     DropList_t* pdroplist;
 
-    if (!g_BGSSaveLoadGame->IsLoading() && ((RefV*)this)->FUN_00577de0())
+    if (!g_BGSSaveLoadGame->IsLoading() && ((RefV*)this)->TESObjectREFR_HasQuestObject())
         abLeveledOnly = true;
-    pContainer = ResetInvContainerLookup::FUN_0055d310(this);
+    pContainer = ResetInvContainerLookup::TESObjectREFR_HasContainer(this);
     if (pContainer)
     {
         pinventory = 0;
@@ -12495,7 +12627,7 @@ void FUN_00574920_t::FUN_00574920(bool abLeveledOnly)
         if (((RefV*)this)->v100())
         {
             FUN_008adc50_shell* pact = (FUN_008adc50_shell*)this;
-            pact->FUN_008adc50();
+            pact->Actor_ClearProcessItems();
         }
         (FNV2062_InventoryChanges_FUN_004d1440)(pinventory);
         if (!abLeveledOnly)
@@ -12503,13 +12635,13 @@ void FUN_00574920_t::FUN_00574920(bool abLeveledOnly)
         (FNV2062_InventoryChanges_FUN_004d1960)(pinventory);
         if ((FNV2062_InventoryChanges_FUN_0042cde0)(pinventory))
             ((XActor*)this)->GetExtra()->RemoveExtraDataType0x15();
-        pdroplist = ((XActor*)this)->GetExtra()->FUN_0041df90();
+        pdroplist = ((XActor*)this)->GetExtra()->ExtraDataList_GetDroppedItemList();
         while (pdroplist && !pdroplist->FUN_008256d0())
         {
             TESObjectREFR* pDroppedRef = *pdroplist->FUN_006815c0();
-            ((XActor*)pDroppedRef)->GetExtra()->FUN_0041de40(0);
+            ((XActor*)pDroppedRef)->GetExtra()->ExtraDataList_SetItemDropper(0);
             if (!((RefV*)pDroppedRef)->v160())
-                ((RefV*)pDroppedRef)->FUN_00572270();
+                ((RefV*)pDroppedRef)->TESObjectREFR_MarkAsDeleted();
             pdroplist->FUN_0063f7b0();
         }
     }
@@ -12520,11 +12652,11 @@ namespace fnv_00579160 {
 using ::ExtraDataList;
 struct FUN_0042ede0_shell
 {
-    ExtraDataList* FUN_0042ede0();
+    ExtraDataList* ExtraDataList_GetSayToExtra();
 };
 struct FUN_0042edb0_shell
 {
-    void FUN_0042edb0();
+    void ExtraDataList_RemoveSayToInfoExtra();
 };
 struct XActor
 {
@@ -12539,21 +12671,21 @@ struct FUN_00579160
 {
     void DamageObject();
 };
-bool __fastcall FUN_00579200(const char*);
+bool __fastcall TESTopicInfo_IsRunImmediately(const char*);
 
 // @fnv 0x00579160
 void FUN_00579160::DamageObject()
 {
-    void* topic = reinterpret_cast<FUN_0042ede0_shell*>(reinterpret_cast<XActor*>(this)->GetExtra())->FUN_0042ede0();
+    void* topic = reinterpret_cast<FUN_0042ede0_shell*>(reinterpret_cast<XActor*>(this)->GetExtra())->ExtraDataList_GetSayToExtra();
     if (topic && *(unsigned char*)((char*)topic + 0x18))
     {
-        if (*(void**)((char*)topic + 0xc) && !FUN_00579200((const char*)*(void**)((char*)topic + 0xc)))
+        if (*(void**)((char*)topic + 0xc) && !TESTopicInfo_IsRunImmediately((const char*)*(void**)((char*)topic + 0xc)))
             reinterpret_cast<TESTopicInfo*>(*(void**)((char*)topic + 0xc))
                 ->RunResultScript(1, reinterpret_cast<MobileObject*>(this));
         if (*(void**)((char*)topic + 0x10))
             SC_008c48d0::GetLocalData(*(void**)((char*)topic + 0x10), reinterpret_cast<XActor*>(this)->GetExtra(),
                                       0x40000);
-        reinterpret_cast<FUN_0042edb0_shell*>(reinterpret_cast<XActor*>(this)->GetExtra())->FUN_0042edb0();
+        reinterpret_cast<FUN_0042edb0_shell*>(reinterpret_cast<XActor*>(this)->GetExtra())->ExtraDataList_RemoveSayToInfoExtra();
     }
 }
 }  // namespace fnv_00579160
@@ -12561,7 +12693,7 @@ void FUN_00579160::DamageObject()
 namespace fnv_0055d3b0 {
 struct ShellH
 {
-    int FUN_004216f0();
+    int ExtraDataList_GetLevCreaOriginalBase();
     ShellH* GetFirstExtraData();
 };
 struct XActor
@@ -12578,9 +12710,9 @@ bool FUN_0055d3b0::IsOfType(void* apObj)
 {
     void* pbase;
     void* ptemplate;
-    pbase = (void*)((int)((XActor*)this)->GetExtra()->FUN_004216f0());
+    pbase = (void*)((int)((XActor*)this)->GetExtra()->ExtraDataList_GetLevCreaOriginalBase());
     ptemplate = ((XActor*)this)->GetExtra()->GetFirstExtraData();
-    return (((TESBoundObject*)this)->FUN_007af430() == apObj) || (pbase == apObj) || (ptemplate == apObj);
+    return (((TESBoundObject*)this)->BGSSaveFormBuffer_GetForm() == apObj) || (pbase == apObj) || (ptemplate == apObj);
 }
 }  // namespace fnv_0055d3b0
 
@@ -12697,12 +12829,13 @@ struct TesobjectrefrOffset08View
 struct TESObjectREFR_Flags
 {
     void SetFlags(unsigned int);
-    void FUN_00564eb0(bool set);
+    void TESObjectREFR_SetVisibleDistant(bool set);
 };
 
 // Reads the object's flags, sets or clears bit 0x8000 according to set, and writes the result back with SetFlags.
 // @fnv 0x00564eb0
-void TESObjectREFR_Flags::FUN_00564eb0(bool set)
+// src: XBOX_PDB 0x00564eb0
+void TESObjectREFR_Flags::TESObjectREFR_SetVisibleDistant(bool set)
 {
     unsigned int flags = ((TesobjectrefrOffset08View*)this)->GetFlags();
     if (set)
@@ -12716,11 +12849,11 @@ void TESObjectREFR_Flags::FUN_00564eb0(bool set)
 namespace fnv_00567ad0 {
 struct ExtraL
 {
-    void FUN_00419700(void*);
+    void ExtraDataList_SetOwnership(void*);
 };
 struct ShellH
 {
-    void FUN_00419700(void*);
+    void ExtraDataList_SetOwnership(void*);
 };
 struct Flt
 {
@@ -12743,12 +12876,12 @@ struct FUN_00567ad0 : TESObjectREFR
 // @fnv 0x00567ad0
 void FUN_00567ad0::SetOwner(void* apOwner)
 {
-    GetExtra()->FUN_00419700(apOwner);
+    GetExtra()->ExtraDataList_SetOwnership(apOwner);
     MarkAsModified(0x40);
     RadioData* ptel = GetExtraRadioData();
     if (ptel && (unsigned int)*ptel)
     {
-        ((XActor*)(unsigned int)*ptel)->GetExtra()->FUN_00419700(0);
+        ((XActor*)(unsigned int)*ptel)->GetExtra()->ExtraDataList_SetOwnership(0);
         ((FUN_00567ad0*)(unsigned int)*ptel)->MarkAsModified(0x40);
     }
 }
@@ -12768,10 +12901,11 @@ extern NiPoint3 _NiPoint3_ZERO;
 struct TESObjectREFR_ext : TESObjectREFR
 {
     void* GetExtraRadioData();
-    void* FUN_00569000();
+    void* TESObjectREFR_GetLinkedDoorTeleportRotation();
 };
 // @fnv 0x00569000
-void* TESObjectREFR_ext::FUN_00569000()
+// src: XBOX_PDB 0x00569000
+void* TESObjectREFR_ext::TESObjectREFR_GetLinkedDoorTeleportRotation()
 {
     void* p = GetExtraRadioData();
     unsigned int i = 0;
@@ -12799,7 +12933,7 @@ struct FUN_00411b00
 };
 struct ShellH
 {
-    void FUN_00419050(LockExtraData*);
+    void ExtraDataList_SetLockPtr(LockExtraData*);
 };
 struct XActor
 {
@@ -12808,17 +12942,18 @@ struct XActor
 struct TESObjectREFR_ext
 {
     LockExtraData* GetMyLock();
-    LockExtraData* FUN_005690a0();
+    LockExtraData* TESObjectREFR_AddLock();
 };
 // Returns the reference's lock, creating a new one and attaching it via GetExtra if none exists.
 // @fnv 0x005690a0
-LockExtraData* TESObjectREFR_ext::FUN_005690a0()
+// src: XBOX_PDB 0x005690a0
+LockExtraData* TESObjectREFR_ext::TESObjectREFR_AddLock()
 {
     LockExtraData* pLock = GetMyLock();
     if (!pLock)
     {
         pLock = (LockExtraData*)new FUN_00411b00;
-        ((XActor*)this)->GetExtra()->FUN_00419050(pLock);
+        ((XActor*)this)->GetExtra()->ExtraDataList_SetLockPtr(pLock);
     }
     return pLock;
 }
@@ -12835,28 +12970,29 @@ struct XActor
 };
 struct FUN_0041dda0_shell
 {
-    void FUN_0041dda0(TESObjectREFR*);
+    void ExtraDataList_RemoveEnableStateChild(TESObjectREFR*);
 };
 struct FUN_0041da40_shell
 {
-    void FUN_0041da40(TESObjectREFR*);
+    void ExtraDataList_SetEnableStateParent(TESObjectREFR*);
 };
 struct FUN_0056aa10_t
 {
-    void FUN_0056aa10(TESObjectREFR* apParent);
+    void TESObjectREFR_SetEnableStateParent(TESObjectREFR* apParent);
 };
 struct RefPersists
 {
     bool GetReferencePersistence();
 };
 // @fnv 0x0056aa10
-void FUN_0056aa10_t::FUN_0056aa10(TESObjectREFR* apParent)
+// src: XBOX_PDB 0x0056aa10
+void FUN_0056aa10_t::TESObjectREFR_SetEnableStateParent(TESObjectREFR* apParent)
 {
     TESObjectREFR* pcurParent = ((FUN_0056aac0_t*)this)->GetEnableParent();
     if (pcurParent)
-        ((FUN_0041dda0_shell*)((XActor*)pcurParent)->GetExtra())->FUN_0041dda0((TESObjectREFR*)this);
+        ((FUN_0041dda0_shell*)((XActor*)pcurParent)->GetExtra())->ExtraDataList_RemoveEnableStateChild((TESObjectREFR*)this);
     if (!apParent || ((RefPersists*)apParent)->GetReferencePersistence())
-        ((FUN_0041da40_shell*)((XActor*)this)->GetExtra())->FUN_0041da40(apParent);
+        ((FUN_0041da40_shell*)((XActor*)this)->GetExtra())->ExtraDataList_SetEnableStateParent(apParent);
 }
 }  // namespace fnv_0056aa10
 
@@ -12866,11 +13002,12 @@ struct FUN_0056c780_t
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
-    void FUN_0056c780(bool value);
+    void TESForm_SetDisableFade(bool value);
 };
 
 // @fnv 0x0056c780
-void FUN_0056c780_t::FUN_0056c780(bool abSet)
+// src: XBOX_PDB 0x0056c780
+void FUN_0056c780_t::TESForm_SetDisableFade(bool abSet)
 {
     abSet ? m_08 |= 0x8000000 : m_08 &= ~0x8000000;
 }
@@ -12910,7 +13047,7 @@ extern int DAT_0126825c;
 FUN_0056e610::FUN_0056e610(unsigned int a)
 {
     DAT_0126825c++;
-    FUN_0056e810(a);
+    bhkBoxShape_Init(a);
 }
 
 namespace fnv_005726e0 {
@@ -12923,10 +13060,11 @@ extern const char str_01030e48[];
 extern const char str_01030e54[];
 struct FUN_005726e0_shell
 {
-    void FUN_005726e0(NiAVObject* a, bool b);
+    void TESObjectREFR_SetLight_005726e0(NiAVObject* a, bool b);
 };
 // @fnv 0x005726e0
-void FUN_005726e0_shell::FUN_005726e0(NiAVObject* apObject, bool abCulled)
+// src: XBOX_PDB 0x005726e0
+void FUN_005726e0_shell::TESObjectREFR_SetLight_005726e0(NiAVObject* apObject, bool abCulled)
 {
     if (!apObject)
         return;
@@ -12953,7 +13091,7 @@ struct Holder
 };
 struct FUN_00418280_Class
 {
-    BSExtraData* FUN_00418280();
+    BSExtraData* ExtraDataList_GetSpellEffectLight();
 };
 struct _FNV_GetObjectReference_Class
 {
@@ -12985,7 +13123,7 @@ void FUN_00572820_Class::TESObjectREFR_RefreshDynamicLight()
         owner = ((_FNV_GetObjectReference_Class*)this)->_FNV_GetObjectReference();
     if (light && owner)
         ((FUN_0050de20_Class*)owner)->TESObjectLIGH_Update(light, 0);
-    light = (ReferenceLightData*)((FUN_00418280_Class*)((XActor*)this)->GetExtra())->FUN_00418280();
+    light = (ReferenceLightData*)((FUN_00418280_Class*)((XActor*)this)->GetExtra())->ExtraDataList_GetSpellEffectLight();
     if (light && owner)
         ((FUN_0050de20_Class*)owner)->TESObjectLIGH_Update(light, 0);
 }
@@ -12994,7 +13132,7 @@ void FUN_00572820_Class::TESObjectREFR_RefreshDynamicLight()
 namespace fnv_005754a0 {
 struct FUN_00740960_Class
 {
-    unsigned int FUN_00740960();
+    unsigned int TESDataHandler_GetBarterContainer();
 };
 extern FUN_00740960_Class* g_dataHandler;
 using ::TESContainer;
@@ -13002,21 +13140,22 @@ using ::InventoryChanges;
 extern void FNV2062_InventoryChanges_FUN_004c94f0_target();
 #undef FNV2062_InventoryChanges_FUN_004c94f0
 #define FNV2062_InventoryChanges_FUN_004c94f0 ((void* (__thiscall *)(InventoryChanges*, int))FNV2062_InventoryChanges_FUN_004c94f0_target)
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR*);
 struct FUN_005754a0_Class
 {
-    void* FUN_005754a0(int a1, unsigned char a2);
+    void* TESObjectREFR_GetInventoryItem(int a1, unsigned char a2);
 };
 // @fnv 0x005754a0
-void* FUN_005754a0_Class::FUN_005754a0(int a1, unsigned char abUseDataHandler)
+// src: XBOX_PDB 0x005754a0
+void* FUN_005754a0_Class::TESObjectREFR_GetInventoryItem(int a1, unsigned char abUseDataHandler)
 {
     void* result = 0;
-    TESContainer* container = fnv_005754a0::FUN_0055d310((TESObjectREFR*)this);
+    TESContainer* container = fnv_005754a0::TESObjectREFR_HasContainer((TESObjectREFR*)this);
     if (container)
     {
         InventoryChanges* changes = 0;
         if (abUseDataHandler)
-            changes = (InventoryChanges*)g_dataHandler->FUN_00740960();
+            changes = (InventoryChanges*)g_dataHandler->TESDataHandler_GetBarterContainer();
         else
             changes = InventoryChanges::CreateForReference((TESObjectREFR*)this);
         result = (FNV2062_InventoryChanges_FUN_004c94f0)(changes, a1);
@@ -13025,7 +13164,7 @@ void* FUN_005754a0_Class::FUN_005754a0(int a1, unsigned char abUseDataHandler)
 }
 }  // namespace fnv_005754a0
 
-bool __fastcall FUN_00579200(char const*);
+bool __fastcall TESTopicInfo_IsRunImmediately(char const*);
 using ::Character;
 using ::TESTopicInfo;
 struct FUN_0083c850
@@ -13043,7 +13182,7 @@ struct FUN_0083c850
 // @fnv 0x0083c850
 void FUN_0083c850::AppendTopicInfo(int aiArg)
 {
-    if (mInfo && !FUN_00579200(reinterpret_cast<char const*>(mInfo)))
+    if (mInfo && !TESTopicInfo_IsRunImmediately(reinterpret_cast<char const*>(mInfo)))
     {
         mInfo->AddTopicList();
         mInfo->RunResultScript(aiArg, reinterpret_cast<Character*>(m18));
@@ -13068,10 +13207,11 @@ struct FUN_0087f920_t
     FUN_0087f920_pos m_pos;
     float m_vScale;
     void* m_obj;
-    bool FUN_0087f920(FUN_0087f920_pos* apPos, FUN_0087f920_rot* apRot, void** apObj, int aiUnused);
+    bool Actor_GetEditorLocation(FUN_0087f920_pos* apPos, FUN_0087f920_rot* apRot, void** apObj, int aiUnused);
 };
 // @fnv 0x0087f920
-bool FUN_0087f920_t::FUN_0087f920(FUN_0087f920_pos* apPos, FUN_0087f920_rot* apRot, void** apObj, int aiUnused)
+// src: XBOX_PDB 0x0087f920
+bool FUN_0087f920_t::Actor_GetEditorLocation(FUN_0087f920_pos* apPos, FUN_0087f920_rot* apRot, void** apObj, int aiUnused)
 {
     if (!m_obj)
         return false;
@@ -13089,7 +13229,7 @@ using ::BSFadeNode;
 using ::NiAVObject;
 struct FUN_009335b0_cls
 {
-    NiAVObject* FUN_009335b0(unsigned char);
+    NiAVObject* MobileObject_Load3D(unsigned char);
     NiAVObject* ArrowProjectile_Load3D(unsigned char a);
 };
 // Calls FUN_009335b0 with a, sets the returned NiAVObject's name to "Arrow" if non-null, and returns it.
@@ -13097,7 +13237,7 @@ struct FUN_009335b0_cls
 // src: COMMUNITY 0x008cfa40
 NiAVObject* FUN_009335b0_cls::ArrowProjectile_Load3D(unsigned char a)
 {
-    NiAVObject* p = FUN_009335b0(a);
+    NiAVObject* p = MobileObject_Load3D(a);
     if (p)
         p->SetName(NiFixedString("Arrow"));
     return p;
@@ -13191,19 +13331,19 @@ namespace fnv_0055ac90 {
 
 struct FUN_004121b0_shell
 {
-    bool FUN_004121b0();
+    bool BGSSaveLoadGame_GetReconstructingForms();
 };
 
 using ::BGSSaveLoadGame;
 
 struct FUN_0057c300_cls
 {
-    void FUN_0057c300();
+    void TESObjectREFR_FreeLoadedData();
 };
 
 struct FUN_0055ac90_class : public FUN_0057c300_cls
 {
-    void FUN_0055ac90();
+    void TESObjectREFR_InitializeData();
 };
 
 void* memset(void* destination, int value, unsigned int count);
@@ -13212,7 +13352,8 @@ extern float _DAT_01015f5c;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // @fnv 0x0055ac90
-void FUN_0055ac90_class::FUN_0055ac90()
+// src: XBOX_PDB 0x0055ac90
+void FUN_0055ac90_class::TESObjectREFR_InitializeData()
 {
     TESBoundObject* pbaseobject = *reinterpret_cast<TESBoundObject**>(reinterpret_cast<unsigned char*>(this) + 0x20);
 
@@ -13233,7 +13374,7 @@ void FUN_0055ac90_class::FUN_0055ac90()
 
     if (g_BGSSaveLoadGame == 0 || !((bool (__thiscall *)(BGSSaveLoadGame*))FNV2062_004121b0)(g_BGSSaveLoadGame))
     {
-        FUN_0057c300();
+        TESObjectREFR_FreeLoadedData();
     }
 }
 }  // namespace fnv_0055ac90
@@ -13252,7 +13393,7 @@ struct P09H
 };
 
 extern NiRTTI DAT_011f36ac;
-unsigned short __cdecl FUN_0055fdb0(NiControllerManager*);
+unsigned short __cdecl TESObjectREFR_GetControllerManagerSaveSize(NiControllerManager*);
 void* __cdecl _UseSaveGameBlocks(NiRTTI*, void*);
 
 struct FUN_0055f880_cls
@@ -13272,7 +13413,7 @@ unsigned short FUN_0055f880_cls::TESObjectREFR_GetAttachedAnimationSaveSize()
         NiNode* node = model2->GetObject3D();
         pManager = (NiControllerManager*)(_UseSaveGameBlocks)(&DAT_011f36ac, node);
     }
-    result2 += FUN_0055fdb0(pManager);
+    result2 += TESObjectREFR_GetControllerManagerSaveSize(pManager);
     return result2;
 }
 
@@ -13291,7 +13432,7 @@ class SeqObj
 class FUN_004efb10_shell : public SeqObj
 {
   public:
-    unsigned short FUN_004efb10();
+    unsigned short GetSaveSize_004efb10();
 };
 
 class Idle_008b2010 : public FUN_004efb10_shell
@@ -13303,7 +13444,7 @@ class Idle_008b2010 : public FUN_004efb10_shell
 class AnimationInterpolatorNode
 {
   public:
-    bool FUN_004f05a0();
+    bool NiTimeController_GetActive();
     unsigned int GetSequenceCount();
     Idle_008b2010* GetSequenceAt(unsigned int index);
 };
@@ -13311,12 +13452,13 @@ class AnimationInterpolatorNode
 int _BSStringLength(char const* string);
 
 // @fnv 0x0055fdb0
-unsigned short FUN_0055fdb0(AnimationInterpolatorNode* trans)
+// src: XBOX_PDB 0x0055fdb0
+unsigned short TESObjectREFR_GetControllerManagerSaveSize(AnimationInterpolatorNode* trans)
 {
     unsigned short result = 0;
     result += 2;
 
-    if (trans && trans->FUN_004f05a0())
+    if (trans && trans->NiTimeController_GetActive())
     {
         unsigned int index = 0;
         for (; index < trans->GetSequenceCount(); ++index)
@@ -13326,7 +13468,7 @@ unsigned short FUN_0055fdb0(AnimationInterpolatorNode* trans)
             {
                 result += 1;
                 result += _BSStringLength(item->GetName().operator char const*());
-                result += item->FUN_004efb10();
+                result += item->GetSaveSize_004efb10();
             }
         }
     }
@@ -13351,7 +13493,8 @@ extern void FNV2062_hkpEntity_FUN_00c9bff0_target();
 }  // namespace fnv_005609b0
 
 // @fnv 0x005609b0
-bool bhkRigidBody::FUN_005609b0()
+// src: XBOX_PDB 0x005609b0
+bool bhkRigidBody::IsActive_005609b0()
 {
     hkpEntity* pb = (hkpEntity*)((fnv_005609b0::NullableHavokObjectAccess*)this)->GetHavokObject();
     if (pb)
@@ -13447,7 +13590,7 @@ using ::BGSSaveGameBuffer;
 
 struct FUN_004228f0_Class
 {
-    char* FUN_004228f0();
+    char* ExtraDataList_GetLastFinishedSequence();
 };
 
 char* _UseSaveGameBlocks(NiRTTI* rtti, void* object);
@@ -13480,7 +13623,7 @@ void FUN_00563650_Class::TESObjectREFR_SaveAnimationBGS(BGSSaveFormBuffer* apSav
     }
 
     d = reinterpret_cast<NiObject*>(
-        reinterpret_cast<FUN_004228f0_Class*>(reinterpret_cast<XActor*>(this)->GetExtra())->FUN_004228f0());
+        reinterpret_cast<FUN_004228f0_Class*>(reinterpret_cast<XActor*>(this)->GetExtra())->ExtraDataList_GetLastFinishedSequence());
 
     apSaveGameBuffer->SaveGameString(reinterpret_cast<char const*>(d), 0);
     TESObjectREFR_SaveControllerManagerBGS(b, apSaveGameBuffer, -1.0f);
@@ -13511,7 +13654,7 @@ struct Idle_008b2010 : public SeqObj
 
 struct AnimationInterpolatorNode
 {
-    bool FUN_004f05a0();
+    bool NiTimeController_GetActive();
     unsigned int GetSequenceCount();
     Idle_008b2010* GetSequenceAt(int index);
 };
@@ -13533,9 +13676,9 @@ void TESObjectREFR_SaveControllerManagerBGS(AnimationInterpolatorNode* transCon,
         value = DAT_011c3c08;
 
     savedCount = 0;
-    count = buffer->FUN_00865f20();
+    count = buffer->StartVariableSizedValue();
 
-    if (transCon && transCon->FUN_004f05a0())
+    if (transCon && transCon->NiTimeController_GetActive())
     {
         for (unsigned int index = 0; index < transCon->GetSequenceCount(); ++index)
         {
@@ -13549,7 +13692,7 @@ void TESObjectREFR_SaveControllerManagerBGS(AnimationInterpolatorNode* transCon,
         }
     }
 
-    buffer->FUN_00865ff0(savedCount, count);
+    buffer->SaveVariableSizedValue_00865ff0(savedCount, count);
 }
 }  // namespace fnv_00563f30
 
@@ -13560,12 +13703,13 @@ extern void FNV2062_ProjectileType();
 
 struct FUN_00564820_Class : public BGSProjectile
 {
-    ENUM_FORM_ID FUN_00564820();
+    ENUM_FORM_ID TESObjectREFR_GetSavedFormType();
 };
 
 // Returns a form ID based on the object reference's form type, and for type 0x33 on the projectile's FUN_004fd4f0 value.
 // @fnv 0x00564820
-ENUM_FORM_ID FUN_00564820_Class::FUN_00564820()
+// src: XBOX_PDB 0x00564820
+ENUM_FORM_ID FUN_00564820_Class::TESObjectREFR_GetSavedFormType()
 {
     ENUM_FORM_ID eFormId = (ENUM_FORM_ID)0x3a;
     BGSProjectile* pprojectileForm;
@@ -13685,7 +13829,7 @@ struct TesobjectrefrOffset08View
 
 struct FUN_00588030_shell
 {
-    void FUN_00588030(TESObjectREFR* object);
+    void RemovePersistentRef(TESObjectREFR* object);
 };
 
 using ::TESWorldSpace;
@@ -13801,10 +13945,11 @@ struct RefPersistsStandin
     virtual void FUN_00565480_v50(int)
     {}
 
-    void FUN_00565480(bool abVal);
+    void TESObjectREFR_SetRefPersists(bool abVal);
 };
 
-void RefPersistsStandin::FUN_00565480(bool abVal)
+// src: XBOX_PDB 0x00565480
+void RefPersistsStandin::TESObjectREFR_SetRefPersists(bool abVal)
 {
     CellH* pcell;
     unsigned int iflags;
@@ -13837,7 +13982,7 @@ void RefPersistsStandin::FUN_00565480(bool abVal)
         {
             TESWorldSpace* pworld;
             pworld = static_cast<TESWorldSpace*>(pcell->GetParentWorldSpace());
-            ((FUN_00588030_shell*)pworld)->FUN_00588030(reinterpret_cast<TESObjectREFR*>(this));
+            ((FUN_00588030_shell*)pworld)->RemovePersistentRef(reinterpret_cast<TESObjectREFR*>(this));
             FUN_00565480_v50(1);
         }
     }
@@ -13859,7 +14004,7 @@ using ::TESActorBaseData;
 
 struct BeamEffect
 {
-    TESForm* FUN_00567790();
+    TESForm* TESObjectREFR_GetOwner();
 };
 
 unsigned int __fastcall _FNV_GetFormType(TESForm* form);
@@ -13977,14 +14122,15 @@ struct VirtualObject
 
 struct FUN_005678a0_Class
 {
-    bool FUN_005678a0();
+    bool TESObjectREFR_IsPartofEvilFaction();
 };
 
 // @fnv 0x005678a0
-bool FUN_005678a0_Class::FUN_005678a0()
+// src: XBOX_PDB 0x005678a0
+bool FUN_005678a0_Class::TESObjectREFR_IsPartofEvilFaction()
 {
     bool bHasResultObj;
-    TESForm* pownerform = reinterpret_cast<BeamEffect*>(this)->FUN_00567790();
+    TESForm* pownerform = reinterpret_cast<BeamEffect*>(this)->TESObjectREFR_GetOwner();
     bHasResultObj = 0;
 
     if (pownerform)
@@ -14162,11 +14308,12 @@ struct XActor
     {}
 
     void* GetExtra() const;
-    ExtraRadioData* FUN_00568e70();
+    ExtraRadioData* TESObjectREFR_AddTeleport();
 };
 
 // @fnv 0x00568e70
-ExtraRadioData* XActor::FUN_00568e70()
+// src: XBOX_PDB 0x00568e70
+ExtraRadioData* XActor::TESObjectREFR_AddTeleport()
 {
     ExtraRadioData* radioData = ((ExtraDataList*)this->GetExtra())->GetExtraRadioData();
 
@@ -14213,7 +14360,7 @@ struct FUN_00439f90_shell : public TESObjectREFR
 
 struct FUN_00421e40_shell
 {
-    void FUN_00421e40(TESObjectREFR* object);
+    void ExtraDataList_SetMultiBoundRef(TESObjectREFR* object);
 };
 
 struct XActor
@@ -14231,7 +14378,7 @@ void XActor::TESObjectREFR_SetMultiBoundRef(FUN_00439f90_shell* object)
     {
         if (this != reinterpret_cast<XActor*>(object))
         {
-            reinterpret_cast<FUN_00421e40_shell*>(GetExtra())->FUN_00421e40(object);
+            reinterpret_cast<FUN_00421e40_shell*>(GetExtra())->ExtraDataList_SetMultiBoundRef(object);
         }
     }
 }
@@ -14348,12 +14495,13 @@ using ::ExtraDataList;
 struct XActor
 {
     void* GetExtra() const;
-    void FUN_00573050(BGSBodyPart::LIMB_ENUM aeLimb, bool abRemoved);
+    void TESObjectREFR_SetLimbRemoved(BGSBodyPart::LIMB_ENUM aeLimb, bool abRemoved);
 };
 
 // Gets the ExtraDismemberedLimbs from the actor's extra data and, if present, marks the given limb as removed or not.
 // @fnv 0x00573050
-void XActor::FUN_00573050(BGSBodyPart::LIMB_ENUM aeLimb, bool abRemoved)
+// src: XBOX_PDB 0x00573050
+void XActor::TESObjectREFR_SetLimbRemoved(BGSBodyPart::LIMB_ENUM aeLimb, bool abRemoved)
 {
     ExtraDismemberedLimbs* pDismemberedLimbs = static_cast<ExtraDataList*>(GetExtra())->GetDismemberedLimbs();
 
@@ -14384,11 +14532,12 @@ class XActor
 struct FUN_00573110_shell : public XActor
 {
   public:
-    BGSBodyPart::LIMB_ENUM FUN_00573110();
+    BGSBodyPart::LIMB_ENUM TESObjectREFR_GetLastHitLimb();
 };
 
 // @fnv 0x00573110
-BGSBodyPart::LIMB_ENUM FUN_00573110_shell::FUN_00573110()
+// src: XBOX_PDB 0x00573110
+BGSBodyPart::LIMB_ENUM FUN_00573110_shell::TESObjectREFR_GetLastHitLimb()
 {
     ExtraDismemberedLimbs* pextra;
     BGSBodyPart::LIMB_ENUM elimb = (BGSBodyPart::LIMB_ENUM)-1;
@@ -14679,14 +14828,15 @@ struct TESObjectREFRVirtualBase
 
 struct FUN_00578870_Class : public TESObjectREFRVirtualBase
 {
-    void FUN_00578870(::BSStringT<char>& aOutMapName);
+    void TESObjectREFR_GetMapNameForLocation(::BSStringT<char>& aOutMapName);
 };
 
 extern char $SG3295[];
 
 // Resolves the reference's cell or worldspace and writes its full name into aOutMapName, falling back to a default string.
 // @fnv 0x00578870
-void FUN_00578870_Class::FUN_00578870(::BSStringT<char>& aOutMapName)
+// src: XBOX_PDB 0x00578870
+void FUN_00578870_Class::TESObjectREFR_GetMapNameForLocation(::BSStringT<char>& aOutMapName)
 {
     TESObjectCELL* pint;
 
@@ -14718,19 +14868,20 @@ void FUN_00578870_Class::FUN_00578870(::BSStringT<char>& aOutMapName)
 
 struct FUN_004ff070_Class
 {
-    void FUN_004ff070();
+    void BGSTalkingActivator_AddMobileObjectExtra();
 };
 
 struct FUN_00578950_Class
 {
     void* _FNV_GetObjectReference(void* object);
-    void FUN_00578950();
+    void TESObjectREFR_AddTalkingActivatorMobileObjectREFR();
 };
 
 // @fnv 0x00578950
-void FUN_00578950_Class::FUN_00578950()
+// src: XBOX_PDB 0x00578950
+void FUN_00578950_Class::TESObjectREFR_AddTalkingActivatorMobileObjectREFR()
 {
-    static_cast<FUN_004ff070_Class*>(_FNV_GetObjectReference(this))->FUN_004ff070();
+    static_cast<FUN_004ff070_Class*>(_FNV_GetObjectReference(this))->BGSTalkingActivator_AddMobileObjectExtra();
 }
 
 void _Deallocate(void*);
@@ -14804,7 +14955,7 @@ FUN_00413f90_vec* FUN_00413f90_cls::BGSPrimitive_GetColor(FUN_00413f90_vec* pVec
 
 struct HealthExtras
 {
-    float FUN_0041b6b0();
+    float ExtraDataList_GetObjectHealth();
 };
 struct HealthReference
 {
@@ -14925,7 +15076,7 @@ struct HealthReference
     virtual void vf114();
     virtual void vf115();
     virtual void* GetTarget();
-    HealthExtras* FUN_005d43c0();
+    HealthExtras* BSFile_GetDevice();
 };
 struct HealthEntry
 {
@@ -14940,18 +15091,19 @@ struct HealthHandler
 {
     int unk00;
     HealthTable* table;
-    HealthEntry* FUN_00476a40(unsigned);
-    bool FUN_00476f50(HealthReference*, bool);
+    HealthEntry* BGSDestructibleObjectForm_GetStage(unsigned);
+    bool BGSDestructibleObjectForm_UpdateCurrentDamageStage(HealthReference*, bool);
 };
 float __cdecl FUN_00476b20(float);
-void __cdecl FUN_00476ec0(void*, unsigned);
+void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(void*, unsigned);
 // Reads the reference's health value, maps it through the table to a value, and applies it to the target when nonzero or forced.
 // @fnv 0x00476f50
-bool HealthHandler::FUN_00476f50(HealthReference* pHealthRef, bool force)
+// src: XBOX_PDB 0x00476f50
+bool HealthHandler::BGSDestructibleObjectForm_UpdateCurrentDamageStage(HealthReference* pHealthRef, bool force)
 {
     if (!pHealthRef->GetTarget())
         return false;
-    float a = pHealthRef->FUN_005d43c0()->FUN_0041b6b0();
+    float a = pHealthRef->BSFile_GetDevice()->ExtraDataList_GetObjectHealth();
     unsigned b = 0;
     if (a == -1.0)
     {
@@ -14963,7 +15115,7 @@ bool HealthHandler::FUN_00476f50(HealthReference* pHealthRef, bool force)
         unsigned char c = (unsigned char)FUN_00476b20(a * 100.0 / table->scale);
         for (unsigned d = 0; d < table->count; ++d)
         {
-            HealthEntry* e = FUN_00476a40(d);
+            HealthEntry* e = BGSDestructibleObjectForm_GetStage(d);
             if (e->threshold >= c)
             {
                 if (e->value)
@@ -14975,7 +15127,7 @@ bool HealthHandler::FUN_00476f50(HealthReference* pHealthRef, bool force)
     }
     if (b > 0 || force)
     {
-        FUN_00476ec0(pHealthRef->GetTarget(), b);
+        BGSDestructibleObjectForm_UpdateDamageStageNodes(pHealthRef->GetTarget(), b);
         return true;
     }
     return false;
@@ -15138,7 +15290,7 @@ struct RefX
     int unk64;
     TESObjectCELL* GetParentCell();
     void SetLocationOnReference(const NiPoint3&);
-    void FUN_00575690(void*);
+    void TESObjectREFR_SetObjectReference(void*);
     void* GetAcousticSpace();
     void FUN_00567ad0(void*);
 };
@@ -15166,11 +15318,11 @@ RefX* TESObjectCELL::CreateLootBagAtRef(RefX* ref)
     if (!found)
     {
         NiPoint3 tmp;
-        FUN_0054d090(&pos, &tmp);
+        TESObjectCELL_DetermineCOCPlacement(&pos, &tmp);
     }
     RefX* newRef = new RefX;
     newRef->SetLocationOnReference(pos);
-    newRef->FUN_00575690(DAT_011c3f40);
+    newRef->TESObjectREFR_SetObjectReference(DAT_011c3f40);
     newRef->FUN_00567ad0(g_thePlayer->GetAcousticSpace());
     TESObjectCELL_FillLootBag(newRef);
     AddReference(newRef, false);
@@ -15346,11 +15498,12 @@ struct RefStub
     void Func572a50(int a);
     void Func57b520(int a);
     ExtraListStub* GetExtraList();
-    void FUN_0055ad20();
+    void TESObjectREFR_ClearData();
 };
 
 // @fnv 0x0055ad20
-void RefStub::FUN_0055ad20()
+// src: XBOX_PDB 0x0055ad20
+void RefStub::TESObjectREFR_ClearData()
 {
     if (!g_BGSSaveLoadGame || !g_BGSSaveLoadGame->IsLoading())
         Func56b0b0();
@@ -15394,7 +15547,7 @@ struct GroupForm
 class FUN_00485b60
 {
   public:
-    bool FUN_00485be0(unsigned int);
+    bool TESForm_FormIDMatchesWithoutIndex(unsigned int);
 
   public:
     virtual void v0();
@@ -15485,12 +15638,13 @@ class Owner55e
     int unk14;
     Holder18 sub18;
     bool Check5653d0();
-    bool FUN_0055e4d0(GroupForm* form, bool b1, bool b2);
+    bool TESObjectREFR_BelongsInGroup(GroupForm* form, bool b1, bool b2);
 };
 
 // Checks a group form against the holder list: for types 6/8/9 tests membership and flags, otherwise delegates to Handle when b1 is set.
 // @fnv 0x0055e4d0
-bool Owner55e::FUN_0055e4d0(GroupForm* form, bool bFlag1, bool bFlag2)
+// src: XBOX_PDB 0x0055e4d0
+bool Owner55e::TESObjectREFR_BelongsInGroup(GroupForm* form, bool bFlag1, bool bFlag2)
 {
     bool result = false;
     if (form && form->type == kGroupFormType)
@@ -15507,7 +15661,7 @@ bool Owner55e::FUN_0055e4d0(GroupForm* form, bool bFlag1, bool bFlag2)
         case 8:
         case 9: {
             bool found = false;
-            if (list->FUN_00485be0(form->unk08))
+            if (list->TESForm_FormIDMatchesWithoutIndex(form->unk08))
                 found = true;
             if (found)
             {
@@ -15558,12 +15712,13 @@ struct FUN_0055f5b0_Class
     int unk44;
     int unk48;
 
-    bool __thiscall FUN_0055f5b0();
+    bool __thiscall TESSaveLoadGame_GetRevertBefore();
 };
 
 // Returns true when unk48 is zero, otherwise false.
 // @fnv 0x0055f5b0
-bool __thiscall FUN_0055f5b0_Class::FUN_0055f5b0()
+// src: XBOX_PDB 0x0055f5b0
+bool __thiscall FUN_0055f5b0_Class::TESSaveLoadGame_GetRevertBefore()
 {
     return this->unk48 == 0 || this->unk48 == 0;
 }
@@ -15588,30 +15743,30 @@ struct Loc5604
 
 struct FUN_005604b0_cls
 {
-    void* FUN_0043fcd0();
-    void FUN_00484ce0(const void* a, int b);
+    void* TESObjectREFR_Get3D();
+    void TESForm_SaveGameDataOLD(const void* a, int b);
     void TESObjectREFR_SaveHavokDataTES(const Rec5604* p);
 };
 
 int bhkWorld_DoObjectRec(void* p, Loc5604* loc, void (*fn)());
-void FUN_00560a10();
+void TESObjectREFR_SaveHavokDataForCollisionObjectOld();
 
 // @fnv 0x005604b0
 // src: COMMUNITY 0x005604b0
 void FUN_005604b0_cls::TESObjectREFR_SaveHavokDataTES(const Rec5604* apRecord)
 {
-    void* obj = FUN_0043fcd0();
+    void* obj = TESObjectREFR_Get3D();
     if (obj != 0)
     {
         unsigned short sum;
         Loc5604 loc;
-        FUN_00484ce0(apRecord, 1);
+        TESForm_SaveGameDataOLD(apRecord, 1);
         sum = (unsigned short)(apRecord->w02 + apRecord->w04);
-        FUN_00484ce0(&sum, 2);
+        TESForm_SaveGameDataOLD(&sum, 2);
         loc.kind08 = 0x12;
         loc.flag04 = 1;
         loc.target0c = (void*)apRecord;
-        bhkWorld_DoObjectRec(obj, &loc, FUN_00560a10);
+        bhkWorld_DoObjectRec(obj, &loc, TESObjectREFR_SaveHavokDataForCollisionObjectOld);
     }
 }
 
@@ -15626,7 +15781,7 @@ struct FUN_00560e10_cls
     void* bhkRigidBody_GetAngularVelocity();
 };
 
-void* FUN_00458b20();
+void* hkVector4_getZero();
 
 // Looks up an Inner560 via Lookup and returns its Method result, or falls back to FUN_00458b20 when the lookup is null.
 // @fnv 0x00560e10
@@ -15634,7 +15789,7 @@ void* FUN_00458b20();
 void* FUN_00560e10_cls::bhkRigidBody_GetAngularVelocity()
 {
     Inner560* p = Lookup();
-    void* r = (p != 0) ? p->Method() : FUN_00458b20();
+    void* r = (p != 0) ? p->Method() : hkVector4_getZero();
     return r;
 }
 
@@ -15643,11 +15798,12 @@ class FUN_00560e50_cls
 {
   public:
     FUN_00560e50_cls* Helper();
-    void FUN_00560e50();
+    void hkpRigidBody_getAngularVelocity();
 };
 
 // @fnv 0x00560e50
-void FUN_00560e50_cls::FUN_00560e50()
+// src: XBOX_PDB 0x00560e50
+void FUN_00560e50_cls::hkpRigidBody_getAngularVelocity()
 {
     this->Helper()->Helper();
 }
@@ -15678,8 +15834,8 @@ struct CtrlX
 {
     void bhkRigidBody_SetNiPosition(NiPoint3* p);
     void bhkRigidBody_SetNiRotation(QuatX* q);
-    void FUN_005615d0(NiPoint3* p);
-    void FUN_00561630(NiPoint3* p);
+    void bhkRigidBody_SetLinearVelocity(NiPoint3* p);
+    void bhkRigidBody_SetAngularVelocity(NiPoint3* p);
     void bhkRigidBody_SetActive(bool b);
 };
 struct HolderX
@@ -15859,7 +16015,7 @@ struct RefX
     virtual void v0a8();
     virtual void v0ac();
     virtual void SetFlagsB0(int a, int b, int c);
-    WorldObjX* FUN_006fa820();
+    WorldObjX* bhkNiCollisionObject_GetWorldObject();
     void bhkNiCollisionObject_SetReset(bool b);
     AvObj* Get3D();
 };
@@ -15875,15 +16031,15 @@ struct InfoX
 struct SaveLoadX
 {
     unsigned char FUN_008df040();
-    void FUN_008579e0(void* buf, unsigned int size);
+    void TESSaveLoadGame_LoadGameDataOLD(void* buf, unsigned int size);
 };
 extern SaveLoadX* g_TESSaveLoadGame;
 extern RttiX DAT_011f9140;
 extern RttiX DAT_012681c0;
 extern NiPoint3 NiPoint3_ZERO;
-int FUN_00408b20(const char* a, const char* b);
-bool FUN_0043b300(const RttiX* rtti, AvObj* obj);
-CtrlX* FUN_00653270(const RttiX* rtti, WorldObjX* obj);
+int BSstrcmp(const char* a, const char* b);
+bool NiObject_IsKindOf(const RttiX* rtti, AvObj* obj);
+CtrlX* NiObject_DynamicCast(const RttiX* rtti, WorldObjX* obj);
 
 // @fnv 0x00561b40
 // src: COMMUNITY 0x00561b40
@@ -15892,20 +16048,20 @@ void TESObjectREFR_LoadHavokDataForCollisionObjectPreVersion81(RefX* ref, InfoX*
     HolderX* holder;
     WorldObjX* world;
     CtrlX* kCtrl;
-    world = ref->FUN_006fa820();
+    world = ref->bhkNiCollisionObject_GetWorldObject();
     ref->bhkNiCollisionObject_SetReset(false);
-    if (ref->Get3D() && ref->Get3D()->GetName() && !FUN_00408b20(ref->Get3D()->GetName(), "Arrow"))
+    if (ref->Get3D() && ref->Get3D()->GetName() && !BSstrcmp(ref->Get3D()->GetName(), "Arrow"))
         return;
     holder = info->unk10;
     if (holder->IsB100())
     {
-        if (FUN_0043b300(&DAT_011f9140, ref->Get3D()))
+        if (NiObject_IsKindOf(&DAT_011f9140, ref->Get3D()))
             return;
         ref->SetFlagsB0(1, 0, 0);
     }
     if (world)
     {
-        kCtrl = FUN_00653270(&DAT_012681c0, world);
+        kCtrl = NiObject_DynamicCast(&DAT_012681c0, world);
         if (kCtrl)
         {
             NiPoint3 pos4;
@@ -15917,8 +16073,8 @@ void TESObjectREFR_LoadHavokDataForCollisionObjectPreVersion81(RefX* ref, InfoX*
                 load3 = ref != info->unk0c;
             if (load3)
             {
-                g_TESSaveLoadGame->FUN_008579e0(&pos4, 0xc);
-                g_TESSaveLoadGame->FUN_008579e0(&rot2, 0x10);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&pos4, 0xc);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&rot2, 0x10);
                 kCtrl->bhkRigidBody_SetNiPosition(&pos4);
                 kCtrl->bhkRigidBody_SetNiRotation(&rot2);
             }
@@ -15932,16 +16088,16 @@ void TESObjectREFR_LoadHavokDataForCollisionObjectPreVersion81(RefX* ref, InfoX*
             }
             if (info->unk14 & 1)
             {
-                g_TESSaveLoadGame->FUN_008579e0(&vel2, 0xc);
-                g_TESSaveLoadGame->FUN_008579e0(&angVel6, 0xc);
-                kCtrl->FUN_005615d0(&vel2);
-                kCtrl->FUN_00561630(&angVel6);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&vel2, 0xc);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&angVel6, 0xc);
+                kCtrl->bhkRigidBody_SetLinearVelocity(&vel2);
+                kCtrl->bhkRigidBody_SetAngularVelocity(&angVel6);
                 kCtrl->bhkRigidBody_SetActive(true);
             }
             else
             {
-                kCtrl->FUN_005615d0(&NiPoint3_ZERO);
-                kCtrl->FUN_00561630(&NiPoint3_ZERO);
+                kCtrl->bhkRigidBody_SetLinearVelocity(&NiPoint3_ZERO);
+                kCtrl->bhkRigidBody_SetAngularVelocity(&NiPoint3_ZERO);
             }
         }
     }
@@ -15959,7 +16115,7 @@ struct ReferenceObject
 };
 struct SecondaryObject
 {
-    ReferenceObject* FUN_00587550(WorldPoint*);
+    ReferenceObject* GetCellFromWorldCoord(WorldPoint*);
 };
 struct SearchTable
 {
@@ -15967,7 +16123,7 @@ struct SearchTable
 };
 extern SearchTable* DAT_011dea10;
 void __cdecl FUN_00846190(void*, ReferenceObject**, SecondaryObject**);
-void __cdecl FUN_00573800(void*, ReferenceObject*, SecondaryObject*);
+void __cdecl TESObjectREFR_MoveRefToNewSpace(void*, ReferenceObject*, SecondaryObject*);
 
 struct WorldReference
 {
@@ -16050,15 +16206,16 @@ struct WorldReference
     virtual void v76();
     virtual void v77();
     virtual bool v78(WorldPoint*, WorldPoint*, void**, int);
-    bool FUN_005653d0();
-    void FUN_00575830(WorldPoint*);
-    void FUN_00575700(WorldPoint);
-    void FUN_00562020();
-    bool FUN_00561ef0(int);
+    bool TESObjectREFR_GetRefPersists_005653d0();
+    void TESObjectREFR_SetLocationOnReference(WorldPoint*);
+    void TESObjectREFR_SetAngleOnReference(WorldPoint);
+    void TESObjectREFR_Update3DPosition();
+    bool TESObjectREFR_MoveToEditorLocation(int);
 };
 
 // @fnv 0x00561ef0
-bool WorldReference::FUN_00561ef0(int flags)
+// src: XBOX_PDB 0x00561ef0
+bool WorldReference::TESObjectREFR_MoveToEditorLocation(int flags)
 {
     WorldPoint start;
     WorldPoint end;
@@ -16071,16 +16228,16 @@ bool WorldReference::FUN_00561ef0(int flags)
         SecondaryObject* secondary = 0;
         FUN_00846190(result, &object, &secondary);
         if (secondary)
-            object = secondary->FUN_00587550(&start);
-        if (FUN_005653d0() || (object && DAT_011dea10->FUN_004511e0(object, 0)))
+            object = secondary->GetCellFromWorldCoord(&start);
+        if (TESObjectREFR_GetRefPersists_005653d0() || (object && DAT_011dea10->FUN_004511e0(object, 0)))
         {
-            FUN_00575830(&start);
-            FUN_00575700(end);
+            TESObjectREFR_SetLocationOnReference(&start);
+            TESObjectREFR_SetAngleOnReference(end);
             if (object && object->FUN_00425fd0())
-                FUN_00573800(this, object, 0);
+                TESObjectREFR_MoveRefToNewSpace(this, object, 0);
             else
-                FUN_00573800(this, 0, secondary);
-            FUN_00562020();
+                TESObjectREFR_MoveRefToNewSpace(this, 0, secondary);
+            TESObjectREFR_Update3DPosition();
             return true;
         }
     }
@@ -16106,14 +16263,14 @@ struct CallbackDesc
     SettingsHolder* pOwner;
 };
 
-void* __cdecl FUN_004a8b00(void* p);
+void* __cdecl bhkNiCollisionObject_GetbhkNiCollisionObject(void* p);
 void __cdecl bhkWorld_DoObjectRec(void* p, CallbackDesc* pDesc, void (*pfn)());
 void TESObjectREFR_GatherHavokSaveDataForCollisionObject();
 
 struct FUN_00562d20_cls
 {
     int unk00;
-    void* FUN_0043fcd0();
+    void* TESObjectREFR_Get3D();
 
     void TESObjectREFR_GatherHavokSaveData(SettingsHolder* pHolder);
 };
@@ -16122,7 +16279,7 @@ struct FUN_00562d20_cls
 // src: COMMUNITY 0x00562d20
 void FUN_00562d20_cls::TESObjectREFR_GatherHavokSaveData(SettingsHolder* pSettings)
 {
-    void* pObj2 = FUN_0043fcd0();
+    void* pObj2 = TESObjectREFR_Get3D();
     if (pObj2 != 0)
     {
         CallbackDesc desc4;
@@ -16131,7 +16288,7 @@ void FUN_00562d20_cls::TESObjectREFR_GatherHavokSaveData(SettingsHolder* pSettin
         unsigned int bk2;
         pSettings->m_10 = this;
         pSettings->m_14 = pObj2;
-        pSettings->m_18 = FUN_004a8b00(pObj2);
+        pSettings->m_18 = bhkNiCollisionObject_GetbhkNiCollisionObject(pObj2);
         desc4.nValue = 0x12;
         desc4.bFlag = 1;
         desc4.pOwner = pSettings;
@@ -16187,16 +16344,16 @@ struct AVObjX
     void Update(UpdDataX& arData);
 };
 
-void __cdecl FUN_00c9b670(AVObjX*, const NiPt3X*, bool, float, int);
-void __cdecl FUN_00c6a350(AVObjX*, int, bool, bool, bool);
+void __cdecl bhkBlendController_DoKnockDown(AVObjX*, const NiPt3X*, bool, float, int);
+void __cdecl bhkWorld_SetMotion(AVObjX*, int, bool, bool, bool);
 void __cdecl bhkWorld_DoObjectRec(AVObjX*, CollisionObjectCountContext*,
                           void(__cdecl*)(NiCollisionObject*, CollisionObjectCountContext*));
-void __cdecl FUN_00563380(NiCollisionObject*, CollisionObjectCountContext*);
-void __cdecl FUN_00845cc0(const char*, ...);
+void __cdecl TESObjectREFR_LoadHavokDataForCollisionObject_00563380(NiCollisionObject*, CollisionObjectCountContext*);
+void __cdecl SaveGameWarning(const char*, ...);
 
 struct BooleanIntegerAccessor
 {
-    void FUN_00864980(bool* apOut, int aiUnk);
+    void LoadData(bool* apOut, int aiUnk);
     int FUN_00864a60();
 };
 
@@ -16215,7 +16372,7 @@ struct BoneCountData
 
 struct bhkCharController
 {
-    void FUN_00c7c150(bool);
+    void bhkRagdollController_DisableRagdollAnim(bool);
 };
 
 struct RefX
@@ -16410,20 +16567,21 @@ struct RefX
     AVObjX* Get3DSimple();
     unsigned int GetRefID();
     void TESObjectREFR_GatherHavokSaveData(BoneCountData* apData);
-    void FUN_00562ed0(BooleanIntegerAccessor* apSaveData);
+    void TESObjectREFR_LoadHavokData(BooleanIntegerAccessor* apSaveData);
 };
 
 
 // Loads Havok bone data for the reference's 3D, warns if the bone count differs from the saved count, otherwise applies collision and updates the 3D.
 // @fnv 0x00562ed0
-void RefX::FUN_00562ed0(BooleanIntegerAccessor* apSaveData)
+// src: XBOX_PDB 0x00562ed0
+void RefX::TESObjectREFR_LoadHavokData(BooleanIntegerAccessor* apSaveData)
 {
     bool bUnused4 = false;
     AVObjX* p3D = Get3DSimple();
     if (p3D)
     {
         bool bLoaded3 = false;
-        apSaveData->FUN_00864980(&bLoaded3, 1);
+        apSaveData->LoadData(&bLoaded3, 1);
         int iOriginal5 = apSaveData->FUN_00864a60();
         BoneCountData kDataX;
         kDataX.pSaveData = apSaveData;
@@ -16431,7 +16589,7 @@ void RefX::FUN_00562ed0(BooleanIntegerAccessor* apSaveData)
         int iCurrent = kDataX.iCount1 + kDataX.iCount2;
         if (iOriginal5 != iCurrent)
         {
-            FUN_00845cc0(
+            SaveGameWarning(
                 "HAVOK: Havok data bone count differs on reference %s %08X.  Original count: %i, Current count: %i.  This should only happen with art changes.",
                 GetName76(), GetRefID(), iOriginal5, iCurrent);
             ::Actor* pActor = 0;
@@ -16440,8 +16598,8 @@ void RefX::FUN_00562ed0(BooleanIntegerAccessor* apSaveData)
             if (pActor)
             {
                 if (((bhkCharController*)pActor->m_pRagdollController))
-                    ((bhkCharController*)pActor->m_pRagdollController)->FUN_00c7c150(true);
-                FUN_00c9b670(p3D, &NiPoint3_ZERO, true, 0.0f, 0);
+                    ((bhkCharController*)pActor->m_pRagdollController)->bhkRagdollController_DisableRagdollAnim(true);
+                bhkBlendController_DoKnockDown(p3D, &NiPoint3_ZERO, true, 0.0f, 0);
             }
             return;
         }
@@ -16454,19 +16612,19 @@ void RefX::FUN_00562ed0(BooleanIntegerAccessor* apSaveData)
         if (IsActor())
         {
             ::Actor* pActor = (::Actor*)this;
-            bool bKeep = pActor->FUN_00437bd0() || pActor->HasHealth(false) || pActor->GetIsDying() || pActor->GetHasKnockedState();
+            bool bKeep = pActor->Actor_IsUnConscious() || pActor->HasHealth(false) || pActor->GetIsDying() || pActor->GetHasKnockedState();
             if (!bKeep)
                 iModeA = 4;
         }
-        FUN_00c6a350(p3D, iModeA, true, false, false);
+        bhkWorld_SetMotion(p3D, iModeA, true, false, false);
         UpdDataX kUpdate(0.0f, false, false);
         p3D->Update(kUpdate);
-        bhkWorld_DoObjectRec(p3D, &kContext, FUN_00563380);
+        bhkWorld_DoObjectRec(p3D, &kContext, TESObjectREFR_LoadHavokDataForCollisionObject_00563380);
         p3D->Update(kUpdate);
     }
     else
     {
-        FUN_00845cc0("HAVOK: Cannot load Havok data for reference %s %08X because it has no 3D.", GetName76(),
+        SaveGameWarning("HAVOK: Cannot load Havok data for reference %s %08X because it has no 3D.", GetName76(),
                      GetRefID());
     }
 }
@@ -16520,7 +16678,7 @@ struct FNVActivationNode_00564b70
 };
 struct FUN_00564b70_Class : TESObjectREFR
 {
-    FNVActivationNode_00564b70* FUN_007af430();
+    FNVActivationNode_00564b70* BGSSaveFormBuffer_GetForm();
     bool TESObjectREFR_IsDangerous();
 };
 // Returns true if FUN_007af430() returns a non-null node whose HasState() is true.
@@ -16528,26 +16686,27 @@ struct FUN_00564b70_Class : TESObjectREFR
 // src: COMMUNITY 0x00564b70
 bool FUN_00564b70_Class::TESObjectREFR_IsDangerous()
 {
-    return FUN_007af430() != 0 && FUN_007af430()->HasState();
+    return BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->HasState();
 }
 
 struct FUN_00564c60_cls
 {
-    void FUN_00564c60(unsigned char flag);
+    void TESObjectREFR_SetDroppedRef(unsigned char flag);
     void FUN_00403550(int flags);
 };
 
-void* __fastcall FUN_007af430(FUN_00564c60_cls* self);
+void* __fastcall BGSSaveFormBuffer_GetForm(FUN_00564c60_cls* self);
 int __fastcall FUN_00401170(void* p);
 int __fastcall FUN_0044ddc0(FUN_00564c60_cls* self);
 
 // If the object's value is not 0x1c, sets or clears bit 0x100 in the flags returned by FUN_0044ddc0 and applies them via FUN_00403550.
 // @fnv 0x00564c60
-void FUN_00564c60_cls::FUN_00564c60(unsigned char abSet)
+// src: XBOX_PDB 0x00564c60
+void FUN_00564c60_cls::TESObjectREFR_SetDroppedRef(unsigned char abSet)
 {
-    if (FUN_007af430(this) != 0)
+    if (BGSSaveFormBuffer_GetForm(this) != 0)
     {
-        if (FUN_00401170(FUN_007af430(this)) != 0x1c)
+        if (FUN_00401170(BGSSaveFormBuffer_GetForm(this)) != 0x1c)
         {
             int v = FUN_0044ddc0(this);
             if (abSet != 0)
@@ -16567,13 +16726,13 @@ struct FlagExtra
 {
     int unk00, unk04, unk08, unk0c, unk10;
     FlagExtra();
-    unsigned FUN_0084e3a0();
+    unsigned GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void FUN_0041fd00(unsigned);
 };
 struct FlagList
 {
     FlagExtra* BaseExtraList_AddExtra(FlagExtra*);
-    void FUN_00410140(int);
+    void BaseExtraList_RemoveExtra_00410140(int);
 };
 struct RefFlags
 {
@@ -16597,7 +16756,7 @@ struct RefFlags
     virtual void v44();
     virtual void Changed(unsigned);
     FlagExtra* FUN_00527080(int);
-    FlagList* FUN_005d43c0();
+    FlagList* BSFile_GetDevice();
     void TESObjectREFR_SetIsInvisible(unsigned char);
 };
 // @fnv 0x005650d0
@@ -16607,18 +16766,18 @@ void RefFlags::TESObjectREFR_SetIsInvisible(unsigned char enabled)
     FlagExtra* extra = FUN_00527080(0x92);
     if (enabled == 1 && !extra)
     {
-        extra = FUN_005d43c0()->BaseExtraList_AddExtra(new FlagExtra);
+        extra = BSFile_GetDevice()->BaseExtraList_AddExtra(new FlagExtra);
     }
     if (extra)
     {
-        int flags = extra->FUN_0084e3a0();
+        int flags = extra->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         if (enabled)
             flags |= 8;
         else
             flags &= ~8;
         extra->FUN_0041fd00(flags);
         if (!flags)
-            FUN_005d43c0()->FUN_00410140(0x92);
+            BSFile_GetDevice()->BaseExtraList_RemoveExtra_00410140(0x92);
         Changed(0x80000000);
     }
 }
@@ -16656,11 +16815,12 @@ struct CalleeHost
 
 struct FUN_00567bd0_cls : public VSlotObj
 {
-    void FUN_00567bd0(unsigned int a1);
+    void TESObjectREFR_SetRank(unsigned int a1);
 };
 
 // @fnv 0x00567bd0
-void FUN_00567bd0_cls::FUN_00567bd0(unsigned int a1)
+// src: XBOX_PDB 0x00567bd0
+void FUN_00567bd0_cls::TESObjectREFR_SetRank(unsigned int a1)
 {
     ((CalleeHost*)((CalleeHost*)this)->CallA_005d43c0(a1))->CallA_004198a0();
     this->v48(0x40);
@@ -16682,9 +16842,9 @@ struct FUN_00568480_kind
 
 struct FUN_00568480_cls
 {
-    FUN_00568480_kind* FUN_007af430();
-    void FUN_00568020(unsigned int index, int flag);
-    void FUN_00568150(unsigned int index, int flag);
+    FUN_00568480_kind* BGSSaveFormBuffer_GetForm();
+    void TESObjectREFR_SetMarkerUsed(unsigned int index, int flag);
+    void TESObjectREFR_SetMarkerReserved(unsigned int index, int flag);
     void TESObjectREFR_FreeUpAllMarkers();
 };
 
@@ -16696,17 +16856,17 @@ void FUN_00568480_cls::TESObjectREFR_FreeUpAllMarkers()
     unsigned int i;
     FUN_00568480_kind* pKindObj;
 
-    if (FUN_007af430() != 0)
+    if (BGSSaveFormBuffer_GetForm() != 0)
     {
-        if (FUN_007af430()->Kind() == 0x27)
+        if (BGSSaveFormBuffer_GetForm()->Kind() == 0x27)
         {
-            pKindObj = FUN_007af430();
+            pKindObj = BGSSaveFormBuffer_GetForm();
             if (pKindObj != 0)
             {
                 for (i = 0; i < 0x1e; i++)
                 {
-                    FUN_00568020(i, 0);
-                    FUN_00568150(i, 0);
+                    TESObjectREFR_SetMarkerUsed(i, 0);
+                    TESObjectREFR_SetMarkerReserved(i, 0);
                 }
             }
         }
@@ -16806,7 +16966,7 @@ Ref5699* Ref5699::TESObjectREFR_GetMultiBoundRoom()
     return child;
 }
 
-void __fastcall FUN_0041e250(void* p);
+void __fastcall ExtraDataList_SetRandomTeleportMarker(void* p);
 
 struct FUN_00569b40_ref
 {
@@ -16826,23 +16986,23 @@ void FUN_00569b40_cls::TESObjectREFR_SetRandomTeleportMarker(TESObjectREFR* apRe
 {
     if (apRefr == 0 || reinterpret_cast<FUN_00569b40_ref*>(apRefr)->Test() != 0)
     {
-        FUN_0041e250(Find(apRefr));
+        ExtraDataList_SetRandomTeleportMarker(Find(apRefr));
     }
 }
 
 struct FUN_00569ba0_Ref
 {
-    bool __thiscall FUN_005653d0();
+    bool __thiscall TESObjectREFR_GetRefPersists_005653d0();
 };
 
 struct FUN_00569ba0_Extra
 {
-    void __thiscall FUN_0041e440();
+    void __thiscall ExtraDataList_SetLinkedRef();
 };
 
 struct FUN_00569ba0_Class
 {
-    FUN_00569ba0_Extra* __thiscall FUN_005d43c0(FUN_00569ba0_Ref* a1);
+    FUN_00569ba0_Extra* __thiscall BSFile_GetDevice(FUN_00569ba0_Ref* a1);
     void __thiscall TESObjectREFR_SetLinkedRef(FUN_00569ba0_Ref* a1);
 };
 
@@ -16851,9 +17011,9 @@ struct FUN_00569ba0_Class
 // src: COMMUNITY 0x00569ba0
 void FUN_00569ba0_Class::TESObjectREFR_SetLinkedRef(FUN_00569ba0_Ref* pRef)
 {
-    if (!pRef || pRef->FUN_005653d0())
+    if (!pRef || pRef->TESObjectREFR_GetRefPersists_005653d0())
     {
-        this->FUN_005d43c0(pRef)->FUN_0041e440();
+        this->BSFile_GetDevice(pRef)->ExtraDataList_SetLinkedRef();
     }
 }
 
@@ -16867,8 +17027,8 @@ struct TemporaryContext
 struct FUN_00569cb0_Class;
 struct NetworkStream
 {
-    bool FUN_0057c850(FUN_00569cb0_Class* obj, unsigned char* flag);
-    void FUN_005594e0(FUN_00569cb0_Class* obj, unsigned char flag);
+    bool NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(FUN_00569cb0_Class* obj, unsigned char* flag);
+    void BSMapBase_TESObjectREFR_bool_SetAt(FUN_00569cb0_Class* obj, unsigned char flag);
 };
 struct NodeEntry
 {
@@ -16882,31 +17042,32 @@ struct NodeCollection
 };
 struct FUN_00569cb0_Class
 {
-    FUN_00569cb0_Class* FUN_00569b80();
-    void FUN_00569be0(unsigned char flag);
-    NodeCollection* FUN_005d43c0();
-    void FUN_00569cb0(unsigned char flag, NetworkStream* stream);
+    FUN_00569cb0_Class* TESObjectREFR_GetLinkedRef();
+    void TESObjectREFR_DrawRefLink(unsigned char flag);
+    NodeCollection* BSFile_GetDevice();
+    void TESObjectREFR_RedrawRefLinks(unsigned char flag, NetworkStream* stream);
 };
 // @fnv 0x00569cb0
-void FUN_00569cb0_Class::FUN_00569cb0(unsigned char flag, NetworkStream* stream)
+// src: XBOX_PDB 0x00569cb0
+void FUN_00569cb0_Class::TESObjectREFR_RedrawRefLinks(unsigned char flag, NetworkStream* stream)
 {
     TemporaryContext context(0x25);
     unsigned char value;
     if (!stream)
         stream = (NetworkStream*)&context;
-    if (stream->FUN_0057c850(this, &value))
+    if (stream->NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_GetAt(this, &value))
         return;
-    stream->FUN_005594e0(this, value);
-    if (FUN_00569b80())
+    stream->BSMapBase_TESObjectREFR_bool_SetAt(this, value);
+    if (TESObjectREFR_GetLinkedRef())
     {
-        FUN_00569be0(flag);
-        FUN_00569b80()->FUN_00569cb0(flag, stream);
+        TESObjectREFR_DrawRefLink(flag);
+        TESObjectREFR_GetLinkedRef()->TESObjectREFR_RedrawRefLinks(flag, stream);
     }
-    NodeEntry* node = FUN_005d43c0()->ExtraDataList_GetLinkedRefChildren();
+    NodeEntry* node = BSFile_GetDevice()->ExtraDataList_GetLinkedRefChildren();
     while (node != 0 && !node->FUN_008256d0())
     {
-        (*node->FUN_006815c0())->FUN_00569be0(flag);
-        (*node->FUN_006815c0())->FUN_00569cb0(flag, stream);
+        (*node->FUN_006815c0())->TESObjectREFR_DrawRefLink(flag);
+        (*node->FUN_006815c0())->TESObjectREFR_RedrawRefLinks(flag, stream);
         node = node->FUN_00726070();
     }
     context.FUN_00438af0();
@@ -16914,15 +17075,15 @@ void FUN_00569cb0_Class::FUN_00569cb0(unsigned char flag, NetworkStream* stream)
 
 struct FUN_005653d0_class
 {
-    bool FUN_005653d0();
+    bool TESObjectREFR_GetRefPersists_005653d0();
 };
 struct FUN_00421430_class
 {
-    void FUN_00421430();
+    void ExtraDataList_SetMerchantContainer();
 };
 struct FUN_0056a9b0_shell : TESObjectREFR
 {
-    FUN_00421430_class* FUN_005d43c0(FUN_005653d0_class*);
+    FUN_00421430_class* BSFile_GetDevice(FUN_005653d0_class*);
     void TESObjectREFR_SetMerchantContainer(FUN_005653d0_class*);
 };
 // If target is null or its check returns true, gets the object from FUN_005d43c0 and calls FUN_00421430 on it.
@@ -16930,9 +17091,9 @@ struct FUN_0056a9b0_shell : TESObjectREFR
 // src: COMMUNITY 0x0056a9b0
 void FUN_0056a9b0_shell::TESObjectREFR_SetMerchantContainer(FUN_005653d0_class* target)
 {
-    if (!target || target->FUN_005653d0())
+    if (!target || target->TESObjectREFR_GetRefPersists_005653d0())
     {
-        FUN_005d43c0(target)->FUN_00421430();
+        BSFile_GetDevice(target)->ExtraDataList_SetMerchantContainer();
     }
 }
 
@@ -16941,8 +17102,8 @@ class B56ACB0Ref;
 class B56ACB0ExtraList
 {
   public:
-    void FUN_0041e000(B56ACB0Ref* pkRef);
-    void FUN_0041de40(B56ACB0Ref* pkRef);
+    void ExtraDataList_AddDroppedItem(B56ACB0Ref* pkRef);
+    void ExtraDataList_SetItemDropper(B56ACB0Ref* pkRef);
 };
 
 class B56ACB0Ref
@@ -17038,19 +17199,20 @@ class B56ACB0Ref
     virtual void VFunc15C();
     virtual bool IsDeleted();
 
-    bool FUN_005653d0();
+    bool TESObjectREFR_GetRefPersists_005653d0();
     B56ACB0ExtraList* GetExtraData();
 };
 
 extern B56ACB0Ref* g_pkB56ACB0Player;
 
 // @fnv 0x0056acb0
-void __cdecl FUN_0056acb0(B56ACB0Ref* pkCurrentObject, B56ACB0Ref* pkSecond)
+// src: XBOX_PDB 0x0056acb0
+void __cdecl TESObjectREFR_SetDroppedItemData(B56ACB0Ref* pkCurrentObject, B56ACB0Ref* pkSecond)
 {
-    if (pkSecond && pkCurrentObject && pkCurrentObject != g_pkB56ACB0Player && !pkSecond->FUN_005653d0() && !pkSecond->IsDeleted())
+    if (pkSecond && pkCurrentObject && pkCurrentObject != g_pkB56ACB0Player && !pkSecond->TESObjectREFR_GetRefPersists_005653d0() && !pkSecond->IsDeleted())
     {
-        pkCurrentObject->GetExtraData()->FUN_0041e000(pkSecond);
-        pkSecond->GetExtraData()->FUN_0041de40(pkCurrentObject);
+        pkCurrentObject->GetExtraData()->ExtraDataList_AddDroppedItem(pkSecond);
+        pkSecond->GetExtraData()->ExtraDataList_SetItemDropper(pkCurrentObject);
         pkSecond->NotifyFormIDChanged(0x80000000);
     }
 }
@@ -17103,12 +17265,13 @@ struct Arg56d2c0
 // Owner class of FUN_0056d2c0.
 struct FUN_0056d2c0_cls
 {
-    unsigned char FUN_0056d2c0(Arg56d2c0* pArg);
+    unsigned char bhkWorld_Add(Arg56d2c0* pArg);
 };
 
 // Returns the result of pArg's virtual v39 call with this, or 0 when pArg is null.
 // @fnv 0x0056d2c0
-unsigned char FUN_0056d2c0_cls::FUN_0056d2c0(Arg56d2c0* pArg)
+// src: XBOX_PDB 0x0056d2c0
+unsigned char FUN_0056d2c0_cls::bhkWorld_Add(Arg56d2c0* pArg)
 {
     return pArg ? pArg->v39(this) : 0;
 }
@@ -17282,15 +17445,16 @@ struct FUN_0056e860_cls
     int m_08;
     int m_0c;
     FUN_0056e860_sub m_sub;
-    void FUN_0056e8d0();
-    FUN_0056e860_cls* FUN_0056e860();
+    void hkConvexShapeCinfo_hkConvexShapeCinfo();
+    FUN_0056e860_cls* hkBoxShapeCinfo_hkBoxShapeCinfo();
 };
 
 // Calls FUN_0056e8d0, then initialises m_sub and sets all its values to 1.0, returning this.
 // @fnv 0x0056e860
-FUN_0056e860_cls* FUN_0056e860_cls::FUN_0056e860()
+// src: XBOX_PDB 0x0056e860
+FUN_0056e860_cls* FUN_0056e860_cls::hkBoxShapeCinfo_hkBoxShapeCinfo()
 {
-    FUN_0056e8d0();
+    hkConvexShapeCinfo_hkConvexShapeCinfo();
     m_sub.Init();
     m_sub.SetAll(1.0f);
     return this;
@@ -17320,9 +17484,9 @@ FUN_0056e920_cls* FUN_0056e920_cls::FUN_0056e920(unsigned int acFlags)
 
 struct ActorController
 {
-    void FUN_00498910(int mode, int flags);
-    void FUN_00496080(int mode, float amount);
-    struct FloatController* FUN_00496940(float amount);
+    void Animation_SpecialIdleFree(int mode, int flags);
+    void Animation_ClearGroup(int mode, float amount);
+    struct FloatController* GetControllerManager_00496940(float amount);
     void* FUN_005585e0();
     void Animation_ClearBlendInterps();
 };
@@ -17330,7 +17494,7 @@ struct FloatController
 {
     void FUN_0048fef0();
 };
-void __cdecl FUN_00499160(void* value);
+void __cdecl Animation_ClearControllersInterpolators(void* value);
 
 struct FUN_00571560_Class
 {
@@ -17465,16 +17629,16 @@ void FUN_00571560_Class::TESObjectREFR_ClearInterpolators()
     ActorController* controller = QueryActor();
     if (controller != 0)
     {
-        controller->FUN_00498910(1, 0);
-        controller->FUN_00496080(20, 0.0f);
-        controller->FUN_00496940(0.0f)->FUN_0048fef0();
-        FUN_00499160(controller->FUN_005585e0());
+        controller->Animation_SpecialIdleFree(1, 0);
+        controller->Animation_ClearGroup(20, 0.0f);
+        controller->GetControllerManager_00496940(0.0f)->FUN_0048fef0();
+        Animation_ClearControllersInterpolators(controller->FUN_005585e0());
         controller->Animation_ClearBlendInterps();
     }
 }
 
 using ::TESContainer;
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR* reference);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR* reference);
 struct SelectedObject
 {
 };
@@ -17482,7 +17646,7 @@ struct ObjectProvider
 {
 };
 extern "C" ObjectProvider* DAT_011c3f2c;
-extern "C" SelectedObject* __fastcall FUN_00740960(ObjectProvider* provider);
+extern "C" SelectedObject* __fastcall TESDataHandler_GetBarterContainer(ObjectProvider* provider);
 extern "C" void* __fastcall InventoryChanges_StartOEIFastInventoryIteration(SelectedObject* selected);
 extern "C" SelectedObject* __cdecl FUN_004bf220(TESObjectREFR* reference);
 struct FUN_00575510_shell : TESObjectREFR
@@ -17496,14 +17660,14 @@ void FUN_00575510_shell::TESObjectREFR_StartInventoryIter(bool useProvider, void
 {
     TESContainer* container;
     SelectedObject* resolvedSelection = 0;
-    container = FUN_0055d310(this);
+    container = TESObjectREFR_HasContainer(this);
     *selectedObject = 0;
     *relatedObject = 0;
     if (container)
     {
         if (useProvider)
         {
-            *selectedObject = FUN_00740960(DAT_011c3f2c);
+            *selectedObject = TESDataHandler_GetBarterContainer(DAT_011c3f2c);
         }
         else
         {
@@ -17523,7 +17687,7 @@ void NiNode_SetWireframe(TESObjectREFR* refr)
     if (refr)
     {
         BSShaderNoLightingProperty* node = new BSShaderNoLightingProperty();
-        node->FUN_00441130(0x30, 1);
+        node->BSShaderProperty_SetFlag(0x30, 1);
         ((NiAVObject*)refr)->AttachProperty(node);
         FUN_00b57e30(refr, 0, 0);
     }
@@ -17535,9 +17699,9 @@ struct NodeView
     virtual void v1();
     virtual void v2();
     virtual NodeView* AsNode();
-    unsigned int FUN_009ee040();
+    unsigned int DialoguePackage_GetActorStartedConversation();
     void FUN_00450f90(bool);
-    bool FUN_00456610();
+    bool GetAppCulled_00456610();
     unsigned int FUN_0043b480();
     NodeView* FUN_0043b4a0(unsigned int);
 };
@@ -17552,30 +17716,31 @@ struct HandlerView
 };
 extern HandlerView* g_dataHandler;
 extern unsigned int DAT_01202de8;
-bool FUN_0043b300(const void*, NodeView*);
+bool NiObject_IsKindOf(const void*, NodeView*);
 struct EffectsView
 {
-    void FUN_00c505c0(void*);
+    void BSParticleSystemManager_AddEmitter(void*);
 };
-EffectsView* FUN_0045a190();
+EffectsView* Main_GetMasterParticleSystemManager();
 // @fnv 0x00578060
-bool FUN_00578060(NodeView* node)
+// src: XBOX_PDB 0x00578060
+bool TESObjectREFR_AddMasterParticleAddonNodes(NodeView* node)
 {
     if (!node)
         return false;
     bool found = false;
-    if (FUN_0043b300(&DAT_01202de8, node))
+    if (NiObject_IsKindOf(&DAT_01202de8, node))
     {
         NodeView* addon = node;
-        AddonView* geometry = g_dataHandler->FUN_004617e0(addon->FUN_009ee040());
+        AddonView* geometry = g_dataHandler->FUN_004617e0(addon->DialoguePackage_GetActorStartedConversation());
         if (geometry && geometry->FUN_00448bf0())
         {
             addon->FUN_00450f90(false);
-            FUN_0045a190()->FUN_00c505c0(geometry->FUN_0059e300(addon));
+            Main_GetMasterParticleSystemManager()->BSParticleSystemManager_AddEmitter(geometry->FUN_0059e300(addon));
             found = true;
         }
     }
-    if (node->FUN_00456610())
+    if (node->GetAppCulled_00456610())
         return found;
     for (unsigned int index = 0; index < node->FUN_0043b480(); index++)
     {
@@ -17584,7 +17749,7 @@ bool FUN_00578060(NodeView* node)
         {
             NodeView* child = object->AsNode();
             if (child)
-                found |= FUN_00578060(child);
+                found |= TESObjectREFR_AddMasterParticleAddonNodes(child);
         }
     }
     return found;
@@ -17596,7 +17761,7 @@ extern NiRTTI DAT_01202de8;
 
 struct FUN_00453470_shell
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 
 class _FakeNiNode
@@ -17610,20 +17775,21 @@ class _FakeNiNode
     _FakeNiNode* FUN_0043b4a0(unsigned int index);
 };
 
-bool __cdecl FUN_0043b300(NiRTTI const* rtti, _FakeNiNode* obj);
+bool __cdecl NiObject_IsKindOf(NiRTTI const* rtti, _FakeNiNode* obj);
 
 // Recursively checks whether a1 or any descendant is of the RTTI type and passes FUN_00453470, returning true on the first match.
 // @fnv 0x00578400
-bool __cdecl FUN_00578400(_FakeNiNode* pNode)
+// src: XBOX_PDB 0x00578400
+bool __cdecl TESObjectREFR_HasAddonNodes(_FakeNiNode* pNode)
 {
     if (pNode == 0)
     {
         return false;
     }
-    if (FUN_0043b300(&DAT_01202de8, pNode))
+    if (NiObject_IsKindOf(&DAT_01202de8, pNode))
     {
         _FakeNiNode* node = pNode;
-        if (((FUN_00453470_shell*)pNode)->FUN_00453470())
+        if (((FUN_00453470_shell*)pNode)->NiNode_GetChildCount())
         {
             return true;
         }
@@ -17634,7 +17800,7 @@ bool __cdecl FUN_00578400(_FakeNiNode* pNode)
         if (child)
         {
             _FakeNiNode* sub = child->unk0C();
-            if (sub && FUN_00578400(sub))
+            if (sub && TESObjectREFR_HasAddonNodes(sub))
             {
                 return true;
             }
@@ -17669,13 +17835,14 @@ struct FUN_00578790_node
 struct FUN_00578790_cls
 {
     FUN_00578790_node* GetOwned();
-    unsigned char FUN_00578790(FUN_00578790_node* param);
+    unsigned char TESObjectREFR_IsOwnerEvil(FUN_00578790_node* param);
 };
 
 int FUN_0047e040_fn(float f);
 
 // @fnv 0x00578790
-unsigned char FUN_00578790_cls::FUN_00578790(FUN_00578790_node* pNode)
+// src: XBOX_PDB 0x00578790
+unsigned char FUN_00578790_cls::TESObjectREFR_IsOwnerEvil(FUN_00578790_node* pNode)
 {
     unsigned char result2 = 0;
     FUN_00578790_node* p4 = 0;
@@ -17739,15 +17906,15 @@ int __fastcall GetReferenceExtraValue(TESObjectREFR* pThis)
 
 struct AnimationAction
 {
-    void FUN_00475b20();
+    void BGSDestructibleObjectForm_DamageObject();
 };
-AnimationAction* __cdecl FUN_00475400(unsigned int action);
+AnimationAction* __cdecl BGSDestructibleObjectForm_GetDestructionForm(unsigned int action);
 
 struct ActorActions
 {
-    bool FUN_00452370();
+    bool TESForm_GetDestructible();
     bool FUN_00477ba0();
-    unsigned int FUN_007af430(ActorActions* actor, float amount, bool repeat);
+    unsigned int BGSSaveFormBuffer_GetForm(ActorActions* actor, float amount, bool repeat);
     void TESObjectREFR_DamageObject(float amount, bool repeat);
 };
 
@@ -17755,11 +17922,11 @@ struct ActorActions
 // src: COMMUNITY 0x00579220
 void ActorActions::TESObjectREFR_DamageObject(float amount, bool repeat)
 {
-    if (FUN_00452370())
+    if (TESForm_GetDestructible())
     {
         if (!FUN_00477ba0() || repeat)
         {
-            FUN_00475400(FUN_007af430(this, amount, repeat))->FUN_00475b20();
+            BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm(this, amount, repeat))->BGSDestructibleObjectForm_DamageObject();
         }
     }
 }
@@ -17792,7 +17959,7 @@ FUN_0057a8d0::~FUN_0057a8d0()
 
 struct AttachedResource
 {
-    unsigned int FUN_009ad610();
+    unsigned int QUserData();
 };
 struct InterfaceObject
 {
@@ -17827,17 +17994,18 @@ struct FUN_0057aa90_Class
     ResourceHandle resource1C;
     void* unk20;
     unsigned char enabled24;
-    void FUN_0057aa90();
+    void CheckWithinMultiBoundTask_PostProcess();
 };
 // @fnv 0x0057aa90
-void FUN_0057aa90_Class::FUN_0057aa90()
+// src: XBOX_PDB 0x0057aa90
+void FUN_0057aa90_Class::CheckWithinMultiBoundTask_PostProcess()
 {
     if (enabled24)
     {
         unsigned int index;
         AttachedResource* candidate;
         candidate = resource1C.FUN_00559450() ? resource1C.FUN_00559450()->getResource() : 0;
-        index = candidate ? candidate->FUN_009ad610() : 0;
+        index = candidate ? candidate->QUserData() : 0;
         if (index && owner18->FUN_008d6f30())
         {
             owner18->FUN_008d6f30();
@@ -18058,16 +18226,16 @@ struct FUN_0057b0d0_cls
     virtual bool v64();
     char unk04[0x60];
     FUN_0057b0d0_S* m64;
-    void* FUN_005d43c0(int a, unsigned char b);
-    float FUN_0057b0a0();
+    void* BSFile_GetDevice(int a, unsigned char b);
+    float TESObjectREFR_GetRelevantWaterHeight();
     void TESObjectREFR_SetInZone(int a, unsigned char b);
 };
 FUN_0057b0d0_X* __fastcall ExtraDataList_SetInWaterZone(void* p);
 void* __fastcall FUN_008d6f30(void* p);
 bool __fastcall FUN_004518e0x(void* p);
-float __fastcall FUN_005471e0(void* p);
+float __fastcall TESObjectCELL_GetWaterHeight(void* p);
 void* __fastcall FUN_009306d0(void* p);
-void __fastcall FUN_0057b1d0(void* pThis, float afHeight);
+void __fastcall bhkCharacterController_SetWaterHeight(void* pThis, float afHeight);
 extern float const DAT_01015f5c;
 
 // @fnv 0x0057b0d0
@@ -18077,14 +18245,14 @@ void FUN_0057b0d0_cls::TESObjectREFR_SetInZone(int aiArg, unsigned char b)
     void* r;
     if (m64 != 0)
     {
-        m64->u0 = ExtraDataList_SetInWaterZone(FUN_005d43c0(aiArg, b));
+        m64->u0 = ExtraDataList_SetInWaterZone(BSFile_GetDevice(aiArg, b));
         if (m64->u0 != 0)
         {
             m64->f8 = m64->u0->v125()->f8;
         }
         else if (FUN_008d6f30(this) != 0 && FUN_004518e0x(FUN_008d6f30(this)) != 0)
         {
-            m64->f8 = FUN_005471e0(FUN_008d6f30(this));
+            m64->f8 = TESObjectCELL_GetWaterHeight(FUN_008d6f30(this));
         }
         else
         {
@@ -18097,7 +18265,7 @@ void FUN_0057b0d0_cls::TESObjectREFR_SetInZone(int aiArg, unsigned char b)
         r = FUN_009306d0(p0);
         if (r != 0)
         {
-            FUN_0057b1d0(r, FUN_0057b0a0());
+            bhkCharacterController_SetWaterHeight(r, TESObjectREFR_GetRelevantWaterHeight());
         }
     }
 }
@@ -18137,11 +18305,12 @@ struct B200Owner
     int unk60;
     B200List* m_pkList;
 
-    bool FUN_0057b200();
+    bool TESObjectREFR_QUnderwater();
 };
 
 // @fnv 0x0057b200
-bool B200Owner::FUN_0057b200()
+// src: XBOX_PDB 0x0057b200
+bool B200Owner::TESObjectREFR_QUnderwater()
 {
     return m_pkList ? m_pkList->m_iArrayLength > 0 : false;
 }
@@ -18156,17 +18325,18 @@ struct Prefix_0057b750
 struct SearchBase_0057b750
 {
     int unk10;
-    SearchBase_0057b750* FUN_0057c400(int key);
+    SearchBase_0057b750* bhkTTNode_TESObjectREFR_GetEntry(int key);
 };
 struct FUN_0057b750_owner : Prefix_0057b750, SearchBase_0057b750
 {
-    FUN_0057b750_owner* FUN_0057b750(int key);
+    FUN_0057b750_owner* TargetEntry_GetTargetEntry(int key);
 };
 // Looks up the entry for key via the base search and returns it cast to this owner type.
 // @fnv 0x0057b750
-FUN_0057b750_owner* FUN_0057b750_owner::FUN_0057b750(int key)
+// src: XBOX_PDB 0x0057b750
+FUN_0057b750_owner* FUN_0057b750_owner::TargetEntry_GetTargetEntry(int key)
 {
-    return static_cast<FUN_0057b750_owner*>(SearchBase_0057b750::FUN_0057c400(key));
+    return static_cast<FUN_0057b750_owner*>(SearchBase_0057b750::bhkTTNode_TESObjectREFR_GetEntry(key));
 }
 
 namespace fnv_006751a0 {
@@ -18692,7 +18862,7 @@ struct Pkg
 {
     PkgLoc* GetLocation();
     int GetPackType();
-    Cell* FUN_006751a0(Ref* ref);
+    Cell* TESPackage_GetSecondLocationCell(Ref* ref);
 };
 
 struct PkgSub : Pkg
@@ -18741,7 +18911,8 @@ struct PkgSub : Pkg
 
 // Resolves the cell for this package's location: by location type (direct cell, location ref, actor cell, linked ref, target), falling back to the ref's cell.
 // @fnv 0x006751a0
-Cell* Pkg::FUN_006751a0(Ref* ref)
+// src: XBOX_PDB 0x006751a0
+Cell* Pkg::TESPackage_GetSecondLocationCell(Ref* ref)
 {
     Cell* cell = 0;
     PkgLoc* loc = GetLocation();
@@ -18808,21 +18979,21 @@ struct XBSX
 };
 struct XNode
 {
-    void FUN_00440460(const XPos*);
-    void FUN_0043fa80(const XM3&);
+    void NiAVObject_SetTranslate(const XPos*);
+    void SetRotate_0043fa80(const XM3&);
     XExtra* GetExtraData(const NiFixedString&);
-    void FUN_0056c7d0(void*);
-    void FUN_00440490(float);
+    void BSFadeNode_SetUserData(void*);
+    void NiAVObject_SetScale(float);
 };
 struct XPlayer
 {
     bool FUN_0050d4a0();
 };
 struct XTile;
-XNode* __cdecl FUN_0081e440(XTile*);
-void __cdecl FUN_00c6bd00(XNode*, bool);
-void __cdecl FUN_00577e20(XNode*);
-const NiFixedString& __cdecl FUN_00448a80();
+XNode* __cdecl MagicProjectile_Clone3D(XTile*);
+void __cdecl bhkNiCollisionObject_ResetSim(XNode*, bool);
+void __cdecl TESObjectREFR_AddAddonNodes(XNode*);
+const NiFixedString& __cdecl BSXFlags_Tag();
 struct XRef;
 
 struct XRef
@@ -18956,44 +19127,45 @@ struct XRef
 
     bool IsDeleted();
     bool GetDisabled();
-    XTile* FUN_004fd400();
-    XPlayer* FUN_007af430();
+    XTile* GetAVEffect();
+    XPlayer* BGSSaveFormBuffer_GetForm();
     void FUN_00693ef0(bool);
-    void FUN_00570f70(XNode*);
-    bool FUN_00448a20();
+    void TESObjectREFR_Set3DSimple(XNode*);
+    bool TESForm_GetFireOff();
     void TESObjectREFR_InitAnimation();
     float GetScale();
     XM3 TESObjectREFR_GetOrientation();
-    XNode* FUN_0081e570(int);
+    XNode* MagicProjectile_Load3D(int);
 };
 
 // @fnv 0x0081e570
-XNode* XRef::FUN_0081e570(int unused)
+// src: XBOX_PDB 0x0081e570
+XNode* XRef::MagicProjectile_Load3D(int unused)
 {
     XNode* node = 0;
     if (IsDeleted() || GetDisabled())
         return 0;
     if (!Get3D_116())
     {
-        node = FUN_0081e440(FUN_004fd400());
+        node = MagicProjectile_Clone3D(GetAVEffect());
         if (node)
         {
-            if (FUN_007af430()->FUN_0050d4a0())
+            if (BGSSaveFormBuffer_GetForm()->FUN_0050d4a0())
                 FUN_00693ef0(true);
-            FUN_00570f70(node);
-            node->FUN_00440460(GetPos_125());
-            node->FUN_0043fa80(TESObjectREFR_GetOrientation());
-            FUN_00c6bd00(node, true);
-            XExtra* extra = node->GetExtraData(FUN_00448a80());
+            TESObjectREFR_Set3DSimple(node);
+            node->NiAVObject_SetTranslate(GetPos_125());
+            node->SetRotate_0043fa80(TESObjectREFR_GetOrientation());
+            bhkNiCollisionObject_ResetSim(node, true);
+            XExtra* extra = node->GetExtraData(BSXFlags_Tag());
             if (extra)
             {
                 XBSX* bsx = (XBSX*)extra;
-                if (bsx->GetAddon() && !FUN_00448a20())
-                    FUN_00577e20(node);
+                if (bsx->GetAddon() && !TESForm_GetFireOff())
+                    TESObjectREFR_AddAddonNodes(node);
             }
-            node->FUN_0056c7d0(this);
+            node->BSFadeNode_SetUserData(this);
             TESObjectREFR_InitAnimation();
-            node->FUN_00440490(GetScale());
+            node->NiAVObject_SetScale(GetScale());
         }
     }
     return node;
@@ -19539,7 +19711,7 @@ struct Ptr9
 };
 struct Ref9
 {
-    void FUN_0087e100(int a);
+    void NiAVObject_SetShadowReceiver(int a);
 };
 struct Glob9
 {
@@ -19551,16 +19723,17 @@ struct Self9
     char pad[0x68];
     Holder9* m_68;
     Ptr9* FUN_004181e0();
-    Ref9* FUN_009335b0(unsigned char a);
-    bool FUN_008b7b70();
-    Ref9* FUN_0087e060(unsigned char flag);
-    void FUN_008b7360(bool a, bool b);
+    Ref9* MobileObject_Load3D(unsigned char a);
+    bool Actor_IsCrippled();
+    Ref9* Actor_Load3D(unsigned char flag);
+    void Actor_QueueReplacementLocomotion(bool a, bool b);
 };
 
 // @fnv 0x0087e060
-Ref9* Self9::FUN_0087e060(unsigned char flag)
+// src: XBOX_PDB 0x0087e060
+Ref9* Self9::Actor_Load3D(unsigned char flag)
 {
-    Ref9* r = this->FUN_009335b0(flag);
+    Ref9* r = this->MobileObject_Load3D(flag);
     if (r)
     {
         if (this->m_68)
@@ -19568,9 +19741,9 @@ Ref9* Self9::FUN_0087e060(unsigned char flag)
             this->m_68->s434(r, this->FUN_004181e0()->s96());
         }
         if (!*g_b9490_glob.FUN_00408d60())
-            r->FUN_0087e100(0);
-        if (this->FUN_008b7b70())
-            this->FUN_008b7360(true, false);
+            r->NiAVObject_SetShadowReceiver(0);
+        if (this->Actor_IsCrippled())
+            this->Actor_QueueReplacementLocomotion(true, false);
     }
     return r;
 }
@@ -19708,11 +19881,12 @@ struct Self
     virtual void v115();
     virtual Node* v116();
     int Actor_CheckHighDetail();
-    void FUN_00936f50(bool arg);
+    void MobileObject_HandleTextureUpgrade(bool arg);
 };
 
 // @fnv 0x00936f50
-void Self::FUN_00936f50(bool arg)
+// src: XBOX_PDB 0x00936f50
+void Self::MobileObject_HandleTextureUpgrade(bool arg)
 {
     Node* p = v116();
     if (p != 0)
@@ -20110,7 +20284,7 @@ struct FUN_0055a430;
 typedef FUN_0055a430 Cls;
 struct Obj40
 {
-    void FUN_0054ca90(Cls*);
+    void TESObjectCELL_RemoveReference(Cls*);
 };
 struct Obj905
 {
@@ -20439,7 +20613,7 @@ struct N20
 };
 struct D38
 {
-    void FUN_0056aa10(int);
+    void TESObjectREFR_SetEnableStateParent(int);
 };
 struct N38
 {
@@ -20483,24 +20657,24 @@ struct N40
 };
 struct EL
 {
-    Cls* FUN_0041de00();
+    Cls* ExtraDataList_GetItemDropper();
     Cls* ExtraDataList_GetAshPileRef();
-    N30* FUN_0041df90();
+    N30* ExtraDataList_GetDroppedItemList();
     N18* ExtraDataList_GetLinkedRefChildren();
     N1c* ExtraDataList_GetActivateParentList();
     N1c* ExtraDataList_GetActivateRefChildren();
     N40* ExtraDataList_GetExtraReflectorRefs();
-    void FUN_0041dda0(Cls*);
-    void FUN_0041e0d0(Cls*);
-    void FUN_0041e340(int);
+    void ExtraDataList_RemoveEnableStateChild(Cls*);
+    void ExtraDataList_RemoveDroppedItem(Cls*);
+    void ExtraDataList_SetAshPileRef(int);
     void ExtraDataList_SetReflectsRef(Cls*, int);
     void ExtraDataList_SetRefractsRef(Cls*, int);
     void FUN_0041e600(Cls*);
     void ExtraDataList_RemoveActivateRefChild(Cls*);
     void ExtraDataList_RemoveActivateParent(Cls*);
-    void FUN_0041de40(int);
+    void ExtraDataList_SetItemDropper(int);
 };
-EL* __fastcall FUN_005d43c0(Cls*);
+EL* __fastcall BSFile_GetDevice(Cls*);
 struct Obj28
 {
     Obj28* FUN_00586170();
@@ -20512,7 +20686,7 @@ struct Obj2c
 };
 struct ObjCell
 {
-    Obj2c* FUN_004543c0();
+    Obj2c* TESObjectCELL_GetbhkWorld();
 };
 struct Sub18
 {
@@ -20531,24 +20705,24 @@ struct Sub64
 };
 struct Obj6c
 {
-    void FUN_006c0c80();
-    void FUN_006c1060();
+    void NavMeshObstacleManager_RemoveObstacleForReference();
+    void NavMeshObstacleManager_OnDoorRemove();
 };
 void __cdecl CheckWithinMultiBoundTask_CancelAttachment(unsigned int);
 void __cdecl FUN_00868270(Cls*);
-void __cdecl FUN_008d15b0(Cls*);
+void __cdecl BSDoorHavokController_ReleaseDoor(Cls*);
 void __cdecl Interface_ClearReferencePointers(Cls*);
 void __cdecl BGSDestructibleObjectForm_RemoveDestructibleObject(Cls*);
 Obj6c* __stdcall GetNavMeshObstacleManager(Cls*);
 int __cdecl TESMain_GetDebugTextRef();
-void __cdecl FUN_005aa5d0(Cls*);
+void __cdecl Script_RemoveDelayedScriptActionReference(Cls*);
 void __cdecl TESMain_ClearDebugTextRef();
 Cls* __cdecl Interface_GetEnemyActor();
 void __cdecl FUN_007038b0(int);
 struct G43c
 {
-    void FUN_004538e0(int);
-    void FUN_0082f1f0();
+    void BSCriticalSection_Lock(int);
+    void BSCriticalSection_Unlock();
 };
 extern G43c DAT_011e043c;
 extern int DAT_011ca28c;
@@ -20560,8 +20734,8 @@ extern TimeG DAT_011f6394;
 struct ProcL
 {
     N20* FUN_0096e290();
-    void FUN_00976680(Cls*);
-    void FUN_0096f600(Cls*, int);
+    void ProcessLists_ReferDestructorNullOut(Cls*);
+    void ProcessLists_NullOutTargetRef(Cls*, int);
     void ProcessLists_NullOutActorInCrimeList(Cls*);
     void ProcessLists_RemoveReferenceMuzzleFlash(Cls*);
     void ProcessLists_FinishMagicHitEffect(Cls*);
@@ -20573,24 +20747,24 @@ struct Player
     void PlayerCharacter_ClearDroppedReference(Cls*);
     void PlayerCharacter_RemoveConflictingObject(Cls*);
     void PlayerCharacter_ClearGrabObject();
-    Cls* FUN_0089f4e0();
+    Cls* PlayerCharacter_GetGrabObject();
 };
 extern Player* DAT_011dea3c;
 struct ObjA10
 {
-    Obj905* FUN_0055ac00(Cls**);
+    Obj905* TES_GetBedChairList(Cls**);
 };
 extern ObjA10* DAT_011dea10;
 struct Obj45c
 {
     bool FUN_008a81c0();
-    void FUN_008a8150(int);
-    void FUN_008623a0(Cls*);
+    void ExtraDismemberedLimbs_SetEaten(int);
+    void TESSaveLoadGame_RemoveFormFromInitFormArray(Cls*);
 };
 extern Obj45c* DAT_011de45c;
 struct DHand
 {
-    bool FUN_004226e0();
+    bool TESDataHandler_GetClearingData();
 };
 extern DHand* DAT_011c3f2c;
 struct FUN_00483630
@@ -20633,26 +20807,26 @@ struct FUN_0055a430 : FUN_00483630, Base2
     Obj40* m40;
     FUN_004103b0 m44;
     Sub64* m64;
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
     int FUN_00401170();
-    Cls* FUN_00567790();
-    void FUN_00567c50();
-    Cls* FUN_007af430();
-    bool FUN_00549580();
-    Obj28* FUN_00575d70();
+    Cls* TESObjectREFR_GetOwner();
+    void TESObjectREFR_RemoveOwner();
+    Cls* BGSSaveFormBuffer_GetForm();
+    bool TESForm_GetHasSpokenFlag();
+    Obj28* TESObjectREFR_GetWorldSpace();
     ObjCell* FUN_008d6f30();
-    bool FUN_004077c0();
-    void FUN_00576760();
-    Cls* FUN_0056a9f0();
+    bool TESForm_GetTemporary();
+    void TESObjectREFR_CleanUpTraps();
+    Cls* TESObjectREFR_GetEnableStateParent();
     N38* TESObjectREFR_GetEnableStateChildList();
     bool GetTargeted();
     bool TESObjectREFR_IsProjectile();
     bool TESForm_IsRecentPCDrop();
-    bool FUN_00452370();
-    Cls* FUN_00569b80();
-    void FUN_00564930(int);
-    void FUN_0055ad20();
-    bool FUN_005653d0();
+    bool TESForm_GetDestructible();
+    Cls* TESObjectREFR_GetLinkedRef();
+    void TESObjectREFR_SetDelete(int);
+    void TESObjectREFR_ClearData();
+    bool TESObjectREFR_GetRefPersists_005653d0();
     bool TESObjectREFR_IsObstacle();
 
     ~FUN_0055a430();
@@ -20684,9 +20858,9 @@ Cls::~FUN_0055a430()
     bool saved3;
     Cls* aTmp68;
     CheckWithinMultiBoundTask_CancelAttachment((unsigned int)this);
-    if (FUN_00568680())
+    if (TESObjectREFR_IsFurniture())
     {
-        DAT_011e043c.FUN_004538e0(0);
+        DAT_011e043c.BSCriticalSection_Lock(0);
         DAT_011ca28c = DAT_011f6394.FUN_00825c00();
         for (val = DAT_011e0e80.FUN_0096e290(); val != 0; val = val->FUN_00726070())
         {
@@ -20699,18 +20873,18 @@ Cls::~FUN_0055a430()
                 }
             }
         }
-        DAT_011e043c.FUN_0082f1f0();
+        DAT_011e043c.BSCriticalSection_Unlock();
     }
     if (FUN_00401170() == 0x27)
     {
         DAT_011ca28c = DAT_011f6394.FUN_00825c00();
     }
     FUN_00868270(this);
-    if (FUN_007af430() != 0)
+    if (BGSSaveFormBuffer_GetForm() != 0)
     {
-        if (FUN_007af430()->FUN_00549580())
+        if (BGSSaveFormBuffer_GetForm()->TESForm_GetHasSpokenFlag())
         {
-            p28 = FUN_00575d70();
+            p28 = TESObjectREFR_GetWorldSpace();
             if (p28 != 0)
             {
                 if (p28->FUN_00586170() != 0)
@@ -20722,7 +20896,7 @@ Cls::~FUN_0055a430()
     }
     if (m64 != 0)
     {
-        it18 = FUN_008d6f30() != 0 ? FUN_008d6f30()->FUN_004543c0() : 0;
+        it18 = FUN_008d6f30() != 0 ? FUN_008d6f30()->TESObjectCELL_GetbhkWorld() : 0;
         if (it18 != 0)
         {
             it18->bhkWorld_RemoveBody(m64->m18.FUN_00559450());
@@ -20730,56 +20904,56 @@ Cls::~FUN_0055a430()
         m64->m18.FUN_0066b0d0(0);
     }
     saved3 = DAT_011de45c->FUN_008a81c0();
-    DAT_011de45c->FUN_008a8150(0);
-    if (!FUN_004077c0())
+    DAT_011de45c->ExtraDismemberedLimbs_SetEaten(0);
+    if (!TESForm_GetTemporary())
     {
-        FUN_00576760();
-        FUN_008d15b0(this);
-        DAT_011de45c->FUN_008623a0(this);
-        if (!DAT_011c3f2c->FUN_004226e0())
+        TESObjectREFR_CleanUpTraps();
+        BSDoorHavokController_ReleaseDoor(this);
+        DAT_011de45c->TESSaveLoadGame_RemoveFormFromInitFormArray(this);
+        if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
         {
-            data = FUN_0056a9f0();
+            data = TESObjectREFR_GetEnableStateParent();
             if (data != 0)
             {
-                FUN_005d43c0(data)->FUN_0041dda0(this);
+                BSFile_GetDevice(data)->ExtraDataList_RemoveEnableStateChild(this);
             }
             head = TESObjectREFR_GetEnableStateChildList();
             while (head != 0 && !head->FUN_008256d0())
             {
-                (*head->FUN_006815c0())->FUN_0056aa10(0);
+                (*head->FUN_006815c0())->TESObjectREFR_SetEnableStateParent(0);
                 head = TESObjectREFR_GetEnableStateChildList();
             }
         }
-        walk = FUN_005d43c0(this)->FUN_0041de00();
+        walk = BSFile_GetDevice(this)->ExtraDataList_GetItemDropper();
         if (walk != 0)
         {
-            FUN_005d43c0(walk)->FUN_0041e0d0(this);
+            BSFile_GetDevice(walk)->ExtraDataList_RemoveDroppedItem(this);
         }
-        link3 = FUN_005d43c0(this)->FUN_0041df90();
+        link3 = BSFile_GetDevice(this)->ExtraDataList_GetDroppedItemList();
         while (link3 != 0 && !link3->FUN_008256d0())
         {
-            FUN_005d43c0(*link3->FUN_006815c0())->FUN_0041de40(0);
-            if ((*link3->FUN_006815c0())->FUN_00567790() == this)
+            BSFile_GetDevice(*link3->FUN_006815c0())->ExtraDataList_SetItemDropper(0);
+            if ((*link3->FUN_006815c0())->TESObjectREFR_GetOwner() == this)
             {
-                (*link3->FUN_006815c0())->FUN_00567c50();
+                (*link3->FUN_006815c0())->TESObjectREFR_RemoveOwner();
             }
             link3 = link3->FUN_00726070();
         }
-        if (!DAT_011c3f2c->FUN_004226e0())
+        if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
         {
-            obj = FUN_005d43c0(this)->ExtraDataList_GetAshPileRef();
+            obj = BSFile_GetDevice(this)->ExtraDataList_GetAshPileRef();
             if (obj != 0)
             {
-                FUN_005d43c0(obj)->FUN_0041e340(0);
+                BSFile_GetDevice(obj)->ExtraDataList_SetAshPileRef(0);
             }
-            for (entry = FUN_005d43c0(this)->ExtraDataList_GetExtraReflectorRefs(); entry != 0 && *entry->FUN_006815c0() != 0;)
+            for (entry = BSFile_GetDevice(this)->ExtraDataList_GetExtraReflectorRefs(); entry != 0 && *entry->FUN_006815c0() != 0;)
             {
                 elem_2 = *entry->FUN_006815c0();
                 entry = entry->FUN_00726070();
-                FUN_005d43c0(elem_2->f0)->ExtraDataList_SetReflectsRef(this, 0);
-                FUN_005d43c0(elem_2->f0)->ExtraDataList_SetRefractsRef(this, 0);
+                BSFile_GetDevice(elem_2->f0)->ExtraDataList_SetReflectsRef(this, 0);
+                BSFile_GetDevice(elem_2->f0)->ExtraDataList_SetRefractsRef(this, 0);
             }
-            FUN_005aa5d0(this);
+            Script_RemoveDelayedScriptActionReference(this);
             head3 = this;
             TESObjectCELL_GetAutoWaterReflectList(&head3)->FUN_00905330();
             list2 = this;
@@ -20793,9 +20967,9 @@ Cls::~FUN_0055a430()
                     DAT_011dea3c->PlayerCharacter_RemoveAllActionsForObject(this);
                     break;
                 default:
-                    DAT_011e0e80.FUN_00976680(this);
+                    DAT_011e0e80.ProcessLists_ReferDestructorNullOut(this);
                     DAT_011dea3c->PlayerCharacter_RemoveAllActionsForObject(this);
-                    DAT_011e0e80.FUN_0096f600(this, 1);
+                    DAT_011e0e80.ProcessLists_NullOutTargetRef(this, 1);
                     DAT_011e0e80.ProcessLists_NullOutActorInCrimeList(this);
                     DAT_011e0e80.ProcessLists_RemoveReferenceMuzzleFlash(this);
                     break;
@@ -20810,74 +20984,74 @@ Cls::~FUN_0055a430()
         {
             DAT_011dea3c->PlayerCharacter_ClearDroppedReference(this);
         }
-        if (!DAT_011c3f2c->FUN_004226e0())
+        if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
         {
-            if (FUN_00568680())
+            if (TESObjectREFR_IsFurniture())
             {
                 item = this;
-                DAT_011dea10->FUN_0055ac00(&item)->FUN_00905330();
+                DAT_011dea10->TES_GetBedChairList(&item)->FUN_00905330();
             }
         }
-        if (FUN_00452370())
+        if (TESForm_GetDestructible())
         {
             BGSDestructibleObjectForm_RemoveDestructibleObject(this);
         }
     }
-    aTmp68 = FUN_00569b80();
+    aTmp68 = TESObjectREFR_GetLinkedRef();
     if (aTmp68 != 0)
     {
-        FUN_005d43c0(aTmp68)->FUN_0041e600(this);
+        BSFile_GetDevice(aTmp68)->FUN_0041e600(this);
     }
-    iterX = FUN_005d43c0(this)->ExtraDataList_GetLinkedRefChildren();
+    iterX = BSFile_GetDevice(this)->ExtraDataList_GetLinkedRefChildren();
     while (iterX != 0 && !iterX->FUN_008256d0())
     {
         (*iterX->FUN_006815c0())->TESObjectREFR_SetLinkedRef(0);
         iterX = iterX->FUN_00726070();
     }
-    temp2 = FUN_005d43c0(this)->ExtraDataList_GetActivateParentList();
+    temp2 = BSFile_GetDevice(this)->ExtraDataList_GetActivateParentList();
     while (temp2 != 0 && !temp2->FUN_008256d0())
     {
-        FUN_005d43c0((*temp2->FUN_006815c0())->f0)->ExtraDataList_RemoveActivateRefChild(this);
+        BSFile_GetDevice((*temp2->FUN_006815c0())->f0)->ExtraDataList_RemoveActivateRefChild(this);
         temp2 = temp2->FUN_00726070();
     }
-    temp2 = FUN_005d43c0(this)->ExtraDataList_GetActivateRefChildren();
+    temp2 = BSFile_GetDevice(this)->ExtraDataList_GetActivateRefChildren();
     while (temp2 != 0 && !temp2->FUN_008256d0())
     {
-        FUN_005d43c0((*temp2->FUN_006815c0())->f0)->ExtraDataList_RemoveActivateParent(this);
+        BSFile_GetDevice((*temp2->FUN_006815c0())->f0)->ExtraDataList_RemoveActivateParent(this);
         temp2 = temp2->FUN_00726070();
     }
-    FUN_00564930(1);
-    FUN_0055ad20();
+    TESObjectREFR_SetDelete(1);
+    TESObjectREFR_ClearData();
     if (m40 != 0)
     {
-        m40->FUN_0054ca90(this);
+        m40->TESObjectCELL_RemoveReference(this);
     }
-    if (FUN_005653d0())
+    if (TESObjectREFR_GetRefPersists_005653d0())
     {
         if (DAT_011c3f2c != 0)
         {
-            if (!DAT_011c3f2c->FUN_004226e0())
+            if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
             {
                 p4c = Base2::TESChildCell_GetSaveParentCell();
                 if (p4c != 0)
                 {
-                    p4c->FUN_0054ca90(this);
+                    p4c->TESObjectCELL_RemoveReference(this);
                 }
             }
         }
     }
-    if (FUN_007af430() != 0)
+    if (BGSSaveFormBuffer_GetForm() != 0)
     {
         if (TESObjectREFR_IsObstacle())
         {
-            GetNavMeshObstacleManager(this)->FUN_006c0c80();
+            GetNavMeshObstacleManager(this)->NavMeshObstacleManager_RemoveObstacleForReference();
         }
     }
-    if (FUN_007af430() != 0)
+    if (BGSSaveFormBuffer_GetForm() != 0)
     {
-        if (FUN_007af430()->FUN_00401170() == 0x1c)
+        if (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x1c)
         {
-            GetNavMeshObstacleManager(this)->FUN_006c1060();
+            GetNavMeshObstacleManager(this)->NavMeshObstacleManager_OnDoorRemove();
         }
     }
     Interface_ClearReferencePointers(this);
@@ -20885,7 +21059,7 @@ Cls::~FUN_0055a430()
     {
         TESMain_ClearDebugTextRef();
     }
-    if (!DAT_011c3f2c->FUN_004226e0())
+    if (!DAT_011c3f2c->TESDataHandler_GetClearingData())
     {
         if (Interface_GetEnemyActor() == this)
         {
@@ -20896,11 +21070,11 @@ Cls::~FUN_0055a430()
             DAT_011dea3c->PlayerCharacter_RemoveConflictingObject(this);
         }
     }
-    if (DAT_011dea3c->FUN_0089f4e0() == this)
+    if (DAT_011dea3c->PlayerCharacter_GetGrabObject() == this)
     {
         DAT_011dea3c->PlayerCharacter_ClearGrabObject();
     }
-    DAT_011de45c->FUN_008a8150(saved3);
+    DAT_011de45c->ExtraDismemberedLimbs_SetEaten(saved3);
 }
 }  // namespace fnv_0055a430
 
@@ -21065,40 +21239,41 @@ struct DebugForm
     virtual void v74();
     virtual void v75();
     virtual const char* name();
-    unsigned int FUN_0084e3a0();
-    const char* FUN_00440e30();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    const char* TESForm_GetFormTypeString();
 };
 struct FUN_00406f90_this;
-int FUN_00406f60(FUN_00406f90_this*, const char*, ...);
+int BSStringT_char_SPrintF(FUN_00406f90_this*, const char*, ...);
 int sprintf(char*, const char*, ...);
 struct DebugReference
 {
     DebugForm* GetObjectReference();
-    DebugForm* FUN_00575d70();
+    DebugForm* TESObjectREFR_GetWorldSpace();
     DebugForm* GetParentCell();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     const char* retn_empty_string();
-    const char* FUN_00440e30();
-    void FUN_0055d540(FUN_00406f90_this* out);
+    const char* TESForm_GetFormTypeString();
+    void TESObjectREFR_GetFormDetailedString(FUN_00406f90_this* out);
 };
 // @fnv 0x0055d540
-void DebugReference::FUN_0055d540(FUN_00406f90_this* out)
+// src: XBOX_PDB 0x0055d540
+void DebugReference::TESObjectREFR_GetFormDetailedString(FUN_00406f90_this* out)
 {
     char worldText[260];
     worldText[0] = 0;
     DebugForm* object = GetObjectReference();
     if (object)
-        sprintf(worldText, " to %s form '%s' (%08X)", object->FUN_00440e30(), object->name(), object->FUN_0084e3a0());
+        sprintf(worldText, " to %s form '%s' (%08X)", object->TESForm_GetFormTypeString(), object->name(), object->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     char objectText[260];
     objectText[0] = 0;
-    DebugForm* world = FUN_00575d70();
+    DebugForm* world = TESObjectREFR_GetWorldSpace();
     if (world)
-        sprintf(objectText, " in WorldSpace '%s' (%08X)", world->name(), world->FUN_0084e3a0());
+        sprintf(objectText, " in WorldSpace '%s' (%08X)", world->name(), world->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     StrMem cellText;
     DebugForm* cell = GetParentCell();
     if (cell)
         cell->describe(&cellText);
-    FUN_00406f60(out, "%s Form '%s' (%08X)%s in Cell %s", FUN_00440e30(), retn_empty_string(), FUN_0084e3a0(), worldText,
+    BSStringT_char_SPrintF(out, "%s Form '%s' (%08X)%s in Cell %s", TESForm_GetFormTypeString(), retn_empty_string(), GetHavokWorldObjectCountInSceneGraph_0084e3a0(), worldText,
                  (const char*)cellText);
 }
 
@@ -21113,7 +21288,7 @@ struct InitComponent
 {
     bool FUN_0047cdb0();
     void FUN_0047ce10(InitReference*);
-    bool FUN_0055e200();
+    bool TESActorBaseData_GetRunsInLow();
     int FUN_00401170();
 };
 struct InitBase
@@ -21230,8 +21405,8 @@ struct InitBase
     int FUN_00401170();
     bool FUN_00440d80();
     bool FUN_00440da0();
-    bool FUN_00549580();
-    const char* FUN_0084e3a0();
+    bool TESForm_GetHasSpokenFlag();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct InitScaleExtra
 {
@@ -21242,21 +21417,21 @@ struct InitScaleExtra
 };
 struct InitExtraList
 {
-    void FUN_00416be0(InitReference*);
+    void ExtraDataList_InitItem(InitReference*);
     float ExtraDataList_GetHealthPerc();
     void FUN_00419970(float);
-    short FUN_00418770();
-    void FUN_00419ad0(int);
+    short ExtraDataList_GetCount();
+    void ExtraDataList_SetCount(int);
     void ExtraDataList_SetMultiBoundData(InitScaleExtra*);
     void* BaseExtraList_GetExtraData(int);
-    void FUN_00410140(int);
+    void BaseExtraList_RemoveExtra_00410140(int);
     void FUN_0041aeb0();
 };
 struct InitCell
 {
-    void FUN_005878d0(InitReference*);
+    void TESWorldSpace_AddMultiBoundRef(InitReference*);
     struct InitPending* FUN_00586170(InitReference*, bool);
-    const char* FUN_0084e3a0();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     virtual void CellSlot0();
     virtual void CellSlot1();
     virtual void CellSlot2();
@@ -21355,7 +21530,7 @@ struct InitProcess
 {
     void TESObjectCELL_LowerVisibleDistantCount();
     bool FUN_00425fd0();
-    const char* FUN_0084e3a0();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int FUN_00544c30();
     int FUN_00544c60();
     virtual void ProcessSlot0();
@@ -21734,46 +21909,46 @@ struct InitReference
     InitVector position;
 
     bool FUN_004013e0();
-    InitBase* FUN_007af430();
-    InitExtraList* FUN_005d43c0();
+    InitBase* BGSSaveFormBuffer_GetForm();
+    InitExtraList* BSFile_GetDevice();
     bool TESObjectREFR_IsMultiBoundRef();
-    float FUN_00567400();
+    float TESObjectREFR_GetScale_00567400();
     InitScaleExtra* TESObjectREFR_GetMultiBoundData();
-    void FUN_00567490(float);
-    InitCell* FUN_00575d70();
-    bool FUN_005722c0(int);
+    void TESObjectREFR_SetScale(float);
+    InitCell* TESObjectREFR_GetWorldSpace();
+    bool TESObjectREFR_IsDead(int);
     void FUN_008a1800(int);
-    InitBase* FUN_00884350();
+    InitBase* Actor_GetClass();
     InitActorBase* FUN_004181e0();
-    bool FUN_0056afc0();
+    bool TESObjectREFR_HasLeveledCreatureCalced();
     bool TESObjectREFR_CanBeMoved();
-    InitReference* FUN_0056a9f0();
+    InitReference* TESObjectREFR_GetEnableStateParent();
     bool FUN_0056aa70();
     bool FUN_00440da0();
-    void FUN_00484af0(bool);
-    bool FUN_00564e60();
+    void TESForm_SetDisabled(bool);
+    bool TESObjectREFR_GetVisibleDistant();
     InitProcess* FUN_008d6f30();
     void TESObjectREFR_UpdateEnableStateChildrenFlagsRecursive();
     void FUN_004846a0(bool);
     void FUN_00484ab0(bool);
-    const char* FUN_0084e3a0();
+    const char* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     unsigned retn_empty_string();
-    void FUN_00565730();
+    void TESObjectREFR_InitScript();
     void FUN_0046a010(int);
-    void FUN_0055d760();
+    void TESObjectREFR_InitItem();
 };
 bool FUN_004fede0(InitBase*, int);
 void FUN_004ff150(InitReference*);
-int FUN_0046e8a0();
-void FUN_0043b2b0(bool);
-void FUN_004fffe0(int);
+int MessageHandler_QWarningCount();
+void MessageHandler_IncDisableWarningCount(bool);
+void MessageHandler_SetWarningCount(int);
 void Warning_005b5e40(const char*, ...);
 int FUN_00ec7595(double);
 int FUN_00ec75b1(double);
 unsigned FUN_004873d0(InitBase*);
 struct InitEventManager
 {
-    void FUN_0096d470(InitReference*, int);
+    void ProcessLists_RemoveReference(InitReference*, int);
 };
 struct InitModeManager
 {
@@ -21787,32 +21962,33 @@ struct InitToggle
 };
 extern InitToggle* DAT_011de45c;
 extern InitReference* DAT_011dea3c;
-float FUN_00647f00(void*, int, int, int, int, int, int);
+float GamePlayFormulas_GetActorRunSpeed(void*, int, int, int, int, int, int);
 float FUN_004b1480(float);
 struct InitSelection
 {
-    void FUN_004d1440();
-    void FUN_004d1610();
-    void FUN_004d1960();
-    bool FUN_0042cde0();
+    void InventoryChanges_InitLeveledItems();
+    void InventoryChanges_InitFromContainerExtra();
+    void InventoryChanges_InitScripts();
+    bool InventoryChanges_IsEmpty();
 };
 InitSelection* FUN_004bf220(InitReference*);
-void* __fastcall FUN_0055d310(InitReference*);
+void* __fastcall TESObjectREFR_HasContainer(InitReference*);
 struct InitPending
 {
     void FUN_006fcfa0();
 };
 // Initializes a reference: validates base/position/rotation, applies health, scale and actor state, then reports any errors gathered during InitItem.
 // @fnv 0x0055d760
-void InitReference::FUN_0055d760()
+// src: XBOX_PDB 0x0055d760
+void InitReference::TESObjectREFR_InitItem()
 {
     if (FUN_004013e0())
         return;
-    if (FUN_004fede0(FUN_007af430(), 0))
+    if (FUN_004fede0(BGSSaveFormBuffer_GetForm(), 0))
         FUN_004ff150(this);
-    int previousDebug = FUN_0046e8a0();
-    FUN_0043b2b0(true);
-    FUN_004fffe0(0);
+    int previousDebug = MessageHandler_QWarningCount();
+    MessageHandler_IncDisableWarningCount(true);
+    MessageHandler_SetWarningCount(0);
     if (base)
     {
         switch (base->FUN_00401170())
@@ -21838,33 +22014,33 @@ void InitReference::FUN_0055d760()
         Warning_005b5e40("MASTERFILE: Corrupt angle found on reference, setting to (0, 0, 0).");
         rotation = DAT_011f426c;
     }
-    FUN_005d43c0()->FUN_00416be0(this);
-    float health = FUN_005d43c0()->ExtraDataList_GetHealthPerc();
+    BSFile_GetDevice()->ExtraDataList_InitItem(this);
+    float health = BSFile_GetDevice()->ExtraDataList_GetHealthPerc();
     if (health != 1.0)
     {
-        float maximum = (float)FUN_004873d0(FUN_007af430());
-        FUN_005d43c0()->FUN_00419970(health * maximum);
+        float maximum = (float)FUN_004873d0(BGSSaveFormBuffer_GetForm());
+        BSFile_GetDevice()->FUN_00419970(health * maximum);
     }
-    if (FUN_007af430()->FUN_00401170() == 41 && FUN_005d43c0()->FUN_00418770() == 1)
-        FUN_005d43c0()->FUN_00419ad0(FUN_007af430()->component80.FUN_00401170());
+    if (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 41 && BSFile_GetDevice()->ExtraDataList_GetCount() == 1)
+        BSFile_GetDevice()->ExtraDataList_SetCount(BGSSaveFormBuffer_GetForm()->component80.FUN_00401170());
     if (TESObjectREFR_IsMultiBoundRef())
     {
-        if (FUN_00567400() != 1.0)
+        if (TESObjectREFR_GetScale_00567400() != 1.0)
         {
             InitScaleExtra* scale = TESObjectREFR_GetMultiBoundData();
             if (!scale)
             {
                 scale = new InitScaleExtra;
-                FUN_005d43c0()->ExtraDataList_SetMultiBoundData(scale);
+                BSFile_GetDevice()->ExtraDataList_SetMultiBoundData(scale);
             }
             InitVector offset = *scale->FUN_006815c0();
-            offset.FUN_00439180(FUN_00567400());
+            offset.FUN_00439180(TESObjectREFR_GetScale_00567400());
             scale->SetPosition(offset);
-            FUN_00567490(1.0f);
+            TESObjectREFR_SetScale(1.0f);
         }
-        InitCell* cell = FUN_00575d70();
+        InitCell* cell = TESObjectREFR_GetWorldSpace();
         if (cell)
-            cell->FUN_005878d0(this);
+            cell->TESWorldSpace_AddMultiBoundRef(this);
     }
     InitReference* actor103 = 0;
     if (IsActor())
@@ -21873,26 +22049,26 @@ void InitReference::FUN_0055d760()
     {
         if (!actor103->ActorReady())
             actor103->InitializeActor();
-        if (!actor103->HasActorState() && FUN_005722c0(0))
+        if (!actor103->HasActorState() && TESObjectREFR_IsDead(0))
         {
             actor103->FUN_008a1800(2);
-            ((InitEventManager*)&DAT_011e0e80)->FUN_0096d470(actor103, 3);
+            ((InitEventManager*)&DAT_011e0e80)->ProcessLists_RemoveReference(actor103, 3);
         }
         if (actor103->IsNPC())
         {
-            InitBase* npc = actor103->FUN_00884350();
+            InitBase* npc = actor103->Actor_GetClass();
             bool flag = false;
             if (npc)
                 flag = npc->FUN_00440da0();
             actor103->SetTemplateFlag(flag);
         }
         InitActorBase* actorBase = actor103->FUN_004181e0();
-        if (actorBase->data.FUN_0047cdb0() && !FUN_0056afc0())
+        if (actorBase->data.FUN_0047cdb0() && !TESObjectREFR_HasLeveledCreatureCalced())
             actorBase->data.FUN_0047ce10(this);
-        actor103->SetEssential(actorBase->data.FUN_0055e200());
+        actor103->SetEssential(actorBase->data.TESActorBaseData_GetRunsInLow());
         if (actor103 == DAT_011dea3c)
         {
-            float value = FUN_00647f00(DAT_011dea3c ? (char*)DAT_011dea3c + 0xa4 : 0, 0, 0, 0, 1, 0, 0);
+            float value = GamePlayFormulas_GetActorRunSpeed(DAT_011dea3c ? (char*)DAT_011dea3c + 0xa4 : 0, 0, 0, 0, 1, 0, 0);
             bhkCharacterController_SetGravFrictDampSpeed(value);
         }
     }
@@ -21901,64 +22077,64 @@ void InitReference::FUN_0055d760()
     bool previousMode = DAT_011ddf38->FUN_004623f0(true);
     if (!DAT_011de45c->FUN_0047c850() || DAT_011de45c->FUN_0047c850())
     {
-        InitReference* linked = FUN_0056a9f0();
+        InitReference* linked = TESObjectREFR_GetEnableStateParent();
         if (linked)
         {
             bool previousToggle = DAT_011de45c->FUN_0047c850();
             if (!DAT_011de45c->FUN_0047c850())
                 DAT_011de45c->FUN_004534f0(false);
             if (FUN_0056aa70())
-                FUN_00484af0(!linked->FUN_00440da0());
+                TESForm_SetDisabled(!linked->FUN_00440da0());
             else
-                FUN_00484af0(linked->FUN_00440da0());
-            if (FUN_00440da0() && FUN_00564e60() && FUN_008d6f30())
+                TESForm_SetDisabled(linked->FUN_00440da0());
+            if (FUN_00440da0() && TESObjectREFR_GetVisibleDistant() && FUN_008d6f30())
                 FUN_008d6f30()->TESObjectCELL_LowerVisibleDistantCount();
             DAT_011de45c->FUN_004534f0(previousToggle);
         }
     }
     TESObjectREFR_UpdateEnableStateChildrenFlagsRecursive();
     DAT_011ddf38->FUN_004623f0(previousMode);
-    FUN_004846a0(FUN_004753d0(base));
+    FUN_004846a0(BGSDestructibleObjectForm_IsDestructible(base));
     rotation.z = FUN_004b1480(rotation.z);
     FUN_00484ab0(true);
-    if (FUN_007af430() && FUN_007af430()->FUN_00401170() != 40 && FUN_005d43c0()->BaseExtraList_GetExtraData(110))
-        FUN_005d43c0()->FUN_00410140(110);
-    FUN_0043b2b0(false);
-    int errors = FUN_0046e8a0();
-    FUN_004fffe0(previousDebug);
+    if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() != 40 && BSFile_GetDevice()->BaseExtraList_GetExtraData(110))
+        BSFile_GetDevice()->BaseExtraList_RemoveExtra_00410140(110);
+    MessageHandler_IncDisableWarningCount(false);
+    int errors = MessageHandler_QWarningCount();
+    MessageHandler_SetWarningCount(previousDebug);
     if (errors)
     {
         if (FUN_008d6f30() && FUN_008d6f30()->FUN_00425fd0())
             Warning_005b5e40(
                 "MASTERFILE: Errors were encountered during InitItem for reference:\n\nBase: '%s' (%08X)\nRef: '%s' (%08X)\nCell: '%s' (%08X)\n\nSee Warnings file for more information.",
-                FUN_007af430()->DebugName(), FUN_007af430()->FUN_0084e3a0(), retn_empty_string(), FUN_0084e3a0(),
-                FUN_008d6f30()->DebugName(), FUN_008d6f30()->FUN_0084e3a0());
+                BGSSaveFormBuffer_GetForm()->DebugName(), BGSSaveFormBuffer_GetForm()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), retn_empty_string(), GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
+                FUN_008d6f30()->DebugName(), FUN_008d6f30()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         else if (FUN_008d6f30())
             Warning_005b5e40(
                 "MASTERFILE: Errors were encountered during InitItem for reference:\n\nBase: '%s' (%08X)\nRef: '%s' (%08X)\nCell: '%s' (%08X) (%i, %i) in world '%s' (%08X) \n\nSee Warnings file for more information.",
-                FUN_007af430()->DebugName(), FUN_007af430()->FUN_0084e3a0(), retn_empty_string(), FUN_0084e3a0(),
-                FUN_008d6f30()->DebugName(), FUN_008d6f30()->FUN_0084e3a0(), FUN_008d6f30()->FUN_00544c30(),
-                FUN_008d6f30()->FUN_00544c60(), FUN_00575d70()->DebugName(), FUN_00575d70()->FUN_0084e3a0());
+                BGSSaveFormBuffer_GetForm()->DebugName(), BGSSaveFormBuffer_GetForm()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), retn_empty_string(), GetHavokWorldObjectCountInSceneGraph_0084e3a0(),
+                FUN_008d6f30()->DebugName(), FUN_008d6f30()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), FUN_008d6f30()->FUN_00544c30(),
+                FUN_008d6f30()->FUN_00544c60(), TESObjectREFR_GetWorldSpace()->DebugName(), TESObjectREFR_GetWorldSpace()->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
         else
             Warning_005b5e40(
                 "MASTERFILE: Errors were encountered during InitItem for reference:\n\nBase: '%s' (%08X)\nRef: '%s' (%08X)\nCell: NONE\n\nSee Warnings file for more information.",
-                FUN_007af430()->DebugName(), FUN_007af430()->FUN_0084e3a0(), retn_empty_string(), FUN_0084e3a0());
+                BGSSaveFormBuffer_GetForm()->DebugName(), BGSSaveFormBuffer_GetForm()->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), retn_empty_string(), GetHavokWorldObjectCountInSceneGraph_0084e3a0());
     }
-    void* container2 = FUN_0055d310(this);
+    void* container2 = TESObjectREFR_HasContainer(this);
     if (container2)
     {
         InitSelection* selection = FUN_004bf220(this);
-        selection->FUN_004d1440();
-        selection->FUN_004d1610();
-        selection->FUN_004d1960();
-        if (selection->FUN_0042cde0())
-            FUN_005d43c0()->FUN_0041aeb0();
+        selection->InventoryChanges_InitLeveledItems();
+        selection->InventoryChanges_InitFromContainerExtra();
+        selection->InventoryChanges_InitScripts();
+        if (selection->InventoryChanges_IsEmpty())
+            BSFile_GetDevice()->FUN_0041aeb0();
     }
-    FUN_00565730();
+    TESObjectREFR_InitScript();
     FUN_0046a010(0);
-    if (FUN_007af430()->FUN_00549580() && FUN_00440da0())
+    if (BGSSaveFormBuffer_GetForm()->TESForm_GetHasSpokenFlag() && FUN_00440da0())
     {
-        InitCell* lastCell = FUN_00575d70();
+        InitCell* lastCell = TESObjectREFR_GetWorldSpace();
         if (lastCell)
             lastCell->FUN_00586170(this, true)->FUN_006fcfa0();
     }
@@ -22050,8 +22226,8 @@ struct SaveDebugForm
     virtual void slot75();
     virtual const char* Describe();
 };
-SaveDebugForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl FUN_0040fbe0(const char*, ...);
+SaveDebugForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
+void __cdecl ProgramFlow(const char*, ...);
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct GlobalObject_0045cf30
 {
@@ -22135,31 +22311,32 @@ struct SaveReference
     virtual void slot63();
     virtual bool IsActor();
     unsigned short FUN_00484bf0(unsigned int);
-    SaveExtraList* FUN_005d43c0();
+    SaveExtraList* BSFile_GetDevice();
     unsigned short TESObjectREFR_GetAttachedAnimationSaveSize();
     unsigned short TESObjectREFR_GetHavokDataSaveSize(bool);
-    unsigned short FUN_0055e730(unsigned int flags);
+    unsigned short TESObjectREFR_GetSaveSize(unsigned int flags);
 };
 // Accumulates the save size of this reference from its base size and optional inventory, extra-list, actor, and version-gated components, then logs the delta.
 // @fnv 0x0055e730
-unsigned short SaveReference::FUN_0055e730(unsigned int flags)
+// src: XBOX_PDB 0x0055e730
+unsigned short SaveReference::TESObjectREFR_GetSaveSize(unsigned int flags)
 {
     unsigned short uiTotalSize = 0;
     uiTotalSize += FUN_00484bf0(flags);
     unsigned short size = uiTotalSize;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         uiTotalSize += 4;
         uiTotalSize += 2;
     }
     if (flags & 0x20)
     {
-        SaveInventory* inventory = FUN_005d43c0()->FUN_00418520();
+        SaveInventory* inventory = BSFile_GetDevice()->FUN_00418520();
         uiTotalSize += inventory->InventoryChanges_GetSaveSize();
     }
     if ((flags & 0) || IsActor())
     {
-        uiTotalSize += FUN_005d43c0()->ExtraDataList_GetSaveSize(flags, this);
+        uiTotalSize += BSFile_GetDevice()->ExtraDataList_GetSaveSize(flags, this);
     }
     if ((flags & 0x10000000) && !IsActor())
     {
@@ -22180,15 +22357,15 @@ unsigned short SaveReference::FUN_0055e730(unsigned int flags)
         SaveChangeRecord* record = static_cast<SaveChangeRecord*>(g_TESSaveLoadGame->FUN_004fd3e0());
         if (record)
         {
-            SaveDebugForm* form = FUN_004839c0(record->formID);
-            FUN_0040fbe0("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
+            SaveDebugForm* form = TESForm_GetFormByNumericID(record->formID);
+            ProgramFlow("GetSaveSize(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                          uiTotalSize - size, record->formID, form->Describe(),
                          *reinterpret_cast<unsigned int*>(record->changeFlags), 0xAD0,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp");
         }
         else
         {
-            FUN_0040fbe0("GetSaveSize(): %-5i ending at line %i in file %s", uiTotalSize - size, 0xAD0,
+            ProgramFlow("GetSaveSize(): %-5i ending at line %i in file %s", uiTotalSize - size, 0xAD0,
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp");
         }
     }
@@ -22298,8 +22475,8 @@ struct DiagnosticForm
     virtual void virtual_12c();
     virtual const char* GetDiagnosticName();
 };
-DiagnosticForm* FUN_004839c0(unsigned int);
-void FUN_0040fbe0(const char*, ...);
+DiagnosticForm* TESForm_GetFormByNumericID(unsigned int);
+void ProgramFlow(const char*, ...);
 void FNV_Warning(const char*, ...);
 struct SaveReference
 {
@@ -22383,20 +22560,21 @@ struct SaveReference
     unsigned int unk34;
     unsigned int unk38;
     float referenceScale;
-    void FUN_00484c20(unsigned int);
-    void FUN_00484ce0(const void*, int);
-    SaveExtras* FUN_005d43c0();
+    void TESForm_SaveGame(unsigned int);
+    void TESForm_SaveGameDataOLD(const void*, int);
+    SaveExtras* BSFile_GetDevice();
     unsigned short TESObjectREFR_GetAttachedAnimationSaveSize();
     void TESObjectREFR_SaveAttachedAnimation();
     unsigned short TESObjectREFR_GetHavokDataSaveSize(FUN_0055ebf0*);
     void TESObjectREFR_SaveHavokDataTES(FUN_0055ebf0*);
-    void FUN_0055e940(unsigned int flags);
+    void TESObjectREFR_SaveGame(unsigned int flags);
 };
 // Serializes this reference's save data to the save stream, writing optional script, actor, animation and scale blocks and logging block positions.
 // @fnv 0x0055e940
-void SaveReference::FUN_0055e940(unsigned int flags)
+// src: XBOX_PDB 0x0055e940
+void SaveReference::TESObjectREFR_SaveGame(unsigned int flags)
 {
-    FUN_00484c20(flags);
+    TESForm_SaveGame(flags);
     unsigned short* pusBlockSize;
     {
         unsigned short blockSize = 0;
@@ -22405,24 +22583,24 @@ void SaveReference::FUN_0055e940(unsigned int flags)
             unsigned int start = g_TESSaveLoadGame->FUN_00825c00();
             if (*g_011de4e8.Bool())
                 start = g_TESSaveLoadGame->FUN_00825c00();
-            if (g_TESSaveLoadGame->FUN_00862110())
+            if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
             {
                 unsigned int uiBlockTag = 0x424c4f4b;
-                g_TESSaveLoadGame->FUN_008579b0(&uiBlockTag, 4);
+                g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&uiBlockTag, 4);
                 pusBlockSize = (unsigned short*)g_TESSaveLoadGame->FUN_00825c00();
-                g_TESSaveLoadGame->FUN_008579b0(&blockSize, 2);
+                g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&blockSize, 2);
             }
             if (flags & 0x20)
             {
-                ScriptSaveData* script = FUN_005d43c0()->FUN_00418520();
+                ScriptSaveData* script = BSFile_GetDevice()->FUN_00418520();
                 script->InventoryChanges_SaveGameTES();
             }
             if ((flags & 0) || IsActor())
-                FUN_005d43c0()->ExtraDataList_SaveGameTES(flags, this);
+                BSFile_GetDevice()->ExtraDataList_SaveGameTES(flags, this);
             if ((flags & 0x10000000) && !IsActor())
             {
                 unsigned short animationCount = TESObjectREFR_GetAttachedAnimationSaveSize();
-                FUN_00484ce0(&animationCount, 2);
+                TESForm_SaveGameDataOLD(&animationCount, 2);
                 if (animationCount)
                     TESObjectREFR_SaveAttachedAnimation();
             }
@@ -22431,13 +22609,13 @@ void SaveReference::FUN_0055e940(unsigned int flags)
                 FUN_0055ebf0 animationData;
                 {
                     unsigned short count = TESObjectREFR_GetHavokDataSaveSize(&animationData);
-                    FUN_00484ce0(&count, 2);
+                    TESForm_SaveGameDataOLD(&count, 2);
                     if (count)
                         TESObjectREFR_SaveHavokDataTES(&animationData);
                 }
             }
             if (g_TESSaveLoadGame->FUN_008df040() >= 0x43 && (flags & 0x10))
-                FUN_00484ce0(&referenceScale, 4);
+                TESForm_SaveGameDataOLD(&referenceScale, 4);
             if (*g_011de4e8.Bool())
             {
                 SavedChangeRecord* record;
@@ -22446,20 +22624,20 @@ void SaveReference::FUN_0055e940(unsigned int flags)
                     record = static_cast<SavedChangeRecord*>(g_TESSaveLoadGame->FUN_004fd3e0());
                     if (record)
                     {
-                        DiagnosticForm* form = FUN_004839c0(record->formId);
-                        FUN_0040fbe0("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
+                        DiagnosticForm* form = TESForm_GetFormByNumericID(record->formId);
+                        ProgramFlow("SaveGame(): %-5i for form %08X %s with flags %08X ending at line %i in file %s",
                                      position - start, record->formId, form->GetDiagnosticName(),
                                      *reinterpret_cast<unsigned int*>(record->changeFlags), 2817,
                                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp");
                     }
                     else
                     {
-                        FUN_0040fbe0("SaveGame(): %-5i ending at line %i in file %s", position - start, 2817,
+                        ProgramFlow("SaveGame(): %-5i ending at line %i in file %s", position - start, 2817,
                                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp");
                     }
                 }
             }
-            if (g_TESSaveLoadGame->FUN_00862110())
+            if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
             {
                 unsigned int end = g_TESSaveLoadGame->FUN_00825c00();
                 unsigned int blockStart = reinterpret_cast<unsigned int>(pusBlockSize);
@@ -22561,16 +22739,16 @@ struct LoadForm
     virtual void v75();
     virtual const char* describe();
 };
-LoadForm* __cdecl FUN_004839c0(unsigned int);
+LoadForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct LoadExtra
 {
     void FUN_0041aeb0();
-    void FUN_004269c0(unsigned int, void*);
+    void ExtraDataList_RemoveAllSaveableData(unsigned int, void*);
     void ExtraDataList_LoadGame(unsigned int, unsigned int, void*);
-    bool FUN_0041b3a0(int);
-    void FUN_0041b470(int);
-    void FUN_0041b440(int);
-    void FUN_00422920();
+    bool ExtraDataList_GetAction(int);
+    void ExtraDataList_ClearAction(int);
+    void ExtraDataList_SetAction(int);
+    void ExtraDataList_RemoveLastFinishedSequence();
 };
 struct LoadLight
 {
@@ -22580,9 +22758,9 @@ struct LoadLight
 struct LoadObject;
 struct LoadManager
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned int);
-    LoadRecord* FUN_004fd3c0();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
+    void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
+    LoadRecord* BGSProjectile_GetExplosion();
     unsigned char FUN_008df040();
     unsigned int FUN_00825c00();
     bool FUN_0047c850();
@@ -22594,7 +22772,7 @@ extern LoadManager* g_TESSaveLoadGame;
 void __cdecl FNV_Warning(const char*, ...);
 struct LoadAux
 {
-    void FUN_004d3cc0();
+    void InventoryChanges_LoadGame();
 };
 LoadAux* __cdecl FUN_004bf220(LoadObject*);
 extern const float DAT_01015f5c;
@@ -22761,41 +22939,42 @@ struct LoadObject
     unsigned int unk5c;
     unsigned int unk60;
     LoadLight* light;
-    void FUN_00484c50(unsigned int, unsigned int);
-    void FUN_00484580(bool);
-    LoadObject* FUN_0056a9f0();
+    void TESForm_LoadGame(unsigned int, unsigned int);
+    void TESForm_SetEmpty(bool);
+    LoadObject* TESObjectREFR_GetEnableStateParent();
     bool FUN_0056aa70();
     bool FUN_00440da0();
     bool FUN_00440d80();
-    void FUN_00484af0(bool);
-    void* FUN_0055d310();
+    void TESForm_SetDisabled(bool);
+    void* TESObjectREFR_HasContainer();
     void FUN_00571b50();
     void FUN_004534f0(bool);
     void FUN_00483710();
-    LoadExtra* FUN_005d43c0();
-    void FUN_008adc50();
-    void FUN_00484d00(void*, unsigned int);
-    void FUN_00567490(float);
-    void FUN_0055ec40(unsigned int flags, unsigned int more);
+    LoadExtra* BSFile_GetDevice();
+    void Actor_ClearProcessItems();
+    void TESForm_LoadGameDataOLD(void*, unsigned int);
+    void TESObjectREFR_SetScale(float);
+    void TESObjectREFR_LoadGame(unsigned int flags, unsigned int more);
 };
 // @fnv 0x0055ec40
-void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
+// src: XBOX_PDB 0x0055ec40
+void LoadObject::TESObjectREFR_LoadGame(unsigned int flags, unsigned int more)
 {
-    FUN_00484c50(flags, more);
+    TESForm_LoadGame(flags, more);
     if (!isActor() && (flags & 0x200000))
-        FUN_00484580(true);
+        TESForm_SetEmpty(true);
     unsigned short length = 0;
     unsigned int start = 0;
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int uiBlockHeader;
-        g_TESSaveLoadGame->FUN_008579e0(&uiBlockHeader, 4);
+        g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&uiBlockHeader, 4);
         if (uiBlockHeader != 0x424c4f4b)
         {
-            LoadRecord* record = g_TESSaveLoadGame->FUN_004fd3c0();
+            LoadRecord* record = g_TESSaveLoadGame->BGSProjectile_GetExplosion();
             if (record)
             {
-                LoadForm* form = FUN_004839c0(record->id);
+                LoadForm* form = TESForm_GetFormByNumericID(record->id);
                 FNV_Warning(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp", 0xb10, record->id,
@@ -22808,24 +22987,24 @@ void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
                     g_TESSaveLoadGame->FUN_008df040());
         }
         start = g_TESSaveLoadGame->FUN_00825c00();
-        g_TESSaveLoadGame->FUN_008579e0(&length, 2);
+        g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&length, 2);
     }
     if (g_TESSaveLoadGame->FUN_0047c850())
     {
-        LoadObject* parent = FUN_0056a9f0();
+        LoadObject* parent = TESObjectREFR_GetEnableStateParent();
         if (parent)
         {
             if (FUN_0056aa70())
-                FUN_00484af0(!parent->FUN_00440da0());
+                TESForm_SetDisabled(!parent->FUN_00440da0());
             else
-                FUN_00484af0(parent->FUN_00440da0());
+                TESForm_SetDisabled(parent->FUN_00440da0());
         }
     }
     if ((flags & 1) && (FUN_00440da0() || FUN_00440d80()))
         reset(0, true);
     if (flags & 0x20)
     {
-        void* container = FUN_0055d310();
+        void* container = TESObjectREFR_HasContainer();
         if (container)
         {
             if (isActor())
@@ -22839,33 +23018,33 @@ void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
                     FUN_00483710();
                 }
             }
-            FUN_005d43c0()->FUN_0041aeb0();
+            BSFile_GetDevice()->FUN_0041aeb0();
             LoadObject* actor2 = 0;
             if (isActor())
                 actor2 = this;
             if (actor2)
-                actor2->FUN_008adc50();
+                actor2->Actor_ClearProcessItems();
             LoadAux* aux = FUN_004bf220(this);
-            aux->FUN_004d3cc0();
+            aux->InventoryChanges_LoadGame();
         }
     }
-    FUN_005d43c0()->FUN_004269c0(flags | more, this);
+    BSFile_GetDevice()->ExtraDataList_RemoveAllSaveableData(flags | more, this);
     unsigned int extraFlags = 0;
     if (g_TESSaveLoadGame->FUN_008df040() < 0x43)
         extraFlags |= 0x10;
     if ((flags & extraFlags) || isActor())
-        FUN_005d43c0()->ExtraDataList_LoadGame(flags, more, this);
+        BSFile_GetDevice()->ExtraDataList_LoadGame(flags, more, this);
     if ((flags & 0x10000000) && !isActor())
     {
         unsigned short count;
-        FUN_00484d00(&count, 2);
+        TESForm_LoadGameDataOLD(&count, 2);
         if (count)
             g_TESSaveLoadGame->FUN_0085f2b0(this, count);
     }
     if (flags & 4)
     {
         unsigned short count2;
-        FUN_00484d00(&count2, 2);
+        TESForm_LoadGameDataOLD(&count2, 2);
         if (count2)
         {
             if (!(flags & 0))
@@ -22876,31 +23055,31 @@ void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
     }
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x43 && (flags & 0x10))
     {
-        FUN_00484d00(&scale, 4);
-        FUN_00567490(scale);
+        TESForm_LoadGameDataOLD(&scale, 4);
+        TESObjectREFR_SetScale(scale);
     }
     if (flags & 0x400000)
     {
-        if (FUN_005d43c0()->FUN_0041b3a0(8))
-            FUN_005d43c0()->FUN_0041b470(8);
+        if (BSFile_GetDevice()->ExtraDataList_GetAction(8))
+            BSFile_GetDevice()->ExtraDataList_ClearAction(8);
         else
-            FUN_005d43c0()->FUN_0041b440(8);
+            BSFile_GetDevice()->ExtraDataList_SetAction(8);
     }
     if (flags & 0x800000)
-        FUN_005d43c0()->FUN_00422920();
+        BSFile_GetDevice()->ExtraDataList_RemoveLastFinishedSequence();
     if (light)
     {
         light->c = DAT_01015f5c;
         light->b = 0;
         light->a = 0;
     }
-    if (g_TESSaveLoadGame->FUN_00862110())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int end = g_TESSaveLoadGame->FUN_00825c00();
-        LoadRecord* record2 = g_TESSaveLoadGame->FUN_004fd3c0();
+        LoadRecord* record2 = g_TESSaveLoadGame->BGSProjectile_GetExplosion();
         if (record2)
         {
-            LoadForm* form2 = FUN_004839c0(record2->id);
+            LoadForm* form2 = TESForm_GetFormByNumericID(record2->id);
             if (end > start + length)
                 FNV_Warning(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
@@ -22933,29 +23112,29 @@ namespace fnv_0055f240 {
 
 struct MyExtraDataList : public ExtraDataList
 {
-    void FUN_004267d0(unsigned int changedFlags, void* ref);
-    bool FUN_0041b3a0(int type);
-    void FUN_0041b470(int type);
-    void FUN_0041b440(int type);
+    void ExtraDataList_Revert(unsigned int changedFlags, void* ref);
+    bool ExtraDataList_GetAction(int type);
+    void ExtraDataList_ClearAction(int type);
+    void ExtraDataList_SetAction(int type);
 };
 
 struct MyModelLoader : public ModelLoader
 {
-    bool FUN_00445750(void* ref);
-    void FUN_00444850(void* ref, void* cellData);
+    bool ModelLoader_IsReferenceQueued(void* ref);
+    void ModelLoader_QueueReference(void* ref, void* cellData);
 };
 extern MyModelLoader* g_modelLoader;
 
 struct MyTES : public TES
 {
-    void* FUN_00458be0(void* cell, int, int);
+    void* TES_GetCellPriority(void* cell, int, int);
 };
 extern MyTES* g_TES;
 
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 
-bool __fastcall FUN_00450ff0(void* cell);
-bool __fastcall FUN_00450fb0(void* cell);
+bool __fastcall TESObjectCELL_GetAttached(void* cell);
+bool __fastcall TESObjectCELL_GetLoaded(void* cell);
 bool __cdecl FUN_0047a490(void* form);
 
 using ::BGSOpenCloseForm;
@@ -23109,22 +23288,23 @@ struct FUN_0055f240_Class
     bool IsDeleted();
     void* Get3DSimple();
     void* GetParentCell();
-    void FUN_0055f970();
+    void TESObjectREFR_ResetAttachedAnimation();
     MyExtraDataList* GetExtraData();
     void FUN_00571b50();
     void FUN_00483710();
-    void FUN_00574920(int);
+    void TESObjectREFR_ResetInventory(int);
     BaseForm_tesobjectrefr* GetObjectReference();
     bool GetAction(int);
-    void FUN_00577330(int);
+    void TESObjectREFR_RestoreRagDollData(int);
     bool FUN_00477ba0();
-    void FUN_00579ac0(bool);
+    void TESObjectREFR_AttachSound(bool);
 
-    void FUN_0055f240(unsigned int changedFlags);
+    void TESObjectREFR_Revert(unsigned int changedFlags);
 };
 
 // @fnv 0x0055f240
-void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
+// src: XBOX_PDB 0x0055f240
+void FUN_0055f240_Class::TESObjectREFR_Revert(unsigned int changedFlags)
 {
     Revert(changedFlags);
 
@@ -23141,11 +23321,11 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
         }
         else if (!Get3DSimple() && GetParentCell())
         {
-            if (FUN_00450ff0(GetParentCell()) || FUN_00450fb0(GetParentCell()))
+            if (TESObjectCELL_GetAttached(GetParentCell()) || TESObjectCELL_GetLoaded(GetParentCell()))
             {
-                if (!g_modelLoader->FUN_00445750(this))
+                if (!g_modelLoader->ModelLoader_IsReferenceQueued(this))
                 {
-                    g_modelLoader->FUN_00444850(this, g_TES->FUN_00458be0(GetParentCell(), 0, 0));
+                    g_modelLoader->ModelLoader_QueueReference(this, g_TES->TES_GetCellPriority(GetParentCell(), 0, 0));
                 }
             }
         }
@@ -23153,12 +23333,12 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
 
     if ((changedFlags & 0x10000000) && !VFunc100())
     {
-        FUN_0055f970();
+        TESObjectREFR_ResetAttachedAnimation();
     }
 
     if ((changedFlags & 0) || VFunc100())
     {
-        GetExtraData()->FUN_004267d0(changedFlags, this);
+        GetExtraData()->ExtraDataList_Revert(changedFlags, this);
     }
 
     if (changedFlags & 0x20)
@@ -23176,7 +23356,7 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
         }
         if (!g_TESSaveLoadGame->GetLoading())
         {
-            FUN_00574920(0);
+            TESObjectREFR_ResetInventory(0);
         }
         else
         {
@@ -23186,32 +23366,32 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
 
     if (FUN_0047a490(GetObjectReference()))
     {
-        if ((changedFlags & 0x400000) && !g_TESSaveLoadGame->FUN_00632ce0())
+        if ((changedFlags & 0x400000) && !g_TESSaveLoadGame->bhkPickData_GetPickFailed())
         {
-            if (GetExtraData()->FUN_0041b3a0(8))
+            if (GetExtraData()->ExtraDataList_GetAction(8))
             {
-                GetExtraData()->FUN_0041b470(8);
+                GetExtraData()->ExtraDataList_ClearAction(8);
             }
             else
             {
-                GetExtraData()->FUN_0041b440(8);
+                GetExtraData()->ExtraDataList_SetAction(8);
             }
         }
-        if (g_TESSaveLoadGame->FUN_0055f5b0())
+        if (g_TESSaveLoadGame->TESSaveLoadGame_GetRevertBefore())
         {
             BGSOpenCloseForm::SetOpenState(this, GetAction(8), 1);
         }
     }
 
-    if (g_TESSaveLoadGame->FUN_0055f5b0())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_GetRevertBefore())
     {
         if (VFunc22c(0))
         {
-            FUN_00577330(0);
+            TESObjectREFR_RestoreRagDollData(0);
         }
     }
 
-    if (g_TESSaveLoadGame->FUN_0055f5b0())
+    if (g_TESSaveLoadGame->TESSaveLoadGame_GetRevertBefore())
     {
         if (GetObjectReference())
         {
@@ -23220,7 +23400,7 @@ void FUN_0055f240_Class::FUN_0055f240(unsigned int changedFlags)
             {
                 if (GetDisabled() || IsDeleted() || (formType == 0x1c && FUN_00477ba0()))
                 {
-                    FUN_00579ac0(0);
+                    TESObjectREFR_AttachSound(0);
                 }
             }
         }
@@ -23238,7 +23418,7 @@ class B55F900AVObject
 };
 
 B55F900Controller* __cdecl B55F900DynamicCast(const B55F900RTTI* pkRTTI, B55F900Controller* pkObject);
-void __cdecl FUN_0055fe70(B55F900Controller* pkController, float fTime);
+void __cdecl TESObjectREFR_SaveControllerManager(B55F900Controller* pkController, float fTime);
 
 extern const B55F900RTTI g_kB55F900RTTI;
 
@@ -23261,24 +23441,24 @@ void B55F900Ref::TESObjectREFR_SaveAttachedAnimation()
         B55F900Controller* pkRaw = pk3D->GetController();
         pkController = B55F900DynamicCast(&g_kB55F900RTTI, pkRaw);
     }
-    FUN_0055fe70(pkController, -1.0f);
+    TESObjectREFR_SaveControllerManager(pkController, -1.0f);
 }
 
 struct Reference
 {
 
-    void FUN_00a59c60(void* position);
+    void NiAVObject_Update(void* position);
 };
 struct Effect
 {
 
-    void FUN_0098adb0(float magnitude);
-    float FUN_00759450(int kind, int selector);
+    void PathingLOSGridMap_SetSightRadius(float magnitude);
+    float NiPSysSpawnModifier_GetLifeSpan(int kind, int selector);
 };
 struct ResourceName;
 struct EffectController
 {
-    Effect* FUN_0047a520(const ResourceName& name);
+    Effect* NiControllerManager_GetSequenceByName(const ResourceName& name);
     void FUN_0048fef0(float value);
     void FUN_0047aa40(bool enabled);
     void FUN_0047aab0(Effect* effect, int a, int b, float c, float d, int e);
@@ -23517,7 +23697,7 @@ struct FNV_0055f970
     int m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
     PanelControl* m_20;
 
-    void FUN_0055f970();
+    void TESObjectREFR_ResetAttachedAnimation();
 };
 struct Registry
 {
@@ -23528,40 +23708,41 @@ extern "C" void* DAT_01197b5c;
 extern "C" void* DAT_011977d8;
 extern "C" void* DAT_01197820;
 extern "C" float DAT_0102f510;
-bool __cdecl FUN_004b5bf0(Reference*);
+bool __cdecl HasMorpherController(Reference*);
 int __cdecl BSstricmp(void*, void*);
-EffectController* __cdecl FUN_00653270(Registry*, void*);
+EffectController* __cdecl NiObject_DynamicCast(Registry*, void*);
 
-Reference* __fastcall FUN_0043fcd0(FNV_0055f970*);
+Reference* __fastcall TESObjectREFR_Get3D(FNV_0055f970*);
 void* __fastcall NiObjectNET_GetControllers(Reference*);
-void* __fastcall FUN_004228f0(DataHandle*);
+void* __fastcall ExtraDataList_GetLastFinishedSequence(DataHandle*);
 int __fastcall FUN_008041a0(Effect*);
 // Checks the reference's marker and effects to dispatch or close the interaction, then resets and applies the controller's effects and positions.
 // @fnv 0x0055f970
-void FNV_0055f970::FUN_0055f970()
+// src: XBOX_PDB 0x0055f970
+void FNV_0055f970::TESObjectREFR_ResetAttachedAnimation()
 {
-    Reference* reference = FUN_0043fcd0(this);
+    Reference* reference = TESObjectREFR_Get3D(this);
     EffectController* controller = 0;
     if (reference)
     {
         bool shouldNotify = false;
         {
-            void* marker = FUN_004228f0((DataHandle*)FUN_005d43c0((TESObjectREFR*)this));
+            void* marker = ExtraDataList_GetLastFinishedSequence((DataHandle*)BSFile_GetDevice((TESObjectREFR*)this));
             if (marker != 0 && BSstricmp(marker, DAT_01197b5c) == 0)
                 shouldNotify = true;
         }
         if (!shouldNotify && reference != 0 && NiObjectNET_GetControllers(reference) != 0)
         {
             void* root = NiObjectNET_GetControllers(reference);
-            controller = FUN_00653270((Registry*)&DAT_011f36ac, root);
+            controller = NiObject_DynamicCast((Registry*)&DAT_011f36ac, root);
             if (controller)
             {
-                Effect* effect = controller->FUN_0047a520(ResourceName(DAT_01197b5c));
+                Effect* effect = controller->NiControllerManager_GetSequenceByName(ResourceName(DAT_01197b5c));
                 if (effect && FUN_008041a0(effect))
                     shouldNotify = true;
             }
         }
-        if (!shouldNotify && FUN_004b5bf0(reference))
+        if (!shouldNotify && HasMorpherController(reference))
             shouldNotify = true;
         if (shouldNotify)
         {
@@ -23570,15 +23751,15 @@ void FNV_0055f970::FUN_0055f970()
             CloseInteraction();
         }
     }
-    reference = FUN_0043fcd0(this);
+    reference = TESObjectREFR_Get3D(this);
     if (reference && NiObjectNET_GetControllers(reference))
     {
         void* root = NiObjectNET_GetControllers(reference);
-        controller = FUN_00653270((Registry*)&DAT_011f36ac, root);
+        controller = NiObject_DynamicCast((Registry*)&DAT_011f36ac, root);
         if (controller)
         {
-            Effect* first = controller->FUN_0047a520(ResourceName(DAT_011977d8));
-            Effect* second = controller->FUN_0047a520(ResourceName(DAT_01197820));
+            Effect* first = controller->NiControllerManager_GetSequenceByName(ResourceName(DAT_011977d8));
+            Effect* second = controller->NiControllerManager_GetSequenceByName(ResourceName(DAT_01197820));
             controller->FUN_0048fef0(0.0f);
             if (first || second)
             {
@@ -23587,19 +23768,19 @@ void FNV_0055f970::FUN_0055f970()
                 {
                     if (!FUN_008041a0(first))
                         controller->FUN_0047aab0(first, 0, 0, 1.0f, 0.0f, 0);
-                    first->FUN_0098adb0(-DAT_0102f510);
+                    first->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
                     Position position;
-                    position.FUN_0043d410(first->FUN_00759450(1, 0));
-                    reference->FUN_00a59c60(&position);
+                    position.FUN_0043d410(first->NiPSysSpawnModifier_GetLifeSpan(1, 0));
+                    reference->NiAVObject_Update(&position);
                 }
                 if (second)
                 {
                     if (!FUN_008041a0(second))
                         controller->FUN_0047aab0(second, 0, 0, 1.0f, 0.0f, 0);
-                    second->FUN_0098adb0(-DAT_0102f510);
+                    second->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
                     Position position;
-                    position.FUN_0043d410(second->FUN_00759450(1, 0));
-                    reference->FUN_00a59c60(&position);
+                    position.FUN_0043d410(second->NiPSysSpawnModifier_GetLifeSpan(1, 0));
+                    reference->NiAVObject_Update(&position);
                 }
             }
             else
@@ -23609,10 +23790,10 @@ void FNV_0055f970::FUN_0055f970()
                 if (first)
                 {
                     controller->FUN_0047aab0(first, 0, 0, 1.0f, 0.0f, 0);
-                    first->FUN_0098adb0(-DAT_0102f510);
+                    first->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
                     Position position;
-                    position.FUN_0043d410(first->FUN_00759450(1, 0));
-                    reference->FUN_00a59c60(&position);
+                    position.FUN_0043d410(first->NiPSysSpawnModifier_GetLifeSpan(1, 0));
+                    reference->NiAVObject_Update(&position);
                 }
                 controller->FUN_0048fef0(0.0f);
                 controller->FUN_0047aa40(false);
@@ -23620,7 +23801,7 @@ void FNV_0055f970::FUN_0055f970()
         }
     }
     void* root = reference ? NiObjectNET_GetControllers(reference) : 0;
-    controller = FUN_00653270((Registry*)&DAT_011f36ac, root);
+    controller = NiObject_DynamicCast((Registry*)&DAT_011f36ac, root);
     if (controller)
         controller->FUN_0048fef0(0.0f);
 }
@@ -23636,14 +23817,15 @@ struct ControllerSequence : public Idle_008b2010
 
 // Writes the count and names of active controller sequences to the save stream, applying the given offset to each.
 // @fnv 0x0055fe70
-void __cdecl FUN_0055fe70(AnimationInterpolatorNode* trans, float offset)
+// src: XBOX_PDB 0x0055fe70
+void __cdecl TESObjectREFR_SaveControllerManager(AnimationInterpolatorNode* trans, float offset)
 {
     if (offset == -1.0)
         offset = DAT_011c3c08;
     unsigned short count = 0;
     unsigned short* aPCount = g_TESSaveLoadGame->ReserveCount();
-    g_TESSaveLoadGame->FUN_008579b0(&count, 2);
-    if (trans && trans->FUN_004f05a0())
+    g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&count, 2);
+    if (trans && trans->NiTimeController_GetActive())
     {
         for (unsigned int i = 0; i < trans->GetSequenceCount(); i++)
         {
@@ -23651,9 +23833,9 @@ void __cdecl FUN_0055fe70(AnimationInterpolatorNode* trans, float offset)
             if (seq4 && seq4->GetState())
             {
                 unsigned char ucNameLen = _BSStringLength(seq4->GetName());
-                g_TESSaveLoadGame->FUN_008579b0(&ucNameLen, 1);
+                g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD(&ucNameLen, 1);
                 const char* name = seq4->GetName();
-                g_TESSaveLoadGame->FUN_008579b0((void*)name, ucNameLen);
+                g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((void*)name, ucNameLen);
                 static_cast<ControllerSequence*>(seq4)->SetOffset(offset);
                 count++;
             }
@@ -23675,11 +23857,11 @@ struct PacketCallback
     unsigned int state;
 };
 extern unsigned char UNK_00560870;
-unsigned int __cdecl FUN_004a8b00(void*);
+unsigned int __cdecl bhkNiCollisionObject_GetbhkNiCollisionObject(void*);
 void __cdecl bhkWorld_DoObjectRec(void*, PacketCallback*, unsigned char*);
 struct FUN_00560350_Class
 {
-    void* FUN_0043fcd0();
+    void* TESObjectREFR_Get3D();
     unsigned short TESObjectREFR_GetHavokDataSaveSize(FUN_0055ebf0* packet);
 };
 
@@ -23688,7 +23870,7 @@ struct FUN_00560350_Class
 unsigned short FUN_00560350_Class::TESObjectREFR_GetHavokDataSaveSize(FUN_0055ebf0* packet)
 {
     unsigned short result = 0;
-    void* object = FUN_0043fcd0();
+    void* object = TESObjectREFR_Get3D();
     if (object != 0)
     {
         result += 1;
@@ -23699,7 +23881,7 @@ unsigned short FUN_00560350_Class::TESObjectREFR_GetHavokDataSaveSize(FUN_0055eb
 
         packet->m3 = (unsigned int)this;
         packet->m4 = (unsigned int)object;
-        packet->m5 = FUN_004a8b00(object);
+        packet->m5 = bhkNiCollisionObject_GetbhkNiCollisionObject(object);
 
         unsigned short total;
         PacketCallback ctx;
@@ -24145,8 +24327,8 @@ struct BodyLoad
     void bhkRigidBody_SetActive(bool);
     void bhkRigidBody_SetNiPosition(const VecLoad*);
     void bhkRigidBody_SetNiRotation(const QuatLoad*);
-    void FUN_005615d0(const VecLoad*);
-    void FUN_00561630(const VecLoad*);
+    void bhkRigidBody_SetLinearVelocity(const VecLoad*);
+    void bhkRigidBody_SetAngularVelocity(const VecLoad*);
 };
 struct RefLoad
 {
@@ -24280,7 +24462,7 @@ struct RefLoad
 };
 struct CollisionLoad
 {
-    BodyLoad* FUN_006fa820();
+    BodyLoad* bhkNiCollisionObject_GetWorldObject();
     void bhkNiCollisionObject_SetReset(bool);
     NodeLoad* FUN_0044ddc0();
 };
@@ -24299,30 +24481,30 @@ struct ContextLoad
 };
 struct StreamLoad
 {
-    void FUN_008579e0(void*, unsigned int);
+    void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned int);
 };
 extern StreamLoad* g_TESSaveLoadGame;
 extern int DAT_011f9140, DAT_012681c0;
 extern VecLoad NiPoint3_ZERO;
-bool FUN_0043b300(const void*, NodeLoad*);
-BodyLoad* FUN_00653270(const void*, BodyLoad*);
-int FUN_00408b20(const char*, const char*);
+bool NiObject_IsKindOf(const void*, NodeLoad*);
+BodyLoad* NiObject_DynamicCast(const void*, BodyLoad*);
+int BSstrcmp(const char*, const char*);
 // Restores a collision body's position, rotation and motion from the save stream or the reference, skipping arrows and certain nodes.
 // @fnv 0x00560e70
 // src: COMMUNITY 0x00560e70
 void __cdecl TESObjectREFR_LoadHavokDataForCollisionObject(CollisionLoad* collision, ContextLoad* context)
 {
     StateLoad* state3 = context->state;
-    BodyLoad* world = collision->FUN_006fa820();
+    BodyLoad* world = collision->bhkNiCollisionObject_GetWorldObject();
     collision->bhkNiCollisionObject_SetReset(false);
     NodeLoad* node7 = collision->FUN_0044ddc0();
-    if (collision != state3->collision && node7 && node7->GetName() && !FUN_00408b20(node7->GetName(), "Arrow"))
+    if (collision != state3->collision && node7 && node7->GetName() && !BSstrcmp(node7->GetName(), "Arrow"))
         return;
-    if (state3->ref->test() && FUN_0043b300(&DAT_011f9140, node7))
+    if (state3->ref->test() && NiObject_IsKindOf(&DAT_011f9140, node7))
         return;
     if (world)
     {
-        BodyLoad* body6 = FUN_00653270(&DAT_012681c0, world);
+        BodyLoad* body6 = NiObject_DynamicCast(&DAT_012681c0, world);
         if (body6)
         {
             bool active4 = body6->active();
@@ -24340,30 +24522,30 @@ void __cdecl TESObjectREFR_LoadHavokDataForCollisionObject(CollisionLoad* collis
             {
                 VecLoad positionA;
                 QuatLoad savedRotation;
-                g_TESSaveLoadGame->FUN_008579e0(&positionA, 12);
-                g_TESSaveLoadGame->FUN_008579e0(&savedRotation, 16);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&positionA, 12);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&savedRotation, 16);
                 body6->bhkRigidBody_SetNiPosition(&positionA);
                 body6->bhkRigidBody_SetNiRotation(&savedRotation);
             }
             bool motion = false;
             if (state3->flags & 4)
-                g_TESSaveLoadGame->FUN_008579e0(&motion, 1);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&motion, 1);
             else if (state3->flags & 1)
                 motion = true;
             if (motion)
             {
                 VecLoad linear;
                 VecLoad angular5;
-                g_TESSaveLoadGame->FUN_008579e0(&linear, 12);
-                g_TESSaveLoadGame->FUN_008579e0(&angular5, 12);
-                body6->FUN_005615d0(&linear);
-                body6->FUN_00561630(&angular5);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&linear, 12);
+                g_TESSaveLoadGame->TESSaveLoadGame_LoadGameDataOLD(&angular5, 12);
+                body6->bhkRigidBody_SetLinearVelocity(&linear);
+                body6->bhkRigidBody_SetAngularVelocity(&angular5);
                 body6->bhkRigidBody_SetActive(true);
             }
             else
             {
-                body6->FUN_005615d0(&NiPoint3_ZERO);
-                body6->FUN_00561630(&NiPoint3_ZERO);
+                body6->bhkRigidBody_SetLinearVelocity(&NiPoint3_ZERO);
+                body6->bhkRigidBody_SetAngularVelocity(&NiPoint3_ZERO);
                 if (active4)
                     body6->bhkRigidBody_SetActive(false);
             }
@@ -24476,7 +24658,7 @@ struct Refr_s
     int unk34;
     int unk38;
     float m_fObjectScale;
-    void FUN_00562230(BGSSaveFormBuffer* buf);
+    void TESObjectREFR_SaveGame_00562230(BGSSaveFormBuffer* buf);
     void SaveGameBase(BGSSaveFormBuffer* buf);
     void SaveSub(BGSSaveFormBuffer* buf);
     void* Get3DSimple();
@@ -24486,7 +24668,8 @@ ExtraDataList_s* __fastcall GetExtraList(Refr_s* ref);
 InvChanges_s* GetOrAddInventoryChanges(Refr_s* ref);
 
 // @fnv 0x00562230
-void Refr_s::FUN_00562230(BGSSaveFormBuffer* apBuffer)
+// src: XBOX_PDB 0x00562230
+void Refr_s::TESObjectREFR_SaveGame_00562230(BGSSaveFormBuffer* apBuffer)
 {
     SaveGameBase(apBuffer);
     if (apBuffer->GetChangeFlags().Test(0x10))
@@ -24521,7 +24704,7 @@ namespace fnv_00562de0 {
 struct TargetRef
 {
     void FUN_00865e50(FUN_00562e70* pData, int aU, int aV);
-    void FUN_00865f60(unsigned int z9);
+    void SaveVariableSizedValue(unsigned int z9);
 };
 
 struct CallbackDesc
@@ -24536,20 +24719,21 @@ struct CallbackDesc
 };
 
 void __cdecl bhkWorld_DoObjectRec(void* p, CallbackDesc* pDesc, void (*pfn)());
-void FUN_00563220();
+void TESObjectREFR_SaveHavokDataForCollisionObject();
 
 struct FUN_00562de0_cls
 {
     int unk00;
-    void* FUN_0043fcd0();
+    void* TESObjectREFR_Get3D();
     void TESObjectREFR_GatherHavokSaveData(FUN_00562e70* pData);
-    void FUN_00562de0(TargetRef* pTarget);
+    void TESObjectREFR_SaveHavokData(TargetRef* pTarget);
 };
 
 // @fnv 0x00562de0
-void FUN_00562de0_cls::FUN_00562de0(TargetRef* pTarget)
+// src: XBOX_PDB 0x00562de0
+void FUN_00562de0_cls::TESObjectREFR_SaveHavokData(TargetRef* pTarget)
 {
-    void* pCell = FUN_0043fcd0();
+    void* pCell = TESObjectREFR_Get3D();
     if (pCell != 0)
     {
         FUN_00562e70 data;
@@ -24559,11 +24743,11 @@ void FUN_00562de0_cls::FUN_00562de0(TargetRef* pTarget)
         TESObjectREFR_GatherHavokSaveData(&data);
         pTarget->FUN_00865e50(&data, 1, 0);
         z9 = data.a1 + data.a2;
-        pTarget->FUN_00865f60(z9);
+        pTarget->SaveVariableSizedValue(z9);
         desc.nValue = 0x12;
         desc.bFlag = 1;
         desc.pOwner = &data;
-        bhkWorld_DoObjectRec(pCell, &desc, FUN_00563220);
+        bhkWorld_DoObjectRec(pCell, &desc, TESObjectREFR_SaveHavokDataForCollisionObject);
     }
 }
 }  // namespace fnv_00562de0
@@ -24672,11 +24856,12 @@ struct StubRef565
 {
     StubForm565* GetBase();
     int HasOther();
-    bool FUN_00565260();
+    bool TESObjectREFR_MustRefPersist();
 };
 
 // @fnv 0x00565260
-bool StubRef565::FUN_00565260()
+// src: XBOX_PDB 0x00565260
+bool StubRef565::TESObjectREFR_MustRefPersist()
 {
     StubForm565* form = GetBase();
     if (form)
@@ -24756,13 +24941,13 @@ struct Flag79
 struct Sequence79
 {
     int FUN_0059bb30();
-    void FUN_0098adb0(float);
-    float FUN_00759450();
+    void PathingLOSGridMap_SetSightRadius(float);
+    float NiPSysSpawnModifier_GetLifeSpan();
 };
 struct Controller79
 {
     bool NiControllerManager_IsCumulative();
-    Sequence79* FUN_0047a520(const Name79&);
+    Sequence79* NiControllerManager_GetSequenceByName(const Name79&);
     void FUN_0047aab0(Sequence79*, int, int, float, float, int);
     void FUN_0047aa40(int);
     void FUN_0048fef0(float);
@@ -24813,7 +24998,7 @@ struct Node79
     virtual void v40();
     virtual void Update(const Update79&, int);
     Controller79* NiObjectNET_GetControllers();
-    void FUN_00a59c60(const Update79&);
+    void NiAVObject_Update(const Update79&);
     Node79* NiObjectNET_GetController(void*);
     void NiTimeController_SetComputeScaledTime(int);
 };
@@ -24951,8 +25136,8 @@ struct Base79
     int unkc0;
     ModelList79 models;
     int FUN_00401170();
-    bool FUN_004c0bf0();
-    unsigned int FUN_0084e3a0();
+    bool TESObjectWEAP_IsThrownWeapon();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void TESCreature_CheckEmbeddedWeaponNodes(Node79*);
 };
 struct Biped79
@@ -25043,9 +25228,9 @@ struct Anim79
     Anim79();
     bool FUN_0048ffd0(void*, Node79*, Actor79*, int);
     void Animation_AddSpecialAnimations(const char*);
-    void FUN_00491180(Actor79*, float, float);
+    void Animation_Update(Actor79*, float, float);
     Node79* FUN_005585e0();
-    Controller79* FUN_00496940();
+    Controller79* GetControllerManager_00496940();
 };
 struct Process79
 {
@@ -25353,7 +25538,7 @@ struct Item79
 };
 struct Inventory79
 {
-    Item79* FUN_004c8c10(int, int);
+    Item79* InventoryChanges_GetWornItem(int, int);
 };
 struct Equip79
 {
@@ -25511,29 +25696,29 @@ struct Actor79
     int unk18;
     int unk1c;
     Base79* base;
-    Node79* FUN_0043fcd0();
+    Node79* TESObjectREFR_Get3D();
     Anim79* TESObjectREFR_SetAnimation(Anim79*);
     bool FUN_00440d80();
     const char* FUN_005715d0();
     void* Actor_GetCurrentWeaponAnimType();
-    void FUN_005726e0(Node79*, int);
+    void TESObjectREFR_SetLight_005726e0(Node79*, int);
     void FUN_00484b90(unsigned int);
-    Base79* FUN_007af430();
-    bool FUN_00572d30(int);
-    bool FUN_00561d90();
+    Base79* BGSSaveFormBuffer_GetForm();
+    bool TESObjectREFR_GetAction_00572d30(int);
+    bool TESObjectREFR_GetOriginalOpenByDefaultState();
     void TESObjectREFR_ReplaceModel();
     void* TESObjectREFR_BuildKFFileList(void*);
-    float FUN_00568ad0();
+    float TESObjectREFR_GetHealth();
     Process79* FUN_008d8520();
     bool FUN_00566950();
-    const char* FUN_0055d520();
-    void FUN_00571760(Base79*);
-    bool FUN_008a6970();
-    Biped79* FUN_00950b00(int);
+    const char* TESObjectREFR_GetFullName();
+    void TESObjectREFR_AttachWeapon(Base79*);
+    bool Actor_GetWantWeaponDrawn();
+    Biped79* GetBiped(int);
     void* FUN_00950a60(int);
-    bool FUN_008a16d0();
-    void* FUN_008b70d0();
-    Extra79* FUN_005d43c0();
+    bool IsWeaponDrawn();
+    void* Actor_GetAnimation();
+    Extra79* BSFile_GetDevice();
     void TESObjectREFR_InitAnimation();
 };
 extern Actor79* DAT_011dea3c;
@@ -25547,18 +25732,18 @@ struct Type79
 };
 extern Type79 DAT_01187004[];
 extern float DAT_0102f510;
-Controller79* FUN_00653270(void*, Controller79*);
+Controller79* NiObject_DynamicCast(void*, Controller79*);
 bool FUN_0047a490(Base79*);
 bool FUN_0047aec0(Actor79*, bool, int);
 Inventory79* FUN_004bf220(Actor79*);
-bool FUN_008c7aa0();
-Actor79* FUN_0047b200();
+bool AILinearTaskThreadManager_ShouldQueue3DTask();
+Actor79* TESObjectREFR_GetBackgroundLoadingRef();
 Equip79* __stdcall FUN_004537b0(Actor79*);
 const char* FUN_00ec6e30(const char*, int);
 int FUN_00ec7ec0(const char*, const char*, int);
 int FUN_00ec7750(const char*, const char*);
 void FUN_00406d30(char*, unsigned int, const char*);
-char* FUN_0040ab30(char*, int);
+char* strrchr_0040ab30(char*, int);
 void __cdecl Warning_005b5e40(const char*, ...);
 void* operator new(unsigned int);
 void operator delete(void*);
@@ -25566,7 +25751,7 @@ void operator delete(void*);
 // src: COMMUNITY 0x005659f0
 void Actor79::TESObjectREFR_InitAnimation()
 {
-    Node79* object4 = FUN_0043fcd0();
+    Node79* object4 = TESObjectREFR_Get3D();
     Node79* root1 = object4 ? object4->IsSceneNode() : 0;
     Biped79* biped5 = Biped();
     void* animationPath3 = 0;
@@ -25592,13 +25777,13 @@ void Actor79::TESObjectREFR_InitAnimation()
     switch (base->FUN_00401170())
     {
     case 40:
-        if (base->FUN_004c0bf0())
-            FUN_005726e0(root1, 0);
+        if (base->TESObjectWEAP_IsThrownWeapon())
+            TESObjectREFR_SetLight_005726e0(root1, 0);
     default:
         if (root1->NiObjectNET_GetControllers())
         {
             Controller79* controller1 = root1->NiObjectNET_GetControllers();
-            Controller79* manager35 = FUN_00653270(&DAT_011f36ac, controller1);
+            Controller79* manager35 = NiObject_DynamicCast(&DAT_011f36ac, controller1);
             bool unused2 = false;
             if (manager35)
             {
@@ -25609,12 +25794,12 @@ void Actor79::TESObjectREFR_InitAnimation()
                         DAT_01187004[base->FUN_00401170()].name, FUN_005715d0());
                 bool activated9 = false;
                 bool skip3 = false;
-                if (FUN_0047a490(FUN_007af430()))
+                if (FUN_0047a490(BGSSaveFormBuffer_GetForm()))
                 {
-                    bool open = FUN_00572d30(8);
+                    bool open = TESObjectREFR_GetAction_00572d30(8);
                     if (!DAT_011ddf38->IsLoading())
                     {
-                        bool oldOpen30 = FUN_00561d90();
+                        bool oldOpen30 = TESObjectREFR_GetOriginalOpenByDefaultState();
                         bool changed1 = DAT_011ddf38->FUN_0084a6d0(this, Flag79(0x800000)) ? true : false;
                         open = oldOpen30 != changed1;
                     }
@@ -25622,8 +25807,8 @@ void Actor79::TESObjectREFR_InitAnimation()
                 }
                 if (!skip3)
                 {
-                    Sequence79* sequence8 = manager35->FUN_0047a520(Name79(DAT_011977d8));
-                    Sequence79* secondary8 = manager35->FUN_0047a520(Name79(DAT_01197820));
+                    Sequence79* sequence8 = manager35->NiControllerManager_GetSequenceByName(Name79(DAT_011977d8));
+                    Sequence79* secondary8 = manager35->NiControllerManager_GetSequenceByName(Name79(DAT_01197820));
                     if (sequence8 || secondary8)
                     {
                         float end = 0.0f;
@@ -25632,8 +25817,8 @@ void Actor79::TESObjectREFR_InitAnimation()
                             if (!sequence8->FUN_0059bb30())
                             {
                                 manager35->FUN_0047aab0(sequence8, 0, 0, 1.0f, 0.0f, 0);
-                                sequence8->FUN_0098adb0(-DAT_0102f510);
-                                end = sequence8->FUN_00759450();
+                                sequence8->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                                end = sequence8->NiPSysSpawnModifier_GetLifeSpan();
                             }
                             else
                                 Warning_005b5e40("ANIMATION: Idle animation must be looping '%s'.", FUN_005715d0());
@@ -25641,11 +25826,11 @@ void Actor79::TESObjectREFR_InitAnimation()
                         if (secondary8)
                         {
                             manager35->FUN_0047aab0(secondary8, 0, 0, 1.0f, 0.0f, 0);
-                            secondary8->FUN_0098adb0(-DAT_0102f510);
-                            end = secondary8->FUN_00759450();
+                            secondary8->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                            end = secondary8->NiPSysSpawnModifier_GetLifeSpan();
                         }
                         Update79 update(end, 1, 0);
-                        root1->FUN_00a59c60(update);
+                        root1->NiAVObject_Update(update);
                     }
                     else
                     {
@@ -25655,9 +25840,9 @@ void Actor79::TESObjectREFR_InitAnimation()
                             manager35->FUN_0048fef0(0.0f);
                             sequence8 = manager35->GetSequenceAt(0);
                             manager35->FUN_0047aab0(sequence8, 0, 0, 1.0f, 0.0f, 0);
-                            sequence8->FUN_0098adb0(-DAT_0102f510);
-                            Update79 update(sequence8->FUN_00759450(), 1, 0);
-                            root1->FUN_00a59c60(update);
+                            sequence8->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                            Update79 update(sequence8->NiPSysSpawnModifier_GetLifeSpan(), 1, 0);
+                            root1->NiAVObject_Update(update);
                         }
                         manager35->FUN_0048fef0(0.0f);
                         manager35->FUN_0047aa40(0);
@@ -25678,7 +25863,7 @@ void Actor79::TESObjectREFR_InitAnimation()
         break;
     case 43:
         animation16 = TESObjectREFR_SetAnimation(new Anim79);
-        object4 = FUN_0043fcd0();
+        object4 = TESObjectREFR_Get3D();
         if (object4)
             root1 = object4->IsSceneNode();
         else
@@ -25686,19 +25871,19 @@ void Actor79::TESObjectREFR_InitAnimation()
         if (!root1)
         {
             Warning_005b5e40("ANIMATION: SetAnimation cleared 3D because %s (%08X) was moved", npc33->Name(),
-                         npc33->FUN_0084e3a0());
+                         npc33->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             return;
         }
         TESObjectREFR_ReplaceModel();
         animationPath3 = TESObjectREFR_BuildKFFileList(race16);
         if (!animation16->FUN_0048ffd0(animationPath3, root1, this, 1))
             Warning_005b5e40("ANIMATION: Bad InitAnimation for Creature '%s' (%08X). Missing 'Idle' animation.",
-                         creature2->Name(), creature2->FUN_0084e3a0());
-        if (FUN_00568ad0() > 0.0 && creature2->models.FUN_0047fd90())
+                         creature2->Name(), creature2->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+        if (TESObjectREFR_GetHealth() > 0.0 && creature2->models.FUN_0047fd90())
         {
             char path[260];
             FUN_00406d30(path, 260, FUN_005715d0());
-            char* last = FUN_0040ab30(path, 92);
+            char* last = strrchr_0040ab30(path, 92);
             if (last)
             {
                 *last = 0;
@@ -25712,7 +25897,7 @@ void Actor79::TESObjectREFR_InitAnimation()
             break;
         biped5->FUN_004aae70();
         animation16 = TESObjectREFR_SetAnimation(new Anim79);
-        object4 = FUN_0043fcd0();
+        object4 = TESObjectREFR_Get3D();
         if (object4)
             root1 = object4->IsSceneNode();
         else
@@ -25720,19 +25905,19 @@ void Actor79::TESObjectREFR_InitAnimation()
         if (!root1)
         {
             Warning_005b5e40("ANIMATION: SetAnimation cleared 3D because %s (%08X) was moved", npc33->Name(),
-                         npc33->FUN_0084e3a0());
+                         npc33->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             return;
         }
         TESObjectREFR_ReplaceModel();
         animationPath3 = TESObjectREFR_BuildKFFileList(race16);
         if (!animation16->FUN_0048ffd0(animationPath3, root1, this, 1))
             Warning_005b5e40("ANIMATION: Bad InitAnimation for NPC '%s' (%08X). Missing 'Idle' animation.", npc33->Name(),
-                         npc33->FUN_0084e3a0());
-        if (FUN_00568ad0() > 0.0 && npc33->models.FUN_0047fd90())
+                         npc33->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+        if (TESObjectREFR_GetHealth() > 0.0 && npc33->models.FUN_0047fd90())
         {
             char path[260];
             FUN_00406d30(path, 260, FUN_005715d0());
-            char* last = FUN_0040ab30(path, 92);
+            char* last = strrchr_0040ab30(path, 92);
             if (last)
             {
                 *last = 0;
@@ -25742,7 +25927,7 @@ void Actor79::TESObjectREFR_InitAnimation()
         break;
     }
     if (animation16)
-        animation16->FUN_00491180(this, 0.0f, -1.0f);
+        animation16->Animation_Update(this, 0.0f, -1.0f);
     if (actor19)
     {
         Process79* process39 = 0;
@@ -25759,39 +25944,39 @@ void Actor79::TESObjectREFR_InitAnimation()
         if (process39 && this != DAT_011dea3c && !DAT_011ddf38->IsLoading())
         {
             Inventory79* inventory4 = FUN_004bf220(this);
-            Item79* item2 = inventory4 ? inventory4->FUN_004c8c10(5, 0) : 0;
+            Item79* item2 = inventory4 ? inventory4->InventoryChanges_GetWornItem(5, 0) : 0;
             Base79* weapon51 = item2 ? item2->FUN_0044ddc0() : 0;
-            process39->SetItem(inventory4 ? inventory4->FUN_004c8c10(5, 0) : 0, Parent(), 0);
+            process39->SetItem(inventory4 ? inventory4->InventoryChanges_GetWornItem(5, 0) : 0, Parent(), 0);
             Actor79* actorRef3 = IsActor() ? this : 0;
-            bool special40 = IsActor() && actorRef3->FUN_00566950() && FUN_00ec7750(actorRef3->FUN_0055d520(), "Lily");
+            bool special40 = IsActor() && actorRef3->FUN_00566950() && FUN_00ec7750(actorRef3->TESObjectREFR_GetFullName(), "Lily");
             if (IsActor() && (WeaponDrawn() || special40) && weapon51)
             {
                 Actor79* unusedActor15 = this;
                 Actor79* currentActor3 = this;
                 if (!process39->IsBusy(1) && item2)
                 {
-                    if (FUN_008c7aa0() && currentActor3 != FUN_0047b200())
+                    if (AILinearTaskThreadManager_ShouldQueue3DTask() && currentActor3 != TESObjectREFR_GetBackgroundLoadingRef())
                         FUN_004537b0(currentActor3)->TaskQueueInterface_QueueAttachWeapon(item2->FUN_0044ddc0());
                     else if (!special40)
-                        currentActor3->FUN_00571760(item2->FUN_0044ddc0());
+                        currentActor3->TESObjectREFR_AttachWeapon(item2->FUN_0044ddc0());
                 }
             }
             if (animation16 && animation16->FUN_005585e0())
-                actor19->FUN_008d8520()->SetAnimation(animation16->FUN_00496940(), animation16->FUN_005585e0());
+                actor19->FUN_008d8520()->SetAnimation(animation16->GetControllerManager_00496940(), animation16->FUN_005585e0());
             if (!DAT_011ddf38->IsLoading())
             {
                 void* state = process39->State();
-                if (actor19->FUN_008a6970())
+                if (actor19->Actor_GetWantWeaponDrawn())
                     process39->SetDrawn(actor19, 1);
-                if (this == DAT_011dea3c && biped5 == DAT_011dea3c->FUN_00950b00(1))
-                    actor19->FUN_008d8520()->Equip(actor19->FUN_008a16d0(), biped5, DAT_011dea3c->FUN_00950a60(1),
+                if (this == DAT_011dea3c && biped5 == DAT_011dea3c->GetBiped(1))
+                    actor19->FUN_008d8520()->Equip(actor19->IsWeaponDrawn(), biped5, DAT_011dea3c->FUN_00950a60(1),
                                                    actor19);
                 else
-                    actor19->FUN_008d8520()->Equip(actor19->FUN_008a16d0(), biped5, actor19->FUN_008b70d0(), actor19);
+                    actor19->FUN_008d8520()->Equip(actor19->IsWeaponDrawn(), biped5, actor19->Actor_GetAnimation(), actor19);
             }
         }
         if (IsDead() && actor19 && actor19->FUN_00566950() && DAT_011ddf38->IsLoading())
-            actor19->FUN_008d8520()->Equip(actor19->FUN_008a16d0(), biped5, actor19->FUN_008b70d0(), actor19);
+            actor19->FUN_008d8520()->Equip(actor19->IsWeaponDrawn(), biped5, actor19->Actor_GetAnimation(), actor19);
         Node79* extra36 = root1->NiObjectNET_GetController(&DAT_011f36bc);
         if (extra36)
         {
@@ -25799,12 +25984,12 @@ void Actor79::TESObjectREFR_InitAnimation()
             collision->NiTimeController_SetComputeScaledTime(1);
         }
     }
-    SavedAnim79* saved62 = FUN_005d43c0()->ExtraDataList_GetAnimSave();
+    SavedAnim79* saved62 = BSFile_GetDevice()->ExtraDataList_GetAnimSave();
     if (saved62 && animation16)
     {
         Update79 update(saved62->time, 0, 0);
-        FUN_0043fcd0()->FUN_00a59c60(update);
-        FUN_005d43c0()->ExtraDataList_RemoveAnimSave();
+        TESObjectREFR_Get3D()->NiAVObject_Update(update);
+        BSFile_GetDevice()->ExtraDataList_RemoveAnimSave();
     }
 }
 }  // namespace fnv_005659f0
@@ -25973,7 +26158,7 @@ struct Form62
     int unk0d8;
     Model62 model;
     int FUN_00401170();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     int FUN_005f0cc0();
 };
 struct AnimationSet62
@@ -26008,7 +26193,7 @@ extern char DAT_0102ffbc[];
 extern char DAT_0102ff94[];
 int FUN_00406d30(char*, unsigned int, const char*);
 int FUN_00406d50(char*, unsigned int, const char*);
-char* FUN_0040ab30(char*, int);
+char* strrchr_0040ab30(char*, int);
 int __cdecl FUN_00ec623a(char*, const char*, ...);
 struct Ref62
 {
@@ -26152,11 +26337,11 @@ struct Ref62
     virtual void v137();
     virtual void v138();
     virtual bool IsFirstPerson(int);
-    Form62* FUN_007af430();
+    Form62* BGSSaveFormBuffer_GetForm();
     Process62* FUN_008d8520();
-    bool FUN_008a6970();
+    bool Actor_GetWantWeaponDrawn();
     const char* FUN_005715d0();
-    Weapon62* FUN_008a1710();
+    Weapon62* Actor_GetCurrentWeapon();
     AnimationSet62* TESObjectREFR_BuildKFFileList(int);
 };
 // @fnv 0x00566970
@@ -26164,9 +26349,9 @@ struct Ref62
 AnimationSet62* Ref62::TESObjectREFR_BuildKFFileList(int animationType)
 {
     AnimationSet62* result = 0;
-    if (!FUN_007af430())
+    if (!BGSSaveFormBuffer_GetForm())
         return result;
-    switch (FUN_007af430()->FUN_00401170())
+    switch (BGSSaveFormBuffer_GetForm()->FUN_00401170())
     {
     case 43: {
         Ref62* actor = this;
@@ -26179,7 +26364,7 @@ AnimationSet62* Ref62::TESObjectREFR_BuildKFFileList(int animationType)
                 Process62* process = actor->FUN_008d8520();
                 if (process->Equipped())
                     animationType = DAT_0118a838[process->Equipped()->FUN_0044ddc0()->FUN_00446390()];
-                else if (actor->FUN_008a6970())
+                else if (actor->Actor_GetWantWeaponDrawn())
                     animationType = 1;
                 break;
             }
@@ -26194,12 +26379,12 @@ AnimationSet62* Ref62::TESObjectREFR_BuildKFFileList(int animationType)
             FUN_00406d50(path10, 260, DAT_0101dccc);
             FUN_00406d50(path10, 260, DAT_01013444);
             FUN_00406d50(path10, 260, FUN_005715d0());
-            char* slash24 = FUN_0040ab30(path10, 92);
+            char* slash24 = strrchr_0040ab30(path10, 92);
             FUN_00406d30(slash24, 260 - (slash24 - path10), DAT_01016fa0);
             result = DAT_011c3b3c->FUN_00447300(path10, FUN_005715d0(), 0);
             const char* suffix52;
             {
-                Weapon62* weapon109 = actor->FUN_008a1710();
+                Weapon62* weapon109 = actor->Actor_GetCurrentWeapon();
                 int weaponType31 = weapon109 ? weapon109->FUN_00446390() : 0;
                 suffix52 = DAT_011977a4[DAT_0118a838[weaponType31]];
             }
@@ -26216,13 +26401,13 @@ AnimationSet62* Ref62::TESObjectREFR_BuildKFFileList(int animationType)
         break;
     }
     case 42: {
-        Form62* base = FUN_007af430();
-        if (base->FUN_0084e3a0() == 7 || !IsFirstPerson(1))
+        Form62* base = BGSSaveFormBuffer_GetForm();
+        if (base->GetHavokWorldObjectCountInSceneGraph_0084e3a0() == 7 || !IsFirstPerson(1))
         {
             result = DAT_011c3b3c->ModelLoader_BuildKFFileList(base->model.Path(), 1, 1, animationType);
             char normalPath12[260];
             FUN_00406d30(normalPath12, 260, base->model.Path());
-            char* normalSlash12 = FUN_0040ab30(normalPath12, 92);
+            char* normalSlash12 = strrchr_0040ab30(normalPath12, 92);
             if (IsFemale(1))
                 FUN_00406d30(normalSlash12, 260 - (normalSlash12 - normalPath12) - 1, DAT_01016f58);
             else if (base->FUN_005f0cc0() == 1)
@@ -26238,11 +26423,11 @@ AnimationSet62* Ref62::TESObjectREFR_BuildKFFileList(int animationType)
             FUN_00406d30(thirdPath5, 260, DAT_0102ffbc);
             result = DAT_011c3b3c->FUN_00447300(firstPath5, thirdPath5, 0);
             FUN_00406d30(firstPath5, 260, DAT_0102ff94);
-            char* firstSlash30 = FUN_0040ab30(firstPath5, 92);
+            char* firstSlash30 = strrchr_0040ab30(firstPath5, 92);
             Ref62* player50 = this;
             const char* playerSuffix62;
             {
-                Weapon62* playerWeapon22 = player50->FUN_008a1710();
+                Weapon62* playerWeapon22 = player50->Actor_GetCurrentWeapon();
                 int playerType1 = playerWeapon22 ? playerWeapon22->FUN_00446390() : 0;
                 playerSuffix62 = DAT_011977a4[DAT_0118a838[playerType1]];
             }
@@ -26314,11 +26499,12 @@ struct Self567b50 : public TESObjectREFR
 {
     ExtraL* GetExtra();
     Holder567b50* FUN_00568e50();
-    void FUN_00567b50(TESObjectREFR* param2);
+    void TESObjectREFR_SetGlobal(TESObjectREFR* param2);
 };
 
 // @fnv 0x00567b50
-void Self567b50::FUN_00567b50(TESObjectREFR* pRef)
+// src: XBOX_PDB 0x00567b50
+void Self567b50::TESObjectREFR_SetGlobal(TESObjectREFR* pRef)
 {
     GetExtra()->SetExtraDataValue((int)pRef);
     ((Ref567b50*)this)->v48(0x40);
@@ -26355,26 +26541,27 @@ struct FUN_00567c50_cls
     virtual void v44();
     virtual void v48(unsigned int flags);
 
-    void FUN_00567c50();
+    void TESObjectREFR_RemoveOwner();
 };
 
 void* __fastcall FUN_00568e50(FUN_00567c50_cls* pThis);
 void* __fastcall FUN_00559450(void* pThis);
 
 // @fnv 0x00567c50
-void FUN_00567c50_cls::FUN_00567c50()
+// src: XBOX_PDB 0x00567c50
+void FUN_00567c50_cls::TESObjectREFR_RemoveOwner()
 {
-    ((ExtraL*)FUN_005d43c0((TESObjectREFR*)this))->FUN_00419700(0);
-    ((ExtraL*)FUN_005d43c0((TESObjectREFR*)this))->SetExtraDataValue(0);
-    ((ExtraL*)FUN_005d43c0((TESObjectREFR*)this))->FUN_004198a0(-1);
+    ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)this))->ExtraDataList_SetOwnership(0);
+    ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)this))->SetExtraDataValue(0);
+    ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)this))->FUN_004198a0(-1);
     this->v48(0x40);
 
     FUN_00567c50_cls* obj = (FUN_00567c50_cls*)FUN_00568e50(this);
     if (obj != 0 && FUN_00559450(obj) != 0)
     {
-        ((ExtraL*)FUN_005d43c0((TESObjectREFR*)FUN_00559450(obj)))->FUN_00419700(0);
-        ((ExtraL*)FUN_005d43c0((TESObjectREFR*)FUN_00559450(obj)))->SetExtraDataValue(0);
-        ((ExtraL*)FUN_005d43c0((TESObjectREFR*)FUN_00559450(obj)))->FUN_004198a0(-1);
+        ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)FUN_00559450(obj)))->ExtraDataList_SetOwnership(0);
+        ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)FUN_00559450(obj)))->SetExtraDataValue(0);
+        ((ExtraL*)BSFile_GetDevice((TESObjectREFR*)FUN_00559450(obj)))->FUN_004198a0(-1);
         ((FUN_00567c50_cls*)FUN_00559450(obj))->v48(0x40);
     }
 }
@@ -26557,10 +26744,11 @@ struct MarkerRef
     MarkerMatrix Rotation();
     const MarkerPoint& Angles();
     MarkerExtraList* Extras();
-    bool FUN_005686b0(const MarkerPoint&, bool, bool, MarkerOutput*, unsigned int*, bool);
+    bool TESObjectREFR_GetClosestFreeMarker(const MarkerPoint&, bool, bool, MarkerOutput*, unsigned int*, bool);
 };
 // @fnv 0x005686b0
-bool MarkerRef::FUN_005686b0(const MarkerPoint& aQueryPoint, bool sit, bool sleep, MarkerOutput* output,
+// src: XBOX_PDB 0x005686b0
+bool MarkerRef::TESObjectREFR_GetClosestFreeMarker(const MarkerPoint& aQueryPoint, bool sit, bool sleep, MarkerOutput* output,
                              unsigned int* index, bool ignore)
 {
     bool result5 = false;
@@ -26655,34 +26843,35 @@ struct ExtraHealth39
 struct ExtraAccess39
 {
     ExtraHealth39* BaseExtraList_GetExtraData(unsigned char type);
-    void FUN_00410020(ExtraHealth39* extra, bool remove);
+    void BaseExtraList_RemoveExtra(ExtraHealth39* extra, bool remove);
     void FUN_00419970(float value);
 };
 struct Ref39
 {
-    TESBoundObject* FUN_007af430();
-    ExtraAccess39* FUN_005d43c0();
-    void FUN_00568bd0(float value);
+    TESBoundObject* BGSSaveFormBuffer_GetForm();
+    ExtraAccess39* BSFile_GetDevice();
+    void TESObjectREFR_SetHealth(float value);
 };
 // Sets the object's health: removes the extra health entry if the value matches the form's health, otherwise updates or adds it.
 // @fnv 0x00568bd0
-void Ref39::FUN_00568bd0(float afHealth)
+// src: XBOX_PDB 0x00568bd0
+void Ref39::TESObjectREFR_SetHealth(float afHealth)
 {
-    TESHealthForm* health = dynamic_cast<TESHealthForm*>(FUN_007af430());
+    TESHealthForm* health = dynamic_cast<TESHealthForm*>(BGSSaveFormBuffer_GetForm());
     if (health)
     {
-        ExtraHealth39* extra = FUN_005d43c0()->BaseExtraList_GetExtraData(0x25);
+        ExtraHealth39* extra = BSFile_GetDevice()->BaseExtraList_GetExtraData(0x25);
         if (extra)
         {
             if (afHealth == health->GetHealth())
-                FUN_005d43c0()->FUN_00410020(extra, true);
+                BSFile_GetDevice()->BaseExtraList_RemoveExtra(extra, true);
             else
                 extra->health = afHealth;
         }
         else
         {
             if (afHealth != health->GetHealth())
-                FUN_005d43c0()->FUN_00419970(afHealth);
+                BSFile_GetDevice()->FUN_00419970(afHealth);
         }
     }
 }
@@ -26698,13 +26887,13 @@ class FUN_005692d0_item
 class FUN_005692d0_extra
 {
   public:
-    unsigned char FUN_00418b40();
+    unsigned char ExtraDataList_GetSeedIndex();
 };
 
 class FUN_005692d0_cls
 {
   public:
-    FUN_005692d0_item* FUN_007af430();
+    FUN_005692d0_item* BGSSaveFormBuffer_GetForm();
     int TESObjectREFR_GetSpeedTreeSeed();
 };
 
@@ -26716,14 +26905,14 @@ int FUN_005692d0_cls::TESObjectREFR_GetSpeedTreeSeed()
     unsigned char flag;
     void* obj;
 
-    if (FUN_007af430() != 0)
+    if (BGSSaveFormBuffer_GetForm() != 0)
     {
-        if (FUN_007af430()->FUN_00401170() == 0x25)
+        if (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x25)
         {
-            obj = FUN_007af430();
+            obj = BGSSaveFormBuffer_GetForm();
             if (obj != 0)
             {
-                flag = ((FUN_005692d0_extra*)FUN_005d43c0((TESObjectREFR*)this))->FUN_00418b40();
+                flag = ((FUN_005692d0_extra*)BSFile_GetDevice((TESObjectREFR*)this))->ExtraDataList_GetSeedIndex();
                 result2 = ((FUN_005692d0_VSlot)((*(void***)obj)[0x188 / 4]))(obj, flag);
             }
         }
@@ -26749,7 +26938,7 @@ struct ExtraList_569350
 // src: COMMUNITY 0x00569350
 void RefrShell_569350::TESObjectREFR_SetExtraSeed(TESForm* form)
 {
-    if (::FUN_005d43c0(this) == 0 ||
+    if (::BSFile_GetDevice(this) == 0 ||
         (_FNV_GetObjectReference(this) != 0 && (::_FNV_GetFormType)(_FNV_GetObjectReference(this)) != 0x25))
         return;
 
@@ -26758,7 +26947,7 @@ void RefrShell_569350::TESObjectREFR_SetExtraSeed(TESForm* form)
     {
         // Slot 0x184 is not declared by the shared base class.
         bool b = ((bool (__thiscall *)(TESBoundObject*, TESForm*))(*reinterpret_cast<void***>(o))[0x184 / 4])(o, form);
-        ((ExtraList_569350*)::FUN_005d43c0(this))->SetByte(b);
+        ((ExtraList_569350*)::BSFile_GetDevice(this))->SetByte(b);
     }
 }
 
@@ -26866,7 +27055,8 @@ XObject* NiDynamicCast(const NiRTTI* rtti, XObject* obj);
 
 // Recursively tests a geometry's transformed vertices against a PointTester, setting found and returning whether all points pass when all is set.
 // @fnv 0x00569670
-bool FUN_00569670(XAVObject* apObject, PointTester* tester, bool* found, bool all)
+// src: XBOX_PDB 0x00569670
+bool TESObjectREFR_QVerticesInsideMultiboundRecurse(XAVObject* apObject, PointTester* tester, bool* found, bool all)
 {
     if (IsSkippedObject(&g_011c7d34, apObject))
         return *found;
@@ -26912,7 +27102,7 @@ bool FUN_00569670(XAVObject* apObject, PointTester* tester, bool* found, bool al
     {
         for (unsigned int j = 0; j < node->GetArrayCount(); j++)
         {
-            if (!FUN_00569670(node->GetAt(j), tester, found, all))
+            if (!TESObjectREFR_QVerticesInsideMultiboundRecurse(node->GetAt(j), tester, found, all))
                 return false;
         }
     }
@@ -27002,12 +27192,13 @@ struct FNV_569BE0_Node
 
 struct FNV_569BE0_This : Unknown
 {
-    void __thiscall FUN_00569be0(int ignored);
+    void __thiscall TESObjectREFR_DrawRefLink(int ignored);
 };
 
 // Gets the node, asks its inner object to process a temporary value, and if a nonzero result comes back, passes it to ConsumeResult.
 // @fnv 0x00569be0
-void FNV_569BE0_This::FUN_00569be0(int ignored)
+// src: XBOX_PDB 0x00569be0
+void FNV_569BE0_This::TESObjectREFR_DrawRefLink(int ignored)
 {
     FNV_569BE0_Node* node = reinterpret_cast<FNV_569BE0_Node*>(GetNode());
     if (node)
@@ -27122,7 +27313,7 @@ struct TargetNode : public TargetObj
     static void operator delete(void*, unsigned int);
     void SetName(const NiFixedString&);
     void RemoveAllChildren();
-    void FUN_00a5a040();
+    void UpdateProperties();
     void Update(const NiUpdateData&);
     void* p0;
     void* p1;
@@ -27168,7 +27359,7 @@ struct TargetNode : public TargetObj
     void* p29;
 };
 
-extern "C" TargetObj* __cdecl FUN_004b3890(const NiPoint3*, const NiColorA*, const TargetPoint*,
+extern "C" TargetObj* __cdecl MakeLine(const NiPoint3*, const NiColorA*, const TargetPoint*,
                                            const NiColorA*, int);
 
 struct TargetRef;
@@ -27179,19 +27370,20 @@ struct FUN_0041e780_shell
 
 struct FUN_005d43c0_
 {
-    FUN_0041e780_shell* FUN_005d43c0();
+    FUN_0041e780_shell* BSFile_GetDevice();
 };
 
 struct TargetRef : public XRef
 {
     virtual TargetPoint* GetPos_125();
     TargetMatrix TESObjectREFR_GetOrientation();
-    void FUN_00569df0(bool a2);
+    void TESObjectREFR_DrawActivateRefLink(bool a2);
 };
 
 // Rebuilds the "ActivateLine" child node of the reference's 3D root, adding a line to each linked reference when enabled, then updates the root.
 // @fnv 0x00569df0
-void TargetRef::FUN_00569df0(bool abEnabled)
+// src: XBOX_PDB 0x00569df0
+void TargetRef::TESObjectREFR_DrawActivateRefLink(bool abEnabled)
 {
     Target3D* p3DTmp = (Target3D*)this->Get3D_116();
     if (p3DTmp)
@@ -27214,7 +27406,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
             if (abEnabled)
             {
-                NodeEntry* pList3 = ((FUN_005d43c0_*)this)->FUN_005d43c0()->ExtraDataList_GetActivateParentList();
+                NodeEntry* pList3 = ((FUN_005d43c0_*)this)->BSFile_GetDevice()->ExtraDataList_GetActivateParentList();
                 while (pList3 && !pList3->FUN_008256d0())
                 {
                     TargetRef* targetRef3 = *(TargetRef**)*pList3->FUN_006815c0();
@@ -27229,7 +27421,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
                     kDiffPos = kDiffPos * (1.0f / this->GetScale());
 
-                    TargetObj* pLine2 = FUN_004b3890(&kZeroPos, &NiColorA(1.0f, 1.0f, 1.0f, 1.0f),
+                    TargetObj* pLine2 = MakeLine(&kZeroPos, &NiColorA(1.0f, 1.0f, 1.0f, 1.0f),
                                                      &kDiffPos, &NiColorA(0.0f, 0.0f, 0.0f, 1.0f), 1);
 
                     if (!pActivateLineNode2)
@@ -27246,7 +27438,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
             if (bUpdated4)
             {
-                pRootNode9->FUN_00a5a040();
+                pRootNode9->UpdateProperties();
                 NiUpdateData updateData7(0.0f, false, false);
                 pRootNode9->Update(updateData7);
             }
@@ -27256,7 +27448,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
 
 struct FUN_00569df0_Obj
 {
-    void FUN_00569df0(int a1);
+    void TESObjectREFR_DrawActivateRefLink(int a1);
 };
 struct FUN_0041eda0_shell
 {
@@ -27279,20 +27471,20 @@ struct Holder_a1e0
 // src: COMMUNITY 0x0056a1e0
 void Holder_a1e0::TESObjectREFR_RedrawActivateRefLinks(unsigned char flag)
 {
-    reinterpret_cast<FUN_00569df0_Obj*>(this)->FUN_00569df0(flag);
+    reinterpret_cast<FUN_00569df0_Obj*>(this)->TESObjectREFR_DrawActivateRefLink(flag);
     void* node =
-        reinterpret_cast<FUN_0041eda0_shell*>(FUN_005d43c0(reinterpret_cast<TESObjectREFR*>(this)))->ExtraDataList_GetActivateRefChildren();
+        reinterpret_cast<FUN_0041eda0_shell*>(BSFile_GetDevice(reinterpret_cast<TESObjectREFR*>(this)))->ExtraDataList_GetActivateRefChildren();
     while (node != 0 && !FUN_008256d0(node))
     {
         reinterpret_cast<FUN_00569df0_Obj*>(*(void**)(*(void**)reinterpret_cast<NodeLink_a1e0*>(node)->FUN_006815c0()))
-            ->FUN_00569df0(flag);
+            ->TESObjectREFR_DrawActivateRefLink(flag);
         node = FUN_00726070(node);
     }
 }
 
 struct TimedAction
 {
-    void FUN_00573170(TESObjectREFR*, int, int, int);
+    void TESObjectREFR_Activate(TESObjectREFR*, int, int, int);
 };
 struct TimedRecord
 {
@@ -27352,8 +27544,8 @@ unsigned char FUN_0056a380_shell::TESObjectREFR_UpdateChildActivates()
                     TimedListEntry* entry;
                     found = 0;
                     extraTime = DAT_011f6394.GetStoredFloatValue();
-                    entry = ((ExtraDataTiming*)FUN_005d43c0((TESObjectREFR*)this))->ExtraDataList_GetActivateRefChildren();
-                    current = ((ExtraDataTiming*)FUN_005d43c0((TESObjectREFR*)this))->ExtraDataList_GetActivateChildrenTimer();
+                    entry = ((ExtraDataTiming*)BSFile_GetDevice((TESObjectREFR*)this))->ExtraDataList_GetActivateRefChildren();
+                    current = ((ExtraDataTiming*)BSFile_GetDevice((TESObjectREFR*)this))->ExtraDataList_GetActivateChildrenTimer();
                     fNewTime = current + extraTime;
                     while (entry && !entry->FUN_008256d0())
                     {
@@ -27361,7 +27553,7 @@ unsigned char FUN_0056a380_shell::TESObjectREFR_UpdateChildActivates()
                         if (record->deadline > current)
                         {
                             if (record->deadline <= fNewTime)
-                                record->action->FUN_00573170((TESObjectREFR*)this, 0, 0, 1);
+                                record->action->TESObjectREFR_Activate((TESObjectREFR*)this, 0, 0, 1);
                             else
                                 found = 1;
                         }
@@ -27373,7 +27565,7 @@ unsigned char FUN_0056a380_shell::TESObjectREFR_UpdateChildActivates()
                     v4c(0x4000000);
                     fNewTime = 0.0f;
                 }
-                ((ExtraDataTiming*)FUN_005d43c0((TESObjectREFR*)this))->FUN_0041eff0(fNewTime);
+                ((ExtraDataTiming*)BSFile_GetDevice((TESObjectREFR*)this))->FUN_0041eff0(fNewTime);
                 return found;
             }
         }
@@ -27455,20 +27647,21 @@ class B56B250Ref
     virtual void VFunc0FC();
     virtual bool IsDisabledOrDeleted();
 
-    bool FUN_00564e60();
-    bool FUN_00444ed0();
+    bool TESObjectREFR_GetVisibleDistant();
+    bool TESObjectREFR_IsMarker();
     B56B250BoundObject* GetObjectReference();
-    bool FUN_0056b250();
+    bool TESObjectREFR_Is3DHighPriority();
 };
 
 // Returns true if FUN_00564e60 succeeds, or if the object is enabled, passes FUN_00444ed0, and its bound size exceeds 700.0.
 // @fnv 0x0056b250
-bool B56B250Ref::FUN_0056b250()
+// src: XBOX_PDB 0x0056b250
+bool B56B250Ref::TESObjectREFR_Is3DHighPriority()
 {
     bool bResult = false;
-    if (FUN_00564e60())
+    if (TESObjectREFR_GetVisibleDistant())
         bResult = true;
-    else if (!IsDisabledOrDeleted() && !FUN_00444ed0() && GetObjectReference() &&
+    else if (!IsDisabledOrDeleted() && !TESObjectREFR_IsMarker() && GetObjectReference() &&
              GetObjectReference()->GetBoundSize() > 700.0)
         bResult = true;
     return bResult;
@@ -27570,15 +27763,15 @@ struct Scene
     virtual void sb8();
     virtual void UpdateBounds();
     void FUN_00450f90(int);
-    void FUN_0040f6e0();
-    void FUN_00476ab0();
-    void FUN_00440460(const NiPoint3&);
-    void FUN_0043fa80(const Matrix&);
-    void FUN_00a59c60(const Update&);
-    WorldPosition* FUN_0043d450();
-    void FUN_0056c7d0(Reference*);
-    void FUN_00440490(float);
-    void FUN_00a5a040();
+    void NiRefObject_IncRefCount();
+    void BSFadeNode_TurnFadeNodeOn();
+    void NiAVObject_SetTranslate(const NiPoint3&);
+    void SetRotate_0043fa80(const Matrix&);
+    void NiAVObject_Update(const Update&);
+    WorldPosition* NiAVObject_GetWorldBound();
+    void BSFadeNode_SetUserData(Reference*);
+    void NiAVObject_SetScale(float);
+    void UpdateProperties();
 };
 struct ScenePointer
 {
@@ -27594,7 +27787,7 @@ struct TransformSource
     virtual void s00();
     virtual void Prepare();
     virtual void SetTransform(const float*);
-    Scene* FUN_0056c7f0();
+    Scene* GetModel_0056c7f0();
     void BGSPrimitive_GetColor(float*);
 };
 struct Loaded
@@ -27603,7 +27796,7 @@ struct Loaded
 };
 struct Toggle
 {
-    void FUN_00937090(int);
+    void ModifierList_SetZeroValuesAllowed(int);
 };
 struct LoadedState
 {
@@ -27611,14 +27804,14 @@ struct LoadedState
 };
 struct Cell
 {
-    LoadedState* FUN_004543c0();
+    LoadedState* TESObjectCELL_GetbhkWorld();
 };
 struct Globals
 {
     bool IsLoading();
-    void FUN_0045ce40();
-    bool FUN_00451530();
-    AttachedSceneProvider* FUN_0070ec90(Reference*);
+    void TES_IncrementPlaceableWaterCount();
+    bool TES_CellTestRunning();
+    AttachedSceneProvider* DetailedActorPathHandler_GetCurrentNodeIndex(Reference*);
 };
 extern Globals* DAT_011ddf38;
 extern Globals* DAT_011dea10;
@@ -27639,15 +27832,15 @@ void* FUN_00ec43fb(void*, int, CastType*, CastType*, int);
 struct Destructible
 {
     void FUN_00477780(Base*);
-    bool FUN_00476f50(Reference*, int);
+    bool BGSDestructibleObjectForm_UpdateCurrentDamageStage(Reference*, int);
 };
 struct EnableObject
 {
-    void FUN_00551480(int);
+    void TESObjectCELL_SetLowestProcessToMiddleLow(int);
 };
 struct EnableData
 {
-    EnableObject* FUN_0043a2b0();
+    EnableObject* DoorTeleportData_GetTeleportCell();
 };
 struct Body
 {
@@ -27713,21 +27906,21 @@ struct SequenceTime
 };
 struct Sequence
 {
-    float FUN_00508100();
-    void FUN_0098adb0(float);
+    float GetEndKeyTime_00508100();
+    void PathingLOSGridMap_SetSightRadius(float);
     SequenceTime* FUN_0048f7f0(int);
 };
 struct Anim
 {
-    bool FUN_00494710(int);
-    void FUN_004955c0(int, int, int, float, int);
-    Sequence* FUN_00491040(int);
-    void FUN_00491180(Reference*, float, float);
-    void FUN_00493900(Reference*);
+    bool Animation_GroupLoaded(int);
+    void Animation_ForceSection(int, int, int, float, int);
+    Sequence* Animation_GetCurrentSequence(int);
+    void Animation_Update(Reference*, float, float);
+    void Animation_UpdateMovement(Reference*);
 };
 struct Physics
 {
-    void FUN_00c7c150(int);
+    void bhkRagdollController_DisableRagdollAnim(int);
 };
 struct Process
 {
@@ -27780,7 +27973,7 @@ struct GeometryType
 struct TesobjectrefrSceneArrayView
 {
     int FUN_0049c680(Scene* const&, int);
-    void FUN_004ed8c0(Scene* const&);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(Scene* const&);
 };
 struct Geometry
 {
@@ -27862,16 +28055,16 @@ struct Geometry
 };
 struct AttachedScene
 {
-    GeometryType* FUN_004030b0();
+    GeometryType* CombatController_GetTarget();
     Geometry* FUN_00a59d30(int);
 };
 struct AttachedSceneProvider
 {
-    AttachedScene* FUN_004e8030();
+    AttachedScene* TESWaterSystem_GetWaterGeometry();
 };
 struct Manager
 {
-    void FUN_00b5eed0(Scene*);
+    void ShadowSceneNode_RemoveLight(Scene*);
 };
 Manager* FUN_00450b80(int);
 struct ExtraLink
@@ -27881,7 +28074,7 @@ struct ExtraLink
 };
 struct LinkPointer
 {
-    ExtraLink* FUN_0045c650();
+    ExtraLink* hkpMotion_getLinearVelocity();
     void BSMultiBoundRoom_AddJoinedMultibound(Scene*);
 };
 struct LinkedReference
@@ -27890,19 +28083,19 @@ struct LinkedReference
 };
 struct ExtraAttachment
 {
-    void FUN_00437f90(Scene*);
+    void ApplyFace(Scene*);
 };
 struct Extra
 {
-    TransformSource* FUN_0041fbe0();
-    float FUN_0041b6b0();
+    TransformSource* ExtraDataList_GetPrimitive();
+    float ExtraDataList_GetObjectHealth();
     void ExtraDataList_RemoveSavedHavokData();
-    void FUN_00422a40(Reference*);
-    void FUN_00418890(LightData*);
+    void ExtraDataList_RestoreSavedAnimation(Reference*);
+    void ExtraDataList_GetSound(LightData*);
     ReferenceListNode* ExtraDataList_GetLitWaterRefs();
     ReferenceListNode* ExtraDataList_GetWaterLightRefs();
     bool ExtraDataList_GetRoomIsMaster();
-    LinkedReference* FUN_004208b0();
+    LinkedReference* ExtraDataList_GetMasterRoom();
 };
 struct Base
 {
@@ -28003,7 +28196,7 @@ struct Base
     virtual Scene* Create(Reference*);
     int FUN_00401170();
     void TESNPC_FixNPCNormals(Reference*);
-    bool FUN_00452440();
+    bool BGSPlaceableWater_IsAutomaticWater();
 };
 extern Base* DAT_011ca240;
 extern Base* DAT_011ca220;
@@ -28012,7 +28205,7 @@ extern const double DAT_01012060, DAT_01017a40;
 extern const char DAT_010300b0[], DAT_01019f08[];
 struct Finalizer
 {
-    void FUN_006c0c30();
+    void NavMeshObstacleManager_AddObstacleForReference();
 };
 Finalizer* __stdcall GetNavMeshObstacleManager(Reference*);
 struct Reference
@@ -28288,70 +28481,71 @@ struct Reference
     Physics* physics;
     bool FUN_00440da0();
     bool FUN_00440d80();
-    Base* FUN_007af430();
+    Base* BGSSaveFormBuffer_GetForm();
     Cell* FUN_008d6f30();
-    void FUN_0057c180();
-    Scene* FUN_0043fcd0();
-    Extra* FUN_005d43c0();
-    void FUN_0056c880(int, bool);
-    void FUN_00570f70(Scene*);
-    bool FUN_0056c760();
-    void FUN_0056c780(int);
-    bool FUN_00452370();
+    void TESObjectREFR_CreateLoadedData();
+    Scene* TESObjectREFR_Get3D();
+    Extra* BSFile_GetDevice();
+    void TESObjectREFR_SetLoadedDataFlag(int, bool);
+    void TESObjectREFR_Set3DSimple(Scene*);
+    bool TESForm_GetDisableFade();
+    void TESForm_SetDisableFade(int);
+    bool TESForm_GetDestructible();
     bool FUN_00508d70();
-    void FUN_0057a3c0(int);
+    void TESObjectREFR_UpdateAddonNodeSounds(int);
     TESModel* FUN_00571630();
     bool Creature_FindRagDoll(Scene*);
-    bool FUN_00448a20();
+    bool TESForm_GetFireOff();
     Matrix TESObjectREFR_GetOrientation();
     bool TESObjectREFR_GetCenterOnCreation();
     EnableData* FUN_00568e50();
-    float FUN_00567400();
+    float TESObjectREFR_GetScale_00567400();
     void TESObjectREFR_InitAnimation();
-    void FUN_008b0bd0(Scene*);
+    void Actor_InitLightingPropertyPtr(Scene*);
     Process* FUN_008d8520();
     void Creature_CheckMissingLimbs();
-    bool FUN_005722c0(int);
+    bool TESObjectREFR_IsDead(int);
     NiPoint3* FUN_00430830();
-    void FUN_00577330(int);
+    void TESObjectREFR_RestoreRagDollData(int);
     void UpdateLightDescriptors(int);
     void TESObjectREFR_PreCalcTriStripsShapeAabb(Scene*);
     bool TESObjectREFR_GetIsStingerLOD();
-    bool FUN_00564f00();
+    bool TESObjectREFR_GetIsImposter();
     ScenePointer* TESObjectREFR_GetLight();
-    bool FUN_004077c0();
+    bool TESForm_GetTemporary();
     Scene* FUN_00569920();
     bool TESObjectREFR_UpdateMultiboundShapeTransformsRecursive(Scene*);
-    int FUN_0084e3a0();
+    int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     ExtraAttachment* FUN_00527080(int);
-    Scene* FUN_0056b2d0(unsigned char);
+    Scene* TESObjectREFR_Load3D(unsigned char);
 };
 void TESObjectREFR_SetBackgroundLoadingRef(Reference*, Scene*);
-bool FUN_005784b0(Node*);
-Destructible* FUN_00475400(Base*);
+bool TESObjectREFR_HasAddonFlags(Node*);
+Destructible* BGSDestructibleObjectForm_GetDestructionForm(Base*);
 bool BGSDestructibleObjectForm_HideSmallDebris(Scene*);
 void FUN_004b7660(Scene*);
-void FUN_00577e20(Scene*);
-void FUN_00578300(Scene*);
+void TESObjectREFR_AddAddonNodes(Scene*);
+void TESObjectREFR_RemoveAddonNodes(Scene*);
 unsigned int FUN_00487f50();
-void FUN_005784f0(Node*, float);
+void TESObjectREFR_RandomizeAddons(Node*, float);
 void FUN_004b5b20(Scene*);
 void BSShaderProperty_SetMotionBlurRecurse(Scene*, bool);
-void FUN_00c6a040(Scene*, int, int, int);
-void FUN_00c6bd00(Scene*, int);
+void bhkWorld_Enable(Scene*, int, int, int);
+void bhkNiCollisionObject_ResetSim(Scene*, int);
 void BSShaderManager_SetObjectType(Scene*);
-void FUN_00c9b670(Scene*, NiPoint3*, int, float, int);
-bool FUN_0062c3c0(Reference*, Scene*);
-void FUN_00ba91a0(Scene*, int, int);
+void bhkBlendController_DoKnockDown(Scene*, NiPoint3*, int, float, int);
+bool TESHavokUtilities_Should3DRagDoll(Reference*, Scene*);
+void BSShaderProperty_SetFlagRecurse(Scene*, int, int);
 bool TESObjectREFR_IsImposterInActiveRegionList(Reference*);
 void TESRegionDataImposter_SetImposterVisible(Reference*, int, int);
 void TESObjectREFR_ClearBackgroundLoadingRef();
-void FUN_00406d00(char*, int, const char*, ...);
+void BSsprintf(char*, int, const char*, ...);
 void Warning_005b5e40(const char*, ...);
 void UpdateLODMultInvisibility(Reference*, Scene*);
 // Creates and initialises the reference's 3D scene from its base form, applies transforms, flags, animation and lighting, and returns the scene.
 // @fnv 0x0056b2d0
-Scene* Reference::FUN_0056b2d0(unsigned char immediate)
+// src: XBOX_PDB 0x0056b2d0
+Scene* Reference::TESObjectREFR_Load3D(unsigned char immediate)
 {
     Base* baseFormSlot20;
     bool disabledSlot27 = false;
@@ -28361,25 +28555,25 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
     menuSlot0 = DAT_011ddf38->IsLoading();
     if (FUN_00440d80() || disabledSlot27)
         return 0;
-    if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 35)
+    if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 35)
     {
-        DAT_011dea10->FUN_0045ce40();
-        if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0()->FUN_0059bb30())
-            FUN_008d6f30()->FUN_004543c0()->FUN_0059bb30()->FUN_00937090(1);
+        DAT_011dea10->TES_IncrementPlaceableWaterCount();
+        if (FUN_008d6f30() && FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_0059bb30())
+            FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_0059bb30()->ModifierList_SetZeroValuesAllowed(1);
     }
-    FUN_0057c180();
-    ScenePointer scene(FUN_0043fcd0());
+    TESObjectREFR_CreateLoadedData();
+    ScenePointer scene(TESObjectREFR_Get3D());
     hadSceneSlot14 = scene.FUN_00822510(0);
-    if (!scene.FUN_00559450() || FUN_005d43c0()->FUN_0041fbe0())
+    if (!scene.FUN_00559450() || BSFile_GetDevice()->ExtraDataList_GetPrimitive())
     {
         baseFormSlot20 = base;
         if (base)
         {
-            TransformSource* source = FUN_005d43c0()->FUN_0041fbe0();
+            TransformSource* source = BSFile_GetDevice()->ExtraDataList_GetPrimitive();
             if (source)
             {
                 source->Prepare();
-                scene.FUN_0066b0d0(source->FUN_0056c7f0());
+                scene.FUN_0066b0d0(source->GetModel_0056c7f0());
                 if (DAT_011ca2dc.FUN_004b9930())
                 {
                     float transform[4];
@@ -28387,41 +28581,41 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                     transform[3] = 0.0f;
                     source->SetTransform(transform);
                 }
-                if (FUN_007af430() != DAT_011ca240 && scene.FUN_00559450())
+                if (BGSSaveFormBuffer_GetForm() != DAT_011ca240 && scene.FUN_00559450())
                     scene.FUN_00559450()->FUN_00450f90(1);
-                FUN_0056c880(4, true);
+                TESObjectREFR_SetLoadedDataFlag(4, true);
             }
             else
                 scene.FUN_0066b0d0(base->Create(this));
             if (!immediate)
-                FUN_00570f70(scene.FUN_00559450());
+                TESObjectREFR_Set3DSimple(scene.FUN_00559450());
             else
             {
                 TESObjectREFR_SetBackgroundLoadingRef(this, scene.FUN_00559450());
                 if (scene.FUN_00559450())
-                    scene.FUN_00559450()->FUN_0040f6e0();
+                    scene.FUN_00559450()->NiRefObject_IncRefCount();
             }
             bool hasCollisionSlot0 = false;
             if (scene.FUN_00559450())
             {
-                hasCollisionSlot0 = FUN_005784b0(scene.FUN_00559450()->AsNode());
-                FUN_0056c880(2, hasCollisionSlot0);
+                hasCollisionSlot0 = TESObjectREFR_HasAddonFlags(scene.FUN_00559450()->AsNode());
+                TESObjectREFR_SetLoadedDataFlag(2, hasCollisionSlot0);
             }
-            if (FUN_0056c760())
+            if (TESForm_GetDisableFade())
             {
                 Scene* resetSceneSlot0 = scene.FUN_00559450();
                 Scene* resetAliasSlot1 = resetSceneSlot0;
-                resetAliasSlot1->FUN_00476ab0();
-                FUN_0056c780(0);
+                resetAliasSlot1->BSFadeNode_TurnFadeNodeOn();
+                TESForm_SetDisableFade(0);
             }
-            if (FUN_00452370() && scene.FUN_00559450())
+            if (TESForm_GetDestructible() && scene.FUN_00559450())
             {
-                if (FUN_005d43c0()->FUN_0041b6b0() != DAT_01012060)
-                    FUN_00475400(FUN_007af430())->FUN_00477780(FUN_007af430());
+                if (BSFile_GetDevice()->ExtraDataList_GetObjectHealth() != DAT_01012060)
+                    BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm())->FUN_00477780(BGSSaveFormBuffer_GetForm());
                 if (FUN_00508d70() && BGSDestructibleObjectForm_HideSmallDebris(scene.FUN_00559450()))
-                    FUN_005d43c0()->ExtraDataList_RemoveSavedHavokData();
-                if (FUN_00475400(FUN_007af430())->FUN_00476f50(this, 0))
-                    FUN_0057a3c0(0);
+                    BSFile_GetDevice()->ExtraDataList_RemoveSavedHavokData();
+                if (BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm())->BGSDestructibleObjectForm_UpdateCurrentDamageStage(this, 0))
+                    TESObjectREFR_UpdateAddonNodeSounds(0);
             }
             TESModelTextureSwap* controllerSlot1 = dynamic_cast<TESModelTextureSwap*>(FUN_00571630());
             if (controllerSlot1 && scene.FUN_00559450())
@@ -28429,7 +28623,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 Node* controllerNode = scene.FUN_00559450()->AsNode();
                 (FNV2062_TESModelTextureSwap_FUN_0048afe0)(controllerSlot1, controllerNode);
             }
-            if (FUN_007af430() && FUN_007af430()->Special())
+            if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->Special())
                 FUN_004b7660(scene.FUN_00559450());
             if (scene.FUN_00559450())
             {
@@ -28442,47 +28636,47 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 }
                 if (hasCollisionSlot0)
                 {
-                    if (!FUN_00448a20())
-                        FUN_00577e20(scene.FUN_00559450());
+                    if (!TESForm_GetFireOff())
+                        TESObjectREFR_AddAddonNodes(scene.FUN_00559450());
                     else
-                        FUN_00578300(scene.FUN_00559450());
+                        TESObjectREFR_RemoveAddonNodes(scene.FUN_00559450());
                 }
                 if (RandomPhase())
                 {
                     float phase = (FUN_00487f50() % 1000) / DAT_01017a40;
-                    FUN_005784f0(scene.FUN_00559450()->AsNode(), phase);
+                    TESObjectREFR_RandomizeAddons(scene.FUN_00559450()->AsNode(), phase);
                 }
                 if (baseFormSlot20->FUN_00401170() == 40)
                     FUN_004b5b20(scene.FUN_00559450());
                 BSShaderProperty_SetMotionBlurRecurse(scene.FUN_00559450(), Flag150());
-                scene.FUN_00559450()->FUN_00440460(position);
-                scene.FUN_00559450()->FUN_0043fa80(TESObjectREFR_GetOrientation());
+                scene.FUN_00559450()->NiAVObject_SetTranslate(position);
+                scene.FUN_00559450()->SetRotate_0043fa80(TESObjectREFR_GetOrientation());
                 if (TESObjectREFR_GetCenterOnCreation())
                 {
-                    FUN_00c6a040(scene.FUN_00559450(), 0, 1, 1);
+                    bhkWorld_Enable(scene.FUN_00559450(), 0, 1, 1);
                     Update firstUpdateSlot10(0.0f, 0, 0);
-                    scene.FUN_00559450()->FUN_00a59c60(firstUpdateSlot10);
+                    scene.FUN_00559450()->NiAVObject_Update(firstUpdateSlot10);
                     Update secondUpdateSlot12(0.0f, 0, 0);
-                    scene.FUN_00559450()->FUN_00a59c60(secondUpdateSlot12);
-                    FUN_00c6a040(scene.FUN_00559450(), 1, 1, 1);
+                    scene.FUN_00559450()->NiAVObject_Update(secondUpdateSlot12);
+                    bhkWorld_Enable(scene.FUN_00559450(), 1, 1, 1);
                     NiPoint3 differenceSlot0 =
-                        position.FUN_00439ef0(*scene.FUN_00559450()->FUN_0043d450()->FUN_006815c0());
+                        position.FUN_00439ef0(*scene.FUN_00559450()->NiAVObject_GetWorldBound()->FUN_006815c0());
                     position.FUN_0063c8a0(&differenceSlot0);
-                    scene.FUN_00559450()->FUN_00440460(position);
+                    scene.FUN_00559450()->NiAVObject_SetTranslate(position);
                 }
-                FUN_00c6bd00(scene.FUN_00559450(), 1);
+                bhkNiCollisionObject_ResetSim(scene.FUN_00559450(), 1);
                 Node* rootNodeSlot1 = scene.FUN_00559450()->AsNode();
                 if (rootNodeSlot1 && rootNodeSlot1->Child())
-                    scene.FUN_00559450()->FUN_0056c7d0(this);
+                    scene.FUN_00559450()->BSFadeNode_SetUserData(this);
                 BSShaderManager_SetObjectType(scene.FUN_00559450());
                 if (base == DAT_011ca220 || base == DAT_011ca250)
                     scene.FUN_00559450()->FUN_00450f90(1);
                 Base* actorBaseSlot14 = 0;
-                if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 42)
-                    actorBaseSlot14 = FUN_007af430();
-                if (FUN_00568e50() && FUN_00568e50()->FUN_0043a2b0())
-                    FUN_00568e50()->FUN_0043a2b0()->FUN_00551480(1);
-                scene.FUN_00559450()->FUN_00440490(FUN_00567400());
+                if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 42)
+                    actorBaseSlot14 = BGSSaveFormBuffer_GetForm();
+                if (FUN_00568e50() && FUN_00568e50()->DoorTeleportData_GetTeleportCell())
+                    FUN_00568e50()->DoorTeleportData_GetTeleportCell()->TESObjectCELL_SetLowestProcessToMiddleLow(1);
+                scene.FUN_00559450()->NiAVObject_SetScale(TESObjectREFR_GetScale_00567400());
                 TESObjectREFR_InitAnimation();
                 if (IsActor() && base->FUN_00401170() == 42)
                 {
@@ -28491,14 +28685,14 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                         body->SetFlag(IsDead(0), 1);
                     base->TESNPC_FixNPCNormals(this);
                 }
-                scene.FUN_00559450()->FUN_00a5a040();
+                scene.FUN_00559450()->UpdateProperties();
                 if (IsActor())
                 {
                     Reference* actor = this;
                     Process* processSlot1 = 0;
                     if (actor)
                     {
-                        actor->FUN_008b0bd0(scene.FUN_00559450());
+                        actor->Actor_InitLightingPropertyPtr(scene.FUN_00559450());
                         if (actor->FUN_008d8520() && !actor->FUN_008d8520()->FUN_0045cd60())
                             processSlot1 = actor->FUN_008d8520();
                     }
@@ -28509,67 +28703,67 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                     }
                     if (actor43)
                         actor43->Creature_CheckMissingLimbs();
-                    if (!DAT_011dea10->FUN_00451530() && IsDead(1) && ComputePositionAtTime() &&
-                        ComputePositionAtTime()->FUN_00494710(224) && !menuSlot0)
+                    if (!DAT_011dea10->TES_CellTestRunning() && IsDead(1) && ComputePositionAtTime() &&
+                        ComputePositionAtTime()->Animation_GroupLoaded(224) && !menuSlot0)
                     {
                         Anim* animSlot0 = ComputePositionAtTime();
-                        animSlot0->FUN_004955c0(20, 224, -1, 0.0f, -1);
-                        Sequence* sequenceSlot16 = animSlot0->FUN_00491040(1);
+                        animSlot0->Animation_ForceSection(20, 224, -1, 0.0f, -1);
+                        Sequence* sequenceSlot16 = animSlot0->Animation_GetCurrentSequence(1);
                         if (sequenceSlot16)
                         {
                             if (!actor->IsKnocked())
                             {
-                                sequenceSlot16->FUN_0098adb0(sequenceSlot16->FUN_00508100());
-                                animSlot0->FUN_00491180(this, 0.0f, sequenceSlot16->FUN_00508100());
-                                animSlot0->FUN_00493900(this);
+                                sequenceSlot16->PathingLOSGridMap_SetSightRadius(sequenceSlot16->GetEndKeyTime_00508100());
+                                animSlot0->Animation_Update(this, 0.0f, sequenceSlot16->GetEndKeyTime_00508100());
+                                animSlot0->Animation_UpdateMovement(this);
                             }
-                            else if (!FUN_005722c0(0))
+                            else if (!TESObjectREFR_IsDead(0))
                             {
-                                animSlot0->FUN_00491180(this, 0.0f, sequenceSlot16->FUN_0048f7f0(1)->FUN_005f3780());
-                                animSlot0->FUN_00493900(this);
+                                animSlot0->Animation_Update(this, 0.0f, sequenceSlot16->FUN_0048f7f0(1)->FUN_005f3780());
+                                animSlot0->Animation_UpdateMovement(this);
                                 Matrix rotationSlot12;
                                 rotationSlot12.FUN_004a0c90(FUN_00430830()->z);
                                 NiPoint3 direction(0.0f, 1.0f, 0.0f);
                                 reinterpret_cast<NiPoint3&>(direction) = reinterpret_cast<const NiPoint3&>(rotationSlot12.FUN_004b4500(direction));
                                 if (actor->physics)
-                                    actor->physics->FUN_00c7c150(1);
-                                FUN_00c9b670(scene.FUN_00559450(), &direction, 1, 0.0f, 1);
+                                    actor->physics->bhkRagdollController_DisableRagdollAnim(1);
+                                bhkBlendController_DoKnockDown(scene.FUN_00559450(), &direction, 1, 0.0f, 1);
                                 SetState(4);
                             }
                         }
                     }
                 }
-                if (FUN_0062c3c0(this, scene.FUN_00559450()))
-                    FUN_00577330(0);
-                FUN_005d43c0()->FUN_00422a40(this);
+                if (TESHavokUtilities_Should3DRagDoll(this, scene.FUN_00559450()))
+                    TESObjectREFR_RestoreRagDollData(0);
+                BSFile_GetDevice()->ExtraDataList_RestoreSavedAnimation(this);
                 UpdateLightDescriptors(0);
                 TESObjectREFR_PreCalcTriStripsShapeAabb(scene.FUN_00559450());
             }
         }
     }
     if (Flag15C())
-        GetNavMeshObstacleManager(this)->FUN_006c0c30();
+        GetNavMeshObstacleManager(this)->NavMeshObstacleManager_AddObstacleForReference();
     if (FlagB8())
-        FUN_00ba91a0(scene.FUN_00559450(), 50, 1);
+        BSShaderProperty_SetFlagRecurse(scene.FUN_00559450(), 50, 1);
     if (TESObjectREFR_GetIsStingerLOD())
-        FUN_00ba91a0(scene.FUN_00559450(), 55, 1);
-    if (FUN_00564f00())
+        BSShaderProperty_SetFlagRecurse(scene.FUN_00559450(), 55, 1);
+    if (TESObjectREFR_GetIsImposter())
     {
-        FUN_00ba91a0(scene.FUN_00559450(), 34, 1);
+        BSShaderProperty_SetFlagRecurse(scene.FUN_00559450(), 34, 1);
         if (!TESObjectREFR_IsImposterInActiveRegionList(this))
             TESRegionDataImposter_SetImposterVisible(this, 0, 1);
         else
             TESRegionDataImposter_SetImposterVisible(this, 1, 0);
     }
-    if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 30)
+    if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 30)
     {
         LightData lightSlot0;
-        FUN_005d43c0()->FUN_00418890(&lightSlot0);
+        BSFile_GetDevice()->ExtraDataList_GetSound(&lightSlot0);
         if (lightSlot0.FUN_00ad8ce0())
             lightSlot0.FUN_00ad8f20(scene.FUN_00559450());
-        ReferenceListNode* lightsSlot12 = FUN_005d43c0()->ExtraDataList_GetLitWaterRefs();
+        ReferenceListNode* lightsSlot12 = BSFile_GetDevice()->ExtraDataList_GetLitWaterRefs();
         ScenePointer* ownSceneSlot1 = TESObjectREFR_GetLight();
-        if (ownSceneSlot1 && ownSceneSlot1->FUN_00559450() && !FUN_004077c0())
+        if (ownSceneSlot1 && ownSceneSlot1->FUN_00559450() && !TESForm_GetTemporary())
         {
             while (lightsSlot12 && *lightsSlot12->FUN_006815c0())
             {
@@ -28577,80 +28771,80 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 if (linked->GetAttachment())
                 {
                     void* attachment = linked->GetAttachment();
-                    AttachedScene* object = DAT_011dea10->FUN_0070ec90(linked)->FUN_004e8030();
+                    AttachedScene* object = DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex(linked)->TESWaterSystem_GetWaterGeometry();
                     AttachedScene* aliasSlot10 = object;
-                    GeometryType* typeSlot0 = aliasSlot10->FUN_004030b0();
+                    GeometryType* typeSlot0 = aliasSlot10->CombatController_GetTarget();
                     if (typeSlot0 && typeSlot0->FUN_008d8520() == 13)
                     {
                         Geometry* propertySlot0 = object->FUN_00a59d30(3);
                         Geometry* geometrySlot0 = propertySlot0;
                         if (!geometrySlot0->scenes.FUN_0049c680(ownSceneSlot1->FUN_00559450(), 0))
                         {
-                            geometrySlot0->scenes.FUN_004ed8c0(ownSceneSlot1->FUN_00559450());
+                            geometrySlot0->scenes.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(ownSceneSlot1->FUN_00559450());
                             geometrySlot0->dirty = 1;
                         }
-                        FUN_00450b80(0)->FUN_00b5eed0(ownSceneSlot1->FUN_00559450());
+                        FUN_00450b80(0)->ShadowSceneNode_RemoveLight(ownSceneSlot1->FUN_00559450());
                     }
                 }
                 lightsSlot12 = lightsSlot12->FUN_00726070();
             }
         }
     }
-    if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 35)
+    if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 35)
     {
-        ReferenceListNode* lightsSlot12 = FUN_005d43c0()->ExtraDataList_GetWaterLightRefs();
+        ReferenceListNode* lightsSlot12 = BSFile_GetDevice()->ExtraDataList_GetWaterLightRefs();
         while (lightsSlot12 && *lightsSlot12->FUN_006815c0())
         {
             ScenePointer* linkedScene = (*lightsSlot12->FUN_006815c0())->TESObjectREFR_GetLight();
-            if (linkedScene && linkedScene->FUN_00559450() && !FUN_004077c0())
+            if (linkedScene && linkedScene->FUN_00559450() && !TESForm_GetTemporary())
             {
                 void* attachment = GetAttachment();
                 if (attachment)
                 {
-                    AttachedScene* object = DAT_011dea10->FUN_0070ec90(this)->FUN_004e8030();
+                    AttachedScene* object = DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex(this)->TESWaterSystem_GetWaterGeometry();
                     AttachedScene* aliasSlot10 = object;
-                    GeometryType* typeSlot0 = aliasSlot10->FUN_004030b0();
+                    GeometryType* typeSlot0 = aliasSlot10->CombatController_GetTarget();
                     if (typeSlot0 && typeSlot0->FUN_008d8520() == 13)
                     {
                         Geometry* propertySlot0 = object->FUN_00a59d30(3);
                         Geometry* geometrySlot0 = propertySlot0;
                         if (!geometrySlot0->scenes.FUN_0049c680(linkedScene->FUN_00559450(), 0))
                         {
-                            geometrySlot0->scenes.FUN_004ed8c0(linkedScene->FUN_00559450());
+                            geometrySlot0->scenes.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(linkedScene->FUN_00559450());
                             geometrySlot0->dirty = 1;
                         }
-                        FUN_00450b80(0)->FUN_00b5eed0(linkedScene->FUN_00559450());
+                        FUN_00450b80(0)->ShadowSceneNode_RemoveLight(linkedScene->FUN_00559450());
                     }
                 }
             }
             lightsSlot12 = lightsSlot12->FUN_00726070();
         }
     }
-    if (hadSceneSlot14 && !FUN_005d43c0()->ExtraDataList_GetRoomIsMaster())
+    if (hadSceneSlot14 && !BSFile_GetDevice()->ExtraDataList_GetRoomIsMaster())
     {
-        LinkedReference* linked = FUN_005d43c0()->FUN_004208b0();
+        LinkedReference* linked = BSFile_GetDevice()->ExtraDataList_GetMasterRoom();
         if (linked)
         {
-            if (!linked->TESObjectREFR_GetMultiBoundRoom()->FUN_0045c650()->NiTPointerListBase_NiPropertyPtr_FindPos(FUN_00569920(), 0))
+            if (!linked->TESObjectREFR_GetMultiBoundRoom()->hkpMotion_getLinearVelocity()->NiTPointerListBase_NiPropertyPtr_FindPos(FUN_00569920(), 0))
                 linked->TESObjectREFR_GetMultiBoundRoom()->BSMultiBoundRoom_AddJoinedMultibound(FUN_00569920());
         }
     }
     if (immediate)
         TESObjectREFR_ClearBackgroundLoadingRef();
-    if (hadSceneSlot14 && FUN_007af430() && FUN_007af430()->FUN_00401170() == 35 && !FUN_007af430()->FUN_00452440())
+    if (hadSceneSlot14 && BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 35 && !BGSSaveFormBuffer_GetForm()->BGSPlaceableWater_IsAutomaticWater())
     {
         bool success = TESObjectREFR_UpdateMultiboundShapeTransformsRecursive(scene.FUN_00559450());
         scene.FUN_00559450()->UpdateBounds();
         if (!success)
         {
             char message[256];
-            FUN_00406d00(message, 256, DAT_010300b0, Name(), FUN_0084e3a0());
+            BSsprintf(message, 256, DAT_010300b0, Name(), GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             Warning_005b5e40(DAT_01019f08, message);
         }
     }
     ExtraAttachment* extraSlot12 = FUN_00527080(143);
     if (extraSlot12)
-        extraSlot12->FUN_00437f90(scene.FUN_00559450());
+        extraSlot12->ApplyFace(scene.FUN_00559450());
     UpdateLODMultInvisibility(this, scene.FUN_00559450());
     return scene.FUN_00559450();
 }
@@ -28660,7 +28854,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
 struct TransformMember
 {
     void FUN_0056e270();
-    void FUN_0056e120();
+    void bhkTransform_setIdentity();
 };
 struct FUN_0056e0b0 : public FUN_0056e180
 {
@@ -28673,7 +28867,7 @@ struct FUN_0056e0b0 : public FUN_0056e180
 FUN_0056e0b0::FUN_0056e0b0() : FUN_0056e180()
 {
     transform.FUN_0056e270();
-    transform.FUN_0056e120();
+    transform.bhkTransform_setIdentity();
 }
 
 extern int DAT_01268208;
@@ -28690,7 +28884,7 @@ struct PhantomOwner
     {
         FUN_0056e370();
         virtual ~FUN_0056e370();
-        void FUN_0056e350();
+        void bhkPhantom_ResetPhantomFlags();
     };
 };
 
@@ -28699,7 +28893,7 @@ struct PhantomOwner
 PhantomOwner::FUN_0056e370::FUN_0056e370()
 {
     DAT_01268208 = DAT_01268208 + 1;
-    FUN_0056e350();
+    bhkPhantom_ResetPhantomFlags();
 }
 
 namespace fnv_0056fcb0 {
@@ -28723,8 +28917,8 @@ struct ArrObj
 struct Xtra
 {
     int FUN_006629f0();
-    XObj* FUN_0045c650(void* a1, GlobalObject_00633c90* a2);
-    XObj* FUN_006ab360();
+    XObj* hkpMotion_getLinearVelocity(void* a1, GlobalObject_00633c90* a2);
+    XObj* TESCombatStyle_GetAdvancedData();
 };
 
 // Exe 0x0056fcb0: unit-local ListNode view; declarations and layout are preserved.
@@ -28738,20 +28932,20 @@ struct XExtra
 {
     TesobjectrefrListNodeView* ExtraDataList_GetLinkedRooms();
     TesobjectrefrListNodeView* ExtraDataList_GetLitWaterRefs();
-    XObj* FUN_00420dd0();
+    XObj* ExtraDataList_GetPortal();
     XObj* ExtraDataList_GetPortalLinkedRoomRef(int a1);
     void ExtraDataList_RemovePortalLinkedRoomRef(XObj* a1);
     XObj* ExtraDataList_GetRoom();
     XObj* ExtraDataList_GetOcclusionShape();
     XObj* ExtraDataList_GetMultiBoundRef();
-    ArrObj* FUN_00420410();
+    ArrObj* ExtraDataList_GetPortalLinkedRefData();
     void FUN_0041f840(XObj* a1, int a2);
 };
 
 struct GObj
 {
     void TES_DecrementPlaceableWaterCount();
-    XObj* FUN_0070ec90();
+    XObj* DetailedActorPathHandler_GetCurrentNodeIndex();
 };
 
 extern GObj* DAT_011dea10;
@@ -28890,20 +29084,20 @@ struct XObj
     virtual int Virt1d0();
     char pad40[0x3C];
     XObj* m_40;
-    XObj* FUN_007af430();
+    XObj* BGSSaveFormBuffer_GetForm();
     int FUN_00401170();
-    void FUN_0057b520(int a1);
+    void TESObjectREFR_RemoveFromAllWater(int a1);
     Xtra* TESObjectREFR_GetMultiBoundRoom();
-    XExtra* FUN_005d43c0();
+    XExtra* BSFile_GetDevice();
     XObj* TESObjectREFR_GetLight();
     int FUN_00559450();
     XObj* FUN_008d6f30();
-    XObj* FUN_004543c0();
+    XObj* TESObjectCELL_GetbhkWorld();
     XObj* FUN_0045cd60();
-    void FUN_0061f890(XObj* a1, int a2);
-    XObj* FUN_004e8030(XObj* a1);
+    void BGSAcousticSpaceListener_DequeueRemoval(XObj* a1, int a2);
+    XObj* TESWaterSystem_GetWaterGeometry(XObj* a1);
     void TESWaterSystem_RemoveWaterRefFromWaterSystem(XObj* a1);
-    XObj* FUN_004030b0();
+    XObj* CombatController_GetTarget();
     int FUN_008d8520();
     Node38* FUN_00a59d30(int a1);
     void TESObjectCELL_RemoveAnimatedRef(XObj* a1);
@@ -28912,14 +29106,14 @@ struct XObj
     void TESWaterListener_HandleQueuedRemovals(XObj* a1, int a2, int a3);
     void TESObjectCELL_RemoveWaterRef(XObj* a1);
     void TESWaterListener_RemoveWaterZoneForReference(XObj* a1);
-    XObj* FUN_009d9f20();
+    XObj* GetPortalGraph_009d9f20();
     void BSPortalGraph_RemoveRoom(XObj* a1);
-    void FUN_00c39ad0(XObj* a1);
+    void BSMultiBoundRoom_RemoveOccluder(XObj* a1);
     void BSPortalGraph_RemoveOccluder(XObj* a1);
     void BSPortalGraph_RemovePortal(XObj* a1);
     void FUN_0057c730(void* a1);
     void Projectile_SetSourceRef(int a1);
-    void FUN_00420ba0(int a1);
+    void Projectile_SetDesiredTarget(int a1);
     void NiTPointerListBase_NiPropertyPtr_Remove();
     void TESObjectREFR_Release3DRelatedData();
 };
@@ -28952,16 +29146,16 @@ void XObj::TESObjectREFR_Release3DRelatedData()
     TesobjectrefrListNodeView* first;
     if (Virt1d0() == 0)
         return;
-    if (FUN_007af430())
+    if (BGSSaveFormBuffer_GetForm())
     {
-        if (FUN_007af430()->FUN_00401170() == 0x23)
+        if (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x23)
         {
             DAT_011dea10->TES_DecrementPlaceableWaterCount();
         }
     }
     TESObjectREFR_RemoveRefFromMultiboundTestMap(this);
-    FUN_0057b520(0);
-    first = FUN_005d43c0()->ExtraDataList_GetLinkedRooms();
+    TESObjectREFR_RemoveFromAllWater(0);
+    first = BSFile_GetDevice()->ExtraDataList_GetLinkedRooms();
     while (first != 0 && *first->FUN_006815c0() != 0)
     {
         self2 = *first->FUN_006815c0();
@@ -28971,36 +29165,36 @@ void XObj::TESObjectREFR_Release3DRelatedData()
             {
                 GlobalObject_00633c90 guard(TESObjectREFR_GetMultiBoundRoom()->FUN_006629f0());
                 L64 local64;
-                self2->TESObjectREFR_GetMultiBoundRoom()->FUN_0045c650(&local64, &guard)->NiTPointerListBase_NiPropertyPtr_Remove();
+                self2->TESObjectREFR_GetMultiBoundRoom()->hkpMotion_getLinearVelocity(&local64, &guard)->NiTPointerListBase_NiPropertyPtr_Remove();
                 local64.FUN_0045cec0();
             }
         }
         first = first->FUN_00726070();
     }
-    if (FUN_007af430() == DAT_011ca23c)
+    if (BGSSaveFormBuffer_GetForm() == DAT_011ca23c)
     {
-        p18 = FUN_005d43c0()->FUN_00420dd0();
-        if (FUN_007af430() == DAT_011ca23c)
+        p18 = BSFile_GetDevice()->ExtraDataList_GetPortal();
+        if (BGSSaveFormBuffer_GetForm() == DAT_011ca23c)
         {
-            list1c = FUN_005d43c0()->ExtraDataList_GetPortalLinkedRoomRef(0);
+            list1c = BSFile_GetDevice()->ExtraDataList_GetPortalLinkedRoomRef(0);
             if (list1c != 0)
             {
-                list1c->FUN_005d43c0()->ExtraDataList_RemovePortalLinkedRoomRef(this);
+                list1c->BSFile_GetDevice()->ExtraDataList_RemovePortalLinkedRoomRef(this);
             }
-            list1c = FUN_005d43c0()->ExtraDataList_GetPortalLinkedRoomRef(1);
+            list1c = BSFile_GetDevice()->ExtraDataList_GetPortalLinkedRoomRef(1);
             if (list1c != 0)
             {
-                list1c->FUN_005d43c0()->ExtraDataList_RemovePortalLinkedRoomRef(this);
+                list1c->BSFile_GetDevice()->ExtraDataList_RemovePortalLinkedRoomRef(this);
             }
         }
     }
-    if (FUN_007af430() != 0 && FUN_007af430()->FUN_00401170() == 0x1e)
+    if (BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x1e)
     {
-        elem2 = FUN_005d43c0()->ExtraDataList_GetLitWaterRefs();
+        elem2 = BSFile_GetDevice()->ExtraDataList_GetLitWaterRefs();
         lite = TESObjectREFR_GetLight();
         while (elem2 != 0 && *elem2->FUN_006815c0() != 0)
         {
-            (*elem2->FUN_006815c0())->FUN_005d43c0()->FUN_0041f840(this, 0);
+            (*elem2->FUN_006815c0())->BSFile_GetDevice()->FUN_0041f840(this, 0);
             if (lite != 0)
             {
                 if (lite->FUN_00559450() != 0)
@@ -29008,11 +29202,11 @@ void XObj::TESObjectREFR_Release3DRelatedData()
                     q28 = (*elem2->FUN_006815c0())->Virt1d0();
                     if (q28 != 0)
                     {
-                        if (DAT_011dea10->FUN_0070ec90())
+                        if (DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex())
                         {
-                            res34 = DAT_011dea10->FUN_0070ec90()->FUN_004e8030(*elem2->FUN_006815c0());
+                            res34 = DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->TESWaterSystem_GetWaterGeometry(*elem2->FUN_006815c0());
                             var2c = res34;
-                            var30 = var2c->FUN_004030b0();
+                            var30 = var2c->CombatController_GetTarget();
                             if (var30 != 0)
                             {
                                 if (var30->FUN_008d8520() == 0xd)
@@ -29030,55 +29224,55 @@ void XObj::TESObjectREFR_Release3DRelatedData()
             elem2 = elem2->FUN_00726070();
         }
     }
-    if (FUN_007af430() != 0 && FUN_007af430()->FUN_00401170() == 0xe)
+    if (BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0xe)
     {
         if (FUN_008d6f30())
         {
-            FUN_008d6f30()->FUN_004543c0()->FUN_0045cd60()->FUN_0061f890(this, 1);
+            FUN_008d6f30()->TESObjectCELL_GetbhkWorld()->FUN_0045cd60()->BGSAcousticSpaceListener_DequeueRemoval(this, 1);
         }
     }
     if (m_40 != 0)
     {
-        if (FUN_007af430() != 0 && FUN_007af430()->FUN_00401170() == 0x23)
+        if (BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x23)
         {
-            DAT_011dea10->FUN_0070ec90()->TESWaterSystem_RemoveWaterRefFromWaterSystem(this);
+            DAT_011dea10->DetailedActorPathHandler_GetCurrentNodeIndex()->TESWaterSystem_RemoveWaterRefFromWaterSystem(this);
         }
         m_40->TESObjectCELL_RemoveAnimatedRef(this);
         m_40->TESObjectCELL_RemoveEmittanceRef(this);
-        u40 = (m_40 != 0 && m_40->FUN_004543c0() != 0) ? m_40->FUN_004543c0()->FUN_0059bb30() : 0;
+        u40 = (m_40 != 0 && m_40->TESObjectCELL_GetbhkWorld() != 0) ? m_40->TESObjectCELL_GetbhkWorld()->FUN_0059bb30() : 0;
         if (u40 != 0)
         {
             u40->TESWaterListener_HandleQueuedRemovals(this, 0, 1);
         }
-        if (FUN_007af430() != 0 && FUN_007af430()->FUN_00401170() == 0x23)
+        if (BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x23)
         {
             m_40->TESObjectCELL_RemoveWaterRef(this);
             u40->TESWaterListener_RemoveWaterZoneForReference(this);
         }
-        var44 = m_40->FUN_009d9f20();
+        var44 = m_40->GetPortalGraph_009d9f20();
         if (var44 != 0)
         {
-            if (FUN_007af430() != 0)
+            if (BGSSaveFormBuffer_GetForm() != 0)
             {
-                if (FUN_007af430() == (XObj*)DAT_011ca238)
+                if (BGSSaveFormBuffer_GetForm() == (XObj*)DAT_011ca238)
                 {
-                    p48 = FUN_005d43c0()->ExtraDataList_GetRoom();
+                    p48 = BSFile_GetDevice()->ExtraDataList_GetRoom();
                     if (p48 != 0)
                     {
                         var44->BSPortalGraph_RemoveRoom(p48);
                     }
                 }
-                else if (FUN_007af430() == DAT_011ca234)
+                else if (BGSSaveFormBuffer_GetForm() == DAT_011ca234)
                 {
-                    var4c = FUN_005d43c0()->ExtraDataList_GetOcclusionShape();
+                    var4c = BSFile_GetDevice()->ExtraDataList_GetOcclusionShape();
                     if (var4c != 0)
                     {
-                        if (FUN_005d43c0()->ExtraDataList_GetMultiBoundRef() != 0)
+                        if (BSFile_GetDevice()->ExtraDataList_GetMultiBoundRef() != 0)
                         {
-                            x50 = FUN_005d43c0()->ExtraDataList_GetMultiBoundRef()->FUN_005d43c0()->ExtraDataList_GetRoom();
+                            x50 = BSFile_GetDevice()->ExtraDataList_GetMultiBoundRef()->BSFile_GetDevice()->ExtraDataList_GetRoom();
                             if (x50 != 0)
                             {
-                                x50->FUN_00c39ad0(var4c);
+                                x50->BSMultiBoundRoom_RemoveOccluder(var4c);
                             }
                             else
                             {
@@ -29091,26 +29285,26 @@ void XObj::TESObjectREFR_Release3DRelatedData()
                         }
                     }
                 }
-                else if (FUN_007af430() == DAT_011ca23c)
+                else if (BGSSaveFormBuffer_GetForm() == DAT_011ca23c)
                 {
-                    item54 = FUN_005d43c0()->FUN_00420dd0();
+                    item54 = BSFile_GetDevice()->ExtraDataList_GetPortal();
                     if (item54 != 0)
                     {
                         for (num2 = 0; num2 < 2; num2++)
                         {
-                            vec5c = FUN_005d43c0()->FUN_00420410();
+                            vec5c = BSFile_GetDevice()->ExtraDataList_GetPortalLinkedRefData();
                             if (vec5c != 0 && vec5c->arr[num2] != 0)
                             {
                                 if (vec5c->arr[num2]->TESObjectREFR_GetMultiBoundRoom())
                                 {
-                                    vec5c->arr[num2]->TESObjectREFR_GetMultiBoundRoom()->FUN_006ab360()->FUN_0057c730(&item54);
+                                    vec5c->arr[num2]->TESObjectREFR_GetMultiBoundRoom()->TESCombatStyle_GetAdvancedData()->FUN_0057c730(&item54);
                                     if (num2 == 0)
                                     {
                                         item54->Projectile_SetSourceRef(0);
                                     }
                                     else
                                     {
-                                        item54->FUN_00420ba0(0);
+                                        item54->Projectile_SetDesiredTarget(0);
                                     }
                                 }
                             }
@@ -29267,11 +29461,12 @@ struct RefS
     bool IsDeletedS();
     CellS* GetParentCellS();
     float GetDistanceS(NiPoint3* pos);
-    float FUN_005723b0(RefS* other, bool allowDisabled, bool ignoreCell);
+    float TESObjectREFR_GetDistanceFromReference(RefS* other, bool allowDisabled, bool ignoreCell);
 };
 
 // @fnv 0x005723b0
-float RefS::FUN_005723b0(RefS* other, bool allowDisabled, bool ignoreCell)
+// src: XBOX_PDB 0x005723b0
+float RefS::TESObjectREFR_GetDistanceFromReference(RefS* other, bool allowDisabled, bool ignoreCell)
 {
     float dist7 = 3.402823466e+38F;
     bool sameInteriorB = false;
@@ -29325,7 +29520,7 @@ class B5729E0ExtraList
 class B5729E0ShadowSceneNode
 {
   public:
-    void FUN_00b5eed0(B5729E0Light* pkLight);
+    void ShadowSceneNode_RemoveLight(B5729E0Light* pkLight);
 };
 
 B5729E0ShadowSceneNode* __cdecl FUN_00450b80(unsigned int uiIndex);
@@ -29344,7 +29539,7 @@ void B5729E0Ref::TESObjectREFR_RemoveLight(bool bPortal)
 {
     B5729E0LightExtra* pkExtra = bPortal ? GetExtraData()->GetPortalLight() : GetExtraData()->GetLightExtra();
     if (pkExtra && pkExtra->GetLight())
-        FUN_00450b80(0)->FUN_00b5eed0(pkExtra->GetLight());
+        FUN_00450b80(0)->ShadowSceneNode_RemoveLight(pkExtra->GetLight());
 }
 
 namespace fnv_00572b60 {
@@ -29410,7 +29605,7 @@ struct FUN_0042e820_Obj
 // src: COMMUNITY 0x00572fc0
 void FUN_00572fc0_shell::TESObjectREFR_SetDismembered(int a, int aiParamB, int aiParamC, int aiParamD, unsigned char e)
 {
-    FUN_0042e820_Obj* pObj = reinterpret_cast<FUN_0042e820_Obj*>(::FUN_005d43c0(this))->FUN_0042e820();
+    FUN_0042e820_Obj* pObj = reinterpret_cast<FUN_0042e820_Obj*>(::BSFile_GetDevice(this))->FUN_0042e820();
     if (a != -1)
     {
         pObj->FUN_00430410(this, a, e);
@@ -30052,7 +30247,7 @@ struct ActRef
     void RunOnActivateBlock();
     ActTeleport* GetTeleportData();
     void HandleActivation(ActRef* apActivator);
-    bool FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, int aiCount);
+    bool TESObjectREFR_Activate(ActRef* apActivator, bool abFlag, ActForm* apObject, int aiCount);
 };
 
 struct ActActor : ActRef
@@ -30087,7 +30282,8 @@ extern "C" int __cdecl sprintf(char* apBuffer, const char* apFormat, ...);
 void __cdecl ActDebugLog(const char* apFormat, ...);
 
 // @fnv 0x00573170
-bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, int aiCount)
+// src: XBOX_PDB 0x00573170
+bool ActRef::TESObjectREFR_Activate(ActRef* apActivator, bool abFlag, ActForm* apObject, int aiCount)
 {
     bool bUnconscious = false;
     ActRef* pLinked_2;
@@ -30097,7 +30293,7 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
     {
         pLinked_2 = GetExtraList()->GetLinkedRef();
         if (pLinked_2)
-            return pLinked_2->FUN_00573170(apActivator, abFlag, apObject, aiCount);
+            return pLinked_2->TESObjectREFR_Activate(apActivator, abFlag, apObject, aiCount);
     }
 
     g_bActActivated = false;
@@ -30607,7 +30803,8 @@ bool __fastcall cellReady(MoveCell*);
 int TruncateFloatToInt(float);
 // Moves ref to dest cell or world cell, updating cell membership, controller position, animation, queues and save state.
 // @fnv 0x00573800
-void __cdecl FUN_00573800(MoveRef* ref, MoveCell* apDestCell, MoveWorld* world)
+// src: XBOX_PDB 0x00573800
+void __cdecl TESObjectREFR_MoveRefToNewSpace(MoveRef* ref, MoveCell* apDestCell, MoveWorld* world)
 {
     MoveCell* target4 = 0;
     bool kRestore = false;
@@ -30801,11 +30998,11 @@ struct FUN_00410360
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     FUN_00410360();
-    void FUN_00419ad0(unsigned short);
-    ScriptOps* FUN_00418800();
-    void FUN_00419ed0(ScriptOps*);
-    void FUN_00419f80(void*);
-    void* FUN_00418830();
+    void ExtraDataList_SetCount(unsigned short);
+    ScriptOps* ExtraDataList_GetScript();
+    void ExtraDataList_SetScript(ScriptOps*);
+    void ExtraDataList_SetScriptLocals(void*);
+    void* ExtraDataList_GetScriptLocals();
 };
 struct FUN_0055a2f0
 {
@@ -30849,19 +31046,19 @@ struct ScriptOps
 };
 struct ExtraOps
 {
-    void FUN_0041c7f0(RefOps*);
+    void ExtraDataList_SetReferencePointer(RefOps*);
 };
 struct EntryOps
 {
     EntryOps* GetOrFallback(int);
-    EntryOps* FUN_004fd400();
-    bool FUN_004c0bf0();
-    EntryOps* FUN_00525980(RefOps*);
+    EntryOps* GetAVEffect();
+    bool TESObjectWEAP_IsThrownWeapon();
+    EntryOps* TESObjectWEAP_GetCurrentAmmo(RefOps*);
 };
 struct ListOps
 {
     void FUN_004c3380(FUN_004bc650*, bool);
-    void FUN_004c29a0(EntryOps*, FUN_00410360*, bool);
+    void InventoryChanges_AddItem(EntryOps*, FUN_00410360*, bool);
     void InventoryChanges_AddItem_0(RefOps*, int, bool, bool);
 };
 struct RefOps
@@ -31004,95 +31201,95 @@ struct RefOps
     virtual void v21c();
     virtual void v220();
     virtual bool v224();
-    void* FUN_0055d310();
+    void* TESObjectREFR_HasContainer();
     bool FUN_00440da0();
     RefOps* FUN_008d6f30();
-    bool FUN_005656d0();
-    void FUN_00545560(RefOps*);
-    void* FUN_007af430();
-    ExtraOps* FUN_005d43c0();
-    void* FUN_009d9f00();
-    EntryOps* FUN_00476c90();
-    bool FUN_005653d0();
+    bool TESObjectREFR_HasScript();
+    void TESObjectCELL_AddScriptedRef(RefOps*);
+    void* BGSSaveFormBuffer_GetForm();
+    ExtraOps* BSFile_GetDevice();
+    void* Projectile_GetSecondaryItemChange();
+    EntryOps* Sky_GetMode();
+    bool TESObjectREFR_GetRefPersists_005653d0();
     void TESObjectREFR_AddReferenceItem(RefOps*, int, bool, bool);
 };
 extern RefOps* DAT_011dea3c;
 void __cdecl FUN_005f5950(int, int, void*, int, int, int, int);
-void __cdecl FUN_005ac750(RefOps*, void*, int);
+void __cdecl Script_SetActionFlag(RefOps*, void*, int);
 ListOps* __cdecl FUN_004bf220(RefOps*);
-ScriptOps* __cdecl FUN_004826d0(EntryOps*);
+ScriptOps* __cdecl TESScriptableForm_GetFormScript(EntryOps*);
 // @fnv 0x00574b30
 // src: COMMUNITY 0x00574b30
 void RefOps::TESObjectREFR_AddReferenceItem(RefOps* source, int count, bool abArg1, bool abArg2)
 {
-    void* container = FUN_0055d310();
+    void* container = TESObjectREFR_HasContainer();
     if (container)
     {
-        if ((!v100() || FUN_00440da0()) && FUN_008d6f30() && source->FUN_005656d0() && !FUN_005656d0())
-            FUN_008d6f30()->FUN_00545560(this);
+        if ((!v100() || FUN_00440da0()) && FUN_008d6f30() && source->TESObjectREFR_HasScript() && !TESObjectREFR_HasScript())
+            FUN_008d6f30()->TESObjectCELL_AddScriptedRef(this);
         if (this == DAT_011dea3c)
         {
-            FUN_005f5950(10, count, source->FUN_007af430(), 0, 0, 0, 0);
-            FUN_005f5950(6, count, source->FUN_007af430(), 0, 0, 0, 0);
+            FUN_005f5950(10, count, source->BGSSaveFormBuffer_GetForm(), 0, 0, 0, 0);
+            FUN_005f5950(6, count, source->BGSSaveFormBuffer_GetForm(), 0, 0, 0, 0);
         }
-        FUN_005ac750(this, source->FUN_005d43c0(), 1);
+        Script_SetActionFlag(this, source->BSFile_GetDevice(), 1);
         ListOps* inventory = FUN_004bf220(this);
         bool normal = true;
         if (source->v224())
         {
             normal = false;
             RefOps* actor = source;
-            if (actor->FUN_009d9f00())
+            if (actor->Projectile_GetSecondaryItemChange())
             {
-                FUN_004bc650* data = new FUN_004bc650(actor->FUN_009d9f00());
+                FUN_004bc650* data = new FUN_004bc650(actor->Projectile_GetSecondaryItemChange());
                 if (data && data->FUN_00559450() && *data->FUN_00559450()->FUN_006815c0())
-                    FUN_005ac750(this, *data->FUN_00559450()->FUN_006815c0(), 1);
+                    Script_SetActionFlag(this, *data->FUN_00559450()->FUN_006815c0(), 1);
                 inventory->FUN_004c3380(data, true);
                 data = 0;
             }
-            else if (actor->FUN_00476c90())
+            else if (actor->Sky_GetMode())
             {
                 EntryOps* base = 0;
-                EntryOps* entry = actor->FUN_00476c90();
-                if (entry->GetOrFallback(0) && entry->GetOrFallback(0)->FUN_004fd400())
-                    entry = entry->GetOrFallback(0)->FUN_004fd400();
-                if (entry->FUN_004c0bf0())
+                EntryOps* entry = actor->Sky_GetMode();
+                if (entry->GetOrFallback(0) && entry->GetOrFallback(0)->GetAVEffect())
+                    entry = entry->GetOrFallback(0)->GetAVEffect();
+                if (entry->TESObjectWEAP_IsThrownWeapon())
                     base = entry;
                 else
                 {
                     RefOps* owner = v100() ? this : 0;
-                    base = entry->FUN_00525980(owner);
+                    base = entry->TESObjectWEAP_GetCurrentAmmo(owner);
                 }
                 if (base)
                 {
-                    ScriptOps* script = FUN_004826d0(base);
+                    ScriptOps* script = TESScriptableForm_GetFormScript(base);
                     if (script)
                     {
                         FUN_00410360* extras = 0;
                         extras = new FUN_00410360;
-                        extras->FUN_00419ad0(1);
-                        if (extras && !extras->FUN_00418800())
+                        extras->ExtraDataList_SetCount(1);
+                        if (extras && !extras->ExtraDataList_GetScript())
                         {
-                            extras->FUN_00419ed0(script);
-                            extras->FUN_00419f80(script->FUN_005abf60());
+                            extras->ExtraDataList_SetScript(script);
+                            extras->ExtraDataList_SetScriptLocals(script->FUN_005abf60());
                             FUN_0055a2f0* reference = new FUN_0055a2f0;
                             reference->FUN_00484490();
-                            script->FUN_005ac1e0(reference, extras->FUN_00418830(), 0, false);
+                            script->FUN_005ac1e0(reference, extras->ExtraDataList_GetScriptLocals(), 0, false);
                             delete reference;
                         }
-                        FUN_005ac750(this, extras, 1);
-                        inventory->FUN_004c29a0(base, extras, true);
+                        Script_SetActionFlag(this, extras, 1);
+                        inventory->InventoryChanges_AddItem(base, extras, true);
                     }
                     else
-                        inventory->FUN_004c29a0(base, 0, true);
+                        inventory->InventoryChanges_AddItem(base, 0, true);
                 }
             }
         }
         if (normal)
             inventory->InventoryChanges_AddItem_0(source, count, abArg1, abArg2);
-        if (source->FUN_005653d0())
+        if (source->TESObjectREFR_GetRefPersists_005653d0())
         {
-            source->FUN_005d43c0()->FUN_0041c7f0(this);
+            source->BSFile_GetDevice()->ExtraDataList_SetReferencePointer(this);
             source->v048(0x400);
         }
     }
@@ -31115,7 +31312,7 @@ struct FUN_00575650_Class : Unknown
     virtual int v123();
     virtual int v124();
     virtual int v125();
-    int FUN_00575ca0();
+    int TESObjectREFR_GetSpace();
     FUN_00575650_Result* TESObjectREFR_GetWorldLocation(FUN_00575650_Result* target);
 };
 // Calls FUN_0043a3c0 on target with this->v125() and this->FUN_00575ca0(), then returns target.
@@ -31123,7 +31320,7 @@ struct FUN_00575650_Class : Unknown
 // src: COMMUNITY 0x00575650
 FUN_00575650_Result* FUN_00575650_Class::TESObjectREFR_GetWorldLocation(FUN_00575650_Result* pResult)
 {
-    pResult->FUN_0043a3c0(this->v125(), this->FUN_00575ca0());
+    pResult->FUN_0043a3c0(this->v125(), this->TESObjectREFR_GetSpace());
     return pResult;
 }
 
@@ -31763,14 +31960,15 @@ class F5BB0Actor
     F5BB0ExtraDataList* GetExtraData();
     F5BB0Process* GetProcess();
     void* GetMountedRef();
-    void FUN_00575bb0(TESObjectCELL* pkCell);
+    void TESObjectREFR_SetParentCell(TESObjectCELL* pkCell);
 };
 
 extern F5BB0Actor* g_pkF5BB0Player;
 
 // Sets m_pkParentCell to pkCell, updates water data and player cell, then notifies the process and updates cell state if not mounted.
 // @fnv 0x00575bb0
-void F5BB0Actor::FUN_00575bb0(TESObjectCELL* pkCell)
+// src: XBOX_PDB 0x00575bb0
+void F5BB0Actor::TESObjectREFR_SetParentCell(TESObjectCELL* pkCell)
 {
     m_pkParentCell = pkCell;
     if (!GetExtraData()->GetPersistentCell())
@@ -31791,20 +31989,20 @@ void F5BB0Actor::FUN_00575bb0(TESObjectCELL* pkCell)
 
 struct FUN_00576070_shell
 {
-    bool FUN_00452370();
-    void* FUN_007af430();
+    bool TESForm_GetDestructible();
+    void* BGSSaveFormBuffer_GetForm();
     bool TESObjectREFR_IsVATSTargettable();
 };
-void* __cdecl FUN_00475400(void* object);
+void* __cdecl BGSDestructibleObjectForm_GetDestructionForm(void* object);
 // If FUN_00452370 succeeds, looks up an item via FUN_00475400(FUN_007af430()) and returns its FUN_00576100 result, inverted when FUN_005760e0 is true.
 // @fnv 0x00576070
 // src: COMMUNITY 0x00576070
 bool FUN_00576070_shell::TESObjectREFR_IsVATSTargettable()
 {
     bool result = false;
-    if (FUN_00452370())
+    if (TESForm_GetDestructible())
     {
-        FUN_00576100_Class* item = (FUN_00576100_Class*)FUN_00475400(FUN_007af430());
+        FUN_00576100_Class* item = (FUN_00576100_Class*)BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm());
         if (item != 0)
         {
             result = item->BGSDestructibleObjectForm_GetTargetableInVATS();
@@ -31829,8 +32027,8 @@ struct List_009e03e0
 };
 struct Host00881620
 {
-    TESObjectREFR* FUN_00881650();
-    void FUN_00881620(int iRef);
+    TESObjectREFR* Actor_GetCurrentPackageTarget();
+    void Actor_SetCurrentTarget(int iRef);
 };
 struct LinkedRefMgr
 {
@@ -31838,18 +32036,18 @@ struct LinkedRefMgr
 };
 struct LinkedRefTarget
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct LinkedRefExtra
 {
-    TESForm* FUN_00418660();
-    void FUN_0041aed0();
-    LinkedRefTarget* FUN_0041c8d0();
+    TESForm* ExtraDataList_GetOwner();
+    void ExtraDataList_RemoveOwnership();
+    LinkedRefTarget* ExtraDataList_GetReferencePointer();
 };
 struct FUN_00576130_shell : TESObjectREFR
 {
-    TESForm* FUN_00567790();
-    void FUN_00574fa0(int a, LinkedRefExtra* pkExtra, int c);
+    TESForm* TESObjectREFR_GetOwner();
+    void TESObjectREFR_AddBoundObjectItem(int a, LinkedRefExtra* pkExtra, int c);
     void TESObjectREFR_AddItem(int a, LinkedRefExtra* pkExtra, int c);
 };
 
@@ -31859,21 +32057,21 @@ void FUN_00576130_shell::TESObjectREFR_AddItem(int aiArg, LinkedRefExtra* pkExtr
 {
     if (pkExtra)
     {
-        if (pkExtra->FUN_00418660() && pkExtra->FUN_00418660() == FUN_00567790())
-            pkExtra->FUN_0041aed0();
-        LinkedRefTarget* pkTarget = pkExtra->FUN_0041c8d0();
+        if (pkExtra->ExtraDataList_GetOwner() && pkExtra->ExtraDataList_GetOwner() == TESObjectREFR_GetOwner())
+            pkExtra->ExtraDataList_RemoveOwnership();
+        LinkedRefTarget* pkTarget = pkExtra->ExtraDataList_GetReferencePointer();
         if (pkTarget)
         {
-            unsigned int uiFormIDValue = pkTarget->FUN_0084e3a0();
+            unsigned int uiFormIDValue = pkTarget->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
             List_009e03e0* pkIter = ((LinkedRefMgr*)&DAT_011e0e80)->ProcessLists_GetActorTargetinganObject(uiFormIDValue, this);
             List_009e03e0* pkList = pkIter;
             while (pkIter && pkIter->FUN_006815c0())
             {
                 Host00881620* pkLinked = (Host00881620*)pkIter->FUN_006815c0();
-                if (pkLinked && pkLinked->FUN_00881650())
-                    pkLinked->FUN_00881620((int)this);
+                if (pkLinked && pkLinked->Actor_GetCurrentPackageTarget())
+                    pkLinked->Actor_SetCurrentTarget((int)this);
                 else
-                    pkLinked->FUN_00881620(0);
+                    pkLinked->Actor_SetCurrentTarget(0);
                 pkIter = pkIter->FUN_00726070();
             }
             if (pkList)
@@ -31883,7 +32081,7 @@ void FUN_00576130_shell::TESObjectREFR_AddItem(int aiArg, LinkedRefExtra* pkExtr
             }
         }
     }
-    FUN_00574fa0(aiArg, pkExtra, aiArg2);
+    TESObjectREFR_AddBoundObjectItem(aiArg, pkExtra, aiArg2);
 }
 
 class Head577
@@ -31919,12 +32117,13 @@ class Holder577
 {
   public:
     World577* GetWorld();
-    Phantom577* FUN_005771f0();
+    Phantom577* bhkBvTreeShape_GethkShapeCollection();
 };
 
 // Returns the world's shape cast to Phantom577, or null when GetWorld returns null.
 // @fnv 0x005771f0
-Phantom577* Holder577::FUN_005771f0()
+// src: XBOX_PDB 0x005771f0
+Phantom577* Holder577::bhkBvTreeShape_GethkShapeCollection()
 {
     World577* pkWorld = GetWorld();
     return pkWorld ? static_cast<Phantom577*>(pkWorld->GetShape()) : 0;
@@ -31939,7 +32138,7 @@ struct Vec577
 
 struct FUN_0041fbe0_shell
 {
-    BGSPrimitive* FUN_0041fbe0();
+    BGSPrimitive* ExtraDataList_GetPrimitive();
 };
 
 using ::Tile;
@@ -32203,7 +32402,7 @@ struct Sub577
 
 extern const float g_011c56fc_arg1;
 extern TESObjectSTAT* DAT_011ca240;
-const ExtraDataList* __fastcall FUN_005d43c0(const TESObjectREFR* pThis);
+const ExtraDataList* __fastcall BSFile_GetDevice(const TESObjectREFR* pThis);
 
 struct FUN_005549d0_obj : public TESObjectREFR
 {
@@ -32216,8 +32415,8 @@ void FUN_005549d0_obj::TESObjectREFR_TogglePrimitive(bool param_2)
 {
     Vec577 vPos;
     float fScaleVal;
-    Tile* pCell = (Tile*)((FUN_0041fbe0_shell*)::FUN_005d43c0(this))->FUN_0041fbe0();
-    if (pCell != 0 && pCell->FUN_0056c7f0() != 0)
+    Tile* pCell = (Tile*)((FUN_0041fbe0_shell*)::BSFile_GetDevice(this))->ExtraDataList_GetPrimitive();
+    if (pCell != 0 && pCell->GetModel_0056c7f0() != 0)
     {
         ((FUN_00413f90_Obj*)pCell)->BGSPrimitive_GetColor(&vPos);
         fScaleVal = param_2 ? g_011c56fc_arg1 : 0.0f;
@@ -32246,11 +32445,11 @@ struct Update577
 };
 struct Node577
 {
-    const ::NiPoint3& FUN_0045bb80();
-    void FUN_00440460(const ::NiPoint3&);
-    void FUN_0043fa80(const void*);
-    void FUN_00a59c60(Update577&);
-    Plane577& FUN_0043d450();
+    const ::NiPoint3& NiAVObject_GetWorldTranslate();
+    void NiAVObject_SetTranslate(const ::NiPoint3&);
+    void SetRotate_0043fa80(const void*);
+    void NiAVObject_Update(Update577&);
+    Plane577& NiAVObject_GetWorldBound();
 };
 struct World577;
 // Keep the undeclared cell entry points callable without a private cell class.
@@ -32404,15 +32603,15 @@ struct Ref577
     virtual void unk1f0();
     virtual const ::NiPoint3& GetCoordinates();
     TESObjectCELL* FUN_008d6f30();
-    Form577* FUN_007af430();
-    bool FUN_00448a20();
-    float FUN_0057b0a0();
-    void FUN_00484a70(bool);
+    Form577* BGSSaveFormBuffer_GetForm();
+    bool TESForm_GetFireOff();
+    float TESObjectREFR_GetRelevantWaterHeight();
+    void TESForm_SetFireOff(bool);
     void TESObjectREFR_RemoveLight(int);
-    void FUN_00575830(const ::NiPoint3&);
-    unsigned FUN_0084e3a0();
+    void TESObjectREFR_SetLocationOnReference(const ::NiPoint3&);
+    unsigned GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void Actor_SetForceUpdateQuest(bool);
-    void FUN_00575700(::NiPoint3);
+    void TESObjectREFR_SetAngleOnReference(::NiPoint3);
 };
 struct Param577
 {
@@ -32462,8 +32661,8 @@ struct Param577
     virtual void unk0ac();
     virtual void Signal(int, int, int);
     Node577* FUN_0044ddc0();
-    Body577* FUN_006fa820();
-    void FUN_00573ed0(int);
+    Body577* bhkNiCollisionObject_GetWorldObject();
+    void bhkNiCollisionObject_SetNotify(int);
 };
 struct Toggle577
 {
@@ -32484,7 +32683,7 @@ struct Rotation577
 };
 struct RotSource577 : Node577
 {
-    Rotation577* FUN_00461130();
+    Rotation577* NiAVObject_GetWorldRotate();
 };
 struct Scene577
 {
@@ -32496,13 +32695,13 @@ extern CellLookup577* DAT_011c3f2c;
 extern ::NiPoint3 DAT_011f426c;
 extern char DAT_011a9448;
 extern char DAT_01030ed8;
-Ref577* __cdecl FUN_0056f930(Node577*);
-bool __cdecl FUN_0062c3c0(Ref577*, Node577*);
-void __cdecl FUN_00578300(Node577*);
-void __cdecl FUN_00c6bd00(Node577*, bool);
+Ref577* __cdecl TESObjectREFR_FindReferenceFor3D(Node577*);
+bool __cdecl TESHavokUtilities_Should3DRagDoll(Ref577*, Node577*);
+void __cdecl TESObjectREFR_RemoveAddonNodes(Node577*);
+void __cdecl bhkNiCollisionObject_ResetSim(Node577*, bool);
 void __cdecl TESObjectCELL_QueueAttachChild(Ref577*, Node577*);
-void __cdecl FUN_00573800(Ref577*, int, World577*);
-bool __cdecl FUN_008c7aa0();
+void __cdecl TESObjectREFR_MoveRefToNewSpace(Ref577*, int, World577*);
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 int __cdecl FUN_00ec7595(double);
 int __cdecl FUN_00ec75b1(double);
 void __cdecl Warning_005b5e40(const char*, ...);
@@ -32512,10 +32711,10 @@ Scene577* __cdecl FUN_00450b80(int);
 void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags)
 {
     Node577* source = apParam->FUN_0044ddc0();
-    Ref577* ref = FUN_0056f930(source);
+    Ref577* ref = TESObjectREFR_FindReferenceFor3D(source);
     if (ref)
     {
-        bool valid = FUN_0062c3c0(ref, ref->GetNode());
+        bool valid = TESHavokUtilities_Should3DRagDoll(ref, ref->GetNode());
         if (flags & 1)
         {
             TESObjectCELL* cell = ref->FUN_008d6f30();
@@ -32523,7 +32722,7 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
             {
                 bool j = false;
                 bool p = false;
-                ::NiPoint3 h = source->FUN_0045bb80();
+                ::NiPoint3 h = source->NiAVObject_GetWorldTranslate();
                 if (!FUN_00ec7595(h.x) || !FUN_00ec7595(h.y) || !FUN_00ec7595(h.z) || FUN_00ec75b1(h.x) ||
                     FUN_00ec75b1(h.y) || FUN_00ec75b1(h.z))
                     j = true;
@@ -32532,10 +32731,10 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
                     Node577* node = ((Node577* (__thiscall *)(TESObjectCELL*, int))FNV2062_Cell_FUN_00456fc0)(cell, 3);
                     if (node)
                     {
-                        Plane577 bound = node->FUN_0043d450();
+                        Plane577 bound = node->NiAVObject_GetWorldBound();
                         if ((bound.FUN_006815c0() != DAT_011f426c))
                         {
-                            if (bound.FUN_006815c0().z - source->FUN_0045bb80().z > bound.FUN_0084d030())
+                            if (bound.FUN_006815c0().z - source->NiAVObject_GetWorldTranslate().z > bound.FUN_0084d030())
                             {
                                 j = true;
                                 if (bound.FUN_006815c0().z - ref->GetPosition().z > bound.FUN_0084d030())
@@ -32547,7 +32746,7 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
                 else if (((World577* (__thiscall *)(TESObjectCELL*))FNV2062_Cell_FUN_00546fb0)(cell))
                 {
                     float height = ((World577* (__thiscall *)(TESObjectCELL*))FNV2062_Cell_FUN_00546fb0)(cell)->TESObjectLAND_GetMinMaxLandHeight().x - 128.0;
-                    if (height > source->FUN_0045bb80().z)
+                    if (height > source->NiAVObject_GetWorldTranslate().z)
                     {
                         j = true;
                         if (height > ref->GetPosition().z)
@@ -32566,13 +32765,13 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
                     Node577* p = ref->GetNode();
                     if (p)
                     {
-                        p->FUN_00440460(ref->GetPosition());
-                        p->FUN_0043fa80(&DAT_011a9448);
+                        p->NiAVObject_SetTranslate(ref->GetPosition());
+                        p->SetRotate_0043fa80(&DAT_011a9448);
                     }
-                    FUN_00c6bd00(p, true);
+                    bhkNiCollisionObject_ResetSim(p, true);
                     Update577 a(0, true, false);
-                    p->FUN_00a59c60(a);
-                    Body577* h = apParam->FUN_006fa820();
+                    p->NiAVObject_Update(a);
+                    Body577* h = apParam->bhkNiCollisionObject_GetWorldObject();
                     if (h)
                     {
                         float value = h->bhkRigidBody_GethkMaxLinearVelocity() * 0.25;
@@ -32581,22 +32780,22 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
                         else
                         {
                             apParam->Signal(4, 0, 0);
-                            apParam->FUN_00573ed0(0);
-                            Warning_005b5e40(&DAT_01030ed8, ref->GetName(), ref->FUN_0084e3a0());
+                            apParam->bhkNiCollisionObject_SetNotify(0);
+                            Warning_005b5e40(&DAT_01030ed8, ref->GetName(), ref->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                         }
                     }
                 }
             }
             ::NiPoint3 oldPosition = ref->GetCoordinates();
             bool old = DAT_011ddf38->FUN_004623f0(false);
-            ref->FUN_00575830(source->FUN_0045bb80());
+            ref->TESObjectREFR_SetLocationOnReference(source->NiAVObject_GetWorldTranslate());
             DAT_011ddf38->FUN_004623f0(old);
             ref->Notify(4);
-            if (ref->FUN_007af430() && ref->FUN_007af430()->FUN_00401170() == 30 && !ref->FUN_00448a20() &&
-                ref->GetCoordinates().z < ref->FUN_0057b0a0())
+            if (ref->BGSSaveFormBuffer_GetForm() && ref->BGSSaveFormBuffer_GetForm()->FUN_00401170() == 30 && !ref->TESForm_GetFireOff() &&
+                ref->GetCoordinates().z < ref->TESObjectREFR_GetRelevantWaterHeight())
             {
-                ref->FUN_00484a70(true);
-                FUN_00578300(ref->GetNode());
+                ref->TESForm_SetFireOff(true);
+                TESObjectREFR_RemoveAddonNodes(ref->GetNode());
                 ref->TESObjectREFR_RemoveLight(0);
             }
             if (!DAT_011dea10->FUN_005f36f0())
@@ -32614,20 +32813,20 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
                     if (!current)
                     {
                         bool old = DAT_011ddf38->FUN_004623f0(false);
-                        ref->FUN_00575830(oldPosition);
+                        ref->TESObjectREFR_SetLocationOnReference(oldPosition);
                         DAT_011ddf38->FUN_004623f0(old);
-                        source->FUN_00440460(oldPosition);
+                        source->NiAVObject_SetTranslate(oldPosition);
                         apParam->Signal(4, 0, 0);
                     }
                     else
                     {
-                        FUN_00573800(ref, 0, world);
+                        TESObjectREFR_MoveRefToNewSpace(ref, 0, world);
                         if (!ref->IsActor() && ref->GetNode())
                         {
                             Node577* dynamic = (Node577*)current->GetDynamicNode();
                             if (dynamic)
                             {
-                                if (!FUN_008c7aa0())
+                                if (!AILinearTaskThreadManager_ShouldQueue3DTask())
                                     ((void (__thiscall *)(TESObjectCELL*, void*, Node577*))FNV2062_Cell_FUN_005496b0)(current, ref, dynamic);
                                 else
                                     TESObjectCELL_QueueAttachChild(ref, dynamic);
@@ -32640,9 +32839,9 @@ void __cdecl TESObjectREFR_TransChangeCallback(Param577* apParam, unsigned flags
         if (flags & 2)
         {
             ::NiPoint3 rotation;
-            ((RotSource577*)source)->FUN_00461130()->DecomposeToEulerAngles(&rotation.x, &rotation.y, &rotation.z);
+            ((RotSource577*)source)->NiAVObject_GetWorldRotate()->DecomposeToEulerAngles(&rotation.x, &rotation.y, &rotation.z);
             bool old = DAT_011ddf38->FUN_004623f0(false);
-            ref->FUN_00575700(rotation);
+            ref->TESObjectREFR_SetAngleOnReference(rotation);
             DAT_011ddf38->FUN_004623f0(old);
         }
         FUN_00450b80(0)->FUN_00b5d9f0(ref->GetNode(), true);
@@ -32677,21 +32876,22 @@ struct StkDataHandler
 };
 extern StkDataHandler* g_dataHandler;
 
-bool __cdecl FUN_0043b300(const StkRTTI* rtti, NiNode* obj);
-int __fastcall FUN_009ee040(char* pThis);
+bool __cdecl NiObject_IsKindOf(const StkRTTI* rtti, NiNode* obj);
+int __fastcall DialoguePackage_GetActorStartedConversation(char* pThis);
 
 // @fnv 0x00578170
-bool __cdecl FUN_00578170(NiNode* node)
+// src: XBOX_PDB 0x00578170
+bool __cdecl TESObjectREFR_RemoveMasterParticleAddonNodes(NiNode* node)
 {
     if (!node)
     {
         return false;
     }
     bool flag = false;
-    if (FUN_0043b300((const StkRTTI*)&g_01202de8, node))
+    if (NiObject_IsKindOf((const StkRTTI*)&g_01202de8, node))
     {
         NiNode* self = node;
-        StkAddonNode* addon = g_dataHandler->FUN_004617e0(FUN_009ee040((char*)self));
+        StkAddonNode* addon = g_dataHandler->FUN_004617e0(DialoguePackage_GetActorStartedConversation((char*)self));
         if (addon && addon->FUN_00448bf0())
         {
             ((StkNodeObj*)self)->FUN_00450f90(true);
@@ -32706,7 +32906,7 @@ bool __cdecl FUN_00578170(NiNode* node)
             NiNode* grand = child->vfunc03();
             if (grand)
             {
-                flag = flag | FUN_00578170(grand);
+                flag = flag | TESObjectREFR_RemoveMasterParticleAddonNodes(grand);
             }
         }
     }
@@ -32725,7 +32925,7 @@ struct FUN_0048cee0_shell
 
 struct FUN_00453470_shell
 {
-    int FUN_00453470();
+    int NiNode_GetChildCount();
 };
 
 struct _FakeNiNode
@@ -32736,7 +32936,7 @@ struct _FakeNiNode
 
 struct FUN_00572160_shell
 {
-    void FUN_00572160();
+    void DetachAllChildren_00572160();
 };
 
 class GlobalObject_00a7b610
@@ -32752,12 +32952,13 @@ class DataHandler
 extern GlobalObject_00a7b610 g_01202de8;
 extern DataHandler* g_dataHandler;
 
-bool __cdecl FUN_0043b300(const NiRTTI*, NiAVObject*);
-int __cdecl FUN_00c69ee0(void*, int, int);
-int __fastcall FUN_009ee040(char*);
+bool __cdecl NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
+int __cdecl bhkWorld_RemoveObjects(void*, int, int);
+int __fastcall DialoguePackage_GetActorStartedConversation(char*);
 
 // @fnv 0x00578300
-bool __cdecl FUN_00578300(NiNode* pNode)
+// src: XBOX_PDB 0x00578300
+bool __cdecl TESObjectREFR_RemoveAddonNodes(NiNode* pNode)
 {
     long v5;
     int v7;
@@ -32771,16 +32972,16 @@ bool __cdecl FUN_00578300(NiNode* pNode)
         return false;
     }
     v6 = false;
-    if (FUN_0043b300((const NiRTTI*)&g_01202de8, pNode) != 0)
+    if (NiObject_IsKindOf((const NiRTTI*)&g_01202de8, pNode) != 0)
     {
         v3 = (char*)pNode;
-        FUN_00c69ee0((void*)pNode, 1, 1);
-        v4 = g_dataHandler->FUN_004617e0(FUN_009ee040(v3));
+        bhkWorld_RemoveObjects((void*)pNode, 1, 1);
+        v4 = g_dataHandler->FUN_004617e0(DialoguePackage_GetActorStartedConversation(v3));
         if (0 != v4 && ((FUN_0048cee0_shell*)(v4 + 48))->FUN_0048cee0() != 0 &&
-            ((FUN_00453470_shell*)pNode)->FUN_00453470() != 0)
+            ((FUN_00453470_shell*)pNode)->NiNode_GetChildCount() != 0)
         {
             (*(void(__thiscall**)(int, unsigned int))(*(int*)v4 + 0x150))(v4, 0);
-            ((FUN_00572160_shell*)pNode)->FUN_00572160();
+            ((FUN_00572160_shell*)pNode)->DetachAllChildren_00572160();
             v6 = true;
         }
     }
@@ -32792,7 +32993,7 @@ bool __cdecl FUN_00578300(NiNode* pNode)
             v7 = (*(int(__thiscall**)(int))(*(int*)v5 + 12))((int)v5);
             if (v7 != 0)
             {
-                FUN_00578300((NiNode*)v7);
+                TESObjectREFR_RemoveAddonNodes((NiNode*)v7);
             }
         }
     }
@@ -32835,7 +33036,8 @@ class C5784F0Node
 };
 
 // @fnv 0x005784f0
-void __cdecl FUN_005784f0(C5784F0Object* pkObject, float fValue)
+// src: XBOX_PDB 0x005784f0
+void __cdecl TESObjectREFR_RandomizeAddons(C5784F0Object* pkObject, float fValue)
 {
     C5784F0Controller* pkController;
     C5784F0ObjectNET* pkProperty;
@@ -32867,7 +33069,7 @@ void __cdecl FUN_005784f0(C5784F0Object* pkObject, float fValue)
         for (k = 0; k < pkObjNode->GetArrayCount(); k++)
         {
             pkChild = pkObjNode->GetAt(k);
-            FUN_005784f0(pkChild, fValue);
+            TESObjectREFR_RandomizeAddons(pkChild, fValue);
         }
     }
 }
@@ -32881,7 +33083,7 @@ struct LoopSoundData
 struct LoopSound
 {
     LoopSoundData CopyBig();
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 struct LoopEffect
 {
@@ -32992,15 +33194,15 @@ struct LoopForm
     unsigned int field50;
     LoopSound* loopSound;
     unsigned int FUN_00401170();
-    bool FUN_00452440();
+    bool BGSPlaceableWater_IsAutomaticWater();
     bool FUN_004e32c0();
-    LoopSound* FUN_004fd3c0();
+    LoopSound* BGSProjectile_GetExplosion();
     LoopSound* TESChallenge_GetFormOne();
     LoopSound* FUN_004fb070();
-    LoopSound* FUN_004036b0();
-    LoopSound* FUN_008cdd90();
+    LoopSound* TES_QPlaceableWaterCount();
+    LoopSound* DialoguePackage_GetCurrentDialogItem();
     LoopSound* FUN_009185e0();
-    LoopSound* FUN_005f92d0(int);
+    LoopSound* PickCreatureSound(int);
 };
 struct SoundContainerPrefix
 {
@@ -33029,23 +33231,23 @@ struct LoopPrimitive
 };
 struct LoopExtras
 {
-    LoopPrimitive* FUN_0041fbe0();
-    void FUN_00418890(GlobalObject_0041a250*);
-    void FUN_00410140(int);
-    void FUN_0041a800(GlobalObject_0041a250*);
+    LoopPrimitive* ExtraDataList_GetPrimitive();
+    void ExtraDataList_GetSound(GlobalObject_0041a250*);
+    void BaseExtraList_RemoveExtra_00410140(int);
+    void ExtraDataList_SetSound(GlobalObject_0041a250*);
 };
 struct LoopAudio
 {
-    GlobalObject_0041a250 FUN_00ad7620(unsigned int, unsigned int, NiPoint3, int);
+    GlobalObject_0041a250 BSAudio_SpawnSoundReference(unsigned int, unsigned int, NiPoint3, int);
 };
-LoopAudio* FUN_00453a70();
+LoopAudio* BSAudio_QInstance();
 struct LoopSaveState
 {
     bool IsLoading();
 };
 struct LoopDataState
 {
-    bool FUN_004226e0();
+    bool TESDataHandler_GetClearingData();
 };
 struct LoopPointOps
 {
@@ -33201,17 +33403,18 @@ struct RefObj
     LoopForm* _FNV_GetObjectReference();
     bool FUN_00440da0();
     bool FUN_00477ba0();
-    LoopExtras* FUN_005d43c0();
+    LoopExtras* BSFile_GetDevice();
     M3 TESObjectREFR_GetOrientation();
-    void* FUN_0043fcd0();
-    void FUN_0057a3c0(bool);
-    void FUN_00579ac0(bool enable);
+    void* TESObjectREFR_Get3D();
+    void TESObjectREFR_UpdateAddonNodeSounds(bool);
+    void TESObjectREFR_AttachSound(bool enable);
 };
 int FUN_0047b250(RefObj*);
-void FUN_008325b0(RefObj*, bool);
+void FalloutRadio_ActivateRadio(RefObj*, bool);
 
 // @fnv 0x00579ac0
-void RefObj::FUN_00579ac0(bool enable)
+// src: XBOX_PDB 0x00579ac0
+void RefObj::TESObjectREFR_AttachSound(bool enable)
 {
     if (!_FNV_GetObjectReference())
         return;
@@ -33229,7 +33432,7 @@ void RefObj::FUN_00579ac0(bool enable)
             {
             case 35: {
                 LoopForm* object = _FNV_GetObjectReference();
-                if (object && !object->FUN_00452440() && !object->FUN_004e32c0())
+                if (object && !object->BGSPlaceableWater_IsAutomaticWater() && !object->FUN_004e32c0())
                 {
                     LoopEffect* effect = object->GetLoopEffect();
                     if (effect)
@@ -33238,9 +33441,9 @@ void RefObj::FUN_00579ac0(bool enable)
                 break;
             }
             case 21:
-                if (_FNV_GetObjectReference()->FUN_004fd3c0() && FUN_0047b250(this) == 1 &&
+                if (_FNV_GetObjectReference()->BGSProjectile_GetExplosion() && FUN_0047b250(this) == 1 &&
                     !reinterpret_cast<LoopSaveState*>(g_BGSSaveLoadGame)->IsLoading())
-                    FUN_008325b0(this, true);
+                    FalloutRadio_ActivateRadio(this, true);
                 h = _FNV_GetObjectReference()->TESChallenge_GetFormOne();
                 break;
             case 23:
@@ -33253,20 +33456,20 @@ void RefObj::FUN_00579ac0(bool enable)
                 h = _FNV_GetObjectReference()->FUN_004fb070();
                 break;
             case 30:
-                h = _FNV_GetObjectReference()->FUN_004036b0();
+                h = _FNV_GetObjectReference()->TES_QPlaceableWaterCount();
                 break;
             case 13:
                 h = reinterpret_cast<LoopSound*>(_FNV_GetObjectReference());
-                s = FUN_005d43c0()->FUN_0041fbe0();
+                s = BSFile_GetDevice()->ExtraDataList_GetPrimitive();
                 if (s)
                 {
                     M3 rotation = TESObjectREFR_GetOrientation();
                     float oldPosition[3];
             *reinterpret_cast<NiPoint3*>(oldPosition) = reinterpret_cast<const NiPoint3&>(*GetPosition());
-                    reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(p))) = reinterpret_cast<const NiPoint3&>(FUN_004a3760(-1.0f, FUN_005d43c0()->FUN_0041fbe0()->FUN_00413fc0()));
+                    reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(p))) = reinterpret_cast<const NiPoint3&>(FUN_004a3760(-1.0f, BSFile_GetDevice()->ExtraDataList_GetPrimitive()->FUN_00413fc0()));
                     reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(p))) = reinterpret_cast<const NiPoint3&>(FUN_004b3ae0((*reinterpret_cast<NiPoint3*>(p)), &rotation.a));
                     reinterpret_cast<LoopPointOps*>(&(*reinterpret_cast<NiPoint3*>(p)))->FUN_0063c8a0(*GetPosition());
-                    reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(a))) = reinterpret_cast<const NiPoint3&>(FUN_005d43c0()->FUN_0041fbe0()->FUN_00413fc0());
+                    reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(a))) = reinterpret_cast<const NiPoint3&>(BSFile_GetDevice()->ExtraDataList_GetPrimitive()->FUN_00413fc0());
                     reinterpret_cast<NiPoint3&>((*reinterpret_cast<NiPoint3*>(a))) = reinterpret_cast<const NiPoint3&>(FUN_004b3ae0((*reinterpret_cast<NiPoint3*>(a)), &rotation.a));
                     reinterpret_cast<LoopPointOps*>(&(*reinterpret_cast<NiPoint3*>(a)))->FUN_0063c8a0((*reinterpret_cast<NiPoint3*>(oldPosition)));
                     (*reinterpret_cast<NiPoint3*>(oldPosition)).y = (*reinterpret_cast<NiPoint3*>(a)).y;
@@ -33278,23 +33481,23 @@ void RefObj::FUN_00579ac0(bool enable)
                 h = _FNV_GetObjectReference()->loopSound;
                 break;
             case 31:
-                h = _FNV_GetObjectReference()->FUN_008cdd90();
+                h = _FNV_GetObjectReference()->DialoguePackage_GetCurrentDialogItem();
                 break;
             case 27:
                 h = _FNV_GetObjectReference()->FUN_009185e0();
                 break;
             case 43:
                 if (IsActor() && HasCreatureLoop())
-                    h = _FNV_GetObjectReference()->FUN_005f92d0(21);
+                    h = _FNV_GetObjectReference()->PickCreatureSound(21);
                 break;
             }
             GlobalObject_0041a250 i;
-            FUN_005d43c0()->FUN_00418890(&i);
+            BSFile_GetDevice()->ExtraDataList_GetSound(&i);
             if (i.FUN_00ad8ce0())
             {
                 i.FUN_00ad88f0();
                 i.FUN_00ad8d10();
-                FUN_005d43c0()->FUN_00410140(79);
+                BSFile_GetDevice()->BaseExtraList_RemoveExtra_00410140(79);
             }
             if (h)
             {
@@ -33302,18 +33505,18 @@ void RefObj::FUN_00579ac0(bool enable)
                 unsigned int e = (h->CopyBig().flags & 16) ? 16 : 0;
                 if (s)
                 {
-                    i.FUN_00418900(&FUN_00453a70()->FUN_00ad7620(h->FUN_0084e3a0(), j | 0x2012, *reinterpret_cast<const NiPoint3*>(a), 0));
+                    i.FUN_00418900(&BSAudio_QInstance()->BSAudio_SpawnSoundReference(h->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), j | 0x2012, *reinterpret_cast<const NiPoint3*>(a), 0));
                     i.FUN_00ad8ba0((*reinterpret_cast<NiPoint3*>(p)).x, (*reinterpret_cast<NiPoint3*>(p)).y, (*reinterpret_cast<NiPoint3*>(p)).z);
                 }
                 else if (e)
                 {
-                    i.FUN_00418900(&FUN_00453a70()->FUN_00ad7620(h->FUN_0084e3a0(), e | 0x2002, reinterpret_cast<const NiPoint3&>(*GetPosition()), 0));
+                    i.FUN_00418900(&BSAudio_QInstance()->BSAudio_SpawnSoundReference(h->GetHavokWorldObjectCountInSceneGraph_0084e3a0(), e | 0x2002, reinterpret_cast<const NiPoint3&>(*GetPosition()), 0));
                 }
                 else
                 {
                     baseSound = h;
                 }
-                FUN_005d43c0()->FUN_0041a800(&i);
+                BSFile_GetDevice()->ExtraDataList_SetSound(&i);
             }
         }
     }
@@ -33333,23 +33536,23 @@ void RefObj::FUN_00579ac0(bool enable)
         case 35:
         case 43: {
             GlobalObject_0041a250 i;
-            FUN_005d43c0()->FUN_00418890(&i);
+            BSFile_GetDevice()->ExtraDataList_GetSound(&i);
             if (i.FUN_00ad8ce0())
             {
                 i.FUN_00ad8da0(1000);
-                FUN_005d43c0()->FUN_00410140(79);
+                BSFile_GetDevice()->BaseExtraList_RemoveExtra_00410140(79);
             }
             break;
         }
         }
         if (_FNV_GetObjectReference() && _FNV_GetObjectReference()->FUN_00401170() == 21 &&
-            _FNV_GetObjectReference()->FUN_004fd3c0() &&
+            _FNV_GetObjectReference()->BGSProjectile_GetExplosion() &&
             !reinterpret_cast<LoopSaveState*>(g_BGSSaveLoadGame)->IsLoading() &&
-            !reinterpret_cast<LoopDataState*>(g_dataHandler)->FUN_004226e0())
-            FUN_008325b0(this, false);
+            !reinterpret_cast<LoopDataState*>(g_dataHandler)->TESDataHandler_GetClearingData())
+            FalloutRadio_ActivateRadio(this, false);
     }
-    if (FUN_0043fcd0())
-        FUN_0057a3c0(enable);
+    if (TESObjectREFR_Get3D())
+        TESObjectREFR_UpdateAddonNodeSounds(enable);
 }
 
 class Process57A
@@ -33393,12 +33596,13 @@ class Package57A
     Handle57A m_kRoomNode;
     char m_cResult;
 
-    void FUN_0057a9f0();
+    void CheckWithinMultiBoundTask_Run();
 };
 
 // If the source handle resolves to an active process and the actor can act, evaluates source against target and stores the result in m_cResult.
 // @fnv 0x0057a9f0
-void Package57A::FUN_0057a9f0()
+// src: XBOX_PDB 0x0057a9f0
+void Package57A::CheckWithinMultiBoundTask_Run()
 {
     if (m_kSource.Get())
     {
@@ -33875,7 +34079,7 @@ using ::Actor;
 
 struct BipedAnim
 {
-    void FUN_004ab750(TESObjectWEAP* w, bool b);
+    void BipedAnim_AttachBipedWeapon(TESObjectWEAP* w, bool b);
 };
 
 struct Obj14
@@ -33897,9 +34101,9 @@ struct LoaderShell
 
 struct AnimObj
 {
-    void* FUN_00496940();
-    bool FUN_00494710(unsigned short a);
-    void FUN_00490400(int a);
+    void* GetControllerManager_00496940();
+    bool Animation_GroupLoaded(unsigned short a);
+    void Animation_AddAnimationsFromList(int a);
 };
 
 struct QObj
@@ -33916,14 +34120,15 @@ extern int DAT_0118a838[];
 
 int __cdecl FUN_00ec7750(const char* a, const char* b);
 void __cdecl Warning_005b5e40(const char* s);
-void __cdecl FUN_00709c20(int a);
-int __cdecl FUN_004aeed0(void* w, float* ps, int five, void* th, int z);
+void __cdecl Interface_InitGunScope(int a);
+int __cdecl BipedAnim_LoadAndAttachAddOn(void* w, float* ps, int five, void* th, int z);
 void* __cdecl FUN_00475020(void* w);
 
 }  // namespace fnv_00571760
 
 // @fnv 0x00571760
-void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
+// src: XBOX_PDB 0x00571760
+void Actor::TESObjectREFR_AttachWeapon(TESObjectWEAP* pWeapon)
 {
     using namespace fnv_00571760;
     using fnv_00571760::Warning_005b5e40;
@@ -33960,35 +34165,35 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
             flagA9 = obj5->FUN_004bd8d0(14, &f);
         }
         if (biped2)
-            biped2->FUN_004ab750(pWeapon, flagB7);
+            biped2->BipedAnim_AttachBipedWeapon(pWeapon, flagB7);
         biped2 = reinterpret_cast<BipedAnim*>(DAT_011dea3c->GetBipedAnim(false));
         if (pWeapon->GetHasScope())
         {
             if (this == DAT_011dea3c)
             {
                 if (!pWeapon->FUN_004ad030() || flagA9)
-                    FUN_00709c20((int)pWeapon->FUN_00504e60());
+                    Interface_InitGunScope((int)pWeapon->TESCasino_GetData());
             }
         }
     }
     else
     {
-        if (GetAnimData() && ((AnimObj*)GetAnimData())->FUN_00496940())
+        if (GetAnimData() && ((AnimObj*)GetAnimData())->GetControllerManager_00496940())
         {
             if (!((AnimObj*)GetAnimData())
-                     ->FUN_00494710(TESAnimGroup::AnimGroup(0, DAT_0118a838[pWeapon->GetWeaponType()], 24, 0)))
+                     ->Animation_GroupLoaded(TESAnimGroup::AnimGroup(0, DAT_0118a838[pWeapon->GetWeaponType()], 24, 0)))
             {
                 if (!HasHealth(true))
                 {
                     int n3 = DAT_011c3b3c->ModelLoader_BuildKFFileList(FUN_005715d0(1, 0, DAT_0118a838[pWeapon->GetWeaponType()]));
-                    ((AnimObj*)GetAnimData())->FUN_00490400(n3);
+                    ((AnimObj*)GetAnimData())->Animation_AddAnimationsFromList(n3);
                 }
             }
         }
     }
     if (biped2)
     {
-        biped2->FUN_004ab750(pWeapon, flagB7);
+        biped2->BipedAnim_AttachBipedWeapon(pWeapon, flagB7);
     }
     else
     {
@@ -33996,11 +34201,11 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
         if (pScale)
         {
             int fiveVal = 5;
-            int rAeed3 = FUN_004aeed0(pWeapon, pScale, fiveVal, this, 0);
+            int rAeed3 = BipedAnim_LoadAndAttachAddOn(pWeapon, pScale, fiveVal, this, 0);
             if (!DAT_011ddf38->IsLoading())
             {
-                bool flagC3 = pRefG->FUN_008a16d0();
-                if (!flagC3 && pWeapon->FUN_0046e8c0())
+                bool flagC3 = pRefG->IsWeaponDrawn();
+                if (!flagC3 && pWeapon->TESObjectWEAP_IsEmbeddedWeapon())
                     flagC3 = true;
                 reinterpret_cast<Proc*>(pRefG->GetProcess())->V115(flagC3, biped2, pRefG->GetAnimData(), pRefG);
             }
@@ -34009,10 +34214,10 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
     if (pRefG)
     {
         if (!biped2)
-            pRefG->FUN_008b0b00(1);
-        pRefG->FUN_008b0bd0(Get3DSimple());
+            pRefG->Actor_ReloadTargets(1);
+        pRefG->Actor_InitLightingPropertyPtr(Get3DSimple());
         pRefG->FUN_008c4640();
-        pRefG->FUN_00891190(1);
+        pRefG->Actor_UpdateWeaponConditionEffects(1);
         QObj* InvokeFifthVirtualFunction = (QObj*)FUN_00475020(pWeapon);
         if (InvokeFifthVirtualFunction && InvokeFifthVirtualFunction->FUN_00726070())
             reinterpret_cast<Proc*>(pRefG->GetProcess())->V282(1);
@@ -34026,7 +34231,8 @@ using ::TESValueForm;
 
 // The shared effect list leaves its cost slot unnamed; call that existing slot with its float-returning signature.
 // @fnv 0x0048e8a0
-int __cdecl FUN_0048e8a0(TESForm* apForm)
+// src: XBOX_PDB 0x0048e8a0
+int __cdecl TESValueForm_GetFormValue(TESForm* apForm)
 {
     TESValueForm* pValueForm = dynamic_cast<TESValueForm*>(apForm);
     if (pValueForm)
@@ -34086,16 +34292,16 @@ struct RemapList
 };
 struct RemapExtra
 {
-    void FUN_0041dcd0(RemapRef*);
-    void FUN_0041e530(RemapRef*);
+    void ExtraDataList_AddEnableStateChild(RemapRef*);
+    void ExtraDataList_AddLinkedRefChild(RemapRef*);
     RemapRef* ExtraDataList_GetPortalLinkedRoomRef(int);
-    void FUN_00420a60(int, RemapRef*);
+    void ExtraDataList_SetPortalLinkedRoomRef(int, RemapRef*);
     RemapRef* ExtraDataList_GetLinkedPlaneRef(int);
     void ExtraDataList_SetLinkedPlaneRef(RemapRef*, int);
     RemapList* ExtraDataList_GetActivateParentList();
     void ExtraDataList_AddActivateParent(RemapRef*);
     void ExtraDataList_SetActivateDelay(RemapRef*, float);
-    void FUN_0041edd0(RemapRef*);
+    void ExtraDataList_AddActivateRefChild(RemapRef*);
     bool ExtraDataList_IsActivateParentOnly();
     void ExtraDataList_SetActivateParentOnly(bool);
     RemapList* ExtraDataList_GetDecalRefs();
@@ -34105,7 +34311,7 @@ struct RemapNode
     void FUN_00537e90(RemapRef*);
     void FUN_006f4ed0(RemapPoint*);
     void SetVec(RemapPoint*);
-    RemapPoint* FUN_00460140();
+    RemapPoint* TESDataHandler_GetWorldSpaceList();
     RemapRef* FUN_00559450();
     RemapPoint* FUN_00717e50();
 };
@@ -34241,25 +34447,26 @@ struct RemapRef
     virtual void slot123();
     virtual void slot124();
     virtual RemapPoint* GetPos();
-    RemapExtra* FUN_005d43c0();
-    RemapRef* FUN_0056a9f0();
-    void FUN_0056aa10(RemapRef*);
+    RemapExtra* BSFile_GetDevice();
+    RemapRef* TESObjectREFR_GetEnableStateParent();
+    void TESObjectREFR_SetEnableStateParent(RemapRef*);
     bool FUN_0056aa70();
     void FUN_0056aa90(bool);
-    RemapRef* FUN_00569b20();
+    RemapRef* TESObjectREFR_GetRandomTeleportMarker();
     void TESObjectREFR_SetRandomTeleportMarker(RemapRef*);
-    RemapRef* FUN_00569b80();
+    RemapRef* TESObjectREFR_GetLinkedRef();
     void TESObjectREFR_SetLinkedRef(RemapRef*);
     void TESObjectREFR_AddDecalRefs(RemapRef*, RemapPoint*, RemapPoint*);
     RemapRef* TESObjectREFR_GetMerchantContainer();
     void TESObjectREFR_SetMerchantContainer(RemapRef*);
     RemapNode* FUN_00568e50();
-    RemapNode* FUN_00568e70();
-    void FUN_0055b9c0(RemapMap* map);
+    RemapNode* TESObjectREFR_AddTeleport();
+    void TESObjectREFR_PostDuplicateProcess(RemapMap* map);
 };
 // Maps this reference and its related refs, lists, and node data through the given remap map, updating the mapped copy's links and transforms.
 // @fnv 0x0055b9c0
-void RemapRef::FUN_0055b9c0(RemapMap* map)
+// src: XBOX_PDB 0x0055b9c0
+void RemapRef::TESObjectREFR_PostDuplicateProcess(RemapMap* map)
 {
     if (map)
     {
@@ -34269,7 +34476,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
             RemapRef* copy = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mapped));
             if (copy)
             {
-                RemapRef* parentNum = FUN_0056a9f0();
+                RemapRef* parentNum = TESObjectREFR_GetEnableStateParent();
                 TESForm* mappedOtherNew;
                 if (parentNum)
                 {
@@ -34279,13 +34486,13 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
                         {
-                            copy->FUN_0056aa10(other);
+                            copy->TESObjectREFR_SetEnableStateParent(other);
                             copy->FUN_0056aa90(FUN_0056aa70());
-                            other->FUN_005d43c0()->FUN_0041dcd0(copy);
+                            other->BSFile_GetDevice()->ExtraDataList_AddEnableStateChild(copy);
                         }
                     }
                 }
-                RemapRef* ownerPos = FUN_00569b20();
+                RemapRef* ownerPos = TESObjectREFR_GetRandomTeleportMarker();
                 if (ownerPos)
                 {
                     mappedOtherNew = 0;
@@ -34296,7 +34503,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                             copy->TESObjectREFR_SetRandomTeleportMarker(other);
                     }
                 }
-                RemapRef* linked = FUN_00569b80();
+                RemapRef* linked = TESObjectREFR_GetLinkedRef();
                 if (linked)
                 {
                     mappedOtherNew = 0;
@@ -34306,14 +34513,14 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         if (other)
                         {
                             copy->TESObjectREFR_SetLinkedRef(other);
-                            other->FUN_005d43c0()->FUN_0041e530(copy);
+                            other->BSFile_GetDevice()->ExtraDataList_AddLinkedRefChild(copy);
                         }
                     }
                 }
                 int index;
                 for (index = 0; index < 2; index++)
                 {
-                    RemapRef* reference = FUN_005d43c0()->ExtraDataList_GetPortalLinkedRoomRef(index);
+                    RemapRef* reference = BSFile_GetDevice()->ExtraDataList_GetPortalLinkedRoomRef(index);
                     if (reference)
                     {
                         mappedOtherNew = 0;
@@ -34321,15 +34528,15 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         {
                             RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                             if (other)
-                                copy->FUN_005d43c0()->FUN_00420a60(index, other);
+                                copy->BSFile_GetDevice()->ExtraDataList_SetPortalLinkedRoomRef(index, other);
                         }
                         else
-                            copy->FUN_005d43c0()->FUN_00420a60(index, reference);
+                            copy->BSFile_GetDevice()->ExtraDataList_SetPortalLinkedRoomRef(index, reference);
                     }
                 }
                 for (index = 0; index < 4; index++)
                 {
-                    RemapRef* reference = FUN_005d43c0()->ExtraDataList_GetLinkedPlaneRef(index);
+                    RemapRef* reference = BSFile_GetDevice()->ExtraDataList_GetLinkedPlaneRef(index);
                     if (reference)
                     {
                         mappedOtherNew = 0;
@@ -34337,11 +34544,11 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         {
                             RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                             if (other)
-                                copy->FUN_005d43c0()->ExtraDataList_SetLinkedPlaneRef(other, index);
+                                copy->BSFile_GetDevice()->ExtraDataList_SetLinkedPlaneRef(other, index);
                         }
                     }
                 }
-                RemapList* linksOut = FUN_005d43c0()->ExtraDataList_GetActivateParentList();
+                RemapList* linksOut = BSFile_GetDevice()->ExtraDataList_GetActivateParentList();
                 bool addedBase = false;
                 while (linksOut && !linksOut->FUN_008256d0())
                 {
@@ -34353,16 +34560,16 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
                         {
-                            copy->FUN_005d43c0()->ExtraDataList_AddActivateParent(other);
-                            copy->FUN_005d43c0()->ExtraDataList_SetActivateDelay(other, entry->value);
+                            copy->BSFile_GetDevice()->ExtraDataList_AddActivateParent(other);
+                            copy->BSFile_GetDevice()->ExtraDataList_SetActivateDelay(other, entry->value);
                             addedBase = true;
-                            other->FUN_005d43c0()->FUN_0041edd0(copy);
+                            other->BSFile_GetDevice()->ExtraDataList_AddActivateRefChild(copy);
                         }
                     }
                 }
                 if (addedBase)
-                    copy->FUN_005d43c0()->ExtraDataList_SetActivateParentOnly(FUN_005d43c0()->ExtraDataList_IsActivateParentOnly());
-                RemapList* transformsOld = FUN_005d43c0()->ExtraDataList_GetDecalRefs();
+                    copy->BSFile_GetDevice()->ExtraDataList_SetActivateParentOnly(BSFile_GetDevice()->ExtraDataList_IsActivateParentOnly());
+                RemapList* transformsOld = BSFile_GetDevice()->ExtraDataList_GetDecalRefs();
                 while (transformsOld && !transformsOld->FUN_008256d0())
                 {
                     RemapTransform* entry = static_cast<RemapTransform*>(*transformsOld->FUN_006815c0());
@@ -34395,9 +34602,9 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                         RemapRef* other = reinterpret_cast<RemapRef*>(dynamic_cast<TESObjectREFR*>(mappedOtherNew));
                         if (other)
                         {
-                            RemapNode* newNodeRes = copy->FUN_00568e70();
+                            RemapNode* newNodeRes = copy->TESObjectREFR_AddTeleport();
                             newNodeRes->FUN_00537e90(other);
-                            RemapPoint position = *nodeVal->FUN_00460140();
+                            RemapPoint position = *nodeVal->TESDataHandler_GetWorldSpaceList();
                             RemapPoint deltaItem =
                                 nodeVal->FUN_00717e50()->FUN_00439ef0(*nodeVal->FUN_00559450()->GetPos());
                             RemapPoint world = other->GetPos()->FUN_00439e90(deltaItem);
@@ -34424,7 +34631,7 @@ class ListQ
 {
   public:
     BSExtraData* BaseExtraList_GetExtraData();
-    void FUN_00410020(int);
+    void BaseExtraList_RemoveExtra(int);
     void BaseExtraList_AddExtra();
 };
 
@@ -34547,7 +34754,7 @@ class ResQ
     virtual void r112();
     virtual void r113();
     virtual void SetQ(int a, int b);
-    void FUN_00565480(int);
+    void TESObjectREFR_SetRefPersists(int);
 };
 class OwnQ
 {
@@ -34691,60 +34898,61 @@ class OwnQ
     virtual void o136();
     virtual void o137();
     virtual void Lock(int a);
-    ListQ* FUN_005d43c0(int type);
+    ListQ* BSFile_GetDevice(int type);
     int FUN_008d6f30();
-    TESForm* FUN_004867a0(int a, int b);
-    ResQ* FUN_0055c050(int a1, int a2);
+    TESForm* TESForm_CreateDuplicateForm(int a, int b);
+    ResQ* TESObjectREFR_CreateDuplicateForm(int a1, int a2);
 };
 // @fnv 0x0055c050
-ResQ* OwnQ::FUN_0055c050(int a1, int a2)
+// src: XBOX_PDB 0x0055c050
+ResQ* OwnQ::TESObjectREFR_CreateDuplicateForm(int a1, int a2)
 {
-    ExtraTeleport* pTeleport_mcxj = dynamic_cast<ExtraTeleport*>(FUN_005d43c0(0x2b)->BaseExtraList_GetExtraData());
+    ExtraTeleport* pTeleport_mcxj = dynamic_cast<ExtraTeleport*>(BSFile_GetDevice(0x2b)->BaseExtraList_GetExtraData());
     if (pTeleport_mcxj)
-        FUN_005d43c0((int)pTeleport_mcxj)->FUN_00410020(0);
-    ExtraEnableStateParent* pEnable_ix = dynamic_cast<ExtraEnableStateParent*>(FUN_005d43c0(0x37)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pTeleport_mcxj)->BaseExtraList_RemoveExtra(0);
+    ExtraEnableStateParent* pEnable_ix = dynamic_cast<ExtraEnableStateParent*>(BSFile_GetDevice(0x37)->BaseExtraList_GetExtraData());
     if (pEnable_ix)
-        FUN_005d43c0((int)pEnable_ix)->FUN_00410020(0);
-    ExtraRandomTeleportMarker* pRandom_v = dynamic_cast<ExtraRandomTeleportMarker*>(FUN_005d43c0(0x3b)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pEnable_ix)->BaseExtraList_RemoveExtra(0);
+    ExtraRandomTeleportMarker* pRandom_v = dynamic_cast<ExtraRandomTeleportMarker*>(BSFile_GetDevice(0x3b)->BaseExtraList_GetExtraData());
     if (pRandom_v)
-        FUN_005d43c0((int)pRandom_v)->FUN_00410020(0);
-    ExtraLinkedRef* pLock_fqcf = dynamic_cast<ExtraLinkedRef*>(FUN_005d43c0(0x51)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pRandom_v)->BaseExtraList_RemoveExtra(0);
+    ExtraLinkedRef* pLock_fqcf = dynamic_cast<ExtraLinkedRef*>(BSFile_GetDevice(0x51)->BaseExtraList_GetExtraData());
     if (pLock_fqcf)
-        FUN_005d43c0((int)pLock_fqcf)->FUN_00410020(0);
-    ExtraActivateRef* pLock_ekv = dynamic_cast<ExtraActivateRef*>(FUN_005d43c0(0x51)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pLock_fqcf)->BaseExtraList_RemoveExtra(0);
+    ExtraActivateRef* pLock_ekv = dynamic_cast<ExtraActivateRef*>(BSFile_GetDevice(0x51)->BaseExtraList_GetExtraData());
     if (pLock_ekv)
-        FUN_005d43c0((int)pLock_ekv)->FUN_00410020(0);
-    ExtraDecalRefs* pOwner_v = dynamic_cast<ExtraDecalRefs*>(FUN_005d43c0(0x57)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pLock_ekv)->BaseExtraList_RemoveExtra(0);
+    ExtraDecalRefs* pOwner_v = dynamic_cast<ExtraDecalRefs*>(BSFile_GetDevice(0x57)->BaseExtraList_GetExtraData());
     if (pOwner_v)
-        FUN_005d43c0((int)pOwner_v)->FUN_00410020(0);
-    ExtraMerchantContainer* pMerch_mb = dynamic_cast<ExtraMerchantContainer*>(FUN_005d43c0(0x3c)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pOwner_v)->BaseExtraList_RemoveExtra(0);
+    ExtraMerchantContainer* pMerch_mb = dynamic_cast<ExtraMerchantContainer*>(BSFile_GetDevice(0x3c)->BaseExtraList_GetExtraData());
     if (pMerch_mb)
-        FUN_005d43c0((int)pMerch_mb)->FUN_00410020(0);
-    ExtraMultiBoundRef* pLeveled_xczy = dynamic_cast<ExtraMultiBoundRef*>(FUN_005d43c0(0x63)->BaseExtraList_GetExtraData());
+        BSFile_GetDevice((int)pMerch_mb)->BaseExtraList_RemoveExtra(0);
+    ExtraMultiBoundRef* pLeveled_xczy = dynamic_cast<ExtraMultiBoundRef*>(BSFile_GetDevice(0x63)->BaseExtraList_GetExtraData());
     if (pLeveled_xczy)
-        FUN_005d43c0((int)pLeveled_xczy)->FUN_00410020(0);
+        BSFile_GetDevice((int)pLeveled_xczy)->BaseExtraList_RemoveExtra(0);
     int iSaved_yywkx = FUN_008d6f30();
     Lock(0);
-    ResQ* pResult_f = (ResQ*)dynamic_cast<TESObjectREFR*>(FUN_004867a0(0, a2));
+    ResQ* pResult_f = (ResQ*)dynamic_cast<TESObjectREFR*>(TESForm_CreateDuplicateForm(0, a2));
     if (pTeleport_mcxj)
-        FUN_005d43c0((int)pTeleport_mcxj)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pTeleport_mcxj)->BaseExtraList_AddExtra();
     if (pEnable_ix)
-        FUN_005d43c0((int)pEnable_ix)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pEnable_ix)->BaseExtraList_AddExtra();
     if (pRandom_v)
-        FUN_005d43c0((int)pRandom_v)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pRandom_v)->BaseExtraList_AddExtra();
     if (pLock_fqcf)
-        FUN_005d43c0((int)pLock_fqcf)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pLock_fqcf)->BaseExtraList_AddExtra();
     if (pLock_ekv)
-        FUN_005d43c0((int)pLock_ekv)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pLock_ekv)->BaseExtraList_AddExtra();
     if (pOwner_v)
-        FUN_005d43c0((int)pOwner_v)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pOwner_v)->BaseExtraList_AddExtra();
     if (pMerch_mb)
-        FUN_005d43c0((int)pMerch_mb)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pMerch_mb)->BaseExtraList_AddExtra();
     if (pLeveled_xczy)
-        FUN_005d43c0((int)pLeveled_xczy)->BaseExtraList_AddExtra();
+        BSFile_GetDevice((int)pLeveled_xczy)->BaseExtraList_AddExtra();
     Lock(iSaved_yywkx);
     pResult_f->SetQ(0, 1);
-    pResult_f->FUN_00565480(0);
+    pResult_f->TESObjectREFR_SetRefPersists(0);
     return pResult_f;
 }
 
@@ -34778,8 +34986,8 @@ struct CopyHolder
 };
 struct Extra
 {
-    void FUN_0041dda0(Ref*);
-    short FUN_00418770();
+    void ExtraDataList_RemoveEnableStateChild(Ref*);
+    short ExtraDataList_GetCount();
     void FUN_0041e600(Ref*);
     Link* ExtraDataList_GetActivateParentList();
     void ExtraDataList_RemoveActivateRefChild(Ref*);
@@ -34790,16 +34998,16 @@ struct Extra
     CopyHolder* ExtraDataList_GetLight();
     void FUN_0041f840(Ref*, bool);
     void ExtraDataList_CopyList(Extra*);
-    void FUN_0041e530(Ref*);
-    void FUN_0041edd0(Ref*);
+    void ExtraDataList_AddLinkedRefChild(Ref*);
+    void ExtraDataList_AddActivateRefChild(Ref*);
     void ExtraDataList_RemoveLockPtr();
-    void FUN_0041dcd0(Ref*);
+    void ExtraDataList_AddEnableStateChild(Ref*);
 };
 struct PropertyList
 {
     void FUN_0057c730(Ref* const&);
     void* FUN_0049c680(Ref* const&, void*);
-    void FUN_004ed8c0(Ref* const&);
+    void NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(Ref* const&);
 };
 struct Property
 {
@@ -34884,13 +35092,13 @@ struct Property
 };
 struct CopyNode
 {
-    void FUN_00440460(const NiPoint3*);
-    void FUN_0043fa80(const Matrix*);
-    void FUN_00a59c60(NiUpdateData&);
-    void FUN_00440490(float);
+    void NiAVObject_SetTranslate(const NiPoint3*);
+    void SetRotate_0043fa80(const Matrix*);
+    void NiAVObject_Update(NiUpdateData&);
+    void NiAVObject_SetScale(float);
     CopyNode* NiAVObject_GetParent();
-    void FUN_00a5a040();
-    CopyNode* FUN_004030b0();
+    void UpdateProperties();
+    CopyNode* CombatController_GetTarget();
     int FUN_008d8520();
     Property* FUN_00a59d30(int);
     virtual void v000();
@@ -35087,13 +35295,13 @@ struct Ref
     int unk1c;
     Ref* base;
     float rx, ry, rz, px, py, pz;
-    bool FUN_004077c0();
-    Ref* FUN_0056a9f0();
-    Extra* FUN_005d43c0();
-    bool FUN_005653d0();
-    void FUN_00565480(bool);
-    void FUN_004851b0(TESForm*);
-    Ref* FUN_007af430();
+    bool TESForm_GetTemporary();
+    Ref* TESObjectREFR_GetEnableStateParent();
+    Extra* BSFile_GetDevice();
+    bool TESObjectREFR_GetRefPersists_005653d0();
+    void TESObjectREFR_SetRefPersists(bool);
+    void TESForm_CopyAllComponents(TESForm*);
+    Ref* BGSSaveFormBuffer_GetForm();
     void* FUN_00891170();
     float FUN_00598040();
     int FUN_00401170();
@@ -35103,25 +35311,25 @@ struct Ref
     struct Cell* FUN_008d6f30();
     CopyHolder* FUN_00568e50();
     void TESObjectREFR_RemoveTeleport();
-    Ref* FUN_00569b80();
-    void FUN_00569be0(Ref*);
-    void FUN_00569df0(int);
-    void FUN_00569cb0(bool, int);
+    Ref* TESObjectREFR_GetLinkedRef();
+    void TESObjectREFR_DrawRefLink(Ref*);
+    void TESObjectREFR_DrawActivateRefLink(int);
+    void TESObjectREFR_RedrawRefLinks(bool, int);
     void TESObjectREFR_RedrawActivateRefLinks(bool);
-    void FUN_00567490(float);
-    float FUN_00567400();
-    bool FUN_00572d30(int);
+    void TESObjectREFR_SetScale(float);
+    float TESObjectREFR_GetScale_00567400();
+    bool TESObjectREFR_GetAction_00572d30(int);
     void TESObjectREFR_FixAttachedBSObjectSizeAndTransform();
-    CopyHolder* FUN_00568e70();
+    CopyHolder* TESObjectREFR_AddTeleport();
     void* FUN_00569140();
-    void* FUN_00567770();
-    void FUN_00567c50();
-    void FUN_0055c3e0(TESForm*);
+    void* TESObjectREFR_GetMyOwner();
+    void TESObjectREFR_RemoveOwner();
+    void TESObjectREFR_Copy(TESForm*);
 };
 struct Cell
 {
     void FUN_00548230(Ref*, bool);
-    void FUN_0054ca90(Ref*);
+    void TESObjectCELL_RemoveReference(Ref*);
 };
 struct IO
 {
@@ -35130,22 +35338,22 @@ struct IO
 extern IO* DAT_01202d98;
 struct WorldManager
 {
-    struct Scene* FUN_0070ec90();
+    struct Scene* DetailedActorPathHandler_GetCurrentNodeIndex();
     bool FUN_004511e0(Cell*, bool);
-    void FUN_00451ef0(Ref*, Cell*, int, int);
+    void TES_AttachModel(Ref*, Cell*, int, int);
 };
 extern WorldManager* g_TES;
 struct Scene
 {
-    CopyNode* FUN_004e8030(AttachedSceneProvider*);
+    CopyNode* TESWaterSystem_GetWaterGeometry(AttachedSceneProvider*);
 };
 struct Shadow
 {
-    void FUN_00b5eed0(Ref*);
+    void ShadowSceneNode_RemoveLight(Ref*);
 };
 Shadow* FUN_00450b80(int);
-void FUN_00c6bd00(CopyNode*, bool);
-bool FUN_0040eb10(float, float, float);
+void bhkNiCollisionObject_ResetSim(CopyNode*, bool);
+bool FloatEQ(float, float, float);
 extern float DAT_01017d00;
 void* __cdecl __memcpy(void*, const void*, unsigned);
 void FUN_0047aec0(Ref*, bool, bool);
@@ -35156,35 +35364,36 @@ struct BaseView
 };
 // Copies state from a source TESObjectREFR into this Ref, updating its node, cell, and linked references.
 // @fnv 0x0055c3e0
-void Ref::FUN_0055c3e0(TESForm* apSource)
+// src: XBOX_PDB 0x0055c3e0
+void Ref::TESObjectREFR_Copy(TESForm* apSource)
 {
     Ref* pSource = (Ref*)dynamic_cast<TESObjectREFR*>(apSource);
     if (!pSource)
         return;
     bool changed = false;
-    if (!FUN_004077c0() && FUN_0056a9f0())
-        FUN_0056a9f0()->FUN_005d43c0()->FUN_0041dda0(this);
-    FUN_00565480(pSource->FUN_005653d0());
-    FUN_004851b0(apSource);
-    if (FUN_007af430() && FUN_007af430() != pSource->FUN_007af430())
+    if (!TESForm_GetTemporary() && TESObjectREFR_GetEnableStateParent())
+        TESObjectREFR_GetEnableStateParent()->BSFile_GetDevice()->ExtraDataList_RemoveEnableStateChild(this);
+    TESObjectREFR_SetRefPersists(pSource->TESObjectREFR_GetRefPersists_005653d0());
+    TESForm_CopyAllComponents(apSource);
+    if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm() != pSource->BGSSaveFormBuffer_GetForm())
         changed = true;
     __memcpy(&base, pSource->FUN_00891170(), 0x1c);
     if (FUN_00598040() != pSource->FUN_00598040() && !special())
         changed = true;
-    else if (FUN_007af430() && FUN_007af430()->FUN_00401170() == 0x29 &&
-             FUN_005d43c0()->FUN_00418770() != pSource->FUN_005d43c0()->FUN_00418770())
+    else if (BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x29 &&
+             BSFile_GetDevice()->ExtraDataList_GetCount() != pSource->BSFile_GetDevice()->ExtraDataList_GetCount())
         changed = true;
-    else if (!FUN_0040eb10(TESObjectREFR_GetRadius(), pSource->TESObjectREFR_GetRadius(), DAT_01017d00))
+    else if (!FloatEQ(TESObjectREFR_GetRadius(), pSource->TESObjectREFR_GetRadius(), DAT_01017d00))
         changed = true;
     else if (FUN_00569580() != pSource->FUN_00569580())
         changed = true;
     if (node())
     {
-        node()->FUN_00440460(position());
-        node()->FUN_0043fa80(&TESObjectREFR_GetOrientation());
-        FUN_00c6bd00(node(), true);
+        node()->NiAVObject_SetTranslate(position());
+        node()->SetRotate_0043fa80(&TESObjectREFR_GetOrientation());
+        bhkNiCollisionObject_ResetSim(node(), true);
         NiUpdateData update(0.0f, false, false);
-        node()->FUN_00a59c60(update);
+        node()->NiAVObject_Update(update);
     }
     if (pSource->FUN_008d6f30())
     {
@@ -35193,7 +35402,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
             DAT_01202d98->IOManager_LoadAllQueuedPriorities();
     }
     else if (FUN_008d6f30())
-        FUN_008d6f30()->FUN_0054ca90(this);
+        FUN_008d6f30()->TESObjectCELL_RemoveReference(this);
     CopyHolder* pPartner = FUN_00568e50();
     if (pPartner)
     {
@@ -35204,44 +35413,44 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
             pPartner->FUN_00537e90(0);
         }
     }
-    if (FUN_00569b80())
+    if (TESObjectREFR_GetLinkedRef())
     {
-        FUN_00569b80()->FUN_005d43c0()->FUN_0041e600(this);
-        FUN_00569be0(0);
+        TESObjectREFR_GetLinkedRef()->BSFile_GetDevice()->FUN_0041e600(this);
+        TESObjectREFR_DrawRefLink(0);
     }
-    if (FUN_005d43c0()->ExtraDataList_GetActivateParentList())
+    if (BSFile_GetDevice()->ExtraDataList_GetActivateParentList())
     {
-        Link* links3 = FUN_005d43c0()->ExtraDataList_GetActivateParentList();
+        Link* links3 = BSFile_GetDevice()->ExtraDataList_GetActivateParentList();
         while (links3 && !links3->FUN_008256d0())
         {
             AttachedSceneProvider* data = *links3->FUN_006815c0();
             links3 = links3->FUN_00726070();
-            data->ref->FUN_005d43c0()->ExtraDataList_RemoveActivateRefChild(this);
+            data->ref->BSFile_GetDevice()->ExtraDataList_RemoveActivateRefChild(this);
         }
-        FUN_00569df0(0);
+        TESObjectREFR_DrawActivateRefLink(0);
     }
     Link* links3 = 0;
-    if (pSource->FUN_004077c0())
+    if (pSource->TESForm_GetTemporary())
     {
-        links3 = FUN_005d43c0()->ExtraDataList_GetExtraReflectorRefs();
+        links3 = BSFile_GetDevice()->ExtraDataList_GetExtraReflectorRefs();
         while (links3 && *links3->FUN_006815c0())
         {
-            (*links3->FUN_006815c0())->ref->FUN_005d43c0()->ExtraDataList_SetReflectsRef(this, false);
-            (*links3->FUN_006815c0())->ref->FUN_005d43c0()->ExtraDataList_SetRefractsRef(this, false);
+            (*links3->FUN_006815c0())->ref->BSFile_GetDevice()->ExtraDataList_SetReflectsRef(this, false);
+            (*links3->FUN_006815c0())->ref->BSFile_GetDevice()->ExtraDataList_SetRefractsRef(this, false);
             links3 = links3->FUN_00726070();
         }
-        Link* lights = FUN_005d43c0()->ExtraDataList_GetLitWaterRefs();
+        Link* lights = BSFile_GetDevice()->ExtraDataList_GetLitWaterRefs();
         while (lights && *lights->FUN_006815c0())
         {
-            CopyHolder* light = FUN_005d43c0()->ExtraDataList_GetLight();
+            CopyHolder* light = BSFile_GetDevice()->ExtraDataList_GetLight();
             if (light && light->FUN_00559450())
             {
                 CopyNode* object = ((Ref*)*lights->FUN_006815c0())->node();
-                if (object && g_TES->FUN_0070ec90())
+                if (object && g_TES->DetailedActorPathHandler_GetCurrentNodeIndex())
                 {
-                    CopyNode* geom = g_TES->FUN_0070ec90()->FUN_004e8030(*lights->FUN_006815c0());
+                    CopyNode* geom = g_TES->DetailedActorPathHandler_GetCurrentNodeIndex()->TESWaterSystem_GetWaterGeometry(*lights->FUN_006815c0());
                     CopyNode* geomAlias = geom;
-                    CopyNode* kind3 = geomAlias->FUN_004030b0();
+                    CopyNode* kind3 = geomAlias->CombatController_GetTarget();
                     if (kind3 && kind3->FUN_008d8520() == 0xd)
                     {
                         Property* prop = geom->FUN_00a59d30(3);
@@ -35250,102 +35459,102 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
                     }
                 }
             }
-            ((Ref*)*lights->FUN_006815c0())->FUN_005d43c0()->FUN_0041f840(this, false);
+            ((Ref*)*lights->FUN_006815c0())->BSFile_GetDevice()->FUN_0041f840(this, false);
             lights = lights->FUN_00726070();
         }
     }
-    FUN_005d43c0()->ExtraDataList_CopyList(pSource->FUN_005d43c0());
-    if (pSource->FUN_004077c0())
+    BSFile_GetDevice()->ExtraDataList_CopyList(pSource->BSFile_GetDevice());
+    if (pSource->TESForm_GetTemporary())
     {
-        links3 = pSource->FUN_005d43c0()->ExtraDataList_GetExtraReflectorRefs();
+        links3 = pSource->BSFile_GetDevice()->ExtraDataList_GetExtraReflectorRefs();
         while (links3 && *links3->FUN_006815c0())
         {
             if ((*links3->FUN_006815c0())->flags & 1)
-                (*links3->FUN_006815c0())->ref->FUN_005d43c0()->ExtraDataList_SetReflectsRef(this, true);
+                (*links3->FUN_006815c0())->ref->BSFile_GetDevice()->ExtraDataList_SetReflectsRef(this, true);
             if ((*links3->FUN_006815c0())->flags & 2)
-                (*links3->FUN_006815c0())->ref->FUN_005d43c0()->ExtraDataList_SetRefractsRef(this, true);
+                (*links3->FUN_006815c0())->ref->BSFile_GetDevice()->ExtraDataList_SetRefractsRef(this, true);
             links3 = links3->FUN_00726070();
         }
-        Link* lights = pSource->FUN_005d43c0()->ExtraDataList_GetLitWaterRefs();
+        Link* lights = pSource->BSFile_GetDevice()->ExtraDataList_GetLitWaterRefs();
         while (lights && *lights->FUN_006815c0())
         {
-            CopyHolder* light = FUN_005d43c0()->ExtraDataList_GetLight();
+            CopyHolder* light = BSFile_GetDevice()->ExtraDataList_GetLight();
             if (light && light->FUN_00559450())
             {
                 CopyNode* object = ((Ref*)*lights->FUN_006815c0())->node();
-                if (object && g_TES->FUN_0070ec90())
+                if (object && g_TES->DetailedActorPathHandler_GetCurrentNodeIndex())
                 {
-                    CopyNode* geom = g_TES->FUN_0070ec90()->FUN_004e8030(*lights->FUN_006815c0());
+                    CopyNode* geom = g_TES->DetailedActorPathHandler_GetCurrentNodeIndex()->TESWaterSystem_GetWaterGeometry(*lights->FUN_006815c0());
                     CopyNode* geomAlias = geom;
-                    CopyNode* kind3 = geomAlias->FUN_004030b0();
+                    CopyNode* kind3 = geomAlias->CombatController_GetTarget();
                     if (kind3 && kind3->FUN_008d8520() == 0xd)
                     {
                         Property* prop = geom->FUN_00a59d30(3);
                         Property* propAlias = prop;
                         if (!propAlias->refs.FUN_0049c680(light->FUN_00559450(), 0))
                         {
-                            propAlias->refs.FUN_004ed8c0(light->FUN_00559450());
+                            propAlias->refs.NiTPointerListBase_NiTPointerAllocator_unsigned_int_BSMultiBoundRoom_AddTail(light->FUN_00559450());
                             propAlias->dirty = true;
                         }
-                        FUN_00450b80(0)->FUN_00b5eed0(light->FUN_00559450());
+                        FUN_00450b80(0)->ShadowSceneNode_RemoveLight(light->FUN_00559450());
                     }
                 }
             }
-            ((Ref*)*lights->FUN_006815c0())->FUN_005d43c0()->FUN_0041f840(this, true);
+            ((Ref*)*lights->FUN_006815c0())->BSFile_GetDevice()->FUN_0041f840(this, true);
             lights = lights->FUN_00726070();
         }
     }
-    if (FUN_00569b80())
+    if (TESObjectREFR_GetLinkedRef())
     {
-        FUN_00569b80()->FUN_005d43c0()->FUN_0041e530(this);
-        FUN_00569cb0(true, 0);
+        TESObjectREFR_GetLinkedRef()->BSFile_GetDevice()->ExtraDataList_AddLinkedRefChild(this);
+        TESObjectREFR_RedrawRefLinks(true, 0);
     }
-    if (!FUN_004077c0() && FUN_005d43c0()->ExtraDataList_GetActivateParentList())
+    if (!TESForm_GetTemporary() && BSFile_GetDevice()->ExtraDataList_GetActivateParentList())
     {
-        Link* links3 = FUN_005d43c0()->ExtraDataList_GetActivateParentList();
+        Link* links3 = BSFile_GetDevice()->ExtraDataList_GetActivateParentList();
         while (links3 && !links3->FUN_008256d0())
         {
             AttachedSceneProvider* data = *links3->FUN_006815c0();
             links3 = links3->FUN_00726070();
-            data->ref->FUN_005d43c0()->FUN_0041edd0(this);
+            data->ref->BSFile_GetDevice()->ExtraDataList_AddActivateRefChild(this);
         }
         TESObjectREFR_RedrawActivateRefLinks(true);
     }
-    FUN_00567490(pSource->FUN_00598040());
+    TESObjectREFR_SetScale(pSource->FUN_00598040());
     if (changed)
         SetCopyNodeReference(0, true);
     if (pSource->node())
     {
-        if (FUN_004077c0() && base && base->FUN_00401170() == 0x25)
+        if (TESForm_GetTemporary() && base && base->FUN_00401170() == 0x25)
             SetCopyNodeReference(base->baseNode(this, 0), true);
         if (!node() && FUN_008d6f30() && g_TES->FUN_004511e0(FUN_008d6f30(), false))
-            g_TES->FUN_00451ef0(this, FUN_008d6f30(), 0, 0);
+            g_TES->TES_AttachModel(this, FUN_008d6f30(), 0, 0);
         else if (!base || base->FUN_00401170() != 0x25)
         {
             CopyNode* object = loadNode(false);
-            object->FUN_00440460(position());
-            object->FUN_0043fa80(&TESObjectREFR_GetOrientation());
-            object->FUN_00440490(FUN_00567400());
+            object->NiAVObject_SetTranslate(position());
+            object->SetRotate_0043fa80(&TESObjectREFR_GetOrientation());
+            object->NiAVObject_SetScale(TESObjectREFR_GetScale_00567400());
             if (pSource->node()->NiAVObject_GetParent())
                 pSource->node()->NiAVObject_GetParent()->attach(object, true);
         }
-        if (node() && FUN_007af430() && FUN_007af430()->FUN_00401170() == 0x1e)
-            ((BaseView*)FUN_007af430())->FUN_0050d810(this, node(), false);
-        if (FUN_00572d30(8))
+        if (node() && BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x1e)
+            ((BaseView*)BGSSaveFormBuffer_GetForm())->FUN_0050d810(this, node(), false);
+        if (TESObjectREFR_GetAction_00572d30(8))
             FUN_0047aec0(this, true, true);
         else
             FUN_0047aec0(this, false, true);
-        FUN_00c6bd00(node(), true);
+        bhkNiCollisionObject_ResetSim(node(), true);
         NiUpdateData update(0.0f, false, false);
-        node()->FUN_00a59c60(update);
-        node()->FUN_00a5a040();
+        node()->NiAVObject_Update(update);
+        node()->UpdateProperties();
     }
     else
         SetCopyNodeReference(0, true);
-    if (pSource->FUN_004077c0())
+    if (pSource->TESForm_GetTemporary())
         TESObjectREFR_FixAttachedBSObjectSizeAndTransform();
     pPartner = FUN_00568e50();
-    if (pPartner && !FUN_004077c0())
+    if (pPartner && !TESForm_GetTemporary())
     {
         Ref* other = pPartner->FUN_00559450();
         if (!other)
@@ -35355,29 +35564,29 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         }
         else
         {
-            if (!other->FUN_005653d0())
-                other->FUN_00565480(true);
+            if (!other->TESObjectREFR_GetRefPersists_005653d0())
+                other->TESObjectREFR_SetRefPersists(true);
             CopyHolder* reverse = other->FUN_00568e50();
             if (!reverse)
-                reverse = other->FUN_00568e70();
+                reverse = other->TESObjectREFR_AddTeleport();
             reverse->FUN_00537e90(this);
             bool warning = false;
             if (FUN_00569140() && other->FUN_00569140())
             {
-                other->FUN_005d43c0()->ExtraDataList_RemoveLockPtr();
+                other->BSFile_GetDevice()->ExtraDataList_RemoveLockPtr();
                 warning = true;
             }
-            if (FUN_00567770() && other->FUN_00567770())
+            if (TESObjectREFR_GetMyOwner() && other->TESObjectREFR_GetMyOwner())
             {
-                other->FUN_00567c50();
+                other->TESObjectREFR_RemoveOwner();
                 warning = true;
             }
             if (warning)
                 FNV_Warning("DEFAULT: Conflicting shared data removed from linked door reference.");
         }
     }
-    if (!FUN_004077c0() && FUN_0056a9f0())
-        FUN_0056a9f0()->FUN_005d43c0()->FUN_0041dcd0(this);
+    if (!TESForm_GetTemporary() && TESObjectREFR_GetEnableStateParent())
+        TESObjectREFR_GetEnableStateParent()->BSFile_GetDevice()->ExtraDataList_AddEnableStateChild(this);
 }
 
 namespace s55d310 {
@@ -35447,27 +35656,28 @@ struct Form
 
 struct Owner
 {
-    Form* FUN_007af430();
-    Component* FUN_0055d310();
+    Form* BGSSaveFormBuffer_GetForm();
+    Component* TESObjectREFR_HasContainer();
 };
 
 // Returns the owner form as a Weapon or Ammo component if its form type is weapon (0x2a/0x2b) or ammo (0x1b), otherwise returns null.
 // @fnv 0x0055d310
-Component* Owner::FUN_0055d310()
+// src: XBOX_PDB 0x0055d310
+Component* Owner::TESObjectREFR_HasContainer()
 {
     Component* pkResult = 0;
-    if (FUN_007af430())
+    if (BGSSaveFormBuffer_GetForm())
     {
-        switch (FUN_007af430()->FUN_00401170())
+        switch (BGSSaveFormBuffer_GetForm()->FUN_00401170())
         {
         case 0x2a:
         case 0x2b: {
-            Weapon* pkWeapon = (Weapon*)FUN_007af430();
+            Weapon* pkWeapon = (Weapon*)BGSSaveFormBuffer_GetForm();
             pkResult = pkWeapon;
             break;
         }
         case 0x1b: {
-            Ammo* pkAmmo = (Ammo*)FUN_007af430();
+            Ammo* pkAmmo = (Ammo*)BGSSaveFormBuffer_GetForm();
             pkResult = pkAmmo;
             break;
         }
@@ -35524,13 +35734,14 @@ class S_0055e3f0_cls
     unsigned int unk10;
     unsigned int unk14;
     S_0055e3f0_sub sub;
-    bool FUN_005653d0();
-    bool FUN_0055e3f0(S_0055e3f0_ref* a1);
+    bool TESObjectREFR_GetRefPersists_005653d0();
+    bool TESObjectREFR_SavesBefore_0055e3f0(S_0055e3f0_ref* a1);
 };
 
 // For cases 8 and 9, compares the resolved cell with sub.v00(); case 9 returns true when FUN_005653d0 is true. Other cases delegate to v0e.
 // @fnv 0x0055e3f0
-bool S_0055e3f0_cls::FUN_0055e3f0(S_0055e3f0_ref* apRef)
+// src: XBOX_PDB 0x0055e3f0
+bool S_0055e3f0_cls::TESObjectREFR_SavesBefore_0055e3f0(S_0055e3f0_ref* apRef)
 {
     bool result = false;
     if (apRef != 0 && apRef->vptr == DAT_01187020)
@@ -35539,10 +35750,10 @@ bool S_0055e3f0_cls::FUN_0055e3f0(S_0055e3f0_ref* apRef)
         {
         case 8:
         case 9: {
-            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>((TESForm*)FUN_004839c0(apRef->unk08));
+            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>((TESForm*)TESForm_GetFormByNumericID(apRef->unk08));
             if ((void*)cell != 0 && (void*)sub.v00() == (void*)cell)
             {
-                if (FUN_005653d0())
+                if (TESObjectREFR_GetRefPersists_005653d0())
                 {
                     switch (apRef->m_0C)
                     {
@@ -35665,7 +35876,7 @@ void RefStub::FillGroupChangeInfo(ChangeGroupInfo* info, ChangeRequest* apReques
 extern float DAT_01017d00;
 struct TriggerContext
 {
-    int __thiscall FUN_00561730(void* result);
+    int __thiscall hkVector4_equals4(void* result);
 };
 struct VirtualDispatcher
 {
@@ -35689,25 +35900,25 @@ struct VirtualDispatcher
 };
 struct FUN_005616d0_Owner
 {
-    void* __thiscall FUN_00560dc0(float amount);
+    void* __thiscall hkpRigidBody_getLinearVelocity(float amount);
     void __thiscall activate_00c9c1d0();
-    VirtualDispatcher* __thiscall FUN_009d9f40();
+    VirtualDispatcher* __thiscall CombatGroup_GetLastSearchAreaUpdateTimer();
     void __thiscall OnTrigger(TriggerContext* context);
 };
 // Checks a trigger condition via context, and if it fails, calls FUN_00c9c1d0 and dispatches the context to the virtual dispatcher.
 // @fnv 0x005616d0
 void FUN_005616d0_Owner::OnTrigger(TriggerContext* context)
 {
-    if (!context->FUN_00561730(FUN_00560dc0(DAT_01017d00)))
+    if (!context->hkVector4_equals4(hkpRigidBody_getLinearVelocity(DAT_01017d00)))
     {
         activate_00c9c1d0();
-        FUN_009d9f40()->Dispatch(context);
+        CombatGroup_GetLastSearchAreaUpdateTimer()->Dispatch(context);
     }
 }
 
 struct FUN_00561730_Obj
 {
-    int __thiscall FUN_00561730(int value);
+    int __thiscall hkVector4_equals4(int value);
 };
 
 struct FUN_009d9f40_Virtual
@@ -35734,21 +35945,22 @@ struct FUN_009d9f40_Virtual
 
 struct FUN_00561800_Class
 {
-    int __thiscall FUN_00560e50(float value);
+    int __thiscall hkpRigidBody_getAngularVelocity(float value);
     void __thiscall activate_00c9c1d0();
-    FUN_009d9f40_Virtual* __thiscall FUN_009d9f40();
-    void __thiscall FUN_00561800(FUN_00561730_Obj* object);
+    FUN_009d9f40_Virtual* __thiscall CombatGroup_GetLastSearchAreaUpdateTimer();
+    void __thiscall hkpRigidBody_setAngularVelocity(FUN_00561730_Obj* object);
 };
 
 extern float DAT_01017d00;
 
 // @fnv 0x00561800
-void __thiscall FUN_00561800_Class::FUN_00561800(FUN_00561730_Obj* object)
+// src: XBOX_PDB 0x00561800
+void __thiscall FUN_00561800_Class::hkpRigidBody_setAngularVelocity(FUN_00561730_Obj* object)
 {
-    if (object->FUN_00561730(this->FUN_00560e50(DAT_01017d00)) == 0)
+    if (object->hkVector4_equals4(this->hkpRigidBody_getAngularVelocity(DAT_01017d00)) == 0)
     {
         this->activate_00c9c1d0();
-        ((FUN_009d9f40_Virtual*)this->FUN_009d9f40())->vf44(object);
+        ((FUN_009d9f40_Virtual*)this->CombatGroup_GetLastSearchAreaUpdateTimer())->vf44(object);
     }
 }
 
@@ -36058,7 +36270,7 @@ using ::NiPoint3;
 struct Inner
 {
     void* __thiscall BaseExtraList_GetExtraData(unsigned char);
-    void* __thiscall FUN_0041b320();
+    void* __thiscall ExtraDataList_GetStartingWorldOrCell();
 };
 struct TypeObj
 {
@@ -36070,23 +36282,24 @@ struct S00561df0
 {
     char _pad[0x40];
     void* field_40;
-    Inner* __thiscall FUN_005d43c0();
-    void* __thiscall FUN_00575d70();
-    unsigned char __thiscall FUN_00561df0(NiPoint3* pOutA, NiPoint3* pOutB, void** ppOut, TypeObj* pOpt);
+    Inner* __thiscall BSFile_GetDevice();
+    void* __thiscall TESObjectREFR_GetWorldSpace();
+    unsigned char __thiscall TESObjectREFR_GetEditorLocation(NiPoint3* pOutA, NiPoint3* pOutB, void** ppOut, TypeObj* pOpt);
 };
 // Returns 0 if the base pointer or output object cannot be resolved; otherwise copies NiPoint3 values from offsets 0x0C and 0x18 and returns 1.
 // @fnv 0x00561df0
-unsigned char S00561df0::FUN_00561df0(NiPoint3* pOutA, NiPoint3* pOutB, void** ppOut, TypeObj* pOpt)
+// src: XBOX_PDB 0x00561df0
+unsigned char S00561df0::TESObjectREFR_GetEditorLocation(NiPoint3* pOutA, NiPoint3* pOutB, void** ppOut, TypeObj* pOpt)
 {
-    void* pBase = FUN_005d43c0()->BaseExtraList_GetExtraData(15);
+    void* pBase = BSFile_GetDevice()->BaseExtraList_GetExtraData(15);
     if (pBase == 0)
     {
         return 0;
     }
-    *ppOut = FUN_005d43c0()->FUN_0041b320();
+    *ppOut = BSFile_GetDevice()->ExtraDataList_GetStartingWorldOrCell();
     if (*ppOut == 0)
     {
-        *ppOut = FUN_00575d70();
+        *ppOut = TESObjectREFR_GetWorldSpace();
         if (*ppOut == 0)
         {
             if (field_40 != 0)
@@ -36138,15 +36351,15 @@ struct SubX
 {
     void ExtraDataList_LoadGame_00428150(void* p);
     void FUN_0041aeb0();
-    bool FUN_0041b3a0(int i);
-    void FUN_0041b470(int i);
-    void FUN_0041b440(int i);
-    float FUN_0041b6b0();
+    bool ExtraDataList_GetAction(int i);
+    void ExtraDataList_ClearAction(int i);
+    void ExtraDataList_SetAction(int i);
+    float ExtraDataList_GetObjectHealth();
 };
 struct ChangeX
 {
     FlagsX FUN_00428110(unsigned uiMask);
-    void FUN_00864980(void* pData, int iSize);
+    void LoadData(void* pData, int iSize);
 };
 struct HandlerX
 {
@@ -36154,7 +36367,7 @@ struct HandlerX
 };
 struct MgrX
 {
-    void FUN_0084a810(int a, ChangeX* p, int b);
+    void QueueSubBuffer(int a, ChangeX* p, int b);
 };
 extern MgrX* DAT_011ddf38;
 struct NameX
@@ -36168,11 +36381,11 @@ struct BaseX
 };
 struct FormX
 {
-    bool FUN_00476f50(void* p, int i);
+    bool BGSDestructibleObjectForm_UpdateCurrentDamageStage(void* p, int i);
 };
 struct RefX;
 HandlerX* __cdecl FUN_004bf220(RefX* p);
-FormX* __cdecl FUN_00475400(void* p);
+FormX* __cdecl BGSDestructibleObjectForm_GetDestructionForm(void* p);
 void __cdecl UpdateLODMultInvisibility(RefX* p, int i);
 struct RefX
 {
@@ -36192,12 +36405,12 @@ struct RefX
     char pad40[0x24];
     BaseX* m64;
     void FUN_00484da0(ChangeX* p);
-    void FUN_00484580(int i);
-    void FUN_00567490(float f);
-    SubX* FUN_005d43c0();
-    bool FUN_00452370();
-    void* FUN_007af430();
-    void FUN_0057a3c0(int i);
+    void TESForm_SetEmpty(int i);
+    void TESObjectREFR_SetScale(float f);
+    SubX* BSFile_GetDevice();
+    bool TESForm_GetDestructible();
+    void* BGSSaveFormBuffer_GetForm();
+    void TESObjectREFR_UpdateAddonNodeSounds(int i);
     void ApplyChanges(ChangeX* pkChanges);
 };
 // Applies change-mask-selected updates, including an update using m3c, sub-object operations, and calls to a handler and manager.
@@ -36207,33 +36420,33 @@ void RefX::ApplyChanges(ChangeX* pkChanges)
     FUN_00484da0(pkChanges);
     bool bIsPlayer = v100();
     if (!bIsPlayer && pkChanges->FUN_00428110(0x200000).FUN_004280f0())
-        FUN_00484580(1);
+        TESForm_SetEmpty(1);
     if (pkChanges->FUN_00428110(0x10).FUN_004280f0())
     {
-        pkChanges->FUN_00864980(&m3c, 4);
-        FUN_00567490(m3c);
+        pkChanges->LoadData(&m3c, 4);
+        TESObjectREFR_SetScale(m3c);
     }
     unsigned uiMask = bIsPlayer ? 0xa4061840 : 0xa4021c40;
     if (pkChanges->FUN_00428110(uiMask).FUN_004280f0())
-        FUN_005d43c0()->ExtraDataList_LoadGame_00428150(pkChanges);
+        BSFile_GetDevice()->ExtraDataList_LoadGame_00428150(pkChanges);
     if (pkChanges->FUN_00428110(0x8000020).FUN_004280f0())
     {
-        FUN_005d43c0()->FUN_0041aeb0();
+        BSFile_GetDevice()->FUN_0041aeb0();
         HandlerX* pkHandler = FUN_004bf220(this);
         pkHandler->InventoryChanges_LoadGame_ObjectsList(pkChanges);
     }
     if (pkChanges->FUN_00428110(0x10000000).FUN_004280f0() && !v100())
-        DAT_011ddf38->FUN_0084a810(0, pkChanges, 0);
+        DAT_011ddf38->QueueSubBuffer(0, pkChanges, 0);
     if (!v100() && pkChanges->FUN_00428110(0x400000).FUN_004280f0())
     {
-        if (FUN_005d43c0()->FUN_0041b3a0(8))
-            FUN_005d43c0()->FUN_0041b470(8);
+        if (BSFile_GetDevice()->ExtraDataList_GetAction(8))
+            BSFile_GetDevice()->ExtraDataList_ClearAction(8);
         else
-            FUN_005d43c0()->FUN_0041b440(8);
+            BSFile_GetDevice()->ExtraDataList_SetAction(8);
     }
-    if (FUN_00452370() && m64 && m64->kName.FUN_00559450() && FUN_005d43c0()->FUN_0041b6b0() != -1.0 &&
-        FUN_007af430() && FUN_00475400(FUN_007af430())->FUN_00476f50(this, 0))
-        FUN_0057a3c0(0);
+    if (TESForm_GetDestructible() && m64 && m64->kName.FUN_00559450() && BSFile_GetDevice()->ExtraDataList_GetObjectHealth() != -1.0 &&
+        BGSSaveFormBuffer_GetForm() && BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm())->BGSDestructibleObjectForm_UpdateCurrentDamageStage(this, 0))
+        TESObjectREFR_UpdateAddonNodeSounds(0);
     UpdateLODMultInvisibility(this, v1d0());
 }
 }  // namespace fnv_005623d0
@@ -36252,12 +36465,12 @@ struct LoadBuffer
 struct Ref;
 struct ExtraList
 {
-    float FUN_0041b6b0();
-    void FUN_0042dae0(LoadBuffer*);
+    float ExtraDataList_GetObjectHealth();
+    void ExtraDataList_Revert_0042dae0(LoadBuffer*);
     void ExtraDataList_RevertUnsavedExtra(LoadBuffer*);
-    bool FUN_0041b3a0(int);
-    void FUN_0041b470(int);
-    void FUN_0041b440(int);
+    bool ExtraDataList_GetAction(int);
+    void ExtraDataList_ClearAction(int);
+    void ExtraDataList_SetAction(int);
 };
 struct ParentCell
 {
@@ -36276,11 +36489,11 @@ struct LoadedData
 };
 struct OpenClose
 {
-    bool FUN_00476f50(Ref*, bool);
+    bool BGSDestructibleObjectForm_UpdateCurrentDamageStage(Ref*, bool);
 };
-OpenClose* FUN_00475400(void*);
+OpenClose* BGSDestructibleObjectForm_GetDestructionForm(void*);
 void FUN_0047aec0(Ref*, bool, bool);
-bool FUN_0062c3c0(Ref*, void*);
+bool TESHavokUtilities_Should3DRagDoll(Ref*, void*);
 void UpdateLODMultInvisibility(Ref*, void*);
 struct Ref
 {
@@ -36440,46 +36653,47 @@ struct Ref
     unsigned int unk5c;
     unsigned int unk60;
     LoadedData* loadedData;
-    void FUN_005629a0(LoadBuffer* buffer);
+    void TESObjectREFR_Revert_005629a0(LoadBuffer* buffer);
     void FUN_004534f0(LoadBuffer*);
-    void FUN_00484580(bool);
-    ExtraList* FUN_005d43c0();
-    bool FUN_00452370();
-    void* FUN_007af430();
-    void FUN_0057a3c0(bool);
+    void TESForm_SetEmpty(bool);
+    ExtraList* BSFile_GetDevice();
+    bool TESForm_GetDestructible();
+    void* BGSSaveFormBuffer_GetForm();
+    void TESObjectREFR_UpdateAddonNodeSounds(bool);
     void ResetAnimation();
-    void FUN_00574920(bool);
-    bool FUN_00572d30(int);
-    void FUN_00577330(void*);
+    void TESObjectREFR_ResetInventory(bool);
+    bool TESObjectREFR_GetAction_00572d30(int);
+    void TESObjectREFR_RestoreRagDollData(void*);
 };
 // Processes the buffer and performs change-mask-dependent updates, including extra-list operations and a call on parentCell.
 // @fnv 0x005629a0
-void Ref::FUN_005629a0(LoadBuffer* buffer)
+// src: XBOX_PDB 0x005629a0
+void Ref::TESObjectREFR_Revert_005629a0(LoadBuffer* buffer)
 {
     FUN_004534f0(buffer);
     if (loadedData)
         loadedData->unk0c = -1.0f;
     bool actor = IsActor();
     if (!actor && buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x200000))
-        FUN_00484580(false);
-    bool changed = FUN_005d43c0()->FUN_0041b6b0() != -1.0;
+        TESForm_SetEmpty(false);
+    bool changed = BSFile_GetDevice()->ExtraDataList_GetObjectHealth() != -1.0;
     unsigned int updated = actor ? 0xa4061840 : 0xa4021c40;
     if (buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(updated))
-        FUN_005d43c0()->FUN_0042dae0(buffer);
-    if (changed && FUN_00452370() && loadedData && loadedData->node.FUN_00559450() &&
-        FUN_00475400(FUN_007af430())->FUN_00476f50(this, true))
-        FUN_0057a3c0(false);
+        BSFile_GetDevice()->ExtraDataList_Revert_0042dae0(buffer);
+    if (changed && TESForm_GetDestructible() && loadedData && loadedData->node.FUN_00559450() &&
+        BGSDestructibleObjectForm_GetDestructionForm(BGSSaveFormBuffer_GetForm())->BGSDestructibleObjectForm_UpdateCurrentDamageStage(this, true))
+        TESObjectREFR_UpdateAddonNodeSounds(false);
     if (buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x10000000) && !IsActor())
         ResetAnimation();
-    FUN_005d43c0()->ExtraDataList_RevertUnsavedExtra(buffer);
+    BSFile_GetDevice()->ExtraDataList_RevertUnsavedExtra(buffer);
     if (buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x8000020))
     {
         if (!buffer->FUN_00562d00())
         {
             if (buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x20))
-                FUN_00574920(false);
+                TESObjectREFR_ResetInventory(false);
             else
-                FUN_00574920(true);
+                TESObjectREFR_ResetInventory(true);
         }
         else
             ResetState(false);
@@ -36488,15 +36702,15 @@ void Ref::FUN_005629a0(LoadBuffer* buffer)
     {
         if (buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x400000))
         {
-            if (FUN_005d43c0()->FUN_0041b3a0(8))
-                FUN_005d43c0()->FUN_0041b470(8);
+            if (BSFile_GetDevice()->ExtraDataList_GetAction(8))
+                BSFile_GetDevice()->ExtraDataList_ClearAction(8);
             else
-                FUN_005d43c0()->FUN_0041b440(8);
+                BSFile_GetDevice()->ExtraDataList_SetAction(8);
         }
-        FUN_0047aec0(this, FUN_00572d30(8), true);
+        FUN_0047aec0(this, TESObjectREFR_GetAction_00572d30(8), true);
     }
-    if (GetNode() && FUN_0062c3c0(this, GetNode()) && !IsActor())
-        FUN_00577330(0);
+    if (GetNode() && TESHavokUtilities_Should3DRagDoll(this, GetNode()) && !IsActor())
+        TESObjectREFR_RestoreRagDollData(0);
     if (parentCell && buffer->BGSLoadFormBuffer_GetOldChangeFlags().FUN_004280f0(0x4000000))
         parentCell->TESObjectCELL_RemoveActivatingRef(this);
     UpdateLODMultInvisibility(this, GetNode());
@@ -36517,7 +36731,7 @@ using ::NiRTTI;
 
 struct ExtraData
 {
-    char* FUN_004228f0();
+    char* ExtraDataList_GetLastFinishedSequence();
 };
 
 using ::ShadowSceneNode;
@@ -36529,7 +36743,7 @@ struct G11DEA10
 
 struct M40
 {
-    void FUN_00548880(Ref* p, int n);
+    void TESObjectCELL_AttachReference3D(Ref* p, int n);
 };
 
 struct Ref
@@ -36654,8 +36868,8 @@ struct Ref
     Ref* m20;
     char pad1[0x1c];
     M40* m40;
-    NiAVObject* FUN_0043fcd0();
-    ExtraData* FUN_005d43c0();
+    NiAVObject* TESObjectREFR_Get3D();
+    ExtraData* BSFile_GetDevice();
     void ResetAnimation();
 };
 
@@ -36670,13 +36884,13 @@ extern void FNV2062_NiAVObject_FUN_00a59c60_target();
 struct Seq
 {
     int FUN_008041a0();
-    void FUN_0098adb0(float f);
-    float FUN_009a9350();
+    void PathingLOSGridMap_SetSightRadius(float f);
+    float TESCombatStyle_GetWeaponMinRangeMult();
 };
 
 struct Mgr
 {
-    Seq* FUN_0047a520(NiFixedString const& s);
+    Seq* NiControllerManager_GetSequenceByName(NiFixedString const& s);
     void FUN_0048fef0(float f);
     void FUN_0047aa40(bool b);
     void FUN_0047aab0(Seq* s, int a, int b, float f1, float f2, int c);
@@ -36686,8 +36900,8 @@ struct Mgr
 
 int _stricmp(const char* a, const char* b);
 NiAVObject* NiDynamicCast(NiRTTI const* t, NiAVObject* o);
-bool FUN_004b5bf0(NiAVObject* o);
-void FUN_0047ab40(Ref* r, Seq* s);
+bool HasMorpherController(NiAVObject* o);
+void BGSOpenCloseForm_HandleAnimEndHavok(Ref* r, Seq* s);
 ShadowSceneNode* FUN_00450b80(unsigned int i2);
 
 extern char* DAT_01197b5c;
@@ -36701,12 +36915,12 @@ extern G11DEA10* DAT_011dea10;
 // @fnv 0x00563890
 void Ref::ResetAnimation()
 {
-    NiAVObject* pObjA = FUN_0043fcd0();
+    NiAVObject* pObjA = TESObjectREFR_Get3D();
     Mgr* _mgr = 0;
     bool flag_ = false;
     if (pObjA)
     {
-        char* nm = FUN_005d43c0()->FUN_004228f0();
+        char* nm = BSFile_GetDevice()->ExtraDataList_GetLastFinishedSequence();
         if (nm && (_stricmp)(nm, DAT_01197b5c) == 0)
             flag_ = true;
         if (!flag_ && pObjA && (FNV2062_NiAVObject_FUN_0043b230)(pObjA))
@@ -36715,12 +36929,12 @@ void Ref::ResetAnimation()
             _mgr = (Mgr*)NiDynamicCast(&DAT_011f36ac, t1);
             if (_mgr)
             {
-                Seq* sq = _mgr->FUN_0047a520(NiFixedString((const char*)DAT_01197b5c));
+                Seq* sq = _mgr->NiControllerManager_GetSequenceByName(NiFixedString((const char*)DAT_01197b5c));
                 if (sq && sq->FUN_008041a0())
                     flag_ = true;
             }
         }
-        if (!flag_ && FUN_004b5bf0(pObjA))
+        if (!flag_ && HasMorpherController(pObjA))
             flag_ = true;
         if (flag_)
         {
@@ -36728,10 +36942,10 @@ void Ref::ResetAnimation()
             vfn_1cc(tmp, 1);
             vfn_1c4();
             if (m40 && DAT_011dea10->FUN_004511e0(m40, 0))
-                m40->FUN_00548880(this, 0);
+                m40->TESObjectCELL_AttachReference3D(this, 0);
         }
     }
-    pObjA = FUN_0043fcd0();
+    pObjA = TESObjectREFR_Get3D();
     if (pObjA && (FNV2062_NiAVObject_FUN_0043b230)(pObjA))
     {
         NiAVObject* t2 = (FNV2062_NiAVObject_FUN_0043b230)(pObjA);
@@ -36743,7 +36957,7 @@ void Ref::ResetAnimation()
             {
                 Seq* el = _mgr->GetSequenceAt(i2);
                 if (el && el->FUN_008041a0())
-                    FUN_0047ab40(this, el);
+                    BGSOpenCloseForm_HandleAnimEndHavok(this, el);
             }
             _mgr->FUN_0048fef0(0.0f);
             _mgr->FUN_0047aa40(true);
@@ -36751,14 +36965,14 @@ void Ref::ResetAnimation()
             if (sc1)
             {
                 _mgr->FUN_0047aab0(sc1, 0, 0, 1.0f, 0.0f, 0);
-                sc1->FUN_0098adb0(-DAT_0102f510);
-                NiUpdateData ud(sc1->FUN_009a9350(), true, false);
+                sc1->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                NiUpdateData ud(sc1->TESCombatStyle_GetWeaponMinRangeMult(), true, false);
                 (FNV2062_NiAVObject_FUN_00a59c60)(pObjA, ud);
             }
             _mgr->FUN_0048fef0(0.0f);
             _mgr->FUN_0047aa40(false);
-            Seq* sa_ = _mgr->FUN_0047a520(NiFixedString((const char*)DAT_011977d8));
-            Seq* sb2 = _mgr->FUN_0047a520(NiFixedString((const char*)DAT_01197820));
+            Seq* sa_ = _mgr->NiControllerManager_GetSequenceByName(NiFixedString((const char*)DAT_011977d8));
+            Seq* sb2 = _mgr->NiControllerManager_GetSequenceByName(NiFixedString((const char*)DAT_01197820));
             if (sa_ || sb2)
             {
                 _mgr->FUN_0047aa40(true);
@@ -36766,16 +36980,16 @@ void Ref::ResetAnimation()
                 {
                     if (sa_->FUN_008041a0() == 0)
                         _mgr->FUN_0047aab0(sa_, 0, 0, 1.0f, 0.0f, 0);
-                    sa_->FUN_0098adb0(-DAT_0102f510);
-                    NiUpdateData ud2(sa_->FUN_009a9350(), true, false);
+                    sa_->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                    NiUpdateData ud2(sa_->TESCombatStyle_GetWeaponMinRangeMult(), true, false);
                     (FNV2062_NiAVObject_FUN_00a59c60)(pObjA, ud2);
                 }
                 if (sb2)
                 {
                     if (sb2->FUN_008041a0() == 0)
                         _mgr->FUN_0047aab0(sb2, 0, 0, 1.0f, 0.0f, 0);
-                    sb2->FUN_0098adb0(-DAT_0102f510);
-                    NiUpdateData ud3(sb2->FUN_009a9350(), true, false);
+                    sb2->PathingLOSGridMap_SetSightRadius(-DAT_0102f510);
+                    NiUpdateData ud3(sb2->TESCombatStyle_GetWeaponMinRangeMult(), true, false);
                     (FNV2062_NiAVObject_FUN_00a59c60)(pObjA, ud3);
                 }
             }
@@ -36824,7 +37038,7 @@ struct Mgr
 
 struct Ref
 {
-    NiAVObject* FUN_0043fcd0();
+    NiAVObject* TESObjectREFR_Get3D();
 };
 
 struct NameList
@@ -36837,7 +37051,7 @@ struct Pkg
     NameList* FUN_00413f40();
     int FUN_008041a0();
     void LoadGameBGS_004efd10(Buf*, float);
-    float FUN_00639aa0();
+    float TESCombatStyle_GetTargetingFOV();
 };
 
 struct PkgTmp
@@ -36877,9 +37091,9 @@ struct PkgTmp
     void LoadGameBGS_004efd10(Buf*, float);
 };
 
-int FUN_00408b20(const char*, const char*);
+int BSstrcmp(const char*, const char*);
 bool FUN_004b5c80(NiAVObject*);
-void FUN_00c6bd00(NiAVObject*, bool);
+void bhkNiCollisionObject_ResetSim(NiAVObject*, bool);
 
 extern float DAT_011c3c08;
 
@@ -36898,7 +37112,7 @@ void UpdatePackagesFromBuffer(Mgr* mgr, Buf* buf, float time)
     }
     bool a = false;
     Ref* h = (Ref*)buf->v2();
-    NiAVObject* p = h ? h->FUN_0043fcd0() : 0;
+    NiAVObject* p = h ? h->TESObjectREFR_Get3D() : 0;
     char cf[0x104];
     Pkg* f;
     unsigned int s;
@@ -36916,14 +37130,14 @@ void UpdatePackagesFromBuffer(Mgr* mgr, Buf* buf, float time)
                 f = (Pkg*)mgr->GetSequenceAt(j);
                 if (f)
                 {
-                    if (FUN_00408b20(f->FUN_00413f40()->FUN_0043b1b0(), cf) == 0)
+                    if (BSstrcmp(f->FUN_00413f40()->FUN_0043b1b0(), cf) == 0)
                     {
                         if (f->FUN_008041a0() == 0)
                             mgr->FUN_0047aab0(f, 0, 0, 1.0f, 0.0f, 0);
                         f->LoadGameBGS_004efd10(buf, time);
                         if (p && FUN_004b5c80(p))
                         {
-                            float list = f->FUN_00639aa0() + time;
+                            float list = f->TESCombatStyle_GetTargetingFOV() + time;
                             float num2 = time - list;
                             if (num2 < 0.0f)
                                 num2 = 0.0f;
@@ -36951,7 +37165,7 @@ void UpdatePackagesFromBuffer(Mgr* mgr, Buf* buf, float time)
     }
     if (a && p)
     {
-        FUN_00c6bd00(p, true);
+        bhkNiCollisionObject_ResetSim(p, true);
         NiUpdateData ud2(time, true, false);
         (FNV2062_NiAVObject_FUN_00a59c60)(p, ud2);
     }
@@ -37009,7 +37223,7 @@ struct Other
 
 struct Thing
 {
-    Other* FUN_007af430();
+    Other* BGSSaveFormBuffer_GetForm();
     bool TESObjectREFR_IsObstacle();
 };
 
@@ -37018,27 +37232,28 @@ struct Thing
 // src: COMMUNITY 0x00564bc0
 bool Thing::TESObjectREFR_IsObstacle()
 {
-    return FUN_007af430() != 0 && FUN_007af430()->vf();
+    return BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->vf();
 }
 
 struct FUN_00564e60_shell : public TESObjectREFR
 {
-    bool FUN_00564e60();
+    bool TESObjectREFR_GetVisibleDistant();
 };
 
 unsigned int __fastcall GetFlags_wrapper(TESObjectREFR*);
-bool __fastcall FUN_00564e40(void*);
+bool __fastcall TESForm_GetMustBeVisibleDistant(void*);
 
 // Returns true if the reference has flag 0x8000 set, or if its object reference exists and passes the FUN_00564e40 check.
 // @fnv 0x00564e60
-bool FUN_00564e60_shell::FUN_00564e60()
+// src: XBOX_PDB 0x00564e60
+bool FUN_00564e60_shell::TESObjectREFR_GetVisibleDistant()
 {
     unsigned int iflags = GetFlags_wrapper(this);
     if (iflags & 0x8000)
     {
         return true;
     }
-    else if (_FNV_GetObjectReference(this) && FUN_00564e40(_FNV_GetObjectReference(this)))
+    else if (_FNV_GetObjectReference(this) && TESForm_GetMustBeVisibleDistant(_FNV_GetObjectReference(this)))
     {
         return true;
     }
@@ -37052,23 +37267,24 @@ struct Obj
 };
 struct Thing
 {
-    Obj* FUN_007af430();
-    int FUN_0055d310();
-    bool FUN_005656d0();
+    Obj* BGSSaveFormBuffer_GetForm();
+    int TESObjectREFR_HasContainer();
+    bool TESObjectREFR_HasScript();
 };
-extern "C" int FUN_004826d0(void* obj);
+extern "C" int TESScriptableForm_GetFormScript(void* obj);
 extern "C" void* FUN_004bf220(void* self);
 // @fnv 0x005656d0
-bool Thing::FUN_005656d0()
+// src: XBOX_PDB 0x005656d0
+bool Thing::TESObjectREFR_HasScript()
 {
     bool result = false;
-    if (FUN_004826d0(FUN_007af430()) != 0)
+    if (TESScriptableForm_GetFormScript(BGSSaveFormBuffer_GetForm()) != 0)
     {
         result = true;
     }
     else
     {
-        int value = FUN_0055d310();
+        int value = TESObjectREFR_HasContainer();
         if (value != 0)
         {
             int inv = (int)FUN_004bf220(this);
@@ -37084,14 +37300,14 @@ class FormObj
 {
   public:
     int FUN_00401170();
-    float FUN_00944300();
-    float FUN_00567470();
+    float TESNPC_GetHeight();
+    float TESEffectShader_GetAddOnScaleStart();
 };
 
 class RefObj
 {
   public:
-    FormObj* FUN_007af430();
+    FormObj* BGSSaveFormBuffer_GetForm();
 };
 
 struct FUN_00567400_shell
@@ -37099,25 +37315,26 @@ struct FUN_00567400_shell
     char pad[0x3c];
     float m_vScale;
 
-    float FUN_00567400();
+    float TESObjectREFR_GetScale_00567400();
 };
 
 // Starts with m_vScale and multiplies it by a value from the referenced form for type 0x2A or 0x2B.
 // @fnv 0x00567400
-float FUN_00567400_shell::FUN_00567400()
+// src: XBOX_PDB 0x00567400
+float FUN_00567400_shell::TESObjectREFR_GetScale_00567400()
 {
     float scale = m_vScale;
-    FormObj* object8 = ((RefObj*)this)->FUN_007af430();
+    FormObj* object8 = ((RefObj*)this)->BGSSaveFormBuffer_GetForm();
 
     if (object8)
     {
         switch (object8->FUN_00401170())
         {
         case 0x2b:
-            scale = object8->FUN_00567470() * scale;
+            scale = object8->TESEffectShader_GetAddOnScaleStart() * scale;
             break;
         case 0x2a:
-            scale = object8->FUN_00944300() * scale;
+            scale = object8->TESNPC_GetHeight() * scale;
             break;
         }
     }
@@ -37844,32 +38061,33 @@ struct ScaleReference
     unsigned int unk34;
     unsigned int unk38;
     float m_fObjectScale;
-    bool FUN_00444ed0();
-    FormType* FUN_007af430();
-    float FUN_00567400();
-    NiAVObject* FUN_00950bb0(bool);
+    bool TESObjectREFR_IsMarker();
+    FormType* BGSSaveFormBuffer_GetForm();
+    float TESObjectREFR_GetScale_00567400();
+    NiAVObject* PlayerCharacter_Get3D_00950bb0(bool);
     Controller* FUN_009306d0();
     Process* FUN_008d8520();
-    void FUN_00962450();
-    void FUN_00567490(float scale);
+    void PlayerCharacter_ResetShapeCasterInfo();
+    void TESObjectREFR_SetScale(float scale);
 };
 extern ScaleReference* g_thePlayer;
 extern unsigned int DAT_010a2720;
 struct ScrapHeapBuffer
 {
-    void* FUN_00aa54a0(unsigned int, unsigned int);
-    void FUN_00aa5610(void*);
+    void* ScrapHeap_Allocate(unsigned int, unsigned int);
+    void ScrapHeap_Deallocate(void*);
 };
 using ::MemoryManager;
-MemoryManager* FUN_00401020();
-int FUN_00406d00(char*, unsigned int, const char*, ...);
+MemoryManager* MemoryManager_Instance();
+int BSsprintf(char*, unsigned int, const char*, ...);
 
 // @fnv 0x00567490
-void ScaleReference::FUN_00567490(float scale)
+// src: XBOX_PDB 0x00567490
+void ScaleReference::TESObjectREFR_SetScale(float scale)
 {
-    if (FUN_00444ed0() && FUN_007af430())
+    if (TESObjectREFR_IsMarker() && BGSSaveFormBuffer_GetForm())
     {
-        switch (FUN_007af430()->FUN_00401170())
+        switch (BGSSaveFormBuffer_GetForm()->FUN_00401170())
         {
         case 4:
             break;
@@ -37877,8 +38095,8 @@ void ScaleReference::FUN_00567490(float scale)
             return;
         }
     }
-    char* s = (char*)((ScrapHeapBuffer*)FUN_00401020()->GetGeneralAllocator())->FUN_00aa54a0(32, DAT_010a2720);
-    FUN_00406d00(s, 512, "%.2f", scale);
+    char* s = (char*)((ScrapHeapBuffer*)MemoryManager_Instance()->GetGeneralAllocator())->ScrapHeap_Allocate(32, DAT_010a2720);
+    BSsprintf(s, 512, "%.2f", scale);
     scale = (float)atof(s);
     if (scale < (double)0.01f)
         scale = 0.01f;
@@ -37886,18 +38104,18 @@ void ScaleReference::FUN_00567490(float scale)
         scale = 10.0f;
     m_fObjectScale = scale;
     MarkChanged(16);
-    scale = FUN_00567400();
+    scale = TESObjectREFR_GetScale_00567400();
     NiAVObject* node1;
     if (this == g_thePlayer)
     {
-        node1 = g_thePlayer->FUN_00950bb0(true);
+        node1 = g_thePlayer->PlayerCharacter_Get3D_00950bb0(true);
         if (node1)
         {
             (FNV2062_NiAVObject_FUN_00440490)(node1, scale);
             NiUpdateData update(0.0f, false, false);
             node1->Update(update);
         }
-        node1 = g_thePlayer->FUN_00950bb0(false);
+        node1 = g_thePlayer->PlayerCharacter_Get3D_00950bb0(false);
     }
     else
     {
@@ -37930,10 +38148,10 @@ void ScaleReference::FUN_00567490(float scale)
                 controller8->saved554 = secondVal;
             }
             if (actor_ == g_thePlayer)
-                g_thePlayer->FUN_00962450();
+                g_thePlayer->PlayerCharacter_ResetShapeCasterInfo();
         }
     }
-    ((ScrapHeapBuffer*)FUN_00401020()->GetGeneralAllocator())->FUN_00aa5610(s);
+    ((ScrapHeapBuffer*)MemoryManager_Instance()->GetGeneralAllocator())->ScrapHeap_Deallocate(s);
 }
 }  // namespace fnv_00567490
 
@@ -37941,7 +38159,7 @@ namespace s5679f0 {
 
 struct Process
 {
-    int FUN_004186c0();
+    int ExtraDataList_GetRank();
 };
 
 using ::Actor;
@@ -37956,42 +38174,43 @@ template <class T> class LocalNiPointer
 
 struct Faction
 {
-    int FUN_00567ab0();
+    int BGSEncounterZone_QOwnerFactionRank();
 };
 
 struct Class
 {
-    int FUN_00546ac0();
+    int TESObjectCELL_GetOwnershipRank();
 };
 
-Faction* FUN_00546a90();
+Faction* BGSEncounterZone_GetNoZone();
 
 struct Owner
 {
-    Process* FUN_005d43c0();
+    Process* BSFile_GetDevice();
     LocalNiPointer<Actor>* FUN_00568e50();
     Faction* FUN_00567d20();
     Class* FUN_008d6f30();
-    int FUN_005679f0();
+    int TESObjectREFR_GetOwnershipRank();
 };
 
 // @fnv 0x005679f0
-int Owner::FUN_005679f0()
+// src: XBOX_PDB 0x005679f0
+int Owner::TESObjectREFR_GetOwnershipRank()
 {
-    int iResult = FUN_005d43c0()->FUN_004186c0();
+    int iResult = BSFile_GetDevice()->ExtraDataList_GetRank();
     if (iResult == -1)
     {
         LocalNiPointer<Actor>* pspLeader = FUN_00568e50();
         if (pspLeader && *pspLeader)
-            iResult = reinterpret_cast<Process*>(static_cast<Actor*>(*pspLeader)->FUN_005d43c0())->FUN_004186c0();
+            iResult = reinterpret_cast<Process*>(static_cast<Actor*>(*pspLeader)->BSFile_GetDevice())->ExtraDataList_GetRank();
     }
     if (iResult == -1)
     {
         Faction* pkFaction = FUN_00567d20();
-        if (pkFaction && pkFaction != FUN_00546a90())
-            iResult = pkFaction->FUN_00567ab0();
+        if (pkFaction && pkFaction != BGSEncounterZone_GetNoZone())
+            iResult = pkFaction->BGSEncounterZone_QOwnerFactionRank();
         if (iResult == -1 && FUN_008d6f30())
-            iResult = FUN_008d6f30()->FUN_00546ac0();
+            iResult = FUN_008d6f30()->TESObjectCELL_GetOwnershipRank();
     }
     if (iResult == -1)
         iResult = 0;
@@ -38015,29 +38234,30 @@ extern GlobalObject2_0040c150 g_011ca2b0;
 extern GlobalObject2_0040c150 g_011ca31c;
 extern int DAT_011ca420;
 
-void* FUN_00546a90();
+void* BGSEncounterZone_GetNoZone();
 
 class LevelObj
 {
   public:
-    unsigned short FUN_00567ec0();
+    unsigned short BGSEncounterZone_QZoneLevel();
 };
 
 struct FUN_00567e10_shell
 {
     LevelObj* FUN_00567d20();
-    unsigned int FUN_00567e10(bool arg);
+    unsigned int TESObjectREFR_GetCalcLevel(bool arg);
 };
 
 // Returns the object's or player's level, optionally adjusts it using three globals, then clamps the result to at least 1.
 // @fnv 0x00567e10
-unsigned int FUN_00567e10_shell::FUN_00567e10(bool abUseOffset)
+// src: XBOX_PDB 0x00567e10
+unsigned int FUN_00567e10_shell::TESObjectREFR_GetCalcLevel(bool abUseOffset)
 {
     unsigned int result = 0;
     LevelObj* object = FUN_00567d20();
 
-    if (object != 0 && object != (LevelObj*)FUN_00546a90())
-        result = object->FUN_00567ec0();
+    if (object != 0 && object != (LevelObj*)BGSEncounterZone_GetNoZone())
+        result = object->BGSEncounterZone_QZoneLevel();
     else
         result = g_thePlayer->GetLevel();
 
@@ -38055,13 +38275,14 @@ unsigned int FUN_00567e10_shell::FUN_00567e10(bool abUseOffset)
 
 struct FUN_00568680_shell : public TESObjectREFR
 {
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
 };
 
 void* __fastcall _FNV_GetObjectReference(void*);
 
 // @fnv 0x00568680
-bool FUN_00568680_shell::FUN_00568680()
+// src: XBOX_PDB 0x00568680
+bool FUN_00568680_shell::TESObjectREFR_IsFurniture()
 {
     if (*(int*)((char*)this + 0x20) && (::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x27)
         return true;
@@ -38075,13 +38296,13 @@ extern int DAT_011ca248;
 
 struct Entry
 {
-    int FUN_00421b40();
+    int ExtraDataList_GetXTarget();
 };
 
 struct Owner
 {
-    int FUN_007af430();
-    Entry* FUN_005d43c0();
+    int BGSSaveFormBuffer_GetForm();
+    Entry* BSFile_GetDevice();
     int TESObjectREFR_GetXTarget();
 };
 
@@ -38090,21 +38311,21 @@ struct Owner
 // src: COMMUNITY 0x005693d0
 int Owner::TESObjectREFR_GetXTarget()
 {
-    if (FUN_007af430() != DAT_011ca244 && FUN_007af430() != DAT_011ca248)
+    if (BGSSaveFormBuffer_GetForm() != DAT_011ca244 && BGSSaveFormBuffer_GetForm() != DAT_011ca248)
         return 0;
-    return FUN_005d43c0()->FUN_00421b40();
+    return BSFile_GetDevice()->ExtraDataList_GetXTarget();
 }
 
 }
 
 struct FUN_005694c0_shell : public TESObjectREFR
 {
-    bool FUN_005694c0();
+    bool TESObjectREFR_CheckUsesExternalEmittance();
 };
 
 using ::TESForm;
 void* __fastcall _FNV_GetObjectReference(void*);
-bool __cdecl FUN_00569410(void*);
+bool __cdecl FindEmittanceProperty(void*);
 unsigned int __fastcall GetFormID(void*);
 void __cdecl _FNV_Warning(const char*, ...);
 
@@ -38115,7 +38336,8 @@ struct TESObjectREFR_Emittance : public TESObjectREFR
 
 // Returns true when form type is 0x1e with an owner form, or the virtual check succeeds.
 // @fnv 0x005694c0
-bool FUN_005694c0_shell::FUN_005694c0()
+// src: XBOX_PDB 0x005694c0
+bool FUN_005694c0_shell::TESObjectREFR_CheckUsesExternalEmittance()
 {
     bool bemits = false;
     if (_FNV_GetObjectReference(this))
@@ -38126,7 +38348,7 @@ bool FUN_005694c0_shell::FUN_005694c0()
         }
         else if (((void*(__fastcall*)(void*))(*(void***)this)[0x1d0 / 4])(this))
         {
-            bemits = FUN_00569410(((void*(__fastcall*)(void*))(*(void***)this)[0x1d0 / 4])(this));
+            bemits = FindEmittanceProperty(((void*(__fastcall*)(void*))(*(void***)this)[0x1d0 / 4])(this));
             if (!bemits && ((TESObjectREFR_Emittance*)this)->GetOwnerForm())
             {
                 _FNV_Warning(
@@ -38148,7 +38370,7 @@ struct Entry
 struct Owner
 {
     bool TESObjectREFR_IsMultiBoundRef();
-    Entry* FUN_005d43c0();
+    Entry* BSFile_GetDevice();
     int TESObjectREFR_GetMultiBoundData();
 };
 
@@ -38159,7 +38381,7 @@ int Owner::TESObjectREFR_GetMultiBoundData()
 {
     int iResult = 0;
     if (TESObjectREFR_IsMultiBoundRef())
-        iResult = FUN_005d43c0()->ExtraDataList_GetMultiBoundData();
+        iResult = BSFile_GetDevice()->ExtraDataList_GetMultiBoundData();
     return iResult;
 }
 
@@ -38199,11 +38421,11 @@ struct SubX
 };
 struct LightDataX
 {
-    float FUN_006b9130();
+    float CombatTimer_GetTargetTime();
     float FUN_006a7f50();
     float FUN_0084d030();
     float FUN_00488d50();
-    unsigned FUN_007af430();
+    unsigned BGSSaveFormBuffer_GetForm();
     float ActorPackage_GetPackageStartTime();
     float FUN_0047c860();
     bool FUN_004a41a0();
@@ -38221,8 +38443,8 @@ struct LightX
 };
 struct RefX
 {
-    LightX* FUN_007af430();
-    float FUN_00567400();
+    LightX* BGSSaveFormBuffer_GetForm();
+    float TESObjectREFR_GetScale_00567400();
 };
 struct EntryX
 {
@@ -38273,7 +38495,7 @@ struct DescX
 };
 struct MgrX
 {
-    void FUN_004a3fe0(DescX* p, int i, int j);
+    void TESObjectCELL_AddDecal(DescX* p, int i, int j);
 };
 float __cdecl FUN_00476b70(float a, float b);
 // 0x0056a4a0 submits TESObjectREFR lights; the shared header lacks this method.
@@ -38295,7 +38517,7 @@ void ReferenceLightSubmission::UpdateLightDescriptors(int iArg)
         kDesc.kPos = pkEntry->m4;
         kDesc.kWorldPosition = pkEntry->m10;
         kDesc.m28 = (int)GetNiNode();
-        kDesc.pkLight = pkEntry->m0->FUN_007af430();
+        kDesc.pkLight = pkEntry->m0->BGSSaveFormBuffer_GetForm();
         GeomX* pkGeom9 = 0;
         GeomPtr spGeom9(0);
         kDesc.pkLight->kSub.v90(0, &spGeom9);
@@ -38303,11 +38525,11 @@ void ReferenceLightSubmission::UpdateLightDescriptors(int iArg)
         if (kDesc.pkLight->BGSTextureSet_HasDecalData())
         {
             LightDataX* pkDataVal = kDesc.pkLight->BGSTextureSet_GetDecalData();
-            kDesc.m38 = FUN_00476b70(pkDataVal->FUN_006a7f50(), pkDataVal->FUN_006b9130());
+            kDesc.m38 = FUN_00476b70(pkDataVal->FUN_006a7f50(), pkDataVal->CombatTimer_GetTargetTime());
             kDesc.m3c = FUN_00476b70(pkDataVal->FUN_00488d50(), pkDataVal->FUN_0084d030());
-            kDesc.kColor = ColorX((unsigned char)(pkDataVal->FUN_007af430() & 0xff) / 255.0,
-                                  (unsigned char)(((unsigned short)pkDataVal->FUN_007af430() >> 8) & 0xff) / 255.0,
-                                  (unsigned char)((pkDataVal->FUN_007af430() >> 16) & 0xff) / 255.0);
+            kDesc.kColor = ColorX((unsigned char)(pkDataVal->BGSSaveFormBuffer_GetForm() & 0xff) / 255.0,
+                                  (unsigned char)(((unsigned short)pkDataVal->BGSSaveFormBuffer_GetForm() >> 8) & 0xff) / 255.0,
+                                  (unsigned char)((pkDataVal->BGSSaveFormBuffer_GetForm() >> 16) & 0xff) / 255.0);
             kDesc.m40 = pkDataVal->ActorPackage_GetPackageStartTime();
             kDesc.m54 = pkDataVal->FUN_0047c860();
             kDesc.b74 = pkDataVal->FUN_004a41a0();
@@ -38322,7 +38544,7 @@ void ReferenceLightSubmission::UpdateLightDescriptors(int iArg)
         else
         {
             float fRatio5 = (float)(pkGeom9->v98() / pkGeom9->v94());
-            float fScaleTmp = pkEntry->m0->FUN_00567400();
+            float fScaleTmp = pkEntry->m0->TESObjectREFR_GetScale_00567400();
             kDesc.m38 = fRatio5 * 128.0 * fScaleTmp;
             kDesc.m3c = fRatio5 * 128.0 * fScaleTmp;
             kDesc.m40 = 48.0f;
@@ -38330,7 +38552,7 @@ void ReferenceLightSubmission::UpdateLightDescriptors(int iArg)
         kDesc.m58 = 90.0f;
         kDesc.ucAlpha = 0xff;
         kDesc.b72 = false;
-        ((MgrX*)GetParentCell())->FUN_004a3fe0(&kDesc, 4, 0);
+        ((MgrX*)GetParentCell())->TESObjectCELL_AddDecal(&kDesc, 4, 0);
     }
 }
 }  // namespace fnv_0056a4a0
@@ -38346,17 +38568,18 @@ struct Result
 };
 struct Sub
 {
-    Result* FUN_00418b70();
+    Result* ExtraDataList_GetPackageStartLocation();
 };
 struct Thing
 {
-    Sub* FUN_005d43c0();
-    int FUN_0056ad80();
+    Sub* BSFile_GetDevice();
+    int TESObjectREFR_GetPackageStartLocationInteriorCell();
 };
 // @fnv 0x0056ad80
-int Thing::FUN_0056ad80()
+// src: XBOX_PDB 0x0056ad80
+int Thing::TESObjectREFR_GetPackageStartLocationInteriorCell()
 {
-    Result* result = FUN_005d43c0()->FUN_00418b70();
+    Result* result = BSFile_GetDevice()->ExtraDataList_GetPackageStartLocation();
     if (result != 0 && result->m_ptr != 0 && result->m_ptr->FUN_00401170() == 0x39)
         return (int)result->m_ptr;
     return 0;
@@ -38366,7 +38589,7 @@ int Thing::FUN_0056ad80()
 namespace fnv_0056add0 {
 struct Extra
 {
-    int* FUN_00418b70();
+    int* ExtraDataList_GetPackageStartLocation();
 };
 
 struct Obj
@@ -38497,7 +38720,7 @@ struct Obj
     virtual void v1EC();
     virtual void v1F0();
     virtual int* vGet();
-    Extra* FUN_005d43c0();
+    Extra* BSFile_GetDevice();
     int* Actor_GetStartLocationOrPosition();
 };
 
@@ -38506,7 +38729,7 @@ struct Obj
 // src: COMMUNITY 0x0056add0
 int* Obj::Actor_GetStartLocationOrPosition()
 {
-    int* p = FUN_005d43c0()->FUN_00418b70();
+    int* p = BSFile_GetDevice()->ExtraDataList_GetPackageStartLocation();
     if (p != 0)
     {
         return p + 1;
@@ -38519,7 +38742,7 @@ namespace s56ae10 {
 
 struct Entry
 {
-    void FUN_0041ad00(int iArg0, int iArg1, int iArg2, float fArg3);
+    void ExtraDataList_SetPackageStartLocation(int iArg0, int iArg1, int iArg2, float fArg3);
 };
 
 class Owner
@@ -38545,15 +38768,16 @@ class Owner
     virtual void v44();
     virtual void SetFlag(int iFlag);
 
-    Entry* FUN_005d43c0();
-    void FUN_0056ae10(int iArg0, int iArg1, int iArg2, float fArg3);
+    Entry* BSFile_GetDevice();
+    void TESObjectREFR_SetPackageStartLocation(int iArg0, int iArg1, int iArg2, float fArg3);
 };
 
 // Calls FUN_0041ad00 on the entry returned by FUN_005d43c0 with the given arguments, then sets flag 0x800 on the owner.
 // @fnv 0x0056ae10
-void Owner::FUN_0056ae10(int iArg0, int iArg1, int iArg2, float fArg3)
+// src: XBOX_PDB 0x0056ae10
+void Owner::TESObjectREFR_SetPackageStartLocation(int iArg0, int iArg1, int iArg2, float fArg3)
 {
-    FUN_005d43c0()->FUN_0041ad00(iArg0, iArg1, iArg2, fArg3);
+    BSFile_GetDevice()->ExtraDataList_SetPackageStartLocation(iArg0, iArg1, iArg2, fArg3);
     SetFlag(0x800);
 }
 
@@ -38957,11 +39181,12 @@ struct WaterRef
     WaterCell* GetContainingCell();
     WaterBaseObject* GetBase();
     unsigned int FormID();
-    void FUN_0056c8f0();
+    void TESObjectREFR_InitHavokForPlaceableWater();
 };
 // Creates and adds a rigid body for cell water or a placeable object's collision shape.
 // @fnv 0x0056c8f0
-void WaterRef::FUN_0056c8f0()
+// src: XBOX_PDB 0x0056c8f0
+void WaterRef::TESObjectREFR_InitHavokForPlaceableWater()
 {
     WaterWorld* world = GetContainingCell() ? WaterWorldFor(GetContainingCell()) : 0;
     if (!world || !GetBase())
@@ -39303,7 +39528,7 @@ struct Motion : HeapObject
 {
     Motion();
 
-    void FUN_00519230(int iArg0, int iArg1);
+    void BSXFlags_SetFlags(int iArg0, int iArg1);
 
     int unk000;
     int unk004;
@@ -39375,7 +39600,7 @@ class RigidBody : public HeapObject
     virtual void SetTranslation(hkVector4& kTranslation);
     virtual void SetRotation(Quaternion& kRotationBasis);
 
-    void FUN_00c85c10(NiNode* pkNode, int iArg);
+    void bhkWorldObject_SetAVObject(NiNode* pkNode, int iArg);
 
     int unk004;
     int unk008;
@@ -39389,7 +39614,7 @@ struct Controller : HeapObject
 {
     Controller(NiNode* pkNode);
 
-    void FUN_00c6b980(RigidBody* pkBody);
+    void bhkNiCollisionObject_SetWorldObject(RigidBody* pkBody);
 
     int unk000;
     int unk004;
@@ -39412,24 +39637,25 @@ struct LayerHolder
 
 struct Process
 {
-    Package* FUN_0041fbe0();
+    Package* ExtraDataList_GetPrimitive();
     LayerHolder* ExtraDataList_GetCollisionData();
 };
 
 struct Cell
 {
-    void* FUN_004543c0();
+    void* TESObjectCELL_GetbhkWorld();
 };
 
-void FUN_004a3e00(hkVector4& kOut, const NiPoint3& kIn);
-float FUN_004a3e90(float fValue);
-void FUN_00561500(Quaternion& kOut, hkVector4& kRotationBasis);
+void NI2HK(hkVector4& kOut, const NiPoint3& kIn);
+float NI2HK_004a3e90(float fValue);
+void NI2HK_00561500(Quaternion& kOut, hkVector4& kRotationBasis);
 
 }  // namespace s56eab0
 
 // Creates a physics rigid body for the actor's 3D node using a shape derived from its package type and attaches it to the physics world.
 // @fnv 0x0056eab0
-void Actor::FUN_0056eab0()
+// src: XBOX_PDB 0x0056eab0
+void Actor::TESObjectREFR_InitHavokForCollisionObject()
 {
     using namespace s56eab0;
     using s56eab0::Package;
@@ -39437,20 +39663,20 @@ void Actor::FUN_0056eab0()
     using s56eab0::Cell;
     using s56eab0::hkVector4;
     using s56eab0::Motion;
-    using s56eab0::FUN_004a3e00;
-    using s56eab0::FUN_004a3e90;
-    using s56eab0::FUN_00561500;
-    Package* pkPackage = reinterpret_cast<Process*>(FUN_005d43c0())->FUN_0041fbe0();
-    void* pvWorld = FUN_008d6f30() ? reinterpret_cast<Cell*>(FUN_008d6f30())->FUN_004543c0() : 0;
+    using s56eab0::NI2HK;
+    using s56eab0::NI2HK_004a3e90;
+    using s56eab0::NI2HK_00561500;
+    Package* pkPackage = reinterpret_cast<Process*>(BSFile_GetDevice())->ExtraDataList_GetPrimitive();
+    void* pvWorld = FUN_008d6f30() ? reinterpret_cast<Cell*>(FUN_008d6f30())->TESObjectCELL_GetbhkWorld() : 0;
     if (pvWorld && pkPackage)
     {
         Shape* pkShape = 0;
         IntegerBlock18 kShapeInfo;
         hkVector4 m_kPoint2;
-        FUN_00567490(1.0f);
-        GetNiNode()->FUN_00440490(1.0f);
+        TESObjectREFR_SetScale(1.0f);
+        GetNiNode()->NiAVObject_SetScale(1.0f);
         UpdateParams kParams(0.0f, 0, 0);
-        GetNiNode()->FUN_00a59c60(reinterpret_cast<NiUpdateData&>(kParams));
+        GetNiNode()->NiAVObject_Update(reinterpret_cast<NiUpdateData&>(kParams));
         BoundBox kBound;
         kBound.m_kBoundsBox = TESObjectREFR_GetOrientation();
         reinterpret_cast<NiPoint3&>(kBound.m_kCenter) = reinterpret_cast<const NiPoint3&>(*static_cast<const Actor*>(this)->GetPos());
@@ -39460,42 +39686,42 @@ void Actor::FUN_0056eab0()
         case 3: {
             NiPoint3 kSize = pkPackage->FUN_00413fc0();
             kSize.y = 0.01f;
-            FUN_004a3e00(m_kPoint2, kSize);
+            NI2HK(m_kPoint2, kSize);
             pkShape = new CenteredPointBounds(m_kPoint2);
             break;
         }
         case 1:
-            FUN_004a3e00(m_kPoint2, pkPackage->FUN_00413fc0());
+            NI2HK(m_kPoint2, pkPackage->FUN_00413fc0());
             pkShape = new CenteredPointBounds(m_kPoint2);
             break;
         case 2:
-            pkShape = new SphereShape(FUN_004a3e90(pkPackage->FUN_00413fc0().x), 0);
+            pkShape = new SphereShape(NI2HK_004a3e90(pkPackage->FUN_00413fc0().x), 0);
             break;
         }
         RigidBodyInfo kInfo;
         kInfo.bhkRigidBodyCinfo_SetShape(pkShape);
         unsigned int uiFilterInfo = 0x30000;
-        LayerHolder* pkLayer = reinterpret_cast<Process*>(FUN_005d43c0())->ExtraDataList_GetCollisionData();
+        LayerHolder* pkLayer = reinterpret_cast<Process*>(BSFile_GetDevice())->ExtraDataList_GetCollisionData();
         unsigned int uiLayer = pkLayer ? pkLayer->FUN_00559450() : 3;
         uiFilterInfo |= uiLayer;
         kInfo.bhkRigidBodyCinfo_SetCollisionFilter(uiFilterInfo);
         kInfo.bhkRigidBodyCinfo_SetMotionType(5);
         Motion* pkMotion = new Motion;
-        pkMotion->FUN_00519230(2, 1);
+        pkMotion->BSXFlags_SetFlags(2, 1);
         GetNiNode()->SetExtraDataName(pkMotion);
         RigidBody* pkBody = new RigidBody(kInfo);
         hkVector4 kTranslation;
         Quaternion kRotationBasis;
         hkVector4 kRotationRows;
         ((void (__thiscall *)(NiNode*, hkVector4&))FNV2062_NodeGetRotation)(GetNiNode(), kRotationRows);
-        FUN_004a3e00(kTranslation, *static_cast<const Actor*>(this)->GetPos());
-        FUN_00561500(kRotationBasis, kRotationRows);
+        NI2HK(kTranslation, *static_cast<const Actor*>(this)->GetPos());
+        NI2HK_00561500(kRotationBasis, kRotationRows);
         pkBody->SetTranslation(kTranslation);
         pkBody->SetRotation(kRotationBasis);
-        pkBody->FUN_00c85c10(GetNiNode(), 0);
+        pkBody->bhkWorldObject_SetAVObject(GetNiNode(), 0);
         pkBody->SetPhysicsWorld(pvWorld);
         Controller* pkController = new Controller(GetNiNode());
-        pkController->FUN_00c6b980(pkBody);
+        pkController->bhkNiCollisionObject_SetWorldObject(pkBody);
     }
 }
 
@@ -39529,14 +39755,14 @@ class UpdData
 class Obj011c3b3c
 {
   public:
-    bool FUN_00445750(Ref*);
-    void FUN_00444850(Ref*, void*);
+    bool ModelLoader_IsReferenceQueued(Ref*);
+    void ModelLoader_QueueReference(Ref*, void*);
 };
 
 class Obj011dea10
 {
   public:
-    void* FUN_00458be0(void*);
+    void* TES_GetCellPriority(void*);
 };
 
 class Obj011e0e80
@@ -39556,8 +39782,8 @@ extern "C" char DAT_011dea10;
 extern "C" char DAT_011e0e80;
 extern "C" char DAT_011ddf38;
 
-void __cdecl FUN_005ac190(Ref*, ExtraDataList*);
-bool __cdecl FUN_005ac750(Ref*, ExtraDataList*, unsigned int);
+void __cdecl Script_InitActionList(Ref*, ExtraDataList*);
+bool __cdecl Script_SetActionFlag(Ref*, ExtraDataList*, unsigned int);
 
 class Ref
 {
@@ -39707,11 +39933,11 @@ class Ref
     virtual void v142();
     virtual void v143();
     virtual void v144();
-    bool FUN_00444ed0();
+    bool TESObjectREFR_IsMarker();
     ObjRef* GetObjectReference();
     void* Get3DSimple();
     void Update(void*);
-    bool FUN_005651e0();
+    bool TESObjectREFR_HasTemp3D();
     bool IsDeleted();
     bool GetDisabled();
     ExtraDataList* GetExtraData();
@@ -39719,21 +39945,22 @@ class Ref
     void Actor_CreateDismemberedLimbs();
     void Actor_ApplyCriticalStage();
     void Actor_UpdateDismemberedLimbVel();
-    void FUN_0056f700();
+    void TESObjectREFR_UpdateReference3D();
 };
 
 // Updates the reference's 3D data and extra data, handling disabled or deleted states and calling global update functions.
 // @fnv 0x0056f700
-void Ref::FUN_0056f700()
+// src: XBOX_PDB 0x0056f700
+void Ref::TESObjectREFR_UpdateReference3D()
 {
     bool flag = false;
-    if (FUN_00444ed0() && GetObjectReference() && GetObjectReference()->GetFormType() != 0x1e)
+    if (TESObjectREFR_IsMarker() && GetObjectReference() && GetObjectReference()->GetFormType() != 0x1e)
     {
         flag = true;
     }
-    if (!Get3DSimple() || FUN_005651e0())
+    if (!Get3DSimple() || TESObjectREFR_HasTemp3D())
     {
-        if (!((Obj011c3b3c*)*(void**)&DAT_011c3b3c)->FUN_00445750(this) && !IsDeleted() && !flag)
+        if (!((Obj011c3b3c*)*(void**)&DAT_011c3b3c)->ModelLoader_IsReferenceQueued(this) && !IsDeleted() && !flag)
         {
             if (!GetDisabled())
             {
@@ -39747,14 +39974,14 @@ void Ref::FUN_0056f700()
                     }
                 }
                 ((Obj011c3b3c*)*(void**)&DAT_011c3b3c)
-                    ->FUN_00444850(this, ((Obj011dea10*)*(void**)&DAT_011dea10)->FUN_00458be0(GetTarget(0, 1)));
+                    ->ModelLoader_QueueReference(this, ((Obj011dea10*)*(void**)&DAT_011dea10)->TES_GetCellPriority(GetTarget(0, 1)));
             }
             else
             {
                 if (!((Obj011ddf38*)*(void**)&DAT_011ddf38)->IsLoading())
                 {
-                    FUN_005ac190(this, GetExtraData());
-                    FUN_005ac750(this, GetExtraData(), 0x1000);
+                    Script_InitActionList(this, GetExtraData());
+                    Script_SetActionFlag(this, GetExtraData(), 0x1000);
                 }
             }
         }
@@ -39804,7 +40031,7 @@ class Calendar
 };
 
 extern PlayerCharacter* pPlayer;
-TESObjectREFR* __fastcall FUN_009ad610(void* this_ptr);
+TESObjectREFR* __fastcall QUserData(void* this_ptr);
 
 struct NiAVObject_VTable
 {
@@ -39817,7 +40044,8 @@ struct NiAVObject_VTable
 
 // Checks fade-node results while following successive pointers; for a resolved reference with object form type 0x29, recurses using the next pointer.
 // @fnv 0x0056f930
-TESObjectREFR* __cdecl FUN_0056f930(NiAVObject* apAVObjectIn)
+// src: XBOX_PDB 0x0056f930
+TESObjectREFR* __cdecl TESObjectREFR_FindReferenceFor3D(NiAVObject* apAVObjectIn)
 {
     NiAVObject* p3D = apAVObjectIn;
     TESObjectREFR* pretref = 0;
@@ -39835,13 +40063,13 @@ TESObjectREFR* __cdecl FUN_0056f930(NiAVObject* apAVObjectIn)
         void* pfadenode = (*reinterpret_cast<NiAVObject_VTable**>(p3D))->GetFadeNode(p3D);
         if (pfadenode != 0)
         {
-            pretref = FUN_009ad610(pfadenode);
+            pretref = QUserData(pfadenode);
             if (pretref != 0)
             {
                 if (_FNV_GetObjectReference(pretref) != 0 && (_FNV_GetFormType)(_FNV_GetObjectReference(pretref)) == 0x29)
                 {
                     TESObjectREFR* pparentref =
-                        FUN_0056f930(reinterpret_cast<NiAVObject*>(reinterpret_cast<Calendar*>(p3D)->GetDaysPassed()));
+                        TESObjectREFR_FindReferenceFor3D(reinterpret_cast<NiAVObject*>(reinterpret_cast<Calendar*>(p3D)->GetDaysPassed()));
                     if (pparentref != 0)
                     {
                         pretref = pparentref;
@@ -39867,15 +40095,15 @@ struct ExtraListX
 };
 struct MgrX
 {
-    void FUN_006c0c30();
-    void FUN_006c0c80();
-    void FUN_006c1060();
+    void NavMeshObstacleManager_AddObstacleForReference();
+    void NavMeshObstacleManager_RemoveObstacleForReference();
+    void NavMeshObstacleManager_OnDoorRemove();
 };
 MgrX* __stdcall GetNavMeshObstacleManager(void* p);
-bool __cdecl FUN_008c7aa0();
+bool __cdecl AILinearTaskThreadManager_ShouldQueue3DTask();
 struct AuxX
 {
-    void FUN_0087b2b0();
+    void TaskQueueInterface_QueueHavokDetach();
 };
 AuxX* __stdcall FUN_004537b0(void* p);
 extern FormX* DAT_011ca238;
@@ -39996,54 +40224,55 @@ struct Obj570
     virtual void w22();
     virtual void w23();
     virtual void DoAlt();
-    FormX* FUN_007af430();
-    ExtraListX* FUN_005d43c0(int a);
-    void FUN_00571080(int flag);
-    void FUN_00570f70(int flag);
+    FormX* BGSSaveFormBuffer_GetForm();
+    ExtraListX* BSFile_GetDevice(int a);
+    void TESObjectREFR_Set3DVerySimple(int flag);
+    void TESObjectREFR_Set3DSimple(int flag);
 };
 
 // Selects manager calls for special objects, conditionally calls extra-list methods for two form pointers, dispatches a handler, then passes the flag onward.
 // @fnv 0x00570f70
-void Obj570::FUN_00570f70(int flag)
+// src: XBOX_PDB 0x00570f70
+void Obj570::TESObjectREFR_Set3DSimple(int flag)
 {
     if (IsSpecial())
     {
         if (flag)
         {
-            GetNavMeshObstacleManager(this)->FUN_006c0c30();
+            GetNavMeshObstacleManager(this)->NavMeshObstacleManager_AddObstacleForReference();
         }
         else
         {
-            GetNavMeshObstacleManager(this)->FUN_006c0c80();
+            GetNavMeshObstacleManager(this)->NavMeshObstacleManager_RemoveObstacleForReference();
         }
     }
     if (!flag)
     {
-        if (FUN_007af430())
+        if (BGSSaveFormBuffer_GetForm())
         {
-            if (FUN_007af430()->FUN_00401170() == 0x1c)
+            if (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 0x1c)
             {
-                GetNavMeshObstacleManager(this)->FUN_006c1060();
+                GetNavMeshObstacleManager(this)->NavMeshObstacleManager_OnDoorRemove();
             }
         }
     }
-    if (!flag && FUN_007af430() == DAT_011ca238)
+    if (!flag && BGSSaveFormBuffer_GetForm() == DAT_011ca238)
     {
-        FUN_005d43c0(0)->ExtraDataList_SetRoom();
+        BSFile_GetDevice(0)->ExtraDataList_SetRoom();
     }
-    else if (!flag && FUN_007af430() == DAT_011ca23c)
+    else if (!flag && BGSSaveFormBuffer_GetForm() == DAT_011ca23c)
     {
-        FUN_005d43c0(0)->ExtraDataList_SetPortal();
+        BSFile_GetDevice(0)->ExtraDataList_SetPortal();
     }
-    if (FUN_008c7aa0())
+    if (AILinearTaskThreadManager_ShouldQueue3DTask())
     {
-        FUN_004537b0(this)->FUN_0087b2b0();
+        FUN_004537b0(this)->TaskQueueInterface_QueueHavokDetach();
     }
     else
     {
         DoAlt();
     }
-    FUN_00571080(flag);
+    TESObjectREFR_Set3DVerySimple(flag);
 }
 }  // namespace fnv_00570f70
 
@@ -40055,10 +40284,10 @@ extern TESDataHandler* g_dataHandler;
 class Refr
 {
   public:
-    void* FUN_0084e3a0();
-    Refr* FUN_007af430();
+    void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+    Refr* BGSSaveFormBuffer_GetForm();
     int FUN_00401170();
-    bool FUN_00444ed0();
+    bool TESObjectREFR_IsMarker();
 };
 
 struct FUN_00572c80_shell
@@ -40071,10 +40300,10 @@ struct FUN_00572c80_shell
 // src: COMMUNITY 0x00572c80
 bool FUN_00572c80_shell::TESObjectREFR_CanBeMoved()
 {
-    if (g_dataHandler->FUN_00469860(((Refr*)this)->FUN_0084e3a0()))
+    if (g_dataHandler->FUN_00469860(((Refr*)this)->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
         return true;
 
-    switch (((Refr*)this)->FUN_007af430()->FUN_00401170())
+    switch (((Refr*)this)->BGSSaveFormBuffer_GetForm()->FUN_00401170())
     {
     case 0x21:
     case 0x25:
@@ -40082,7 +40311,7 @@ bool FUN_00572c80_shell::TESObjectREFR_CanBeMoved()
     case 0x27:
         return false;
     case 0x20:
-        if (!((Refr*)this)->FUN_00444ed0())
+        if (!((Refr*)this)->TESObjectREFR_IsMarker())
             return false;
         break;
     }
@@ -40094,20 +40323,21 @@ namespace s572e10 {
 
 struct Entry
 {
-    int FUN_0041b4b0();
+    int ExtraDataList_SetActionRef();
 };
 
 struct Owner
 {
-    Entry* FUN_005d43c0(int iKey);
-    int FUN_00572e10(int iKey);
+    Entry* BSFile_GetDevice(int iKey);
+    int TESObjectREFR_SetActionRef(int iKey);
 };
 
 // Looks up an Entry by iKey via FUN_005d43c0 and returns the result of calling FUN_0041b4b0 on that entry.
 // @fnv 0x00572e10
-int Owner::FUN_00572e10(int iKey)
+// src: XBOX_PDB 0x00572e10
+int Owner::TESObjectREFR_SetActionRef(int iKey)
 {
-    return FUN_005d43c0(iKey)->FUN_0041b4b0();
+    return BSFile_GetDevice(iKey)->ExtraDataList_SetActionRef();
 }
 
 }
@@ -40798,13 +41028,14 @@ struct Process
 
 // Returns -1 when the package pointer is null; otherwise returns the result of FUN_0044edb0.
 // @fnv 0x005730d0
-int Actor::FUN_005730d0()
+// src: XBOX_PDB 0x005730d0
+int Actor::TESObjectREFR_GetCauseofDeath()
 {
     using namespace s5730d0;
     using s5730d0::Package;
     using s5730d0::Process;
     int iType = -1;
-    Package* pkPackage = reinterpret_cast<Process*>(FUN_005d43c0())->FUN_0042e8c0();
+    Package* pkPackage = reinterpret_cast<Process*>(BSFile_GetDevice())->FUN_0042e8c0();
     if (pkPackage)
         iType = pkPackage->TESMain_GetThread();
     return iType;
@@ -40848,26 +41079,26 @@ struct F
 struct C
 {
     void TESObjectCELL_RemoveScriptedReference(R*);
-    bool FUN_00450ff0();
+    bool TESObjectCELL_GetAttached();
 };
 struct G
 {
     bool FUN_004511e0(C*, int);
-    void* FUN_00458be0(C*, int);
+    void* TES_GetCellPriority(C*, int);
 };
 struct H
 {
-    bool FUN_00445750(R*);
-    void FUN_00444850(R*, void*, int);
+    bool ModelLoader_IsReferenceQueued(R*);
+    void ModelLoader_QueueReference(R*, void*, int);
 };
 struct M
 {
-    void FUN_0096d450(R*, int, bool, bool, R*);
+    void ProcessLists_AddReference(R*, int, bool, bool, R*);
     void FUN_0096e870(R*);
 };
 struct Q
 {
-    void FUN_00952c30(R*);
+    void PlayerCharacter_CheckForQuestTargetUpdate(R*);
 };
 struct S
 {
@@ -41035,36 +41266,37 @@ struct R
     virtual void v151(float);
     virtual void v152();
     bool FUN_00440da0();
-    void FUN_00484af0(int);
+    void TESForm_SetDisabled(int);
     C* FUN_008d6f30();
-    E* FUN_005d43c0();
-    F* FUN_007af430();
+    E* BSFile_GetDevice();
+    F* BGSSaveFormBuffer_GetForm();
     P* FUN_008d8520();
     void FUN_00407800(FUN_00906dc0*);
-    void FUN_00579ac0(bool);
+    void TESObjectREFR_AttachSound(bool);
     bool FUN_00440d80();
-    bool FUN_00444ed0();
+    bool TESObjectREFR_IsMarker();
     N* TESObjectREFR_GetLight();
-    void FUN_008a6ce0(int, int);
-    float FUN_0056b190();
+    void Actor_EvaluatePackage(int, int);
+    float TESObjectREFR_GetRadioStationRadius();
     L* TESObjectREFR_GetEnableStateChildList();
     bool FUN_0056aa70();
     void TESObjectREFR_Disable();
-    void FUN_0056c780(bool);
-    void FUN_00573f40();
+    void TESForm_SetDisableFade(bool);
+    void TESObjectREFR_Enable();
 };
 // @fnv 0x00573f40
-void R::FUN_00573f40()
+// src: XBOX_PDB 0x00573f40
+void R::TESObjectREFR_Enable()
 {
     if (FUN_00440da0())
     {
         v50(true);
-        FUN_00484af0(0);
+        TESForm_SetDisabled(0);
         if (FUN_008d6f30() && v64())
             FUN_008d6f30()->TESObjectCELL_RemoveScriptedReference(this);
-        R* i = FUN_005d43c0()->ExtraDataList_GetAshPileRef();
-        if (i && FUN_007af430() != *(F**)&DAT_011ca27c && FUN_007af430() != *(F**)&DAT_011ca280)
-            i->FUN_00573f40();
+        R* i = BSFile_GetDevice()->ExtraDataList_GetAshPileRef();
+        if (i && BGSSaveFormBuffer_GetForm() != *(F**)&DAT_011ca27c && BGSSaveFormBuffer_GetForm() != *(F**)&DAT_011ca280)
+            i->TESObjectREFR_Enable();
         if (v64())
             v130(true);
         R* p = 0;
@@ -41073,21 +41305,21 @@ void R::FUN_00573f40()
         if (p && !p->FUN_008d8520())
         {
             p->FUN_00407800(new FUN_00906dc0);
-            ((M*)&DAT_011e0e80)->FUN_0096d450(p, 3, false, false, 0);
+            ((M*)&DAT_011e0e80)->ProcessLists_AddReference(p, 3, false, false, 0);
         }
         bool h = false;
         if (FUN_008d6f30() && (*(G**)&DAT_011dea10)->FUN_004511e0(FUN_008d6f30(), 0) && !v116() &&
-            !(*(H**)&DAT_011c3b3c)->FUN_00445750(this))
+            !(*(H**)&DAT_011c3b3c)->ModelLoader_IsReferenceQueued(this))
         {
             h = true;
             if (p && p->v64())
                 ((M*)&DAT_011e0e80)->FUN_0096e870(p);
-            if (FUN_008d6f30()->FUN_00450ff0())
-                FUN_00579ac0(true);
-            if (!FUN_00440d80() && FUN_007af430() &&
-                (FUN_007af430()->FUN_00401170() == 30 || FUN_007af430()->FUN_00401170() == 21 || !FUN_00444ed0()))
-                (*(H**)&DAT_011c3b3c)->FUN_00444850(this, (*(G**)&DAT_011dea10)->FUN_00458be0(FUN_008d6f30(), 0), 0);
-            if (FUN_008d6f30()->FUN_00450ff0() && v116() && FUN_007af430() && FUN_007af430()->FUN_00401170() == 30)
+            if (FUN_008d6f30()->TESObjectCELL_GetAttached())
+                TESObjectREFR_AttachSound(true);
+            if (!FUN_00440d80() && BGSSaveFormBuffer_GetForm() &&
+                (BGSSaveFormBuffer_GetForm()->FUN_00401170() == 30 || BGSSaveFormBuffer_GetForm()->FUN_00401170() == 21 || !TESObjectREFR_IsMarker()))
+                (*(H**)&DAT_011c3b3c)->ModelLoader_QueueReference(this, (*(G**)&DAT_011dea10)->TES_GetCellPriority(FUN_008d6f30(), 0), 0);
+            if (FUN_008d6f30()->TESObjectCELL_GetAttached() && v116() && BGSSaveFormBuffer_GetForm() && BGSSaveFormBuffer_GetForm()->FUN_00401170() == 30)
             {
                 N* node = TESObjectREFR_GetLight();
                 if (node && node->FUN_00559450())
@@ -41104,13 +41336,13 @@ void R::FUN_00573f40()
             if (actor2 && actor2->FUN_008d8520())
             {
                 actor2->FUN_008d8520()->p5(actor2, true);
-                actor2->FUN_008a6ce0(0, 1);
+                actor2->Actor_EvaluatePackage(0, 1);
                 if (actor2->FUN_008d8520()->FUN_0045cd60())
                     actor2->v151(0.0f);
             }
         }
-        (*(Q**)&DAT_011dea3c)->FUN_00952c30(this);
-        if (FUN_0056b190() > 0.0)
+        (*(Q**)&DAT_011dea3c)->PlayerCharacter_CheckForQuestTargetUpdate(this);
+        if (TESObjectREFR_GetRadioStationRadius() > 0.0)
             FalloutRadio_NewCellEntered();
         L* a = TESObjectREFR_GetEnableStateChildList();
         while (a && !a->FUN_008256d0())
@@ -41118,15 +41350,15 @@ void R::FUN_00573f40()
             R* item = *a->FUN_006815c0();
             if (item->FUN_0056aa70())
             {
-                if (item->FUN_005d43c0()->ExtraDataList_ShouldPopOutWhenDisabledByParent())
+                if (item->BSFile_GetDevice()->ExtraDataList_ShouldPopOutWhenDisabledByParent())
                     ;
                 item->TESObjectREFR_Disable();
             }
             else
             {
-                if (item->FUN_005d43c0()->ExtraDataList_ShouldPopInWhenEnabledByParent())
-                    item->FUN_0056c780(true);
-                item->FUN_00573f40();
+                if (item->BSFile_GetDevice()->ExtraDataList_ShouldPopInWhenEnabledByParent())
+                    item->TESForm_SetDisableFade(true);
+                item->TESObjectREFR_Enable();
             }
             a = a->FUN_00726070();
         }
@@ -41176,11 +41408,11 @@ struct Inv
     int kCreateReferenceCallAddr(S*, Item*, bool, int, void*, bool, int, int, int, bool, bool, int);
 };
 extern "C" char DAT_011dea3c;
-extern bool FUN_005ac750(S*, void*, int);
+extern bool Script_SetActionFlag(S*, void*, int);
 extern Inv* FUN_004bf220(S*);
 extern bool FUN_00705020();
 extern bool FUN_00705000();
-extern bool FUN_00702360();
+extern bool Interface_IsInMenuMode();
 struct S
 {
     virtual void a0(), a1(), a2(), a3(), a4(), a5(), a6(), a7(), a8(), a9();
@@ -41213,31 +41445,32 @@ struct S
     virtual void a220(), a221(), a222(), a223(), a224(), a225(), a226(), a227(), a228(), a229();
     virtual void a230(), a231(), a232(), a233(), a234(), a235(), a236(), a237(), a238();
     virtual Entry* entry(int);
-    void* FUN_0055d310();
+    void* TESObjectREFR_HasContainer();
     Cell* FUN_008d6f30();
-    bool FUN_005656d0();
+    bool TESObjectREFR_HasScript();
     int FUN_00575610(Weapon*);
     void PlayerCharacter_ReturnRockItAmmo();
     Process* FUN_008d8520();
-    bool FUN_00493bb0();
+    bool Actor_IsInCombat();
     bool FUN_00566950();
-    void FUN_0088c830(Item*, int, void*, bool, bool, bool);
-    void FUN_0088c650(Item*, int, void*, bool, bool, bool);
-    int FUN_005750a0(Item*, void*, int, bool, bool, int, int, int, bool, bool);
+    void Actor_EquipObject(Item*, int, void*, bool, bool, bool);
+    void Actor_QueueEquipObject(Item*, int, void*, bool, bool, bool);
+    int TESObjectREFR_RemoveItem(Item*, void*, int, bool, bool, int, int, int, bool, bool);
 };
 // @fnv 0x005750a0
-int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, int p1, int p2, int p3, bool b3, bool b4)
+// src: XBOX_PDB 0x005750a0
+int S::TESObjectREFR_RemoveItem(Item* arg, void* extra, int count, bool b1, bool b2, int p1, int p2, int p3, bool b3, bool b4)
 {
     int result2 = 0;
     if (!arg)
         return 0;
-    void* container7 = FUN_0055d310();
+    void* container7 = TESObjectREFR_HasContainer();
     if (container7)
     {
         bool changedVal = false;
         if (!isactor() && FUN_008d6f30())
-            changedVal = FUN_005656d0();
-        FUN_005ac750(this, extra, 4);
+            changedVal = TESObjectREFR_HasScript();
+        Script_SetActionFlag(this, extra, 4);
         Inv* inventory9 = FUN_004bf220(this);
         result2 = inventory9->kCreateReferenceCallAddr(this, arg, b1, count, extra, b2, p1, p2, p3, b3, b4, 0);
         if (isactor())
@@ -41253,20 +41486,20 @@ int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, int p1,
                 !FUN_00705000())
             {
                 actor->FUN_008d8520()->update(arg, extra);
-                if (arg->FUN_00401170() == 40 && !actor->FUN_00493bb0())
+                if (arg->FUN_00401170() == 40 && !actor->Actor_IsInCombat())
                 {
                     Entry* item = actor->entry(6);
                     if (item)
                     {
-                        if (FUN_00702360() && actor->FUN_00566950())
-                            actor->FUN_0088c830(item->FUN_0044ddc0(), 1, 0, true, false, true);
+                        if (Interface_IsInMenuMode() && actor->FUN_00566950())
+                            actor->Actor_EquipObject(item->FUN_0044ddc0(), 1, 0, true, false, true);
                         else
-                            actor->FUN_0088c650(item->FUN_0044ddc0(), 1, 0, true, false, true);
+                            actor->Actor_QueueEquipObject(item->FUN_0044ddc0(), 1, 0, true, false, true);
                     }
                 }
             }
         }
-        if (changedVal && !FUN_005656d0())
+        if (changedVal && !TESObjectREFR_HasScript())
             FUN_008d6f30()->TESObjectCELL_RemoveScriptedReference(this);
     }
     return result2;
@@ -41279,7 +41512,7 @@ struct Obj4bf
 };
 struct Thing575
 {
-    void* FUN_0055d310();
+    void* TESObjectREFR_HasContainer();
     bool TESObjectREFR_WearingObject(int a);
 };
 Obj4bf* FUN_004bf220(Thing575* t);
@@ -41288,7 +41521,7 @@ Obj4bf* FUN_004bf220(Thing575* t);
 // src: COMMUNITY 0x00575400
 bool Thing575::TESObjectREFR_WearingObject(int a)
 {
-    void* p = FUN_0055d310();
+    void* p = TESObjectREFR_HasContainer();
     bool result = false;
     if (p)
     {
@@ -41302,42 +41535,43 @@ bool Thing575::TESObjectREFR_WearingObject(int a)
 namespace fnv_00575590 {
 struct Global
 {
-    int FUN_00740960();
+    int TESDataHandler_GetBarterContainer();
 };
 extern Global* DAT_011c3f2c;
 
 struct Obj
 {
-    int FUN_004c8fd0(unsigned char value);
+    int GetCount_004c8fd0(unsigned char value);
 };
 
 struct Thing
 {
-    int FUN_0055d310();
-    int FUN_00575590(unsigned char flag, unsigned char value);
+    int TESObjectREFR_HasContainer();
+    int TESObjectREFR_GetInventoryCount(unsigned char flag, unsigned char value);
 };
 
 extern "C" void* FUN_004bf220(void* self);
 
 // If FUN_0055d310 is nonzero, calls FUN_004c8fd0 on the selected object and returns its result minus one; otherwise returns -2.
 // @fnv 0x00575590
-int Thing::FUN_00575590(unsigned char abUseGlobal, unsigned char value)
+// src: XBOX_PDB 0x00575590
+int Thing::TESObjectREFR_GetInventoryCount(unsigned char abUseGlobal, unsigned char value)
 {
-    int result = FUN_0055d310();
+    int result = TESObjectREFR_HasContainer();
     int out = -1;
     if (result != 0)
     {
         int inv = 0;
         if (abUseGlobal != 0)
         {
-            inv = DAT_011c3f2c->FUN_00740960();
+            inv = DAT_011c3f2c->TESDataHandler_GetBarterContainer();
         }
         else
         {
             inv = (int)FUN_004bf220(this);
         }
         out = 0;
-        out = ((Obj*)inv)->FUN_004c8fd0(value);
+        out = ((Obj*)inv)->GetCount_004c8fd0(value);
     }
     return out - 1;
 }
@@ -41352,7 +41586,7 @@ struct Package
 
 struct Process
 {
-    Package* FUN_0041d460();
+    Package* ExtraDataList_GetPersistentCell();
 };
 
 struct Owner
@@ -41375,13 +41609,14 @@ struct Owner
     int unk03c;
     Package* m_pkPackage;
 
-    Process* FUN_005d43c0();
-    Package* FUN_00575ca0();
+    Process* BSFile_GetDevice();
+    Package* TESObjectREFR_GetSpace();
 };
 
 // Returns FUN_0054ddd0's result when non-null, otherwise m_pkPackage; without m_pkPackage, returns that result for the process package or null.
 // @fnv 0x00575ca0
-Package* Owner::FUN_00575ca0()
+// src: XBOX_PDB 0x00575ca0
+Package* Owner::TESObjectREFR_GetSpace()
 {
     if (m_pkPackage)
     {
@@ -41391,7 +41626,7 @@ Package* Owner::FUN_00575ca0()
         else
             return m_pkPackage;
     }
-    Package* pkProcessPackage = FUN_005d43c0()->FUN_0041d460();
+    Package* pkProcessPackage = BSFile_GetDevice()->ExtraDataList_GetPersistentCell();
     return pkProcessPackage ? pkProcessPackage->FUN_0054ddd0() : 0;
 }
 
@@ -41434,8 +41669,8 @@ class FUN_00575e30_cls
     virtual void v40();
     virtual void v44();
     virtual void v48(unsigned int);
-    FUN_00575e30_mid* FUN_005d43c0(unsigned int a);
-    FUN_00575e30_mid* FUN_005d43c0(void* a);
+    FUN_00575e30_mid* BSFile_GetDevice(unsigned int a);
+    FUN_00575e30_mid* BSFile_GetDevice(void* a);
     void* TESObjectREFR_GetMagicCaster();
 };
 // @fnv 0x00575e30
@@ -41443,11 +41678,11 @@ class FUN_00575e30_cls
 void* FUN_00575e30_cls::TESObjectREFR_GetMagicCaster()
 {
     void* z = 0;
-    z = dynamic_cast<NonActorMagicCaster*>(FUN_005d43c0(0x32u)->BaseExtraList_GetExtraData());
+    z = dynamic_cast<NonActorMagicCaster*>(BSFile_GetDevice(0x32u)->BaseExtraList_GetExtraData());
     if (z == 0)
     {
         z = new FUN_00575e30_thing(this);
-        FUN_005d43c0(z)->BaseExtraList_AddExtra();
+        BSFile_GetDevice(z)->BaseExtraList_AddExtra();
         v48(0x80000000);
     }
     return z != 0 ? (char*)z + 0xc : 0;
@@ -41464,7 +41699,7 @@ extern PlayerCharacter* g_thePlayer;
 class ItemData
 {
   public:
-    float FUN_004d0900(bool arg);
+    float InventoryChanges_GetInventoryWeight(bool arg);
 };
 
 class Container
@@ -41547,25 +41782,26 @@ struct FUN_00577250_shell
     virtual void vFc();
     virtual bool FUN_00vfn100();
 
-    Container* FUN_0055d310();
-    ExtraList* FUN_005d43c0();
-    float FUN_008a0c20();
+    Container* TESObjectREFR_HasContainer();
+    ExtraList* BSFile_GetDevice();
+    float Actor_GetMaxCarryWeight();
 
-    float FUN_00577250(bool arg);
+    float TESObjectREFR_GetWeightInContainer(bool arg);
 };
 
 // @fnv 0x00577250
-float FUN_00577250_shell::FUN_00577250(bool arg)
+// src: XBOX_PDB 0x00577250
+float FUN_00577250_shell::TESObjectREFR_GetWeightInContainer(bool arg)
 {
     float value = 0.0f;
 
-    if (FUN_0055d310())
+    if (TESObjectREFR_HasContainer())
     {
-        ItemData* item = FUN_005d43c0()->FUN_00418520();
+        ItemData* item = BSFile_GetDevice()->FUN_00418520();
         if (item)
-            value = item->FUN_004d0900(arg);
+            value = item->InventoryChanges_GetInventoryWeight(arg);
         else
-            value = FUN_0055d310()->FUN_00481e10(arg);
+            value = TESObjectREFR_HasContainer()->FUN_00481e10(arg);
     }
 
     if (FUN_00vfn100())
@@ -41573,8 +41809,8 @@ float FUN_00577250_shell::FUN_00577250(bool arg)
         if (this != (FUN_00577250_shell*)g_thePlayer)
         {
             FUN_00577250_shell* self = this;
-            if (value > self->FUN_008a0c20())
-                value = self->FUN_008a0c20();
+            if (value > self->Actor_GetMaxCarryWeight())
+                value = self->Actor_GetMaxCarryWeight();
         }
         else
         {
@@ -41597,16 +41833,17 @@ Info* FUN_004bf220(Owner* pkOwner);
 
 struct Owner
 {
-    void* FUN_0055d310();
-    bool FUN_00577de0();
+    void* TESObjectREFR_HasContainer();
+    bool TESObjectREFR_HasQuestObject();
 };
 
 // Returns true if the owner has data and its Info object reports a positive result from FUN_004d0360.
 // @fnv 0x00577de0
-bool Owner::FUN_00577de0()
+// src: XBOX_PDB 0x00577de0
+bool Owner::TESObjectREFR_HasQuestObject()
 {
     bool bResult = false;
-    void* pvData = FUN_0055d310();
+    void* pvData = TESObjectREFR_HasContainer();
     if (pvData)
     {
         Info* pkInfo = FUN_004bf220(this);
@@ -41690,9 +41927,9 @@ struct TraversalNode
     unsigned int FUN_0043b480();
     TraversalNode* FUN_0043b4a0(unsigned int);
     NiFixedString& GetName();
-    unsigned int FUN_009ee040();
-    void FUN_004902f0(bool);
-    void FUN_00576660(int);
+    unsigned int DialoguePackage_GetActorStartedConversation();
+    void NiAVObject_SetSelectiveUpdate(bool);
+    void NiAVObject_SetSelectiveUpdateRigid(int);
 };
 struct AddonModel
 {
@@ -41813,19 +42050,20 @@ struct TraversalHandler
 {
     TraversalAddon* FUN_004617e0(unsigned int);
 };
-bool FUN_0043b300(const void*, TraversalNode*);
+bool NiObject_IsKindOf(const void*, TraversalNode*);
 extern const char DAT_01030f08[];
 extern "C" int FUN_00ec8a19(const char*, const char*, unsigned int);
 unsigned int DialogueRandom();
-void FUN_005784f0(TraversalNode*, float);
+void TESObjectREFR_RandomizeAddons(TraversalNode*, float);
 // Recursively checks child nodes, may remove or attach nodes, and calls two node methods when a change is recorded.
 // @fnv 0x00577e20
-bool __cdecl FUN_00577e20(TraversalNode* node)
+// src: XBOX_PDB 0x00577e20
+bool __cdecl TESObjectREFR_AddAddonNodes(TraversalNode* node)
 {
     if (!node)
         return false;
     bool changed = false;
-    if (FUN_0043b300(&DAT_01202de8, node))
+    if (NiObject_IsKindOf(&DAT_01202de8, node))
     {
         TraversalNode* root = node;
         for (unsigned int i = 0; i < node->FUN_0043b480(); i++)
@@ -41838,7 +42076,7 @@ bool __cdecl FUN_00577e20(TraversalNode* node)
                     sub->Remove(i);
             }
         }
-        TraversalAddon* addon = ((TraversalHandler*)DAT_011c3f2c)->FUN_004617e0(root->FUN_009ee040());
+        TraversalAddon* addon = ((TraversalHandler*)DAT_011c3f2c)->FUN_004617e0(root->DialoguePackage_GetActorStartedConversation());
         if (addon && addon->model.FUN_0048cee0() && !addon->FUN_00448bf0())
         {
             TraversalNode* pAddedNode = addon->CalculateNode(0);
@@ -41846,9 +42084,9 @@ bool __cdecl FUN_00577e20(TraversalNode* node)
             {
                 XNode* geometry = pAddedNode->AsGeometry();
                 if (geometry)
-                    geometry->FUN_0056c7d0(0);
+                    geometry->BSFadeNode_SetUserData(0);
                 float phase = (DialogueRandom() % 1000) / 100.0;
-                FUN_005784f0(pAddedNode, phase);
+                TESObjectREFR_RandomizeAddons(pAddedNode, phase);
                 node->Attach(pAddedNode, true);
                 changed = true;
             }
@@ -41861,13 +42099,13 @@ bool __cdecl FUN_00577e20(TraversalNode* node)
         {
             TraversalNode* pSubNode2 = child2->AsNode();
             if (pSubNode2)
-                changed |= FUN_00577e20(pSubNode2);
+                changed |= TESObjectREFR_AddAddonNodes(pSubNode2);
         }
     }
     if (changed)
     {
-        node->FUN_004902f0(true);
-        node->FUN_00576660(0);
+        node->NiAVObject_SetSelectiveUpdate(true);
+        node->NiAVObject_SetSelectiveUpdateRigid(0);
     }
     return changed;
 }
@@ -41877,20 +42115,21 @@ namespace fnv_00578a30 {
 extern TESSaveLoadGame* DAT_011de45c;
 struct Sub
 {
-    int FUN_004228f0();
-    void FUN_00422850(int arg);
+    int ExtraDataList_GetLastFinishedSequence();
+    void ExtraDataList_SetLastFinishedSequence(int arg);
 };
 struct Thing
 {
-    Sub* FUN_005d43c0();
-    void FUN_00578a30(int arg);
+    Sub* BSFile_GetDevice();
+    void TESObjectREFR_SetLastFinishedSequence(int arg);
 };
 // @fnv 0x00578a30
-void Thing::FUN_00578a30(int aiValue)
+// src: XBOX_PDB 0x00578a30
+void Thing::TESObjectREFR_SetLastFinishedSequence(int aiValue)
 {
-    if (!(DAT_011de45c->FUN_0047c850() && FUN_005d43c0()->FUN_004228f0() != 0))
+    if (!(DAT_011de45c->FUN_0047c850() && BSFile_GetDevice()->ExtraDataList_GetLastFinishedSequence() != 0))
     {
-        FUN_005d43c0()->FUN_00422850(aiValue);
+        BSFile_GetDevice()->ExtraDataList_SetLastFinishedSequence(aiValue);
     }
 }
 }  // namespace fnv_00578a30
@@ -41902,7 +42141,7 @@ class BoundForm
     unsigned int FUN_00401170();
     bool FUN_005093f0();
     bool FUN_00509420();
-    bool FUN_0046f070();
+    bool GetCanCarry();
 };
 class ActorData
 {
@@ -42084,27 +42323,28 @@ class ReferenceView
     unsigned int unk1c;
     BoundForm* baseForm;
     bool FUN_00477ba0();
-    BoundForm* FUN_007af430();
-    const char* FUN_0055d520();
-    int FUN_004f8960();
-    bool FUN_00579670();
+    BoundForm* BGSSaveFormBuffer_GetForm();
+    const char* TESObjectREFR_GetFullName();
+    int GameSettingCollection_File();
+    bool Actor_IsSleeping();
     bool FUN_0047c850();
-    bool FUN_0087f3d0();
+    bool GetEssential();
     bool FUN_004997b0();
     bool FUN_00566950();
     ActorBaseData* FUN_004181e0();
-    int FUN_00579280();
+    int TESObjectREFR_GetTargetType();
 };
 extern ReferenceView* g_thePlayer;
-unsigned int FUN_0044a670(const char* text);
-int FUN_00579620(BoundForm* form);
+unsigned int BSstrlen(const char* text);
+int TESFullName_GetFullNameLength(BoundForm* form);
 
 // @fnv 0x00579280
-int ReferenceView::FUN_00579280()
+// src: XBOX_PDB 0x00579280
+int ReferenceView::TESObjectREFR_GetTargetType()
 {
     if (!IsActor() && FUN_00477ba0())
         return 0;
-    switch (FUN_007af430()->FUN_00401170())
+    switch (BGSSaveFormBuffer_GetForm()->FUN_00401170())
     {
     case 35:
         return 14;
@@ -42130,11 +42370,11 @@ int ReferenceView::FUN_00579280()
     case 27:
         return 2;
     case 28:
-        return FUN_0044a670(FUN_0055d520()) > 0 ? 8 : 0;
+        return BSstrlen(TESObjectREFR_GetFullName()) > 0 ? 8 : 0;
     case 38:
         return 1;
     case 21:
-        return FUN_00579620(baseForm) ? 4 : 0;
+        return TESFullName_GetFullNameLength(baseForm) ? 4 : 0;
     case 39:
         if (baseForm->FUN_005093f0())
             return 3;
@@ -42148,19 +42388,19 @@ int ReferenceView::FUN_00579280()
             actor = this;
         if (actor == g_thePlayer)
             return 0;
-        if (IsDead(0) && actor->FUN_004f8960() != 6)
+        if (IsDead(0) && actor->GameSettingCollection_File() != 6)
         {
             return 2;
         }
-        else if (actor && actor->FUN_00579670() && g_thePlayer->FUN_0047c850())
+        else if (actor && actor->Actor_IsSleeping() && g_thePlayer->FUN_0047c850())
         {
             return 11;
         }
-        else if (actor && actor->FUN_0087f3d0())
+        else if (actor && actor->GetEssential())
         {
             return 10;
         }
-        else if (g_thePlayer->FUN_004997b0() && FUN_007af430()->FUN_00401170() != 22)
+        else if (g_thePlayer->FUN_004997b0() && BGSSaveFormBuffer_GetForm()->FUN_00401170() != 22)
         {
             return 1;
         }
@@ -42175,13 +42415,13 @@ int ReferenceView::FUN_00579280()
             actor2 = this;
         if (actor2)
         {
-            if (IsDead(0) && (!actor2->FUN_00566950() || actor2->FUN_004f8960() != 6))
+            if (IsDead(0) && (!actor2->FUN_00566950() || actor2->GameSettingCollection_File() != 6))
             {
                 return 2;
             }
             else if (actor2->FUN_004181e0()->actorData.IsEssential())
             {
-                if (actor2->FUN_0087f3d0())
+                if (actor2->GetEssential())
                 {
                     return 10;
                 }
@@ -42195,7 +42435,7 @@ int ReferenceView::FUN_00579280()
         return 0;
     }
     case 30:
-        if (baseForm->FUN_0046f070())
+        if (baseForm->GetCanCarry())
             return 1;
     case 23:
         return 4;
@@ -42253,7 +42493,7 @@ bool __fastcall FUN_00477ba0(void*);
 // src: COMMUNITY 0x0057a370
 bool FUN_0057a370_shell::TESObjectREFR_ShouldPlaySound()
 {
-    if (reinterpret_cast<Actor*>(this)->FUN_00437b90())
+    if (reinterpret_cast<Actor*>(this)->TESForm_GetDisabledOrDeleted())
         return false;
     if ((::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x1c && ::FUN_00477ba0(this))
         return false;
@@ -42274,7 +42514,7 @@ struct Vec2
 struct TObject;
 struct RetObj
 {
-    void FUN_00a59c60(TObject* p);
+    void NiAVObject_Update(TObject* p);
 };
 RetObj* FUN_00450b80(int a);
 struct TObject
@@ -42354,8 +42594,8 @@ struct DObj
 };
 struct MidObj
 {
-    NiPoint3* FUN_0045bb80();
-    void* FUN_006a9540();
+    NiPoint3* NiAVObject_GetWorldTranslate();
+    void* NiAVObject_GetRotate_006a9540();
 };
 struct AObj
 {
@@ -42366,20 +42606,20 @@ struct AObj
     virtual void av4();
     virtual void* GetVec5(NiPoint3* v);
     NiPoint3* FUN_00413fc0(NiPoint3* out);
-    MidObj* FUN_0056c7f0();
+    MidObj* GetModel_0056c7f0();
 };
 struct XObj
 {
-    AObj* FUN_0041fbe0();
+    AObj* ExtraDataList_GetPrimitive();
     BObj* ExtraDataList_GetOcclusionShape();
-    BObj* FUN_00420dd0();
+    BObj* ExtraDataList_GetPortal();
     CObj* ExtraDataList_GetRoom();
     DObj* ExtraDataList_GetMultiBound();
 };
 struct This57
 {
-    XObj* FUN_005d43c0();
-    int FUN_007af430();
+    XObj* BSFile_GetDevice();
+    int BGSSaveFormBuffer_GetForm();
     NiPoint3* FUN_00430830();
     void TESObjectREFR_FixAttachedBSObjectSizeAndTransform();
 };
@@ -42407,42 +42647,42 @@ void This57::TESObjectREFR_FixAttachedBSObjectSizeAndTransform()
     BObj* b9;
     AObj* objTmp;
     TObject t_;
-    objTmp = FUN_005d43c0()->FUN_0041fbe0();
+    objTmp = BSFile_GetDevice()->ExtraDataList_GetPrimitive();
     if (objTmp == 0)
         return;
-    if (FUN_007af430() == DAT_011ca234 || FUN_007af430() == DAT_011ca23c)
+    if (BGSSaveFormBuffer_GetForm() == DAT_011ca234 || BGSSaveFormBuffer_GetForm() == DAT_011ca23c)
     {
         b9 = 0;
-        if (FUN_007af430() == DAT_011ca234)
+        if (BGSSaveFormBuffer_GetForm() == DAT_011ca234)
         {
-            b9 = FUN_005d43c0()->ExtraDataList_GetOcclusionShape();
+            b9 = BSFile_GetDevice()->ExtraDataList_GetOcclusionShape();
         }
         else
         {
-            b9 = FUN_005d43c0()->FUN_00420dd0();
+            b9 = BSFile_GetDevice()->ExtraDataList_GetPortal();
         }
         if (b9 != 0)
         {
             b9->BSOcclusionPlane_SetHalfExtents(result.FUN_00452dc0(objTmp->FUN_00413fc0(&(*reinterpret_cast<NiPoint3*>(tmpBA)))->x, objTmp->FUN_00413fc0(&(*reinterpret_cast<NiPoint3*>(tmpA5)))->z));
-            b9->BSOcclusionPlane_SetCenter(objTmp->FUN_0056c7f0()->FUN_0045bb80());
-            b9->BSOcclusionPlane_SetRotation(objTmp->FUN_0056c7f0()->FUN_006a9540());
+            b9->BSOcclusionPlane_SetCenter(objTmp->GetModel_0056c7f0()->NiAVObject_GetWorldTranslate());
+            b9->BSOcclusionPlane_SetRotation(objTmp->GetModel_0056c7f0()->NiAVObject_GetRotate_006a9540());
         }
     }
-    else if (FUN_007af430() == DAT_011ca238 || FUN_007af430() == DAT_011ca230)
+    else if (BGSSaveFormBuffer_GetForm() == DAT_011ca238 || BGSSaveFormBuffer_GetForm() == DAT_011ca230)
     {
         d_ = 0;
         aC = 0;
         unkVal = 0;
-        if (FUN_007af430() == DAT_011ca238)
+        if (BGSSaveFormBuffer_GetForm() == DAT_011ca238)
         {
-            aC = FUN_005d43c0()->ExtraDataList_GetRoom();
+            aC = BSFile_GetDevice()->ExtraDataList_GetRoom();
             if (aC == 0)
                 return;
             d_ = aC->FUN_006629f0();
         }
         else
         {
-            d_ = FUN_005d43c0()->ExtraDataList_GetMultiBound();
+            d_ = BSFile_GetDevice()->ExtraDataList_GetMultiBound();
         }
         if (d_ != 0)
         {
@@ -42450,7 +42690,7 @@ void This57::TESObjectREFR_FixAttachedBSObjectSizeAndTransform()
             if (e3 != 0)
             {
                 objTmp->FUN_00413fc0(&(*reinterpret_cast<NiPoint3*>(aOut30)));
-                (*reinterpret_cast<NiPoint3*>(vec1_2)) = *reinterpret_cast<const NiPoint3*>(objTmp->FUN_0056c7f0()->FUN_0045bb80());
+                (*reinterpret_cast<NiPoint3*>(vec1_2)) = *reinterpret_cast<const NiPoint3*>(objTmp->GetModel_0056c7f0()->NiAVObject_GetWorldTranslate());
                 (*reinterpret_cast<NiPoint3*>(kVec2)) = *reinterpret_cast<const NiPoint3*>(FUN_00430830());
                 if ((FNV2062_Vec3_FUN_004390c0)(&(*reinterpret_cast<NiPoint3*>(kVec2)), DAT_011f426c))
                 {
@@ -42475,14 +42715,14 @@ void This57::TESObjectREFR_FixAttachedBSObjectSizeAndTransform()
                     {
                         e3->BSMultiBound_SetHalfExtents(&(*reinterpret_cast<NiPoint3*>(aOut30)));
                         e3->SetVec46(&(*reinterpret_cast<NiPoint3*>(vec1_2)));
-                        e3->BSMultiBoundAABB_SetAxis(objTmp->FUN_0056c7f0()->FUN_006a9540());
+                        e3->BSMultiBoundAABB_SetAxis(objTmp->GetModel_0056c7f0()->NiAVObject_GetRotate_006a9540());
                     }
                 }
             }
         }
     }
     t_.FUN_0043d410(0.0f, 0, 0);
-    FUN_00450b80(0)->FUN_00a59c60(&t_);
+    FUN_00450b80(0)->NiAVObject_Update(&t_);
 }
 }  // namespace fnv_0057ada0
 
@@ -42540,28 +42780,30 @@ struct Other
 
 struct Thing
 {
-    Other* FUN_007af430();
-    bool FUN_0057b410();
+    Other* BGSSaveFormBuffer_GetForm();
+    bool TESObjectREFR_GetOnLocalMap();
 };
 
 // Returns true when the associated Other object exists and its vf() check passes.
 // @fnv 0x0057b410
-bool Thing::FUN_0057b410()
+// src: XBOX_PDB 0x0057b410
+bool Thing::TESObjectREFR_GetOnLocalMap()
 {
-    return FUN_007af430() != 0 && FUN_007af430()->vf();
+    return BGSSaveFormBuffer_GetForm() != 0 && BGSSaveFormBuffer_GetForm()->vf();
 }
 }  // namespace fnv_0057b410
 
 struct FUN_0057b460_shell : public TESObjectREFR
 {
-    bool FUN_0057b460();
+    bool TESObjectREFR_GetInaccessible();
 };
 
 void* __fastcall _FNV_GetObjectReference(void*);
 
 // Returns true when the referenced form has type 0x1c and this reference has flag 0x100 set.
 // @fnv 0x0057b460
-bool FUN_0057b460_shell::FUN_0057b460()
+// src: XBOX_PDB 0x0057b460
+bool FUN_0057b460_shell::TESObjectREFR_GetInaccessible()
 {
     bool bretval = false;
     if (_FNV_GetObjectReference(this) && (::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x1c)
@@ -42577,14 +42819,15 @@ bool FUN_0057b460_shell::FUN_0057b460()
 
 struct FUN_0057b4b0_shell : public TESObjectREFR
 {
-    bool FUN_0057b4b0();
+    bool TESObjectREFR_GetIsHiddenDoor();
 };
 
 void* __fastcall _FNV_GetObjectReference(void*);
 unsigned int __fastcall FUN_0044ddc0(void*);
 
 // @fnv 0x0057b4b0
-bool FUN_0057b4b0_shell::FUN_0057b4b0()
+// src: XBOX_PDB 0x0057b4b0
+bool FUN_0057b4b0_shell::TESObjectREFR_GetIsHiddenDoor()
 {
     bool bretval = false;
     if (_FNV_GetObjectReference(this) && (::_FNV_GetFormType)(_FNV_GetObjectReference(this)) == 0x1c)
@@ -42612,7 +42855,7 @@ extern Set57 DAT_011cd378;
 
 struct PL57
 {
-    void FUN_0096e570();
+    void ProcessLists_SortActorsCloseToPlayer();
 };
 extern PL57 DAT_011e0e80;
 
@@ -42792,12 +43035,12 @@ struct Actor57
     unsigned char b7f;
     Proc57* GetProcess();
     const char* GetFullName();
-    void FUN_0057bd60(void*);
+    void EffectSetting_SetLight(void*);
     void* FUN_0057bd40();
-    void FUN_00881680(unsigned char);
-    void FUN_0057ad20(void*);
-    void FUN_0057ace0(void*);
-    unsigned int FUN_0084e3a0();
+    void Actor_EndInterruptPackage(unsigned char);
+    void TESObjectREFR_SetSayToTopic(void*);
+    void TESObjectREFR_SetSayToTopicInfo(void*);
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void* GetExtraData();
     void StartDialog(Topic57*, unsigned char, int);
 };
@@ -43129,7 +43372,7 @@ struct DialogItem57
     void FUN_0083c7b0();
     Resp57* GetCurrentItem();
     void FUN_0083c850(int);
-    void* FUN_0084e3a0();
+    void* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
 struct Resp57
@@ -43142,13 +43385,13 @@ struct Txt57
 };
 struct Topic57
 {
-    DialogItem57* FUN_0061b320(void*, void*, void*, void*, bool);
+    DialogItem57* TESTopic_CreateDialogueItem(void*, void*, void*, void*, bool);
 };
 
 void TESObjectREFR_SayToCallBack();
-bool FUN_00703150();
-bool FUN_005ac750(void*, void*, unsigned int);
-void FUN_00705210(const char*, S12, P12, void*, bool);
+bool Interface_GetFullHelp();
+bool Script_SetActionFlag(void*, void*, unsigned int);
+void Interface_ShowSubtitle(const char*, S12, P12, void*, bool);
 
 // Processes the topic, updates dialog and process state, and may pass a response string to another function.
 // @fnv 0x0057b7c0
@@ -43163,14 +43406,14 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
     {
         if (actor2->GetProcess() && !actor2->v22c(0))
         {
-            DialogItem57* dlgTmp = apTopic->FUN_0061b320(actor2, DAT_011dea3c, 0, 0, 1);
+            DialogItem57* dlgTmp = apTopic->TESTopic_CreateDialogueItem(actor2, DAT_011dea3c, 0, 0, 1);
             actor2->b7f = 1;
-            actor2->FUN_0057bd60(DAT_011dea3c);
+            actor2->EffectSetting_SetLight(DAT_011dea3c);
             if (!actor2->v214())
             {
                 if (actor2->GetProcess()->v30c())
                 {
-                    actor2->FUN_00881680(0);
+                    actor2->Actor_EndInterruptPackage(0);
                     actor2->GetProcess()->v1dc(actor2, 1);
                 }
             }
@@ -43181,7 +43424,7 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
                 Resp57* r6 = dlgTmp->GetCurrentItem();
                 dlgTmp->FUN_0083c850(0);
                 dlgTmp->FUN_0083c850(1);
-                FUN_005ac750(apTopic, actor2->GetExtraData(), 0x40000);
+                Script_SetActionFlag(apTopic, actor2->GetExtraData(), 0x40000);
             }
             if (actor2->GetProcess()->v30c())
             {
@@ -43192,14 +43435,14 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
                     Resp57* resp4 = d2->GetCurrentItem();
                     bool b = false;
                     char buf[0x108];
-                    if (FUN_00703150())
+                    if (Interface_GetFullHelp())
                     {
                         sprintf(buf, "'%s' :%s", this->GetFullName(), resp4->FUN_006815c0()->FUN_00559450());
-                        FUN_00705210(buf, S12(0), *this->v1f4(), DAT_011dea3c, 0);
+                        Interface_ShowSubtitle(buf, S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(resp4->FUN_006815c0()->FUN_00559450(), S12(0), *this->v1f4(), DAT_011dea3c, 0);
+                        Interface_ShowSubtitle(resp4->FUN_006815c0()->FUN_00559450(), S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     actor2->GetProcess()->v24c(0);
                 }
@@ -43218,19 +43461,19 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
             }
             else if (v140 != 0)
             {
-                this->FUN_0057ad20(apTopic);
-                if (DialogItem57* d4 = apTopic->FUN_0061b320(this, 0, 0, 0, 0))
+                this->TESObjectREFR_SetSayToTopic(apTopic);
+                if (DialogItem57* d4 = apTopic->TESTopic_CreateDialogueItem(this, 0, 0, 0, 0))
                 {
-                    this->FUN_0057ace0(d4->FUN_0084e3a0());
+                    this->TESObjectREFR_SetSayToTopicInfo(d4->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 }
                 L150 _obj = this->v13c(apTopic, DAT_011dea3c, 0, 0, 0, 0, 0);
-                _obj.FUN_00ad8e60((void*)&TESObjectREFR_SayToCallBack, this->FUN_0084e3a0());
+                _obj.FUN_00ad8e60((void*)&TESObjectREFR_SayToCallBack, this->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             }
         }
     }
     this->vd0(1);
     DAT_011cd378.FUN_0045ce80(v6);
-    DAT_011e0e80.FUN_0096e570();
+    DAT_011e0e80.ProcessLists_SortActorsCloseToPlayer();
 }
 }  // namespace fnv_0057b7c0
 
@@ -43265,8 +43508,8 @@ struct DlgFlag
 struct DlgPackage
 {
     int FUN_0041ca90();
-    DlgNode* FUN_008cdd90();
-    void* FUN_009ee040();
+    DlgNode* DialoguePackage_GetCurrentDialogItem();
+    void* DialoguePackage_GetActorStartedConversation();
     void* FUN_008d80e0();
     DlgNode* FUN_005e3fc0();
     char pad00[0x90];
@@ -43659,13 +43902,13 @@ struct DlgQuery
 struct DlgConversation
 {
     void FUN_0061e760(DlgQuery* apQuery);
-    bool FUN_00579200();
-    void FUN_0061f170(int aiValue, struct DlgActor* apActor);
+    bool TESTopicInfo_IsRunImmediately();
+    void TESTopicInfo_RunResult(int aiValue, struct DlgActor* apActor);
 };
 
 struct DlgExtraList
 {
-    void FUN_0042edb0();
+    void ExtraDataList_RemoveSayToInfoExtra();
 };
 
 struct DlgActorValues
@@ -43873,25 +44116,25 @@ struct DlgActor
     char padA8[0x160];
     DlgPackage* pDialoguePackage;
 
-    DlgConversation* FUN_00934430();
+    DlgConversation* TESObjectREFR_GetSayToTopicInfo();
     void* FUN_0057bd40();
     DlgCheck* FUN_008dd860();
-    void FUN_0057ad20(int aiValue);
-    DlgExtraList* FUN_005d43c0();
+    void TESObjectREFR_SetSayToTopic(int aiValue);
+    DlgExtraList* BSFile_GetDevice();
     DlgProcess* FUN_008d8520();
     DlgPackage* FUN_009344a0();
-    float FUN_005723b0(DlgActor* apTarget, int a2, int a3);
-    bool FUN_008c1bc0();
-    const char* FUN_0055d520();
-    void FUN_00953ce0();
-    bool FUN_004eaf60();
+    float TESObjectREFR_GetDistanceFromReference(DlgActor* apTarget, int a2, int a3);
+    bool BSSoundHandle_BSSoundHandle_008c1bc0();
+    const char* TESObjectREFR_GetFullName();
+    void PlayerCharacter_ResetPlayerGreetFlag();
+    bool PlayerCharacter_Is3rdPerson();
     void PlayerCharacter_CheckForClosestConversation(void* apTopic, void* apInfo, DlgPackage* apPackage);
-    void FUN_00935f60();
+    void MobileObject_UpdateSoundCallBack();
 };
 
 struct DlgIntSetting
 {
-    int* FUN_0043d4d0();
+    int* Setting_Int();
 };
 struct DlgBoolSetting
 {
@@ -43902,22 +44145,23 @@ extern DlgIntSetting DAT_011cd378;
 extern DlgBoolSetting DAT_011d8928;
 extern unsigned char DAT_011f122d;
 
-void __cdecl FUN_005ac750(void* apOwner, DlgExtraList* apExtra, int aiFlags);
-int __cdecl FUN_00653cf0(int aiType);
-bool FUN_005b7470();
-bool FUN_00703150();
+void __cdecl Script_SetActionFlag(void* apOwner, DlgExtraList* apExtra, int aiFlags);
+int __cdecl BSFaceGenManager_GetExpressionFromEmotion(int aiType);
+bool BSFaceGenManager_GetUseEmotions();
+bool Interface_GetFullHelp();
 int __cdecl FUN_00ec623a(char* apBuffer, const char* apFormat, ...);
-void __cdecl FUN_00705210(const char* apText, DlgTarget kTarget, DlgPoint kPos, DlgActor* apListener, int aiFlags);
+void __cdecl Interface_ShowSubtitle(const char* apText, DlgTarget kTarget, DlgPoint kPos, DlgActor* apListener, int aiFlags);
 
 static const char s_szSubtitleFormat[] = "'%s' :%s";
 
 // Updates dialogue fields and flags, calls conversation and package helpers, and conditionally passes response text to another function.
 // @fnv 0x00935f60
-void DlgActor::FUN_00935f60()
+// src: XBOX_PDB 0x00935f60
+void DlgActor::MobileObject_UpdateSoundCallBack()
 {
-    if (pProcessData == 0 && FUN_00934430())
+    if (pProcessData == 0 && TESObjectREFR_GetSayToTopicInfo())
     {
-        DlgConversation* m_pkConversation = FUN_00934430();
+        DlgConversation* m_pkConversation = TESObjectREFR_GetSayToTopicInfo();
         void* pOwner = FUN_0057bd40();
         DlgCheck* pCheckTmp = FUN_008dd860();
         bool bFinishNew = true;
@@ -43930,13 +44174,13 @@ void DlgActor::FUN_00935f60()
         }
         if (bFinishNew)
         {
-            FUN_0057ad20(0);
-            FUN_005d43c0()->FUN_0042edb0();
+            TESObjectREFR_SetSayToTopic(0);
+            BSFile_GetDevice()->ExtraDataList_RemoveSayToInfoExtra();
         }
-        if (m_pkConversation && !m_pkConversation->FUN_00579200())
-            m_pkConversation->FUN_0061f170(1, this);
+        if (m_pkConversation && !m_pkConversation->TESTopicInfo_IsRunImmediately())
+            m_pkConversation->TESTopicInfo_RunResult(1, this);
         if (bFinishNew)
-            FUN_005ac750(pOwner, FUN_005d43c0(), 0x40000);
+            Script_SetActionFlag(pOwner, BSFile_GetDevice(), 0x40000);
         if (!bSaid)
             m_fFirstReferenceTimer = 1.0f;
         if (bFinishNew)
@@ -43944,7 +44188,7 @@ void DlgActor::FUN_00935f60()
         bWasPlaying = 1;
         bSpoken = 1;
         if (bFinishNew)
-            DAT_011dea3c->FUN_00953ce0();
+            DAT_011dea3c->PlayerCharacter_ResetPlayerGreetFlag();
     }
     else if (pProcessData == 1)
     {
@@ -43970,8 +44214,8 @@ void DlgActor::FUN_00935f60()
                 else
                     pDialogue->m_fPackageValue = 2.0f;
             }
-            if (pDialogue->FUN_008cdd90())
-                pDialogue->FUN_008cdd90()->FUN_0083c850(1);
+            if (pDialogue->DialoguePackage_GetCurrentDialogItem())
+                pDialogue->DialoguePackage_GetCurrentDialogItem()->FUN_0083c850(1);
         }
         bWasPlaying = 1;
     }
@@ -43984,8 +44228,8 @@ void DlgActor::FUN_00935f60()
         int iSound;
         if (this == DAT_011dea3c)
             bIsPlayerTmp = true;
-        if (FUN_005723b0(DAT_011dea3c, 0, 0) < *DAT_011cd378.FUN_0043d4d0() &&
-            (!bIsPlayerTmp || (bIsPlayerTmp && DAT_011dea3c->FUN_004eaf60())))
+        if (TESObjectREFR_GetDistanceFromReference(DAT_011dea3c, 0, 0) < *DAT_011cd378.Setting_Int() &&
+            (!bIsPlayerTmp || (bIsPlayerTmp && DAT_011dea3c->PlayerCharacter_Is3rdPerson())))
             pTopic = FUN_vt1b8(0);
         if (FUN_008d8520()->FUN_vt30c())
         {
@@ -43994,7 +44238,7 @@ void DlgActor::FUN_00935f60()
             if (pTopic && IsActor())
             {
                 DlgActor* m_pDialogueSpeaker = this;
-                if (FUN_005b7470())
+                if (BSFaceGenManager_GetUseEmotions())
                 {
                     if (iSoundType == 0)
                     {
@@ -44002,7 +44246,7 @@ void DlgActor::FUN_00935f60()
                     }
                     else
                     {
-                        iSound = FUN_00653cf0(iSoundType);
+                        iSound = BSFaceGenManager_GetExpressionFromEmotion(iSoundType);
                         pTopic->FUN_vt114(iSound, iVolumeOld / 100.0);
                     }
                 }
@@ -44016,18 +44260,18 @@ void DlgActor::FUN_00935f60()
                 DlgNode* pLine = pResponse->FUN_0083c820();
                 bool bShownVal = false;
                 if ((*DAT_011d8928.FUN_00408d60() && pLine->FUN_006815c0()->FUN_00559450()) ||
-                    (IsActor() && FUN_008c1bc0()))
+                    (IsActor() && BSSoundHandle_BSSoundHandle_008c1bc0()))
                 {
-                    if (FUN_00703150())
+                    if (Interface_GetFullHelp())
                     {
                         char acSubtitle[260];
-                        FUN_00ec623a(acSubtitle, s_szSubtitleFormat, FUN_0055d520(),
+                        FUN_00ec623a(acSubtitle, s_szSubtitleFormat, TESObjectREFR_GetFullName(),
                                      pLine->FUN_006815c0()->FUN_00559450());
-                        FUN_00705210(acSubtitle, FUN_008d8520()->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
+                        Interface_ShowSubtitle(acSubtitle, FUN_008d8520()->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(pLine->FUN_006815c0()->FUN_00559450(), FUN_008d8520()->FUN_vt48c(0), *GetPos(),
+                        Interface_ShowSubtitle(pLine->FUN_006815c0()->FUN_00559450(), FUN_008d8520()->FUN_vt48c(0), *GetPos(),
                                      DAT_011dea3c, 0);
                     }
                 }
@@ -44046,7 +44290,7 @@ void DlgActor::FUN_00935f60()
             if (pTopic && IsActor())
             {
                 DlgActor* pTalker = this;
-                if (FUN_005b7470())
+                if (BSFaceGenManager_GetUseEmotions())
                 {
                     if (iSoundType == 0)
                     {
@@ -44054,7 +44298,7 @@ void DlgActor::FUN_00935f60()
                     }
                     else
                     {
-                        iSound = FUN_00653cf0(iSoundType);
+                        iSound = BSFaceGenManager_GetExpressionFromEmotion(iSoundType);
                         pTopic->FUN_vt114(iSound, iVolumeOld / 100.0);
                     }
                 }
@@ -44065,15 +44309,15 @@ void DlgActor::FUN_00935f60()
             }
             if (pDialogue)
             {
-                DAT_011dea3c->PlayerCharacter_CheckForClosestConversation(pDialogue->FUN_009ee040(), pDialogue->FUN_008d80e0(), pDialogue);
+                DAT_011dea3c->PlayerCharacter_CheckForClosestConversation(pDialogue->DialoguePackage_GetActorStartedConversation(), pDialogue->FUN_008d80e0(), pDialogue);
                 if (pDialogue == DAT_011dea3c->pDialoguePackage || DAT_011f122d)
                 {
                     DlgNode* pTopicInfo = pDialogue->FUN_005e3fc0();
                     if (pTopicInfo && pTopicInfo->FUN_0083c820() && pTopicInfo->FUN_0083c820()->FUN_0083c820() &&
                         pTopicInfo->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->FUN_00559450())
                     {
-                        if (*DAT_011d8928.FUN_00408d60() || (IsActor() && FUN_008c1bc0()))
-                            FUN_00705210(pTopicInfo->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->FUN_00559450(),
+                        if (*DAT_011d8928.FUN_00408d60() || (IsActor() && BSSoundHandle_BSSoundHandle_008c1bc0()))
+                            Interface_ShowSubtitle(pTopicInfo->FUN_0083c820()->FUN_0083c820()->FUN_006815c0()->FUN_00559450(),
                                          FUN_008d8520()->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                 }
@@ -44089,17 +44333,18 @@ struct TESObjectREFRHelper
 {
     void SetTargetingState(bool);
 };
-TESForm* __cdecl FUN_004839c0(void*);
+TESForm* __cdecl TESForm_GetFormByNumericID(void*);
 struct Fn9a4f40
 {
     void* ref;
-    void FUN_009a4f40(int);
+    void SandBoxChoiceListItem_InitLoadGame(int);
 };
 // Resolves the ref pointer to a TESObjectREFR and sets its targeting state to true.
 // @fnv 0x009a4f40
-void Fn9a4f40::FUN_009a4f40(int unused)
+// src: XBOX_PDB 0x009a4f40
+void Fn9a4f40::SandBoxChoiceListItem_InitLoadGame(int unused)
 {
-    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(ref)) : 0;
+    ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(TESForm_GetFormByNumericID(ref)) : 0;
     if (ref)
         ((TESObjectREFRHelper*)ref)->SetTargetingState(true);
 }
@@ -44348,7 +44593,7 @@ struct ModelForm
     int unk110;
     ModelNames names;
     unsigned int FUN_00401170();
-    void FUN_00605d70(ModelRef*);
+    void TESNPC_ReplaceRefModel(ModelRef*);
     void FUN_005fa0a0(ModelRef*);
 };
 struct ModelEquipment
@@ -44357,7 +44602,7 @@ struct ModelEquipment
 };
 struct ModelState
 {
-    void FUN_00496280();
+    void Animation_ZeroGlobalTransform();
 };
 struct ModelRef
 {
@@ -44492,11 +44737,11 @@ struct ModelRef
     int unk18;
     int unk1c;
     ModelForm* base;
-    ModelNode* FUN_0043fcd0();
+    ModelNode* TESObjectREFR_Get3D();
     ModelEquipment* FUN_009344a0();
     const char* FUN_005715d0();
-    float FUN_00567400();
-    ModelNode* FUN_00571530(ModelNode*, void*);
+    float TESObjectREFR_GetScale_00567400();
+    ModelNode* TESObjectREFR_GetActorBone_00571530(ModelNode*, void*);
     bool TESObjectREFR_ReplaceModel();
 };
 struct FUN_004ad050
@@ -44516,20 +44761,20 @@ struct FUN_00633c90
 };
 struct AttachModelLoader
 {
-    ModelNode* FUN_00447080(const char*, int, int, int, int, int);
+    ModelNode* ModelLoader_LoadFile(const char*, int, int, int, int, int);
 };
 struct ModelEnvironment
 {
-    ModelNode* FUN_00457ba0(ModelNode*, FUN_004ad050*);
+    ModelNode* TES_CreateDeepCopySameTextures(ModelNode*, FUN_004ad050*);
 };
 extern AttachModelLoader* DAT_011c3b3c;
 extern ModelEnvironment* DAT_011dea10;
 void FUN_00406d30(char*, unsigned int, const char*);
-char* FUN_0040ab30(char*, int);
-bool FUN_004b5bf0(ModelNode*);
-bool FUN_004910d0(ModelNode*);
+char* strrchr_0040ab30(char*, int);
+bool HasMorpherController(ModelNode*);
+bool Animation_FindSkinnedNode(ModelNode*);
 NiFixedString* get_g_bip01();
-void FUN_004ade40(ModelNode*, ModelNode*, int, int);
+void BipedAnim_AttachToSkeleton(ModelNode*, ModelNode*, int, int);
 void FUN_004ae250(ModelNode*, ModelNode*, int, int, int, int);
 // Handles form types 42 and 43, loading and attaching nodes in case 43, then calls base->Fallback() if neither case sets success.
 // @fnv 0x005710c0
@@ -44542,13 +44787,13 @@ bool ModelRef::TESObjectREFR_ReplaceModel()
     bool success11 = false;
     ModelState* state15 = GetState();
     if (state15)
-        state15->FUN_00496280();
-    ModelNode* root1 = FUN_0043fcd0();
+        state15->Animation_ZeroGlobalTransform();
+    ModelNode* root1 = TESObjectREFR_Get3D();
     switch (base->FUN_00401170())
     {
     case 42:
         if (animation3)
-            creature56->FUN_00605d70(this);
+            creature56->TESNPC_ReplaceRefModel(this);
         success11 = true;
         break;
     case 43:
@@ -44572,25 +44817,25 @@ bool ModelRef::TESObjectREFR_ReplaceModel()
             {
                 char filename5[260];
                 FUN_00406d30(filename5, 260, FUN_005715d0());
-                char* separator270 = FUN_0040ab30(filename5, '\\');
+                char* separator270 = strrchr_0040ab30(filename5, '\\');
                 FUN_00406d30(separator270 + 1, 260 - (separator270 - filename5) - 1, *link14->FUN_006815c0());
-                ModelNode* loaded338 = DAT_011c3b3c->FUN_00447080(filename5, 3, 1, 0, 0, 0);
+                ModelNode* loaded338 = DAT_011c3b3c->ModelLoader_LoadFile(filename5, 3, 1, 0, 0, 0);
                 if (loaded338)
                 {
-                    FUN_004ad050 process392(FUN_00567400());
+                    FUN_004ad050 process392(TESObjectREFR_GetScale_00567400());
                     ModelNode* original3823 = loaded338;
                     FUN_00633c90 reference2833(0);
                     ModelNode* cloneResult2;
-                    if (FUN_004b5bf0(loaded338))
+                    if (HasMorpherController(loaded338))
                     {
-                        reference2833.FUN_0066b0d0(DAT_011dea10->FUN_00457ba0(loaded338, &process392));
+                        reference2833.FUN_0066b0d0(DAT_011dea10->TES_CreateDeepCopySameTextures(loaded338, &process392));
                         cloneResult2 = reference2833.FUN_00559450();
                     }
                     else
                         cloneResult2 = original3823->FUN_00a5d2c0(&process392);
                     ModelNode* cloned222 = cloneResult2;
-                    bool skinned2825 = FUN_004910d0(cloned222);
-                    ModelNode* parent632 = FUN_00571530(root1, get_g_bip01());
+                    bool skinned2825 = Animation_FindSkinnedNode(cloned222);
+                    ModelNode* parent632 = TESObjectREFR_GetActorBone_00571530(root1, get_g_bip01());
                     if (skinned2825 && parent632)
                     {
                         ModelNode* attachment = parent632->Find(FUN_00438170("SkinAttachment"));
@@ -44598,7 +44843,7 @@ bool ModelRef::TESObjectREFR_ReplaceModel()
                             attachment->Attach(cloned222, true);
                         else
                             parent632->NiAVObject_GetParent()->Attach(cloned222, true);
-                        FUN_004ade40(destination27, cloned222, 0, 1);
+                        BipedAnim_AttachToSkeleton(destination27, cloned222, 0, 1);
                     }
                     else
                         FUN_004ae250(destination27, cloned222, 0, 0, -1, 0);
@@ -44696,7 +44941,8 @@ class FUN_009aaff0 : public TESObjectREFR
 };
 // Allocates a new TESObjectREFR subclass based on ucType and returns the pointer, or null if the type is unknown.
 // @fnv 0x00564480
-TESObjectREFR* FUN_00564480(unsigned char ucType, bool bArg)
+// src: XBOX_PDB 0x00564480
+TESObjectREFR* TESObjectREFR_CreateReference(unsigned char ucType, bool bArg)
 {
     AutoMemContext kContext(MEM_CONTEXT_MEM_CONTEXT_TES_REFERENCES, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectREFR.cpp",
                             0x1493);
@@ -44736,19 +44982,20 @@ TESObjectREFR* FUN_00564480(unsigned char ucType, bool bArg)
 
 struct EnableParentExtra
 {
-    TESObjectREFR* FUN_0041da10();
+    TESObjectREFR* ExtraDataList_GetEnableStateParent();
 };
 
 struct EnableParentRef
 {
-    EnableParentExtra* FUN_005d43c0();
-    TESObjectREFR* FUN_0056a9f0();
+    EnableParentExtra* BSFile_GetDevice();
+    TESObjectREFR* TESObjectREFR_GetEnableStateParent();
 };
 
 // @fnv 0x0056a9f0
-TESObjectREFR* EnableParentRef::FUN_0056a9f0()
+// src: XBOX_PDB 0x0056a9f0
+TESObjectREFR* EnableParentRef::TESObjectREFR_GetEnableStateParent()
 {
-    return FUN_005d43c0()->FUN_0041da10();
+    return BSFile_GetDevice()->ExtraDataList_GetEnableStateParent();
 }
 
 extern float DAT_011c3c08;
@@ -44762,7 +45009,7 @@ extern AnimGroupInfo_011977d8 g_011977d8[];
 
 struct FUN_008579e0_shell : public TESSaveLoadGame
 {
-    void FUN_008579e0(void* out, unsigned int kind);
+    void TESSaveLoadGame_LoadGameDataOLD(void* out, unsigned int kind);
 };
 struct FUN_00857bd0 : public TESSaveLoadGame
 {
@@ -44803,11 +45050,11 @@ struct FUN_008041a0_shell
 };
 struct FUN_004efbc0_shell
 {
-    void FUN_004efbc0(float value);
+    void LoadGame_004efbc0(float value);
 };
 struct FUN_00639aa0_shell
 {
-    float FUN_00639aa0();
+    float TESCombatStyle_GetTargetingFOV();
 };
 
 struct FUN_00a59c90_shell
@@ -44816,10 +45063,10 @@ struct FUN_00a59c90_shell
 };
 struct FUN_00a59c60_shell
 {
-    void FUN_00a59c60(const NiUpdateData& data);
+    void NiAVObject_Update(const NiUpdateData& data);
 };
 
-int __cdecl FUN_00408b20(const char* a, const char* b);
+int __cdecl BSstrcmp(const char* a, const char* b);
 unsigned char __cdecl FUN_004b5c80(NiNode* node);
 unsigned short __cdecl BSAnimGroupSequence_GetSequenceSaveSize();
 int __cdecl FUN_00406d30(char* dst, unsigned int size, const char* src);
@@ -44827,7 +45074,8 @@ void* __cdecl memset(void* dst, int val, unsigned int n);
 
 // Reads sequence identifiers from the save stream, matches them against p1's sequences, calls sequence helpers, and updates p2 when a match is found.
 // @fnv 0x0055ffa0
-void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNode, float f)
+// src: XBOX_PDB 0x0055ffa0
+void __cdecl TESObjectREFR_LoadControllerManager(AnimationInterpolatorNode* apController, NiNode* apNode, float f)
 {
     bool ok;
     unsigned int n;
@@ -44839,7 +45087,7 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
 
         if (f == -1.0)
             f = DAT_011c3c08;
-        ((FUN_008579e0_shell*)g_TESSaveLoadGame)->FUN_008579e0(&num, 2);
+        ((FUN_008579e0_shell*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(&num, 2);
         if (num > 0xfde8)
             num = 0;
         n = 0;
@@ -44856,7 +45104,7 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
             if (g_TESSaveLoadGame->FUN_008df040() >= 0x15 && g_TESSaveLoadGame->FUN_008df040() < 0x17)
             {
                 int idx;
-                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->FUN_008579e0(&idx, 4);
+                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(&idx, 4);
                 if (idx < 0xf5)
                     FUN_00406d30(buf, 0x104, (const char*)g_011977d8[idx].f0);
                 else
@@ -44865,9 +45113,9 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
             if (g_TESSaveLoadGame->FUN_008df040() < 0x15 || g_TESSaveLoadGame->FUN_008df040() >= 0x17)
             {
                 unsigned char byteLocal;
-                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->FUN_008579e0(&byteLocal, 1);
+                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(&byteLocal, 1);
                 memset(buf, 0, 0x104);
-                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->FUN_008579e0(buf, byteLocal);
+                ((FUN_008579e0_shell*)g_TESSaveLoadGame)->TESSaveLoadGame_LoadGameDataOLD(buf, byteLocal);
             }
             item = 0;
             innerFound = false;
@@ -44879,19 +45127,19 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
                     item = ((ControllerSequenceView*)apController)->GetSequenceAt(j);
                     if (item)
                     {
-                        if (FUN_00408b20((const char*)(FNV2062_BSFadeNode_FUN_0043b1b0)(((FUN_00413f40_shell*)item)->FUN_00413f40()),
+                        if (BSstrcmp((const char*)(FNV2062_BSFadeNode_FUN_0043b1b0)(((FUN_00413f40_shell*)item)->FUN_00413f40()),
                                          buf) == 0)
                         {
                             if (((FUN_008041a0_shell*)item)->FUN_008041a0() == 0)
                                 ((FUN_0047aab0_shell*)apController)->FUN_0047aab0(item, 0, 0, 1.0f, 0.0f, 0);
-                            ((FUN_004efbc0_shell*)item)->FUN_004efbc0(f);
+                            ((FUN_004efbc0_shell*)item)->LoadGame_004efbc0(f);
                             if (apNode && FUN_004b5c80(apNode))
                             {
                                 float quantum;
                                 float rem;
                                 float total;
                                 float gone;
-                                total = ((FUN_00639aa0_shell*)item)->FUN_00639aa0() + f;
+                                total = ((FUN_00639aa0_shell*)item)->TESCombatStyle_GetTargetingFOV() + f;
                                 rem = f - total;
                                 if (rem < 0.0f)
                                     rem = 0.0f;
@@ -44919,7 +45167,7 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
     if (ok && apNode)
     {
         NiUpdateData data2(f, true, false);
-        ((FUN_00a59c60_shell*)apNode)->FUN_00a59c60(data2);
+        ((FUN_00a59c60_shell*)apNode)->NiAVObject_Update(data2);
     }
 }
 
@@ -45140,7 +45388,7 @@ struct xRefr
     bool CanBeUsedX(xPlayerX* pkActor, bool b);
     void* GetOwnerX();
     xExtraOwner* GetExtraOwner();
-    bool FUN_00579690();
+    bool TESObjectREFR_IsCrimeToActivate();
 };
 
 struct xPlayerX : xRefr
@@ -45153,7 +45401,8 @@ bool xIsPlayerOwner(xRefr* pkRef, xPlayerX* pkPlayer, int a, int b);
 
 // Determines if using this reference constitutes a crime based on form type, ownership, lock state, cell interior/public status, and player sneak/combat state.
 // @fnv 0x00579690
-bool xRefr::FUN_00579690()
+// src: XBOX_PDB 0x00579690
+bool xRefr::TESObjectREFR_IsCrimeToActivate()
 {
     bool bResult = false;
     xLock* pkLock = GetLockX();
@@ -45291,12 +45540,12 @@ extern void FNV2062_ExtraDataList_FUN_00426720_target();
 #undef FNV2062_ExtraDataList_FUN_00426720
 #define FNV2062_ExtraDataList_FUN_00426720 ((void (__thiscall *)(ExtraDataList*, unsigned int, unsigned int, TESObjectREFR*))FNV2062_ExtraDataList_FUN_00426720_target)
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
-void FUN_00c69f50(NiNode*, int, int);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR*);
+void bhkWorld_UpdatePosition(NiNode*, int, int);
 
 struct C0055f780 : public TESObjectREFR
 {
-    void FUN_0055f780(unsigned int a1, unsigned int a2);
+    void TESObjectREFR_FinishInitLoadGame(unsigned int a1, unsigned int a2);
     void FUN_008d0600(unsigned int, unsigned int);
     NiNode* Get3DSimple();
     ExtraDataList* GetExtraData();
@@ -45305,12 +45554,13 @@ struct C0055f780 : public TESObjectREFR
 };
 
 // @fnv 0x0055f780
-void C0055f780::FUN_0055f780(unsigned int a1, unsigned int a2)
+// src: XBOX_PDB 0x0055f780
+void C0055f780::TESObjectREFR_FinishInitLoadGame(unsigned int a1, unsigned int a2)
 {
     this->FUN_008d0600(a1, a2);
     if (a1 & 0x20)
     {
-        TESContainer* cont = (FUN_0055d310)(this);
+        TESContainer* cont = (TESObjectREFR_HasContainer)(this);
         if (cont)
         {
             InventoryChanges* inv = InventoryChanges::GetOrAddInventoryChanges((void*)this);
@@ -45320,9 +45570,9 @@ void C0055f780::FUN_0055f780(unsigned int a1, unsigned int a2)
     NiNode* node = this->Get3DSimple();
     if (node)
     {
-        node->FUN_00440460(*static_cast<const TESObjectREFR*>(this)->GetPos());
-        node->FUN_0043fa80(&this->TESObjectREFR_GetOrientation());
-        FUN_00c69f50(node, 1, 0);
+        node->NiAVObject_SetTranslate(*static_cast<const TESObjectREFR*>(this)->GetPos());
+        node->SetRotate_0043fa80(&this->TESObjectREFR_GetOrientation());
+        bhkWorld_UpdatePosition(node, 1, 0);
         UpdData upd;
         upd.NiUpdateData(0.0f, false, false);
         node->Update(reinterpret_cast<const NiUpdateData&>(upd));
@@ -45404,7 +45654,7 @@ TESBipedModelForm* FUN_00480db0(TESForm* pkForm);
 class EqExtraList
 {
   public:
-    bool FUN_00418b10();
+    bool ExtraDataList_GetCanNotWear();
     bool FUN_00418c00(int iFlag);
 };
 struct EqExtraNode
@@ -45420,7 +45670,7 @@ class EqEntry
 };
 struct EqEntryList
 {
-    EqEntry* FUN_004c8c10(int iSlot, int iFlag);
+    EqEntry* InventoryChanges_GetWornItem(int iSlot, int iFlag);
 };
 struct EqRefraction;
 struct EqExtraData
@@ -45432,8 +45682,8 @@ struct EqExtraData
 class EqBiped
 {
   public:
-    TESForm* FUN_0088e0f0(int iSlot);
-    void FUN_004aaff0(int iSlot, bool bA, int iB);
+    TESForm* BipedAnim_GetParent(int iSlot);
+    void BipedAnim_RemovePart(int iSlot, bool bA, int iB);
 };
 
 class EqActorView;
@@ -45747,7 +45997,7 @@ struct EqMagicItem
     EqMagicSub m_kSub;
 };
 EqMagicItem* FUN_004be330(TESForm* pkItem);
-bool FUN_005b9b00();
+bool BSShaderManager_IsRefractionEnabled();
 struct EqRefraction
 {
     int unk00;
@@ -46043,21 +46293,22 @@ class EqActorView
     int unk064;
     EqProcess* m_pkProcess;  // +0x68
 
-    EqBiped* FUN_00950b00(int iValue);
-    EqExtraData* FUN_005d43c0();
-    bool FUN_0088d7d0(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bA, bool bB, bool bC);
-    void FUN_008b0b00(int iValue);
-    EqNPCHelper* FUN_007af430();
-    bool FUN_008c51c0();
-    bool FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bLock);
+    EqBiped* GetBiped(int iValue);
+    EqExtraData* BSFile_GetDevice();
+    bool Actor_UnEquipObject(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bA, bool bB, bool bC);
+    void Actor_ReloadTargets(int iValue);
+    EqNPCHelper* BGSSaveFormBuffer_GetForm();
+    bool IsRefractive();
+    bool Actor_AddWornItem(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bLock);
 };
 extern EqActorView* DAT_011dea3c;
 
 // Processes pkItem by checking biped slots, handling selected form types, updating changes, and invoking related helpers.
 // @fnv 0x0088db20
-bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bLock)
+// src: XBOX_PDB 0x0088db20
+bool EqActorView::Actor_AddWornItem(TESForm* pkItem, int iCount, EqExtraList* pkExtra, bool bLock)
 {
-    EqBiped* pkBiped = (this == DAT_011dea3c) ? DAT_011dea3c->FUN_00950b00(0) : GetBipedAnim();
+    EqBiped* pkBiped = (this == DAT_011dea3c) ? DAT_011dea3c->GetBiped(0) : GetBipedAnim();
     bool bResultNew = true;
     TESBipedModelForm* pkBipedItem = FUN_00480db0(pkItem);
     EqChanges* pkChangesSample = FUN_004bf220(this);
@@ -46073,27 +46324,27 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    TESForm* pkWorn = pkBiped->FUN_0088e0f0(j);
+                    TESForm* pkWorn = pkBiped->BipedAnim_GetParent(j);
                     TESBipedModelForm* pkWornBiped =
                         (TESBipedModelForm*)FUN_00ec43fb(pkWorn, 0, &DAT_01183028, &DAT_01183978, 0);
                     if (pkWornBiped && (FNV2062_TESBipedModelForm_FUN_00480af0)(pkWornBiped, i, 0, 0) &&
                         ((EqFormView*)pkWorn)->FUN_00401170() != 0xc)
                     {
-                        EqEntry* pkEntryTmp = FUN_005d43c0()->FUN_00418520()->FUN_004c8c10(i, 0);
+                        EqEntry* pkEntryTmp = BSFile_GetDevice()->FUN_00418520()->InventoryChanges_GetWornItem(i, 0);
                         EqExtraList* pkEntryExtra = 0;
                         if (pkEntryTmp && pkEntryTmp->FUN_00559450() && *pkEntryTmp->FUN_00559450()->FUN_006815c0())
                         {
-                            if ((*pkEntryTmp->FUN_00559450()->FUN_006815c0())->FUN_00418b10())
+                            if ((*pkEntryTmp->FUN_00559450()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
                                 bBlocked = true;
                             pkEntryExtra = *pkEntryTmp->FUN_00559450()->FUN_006815c0();
                         }
                         if (!bBlocked)
                         {
-                            bResultNew = FUN_0088d7d0(pkWorn, 1, pkEntryExtra, false, false, true);
+                            bResultNew = Actor_UnEquipObject(pkWorn, 1, pkEntryExtra, false, false, true);
                             for (int k = 0; k < 20; k++)
                             {
                                 if ((FNV2062_TESBipedModelForm_FUN_00480af0)(pkWornBiped, k, 0, 0))
-                                    pkBiped->FUN_004aaff0(k, true, 0);
+                                    pkBiped->BipedAnim_RemovePart(k, true, 0);
                             }
                         }
                         if (pkEntryTmp)
@@ -46117,14 +46368,14 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
                 bool bEquippedBlocked = false;
                 if (pkEquippedData && pkEquippedData->FUN_0044ddc0() != pkItem && pkEquippedData->FUN_00559450() &&
                     *pkEquippedData->FUN_00559450()->FUN_006815c0() &&
-                    (*pkEquippedData->FUN_00559450()->FUN_006815c0())->FUN_00418b10())
+                    (*pkEquippedData->FUN_00559450()->FUN_006815c0())->ExtraDataList_GetCanNotWear())
                     bEquippedBlocked = true;
-                bResultNew = FUN_0088d7d0(pkEquippedData->FUN_0044ddc0(), 1,
+                bResultNew = Actor_UnEquipObject(pkEquippedData->FUN_0044ddc0(), 1,
                                           *pkEquippedData->FUN_00559450()->FUN_006815c0(), false, false, false);
                 if (bEquippedBlocked && !DAT_011de45c->FUN_0047c850())
                     return false;
                 if (!Unk_390())
-                    FUN_008b0b00(0);
+                    Actor_ReloadTargets(0);
             }
             else if (this == DAT_011dea3c)
                 m_pkProcess->Unk_458(this, 0);
@@ -46147,7 +46398,7 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
         case 0x29:
             pkEquippedData = m_pkProcess->GetAmmo();
             if (pkEquippedData && pkEquippedData->FUN_0044ddc0() != pkItem)
-                bResultNew = FUN_0088d7d0(pkEquippedData->FUN_0044ddc0(), 1,
+                bResultNew = Actor_UnEquipObject(pkEquippedData->FUN_0044ddc0(), 1,
                                           *pkEquippedData->FUN_00559450()->FUN_006815c0(), false, false, true);
             break;
         }
@@ -46158,7 +46409,7 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
     {
         EqBiped* pkWornBiped = GetBipedAnim();
         if (pkWornBiped)
-            FUN_007af430()->FUN_006061b0(this, pkWornBiped, pkItem);
+            BGSSaveFormBuffer_GetForm()->FUN_006061b0(this, pkWornBiped, pkItem);
     }
     switch (((EqFormView*)pkItem)->FUN_00401170())
     {
@@ -46168,9 +46419,9 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
     pkMagicOut = FUN_004be330(pkItem);
     if (pkMagicOut)
         pkMagicOut->m_kSub.FUN_0040a420(false);
-    if (FUN_005b9b00() && FUN_008c51c0())
+    if (BSShaderManager_IsRefractionEnabled() && IsRefractive())
     {
-        EqExtraData* pkExtraData = FUN_005d43c0();
+        EqExtraData* pkExtraData = BSFile_GetDevice();
         Unk_384(1, pkExtraData->FUN_00422820()->m_fValue);
     }
     return true;
@@ -46250,24 +46501,24 @@ using ::ExtraSayToTopicInfo;
 
 struct FUN_0042ede0_shell
 {
-    ExtraSayToTopicInfo* __thiscall FUN_0042ede0();
+    ExtraSayToTopicInfo* __thiscall ExtraDataList_GetSayToExtra();
 };
 
-TESFormSlots* __cdecl FUN_004839c0(unsigned int index);
-ExtraDataList* __fastcall FUN_005d43c0(TESObjectREFR* refr);
+TESFormSlots* __cdecl TESForm_GetFormByNumericID(unsigned int index);
+ExtraDataList* __fastcall BSFile_GetDevice(TESObjectREFR* refr);
 
 // @fnv 0x005790f0
 // src: COMMUNITY 0x005790f0
 void __cdecl TESObjectREFR_SayToCallBack(unsigned int aiIndex)
 {
     unsigned int index = aiIndex;
-    TESFormSlots* form3 = FUN_004839c0(index);
+    TESFormSlots* form3 = TESForm_GetFormByNumericID(index);
     if (form3 != 0 && form3->Slot3C())
     {
         TESObjectREFR* refr = reinterpret_cast<TESObjectREFR*>(form3);
         if (refr != 0)
         {
-            ExtraSayToTopicInfo* info = ((FUN_0042ede0_shell*)::FUN_005d43c0(refr))->FUN_0042ede0();
+            ExtraSayToTopicInfo* info = ((FUN_0042ede0_shell*)::BSFile_GetDevice(refr))->ExtraDataList_GetSayToExtra();
             if (info != 0)
             {
                 info->m_bTopicInfoFlag = 1;
@@ -46420,12 +46671,13 @@ struct Ref57b240
     Form57b240* GetBaseForm();
     WaterList* GetContainingCell();
     void Update484a10(bool b);
-    void FUN_0057b240(bool bIncrement);
+    void TESObjectREFR_SetUnderwater(bool bIncrement);
 };
 
 // Adjusts the water reference count in unk64, and when it reaches 0 or 1, updates the stored water reference and calls Update484a10.
 // @fnv 0x0057b240
-void Ref57b240::FUN_0057b240(bool bIncrement)
+// src: XBOX_PDB 0x0057b240
+void Ref57b240::TESObjectREFR_SetUnderwater(bool bIncrement)
 {
     if (unk64)
     {
@@ -46448,7 +46700,7 @@ void Ref57b240::FUN_0057b240(bool bIncrement)
             {
                 WaterRef_SI* pRef = *pNode->GetItem();
                 BGSPlaceableWater* pWater4 = dynamic_cast<BGSPlaceableWater*>(pRef->GetBaseForm());
-                if (pWater4->FUN_00452440())
+                if (pWater4->BGSPlaceableWater_IsAutomaticWater())
                 {
                     unk64->unk00 = (int)pRef;
                     break;
@@ -46518,11 +46770,12 @@ class SaveOrderBase
 class SaveOrderReference : public SaveOrderBase, public SaveOrderChildCell
 {
   public:
-    bool FUN_005653d0();
-    bool FUN_0055e250(SaveOrderForm* pForm);
+    bool TESObjectREFR_GetRefPersists_005653d0();
+    bool TESObjectREFR_SavesBefore(SaveOrderForm* pForm);
 };
 // @fnv 0x0055e250
-bool SaveOrderReference::FUN_0055e250(SaveOrderForm* pForm)
+// src: XBOX_PDB 0x0055e250
+bool SaveOrderReference::TESObjectREFR_SavesBefore(SaveOrderForm* pForm)
 {
     bool bResult2 = false;
     if (TESObjectCELL_IsFormTypeCellChild(((FormTypeAccess*)pForm)->FUN_00401170()))
@@ -46536,7 +46789,7 @@ bool SaveOrderReference::FUN_0055e250(SaveOrderForm* pForm)
             {
             case 0x42:
             case 0x43:
-                if (!FUN_005653d0())
+                if (!TESObjectREFR_GetRefPersists_005653d0())
                     bResult2 = false;
                 else
                     bResult2 = true;
@@ -46551,9 +46804,9 @@ bool SaveOrderReference::FUN_0055e250(SaveOrderForm* pForm)
             case 0x69: {
                 SaveOrderReference* pRef =
                     (SaveOrderReference*)FNV_DynamicCast(pForm, 0, &DAT_01183028, &DAT_011841cc, 0);
-                if (FUN_005653d0())
+                if (TESObjectREFR_GetRefPersists_005653d0())
                 {
-                    if (pRef && !((SaveOrderReference*)pRef)->FUN_005653d0())
+                    if (pRef && !((SaveOrderReference*)pRef)->TESObjectREFR_GetRefPersists_005653d0())
                         bResult2 = true;
                 }
                 else
@@ -46597,7 +46850,7 @@ bool ReferenceComparison::Compare(TESForm* other)
         return true;
     if (GetParentCell() != pOther->GetParentCell())
         return true;
-    if (((bool (__thiscall *)(ExtraDataList*, ExtraDataList*))FNV2062_ExtraDataList_FUN_004127e0)(&m_kExtraDataCollection, pOther->FUN_005d43c0()))
+    if (((bool (__thiscall *)(ExtraDataList*, ExtraDataList*))FNV2062_ExtraDataList_FUN_004127e0)(&m_kExtraDataCollection, pOther->BSFile_GetDevice()))
         return true;
     if (((TESObjectREFR*)this)->GetScale() != ((TESObjectREFR*)pOther)->GetScale())
         return true;
@@ -46613,14 +46866,14 @@ using ::TESContainer;
 
 struct CallerNode55F5
 {
-    void FUN_00426020(int, int, int, int);
+    void ExtraDataList_InitLoadGame(int, int, int, int);
 };
 
 struct RefH55F5
 {
     bool IsDeleted() const;
     bool GetDisabled();
-    void FUN_00484af0(bool);
+    void TESForm_SetDisabled(bool);
 };
 
 // 0x008d0600 is the shared empty Update stub; this receiver is Ref55F5/TESObjectREFR, not a sky object.
@@ -46637,7 +46890,7 @@ struct EnableParent55F5
 
 struct InvBase55F5
 {
-    void FUN_004d4030();
+    void InventoryChanges_InitLoadGame();
 };
 
 struct InvChanges55F5 : InvBase55F5
@@ -46646,7 +46899,7 @@ struct InvChanges55F5 : InvBase55F5
     static InvChanges55F5* __cdecl CreateForReference(TESObjectREFR*);
 };
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR*);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR*);
 
 struct VTable55F5
 {
@@ -46779,12 +47032,13 @@ struct Ref55F5 : VTable55F5
     int unk1C;
     unsigned int valueAt20;
 
-    void FUN_0055f5f0(unsigned int, unsigned int);
+    void TESObjectREFR_InitLoadGame(unsigned int, unsigned int);
 };
 
 // Calls Update, checks enable-parent state, conditionally updates inventory data, and calls a function on the extra object.
 // @fnv 0x0055f5f0
-void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
+// src: XBOX_PDB 0x0055f5f0
+void Ref55F5::TESObjectREFR_InitLoadGame(unsigned int uiFlags, unsigned int param2)
 {
     TESObjectREFR* penableparent;
     InvChanges55F5* pInvChanges;
@@ -46797,9 +47051,9 @@ void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
     if (penableparent)
     {
         if (reinterpret_cast<InvChanges55F5*>(this)->CreateForReference())
-            reinterpret_cast<RefH55F5*>(this)->FUN_00484af0(!reinterpret_cast<RefH55F5*>(penableparent)->GetDisabled());
+            reinterpret_cast<RefH55F5*>(this)->TESForm_SetDisabled(!reinterpret_cast<RefH55F5*>(penableparent)->GetDisabled());
         else
-            reinterpret_cast<RefH55F5*>(this)->FUN_00484af0(reinterpret_cast<RefH55F5*>(penableparent)->GetDisabled());
+            reinterpret_cast<RefH55F5*>(this)->TESForm_SetDisabled(reinterpret_cast<RefH55F5*>(penableparent)->GetDisabled());
     }
 
     if ((uiFlags & 1) || penableparent)
@@ -46812,11 +47066,11 @@ void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
 
     if (uiFlags & 0x20)
     {
-        pchanges = FUN_0055d310(reinterpret_cast<TESObjectREFR*>(this));
+        pchanges = TESObjectREFR_HasContainer(reinterpret_cast<TESObjectREFR*>(this));
         if (pchanges)
         {
             pInvChanges = InvChanges55F5::CreateForReference(reinterpret_cast<TESObjectREFR*>(this));
-            pInvChanges->FUN_004d4030();
+            pInvChanges->InventoryChanges_InitLoadGame();
         }
     }
 
@@ -46838,7 +47092,7 @@ void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
     if ((uiFlags & 0) || V64())
     {
         reinterpret_cast<CallerNode55F5*>(const_cast<::ExtraDataList*>(reinterpret_cast<::TESObjectREFR*>(this)->GetExtra()))
-            ->FUN_00426020(static_cast<int>(uiFlags), static_cast<int>(param2), reinterpret_cast<int>(this),
+            ->ExtraDataList_InitLoadGame(static_cast<int>(uiFlags), static_cast<int>(param2), reinterpret_cast<int>(this),
                            static_cast<int>(valueAt20));
     }
 }
@@ -46846,7 +47100,7 @@ void Ref55F5::FUN_0055f5f0(unsigned int uiFlags, unsigned int param2)
 using ::TESForm;
 struct OwnerLookupView : public TESObjectREFR
 {
-    TESForm* FUN_00567790();
+    TESForm* TESObjectREFR_GetOwner();
 };
 
 struct VRefr00567790
@@ -46919,7 +47173,7 @@ struct VRefr00567790
 };
 struct FUN_00567770_s
 {
-    TESForm* FUN_00567770();
+    TESForm* TESObjectREFR_GetMyOwner();
 };
 using ::ExtraRadioData;
 struct OwnerTeleportReceiver
@@ -46929,7 +47183,7 @@ struct OwnerTeleportReceiver
 
 struct RefH
 {
-    bool FUN_00568680();
+    bool TESObjectREFR_IsFurniture();
 };
 TESForm* __fastcall FNV_GetObjectReference(TESObjectREFR*);
 int __fastcall FNV_GetFormType(TESForm*);
@@ -46946,22 +47200,23 @@ struct DoorCell
 
 // Returns the initial form lookup, or falls back to radio data, encounter-zone data, or a cull-result owner.
 // @fnv 0x00567790
-TESForm* OwnerLookupView::FUN_00567790()
+// src: XBOX_PDB 0x00567790
+TESForm* OwnerLookupView::TESObjectREFR_GetOwner()
 {
-    TESForm* powner = ((FUN_00567770_s*)this)->FUN_00567770();
+    TESForm* powner = ((FUN_00567770_s*)this)->TESObjectREFR_GetMyOwner();
     if (((VRefr00567790*)this)->IsSlot40())
         return powner;
     if (!powner)
     {
         ExtraRadioData* pTel = ((OwnerTeleportReceiver*)this)->FUN_00568e50();
         if (pTel && (unsigned int)*(Flt*)pTel)
-            powner = ((FUN_00567770_s*)(unsigned int)*(Flt*)pTel)->FUN_00567770();
+            powner = ((FUN_00567770_s*)(unsigned int)*(Flt*)pTel)->TESObjectREFR_GetMyOwner();
     }
-    if (!powner && !((RefH*)this)->FUN_00568680() && FNV_GetObjectReference(this) &&
+    if (!powner && !((RefH*)this)->TESObjectREFR_IsFurniture() && FNV_GetObjectReference(this) &&
         ::FNV_GetFormType(FNV_GetObjectReference(this)) != 0x1c && ::FNV_GetFormType(FNV_GetObjectReference(this)) != 0x15)
     {
         BGSEncounterZone* pzone = (BGSEncounterZone*)((FUN_00881c90_cls*)this)->FindEncounterZone();
-        if (pzone && pzone != FUN_00546a90())
+        if (pzone && pzone != BGSEncounterZone_GetNoZone())
             powner = (TESForm*)((Calendar*)pzone)->GetDaysPassed();
         if (!powner && ((BSOcclusionPlane*)this)->GetCullResult())
             powner = ((DoorCell*)((BSOcclusionPlane*)this)->GetCullResult())->GetOwner();
@@ -47019,7 +47274,7 @@ struct HealthActorView
     int unk09c;
     int unk0a0;
     HealthValueOwner values;
-    int FUN_004f8960();
+    int GameSettingCollection_File();
 };
 using ::TESHealthForm;
 __if_not_exists(TESHealthForm::~TESHealthForm)
@@ -47038,11 +47293,11 @@ struct HealthExtraList
     void* BaseExtraList_GetExtraData(unsigned char);
 };
 struct HealthReferenceEntry;
-void* __fastcall FUN_007af430(HealthReferenceEntry*);
+void* __fastcall BGSSaveFormBuffer_GetForm(HealthReferenceEntry*);
 struct HealthReferenceEntry
 {
-    HealthExtraList* FUN_005d43c0();
-    float FUN_00568ad0();
+    HealthExtraList* BSFile_GetDevice();
+    float TESObjectREFR_GetHealth();
 };
 
 struct HealthReferenceVTable
@@ -47116,7 +47371,8 @@ struct HealthReferenceVTable
 
 // Returns an actor value for actors, or extra health or base health for a TESHealthForm; otherwise returns -1.
 // @fnv 0x00568ad0
-float HealthReferenceEntry::FUN_00568ad0()
+// src: XBOX_PDB 0x00568ad0
+float HealthReferenceEntry::TESObjectREFR_GetHealth()
 {
     float pHealth;
     TESHealthForm* pExtra;
@@ -47127,7 +47383,7 @@ float HealthReferenceEntry::FUN_00568ad0()
     if (((HealthReferenceVTable*)this)->vfn_100())
     {
         pact = (HealthActorView*)this;
-        if (pact->FUN_004f8960() == 6)
+        if (pact->GameSettingCollection_File() == 6)
         {
             pHealth = 100.0f;
         }
@@ -47138,10 +47394,10 @@ float HealthReferenceEntry::FUN_00568ad0()
     }
     else
     {
-        pExtra = dynamic_cast<TESHealthForm*>((TESBoundObject*)FUN_007af430(this));
+        pExtra = dynamic_cast<TESHealthForm*>((TESBoundObject*)BGSSaveFormBuffer_GetForm(this));
         if (pExtra)
         {
-            fVal = (HealthExtraValue*)FUN_005d43c0()->BaseExtraList_GetExtraData(0x25);
+            fVal = (HealthExtraValue*)BSFile_GetDevice()->BaseExtraList_GetExtraData(0x25);
             if (fVal)
             {
                 pHealth = fVal->pHealth;
@@ -47157,7 +47413,7 @@ float HealthReferenceEntry::FUN_00568ad0()
 
 using ::TESContainer;
 
-TESContainer* __fastcall FUN_0055d310(TESObjectREFR* refr);
+TESContainer* __fastcall TESObjectREFR_HasContainer(TESObjectREFR* refr);
 
 struct RefInventoryQuery
 {
@@ -47169,7 +47425,7 @@ struct RefInventoryQuery
 bool __thiscall RefInventoryQuery::TESObjectREFR_HasObjectId(unsigned int aId)
 {
     bool bHasResultObj;
-    TESContainer* pCont = FUN_0055d310((TESObjectREFR*)this);
+    TESContainer* pCont = TESObjectREFR_HasContainer((TESObjectREFR*)this);
     bHasResultObj = false;
     if (pCont)
     {
@@ -47182,10 +47438,10 @@ bool __thiscall RefInventoryQuery::TESObjectREFR_HasObjectId(unsigned int aId)
 namespace fnv_00574fa0 {
 struct AddBoundItemRef
 {
-    void FUN_00574fa0(TESBoundObject*, ExtraDataList*, int);
+    void TESObjectREFR_AddBoundObjectItem(TESBoundObject*, ExtraDataList*, int);
 };
 
-void* __cdecl FUN_004826d0(TESBoundObject*);
+void* __cdecl TESScriptableForm_GetFormScript(TESBoundObject*);
 
 namespace AddBoundItemData {
 extern TESObjectREFR* DAT_011dea3c;
@@ -47198,12 +47454,12 @@ struct RefH
 
 struct StandIn_Refr
 {
-    bool FUN_005656d0();
+    bool TESObjectREFR_HasScript();
 };
 
 struct StandIn_Cell
 {
-    void FUN_00545560(TESObjectREFR*);
+    void TESObjectCELL_AddScriptedRef(TESObjectREFR*);
 };
 
 
@@ -47289,18 +47545,19 @@ struct StandIn_Vtbl100
 
 // Adds apObject through InventoryChanges and updates challenge progress when this matches DAT_011dea3c.
 // @fnv 0x00574fa0
-void AddBoundItemRef::FUN_00574fa0(TESBoundObject* apObject, ExtraDataList* apExtra, int aiNumber)
+// src: XBOX_PDB 0x00574fa0
+void AddBoundItemRef::TESObjectREFR_AddBoundObjectItem(TESBoundObject* apObject, ExtraDataList* apExtra, int aiNumber)
 {
-    TESContainer* pCont = ::FUN_0055d310((TESObjectREFR*)(void*)this);
+    TESContainer* pCont = ::TESObjectREFR_HasContainer((TESObjectREFR*)(void*)this);
     if (pCont)
     {
         if (!((StandIn_Vtbl100*)this)->Unk_100() || ((RefH*)this)->GetDisabled())
         {
-            if (((::BSOcclusionPlane*)this)->GetCullResult() && (FUN_004826d0)(apObject) &&
-                !((StandIn_Refr*)this)->FUN_005656d0())
+            if (((::BSOcclusionPlane*)this)->GetCullResult() && (TESScriptableForm_GetFormScript)(apObject) &&
+                !((StandIn_Refr*)this)->TESObjectREFR_HasScript())
             {
                 ((StandIn_Cell*)((::BSOcclusionPlane*)this)->GetCullResult())
-                    ->FUN_00545560((TESObjectREFR*)(void*)this);
+                    ->TESObjectCELL_AddScriptedRef((TESObjectREFR*)(void*)this);
             }
         }
         if ((void*)this == (void*)AddBoundItemData::DAT_011dea3c)
@@ -47344,7 +47601,7 @@ bool InventoryRefView::TESObjectREFR_LoadEquipedItem3D(TESBoundObject* apObject,
     bool abflag = false;
 
     {
-        TESContainer* pCont = (::FUN_0055d310)((TESObjectREFR*)this);
+        TESContainer* pCont = (::TESObjectREFR_HasContainer)((TESObjectREFR*)this);
 
         if (pCont)
         {
@@ -47434,7 +47691,7 @@ using ::NP;
 
 struct Helper_0061f890
 {
-    void FUN_0061f890(void* ref, int arg);
+    void BGSAcousticSpaceListener_DequeueRemoval(void* ref, int arg);
 };
 
 struct Proc_S
@@ -47449,7 +47706,7 @@ struct ExtraDataList_SV
 
 struct Helper_00576760
 {
-    void FUN_00576760();
+    void TESObjectREFR_CleanUpTraps();
 };
 
 struct TESObjectSTAT;
@@ -47593,7 +47850,7 @@ bool Standin_00576680::TESObjectREFR_Unload3D()
     pAvObject = (NiAVObject*)((VTable_1d0*)this)->vfn_1d0();
     if (pAvObject)
     {
-        ((Helper_00576760*)this)->FUN_00576760();
+        ((Helper_00576760*)this)->TESObjectREFR_CleanUpTraps();
         GetObjectFromNode(pAvObject, true, 0);
         bCreated = true;
     }
@@ -47605,9 +47862,9 @@ bool Standin_00576680::TESObjectREFR_Unload3D()
         ::_FNV_GetFormType(::_FNV_GetObjectReference((TESObjectREFR*)this)) == 0xe &&
         ((BSOcclusionPlane*)this)->GetCullResult())
     {
-        ((ExtraDataList_SV*)((BSOcclusionPlane*)this)->GetCullResult())->GetRoomId()->GetNext()->FUN_0061f890(this, 1);
+        ((ExtraDataList_SV*)((BSOcclusionPlane*)this)->GetCullResult())->GetRoomId()->GetNext()->BGSAcousticSpaceListener_DequeueRemoval(this, 1);
     }
-    ((FUN_0056c880_S*)this)->FUN_0056c880(1, false);
+    ((FUN_0056c880_S*)this)->TESObjectREFR_SetLoadedDataFlag(1, false);
     ((TES_helper*)g_TES_576680)->TES_LockHavokUpdateMT(0);
     return bCreated;
 }
@@ -47620,7 +47877,7 @@ struct ReferenceFloatEntry
 };
 struct ChildActivateView : public TESObjectREFR
 {
-    void FUN_0056a290(TESObjectREFR*);
+    void TESObjectREFR_InitChildActivates(TESObjectREFR*);
 };
 
 template <typename T> struct BSSimpleList;
@@ -47633,7 +47890,7 @@ extern TESObjectACTI* DAT_011ca280;
 
 struct ChildActivateExtraView
 {
-    void* FUN_005d43c0() const;
+    void* BSFile_GetDevice() const;
 };
 
 bool __fastcall _ref_008256d0(void*);
@@ -47648,24 +47905,25 @@ struct Standin_41e9e0
 
 struct Standin_Cell
 {
-    void FUN_005455c0(void*);
+    void AddActivatingRef(void*);
 };
 
 // Iterates reference entries, activates those whose delay is at most _gModifierZero, and calls a helper when any delay is greater.
 // @fnv 0x0056a290
-void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
+// src: XBOX_PDB 0x0056a290
+void ChildActivateView::TESObjectREFR_InitChildActivates(TESObjectREFR* apActionRef)
 {
     bool bActive;
     BSSimpleList<ReferenceFloatEntry*>* pList;
     ReferenceFloatEntry* pData2;
 
     bActive = false;
-    pList = (BSSimpleList<ReferenceFloatEntry*>*)((FUN_0041eda0_shell*)((ChildActivateExtraView*)this)->FUN_005d43c0())
+    pList = (BSSimpleList<ReferenceFloatEntry*>*)((FUN_0041eda0_shell*)((ChildActivateExtraView*)this)->BSFile_GetDevice())
                 ->ExtraDataList_GetActivateRefChildren();
     while (pList && !_ref_008256d0(pList))
     {
         pData2 = *_ref_006815c0_data(pList);
-        pData2->m_fDelay = ((Standin_41e9e0*)((ChildActivateExtraView*)pData2->m_pFourthReference)->FUN_005d43c0())
+        pData2->m_fDelay = ((Standin_41e9e0*)((ChildActivateExtraView*)pData2->m_pFourthReference)->BSFile_GetDevice())
                                ->FUN_0041e9e0(this);
         if (pData2->m_fDelay <= _gModifierZero)
         {
@@ -47686,7 +47944,7 @@ void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
     }
     if (bActive)
     {
-        ((Standin_Cell*)((BSOcclusionPlane*)this)->GetCullResult())->FUN_005455c0((TESObjectREFR*)this);
+        ((Standin_Cell*)((BSOcclusionPlane*)this)->GetCullResult())->AddActivatingRef((TESObjectREFR*)this);
     }
 }
 
@@ -47695,7 +47953,7 @@ struct Container_00577d50;
 
 struct InvChangesBase_00577d50
 {
-    bool FUN_0042cde0();
+    bool InventoryChanges_IsEmpty();
 };
 
 struct InvChanges_00577d50 : public InvChangesBase_00577d50
@@ -47716,19 +47974,20 @@ struct RefExtra_00577d50
 
 struct FUN_00577d50_shell : public TESObjectREFR
 {
-    int FUN_00577d50();
+    int TESObjectREFR_GetGoldCount();
 };
 
 Form_00577d50* _ref_004839c0(unsigned int id);
 
 // Looks up form ID 0xF, gets its object count when found, and removes extra-data type 0x15 when FUN_0042cde0 returns true.
 // @fnv 0x00577d50
-int FUN_00577d50_shell::FUN_00577d50()
+// src: XBOX_PDB 0x00577d50
+int FUN_00577d50_shell::TESObjectREFR_GetGoldCount()
 {
     Container_00577d50* pCont;
     int igold = 0;
 
-    pCont = (Container_00577d50*)::FUN_0055d310(this);
+    pCont = (Container_00577d50*)::TESObjectREFR_HasContainer(this);
     if (pCont)
     {
         InvChanges_00577d50* pinventory;
@@ -47744,7 +48003,7 @@ int FUN_00577d50_shell::FUN_00577d50()
             igold = pinventory->GetObjectCount(pobject);
         }
 
-        if (pinventory->FUN_0042cde0())
+        if (pinventory->InventoryChanges_IsEmpty())
         {
             reinterpret_cast<ExtraList_00577d50*>(reinterpret_cast<RefExtra_00577d50*>(this)->GetExtra())
                 ->RemoveExtraDataType0x15();
@@ -47756,7 +48015,7 @@ int FUN_00577d50_shell::FUN_00577d50()
 
 struct OwnershipReferenceView : public TESObjectREFR
 {
-    bool FUN_005785e0(Actor*, bool);
+    bool TESObjectREFR_IsAnOwner(Actor*, bool);
 };
 
 struct OwnershipTypeDescriptor;
@@ -47774,11 +48033,12 @@ struct OwnerHelper
     int GetReferenceLockLevel();
     TESGlobal* GetLockLevelGlobal();
 };
-bool __fastcall FUN_00578770(TESFaction*);
+bool __fastcall TESFaction_GetAllowSell(TESFaction*);
 extern double gModifierZero;
 
 // @fnv 0x005785e0
-bool OwnershipReferenceView::FUN_005785e0(Actor* apActor, bool busefaction)
+// src: XBOX_PDB 0x005785e0
+bool OwnershipReferenceView::TESObjectREFR_IsAnOwner(Actor* apActor, bool busefaction)
 {
     int iownerrank;
     TESForm* pownership;
@@ -47818,7 +48078,7 @@ bool OwnershipReferenceView::FUN_005785e0(Actor* apActor, bool busefaction)
             if (pownership && ((FormTypeHelper*)pownership)->GetFormType() == 8)
                 pfac = (TESFaction*)pownership;
             irank = 0;
-            if (pfac && FUN_00578770(pfac))
+            if (pfac && TESFaction_GetAllowSell(pfac))
                 busefaction = true;
             if (!pfac || !busefaction)
             {
@@ -47859,7 +48119,8 @@ struct FullNameLengthView
 
 // Returns the model length of a TESForm's full name, or 0 if the form is not a TESFullName.
 // @fnv 0x00579620
-unsigned int FUN_00579620(TESForm* form)
+// src: XBOX_PDB 0x00579620
+unsigned int TESFullName_GetFullNameLength(TESForm* form)
 {
     TESFullName* name = dynamic_cast<TESFullName*>(form);
     {

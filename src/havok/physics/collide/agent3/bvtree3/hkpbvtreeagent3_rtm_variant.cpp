@@ -127,7 +127,7 @@ struct CallBuf
     int unk18;
     int unk1c;
 };
-void __cdecl FUN_00da48e0(void* a, void* b);
+void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void* a, void* b);
 void __cdecl CallWithValueSource(void* apUnused, void* p2, int aiArg0, ValueSource** apValueSource, int aiArg1,
                                  int aiArg2, int aiArg3);
 struct SpawnedObject
@@ -335,10 +335,10 @@ struct S00d2d890_Obj
     int unk08;
     int unk0c;
 };
-char** FUN_00c85750();
+char** hkMemoryRouter_getInstance();
 int FUN_00d2d4f0(int a, int b, hkTransform* l, void* c, int d, int e, char* f, int g);
 int FUN_00d2d4b0(int a, S00d2d890_Hits* h);
-int FUN_00da4aa0(int a, void* b, int c, char* d, int e);
+int hkAgent1nMachine_Process(int a, void* b, int c, char* d, int e);
 char* __cdecl hkBvTreeAgent3_process(char* self, int a1, char* child, int a3, int a4);
 __declspec(noinline) void FUN_00d2d9d0(void* pObject);
 void hkBvTreeAgent3_registerAgent3(hkpCollisionDispatcher* target);

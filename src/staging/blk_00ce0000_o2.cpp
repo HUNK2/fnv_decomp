@@ -330,20 +330,20 @@ void __cdecl hkaSkeletonMapper_mapExtractedMotion(int pObject, int param_2, int 
                  reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40), param_2);
 }
 
-void __cdecl FUN_00ce3090(int a1, int a2, int a3, int a4, int a5, int a6);
+void __cdecl hkaSkeletonMapper_mapPoseLocalSpace(int a1, int a2, int a3, int a4, int a5, int a6);
 
 // Calls FUN_00ce3090 with a1, a2, a3, two zero arguments, and a4.
 // @fnv 0x00ce4330
 // src: HAVOK_LIB 0x00ce4330
 void __cdecl hkaSkeletonMapper_mapPoseLocalSpace_00ce4330(int a1, int a2, int a3, int a4)
 {
-    FUN_00ce3090(a1, a2, a3, 0, 0, a4);
+    hkaSkeletonMapper_mapPoseLocalSpace(a1, a2, a3, 0, 0, a4);
 }
 
 namespace fnv_00ce5370 {
 extern "C" void _ReadWriteBarrier(void);
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct AudioObjectRef
 {
@@ -371,7 +371,7 @@ struct FUN_00ce5370_cls
 // @fnv 0x00ce5370
 void FUN_00ce5370_cls::FUN_00ce5370()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapA = m_uCapA;
     m_iCountA = 0;
@@ -382,7 +382,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataA = 0;
     m_uCapA = 0x80000000u;
 
-    hkMemoryRouter* pHolder2 = FUN_00c85750();
+    hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator2 = reinterpret_cast<hkMemoryAllocator*>(pHolder2->m_heap);
     unsigned int uCapB = m_uCapB;
     m_iCountB = 0;
@@ -393,7 +393,7 @@ void FUN_00ce5370_cls::FUN_00ce5370()
     m_pDataB = 0;
     m_uCapB = 0x80000000u;
 
-    hkMemoryRouter* pHolder3 = FUN_00c85750();
+    hkMemoryRouter* pHolder3 = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator3 = reinterpret_cast<hkMemoryAllocator*>(pHolder3->m_heap);
     unsigned int uCapC = m_uCapC;
     m_iCountC = 0;
@@ -462,7 +462,7 @@ void* __cdecl FindKeyRecord(unsigned short aKey, FUN_00ce5480_cls* pKeyBox)
     return 0;
 }
 
-void __cdecl FUN_00d86160(void* stream, void* self);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(void* stream, void* self);
 
 struct FUN_00cf4490_cls
 {
@@ -470,14 +470,15 @@ struct FUN_00cf4490_cls
     unsigned int m_14;
     unsigned int m_18;
     unsigned char m_1c;
-    void FUN_00cf4490(void* stream);
+    void bhkVelocityConstraintMotor_SaveBinary(void* stream);
 };
 
 // Writes three fields to NiStream::m_pkOstr after calling FUN_00d86160.
 // @fnv 0x00cf4490
-void FUN_00cf4490_cls::FUN_00cf4490(void* stream)
+// src: XBOX_PDB 0x00cf4490
+void FUN_00cf4490_cls::bhkVelocityConstraintMotor_SaveBinary(void* stream)
 {
-    FUN_00d86160(stream, this);
+    bhkLimitedForceConstraintMotor_SaveBinary(stream, this);
     NiStream* s = reinterpret_cast<NiStream*>(stream);
     SaveStreamValue(*s->m_pkOstr, m_14);
     SaveStreamValue(*s->m_pkOstr, m_18);
@@ -498,13 +499,13 @@ struct SerializedObject
     int base00, base04, base08, base0C, base10, word14, word18;
     void __thiscall SerializeToStream(int source);
 };
-extern "C" void __cdecl FUN_00d86160(int, SerializedObject*);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(int, SerializedObject*);
 // Writes word14 and word18 to the stream at source+0x250, accumulating bytesWritten, after calling FUN_00d86160.
 // @fnv 0x00cf4670
 void SerializedObject::SerializeToStream(int source)
 {
     int saved = source;
-    FUN_00d86160(saved, this);
+    bhkLimitedForceConstraintMotor_SaveBinary(saved, this);
     NiBinaryStream* __restrict stream = reinterpret_cast<NiStream*>(saved)->m_pkOstr;
     source = 4;
     stream->m_uiAbsoluteCurrentPos += stream->m_pfnWrite(stream, &word14, 4, (unsigned int*)&source, 1);
@@ -572,7 +573,8 @@ class CF4BC0Saver
 CF4BC0Saver* __cdecl CF4BC0CreateSaver(unsigned int uiType);
 
 // @fnv 0x00cf4bc0
-void __cdecl FUN_00cf4bc0(NiStream& kStream, CF4BC0Object* pkObject)
+// src: XBOX_PDB 0x00cf4bc0
+void __cdecl bhkConstraintManager_SaveBinary(NiStream& kStream, CF4BC0Object* pkObject)
 {
     CF4BC0AllocTagScope kScope(0x10);
     unsigned int uiType = pkObject->GetSaveType();
@@ -586,7 +588,7 @@ void __cdecl FUN_00cf4bc0(NiStream& kStream, CF4BC0Object* pkObject)
 extern int DAT_010cc2fc;
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct SubObject_b3813
 {
@@ -615,7 +617,7 @@ FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
     m_vptr = (int)&DAT_0102e388;
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         pAllocator->blockFree(this, m_uSize);
     }
@@ -789,7 +791,7 @@ int* __cdecl FUN_00cf69b0()
 namespace fnv_00cf6b10 {
 extern "C" void* DAT_01268794;
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct SpawnedObject
 {
@@ -807,7 +809,7 @@ struct SpawnedObject
 // src: HAVOK_LIB 0x00cf6b10
 void __cdecl hkMultiThreadCheck_staticInit()
 {
-    hkMemoryRouter* pAllocHolder = FUN_00c85750();
+    hkMemoryRouter* pAllocHolder = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(pAllocHolder->m_heap);
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x18);
     if (obj != 0)
@@ -1157,7 +1159,8 @@ static inline void WriteData(NiBinaryStream* s, void* data, int size)
 
 // Writes each 4-byte field of the Record to the owner's stream via WriteData, skipping unk0C.
 // @fnv 0x00cf09a0
-void FUN_00cf09a0(NiStream* owner, Record* rec)
+// src: XBOX_PDB 0x00cf09a0
+void bhkPoseArray_bhkPose_SaveBinary(NiStream* owner, Record* rec)
 {
     WriteData(owner->m_pkOstr, &rec->unk00, 4);
     WriteData(owner->m_pkOstr, &rec->unk04, 4);
@@ -1231,19 +1234,20 @@ int* bhkPositionConstraintMotor_GetRTTI()
     return &DAT_01268730;
 }
 
-extern "C" void __cdecl FUN_00d86100(void* view, void* object);
+extern "C" void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(void* view, void* object);
 
 struct SerializedRecord
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
     unsigned int m_14, m_18, m_1c, m_20;
-    void FUN_00cf41c0(NiStream* view);
+    void bhkPositionConstraintMotor_LoadBinary(NiStream* view);
 };
 // Calls FUN_00d86100 with the view and this record, then loads m_14, m_18, m_1c and m_20 from the view's stream.
 // @fnv 0x00cf41c0
-void SerializedRecord::FUN_00cf41c0(NiStream* view)
+// src: XBOX_PDB 0x00cf41c0
+void SerializedRecord::bhkPositionConstraintMotor_LoadBinary(NiStream* view)
 {
-    FUN_00d86100(view, this);
+    bhkLimitedForceConstraintMotor_LoadBinary(view, this);
     LoadStreamValue(*view->m_pkIstr, m_14);
     LoadStreamValue(*view->m_pkIstr, m_18);
     LoadStreamValue(*view->m_pkIstr, m_1c);
@@ -1259,7 +1263,7 @@ CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI()
     return &DAT_01268738;
 }
 
-void __cdecl FUN_00d86100(NiStream* ar, void* obj);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream* ar, void* obj);
 
 class hkObjCF46
 {
@@ -1278,7 +1282,7 @@ class hkObjCF46
 // @fnv 0x00cf4600
 void hkObjCF46::LoadFromArchive(NiStream* ar)
 {
-    FUN_00d86100(ar, this);
+    bhkLimitedForceConstraintMotor_LoadBinary(ar, this);
     LoadStreamValue(*ar->m_pkIstr, m_kPointA);
     LoadStreamValue(*ar->m_pkIstr, m_kPointB);
 }
@@ -1755,7 +1759,7 @@ void __cdecl FUN_00ce2f30()
 }
 
 class SerializableCF42;
-void __cdecl FUN_00d86160(NiStream& kStream, SerializableCF42* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_SaveBinary(NiStream& kStream, SerializableCF42* pkObject);
 
 class SerializableCF42
 {
@@ -1766,14 +1770,15 @@ class SerializableCF42
     unsigned int m_uiValue1C;
     unsigned int m_uiValue20;
 
-    void FUN_00cf4260(NiStream& kStream);
+    void bhkPositionConstraintMotor_SaveBinary(NiStream& kStream);
 };
 
 // Calls FUN_00d86160 then writes four unsigned int fields to NiStream::m_pkOstr.
 // @fnv 0x00cf4260
-void SerializableCF42::FUN_00cf4260(NiStream& kStream)
+// src: XBOX_PDB 0x00cf4260
+void SerializableCF42::bhkPositionConstraintMotor_SaveBinary(NiStream& kStream)
 {
-    FUN_00d86160(kStream, this);
+    bhkLimitedForceConstraintMotor_SaveBinary(kStream, this);
     SaveStreamValue(*kStream.m_pkOstr, m_uiValue14);
     SaveStreamValue(*kStream.m_pkOstr, m_uiValue18);
     SaveStreamValue(*kStream.m_pkOstr, m_uiValue1C);
@@ -1824,7 +1829,7 @@ FUN_00cf43b0::FUN_00cf43b0()
 }
 
 class SerializableCF44;
-void __cdecl FUN_00d86100(NiStream& kStream, SerializableCF44* pkObject);
+void __cdecl bhkLimitedForceConstraintMotor_LoadBinary(NiStream& kStream, SerializableCF44* pkObject);
 
 class SerializableCF44
 {
@@ -1834,14 +1839,15 @@ class SerializableCF44
     unsigned int m_uiValue18;
     unsigned char m_ucValue1C;
 
-    void FUN_00cf4400(NiStream& kStream);
+    void bhkVelocityConstraintMotor_LoadBinary(NiStream& kStream);
 };
 
 // Calls FUN_00d86100, then reads m_uiValue14, m_uiValue18, and m_ucValue1C from the stream via LoadStreamValue.
 // @fnv 0x00cf4400
-void SerializableCF44::FUN_00cf4400(NiStream& kStream)
+// src: XBOX_PDB 0x00cf4400
+void SerializableCF44::bhkVelocityConstraintMotor_LoadBinary(NiStream& kStream)
 {
-    FUN_00d86100(kStream, this);
+    bhkLimitedForceConstraintMotor_LoadBinary(kStream, this);
     LoadStreamValue(*kStream.m_pkIstr, m_uiValue14);
     LoadStreamValue(*kStream.m_pkIstr, m_uiValue18);
     LoadStreamValue(*kStream.m_pkIstr, m_ucValue1C);
@@ -1881,7 +1887,8 @@ struct AllocScope
 };
 // Reads a type ID from the stream, creates a saver, loads its binary data, and returns the retained object pointer.
 // @fnv 0x00cf4af0
-hkReferencedObject* __cdecl FUN_00cf4af0(NiStream& kStream)
+// src: XBOX_PDB 0x00cf4af0
+hkReferencedObject* __cdecl bhkConstraintManager_LoadBinary(NiStream& kStream)
 {
     AllocScope kAllocTag(GetTag(16));
     NiBinaryStream* pIstr = kStream.m_pkIstr;
@@ -2052,7 +2059,8 @@ struct FUN_00cf08c0_VectorArray
 };
 // Returns true when both arrays have the same count and every component differs by at most the tolerance DAT_01017d00.
 // @fnv 0x00cf08c0
-bool __cdecl FUN_00cf08c0(const FUN_00cf08c0_VectorArray* left, const FUN_00cf08c0_VectorArray* right)
+// src: XBOX_PDB 0x00cf08c0
+bool __cdecl bhkStream_IsEqual(const FUN_00cf08c0_VectorArray* left, const FUN_00cf08c0_VectorArray* right)
 {
     bool equal = left->count == right->count;
     if (equal)
@@ -2112,7 +2120,8 @@ static unsigned int S00cf0cf0_SaveRaw(NiBinaryStream* s, const void* p, unsigned
 
 // Writes arr's count and then each 16-byte element to the binary stream, and returns count * 16.
 // @fnv 0x00cf0cf0
-int __cdecl FUN_00cf0cf0(NiStream* self, S00cf0cf0_Arr* arr)
+// src: XBOX_PDB 0x00cf0cf0
+int __cdecl bhkStream_SaveBinary(NiStream* self, S00cf0cf0_Arr* arr)
 {
     S00cf0cf0_Arr* a = arr;
     int count = a->count;
@@ -2488,7 +2497,7 @@ bool __cdecl IsAddressInBlock(const BlockList_cfd* list, unsigned addr)
 
 inline hkMemoryAllocator& heap_cfde()
 {
-    return *reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+    return *reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
 }
 extern "C" void __cdecl hkArrayUtil__reduce(hkMemoryAllocator* alloc, void* array, int elemSize, void* storage, int capacity);
 
@@ -2524,7 +2533,7 @@ struct BlockArr_cfde
             int newCap = c + 1;
             if (newCap < 1)
             {
-                hkMemoryRouter* h = FUN_00c85750();
+                hkMemoryRouter* h = hkMemoryRouter_getInstance();
                 hkArrayUtil__reduce(reinterpret_cast<hkMemoryAllocator*>(h->m_heap), this, sizeof(char*), m_kStorage, 1);
             }
             else if (newCap < getCapacity())
@@ -2551,7 +2560,7 @@ static __declspec(noinline) void FUN_00cfdeb0(BlockStack_cfde* s)
     {
         char* block = s->m_kBlocks.back();
         s->m_kBlocks.popBack();
-        hkMemoryRouter* h = FUN_00c85750();
+        hkMemoryRouter* h = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(h->m_heap)->blockFree(block, 0x200);
         s->m_uiBufferCapacity = 0x200;
     }
@@ -2896,7 +2905,7 @@ void ShapeCollection::FUN_00cf4fb0(hkAabb* bounds)
 namespace fnv_00cf6d60 {
 #include <windows.h>
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 extern CRITICAL_SECTION* DAT_01268794;
 // Deletes the global critical section and frees its memory through the audio holder's allocator.
@@ -2908,7 +2917,7 @@ void hkMultiThreadCheck_staticQuit()
     {
         CRITICAL_SECTION* p = DAT_01268794;
         DeleteCriticalSection(DAT_01268794);
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap)->blockFree(p, 0x18);
         DAT_01268794 = 0;
     }
@@ -2994,7 +3003,7 @@ struct CECountArray
 void __cdecl hkaSkeletonMapper_checkMappingLocalSpace(CEMap* map)
 {
     int count = map->b->count;
-    hkMemoryRouter* scratch = FUN_00c85750();
+    hkMemoryRouter* scratch = hkMemoryRouter_getInstance();
     CECountArray counts;
     counts.m_data = reinterpret_cast<int*>(scratch->m_stack.m_next.m_storage);
     scratch->m_stack.m_next.m_storage = (char*)scratch->m_stack.m_next.m_storage + ((count * 4 + 127) & -128);
@@ -3114,8 +3123,8 @@ void __cdecl hkaSkeletonMapper_checkMappingLocalSpace(CEMap* map)
             }
         }
     }
-    FUN_00c85750()->m_stack.m_next.m_storage = (void*)(reinterpret_cast<int>(data));
-    hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(FUN_00c85750()->m_heap);
+    hkMemoryRouter_getInstance()->m_stack.m_next.m_storage = (void*)(reinterpret_cast<int>(data));
+    hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
     if ((counts.m_iCapacityState & (int)0x80000000) == 0)
         allocator->bufFree(data, (unsigned int)(counts.m_iCapacityState & 0x3fffffff) * 4);
 }

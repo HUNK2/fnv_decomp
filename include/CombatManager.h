@@ -88,7 +88,7 @@ public:
     ~CombatManager();
     void SwapAndDispatch(void*, void*);
     void FUN_008d0600(void*, void*);
-    void FUN_00991dc0();
+    void CombatManager_UpdateCombatants();
     ActorCombatGroup* FindByKey(unsigned int key);
     void FUN_00993800(BGSLoadGameBuffer*);
     void InitLoadGame_00993600(void* stream);

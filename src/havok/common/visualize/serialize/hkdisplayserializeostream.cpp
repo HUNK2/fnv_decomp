@@ -8,7 +8,7 @@
 #include "../../../../../include/hkMemoryAllocator.h"
 #include "../../../../../include/hkOArchive.h"
 
-__declspec(nothrow) hkMemoryRouter* __cdecl FUN_00c85750();
+__declspec(nothrow) hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x00dda830
 // src: HAVOK_LIB 0x00dda830
@@ -41,7 +41,7 @@ struct FUN_00d27460 : RefObj
 
 inline void* hkAlloc(int n)
 {
-    RefObj* p = (RefObj*)FUN_00c85750()->heap().blockAlloc(n);
+    RefObj* p = (RefObj*)hkMemoryRouter_getInstance()->heap().blockAlloc(n);
     p->m_usMemSizeAndFlags = (short)n;
     return p;
 }
@@ -134,7 +134,7 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
     FUN_00d60590();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         holder->heap().blockFree(this, size);
     }
     return this;

@@ -22,7 +22,7 @@ struct FUN_00d74dd0_Class
 };
 struct FUN_00d7ac40_class
 {
-    void FUN_00d7ac40(int);
+    void hkgpConvexHullImpl_reset(int);
 };
 struct FUN_00d75850_class
 {
@@ -754,7 +754,7 @@ struct S_00d7a010_Router
     int unk8;
     int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
+    static S_00d7a010_Router& hkMemoryRouter_getInstance() throw();
     S_00d7a010_Alloc& heap() throw()
     {
         return *m_pStreamAllocator;
@@ -836,7 +836,7 @@ struct S_00d7c340_Router
         return unk10;
     }
 };
-S_00d7c340_Router* FUN_00c85750();
+S_00d7c340_Router* hkMemoryRouter_getInstance();
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 struct S_00d7c340_Elem
 {
@@ -1600,7 +1600,7 @@ struct D76250MemoryRouter
     }
 };
 namespace fnvc_adapt {
-extern "C" D76250MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D76250MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 typedef hkArray<hkVector4> D76250VectorArray;
@@ -2032,7 +2032,7 @@ struct H77MemoryRouter
     int unk0C;
     H77Allocator* m_pStreamAllocator;
 
-    static H77MemoryRouter& FUN_00c85750() throw();
+    static H77MemoryRouter& hkMemoryRouter_getInstance() throw();
     H77Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -2051,7 +2051,7 @@ struct H77VectorArrayLocalForm
     {}
     ~H77VectorArrayLocalForm()
     {
-        H77Allocator& alloc = H77MemoryRouter::FUN_00c85750().heap();
+        H77Allocator& alloc = H77MemoryRouter::hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkVector4));
@@ -2072,7 +2072,7 @@ struct H77VectorArrayLocalForm
 
     void SetSizeAndGrow(int n)
     {
-        H77Allocator& alloc = H77MemoryRouter::FUN_00c85750().heap();
+        H77Allocator& alloc = H77MemoryRouter::hkMemoryRouter_getInstance().heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {

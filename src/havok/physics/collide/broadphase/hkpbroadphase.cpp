@@ -44,11 +44,12 @@ struct FUN_00d97060_cls
     int unk0c;
     void* m_pSection;
 
-    void FUN_00d97060();
+    void hkpBroadPhase_unlockImplementation();
 };
 
 // @fnv 0x00d97060
-void FUN_00d97060_cls::FUN_00d97060()
+// src: XBOX_PDB 0x00d97060
+void FUN_00d97060_cls::hkpBroadPhase_unlockImplementation()
 {
     LeaveCriticalSection(m_pSection);
 }
@@ -85,7 +86,7 @@ struct Holder
     Obj* m_10;
 };
 
-Holder* FUN_00c85750();
+Holder* hkMemoryRouter_getInstance();
 
 class Owner
 {
@@ -103,7 +104,7 @@ void Owner::hkpBroadPhase_enableMultiThreading(void* apArg)
 {
     if (m_10 == 0)
     {
-        Holder* h = FUN_00c85750();
+        Holder* h = hkMemoryRouter_getInstance();
         Obj* obj = h->m_10;
         Spawned* s = obj->v04(0x18);
         m_10 = (s != 0) ? s->Init(apArg) : s;
@@ -126,7 +127,7 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
+CpuAllocatorHolder* __cdecl hkMemoryRouter_getInstance();
 struct CpuObject
 {
     unsigned int unk00;
@@ -141,7 +142,7 @@ CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
     FUN_00d970c0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = hkMemoryRouter_getInstance();
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -158,11 +159,12 @@ struct FUN_00d97050_cls
     int unk0c;
     void* m_pSection;
 
-    void FUN_00d97050();
+    void hkpBroadPhase_lockImplementation();
 };
 
 // @fnv 0x00d97050
-void FUN_00d97050_cls::FUN_00d97050()
+// src: XBOX_PDB 0x00d97050
+void FUN_00d97050_cls::hkpBroadPhase_lockImplementation()
 {
     EnterCriticalSection(m_pSection);
 }
@@ -197,7 +199,7 @@ void FUN_00d970c0_cls::FUN_00d970c0()
     if (pCs != 0)
     {
         DeleteCriticalSection(pCs);
-        Holder* pHolder = FUN_00c85750();
+        Holder* pHolder = hkMemoryRouter_getInstance();
         FreeAllocator* pAllocator = reinterpret_cast<FreeAllocator*>(pHolder->m_10);
         pAllocator->Free(pCs, 0x18);
         m_pCs = 0;

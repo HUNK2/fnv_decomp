@@ -50,13 +50,13 @@ void NiAlphaProperty::LoadBinary(NiStream& stream)
 
 struct EqBase
 {
-    bool FUN_00a62140(NiObject*);
+    bool NiSequenceStreamHelper_IsEqual(NiObject*);
 };
 // @fnv 0x00a5cb10
 unsigned char __fastcall IsAlphaPropertyEqual(NiAlphaProperty* self, int, NiObject* pkObject)
 {
     NiAlphaProperty* pkAlpha = reinterpret_cast<NiAlphaProperty*>(pkObject);
-    return reinterpret_cast<EqBase*>(self)->FUN_00a62140(pkObject) &&
+    return reinterpret_cast<EqBase*>(self)->NiSequenceStreamHelper_IsEqual(pkObject) &&
            ((unsigned char)pkAlpha->m_usAlphaArg & 1) == ((unsigned char)self->m_usAlphaArg & 1) &&
            (self->m_usAlphaArg & 0x1e) == (pkAlpha->m_usAlphaArg & 0x1e) &&
            (self->m_usAlphaArg & 0x1e0) == (pkAlpha->m_usAlphaArg & 0x1e0) &&
@@ -149,7 +149,8 @@ __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 
 // Allocates a 0x1c-byte NiAlphaProperty, initialises its vtable and flags, and stores it in DAT_011f4410 with reference counting.
 // @fnv 0x00a5cef0
-void FUN_00a5cef0()
+// src: XBOX_PDB 0x00a5cef0
+void NiAlphaProperty__SDMInit()
 {
     char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
     if (pAlphaProperty)
@@ -220,14 +221,14 @@ class A5D020Base
     int unk10;
     int unk14;
 
-    void FUN_00a5d7b0(NiStream& kStream);
+    void NiSequenceStreamHelper_SaveBinary(NiStream& kStream);
 };
 
 // The shared header does not declare the alpha SaveBinary override.
 // @fnv 0x00a5d020
 void __fastcall SaveAlphaPropertyBinary(NiAlphaProperty* self, int, NiStream& kStream)
 {
-    reinterpret_cast<A5D020Base*>(self)->FUN_00a5d7b0(kStream);
+    reinterpret_cast<A5D020Base*>(self)->NiSequenceStreamHelper_SaveBinary(kStream);
     A5D020SaveBinary(kStream, self->m_usAlphaArg);
     A5D020SaveBinary(kStream, self->m_ucAlphaArg2);
 }
@@ -239,8 +240,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f4408;
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
-char* __cdecl FUN_00a7d370(const char*, bool);
-char* __cdecl FUN_00a7d410(const char*, unsigned char);
+char* __cdecl NiGetViewerString(const char*, bool);
+char* __cdecl NiGetViewerString_00a7d410(const char*, unsigned char);
 char* __cdecl GetAlphaBlendFuncName(const char*, unsigned int);
 char* __cdecl FormatTestCondition(const char*, unsigned int);
 
@@ -297,21 +298,22 @@ void __fastcall AppendAlphaPropertyStrings(NiAlphaProperty* self, int, StrArr* p
 {
     reinterpret_cast<FUN_00a62a40_this*>(self)->AppendString(pkStrings);
     pkStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(g_011f4408.m_name));
-    pkStrings->AddInline(FUN_00a7d370("m_bAlpha", GetAlphaBlending(self)));
+    pkStrings->AddInline(NiGetViewerString("m_bAlpha", GetAlphaBlending(self)));
     pkStrings->AddInline(GetAlphaBlendFuncName("m_eSrcBlend", GetSrcBlend(self)));
     pkStrings->AddInline(GetAlphaBlendFuncName("m_eDestBlend", GetDestBlend(self)));
-    pkStrings->AddInline(FUN_00a7d370("m_bAlphaTest", GetAlphaTesting(self)));
+    pkStrings->AddInline(NiGetViewerString("m_bAlphaTest", GetAlphaTesting(self)));
     pkStrings->AddInline(FormatTestCondition("m_eTestMode", GetTestMode(self)));
-    pkStrings->AddInline(FUN_00a7d410("m_ucTestRef", GetTestRef(self)));
-    pkStrings->AddInline(FUN_00a7d370("m_bNoSorter", GetNoSorter(self)));
+    pkStrings->AddInline(NiGetViewerString_00a7d410("m_ucTestRef", GetTestRef(self)));
+    pkStrings->AddInline(NiGetViewerString("m_bNoSorter", GetNoSorter(self)));
 }
 
-void __cdecl FUN_00a62130();
+void __cdecl NiSequenceStreamHelper_RegisterStreamables();
 
 // @fnv 0x00a99e40
-void __cdecl FUN_00a99e40()
+// src: XBOX_PDB 0x00a99e40
+void __cdecl NiAlphaProperty_RegisterStreamables()
 {
-    FUN_00a62130();
+    NiSequenceStreamHelper_RegisterStreamables();
 }
 
 extern char DAT_011f4404;
@@ -322,7 +324,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct NiPropertyCloneStub
 {
     void FUN_00a5c200();
-    void FUN_00a5d7a0(NiAlphaProperty* dst, int proc);
+    void NiProperty_CopyMembers(NiAlphaProperty* dst, int proc);
 };
 void __stdcall CreateVertexBufferSet(NiAlphaProperty* self, int proc);
 
@@ -347,7 +349,7 @@ NiAlphaProperty* __fastcall CloneAlphaProperty(NiAlphaProperty* self, int, int a
     {
         n = 0;
     }
-    reinterpret_cast<NiPropertyCloneStub*>(self)->FUN_00a5d7a0(n, a0);
+    reinterpret_cast<NiPropertyCloneStub*>(self)->NiProperty_CopyMembers(n, a0);
     n->m_usAlphaArg = self->m_usAlphaArg;
     n->m_ucAlphaArg2 = self->m_ucAlphaArg2;
     return n;

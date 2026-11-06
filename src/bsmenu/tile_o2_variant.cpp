@@ -85,12 +85,13 @@ struct GeomData_S
     NiPoint3* m_pkNormal;
     NiColorA* m_pkColor;
     NiPoint2* m_pkTexture;
-    void FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, NiColorA* pkColor,
+    void NiGeometryData_Replace(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, NiColorA* pkColor,
                       NiPoint2* pkTexture, unsigned short usNumTextureSets, unsigned short eNBTMethod);
 };
 
 // @fnv 0x00a670c0
-void GeomData_S::FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, NiColorA* pkColor,
+// src: XBOX_PDB 0x00a670c0
+void GeomData_S::NiGeometryData_Replace(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, NiColorA* pkColor,
                               NiPoint2* pkTexture, unsigned short usNumTextureSets, unsigned short eNBTMethod)
 {
     if (GetShared())

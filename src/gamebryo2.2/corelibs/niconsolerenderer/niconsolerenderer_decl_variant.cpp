@@ -560,7 +560,7 @@ struct FUN_00e752b0_shell {
     char _pad[0x90c];
     struct Node { Node* next; Node* prev; void* data; } *m_Head, *m_Tail;
     NodePoolView m_Pool;
-    void FUN_00e752b0(void* pkD3DShader);
+    void NiXenonRenderer_RegisterD3DShader(void* pkD3DShader);
 };
 struct VBase765 {
 	virtual void f00() = 0;
@@ -3719,7 +3719,7 @@ extern const char DAT_010edbb8[];
 extern const char* DAT_0109b220;
 void* __cdecl FUN_00aa13e0(unsigned int size);
 const char* __cdecl FUN_00a5b690(const char* name);
-RefObject* __cdecl FUN_00a5ff10(RenderResource* resource, const char* name, ResourceParameters* parameters);
+RefObject* __cdecl NiSourceTexture_Create(RenderResource* resource, const char* name, ResourceParameters* parameters);
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -12547,7 +12547,7 @@ struct E6F310Renderer {
     E6F310Target* m_pkTarget;
 };
 class NiRTTI;
-bool __cdecl FUN_0043b300(const NiRTTI* type, NiAVObject* obj);
+bool __cdecl NiObject_IsKindOf(const NiRTTI* type, NiAVObject* obj);
 extern const NiRTTI g_011f4a88;
 extern const NiRTTI g_011f4a70;
 struct PacketTarget { int unk00; int unk04; void* unk08; void Release(); };
@@ -12689,7 +12689,7 @@ extern const char g_011f5af4_arg1[];
 struct Geo108;
 struct Packet108;
 
-bool FUN_0043b300(const NiRTTI*,NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*,NiAVObject*);
 struct Owner108 {
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void ReleaseStream(Packet108*,unsigned int);
 };

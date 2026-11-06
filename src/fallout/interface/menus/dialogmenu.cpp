@@ -62,7 +62,7 @@ LocalDialogMenu::DialogState LocalDialogMenu::BeginDialogueResponse(bool usePref
         {
             if (usePrefix)
             {
-                if (pDialogueItem->FUN_00833c20())
+                if (pDialogueItem->ActiveEffect_IsActive())
                 {
                     if (reinterpret_cast<BSStringT<char>*>(
                             &reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(response)->GetItem())
@@ -247,12 +247,12 @@ void LocalDialogMenu::LoadTopicsList()
                 MobileObjectView* actor = 0;
                 if (m_pDialogueSpeaker->IsActor())
                     actor = m_pDialogueSpeaker;
-                else if (m_pDialogueSpeaker->FUN_00574900())
+                else if (m_pDialogueSpeaker->MobileObject_IsTalkingActivator())
                     actor = reinterpret_cast<MobileObjectView*>(
                         reinterpret_cast<BGSExplosion*>(reinterpret_cast<LocalDialogueItem*>(m_pDialogueSpeaker)
                                                             ->SelectDefaultResponseList()
                                                             ->GetObjectReference())
-                            ->FUN_00516bf0());
+                            ->BGSExplosion_GetImpactDataSet());
                 sprintf_s(
                     text, 512, "%s, %i", text,
                     ComputeWeightedValue(
@@ -324,7 +324,7 @@ void LocalDialogMenu::LoadTopicsList()
                 ? 255
                 : 128);
         if (bDisabled)
-            pItemTile->FUN_0071aa60(true);
+            pItemTile->SetSpeechChallengeFailure_0071aa60(true);
         if (iIndex <= 2)
             iTopicHeight += (int)reinterpret_cast<TileListBoxCalls_dialogmenu_decls*>(pItemTile)->GetFloat(0xFB0);
         bNextTopic = pDialogueItem->AdvanceTopic();
@@ -355,9 +355,9 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
             "MENUS: DialogMenu::Create() called with a null speaker, which shouldn't happen.  Notify your friendly Interface programmer!");
         return 0;
     }
-    Tile* m_pFourthMenuObject = pManager->FUN_00586150()->ReadFile("Data\\Menus\\Dialog\\dialog_menu.xml");
+    Tile* m_pFourthMenuObject = pManager->CombatController_GetCombatState()->ReadFile("Data\\Menus\\Dialog\\dialog_menu.xml");
     DAT_011d9510 = static_cast<LocalDialogMenu*>(m_pFourthMenuObject->GetMenu());
-    if (DAT_011d9510 && DAT_011d9510->GetClass() == (unsigned int)FUN_007620e0())
+    if (DAT_011d9510 && DAT_011d9510->GetClass() == (unsigned int)DialogMenu_GetClassStatic())
     {
         DAT_011d9510->SetTileMenu(reinterpret_cast<TileMenu*>(m_pFourthMenuObject), false);
         if (!DAT_011d9510->DialogMenu_IsWellFormedMenu())
@@ -409,7 +409,7 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
                 ->SetProcessTarget(reinterpret_cast<MobileObject*>(speaker), 2);
             speaker->vfn_278(true);
         }
-        DAT_011d9510->m_bPauseRequested = g_thePlayer->FUN_004eaf60();
+        DAT_011d9510->m_bPauseRequested = g_thePlayer->PlayerCharacter_Is3rdPerson();
         if (DAT_011d9510->m_eGoodbyeState != eForceGoodbye)
         {
             g_thePlayer->Show1stPerson(true);
@@ -420,7 +420,7 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
             float distance = (*speaker->GetPos() - *g_thePlayer->GetPos()).Length();
             DAT_011d9510->m_pDialogueDepthOfFieldModifier = ImageSpaceModifierInstanceDOF::CreateAndRegister(
                 distance, *DAT_011d46fc.Float(), ImageSpaceModifierInstanceDOF::DOF_BACK, 0.0f, 0.0f, 0.0f);
-            DAT_011d9510->m_pDialogueDepthOfFieldModifier->FUN_005bbd60(true);
+            DAT_011d9510->m_pDialogueDepthOfFieldModifier->ImageSpaceModifierInstance_SetPermanent(true);
         }
         g_thePlayer->SetAimingWeapon(false, false, false);
         g_thePlayer->UpdatePlayerInventory();
@@ -489,7 +489,7 @@ void LocalDialogMenu::UpdateDialog()
         if (m_bSuppressDialogueText && m_fCameraTransitionTime == 0.0)
         {
             m_bSuppressDialogueText =
-                InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(17, FUN_007620e0(), (unsigned int)*DAT_011d3ee0.Float() * 1400);
+                InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(17, DialogMenu_GetClassStatic(), (unsigned int)*DAT_011d3ee0.Float() * 1400);
             if (!m_bSuppressDialogueText)
             {
                 if (m_pDialogueSpeaker)
@@ -500,7 +500,7 @@ void LocalDialogMenu::UpdateDialog()
         else if (!m_bSuppressDialogueText && m_fCameraTransitionAlpha >= 0.1)
             reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())->Set(DAT_011d9508, 1);
         m_fCameraTransitionTime += g_timeGlobal.FUN_0084d030();
-        m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / *DAT_011d3ee0.Float(), 1.0f);
+        m_fCameraTransitionAlpha = BSMIN(m_fCameraTransitionTime / *DAT_011d3ee0.Float(), 1.0f);
         if (m_fCameraTransitionAlpha == 1.0)
         {
             if (!m_bSuppressDialogueText)
@@ -536,7 +536,7 @@ void LocalDialogMenu::UpdateDialog()
     case eLoadSpeech:
         if (!m_pDialogueSpeaker->bDialogueSelected)
         {
-            m_pDialogueSpeaker->FUN_00934250();
+            m_pDialogueSpeaker->MobileObject_StopCurrentDialogue();
             if (DAT_011d9594 == 0)
                 DAT_011d9594 = g_timeGlobal.GetTimeStamp();
             if (g_timeGlobal.GetTimeStamp() - DAT_011d9594 >= 500.0)
@@ -563,7 +563,7 @@ void LocalDialogMenu::UpdateDialog()
         break;
     case eCameraZoomOut:
         m_fCameraTransitionTime += g_timeGlobal.FUN_0084d030();
-        m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / *DAT_011d243c.Float(), 1.0f);
+        m_fCameraTransitionAlpha = 1.0f - BSMIN(m_fCameraTransitionTime / *DAT_011d243c.Float(), 1.0f);
         if (m_fCameraTransitionAlpha == 0.0)
         {
             DAT_011f21d0 = true;
@@ -603,7 +603,7 @@ void LocalDialogMenu::Close()
             speaker->GetFaceGenNodeBiped(0)->StopMoving(false);
         if (speaker->GetFaceGenNodeSkinned(0))
             speaker->GetFaceGenNodeSkinned(0)->StopMoving(false);
-        speaker->FUN_00934250();
+        speaker->MobileObject_StopCurrentDialogue();
         speaker->vfn_278(false);
         g_thePlayer->vfn_278(false);
         speaker->vfn_288();
@@ -771,7 +771,8 @@ DialogListBox::~DialogListBox()
 }
 
 // @fnv 0x007620e0
-int __cdecl FUN_007620e0()
+// src: XBOX_PDB 0x007620e0
+int __cdecl DialogMenu_GetClassStatic()
 {
     return 0x3f1;
 }
@@ -820,7 +821,8 @@ void DialogListBox::SortAndSynchronize(int(__cdecl* apCompareFn)(ListBoxItem_int
 }
 
 // @fnv 0x00763ff0
-void FUN_00763ff0()
+// src: XBOX_PDB 0x00763ff0
+void DialogMenu_ServiceStart()
 {
     if (DAT_011d9510 && DAT_011d9510->m_eGoodbyeState == 0)
     {
@@ -854,8 +856,8 @@ void LocalDialogMenu::SetActive(bool abActive)
     }
 }
 
-void __cdecl FUN_005293f0(void*);
-void __cdecl FUN_0083e510();
+void __cdecl ImageSpaceModifierInstance_Stop(void*);
+void __cdecl MenuTopicManager_Destroy();
 
 // @fnv 0x00761960
 LocalDialogMenu::~LocalDialogMenu()
@@ -863,10 +865,10 @@ LocalDialogMenu::~LocalDialogMenu()
     DAT_011d9514 = false;
     if (DAT_011d9510->m_pDialogueDepthOfFieldModifier)
     {
-        FUN_005293f0(m_pDialogueDepthOfFieldModifier);
+        ImageSpaceModifierInstance_Stop(m_pDialogueDepthOfFieldModifier);
         m_pDialogueDepthOfFieldModifier = 0;
     }
-    FUN_0083e510();
+    MenuTopicManager_Destroy();
     DAT_011d9510 = 0;
 }
 

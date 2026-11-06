@@ -80,10 +80,11 @@ void __fastcall FUN_00e09bd0(void* p, int)
 struct S_00e0a0a0
 {
     int unk0, unk4, unk8, unkC, unk10, unk14, unk18, unk1C;
-    int FUN_00e0a0a0();
+    int hkpMoppDefaultSplitter_getFreeNodes();
 };
 // @fnv 0x00e0a0a0
-int S_00e0a0a0::FUN_00e0a0a0()
+// src: XBOX_PDB 0x00e0a0a0
+int S_00e0a0a0::hkpMoppDefaultSplitter_getFreeNodes()
 {
     return unk1C + unk14;
 }
@@ -324,7 +325,7 @@ struct FUN_00e0ac80_Alloc
     virtual void __thiscall FUN_00e0ac80_2(void* p, unsigned short size);
 };
 
-BSAudio* __cdecl FUN_00c85750(void);
+BSAudio* __cdecl hkMemoryRouter_getInstance(void);
 
 struct FUN_00e0ac80_class
 {
@@ -341,7 +342,7 @@ FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
 
     if (flags & 1)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = hkMemoryRouter_getInstance();
         reinterpret_cast<FUN_00e0ac80_Alloc*>(audio->pListener)->FUN_00e0ac80_2(this, this->m_04);
     }
 
@@ -562,13 +563,14 @@ struct Cls_00e0a950
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24;
     FUN_00e0a950_Sink* unk28;
-    void FUN_00e0a950(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5, FUN_00e0a950_E** a6,
+    void hkpMoppDefaultSplitter_sortLeftAndRight(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5, FUN_00e0a950_E** a6,
                       FUN_00e0a950_E** a7, FUN_00e0a950_E** a8);
 };
 
 // Switches on a0 (0-3) to adjust the pointers a3-a8 and swap or copy E records; case 3 calls unk28->v20 with a vector and its negation.
 // @fnv 0x00e0a950
-void Cls_00e0a950::FUN_00e0a950(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5,
+// src: XBOX_PDB 0x00e0a950
+void Cls_00e0a950::hkpMoppDefaultSplitter_sortLeftAndRight(int a0, FUN_00e0a950_Src* a1, int a2, int* a3, int* a4, FUN_00e0a950_E** a5,
                                 FUN_00e0a950_E** a6, FUN_00e0a950_E** a7, FUN_00e0a950_E** a8)
 {
     switch (a0)
@@ -885,13 +887,13 @@ void __cdecl hkMemoryRouter_easyFree(void* pvAllocator, void* pvMem);
 
 template <typename T> inline T* hkAllocateStackE0A5(int n)
 {
-    void* pvAllocator = (void*)FUN_00c85750()->pListener;
+    void* pvAllocator = (void*)hkMemoryRouter_getInstance()->pListener;
     return (T*)AllocateWithHeader(pvAllocator, n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateStackE0A5(T* p)
 {
-    void* pvAllocator = (void*)FUN_00c85750()->pListener;
+    void* pvAllocator = (void*)hkMemoryRouter_getInstance()->pListener;
     hkMemoryRouter_easyFree(pvAllocator, p);
 }
 
@@ -1757,7 +1759,7 @@ int __cdecl hkMath_hkFloatToInt(float f);
 class QuadSplitter
 {
   public:
-    __declspec(noalias) void FUN_00e0a950(int quadrant, QuadCenter* center, int context, int* total, int* counter,
+    __declspec(noalias) void hkpMoppDefaultSplitter_sortLeftAndRight(int quadrant, QuadCenter* center, int context, int* total, int* counter,
                                           QuadElement** cur, QuadElement** mid, QuadElement** p2, QuadElement** p3);
     __declspec(noalias) void hkpMoppDefaultSplitter_distributeMiddle(QuadElement** p0, QuadElement** mid, QuadElement** p2, QuadElement** p3,
                                           QuadElement** p4, QuadElement** p5, QuadCenter* center);
@@ -1802,7 +1804,7 @@ void QuadSplitter::hkpMoppDefaultSplitter_groupPrimitives(QuadRange* in, QuadCen
         else if (cur->extent.max > center->m_uiY)
             quadrant = 2;
 
-        FUN_00e0a950(quadrant, center, context, &total, &counter, &cur, &mid, &p2, &p3);
+        hkpMoppDefaultSplitter_sortLeftAndRight(quadrant, center, context, &total, &counter, &cur, &mid, &p2, &p3);
     }
 
     p4 = p3;

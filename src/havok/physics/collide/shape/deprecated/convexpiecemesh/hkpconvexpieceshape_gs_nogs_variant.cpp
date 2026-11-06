@@ -21,7 +21,7 @@
 
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 #include <xmmintrin.h>
 extern float DAT_0104e148;
@@ -185,7 +185,7 @@ static __forceinline S5fb50_PrimitiveInfo& S5fb50_Array__expandOne(hkArrayBase<S
 
 static __forceinline S5fb50_PrimitiveInfo& S5fb50_Array_AllocatePair(hkArrayBase<S5fb50_PrimitiveInfo>& self)
 {
-        return S5fb50_Array__expandOne(self, FUN_00c85750());
+        return S5fb50_Array__expandOne(self, hkMemoryRouter_getInstance());
     }
 
 struct S5fb50_Query

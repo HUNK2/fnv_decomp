@@ -148,7 +148,7 @@ hkInspectProcess::hkInspectProcess(const hkSourceListDDB6& sources) throw()
 }
 
 namespace fnv_00ddb670 {
-extern "C" hkMemoryRouterQ_hkinspectprocess& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouterQ_hkinspectprocess& __cdecl hkMemoryRouter_getInstance();
 
 template <class T> __forceinline void destructDDB6(T* t, int n)
 {
@@ -216,15 +216,15 @@ hkInspectProcess::~hkInspectProcess() throw()
         reinterpret_cast<RemoveInspectCallback>(FUN_00cd1140)(context, myTrackedObjectCallback);
         reinterpret_cast<hkReferencedObject*>(context)->removeReference();
     }
-    reinterpret_cast<hkArray<hkInspectEntryDDB6>*>(&unk20)->_clearAndDeallocate(fnv_00ddb670::FUN_00c85750().heap());
+    reinterpret_cast<hkArray<hkInspectEntryDDB6>*>(&unk20)->_clearAndDeallocate(fnv_00ddb670::hkMemoryRouter_getInstance().heap());
 }
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00ddb710
 // src: HAVOK_LIB 0x00ddb710
 void* __cdecl hkInspectProcess_create(unsigned int value)
 {
-    hkMemoryRouterQ_hkinspectprocess* pCpuHolder = static_cast<hkMemoryRouterQ_hkinspectprocess*>(FUN_00c85750());
+    hkMemoryRouterQ_hkinspectprocess* pCpuHolder = static_cast<hkMemoryRouterQ_hkinspectprocess*>(hkMemoryRouter_getInstance());
     hkInspectProcess* pCpuBlock =
         static_cast<hkInspectProcess*>(pCpuHolder->heap().blockAlloc(48));
     pCpuBlock->m_usMemSizeAndFlags = 48;
@@ -236,7 +236,7 @@ void* __cdecl hkInspectProcess_create(unsigned int value)
 
 inline void hkReferencedObject::operator delete(void* p)
 {
-    hkMemoryRouterQ_hkinspectprocess* mem = static_cast<hkMemoryRouterQ_hkinspectprocess*>(FUN_00c85750());
+    hkMemoryRouterQ_hkinspectprocess* mem = static_cast<hkMemoryRouterQ_hkinspectprocess*>(hkMemoryRouter_getInstance());
     mem->heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
@@ -368,7 +368,7 @@ template <typename T> struct hkArrQLocalForm
     }
     void ClearAndRelease()
     {
-        _clearAndDeallocate(static_cast<hkMemoryRouterQ_hkinspectprocess*>(FUN_00c85750())->heap());
+        _clearAndDeallocate(static_cast<hkMemoryRouterQ_hkinspectprocess*>(hkMemoryRouter_getInstance())->heap());
     }
 
     void _pushBack(hkMemoryAllocator& alloc, const T& t)
@@ -383,7 +383,7 @@ template <typename T> struct hkArrQLocalForm
     }
     void AddBack(const T& t)
     {
-        _pushBack(static_cast<hkMemoryRouterQ_hkinspectprocess*>(FUN_00c85750())->heap(), t);
+        _pushBack(static_cast<hkMemoryRouterQ_hkinspectprocess*>(hkMemoryRouter_getInstance())->heap(), t);
     }
 };
 

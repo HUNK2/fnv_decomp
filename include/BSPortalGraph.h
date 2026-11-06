@@ -11,5 +11,5 @@ class BSPortalGraph : public NiRefObject
 public:
     NiTPointerList<BSOcclusionPlane*>& GetOccluderList();
     void BSPortalGraph_AttachAlwaysRenderChild(P2Obj* p2);
-    void FUN_00c5b370(P2Obj* p2);
+    void BSPortalGraph_DetachAlwaysRenderChild(P2Obj* p2);
 };

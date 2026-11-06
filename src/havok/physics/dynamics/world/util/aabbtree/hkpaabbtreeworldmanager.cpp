@@ -40,11 +40,11 @@ inline hkpBroadPhaseCastCollector::~hkpBroadPhaseCastCollector() {}
 inline hkKdTreeCastCollector::~hkKdTreeCastCollector() {}
 inline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() throw() {}
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return heap<hkMemoryAllocator>(FUN_00c85750());
+    return heap<hkMemoryAllocator>(hkMemoryRouter_getInstance());
 }
 
 template <class T>
@@ -422,8 +422,8 @@ public:
     virtual float ReleaseCollector(const hkpBroadPhaseHandle*, int);
 };
 
-hkBool __cdecl FUN_00d98ca0(void* pkBroadPhase, const hkVector4& kFrom, const hkVector4& kTo, KdTreeRayCastCallback* pkCaster) throw();
-void __cdecl FUN_00d1bd00(void* pkTree, const hkVector4& kFrom, const hkVector4& kTo, hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
+hkBool __cdecl hkKdTreeUtils_castRayIterative(void* pkBroadPhase, const hkVector4& kFrom, const hkVector4& kTo, KdTreeRayCastCallback* pkCaster) throw();
+void __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRay(void* pkTree, const hkVector4& kFrom, const hkVector4& kTo, hkpTreeCastCallbackD084* pkCaster, float fEarlyOut) throw();
 
 class hkpRayCastQueryD084 {
 public:
@@ -460,10 +460,10 @@ void hkpRayCastQueryD084::CastRay(const hkpWorldRayCastInput& kInput, const hkpC
         kCaster.m_shapeFilter = pkFilter;
         hkpWorldRayCastOutput kOutput;
         kCaster.m_pRayCastOutput = &kOutput;
-        FUN_00d98ca0(m_pJobSemaphore, kInput.m_vFrom, kInput.m_vTo, &kCaster);
+        hkKdTreeUtils_castRayIterative(m_pJobSemaphore, kInput.m_vFrom, kInput.m_vTo, &kCaster);
     }
     if (m_useTree)
-        FUN_00d1bd00(m_iValueAt40, kInput.m_vFrom, kInput.m_vTo, &kTreeCaster, 1.0f);
+        hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRay(m_iValueAt40, kInput.m_vFrom, kInput.m_vTo, &kTreeCaster, 1.0f);
 }
 
 class hkBroadPhaseD085 {
@@ -578,7 +578,7 @@ struct hkLoaderE02 {
 };
 hkMemoryRouter* __cdecl _FNV_e03300_arena();
 struct Sink {
-    void FUN_00cb1870(void*, int, int);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(void*, int, int);
 };
 struct FUN_00d08940_shell {
     unsigned int unk00;
@@ -612,7 +612,7 @@ void FUN_00d08940_shell::hkpAabbTreeWorldManager_queueActivated(char const* name
     hkObjectE02* obj;
     if (loader.Get(name, &obj)) {
         hkMemoryRouter* router = _FNV_e03300_arena();
-        reinterpret_cast<Sink*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00cb1870(
+        reinterpret_cast<Sink*>(reinterpret_cast<char*>(this) + 0x50)->hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(
             router->m_heap, reinterpret_cast<int>(name), 1);
     }
 }
@@ -637,7 +637,7 @@ void FUN_00d08c70_class::hkpAabbTreeWorldManager_getNode(void* arg)
     ((FUN_00d9a4d0_class*)((char*)unk0C + 0x1c))->GetEntryOffset(value);
 }
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
@@ -693,7 +693,7 @@ void hkpEntityListD08C::hkpAabbTreeWorldManager_pushBackToActiveList(hkpCollidab
 }
 
 namespace fnv_00d08cf0 {
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct MyMapBase {
     void* m_table;
@@ -826,13 +826,13 @@ struct FUN_00d08cf0 : MyBase1, MyBase2, MyBase3, MyBase4, MyBase5
 FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afValue)
     : unk28(apListenerManager)
 {
-    hkMemoryRouter* audio = FUN_00c85750();
+    hkMemoryRouter* audio = hkMemoryRouter_getInstance();
     this->unk50.EnsureCapacity(reinterpret_cast<hkMemoryAllocator*>(audio->m_heap), 0);
     this->unk30 = 0;
     this->unk34 = 0;
-    hkMemoryRouter* pAudio = FUN_00c85750();
+    hkMemoryRouter* pAudio = hkMemoryRouter_getInstance();
     this->unk3c = reinterpret_cast<hkMemoryAllocator*>(pAudio->m_heap)->blockAlloc(0x10);
-    hkMemoryRouter* audio3 = FUN_00c85750();
+    hkMemoryRouter* audio3 = hkMemoryRouter_getInstance();
     void* pSemaphore = reinterpret_cast<hkMemoryAllocator*>(audio3->m_heap)->blockAlloc(4);
     if (pSemaphore) {
         pSemaphore = ((Semaphore*)pSemaphore)->Create(0, 1000);
@@ -856,7 +856,7 @@ FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afV
     this->unk28->hkpWorld_addWorldPostSimulationListener((MyBase5*)this);
     if (this->unk24) {
         char* edi = this->unk28->unk78 + 0x20;
-        hkMemoryRouter* audio4 = FUN_00c85750();
+        hkMemoryRouter* audio4 = hkMemoryRouter_getInstance();
         void* pObj = reinterpret_cast<hkMemoryAllocator*>(audio4->m_heap)->blockAlloc(0x80);
         if (pObj) {
             pObj = ((Class0xd9c180*)pObj)->FUN_00d9c180(edi, edi + 0x10, edi + 0x20);
@@ -943,7 +943,7 @@ char __thiscall FUN_00d0a1e0_class::FUN_00d0a1e0() {
 }
 
 namespace fnv_00d0a240 {
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d0a240_CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -955,7 +955,7 @@ FnvCpu_FUN_00d0a240_CpuObject* FnvCpu_FUN_00d0a240_CpuObject::FUN_00d0a240(unsig
 {
     Destructor();
     if (flags & 1) {
-        hkMemoryRouter* pAllocatorHolder = FUN_00c85750();
+        hkMemoryRouter* pAllocatorHolder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(pAllocatorHolder->m_heap)->blockFree(this, size);
     }
     return this;
@@ -1040,7 +1040,7 @@ void S00d08740_cls::Collect(void* kFrom, void* kTo, void* pkRoot, void* pkFilter
     }
 }
 
-namespace fnvc_adapt { extern "C" hkMemoryRouter* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance(); }
 
 
 class hkMapBaseD089 {
@@ -1050,7 +1050,7 @@ public:
     int m_iPairCount;
 
     hkResult LookupBucketValue(unsigned int key, unsigned int* out) const;
-    int FUN_00cb1870(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(hkMemoryAllocator& alloc, unsigned int key, unsigned int val);
 };
 
 class OwnerD089 {
@@ -1087,7 +1087,7 @@ void OwnerD089::hkpAabbTreeWorldManager_queueInactivated(unsigned int key)
 {
     unsigned int dummy;
     if (m_map.LookupBucketValue(key, &dummy) != HK_SUCCESS)
-        m_map.FUN_00cb1870(heap<hkMemoryAllocator>(*fnvc_adapt::FUN_00c85750()), key, (unsigned int)-1);
+        m_map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance()), key, (unsigned int)-1);
 }
 
 
@@ -1164,7 +1164,7 @@ extern int DAT_0102e388;
 extern int DAT_0104e3d0;
 extern "C" void* DAT_0102f13c;
 
-namespace fnvc_adapt { hkMemoryRouter* __cdecl FUN_00c85750(); }
+namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance(); }
 
 struct Cls_00c917a0 { void __thiscall hkpWorld_removeEntityListener(void*); };
 struct Cls_00c917f0 { void __thiscall hkpWorld_removePhantomListener(void*); };
@@ -1184,7 +1184,7 @@ struct Arr_d08e80 {
     int m_iElementCount;
     int m_capFlags;
     ~Arr_d08e80() {
-        hkMemoryAllocator& a = heap<hkMemoryAllocator>(*fnvc_adapt::FUN_00c85750());
+        hkMemoryAllocator& a = heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance());
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0) {
             a.bufFree(m_data, (m_capFlags & 0x3fffffff) * 4);
@@ -1248,19 +1248,19 @@ void Tgt_d08e80::Destructor()
     Cls_00d97850* p10 = unk10;
     if (p10) {
         p10->ClearBuffers();
-        heap<hkMemoryAllocator>(*fnvc_adapt::FUN_00c85750()).blockFree(p10, 0x50);
+        heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance()).blockFree(p10, 0x50);
     }
 
     void* pBlock3C = unk3C;
-    heap<hkMemoryAllocator>(*fnvc_adapt::FUN_00c85750()).blockFree(pBlock3C, 0x10);
+    heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance()).blockFree(pBlock3C, 0x10);
 
     Cls_00d04370* pBlock6C = unk6C;
     if (pBlock6C) {
         pBlock6C->FUN_00d04370();
-        heap<hkMemoryAllocator>(*fnvc_adapt::FUN_00c85750()).blockFree(pBlock6C, 4);
+        heap<hkMemoryAllocator>(*fnvc_adapt::hkMemoryRouter_getInstance()).blockFree(pBlock6C, 4);
     }
 
-    ((Cls_00cb1a90*)&unk50)->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(fnvc_adapt::FUN_00c85750()->m_heap));
+    ((Cls_00cb1a90*)&unk50)->ProcessArgument(reinterpret_cast<hkMemoryAllocator*>(fnvc_adapt::hkMemoryRouter_getInstance()->m_heap));
     ((Cls_00a29680*)&unk50)->FUN_00a29680();
 
     m_aiIndexedValues.destroy();
@@ -1648,7 +1648,7 @@ void FUN_00d085e0_class::hkpAabbTreeWorldManager_castRay(const hkpWorldRayCastIn
         pTlsBuffer->m_end.m_storage = (char*)(p + 1);
     }
     if (flag24) {
-        FUN_00d1bd00(arg0c, input.m_vFrom, input.m_vTo, static_cast<hkpTreeCastCallbackD084*>(&ctx), 1.0f);
+        hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRay(arg0c, input.m_vFrom, input.m_vTo, static_cast<hkpTreeCastCallbackD084*>(&ctx), 1.0f);
     }
     pTlsBuffer = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     volatile Trace12* pTrace12 = (Trace12*)pTlsBuffer->m_end.m_storage;
@@ -1722,7 +1722,7 @@ __forceinline TYPE* hkMemoryAllocator::_bufAlloc(int& count)
     return static_cast<TYPE*>(p);
 }
 
-__forceinline hkMemoryAllocator& S00d094a0_heap() { return heap<hkMemoryAllocator>(FUN_00c85750()); }
+__forceinline hkMemoryAllocator& S00d094a0_heap() { return heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()); }
 
 __forceinline void* reserveExternal(void*& data, int& capacity, int& bytes, int n) {
     hkMemoryAllocator& a = S00d094a0_heap();
@@ -1739,12 +1739,12 @@ struct __declspec(align(16)) S00d094a0_Desc {
     int m_uiItemCount; char m_04; char m_isMt; short m_06; int m_08; int m_0c;
     S00d094a0_Vec m_kMinimumCorner;
     S00d094a0_Vec m_kMaximumCorner;
-    void FUN_00d976d0();
+    void hkKdTreeCinfo_hkKdTreeCinfo();
 };
 struct S00d094a0_Tree {
     void* m_00; int m_04; int m_08; int m_0c; int m_10; int m_14; int m_18; void* m_1c;
     int total() const { return m_14 + m_18; }
-    void FUN_00d978d0(S00d094a0_Desc*);
+    void hkKdTree_reset(S00d094a0_Desc*);
     S00d094a0_Tree* Init(S00d094a0_Desc*);
 };
 struct S00d094a0_Shape {
@@ -1769,7 +1769,7 @@ struct S00d094a0_Sync {
     virtual void f00(); virtual void f04(); virtual void f08();
     virtual void signal(S00d094a0_Queue*, int); virtual void wait();
 };
-struct S00d094a0_Helper { int FUN_00d04380(); };
+struct S00d094a0_Helper { int hkSemaphore_acquire(); };
 struct S00d094a0_JobHead {
     __declspec(align(16)) char m_00;
     char m_01; char m_02;
@@ -1809,7 +1809,7 @@ struct __declspec(align(16)) S00d094a0_Build {
 struct S00d094a0_Fallback {
     int m_00; int m_04; int m_08;
     void InitWalker(S00d094a0_Input*, S00d094a0_Ctx*);
-    int FUN_00d9e000();
+    int hkpCollidableMediator_getNumPrimitives();
 };
 void __cdecl hkKdTreeBuildingUtils_completeDistributedBuild(S00d094a0_Tree*, int, void*, void*);
 void __cdecl FillAabbArray(S00d094a0_Fallback*, int, int, void*);
@@ -1843,9 +1843,9 @@ void S00d094a0_Owner::hkpAabbTreeWorldManager_buildKdTree(S00d094a0_Tree** tree,
         S00d094a0_beginList(str_010cd130,str_010cd124);
         const int count=input->m_04;
         S00d094a0_Desc desc;
-        desc.FUN_00d976d0(); desc.m_uiItemCount=count;desc.m_isMt=1;
+        desc.hkKdTreeCinfo_hkKdTreeCinfo(); desc.m_uiItemCount=count;desc.m_isMt=1;
         ctx->m_pCollisionShape->getAabb(&desc.m_kMinimumCorner,&desc.m_kMaximumCorner);
-        if(*tree)(*tree)->FUN_00d978d0(&desc);
+        if(*tree)(*tree)->hkKdTree_reset(&desc);
         else {S00d094a0_Tree* p=(S00d094a0_Tree*)S00d094a0_heap().blockAlloc(0x50);*tree=p?p->Init(&desc):0;}
         *m_3c=4;
         hkArrayBase<int> arrayA;
@@ -1865,24 +1865,24 @@ void S00d094a0_Owner::hkpAabbTreeWorldManager_buildKdTree(S00d094a0_Tree** tree,
         sync->signal(queue,3);queue->hkJobQueue_processAllJobs();
         S00d094a0_timer(str_010cd0e0);
         sync->wait();S00d094a0_timer(str_010cd0d0);
-        m_6c->FUN_00d04380();S00d094a0_timer(str_010cd0c4);
+        m_6c->hkSemaphore_acquire();S00d094a0_timer(str_010cd0c4);
         hkKdTreeBuildingUtils_completeDistributedBuild(*tree,count,task.m_30,task.m_34);
         S00d094a0_timer(str_01076f38);S00d094a0_timer(str_010cd0b8);S00d094a0_timer(str_01076f38);
-        arrayB._clearAndDeallocate(heap<hkMemoryAllocator>(FUN_00c85750()));
-        arrayA._clearAndDeallocate(heap<hkMemoryAllocator>(FUN_00c85750()));
+        arrayB._clearAndDeallocate(heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()));
+        arrayA._clearAndDeallocate(heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()));
     } else {
         S00d094a0_Fallback fallback;fallback.InitWalker(input,ctx);
-        const int count=fallback.FUN_00d9e000();
-        S00d094a0_Desc desc;desc.FUN_00d976d0();desc.m_uiItemCount=count;desc.m_isMt=0;
+        const int count=fallback.hkpCollidableMediator_getNumPrimitives();
+        S00d094a0_Desc desc;desc.hkKdTreeCinfo_hkKdTreeCinfo();desc.m_uiItemCount=count;desc.m_isMt=0;
         ctx->m_pCollisionShape->getAabb(&desc.m_kMinimumCorner,&desc.m_kMaximumCorner);
-        if(*tree)(*tree)->FUN_00d978d0(&desc);
+        if(*tree)(*tree)->hkKdTree_reset(&desc);
         else {S00d094a0_Tree* p=(S00d094a0_Tree*)S00d094a0_heap().blockAlloc(0x50);*tree=p?p->Init(&desc):0;}
         FillAabbArray(&fallback,0,count,m_30);DrawIfCountPositive(&m_30,*tree);
     }
 }
 
 namespace fnv_00d0a170 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 class CollectorD0A1 : public hkKdTreeCastCollector {
 public:
@@ -1890,7 +1890,7 @@ public:
 
     static void operator delete(void* p)
     {
-        heap<hkMemoryAllocator>(FUN_00c85750()).blockFree(p, sizeof(CollectorD0A1));
+        heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()).blockFree(p, sizeof(CollectorD0A1));
     }
     CollectorD0A1* FUN_00d0a170(unsigned int uiFlags);
 };
@@ -1908,7 +1908,7 @@ CollectorD0A1* CollectorD0A1::FUN_00d0a170(unsigned int uiFlags)
 
 namespace fnv_00d0b0d0 {
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 namespace hkD0B0 {
     class ListenerD0B0 : public hkReferencedObject, public hkpWorldPostSimulationListener {
@@ -2071,12 +2071,12 @@ void hkpAabbTreeWorldManager_gatherActiveCollidablesFromWorld(hkArray<hkpCollida
     Container* c = reinterpret_cast<Container*>(containerHandle);
     for (containerHandle = 0; containerHandle < c->m_array1.m_iElementCount; containerHandle++) {
         for (int j = 0; j < c->m_array1.m_data[containerHandle]->m_items.m_iElementCount; j++) {
-            AppendArray(*out, (hkMemoryRouter*)&FUN_00c85750(), &c->m_array1.m_data[containerHandle]->m_items.m_data[j]->m_target);
+            AppendArray(*out, (hkMemoryRouter*)&hkMemoryRouter_getInstance(), &c->m_array1.m_data[containerHandle]->m_items.m_data[j]->m_target);
         }
     }
     for (int k = 0; k < c->m_array2.m_iElementCount; k++) {
         if (c->m_array2.m_data[k]->m_target.m_pCollisionShape) {
-            AppendArray(*out, (hkMemoryRouter*)&FUN_00c85750(), &c->m_array2.m_data[k]->m_target);
+            AppendArray(*out, (hkMemoryRouter*)&hkMemoryRouter_getInstance(), &c->m_array2.m_data[k]->m_target);
         }
     }
 }
@@ -2094,7 +2094,7 @@ struct D9bed0Cls {
     void __thiscall FUN_00d9bed0();
 };
 struct D09020Cls {
-    void __thiscall FUN_00d09020(int* p, void* a, void* b);
+    void __thiscall hkpAabbTreeWorldManager_buildInactiveTree(int* p, void* a, void* b);
 };
 struct ActiveTreeBuilder {
     void __thiscall hkpAabbTreeWorldManager_buildActiveTree(void* entries, void* queue, void* pool);
@@ -2185,13 +2185,13 @@ void __thiscall EntListSelf::hkpAabbTreeWorldManager_fullBuild(void* p1, void* p
         mark12(getBuf(DAT_0126835c), &DAT_010cd14c, &stamp);
         m_0c->FUN_00d9bed0();
         mark12(getBuf(DAT_0126835c), &DAT_010cd140, &stamp);
-        ((D09020Cls*)this)->FUN_00d09020((int*)&arr, p1, p2);
+        ((D09020Cls*)this)->hkpAabbTreeWorldManager_buildInactiveTree((int*)&arr, p1, p2);
         mark12(getBuf(DAT_0126835c), &DAT_01076f38, (volatile unsigned int*)&p2);
     }
 
     ((TreeCleanMarker*)this)->hkpAabbTreeWorldManager_setTreeIsClean();
 
-    arr._clearAndDeallocate(heap<hkMemoryAllocator>(FUN_00c85750()));
+    arr._clearAndDeallocate(heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()));
 }
 
 namespace RaycasterRework {

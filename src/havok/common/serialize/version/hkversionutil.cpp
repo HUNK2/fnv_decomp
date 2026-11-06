@@ -66,7 +66,8 @@ FUN_00e049d0_Class* FUN_00e049d0_Class::FUN_00e049d0(int flags)
 extern "C" char str_010cf830[];
 
 // @fnv 0x00dc0fb0
-void* __cdecl FUN_00dc0fb0()
+// src: XBOX_PDB 0x00dc0fb0
+void* __cdecl hkVersionUtil_getCurrentVersion()
 {
     return &str_010cf830;
 }
@@ -85,20 +86,21 @@ struct FUN_00d871a0
     FUN_00d871a0(void*, int);
     bool& FUN_00d871e0(bool&);
     void* FUN_00d871f0();
-    hkClassMember* FUN_00d87370();
+    hkClassMember* hkClassMemberAccessor_getClassMember();
 };
 
-extern "C" void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
+extern "C" void* __cdecl hkString_memCpy(void*, const void*, unsigned int);
 
 // @fnv 0x00dc0fc0
-void __cdecl FUN_00dc0fc0(void* a1, int a2, void* a3, int a4)
+// src: XBOX_PDB 0x00dc0fc0
+void __cdecl hkVersionUtil_renameMember(void* a1, int a2, void* a3, int a4)
 {
     FUN_00d871a0 obj1(a1, a2);
     FUN_00d871a0 obj2(a3, a4);
     bool b;
     if (obj1.FUN_00d871e0(b) && obj2.FUN_00d871e0(b))
     {
-        FUN_00cb1260(obj2.FUN_00d871f0(), obj1.FUN_00d871f0(), GetMemberSize(obj2.FUN_00d87370()));
+        hkString_memCpy(obj2.FUN_00d871f0(), obj1.FUN_00d871f0(), GetMemberSize(obj2.hkClassMemberAccessor_getClassMember()));
     }
 }
 
@@ -140,7 +142,7 @@ int hkVersionCheckDC11::IsMemberCompatible(const hkClassMember* pkOld, const hkC
 
 class hkMemoryAllocatorDC12;
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 void __cdecl ProcessObjectArray(void* const* ppvList, int iFlags) throw();
 
@@ -183,10 +185,10 @@ extern "C" void __cdecl VisitObjectList(int apvList, int iFlags)
     ProcessObjectArray(ppvList, iFlags);
     hkVisitorDC12 kVisitor;
     hkPointerMapDC12 kDone;
-    kDone.EnsureCapacity(reinterpret_cast<hkMemoryAllocatorDC12&>(FUN_00c85750().heap()), 0);
+    kDone.EnsureCapacity(reinterpret_cast<hkMemoryAllocatorDC12&>(hkMemoryRouter_getInstance().heap()), 0);
     for (int i = 0; ppvList[i]; i++)
         kVisitor.FUN_00dc1bb0(ppvList[i], kDone, 1);
-    kDone.ProcessArgument(reinterpret_cast<hkMemoryAllocatorDC12&>(FUN_00c85750().heap()));
+    kDone.ProcessArgument(reinterpret_cast<hkMemoryAllocatorDC12&>(hkMemoryRouter_getInstance().heap()));
 }
 
 class FUN_00d27520
@@ -227,7 +229,8 @@ class SectionsDC10
 
 // Writes entries from pkSections whose key is not in pkSet to pvBuf via a FUN_00d274c0 writer.
 // @fnv 0x00dc1070
-void __cdecl FUN_00dc1070(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSections)
+// src: XBOX_PDB 0x00dc1070
+void __cdecl hkVersionUtil_copyDefaults(void* apvBuffer, SetDC10* pkSet, SectionsDC10* pkSections)
 {
     FUN_00d274c0 kWriter(apvBuffer, pkSections->FUN_00d470d0(), false);
     for (int i = 0; i < pkSections->FUN_00d46f00(); i++)
@@ -267,7 +270,7 @@ struct S00dc15a0_Array
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouter* __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 }
 extern "C" void __cdecl hkArrayUtil__reserve(S00dc15a0_Buffer* buffer, int** indices, int size, int elementSize);
 
@@ -287,7 +290,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
     arr.m_iElementCount = 0;
     arr.m_capFlags = 0x80000000;
 
-    hkMemoryRouter* router = fnvc_adapt::FUN_00c85750();
+    hkMemoryRouter* router = fnvc_adapt::hkMemoryRouter_getInstance();
     S00dc15a0_Buffer* heap = reinterpret_cast<S00dc15a0_Buffer*>(router->m_temp);
     int iCurrentCap = arr.m_capFlags & 0x3fffffff;
     if (iCurrentCap < count)
@@ -311,7 +314,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
 
     int result = FUN_00dc12c0(params, value, flags, &arr);
 
-    router = fnvc_adapt::FUN_00c85750();
+    router = fnvc_adapt::hkMemoryRouter_getInstance();
     S00dc15a0_Buffer* heap2 = reinterpret_cast<S00dc15a0_Buffer*>(router->m_temp);
     arr.m_iElementCount = 0;
     if ((arr.m_capFlags & 0x80000000) == 0)

@@ -120,7 +120,7 @@ struct TrackBuffers_e50650
 
     void FUN_00e50ca0();
 };
-void FUN_00e4f910(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
+void hkaTrackAnalysis_analyzeQsTransform(TrackBuffers_e50650* pkBuffers, void* pkArg, void* pkArgCur, hkBool bFlag);
 void ExpandTrackSource(const TrackSource_e50650* pkSource, void* pkArg, void* pkArgCur);
 struct StatsB0
 {
@@ -854,7 +854,8 @@ static __forceinline void analyzeTransformTracks(const TrackInput& input, unsign
 }
 
 // @fnv 0x00e4f910
-void __cdecl FUN_00e4f910(TrackBuffers_e50650* buffers, void* masks, void* values, hkBool report)
+// src: XBOX_PDB 0x00e4f910
+void __cdecl hkaTrackAnalysis_analyzeQsTransform(TrackBuffers_e50650* buffers, void* masks, void* values, hkBool report)
 {
     analyzeTransformTracks(*reinterpret_cast<const TrackInput*>(buffers), static_cast<unsigned short*>(masks),
                            static_cast<float*>(values), reinterpret_cast<const hkBool&>(report));

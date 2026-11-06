@@ -90,7 +90,7 @@ public:
     bool LoadAssets();
     void InitPayoutMenu();
     void* BlackJackMenu_SetupCamera();
-    void FUN_007c2460(int, void*);
+    void DoClick_007c2460(int, void*);
     void Update();
     void SwapBackfacingTextures();
     void SwapFrontfacingTextures();

@@ -29,8 +29,8 @@ public:
     Controls* GetInputControls();
     InputManager* GetInputManager();
     unsigned int TESMain_GetThread();
-    void FUN_0086ff70();
-    InputManager* FUN_00877720();
-    InputManager* FUN_00877720(int);
-    InputManager* FUN_00877720(int, int);
+    void Main_Swap();
+    InputManager* Main_GetControls();
+    InputManager* Main_GetControls(int);
+    InputManager* Main_GetControls(int, int);
 };

@@ -28,8 +28,8 @@ struct Matrix;
 struct __declspec(align(16)) HingeVectorStorageLocal_00de
 {
     __m128 value;
-    void FUN_00c7f640(const Matrix*, const HingeVectorStorageLocal_00de*);
-    void FUN_00c7f700(const void*, const HingeVectorStorageLocal_00de*);
+    void setTransformedPos_00c7f640(const Matrix*, const HingeVectorStorageLocal_00de*);
+    void hkVector4_setRotatedDir(const void*, const HingeVectorStorageLocal_00de*);
 };
 struct AxisPair
 {
@@ -137,14 +137,14 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
     context.hkpPrimitiveDrawer_setDisplayHandler(display);
     Matrix first, second;
     hkpConstraintDrawer_updateCommonParameters(input, &first, &second);
-    origin.FUN_00c7f640(&first, &data->v90);
-    pivot.FUN_00c7f640(&second, &data->v50);
+    origin.setTransformedPos_00c7f640(&first, &data->v90);
+    pivot.setTransformedPos_00c7f640(&second, &data->v50);
     hkpConstraintDrawer_drawBodyFrames(id, tag);
     hkpConstraintDrawer_drawPivots(id, tag);
     AxisPair axes;
     DrawWork scratch;
-    axes.axis.FUN_00c7f700(&m90, &data->v60);
-    axes.other.FUN_00c7f700(&m90, &data->v80);
+    axes.axis.hkVector4_setRotatedDir(&m90, &data->v60);
+    axes.other.hkVector4_setRotatedDir(&m90, &data->v80);
     display->line(&pivot, &origin, 0xffff0000, id, tag);
     {
         float distance = length * multiplier;
@@ -155,7 +155,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         display->line(&scratch.line.base, &scratch.line.axis, PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f), id, tag);
     }
     {
-        scratch.line.axis.FUN_00c7f700(&m60, &data->v20);
+        scratch.line.axis.hkVector4_setRotatedDir(&m60, &data->v20);
         float distance = length * multiplier;
         scratch.line.base.value =
             _mm_add_ps(pivot.value, _mm_mul_ps(broadcastScalar(0.75 * distance), scratch.line.axis.value));
@@ -201,7 +201,7 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         display->line(&scratch.line.base, &scratch.line.end, 0xffffff00, id, tag);
     }
     {
-        scratch.line.axis.FUN_00c7f700(&m60, &data->v40);
+        scratch.line.axis.hkVector4_setRotatedDir(&m60, &data->v40);
         float distance = length * multiplier;
 
         float magnitude = float(0.75 * distance);

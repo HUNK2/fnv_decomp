@@ -1456,7 +1456,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 void* __cdecl FUN_00aa13e0(unsigned int);
 char* __cdecl FUN_00a5b690(const char*);
 void __cdecl _NiFree_00aa10f0(void*);
-void* __cdecl FUN_00aa1070(unsigned int);
+void* __cdecl _NiMalloc_00aa1070(unsigned int);
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 extern unsigned int DAT_011f5fc4[];
 
@@ -1597,7 +1597,7 @@ unsigned int ShaderConstantMap_83650::NiD3DShaderConstantMap_AddConstantEntry(co
     {
         entry->m_bFlag0 = true;
         _NiFree_00aa10f0(entry->m_pConstantData);
-        entry->m_pConstantData = FUN_00aa1070(elementSize);
+        entry->m_pConstantData = _NiMalloc_00aa1070(elementSize);
         FUN_00ec44d0(entry->m_pConstantData, data, elementSize);
     }
     else
@@ -1615,7 +1615,7 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b60;
 extern GlobalObjectO2_00a7b610 g_011f5b68;
 
-bool __cdecl FUN_0045bad0(void*, void*);
+bool __cdecl NiObject_IsExactKindOf(void*, void*);
 
 extern unsigned int DAT_0126f7b0;
 extern unsigned int DAT_0126f7b4[];
@@ -1673,7 +1673,7 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ni
         }
         if (type == 7)
         {
-            if (FUN_0045bad0(&g_011f5b60, extraData))
+            if (NiObject_IsExactKindOf(&g_011f5b60, extraData))
             {
                 const float* pf = static_cast<NiFloatsExtraData*>(extraData)->m_pfValue;
                 DAT_0126f7cc[0] = pf[0];
@@ -1682,7 +1682,7 @@ const void* __stdcall GetShaderConstantValue(NiShaderConstantMapEntry* entry, Ni
                 DAT_0126f7cc[3] = pf[3];
                 return DAT_0126f7cc;
             }
-            if (FUN_0045bad0(&g_011f5b68, extraData))
+            if (NiObject_IsExactKindOf(&g_011f5b68, extraData))
             {
                 DAT_0126f7cc[0] = ((const float*)(extraData + 1))[0];
                 DAT_0126f7cc[1] = ((const float*)(extraData + 1))[1];
@@ -1910,13 +1910,14 @@ struct TexConstantMap
     int unk08;
     const void* LookupDefault(NiShaderConstantMapEntry* entry);
     const void* LookupTexture(NiShaderConstantMapEntry* entry, NiTexture* tex);
-    unsigned int FUN_00e84ba0(TexProgram* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, void* a3, void* a4, void* a5,
+    unsigned int NiD3DShaderConstantMap_SetAttributeConstant(TexProgram* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, void* a3, void* a4, void* a5,
                               void* a6, void* a7, void* a8, void* a9, unsigned int pass, bool global, TexCache* cache);
 };
 
 // Resolves a texture for a NiShaderConstantMapEntry via cache or geom, looks up its constant data, and calls prog->SetConstant with a size derived from entry->flags.
 // @fnv 0x00e84ba0
-unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, void* apUnused3,
+// src: XBOX_PDB 0x00e84ba0
+unsigned int TexConstantMap::NiD3DShaderConstantMap_SetAttributeConstant(TexProgram* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, void* apUnused3,
                                           void* apUnused4, void* apUnused5, void* apUnused6, void* apUnused7,
                                           void* apUnused8, void* apUnused9, unsigned int pass, bool global,
                                           TexCache* cache)
@@ -2088,7 +2089,7 @@ class NiMatrix3_ext : public NiMatrix3
 
 struct NiRTTI;
 extern const NiRTTI DAT_011f4a98;
-bool __cdecl FUN_0043b300(const NiRTTI*, void*);
+bool __cdecl NiObject_IsKindOf(const NiRTTI*, void*);
 void __cdecl FUN_00b71a40(float* d, const NiMatrix3& r, const NiPoint3& t, float s);
 void __cdecl NiD3DUtility_GetD3DFromNi_(float* d, const char* t);
 extern const NiPoint3 DAT_011f426c;
@@ -2490,7 +2491,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                             ->FUN_00439ef0(&work.pointLightDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
                     point = *r;
                 }
-                ((NiPoint3*)&point)->FUN_004a0c10();
+                ((NiPoint3*)&point)->Unitize_004a0c10();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2524,7 +2525,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                             ->FUN_00439ef0(&work.pointLightModelDirection, apTargetLight->m_kWorldSpaceTransform.m_Translate);
                     point = *r;
                 }
-                ((NiPoint3*)&point)->FUN_004a0c10();
+                ((NiPoint3*)&point)->Unitize_004a0c10();
             }
             else if (apTargetLight->m_ucLightType == 3)
             {
@@ -2632,7 +2633,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         float* fData = (float*)apConstantData;
         if (apTargetLight)
         {
-            if (FUN_0043b300(&DAT_011f4a98, apTargetLight))
+            if (NiObject_IsKindOf(&DAT_011f4a98, apTargetLight))
             {
                 fData[0] = apTargetLight->m_kWorldLocation.x;
                 fData[1] = apTargetLight->m_kWorldLocation.y;
@@ -3242,7 +3243,7 @@ void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
 }
 
 extern unsigned int DAT_011f5fc4[];
-int __cdecl FUN_00aa0020(int, int, const char*, ...);
+int __cdecl NiShaderFactory_ReportError(int, int, const char*, ...);
 
 struct FUN_00e87220_shell
 {
@@ -3291,14 +3292,15 @@ struct FUN_00e87220_shell
     unsigned int LoadConstant(bool bSecond, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* kWorld, const void* kWorldBound, unsigned int uiPass);
 
-    unsigned int FUN_00e87220(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
+    unsigned int NiD3DShaderConstantMap_SetOperatorConstant(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound,
                               unsigned int uiPass);
 };
 
 // Resolves two operand entries, dispatches their evaluation by type, then applies the operator to the shader program and returns the result.
 // @fnv 0x00e87220
-unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, void* pkGeometry,
+// src: XBOX_PDB 0x00e87220
+unsigned int FUN_00e87220_shell::NiD3DShaderConstantMap_SetOperatorConstant(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, void* pkGeometry,
                                               const void* pkSkin, const void* pkState, const void* pkEffects,
                                               const void* kWorld, const void* kWorldBound, unsigned int uiPass)
 {
@@ -3313,7 +3315,7 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
     NiShaderConstantMapEntry* pkEntry2 = GetOperationEntry(uiOperand2Index);
     if (!pkEntry1 || !pkEntry2)
     {
-        FUN_00aa0020(1, 0, "Invalid entries in OperatorConstant\n");
+        NiShaderFactory_ReportError(1, 0, "Invalid entries in OperatorConstant\n");
         return 1;
     }
 
@@ -3363,7 +3365,7 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
 
     if (!eType1 || !eType2)
     {
-        FUN_00aa0020(1, 0, "Invalid operands in OperatorConstant\n");
+        NiShaderFactory_ReportError(1, 0, "Invalid operands in OperatorConstant\n");
         return 1;
     }
 

@@ -5,7 +5,7 @@
 
 int __stdcall hkMemorySystem_debugTagAddress(int a, int b);
 extern int DAT_01268418;
-int FUN_00cbbfc0();
+int hkMemorySystem_getInstance();
 extern int g_CBBFD0Value;
 int __cdecl FUN_00cbbfd0();
 extern int DAT_010c8efc;
@@ -56,10 +56,11 @@ struct QuantitySet
     Quantity m_kPointA;
     Quantity m_kPointB;
     Quantity m_iThirdValue;
-    void FUN_008c70c0(unsigned int q, int v);
+    void hkStackMemory_initMemory(unsigned int q, int v);
 };
 // @fnv 0x008c70c0
-void QuantitySet::FUN_008c70c0(unsigned int q, int v)
+// src: XBOX_PDB 0x008c70c0
+void QuantitySet::hkStackMemory_initMemory(unsigned int q, int v)
 {
     m_kPointB.SetQuantity(q);
     m_kPointA.SetQuantity(q);

@@ -6,7 +6,7 @@
 struct FUN_00c91180_Class
 {
     void __thiscall IncrementCounter();
-    void __thiscall FUN_00c91190();
+    void __thiscall hkpWorld_unlock();
     int m_field;
     void* m_ptr;
 };
@@ -14,7 +14,7 @@ struct FUN_00c91180_Class
 void __cdecl hkpWorldMemoryUtil_watchHeapMemory(void* p);
 struct FUN_00d022b0_Class
 {
-    void __thiscall FUN_00d022b0(void* a, float c);
+    void __thiscall hkpMultiThreadedSimulation_stepBeginSt(void* a, float c);
 };
 
 // If the field at offset 0x50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the object at offset 8.
@@ -26,9 +26,9 @@ void __fastcall hkpWorld_initMtStep(FUN_00c91180_Class* self, int, void* apArg, 
     {
         self->IncrementCounter();
         hkpWorldMemoryUtil_watchHeapMemory(self);
-        self->FUN_00c91190();
+        self->hkpWorld_unlock();
     }
-    ((FUN_00d022b0_Class*)*(void**)((char*)self + 8))->FUN_00d022b0(apArg, afValue);
+    ((FUN_00d022b0_Class*)*(void**)((char*)self + 8))->hkpMultiThreadedSimulation_stepBeginSt(apArg, afValue);
 }
 
 int __cdecl hkStatisticsCollector_getAllocatedSize(void* p, int size);

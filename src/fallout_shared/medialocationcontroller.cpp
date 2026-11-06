@@ -712,15 +712,15 @@ struct MLCFormSaver
 
 struct MLCFullNameSaver : public TESFullName
 {
-    void FUN_00487010();
+    void Save_00487010();
 };
 
 struct MLCFormID
 {
-    unsigned int FUN_0084e3a0();
+    unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 
-void __cdecl FUN_00485910(unsigned int auiChunkID, unsigned int auiValue);
+void __cdecl TESForm_AddChunk_00485910(unsigned int auiChunkID, unsigned int auiValue);
 void __cdecl SaveChunkFloat(unsigned int auiChunkID, float afValue);
 
 struct MLCSaver : public TESForm, public MLCFullNameSaver
@@ -765,13 +765,13 @@ struct MLCSaver : public TESForm, public MLCFullNameSaver
 void MLCSaver::SaveToStream()
 {
     ((MLCFormSaver*)this)->FUN_004855a0();
-    MLCFullNameSaver::FUN_00487010();
-    FUN_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
+    MLCFullNameSaver::Save_00487010();
+    TESForm_AddChunk_00485910(CHUNK_ID_NAM1_ID, (unsigned int)iFlags);
     SaveChunkFloat(CHUNK_ID_NAM2_ID, m_fLowerWeightThreshold);
     SaveChunkFloat(CHUNK_ID_NAM3_ID, m_fUpperWeightThreshold);
     SaveChunkFloat(CHUNK_ID_NAM4_ID, m_fUpdateInterval);
-    FUN_00485910(CHUNK_ID_NAM5_ID, m_uiShortDelay);
-    FUN_00485910(CHUNK_ID_NAM6_ID, m_uiLongDelay);
+    TESForm_AddChunk_00485910(CHUNK_ID_NAM5_ID, m_uiShortDelay);
+    TESForm_AddChunk_00485910(CHUNK_ID_NAM6_ID, m_uiLongDelay);
     SaveChunkFloat(CHUNK_ID_NAM7_ID, m_fMediaSelectionValue);
 
     BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList1;
@@ -780,8 +780,8 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_HNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_HNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
@@ -791,8 +791,8 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_ZNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_ZNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
@@ -802,8 +802,8 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_XNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_XNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
@@ -813,8 +813,8 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_YNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_YNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
@@ -824,8 +824,8 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_LNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_LNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
@@ -835,17 +835,17 @@ void MLCSaver::SaveToStream()
         MediaSet* pMediaSet;
         while (pIter && (pMediaSet = pIter->GetItem()) != 0)
         {
-            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->FUN_0084e3a0();
-            FUN_00485910(CHUNK_ID_GNAM_ID, auiFormId);
+            unsigned int auiFormId = ((MLCFormID*)pMediaSet)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+            TESForm_AddChunk_00485910(CHUNK_ID_GNAM_ID, auiFormId);
             pIter = pIter->GetNext();
         }
     }
     if (pFaction)
     {
-        unsigned int auiFormId = ((MLCFormID*)pFaction)->FUN_0084e3a0();
-        FUN_00485910(0x4d414e52, auiFormId);
+        unsigned int auiFormId = ((MLCFormID*)pFaction)->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
+        TESForm_AddChunk_00485910(0x4d414e52, auiFormId);
     }
-    FUN_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
+    TESForm_AddChunk_00485910(CHUNK_ID_FNAM_ID, (unsigned int)m_eRequiredFightReaction);
     ((MLCFormSaver*)this)->FUN_00485680();
 }
 
@@ -855,15 +855,16 @@ struct ListOps
 };
 struct FormOps
 {
-    bool FUN_00485270(TESForm* apOther);
+    bool TESForm_CompareAllComponents(TESForm* apOther);
 };
 struct FUN_00596d70_shell : public MediaLocationController
 {
-    bool FUN_00596d70(TESForm* apForm);
+    bool MediaLocationController_Compare(TESForm* apForm);
 };
 // Compares this MediaLocationController with apForm: returns true if apForm is not one, or if any flag, faction, field or media list differs; false if all match.
 // @fnv 0x00596d70
-bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
+// src: XBOX_PDB 0x00596d70
+bool FUN_00596d70_shell::MediaLocationController_Compare(TESForm* apForm)
 {
     MediaLocationController* pOther = dynamic_cast<MediaLocationController*>(apForm);
     if (!pOther)
@@ -888,7 +889,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
         return true;
     if (m_uiLongDelay != pOther->m_uiLongDelay)
         return true;
-    if (reinterpret_cast<FormOps*>(this)->FUN_00485270(pOther))
+    if (reinterpret_cast<FormOps*>(this)->TESForm_CompareAllComponents(pOther))
         return true;
     if (pOther->m_kMediaSetList1.GetItem() && m_kMediaSetList1.GetItem() &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList1)->FUN_005ae380() ==
@@ -1177,7 +1178,7 @@ struct ThisCls
     BSSimpleList<MediaSet*> m_kMediaSetList4;
     BSSimpleList<MediaSet*> m_kMediaSetList5;
     BSSimpleList<MediaSet*> m_kMediaSetList6;
-    void FUN_004851b0(MediaLocationController* apSrc);
+    void TESForm_CopyAllComponents(MediaLocationController* apSrc);
     void CopyFromMediaLocationController(TESForm* apForm);
 };
 
@@ -1189,7 +1190,7 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
     MediaLocationController* pSrc = dynamic_cast<MediaLocationController*>(apForm);
     if (pSrc == 0)
         return;
-    FUN_004851b0(pSrc);
+    TESForm_CopyAllComponents(pSrc);
     iFlags = pSrc->iFlags;
     m_fLowerWeightThreshold = pSrc->m_fLowerWeightThreshold;
     m_fUpperWeightThreshold = pSrc->m_fUpperWeightThreshold;

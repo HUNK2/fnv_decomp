@@ -54,7 +54,8 @@ inline NiBinaryStream& NiStream::Istr()
 }
 // Reads uiNumEls bytes into pValue through the stream's input reader and advances the input position by the bytes read.
 // @fnv 0x00a471d0
-void FUN_00a471d0(NiStream* kStream, unsigned char* pBuffer, unsigned int uiNumEls)
+// src: XBOX_PDB 0x00a471d0
+void NiStreamLoadBinary_char(NiStream* kStream, unsigned char* pBuffer, unsigned int uiNumEls)
 {
     NiBinaryStream* __restrict input = &kStream->Istr();
     unsigned int size = 1;
@@ -170,7 +171,7 @@ S_00a47150_Obj* __cdecl NiStringPalette_CreateObject()
     return new S_00a47150_Obj;
 }
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 __forceinline void NiBinaryStream::ReadComp(void* data, unsigned int byteCount, unsigned int componentSize)
 {
     unsigned int elementSize = componentSize;
@@ -191,7 +192,7 @@ void FUN_00a472b0_cls::ReadFromStream(NiStream* stream)
     stream->Istr().ReadComp(&m_uiCount0C, 4, 4);
     if (m_uiCount0C > 0)
     {
-        m_pBuf08 = FUN_00aa1070(m_uiCount0C);
+        m_pBuf08 = _NiMalloc_00aa1070(m_uiCount0C);
         stream->Istr().ReadComp(m_pBuf08, m_uiCount0C, 1);
     }
     stream->Istr().ReadComp(&m_uiExtra10, 4, 4);

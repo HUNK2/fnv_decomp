@@ -9,7 +9,7 @@
 #include "../../../../../include/hkMemoryAllocator.h"
 #include "../../../../../include/hkReferencedObject.h"
 
-void* __cdecl FUN_00c85750();
+void* __cdecl hkMemoryRouter_getInstance();
 class GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126cae8;
 
@@ -66,7 +66,7 @@ struct ThreadHeapAccess
 };
 static __forceinline hkMemoryAllocator& getHeap()
 {
-    return static_cast<ThreadHeapAccess*>(FUN_00c85750())->heap();
+    return static_cast<ThreadHeapAccess*>(hkMemoryRouter_getInstance())->heap();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator&, void*, int, int);
 void __cdecl ResizeAudioStream(hkMemoryAllocator&, void*, int);
@@ -191,7 +191,7 @@ static __declspec(noinline) void* _FindMemberItem(void* address, const hkArray<u
     }
     return 0;
 }
-void __cdecl FUN_00cb1260(void* destination, const void* source, int bytes);
+void __cdecl hkString_memCpy(void* destination, const void* source, int bytes);
 // 0x00ddbae0 overrides hkProcess::ExecuteCommand on the inspection process's secondary base.
 // Keep the missing override declaration here without duplicating hkInspectProcess's layout.
 class InspectionCommandHandler : public hkInspectProcess
@@ -229,7 +229,7 @@ void InspectionCommandHandler::ExecuteCommand(unsigned char command)
             void* destination = _FindMemberItem(static_cast<char*>(object) + memberOffset(field), path, 0, memberKind(field),
                                              memberSubtype(field), &field);
             if (destination)
-                FUN_00cb1260(destination, payload.begin(), bytes);
+                hkString_memCpy(destination, payload.begin(), bytes);
         }
         break;
     }

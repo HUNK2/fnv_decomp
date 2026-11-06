@@ -246,7 +246,7 @@ struct Hull
     unsigned int unke0;
     FUN_00d76ca0* builder;
     __declspec(nothrow) void ReleaseSubobject();
-    __declspec(nothrow) void FUN_00e12640(VectorArray&);
+    __declspec(nothrow) void hkgpMesh_fetchPositions(VectorArray&);
     bool BuildHull();
 };
 void __cdecl __debugbreak();
@@ -957,7 +957,7 @@ struct Triple
 {
     Components first, second, third;
 };
-int __cdecl FUN_00deab10(void*, const Triple*);
+int __cdecl hkGeometryProcessing_checkTrianglesIntersection(void*, const Triple*);
 struct FUN_00e22270_Class
 {
     int unk00;
@@ -1891,7 +1891,7 @@ class CC0280Writer
 };
 struct BSAudio;
 namespace fnvc_adapt {
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 }
 struct FUN_00d9be30_cls
 {
@@ -2024,7 +2024,7 @@ struct CastBody
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     CastTri* m_tri;
 };
-bool __cdecl FUN_00dea6b0(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
+bool __cdecl hkGeometryProcessing_checkPointInsideTriangle(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);
 static inline __m128 Dot3(__m128 a, __m128 b)
 {
     const __m128 m = _mm_mul_ps(a, b);
@@ -2074,7 +2074,7 @@ struct SceneSet
     SceneBone* m_0c;
     SceneBone* m_10;
 };
-void __cdecl FUN_00cbeb70(void* v, int count, void* p);
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(void* v, int count, void* p);
 typedef unsigned int BufferAddress138;
 struct FUN_00e227f0_cls
 {
@@ -2148,7 +2148,7 @@ struct S_00e12260_Collector : S_00e12260_CollectorBase
     }
     virtual void AddHit(int hit);
 };
-void FUN_00cbeb70(const hkVector4* verts, int numVerts, S_00e12260_Aabb& aabbOut);
+void hkAabbUtil_calcAabb_00cbeb70(const hkVector4* verts, int numVerts, S_00e12260_Aabb& aabbOut);
 void FUN_00d1d570(void* tree, const S_00e12260_Aabb& aabb, S_00e12260_Collector* collector);
 struct S_00e12260
 {
@@ -2329,7 +2329,7 @@ struct FUN_00e221e0_Input
     int unk1C;
     FUN_00e221e0_Triangle* unk20;
 };
-float __cdecl FUN_00de9f10(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest,
+float __cdecl hkGeometryProcessing_squaredDistanceFromPointToTriangle(const Vec4* point, const Vec4* a, const Vec4* b, const Vec4* c, Float4* closest,
                            Float4* weights);
 struct FUN_00e221e0_Collector
 {
@@ -2394,7 +2394,7 @@ template <class T> struct ArrAB
 struct FUN_00e22f90_cls
 {
     ArrAB<PoolBlockAB*> m_kBlocks;
-    void FUN_00e22f90(PoolItemAB* item);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(PoolItemAB* item);
 };
 extern int DAT_010eade0;
 struct FUN_00e121c0_probe
@@ -2437,7 +2437,7 @@ struct TrianglePool
     TriangleNode* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(void* p);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(void* p);
     __forceinline void remove(TriangleNode* t)
     {
         TriangleNode* next = t->m_next;
@@ -2449,7 +2449,7 @@ struct TrianglePool
         else
             m_pFirstNode = next;
         m_uiItemCount--;
-        FUN_00e22f90(t);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(t);
     }
 };
 static __forceinline void bind(S_00e13910_Edge a, S_00e13910_Edge b)
@@ -2541,7 +2541,7 @@ struct FUN_00e21d40_cls
     hkVector4 m_10;
     hkVector4 m_20;
 
-    void FUN_00e21d40(const hkVector4* dir, hkVector4* out);
+    void hkgpMesh_LineShape_getSupportingVertex(const hkVector4* dir, hkVector4* out);
 };
 static float DotProduct3(__m128 a, __m128 b)
 {
@@ -2773,7 +2773,7 @@ struct VertexList
     Vertex* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(Vertex* vertex);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(Vertex* vertex);
     void remove(Vertex* vertex)
     {
         Vertex* next = vertex->m_next;
@@ -2785,7 +2785,7 @@ struct VertexList
         else
             m_pFirstNode = next;
         --m_uiItemCount;
-        FUN_00e22f90(vertex);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(vertex);
     }
 };
 struct HullMesh
@@ -2878,7 +2878,7 @@ struct E14a90List
     E14a90Node* m_pFirstNode;
     int m_uiItemCount;
 
-    void FUN_00e22f90(E14a90Node* node);
+    void hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(E14a90Node* node);
     __forceinline void remove(E14a90Node* node)
     {
         E14a90Node* next = node->m_next;
@@ -2890,7 +2890,7 @@ struct E14a90List
         else
             m_pFirstNode = next;
         m_uiItemCount--;
-        FUN_00e22f90(node);
+        hkGeometryProcessing_PoolAllocator_hkgpMeshBase_Triangle_32_hkContainerHeapAllocator_release(node);
     }
 };
 struct E14a90Owner
@@ -2987,7 +2987,7 @@ struct EdgeMeshFlip
     unsigned char m_101;
 
     void hkgpMesh_bindEdgeList(PairArray* arr);
-    void FUN_00e150e0(int a1);
+    void hkgpMesh_flipPartOrientation(int a1);
 };
 void __cdecl ResizeAudioStream(void* alloc, void* array, int elemSize);
 template <class T> __forceinline void E153F0ConstructWithCopy(T* p, int n, const T& t)
@@ -3032,13 +3032,13 @@ struct E153F0Aabb
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };
-float __cdecl FUN_00e153f0(const E153F0Edges* edges);
+float __cdecl getLoopSurfaceArea(const E153F0Edges* edges);
 struct __declspec(align(16)) AabbE21F
 {
     hkVector4 m_kMinimumCorner;
     hkVector4 m_kMaximumCorner;
 };
-void __cdecl FUN_00cbeb70(const hkVector4* pElementBuffer, int iNumPoints, AabbE21F& kAabbOut);
+void __cdecl hkAabbUtil_calcAabb_00cbeb70(const hkVector4* pElementBuffer, int iNumPoints, AabbE21F& kAabbOut);
 struct VertE21F
 {
     int unk;
@@ -3427,7 +3427,7 @@ template <class T> struct CellArray
 };
 struct CellMesh
 {
-    void FUN_00e12640(CellArray<hkVector4>&) throw();
+    void hkgpMesh_fetchPositions(CellArray<hkVector4>&) throw();
     CellBounds FUN_00e11530() throw();
     float FUN_00e13660(const CellVec&, CellVec*, bool*) throw();
     void CollectPoints(int depthLimit, float scale, CellArray<CellVec>& output, bool invert);
@@ -3437,7 +3437,7 @@ struct FUN_00e21dd0_cls
     __m128 unk00;
     __m128 unk10;
     __m128 unk20;
-    void FUN_00e21dd0(__m128* result);
+    void hkgpMesh_LineShape_getBoundingBox(__m128* result);
 };
 extern float DAT_01016248;
 struct FUN_00e21e60_pair
@@ -3456,7 +3456,7 @@ struct FUN_00e21e60_cls
     float m_f20;
     unsigned int m_u24;
 
-    float FUN_00e21e60(FUN_00e21e60_pair* p);
+    float hkgpMesh_WeldingPolicy_addLeaf(FUN_00e21e60_pair* p);
 };
 struct LocVertex
 {
@@ -3791,8 +3791,8 @@ struct EMesh
     ENode* nodes;
     int unk18, unk1c, unk20, unk24, unk28;
     EFace* faces;
-    __declspec(noalias) float FUN_00e16e50(float value, EVec* point, int filter);
-    void FUN_00e17010(EParams* p, EArray* out);
+    __declspec(noalias) float hkgpMesh_projectPointOnSurface(float value, EVec* point, int filter);
+    void hkgpMesh_generateSurfaceSamples(EParams* p, EArray* out);
 };
 static __m128 load(const EVec& v)
 {
@@ -4046,9 +4046,9 @@ struct S00e1c5e0_MapBase
         FUN_00a29680();
     }
     void EnsureCapacity(Allocator* a, int numElements);
-    int FUN_00cb1870(Allocator* a, S00e1c5e0_Ulong key, S00e1c5e0_Ulong val);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator* a, S00e1c5e0_Ulong key, S00e1c5e0_Ulong val);
     S00e1c5e0_Ulong LookupHashEntry(S00e1c5e0_Ulong key, S00e1c5e0_Ulong def) const;
-    int FUN_00cb1fb0(S00e1c5e0_Ulong key);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(S00e1c5e0_Ulong key);
     void ProcessArgument(Allocator* a);
     void FUN_00a29680();
     void* m_kPrimitiveElement;
@@ -4070,7 +4070,7 @@ template <typename K, typename V> struct S00e1c5e0_PointerMap
 {
     __forceinline int insert(K key, V val)
     {
-        return m_map.FUN_00cb1870(&reinterpret_cast<Allocator&>(hkMemoryRouter::getInstance().heap()), S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(val));
+        return m_map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(&reinterpret_cast<Allocator&>(hkMemoryRouter::getInstance().heap()), S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(val));
     }
     __forceinline V FindValueForKey(K key, V def) const
     {
@@ -4078,7 +4078,7 @@ template <typename K, typename V> struct S00e1c5e0_PointerMap
     }
     __forceinline int remove(K key)
     {
-        return m_map.FUN_00cb1fb0(S00e1c5e0_Ulong(key));
+        return m_map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(S00e1c5e0_Ulong(key));
     }
     S00e1c5e0_Map m_map;
 };
@@ -4157,7 +4157,7 @@ struct MapBase
     class IteratorTag;
     typedef IteratorTag* Iterator;
     Iterator FindSlot(unsigned long key) const;
-    int FUN_00cb1870(Allocator& a, unsigned long key, unsigned long val);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator& a, unsigned long key, unsigned long val);
     void ProcessArgument(Allocator& a);
     void EnsureCapacity(Allocator& a, int minCap);
     FlagByte valid(Iterator it) const
@@ -4189,7 +4189,7 @@ struct LocalMap : MapBase
     }
     __forceinline int insert(unsigned long key, unsigned long value)
     {
-        return FUN_00cb1870(reinterpret_cast<Allocator&>(hkMemoryRouter::getInstance().heap()), key, value);
+        return hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(reinterpret_cast<Allocator&>(hkMemoryRouter::getInstance().heap()), key, value);
     }
 };
 template <class T> struct PointerKeyMap

@@ -85,7 +85,8 @@ struct FloatInterpView
 
 // If m_spFloatData is set, forwards the two float arguments to its FUN_00a3cc40 method.
 // @fnv 0x00a3c540
-void __fastcall FUN_00a3c540(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
+// src: XBOX_PDB 0x00a3c540
+void __fastcall NiFloatInterpolator_GuaranteeTimeRange(FloatInterpView* self, int edx, float m_fStartTime, float m_fMaximumDistance)
 {
     if (self->m_spFloatData)
         self->m_spFloatData->FUN_00a3cc40(m_fStartTime, m_fMaximumDistance);
@@ -185,16 +186,17 @@ unsigned char NiFloatInterpolatorShell_00a3c3f0::NiFloatInterpolator_GetChannelP
 // Base equality operation absent from the shared key-based declaration.
 struct KeyBasedInterpolatorEqualityOps : NiKeyBasedInterpolator
 {
-    unsigned char FUN_00c85800(const NiObject* other);
+    unsigned char bhkCharacterProxy_IsEqual(const NiObject* other);
 };
 struct NiFloatInterpolatorEquality : NiFloatInterpolator
 {
-    bool FUN_00a3c5e0(const NiObject* otherObject);
+    bool NiFloatInterpolator_IsEqual(const NiObject* otherObject);
 };
 // @fnv 0x00a3c5e0
-bool NiFloatInterpolatorEquality::FUN_00a3c5e0(const NiObject* otherObject)
+// src: XBOX_PDB 0x00a3c5e0
+bool NiFloatInterpolatorEquality::NiFloatInterpolator_IsEqual(const NiObject* otherObject)
 {
-    if (!reinterpret_cast<KeyBasedInterpolatorEqualityOps*>(this)->FUN_00c85800(otherObject))
+    if (!reinterpret_cast<KeyBasedInterpolatorEqualityOps*>(this)->bhkCharacterProxy_IsEqual(otherObject))
         return false;
     const NiFloatInterpolator* other = static_cast<const NiFloatInterpolator*>(otherObject);
     if (value != other->value)
@@ -229,16 +231,17 @@ class A3C640Interpolator
     FloatDataRangeOps* m_spFloatData;
     unsigned int m_uiLastKeyIndex;
 
-    A3C640Interpolator* FUN_00a57050(float m_fStartTime, float m_fMaximumDistance) const throw();
+    A3C640Interpolator* NiInterpolator_GetSequenceInterpolator(float m_fStartTime, float m_fMaximumDistance) const throw();
     void SetFloatData(NiFloatData* pkFloatData) throw();
 
-    A3C640Interpolator* FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const;
+    A3C640Interpolator* NiFloatInterpolator_GetSequenceInterpolator(float m_fStartTime, float m_fMaximumDistance) const;
 };
 
 // @fnv 0x00a3c640
-A3C640Interpolator* A3C640Interpolator::FUN_00a3c640(float m_fStartTime, float m_fMaximumDistance) const
+// src: XBOX_PDB 0x00a3c640
+A3C640Interpolator* A3C640Interpolator::NiFloatInterpolator_GetSequenceInterpolator(float m_fStartTime, float m_fMaximumDistance) const
 {
-    A3C640Interpolator* pkSeqInterp = FUN_00a57050(m_fStartTime, m_fMaximumDistance);
+    A3C640Interpolator* pkSeqInterp = NiInterpolator_GetSequenceInterpolator(m_fStartTime, m_fMaximumDistance);
     if (m_spFloatData && pkSeqInterp)
     {
         NiPointer<NiFloatData> spNewFloatData;
@@ -399,12 +402,13 @@ class C940FloatInterpolator
     C940Pointer<NiFloatData> m_spFloatData;
 
     void BaseGetViewerStrings(C940StringArray* pkStrings);
-    void FUN_00a3c940(C940StringArray* pkStrings);
+    void NiFloatInterpolator_GetViewerStrings(C940StringArray* pkStrings);
 };
 
 // Appends the base viewer strings plus the class name, m_fFloatValue and m_spFloatData entries to pkStrings.
 // @fnv 0x00a3c940
-void C940FloatInterpolator::FUN_00a3c940(C940StringArray* pkStrings)
+// src: XBOX_PDB 0x00a3c940
+void C940FloatInterpolator::NiFloatInterpolator_GetViewerStrings(C940StringArray* pkStrings)
 {
     BaseGetViewerStrings(pkStrings);
     pkStrings->Add(C940GetViewerString(g_pcC940ClassName));

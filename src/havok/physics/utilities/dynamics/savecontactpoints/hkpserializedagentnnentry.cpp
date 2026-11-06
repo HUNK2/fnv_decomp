@@ -26,7 +26,7 @@ struct Hk_e05c20_router
     }
 };
 
-Hk_e05c20_router* FUN_00c85750();
+Hk_e05c20_router* hkMemoryRouter_getInstance();
 
 struct Hk_e05c20_track
 {
@@ -46,7 +46,7 @@ void Hk_e05c20_track::FUN_00e05c20()
             hkpAgent1nSector* p = m_kSectors.m_data[i];
             if (p)
             {
-                FUN_00c85750()->heap().deleteObj(p, 0x200);
+                hkMemoryRouter_getInstance()->heap().deleteObj(p, 0x200);
             }
         }
     }
@@ -58,11 +58,11 @@ void Hk_e05c20_track::FUN_00e05c20()
             if (p)
             {
                 reinterpret_cast<Hk_e05c20_track*>(p)->FUN_00e05c20();
-                FUN_00c85750()->heap().deleteObj(p, 0x20);
+                hkMemoryRouter_getInstance()->heap().deleteObj(p, 0x20);
             }
         }
     }
-    Hk_e05c20_alloc& a = FUN_00c85750()->heap();
+    Hk_e05c20_alloc& a = hkMemoryRouter_getInstance()->heap();
     m_kSubTracks.m_iElementCount = 0;
     if ((m_kSubTracks.m_iCapacityState & 0x80000000) == 0)
     {
@@ -71,7 +71,7 @@ void Hk_e05c20_track::FUN_00e05c20()
     m_kSubTracks.m_data = 0;
     m_kSubTracks.m_iCapacityState = 0x80000000;
 
-    Hk_e05c20_alloc& b = FUN_00c85750()->heap();
+    Hk_e05c20_alloc& b = hkMemoryRouter_getInstance()->heap();
     m_kSectors.m_iElementCount = 0;
     if ((m_kSectors.m_iCapacityState & 0x80000000) == 0)
     {

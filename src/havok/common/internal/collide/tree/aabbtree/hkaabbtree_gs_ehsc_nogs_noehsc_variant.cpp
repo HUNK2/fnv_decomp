@@ -83,7 +83,7 @@ struct FUN_00d9ce00_Class
 };
 struct UnsignedShortArray { unsigned short* elements; unsigned int count; unsigned int capacity; };
 void __cdecl ResizeAudioStream(void* memory, UnsignedShortArray* buffer, unsigned int count);
-struct Owner { int unknown00, unknown04, unknown08; UnsignedShortArray buffer; hkMemoryRouter* FUN_00c85750(); unsigned short* AppendElement(unsigned short value); };
+struct Owner { int unknown00, unknown04, unknown08; UnsignedShortArray buffer; hkMemoryRouter* hkMemoryRouter_getInstance(); unsigned short* AppendElement(unsigned short value); };
 struct Allocator {
     virtual void v00();
     virtual void v04();
@@ -91,7 +91,7 @@ struct Allocator {
     virtual void v0c();
     virtual void Free(void* p, unsigned int bytes);
 };
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(Allocator* allocator, void** data, unsigned int capacity, unsigned int elemSize);
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
@@ -107,7 +107,7 @@ struct S_d9bf30_Words {
         m_uiItemCount++;
     }
     __forceinline void refill(unsigned short newSize, int oldCount) {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         Allocator* alloc = reinterpret_cast<Allocator*>(holder->m_heap);
 
         unsigned int cap = m_capFlags & 0x3fffffffu;
@@ -163,7 +163,7 @@ struct S_00d9d650_Array
     int m_iCapacityState;
 
     S_00d9d650_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00d9d650_Array() throw() { _clearAndDeallocate(*reinterpret_cast<S_00d9d650_Heap*>(FUN_00c85750()->GetAllocator())); }
+    ~S_00d9d650_Array() throw() { _clearAndDeallocate(*reinterpret_cast<S_00d9d650_Heap*>(hkMemoryRouter_getInstance()->GetAllocator())); }
 
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     T& operator[](int i) { return m_data[i]; }
@@ -193,7 +193,7 @@ struct S_00d9d650_Array
         GrowArrayCapacity(alloc, n);
         m_iElementCount = n;
     }
-    void SetSizeAndGrow(int n) { _setSize(*reinterpret_cast<S_00d9d650_Heap*>(FUN_00c85750()->GetAllocator()), n); }
+    void SetSizeAndGrow(int n) { _setSize(*reinterpret_cast<S_00d9d650_Heap*>(hkMemoryRouter_getInstance()->GetAllocator()), n); }
 };
 struct S_00d9d650_Aabb
 {
@@ -711,7 +711,7 @@ struct TreeArrayLocalForm { // local form of hkArray: 0x00d9ce50 needs the origi
     int m_iCapacityState;
 
     __forceinline TreeArrayLocalForm() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    __forceinline ~TreeArrayLocalForm() { _clearAndDeallocate(*reinterpret_cast<TreeHeap*>((&FUN_00c85750()->heap()))); }
+    __forceinline ~TreeArrayLocalForm() { _clearAndDeallocate(*reinterpret_cast<TreeHeap*>((&hkMemoryRouter_getInstance()->heap()))); }
 
     __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
 
@@ -737,7 +737,7 @@ struct TreeArrayLocalForm { // local form of hkArray: 0x00d9ce50 needs the origi
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(*reinterpret_cast<TreeHeap*>((&FUN_00c85750()->heap())), n);
+        GrowArrayCapacity(*reinterpret_cast<TreeHeap*>((&hkMemoryRouter_getInstance()->heap())), n);
         m_iElementCount = n;
     }
 };
@@ -788,7 +788,7 @@ struct AabbTree16 {
     __m128 m_kVectorAt40;
     __m128 m_vScale;
 
-    void FUN_00d9c840(TreeAabb16* aabbs, const int* keys, int n, TreeNode16* root, TreeArrayLocalForm<unsigned short>* out, int depth) throw();
+    void hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_buildTreeInternal(TreeAabb16* aabbs, const int* keys, int n, TreeNode16* root, TreeArrayLocalForm<unsigned short>* out, int depth) throw();
     void UpdateBoundsNode(TreeNode16* nodes, unsigned short root, int maxVal) throw();
     void TraverseNodeTree(TreeNode16* nodes, int a) throw();
 
@@ -818,11 +818,12 @@ struct AabbTree16 {
         out.m_kMaximumCorner[2] = (unsigned short)((unsigned int)hi2 >> 15);
     }
 
-    void FUN_00d9ce50(const TreeAabb* aabbs, const int* keys, int n, TreeArrayLocalForm<unsigned short>* out) throw();
+    void hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_build(const TreeAabb* aabbs, const int* keys, int n, TreeArrayLocalForm<unsigned short>* out) throw();
 };
 
 // @fnv 0x00d9ce50
-void AabbTree16::FUN_00d9ce50(const TreeAabb* aabbs, const int* keys, int n, TreeArrayLocalForm<unsigned short>* out) throw()
+// src: XBOX_PDB 0x00d9ce50
+void AabbTree16::hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_build(const TreeAabb* aabbs, const int* keys, int n, TreeArrayLocalForm<unsigned short>* out) throw()
 {
     m_iNodeCount = n;
     if (n == 0)
@@ -851,7 +852,7 @@ void AabbTree16::FUN_00d9ce50(const TreeAabb* aabbs, const int* keys, int n, Tre
     }
     else
     {
-        FUN_00d9c840(aabbs16.m_data, keys, n, m_kNodeCollection, out, 0);
+        hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_buildTreeInternal(aabbs16.m_data, keys, n, m_kNodeCollection, out, 0);
     }
 
     UpdateBoundsNode(m_kNodeCollection, m_pTreeNode, 0x7fff);
@@ -912,15 +913,16 @@ struct Tree840 {
     Manager840 manager;
     __forceinline Node840* allocate(int& index) { return manager.PopGlyphRecord(&root,&rootIndex,&index); }
     __forceinline Node840* lookup(unsigned short index) { return manager.GetEntryOffset(index); }
-    void FUN_00d9c840(const Source840* source,const int* keys,int count,Node840* rootNode,Words840& mapping,unsigned char reuse);
+    void hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_buildTreeInternal(const Source840* source,const int* keys,int count,Node840* rootNode,Words840& mapping,unsigned char reuse);
 };
 // @fnv 0x00d9c840
-void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Node840* rootNode,Words840& mapping,unsigned char reuse) {
+// src: XBOX_PDB 0x00d9c840
+void Tree840::hkAabbTree_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_buildTreeInternal(const Source840* source,const int* keys,int count,Node840* rootNode,Words840& mapping,unsigned char reuse) {
     Words840 indices;
     indices.data=0;
     indices.count=0;
     indices.capacity=0x80000000;
-    hkMemoryRouter* holder=FUN_00c85750();
+    hkMemoryRouter* holder=hkMemoryRouter_getInstance();
     Allocator* heap=reinterpret_cast<Allocator*>(holder->m_heap);
     int capacity=indices.capacity&0x3fffffff;
     if(capacity<count) {
@@ -1017,7 +1019,7 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
             }
             for(int i=1;i>=0;--i) {
                 if(sizes[i]>1) {
-                    hkMemoryRouter* holder=FUN_00c85750();
+                    hkMemoryRouter* holder=hkMemoryRouter_getInstance();
                     Allocator* allocator=reinterpret_cast<Allocator*>(holder->m_heap);
                     if(tasks.count==(int)(tasks.capacity&0x3fffffff))
                         ResizeAudioStream(allocator,(UnsignedShortArray*)&tasks,48);
@@ -1028,13 +1030,13 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
             }
         }
     } while(tasks.count);
-    hkMemoryRouter* taskHolder=FUN_00c85750();
+    hkMemoryRouter* taskHolder=hkMemoryRouter_getInstance();
     Allocator* taskHeap=reinterpret_cast<Allocator*>(taskHolder->m_heap);
     tasks.count=0;
     if((tasks.capacity&0x80000000)==0) taskHeap->Free(tasks.data,(tasks.capacity&0x3fffffff)*48);
     tasks.data=0;
     tasks.capacity=0x80000000;
-    hkMemoryRouter* wordHolder=FUN_00c85750();
+    hkMemoryRouter* wordHolder=hkMemoryRouter_getInstance();
     Allocator* wordHeap=reinterpret_cast<Allocator*>(wordHolder->m_heap);
     indices.count=0;
     if((indices.capacity&0x80000000)==0) wordHeap->Free(indices.data,(indices.capacity&0x3fffffff)*2);

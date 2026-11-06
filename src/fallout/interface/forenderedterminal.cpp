@@ -57,7 +57,7 @@ public:
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
     void Normalize_00b12790();
     void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
-    void __thiscall FUN_004a0c10();
+    void __thiscall Unitize_004a0c10();
     LocalVector3 FUN_00439ef0(const LocalVector3& other) const
     {
         return LocalVector3(x - other.x, y - other.y, z - other.z);
@@ -106,7 +106,8 @@ struct GlobalObjectO2_0045cfe0
 extern GlobalObjectO2_0045cfe0 g_011f9148;
 
 // @fnv 0x007ffb80
-int FUN_007ffb80()
+// src: XBOX_PDB 0x007ffb80
+int BSFadeNode_QMinNearDistance()
 {
     return *g_011f9148.Int();
 }
@@ -114,18 +115,19 @@ int FUN_007ffb80()
 
 struct FUN_00456630_helper
 {
-    bool __thiscall FUN_00456630(unsigned int);
+    bool __thiscall NiAVObject_GetBit(unsigned int);
 };
 
 struct FUN_007ff8e0_shell
 {
-    bool FUN_007ff8e0();
+    bool NiAVObject_QFadedIn();
 };
 
 // @fnv 0x007ff8e0
-bool FUN_007ff8e0_shell::FUN_007ff8e0()
+// src: XBOX_PDB 0x007ff8e0
+bool FUN_007ff8e0_shell::NiAVObject_QFadedIn()
 {
-    return reinterpret_cast<FUN_00456630_helper*>(this)->FUN_00456630(0x4000);
+    return reinterpret_cast<FUN_00456630_helper*>(this)->NiAVObject_GetBit(0x4000);
 }
 
 struct FUN_007ff8c0_shell : public FUN_007ff8e0_shell
@@ -136,12 +138,12 @@ struct FUN_007ff8c0_shell : public FUN_007ff8e0_shell
 // src: COMMUNITY 0x007ff8c0
 bool FUN_007ff8c0_shell::BSFadeNode_IsFadedIn()
 {
-    return FUN_007ff8e0();
+    return NiAVObject_QFadedIn();
 }
 
 struct FUN_004bc1f0_S
 {
-    void FUN_004bc1f0(float, float, float);
+    void NiAVObject_SetTranslate_004bc1f0(float, float, float);
 };
 extern float DAT_01078bb0;
 struct FUN_007ff900_This
@@ -155,7 +157,7 @@ void FUN_007ff900_This::UpdateSynchTimeNode()
     proot = (NiAVObject*)((BSAudio*)this)->GetSynchTime();
     if (proot)
     {
-        ((FUN_004bc1f0_S*)proot)->FUN_004bc1f0(DAT_01078bb0, 0.0f, 0.0f);
+        ((FUN_004bc1f0_S*)proot)->NiAVObject_SetTranslate_004bc1f0(DAT_01078bb0, 0.0f, 0.0f);
         NiUpdateData UpdateData(0.0f, 0, 0);
         ((NiNode*)proot)->Update(UpdateData);
     }
@@ -164,7 +166,7 @@ void FUN_007ff900_This::UpdateSynchTimeNode()
 struct V3;
 struct FUN_00440460_S
 {
-    void FUN_00440460(V3 const*);
+    void NiAVObject_SetTranslate(V3 const*);
 };
 struct BSRenderedTexture;
 struct FUN_007ff7c0_shell : public BSAudio, public FUN_00440460_S
@@ -180,7 +182,7 @@ void FUN_007ff7c0_shell::FORenderedTerminal_Draw(BSRenderedTexture* apTarget, Ni
     NiAVObject* proot = (NiAVObject*)GetSynchTime();
     if (proot)
     {
-        ((FUN_00440460_S*)proot)->FUN_00440460((V3 const*)((char*)this + 0xd8));
+        ((FUN_00440460_S*)proot)->NiAVObject_SetTranslate((V3 const*)((char*)this + 0xd8));
         NiUpdateData UpdateData(0.0f, false, false);
         ((NiNode*)proot)->Update(UpdateData);
     }
@@ -193,19 +195,20 @@ struct Flt
 };
 extern Flt g_011db63c;
 void ForwardToGlobalObject(int param);
-int __cdecl FUN_007ffb80();
+int __cdecl BSFadeNode_QMinNearDistance();
 struct FUN_007ffaf0_shell
 {
-    void FUN_007ffaf0();
+    void FORenderedTerminal_FadeOut();
 };
 
 // If g_011db63c is set, saves and restores the value from FUN_007ffb80 around ForwardToGlobalObject(0) and SetRange(0,0); then sets byte 0xec to 1 and float 0xe8 to 1.0.
 // @fnv 0x007ffaf0
-void FUN_007ffaf0_shell::FUN_007ffaf0()
+// src: XBOX_PDB 0x007ffaf0
+void FUN_007ffaf0_shell::FORenderedTerminal_FadeOut()
 {
     if ((unsigned int)g_011db63c)
     {
-        int iSavedValue = FUN_007ffb80();
+        int iSavedValue = BSFadeNode_QMinNearDistance();
         ForwardToGlobalObject(0);
         ((BSFadeNode*)(unsigned int)g_011db63c)->SetRange(0.0f, 0.0f);
         ForwardToGlobalObject(iSavedValue);
@@ -422,7 +425,7 @@ bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
 
 struct FloatSetting
 {
-    float* FUN_00403e20();
+    float* Setting_Float_00403e20();
 };
 extern FloatSetting g_011db674, g_011db65c, g_011db62c, g_011db614, g_01203144, g_01203150, g_011db5ec;
 extern unsigned DAT_011a0bb0;
@@ -606,11 +609,11 @@ struct ForenderedterminalInterfaceView
     virtual float GetFar();
 };
 ForenderedterminalInterfaceView* __cdecl GetInterface();
-bool __cdecl FUN_00707b50();
-int __cdecl FUN_004dc200();
-int __cdecl FUN_004dc1f0();
-float __cdecl FUN_0057dd70(float);
-void* __cdecl FUN_0040df90();
+bool __cdecl Renderer_GetWidescreen();
+int __cdecl Renderer_GetScreenHeight();
+int __cdecl Renderer_GetScreenWidth();
+float __cdecl tan_0057dd70(float);
+void* __cdecl MagicSystem_CheckEffectFlares();
 struct Backend
 {
     void* Create(Resource*, float);
@@ -641,7 +644,7 @@ struct RenderNode
 // @fnv 0x007feeb0
 void RenderNode::SetupPowerButtonScreen()
 {
-    SetMode(1, *g_011db674.FUN_00403e20());
+    SetMode(1, *g_011db674.Setting_Float_00403e20());
     bool createdCur = false;
     Resource* rootP = 0;
     if (!(unsigned)g_011db63c)
@@ -666,10 +669,10 @@ void RenderNode::SetupPowerButtonScreen()
     rotAM.RotateX(DAT_010559cc);
     rotB.RotateY(DAT_010559cc);
     rootP->SetRotation(rotB * rotAM);
-    float rate9 = *g_011db65c.FUN_00403e20();
-    if (!FUN_00707b50() && !DAT_011f9426)
+    float rate9 = *g_011db65c.Setting_Float_00403e20();
+    if (!Renderer_GetWidescreen() && !DAT_011f9426)
         rate9 = (float)(rate9 * DAT_0101de30);
-    rootP->SetTranslation(rate9, *g_011db614.FUN_00403e20(), *g_011db62c.FUN_00403e20());
+    rootP->SetTranslation(rate9, *g_011db614.Setting_Float_00403e20(), *g_011db62c.Setting_Float_00403e20());
     LocalVector3 akStart(0.f, 0, 0);
     rootP->SetPosition(akStart);
     Camera* cameraK = new Camera;
@@ -683,15 +686,15 @@ void RenderNode::SetupPowerButtonScreen()
     cameraK->SetScale(1.f);
     Frustum frustum(0);
     frustum.farPlane = GetInterface()->GetFar();
-    frustum.nearPlane = *g_01203144.FUN_00403e20();
+    frustum.nearPlane = *g_01203144.Setting_Float_00403e20();
     cameraK->SetNearFar(frustum.farPlane / frustum.nearPlane);
-    float aspect6 = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / FUN_004dc1f0();
+    float aspect6 = (double)(DAT_011f9426 ? DAT_011f9434 : Renderer_GetScreenHeight()) / Renderer_GetScreenWidth();
     float scale4 = DAT_01016264;
-    float angle7 = (float)(*g_01203150.FUN_00403e20() * DAT_01023128 * *g_011db5ec.FUN_00403e20());
-    frustum.left = -FUN_0057dd70(angle7) * scale4;
-    frustum.right = FUN_0057dd70(angle7) * scale4;
-    frustum.bottom = -FUN_0057dd70(angle7) * aspect6 * scale4;
-    frustum.top = FUN_0057dd70(angle7) * aspect6 * scale4;
+    float angle7 = (float)(*g_01203150.Setting_Float_00403e20() * DAT_01023128 * *g_011db5ec.Setting_Float_00403e20());
+    frustum.left = -tan_0057dd70(angle7) * scale4;
+    frustum.right = tan_0057dd70(angle7) * scale4;
+    frustum.bottom = -tan_0057dd70(angle7) * aspect6 * scale4;
+    frustum.top = tan_0057dd70(angle7) * aspect6 * scale4;
     frustum.ortho = false;
     cameraK->SetFrustum(frustum);
     LocalVector3 pos2(0.f, 0, 0);
@@ -699,7 +702,7 @@ void RenderNode::SetupPowerButtonScreen()
     SetScreen(screenNode);
     SetScreen2(screenNode);
     SetRoot(rootP);
-    screenNode->AddProperty(FUN_0040df90());
+    screenNode->AddProperty(MagicSystem_CheckEffectFlares());
     screenNode->SetController(new Controller);
     SetCamera(cameraK);
     Update();
@@ -731,9 +734,10 @@ struct Audio376
 {
     Sound376 ResolveAudioHandle(const char* editorID, unsigned int flags);
 };
-Audio376* FUN_00ad9060();
+Audio376* BSAudioManager_QInstance_00ad9060();
 // @fnv 0x007ffe40
-void FUN_007ffe40()
+// src: XBOX_PDB 0x007ffe40
+void FORenderedTerminal_PlayShutdownSound()
 {
-    FUN_00ad9060()->ResolveAudioHandle("OBJComputerTerminalPowerDown", 0x121).FUN_00ad8830(false);
+    BSAudioManager_QInstance_00ad9060()->ResolveAudioHandle("OBJComputerTerminalPowerDown", 0x121).FUN_00ad8830(false);
 }

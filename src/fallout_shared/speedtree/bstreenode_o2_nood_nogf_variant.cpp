@@ -95,11 +95,12 @@ class SceneObjectC8C
     int unk00, unk04;
     BodyC8C* m_pkBody;
 
-    void FUN_00c8c860(NiNode* pkParent, ArgC8C* iValue);
+    void bhkTransformShape_BuildDisplayGeometry(NiNode* pkParent, ArgC8C* iValue);
 };
 
 // @fnv 0x00c8c860
-void SceneObjectC8C::FUN_00c8c860(NiNode* pkParent, ArgC8C* iValue)
+// src: XBOX_PDB 0x00c8c860
+void SceneObjectC8C::bhkTransformShape_BuildDisplayGeometry(NiNode* pkParent, ArgC8C* iValue)
 {
     AutoMemContext kContext(0x10);
 

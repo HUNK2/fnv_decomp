@@ -42,7 +42,7 @@ public:
     void CopyAIDataFromAIDATA(PackedRecordData* data);
     void SetAIData(PackedRecordData* data);
     void FUN_0047f0b0(PackedRecordData* data);
-    void FUN_0047f500(unsigned int package);
+    void TESAIForm_AddPackage(unsigned int package);
     void TESAIForm_SetResponsibility(int value, bool addChange);
     void TESAIForm_SetAggression(int value, bool addChange);
     void TESAIForm_SetConfidence(int value, bool addChange);

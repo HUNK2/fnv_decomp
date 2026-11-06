@@ -56,7 +56,7 @@ inline void* __cdecl operator new(unsigned int, void* where) throw()
 }
 
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void ResizeAudioStream(hkMemoryAllocator& alloc, void* array, int sizeElem);
 
 struct S_00d1bcb0_Entry
@@ -68,7 +68,7 @@ struct S_00d1bcb0_Entry
 typedef hkArray<S_00d1bcb0_Entry> S_00d1bcb0_Array;
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-return reinterpret_cast<hkMemoryAllocator&>(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap()));
+return reinterpret_cast<hkMemoryAllocator&>(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap()));
 }
 template<> __forceinline void hkArrayBase<S_00d1bcb0_Entry>::_pushBack(hkMemoryAllocator& sharedAlloc, S_00d1bcb0_Entry const& e)
 {
@@ -114,7 +114,8 @@ int __cdecl FUN_00d1c560(void* a, void* b, int c, int d, void* e, void* f);
 
 // Returns 0 if a is null, otherwise forwards a, b, e and f to FUN_00d1c560 with c and d set to 0.
 // @fnv 0x00d1d4d0
-int __cdecl FUN_00d1d4d0(void* a, void* apArg2, void* apArg5, void* apArg6)
+// src: XBOX_PDB 0x00d1d4d0
+int __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb(void* a, void* apArg2, void* apArg5, void* apArg6)
 {
     if (!a)
         return 0;
@@ -125,7 +126,8 @@ extern int __cdecl FUN_00d1c560(void*, int, int, int, int, int);
 
 // If arg0 is non-null, forwards it with arg1 and arg2 plus three zero arguments to FUN_00d1c560 and returns its result; otherwise returns 0.
 // @fnv 0x00d1d500
-int __cdecl FUN_00d1d500(void* arg0, int arg1, int arg2)
+// src: XBOX_PDB 0x00d1d500
+int __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb_00d1d500(void* arg0, int arg1, int arg2)
 {
     if (!arg0)
         return 0;
@@ -136,7 +138,8 @@ extern "C" void* __cdecl FUN_00d1ce50(void* p, int a, int b, int c, int d, int e
 
 // If p is non-null, forwards it to FUN_00d1ce50 with zeroed middle arguments and returns the result; otherwise returns 0.
 // @fnv 0x00d1d540
-extern "C" void* __cdecl FUN_00d1d540(void* p, int aiArg1, int aiArg4, int aiArg5)
+// src: XBOX_PDB 0x00d1d540
+extern "C" void* __cdecl hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_queryAabb(void* p, int aiArg1, int aiArg4, int aiArg5)
 {
     if (!p)
         return 0;
@@ -229,7 +232,7 @@ struct DIntArrayLocalForm
     }
     __forceinline void pushBack(int e)
     {
-        _pushBack(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap()), e);
+        _pushBack(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap()), e);
     }
 };
 extern float DAT_01011d78;
@@ -402,7 +405,7 @@ struct TreePairStack
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap()), n);
+        GrowArrayCapacity(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap()), n);
         m_iElementCount = n;
     }
     __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
@@ -522,7 +525,7 @@ int FUN_00d1d5a0(AabbTree* treeA, AabbTree* treeB, TreePairArray* pairsOut)
         }
     } while (top);
 
-    pairStack._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(FUN_00c85750()->heap()));
+    pairStack._clearAndDeallocate(reinterpret_cast<hkMemoryAllocator&>(hkMemoryRouter_getInstance()->heap()));
     return numPairs;
 }
 }  // namespace fnv_00d1d5a0
@@ -554,9 +557,9 @@ class Target
   public:
     void ProcessCallback(void* a, void* b, int c);
 };
-int FUN_00d1d540(int a, Inner* b, int* c, int d);
-int FUN_00d1d4d0(int a, Inner* b, int* c, int d);
-int FUN_00d1b930(int a, Inner* b, int* c, int d);
+int hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_queryAabb(int a, Inner* b, int* c, int d);
+int hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb(int a, Inner* b, int* c, int d);
+int hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b930(int a, Inner* b, int* c, int d);
 // Records CPU profile ticks, iterates Inner nodes calling FUN_00d1d540, FUN_00d1d4d0, FUN_00d1b930, then calls ProcessCallback.
 // @fnv 0x00df6850
 void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
@@ -586,19 +589,19 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
             *rem = initial;
             if (pFrame->m_20)
             {
-                int r = FUN_00d1d540(pFrame->m_20, in, rem, iCount);
+                int r = hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_queryAabb(pFrame->m_20, in, rem, iCount);
                 in->m_28 += r;
                 iCount -= r;
             }
             if (pFrame->m_24)
             {
-                int r = FUN_00d1d4d0(pFrame->m_24, in, rem, iCount);
+                int r = hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_queryAabb(pFrame->m_24, in, rem, iCount);
                 in->m_28 += r;
                 iCount -= r;
             }
             if (pFrame->m_28)
             {
-                int r = FUN_00d1b930(pFrame->m_28, in, rem, iCount);
+                int r = hkKdTreeAabbQueryUtils_queryAabbIterative_00d1b930(pFrame->m_28, in, rem, iCount);
                 in->m_28 += r;
             }
             in = (Inner*)((char*)in + 0x30);
@@ -1206,7 +1209,8 @@ static __forceinline void expandedVal(hkVector4Real& out, LocalM128 a, LocalM128
 
 // Traverses a compressed tree to find nodes overlapping a swept box, collecting leaf hits or reporting hit distances via a collector.
 // @fnv 0x00d1c2b0
-int FUN_00d1c2b0(CompressedTree* tree, int aabb, const SweptBoxQuery* apQuery, LeafCollector* collector, float radius,
+// src: XBOX_PDB 0x00d1c2b0
+int hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castAabb(CompressedTree* tree, int aabb, const SweptBoxQuery* apQuery, LeafCollector* collector, float radius,
                  int* hits, int capacity)
 {
     if (!tree)
@@ -1521,7 +1525,8 @@ union QuadStorage
 
 // Traverses the compressed tree, restores each node's AABB, and calls GetHitDistance for leaves overlapping the ray within maxDistance.
 // @fnv 0x00d1bd00
-void FUN_00d1bd00(CompressedTree* tree, const LocalM128* from, const LocalM128* to, LeafCollector* collector,
+// src: XBOX_PDB 0x00d1bd00
+void hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb16_unsigned_short_castRay(CompressedTree* tree, const LocalM128* from, const LocalM128* to, LeafCollector* collector,
                   float maxDistance)
 {
     if (!tree)
@@ -1625,7 +1630,8 @@ struct RayInput
 
 // Traverses tree nodes, tests each AABB against the ray, and reports leaf hits through the collector or output buffer.
 // @fnv 0x00d1cc50
-int FUN_00d1cc50(NTreeQ* tree, void* unused, const RayInput* ray, RayCollector* collector, float radius,
+// src: XBOX_PDB 0x00d1cc50
+int hkAabbTreeQueryUtils_hkAabbTreeData_hkAabbTreeAabb_unsigned_short_castAabb(NTreeQ* tree, void* unused, const RayInput* ray, RayCollector* collector, float radius,
                  unsigned int* out, int maxCount)
 {
     if (!tree)

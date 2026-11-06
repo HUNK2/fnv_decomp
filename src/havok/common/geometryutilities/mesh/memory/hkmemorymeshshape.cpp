@@ -105,7 +105,7 @@ void hkMemoryMeshShape::calcContentStatistics(hkStatisticsCollector* pkCollector
     }
 }
 
-int __cdecl FUN_00e60cb0(PrimitiveType type, int numPrimitives);
+int __cdecl hkMeshPrimitiveUtil_calculateNumIndices(PrimitiveType type, int numPrimitives);
 
 // Copies the cinfo fields of the mesh section at sectionIndex into sectionOut, computing the index count and gating vertex/indices pointers by accessFlags.
 // @fnv 0x00e4a040
@@ -114,7 +114,7 @@ void hkMemoryMeshShape::GetSection(int sectionIndex, unsigned char accessFlags, 
     const hkMeshSectionCinfo& cinfo = m_sections.m_data[sectionIndex];
     sectionOut.m_ePrimitiveType = cinfo.m_ePrimitiveType;
     sectionOut.m_iNumPrimitives = cinfo.m_iNumPrimitives;
-    sectionOut.m_iIndexCount = FUN_00e60cb0(cinfo.m_ePrimitiveType, cinfo.m_iNumPrimitives);
+    sectionOut.m_iIndexCount = hkMeshPrimitiveUtil_calculateNumIndices(cinfo.m_ePrimitiveType, cinfo.m_iNumPrimitives);
     sectionOut.m_iIndexType = cinfo.m_iIndexType;
     sectionOut.m_hasIndices = cinfo.m_hasIndices;
     sectionOut.m_iSectionVertexCount = cinfo.m_iSectionVertexCount;

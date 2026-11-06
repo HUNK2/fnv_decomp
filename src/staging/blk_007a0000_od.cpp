@@ -62,14 +62,14 @@ struct PerkActivation;
 template <>
 BSSimpleArray<MessageMenuEntry*, 1024>::BSSimpleArray()
 {
-    FUN_006b3eb0(0, false);
+    BSSimpleArray_float_1024_InitialSetup(0, false);
 }
 
 // @fnv 0x007ab610
 template <>
 BSSimpleArray<PerkActivation*, 1024>::BSSimpleArray()
 {
-    FUN_006b3eb0(0, false);
+    BSSimpleArray_float_1024_InitialSetup(0, false);
 }
 
 // @fnv 0x007ab5f0
@@ -108,7 +108,7 @@ unsigned int __thiscall FUN_007b8f10_Class::GetField630()
     return *(unsigned int*)((char*)this + 0x630);
 }
 
-void __cdecl FUN_00730490(char*, int);
+void __cdecl BSstrupr(char*, int);
 
 struct FUN_007b52a0_class
 {
@@ -122,13 +122,14 @@ struct FUN_007b52a0_class
 void __thiscall FUN_007b52a0_class::BSStringT_MakeUpper()
 {
     if (m_ptr)
-        FUN_00730490(m_ptr, m_uiItemCount + 1);
+        BSstrupr(m_ptr, m_uiItemCount + 1);
 }
 
 extern MapMenu* DAT_011da368;
 // The parent-world accessor shares 0x004fd380 with EffectSetting::GetLight (pointer at offset 0xc0).
 // @fnv 0x007a1880
-void __cdecl FUN_007a1880(TESWorldSpace* worldspace)
+// src: XBOX_PDB 0x007a1880
+void __cdecl MapMenu_SetRootMapSpace(TESWorldSpace* worldspace)
 {
     if (DAT_011da368)
     {
@@ -167,20 +168,21 @@ struct FUN_007a8030_Class
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    unsigned int FUN_007a8030(int);
+    unsigned int ListBox_TESChallenge_NumUnfiltered(int);
     virtual void FUN_007a8030_v5(int);
 };
 
 struct FUN_007a62b0_Class : FUN_007a8030_Class
 {
-    void FUN_007a62b0();
+    void ListBox_TESChallenge_GetLastItem();
 };
 
 // Calls FUN_007a8030 with 0, subtracts 1 from the result, and passes it to FUN_007a8030_v5.
 // @fnv 0x007a62b0
-void FUN_007a62b0_Class::FUN_007a62b0()
+// src: XBOX_PDB 0x007a62b0
+void FUN_007a62b0_Class::ListBox_TESChallenge_GetLastItem()
 {
-    FUN_007a8030_v5(FUN_007a8030(0) - 1);
+    FUN_007a8030_v5(ListBox_TESChallenge_NumUnfiltered(0) - 1);
 }
 
 
@@ -197,7 +199,8 @@ template <> BSStringT<char>* BSStringT<char>::FUN_007a86b0(unsigned int flags)
 extern int DAT_011dea14;
 
 // @fnv 0x007a1480
-int __cdecl FUN_007a1480()
+// src: XBOX_PDB 0x007a1480
+int __cdecl Main_LandLODNode()
 {
     return DAT_011dea14;
 }
@@ -215,10 +218,11 @@ struct NavMeshListNode
     NavMeshListNode(NavMeshPayload* payload);
     bool IsNotEqual(int mode);
     void FUN_00418900(NavMeshPayload* payload);
-    void FUN_007a19a0(NavMeshPayload* payload);
+    void BSSimpleList_BSSoundHandle_AddTail(NavMeshPayload* payload);
 };
 // @fnv 0x007a19a0
-void NavMeshListNode::FUN_007a19a0(NavMeshPayload* payload)
+// src: XBOX_PDB 0x007a19a0
+void NavMeshListNode::BSSimpleList_BSSoundHandle_AddTail(NavMeshPayload* payload)
 {
     if (payload->Equals(0))
         return;
@@ -243,14 +247,14 @@ struct FUN_007a28c0
     void ClearEntries();
 };
 
-void __cdecl FUN_007211c0(FUN_007a28c0* object);
+void __cdecl InterfaceManager_UnregisterListBox(FUN_007a28c0* object);
 
 // Calls ClearEntries, then passes this to FUN_007211c0 as part of destruction.
 // @fnv 0x007a28c0
 FUN_007a28c0::~FUN_007a28c0()
 {
     ClearEntries();
-    FUN_007211c0(this);
+    InterfaceManager_UnregisterListBox(this);
 }
 
 class SubObj
@@ -293,14 +297,14 @@ class FUN_007a4470_cls
     FUN_007a4470_sub m_04;
 };
 
-void __cdecl FUN_007211c0(FUN_007a4470_cls* p);
+void __cdecl InterfaceManager_UnregisterListBox(FUN_007a4470_cls* p);
 
 // Calls Step, then passes this to FUN_007211c0 during destruction.
 // @fnv 0x007a4470
 FUN_007a4470_cls::~FUN_007a4470_cls()
 {
     Step();
-    FUN_007211c0(this);
+    InterfaceManager_UnregisterListBox(this);
 }
 
 struct FUN_007a51c0_m4
@@ -309,7 +313,7 @@ struct FUN_007a51c0_m4
     ~FUN_007a51c0_m4();
 };
 
-void __cdecl FUN_007211c0(void* p);
+void __cdecl InterfaceManager_UnregisterListBox(void* p);
 
 struct FUN_007a51c0_cls
 {
@@ -323,7 +327,7 @@ struct FUN_007a51c0_cls
 FUN_007a51c0_cls::~FUN_007a51c0_cls()
 {
     FUN_007a54d0();
-    FUN_007211c0(this);
+    InterfaceManager_UnregisterListBox(this);
 }
 
 struct FUN_007a6220_class
@@ -337,12 +341,13 @@ struct FUN_007a6220_class
 
     int __thiscall GetUnfilteredCount(int value);
 
-    void __thiscall FUN_007a6220();
+    void __thiscall ListBox_BGSNote_GetLastItem();
 };
 
 // Calls GetUnfilteredCount with 0, subtracts 1 from the result, and passes it to FUN_007a6220_v6.
 // @fnv 0x007a6220
-void __thiscall FUN_007a6220_class::FUN_007a6220()
+// src: XBOX_PDB 0x007a6220
+void __thiscall FUN_007a6220_class::ListBox_BGSNote_GetLastItem()
 {
     FUN_007a6220_v6(GetUnfilteredCount(0) - 1);
 }
@@ -397,7 +402,7 @@ struct FUN_007a80e0_cls
     float m_20;
 
     void AccumulateTileHeight(SceneThing* thing);
-    void FUN_007a8580();
+    void ListBox_TESChallenge_SetTotalListHeight();
     void UpdateHighlight();
     void InitSceneNodes();
 };
@@ -416,7 +421,7 @@ void FUN_007a80e0_cls::InitSceneNodes()
             this->AccumulateTileHeight(reinterpret_cast<SceneInner*>(pNodeRef->FUN_006815c0())->m_00);
         }
     }
-    this->FUN_007a8580();
+    this->ListBox_TESChallenge_SetTotalListHeight();
     this->UpdateHighlight();
 }
 
@@ -458,7 +463,8 @@ FUN_007a8960_cls::~FUN_007a8960_cls()
 
 // FUN_007abda0: returns constant 0x3f8
 // @fnv 0x007abda0
-int __cdecl FUN_007abda0()
+// src: XBOX_PDB 0x007abda0
+int __cdecl QuantityMenu_GetClassStatic()
 {
     return 0x3f8;
 }
@@ -574,28 +580,29 @@ extern "C" const double DAT_01012060;
 struct ActiveEffectEntry
 {
     float FUN_00a011b0(unsigned int id);
-    void FUN_00a012d0(unsigned int id, float value, bool update);
+    void Tile_Set(unsigned int id, float value, bool update);
 };
 struct ActiveEffectCollection
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     float rate;
     int FUN_00559450();
-    ActiveEffectEntry*** FUN_0057cbe0(int* iterator);
-    void FUN_007b4530(int amount);
+    ActiveEffectEntry*** NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(int* iterator);
+    void RaceSexMenu_MenuOptionList_ScrollBy(int amount);
 };
 // @fnv 0x007b4530
-void ActiveEffectCollection::FUN_007b4530(int amount)
+// src: XBOX_PDB 0x007b4530
+void ActiveEffectCollection::RaceSexMenu_MenuOptionList_ScrollBy(int amount)
 {
     if (rate <= DAT_01012060)
         return;
     int it = FUN_00559450();
     while (it)
     {
-        ActiveEffectEntry* pEffect = **FUN_0057cbe0(&it);
+        ActiveEffectEntry* pEffect = **NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(&it);
         float fAmount = pEffect->FUN_00a011b0(4002);
         fAmount = (float)amount * rate + fAmount;
-        pEffect->FUN_00a012d0(4002, fAmount, true);
+        pEffect->Tile_Set(4002, fAmount, true);
     }
 }
 
@@ -620,7 +627,7 @@ struct FUN_0049fa80_Result
 
 struct FUN_007b5330_Class
 {
-    FUN_0049fa80_Result* __thiscall FUN_0049fa80();
+    FUN_0049fa80_Result* __thiscall NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_NewItem();
     void __thiscall InsertBefore(int arg1, FUN_0049fa80_Result* arg2);
     void __thiscall NiTPointerListBase_InsertBefore_0(int arg1, int* arg2);
 };
@@ -630,7 +637,7 @@ struct FUN_007b5330_Class
 // src: COMMUNITY 0x007b5330
 void __thiscall FUN_007b5330_Class::NiTPointerListBase_InsertBefore_0(int arg1, int* arg2)
 {
-    FUN_0049fa80_Result* result = this->FUN_0049fa80();
+    FUN_0049fa80_Result* result = this->NiTPointerListBase_NiTPointerAllocator_unsigned_int_unsigned_int_NewItem();
     result->unk08 = *arg2;
     this->InsertBefore(arg1, result);
 }

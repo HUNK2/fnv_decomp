@@ -105,13 +105,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -514,7 +514,7 @@ static const float DAT_01011d78 = 0.0f;
 bool __cdecl RayIntersectsBound(S_00e9c490_Node* node, NiPoint3* p1, NiPoint3* p2);
 bool __cdecl NiCollisionTraversals_FindIntersectionsNode(NiPoint3* p1, NiPoint3* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
 bool __cdecl RaycastShape(NiPoint3* p1, NiPoint3* p2, S_00e9c490_Ctx* ctx, S_00e9c490_Node* node);
-bool __cdecl FUN_0043b300(const void* rtti, S_00e9c490_Node* node);
+bool __cdecl NiObject_IsKindOf(const void* rtti, S_00e9c490_Node* node);
 
 // @fnv 0x00e9c490
 // src: COMMUNITY 0x00e9c490
@@ -534,7 +534,7 @@ bool __cdecl NiCollisionTraversals_FindIntersections(NiPoint3* pPoint1, NiPoint3
             return NiCollisionTraversals_FindIntersectionsNode(pPoint1, pPoint2, pContext, node);
         if (node->v7())
             return RaycastShape(pPoint1, pPoint2, pContext, node);
-        if (DAT_0126fa65 && FUN_0043b300(&DAT_011f4a48, node))
+        if (DAT_0126fa65 && NiObject_IsKindOf(&DAT_011f4a48, node))
         {
             NiPoint3 d = node->unk8c.FUN_00439ef0(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
@@ -543,7 +543,7 @@ bool __cdecl NiCollisionTraversals_FindIntersections(NiPoint3* pPoint1, NiPoint3
             pContext->unk18.GetTexture(node)->unk14 = len;
             return false;
         }
-        if (DAT_0126fa64 && FUN_0043b300(&DAT_011f5f64, node))
+        if (DAT_0126fa64 && NiObject_IsKindOf(&DAT_011f5f64, node))
         {
             NiPoint3 d = node->unk8c.FUN_00439ef0(*pPoint1);
             if (pPoint2->DotProduct(d) < DAT_01011d78)
@@ -565,7 +565,8 @@ bool __cdecl NiCollisionTraversals_FindIntersections(NiPoint3* pPoint1, NiPoint3
 }
 
 // @fnv 0x00e9c7c0
-int FUN_00e9c7c0()
+// src: XBOX_PDB 0x00e9c7c0
+int NiBoundingVolume_Type()
 {
     return -1;
 }
@@ -605,7 +606,7 @@ public:
     RaycastPoint Cross(const RaycastPoint& rhs) const;
     float Length() const;
     float FUN_004a7290() const;
-    __declspec(noalias) void FUN_004a0c10();
+    __declspec(noalias) void Unitize_004a0c10();
 };
 inline RaycastPoint::RaycastPoint() throw() {}
 inline RaycastPoint RaycastPoint::operator*(float f) const
@@ -1042,7 +1043,7 @@ bool __cdecl RaycastGeometry(const RaycastPoint* origin, const RaycastPoint* dir
                 edge2 = p2 - p0;
                 normal = edge1.Cross(edge2);
             }
-            normal.FUN_004a0c10();
+            normal.Unitize_004a0c10();
             if (pick->coordinates == 1)
                 normal = reinterpret_cast<Matrix&>(worldTransform.rotation).FUN_004b4500(&normal);
             hit->normal = normal;
@@ -1702,7 +1703,7 @@ bool __cdecl IntersectShape(const LocalVec3* rayStart, const LocalVec3* rayDirec
                         CopyVector(normal, edge1.FUN_004b3800(edge2));
                     }
                 }
-                reinterpret_cast<RaycastPoint&>(normal).FUN_004a0c10();
+                reinterpret_cast<RaycastPoint&>(normal).Unitize_004a0c10();
                 if (options->coordinateMode == 1)
                     CopyVector(normal, *reinterpret_cast<const LocalVec3*>(
                         &reinterpret_cast<const Mat3LocalView&>(xform.rotation).FUN_004b4500(
@@ -1985,7 +1986,7 @@ struct Shape
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4a20;
 extern GlobalObjectO2_00a7b610 g_011f4a40;
-bool FUN_0043b300(const void*, Shape*);
+bool NiObject_IsKindOf(const void*, Shape*);
 bool __cdecl RaycastGeometry(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 bool __cdecl IntersectShape(const NiPoint3*, const NiPoint3*, Options*, Shape*);
 
@@ -2018,7 +2019,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             if (shape->mesh->unk44 == 1)
                 return IntersectShape(rayStart, rayDirection, options, shape);
         }
-        else if (FUN_0043b300(&g_011f4a40, shape))
+        else if (NiObject_IsKindOf(&g_011f4a40, shape))
             return RaycastGeometry(rayStart, rayDirection, options, shape);
         const Transform& xform = shape->World();
         NiPoint3 difference = *rayStart - *reinterpret_cast<const NiPoint3*>(&xform.position);
@@ -2147,7 +2148,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
                         }
                     }
                     // RaycastPoint declares the same normalize routine with its noalias contract.
-                    reinterpret_cast<RaycastPoint&>(normal).FUN_004a0c10();
+                    reinterpret_cast<RaycastPoint&>(normal).Unitize_004a0c10();
                     if (options->coordinateMode == 1)
                         normal = *reinterpret_cast<const NiPoint3*>(
                             &reinterpret_cast<const Mat3&>(xform.rotation).FUN_004b4500(

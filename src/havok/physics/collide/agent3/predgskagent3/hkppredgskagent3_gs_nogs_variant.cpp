@@ -45,8 +45,8 @@ struct ResultData
     char unk0A;
     unsigned char unk0B;
     int unk0C;
-    void __thiscall FUN_00dafe70(void* a, void* b, void* c);
-    void __thiscall FUN_00dafcd0(void* a, void* b, void* c);
+    void __thiscall hkpGskCache_initTriangle(void* a, void* b, void* c);
+    void __thiscall hkpGskCache_init(void* a, void* b, void* c);
 };
 void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, ResultData* result);
 // Stand-ins for the script handler functions whose addresses are stored in the
@@ -55,7 +55,7 @@ extern "C" void __cdecl RemoveEntryById(int a, int b, int c, int d);
 extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
 extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskAgent3_sepNormal(int a, int b, int c, int d);
 extern "C" void __cdecl hkPredGskCylinderAgent3_process(int a, int b, int c, int d);
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
@@ -364,7 +364,8 @@ struct SeparatingNormal
 };
 
 // @fnv 0x00d41930
-void __cdecl FUN_00d41930(Input_s* input, int unused, hkpGskCache_s* cache, Output_s* output)
+// src: XBOX_PDB 0x00d41930
+void __cdecl hkPredGskAgent3_sepNormal(Input_s* input, int unused, hkpGskCache_s* cache, Output_s* output)
 {
     hkpConvexShape_s* shapeA = input->m_pBodyA->m_pCollisionShape;
     hkpConvexShape_s* shapeB = input->m_pBodyB->m_pCollisionShape;

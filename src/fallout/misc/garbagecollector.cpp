@@ -192,12 +192,12 @@ void __cdecl AddNavMeshToGarbageCollector(NavMeshPtr& apNavMesh)
     ((NavMesh*)apNavMesh)->NiRefObject::IncRefCount();
     if (DAT_tlsFlag)
     {
-        NavMesh* mesh = apNavMesh.FUN_00458b50();
+        NavMesh* mesh = apNavMesh.AnimatingText_GetFullText();
         g_011de924.Add(mesh);
     }
     else
     {
-        NavMesh* mesh = apNavMesh.FUN_00458b50();
+        NavMesh* mesh = apNavMesh.AnimatingText_GetFullText();
         g_011de898.Add(mesh);
     }
 }
@@ -428,7 +428,8 @@ struct ChildGarbageCleanupAdapter
     void ClearChildGarbage();
 };
 // @fnv 0x00572160
-void NiNode::FUN_00572160()
+// src: XBOX_PDB 0x00572160
+void NiNode::DetachAllChildren_00572160()
 {
     unsigned int i;
     unsigned int count = m_kChildren.GetSize();
@@ -474,7 +475,7 @@ void __cdecl GarbageCollector_Add_00868560(GarbageCollectorDeleteB* apObject)
 {
     TwoPointerRecord autoEvent(4, "GarbageCollector::Add(BipedAnim)");
 
-    if (!DAT_tlsFlag || (g_BGSSaveLoadGame != 0 && g_BGSSaveLoadGame->FUN_0042ce10()))
+    if (!DAT_tlsFlag || (g_BGSSaveLoadGame != 0 && g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading()))
     {
         if (g_modelLoader->FUN_00868250())
         {
@@ -524,7 +525,7 @@ struct ControllerRemovalAdapter
 struct AnimationObject
 {
     void FreeAllIdles();
-    NiControllerManager* FUN_00496940();
+    NiControllerManager* GetControllerManager_00496940();
     NiAVObject* FUN_005585e0();
 };
 struct AnimationLoader
@@ -538,8 +539,8 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
 {
     TwoPointerRecord event(8, "GarbageCollector::Add(Animation)");
     object->FreeAllIdles();
-    if (object->FUN_00496940())
-        object->FUN_00496940()->FUN_0048fef0(0.0f);
+    if (object->GetControllerManager_00496940())
+        object->GetControllerManager_00496940()->FUN_0048fef0(0.0f);
     NiAVObject* pRoot = object->FUN_005585e0();
     if (pRoot)
     {
@@ -551,7 +552,7 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
             reinterpret_cast<ControllerRemovalAdapter*>(pRoot)->RemoveController(controller);
     }
     ((AnimationLoader*)g_modelLoader)->ModelLoader_CancelReplacementKFList(object);
-    if (!DAT_tlsFlag || (g_BGSSaveLoadGame && g_BGSSaveLoadGame->FUN_0042ce10()))
+    if (!DAT_tlsFlag || (g_BGSSaveLoadGame && g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading()))
     {
         delete (GarbageCollectorDeleteA*)object;
     }

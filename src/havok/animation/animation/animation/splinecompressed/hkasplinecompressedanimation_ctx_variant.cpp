@@ -48,8 +48,8 @@ struct SplineAnimationSampler : hkaSplineCompressedAnimation {
     __declspec(noinline) void GetBlockAndTime(unsigned int frame, float delta, int& blockOut, float& blockTimeOut, unsigned char& quantizedTimeOut) const;
     __declspec(noinline) void EvaluateSpline(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
     __declspec(noinline) void ExtractFrame(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkQuaternion& out) const;
-    __declspec(noinline) void FUN_00e33e90(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
-    __declspec(noinline) void FUN_00e33f10(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const;
+    __declspec(noinline) void sampleScale(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const;
+    __declspec(noinline) void hkaSplineCompressedAnimation_sampleFloat(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const;
     void sampleAtFrame(unsigned int frame, float delta, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut) const;
     void hkaSplineCompressedAnimation_samplePartialTracks(float time, unsigned int maxNumTransformTracks, hkQsTransform* transformTracksOut, unsigned int maxNumFloatTracks, float* floatTracksOut, void* cache) const;
 };
@@ -78,9 +78,11 @@ void SplineAnimationSampler::EvaluateSpline(float t, unsigned char qt, unsigned 
 { data += S00e340e0_read(data, t, qt, q, type, &out); }
 void SplineAnimationSampler::ExtractFrame(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkQuaternion& out) const
 { data += S00e340e0_read(data, t, qt, q, type, &out); }
-void SplineAnimationSampler::FUN_00e33e90(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const
+// src: XBOX_PDB 0x00e33e90
+void SplineAnimationSampler::sampleScale(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, hkVector4& out) const
 { data += S00e340e0_read(data, t, qt, q, type, &out); }
-void SplineAnimationSampler::FUN_00e33f10(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const
+// src: XBOX_PDB 0x00e33f10
+void SplineAnimationSampler::hkaSplineCompressedAnimation_sampleFloat(float t, unsigned char qt, unsigned char q, int type, const unsigned char*& data, float& out) const
 { data += S00e340e0_read(data, t, qt, q, type, &out); }
 
 // @fnv 0x00e340e0
@@ -107,14 +109,14 @@ void SplineAnimationSampler::hkaSplineCompressedAnimation_samplePartialTracks(fl
         unsigned char mask = *maskPtr++;
         EvaluateSpline(blockTime, quantizedTime, *maskPtr++, mask & 3, transformData, transformTracksOut[i].m_vTranslation);
         ExtractFrame(blockTime, quantizedTime, *maskPtr++, (mask >> 2) & 0xf, transformData, transformTracksOut[i].m_rotation);
-        FUN_00e33e90(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, transformTracksOut[i].m_vScale);
+        sampleScale(blockTime, quantizedTime, *maskPtr++, mask >> 6, transformData, transformTracksOut[i].m_vScale);
     }
     const unsigned char* floatData = m_data.m_data + m_kFloatBlockOffsets.m_data[block] + m_kFirstUInt32Array.m_data[block];
     const unsigned char* floatMask = m_data.m_data + m_iNumTransformTracks * 4 + m_kFirstUInt32Array.m_data[block];
     for (unsigned int j = 0; j < maxNumFloatTracks; j++)
     {
         unsigned char m = *floatMask++;
-        FUN_00e33f10(blockTime, quantizedTime, m & 0xf9, (m >> 1) & 3, floatData, floatTracksOut[j]);
+        hkaSplineCompressedAnimation_sampleFloat(blockTime, quantizedTime, m & 0xf9, (m >> 1) & 3, floatData, floatTracksOut[j]);
     }
     S00e340e0_timer("Et");
 }

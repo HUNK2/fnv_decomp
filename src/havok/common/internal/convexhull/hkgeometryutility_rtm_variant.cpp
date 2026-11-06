@@ -83,7 +83,7 @@ struct D5C110Allocator
     virtual void unk0C();
     virtual void ReturnMemory(void* p, int numBytes);
 };
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 // hkArray<hkVector4> without a destructor (Havok was built without EH): explicit cleanup.
 struct D5C110VertexArray
 {
@@ -96,7 +96,7 @@ struct D5C110VertexArray
 
     void ClearAndRelease()
     {
-        D5C110Allocator& alloc = *reinterpret_cast<D5C110Allocator*>(FUN_00c85750().m_heap);
+        D5C110Allocator& alloc = *reinterpret_cast<D5C110Allocator*>(hkMemoryRouter_getInstance().m_heap);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(Vec4));
@@ -121,7 +121,7 @@ void __cdecl InitAndSetB(const D5C110StridedVertices& vertices, D5C110Geometry& 
 void __cdecl BuildGeometryFromShape(const void* shape, D5C110Geometry& aGeometry);
 struct D5C110VertexArray;
 void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices);
+void __cdecl hkGeometryUtility_createVerticesFromPlaneEquations(const void* shape, D5C110VertexArray& vertices);
 #include <math.h>
 struct S00d5ad60_cls
 {
@@ -740,9 +740,9 @@ struct ObbVec
         return q.m128_f32[2];
     }
 
-    void FUN_00c7f640(const void* transform, const ObbVec* v) throw();
+    void setTransformedPos_00c7f640(const void* transform, const ObbVec* v) throw();
 
-    void FUN_00c7f700(const void* transform, const ObbVec* v) throw();
+    void hkVector4_setRotatedDir(const void* transform, const ObbVec* v) throw();
 };
 
 struct ObbRot
@@ -750,7 +750,7 @@ struct ObbRot
 
     ObbVec c0, c1, c2;
 
-    void FUN_00cd4f10(float tolerance) throw();
+    void invert_00cd4f10(float tolerance) throw();
 };
 
 struct ObbXf
@@ -758,7 +758,7 @@ struct ObbXf
 
     ObbVec c0, c1, c2, c3;
 
-    void FUN_00cb21e0(const ObbXf* other) throw();
+    void hkTransform_setInverse(const ObbXf* other) throw();
 };
 
 struct ObbInput
@@ -766,7 +766,7 @@ struct ObbInput
     ObbVec* data;
     int size;
     int cap;
-    bool __cdecl FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float tolerance) const;
+    bool __cdecl getIsBoxGeometry(ObbVec& halfExtents, ObbXf& output, float tolerance) const;
 };
 
 struct ObbStride
@@ -792,7 +792,7 @@ struct ObbAllocator
 
 namespace FitMemory {
 
-hkMemoryRouter& FUN_00c85750() throw();
+hkMemoryRouter& hkMemoryRouter_getInstance() throw();
 
 inline ObbAllocator& GetHeap(hkMemoryRouter& router)
 {
@@ -818,7 +818,7 @@ struct ObbArray
     ~ObbArray() throw()
     {
 
-        ObbAllocator& a = FitMemory::GetHeap(FitMemory::FUN_00c85750());
+        ObbAllocator& a = FitMemory::GetHeap(FitMemory::hkMemoryRouter_getInstance());
 
         size = 0;
 
@@ -832,7 +832,7 @@ struct ObbArray
     void push(const ObbVec& v) throw()
     {
 
-        ObbAllocator& a = FitMemory::GetHeap(FitMemory::FUN_00c85750());
+        ObbAllocator& a = FitMemory::GetHeap(FitMemory::hkMemoryRouter_getInstance());
 
         if (size == (cap & 0x3fffffff))
             ResizeAudioStream(&a, this, 16);
@@ -852,11 +852,11 @@ struct ObbScratch
     ObbScratch(int count, int& capacityOut) throw() : cap(capacityOut)
     {
 
-        FitMemory::FUN_00c85750();
+        FitMemory::hkMemoryRouter_getInstance();
 
-        FitMemory::FUN_00c85750();
+        FitMemory::hkMemoryRouter_getInstance();
 
-        ObbAllocator& a = FitMemory::GetHeap(FitMemory::FUN_00c85750());
+        ObbAllocator& a = FitMemory::GetHeap(FitMemory::hkMemoryRouter_getInstance());
 
         if (count > 0)
         {
@@ -878,7 +878,7 @@ struct ObbScratch
     ~ObbScratch() throw()
     {
 
-        ObbAllocator& a = FitMemory::GetHeap(FitMemory::FUN_00c85750());
+        ObbAllocator& a = FitMemory::GetHeap(FitMemory::hkMemoryRouter_getInstance());
 
         if ((cap & 0x80000000) == 0)
             a.free(data, (cap & 0x3fffffff) * 16);
@@ -945,7 +945,8 @@ static __declspec(noinline) bool hlpB(const ObbVec* v, float eps) throw()
 }
 
 // @fnv 0x00d5c6d0
-bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float tolerance) const
+// src: XBOX_PDB 0x00d5c6d0
+bool __cdecl ObbInput::getIsBoxGeometry(ObbVec& halfExtents, ObbXf& output, float tolerance) const
 {
 
     const ObbInput& input = *this;
@@ -1056,12 +1057,12 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
     rotation.c2.q = _mm_mul_ps(_mm_shuffle_ps(nc, nc, 0), cross);
 
-    rotation.FUN_00cd4f10(DAT_01013ea4);
+    rotation.invert_00cd4f10(DAT_01013ea4);
 
     ObbVec* vertex = scratch.data;
 
     for (int i = 0; i < 8; ++i, ++vertex)
-        vertex->FUN_00c7f700(&rotation, vertex);
+        vertex->hkVector4_setRotatedDir(&rotation, vertex);
 
     float minX = scratch.data[0].x(), maxX = scratch.data[0].x();
 
@@ -1134,12 +1135,12 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
     inverse.c3 = center;
 
-    output.FUN_00cb21e0(&inverse);
+    output.hkTransform_setInverse(&inverse);
 
     if (hlpB(&rotation.c0, tolerance) && hlpB(&rotation.c1, tolerance) && hlpB(&rotation.c2, tolerance))
     {
 
-        halfExtents.FUN_00c7f700(&output, &halfExtents);
+        halfExtents.hkVector4_setRotatedDir(&output, &halfExtents);
 
         halfExtents.q.m128_f32[3] = 0;
 
@@ -1161,14 +1162,14 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
         output.c2.q = rotation.c2.q;
     }
 
-    inverse.FUN_00cb21e0(&output);
+    inverse.hkTransform_setInverse(&output);
 
     for (int i = 0; i < input.size; i++)
     {
 
         ObbVec transformed;
 
-        transformed.FUN_00c7f640(&inverse, &input.data[i]);
+        transformed.setTransformedPos_00c7f640(&inverse, &input.data[i]);
 
         for (int j = 0; j < 3; j++)
         {

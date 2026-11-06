@@ -32,7 +32,7 @@ NiUInt32 NiD3DShaderProgram::GetCodeSize() const
 extern MemoryManager g_memoryManager;
 struct S
 {
-    S* FUN_00e9ee60(void*);
+    S* NiUnionBV_NiUnionBV(void*);
 };
 // @fnv 0x00e9efb0
 // src: GAMEBRYO_SRC 0x00e9efb0
@@ -40,7 +40,7 @@ S* __fastcall NiUnionBV_Clone(void* self)
 {
     S* p = (S*)g_memoryManager.Allocate(0x18);
     if (p)
-        return p->FUN_00e9ee60(self);
+        return p->NiUnionBV_NiUnionBV(self);
     return 0;
 }
 

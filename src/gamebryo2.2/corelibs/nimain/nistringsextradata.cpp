@@ -67,7 +67,7 @@ void __thiscall NiStringsExtraData::CopyStringsExtraData(NiStringsExtraData* pDe
     unsigned int i;
     unsigned int uiLen;
 
-    NiExtraData::FUN_00a7b330(pDest, pCloning);
+    NiExtraData::CopyMembers_00a7b330(pDest, pCloning);
 
     if (m_ppcValue && m_uiSize > 0)
     {
@@ -95,7 +95,7 @@ void __thiscall NiStringsExtraData::CopyStringsExtraData(NiStringsExtraData* pDe
     }
 }
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 
 static __forceinline void BinRead(NiBinaryStream* b, void* v, unsigned int bytes, unsigned int n)
 {
@@ -114,7 +114,7 @@ void NiStringsExtraData::LoadStringArray(NiStream* stream)
     LoadU32(stream, &m_uiItemCount, 1);
     if (m_uiItemCount > 0)
     {
-        m_ppData = (void**)FUN_00aa1070(m_uiItemCount * 4);
+        m_ppData = (void**)_NiMalloc_00aa1070(m_uiItemCount * 4);
         for (unsigned int i = 0; i < m_uiItemCount; i++)
         {
             m_ppData[i] = 0;
@@ -130,7 +130,7 @@ void NiStringsExtraData::LoadStringArray(NiStream* stream)
 extern "C" void* g_011f5ebc;
 
 char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
-char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
+char* __cdecl NiGetViewerString_00a7d510(const char* pcPrefix, unsigned int uiValue);
 char* __cdecl ViewerStringStr(const char* pcPrefix, const char* pcValue);
 
 struct ViewerStringArray
@@ -163,11 +163,12 @@ struct ExtraDataViewerBase : NiExtraData
 
 // Appends the base viewer strings, the m_uiSize value and one formatted string per m_ppcValue entry to the viewer string array.
 // @fnv 0x00a94ae0
-void NiStringsExtraData::FUN_00a94ae0(ViewerStringArray* pViewerStrings)
+// src: XBOX_PDB 0x00a94ae0
+void NiStringsExtraData::GetViewerStrings_00a94ae0(ViewerStringArray* pViewerStrings)
 {
     reinterpret_cast<ExtraDataViewerBase*>(this)->ExtraDataViewerBase::GetViewerStrings(pViewerStrings);
     pViewerStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f5ebc));
-    pViewerStrings->Add(FUN_00a7d510("m_uiSize", m_uiSize));
+    pViewerStrings->Add(NiGetViewerString_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
     {
         char* pcValue = ViewerStringStr("m_ppcValue[i]", m_ppcValue[i]);
@@ -208,7 +209,8 @@ static __forceinline NiStringsExtraData* InitializeStringsExtraData(void* memory
 }
 
 // @fnv 0x00a94990
-NiStringsExtraData* NiStringsExtraData::FUN_00a94990(void* pCloning)
+// src: XBOX_PDB 0x00a94990
+NiStringsExtraData* NiStringsExtraData::CreateClone_00a94990(void* pCloning)
 {
     void* memory = FUN_00aa13e0(0x14);
     NiStringsExtraData* p = memory ? InitializeStringsExtraData(memory) : 0;
@@ -235,7 +237,8 @@ template <class T> inline void SaveBinaryValue(NiStream& kStream, const T& value
 }
 
 // @fnv 0x00a949f0
-void NiStringsExtraData::FUN_00a949f0(NiStream& stream)
+// src: XBOX_PDB 0x00a949f0
+void NiStringsExtraData::SaveBinary_00a949f0(NiStream& stream)
 {
     NiExtraData::SaveBinary(stream);
     SaveBinaryValue(stream, m_uiSize);

@@ -29,7 +29,7 @@ public:
 
     bool Load(TESFile* file);
     void ResetFormData();
-    TESTexture* FUN_00503650();
+    TESTexture* GetBackTexture();
     char* CaravanAIPackage_Print_WhatIsHeThinking();
 
     bool bIsActive;

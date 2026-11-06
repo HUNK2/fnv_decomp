@@ -70,7 +70,8 @@ extern "C"
 }
 
 // @fnv 0x00a60850
-bool __stdcall FUN_00a60850(NiStream& kStream)
+// src: XBOX_PDB 0x00a60850
+bool __stdcall NiSourceCubeMap_RegisterStreamables(NiStream& kStream)
 {
     return AttachToListener(&kStream);
 }
@@ -105,7 +106,7 @@ NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
 // src: GAMEBRYO_LIB 0x00a60880
 bool __thiscall NiSourceCubeMap::IsEqual_00a60880(NiObject* pkObject)
 {
-    if (FUN_00a5fae0(pkObject))
+    if (NiSourceTexture_IsEqual(pkObject))
     {
         NiSourceCubeMap* pkTexture = reinterpret_cast<NiSourceCubeMap*>(pkObject);
         if (m_kFormatPrefs.m_ePreferredPixelLayout == pkTexture->m_kFormatPrefs.m_ePreferredPixelLayout &&
@@ -175,7 +176,8 @@ struct LegacyTextureStream
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x00a60ba0
-void NiSourceCubeMap::FUN_00a60ba0(NiStream& kStream)
+// src: XBOX_PDB 0x00a60ba0
+void NiSourceCubeMap::LinkObject_00a60ba0(NiStream& kStream)
 {
     if (kStream.version() < 0x0A030006)
     {
@@ -269,7 +271,8 @@ NiSourceCubeMap* __cdecl CreateSpawnedCubeShell(char** ppName, NiRenderer* pOwne
 }
 
 // @fnv 0x00a61040
-NiSourceCubeMap* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRenderer, int* pVec)
+// src: XBOX_PDB 0x00a61040
+NiSourceCubeMap* __cdecl NiSourceCubeMap_Create(char** ppName, int aValue, NiRenderer* pRenderer, int* pVec)
 {
     NiSourceCubeMap* p = new NiSourceCubeMap();
     p->m_kFormatPrefs.m_ePreferredPixelLayout = (NiTexture::TextureFormatPreferences::PixelLayout)pVec[0];
@@ -386,7 +389,8 @@ inline void LoadEnum(NiStream& kStream, int& eValue)
 }
 
 // @fnv 0x00a612a0
-void NiSourceCubeMap::FUN_00a612a0(NiStream& kStream)
+// src: XBOX_PDB 0x00a612a0
+void NiSourceCubeMap::LoadBinary_00a612a0(NiStream& kStream)
 {
     if (kStream.version() < 0x0A030006)
     {
@@ -426,12 +430,13 @@ void NiSourceCubeMap::FUN_00a612a0(NiStream& kStream)
     }
 }
 
-void __cdecl FUN_00a60600();
+void __cdecl NiSourceTexture_SaveBinary();
 
 // @fnv 0x00a60870
-void __cdecl FUN_00a60870()
+// src: XBOX_PDB 0x00a60870
+void __cdecl NiSourceCubeMap_SaveBinary()
 {
-    FUN_00a60600();
+    NiSourceTexture_SaveBinary();
 }
 
 struct NiGPUProgram;
@@ -498,11 +503,11 @@ struct CubeMapLoader
     void SetPath(void* p);
 };
 
-void* __cdecl FUN_00aa1070(unsigned int size);
+void* __cdecl _NiMalloc_00aa1070(unsigned int size);
 int __cdecl FUN_00ec65a6(char* dst, unsigned int n, const char* src);
 void __cdecl NiPath_Standardize(char* p);
 void* __cdecl GetPathWithExtension(char* p);
-bool __cdecl FUN_00aa1a30(const char* p, int a);
+bool __cdecl NiFile_Access(const char* p, int a);
 
 static __forceinline void S00a60cc0_ReleaseAll(NiRefObject** res)
 {
@@ -533,7 +538,7 @@ void NiSourceCubeMap::LoadResources(char* apName0, char* apName1, char* apName2,
     {
         char* src = names[idx];
         unsigned int len = strlen(src) + 1;
-        char* copy = (char*)FUN_00aa1070(len);
+        char* copy = (char*)_NiMalloc_00aa1070(len);
         FUN_00ec65a6(copy, len, src);
         NiPath_Standardize(copy);
         void* tmp = GetPathWithExtension(copy);
@@ -542,7 +547,7 @@ void NiSourceCubeMap::LoadResources(char* apName0, char* apName1, char* apName2,
         if (apLoader->v02(buf, 260))
         {
         retry:
-            if (!FUN_00aa1a30(buf, 0))
+            if (!NiFile_Access(buf, 0))
             {
                 if (apLoader->v02(buf, 260))
                     goto retry;

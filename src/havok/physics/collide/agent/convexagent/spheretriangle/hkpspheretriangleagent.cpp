@@ -133,7 +133,7 @@ inline void* hkThreadMemory::allocateChunk(int size) throw()
 {
     return m_pMemoryAllocator->allocateChunk(size);
 }
-extern "C" void __cdecl FUN_00cd7160(void* src, void* dst);
+extern "C" void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* src, void* dst);
 extern "C" const void* DAT_010cf060;
 extern "C" const void* DAT_010cf09c;
 
@@ -152,7 +152,7 @@ struct TargetAgent
     {
         vtable = &DAT_010cf060;
         void* triangle = *(void**)bodyA;
-        FUN_00cd7160((char*)triangle + 0x20, m_pAccessManager);
+        hkpCollideTriangleUtil_setupClosestPointTriangleCache((char*)triangle + 0x20, m_pAccessManager);
         vtable = &DAT_010cf09c;
     }
 };
@@ -179,12 +179,13 @@ struct D3DD10Object
 {
     void __thiscall hkpSphereTriangleAgent_getPenetrations(unsigned int a1, unsigned int a2, unsigned int a3, D3DD10Data* data);
 
-    void __thiscall FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
+    void __thiscall hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_getPenetrations(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
 };
 
 // Builds a D3DD10Data with value p3, flag 0 and vt DAT_010ce81c, then calls FUN_00d3d2a0 with p1, p0, p2 and that data.
 // @fnv 0x00d3dd10
-void __thiscall D3DD10Object::FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int uiValue)
+// src: XBOX_PDB 0x00d3dd10
+void __thiscall D3DD10Object::hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_getPenetrations(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int uiValue)
 {
     D3DD10Data data;
 
@@ -270,12 +271,13 @@ class ParticleSystemOps
 {
   public:
     void hkpSphereTriangleAgent_processCollision(int a, int b, int c, ParticleSystemState* state);
-    void FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s);
+    void hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_processCollision(int a1, int a2, int a3, ParticleSystemState* s);
 };
 
 // After FUN_00d3dd90, adds each new particle's w-scaled velocity to its first vector and flips its sign; if m_3030 changed, swaps several info fields.
 // @fnv 0x00d3e150
-void ParticleSystemOps::FUN_00d3e150(int a1, int a2, int a3, ParticleSystemState* s)
+// src: XBOX_PDB 0x00d3e150
+void ParticleSystemOps::hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_processCollision(int a1, int a2, int a3, ParticleSystemState* s)
 {
     float x;
     x = s->m_3030;
@@ -393,7 +395,7 @@ struct Sink
     virtual void unk04(BodyHolderB& a, BodyHolderB& b);
 };
 
-extern void __cdecl FUN_00cd7850(hkVector4q* v, void* tri, float* f, Res* out, void* flag);
+extern void __cdecl hkpCollideTriangleUtil_closestPointTriangle(hkVector4q* v, void* tri, float* f, Res* out, void* flag);
 
 // non-POD 1-dword wrapper params: block the entry-enregister pass so the
 // params are read lazily from their incoming arg slots (see e2fbc0)
@@ -455,7 +457,7 @@ void SphereTriAgent::hkpSphereTriangleAgent_getPenetrations(BodyHolderB* apBodyA
     hkVector4q vv;
     _mm_store_ps(&vv.m_vComponents.m128_f32[0], v);
     Res out;
-    FUN_00cd7850(&vv, &shapeB->unk20, &unk10, &out, 0);
+    hkpCollideTriangleUtil_closestPointTriangle(&vv, &shapeB->unk20, &unk10, &out, 0);
     float dist = shapeB->unk10 + shapeA->unk10;
     if (out.d < dist)
     {
@@ -521,8 +523,8 @@ struct __declspec(align(16)) S_00d3d3e0_Out
     float f10;
 };
 
-void __cdecl FUN_00cd7160(void* a, hkVector4q* out);
-void __cdecl FUN_00cd7850(hkVector4q* a, void* b, hkVector4q* c, S_00d3d3e0_Out* d, bool* e);
+void __cdecl hkpCollideTriangleUtil_setupClosestPointTriangleCache(void* a, hkVector4q* out);
+void __cdecl hkpCollideTriangleUtil_closestPointTriangle(hkVector4q* a, void* b, hkVector4q* c, S_00d3d3e0_Out* d, bool* e);
 
 struct S_00d3d3e0_P1P
 {
@@ -550,7 +552,8 @@ struct S_00d3d3e0_P3P
 };
 
 // @fnv 0x00d3d3e0
-void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3)
+// src: XBOX_PDB 0x00d3d3e0
+void hkpSphereTriangleAgent_staticGetPenetrations(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P3P a3)
 {
     hkMonitorStream* h = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     if (h->m_end.m_storage < h->m_capacityMinus16.m_storage)
@@ -566,7 +569,7 @@ void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P
     S_00d3d3e0_Shape* shape = p1->shape;
     S_00d3d3e0_Obj* obj = a2.val()->obj;
     hkVector4q q;
-    FUN_00cd7160(&obj->unk20, &q);
+    hkpCollideTriangleUtil_setupClosestPointTriangleCache(&obj->unk20, &q);
     S_00d3d3e0_Mat* m2 = a2.val()->mat;
     S_00d3d3e0_Mat* m1 = p1->mat;
     LocalM128 d = _mm_sub_ps(*(LocalM128*)&m1->t, *(LocalM128*)&m2->t);
@@ -589,7 +592,7 @@ void FUN_00d3d3e0(S_00d3d3e0_P1P a1, S_00d3d3e0_P2P a2, int unused, S_00d3d3e0_P
     hkVector4q v;
     *(LocalM128*)&v = _mm_add_ps(_mm_add_ps(t0, t1), t2);
     S_00d3d3e0_Out out;
-    FUN_00cd7850(&v, &obj->unk20, &q, &out, 0);
+    hkpCollideTriangleUtil_closestPointTriangle(&v, &obj->unk20, &q, &out, 0);
     float sum = shape->f10 + obj->f10;
     if (out.f10 < sum)
         a3.val()->v1(p1, a2.val());
@@ -617,11 +620,12 @@ extern unsigned char DAT_010ce7fc;
 struct CpuObject
 {
     void hkpSphereTriangleAgent_getClosestPoints(void*, void*, unsigned int, CpuCallData*);
-    void FUN_00d3e0d0(void*, void*, unsigned int, unsigned int);
+    void hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_getClosestPoints(void*, void*, unsigned int, unsigned int);
 };
 // Fills a CpuCallData with fourth, DAT_0104da48 and &DAT_010ce7fc, then calls FUN_00d3d6b0 with second, first, third and the data pointer.
 // @fnv 0x00d3e0d0
-void CpuObject::FUN_00d3e0d0(void* first, void* second, unsigned int third, unsigned int uiValue)
+// src: XBOX_PDB 0x00d3e0d0
+void CpuObject::hkpSymmetricAgentLinearCast_hkpSphereTriangleAgent_getClosestPoints(void* first, void* second, unsigned int third, unsigned int uiValue)
 {
     CpuCallData data;
     data.value = uiValue;

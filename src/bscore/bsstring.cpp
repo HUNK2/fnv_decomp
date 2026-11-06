@@ -112,7 +112,8 @@ template BSStringT<char>& BSStringT<char>::operator=(const char* text);
 
 // Returns the larger of the two unsigned integers a and b.
 // @fnv 0x00403940
-unsigned int __cdecl FUN_00403940(unsigned int auiFirst, unsigned int auiSecond)
+// src: XBOX_PDB 0x00403940
+unsigned int __cdecl BSMAX(unsigned int auiFirst, unsigned int auiSecond)
 {
     unsigned int result;
     if (auiFirst > auiSecond)
@@ -129,12 +130,13 @@ struct FUN_00403a00_class
     unsigned short m2;
     unsigned short m3;
     unsigned short m4;
-    void FUN_00403a00(unsigned int length);
+    void BSStringT_char_SetMaxLength(unsigned int length);
 };
 
 // Stores the given length in m3, clamping values above 0xffff to 0xffff.
 // @fnv 0x00403a00
-void FUN_00403a00_class::FUN_00403a00(unsigned int length)
+// src: XBOX_PDB 0x00403a00
+void FUN_00403a00_class::BSStringT_char_SetMaxLength(unsigned int length)
 {
     m3 = length <= 0xffff ? static_cast<unsigned short>(length) : 0xffff;
 }
@@ -184,7 +186,8 @@ int _tolower(int character);
 
 // Returns a pointer to the first case-insensitive occurrence of apString2 within apString1, or 0 if not found.
 // @fnv 0x004b75a0
-const char* FUN_004b75a0(const char* apString1, const char* apString2)
+// src: XBOX_PDB 0x004b75a0
+const char* BSstristr(const char* apString1, const char* apString2)
 {
     int j;
     int ilen2;
@@ -249,7 +252,8 @@ void __cdecl _MenuConsole_PrintLine(Outer* apOuter, const char* fmt, ...)
 }
 
 // @fnv 0x006b9130
-float TimeoutTimer::FUN_006b9130()
+// src: XBOX_PDB 0x006b9130
+float TimeoutTimer::CombatTimer_GetTargetTime()
 {
     return m_fTimeout;
 }

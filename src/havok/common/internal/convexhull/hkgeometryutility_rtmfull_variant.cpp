@@ -152,7 +152,7 @@ struct D5C110MemoryRouter
     }
 };
 
-extern "C" D5C110MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D5C110MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 // hkArray<hkVector4> without a destructor (Havok was built without EH): explicit cleanup.
 struct D5C110VertexArray
@@ -166,7 +166,7 @@ struct D5C110VertexArray
 
     void ClearAndRelease()
     {
-        D5C110Allocator& alloc = FUN_00c85750().heap();
+        D5C110Allocator& alloc = hkMemoryRouter_getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(Vec4));
@@ -217,7 +217,8 @@ struct D5C110VertexArray;
 void __cdecl ProcessArg(const void* shape, D5C110VertexArray& vertices);
 
 // @fnv 0x00d5a6a0
-void __cdecl FUN_00d5a6a0(const void* shape, D5C110VertexArray& vertices)
+// src: XBOX_PDB 0x00d5a6a0
+void __cdecl hkGeometryUtility_createVerticesFromPlaneEquations(const void* shape, D5C110VertexArray& vertices)
 {
     ProcessArg(shape, vertices);
 }
@@ -287,7 +288,7 @@ Vec4 hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float s
 {
     Vec4 result;
     int count = src->m_uiItemCount;
-    char* data = AllocateWithHeader(&FUN_00c85750().heap(), count * 16);
+    char* data = AllocateWithHeader(&hkMemoryRouter_getInstance().heap(), count * 16);
     int quad = src->m_iElementIndex / 4;
     Vec4* d = (Vec4*)data;
     for (int i = 0; i < src->m_uiItemCount; ++i)
@@ -297,7 +298,7 @@ Vec4 hkGeometryUtility_createMinBoundingSphere(const S00d5c060_Src* src, float s
         d[i].z = ((const float*)src->m_pData)[i * quad + 2];
     }
     FUN_00d5beb0(&result, data, src->m_uiItemCount, 0, scale);
-    hkMemoryRouter_easyFree(&FUN_00c85750().heap(), data);
+    hkMemoryRouter_easyFree(&hkMemoryRouter_getInstance().heap(), data);
     return result;
 }
 
@@ -402,8 +403,8 @@ struct ObbFlag
 };
 
 void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
-bool __cdecl FUN_00d5c6d0(void* geom, void* halfExtents, void* transform, float tolerance);
-void __cdecl FUN_00d5c1a0(void*, int, int, void*, void*, ObbFlag);
+bool __cdecl getIsBoxGeometry(void* geom, void* halfExtents, void* transform, float tolerance);
+void __cdecl getMeanAndCovariance(void*, int, int, void*, void*, ObbFlag);
 void __cdecl FUN_00d5ac50(void*, void*, void*, void*, void*);
 
 static __declspec(noinline) void FUN_00d5ae60(const char* verts, const char* mat, int count, int stride, S4 extents,
@@ -431,14 +432,15 @@ static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int s
 }
 
 // @fnv 0x00d5d270
-void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
+// src: XBOX_PDB 0x00d5d270
+void hkGeometryUtility_calcObb(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 {
     ObbGeom geom;
     InitAndSetB(*(const D5C110StridedVertices*)shape, *(D5C110Geometry*)&geom);
 
     int nStack = geom.numTris * 3;
     ObbArr arr;
-    D5C110MemoryRouter& router = FUN_00c85750();
+    D5C110MemoryRouter& router = hkMemoryRouter_getInstance();
     char* start = (char*)router.unk00;
     router.unk00 = (int)(start + ((nStack * 16 + 0x7f) & ~0x7f));
     arr.m_cap = nStack | 0x80000000;
@@ -446,7 +448,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     arr.m_pTrailingData = start;
 
     int total = geom.numTris * 3;
-    D5C110Allocator& heap = FUN_00c85750().heap();
+    D5C110Allocator& heap = hkMemoryRouter_getInstance().heap();
     if ((arr.m_cap & 0x3fffffff) < total)
     {
         int cap = (arr.m_cap & 0x3fffffff) * 2;
@@ -463,13 +465,13 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         arr.m_data[i * 3 + 2].q = geom.verts[geom.tris[i].i2].q;
     }
 
-    if (FUN_00d5c6d0(&geom, outExt, outXf, DAT_01013ea4))
+    if (getIsBoxGeometry(&geom, outExt, outXf, DAT_01013ea4))
     {
         char* saved = arr.m_pTrailingData;
         if (saved == (char*)arr.m_data)
             arr.m_iElementCount = 0;
-        FUN_00c85750().unk00 = (int)saved;
-        D5C110Allocator& alloc = FUN_00c85750().heap();
+        hkMemoryRouter_getInstance().unk00 = (int)saved;
+        D5C110Allocator& alloc = hkMemoryRouter_getInstance().heap();
         arr.m_iElementCount = 0;
         if ((arr.m_cap & 0x80000000) == 0)
             alloc.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
@@ -491,7 +493,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     float vol0 = f.ext0.y() * f.ext0.x() * f.ext0.z();
     ObbFlag flag;
     flag.c = 0;
-    FUN_00d5c1a0((void*)data, count, 16, &f.cov, &f.ctr1, flag);
+    getMeanAndCovariance((void*)data, count, 16, &f.cov, &f.ctr1, flag);
     char ok;
     FUN_00d5ac50(&ok, &f.cov, &f.rot1.c0, &f.rot1.c1, &f.rot1.c2);
     FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((int)&f.ext1), S4((int)&f.ctr1));
@@ -531,8 +533,8 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     char* saved = arr.m_pTrailingData;
     if (saved == (char*)arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750().unk00 = (int)saved;
-    D5C110Allocator& alloc2 = FUN_00c85750().heap();
+    hkMemoryRouter_getInstance().unk00 = (int)saved;
+    D5C110Allocator& alloc2 = hkMemoryRouter_getInstance().heap();
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
         alloc2.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);

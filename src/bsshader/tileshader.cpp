@@ -88,11 +88,12 @@ extern int DAT_0126f74c;
 
 struct FUN_00bca500_shell
 {
-    void __thiscall FUN_00bca500(void* p);
+    void __thiscall TileShader_InitPass(void* p);
 };
 
 // @fnv 0x00bca500
-void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
+// src: XBOX_PDB 0x00bca500
+void __thiscall FUN_00bca500_shell::TileShader_InitPass(void* p)
 {
     DAT_0126f74c = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
 }
@@ -100,7 +101,8 @@ void __thiscall FUN_00bca500_shell::FUN_00bca500(void* p)
 extern "C" void* g_012021b8;
 
 // @fnv 0x00bca6b0
-void* __cdecl FUN_00bca6b0()
+// src: XBOX_PDB 0x00bca6b0
+void* __cdecl TileShader_GetRTTI()
 {
     return &g_012021b8;
 }
@@ -151,7 +153,7 @@ void TileShader::RebuildPrograms()
         if (p)
             p->BuildVertexShader();
     }
-    FUN_00be08b0();
+    NiDX9FragmentShader_RecreateRendererData();
 }
 
 void __cdecl _delete(void*, unsigned int);
@@ -361,11 +363,12 @@ void FUN_00bca0d0_shell::CreateTileVertexShaders()
 
 struct FUN_00bca6c0_shell : NiShader
 {
-    bool FUN_00bca6c0();
+    bool TileShader_Initialize();
 };
 // Calls NiShader::Initialize, then releases three pairs of reference-counted objects and a NiD3DPass, clearing each pointer and returning true.
 // @fnv 0x00bca6c0
-bool FUN_00bca6c0_shell::FUN_00bca6c0()
+// src: XBOX_PDB 0x00bca6c0
+bool FUN_00bca6c0_shell::TileShader_Initialize()
 {
     NiShader::Initialize();
     for (int i = 0; i < 3; ++i)
@@ -550,7 +553,8 @@ struct FUN_00bcaca0 : A51BF0Base
 };
 
 // @fnv 0x00bcae90
-FUN_00bcaca0* FUN_00bcae90()
+// src: XBOX_PDB 0x00bcae90
+FUN_00bcaca0* TileShader_CreateShader()
 {
     NiD3DVertexDeclaration* pFirstObject = NiD3DVertexDeclaration::Create(DAT_011f9508, 2, 1);
     NiD3DVertexDeclaration* pSecondObject = NiD3DVertexDeclaration::Create(DAT_011f9508, 3, 1);

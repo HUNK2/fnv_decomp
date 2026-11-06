@@ -305,7 +305,8 @@ static __forceinline LocalM128 S_Rot(LocalM128 v, const S_00dcf100_Body* b)
 }
 
 // @fnv 0x00dcf100
-void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut)
+// src: XBOX_PDB 0x00dcf100
+void __cdecl hk1dLinearFrictionBuildJacobian(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dcf100_Out** ppOut)
 {
     S_00dcf100_Out* out = *ppOut;
     S_00dcf100_Body* b0 = pConfig->b30;
@@ -342,7 +343,8 @@ void __cdecl FUN_00dcf100(S_00dcf100_In* pInput, S_00dcf100_Cfg* pConfig, S_00dc
 }
 
 // @fnv 0x00dcee70
-void __cdecl FUN_00dcee70()
+// src: XBOX_PDB 0x00dcee70
+void __cdecl hkLoadVelocityAccumulators()
 {}
 
 extern double DAT_010c9300;
@@ -487,7 +489,8 @@ void __cdecl FUN_00dcf5b0(Input_dcf5b0* apInput, S_00dcf100_Cfg* apCfg, Jacobian
 extern double DAT_010c9300;
 
 // @fnv 0x00dcfa30
-void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** ppJacobian)
+// src: XBOX_PDB 0x00dcfa30
+void __cdecl hk1dLinearLimitBuildJacobian(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** ppJacobian)
 {
     LocalM128 x = a1->m_dir.m_vComponents;
     Jac_dcf880* out = *ppJacobian;
@@ -647,7 +650,8 @@ extern double DAT_010c9300;
 
 // Fills the Jacobian at *a3 with the direction as the linear term and two angular terms from pivot offsets of the two bodies in a2, then advances *a3.
 // @fnv 0x00dcf280
-void __cdecl FUN_00dcf280(Input_dcf280* apInput, S_00dcf100_Cfg* apCfg, Jacobian_dcf280** ppJacobian)
+// src: XBOX_PDB 0x00dcf280
+void __cdecl hk1dLinearBilateralConstraintBuildJacobian(Input_dcf280* apInput, S_00dcf100_Cfg* apCfg, Jacobian_dcf280** ppJacobian)
 {
     LocalM128 x0 = apInput->direction;
     S_00dcf100_Body* ecx = apCfg->b30;
@@ -822,7 +826,8 @@ struct S_00dcf720_Jacobian
 
 // Builds a Jacobian from info's axis and pivot for two bodies, storing diag in angular[1].w and the fourth query value divided by diag in angular[0].w.
 // @fnv 0x00dcf720
-void FUN_00dcf720(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_00dcf720_Jacobian* jac, float rhsFactor)
+// src: XBOX_PDB 0x00dcf720
+void hk1dLinearBilateralConstraintBuildJacobianWithCustomRhs_noSchema(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_00dcf720_Jacobian* jac, float rhsFactor)
 {
     const S_00dcf720_Accumulator& bodyA = *in.m_pBodyA;
     const S_00dcf720_Accumulator& bodyB = *in.m_pBodyB;
@@ -969,7 +974,8 @@ struct S_00dcee80_QueryOut
 
 // Fills a Jacobian's two angular terms from info's axis end points and the bodies' inverse inertia matrices, sets their w terms, and advances out.m_jacobians.
 // @fnv 0x00dcee80
-void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_00dcee80_QueryOut& out)
+// src: XBOX_PDB 0x00dcee80
+void hk1dAngularBilateralConstraintBuildJacobian(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_00dcee80_QueryOut& out)
 {
 
     const LocalM128 axis = info.m_kAxisEndPoints.q();

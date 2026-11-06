@@ -106,8 +106,8 @@ struct HashTableBase
     void hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator_hkMultiMap_unsigned_int64_unsigned_int64_struct_hkMultiMapOperations_unsigned_int64_struct_hkContainerHeapAllocator(void* handle, int length);
     int hkMapBase_unsigned_int64_unsigned_int64_struct_hkMapOperations_unsigned_int64_findKey(unsigned int first, unsigned int second);
     void InsertKeyValue(void* allocator, unsigned int first, unsigned int second, __int64 value);
-    void FUN_00cb1d20(int index);
-    void FUN_00cb1e40(void* allocator);
+    void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_remove(int index);
+    void hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(void* allocator);
     void FUN_00a29680();
 };
 struct ScratchAllocator
@@ -141,8 +141,8 @@ struct GlobalPool
         return *scratch;
     }
 };
-extern "C" void* __cdecl FUN_00c85750();
-unsigned int __cdecl FUN_00cb1810(int);
+extern "C" void* __cdecl hkMemoryRouter_getInstance();
+unsigned int __cdecl hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_getSizeInBytesFor(int);
 void __cdecl hkArrayUtil__reserve(void* allocator, EdgeArray* array, int length, int elementSize);
 
 template <typename T> static __forceinline void Swap(T& x, T& y)
@@ -158,7 +158,7 @@ template <typename T> static __forceinline T Min2(T x, T y)
 
 static __forceinline GlobalPool* GetPool()
 {
-    return (GlobalPool*)FUN_00c85750();
+    return (GlobalPool*)hkMemoryRouter_getInstance();
 }
 
 static void ShrinkEdges(EdgeArray* array, int size, void* allocator)
@@ -236,7 +236,7 @@ void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(EdgeArray* apEdgesA, 
         ShrinkEdges(apEdgesB, size, GetPool()->allocator);
         return;
     }
-    int val = FUN_00cb1810(apEdgesA->count);
+    int val = hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_getSizeInBytesFor(apEdgesA->count);
     ScratchAllocator* pScratch = GetPool()->scratch;
     void* pBuffer;
     int descriptor = 0;
@@ -286,7 +286,7 @@ void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(EdgeArray* apEdgesA, 
             }
             else
             {
-                table.FUN_00cb1d20(found);
+                table.hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_remove(found);
                 apEdgesA->data[(unsigned int)countA >> 8].first = 0;
             }
         }
@@ -303,7 +303,7 @@ void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(EdgeArray* apEdgesA, 
             apEdgesA->data[size++] = apEdgesA->data[i];
     }
     ShrinkEdges(apEdgesA, size, GetPool()->allocator);
-    table.FUN_00cb1e40(GetPool()->allocator);
+    table.hkMapBase_unsigned_int64_unsigned_int64_hkMapOperations_unsigned_int64_clearAndDeallocate(GetPool()->allocator);
     table.FUN_00a29680();
     ScratchAllocator& scratchRef = GetPool()->Scratch();
     if ((descriptor & 0x80000000) == 0)

@@ -6,7 +6,7 @@
 
 struct FUN_006e2330_shell
 {
-    bool __thiscall FUN_006e2330();
+    bool __thiscall PathingNode_IsTeleportDoorNode();
 };
 
 struct FUN_006e22f0_shell : public FUN_006e2330_shell
@@ -20,7 +20,7 @@ struct FUN_006e22f0_shell : public FUN_006e2330_shell
 // src: COMMUNITY 0x006e22f0
 bool __thiscall FUN_006e22f0_shell::PathingNode_ActivateNode(TESObjectREFR* apActor)
 {
-    if (FUN_006e2330())
+    if (PathingNode_IsTeleportDoorNode())
         return ((TESObjectREFR**)((char*)this + 0x38))[0]->Activate(apActor, false, (TESObjectREFR*)0, 1);
     return false;
 }

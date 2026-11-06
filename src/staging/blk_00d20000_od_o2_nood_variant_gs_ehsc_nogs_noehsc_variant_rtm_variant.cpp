@@ -470,7 +470,7 @@ inline hkMemoryAllocator& HeapD37D30(hkMemoryRouter& holder)
 {
     return *reinterpret_cast<hkMemoryAllocator*>(holder.m_heap);
 }
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 
 
@@ -480,7 +480,7 @@ static __forceinline void D37D30Array_destroy(hkArrayBase<T>& self) throw();
 template <class T>
 static __forceinline void D37D30Array_destroy(hkArrayBase<T>& self) throw()
 {
-        hkMemoryAllocator& alloc = HeapD37D30(FUN_00c85750());
+        hkMemoryAllocator& alloc = HeapD37D30(hkMemoryRouter_getInstance());
         self.m_iElementCount = 0;
         if ((self.m_iCapacityState & hkArrayBase<T>::DONT_DEALLOCATE_FLAG) == 0)
             alloc.bufFree(self.m_data, (self.m_iCapacityState & hkArrayBase<T>::CAPACITY_MASK) * sizeof(T));
@@ -502,7 +502,7 @@ public:
     FUN_00d37d30();
 
     static void operator delete(void* p) {
-        HeapD37D30(FUN_00c85750()).blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
+        HeapD37D30(hkMemoryRouter_getInstance()).blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 

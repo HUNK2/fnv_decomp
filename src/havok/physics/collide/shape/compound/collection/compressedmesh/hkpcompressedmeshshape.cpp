@@ -135,12 +135,13 @@ void hkpCompressedMeshShape::SetWeldingType(unsigned char weldingType)
 }
 
 extern int DAT_01269198;
-int __cdecl FUN_00d213e0(int first, int* second);
+int __cdecl hkpShapeCollection_calcContentStatistics(int first, int* second);
 
 // @fnv 0x00e3c9c0
-int __cdecl FUN_00e3c9c0(int first, int unusedSecond)
+// src: XBOX_PDB 0x00e3c9c0
+int __cdecl hkpCompressedMeshShape_calcContentStatistics(int first, int unusedSecond)
 {
-    return FUN_00d213e0(first, &DAT_01269198);
+    return hkpShapeCollection_calcContentStatistics(first, &DAT_01269198);
 }
 
 // @fnv 0x00e3ca00
@@ -518,19 +519,20 @@ class hkpConvexVerticesShapeq
     unsigned int unk38;
     float m_fSphereRadius;
 
-    void FUN_00e3c270(const ::hkTransform& localToWorld, float tolerance, hkAabbq& out) const;
+    void hkpSimpleMeshShape_getAabb(const ::hkTransform& localToWorld, float tolerance, hkAabbq& out) const;
 };
 
 // Transforms each vertex of the convex shape by localToWorld, accumulates the min/max corners into out, then expands the AABB by m_fSphereRadius plus tolerance.
 // @fnv 0x00e3c270
-void hkpConvexVerticesShapeq::FUN_00e3c270(const ::hkTransform& localToWorld, float tolerance, hkAabbq& out) const
+// src: XBOX_PDB 0x00e3c270
+void hkpConvexVerticesShapeq::hkpSimpleMeshShape_getAabb(const ::hkTransform& localToWorld, float tolerance, hkAabbq& out) const
 {
     out.m_kMinimumCorner.set(3.40282e+38f, 3.40282e+38f, 3.40282e+38f, 0.0f);
     out.m_kMaximumCorner.set(-3.40282e+38f, -3.40282e+38f, -3.40282e+38f, 0.0f);
     for (int i = 0; i < m_iStridedVertexCount; i++)
     {
         hkVector4q v;
-        v.FUN_00c7f640(reinterpret_cast<const ::hkTransform&>(localToWorld), m_kVertices[i]);
+        v.setTransformedPos_00c7f640(reinterpret_cast<const ::hkTransform&>(localToWorld), m_kVertices[i]);
         out.m_kMinimumCorner.setMin4(out.m_kMinimumCorner, v);
         out.m_kMaximumCorner.setMax4(out.m_kMaximumCorner, v);
     }
@@ -687,8 +689,8 @@ void CompressedMeshChunkBounds::FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
         scaled.r[1] = c1.q;
         scaled.r[2] = c2.q;
         scaled.r[3] = _mm_mul_ps(tr.m_vComponents, (*reinterpret_cast<const ::hkVector4*>(&padD4[0xC])).m_vComponents);
-        aabb->m_kMaximumCorner.FUN_00c7f640(scaled, aabb->m_kMaximumCorner);
-        aabb->m_kMinimumCorner.FUN_00c7f640(scaled, aabb->m_kMinimumCorner);
+        aabb->m_kMaximumCorner.setTransformedPos_00c7f640(scaled, aabb->m_kMaximumCorner);
+        aabb->m_kMinimumCorner.setTransformedPos_00c7f640(scaled, aabb->m_kMinimumCorner);
     }
 }
 }  // namespace fnv_00e3d250
@@ -709,7 +711,7 @@ extern "C"
 
 extern LocalM128 DAT_010c71d0;
 
-void __cdecl FUN_00d26230(const ::hkTransform& localToWorld, const ::hkVector4& halfExtents, const ::hkVector4& center,
+void __cdecl hkAabbUtil_calcAabb_00d26230(const ::hkTransform& localToWorld, const ::hkVector4& halfExtents, const ::hkVector4& center,
                           float tolerance, ::hkAabb& out);
 
 __forceinline LocalM128 LD(const ::hkVector4& v)
@@ -740,7 +742,7 @@ void hkpCompressedMeshShape::CalculateAabb(const ::hkTransform& localToWorld, fl
     fnv_00e3d380::getCenter(reinterpret_cast<const ::hkAabb&>(m_kBounds), center);
     ::hkVector4 halfExtents;
     fnv_00e3d380::getHalfExtents(reinterpret_cast<const ::hkAabb&>(m_kBounds), halfExtents);
-    fnv_00e3d380::FUN_00d26230(reinterpret_cast<const ::hkTransform&>(localToWorld), halfExtents, center, tolerance, reinterpret_cast<::hkAabb&>(out));
+    fnv_00e3d380::hkAabbUtil_calcAabb_00d26230(reinterpret_cast<const ::hkTransform&>(localToWorld), halfExtents, center, tolerance, reinterpret_cast<::hkAabb&>(out));
 }
 
 // Returns the next key of the shape: big triangles first (chunk id 0), then the compressed
@@ -1070,7 +1072,7 @@ Triangle* CompressedMeshChildQuery::FUN_00e3d3f0(unsigned int key, BufferRef buf
                 _mm_store_ps(&source.x, _mm_add_ps(_mm_mul_ps(_mm_setr_ps(fx, fy, afDepth, DAT_01011d78),
                                                               _mm_shuffle_ps(tolerance, tolerance, 0)),
                                                    *(const LocalM128*)&piece->offset));
-                v[j].FUN_00c7f640(transform, source);
+                v[j].setTransformedPos_00c7f640(transform, source);
                 minimum = _mm_min_ps(minimum, _mm_load_ps(&source.x));
                 maximum = _mm_max_ps(maximum, _mm_load_ps(&source.x));
                 if (vertex < count - 1)
@@ -1158,9 +1160,9 @@ Triangle* CompressedMeshChildQuery::FUN_00e3d3f0(unsigned int key, BufferRef buf
         hkVector4 a, b, c;
         const hkUint16* indices = chunk->indices.m_data;
         chunk->FUN_00e3cd50(indices[index] * 3, indices[index + 1] * 3, indices[index + 2] * 3, mesh.m_eScriptError, a, b, c);
-        a.FUN_00c7f640(transform, a);
-        b.FUN_00c7f640(transform, b);
-        c.FUN_00c7f640(transform, c);
+        a.setTransformedPos_00c7f640(transform, a);
+        b.setTransformedPos_00c7f640(transform, b);
+        c.setTransformedPos_00c7f640(transform, c);
         Triangle* __restrict tc = triangle;
         hkVector4 scalev2;
         CopyReflectionQuad(&scalev2, &mesh.padD4[0xC]);
@@ -1208,7 +1210,7 @@ void ConvexVertexDecoder::FUN_00e3d9d0(hkReal quantization, const ::hkTransform&
         LocalM128 q = _mm_load_ss(&quantization);
         vertex.m_vComponents = _mm_mul_ps(vertex.m_vComponents, _mm_shuffle_ps(q, q, 0));
         vertex.add4(m_offset);
-        vertex.FUN_00c7f640(reinterpret_cast<const ::hkTransform&>(transform), vertex);
+        vertex.setTransformedPos_00c7f640(reinterpret_cast<const ::hkTransform&>(transform), vertex);
         vertices[i / 3].m_vComponents = vertex.m_vComponents;
     }
 }

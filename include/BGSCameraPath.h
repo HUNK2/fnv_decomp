@@ -48,9 +48,9 @@ public:
 
     void CopyCommonData(TESForm* src);
     void CopyFromForm(TESForm* apForm);
-    void FUN_0058ac10();
-    bool FUN_0058a750(TESForm* form);
-    TESForm* FUN_0058a870(bool abPersist, CameraPathMap* apMap);
+    void Save_0058ac10();
+    bool Compare_0058a750(TESForm* form);
+    TESForm* CreateDuplicateForm(bool abPersist, CameraPathMap* apMap);
     TESForm* CreateBaseClone(bool abPersist, CameraPathMap* apMap);
 
     bool IsFlag2Set();

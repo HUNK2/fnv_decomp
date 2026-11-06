@@ -11,7 +11,7 @@
 // src/fallout/ai/combat/missileprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/missileprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern int DAT_011c6278;
-int __cdecl FUN_009b7cb0();
+int __cdecl FixedStrings_QPinnedLimb();
 extern char const* const g_01268310_arg1;
 struct FUN_009ba4d0_shell
 {
@@ -223,8 +223,8 @@ struct TlsGuard_t
     }
 };
 
-void FUN_00c876f0();
-void FUN_00c87700();
+void bhkSerializable_CloneCritLock();
+void bhkSerializable_CloneCritUnlock();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
 class OwnerBase_t
@@ -268,19 +268,20 @@ struct FUN_00cbdd60_cls
 {
     int unk00;
     int unk04;
-    void FUN_00c89730(SpawnedObject_t* obj, unsigned int arg);
-    SpawnedObject_t* FUN_00cbdd60(unsigned int arg);
+    void bhkConstraint_CopyMembers(SpawnedObject_t* obj, unsigned int arg);
+    SpawnedObject_t* bhkHingeConstraint_CreateClone(unsigned int arg);
 };
 
 // @fnv 0x00cbdd60
-SpawnedObject_t* FUN_00cbdd60_cls::FUN_00cbdd60(unsigned int arg)
+// src: XBOX_PDB 0x00cbdd60
+SpawnedObject_t* FUN_00cbdd60_cls::bhkHingeConstraint_CreateClone(unsigned int arg)
 {
     TlsGuard_t guard;
     SpawnedObject_t* result = 0;
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     result = new SpawnedObject_t();
-    FUN_00c89730(result, arg);
-    FUN_00c87700();
+    bhkConstraint_CopyMembers(result, arg);
+    bhkSerializable_CloneCritUnlock();
     return result;
 }
 
@@ -504,10 +505,11 @@ struct S_cbde40
     int unk08;
     S_cbde40_Base* unk0c;
     void CopyFromSource(S_cbde40_Obj* c);
-    S_cbde40_Base* FUN_00cbde40(bool* created);
+    S_cbde40_Base* bhkHingeConstraint_CreateCinfo(bool* created);
 };
 // @fnv 0x00cbde40
-S_cbde40_Base* S_cbde40::FUN_00cbde40(bool* created)
+// src: XBOX_PDB 0x00cbde40
+S_cbde40_Base* S_cbde40::bhkHingeConstraint_CreateCinfo(bool* created)
 {
     S_cbde40_Guard guard;
     bool b = (unk0c == 0);
@@ -571,7 +573,8 @@ static inline unsigned int C6A0B0IsEnabled(NiAVObject* pkObject)
 }
 
 // @fnv 0x00c6a0b0
-bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
+// src: XBOX_PDB 0x00c6a0b0
+bool bhkWorld_EnableCollision(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
 {
     bool bResult = false;
     if (pkObject && (bForce || C6A0B0IsEnabled(pkObject)))

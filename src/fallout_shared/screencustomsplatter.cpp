@@ -51,7 +51,7 @@ class GraphicsRenderer
     unsigned int GetRenderTargetWidth();
     unsigned int GetRenderTargetHeight();
 };
-NiRenderer* FUN_0043c4b0();
+NiRenderer* NiXenonRenderer_GetRenderer();
 extern SettingT<INISettingCollection> DAT_011c77f4;
 extern NiPointer<NiNode> DAT_011c781c;
 extern SettingT_GameSettingCollection_ DAT_011cfc2c;
@@ -80,7 +80,7 @@ void ScreenCustomSplatter::Clear()
 {
     if (DAT_011c77e8)
     {
-        DAT_011c7810->FUN_004def90();
+        DAT_011c7810->NiNode_RemoveAllChildren();
         DAT_011c77dc = 0;
         DAT_011c77ec = 0.0f;
         DAT_011c77e9 = 0;
@@ -98,10 +98,10 @@ void ScreenCustomSplatter::Init()
     DAT_011c77e8 = DAT_011c77f4.Bool()[0];
     if (DAT_011c77e8)
     {
-        GraphicsRenderer* renderer = reinterpret_cast<GraphicsRenderer*>(FUN_0043c4b0());
+        GraphicsRenderer* renderer = reinterpret_cast<GraphicsRenderer*>(NiXenonRenderer_GetRenderer());
         float fAspect = (float)renderer->GetRenderTargetWidth() / (float)renderer->GetRenderTargetHeight();
         reinterpret_cast<NiPointer<NiAVObject>&>(DAT_011c781c) = new NiCamera;
-        DAT_011c781c->FUN_00440460(NiPoint3(0.0f, 0.0f, DAT_01022960));
+        DAT_011c781c->NiAVObject_SetTranslate(NiPoint3(0.0f, 0.0f, DAT_01022960));
         NiUpdateData update1(0.0f, false, false);
         DAT_011c781c->Update(update1);
         reinterpret_cast<NiCamera*>(DAT_011c781c.operator->())->AimAt(NiPoint3::ZERO, DAT_011a9478);
@@ -225,7 +225,7 @@ struct TimeGlobal
 extern TimeGlobal DAT_011f6394;
 extern SettingT_GameSettingCollection_ DAT_011ceeb4, DAT_011cf6a8;
 float LinearInterpolate(float, float, float, float, float);
-float FUN_0040ebd0(float, float);
+float BSMIN(float, float);
 
 // Advances each splatter child's elapsed time, removes expired ones, updates opacity and NiUpdateData, then advances the fade value toward 1.
 // @fnv 0x004de600
@@ -275,7 +275,7 @@ void ScreenCustomSplatter_Update()
         if (fade < 1.0)
         {
             fade += elapsed / 0.4;
-            fade = FUN_0040ebd0(1.0f, fade);
+            fade = BSMIN(1.0f, fade);
             BSShaderBloodSplatter_SetGlobalAlpha(fade);
         }
     }
@@ -361,7 +361,7 @@ extern NiPointer<SplatterRoot> g_spSplatterRoot;
 extern SettingT_GameSettingCollection_ g_fSplatterDefaultAlpha;
 
 SplatterGeometry* CreateDebrisNode(unsigned int ItemUpdateArray, float fSizeMin, float fSizeMax);
-void FUN_00b81420(SplatterGeometry* pGeom, void* pList);
+void BSShaderBloodSplatterProperty_SetFadeSourceRecurse(SplatterGeometry* pGeom, void* pList);
 
 // @fnv 0x004de8e0
 // src: COMMUNITY 0x004de8e0
@@ -390,7 +390,7 @@ void ScreenCustomSplatter_Activate(unsigned int ItemUpdateArray, float fAlpha, i
             pGeom->AddExtraData(pExtraData);
             pGeom->SetName(NiFixedString("ScreenSplatterRoot"));
             g_spSplatterRoot->AttachChildInAvailableSlot(pGeom, true);
-            FUN_00b81420(pGeom, pExtraData->GetList());
+            BSShaderBloodSplatterProperty_SetFadeSourceRecurse(pGeom, pExtraData->GetList());
             NiUpdateData kUpdate(0.0f, false, false);
             g_spSplatterRoot->Update(kUpdate);
         }

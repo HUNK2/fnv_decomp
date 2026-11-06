@@ -19,7 +19,7 @@
 class PathfindQueueStorage
 {
   public:
-    void FUN_0096aaf0(MobileObject*, int);
+    void ProcessArray_RemoveActor_0096aaf0(MobileObject*, int);
 };
 class ActorDeletionQueue
 {
@@ -27,7 +27,7 @@ class ActorDeletionQueue
     PathfindQueueStorage storage;
 
   public:
-    void FUN_0096d470(MobileObject*, int);
+    void ProcessLists_RemoveReference(MobileObject*, int);
 };
 class PathingLocation;
 class FindTriangleForLocationFilter;
@@ -105,7 +105,7 @@ class PathingRequestOptimalLocation : public PathingRequest
 class PathingRequestUnknown : public PathingRequest
 {
 };
-bool FUN_006d0b10(PathingRequest*, PathingSolution*);
+bool Pathing_Pathfind(PathingRequest*, PathingSolution*);
 bool Pathing_BuildFleePath(PathingRequestClosePoint*, PathingSolution*);
 bool Pathing_BuildCoveredMovePath(PathingRequestUnknown*, PathingSolution*);
 class Pathing

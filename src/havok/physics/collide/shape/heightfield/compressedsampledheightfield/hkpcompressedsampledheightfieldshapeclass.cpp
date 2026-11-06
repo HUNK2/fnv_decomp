@@ -41,11 +41,12 @@ struct FUN_00e01140_cls
     int unk68;
     char m_cFlag;
 
-    ByteFlag FUN_00e01140();
+    ByteFlag hkpCompressedSampledHeightFieldShape_getTriangleFlipImpl();
 };
 
 // @fnv 0x00e01140
-ByteFlag FUN_00e01140_cls::FUN_00e01140()
+// src: XBOX_PDB 0x00e01140
+ByteFlag FUN_00e01140_cls::hkpCompressedSampledHeightFieldShape_getTriangleFlipImpl()
 {
     return ByteFlag(m_cFlag);
 }
@@ -110,7 +111,7 @@ struct BufferContext
     int unk0c;
     BufferManager* manager;
 };
-BufferContext* __cdecl FUN_00c85750();
+BufferContext* __cdecl hkMemoryRouter_getInstance();
 void __fastcall FUN_00d24660(FUN_00e01140_cls*);
 
 struct FUN_00e01180_cls : FUN_00e01140_cls
@@ -121,7 +122,7 @@ struct FUN_00e01180_cls : FUN_00e01140_cls
 // @fnv 0x00e01180
 FUN_00e01180_cls* FUN_00e01180_cls::FUN_00e01180(unsigned int flags)
 {
-    BufferContext* context = FUN_00c85750();
+    BufferContext* context = hkMemoryRouter_getInstance();
     BufferManager* manager = context->manager;
     unk64 = 0;
     if (!(unk68 & 0x80000000))
@@ -133,7 +134,7 @@ FUN_00e01180_cls* FUN_00e01180_cls::FUN_00e01180(unsigned int flags)
     FUN_00d24660(this);
     if (flags & 1)
     {
-        BufferContext* context = FUN_00c85750();
+        BufferContext* context = hkMemoryRouter_getInstance();
         BufferManager* manager = context->manager;
         manager->Destroy(this, (unsigned short)unk04);
     }

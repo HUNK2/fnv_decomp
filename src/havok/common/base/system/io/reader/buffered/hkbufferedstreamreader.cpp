@@ -208,7 +208,7 @@ int __fastcall hkBufferedStreamReader_seekTellSupported(FUN_00d2bb60_cls* self, 
     return value;
 }
 
-MemoryManager* FUN_00c85750();
+MemoryManager* hkMemoryRouter_getInstance();
 void* hkMemoryRouter_alignedAlloc(void*, void*, unsigned int);
 struct FUN_00d2bbd0_cls
 {
@@ -223,7 +223,7 @@ struct FUN_00d2bbd0_cls
 // @fnv 0x00d2bbd0
 FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(int p)
 {
-    void* a = FUN_00c85750()->allocator;
+    void* a = hkMemoryRouter_getInstance()->allocator;
     m_00 = hkMemoryRouter_alignedAlloc(a, (void*)p, 0x40);
     m_04 = 0;
     m_08 = 0;
@@ -382,7 +382,7 @@ void hkTrackerD2BB::Reset(int flags)
     m_target->reset(flags);
 }
 
-extern "C" void __cdecl FUN_00cb1270(void*, const void*, int);
+extern "C" void __cdecl hkString_memMove(void*, const void*, int);
 // @fnv 0x00d2b900
 void BufferedReaderBuffer::CompactBuffer() throw()
 {
@@ -405,7 +405,7 @@ void BufferedReaderBuffer::CompactBuffer() throw()
         int dataSize = m_readPos - m_markPos;
         int remainder = dataSize % 512;
         int padBytes = (remainder != 0) ? (512 - remainder) : 0;
-        FUN_00cb1270(m_buf + padBytes, m_buf + m_markPos, dataSize);
+        hkString_memMove(m_buf + padBytes, m_buf + m_markPos, dataSize);
         m_markPos = padBytes;
         m_readPos = ((dataSize / 512) + (remainder != 0 ? 1 : 0)) * 512;
         m_bufferedBytes = m_readPos;
@@ -462,7 +462,7 @@ hkBufferedStreamReader* BufferedReaderDeletionView::FUN_00d2bca0(unsigned int fl
     Destroy();
     if (flags & 1)
     {
-        MemoryManager* router = FUN_00c85750();
+        MemoryManager* router = hkMemoryRouter_getInstance();
         unsigned short size = static_cast<unsigned short>(m_uiStandInValue);
         static_cast<BufferedReaderHeap*>(router->allocator)->ReleaseBlock(this, size);
     }
@@ -475,6 +475,6 @@ void __cdecl hkMemoryRouter_alignedFree(void* allocator, void* buffer);
 __declspec(noinline) void hkBufferedStreamReader::FUN_00d2bc10()
 {
     void* buffer = m_pVTable;
-    MemoryManager* memory = FUN_00c85750();
+    MemoryManager* memory = hkMemoryRouter_getInstance();
     hkMemoryRouter_alignedFree(memory->allocator, buffer);
 }

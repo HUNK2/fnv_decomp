@@ -79,11 +79,11 @@ struct FUN_00c85750_context
         virtual FUN_00da30a0_class* allocate(unsigned int);
     }* unk10;
 };
-FUN_00c85750_context* __cdecl FUN_00c85750();
+FUN_00c85750_context* __cdecl hkMemoryRouter_getInstance();
 // @fnv 0x00d2b820
 void __cdecl CreateAllocatedValue()
 {
-    FUN_00c85750_context* context = FUN_00c85750();
+    FUN_00c85750_context* context = hkMemoryRouter_getInstance();
     FUN_00da30a0_class* value = context->unk10->allocate(0x24);
     value->unk04 = 0x24;
     value->InitWithParam(-1);
@@ -124,7 +124,7 @@ struct FUN_00d2b8c0_Class
     FUN_00d2b8c0_Class* FUN_00d2b8c0(unsigned int flags);
 };
 void* DAT_0102e388;
-UnkRet* FUN_00c85750();
+UnkRet* hkMemoryRouter_getInstance();
 // @fnv 0x00d2b8c0
 FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
 {
@@ -133,7 +133,7 @@ FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
     vptr00 = &DAT_0102e388;
     if (flags & 1)
     {
-        UnkRet* object = FUN_00c85750();
+        UnkRet* object = hkMemoryRouter_getInstance();
         unsigned int count = refCount;
         RetPart* part = object->part10;
         part->Release(this, count);

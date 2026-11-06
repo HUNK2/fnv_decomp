@@ -64,12 +64,13 @@ void* FUN_00c206a0_shell::NiPSysRotationModifier_GetRTTI()
 
 struct FUN_00c20a00_shell : public NiPSysRotationModifier
 {
-    void FUN_00c20a00(NiStream*);
+    void NiPSysRotationModifier_PostLinkObject(NiStream*);
 };
 
 // Links the object to the stream and, for older stream versions, fills the particle rotation speeds array with the modifier's rotation speed value.
 // @fnv 0x00c20a00
-void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
+// src: XBOX_PDB 0x00c20a00
+void FUN_00c20a00_shell::NiPSysRotationModifier_PostLinkObject(NiStream* kStream)
 {
     NiObject::LinkObject(*kStream);
     if (*(unsigned int*)((char*)kStream + 0xD8) < 0x14000002)
@@ -156,11 +157,11 @@ struct Base00c319e0
 
 char* _FUN_00a7d330(char const*);
 char* _FUN_00a7d370(char const*, bool);
-char* FUN_00a7d550(char const*, float);
+char* NiGetViewerString_00a7d550(char const*, float);
 
 struct NiPoint3Proxy
 {
-    char* FUN_00a59af0(char const*);
+    char* GetViewerString_00a59af0(char const*);
 };
 
 // Appends the rotation modifier's property names and values to a string array, growing it as needed via SetSize and SetAt.
@@ -180,7 +181,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     }
     strings->SetAt(count, value);
 
-    value = FUN_00a7d550("Initial Rotation Speed", m_fInitialRotationSpeed);
+    value = NiGetViewerString_00a7d550("Initial Rotation Speed", m_fInitialRotationSpeed);
     count = strings->m_usSize;
     if (count >= strings->m_usMaxSize)
     {
@@ -188,7 +189,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     }
     strings->SetAt(count, value);
 
-    value = FUN_00a7d550("Initial Rotation Speed Variation", m_fInitialRotationSpeedVariation);
+    value = NiGetViewerString_00a7d550("Initial Rotation Speed Variation", m_fInitialRotationSpeedVariation);
     count = strings->m_usSize;
     if (count >= strings->m_usMaxSize)
     {
@@ -204,7 +205,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     }
     strings->SetAt(count, value);
 
-    value = FUN_00a7d550("Initial Rotation Angle", m_fInitialRotationAngle);
+    value = NiGetViewerString_00a7d550("Initial Rotation Angle", m_fInitialRotationAngle);
     count = strings->m_usSize;
     if (count >= strings->m_usMaxSize)
     {
@@ -212,7 +213,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     }
     strings->SetAt(count, value);
 
-    value = FUN_00a7d550("Initial Rotation Angle Variation", m_fInitialRotationAngleVariation);
+    value = NiGetViewerString_00a7d550("Initial Rotation Angle Variation", m_fInitialRotationAngleVariation);
     count = strings->m_usSize;
     if (count >= strings->m_usMaxSize)
     {
@@ -229,7 +230,7 @@ void FUN_00c20d00_shell::AddRotationStrings(void* pkStrings)
     strings->SetAt(count, value);
 
     NiPoint3Proxy* initialAxis = reinterpret_cast<NiPoint3Proxy*>(reinterpret_cast<char*>(this) + 0x28);
-    value = initialAxis->FUN_00a59af0("Initial Axis");
+    value = initialAxis->GetViewerString_00a59af0("Initial Axis");
     count = strings->m_usSize;
     if (count >= strings->m_usMaxSize)
     {
@@ -284,12 +285,13 @@ struct FnvRotMod : public FnvModBase
     FnvPoint3 m_kRotationAxis;
     bool m_bUseRandomRotationAxis;
     bool m_bRandomInitialRotationSpeedSign;
-    void FUN_00c20c00(NiStream* stream);
+    void NiPSysRotationModifier_SaveBinary(NiStream* stream);
 };
 
 // Calls the base save, writes four floats and two bytes to the stream, then saves the point.
 // @fnv 0x00c20c00
-void FnvRotMod::FUN_00c20c00(NiStream* stream)
+// src: XBOX_PDB 0x00c20c00
+void FnvRotMod::NiPSysRotationModifier_SaveBinary(NiStream* stream)
 {
     FnvModBase::FUN_00c31950(stream);
 
@@ -546,7 +548,7 @@ class CC20AE0Modifier
 class CC20AE0FieldModifier : public CC20AE0Modifier
 {
   public:
-    void FUN_00c20ae0(CC20AE0Stream& kStream);
+    void NiPSysRotationModifier_LoadBinary(CC20AE0Stream& kStream);
 
     float m_fInfluence;
     float m_fFieldAttenuation;
@@ -559,7 +561,8 @@ class CC20AE0FieldModifier : public CC20AE0Modifier
 
 // Loads the base modifier, then reads float fields, version-gated fields and two bool flags, and a point from the stream.
 // @fnv 0x00c20ae0
-void CC20AE0FieldModifier::FUN_00c20ae0(CC20AE0Stream& kStream)
+// src: XBOX_PDB 0x00c20ae0
+void CC20AE0FieldModifier::NiPSysRotationModifier_LoadBinary(CC20AE0Stream& kStream)
 {
     CC20AE0Modifier::LoadBinary(kStream);
 

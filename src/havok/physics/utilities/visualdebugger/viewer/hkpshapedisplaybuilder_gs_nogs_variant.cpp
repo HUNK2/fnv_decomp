@@ -22,7 +22,7 @@ struct S_00ddfcd0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00ddfcd0_Router* FUN_00c85750();
+S_00ddfcd0_Router* hkMemoryRouter_getInstance();
 struct S_00ddfcd0_RefObj
 {
     unsigned short m_usMemSizeAndFlags;
@@ -35,7 +35,7 @@ struct S_00ddfcd0_RefObj
     {}
     void* operator new(unsigned int nbytes)
     {
-        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -57,7 +57,7 @@ struct S_00ddfcd0_Obj : S_00ddfcd0_RefObj
     {}
     virtual ~S_00ddfcd0_Obj() throw();
 };
-S_00ddfcd0_RefObj* FUN_00ddfcd0();
+S_00ddfcd0_RefObj* hkpUserShapeDisplayBuildercreate();
 
 #include <xmmintrin.h>
 struct __declspec(align(16)) Mat4

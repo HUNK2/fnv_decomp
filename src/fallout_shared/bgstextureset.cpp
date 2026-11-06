@@ -230,13 +230,13 @@ void BGSTextureSetMethods::SetFullNameByType(int aeType, char const* apFilename)
 
 struct FUN_0048e370_obj
 {
-    void FUN_0048e370(unsigned int);
+    void TESTexture_Save(unsigned int);
 };
 struct FUN_00593320_shell
 {
     void FUN_00593320(void*);
 };
-void __cdecl FUN_00485950(unsigned int, unsigned int);
+void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
 // @fnv 0x00592810
 void BGSTextureSetMethods::SaveTextureSet()
@@ -244,16 +244,16 @@ void BGSTextureSetMethods::SaveTextureSet()
     int i;
     TESForm::FUN_004855a0();
     for (i = 0; i < 6; ++i)
-        ((FUN_0048e370_obj*)&pTextures[i])->FUN_0048e370(DAT_0118c574[i]);
+        ((FUN_0048e370_obj*)&pTextures[i])->TESTexture_Save(DAT_0118c574[i]);
     if (m_pDecalData)
         ((FUN_00593320_shell*)m_pDecalData)->FUN_00593320((void*)0x54444f44);
-    FUN_00485950(0x4d414e44, iFlags);
+    TESForm_AddChunk_00485950(0x4d414e44, iFlags);
     TESForm::FUN_00485680();
 }
 
 struct FUN_005e79a0_t : public TESForm
 {
-    bool FUN_00485270(TESForm*);
+    bool TESForm_CompareAllComponents(TESForm*);
 };
 
 struct FUN_005932e0_shell
@@ -301,7 +301,7 @@ bool BGSTextureSetMethods::CompareTextureSet(TESForm* apCompare)
     if (iFlags != pcompare->iFlags)
         return true;
 
-    if (reinterpret_cast<FUN_005e79a0_t*>(this)->FUN_00485270(pcompare))
+    if (reinterpret_cast<FUN_005e79a0_t*>(this)->TESForm_CompareAllComponents(pcompare))
         return true;
 
     return false;

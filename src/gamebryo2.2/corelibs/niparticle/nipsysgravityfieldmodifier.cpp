@@ -118,13 +118,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -229,7 +229,8 @@ NiPSysGravityFieldModifier* __cdecl CreateGravityFieldModifier()
 }
 
 // @fnv 0x00c26db0
-char NiPSysGravityFieldModifier::FUN_00c26db0(NiPSysGravityFieldModifier* other)
+// src: XBOX_PDB 0x00c26db0
+char NiPSysGravityFieldModifier::IsEqual_00c26db0(NiPSysGravityFieldModifier* other)
 {
     if (!NiPSysFieldModifier::IsEqual(other))
         return false;
@@ -272,7 +273,7 @@ void NiPSysGravityFieldModifier::LoadBinary(NiStream& aStream)
     src[2] = src[2];
     NiPoint3* b = &normalizedDirection;
     *b = *(NiPoint3*)a;
-    b->FUN_004a0c10();
+    b->Unitize_004a0c10();
 }
 
 struct FUN_00c2af80_Array
@@ -308,7 +309,7 @@ void NiPSysGravityFieldModifier::GetViewerStrings(NiViewerStringsArray* stream)
         array->FUN_0096ad30(array->unk0E + count);
     array->FUN_0096ae90(count, &item);
 
-    item = originalDirection.FUN_00a59af0("Direction");
+    item = originalDirection.GetViewerString_00a59af0("Direction");
 
     count = array->unk0A;
     if (count >= array->unk08)
@@ -374,7 +375,7 @@ inline NiPoint3 RotateFieldDirection(const NiMatrix3& matrix, const NiPoint3& di
     return matrix * direction;
 }
 
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 // Applies a directional force to particles within the field, scaling by m_fInfluence, time delta, and optional distance m_fFieldAttenuation or m_bEnableMaxDistance radius.
 // @fnv 0x00c2acb0
 void NiPSysGravityFieldModifier::ApplyForceToParticles(float time, NiPSysData* pkData)
@@ -418,7 +419,7 @@ void NiPSysGravityFieldModifier::ApplyForceToParticles(float time, NiPSysData* p
             }
             else
             {
-                float scale = m_fInfluence * delta / FUN_00404010(1.0f, (float)pow(distanceSquared, halfAttenuation));
+                float scale = m_fInfluence * delta / BSMAX_00404010(1.0f, (float)pow(distanceSquared, halfAttenuation));
                 const NiPoint3& dir = forceDirection;
                 const double& wide = scale;
                 change = NiPoint3(wide * dir.x, scale * dir.y, scale * dir.z);

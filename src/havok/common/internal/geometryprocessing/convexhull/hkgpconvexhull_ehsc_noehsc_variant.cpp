@@ -22,7 +22,7 @@ struct FUN_00d74dd0_Class
 };
 struct FUN_00d7ac40_class
 {
-    void FUN_00d7ac40(int);
+    void hkgpConvexHullImpl_reset(int);
 };
 struct FUN_00d75850_class
 {
@@ -754,7 +754,7 @@ struct S_00d7a010_Router
     int unk8;
     int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
+    static S_00d7a010_Router& hkMemoryRouter_getInstance() throw();
     S_00d7a010_Alloc& heap() throw()
     {
         return *m_pStreamAllocator;
@@ -836,7 +836,7 @@ struct S_00d7c340_Router
         return unk10;
     }
 };
-S_00d7c340_Router* FUN_00c85750();
+S_00d7c340_Router* hkMemoryRouter_getInstance();
 int ResizeAudioStream(S_00d7c340_Allocator* alloc, void* array, int elemSize);
 struct S_00d7c340_Elem
 {
@@ -1603,7 +1603,7 @@ struct D76250MemoryRouter
     }
 };
 namespace fnvc_adapt {
-extern "C" D76250MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D76250MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 }
 void __cdecl hkArrayUtil__reserve(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 typedef hkArray<hkVector4> D76250VectorArray;
@@ -2260,7 +2260,7 @@ template <class T> struct CloneArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        Singleton* s = reinterpret_cast<Singleton*>(FUN_00c85750());
+        Singleton* s = reinterpret_cast<Singleton*>(hkMemoryRouter_getInstance());
         reserve(*s->m_10, n);
         int extra = n - m_iArrayLength;
         T* start = m_pData + m_iArrayLength;
@@ -2372,9 +2372,9 @@ struct CloneMapBase
         FUN_00a29680();
     }
     void EnsureCapacity(Allocator*, int);
-    int FUN_00cb1870(Allocator*, unsigned long, unsigned long);
+    int hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(Allocator*, unsigned long, unsigned long);
     unsigned long LookupHashEntry(unsigned long, unsigned long) const;
-    MapStatus FUN_00cb1fb0(unsigned long);
+    MapStatus hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(unsigned long);
     void ProcessArgument(Allocator*);
     void FUN_00a29680();
 };
@@ -2390,17 +2390,17 @@ struct CloneHeapMap : CloneMapBase
     }
     __forceinline void reserve(int n)
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
+        Singleton* s = (Singleton*)hkMemoryRouter_getInstance();
         EnsureCapacity(s->m_10, n);
     }
     __forceinline int insert(unsigned long k, unsigned long v)
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
-        return FUN_00cb1870(s->m_10, k, v);
+        Singleton* s = (Singleton*)hkMemoryRouter_getInstance();
+        return hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_insert(s->m_10, k, v);
     }
     void clear()
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
+        Singleton* s = (Singleton*)hkMemoryRouter_getInstance();
         ProcessArgument(s->m_10);
     }
 };
@@ -2417,7 +2417,7 @@ template <class K, class V> struct CloneMap
     }
     MapStatus remove(K k)
     {
-        return map.FUN_00cb1fb0((unsigned long)k);
+        return map.hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove((unsigned long)k);
     }
     void reserve(int n)
     {
@@ -2474,7 +2474,7 @@ struct ThisCls
 // @fnv 0x00d7f720
 ThisCls* ThisCls::FUN_00d7f720()
 {
-    Singleton* s = reinterpret_cast<Singleton*>(FUN_00c85750());
+    Singleton* s = reinterpret_cast<Singleton*>(hkMemoryRouter_getInstance());
     Allocator* alloc = s->m_10;
     ThisCls* dst;
     void* fields2 = alloc->Alloc(0x1c0);

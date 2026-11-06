@@ -57,7 +57,7 @@ struct D1A0E0EntryArray {
         m_iElementCount = n;
     }
 
-    void FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap);
+    void hkp3AxisSweep_hkpBpAxis_removeBatch_1(int offset, const D1A0E0IntArray& remap);
 };
 struct S_00d1a180_Allocator {
     int unk0;
@@ -148,7 +148,7 @@ struct FUN_00d11620_cls {
     int unk9C;
     int unkA0;
     int m_iA4;
-    int FUN_00d11620();
+    int getNumObjects();
 };
 // Reconstructed source for FUN_00d119c0 (forwarding thunk, 24 bytes).
 // Target shape:
@@ -169,7 +169,7 @@ struct SweepEntry { // 16-byte entry, matches shl eax,4 stride
 };
 // Tail-call target observed forwarding (this, handle, entry) with edx = handle kept live:
 // __fastcall helper taking (self in ecx, handle in edx, entry on stack).
-void __fastcall FUN_00d11650(void* self, UnkHandle* handle, SweepEntry* entry);
+void __fastcall getAabbFromNode(void* self, UnkHandle* handle, SweepEntry* entry);
 // Stand-in owner class for the __thiscall thunk; fnvcheck matches the name FUN_00d119c0.
 struct FUN_00d119c0_owner {
     int unk00;
@@ -287,7 +287,7 @@ struct SpawnedObject {
 
     SpawnedObject* Init(int a, int b, int c);
 };
-SpawnedObject* FUN_00d182a0(int a, int b, int c);
+SpawnedObject* hk3AxisSweep16CreateBroadPhase(int a, int b, int c);
 int __cdecl getMinComponent(const float* v, float* out);
 extern int DAT_011b37a4[];
 struct hkp3AxisSweep;
@@ -757,7 +757,7 @@ struct FUN_00d10e10_cls {
     unsigned int unk5C;
     __m128 m_recipSrc; // +0x60
 
-    void FUN_00d10e10(__m128* out0, __m128* out1);
+    void getExtents(__m128* out0, __m128* out1);
 };
 void __cdecl FUN_00d10e80();
 struct S00d11470_Entry {
@@ -1235,7 +1235,7 @@ struct AxisSweep {
     int numRecords;
     int unkA8;
     SweepType* types;
-    void FUN_00d112c0(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
+    void hkp3AxisSweep_setBitsBasedOnXInterval(int numRecords, unsigned short code, SweepRecord* rec, int index, void* buffer);
     void reQuerySingleObject(int* index, EventList* events);
 };
 extern "C" void _ReadWriteBarrier();
@@ -1339,8 +1339,8 @@ struct SweepOwnerX {
  int groupCount;
  unsigned short shiftBits, unusedD6;
  SweepGroupX* groups;
- void FUN_00d112c0(int count,int key,SweepNodeX* node,unsigned int index,unsigned int* bits);
- void FUN_00d10d10(SweepNodeX* base,int count,SweepNodeX* node);
+ void hkp3AxisSweep_setBitsBasedOnXInterval(int count,int key,SweepNodeX* node,unsigned int index,unsigned int* bits);
+ void hkp3AxisSweep_updateNodesAfterDelete(SweepNodeX* base,int count,SweepNodeX* node);
  void FixNodeEdges(unsigned int index);
  void removeObject(unsigned int* handle,SweepPairsX* pairs);
 };
@@ -1467,11 +1467,12 @@ struct SweepSpace {
     hkArray<SweepEndpointD16300> axes[3];
     unsigned int unkD0, unkD4, unkD8;
     float tolerance;
-    void FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int rayStride) const;
+    void hkp3AxisSweep_castRay(const SweepScan& scan, SweepRayCast* rays, int rayStride) const;
 };
 
 // @fnv 0x00d16300
-void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int rayStride) const
+// src: XBOX_PDB 0x00d16300
+void SweepSpace::hkp3AxisSweep_castRay(const SweepScan& scan, SweepRayCast* rays, int rayStride) const
 {
     __declspec(align(16)) unsigned int sweepKeys[4];
     SweepEndpointD16300* c[3];

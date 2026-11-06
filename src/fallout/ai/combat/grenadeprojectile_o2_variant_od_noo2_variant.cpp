@@ -72,11 +72,12 @@ struct S_00561240
 struct S_00627920
 {
     __m128 unk00;
-    void __thiscall FUN_00627920(S_00561240* param);
+    void __thiscall hkVector4_mul4(S_00561240* param);
 };
 
 // @fnv 0x00627920
-void __thiscall S_00627920::FUN_00627920(S_00561240* param)
+// src: XBOX_PDB 0x00627920
+void __thiscall S_00627920::hkVector4_mul4(S_00561240* param)
 {
     __m128 tmp;
     unk00 = _mm_mul_ps(*param->hkSimdReal_broadcast(&tmp), unk00);

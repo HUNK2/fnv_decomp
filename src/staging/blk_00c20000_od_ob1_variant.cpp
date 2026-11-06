@@ -92,8 +92,8 @@ public:
     bool FUN_004390c0(const LocalPoint& other) const;
     LocalPoint FUN_00439ef0(const LocalPoint& other);
     LocalPoint FUN_00439e90(const LocalPoint& other);
-    void FUN_004a0c10();
-    char* FUN_00a59af0(const char* text);
+    void Unitize_004a0c10();
+    char* GetViewerString_00a59af0(const char* text);
     float FUN_004a7290() const;
     float FUN_00435e00();
     float FUN_006a7f50();
@@ -144,7 +144,7 @@ namespace loader
 #include "../../include/RecursiveSpinLock.h"
 struct FUN_00c3a090_Class
 {
-    char __thiscall FUN_00c3a090(void* arg);
+    char __thiscall BSMultiBoundRoom_IsEqual(void* arg);
     char __thiscall IsSameAs(void* arg);
 };
 extern "C" void* g_01202828;
@@ -196,7 +196,7 @@ struct FUN_00c3a080_Class
 void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 struct FUN_00c3a0c0_Class
 {
-    void* __thiscall FUN_00c46e70(unsigned int a);
+    void* __thiscall BSMultiBoundNode_GetViewerStrings(unsigned int a);
     void __thiscall AddFirstEmptyFromGlobal(unsigned int a);
 };
 struct FUN_00c3a100_Class
@@ -252,7 +252,7 @@ struct FUN_00c3fe00_Class
 {
     void* __thiscall LockFreeMapInterface_LockFreeMapInterface(int a, int b, int c, int d);
 };
-void __fastcall FUN_0044dd60(void*);
+void __fastcall BSTask_int64_DecRefCount(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
@@ -262,7 +262,7 @@ struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
     bool __thiscall LockFreeMapInterface_GetAt(int a, int b, int c, void** out);
 };
-int __cdecl FUN_00c33090(const char* p);
+int __cdecl Setting_DataType_00c33090(const char* p);
 typedef void*(__cdecl* PFN_00c3c100)(void*, void*, unsigned int);
 extern PFN_00c3c100 DAT_01202d5c;
 extern int DAT_01202d70;
@@ -515,7 +515,7 @@ class FUN_00c39a80_cls
         unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4,
         unkb8, unkbc;
     Mid m_c0;
-    void FUN_00c39a80(unsigned int a1);
+    void BSMultiBoundRoom_AddOccluder(unsigned int a1);
 };
 extern "C" int DAT_010c117c;
 struct FUN_00c3a220_cls
@@ -545,7 +545,7 @@ struct FUN_00c3a4b0_node
 struct FUN_00c3a4b0_sub
 {
     unsigned int m_uiItemCount;
-    void __thiscall FUN_0045cee0(FUN_00c3a4b0_node* p);
+    void __thiscall NiTPointerAllocator_unsigned_int_Deallocate(FUN_00c3a4b0_node* p);
 };
 struct FUN_00c3a4b0_cls
 {
@@ -628,7 +628,7 @@ struct S_00c3a5e0
     virtual void v2d();
     virtual void v2e();
     virtual void v2f();
-    void FUN_00a5db30();
+    void NiNode_UpdateUpwardPass();
     void FUN_00c3a5e0();
 };
 extern "C" unsigned int __cdecl strlen(const char*);
@@ -661,15 +661,15 @@ extern unsigned int DAT_01202d74;
 extern unsigned int DAT_011f6388;
 void __cdecl MessageHandler_InitSDM();
 void __cdecl MessageHandler_Init(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned int e);
-int* __cdecl FUN_00c3bb80();
-int __cdecl FUN_00aff0b0(const char* p);
+int* __cdecl MessageHandler_GetWarningFileName();
+int __cdecl BSSystemFile_DeleteFileA(const char* p);
 int __cdecl GetFileSize(int* buf, int* out);
 struct FUN_00c3bda0_Class : BSCoreMessage
 {
     ~FUN_00c3bda0_Class();
 };
 int FUN_00c3be40();
-int __cdecl FUN_00c3c220();
+int __cdecl MessageHandler_Output();
 extern "C" __declspec(dllimport) DWORD __stdcall GetCurrentThreadId();
 extern "C" void __cdecl CbtHookProc(int code, WPARAM wParam, LPARAM lParam);
 extern int DAT_01202d70;
@@ -763,7 +763,7 @@ struct FUN_00c3fa70_elem
 };
 struct DynamicMemoryAllocator
 {
-    void FUN_00aa4060(void* apPtr);
+    void MemoryManager_Deallocate(void* apPtr);
 };
 extern "C" DynamicMemoryAllocator DAT_011f6238;
 struct TeardownBase
@@ -1138,7 +1138,7 @@ extern const char* DAT_011af484[];
 extern const char* DAT_0109b220;
 extern int DAT_011a9598;
 void __cdecl BuildDataPath(char*, const char*, const char*);
-bool __cdecl FUN_00aa1a30(const char*, int);
+bool __cdecl NiFile_Access(const char*, int);
 struct TextureObject
 {
     virtual void v0();
@@ -1199,7 +1199,7 @@ void TextureLoader::BSStream_LoadShaderTextures(const char* path)
         BuildDataPath(filename, path, *suffix);
         TexturePtr texture;
         FindTextureByPath(filename, &texture);
-        if (!texture.object && FUN_00aa1a30(filename, 0))
+        if (!texture.object && NiFile_Access(filename, 0))
         {
             texture.FUN_0066b0d0(FUN_00a5fd70(NiFixedString((const char*)filename), DAT_011a9598, true, false));
             if (texture.object)
@@ -1610,7 +1610,7 @@ struct Item_c3f530
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        DAT_011f6238.MemoryManager_Deallocate(p);
     }
 };
 
@@ -1639,7 +1639,7 @@ struct RefX
     {
         InterlockedIncrement(&m_lRefCount);
     }
-    void FUN_0044dd60();
+    void BSTask_int64_DecRefCount();
 };
 struct SPX
 {
@@ -1655,14 +1655,14 @@ struct SPX
     {
         int aiE[3];
         if (m_pObject)
-            m_pObject->FUN_0044dd60();
+            m_pObject->BSTask_int64_DecRefCount();
     }
 };
 struct LockX
 {
     int m_iOwner;
     int m_iArrayLength;
-    void FUN_0040fbf0(int i);
+    void BSSpinLock_Lock(int i);
     void Unlock()
     {
         if (--m_iArrayLength == 0)
@@ -1684,7 +1684,7 @@ struct ListQ
 bool ListQ::LockFreeMap_int64_NiPointer_BSTask_int64_Func07(SPX pSceneObject)
 {
     bool bFound = false;
-    m_kLock.FUN_0040fbf0(0);
+    m_kLock.BSSpinLock_Lock(0);
     for (unsigned int i = 0; i < m_uiCount && !bFound; i++)
         bFound = Test(i, pSceneObject);
     m_kLock.Unlock();
@@ -2509,7 +2509,7 @@ struct Owner39
     Node39* head;
     int tail;
     unsigned int count;
-    unsigned char FUN_00c39b00(void* arg);
+    unsigned char BSMultiBoundRoom_QPointWithin(void* arg);
 };
 
 inline Handler39* Pass39(Handler39* p)
@@ -2518,7 +2518,8 @@ inline Handler39* Pass39(Handler39* p)
 }
 
 // @fnv 0x00c39b00
-unsigned char Owner39::FUN_00c39b00(void* arg)
+// src: XBOX_PDB 0x00c39b00
+unsigned char Owner39::BSMultiBoundRoom_QPointWithin(void* arg)
 {
     unsigned char Dir;
     Node39* CN;
@@ -2638,7 +2639,7 @@ class OwnerC39B
         HolderC39B* p = m_pkHolder;
         return p;
     }
-    int FUN_00c39bb0(void* pvArg);
+    int BSMultiBoundRoom_CheckBound(void* pvArg);
 
     int unk00;
     int unk04;
@@ -2695,7 +2696,8 @@ class OwnerC39B
 };
 
 // @fnv 0x00c39bb0
-int OwnerC39B::FUN_00c39bb0(void* pvArg)
+// src: XBOX_PDB 0x00c39bb0
+int OwnerC39B::BSMultiBoundRoom_CheckBound(void* pvArg)
 {
     int iResult = GetHolder()->GetTarget()->Process(pvArg);
     if (iResult != 1 && !m_kChildList.IsEmpty())
@@ -2829,14 +2831,15 @@ struct Node144
     int unkD4;
     unsigned int count;
     void FUN_005467e0();
-    void FUN_00c39d50();
+    void BSMultiBoundRoom_UpdateWorldBound();
     bool Flag80000()
     {
         return (unk30 & 0x80000) ? 1 : 0;
     }
 };
 // @fnv 0x00c39d50
-void Node144::FUN_00c39d50()
+// src: XBOX_PDB 0x00c39d50
+void Node144::BSMultiBoundRoom_UpdateWorldBound()
 {
     const NiBound* a0;
     float aAcoustic;
@@ -3167,14 +3170,14 @@ struct S_Base
 };
 struct S_X : S_Base
 {
-    void FUN_00c64780(int);
+    void BSReference_SetName(int);
     inline ~S_X();
     S_X* FUN_00c3b9f0(unsigned int flags);
 };
 
 inline S_X::~S_X()
 {
-    FUN_00c64780(0);
+    BSReference_SetName(0);
 }
 
 // @fnv 0x00c3b9f0
@@ -3290,7 +3293,7 @@ struct RefObj
     {
         InterlockedIncrement(&m_08);
     }
-    void FUN_0044dd60();
+    void BSTask_int64_DecRefCount();
     void QueuedFile_AddChild(void*);
 };
 struct RefPtr
@@ -3312,7 +3315,7 @@ struct RefPtr
         if (m_p != other.m_p)
         {
             if (m_p)
-                m_p->FUN_0044dd60();
+                m_p->BSTask_int64_DecRefCount();
             m_p = other.m_p;
             if (m_p)
                 m_p->AcquireReference();
@@ -3322,7 +3325,7 @@ struct RefPtr
     ~RefPtr()
     {
         if (m_p)
-            m_p->FUN_0044dd60();
+            m_p->BSTask_int64_DecRefCount();
     }
 };
 __forceinline void ConstructRefs(RefPtr* buffer, unsigned count)
@@ -3344,7 +3347,7 @@ struct OwnArr
     }
     static void operator delete(void* p)
     {
-        DAT_011f6238.FUN_00aa4060(p);
+        DAT_011f6238.MemoryManager_Deallocate(p);
     }
     int Find(RefObj* o)
     {
@@ -3461,7 +3464,7 @@ struct RefPtr
         if (m_p)
         {
             if (m_p)
-                m_p->FUN_0044dd60();
+                m_p->BSTask_int64_DecRefCount();
             m_p = 0;
             if (m_p)
                 m_p->AcquireReference();
@@ -3519,7 +3522,8 @@ inline void IOTask::SetState(long v)
     bool r = InterlockedCompareExchange((volatile long*)&eState, v, old) == old;
 }
 // @fnv 0x00c3cb70
-void IOTask::FUN_00c3cb70(int state, RefObj* obj)
+// src: XBOX_PDB 0x00c3cb70
+void IOTask::QueuedFile_Cancel(int state, RefObj* obj)
 {
     using namespace fnv_00c3cb70;
     ::InterlockedIncrement((volatile long*)&BackgroundTask);
@@ -3570,12 +3574,12 @@ void IOTask::FUN_00c3cb70(int state, RefObj* obj)
                 DAT_01202d98->BSTaskManager_CancelTask(o, this);
         }
     }
-    FUN_0044dd60();
+    BSTask_int64_DecRefCount();
     Dead9();
 }
 
 
-extern int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
+extern int __cdecl BSsprintf(char*, unsigned int, const char*, ...);
 struct QEntry
 {
     unsigned int unk00, unk04, packedSize, packedOffset;
@@ -3609,10 +3613,11 @@ struct QRequest
     unsigned int unk24;
     const char* name;
     QEntry* entry;
-    bool FUN_00c3d0e0(char*, unsigned int, const char*);
+    bool QueuedFileEntry_GetDescription(char*, unsigned int, const char*);
 };
 // @fnv 0x00c3d0e0
-bool QRequest::FUN_00c3d0e0(char* out, unsigned int size, const char* type)
+// src: XBOX_PDB 0x00c3d0e0
+bool QRequest::QueuedFileEntry_GetDescription(char* out, unsigned int size, const char* type)
 {
     char buffer[13000];
     unsigned int i;
@@ -3627,7 +3632,7 @@ bool QRequest::FUN_00c3d0e0(char* out, unsigned int size, const char* type)
             QEntry* d = entry;
             c = d->packedOffset & 0x7fffffff;
             const char* e = name;
-            FUN_00406d00(out, size, "Queued %s %s with file entry offset %i and size %i", type, e, c, g);
+            BSsprintf(out, size, "Queued %s %s with file entry offset %i and size %i", type, e, c, g);
         }
         else
         {
@@ -3637,13 +3642,13 @@ bool QRequest::FUN_00c3d0e0(char* out, unsigned int size, const char* type)
                 QEntry* k = entry;
                 unsigned int l = k->packedSize & 0x3fffffff;
                 QEntry* j = entry;
-                FUN_00406d00(out, size, "Queued %s with file entry offset %i and size %i", type,
+                BSsprintf(out, size, "Queued %s with file entry offset %i and size %i", type,
                              j->packedOffset & 0x7fffffff, l);
             }
             else
             {
                 const char* m = name;
-                FUN_00406d00(out, size, "Queued %s %s", type, m);
+                BSsprintf(out, size, "Queued %s %s", type, m);
             }
         }
         if (tasks)
@@ -3670,7 +3675,7 @@ bool QRequest::FUN_00c3d0e0(char* out, unsigned int size, const char* type)
 
 struct ObjA
 {
-    void FUN_0044dd60();
+    void BSTask_int64_DecRefCount();
 };
 inline unsigned Zero()
 {
@@ -3706,7 +3711,7 @@ void __thiscall FUN_00c3d5e0_Class::FUN_00c3d5e0(unsigned int uiStart, unsigned 
     {
         tmp = n0 + a;
         if (*tmp)
-            ((ObjA*)(*tmp))->FUN_0044dd60();
+            ((ObjA*)(*tmp))->BSTask_int64_DecRefCount();
         if ((Zero() & 1u) != 0)
             ((MemoryManager*)&g_memoryManager)->Deallocate(tmp);
     }
@@ -3813,11 +3818,12 @@ struct C3D980Cls
     unsigned int m_uCount;
     int unk0C;
 
-    void FUN_00c3d980(bool bFree);
+    void BSSimpleArray_NiPointer_QueuedFile_1024_Clear(bool bFree);
 };
 
 // @fnv 0x00c3d980
-void C3D980Cls::FUN_00c3d980(bool bFree)
+// src: XBOX_PDB 0x00c3d980
+void C3D980Cls::BSSimpleArray_NiPointer_QueuedFile_1024_Clear(bool bFree)
 {
     unsigned int used;
     void** data;
@@ -3832,11 +3838,11 @@ void C3D980Cls::FUN_00c3d980(bool bFree)
             pItem.ptr = &data[i];
             if (*pItem.ptr != 0)
             {
-                FUN_0044dd60(*pItem.ptr);
+                BSTask_int64_DecRefCount(*pItem.ptr);
             }
             if (DbgFlags() & 1)
             {
-                DAT_011f6238.FUN_00aa4060(pItem.ptr);
+                DAT_011f6238.MemoryManager_Deallocate(pItem.ptr);
             }
         }
         if (bFree)
@@ -3898,14 +3904,14 @@ struct TaskPtr
     ~TaskPtr()
     {
         if (m_p)
-            m_p->FUN_0044dd60();
+            m_p->BSTask_int64_DecRefCount();
     }
     TaskPtr& operator=(IOTask* p)
     {
         if (m_p != p)
         {
             if (m_p)
-                m_p->FUN_0044dd60();
+                m_p->BSTask_int64_DecRefCount();
             m_p = p;
             if (m_p)
                 m_p->AcquireReference();
@@ -4018,7 +4024,8 @@ bool TaskSubmissionEntry::IOManager_AddTask(IOTask* object)
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 extern char DAT_011af70c;
 // @fnv 0x00c3dfa0
-void IOManager::FUN_00c3dfa0(int mode)
+// src: XBOX_PDB 0x00c3dfa0
+void IOManager::LoadQueuedPriority(int mode)
 {
     if (m_uiContentCount == 7)
         return;
@@ -4163,8 +4170,8 @@ struct Stream_c3e1b0 : StreamBase_c3e1b0
 };
 
 extern unsigned gm_GetCurrentThreadId();
-extern int FUN_0043b460(volatile long*, long, long);
-extern void FUN_0040fca0(unsigned long);
+extern int BSAtomicCompareExchange(volatile long*, long, long);
+extern void BSSleep(unsigned long);
 extern void LockBarrier();
 struct NextLockC3
 {
@@ -4178,13 +4185,13 @@ struct NextLockC3
         else
         {
             unsigned spins = 0;
-            while (FUN_0043b460(&owner, 0, threadId))
+            while (BSAtomicCompareExchange(&owner, 0, threadId))
             {
                 ++spins;
                 if (spins > 10000)
-                    FUN_0040fca0(1);
+                    BSSleep(1);
                 else
-                    FUN_0040fca0(0);
+                    BSSleep(0);
             }
             LockBarrier();
             depth = 1;
@@ -4317,7 +4324,7 @@ struct LockObj
 {
     void* owner;
     int count;
-    void __thiscall FUN_0040fbf0(const char* name);
+    void __thiscall BSSpinLock_Lock(const char* name);
     __forceinline void Unlock()
     {
         count = count - 1;
@@ -4345,7 +4352,7 @@ bool Owner::LockFreeMap_int64_NiPointer_BSTask_int64_GetAt(int a, int b, int c)
     int local4, local5, local6, receiver, answer;
     int extra14, done, status, extra4, extra5;
     int slot2, spare4, spare5, spare6, spare8, spare9, extra15;
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     TaskMapHandle* node = LockFreeMap_GetInterface();
     bool found = pass(node, a, b, c);
     lock.Unlock();
@@ -4437,7 +4444,7 @@ bool Obj::LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAt(int a, int b)
     return result;
 }
 
-void __fastcall FUN_0044dd60(void*);
+void __fastcall BSTask_int64_DecRefCount(void*);
 
 struct Ref360
 {
@@ -4445,7 +4452,7 @@ struct Ref360
     inline ~Ref360()
     {
         if (ptr)
-            FUN_0044dd60(ptr);
+            BSTask_int64_DecRefCount(ptr);
     }
 };
 
@@ -4589,7 +4596,7 @@ inline bool C3F4C0_Holder::LockFreeMapInterface_GetAt(int x, int a, int b, void*
         {
             if (*out)
             {
-                FUN_0044dd60(*out);
+                BSTask_int64_DecRefCount(*out);
             }
             *out = *ppVal;
             if (*out)
@@ -4707,7 +4714,7 @@ struct RefC3
     inline ~RefC3()
     {
         if (ptr)
-            FUN_0044dd60(ptr);
+            BSTask_int64_DecRefCount(ptr);
     }
     RefC3& AssignRef(RefC3 const&);
     inline void Set(RefC3 const& r)
@@ -4715,7 +4722,7 @@ struct RefC3
         if (ptr != r.ptr)
         {
             if (ptr)
-                FUN_0044dd60(ptr);
+                BSTask_int64_DecRefCount(ptr);
             ptr = r.ptr;
             if (ptr)
                 ptr->AddRef();
@@ -5200,11 +5207,12 @@ struct FUN_00c39c80_cls
         FUN_00c39c80_node* first = m_d0;
         return first;
     }
-    int FUN_00c39c80(int a1);
+    int BSMultiBoundRoom_CheckBound_00c39c80(int a1);
 };
 
 // @fnv 0x00c39c80
-int FUN_00c39c80_cls::FUN_00c39c80(int a1)
+// src: XBOX_PDB 0x00c39c80
+int FUN_00c39c80_cls::BSMultiBoundRoom_CheckBound_00c39c80(int a1)
 {
     int res;
     FUN_00c39c80_node* cur;
@@ -5238,7 +5246,7 @@ struct F1f0Lock
 {
     unsigned int m_pOwnerObject;
     unsigned int m_lLockCount;
-    void __thiscall FUN_0040fbf0(unsigned int);
+    void __thiscall BSSpinLock_Lock(unsigned int);
     void Unlock()
     {
         m_lLockCount = m_lLockCount - 1;
@@ -5290,7 +5298,7 @@ struct F1f0Cls
 // src: COMMUNITY 0x00c3f1f0
 bool F1f0Cls::LockFreeMap_int64_NiPointer_BSTask_int64_SetAtAlt(int a1, int a2, int a3, bool a4)
 {
-    m_lock.FUN_0040fbf0(0);
+    m_lock.BSSpinLock_Lock(0);
     Dead34();
     bool r = LockFreeMap_GetInterface()->Test(a1, a2, a3, a4);
     m_lock.Unlock();
@@ -5298,14 +5306,15 @@ bool F1f0Cls::LockFreeMap_int64_NiPointer_BSTask_int64_SetAtAlt(int a1, int a2, 
 }
 
 unsigned int __cdecl FUN_0040fc90();
-int __cdecl FUN_0043b460(unsigned int* p, unsigned int a, unsigned int b);
-void __cdecl FUN_0040fca0(int);
-void __cdecl FUN_0040fbe0();
+int __cdecl BSAtomicCompareExchange(unsigned int* p, unsigned int a, unsigned int b);
+void __cdecl BSSleep(int);
+void __cdecl ProgramFlow();
 struct SpinLockS
 {
     unsigned int owningThread;
     unsigned int lockCount;
-    void __thiscall FUN_0040fbf0(const char* name)
+// src: XBOX_PDB 0x0040fbf0
+    void __thiscall BSSpinLock_Lock(const char* name)
     {
         unsigned int threadID = FUN_0040fc90();
         if (owningThread == threadID)
@@ -5314,14 +5323,14 @@ struct SpinLockS
             return;
         }
         unsigned int spinCount = 0;
-        while (FUN_0043b460(&owningThread, 0, threadID))
+        while (BSAtomicCompareExchange(&owningThread, 0, threadID))
         {
             if (++spinCount > 10000)
-                FUN_0040fca0(1);
+                BSSleep(1);
             else
-                FUN_0040fca0(0);
+                BSSleep(0);
         }
-        FUN_0040fbe0();
+        ProgramFlow();
         lockCount = 1;
     }
     void Unlock()
@@ -5360,7 +5369,7 @@ static __forceinline void Dead35()
 // src: COMMUNITY 0x00c3f430
 bool ManagerS::LockFreeMap_int64_NiPointer_BSTask_int64_SetAt(int a, int b, int c, int d, unsigned char e)
 {
-    lock.FUN_0040fbf0(0);
+    lock.BSSpinLock_Lock(0);
     bool result = LockFreeMap_GetInterface()->LockFreeMapInterface_SetAt(a, b, c, d, e);
     Dead35();
     lock.Unlock();
@@ -5392,12 +5401,12 @@ FUN_00c3f8c0::~FUN_00c3f8c0()
     this->LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAll(1);
     {
         int unk10 = this->unk0c;
-        DAT_011f6238.FUN_00aa4060((void*)unk10);
+        DAT_011f6238.MemoryManager_Deallocate((void*)unk10);
     }
     {
         int unk18 = this->unk04;
         int unk14 = unk18;
-        DAT_011f6238.FUN_00aa4060((void*)unk14);
+        DAT_011f6238.MemoryManager_Deallocate((void*)unk14);
     }
 }
 }  // namespace fnv_00c3f8c0

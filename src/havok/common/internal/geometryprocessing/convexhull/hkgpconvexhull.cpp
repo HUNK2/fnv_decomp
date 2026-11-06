@@ -70,7 +70,7 @@ void FUN_00d74dd0_Class::hkgpConvexHull_deleteUserObject()
 }
 
 struct FUN_00d7ac40_class {
-    void FUN_00d7ac40(int);
+    void hkgpConvexHullImpl_reset(int);
 };
 struct FUN_00d75850_class {
     int m0;
@@ -84,7 +84,7 @@ struct FUN_00d75850_class {
 // src: HAVOK_LIB 0x00d75850
 void FUN_00d75850_class::hkgpConvexHull_reset()
 {
-    m2->FUN_00d7ac40(0);
+    m2->hkgpConvexHullImpl_reset(0);
     if (m4) {
         void (__thiscall *fn)(int, int) = *(void (__thiscall **)(int, int))*reinterpret_cast<void (__thiscall **)(int, int)>(m4);
         fn(m4, 1);
@@ -977,7 +977,7 @@ void S_00d7c200::FreeAll() {
     unk10 = 0;
 }
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 int ResizeAudioStream(hkMemoryAllocator* alloc, void* array, int elemSize);
 
 struct S_00d7c340_Elem {
@@ -1002,7 +1002,7 @@ struct S_00d7c340 {
 // @fnv 0x00d7c340
 S_00d7c340_Block* S_00d7c340::AllocateBlock()
 {
-    hkMemoryAllocator* heap = &FUN_00c85750()->heap();
+    hkMemoryAllocator* heap = &hkMemoryRouter_getInstance()->heap();
     S_00d7c340_Elem* next = 0;
     S_00d7c340_Block* block = (S_00d7c340_Block*)heap->blockAlloc(sizeof(S_00d7c340_Block));
     S_00d7c340_Elem* head;
@@ -1015,7 +1015,7 @@ S_00d7c340_Block* S_00d7c340::AllocateBlock()
     block->numUsed = 0;
     block->freeList = head;
 
-    hkMemoryAllocator* alloc = &FUN_00c85750()->heap();
+    hkMemoryAllocator* alloc = &hkMemoryRouter_getInstance()->heap();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(alloc, this, sizeof(S_00d7c340_Block*));
     S_00d7c340_Block** p = m_data + m_iElementCount;
@@ -1033,19 +1033,19 @@ S_00d7c340_Block* S_00d7c340::AllocateBlock()
 
 namespace fnv_00d7c8d0 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 // @fnv 0x00d7c8d0
 void __fastcall DestroyQueuedElements(QueuedElements_hkgpconvexhull* self) throw()
 {
     for (int i = 0; i < self->m_04; i++) {
         void* pItem = self->m_00[i];
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         reinterpret_cast<hkMemoryAllocator*>(pAllocator)->blockFree(pItem, 0x908);
     }
     self->m_04 = 0;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     unsigned int uCapacity = self->m_08;
     self->m_04 = 0;
@@ -1058,7 +1058,7 @@ void __fastcall DestroyQueuedElements(QueuedElements_hkgpconvexhull* self) throw
 
 namespace fnv_00d7ce20 {
 
-hkMemoryRouter* FUN_00c85750() throw();
+hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 
 
 struct S_00d7ce20_Elem16 { int unk0; int unk4; int unk8; int unkC; };
@@ -1103,14 +1103,14 @@ struct FUN_00d7ce20 {
     hkArray<S_00d7ce20_Elem16> m_54;
     hkArray<S_00d7ce20_Elem48> m_60;
 
-    void FUN_00d7ac40(int) throw();
+    void hkgpConvexHullImpl_reset(int) throw();
     ~FUN_00d7ce20() throw();
 };
 
 // @fnv 0x00d7ce20
 FUN_00d7ce20::~FUN_00d7ce20() throw()
 {
-    FUN_00d7ac40(0);
+    hkgpConvexHullImpl_reset(0);
 }
 }  // namespace fnv_00d7ce20
 
@@ -1180,7 +1180,7 @@ namespace fnv_00d7f060 {
 struct D76940Shell { void FUN_00d76940(); };
 struct D7f060Owner;
 
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct D7f060Owner {
     int unk00;
     unsigned short soundId;
@@ -1192,7 +1192,7 @@ D7f060Owner* D7f060Owner::FUN_00d7f060(unsigned int flags)
 {
     ((D76940Shell*)this)->FUN_00d76940();
     if (flags & 1) {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(audio->pListener)->blockFree(this, soundId);
     }
     return this;
@@ -1930,7 +1930,7 @@ void __fastcall FlushQueuedElements(QueuedElements_hkgpconvexhull* self)
 {
     for (int i = 0; i < self->m_04; i++) {
         void* element = self->m_00[i];
-        hkMemoryRouter* router = FUN_00c85750();
+        hkMemoryRouter* router = hkMemoryRouter_getInstance();
         router->m_heap->blockFree(element, 0x908);
     }
     self->m_04 = 0;
@@ -1967,7 +1967,7 @@ struct FUN_00d7c2a0_cls {
 // src: HAVOK_LIB 0x00d7c2a0
 void* FUN_00d7c2a0_cls::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_allocateNewPool()
 {
-    hkMemoryRouter* pManager = FUN_00c85750();
+    hkMemoryRouter* pManager = hkMemoryRouter_getInstance();
     void* prev = 0;
     unsigned char* pObject = (unsigned char*)pManager->m_heap->blockAlloc(0x808);
 
@@ -1987,7 +1987,7 @@ void* FUN_00d7c2a0_cls::hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHull
     *(void**)(pObject + 0x800) = cur;
 
     // Grow the item array when it is full.
-    hkMemoryRouter* pManager2 = FUN_00c85750();
+    hkMemoryRouter* pManager2 = hkMemoryRouter_getInstance();
     if (m_04 == (m_08 & 0x3fffffff)) {
         ResizeAudioStream(pManager2->m_heap, this, 4);
     }
@@ -2033,11 +2033,11 @@ void D7C850_Class::ClearAndFlush()
 {
     for (int i = 0; i < m_04; i++) {
         void* element = m_00[i];
-        hkMemoryRouter* service = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* service = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         service->m_heap->blockFree(element, 0x808);
     }
     m_04 = 0;
-    hkMemoryRouter* service = (hkMemoryRouter*)FUN_00c85750();
+    hkMemoryRouter* service = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* target = service->m_heap;
     unsigned int flags = m_08;
     m_04 = 0;
@@ -2506,7 +2506,7 @@ S00d7d1c0_Derived* S00d7d1c0_Derived::hkgpAbstractMesh_hkgpConvexHullImpl_Edge_h
     this->~S00d7d1c0_Derived();
     new (static_cast<S00d7d1c0_Base*>(this)) S00d7d1c0_Base();
     if (flags & 1) {
-        hkMemoryRouter* r = (hkMemoryRouter*)FUN_00c85750();
+        hkMemoryRouter* r = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         r->m_heap->blockFree(this, m04);
     }
     return this;
@@ -2883,7 +2883,7 @@ void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int num
 template <typename T>
 static __forceinline void AppendHullPointer(hkArrayBase<T*>& array, T* value)
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (array.m_iElementCount == (array.m_iCapacityState & 0x3fffffff)) {
         ResizeAudioStream(router->m_heap, &array, sizeof(T*));
     }
@@ -3457,7 +3457,7 @@ struct S76320_Sorter {
     int unk00;
 };
 
-void __cdecl FUN_00dedcf0(hkArrayBase<hkVector4>* points, S76320_Sorter* sorter);
+void __cdecl hkGeometryProcessing_buildTransposedArray(hkArrayBase<hkVector4>* points, S76320_Sorter* sorter);
 void __cdecl FUN_00dea810(S76320_Sorter* sorter, int a1, int a2);
 
 struct S76320_Owner {
@@ -3510,7 +3510,7 @@ void S76320_Cls::FUN_00d76320(int a1, int a2)
         for (S76320_Node* node = owner->m_kNode; node; node = node->m_next) {
             *dst++ = node->m_uiFilterValue;
         }
-        FUN_00dedcf0(&points, &owner->m_sorter);
+        hkGeometryProcessing_buildTransposedArray(&points, &owner->m_sorter);
         hkMemoryAllocator& alloc = getHavokMonitorStream().heap();
         points.m_iElementCount = 0;
         if ((points.m_iCapacityState & 0x80000000) == 0)
@@ -3680,12 +3680,13 @@ __declspec(align(16)) struct FUN_00d7ac40_cls {
     unsigned char m_1b5;
     int unk1b6;
 
-    void __thiscall FUN_00d7ac40(unsigned char flag);
+    void __thiscall hkgpConvexHullImpl_reset(unsigned char flag);
 };
 
 // Calls m_10.v0c(), clears several fields, and initializes vectors from constants and data returned by FUN_00cd4b50().
 // @fnv 0x00d7ac40
-void FUN_00d7ac40_cls::FUN_00d7ac40(unsigned char flag)
+// src: XBOX_PDB 0x00d7ac40
+void FUN_00d7ac40_cls::hkgpConvexHullImpl_reset(unsigned char flag)
 {
     m_10.v0c();
     __m128 vDefault = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01011d78, DAT_0104da48);
@@ -3746,7 +3747,7 @@ struct S_00d790d0_Pair {
 template <typename T>
 static __forceinline void AppendHullItem(hkArrayBase<T*>& array, T* value)
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (array.m_iElementCount == (array.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router->m_heap, &array, sizeof(T*));
     T** p = array.m_data + array.m_iElementCount;
@@ -3757,7 +3758,7 @@ static __forceinline void AppendHullItem(hkArrayBase<T*>& array, T* value)
 template <typename T>
 static __forceinline void AppendHullItemRef(hkArrayBase<T*>& array, T*& value)
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (array.m_iElementCount == (array.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router->m_heap, &array, sizeof(T*));
     T** p = array.m_data + array.m_iElementCount;
@@ -4181,7 +4182,7 @@ namespace fnv_00d76940 {
 extern int DAT_010d36e0;
 extern int DAT_0102e388;
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
 struct FUN_00d7ce20_cls {
     void FUN_00d7ce20();
@@ -4209,7 +4210,7 @@ void FUN_00d76940_cls::FUN_00d76940()
     FUN_00d7ce20_cls* pObj = m_08;
     if (pObj != 0) {
         pObj->FUN_00d7ce20();
-        hkMemoryRouter* pHolder = FUN_00c85750();
+        hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         reinterpret_cast<hkMemoryAllocator*>(pAllocator)->blockFree(pObj, 0x1c0);
     }
@@ -4224,7 +4225,7 @@ void FUN_00d76940_cls::FUN_00d76940()
 
 namespace fnv_00d76ca0 {
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 struct S_00d76ca0_Inner {
     S_00d76ca0_Inner* FUN_00d7f6a0();
@@ -4247,7 +4248,7 @@ struct FUN_00d76ca0 : S_00d76ca0_Base {
 // Requests a 0x1c0-byte block from the router heap, stores the result of FUN_00d7f6a0() when nonnull, and zeros m0c and m10.
 // @fnv 0x00d76ca0
 FUN_00d76ca0::FUN_00d76ca0() {
-    hkMemoryAllocator& h = FUN_00c85750()->heap();
+    hkMemoryAllocator& h = hkMemoryRouter_getInstance()->heap();
     void* p = h.blockAlloc(0x1c0);
     m08 = p ? ((S_00d76ca0_Inner*)p)->FUN_00d7f6a0() : 0;
     m0c = 0;
@@ -4257,7 +4258,7 @@ FUN_00d76ca0::FUN_00d76ca0() {
 
 namespace fnv_00d76cf0 {
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 struct D76Iface {
     virtual void v00();
@@ -4298,7 +4299,7 @@ struct FUN_00d76cf0_cls {
 // src: HAVOK_LIB 0x00d76cf0
 D76Child* FUN_00d76cf0_cls::hkgpConvexHull_clone()
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = (hkMemoryAllocator*)pHolder->m_heap;
     D76Child* pNew = (D76Child*)pAllocator->blockAlloc(0x14);
     pNew->m_04 = 0x14;
@@ -4306,7 +4307,7 @@ D76Child* FUN_00d76cf0_cls::hkgpConvexHull_clone()
     D76Old* pOld = (D76Old*)pNew->m_08;
     if (pOld != 0) {
         pOld->FUN_00d7ce20();
-        hkMemoryRouter* pHolder2 = FUN_00c85750();
+        hkMemoryRouter* pHolder2 = hkMemoryRouter_getInstance();
         hkMemoryAllocator* pAllocator2 = (hkMemoryAllocator*)pHolder2->m_heap;
         pAllocator2->blockFree(pOld, 0x1c0);
     }
@@ -4409,7 +4410,7 @@ __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n)
 template <typename T>
 static __forceinline void AppendHullIndex(hkArrayBase<T>& array, const T& t) throw()
 {
-    hkMemoryRouter* router = FUN_00c85750();
+    hkMemoryRouter* router = hkMemoryRouter_getInstance();
     if (array.m_iElementCount == (array.m_iCapacityState & 0x3fffffff)) {
         ResizeAudioStream(router->m_heap, &array, sizeof(T));
     }
@@ -4982,7 +4983,7 @@ q.transpose();
 w.sub(q);
 inertia.addMul(mass, w);
 }
-hkResult FUN_00d7b600();
+hkResult hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
 hkgpConvexHull::ConvexHullRecord m_pConfiguration;
 Mesh m_pMesh;
 hkArray<Vertex> m_kVertexArray;
@@ -5007,7 +5008,8 @@ bool m_bFirstImplementationFlag;};
 
 // Updates center, area, volume, and inertia-related state based on vertex dimensionality.
 // @fnv 0x00d7b600
-hkResult hkgpConvexHullImpl::FUN_00d7b600()
+// src: XBOX_PDB 0x00d7b600
+hkResult hkgpConvexHullImpl::hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform()
 {
 if (!m_bFirstImplementationFlag)
 {

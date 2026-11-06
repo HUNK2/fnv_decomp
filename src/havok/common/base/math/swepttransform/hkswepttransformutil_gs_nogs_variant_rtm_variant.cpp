@@ -411,7 +411,7 @@ struct S_00cf10f0_Router
         return *m10;
     }
 };
-S_00cf10f0_Router* FUN_00c85750() throw();
+S_00cf10f0_Router* hkMemoryRouter_getInstance() throw();
 struct S_00cf10f0_Arr4;
 void __cdecl hkArrayUtil__reserve(S_00cf10f0_Heap* heap, S_00cf10f0_Arr4* arr, int n, int elemSize);
 struct S_00cf10f0_Arr4
@@ -421,7 +421,7 @@ struct S_00cf10f0_Arr4
     int m_cap;
     __forceinline void reserve(int n) throw()
     {
-        S_00cf10f0_Heap& h = FUN_00c85750()->heap();
+        S_00cf10f0_Heap& h = hkMemoryRouter_getInstance()->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
             hkArrayUtil__reserve(&h, this, (n < cap * 2) ? cap * 2 : n, 4);
@@ -505,7 +505,7 @@ struct FUN_008cd6a0_Class
     V4 rot0;
     V4 rot1;
     V4 comLocal;
-    void __thiscall FUN_00cb2d90(void*);
+    void __thiscall hkRotation_set(void*);
 };
 __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
 {
@@ -584,7 +584,7 @@ struct Obj_t
     __m128 m80;
     __m128 m90;
 
-    void FUN_00cb2d90(const __m128& value);
+    void hkRotation_set(const __m128& value);
 };
 void __cdecl hkSweptTransformUtil_warpTo(const __m128& first, const __m128& second, Obj_t* obj);
 
@@ -631,7 +631,8 @@ static inline __m128 InvNorm(__m128 s)
 }
 
 // @fnv 0x00cf1510
-void __cdecl FUN_00cf1510(const hkSweptTransform& sweptTrans, float t, hkTransformL& transformOut)
+// src: XBOX_PDB 0x00cf1510
+void __cdecl hkSweptTransformUtil_lerp2(const hkSweptTransform& sweptTrans, float t, hkTransformL& transformOut)
 {
     const float r = (t - sweptTrans.m_vCenterOfMass0.w) * sweptTrans.m_vCenterOfMass1.w;
     const __m128 r0 = _mm_load_ps(reinterpret_cast<const float*>(&sweptTrans.m_qRotation0));
@@ -662,7 +663,7 @@ void __cdecl FUN_00cf1510(const hkSweptTransform& sweptTrans, float t, hkTransfo
     }
     __m128 norm = InvNorm(SumSquares(q));
     quat.Set(_mm_mul_ps(_mm_shuffle_ps(norm, norm, 0), q));
-    transformOut.m_rotation.FUN_00cb2d90(reinterpret_cast<const hkQuaternion&>(quat));
+    transformOut.m_rotation.hkRotation_set(reinterpret_cast<const hkQuaternion&>(quat));
     __m128 u4 = _mm_load_ss(&r);
     u4 = _mm_shuffle_ps(u4, u4, 0);
     __m128 a = _mm_load_ps(&sweptTrans.m_vCenterOfMass0.x);
@@ -780,7 +781,7 @@ void __cdecl FUN_00cf1710(const hkSweptTransform& sweptTrans, float t, float del
 
     const __m128 invNorm = SqrtInverse(LengthSquared4(rot));
     quat.Set(_mm_mul_ps(_mm_shuffle_ps(invNorm, invNorm, 0), rot));
-    transformOut.m_rotation.FUN_00cb2d90(reinterpret_cast<const hkQuaternion&>(quat));
+    transformOut.m_rotation.hkRotation_set(reinterpret_cast<const hkQuaternion&>(quat));
 
     transformOut.m_vTranslation.set(
         Interpolate4(_mm_load_ps(&sweptTrans.m_vCenterOfMass0.x), _mm_load_ps(&sweptTrans.m_vCenterOfMass1.x), r));
@@ -845,7 +846,7 @@ struct MotionState
     hkVector4 m_kDeltaAngle;
     void SetRotation(const hkQuaternion* p)
     {
-        reinterpret_cast<FUN_008cd6a0_Class*>(this)->FUN_00cb2d90((void*)p);
+        reinterpret_cast<FUN_008cd6a0_Class*>(this)->hkRotation_set((void*)p);
     }
 };
 

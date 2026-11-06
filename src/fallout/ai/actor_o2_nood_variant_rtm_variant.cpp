@@ -47,7 +47,7 @@ typedef ::__m128 LocalM128;
 struct __declspec(align(16)) BlendQuat {
     float x, y, z, w;
     BlendQuat& operator=(const BlendQuat& other) { *(LocalM128*)&x=*(const LocalM128*)&other.x; return *this; }
-    void __thiscall FUN_00cb2850(const BlendQuat&, const BlendQuat&, float);
+    void __thiscall D3D_ComputeClearColor(const BlendQuat&, const BlendQuat&, float);
 };
 struct BlendTransform { BlendQuat rotation; BlendQuat translation; BlendQuat scale; };
 struct BlendSkeleton {
@@ -120,7 +120,7 @@ struct BlendAccess {
 extern __int64 __cdecl BSPrecisionTimer_GetTimer();
 extern void __cdecl hkaSkeletonUtils_transformModelPoseToLocalPose(int, BlendTransform*, BlendTransform*, BlendTransform*);
 extern void __cdecl CallWithGlobal(int, BlendTransform*, void*, BlendTransform*);
-extern void __cdecl FUN_00ce3a00(int, int, int, BlendTransform*, int);
+extern void __cdecl mapPose(int, int, int, BlendTransform*, int);
 struct BlendBuffer {
     BlendTransform* data; int size;
     static BlendTransform* allocate(int n) {
@@ -309,7 +309,7 @@ struct BlendController {
 
     __int64 duration;
 
-    void __thiscall FUN_00c7b6a0(int);
+    void __thiscall bhkRagdollController_SetRagdollFeedbackActive(int);
     void __thiscall bhkRagdollController_DoRagdollFeedback();
 };
 union __declspec(align(16)) PackedVector { LocalM128 vector; unsigned char lanes[16]; };
@@ -414,7 +414,7 @@ struct MatrixTransform {
     float x, y, z;
     float scale;
     void FUN_00a86bf0();
-    void FUN_00cb2d90(void*);
+    void hkRotation_set(void*);
     MatrixTransform FUN_0062c250(const MatrixTransform&) const;
 };
 struct __declspec(align(16)) PoseState {
@@ -503,7 +503,7 @@ struct __declspec(align(16)) Conversion {
     PackedVector translation;
     PackedVector scale;
     PackedVector quaternion;
-    void FUN_00cb2d90(void*);
+    void hkRotation_set(void*);
 };
 union TemporaryPoseWork {
     Conversion converted;
@@ -705,8 +705,8 @@ struct SceneOwner {
     __forceinline char* GetName() { return name; }
     void bhkRagdollController_Init(Argument*, const char*);
     void bhkRagdollController_CreateSGSkeleton();
-    unsigned char FUN_00c75460();
-    void FUN_00c79e20();
+    unsigned char bhkRagdollController_InitGrabIK();
+    void bhkRagdollController_CheckMappersForWarnings();
 };
 namespace VectorHardware {
 typedef ::__m128 LocalM128;
@@ -750,8 +750,8 @@ struct ScratchAllocator {
     char* current;
     char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
 };
-extern char FUN_00c8cce0(int*);
-extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
+extern char bhkRigidBody_IsMotionTypeDynamic(int*);
+extern "C" void* __cdecl hkString_memSet(void*,int,unsigned int);
 struct Clock {
     __int64 start;
     __int64 duration;
@@ -1243,7 +1243,7 @@ struct Controller {
     PointerView<SelectionHolder> selection;
     Clock timer;
     void bhkRagdollController_UpdateConstraintsWorld(bool);
-    void FUN_00c7b6a0(bool active);
+    void bhkRagdollController_SetRagdollFeedbackActive(bool active);
 };
 __forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
     if(!value.equal(body->getLinearVelocity())) {
@@ -1917,10 +1917,10 @@ struct ParticleTable {
     Table* table;
     void* getContext() { return context; }
     void __thiscall bhkRagdollController_InitFootIK(FNVInput* incoming);
-    bool __thiscall FUN_00c77ac0(Scratch*, FNVInput*);
+    bool __thiscall bhkRagdollController_ExtractBipedSetupData(Scratch*, FNVInput*);
     Geo* __thiscall bhkRagdollController_GetCapsuleBoneShapeInfo(GameForm*);
 };
-extern GameForm* __cdecl FUN_00c4b470(void*, ResourceName const&, int);
+extern GameForm* __cdecl BSUtilities_GetObjectByName_00c4b470(void*, ResourceName const&, int);
 static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>((&hkMemoryRouter::getInstance())); }
 extern "C" void __cdecl hkArrayUtil__reserve(Allocator*, EntryArray*, int, unsigned);
 extern "C" Resource* __cdecl bhkUtilFunctions_FindNextCollisionObject(GameForm*);
@@ -2193,10 +2193,10 @@ extern float DAT_011afe64;
 extern float DAT_010c7948[];
 void UpdateEntriesByKind(Skeleton*);
 void EnableBehaviorsByKind(Skeleton*);
-void FUN_00c7a410(Skeleton*, Transform48*);
+void bhkRagdollController_bhkRagdollPoweredConstraintController_driveToPose(Skeleton*, Transform48*);
 void CallWithGlobal(int, void*, void*, Transform48*);
 void hkaSkeletonUtils_transformModelPoseToLocalPose(int, void*, Transform48*, Transform48*);
-void FUN_00ce3a00(void*,void*,void*,Transform48*,int);
+void mapPose(void*,void*,void*,Transform48*,int);
 struct RagdollUpdateController {
  int unk00; bool needsInit; unsigned char unk05; unsigned short unk06; int unk08; int mode;
  int settings10, settings14, settings18, settings1c, settings20, settings24, settings28, settings2c, settings30, settings34, settings38, settings3c, settings40;
@@ -2351,7 +2351,7 @@ struct RagdollUpdateController {
     int unk29c;
     int unk2a0;
  BlendData* blend;
- void FUN_00c7d030(const Transform48* input);
+ void bhkRagdollController_UpdateRagdollRigidBodies(const Transform48* input);
 };
 using ::_mm_setzero_ps;
 namespace ControllerFloatHardware { extern "C" LocalM128 _mm_set_ps1(float); }
@@ -2417,7 +2417,7 @@ struct TempArray {
 typedef void (__thiscall *FreeTemp)(TempArray*,unsigned int);
 extern FreeTemp DAT_010c4dc0;
 TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
-extern void __cdecl FUN_00c7d3b0(NiNode*,NiNode*,TempArray*,bool*,unsigned int*);
+extern void __cdecl bhkRagdollController_CopyPoseTo3D(NiNode*,NiNode*,TempArray*,bool*,unsigned int*);
 extern void __cdecl RestoreNodeTransforms(NiNode*,TempArray*,bool,unsigned int);
 struct ConstructorBase { virtual ~ConstructorBase(); };
 struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
@@ -3374,7 +3374,8 @@ __declspec(noinline) PoseTransform* NI2HK_00c74dd0(void* ptr,NiTransform* source
  output->scale.bits.quad=LoadScalar(&source->m_fScale);
  return output;
 }
-__declspec(noinline) void FUN_00cb1260(void* to,const void* from,unsigned n) {
+// src: XBOX_PDB 0x00cb1260
+__declspec(noinline) void hkString_memCpy(void* to,const void* from,unsigned n) {
  unsigned char* dest=static_cast<unsigned char*>(to);
  const unsigned char* src=static_cast<const unsigned char*>(from);
  while(n--) *dest++=*src++;
@@ -3565,7 +3566,7 @@ void PoseOwner::bhkRagdollController_GetSGPoseLocalSpace() {
     }
     state->hkaPose_syncModelSpace();
     PoseTransform** data=state->FUN_00cdb290();
-    FUN_00cb1260(output,*data,count*sizeof(PoseTransform));
+    hkString_memCpy(output,*data,count*sizeof(PoseTransform));
 }
 
 // src: COMMUNITY 0x00c66320
@@ -3582,7 +3583,7 @@ __declspec(noinline) void Quat::setMul(const Quat* a,const Quat* b) {
     ::LocalM128 bw=_mm_shuffle_ps(bv,bv,255); bw=_mm_shuffle_ps(bw,bw,0);
     ::LocalM128 xyz=_mm_add_ps(_mm_mul_ps(bw,av),_mm_add_ps(_mm_mul_ps(aw,bv),cross));
     V4 result; result.bits.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),196);
-    FUN_00cb1260(this,&result,sizeof(result));
+    hkString_memCpy(this,&result,sizeof(result));
 }
 
 namespace RecordHardware {

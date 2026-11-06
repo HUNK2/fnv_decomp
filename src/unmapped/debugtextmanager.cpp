@@ -239,7 +239,7 @@ void __thiscall FUN_00802260_cls::FOVATSEffectManager_ShowBipedObjectOnActor(FUN
 
 struct QueryStub
 {
-    unsigned char FUN_00c4edf0(unsigned int* out, int a);
+    unsigned char BSOcclusionQuery_GetResult(unsigned int* out, int a);
 };
 struct Obj : QueryStub
 {
@@ -338,13 +338,13 @@ void Owner::VATSEffect_FreeOcclusionQueries()
         unsigned int val = 0;
         if (objsA[i])
         {
-            objsA[i]->FUN_00c4edf0(&val, 1);
+            objsA[i]->BSOcclusionQuery_GetResult(&val, 1);
             delete objsA[i];
             objsA[i] = 0;
         }
         if (objsB[i])
         {
-            objsB[i]->FUN_00c4edf0(&val, 1);
+            objsB[i]->BSOcclusionQuery_GetResult(&val, 1);
             delete objsB[i];
             objsB[i] = 0;
         }
@@ -453,7 +453,7 @@ struct NiObj
 
 struct GeomObj
 {
-    NiObj* __thiscall FUN_0043fad0();
+    NiObj* __thiscall NiGeometry_GetSkinInstance();
 };
 
 struct ListObj
@@ -740,8 +740,8 @@ struct MgrObj
     void __thiscall SetEntryStateByKey(int index, int value);
 };
 
-bool __cdecl FUN_004910d0(NiObj* o);
-NiObj* __cdecl FUN_00653270(void* rtti, NiObj* o);
+bool __cdecl Animation_FindSkinnedNode(NiObj* o);
+NiObj* __cdecl NiObject_DynamicCast(void* rtti, NiObj* o);
 
 struct This8022
 {
@@ -924,7 +924,7 @@ void __thiscall This8022::FOVATSEffectManager_RestoreBodyParts()
             NiObj* p60 = kIter->FUN_0043b4a0(r2);
             if (p60 != 0)
             {
-                if (FUN_004910d0(p60))
+                if (Animation_FindSkinnedNode(p60))
                 {
                     ListObj* r1;
                     r1 = p60->tv03();
@@ -938,9 +938,9 @@ void __thiscall This8022::FOVATSEffectManager_RestoreBodyParts()
                             x30 = r1->FUN_0043b4a0(i) ? ((NiObj*)r1->FUN_0043b4a0(i))->tv06() : 0;
                             i++;
                         }
-                        NiObj* mgr = x30 ? x30->FUN_0043fad0() : 0;
+                        NiObj* mgr = x30 ? x30->NiGeometry_GetSkinInstance() : 0;
                         MgrObj* f23;
-                        f23 = (MgrObj*)FUN_00653270(&DAT_011f49d8, mgr);
+                        f23 = (MgrObj*)NiObject_DynamicCast(&DAT_011f49d8, mgr);
                         if (f23 != 0)
                         {
                             int ptr;

@@ -2399,7 +2399,7 @@ void operator delete(void*) throw();
 void* operator new(unsigned int);
 inline void operator delete(void*, void*) throw()
 {}
-void* __cdecl FUN_0044d670(unsigned int count, void* hint);
+void* __cdecl std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(unsigned int count, void* hint);
 struct VecAux
 {
     const void* container;
@@ -2430,7 +2430,7 @@ template <class T> struct VecAlloc
     {}
     T* allocate(unsigned int count)
     {
-        return (T*)FUN_0044d670(count, (T*)0);
+        return (T*)std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(count, (T*)0);
     }
     void deallocate(T* ptr, unsigned int)
     {

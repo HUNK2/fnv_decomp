@@ -22,7 +22,7 @@ public:
     unsigned int FUN_00401170();
     void TESBoundObject_GetBoundMax(NiPoint3* point);
     NiPoint3* TESBoundObject_GetBoundMin(NiPoint3* point);
-    TESBoundObject* FUN_007af430();
+    TESBoundObject* BGSSaveFormBuffer_GetForm();
     void LoadBoundData(TESFile* file);
     NiAVObject* Get3DObject(TESObjectREFR* reference);
     NiNode* Get3DObject(TESObjectREFR* reference, bool firstPerson);

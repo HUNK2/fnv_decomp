@@ -33,7 +33,7 @@ class ShadowSceneLight;
 class Animation
 {
   public:
-    void FUN_0088b030(float);
+    void Animation_SetGlobalTimeMultiplier(float);
 };
 
 class TimeGlobal
@@ -54,8 +54,8 @@ class CameraPathManager
 // BGSCameraShot.h does not yet declare these VATS camera helpers.
 struct CameraShotExtra : BGSCameraShot
 {
-    bool FUN_0058d630();
-    float FUN_00639aa0();
+    bool IsInitialized();
+    float TESCombatStyle_GetTargetingFOV();
     void __thiscall ResetCameraState();
     float __thiscall GetFloatAtOffset58();
     bool __thiscall BGSCameraShot_IsFirstPerson();
@@ -88,11 +88,11 @@ class VATS
     ExtraDataList* m_pWeaponExtraData;
     void Update(int mode, bool force);
     float GetModeTimeMultiplier();
-    void FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback);
+    void QuitVATSPlayback(bool abForceQuit, bool abFinishCommandPlayback);
     void AddCommand(VATSCommand*);
     void FUN_009c6c30(int, bool);
     void ForceTargetKillShot(TESObjectREFR*, int);
-    void FUN_009c9ae0(Actor*);
+    void UpdateVATSLight(Actor*);
     void ProcessVATSCommands();
     bool FUN_008256d0();
     Node* FUN_006815c0();
@@ -101,9 +101,9 @@ class VATS
     bool IsValidCommand(VATSCommand*);
     bool VATS_GetLineOfSight(VATSCommand*);
     void ExecuteVATSMeleeAttack(VATSCommand*);
-    void FUN_009c86b0();
-    bool FUN_009c9920();
-    VATSCommand* FUN_009c71c0();
+    void FreeHeadAction();
+    bool UseNextCamera();
+    VATSCommand* VATS_GetCurrentAction();
     void HandleCommand(VATSCommand*);
     void SetValue(int);
     void EvaluateCommand(VATSCommand*);
@@ -112,7 +112,7 @@ typedef char VATSSizeCheck[sizeof(VATS) == 0x48 ? 1 : -1];
 typedef char VATSModeOffsetCheck[offsetof(VATS, eMode) == 8 ? 1 : -1];
 typedef char VATSCameraOffsetCheck[offsetof(VATS, pCamera) == 0x10 ? 1 : -1];
 
-float FUN_009443f0();
+float BSTimer_QGlobalTimeMultiplierTarget();
 
 extern TimeGlobal g_timeGlobal;
 extern PlayerCharacter* g_thePlayer;
@@ -128,16 +128,16 @@ void VATS::Update(int mode, bool force)
 {
     g_timeGlobal.ApplyGlobalTimeMultiplier();
     if (reinterpret_cast<PlayerCharacter*>(this)->GetAnimation(
-            !reinterpret_cast<PlayerCharacter*>(this)->FUN_004eaf60()))
+            !reinterpret_cast<PlayerCharacter*>(this)->PlayerCharacter_Is3rdPerson()))
     {
         reinterpret_cast<PlayerCharacter*>(this)
-            ->GetAnimation(!reinterpret_cast<PlayerCharacter*>(this)->FUN_004eaf60())
-            ->FUN_0088b030(1.0f);
+            ->GetAnimation(!reinterpret_cast<PlayerCharacter*>(this)->PlayerCharacter_Is3rdPerson())
+            ->Animation_SetGlobalTimeMultiplier(1.0f);
     }
     if (mode == 2 && (force || !PlayerCharacter::UpdatePlayerStatus()))
     {
         reinterpret_cast<CameraPathManager*>(g_thePlayer)->SetCameraPathEnabled(false, 3);
-        DAT_011f2250.FUN_009c8950(false, true);
+        DAT_011f2250.QuitVATSPlayback(false, true);
         reinterpret_cast<BGSCameraShot*>(&DAT_011f2250)->ResetCameraShot();
         reinterpret_cast<NiPoint3Interpolator*>(&DAT_011f2250)->CreateObject(0, true);
         DAT_011f21d0 = true;
@@ -151,14 +151,14 @@ float VATS::GetModeTimeMultiplier()
     float multiplier = 1.0f;
     if (eMode == 4)
     {
-        if (pCamera && !static_cast<CameraShotExtra*>(pCamera)->FUN_0058d630())
+        if (pCamera && !static_cast<CameraShotExtra*>(pCamera)->IsInitialized())
             multiplier = 1.0f;
-        else if (pCamera && static_cast<CameraShotExtra*>(pCamera)->FUN_00639aa0() > 0.0)
-            multiplier = static_cast<CameraShotExtra*>(pCamera)->FUN_00639aa0();
+        else if (pCamera && static_cast<CameraShotExtra*>(pCamera)->TESCombatStyle_GetTargetingFOV() > 0.0)
+            multiplier = static_cast<CameraShotExtra*>(pCamera)->TESCombatStyle_GetTargetingFOV();
         else
             multiplier = DAT_011cf374.Float()->f;
     }
-    multiplier *= FUN_009443f0() / hkpCharacterContext::GetReferenceTimeStep();
+    multiplier *= BSTimer_QGlobalTimeMultiplierTarget() / hkpCharacterContext::GetReferenceTimeStep();
     return multiplier;
 }
 
@@ -172,7 +172,7 @@ struct Animation;
 
 struct FUN_00498910_shell
 {
-    void FUN_00498910(bool, bool);
+    void Animation_SpecialIdleFree(bool, bool);
 };
 
 struct Node
@@ -192,7 +192,7 @@ void VATS::ProcessVATSCommands()
 {
     if (*(void**)((char*)this + 0x24))
     {
-        ((FUN_00498910_shell*)((const Actor*)DAT_011f21f0)->GetAnimation())->FUN_00498910(true, false);
+        ((FUN_00498910_shell*)((const Actor*)DAT_011f21f0)->GetAnimation())->Animation_SpecialIdleFree(true, false);
         *(void**)((char*)this + 0x24) = 0;
     }
 
@@ -241,11 +241,12 @@ struct ListHolder
 {
     bool _ref_008256d0();
     void* _ref_006815c0();
-    void* FUN_009c71c0();
+    void* VATS_GetCurrentAction();
 };
 
 // @fnv 0x009c71c0
-void* ListHolder::FUN_009c71c0()
+// src: XBOX_PDB 0x009c71c0
+void* ListHolder::VATS_GetCurrentAction()
 {
     if (!_ref_008256d0())
         return *(void**)_ref_006815c0();
@@ -257,10 +258,11 @@ struct MyList
     bool _ref_008256d0();
     MyList* _ref_00726070();
     VATSCommand** _ref_006815c0();
-    VATSCommand* FUN_009c71f0();
+    VATSCommand* VATS_GetLastAction();
 };
 // @fnv 0x009c71f0
-VATSCommand* MyList::FUN_009c71f0()
+// src: XBOX_PDB 0x009c71f0
+VATSCommand* MyList::VATS_GetLastAction()
 {
     MyList* iter;
     iter = this;
@@ -291,14 +293,14 @@ void CameraShotExtra::SetByteAt76(unsigned char param_2)
 
 struct FUN_009ca4a0
 {
-    void FUN_009ca500();
+    void VATS_COMMAND_Initialize();
     FUN_009ca4a0();
 };
 
 // @fnv 0x009ca4a0
 FUN_009ca4a0::FUN_009ca4a0()
 {
-    FUN_009ca500();
+    VATS_COMMAND_Initialize();
 }
 
 struct Helper62d0
@@ -355,7 +357,7 @@ struct VATS_COMMAND_LIST
 // @fnv 0x009ca1f0
 void __thiscall VATS_COMMAND_LIST::CreateCommandAndUpdateHUD()
 {
-    ((VATS*)this)->FUN_009c8950(false, false);
+    ((VATS*)this)->QuitVATSPlayback(false, false);
     VATS_COMMAND_LIST* pCommand = new VATS_COMMAND_LIST;
     pCommand->iType = 15;
     pCommand->bFlag = true;
@@ -365,7 +367,7 @@ void __thiscall VATS_COMMAND_LIST::CreateCommandAndUpdateHUD()
     HUDMainMenu::UpdateVisibilityState(4);
 }
 
-bool __cdecl FUN_0066dde0(int);
+bool __cdecl ActionPoints_IsAttackAction(int);
 
 
 // No include/HitData.h exists yet; constructor/reset at 0x009b4d90/0x009b4dc0 use this 0x64-byte layout.
@@ -395,7 +397,7 @@ class HitData
     int BackgroundTask;
 
     HitData();
-    void FUN_009b4dc0();
+    void ClearData_009b4dc0();
     void SetFlag(int flag, bool val);
 };
 typedef char HitDataSizeCheck[sizeof(HitData) == 0x64 ? 1 : -1];
@@ -407,11 +409,11 @@ void __cdecl SetContextInfo(HitData*, VATSCommand*);
 // src: COMMUNITY 0x009c8e00
 void VATS::EvaluateCommand(VATSCommand* apCommand)
 {
-    if (apCommand && FUN_0066dde0(apCommand->eAction))
+    if (apCommand && ActionPoints_IsAttackAction(apCommand->eAction))
     {
         if (apCommand->bSuccess && apCommand->pTarget && !bhkWorld_GetPickTimeOverMax())
         {
-            if (!DAT_011f21f0->FUN_0088b880(1, (Actor*)apCommand->pTarget, 1, 0, 0))
+            if (!DAT_011f21f0->Actor_LineOfSight(1, (Actor*)apCommand->pTarget, 1, 0, 0))
             {
                 apCommand->bSuccess = false;
             }
@@ -419,7 +421,7 @@ void VATS::EvaluateCommand(VATSCommand* apCommand)
 
         if (apCommand->m_pActionObject)
         {
-            apCommand->m_pActionObject->FUN_009b4dc0();
+            apCommand->m_pActionObject->ClearData_009b4dc0();
         }
 
         SetContextInfo(apCommand->m_pActionObject, apCommand);
@@ -458,11 +460,12 @@ void* __cdecl operator new(unsigned int);
 
 struct FUN_009ca500_shell : public VATSCommand
 {
-    void FUN_009ca500();
+    void VATS_COMMAND_Initialize();
 };
 
 // @fnv 0x009ca500
-void FUN_009ca500_shell::FUN_009ca500()
+// src: XBOX_PDB 0x009ca500
+void FUN_009ca500_shell::VATS_COMMAND_Initialize()
 {
     eAction = 0x16;
     bSuccess = false;
@@ -489,12 +492,12 @@ void VATS::SetValue(int a)
     m_pTargetProjectile = reinterpret_cast<Projectile*>(a);
     if (pCamera != 0)
     {
-        HandleCommand(FUN_009c71c0());
+        HandleCommand(VATS_GetCurrentAction());
         if (m_fCameraDuration == 0.0)
         {
             bool ok = true;
             while (pCamera != 0 && ok && DAT_011f21b8 > static_cast<CameraShotExtra*>(pCamera)->GetField38())
-                ok = FUN_009c9920();
+                ok = UseNextCamera();
         }
     }
 }
@@ -574,14 +577,14 @@ bool VatsList9c9::IsValidCommand(VatsCmd9c9* pkCmd)
 
 struct ThisStub
 {
-    void FUN_00493bd0();
+    void Animation_UpdateSceneGraphNoController();
 };
 
 
 class TemporaryEffect
 {
   public:
-    float FUN_008c4850();
+    float GetAlphaMult();
     void SetProcessValue(float);
     void FUN_008c4640();
 };
@@ -603,7 +606,7 @@ struct TESObjectWEAP;
 
 void PlayMysteriousStrangerMusic();
 float __cdecl GetActorReach(Actor*, int);
-bool __fastcall FUN_006450c0(TESObjectWEAP*);
+bool __fastcall TESObjectWEAP_IsMeleeWeapon(TESObjectWEAP*);
 bool __cdecl BuildPathingRequest(PlayerCharacter*, TESObjectREFR*, float, NiPoint3*);
 void FNV_Warning(const char*, ...);
 
@@ -622,7 +625,7 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 if (pAttackCmd->m_bFirstActionFlag)
                 {
                     fDistance = *originalRuntimeFloatSetting548.Float();
-                    if (DAT_011f21e8->FUN_008c4850() != 1.0)
+                    if (DAT_011f21e8->GetAlphaMult() != 1.0)
                     {
                         DAT_011f21e8->SetProcessValue(1.0f);
                         DAT_011f21e8->FUN_008c4640();
@@ -632,7 +635,7 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 else if (pAttackCmd->m_bFinalActionFlag)
                 {
                     fDistance = *originalRuntimeFloatSetting548.Float();
-                    if (DAT_011f21ec->FUN_008c4850() != 1.0)
+                    if (DAT_011f21ec->GetAlphaMult() != 1.0)
                     {
                         DAT_011f21ec->SetProcessValue(1.0f);
                         DAT_011f21ec->FUN_008c4640();
@@ -642,12 +645,12 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 else
                 {
                     fDistance =
-                        GetActorReach((Actor*)DAT_011f21f0, (int)((Actor*)DAT_011f21f0)->FUN_008a1710());
-                    if (!((Actor*)DAT_011f21f0)->FUN_008a1710())
+                        GetActorReach((Actor*)DAT_011f21f0, (int)((Actor*)DAT_011f21f0)->Actor_GetCurrentWeapon());
+                    if (!((Actor*)DAT_011f21f0)->Actor_GetCurrentWeapon())
                     {
                         fDistance *= *originalRuntimeFloatSetting554.Float();
                     }
-                    else if (FUN_006450c0((TESObjectWEAP*)((Actor*)DAT_011f21f0)->FUN_008a1710()))
+                    else if (TESObjectWEAP_IsMeleeWeapon((TESObjectWEAP*)((Actor*)DAT_011f21f0)->Actor_GetCurrentWeapon()))
                     {
                         fDistance *= *originalRuntimeFloatSetting555.Float();
                     }
@@ -675,7 +678,7 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                     reinterpret_cast<void (__thiscall*)(Actor*, TESObjectREFR*)>((*reinterpret_cast<void***>(DAT_011f21f0))[0xB0])((Actor*)DAT_011f21f0, pAttackCmd->pTarget);
                 }
 
-                ((ThisStub*)((TESObjectREFR*)DAT_011f21f0)->GetAnimData())->FUN_00493bd0();
+                ((ThisStub*)((TESObjectREFR*)DAT_011f21f0)->GetAnimData())->Animation_UpdateSceneGraphNoController();
             }
         }
 
@@ -700,7 +703,7 @@ namespace fnv_009c9ae0 {
 
 struct LightTarget9c9
 {
-    NiAVObject* FUN_004e6540();
+    NiAVObject* ShadowSceneLight_GetLight();
 };
 struct FloatGlobal9c9
 {
@@ -710,8 +713,8 @@ struct FloatGlobal9c9
 
 NiPoint3 FUN_004b3ae0(NiPoint3 const& krValue, float const* pafMatrix);
 float LinearInterpolate(float a, float b, float c, float d, float e);
-float FUN_00404010(float a, float b);
-float FUN_0040ebd0(float a, float b);
+float BSMAX_00404010(float a, float b);
+float BSMIN(float a, float b);
 
 extern Actor* g_pkPlayer9c9;
 extern FloatGlobal9c9 DAT_011f2304;
@@ -726,7 +729,8 @@ extern SettingT_GameSettingCollection_ DAT_011f21f4;
 }  // namespace fnv_009c9ae0
 
 // @fnv 0x009c9ae0
-void VATS::FUN_009c9ae0(Actor* apActor)
+// src: XBOX_PDB 0x009c9ae0
+void VATS::UpdateVATSLight(Actor* apActor)
 {
     using namespace fnv_009c9ae0;
     if (apActor->IsActor())
@@ -738,7 +742,7 @@ void VATS::FUN_009c9ae0(Actor* apActor)
                 Actor* pOwner = apActor;
                 if (pOwner->GetProcess())
                 {
-                    NiPoint3 kCenter5 = (const NiPoint3&)((const NiAVObject*)apActor->GetNiNode())->FUN_0043d450().GetNavMeshData();
+                    NiPoint3 kCenter5 = (const NiPoint3&)((const NiAVObject*)apActor->GetNiNode())->NiAVObject_GetWorldBound().GetNavMeshData();
                     NiPoint3 aKDir = *(const NiPoint3*)((const Actor*)g_pkPlayer9c9)->GetPos() - *(const NiPoint3*)((const Actor*)apActor)->GetPos();
 
                     // The 36-byte rotation uses the shared matrix; 0x004a0c90 is its Z rotation helper.
@@ -763,22 +767,22 @@ void VATS::FUN_009c9ae0(Actor* apActor)
 
                     float fScaleTmp =
                         ((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0U))->FUN_00b5b610(_kSpawn, &iOutVal, &fA9, &fB_, *(const NiPoint3*)((const Actor*)g_pkPlayer9c9)->GetPos(),
-                                                      reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->FUN_004e6540()) *
+                                                      reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->ShadowSceneLight_GetLight()) *
                         100.0;
 
                     float fRadiusTmp;
-                    float _fRange = FUN_0040ebd0(
-                        1.0f, FUN_00404010(0.0f, LinearInterpolate(1.0f, 0.0f, DAT_011f2298.FUN_00450410(),
+                    float _fRange = BSMIN(
+                        1.0f, BSMAX_00404010(0.0f, LinearInterpolate(1.0f, 0.0f, DAT_011f2298.FUN_00450410(),
                                                                    DAT_011f2200.FUN_00450410(), fScaleTmp)));
 
                     kOffset5 *= _fRange;
 
-                    fRadiusTmp = (kCenter5 - (const NiPoint3&)((const NiAVObject*)apActor->GetNiNode())->FUN_0043d450().GetNavMeshData()).Length() * 2.0f;
+                    fRadiusTmp = (kCenter5 - (const NiPoint3&)((const NiAVObject*)apActor->GetNiNode())->NiAVObject_GetWorldBound().GetNavMeshData()).Length() * 2.0f;
 
-                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->FUN_004e6540()->FUN_004f00e0(&kCenter5);
-                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->FUN_004e6540()->FUN_0050dd50((const ::NiPoint3&)NiPoint3(fRadiusTmp, 0.0f, 0.0f));
-                    ((NiPointLight*)reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->FUN_004e6540())->SetEffectColor((const ::NiPoint3&)kOffset5);
-                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->FUN_004e6540()->SetAppCulled(false);
+                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->ShadowSceneLight_GetLight()->NiAVObject_SetWorldTranslate(&kCenter5);
+                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->ShadowSceneLight_GetLight()->FUN_0050dd50((const ::NiPoint3&)NiPoint3(fRadiusTmp, 0.0f, 0.0f));
+                    ((NiPointLight*)reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->ShadowSceneLight_GetLight())->SetEffectColor((const ::NiPoint3&)kOffset5);
+                    reinterpret_cast<LightTarget9c9*>(m_spShadowSceneLight.operator->())->ShadowSceneLight_GetLight()->SetAppCulled(false);
                 }
             }
         }
@@ -804,7 +808,7 @@ struct CmdList9c9
 // src: COMMUNITY 0x009c9fe0
 NiPoint3 CmdList9c9::VATS_GetTargetPercentagePos(float afScale)
 {
-    NiPoint3 kPlayerPos = (const NiPoint3&)((TESObjectREFR*)DAT_011f21f0)->Get3D()->FUN_0043d450().GetNavMeshData();
+    NiPoint3 kPlayerPos = (const NiPoint3&)((TESObjectREFR*)DAT_011f21f0)->Get3D()->NiAVObject_GetWorldBound().GetNavMeshData();
     Cmd9c9* pkCmd = *FUN_006815c0();
     if ((pkCmd && pkCmd->m_pkTarget) || DAT_011f21cc)
     {
@@ -812,14 +816,14 @@ NiPoint3 CmdList9c9::VATS_GetTargetPercentagePos(float afScale)
         if (pkCmd && pkCmd->m_pkTarget)
         {
             if (pkCmd->m_pkTarget->GetNiNode())
-                kTarget = (const NiPoint3&)((const NiAVObject*)pkCmd->m_pkTarget->GetNiNode())->FUN_0043d450().GetNavMeshData();
+                kTarget = (const NiPoint3&)((const NiAVObject*)pkCmd->m_pkTarget->GetNiNode())->NiAVObject_GetWorldBound().GetNavMeshData();
             else
                 kTarget = *(const NiPoint3*)((const TESObjectREFR*)pkCmd->m_pkTarget)->GetPos();
         }
         else if (DAT_011f21cc)
         {
             if (((TESObjectREFR*)DAT_011f21cc)->GetNiNode())
-                kTarget = (const NiPoint3&)((const NiAVObject*)((TESObjectREFR*)DAT_011f21cc)->GetNiNode())->FUN_0043d450().GetNavMeshData();
+                kTarget = (const NiPoint3&)((const NiAVObject*)((TESObjectREFR*)DAT_011f21cc)->GetNiNode())->NiAVObject_GetWorldBound().GetNavMeshData();
             else
                 kTarget = *(const NiPoint3*)((const TESObjectREFR*)DAT_011f21cc)->GetPos();
         }
@@ -842,7 +846,7 @@ struct FUN_009c95e0_Seq
 };
 struct FUN_009c95e0_Anim
 {
-    FUN_009c95e0_Seq* FUN_00491040(int a);
+    FUN_009c95e0_Seq* Animation_GetCurrentSequence(int a);
     int GetSlotValue(int a);
 };
 extern SettingT_GameSettingCollection_ DAT_011cf81c;
@@ -858,7 +862,7 @@ void VATS::HandleCommand(VATSCommand* command)
         FUN_009c95e0_Anim* animation = (FUN_009c95e0_Anim*)((const Actor*)DAT_011f21f0)->GetAnimation();
         if (DAT_011f21b8 == 0)
         {
-            FUN_009c95e0_Seq* sequence = animation->FUN_00491040(4);
+            FUN_009c95e0_Seq* sequence = animation->Animation_GetCurrentSequence(4);
             if (!sequence || (sequence->GetAnimGroup()->FUN_004937c0() && command->m_ucFirstActionCode == 0) ||
                 (sequence->GetAnimGroup()->FUN_004937e0() && animation->GetSlotValue(4) >= 1))
             {
@@ -875,7 +879,7 @@ void VATS::HandleCommand(VATSCommand* command)
                 {
                     bool flag = true;
                     while (flag && DAT_011f21b8 > static_cast<CameraShotExtra*>(pCamera)->GetField38())
-                        flag = FUN_009c9920();
+                        flag = UseNextCamera();
                 }
             }
         }
@@ -898,12 +902,12 @@ void VATS::HandleCommand(VATSCommand* command)
         else
         {
             NiPoint3 ptOffset = *static_cast<const TESObjectREFR*>(command->pTarget)->GetPos() - *reinterpret_cast<const TESObjectREFR*>(m_pSource)->GetPos();
-            if (ptOffset.Length() < *DAT_011cf81c.FUN_0043d4d0() + command->pTarget->GetMaximum().y)
+            if (ptOffset.Length() < *DAT_011cf81c.Setting_Int() + command->pTarget->GetMaximum().y)
                 DAT_011f21b8 = 2;
             else if (m_pTargetProjectile)
             {
                 ptOffset = *static_cast<const TESObjectREFR*>(command->pTarget)->GetPos() - *reinterpret_cast<const TESObjectREFR*>(m_pTargetProjectile)->GetPos();
-                if (ptOffset.Length() < *DAT_011cf81c.FUN_0043d4d0() + command->pTarget->GetMaximum().y)
+                if (ptOffset.Length() < *DAT_011cf81c.Setting_Int() + command->pTarget->GetMaximum().y)
                     DAT_011f21b8 = 2;
             }
         }
@@ -924,7 +928,7 @@ struct VatsCmd_ca2c0 : public VATSCommand
 // src: COMMUNITY 0x009ca2c0
 void VATS::ForceTargetKillShot(TESObjectREFR* apTarget, int a2)
 {
-    FUN_009c8950(false, false);
+    QuitVATSPlayback(false, false);
     VATSCommand* cmd = new VatsCmd_ca2c0();
     cmd->eAction = 0x12;
     cmd->bSuccess = true;
@@ -961,7 +965,8 @@ struct VATS_COMMAND_Del : public VATSCommand
 
 // Deletes the current command, removes commands meeting the target checks, then sets player state and triggers action callbacks.
 // @fnv 0x009c86b0
-void VATS::FUN_009c86b0()
+// src: XBOX_PDB 0x009c86b0
+void VATS::FreeHeadAction()
 {
     if (FUN_008256d0())
     {
@@ -975,7 +980,7 @@ void VATS::FUN_009c86b0()
         FUN_0063f7b0();
         if (m_pIdleForm)
         {
-            ((FUN_00498910_shell*)((const Actor*)DAT_011f21f0)->GetAnimation())->FUN_00498910(true, false);
+            ((FUN_00498910_shell*)((const Actor*)DAT_011f21f0)->GetAnimation())->Animation_SpecialIdleFree(true, false);
             m_pIdleForm = 0;
         }
         while (!FUN_008256d0())
@@ -990,7 +995,7 @@ void VATS::FUN_009c86b0()
                 }
                 else if (pCmd->m_bFirstActionFlag)
                 {
-                    if (((TESObjectREFR*)pCmd->pTarget)->GetHealth() > *g_011ce7e4.FUN_0043d4d0())
+                    if (((TESObjectREFR*)pCmd->pTarget)->GetHealth() > *g_011ce7e4.Setting_Int())
                     {
                         bRemove = true;
                     }
@@ -1022,14 +1027,15 @@ void VATS::FUN_009c86b0()
 
 struct CameraDisplayManager
 {
-    void __thiscall FUN_00950110(bool);
+    void __thiscall PlayerCharacter_SetFirstPerson(bool);
 };
 extern CameraDisplayManager* DAT_011dea3c;
 extern unsigned char DAT_011f21d3;
 
 // Advances the camera shot list past the current shot, updates m_fCameraDuration, and notifies the display manager or sets DAT_011f21d3.
 // @fnv 0x009c9920
-bool __thiscall VATS::FUN_009c9920()
+// src: XBOX_PDB 0x009c9920
+bool __thiscall VATS::UseNextCamera()
 {
     ::BSSimpleList< ::BGSCameraShot*>* nextCamera = m_pCameraShotList;
     bool found = false;
@@ -1055,7 +1061,7 @@ bool __thiscall VATS::FUN_009c9920()
         }
         if (pCamera && static_cast<CameraShotExtra*>(pCamera)->BGSCameraShot_IsFirstPerson())
         {
-            DAT_011dea3c->FUN_00950110(true);
+            DAT_011dea3c->PlayerCharacter_SetFirstPerson(true);
         }
         else
         {
@@ -1063,7 +1069,7 @@ bool __thiscall VATS::FUN_009c9920()
         }
         found = true;
     }
-    else if (!nextCamera && pCamera && !static_cast<CameraShotExtra*>(pCamera)->FUN_0058d630())
+    else if (!nextCamera && pCamera && !static_cast<CameraShotExtra*>(pCamera)->IsInitialized())
     {
         static_cast<CameraShotExtra*>(pCamera)->ResetCameraState();
         pCamera = 0;

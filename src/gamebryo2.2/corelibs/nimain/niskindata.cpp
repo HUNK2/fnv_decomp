@@ -73,10 +73,11 @@ int __cdecl GetGlobalAddress()
 struct FakeSkin : NiObject
 {
     GO m_sp;
-    void FUN_00a84ce0(void* streamObject);
+    void NiSkinData_LinkObject(void* streamObject);
 };
 // @fnv 0x00a84ce0
-void FakeSkin::FUN_00a84ce0(void* streamObject)
+// src: XBOX_PDB 0x00a84ce0
+void FakeSkin::NiSkinData_LinkObject(void* streamObject)
 {
     NiStream& kStream = *static_cast<NiStream*>(streamObject);
     NiObject::LinkObject(kStream);
@@ -185,7 +186,7 @@ bool FUN_00a84d70_cls::Equals(FUN_00a84d70_cls* other)
 struct S_00a84e70_Pool
 {
     void* Game_DoHeapAlloc(unsigned int size);
-    void FUN_00aa4060(void* p);
+    void MemoryManager_Deallocate(void* p);
 };
 extern S_00a84e70_Pool DAT_011f6238;
 
@@ -228,7 +229,7 @@ void S_00a84e70_Array::Reserve(unsigned int newCapacity)
     {
         newData = 0;
     }
-    DAT_011f6238.FUN_00aa4060(m_data);
+    DAT_011f6238.MemoryManager_Deallocate(m_data);
     m_data = newData;
     m_pRayCursor = newCapacity;
 }
@@ -272,12 +273,13 @@ struct SkinDataLike : SkinObjectBase
     SkinTransform m_kSkinTransform;
     SkinBoneData* m_pBoneData;
     unsigned int m_uiBoneCount;
-    void FUN_00a85250(void* streamObject);
+    void NiSkinData_SaveBinary(void* streamObject);
 };
 
 // Saves the skin object base, transform, bone count, vertex-weight flag and each bone's transform, bound, vertex count and optional vertex weights to the stream.
 // @fnv 0x00a85250
-void SkinDataLike::FUN_00a85250(void* streamObject)
+// src: XBOX_PDB 0x00a85250
+void SkinDataLike::NiSkinData_SaveBinary(void* streamObject)
 {
     NiStream& kStream = *static_cast<NiStream*>(streamObject);
     SkinObjectBase::SaveBinary(kStream);
@@ -306,7 +308,7 @@ void SkinDataLike::FUN_00a85250(void* streamObject)
 
 struct PoolBounds
 {
-    void FUN_00aa4060(void* p) throw();
+    void MemoryManager_Deallocate(void* p) throw();
 };
 struct PointList
 {
@@ -317,7 +319,7 @@ struct PointList
     {}
     ~PointList() throw()
     {
-        reinterpret_cast<PoolBounds*>(&DAT_011f6238)->FUN_00aa4060(m_data);
+        reinterpret_cast<PoolBounds*>(&DAT_011f6238)->MemoryManager_Deallocate(m_data);
     }
     __declspec(noalias) void Reserve(unsigned int capacity) throw();
     void Append(const NiPoint3& p) throw()
@@ -340,12 +342,13 @@ struct SkinDataBounds : SkinObjectBase
     SkinTransform m_kSkinTransform;
     SkinBoneData* m_pBoneData;
     unsigned int m_uiBoneCount;
-    void FUN_00a853c0(NiPoint3* vertices);
+    void NiSkinData_ComputeBoneBounds(NiPoint3* vertices);
 };
 
 // For each bone, collects vertex positions from its weighted vertices, computes their bounding sphere, and transforms it into bone space.
 // @fnv 0x00a853c0
-void SkinDataBounds::FUN_00a853c0(NiPoint3* vertices)
+// src: XBOX_PDB 0x00a853c0
+void SkinDataBounds::NiSkinData_ComputeBoneBounds(NiPoint3* vertices)
 {
     PointList points;
     for (unsigned int i = 0; i < m_uiBoneCount; ++i)
@@ -375,7 +378,7 @@ struct a84ef0_Counted
 
 struct a84ef0_Mgr
 {
-    void FUN_00aa4060(unsigned int value);
+    void MemoryManager_Deallocate(unsigned int value);
 };
 
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
@@ -410,7 +413,7 @@ FUN_00a84ef0_cls* FUN_00a84ef0_cls::FUN_00a84ef0(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_0109e574;
     BaseCleanupA();
-    ((a84ef0_Mgr*)&DAT_011f6238)->FUN_00aa4060(m_uValue);
+    ((a84ef0_Mgr*)&DAT_011f6238)->MemoryManager_Deallocate(m_uValue);
     a84ef0_Counted* pCounted = m_pCounted;
     if (pCounted != 0)
     {
@@ -472,11 +475,12 @@ struct SkinLoadData : SkinObjectBase
     SkinTransform rootParentToSkin;
     ResetFields* bones;
     unsigned int boneCount;
-    void FUN_00a84f50(void* streamObject);
+    void NiSkinData_LoadBinary(void* streamObject);
 };
 // Reads skin data from a stream: base, transform, bone count, per-bone transforms/bounds/weights, and an optional trailing flag.
 // @fnv 0x00a84f50
-void SkinLoadData::FUN_00a84f50(void* streamObject)
+// src: XBOX_PDB 0x00a84f50
+void SkinLoadData::NiSkinData_LoadBinary(void* streamObject)
 {
     NiStream& stream = *static_cast<NiStream*>(streamObject);
     NiObject::LoadBinary(stream);

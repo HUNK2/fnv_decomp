@@ -27,7 +27,8 @@ void* __fastcall FUN_00a532d0(void* p, int, bool bValue);
 
 // Reads a bool via virtual call at offset 0xf0, allocates a 0x18-byte BSFadeNode, and constructs it with that bool, returning null on allocation failure.
 // @fnv 0x00c32b80
-void* __fastcall FUN_00c32b80(void* pThis, int, unsigned short usUnused)
+// src: XBOX_PDB 0x00c32b80
+void* __fastcall NiPSysModifierBoolCtlr_CreatePoseInterpolator(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
     (*(void(__thiscall**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
@@ -45,11 +46,12 @@ bool __fastcall FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsig
 
 struct FUN_00c29d50_shell
 {
-    void __thiscall FUN_00c29d50(char* pOut);
+    void __thiscall NiPSysModifierActiveCtlr_GetTargetBoolValue(char* pOut);
 };
 
 // @fnv 0x00c29d50
-void __thiscall FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
+// src: XBOX_PDB 0x00c29d50
+void __thiscall FUN_00c29d50_shell::NiPSysModifierActiveCtlr_GetTargetBoolValue(char* pOut)
 {
     *pOut = *(char*)(*(int*)((char*)this + 0x3c) + 0x14);
 }
@@ -83,10 +85,11 @@ struct PsStandIn
 };
 struct StandIn
 {
-    bool FUN_00c29dd0(NiObjectNET*);
+    bool NiPSysModifierActiveCtlr_InterpTargetIsCorrectType(NiObjectNET*);
 };
 // @fnv 0x00c29dd0
-bool StandIn::FUN_00c29dd0(NiObjectNET* pkTarget)
+// src: XBOX_PDB 0x00c29dd0
+bool StandIn::NiPSysModifierActiveCtlr_InterpTargetIsCorrectType(NiObjectNET* pkTarget)
 {
     NiPSysModifier* pkModifier;
     if (!((BaseStandIn*)this)->IsTargetParticleSystem(pkTarget))
@@ -105,12 +108,13 @@ public:
     {}
     virtual ~NiPSysModifierActiveCtlr();
 
-    void __thiscall FUN_00c29e00(StrArr*);
+    void __thiscall GetViewerStrings_00c29e00(StrArr*);
     void CopyMemberData(NiPSysModifierActiveCtlr* destination, void* cloning);
-    NiPSysModifierActiveCtlr* FUN_00c29d80(void* cloning);
+    NiPSysModifierActiveCtlr* CreateClone_00c29d80(void* cloning);
 };
 // @fnv 0x00c29e00
-void __thiscall NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
+// src: XBOX_PDB 0x00c29e00
+void __thiscall NiPSysModifierActiveCtlr::GetViewerStrings_00c29e00(StrArr* pArray)
 {
     AppendModifierInfo(pArray);
     char* p = (char*)NiViewerStrings_NiGetViewerString_Title((const void*)*(void**)(void*)&g_012026d0);
@@ -191,7 +195,7 @@ struct FNV_C29D60_Target : FNV_C29D60_VtableBase
     int unk0c;
     int unk10;
     unsigned char unk14;
-    virtual void FUN_00c29e00(unsigned int nValue);
+    virtual void GetViewerStrings_00c29e00(unsigned int nValue);
 };
 
 // The owner of the function: the target pointer sits at +0x3c.
@@ -213,20 +217,22 @@ struct FNV_C29D60_Owner
     int unk34;
     int unk38;
     FNV_C29D60_Target* unk3c;
-    void FUN_00c29d60(unsigned int nValue);
+    void NiPSysModifierActiveCtlr_SetTargetBoolValue(unsigned int nValue);
 };
 
 // @fnv 0x00c29d60
-void FNV_C29D60_Owner::FUN_00c29d60(unsigned int nValue)
+// src: XBOX_PDB 0x00c29d60
+void FNV_C29D60_Owner::NiPSysModifierActiveCtlr_SetTargetBoolValue(unsigned int nValue)
 {
     if (this->unk3c->unk14 != (unsigned char)nValue)
     {
-        this->unk3c->FUN_00c29e00(nValue);
+        this->unk3c->GetViewerStrings_00c29e00(nValue);
     }
 }
 
 // @fnv 0x00c29d80
-NiPSysModifierActiveCtlr* NiPSysModifierActiveCtlr::FUN_00c29d80(void* pvCloning)
+// src: XBOX_PDB 0x00c29d80
+NiPSysModifierActiveCtlr* NiPSysModifierActiveCtlr::CreateClone_00c29d80(void* pvCloning)
 {
     NiPSysModifierActiveCtlr* pkClone = new NiPSysModifierActiveCtlr;
     CopyMemberData(pkClone, pvCloning);
@@ -236,7 +242,8 @@ NiPSysModifierActiveCtlr* NiPSysModifierActiveCtlr::FUN_00c29d80(void* pvCloning
 extern "C" void __cdecl jmp_0xc32bf0();
 
 // @fnv 0x00c29d30
-void FUN_00c29d30()
+// src: XBOX_PDB 0x00c29d30
+void NiPSysModifierActiveCtlr_LinkObject()
 {
     jmp_0xc32bf0();
 }
@@ -266,7 +273,8 @@ struct ArgStandIn
 // The shared header does not declare the bool-controller LinkObject override.
 // This fastcall helper preserves its thiscall ABI while using the shared layout.
 // @fnv 0x00c32bf0
-void __fastcall FUN_00c32bf0(NiPSysModifierBoolCtlr* controller, int, ArgStandIn* arg)
+// src: XBOX_PDB 0x00c32bf0
+void __fastcall NiPSysModifierBoolCtlr_LinkObject(NiPSysModifierBoolCtlr* controller, int, ArgStandIn* arg)
 {
     controller->NiPSysModifierCtlr::LinkObject(*reinterpret_cast<NiStream*>(arg));
     RefCountedStandIn*& interpolator = *reinterpret_cast<RefCountedStandIn**>(&controller->m_spControllerInterpolator);

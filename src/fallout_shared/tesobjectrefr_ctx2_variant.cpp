@@ -172,10 +172,11 @@ struct RefLoad
     ExtraLoad* Extra();
     void Mark(int);
     unsigned int ID();
-    bool FUN_0055af90(LoadFile* file);
+    bool TESObjectREFR_Load(LoadFile* file);
 };
 // @fnv 0x0055af90
-bool RefLoad::FUN_0055af90(LoadFile* file)
+// src: XBOX_PDB 0x0055af90
+bool RefLoad::TESObjectREFR_Load(LoadFile* file)
 {
     int chunkID = 0;
     TransformLoad initial4;

@@ -30,17 +30,17 @@ inline hkpShapeContainer::~hkpShapeContainer()
 // include/ has no hkMemoryRouter header yet; the heap pointer is at offset 0x10.
 #include "../../../../../../../../include/hkMemoryRouter.h"
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 inline void hkReferencedObject::operator delete(void* p)
 {
     hkReferencedObject* object = static_cast<hkReferencedObject*>(p);
-    FUN_00c85750().heap().blockFree(object, object->m_usMemSizeAndFlags);
+    hkMemoryRouter_getInstance().heap().blockFree(object, object->m_usMemSizeAndFlags);
 }
 
 inline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 
 template <class T, class Allocator> inline hkArray<T, Allocator>::~hkArray() throw()

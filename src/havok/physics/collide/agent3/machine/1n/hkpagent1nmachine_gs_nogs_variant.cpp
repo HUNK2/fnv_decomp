@@ -39,7 +39,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void ProcessEntryPair();
 void hkAgent1nMachine_VisitAllAgents(int, int, void*);
-void FUN_00da48e0(int b, int a);
+void hkAgent1nMachine_UpdateShapeCollectionFilter(int b, int a);
 typedef unsigned int BlockPoolsize_t;
 struct BlockPoolAllocator {
     virtual void unk00();
@@ -54,7 +54,7 @@ struct BlockPoolMemoryRouter {
 
     BlockPoolAllocator& heap() { return *m_pStreamAllocator; }
 };
-extern "C" BlockPoolMemoryRouter& __cdecl FUN_00c85750();
+extern "C" BlockPoolMemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl hkArrayUtil__reserve(BlockPoolAllocator* alloc, void* array, int numElements, int sizeElem);
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 struct BlockPoolBlock {
@@ -166,7 +166,7 @@ struct S_00da40e0_Input {
     hkpContactMgr* m_pContactManager;
     S_00da40e0_ConstraintOwner* m_pConstraintOwner;
 };
-const hkpCdBody* __cdecl FUN_00cfe1d0(const hkpCdBody* cdBody, hkpCdBody* newCdBodies,
+const hkpCdBody* __cdecl hkAgentMachine_processTransformedShapes(const hkpCdBody* cdBody, hkpCdBody* newCdBodies,
     S_00da40e0_MotionState* newMotionStates, int numSlots, unsigned char& changeCounter);
 S_00da40e0_Entry* __cdecl ProcessCollisionEntry(const S_00da40e0_Input& aInput, S_00da40e0_Entry* entry, S_00da40e0_AgentData* agentData);
 // hkpAgent1nMachine shape-collection filter visitor (one container side): re-check the filter for
@@ -267,9 +267,9 @@ struct BlockPoolHeap : BlockPoolAllocator {
 };
 __forceinline BlockPoolHeap& fullHeap()
 {
-    return static_cast<BlockPoolHeap&>(FUN_00c85750().heap());
+    return static_cast<BlockPoolHeap&>(hkMemoryRouter_getInstance().heap());
 }
-void FUN_00da42b0(BlockPoolArray* blocks, hkpCollisionDispatcher* dispatcher, hkpContactMgr* mgr, S_00da40e0_ConstraintOwner& owner);
+void hkAgent1nMachine_Destroy(BlockPoolArray* blocks, hkpCollisionDispatcher* dispatcher, hkpContactMgr* mgr, S_00da40e0_ConstraintOwner& owner);
 #include <string.h>
 #include "../../../../../../../include/hkMatrix3.h"
 struct StreamAllocator : BlockPoolAllocator {

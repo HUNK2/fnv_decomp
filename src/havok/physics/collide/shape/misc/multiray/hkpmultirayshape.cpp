@@ -43,7 +43,8 @@ extern "C"
 // FUN_00e3c610: stores zero byte through first stdcall argument and returns it.
 
 // @fnv 0x00e3c610
-unsigned char* __stdcall FUN_00e3c610(unsigned char* out, int a1, int a2)
+// src: XBOX_PDB 0x00e3c610
+unsigned char* __stdcall hkpMultiRayShape_castRayImpl(unsigned char* out, int a1, int a2)
 {
     *out = 0;
     return out;
@@ -89,12 +90,12 @@ extern float DAT_0104e148;
 
 
 
-extern "C" hkMemoryRouter* FUN_00c85750() throw();
+extern "C" hkMemoryRouter* hkMemoryRouter_getInstance() throw();
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator* alloc, void* array, int reqCapacity, int elemSize) throw();
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750()->heap();
+    return hkMemoryRouter_getInstance()->heap();
 }
 
 template <class T> __forceinline void hkArrayBase<T>::GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
@@ -142,7 +143,7 @@ struct WorldRayScratch : hkArrayBase<WorldRayRegisters>
         m_iElementCount = 0;
         m_iCapacityState = 0x80000010;
     }
-    __forceinline void SetSizeAndGrow(int n) { _setSize(FUN_00c85750()->heap(), n); }
+    __forceinline void SetSizeAndGrow(int n) { _setSize(hkMemoryRouter_getInstance()->heap(), n); }
 };
 
 static __forceinline LocalM128 loadQuadWords(const void* vector)
@@ -199,7 +200,7 @@ void MultiRayShapeOperations::CalculateAabb(const hkTransform& localToWorld, hkR
     }
     out.m_kMinimumCorner.m_vComponents = mn;
     out.m_kMaximumCorner.m_vComponents = mx;
-    worldRays._clearAndDeallocate(FUN_00c85750()->heap());
+    worldRays._clearAndDeallocate(hkMemoryRouter_getInstance()->heap());
 }
 
 template <class T> __forceinline T* hkArrayBase<T>::_expandBy(hkMemoryAllocator& alloc, int n)

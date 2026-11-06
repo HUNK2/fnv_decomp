@@ -53,7 +53,7 @@ struct S_00d65180_Router
     }
 };
 
-S_00d65180_Router* FUN_00c85750();
+S_00d65180_Router* hkMemoryRouter_getInstance();
 
 struct S_00d65180_RefObj
 {
@@ -63,7 +63,7 @@ struct S_00d65180_RefObj
     {}
     void* operator new(unsigned int nbytes)
     {
-        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -98,7 +98,8 @@ struct S_00d65180_Obj : S_00d65180_RefObj, S_00d65180_Base2
 
 // Allocates and constructs an S_00d65180_Obj from arg, returning it as an S_00d65180_Base2 pointer.
 // @fnv 0x00d65180
-S_00d65180_Base2* FUN_00d65180(void* arg)
+// src: XBOX_PDB 0x00d65180
+S_00d65180_Base2* hkpSimulationIslandViewer_create(void* arg)
 {
     return new S_00d65180_Obj(arg);
 }
@@ -126,7 +127,7 @@ struct FUN_00d65220_Service
     int unk0c;
     FUN_00d65220_Interface* unk10;
 };
-FUN_00d65220_Service* __cdecl FUN_00c85750();
+FUN_00d65220_Service* __cdecl hkMemoryRouter_getInstance();
 struct FUN_00d65220_Class
 {
     void* vtable;
@@ -141,7 +142,7 @@ FUN_00d65220_Class* FUN_00d65220_Class::FUN_00d65220(char flags)
     FUN_00d64ae0();
     if (flags & 1)
     {
-        FUN_00d65220_Service* service = FUN_00c85750();
+        FUN_00d65220_Service* service = hkMemoryRouter_getInstance();
         service->unk10->notify(this, unk04);
     }
     return this;
@@ -271,7 +272,7 @@ struct S_Arr
     int m_cap;
     __forceinline void clear() throw()
     {
-        S_Heap* heap = ((S_Holder*)FUN_00c85750())->m10;
+        S_Heap* heap = ((S_Holder*)hkMemoryRouter_getInstance())->m10;
         int n = m_iElementCount;
         S_Elem* d = m_data;
         for (int i = 0; i < n; i++)
@@ -315,7 +316,8 @@ extern const char str_010d19d0[];
 extern void RegisterCallback();
 
 // @fnv 0x00d651c0
-void FUN_00d651c0()
+// src: XBOX_PDB 0x00d651c0
+void hkpSimulationIslandViewer_registerViewer()
 {
     DAT_01268fdc = DAT_01269cd0->Register(str_010d19d0, RegisterCallback);
 }

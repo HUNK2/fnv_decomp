@@ -59,14 +59,14 @@ public:
     PodPoint3 FUN_00439ef0(const PodPoint3& other) const;
     void FUN_00439ef0();
     PodPoint3 FUN_004b3800(const PodPoint3& axis) const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_00457910();
     float FUN_00457990() const;
     double FUN_004a7290();
     PodPoint3* FUN_006815c0();
     PodPoint3* FUN_00416870(float x, float y, float z);
     void FUN_0043d410(float x, int y, int z);
-    char* FUN_00a59af0(const char* text);
+    char* GetViewerString_00a59af0(const char* text);
 
     static void* operator new[](size_t size);
     static void operator delete[](void* memory);
@@ -177,13 +177,13 @@ public:
     float FUN_00457910();
     float FUN_00457990();
     float FUN_00457990() const;
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float FUN_004a7290();
     float FUN_004a7290() const;
     LocalVec3 FUN_004b3800(const LocalVec3& other) const;
     LocalVec3 FUN_0053d280(float divisor);
-    float FUN_00589850();
-    float FUN_00589850() const;
+    float NiPoint3_XYLength();
+    float NiPoint3_XYLength() const;
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
@@ -388,7 +388,8 @@ struct Isect
     void __thiscall FUN_00eae6d0();
 };
 // @fnv 0x00ea3950
-bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC, const void* pD, float* pfTime,
+// src: XBOX_PDB 0x00ea3950
+bool NiBoxBV_BoxSphereFindIntersect(float afLength, const void* pA, const void* pB, const void* pC, const void* pD, float* pfTime,
                   NiPoint3* pPoint, bool bNormal, NiPoint3* pNormal, NiPoint3* pNegNormal)
 {
     Isect k;
@@ -478,7 +479,8 @@ struct PointPairState
     void FUN_00eae6d0();
 };
 // @fnv 0x00ea3c50
-bool FUN_00ea3c50(float length, const void* a, const void* b, const void* c, const void* d, float* pfTime, NiPoint3* point,
+// src: XBOX_PDB 0x00ea3c50
+bool NiBoxBV_BoxCapsuleFindIntersect(float length, const void* a, const void* b, const void* c, const void* d, float* pfTime, NiPoint3* point,
                   bool normals, NiPoint3* normal, NiPoint3* negative)
 {
     PointPairState isect;
@@ -1829,7 +1831,7 @@ struct NormalVec
         z -= a.z;
         return *this;
     }
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
 };
 extern "C" NormalVec FNV_NiPoint3Zero;
 extern const float DAT_0104da4c;
@@ -1887,12 +1889,12 @@ NormalVec BoxNormal::FUN_00ea3a60(int iXSide, int iYSide, int iZSide, NormalVec 
         }
     }
     if (iNumAxes != 1)
-        kNormal.FUN_004a0c10();
+        kNormal.Unitize_004a0c10();
     return kNormal;
 }
 
 extern char DAT_010f1844;
-void* __cdecl FUN_00aa1070(unsigned int length);
+void* __cdecl _NiMalloc_00aa1070(unsigned int length);
 int __cdecl FUN_00a305b0(char* output, unsigned int outputSize, const char* format, const char* value);
 struct FnvStringArray
 {
@@ -1915,7 +1917,7 @@ void FnvTextProcessor::AddString(const char* text, FnvStringArray* array)
 {
     unsigned int length = (unsigned int)strlen(text) + 10;
     const char* q = text;
-    text = (const char*)FUN_00aa1070(length);
+    text = (const char*)_NiMalloc_00aa1070(length);
     FUN_00a305b0((char*)text, length, &DAT_010f1844, q);
     unsigned int index = array->count;
     if (index >= array->capacity)
@@ -2081,7 +2083,8 @@ static inline float AbsF(float f)
 
 // Checks if a sphere overlaps a box via axis projections, or if their velocities cause a collision within the given time step.
 // @fnv 0x00ea2030
-bool FUN_00ea2030(float fTime, const CenteredPointBounds* pBox, const void* pVel0, const SphereShape* pSphere, const void* pVel1)
+// src: XBOX_PDB 0x00ea2030
+bool NiBoxBV_BoxCapsuleTestIntersect(float fTime, const CenteredPointBounds* pBox, const void* pVel0, const SphereShape* pSphere, const void* pVel1)
 {
     BoxPt d = pSphere->center - pBox->center;
 
@@ -2147,7 +2150,8 @@ class ReworkPoint
     {
         return ReworkPoint(-x, -y, -z);
     }
-    void __thiscall FUN_004a0c10()
+// src: XBOX_PDB 0x004a0c10
+    void __thiscall Unitize_004a0c10()
     {
         float length = (float)sqrt(x * x + y * y + z * z);
         if (length > 1e-6)
@@ -3541,7 +3545,7 @@ bool __cdecl NiBoxBV_BoxTriFindIntersect(float maxTime, const ReworkBox& box, co
     {
 
         normal1 = vTriNormal;
-        normal1.FUN_004a0c10();
+        normal1.Unitize_004a0c10();
         normal0 = -normal1;
     }
 
@@ -3582,7 +3586,7 @@ class SweepPoint
     {
         return x * x + y * y + z * z;
     }
-    void FUN_004a0c10();
+    void Unitize_004a0c10();
     float& operator[](int i)
     {
         float* base = &x;
@@ -3640,7 +3644,8 @@ void __cdecl ClampPositionToBoxes(float fTime, const SweepBox* pkBox0, const Swe
 
 // Tests two moving boxes over maxTime and writes hitTime and hitPoint, with normal outputs when requested.
 // @fnv 0x00ea7d40
-bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint& vel0, const SweepBox& box1,
+// src: XBOX_PDB 0x00ea7d40
+bool __cdecl NiBoxBV_BoxBoxFindIntersect(float maxTime, const SweepBox& box0, const SweepPoint& vel0, const SweepBox& box1,
                           const SweepPoint& vel1, float& hitTime, SweepPoint& hitPoint, bool wantNormals,
                           SweepPoint& normal0, SweepPoint& normal1)
 {
@@ -4747,7 +4752,7 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
         if (NiAbs(fNormalSqrLength - 1.0) > DAT_0104da4c)
         {
             if (fNormalSqrLength > DAT_0104da4c)
-                normal0.FUN_004a0c10();
+                normal0.Unitize_004a0c10();
             else
                 normal0 = reinterpret_cast<const SweepPoint&>(DAT_011a946c);
         }

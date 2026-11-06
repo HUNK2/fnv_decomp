@@ -55,7 +55,7 @@ struct ArrayPair
     ArrayRecord first;
     ArrayRecord second;
 };
-BSAudio* __cdecl FUN_00c85750();
+BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern "C" void __cdecl hkArrayUtil__reserve(void*, void*, int, int);
 // The triangle reader is absent from the shared stream declaration. The unused
 // fastcall register argument leaves its original thiscall entry ABI intact.
@@ -74,7 +74,7 @@ void hkDisplaySerializeIStream::readGeometry(hkGeometry* geometry)
         {
             for (int remaining = firstCount; remaining != 0; --remaining)
             {
-                BSAudio* allocator = FUN_00c85750();
+                BSAudio* allocator = hkMemoryRouter_getInstance();
                 hkMemoryAllocator* growFunction = reinterpret_cast<hkMemoryAllocator*>(reinterpret_cast<hkMemoryRouter*>(allocator)->m_heap);
                 ArrayRecord* array = &arrays->first;
                 int size = array->size;
@@ -101,7 +101,7 @@ void hkDisplaySerializeIStream::readGeometry(hkGeometry* geometry)
             ArrayRecord* array = &arrays->second;
             for (int remaining = secondCount; remaining != 0; --remaining)
             {
-                BSAudio* allocator = FUN_00c85750();
+                BSAudio* allocator = hkMemoryRouter_getInstance();
                 hkMemoryAllocator* growFunction = reinterpret_cast<hkMemoryAllocator*>(reinterpret_cast<hkMemoryRouter*>(allocator)->m_heap);
                 int size = array->size;
                 int needed = size + 1;
@@ -128,7 +128,7 @@ hkIArchive* __fastcall DeleteIArchive(hkIArchive* archive, void*, unsigned char 
     archive->FUN_00dd91f0();
     if (acFlags & 1)
     {
-        hkMemoryRouter* pHolder = reinterpret_cast<hkMemoryRouter*>(FUN_00c85750());
+        hkMemoryRouter* pHolder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
         hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
         // Preserve the allocator's virtual free dispatch at vtable slot 2.
         typedef void (__thiscall* FreeFunction)(hkMemoryAllocator*, void*, unsigned int);
@@ -147,7 +147,7 @@ void hkDisplaySerializeIStream::FUN_00ddac80(hkTransform* target)
     source.w = 1.0f;
     hkIArchive_readArrayGeneric(&destination, 4, 4);
     target->m_vTranslation = *(__m128*)&source;
-    target->m_rotation.FUN_00cb2d90(reinterpret_cast<const hkQuaternion&>(destination));
+    target->m_rotation.hkRotation_set(reinterpret_cast<const hkQuaternion&>(destination));
 }
 
 // Reads three 4-byte integers via FUN_00dd8fe0 and stores them sequentially into the output buffer.

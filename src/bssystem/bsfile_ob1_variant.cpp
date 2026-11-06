@@ -69,11 +69,12 @@ class FileObject
         return m_pFile != 0;
     }
     unsigned int FUN_00aa1570(void* pBuffer, unsigned int uiBytes);
-    void FUN_00aff490();
+    void BSFile_CheckIsGood();
 };
 
 // @fnv 0x00aff490
-void FileObject::FUN_00aff490()
+// src: XBOX_PDB 0x00aff490
+void FileObject::BSFile_CheckIsGood()
 {
     if (IsOpen())
     {
@@ -226,10 +227,11 @@ struct BinaryWriter
     {
         return Write(string.Buffer(), string.Length() + (abWriteNullTerminator != 0));
     }
-    unsigned int FUN_00affbb0(const StreamString* string, bool abWriteNullTerminator);
+    unsigned int BSFile_Write_00affbb0(const StreamString* string, bool abWriteNullTerminator);
 };
 // @fnv 0x00affbb0
-unsigned int BinaryWriter::FUN_00affbb0(const StreamString* string, bool abWriteNullTerminator)
+// src: XBOX_PDB 0x00affbb0
+unsigned int BinaryWriter::BSFile_Write_00affbb0(const StreamString* string, bool abWriteNullTerminator)
 {
     unsigned int result = WriteString(*string, abWriteNullTerminator);
     filePosition += result;

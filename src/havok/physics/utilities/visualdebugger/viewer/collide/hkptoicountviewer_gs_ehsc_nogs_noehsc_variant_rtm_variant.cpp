@@ -22,7 +22,7 @@ struct Sink
 };
 struct Link
 {
-    void FUN_00cb1fb0(Sink*);
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(Sink*);
 };
 struct Item
 {
@@ -79,7 +79,7 @@ struct CountArray
     {}
     void EnsureCapacity(void*, int);
 };
-BSAudio* FUN_00c85750();
+BSAudio* hkMemoryRouter_getInstance();
 class FUN_00d67ce0 : public FUN_00ddccb0,
                      public hkpContactListener,
                      public hkpWorldPostSimulationListener,
@@ -121,7 +121,7 @@ struct S_00d67e10_Registry
 extern S_00d67e10_Registry* g_00d67e10_registry;
 extern int g_00d67e10_toiCounterId;
 void RegisterToiCounter();
-__declspec(nothrow) BSAudio* FUN_00c85750();
+__declspec(nothrow) BSAudio* hkMemoryRouter_getInstance();
 struct ItemList
 {
     char pad[0x6c];
@@ -176,7 +176,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        Release(FUN_00c85750()->pListener);
+        Release(hkMemoryRouter_getInstance()->pListener);
     }
 };
 struct FUN_00d67fa0 : Base0, Iface1, Iface2, Iface3
@@ -310,7 +310,7 @@ struct SpawnedObject
     void hkpWorld_removeContactListener(void* listener) throw();
     void ClearValue(void* listener) throw();
 };
-BSAudio* FUN_00c85750() throw();
+BSAudio* hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(void* a, void* arr, unsigned int size) throw();
 // Exe 0x00d681e0: unit-local Map view; declarations and layout are preserved.
 struct HkptoicountviewerMapView
@@ -346,7 +346,7 @@ struct HkptoicountviewerMapView
         return it <= m_hashModMask;
     }
 
-    void FUN_00cb1fb0(SpawnedObject* o) throw();
+    void hkMapBase_unsigned_long_unsigned_long_hkMapOperations_unsigned_long_remove(SpawnedObject* o) throw();
 };
 struct Array
 {
@@ -356,7 +356,7 @@ struct Array
 
     void clear()
     {
-        BSAudio* h = FUN_00c85750();
+        BSAudio* h = hkMemoryRouter_getInstance();
         hkMemoryAllocator* al = reinterpret_cast<hkMemoryAllocator*>(h->pListener);
         int cap = m_iCapacityState;
         m_iElementCount = 0;
@@ -445,7 +445,7 @@ struct BSAudioString
 
     void Release()
     {
-        hkMemoryAllocator* allocator = *reinterpret_cast<hkMemoryAllocator**>(&FUN_00c85750()->bSeekMusic);
+        hkMemoryAllocator* allocator = *reinterpret_cast<hkMemoryAllocator**>(&hkMemoryRouter_getInstance()->bSeekMusic);
         m_fRestLength = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
             // The shared declaration does not expose the virtual free slot.

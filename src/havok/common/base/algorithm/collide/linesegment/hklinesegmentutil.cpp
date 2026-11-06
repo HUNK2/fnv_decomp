@@ -150,7 +150,8 @@ struct VectorPairResult
 
 // Computes the closest points on two line segments defined by A/dA and B/dB, storing them and the squared distance in result.
 // @fnv 0x00d22e40
-int FUN_00d22e40(const hkVector4& A, const hkVector4& dA, const hkVector4& B, const hkVector4& dB,
+// src: XBOX_PDB 0x00d22e40
+int hkLineSegmentUtil_closestLineSegLineSeg(const hkVector4& A, const hkVector4& dA, const hkVector4& B, const hkVector4& dB,
                  VectorPairResult& result)
 {
     hkVector4 kDelta;

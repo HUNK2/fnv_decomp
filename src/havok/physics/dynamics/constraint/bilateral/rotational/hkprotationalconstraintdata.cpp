@@ -56,11 +56,12 @@ struct RotationHelper
 
 struct hkpRotationalConstraintDataHelper : public hkpRotationalConstraintData
 {
-    hkBool_ret __thiscall FUN_00e3b550();
+    hkBool_ret __thiscall hkpRotationalConstraintData_isValid();
 };
 
 // @fnv 0x00e3b550
-hkBool_ret __thiscall hkpRotationalConstraintDataHelper::FUN_00e3b550()
+// src: XBOX_PDB 0x00e3b550
+hkBool_ret __thiscall hkpRotationalConstraintDataHelper::hkpRotationalConstraintData_isValid()
 {
     float eps = 0.001f;
     return ((RotationHelper*)&m_kBridgeAtoms.m_kLocalRotations.m_kRotationA)->IsOrthonormal(eps).m_cBooleanValue &&

@@ -44,7 +44,7 @@ void CombatTargetMap::ResetTargetMap()
                 ((BGSSaveLoadChangesMap*)this)->RemoveAt(key);
             }
         }
-        ((CombatTargetMapLock*)((char*)this + 0x10))->FUN_00aa62e0();
+        ((CombatTargetMapLock*)((char*)this + 0x10))->BSReadWriteLock_UnlockWrite();
     }
 }
 

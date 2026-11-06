@@ -97,7 +97,7 @@ public:
     bool IsPathingLocationValid();
     bool HasPathingLocation();
     bool IsPathingLocationFlagSet();
-    bool FUN_006a9520();
+    bool PathingLocation_QUnused();
     bool FUN_006dd610(void*);
     bool FUN_006dd640(NavMeshPtr*, unsigned short*);
     bool FUN_006dd6a0();

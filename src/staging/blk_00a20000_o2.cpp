@@ -58,7 +58,7 @@ public:
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
     void Normalize_00b12790();
     void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
-    void __thiscall FUN_004a0c10();
+    void __thiscall Unitize_004a0c10();
     LocalVector3 FUN_00439ef0(const LocalVector3& other) const
     {
         return LocalVector3(x - other.x, y - other.y, z - other.z);
@@ -3527,7 +3527,7 @@ void NiStepFloatKey_Interpolate(float t, FUN_00a2d200_arg* a, FUN_00a2d200_arg* 
 namespace fnv_00a2d260 {
 struct DynamicMemoryAllocator {
     void* Game_DoHeapAlloc(unsigned int auiSize);
-    void FUN_00aa4060(void* apPtr);
+    void MemoryManager_Deallocate(void* apPtr);
 };
 
 extern "C" unsigned int DAT_011f6238;
@@ -3570,7 +3570,7 @@ bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
         (*pCount)++;
         if (data)
         {
-            reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->FUN_00aa4060((char*)data - 4);
+            reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->MemoryManager_Deallocate((char*)data - 4);
         }
         *pKeys = newData;
         return true;
@@ -3802,11 +3802,12 @@ public:
     unsigned int m_uiItemCount;
     void* unk10;
     A30540Entry* m_pEntries;
-    void FUN_00a30540();
+    void NiControllerSequence_DetachInterpolators();
 };
 
 // @fnv 0x00a30540
-void FUN_00a30540_cls::FUN_00a30540()
+// src: XBOX_PDB 0x00a30540
+void FUN_00a30540_cls::NiControllerSequence_DetachInterpolators()
 {
     for (unsigned int index = 0; index < m_uiItemCount; index++) {
         A30540Entry* entry = &m_pEntries[index];
@@ -5078,11 +5079,12 @@ void __cdecl FUN_00a2d470(int aiTarget, FUN_00a2d470_Entry* entries, unsigned in
 }
 
 struct CloneableObj {
-    void FUN_00a2f8a0(CloneableObj* pObject, void* pData);
+    void BSMultiTargetTreadTransfController_CopyMembers(CloneableObj* pObject, void* pData);
     void FUN_00a6cfe0(CloneableObj* pObject, void* pData);
 };
 // @fnv 0x00a2f8a0
-void CloneableObj::FUN_00a2f8a0(CloneableObj* pObject, void* pData)
+// src: XBOX_PDB 0x00a2f8a0
+void CloneableObj::BSMultiTargetTreadTransfController_CopyMembers(CloneableObj* pObject, void* pData)
 {
     FUN_00a6cfe0(pObject, pData);
 }
@@ -5128,7 +5130,8 @@ struct Controller : ControllerBase {
 
 // Allocates and returns a new Controller object.
 // @fnv 0x00a359d0
-ControllerBase* FUN_00a359d0()
+// src: XBOX_PDB 0x00a359d0
+ControllerBase* BSMultiTargetTreadTransfController_CreateObject()
 {
     return new Controller;
 }

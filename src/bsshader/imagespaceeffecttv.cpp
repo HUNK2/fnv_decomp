@@ -84,7 +84,7 @@ struct PipboyPass
         PipboyFree(pvMem);
     }
     void ImageSpaceTexture_SetTexture_00ba37f0(NiTexture* pkTexture);
-    void FUN_00ba3760(int iValue);
+    void NiShader_SetImplementation(int iValue);
     PipboySourceTexture* ImageSpaceTexture_GetTexture();
 };
 
@@ -295,13 +295,13 @@ void PipboyShader2::SetupPipboyPasses(PipboyGeometry* pkGeometry, int iUnused)
     NiTexture* pkDistort = g_pkDistortMap_01200840;
 
     m_kPasses.FUN_00ba3aa0(1, new PipboyPass);
-    m_kPasses.GetAt(1)->FUN_00ba3760(0);
+    m_kPasses.GetAt(1)->NiShader_SetImplementation(0);
     m_kPasses.GetAt(1)->ImageSpaceTexture_SetTexture_00ba37f0(0);
     m_kPasses.FUN_00ba3aa0(2, new PipboyPass);
-    m_kPasses.GetAt(2)->FUN_00ba3760(0);
+    m_kPasses.GetAt(2)->NiShader_SetImplementation(0);
     m_kPasses.GetAt(2)->ImageSpaceTexture_SetTexture_00ba37f0(pkDistort);
     m_kPasses.FUN_00ba3aa0(3, new PipboyPass);
-    m_kPasses.GetAt(3)->FUN_00ba3760(3);
+    m_kPasses.GetAt(3)->NiShader_SetImplementation(3);
     m_kPasses.GetAt(3)->ImageSpaceTexture_SetTexture_00ba37f0(pkScanlines);
 
     float fTexelX = 0;

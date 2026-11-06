@@ -99,11 +99,12 @@ struct S_Class
     int unk04;
     S_Arr unk08;
     void __thiscall nullsub_3(S_Stream* stream);
-    void __thiscall FUN_00c64ad0(S_Stream* stream);
+    void __thiscall BSNodeReferences_LinkObject(S_Stream* stream);
 };
 
 // @fnv 0x00c64ad0
-void __thiscall S_Class::FUN_00c64ad0(S_Stream* stream)
+// src: XBOX_PDB 0x00c64ad0
+void __thiscall S_Class::BSNodeReferences_LinkObject(S_Stream* stream)
 {
     nullsub_3(stream);
     unsigned int count = stream->FUN_00a63460();

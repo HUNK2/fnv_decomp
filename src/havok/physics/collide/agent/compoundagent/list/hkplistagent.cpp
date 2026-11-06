@@ -54,13 +54,13 @@ void __stdcall hkpListAgent_linearCast(int aiArg1, int aiArg2, int aiArg3, int a
     FUN_00d36930(aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
 }
 
-extern "C" void __cdecl FUN_00da42b0(void* a, int b, int c, int d);
+extern "C" void __cdecl hkAgent1nMachine_Destroy(void* a, int b, int c, int d);
 
 // Releases the agent track, then invokes the deleting destructor.
 // @fnv 0x00d36820
 void __fastcall hkpListAgent_cleanup(hkpListAgent* agent, void*, int aiValue)
 {
-    FUN_00da42b0(&agent->m0[4], *(int*)agent->m0, (int)agent->m_pContactManager, aiValue);
+    hkAgent1nMachine_Destroy(&agent->m0[4], *(int*)agent->m0, (int)agent->m_pContactManager, aiValue);
     typedef void (__thiscall *DeletingDestructor)(hkpListAgent*, int);
     (*(DeletingDestructor**)agent)[0](agent, 1);
 }
@@ -80,7 +80,7 @@ void __fastcall hkpListAgent_updateShapeCollectionFilter(hkpListAgent* agent, vo
     hkpAgentMachineUtil_calc1nStatistics(&agent->m0[4], a->m_field08, a);
 }
 
-extern "C" void __cdecl FUN_00da48e0(void*, void*);
+extern "C" void __cdecl hkAgent1nMachine_UpdateShapeCollectionFilter(void*, void*);
 
 struct VirtTarget
 {
@@ -115,5 +115,5 @@ void __fastcall hkpListAgent_processCollision(hkpListAgent* agent, void*, void* 
     s.unk14 = iStored;
     s.unk18 = (int)a4;
     s.unk0C = (*(VirtTarget**)a2)->v10();
-    FUN_00da48e0(&agent->m0[4], &s);
+    hkAgent1nMachine_UpdateShapeCollectionFilter(&agent->m0[4], &s);
 }

@@ -24,7 +24,7 @@
 #include "../../include/TextEditState.h"
 #include "../../include/RaceSexMenu.h"
 #include "../../include/TileMenu.h"
-const char* __cdecl FUN_007ab810();
+const char* __cdecl XVirtualKeyboard_IsActive();
 struct BSAudio_
 {
     void BSAudio_PauseAllOfType(int, int);
@@ -46,7 +46,7 @@ struct Flt
 };
 struct FUN_007fa970_Class
 {
-    unsigned int FUN_007fa970();
+    unsigned int FOPipboyManager_Get3rdPersonScreen();
 };
 struct FUN_007fd620_Class
 {
@@ -77,7 +77,7 @@ struct FUN_007f7880_Class
     float f8;
     float f9;
     float f10;
-    void __thiscall FUN_007f7880(float a, float b, float c);
+    void __thiscall FOHUDEffectManager_TriggerShudder(float a, float b, float c);
 };
 struct ModelLoader
 {
@@ -96,7 +96,7 @@ struct FUN_007e0e30_Class
 {
     void* m_p;
     void* m_sub;
-    void FUN_007e0e30(bool(__cdecl* fn)(void*, unsigned int), unsigned int v);
+    void BSSimpleList_Tile_Traverse(bool(__cdecl* fn)(void*, unsigned int), unsigned int v);
 };
 struct FUN_007f7830_Class
 {
@@ -152,7 +152,7 @@ struct FUN_007f78f0_Class
 struct FUN_007e0d80_shell : Flt
 {
     char* m_buffer;
-    unsigned int FUN_004048e0();
+    unsigned int BSStringT_char_Length();
     unsigned int FUN_004039a0();
     void FUN_004037f0(char* oldBuffer, unsigned int requiredLength);
     void FUN_004039c0(unsigned int newLength);
@@ -161,7 +161,7 @@ struct FUN_007e0d80_shell : Flt
     FUN_007e0d80_shell* AppendString(FUN_007e0d80_shell* other);
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-int FUN_007e1970();
+int SurgeryMenu_GetClassStatic();
 int __cdecl TextEdit_GetMenuID();
 struct SysMgr
 {
@@ -271,7 +271,7 @@ class FUN_007e9130_cls : public Base
 };
 extern unsigned int* DAT_011f4aa8;
 float __cdecl FastSqrt(const float* v);
-int __cdecl FUN_007eb8c0();
+int __cdecl VATSMenu_GetClassStatic();
 class B7F7790Ref
 {
   public:
@@ -325,7 +325,7 @@ struct SystemColorManager
 {
     bool GetColor(int id, NiColor& out);
 };
-Dummy_00718c90* __cdecl FUN_00718b60();
+Dummy_00718c90* __cdecl SystemColorManager_GetInstance();
 struct GlobalObject_0044f440
 {
     float* Float();
@@ -768,7 +768,7 @@ struct RemoveTile
 {
     virtual void* Destroy(unsigned int);
     float FUN_00a011b0(int);
-    void FUN_00a012d0(int, float, bool);
+    void Tile_Set(int, float, bool);
 };
 struct RemoveOwned
 {
@@ -791,11 +791,11 @@ struct RemoveNode
 };
 struct RemoveInterface
 {
-    void FUN_00715860(RemoveTile*, int, bool);
-    Tile* FUN_00586150(const char* path);
+    void InterfaceManager_SetCurrentFocusTarget(RemoveTile*, int, bool);
+    Tile* CombatController_GetCombatState(const char* path);
 };
 RemoveInterface* InterfaceManager_GetSingleton();
-int FUN_00a01860(const char*);
+int Tile_TextToTrait(const char*);
 void FormHeapFreeAndLog_00401030(void*);
 struct RemoveBase
 {
@@ -805,8 +805,8 @@ struct RemoveView : RemoveBase, RemoveNode
 {
     RemoveTile* container;
     RemoveTile* selected;
-    bool FUN_007242c0(bool);
-    void FUN_00726090();
+    bool ListBox_unsigned_int_GetFlag(bool);
+    void ListBox_unsigned_int_Synchronize();
     bool RemoveNodeFromList(RemoveNode*, RemoveNode*);
 };
 
@@ -821,7 +821,7 @@ struct TextEditSetting
 
 
 
-Menu* __cdecl FUN_00a09030(int menuID);
+Menu* __cdecl Tile_GetMenuByClass(int menuID);
 RemoveInterface* __cdecl InterfaceManager_GetSingleton();
 float __cdecl FUN_00a01530();
 extern TextEditSetting DAT_011d38b8;
@@ -831,28 +831,28 @@ extern TextEditMenu* g_011daec4;
 // src: COMMUNITY 0x007e6320
 bool __cdecl TextEditMenu_Create(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
 {
-    Menu* previous = FUN_00a09030(0x41b);
+    Menu* previous = Tile_GetMenuByClass(0x41b);
     if (previous)
         delete previous;
 
     RemoveInterface* interfaceManager = InterfaceManager_GetSingleton();
     float depthA = FUN_00a01530();
-    Tile* root2 = interfaceManager->FUN_00586150("Data\\Menus\\Dialog\\TextEditMenu.xml")->FUN_00a01b00();
+    Tile* root2 = interfaceManager->CombatController_GetCombatState("Data\\Menus\\Dialog\\TextEditMenu.xml")->Tile_ReadFile();
     Menu* menu = root2->Tile_GetMenu();
     if (menu && menu->GetClass() == TextEdit_GetMenuID())
     {
         menu->FUN_00a1dc70(dynamic_cast<TileMenu*>(root2), false);
         g_011daec4 = dynamic_cast<TextEditMenu*>(menu);
         if (root2->FUN_00a011b0(0xfa7) == 6006.0 || root2->FUN_00a011b0(0xfa7) == 102.0)
-            root2->FUN_00a012d0(0xfad, depthA, true);
+            root2->Tile_Set(0xfad, depthA, true);
 
-        g_011daec4->title->FUN_00a01350(0xfc4, titleText, true);
-        g_011daec4->input->FUN_00a01350(0xfc4, initialText, true);
+        g_011daec4->title->Tile_Set_00a01350(0xfc4, titleText, true);
+        g_011daec4->input->Tile_Set_00a01350(0xfc4, initialText, true);
         g_011daec4->editor.EditableTextField_SetMaxSize((int)g_011daec4->input->FUN_00a011b0(0xfba));
-        g_011daec4->editor.SetBothStrings(g_011daec4->input->FUN_00a011f0(0xfc4));
+        g_011daec4->editor.SetBothStrings(g_011daec4->input->Tile_GetString(0xfc4));
         g_011daec4->editor.TextEditMenu_Data_SetIsActive(true);
         g_011daec4->editor.FUN_007e6580(true);
-        g_011daec4->accept->FUN_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
+        g_011daec4->accept->Tile_Set_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
         g_011daec4->callback = callback;
         g_011daec4->FUN_007e6700();
         menu->FUN_00a1dc20(false);

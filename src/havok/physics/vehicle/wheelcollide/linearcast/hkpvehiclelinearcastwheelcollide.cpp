@@ -90,7 +90,7 @@ __forceinline hkpRigidBody* hkpVehicleInstance::getChassis() const
     return static_cast<hkpRigidBody*>(m_pEntity);
 }
 
-extern "C" HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* __cdecl FUN_00c85750() throw();
+extern "C" HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* __cdecl hkMemoryRouter_getInstance() throw();
 
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& alloc, void* array, int numElem, int sizeElem) throw();
 
@@ -117,7 +117,7 @@ template <typename T> __forceinline void hkArrayBase<T>::_setSize(hkMemoryAlloca
 }
 template <typename T> inline void ResizeWheelArray(hkArrayBase<T>& array, int n)
 {
-    array._setSize(reinterpret_cast<hkMemoryAllocator&>(GetWheelHeap(FUN_00c85750())), n);
+    array._setSize(reinterpret_cast<hkMemoryAllocator&>(GetWheelHeap(hkMemoryRouter_getInstance())), n);
 }
 
 typedef signed char hkInt8;
@@ -244,19 +244,19 @@ void hkpVehicleLinearCastWheelCollide::SetTargetArg(void* arg)
     }
 }
 
-void __cdecl FUN_00e36900();
+void __cdecl centerWheelContactPoint();
 // @fnv 0x00e36aa0
 // src: HAVOK_SRC 0x00e36aa0
 void __cdecl hkpVehicleLinearCastWheelCollide_wheelCollideCallback()
 {
-    FUN_00e36900();
+    centerWheelContactPoint();
 }
 
-extern "C" HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* __cdecl FUN_00c85750() throw();
+extern "C" HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* __cdecl hkMemoryRouter_getInstance() throw();
 
 template <> __forceinline hkArray<hkpVehicleLinearCastWheelCollideWheelState>::~hkArray()
 {
-    HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* mem = FUN_00c85750();
+    HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* mem = hkMemoryRouter_getInstance();
     hkMemoryAllocator* router = mem->m_router;
     int cap = this->m_iCapacityState;
     this->m_iElementCount = 0;
@@ -292,7 +292,7 @@ inline hkMemoryAllocator& GetHeapE36E(HavokAllocatorContext_hkpvehiclelinearcast
 
 __forceinline void* hkpVehicleLinearCastWheelCollide::operator new(unsigned int uiSize) throw()
 {
-    hkReferencedObject* p = (hkReferencedObject*)GetHeapE36E(FUN_00c85750()).blockAlloc(uiSize);
+    hkReferencedObject* p = (hkReferencedObject*)GetHeapE36E(hkMemoryRouter_getInstance()).blockAlloc(uiSize);
     p->m_usMemSizeAndFlags = (unsigned short)uiSize;
     return p;
 }
@@ -401,18 +401,19 @@ void hkpVehicleWheelCollide::InitializeWheelCollisionOutput(const hkpVehicleInst
 
 // Passes result and the wheel state at wheelIndex through two helpers with z zeroed in between, and stores the final vector in result.
 // @fnv 0x00e36900
-void hkpVehicleLinearCastWheelCollide::FUN_00e36900(int unused, unsigned char wheelIndex, hkVector4* result)
+// src: XBOX_PDB 0x00e36900
+void hkpVehicleLinearCastWheelCollide::centerWheelContactPoint(int unused, unsigned char wheelIndex, hkVector4* result)
 {
     hkVector4 second;
     hkVector4 first;
 
     const hkTransform* ws = &m_kWheelStates[wheelIndex].m_kMotionTransform;
 
-    first.FUN_00c7f690(static_cast<const hkTransform*>(ws), result);
+    first.hkVector4_setTransformedInversePos(static_cast<const hkTransform*>(ws), result);
 
     first.z = 0.0f;
 
-    second.FUN_00c7f640(*static_cast<const hkTransform*>(ws), first);
+    second.setTransformedPos_00c7f640(*static_cast<const hkTransform*>(ws), first);
 
     result->m_vComponents = second.m_vComponents;
 }
@@ -428,12 +429,12 @@ void hkpVehicleLinearCastWheelCollide::UpdateWheelAabb(unsigned char wheelIndex)
     {
         do
         {
-            FUN_00e367d0(wheelIndex, stateIndex);
+            hkpVehicleLinearCastWheelCollide_updateWheelState(wheelIndex, stateIndex);
 
             hkAabb aabb;
-            FUN_00e36700(wheelIndex, stateIndex, &aabb);
+            hkpVehicleLinearCastWheelCollide_calcAabbOfWheel(wheelIndex, stateIndex, &aabb);
 
-            m_kWheelStates.m_data[stateIndex].m_pPhantom->FUN_00cf24a0(aabb);
+            m_kWheelStates.m_data[stateIndex].m_pPhantom->hkpAabbPhantom_setAabb(aabb);
 
             ++stateIndex;
         } while (stateIndex < count);
@@ -562,7 +563,7 @@ void hkpVehicleLinearCastWheelCollide::InitializeWheelCollisions(const hkpVehicl
         ResizeWheelArray(m_kWheelStates, iNumWheels);
         for (hkUint8 i = 0; i < iNumWheels; i++)
         {
-            m_kWheelStates[i].m_pCollisionShape = FUN_00e36120(pkVehicle->m_data->m_kWheelParams[i].m_fMaxFriction,
+            m_kWheelStates[i].m_pCollisionShape = hkpVehicleLinearCastWheelCollide_createWheelShape(pkVehicle->m_data->m_kWheelParams[i].m_fMaxFriction,
                                                                pkVehicle->m_data->m_kWheelParams[i].m_fSphereRadius);
         }
     }
@@ -571,11 +572,11 @@ void hkpVehicleLinearCastWheelCollide::InitializeWheelCollisions(const hkpVehicl
 
     for (hkUint8 i = 0; i < iNumWheels; i++)
     {
-        FUN_00e367d0(pkVehicle, i);
+        hkpVehicleLinearCastWheelCollide_updateWheelState(pkVehicle, i);
         hkAabb kAabb;
-        FUN_00e36700(pkVehicle, i, kAabb);
+        hkpVehicleLinearCastWheelCollide_calcAabbOfWheel(pkVehicle, i, kAabb);
         hkpAabbPhantom* pvMem = static_cast<hkpAabbPhantom*>(
-            GetHeapE36C(FUN_00c85750()).blockAlloc(sizeof(hkpAabbPhantom)));
+            GetHeapE36C(hkMemoryRouter_getInstance()).blockAlloc(sizeof(hkpAabbPhantom)));
         pvMem->m_usMemSizeAndFlags = sizeof(hkpAabbPhantom);
         const unsigned int uiElapsedMilliseconds = i * sizeof(hkpVehicleLinearCastWheelCollideWheelState);
         hkpAabbPhantom* pkPhantom = ::new (pvMem) hkpAabbPhantom(kAabb, m_uiWheelCount);
@@ -645,7 +646,8 @@ struct CapsuleE36120 : public ShapeE36120
 };
 
 // @fnv 0x00e36120
-ShapeE36120* __stdcall FUN_00e36120(float afHeight, float fRadius)
+// src: XBOX_PDB 0x00e36120
+ShapeE36120* __stdcall hkpVehicleLinearCastWheelCollide_createWheelShape(float afHeight, float fRadius)
 {
     hkVector4 kTop;
     kTop.set(g_fZeroE36120, g_fZeroE36120, afHeight * 0.5, g_fZeroE36120);
@@ -742,7 +744,7 @@ void hkpVehicleLinearCastWheelCollide::getPhantoms(hkArray<hkpPhantom*>* output)
     for (int wheel = 0; wheel < wheelCount; ++wheel)
     {
         hkpPhantom* phantom = m_kWheelStates[wheel].m_pPhantom;
-        HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* memory = FUN_00c85750();
+        HavokAllocatorContext_hkpvehiclelinearcastwheelcollide* memory = hkMemoryRouter_getInstance();
         if (output->m_iElementCount == (output->m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(memory->m_router, output, sizeof(phantom));
         hkpPhantom** slot = output->m_data + output->m_iElementCount;

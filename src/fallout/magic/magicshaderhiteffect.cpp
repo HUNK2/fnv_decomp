@@ -132,7 +132,7 @@ class TaskQueueInterface
     void QueueTaskWithTwoObjects(NiAVObject*, NiNode*, bool, bool);
 };
 bool IsConditionMet();
-float FUN_00404010(float, float);
+float BSMAX_00404010(float, float);
 extern "C" int sprintf_s(char*, unsigned int, const char*, ...);
 extern PlayerCharacter* g_thePlayer;
 extern ModelLoader* g_modelLoader;
@@ -151,7 +151,7 @@ bool MagicShaderHitEffect::Init()
     if (GetEffect())
     {
         m_fFirstFloatValue = GetEffect()->GetAge();
-        bWasPlaying = !GetEffect()->GetEffectSetting()->FUN_00403e60(0x400);
+        bWasPlaying = !GetEffect()->GetEffectSetting()->IsFlagSet_00403e60(0x400);
         if (GetEffect()->HasFlag(0x10))
             m_fEffectShaderScale = 100.0f;
     }
@@ -167,7 +167,7 @@ bool MagicShaderHitEffect::Init()
     bool bResetParticles = false;
     if (pTarget == g_thePlayer && g_thePlayer->GetNode(false))
     {
-        bool bThirdPerson = !g_thePlayer->GetNode(false)->FUN_00456610();
+        bool bThirdPerson = !g_thePlayer->GetNode(false)->GetAppCulled_00456610();
         bResetParticles = m_fFirstFloatValue > 0.0 && bThirdPerson != b3rdPerson;
         b3rdPerson = bThirdPerson;
     }
@@ -193,13 +193,13 @@ bool MagicShaderHitEffect::Init()
             if (!((Actor*)pTarget)->GetProcess()->IsAdditionalActorFlagSet() && g_thePlayer->GetField6A4() != this)
                 bParticles = false;
         }
-        if (bParticles && !m_pEffectShader->FUN_00507040(8))
+        if (bParticles && !m_pEffectShader->IsFlagSet_00507040(8))
         {
             if (reinterpret_cast<const ShaderPointerComparison<NiNode>&>(m_pParticleShaderNode) == (NiNode*)0)
             {
                 m_pParticleShaderNode = new NiNode(0);
                 m_pParticleShaderNode->SetName(NiFixedString("ParticleShader Geometry"));
-                m_pParticleShaderNode->FUN_0043fa80(&DAT_011a9448);
+                m_pParticleShaderNode->SetRotate_0043fa80(&DAT_011a9448);
             }
             if (!m_kParticleShaderProperties.GetSize())
             {
@@ -215,14 +215,14 @@ bool MagicShaderHitEffect::Init()
                         int total;
                         int perShader;
                     } counts;
-                    counts.total = (int)FUN_00404010(m_pEffectShader->FUN_00644930(), m_pEffectShader->FUN_008d01e0());
+                    counts.total = (int)BSMAX_00404010(m_pEffectShader->Explosion_GetRadius(), m_pEffectShader->NiAVObject_GetWorldScale());
                     counts.perShader = ParticleShader::GetShaderParticleCount();
                     for (int i = 0; i * counts.perShader < counts.total; ++i)
                     {
                         NiPointer<ParticleShaderProperty> particleProperty =
                             m_pEffectShader->CreateParticleShaderProperty(m_pParticleShaderNode, scenegraph.particles,
                                                                           texture, m_fEffectShaderScale);
-                        m_kParticleShaderProperties.FUN_006c61b0(particleProperty);
+                        m_kParticleShaderProperties.BSSimpleArray_NiPointer_NiAVObject_1024_Add(particleProperty);
                     }
                 }
             }
@@ -263,7 +263,7 @@ bool MagicShaderHitEffect::Init()
                 m_pParticleShaderNode->AssignParent(0);
             m_pParticleShaderNode = (NiNode*)0;
         }
-        if (!m_pEffectShader->FUN_00507040(1))
+        if (!m_pEffectShader->IsFlagSet_00507040(1))
         {
             if (reinterpret_cast<const ShaderPointerComparison<BSShaderPPLightingProperty::TextureEffectData>&>(spTexEffectData) ==
                 (BSShaderPPLightingProperty::TextureEffectData*)0)
@@ -287,7 +287,7 @@ bool MagicShaderHitEffect::Init()
                 spTexEffectData = m_pEffectShader->CreateEffectData(scenegraph.shaders, fillTexture, holesTexture);
                 if ((BSShaderPPLightingProperty::TextureEffectData*)spTexEffectData &&
                     (NiSourceTexture*)spTexEffectData->spTexture && pTarget && pTarget->IsActor() &&
-                    ((Actor*)pTarget)->FUN_008c4850() > 0.9900000095367432)
+                    ((Actor*)pTarget)->GetAlphaMult() > 0.9900000095367432)
                 {
                     ((Actor*)pTarget)->GetLightIntensity(0.99f);
                     ((Actor*)pTarget)->UpdateActorPresentation();
@@ -329,10 +329,10 @@ bool MagicShaderHitEffect::Init()
                             else
                                 object->IsSceneNode()->AttachChildInAvailableSlot(clone, true);
                             m_fAddonModelTimer = 0.0f;
-                            m_fAddonModelScale = FUN_00404010(0.01f, m_pEffectShader->FUN_00567470());
-                            clone->FUN_00440490(m_fAddonModelScale);
+                            m_fAddonModelScale = BSMAX_00404010(0.01f, m_pEffectShader->TESEffectShader_GetAddOnScaleStart());
+                            clone->NiAVObject_SetScale(m_fAddonModelScale);
                             NiTimeController::UpdateControllersForTarget(static_cast<NiObjectNET*>(clone));
-                            m_kAddonModelObjects.FUN_006c61b0(clone);
+                            m_kAddonModelObjects.BSSimpleArray_NiPointer_NiAVObject_1024_Add(clone);
                         }
                     }
                 }
@@ -361,7 +361,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
     {
         if (pTargetActor != g_thePlayer)
             pBiped = reinterpret_cast<BipedAnim*>(pTargetActor->GetValidBip01Names());
-        else if (g_thePlayer->FUN_00490f80() && g_thePlayer->GetField6A4() == this)
+        else if (g_thePlayer->PlayerCharacter_GetInventory3D() && g_thePlayer->GetField6A4() == this)
             bWeapon = true;
         else
             pBiped = g_thePlayer->GetBipedAnimation(!b3rdPerson);
@@ -412,7 +412,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
                     NiUpdateData update(0.0f, false, false);
                     pObject->Update(update);
                 }
-                NiPoint3 offset = pObject->GetBoundingVolume().GetNavMeshData() - pObject->FUN_0045bb80();
+                NiPoint3 offset = pObject->GetBoundingVolume().GetNavMeshData() - pObject->NiAVObject_GetWorldTranslate();
                 extent = static_cast<const NiPoint3&>(offset).ComputeMagnitude() + pObject->GetBoundingVolume().FUN_0084d030();
             }
         }
@@ -434,14 +434,15 @@ struct S2f850
     int pad0;
     NavMeshPtr* data;
     unsigned int FUN_00761540();
-    void FUN_0042fa60(NavMeshPtr*, int);
-    unsigned int FUN_006c61b0(const NavMeshPtr& aValue);
+    void BSSimpleArray_NavMeshPtr_1024_ConstructItems(NavMeshPtr*, int);
+    unsigned int BSSimpleArray_NiPointer_NiAVObject_1024_Add(const NavMeshPtr& aValue);
 };
 // @fnv 0x006c61b0
-unsigned int S2f850::FUN_006c61b0(const NavMeshPtr& aValue)
+// src: XBOX_PDB 0x006c61b0
+unsigned int S2f850::BSSimpleArray_NiPointer_NiAVObject_1024_Add(const NavMeshPtr& aValue)
 {
     unsigned int uiIndex = FUN_00761540();
-    FUN_0042fa60(&data[uiIndex], 1);
+    BSSimpleArray_NavMeshPtr_1024_ConstructItems(&data[uiIndex], 1);
     data[uiIndex] = aValue;
     return uiIndex;
 }
@@ -509,7 +510,7 @@ class NavMeshInfo;
 namespace fnv_00822860 {
 struct S2f850
 {
-    void FUN_0042fa60(NavMeshInfo**, unsigned int);
+    void BSSimpleArray_NavMeshPtr_1024_ConstructItems(NavMeshInfo**, unsigned int);
 };
 struct UW
 {
@@ -524,7 +525,8 @@ struct AX
     unsigned int alloc;
 };
 // @fnv 0x00822860
-void __fastcall FUN_00822860(AX* self, UW uiMaxSize, UW uiSize)
+// src: XBOX_PDB 0x00822860
+void __fastcall BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(AX* self, UW uiMaxSize, UW uiSize)
 {
     self->data = 0;
     self->size = 0;
@@ -538,7 +540,7 @@ void __fastcall FUN_00822860(AX* self, UW uiMaxSize, UW uiSize)
     }
     if (uiSize.v > 0)
     {
-        ((S2f850*)self)->FUN_0042fa60(self->data, uiSize.v);
+        ((S2f850*)self)->BSSimpleArray_NavMeshPtr_1024_ConstructItems(self->data, uiSize.v);
         self->size = uiSize.v;
     }
 }
@@ -685,10 +687,11 @@ void* __thiscall FUN_008225d0_shell::BSSimpleArray_Allocate(unsigned int param_1
 struct AX
 {
     unsigned int vtable;
-    void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
+    void __thiscall BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int);
 };
 
-void __thiscall AX::FUN_006b3eb0(unsigned int, unsigned int)
+// src: XBOX_PDB 0x006b3eb0
+void __thiscall AX::BSSimpleArray_float_1024_InitialSetup(unsigned int, unsigned int)
 {}
 
 extern unsigned int DAT_0107b84c;
@@ -703,7 +706,7 @@ struct FUN_00822600_shell : AX
 AX* __thiscall FUN_00822600_shell::InitVtable()
 {
     vtable = (unsigned int)&DAT_0107b84c;
-    FUN_006b3eb0(0, 0);
+    BSSimpleArray_float_1024_InitialSetup(0, 0);
     return (AX*)this;
 }
 
@@ -725,7 +728,7 @@ void GlobalObject_00869f00::FUN_00822630()
 }
 }  // namespace fnv_00822630
 
-TESEffectShader* __cdecl FUN_0080d0d0(void);
+TESEffectShader* __cdecl MagicSystem_GetDetectLifeShaderEffect(void);
 
 // @fnv 0x00822010
 // src: COMMUNITY 0x00822010
@@ -733,7 +736,7 @@ bool MagicShaderHitEffect::CheckShouldSave_00822010()
 {
     if (pEffect != 0)
         return false;
-    if (pTarget == 0 || m_pEffectShader == 0 || m_bUseActorParticleEffects || m_pEffectShader == FUN_0080d0d0())
+    if (pTarget == 0 || m_pEffectShader == 0 || m_bUseActorParticleEffects || m_pEffectShader == MagicSystem_GetDetectLifeShaderEffect())
         return false;
     return true;
 }
@@ -741,7 +744,7 @@ bool MagicShaderHitEffect::CheckShouldSave_00822010()
 extern int DAT_0107b824;
 struct Caller00822860
 {
-    void FUN_00822860(unsigned int, bool);
+    void BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(unsigned int, bool);
 };
 struct FUN_00822530_shell
 {
@@ -753,7 +756,7 @@ struct FUN_00822530_shell
 FUN_00822530_shell* FUN_00822530_shell::FUN_00822530()
 {
     vtable = &DAT_0107b824;
-    reinterpret_cast<Caller00822860*>(this)->FUN_00822860(0, false);
+    reinterpret_cast<Caller00822860*>(this)->BSSimpleArray_NiPointer_ObstacleUndoData_1024_InitialSetup(0, false);
     return this;
 }
 
@@ -870,7 +873,8 @@ unsigned short MagicShaderHitEffect::FUN_00822060()
 
 // Returns the process light intensity when a process is set, otherwise returns 1.0f.
 // @fnv 0x008c4850
-float Actor::FUN_008c4850()
+// src: XBOX_PDB 0x008c4850
+float Actor::GetAlphaMult()
 {
     return m_pBaseProcess ? m_pBaseProcess->GetLightIntensity() : 1.0f;
 }
@@ -892,14 +896,14 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 void MagicShaderHitEffect::SaveGame_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
 {
     reinterpret_cast<ShaderBaseSave*>(this)->MagicHitEffect_SaveGame(pEffect, a2);
-    fnv_00821e40::g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x34, 4);
+    fnv_00821e40::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((char*)this + 0x34, 4);
     if (fnv_00821e40::g_TESSaveLoadGame->FUN_008df040() >= 0x37)
     {
-        fnv_00821e40::g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x28, 1);
+        fnv_00821e40::g_TESSaveLoadGame->TESSaveLoadGame_SaveGameDataOLD((char*)this + 0x28, 1);
         int v = 0;
         if (m_pAffectedArmorObject)
             v = m_pAffectedArmorObject->GetFormID();
-        fnv_00821e40::g_TESSaveLoadGame->FUN_00857a10(&v, 4);
+        fnv_00821e40::g_TESSaveLoadGame->TESSaveLoadGame_SaveNumericID(&v, 4);
     }
 }
 
@@ -912,7 +916,8 @@ struct TESBoundObject;
 TESForm* GetFormByID(unsigned int);
 // Loads the base form data, then reads several fields from the buffer and resolves two form IDs into a TESBoundObject and a TESEffectShader.
 // @fnv 0x008222f0
-void MagicShaderHitEffect::FUN_008222f0(BGSLoadGameBuffer* buffer)
+// src: XBOX_PDB 0x008222f0
+void MagicShaderHitEffect::LoadGame_008222f0(BGSLoadGameBuffer* buffer)
 {
     reinterpret_cast<FUN_0081bed0_s*>(this)->LoadFormData((BGSLoadFormBuffer*)buffer);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((char*)this + 0x28, 1);
@@ -929,7 +934,7 @@ void MagicShaderHitEffect::FUN_008222f0(BGSLoadGameBuffer* buffer)
         dynamic_cast<TESEffectShader*>(GetFormByID(buffer->ReadFormIdentifier()));
 }
 
-extern unsigned int __cdecl FUN_005a00a0(void*);
+extern unsigned int __cdecl RandomUnsignedInt(void*);
 
 struct FUN_00822650_shell : InventoryItem
 {
@@ -941,7 +946,7 @@ unsigned int FUN_00822650_shell::FindFirstItemExceedingRemaining()
 {
     unsigned int result = 0;
     bool found = false;
-    unsigned int remaining = FUN_005a00a0(*(void**)((char*)this + 0x20));
+    unsigned int remaining = RandomUnsignedInt(*(void**)((char*)this + 0x20));
     for (unsigned int i = 0; i < (unsigned int)GetObject() && !found; ++i)
     {
         if (remaining < ((BSSimpleArray<unsigned int>*)((char*)this + 0x10))->GetAt(static_cast<int>(i)))
@@ -969,7 +974,7 @@ struct Arr3520
 
 struct S2f850
 {
-    void FUN_0042fa60(NavMeshPtr*, int);
+    void BSSimpleArray_NavMeshPtr_1024_ConstructItems(NavMeshPtr*, int);
 };
 
 struct FUN_0042fc00_shell
@@ -1022,7 +1027,7 @@ void FUN_00695230_shell::BSSimpleArray_NiPointer_1024_SetSize(unsigned int uiNew
             capacity = uiNewSize;
         }
 
-        reinterpret_cast<S2f850*>(this)->FUN_0042fa60(
+        reinterpret_cast<S2f850*>(this)->BSSimpleArray_NavMeshPtr_1024_ConstructItems(
             reinterpret_cast<NavMeshPtr*>(static_cast<unsigned char*>(data) + count * sizeof(Elem4)),
             uiNewSize - count);
         count = uiNewSize;
@@ -1041,7 +1046,7 @@ void FUN_00695230_shell::BSSimpleArray_NiPointer_1024_SetSize(unsigned int uiNew
     }
     else
     {
-        reinterpret_cast<S2f850*>(this)->FUN_0042fa60(
+        reinterpret_cast<S2f850*>(this)->BSSimpleArray_NavMeshPtr_1024_ConstructItems(
             reinterpret_cast<NavMeshPtr*>(static_cast<unsigned char*>(data) + count * sizeof(Elem4)),
             uiNewSize - count);
         count = uiNewSize;
@@ -1107,7 +1112,7 @@ MagicShaderHitEffect::MagicShaderHitEffect(TESObjectREFR* apTarget, TESEffectSha
     m_fAddonModelScale = 1.0f;
     if (pTarget == g_thePlayer)
     {
-        b3rdPerson = g_thePlayer->GetNode(false) && !g_thePlayer->GetNode(false)->FUN_00456610();
+        b3rdPerson = g_thePlayer->GetNode(false) && !g_thePlayer->GetNode(false)->GetAppCulled_00456610();
     }
     else
     {
@@ -1134,10 +1139,10 @@ MagicShaderHitEffect::MagicShaderHitEffect(TESObjectREFR* apTarget, TESEffectSha
 
 struct FUN_008220c0_mgr
 {
-    void FUN_00857a10(unsigned int* p, int n);
+    void TESSaveLoadGame_SaveNumericID(unsigned int* p, int n);
 };
 extern FUN_008220c0_mgr* DAT_011de45c;
-unsigned int __fastcall FUN_0084e3a0(void* p);
+unsigned int __fastcall GetHavokWorldObjectCountInSceneGraph_0084e3a0(void* p);
 
 
 
@@ -1146,10 +1151,10 @@ unsigned int __fastcall FUN_0084e3a0(void* p);
 // src: COMMUNITY 0x008220c0
 void MagicShaderHitEffect::SaveGameTES_008220c0()
 {
-    unsigned int a = (unsigned int)FUN_0084e3a0(pTarget);
-    DAT_011de45c->FUN_00857a10(&a, 4);
-    unsigned int b = (unsigned int)FUN_0084e3a0(m_pEffectShader);
-    DAT_011de45c->FUN_00857a10(&b, 4);
+    unsigned int a = (unsigned int)GetHavokWorldObjectCountInSceneGraph_0084e3a0(pTarget);
+    DAT_011de45c->TESSaveLoadGame_SaveNumericID(&a, 4);
+    unsigned int b = (unsigned int)GetHavokWorldObjectCountInSceneGraph_0084e3a0(m_pEffectShader);
+    DAT_011de45c->TESSaveLoadGame_SaveNumericID(&b, 4);
     SaveGame(0, pTarget);
 }
 
@@ -1211,7 +1216,7 @@ MagicShaderHitEffect::MagicShaderHitEffect(TESObjectREFR* apTarget, ActiveEffect
     m_fAddonModelTimer = 1.0f;
     m_fAddonModelScale = 1.0f;
     if (pTarget == (TESObjectREFR*)g_thePlayer)
-        b3rdPerson = g_thePlayer->GetNode(false) && !g_thePlayer->GetNode(false)->FUN_00456610();
+        b3rdPerson = g_thePlayer->GetNode(false) && !g_thePlayer->GetNode(false)->GetAppCulled_00456610();
     else
         b3rdPerson = false;
 
@@ -1465,9 +1470,9 @@ struct Property
 {
     float FUN_006a78f0();
     void TileShaderProperty_SetTileAlpha(float);
-    void FUN_00821620(float);
-    void FUN_00ba7b60(float, bool, bool);
-    int FUN_004fd380();
+    void BoltShaderProperty_SetBoltsRadius(float);
+    void ParticleShaderProperty_UpdateParticles(float, bool, bool);
+    int EffectSetting_GetLight();
 };
 template <class T> struct Array
 {
@@ -1476,7 +1481,7 @@ template <class T> struct Array
     unsigned int count;
     unsigned int capacity;
     unsigned int FUN_0044ddc0();
-    T& FUN_006a7ad0(unsigned int);
+    T& BSSimpleArray_NiAVObject_1024_GetAt(unsigned int);
 };
 struct TestRef
 {
@@ -1488,22 +1493,22 @@ struct TestRef
 struct EffectShaderUpdateView : TESEffectShader
 {
     float TESEffectShader_BirthParticles(float, float, float, bool);
-    float FUN_00821640();
+    float TESObjectWEAP_GetShotsPerSecond();
     float GetFootWeight();
     float GetFloatAt144();
     float GetValue();
-    float FUN_00567470();
+    float TESEffectShader_GetAddOnScaleStart();
     float TESObjectWEAP_GetFiringRumbleRightMotorStrength();
     void UpdateShaderState(BSShaderPPLightingProperty::TextureEffectData*, float, float, float, bool);
 };
 
-bool FUN_0043b300(void*, Scene*);
+bool NiObject_IsKindOf(void*, Scene*);
 extern unsigned int DAT_011f9140;
 extern double DAT_0106d508, DAT_01012060, DAT_0101a6b0;
 extern float DAT_0106682c, DAT_01013ea4;
 unsigned int FUN_00ba52d0();
-float FUN_0040ebd0(float, float);
-float FUN_00404010(float, float);
+float BSMIN(float, float);
+float BSMAX_00404010(float, float);
 void FUN_00b6bb30(NiNode*, float);
 
 }  // namespace ParticleUpdate
@@ -1526,16 +1531,16 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
     bool done = bWasPlaying;
     AttachToTarget();
     float multiplier = 1.0f;
-    if (pTarget->IsActor() && m_pEffectShader != FUN_0080d0d0())
+    if (pTarget->IsActor() && m_pEffectShader != MagicSystem_GetDetectLifeShaderEffect())
     {
         if (static_cast<BSShaderPPLightingProperty::TextureEffectData*>(spTexEffectData) && static_cast<NiSourceTexture*>(static_cast<BSShaderPPLightingProperty::TextureEffectData*>(spTexEffectData)->spTexture) && pTarget->IsActor() &&
-            static_cast<Actor*>(pTarget)->FUN_008c4850() > ParticleUpdate::DAT_0106d508)
+            static_cast<Actor*>(pTarget)->GetAlphaMult() > ParticleUpdate::DAT_0106d508)
         {
             static_cast<Actor*>(pTarget)->GetLightIntensity(ParticleUpdate::DAT_0106682c);
             static_cast<Actor*>(pTarget)->UpdateActorPresentation();
         }
         ParticleUpdate::Scene* scene = reinterpret_cast<ParticleUpdate::Scene*>(pTarget->GetNiNode());
-        if (ParticleUpdate::FUN_0043b300(&ParticleUpdate::DAT_011f9140, scene))
+        if (ParticleUpdate::NiObject_IsKindOf(&ParticleUpdate::DAT_011f9140, scene))
         {
             ParticleUpdate::Scene* castScene = scene;
             multiplier = castScene->GetFieldB4Float();
@@ -1546,7 +1551,7 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
             static_cast<Actor*>(pTarget)->Unk_108();
             __asm fstp multiplier
         }
-        float actorScale = static_cast<Actor*>(pTarget)->FUN_008c4850();
+        float actorScale = static_cast<Actor*>(pTarget)->GetAlphaMult();
         if (actorScale > ParticleUpdate::DAT_01012060)
             multiplier /= actorScale;
     }
@@ -1560,31 +1565,31 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
             done = false;
         for (unsigned int index2 = 0; index2 < m_kParticleShaderProperties.GetSize(); index2++)
         {
-            float amount = ParticleUpdate::FUN_0040ebd0(available, float(ParticleUpdate::FUN_00ba52d0()));
+            float amount = ParticleUpdate::BSMIN(available, float(ParticleUpdate::FUN_00ba52d0()));
             available -= amount;
             ParticleUpdate::Property* propertySlot1 = reinterpret_cast<ParticleUpdate::Property*>(static_cast<ParticleShaderProperty*>(m_kParticleShaderProperties.GetAt(index2)));
             propertySlot1->TileShaderProperty_SetTileAlpha(amount / ParticleUpdate::FUN_00ba52d0());
-            propertySlot1->FUN_00821620(multiplier);
-            propertySlot1->FUN_00ba7b60(m_fEffectShaderScale, false, true);
-            if (propertySlot1->FUN_004fd380() > 0)
+            propertySlot1->BoltShaderProperty_SetBoltsRadius(multiplier);
+            propertySlot1->ParticleShaderProperty_UpdateParticles(m_fEffectShaderScale, false, true);
+            if (propertySlot1->EffectSetting_GetLight() > 0)
                 done = false;
         }
         if (m_kAddonModelObjects.GetSize() > 0)
         {
-            float delta = afDeltaTime / (!bWasPlaying ? static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00821640() : static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->GetFootWeight() * ParticleUpdate::DAT_0101a6b0);
-            m_fAddonModelTimer = ParticleUpdate::FUN_00404010(0.0f, ParticleUpdate::FUN_0040ebd0(1.0f, m_fAddonModelTimer + delta));
+            float delta = afDeltaTime / (!bWasPlaying ? static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESObjectWEAP_GetShotsPerSecond() : static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->GetFootWeight() * ParticleUpdate::DAT_0101a6b0);
+            m_fAddonModelTimer = ParticleUpdate::BSMAX_00404010(0.0f, ParticleUpdate::BSMIN(1.0f, m_fAddonModelTimer + delta));
             if (m_fAddonModelTimer > ParticleUpdate::DAT_01012060)
                 done = false;
             delta = afDeltaTime / (!bWasPlaying ? static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->GetFloatAt144() : static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->GetValue() * ParticleUpdate::DAT_0101a6b0);
-            m_fAddonModelScale = ParticleUpdate::FUN_00404010(0.0f, ParticleUpdate::FUN_0040ebd0(1.0f, m_fAddonModelScale + delta));
+            m_fAddonModelScale = ParticleUpdate::BSMAX_00404010(0.0f, ParticleUpdate::BSMIN(1.0f, m_fAddonModelScale + delta));
             float maximumSlot16 = 1.0f;
-            float minimum = !bWasPlaying ? ParticleUpdate::FUN_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00567470())
-                                      : ParticleUpdate::FUN_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESObjectWEAP_GetFiringRumbleRightMotorStrength());
+            float minimum = !bWasPlaying ? ParticleUpdate::BSMAX_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESEffectShader_GetAddOnScaleStart())
+                                      : ParticleUpdate::BSMAX_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESObjectWEAP_GetFiringRumbleRightMotorStrength());
             float factorSlot13 = minimum + (maximumSlot16 - minimum) * m_fAddonModelScale;
             for (unsigned int index3 = 0; index3 < m_kAddonModelObjects.GetSize(); index3++)
             {
                 ParticleUpdate::FUN_00b6bb30(static_cast<NiAVObject*>(m_kAddonModelObjects.GetAt(index3))->IsSceneNode(), m_fAddonModelTimer);
-                static_cast<NiAVObject*>(m_kAddonModelObjects.GetAt(index3))->FUN_00440490(factorSlot13);
+                static_cast<NiAVObject*>(m_kAddonModelObjects.GetAt(index3))->NiAVObject_SetScale(factorSlot13);
             }
         }
     }
@@ -1615,7 +1620,7 @@ template <class T> struct ShaderPointerInequality : NiPointer<T>
 
 struct BSAudioX_821bd0
 {
-    void FUN_00ad8570(NiNode*, float, bool);
+    void BSAudio_StopMovingSounds(NiNode*, float, bool);
 };
 
 
@@ -1625,8 +1630,8 @@ struct BSAudioX_821bd0
 void MagicShaderHitEffect::ApplyAndCleanup()
 {
     if (pTarget && m_pEffectShader &&
-        (FUN_0084e3a0(m_pEffectShader) == 0x852fe || FUN_0084e3a0(m_pEffectShader) == 0x84a51))
-        ((BSAudioX_821bd0*)BSAudio::GetSingleton())->FUN_00ad8570(pTarget->GetNiNode(), 1.0f, false);
+        (GetHavokWorldObjectCountInSceneGraph_0084e3a0(m_pEffectShader) == 0x852fe || GetHavokWorldObjectCountInSceneGraph_0084e3a0(m_pEffectShader) == 0x84a51))
+        ((BSAudioX_821bd0*)BSAudio::GetSingleton())->BSAudio_StopMovingSounds(pTarget->GetNiNode(), 1.0f, false);
 
     if (spTexEffectData)
     {
@@ -1661,7 +1666,7 @@ void MagicShaderHitEffect::ApplyAndCleanup()
 }
 
 extern unsigned char DAT_011f4428;
-extern "C" NiNode* __cdecl FUN_00653270(const void*, NiAVObject*);
+extern "C" NiNode* __cdecl NiObject_DynamicCast(const void*, NiAVObject*);
 
 // These out-of-line matrix operations use a trivial copy; the shared matrix
 // declares a separate copy constructor.
@@ -1691,7 +1696,7 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
     bool bInitTmp = (pEffectView->GetTarget() == g_thePlayer);
     bool pTargetObj5 = (bInitTmp && g_thePlayer != 0 && g_thePlayer->GetField6A4() == pEffectView) ? 1 : 0;
     bool pActor1 = (bInitTmp && g_thePlayer != 0 && g_thePlayer->GetNode(false) != 0 &&
-                    g_thePlayer->GetNode(false)->FUN_00456610())
+                    g_thePlayer->GetNode(false)->GetAppCulled_00456610())
                        ? 1
                        : 0;
     NiAVObject* pRef4 = 0;
@@ -1718,7 +1723,7 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
 
     if (((PtrCheck*)&pEffectView->m_pParticleShaderNode)->operator!=(0) && pRef4 != 0)
     {
-        ShaderEffectMatrix mat = pEffectView->m_bUseActorParticleEffects ? reinterpret_cast<const ShaderEffectMatrix&>(pRef4->FUN_00461130())
+        ShaderEffectMatrix mat = pEffectView->m_bUseActorParticleEffects ? reinterpret_cast<const ShaderEffectMatrix&>(pRef4->NiAVObject_GetWorldRotate())
                                                                 : *(const ShaderEffectMatrix*)&DAT_011a9448;
         if (pTargetObj5)
         {
@@ -1727,37 +1732,37 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
         {
             if (pActor1 && g_thePlayer->GetNode(true) != 0)
             {
-                NiNode* pCastNode = FUN_00653270(&DAT_011f4428, g_thePlayer->GetNode(true));
+                NiNode* pCastNode = NiObject_DynamicCast(&DAT_011f4428, g_thePlayer->GetNode(true));
                 if (pCastNode != 0 && pCastNode != pEffectView->m_pParticleShaderNode->GetParent())
                 {
                     pCastNode->AttachChildInAvailableSlot(static_cast<NiAVObject*>(pEffectView->m_pParticleShaderNode), true);
                 }
                 if (pActor1)
                 {
-                    pEffectView->m_pParticleShaderNode->FUN_0043fa80(
-                        &(reinterpret_cast<const ShaderEffectMatrix&>(pEffectView->m_pParticleShaderNode->GetParent()->FUN_00461130()).Transpose() *
+                    pEffectView->m_pParticleShaderNode->SetRotate_0043fa80(
+                        &(reinterpret_cast<const ShaderEffectMatrix&>(pEffectView->m_pParticleShaderNode->GetParent()->NiAVObject_GetWorldRotate()).Transpose() *
                           static_cast<const ShaderEffectMatrix&>(mat)));
                     ((NiAVObject*)pEffectView->m_pParticleShaderNode)
-                        ->FUN_00440460(
+                        ->NiAVObject_SetTranslate(
                             reinterpret_cast<const ShaderEffectMatrix&>(
-                                pEffectView->m_pParticleShaderNode->GetParent()->FUN_00461130())
+                                pEffectView->m_pParticleShaderNode->GetParent()->NiAVObject_GetWorldRotate())
                                 .Transpose() *
-                            (pRef4->FUN_0045bb80() - pEffectView->m_pParticleShaderNode->GetParent()->FUN_0045bb80()));
+                            (pRef4->NiAVObject_GetWorldTranslate() - pEffectView->m_pParticleShaderNode->GetParent()->NiAVObject_GetWorldTranslate()));
                     NiUpdateData updateData(0.0f, false, false);
                     pEffectView->m_pParticleShaderNode->Update(updateData);
                 }
                 else
                 {
-                    pEffectView->m_pParticleShaderNode->FUN_0043fa80(&mat);
+                    pEffectView->m_pParticleShaderNode->SetRotate_0043fa80(&mat);
                     ((NiAVObject*)pEffectView->m_pParticleShaderNode)
-                        ->FUN_00440460(pRef4->FUN_0045bb80());
+                        ->NiAVObject_SetTranslate(pRef4->NiAVObject_GetWorldTranslate());
                 }
             }
             else
             {
                 ((NiAVObject*)pEffectView->m_pParticleShaderNode)
-                    ->FUN_00440460(pRef4->FUN_0045bb80());
-                pEffectView->m_pParticleShaderNode->FUN_0043fa80(&mat);
+                    ->NiAVObject_SetTranslate(pRef4->NiAVObject_GetWorldTranslate());
+                pEffectView->m_pParticleShaderNode->SetRotate_0043fa80(&mat);
             }
         }
     }
@@ -1775,7 +1780,7 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
 namespace fnv_00822130 {
 struct Node
 {
-    bool FUN_00450ff0();
+    bool TESObjectCELL_GetAttached();
 };
 struct Manager
 {
@@ -1783,24 +1788,25 @@ struct Manager
 };
 extern Manager* DAT_011de45c;
 extern char DAT_011841cc, DAT_01183918, DAT_01183028;
-TESForm* __cdecl FUN_004839c0(void*);
+TESForm* __cdecl TESForm_GetFormByNumericID(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 
 }  // namespace fnv_00822130
 
 // Reads two 4-byte values, resolves reference and shader forms, calls vfnd8, and calls vfndc and vfne0 when both resolve.
 // @fnv 0x00822130
-bool MagicShaderHitEffect::FUN_00822130()
+// src: XBOX_PDB 0x00822130
+bool MagicShaderHitEffect::LoadGame_00822130()
 {
     bool result2 = true;
     void* firstB;
     fnv_00822130::DAT_011de45c->FUN_00857aa0(&firstB, 4);
-    pTarget = dynamic_cast<TESObjectREFR*>(fnv_00822130::FUN_004839c0(firstB));
-    if (!pTarget || !reinterpret_cast<fnv_00822130::Node*>(pTarget->GetParentCell()) || !reinterpret_cast<fnv_00822130::Node*>(pTarget->GetParentCell())->FUN_00450ff0())
+    pTarget = dynamic_cast<TESObjectREFR*>(fnv_00822130::TESForm_GetFormByNumericID(firstB));
+    if (!pTarget || !reinterpret_cast<fnv_00822130::Node*>(pTarget->GetParentCell()) || !reinterpret_cast<fnv_00822130::Node*>(pTarget->GetParentCell())->TESObjectCELL_GetAttached())
         result2 = false;
     void* second;
     fnv_00822130::DAT_011de45c->FUN_00857aa0(&second, 4);
-    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(fnv_00822130::FUN_004839c0(second));
+    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(fnv_00822130::TESForm_GetFormByNumericID(second));
     if (!other7)
         result2 = false;
     LoadGame(0, pTarget);
@@ -1845,7 +1851,8 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // Reads effect shader scale, particle effects flag, and affected armor object ID from the save stream.
 // @fnv 0x00821ed0
-void MagicShaderHitEffect::FUN_00821ed0(ActiveEffect* effect, TESObjectREFR* target)
+// src: XBOX_PDB 0x00821ed0
+void MagicShaderHitEffect::LoadGame_00821ed0(ActiveEffect* effect, TESObjectREFR* target)
 {
     reinterpret_cast<ShaderBaseLoad*>(this)->SaveLoad(effect, target);
     g_TESSaveLoadGame->ReadTypedData(&m_fEffectShaderScale, 4);

@@ -23,13 +23,13 @@ __forceinline void hkpContactListener::contact1() {}
 __forceinline void hkpContactListener::contact2() {}
 __forceinline hkpContactListener::~hkpContactListener() {}
 
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 
 
 template <typename T, typename Allocator>
 __forceinline hkArray<T, Allocator>::~hkArray()
 {
-    hkMemoryAllocator& alloc = FUN_00c85750().heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance().heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
         alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -224,7 +224,7 @@ void* hkpProjectileGun::FUN_00e450f0(int flags)
 
     if (flags & 1)
     {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         router.m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
 
@@ -358,7 +358,7 @@ hkpGunProjectile* hkpGunProjectile::FUN_00e450c0(unsigned int flags)
     ResetVtables();
     if (flags & 1)
     {
-        hkMemoryRouter& router = FUN_00c85750();
+        hkMemoryRouter& router = hkMemoryRouter_getInstance();
         router.m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
     return this;
@@ -504,7 +504,7 @@ __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocator& alloc, const T& 
 
 __forceinline hkMemoryAllocator& hkContainerHeapAllocator::get(const void*)
 {
-    return FUN_00c85750().heap();
+    return hkMemoryRouter_getInstance().heap();
 }
 
 // @fnv 0x00e44f60
@@ -526,11 +526,11 @@ class FUN_00e46e80
 {
   public:
     FUN_00e46e80() throw();
-    void FUN_00e45460(void* world) throw();
+    void hkQueue_hkpRigidBody_setCapacity(void* world) throw();
 
     static void* operator new(unsigned int n)
     {
-        return FUN_00c85750().heap().blockAlloc(n);
+        return hkMemoryRouter_getInstance().heap().blockAlloc(n);
     }
     static void operator delete(void* p);
 
@@ -566,7 +566,7 @@ FUN_00e46f20::FUN_00e46f20(FinishingFlag flag) throw() : FUN_00e466a0(flag)
     {
         unk08 = 1;
         m_helper = new FUN_00e46e80();
-        m_helper->FUN_00e45460(m_pOwningWorld);
+        m_helper->hkQueue_hkpRigidBody_setCapacity(m_pOwningWorld);
     }
 }
 

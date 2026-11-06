@@ -51,9 +51,9 @@ public:
     virtual void vf17();
     virtual void* LookupAndVisit(const char* name, void* visitor);
     virtual void vf19();
-    virtual int* FUN_00ee8a70();
+    virtual int* GetValidCompileTargetsForPlatform();
     virtual const NiFixedString& GetPlatformName();
-    virtual char* FUN_00ee8a90();
+    virtual char* GetWorkingDirectory();
     virtual bool SetString(const NiFixedString& s) throw();
     virtual const char* GetRendererName();
     virtual const char* GetShaderType();
@@ -64,7 +64,7 @@ public:
     virtual unsigned char IsLocked_00ee8ab0();
     virtual bool RemoveMissingKeys(void* keys, void* entries);
     virtual void UpdatePathString() throw();
-    virtual bool FUN_00ee8d60(void* pvArg, void* pvArgCur);
+    virtual bool NiGPUProgramCache_AppendEntry(void* pvArg, void* pvArgCur);
     virtual bool WriteToStream(NiFile* s, NiRefObject* o, int* v);
     virtual bool FiveIntegerLoadRecord(NiFile* pkFile, bool* pbUpdated);
     virtual bool vf90(NiFile* s, int v);
@@ -81,8 +81,8 @@ public:
     }
 
     bool FUN_00ee8e70();
-    char* FUN_00ee8a80();
-    bool FUN_00ee9620();
+    char* GetShaderProfile();
+    bool Save_00ee9620();
     bool CanOpen();
     bool CanSave();
     void onStringChanged();

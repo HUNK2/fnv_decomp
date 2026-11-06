@@ -42,8 +42,8 @@ struct Sub
 };
 struct Ops
 {
-    void FUN_00c7f640(const Matrix* p, const LocalM128* q);
-    void FUN_00c7f700(const LocalM128* p, const LocalM128* q);
+    void setTransformedPos_00c7f640(const Matrix* p, const LocalM128* q);
+    void hkVector4_setRotatedDir(const LocalM128* p, const LocalM128* q);
 };
 struct Ex
 {
@@ -103,13 +103,13 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
 
     ((Sub*)&mc0)->hkpPrimitiveDrawer_setDisplayHandler(dbg);
     ((Ex*)this)->hkpConstraintDrawer_updateCommonParameters(a, &t0, &t1);
-    ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
-    ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
+    ((Ops*)&m50)->setTransformedPos_00c7f640(&t0, &b->v90);
+    ((Ops*)&m40)->setTransformedPos_00c7f640(&t1, &b->v50);
     ((Ex*)this)->hkpConstraintDrawer_drawBodyFrames(p3, p4);
     ((Ex*)this)->hkpConstraintDrawer_drawPivots(p3, p4);
     dbg->Line(&m40, &m50, 0xffff0000, p3, p4);
 
-    ((Ops*)&q1)->FUN_00c7f700(&m90, &b->v60);
+    ((Ops*)&q1)->hkVector4_setRotatedDir(&m90, &b->v60);
     float k = m00 * m1c;
     float s;
     s = (float)((double)k * -0.5);
@@ -120,7 +120,7 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
 
     float wa = b->limitsA0.y;
     float wb = b->limitsA0.z;
-    ((Ops*)&vd)->FUN_00c7f700(&m90, &b->v70);
+    ((Ops*)&vd)->hkVector4_setRotatedDir(&m90, &b->v70);
     LocalM128 r = _mm_add_ps(_mm_mul_ps(bc(wb), q1), m50);
     float kk = m00 * m1c;
     s = (float)((double)kk * (double)0.1f);
@@ -135,13 +135,13 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)kf * -(double)0.1f)), vd), x4);
     dbg->Line(&vc, &x2, 0xffffffff, p3, p4);
 
-    ((Ops*)&vd)->FUN_00c7f700(&m90, &b->v110);
+    ((Ops*)&vd)->hkVector4_setRotatedDir(&m90, &b->v110);
     k = m1c * m00;
     x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * -0.5)), vd), m50);
     vc = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * 0.5)), vd), m50);
     dbg->Line(&x2, &vc, 0xffffff00, p3, p4);
 
-    ((Ops*)&vd)->FUN_00c7f700(&m60, &b->vD0);
+    ((Ops*)&vd)->hkVector4_setRotatedDir(&m60, &b->vD0);
     k = m00 * m1c;
     x2 = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * -0.5)), vd), m40);
     vc = _mm_add_ps(_mm_mul_ps(bc((float)((double)k * 0.5)), vd), m40);

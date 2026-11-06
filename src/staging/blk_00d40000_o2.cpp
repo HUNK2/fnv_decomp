@@ -83,16 +83,17 @@ void __stdcall hkpBreakableConstraintData_buildNopJacobian(int a, int b)
 
 struct FUN_00d53200_class
 {
-    void FUN_00c8a230(NiStream& stream);
-    void FUN_00d53200(void* stream);
+    void hkConstraintCinfo_LoadBinary(NiStream& stream);
+    void hkConstraintChainCinfo_LoadBinary(void* stream);
 };
 
 // @fnv 0x00d53200
-void FUN_00d53200_class::FUN_00d53200(void* stream)
+// src: XBOX_PDB 0x00d53200
+void FUN_00d53200_class::hkConstraintChainCinfo_LoadBinary(void* stream)
 {
     NiStream& input = *static_cast<NiStream*>(stream);
     input.ReadUnsignedInteger();
-    FUN_00c8a230(input);
+    hkConstraintCinfo_LoadBinary(input);
 }
 
 void* __cdecl InitAndGetOffset(void*, void*, void*);
@@ -123,7 +124,7 @@ void __cdecl hkBoxBoxAgent3_initAgentFunc(void* apObject)
 
 void __cdecl DispatchInputRecord();
 void __cdecl hkPredGskAgent3_process();
-void __cdecl FUN_00d41930();
+void __cdecl hkPredGskAgent3_sepNormal();
 void __cdecl FUN_00d41860();
 void __cdecl RemoveEntryById();
 void __cdecl InsertSlotId();
@@ -137,7 +138,7 @@ void __cdecl hkPredGskAgent3_initAgentFunc(int* pObject)
 {
     *pObject = (int)&DispatchInputRecord;
     pObject[0x2c / 4] = (int)&hkPredGskAgent3_process;
-    pObject[0x28 / 4] = (int)&FUN_00d41930;
+    pObject[0x28 / 4] = (int)&hkPredGskAgent3_sepNormal;
     pObject[2] = (int)&FUN_00d41860;
     pObject[3] = (int)&RemoveEntryById;
     pObject[4] = (int)&InsertSlotId;
@@ -403,11 +404,11 @@ struct SpawnLarge
 
 extern char DAT_010ceb94[];
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 inline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     hkReferencedObject* object = static_cast<hkReferencedObject*>(
         reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockAlloc(nbytes));
     object->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -420,7 +421,7 @@ void* __cdecl CreateSpawnObject(int a1, int a2, int a3, int a4)
 {
     if (a4 != 0)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         hkMemoryAllocator* allocator = (hkMemoryAllocator*)holder->m_heap;
         SpawnLarge* obj = (SpawnLarge*)allocator->blockAlloc(0x80);
         obj->m_w04 = 0x80;
@@ -428,7 +429,7 @@ void* __cdecl CreateSpawnObject(int a1, int a2, int a3, int a4)
         obj->m_vptr = DAT_010ceb94;
         return obj;
     }
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* allocator = (hkMemoryAllocator*)holder->m_heap;
     SpawnSmall* obj = (SpawnSmall*)allocator->blockAlloc(0x30);
     obj->m_w04 = 0x30;
@@ -451,7 +452,7 @@ struct D42800MemoryRouter
     }
 };
 
-extern "C" D42800MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D42800MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 struct D42800Collidable;
 struct D42800CollisionInput;
@@ -619,12 +620,12 @@ struct FUN_00d440f0_cls
 
 // Global allocator holder: the allocator pointer sits at +0x10.
 
-extern hkMemoryRouter* __cdecl FUN_00c85750();
+extern hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // @fnv 0x00d44280
 void __cdecl AllocateAndInitBlock(int a1, int a2, int a3, int a4)
 {
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
     FUN_00d440f0_cls* pBlock = (FUN_00d440f0_cls*)pAlloc->blockAlloc(0x38);
     pBlock->unk04 = 0x38;
@@ -648,7 +649,7 @@ struct D442C0MemoryRouter
     }
 };
 
-extern "C" D442C0MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D442C0MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 
 class D442C0Agent : public hkReferencedObject
 {
@@ -778,7 +779,7 @@ struct KeyTempRef
     void* m_08;
 };
 
-void* __cdecl FUN_00d48fc0(void* p, void* b, void* c, void* d);
+void* __cdecl hkSerializeUtil_loadOnHeap(void* p, void* b, void* c, void* d);
 
 // Initialises a KeyTemp from a1 and a2, calls FUN_00d48fc0 with the stored pointer and a3/a4/a5, disposes the temp and returns the result.
 // @fnv 0x00d491f0
@@ -787,7 +788,7 @@ void* __cdecl InitAndCall(void* volatile a1, void* volatile a2, void* volatile a
     KeyTemp keyTemp;
     KeyTempRef* r = (KeyTempRef*)keyTemp.Init(a1, a2);
     void* p = r->m_08;
-    void* result = FUN_00d48fc0(p, a3, a4, a5);
+    void* result = hkSerializeUtil_loadOnHeap(p, a3, a4, a5);
     keyTemp.Dispose();
     return result;
 }
@@ -1011,7 +1012,7 @@ void* __cdecl FUN_00d4b2c0()
 class FUN_00d4b2d0_cls
 {
   public:
-    void FUN_00d56470(int a1);
+    void hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int a1);
 };
 
 // @fnv 0x00d4b2d0
@@ -1019,7 +1020,7 @@ void __cdecl FUN_00d4b2d0(FUN_00d4b2d0_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
-        pObject->FUN_00d56470(aiValue);
+        pObject->hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(aiValue);
     }
 }
 
@@ -1225,7 +1226,7 @@ struct S_00d4ce60_Router
         return *unk10;
     }
 };
-S_00d4ce60_Router* FUN_00c85750();
+S_00d4ce60_Router* hkMemoryRouter_getInstance();
 struct S_00d4ce60_MsgBase
 {
     virtual void v00();
@@ -1370,7 +1371,7 @@ FUN_00d4ce60::~FUN_00d4ce60() throw()
         e->m_target->handle(&msg);
     }
     m_iElementCount = 0;
-    hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+    hkMemoryAllocator& alloc = hkMemoryRouter_getInstance()->heap();
     m_iElementCount = 0;
     if ((m_iCapacityState & 0x80000000) == 0)
     {
@@ -1383,7 +1384,7 @@ FUN_00d4ce60::~FUN_00d4ce60() throw()
 
 namespace fnv_00d4de00 {
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d4de00_CpuObject
 {
     unsigned int unk00;
@@ -1397,7 +1398,7 @@ FnvCpu_FUN_00d4de00_CpuObject* FnvCpu_FUN_00d4de00_CpuObject::FUN_00d4de00(unsig
     FUN_00cf4de0();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockFree(this, size);
     }
     return this;
@@ -1461,7 +1462,7 @@ class SpawnedObject
     SpawnedObject();
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 
 class FUN_00d50140_cls
 {
@@ -1473,7 +1474,7 @@ class FUN_00d50140_cls
 
 void* SpawnedObject::operator new(unsigned int size)
 {
-    hkMemoryRouter* h = FUN_00c85750();
+    hkMemoryRouter* h = hkMemoryRouter_getInstance();
     void* p = reinterpret_cast<hkMemoryAllocator*>(h->m_heap)->blockAlloc(size);
     ((SpawnedObject*)p)->m_04 = (unsigned short)size;
     return p;
@@ -1496,8 +1497,8 @@ extern int DAT_01268188;
 extern int DAT_01268f74;
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void __cdecl FUN_00c876f0();
-void __cdecl FUN_00c87700();
+void __cdecl bhkSerializable_CloneCritLock();
+void __cdecl bhkSerializable_CloneCritUnlock();
 
 struct DataBase
 {
@@ -1530,7 +1531,7 @@ struct DataObject : DataIntermediate
 
 struct DataFactory
 {
-    void FUN_00c89730(DataObject* object, int id);
+    void bhkConstraint_CopyMembers(DataObject* object, int id);
     DataObject* bhkGenericConstraint_Clone(int id);
 };
 
@@ -1539,10 +1540,10 @@ struct DataFactory
 DataObject* DataFactory::bhkGenericConstraint_Clone(int id)
 {
     AutoMemContext context(16);
-    FUN_00c876f0();
+    bhkSerializable_CloneCritLock();
     DataObject* object = new DataObject();
-    FUN_00c89730(object, id);
-    FUN_00c87700();
+    bhkConstraint_CopyMembers(object, id);
+    bhkSerializable_CloneCritUnlock();
     return object;
 }
 
@@ -1708,7 +1709,7 @@ struct FUN_00d51b30_arr
     unsigned int m_uiCap;
 };
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, FUN_00d51b30_arr* arr, int n);
 
 struct FUN_00d51b30_obj
@@ -1734,7 +1735,7 @@ struct FUN_00d51b30_cls
 void FUN_00d51b30_cls::AppendTwoIntsAndAdvance(int aiValue)
 {
     FUN_00d51b30_arr* arr = &m_pEntryObject->m_1c;
-    hkMemoryRouter* h = FUN_00c85750();
+    hkMemoryRouter* h = hkMemoryRouter_getInstance();
     if (arr->m_uiCount == (arr->m_uiCap & 0x3fffffff))
     {
         ResizeAudioStream(h->m_heap, arr, 4);
@@ -1746,7 +1747,7 @@ void FUN_00d51b30_cls::AppendTwoIntsAndAdvance(int aiValue)
     arr->m_uiCount++;
 
     arr = &m_pEntryObject->m_1c;
-    h = FUN_00c85750();
+    h = hkMemoryRouter_getInstance();
     if (arr->m_uiCount == (arr->m_uiCap & 0x3fffffff))
     {
         ResizeAudioStream(h->m_heap, arr, 4);
@@ -1766,7 +1767,7 @@ void FUN_00d51b30_cls::AppendTwoIntsAndAdvance(int aiValue)
 
 namespace fnv_00d51e50 {
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(void* apAllocator, void* apVec, int aElemSize);
 
 struct FUN_00d51e50_vec
@@ -1807,7 +1808,7 @@ class FUN_00d51e50_cls
 void FUN_00d51e50_cls::hkpConstraintConstructionKit_setAngularBasisABodyFrame()
 {
     FUN_00d51e50_vec* pVec = &m_04->m_1c;
-    hkMemoryRouter* pHolder = FUN_00c85750();
+    hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     if (pVec->m_04 == (int)(pVec->m_08 & 0x3fffffff))
     {
         ResizeAudioStream(pHolder->m_heap, pVec, 4);
@@ -1833,7 +1834,7 @@ struct S_00d51f90_Router
     int unk0c;
     S_00d51f90_Heap* m_pStreamAllocator;
 };
-S_00d51f90_Router* FUN_00c85750();
+S_00d51f90_Router* hkMemoryRouter_getInstance();
 struct S_00d51f90_Arr
 {
     int* m_data;
@@ -1862,7 +1863,7 @@ struct S_00d51f90_Obj
 void S_00d51f90_Obj::AppendEntryAndAdvance()
 {
     S_00d51f90_Arr* a = &m_info->m_aiIndexedValues;
-    S_00d51f90_Router* r = FUN_00c85750();
+    S_00d51f90_Router* r = hkMemoryRouter_getInstance();
     if (a->m_iElementCount == (a->m_cap & 0x3fffffff))
         ResizeAudioStream(r->m_pStreamAllocator, a, 4);
     int* p = a->m_data + a->m_iElementCount;
@@ -1907,7 +1908,7 @@ struct D52BA0MemoryRouter
     }
 };
 
-extern "C" D52BA0MemoryRouter& __cdecl FUN_00c85750();
+extern "C" D52BA0MemoryRouter& __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
 static __forceinline void D52BA0IntArray_construct(int* p, int n, const int& e);
@@ -1932,7 +1933,7 @@ static __forceinline void D52BA0IntArray__pushBack(hkArrayBase<int>& self, D52BA
 
 static __forceinline void D52BA0IntArray_AddBack(hkArrayBase<int>& self, const int& value)
 {
-        D52BA0IntArray__pushBack(self, FUN_00c85750().heap(), value);
+        D52BA0IntArray__pushBack(self, hkMemoryRouter_getInstance().heap(), value);
     }
 
 struct D52BA0Commands
@@ -1970,7 +1971,7 @@ void D52BA0Builder::hkpConstraintConstructionKit_restoreStrength()
 namespace fnv_00d52be0 {
 extern "C" void _ReadWriteBarrier(void);
 
-hkMemoryRouter* __cdecl FUN_00c85750() throw();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, unsigned int auiNewSize) throw();
 
 struct FUN_00d52be0_arr
@@ -2007,7 +2008,7 @@ struct FUN_00d52be0_cls
 void FUN_00d52be0_cls::hkpConstraintConstructionKit_addConstraintModifierCallback(int aiFirstValue, int aiSecondValue)
 {
     FUN_00d52be0_arr* arr = &m_pS->m_arr1c;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     if (arr->count == (int)(arr->capFlags & 0x3fffffffu))
     {
         ResizeAudioStream(holder->m_heap, arr, 4);
@@ -2018,7 +2019,7 @@ void FUN_00d52be0_cls::hkpConstraintConstructionKit_addConstraintModifierCallbac
     arr->count++;
 
     arr = &m_pS->m_arr28;
-    holder = FUN_00c85750();
+    holder = hkMemoryRouter_getInstance();
     if (arr->count == (int)(arr->capFlags & 0x3fffffffu))
     {
         ResizeAudioStream(holder->m_heap, arr, 4);
@@ -2029,7 +2030,7 @@ void FUN_00d52be0_cls::hkpConstraintConstructionKit_addConstraintModifierCallbac
     arr->count++;
 
     arr = &m_pS->m_arr1c;
-    holder = FUN_00c85750();
+    holder = hkMemoryRouter_getInstance();
     if (arr->count == (int)(arr->capFlags & 0x3fffffffu))
     {
         ResizeAudioStream(holder->m_heap, arr, 4);
@@ -2050,7 +2051,7 @@ struct PairList
     unsigned int m_capBits;
 };
 
-hkMemoryRouter* FUN_00c85750();
+hkMemoryRouter* hkMemoryRouter_getInstance();
 void ResizeAudioStream(void* allocator, PairList* list, unsigned int elemSize);
 
 struct SubOwner
@@ -2078,7 +2079,7 @@ struct FUN_00d52ca0_cls
 void FUN_00d52ca0_cls::AppendZeroItem()
 {
     PairList* items = &m_pSub->m_items;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     if ((unsigned int)items->m_uiItemCount == (items->m_capBits & 0x3fffffff))
     {
         ResizeAudioStream(holder->m_heap, items, 4);
@@ -2104,7 +2105,7 @@ void FUN_00d52ca0_cls::AppendZeroItem()
 //     base class destructor call (stand-in base named by its address).
 
 extern int DAT_01268f80;
-void __cdecl FUN_00c876a0(void);
+void __cdecl bhkSerializable_Kill(void);
 
 // Stand-in for the polymorphic base class whose destructor lives at
 // 0x00c89640. The base supplies the vfptr at offset 0, so the generated
@@ -2122,7 +2123,7 @@ struct FUN_00d53220 : FUN_00c89640
 // @fnv 0x00d53220
 FUN_00d53220::~FUN_00d53220()
 {
-    FUN_00c876a0();
+    bhkSerializable_Kill();
     --DAT_01268f80;
 }
 
@@ -2399,12 +2400,13 @@ class D53360Owner
     D53360Entry** m_ppkEntries;
     unsigned int m_uiCount;
 
-    void FUN_00c8a280(D53360Stream& kStream);
-    void FUN_00d53360(D53360Stream& kStream);
+    void hkConstraintCinfo_SaveBinary(D53360Stream& kStream);
+    void hkConstraintChainCinfo_SaveBinary(D53360Stream& kStream);
 };
 
 // @fnv 0x00d53360
-void D53360Owner::FUN_00d53360(D53360Stream& kStream)
+// src: XBOX_PDB 0x00d53360
+void D53360Owner::hkConstraintChainCinfo_SaveBinary(D53360Stream& kStream)
 {
     unsigned int ItemUpdateArray = m_uiCount;
     D53360SaveBinary(kStream, ItemUpdateArray);
@@ -2413,12 +2415,12 @@ void D53360Owner::FUN_00d53360(D53360Stream& kStream)
         D53360Entry* pkEntry = m_ppkEntries[i];
         kStream.SaveLinkID(pkEntry ? pkEntry->m_pPointer : 0);
     }
-    FUN_00c8a280(kStream);
+    hkConstraintCinfo_SaveBinary(kStream);
 }
 
 namespace fnv_00d57120 {
 
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 struct FnvCpu_FUN_00d57120_CpuObject
 {
     unsigned int unk00;
@@ -2433,7 +2435,7 @@ FnvCpu_FUN_00d57120_CpuObject* FnvCpu_FUN_00d57120_CpuObject::hkpExtendedMeshSha
     FUN_00d56e00();
     if (flags & 1)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         reinterpret_cast<hkMemoryAllocator*>(holder->m_heap)->blockFree(this, size);
     }
     return this;
@@ -2544,7 +2546,7 @@ struct FUN_00d51ea0_Cls
 bool FUN_00d51ea0_Cls::hkpConstraintConstructionKit_setAngularBasisBBodyFrame()
 {
     FUN_00d51ea0_Vec* vec = &m_pInner->m_vec1c;
-    hkMemoryRouter* holder = FUN_00c85750();
+    hkMemoryRouter* holder = hkMemoryRouter_getInstance();
     if (vec->m_iArrayLength == (int)(vec->m_uCapacityFlags & 0x3fffffff))
         ResizeAudioStream(holder->m_heap, vec, 4);
     int* pSlot = &vec->m_pData[vec->m_iArrayLength];
@@ -2982,7 +2984,7 @@ struct D53970Obj
     virtual void v43();
     virtual void v44();
     virtual D53970BaseB* GetData(int* out);
-    void FUN_00c89860(D53970Stream* stream);
+    void bhkConstraint_LinkObject(D53970Stream* stream);
     void ReadDataArray(D53970Stream* stream);
 };
 
@@ -2996,7 +2998,7 @@ void D53970Obj::ReadDataArray(D53970Stream* stream)
     D53970Array_SetSize(arr, count);
     for (unsigned int i = 0; i < (unsigned int)count; i++)
         arr.m_data[i] = stream->ReadLink()->m_uiFilterValue;
-    FUN_00c89860(stream);
+    bhkConstraint_LinkObject(stream);
 }
 
 // Copies 16 consecutive ints from s to d, four at a time, in a loop of four iterations.
@@ -3028,13 +3030,13 @@ inline void* operator new(unsigned int, void* p, PlaceTag)
 }
 inline void operator delete(void*, void*, PlaceTag)
 {}
-hkMemoryRouter* __cdecl FUN_00c85750();
+hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void*, void*, int);
 namespace d51 {
 // hkArray<T>::pushBack as this unit's original inlines it (the router's allocator is read only on the grow path).
 template <class T> inline void AddBack(hkArray<T>& a, const T& e)
 {
-    hkMemoryRouter* h = FUN_00c85750();
+    hkMemoryRouter* h = hkMemoryRouter_getInstance();
     if (a.m_iElementCount == (a.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(h->m_heap, &a, sizeof(T));
     ::new (&a.m_data[a.m_iElementCount], PlaceTag()) T(e);
@@ -3336,11 +3338,12 @@ class FUN_00dcc160_cls
 };
 
 // @fnv 0x00d491b0
-void* __cdecl FUN_00d491b0(void* pvSource, void* pvArg, void* pvArgCur, void* kvArg)
+// src: XBOX_PDB 0x00d491b0
+void* __cdecl hkSerializeUtil_loadOnHeap_00d491b0(void* pvSource, void* pvArg, void* pvArgCur, void* kvArg)
 {
     FUN_00dcc160_cls kData;
     void* pvData = kData.InitFromValue(pvSource)->m_pResource;
-    void* pvResult = FUN_00d48fc0(pvData, pvArg, pvArgCur, kvArg);
+    void* pvResult = hkSerializeUtil_loadOnHeap(pvData, pvArg, pvArgCur, kvArg);
     kData.FUN_00dcc160();
     return pvResult;
 }
@@ -3375,12 +3378,13 @@ void nullsub_100()
 void nullsub_102()
 {}
 
-void __cdecl FUN_00c8a230(int* param_1, int param_2);
+void __cdecl hkConstraintCinfo_LoadBinary(int* param_1, int param_2);
 
 // @fnv 0x00d50000
-void __cdecl FUN_00d50000(int* param_1, int param_2)
+// src: XBOX_PDB 0x00d50000
+void __cdecl hkGenericConstraintCinfo_LoadBinary(int* param_1, int param_2)
 {
-    FUN_00c8a230(param_1, param_2);
+    hkConstraintCinfo_LoadBinary(param_1, param_2);
 }
 
 struct FUN_00c89920_cls
@@ -3389,17 +3393,18 @@ struct FUN_00c89920_cls
 };
 struct FUN_00d53290_cls
 {
-    void __thiscall FUN_00d53290(int a);
+    void __thiscall bhkConstraintChain_SaveBinary(int a);
 };
 // @fnv 0x00d53290
-void __thiscall FUN_00d53290_cls::FUN_00d53290(int a)
+// src: XBOX_PDB 0x00d53290
+void __thiscall FUN_00d53290_cls::bhkConstraintChain_SaveBinary(int a)
 {
     ((FUN_00c89920_cls*)this)->InvokeRefTarget(a);
 }
 
 
 namespace hkRouterD539 {
-extern "C" hkMemoryRouter& __cdecl FUN_00c85750() throw();
+extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 }
 void __cdecl hkArrayUtil__reserve(hkMemoryAllocator& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
@@ -3467,8 +3472,8 @@ class FUN_00d54180_cls
 // src: HAVOK_LIB 0x00d54180
 void FUN_00d54180_cls::hkpBallAndSocketConstraintData_setInWorldSpace(const hkTransform& kA, const hkTransform& kB, const hkVector4& fT)
 {
-    m_kPointA.FUN_00c7f690(kA, fT);
-    m_kPointB.FUN_00c7f690(kB, fT);
+    m_kPointA.hkVector4_setTransformedInversePos(kA, fT);
+    m_kPointB.hkVector4_setTransformedInversePos(kB, fT);
 }
 
 struct FnvCpu_FUN_00d54d60_CpuObject
@@ -3626,7 +3631,7 @@ int __thiscall FUN_00d58ce0_Class::FUN_00d58ce0(unsigned char flag)
 
     if ((flag & 1) != 0)
     {
-        hkMemoryRouter* holder = FUN_00c85750();
+        hkMemoryRouter* holder = hkMemoryRouter_getInstance();
         FUN_00d58ce0_DisplayObj* display = (FUN_00d58ce0_DisplayObj*)holder->m_heap;
         display->vf08((int)this, (int)this->unk04);
     }
@@ -3658,7 +3663,7 @@ void __thiscall FUN_00d5d660_cls::NextFloat4(float* pOut)
 
 inline void hkReferencedObject::operator delete(void* p)
 {
-    reinterpret_cast<hkMemoryRouter*>(FUN_00c85750())
+    reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance())
         ->heap().blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
 }
 
@@ -3692,11 +3697,12 @@ struct FUN_00d5e0c0_Obj
     int unk3c;
     unsigned char unk40;
 
-    unsigned char __thiscall FUN_00d5e0c0();
+    unsigned char __thiscall hkpConvexListShape_getUseCachedAabb();
 };
 
 // @fnv 0x00d5e0c0
-unsigned char FUN_00d5e0c0_Obj::FUN_00d5e0c0()
+// src: XBOX_PDB 0x00d5e0c0
+unsigned char FUN_00d5e0c0_Obj::hkpConvexListShape_getUseCachedAabb()
 {
     return unk40;
 }
@@ -3872,7 +3878,7 @@ struct Hk48fc0_Contents
 {
     void* m_pData;
     void __thiscall FUN_00dba7f0();
-    void __thiscall FUN_00dba0d0(void* pArg1, void* pArg2);
+    void __thiscall hkVersionPatchManager_applyPatches(void* pArg1, void* pArg2);
 };
 
 struct Hk48fc0_Data
@@ -3880,13 +3886,13 @@ struct Hk48fc0_Data
     void* m_pVtbl;
     void* m_pData;
     int m_nRef;
-    void __thiscall FUN_00dc8030();
+    void __thiscall hkDataWorldDict_hkDataWorldDict();
     void __thiscall FUN_00dc8080();
     void* __thiscall ForwardToReceiver(Hk48fc0_Contents* pOut);
 };
 
-void __cdecl FUN_00d48af0(void* pStream, Hk48fc0_Format* pFormat);
-void* __cdecl FUN_00dc32c0(void* pData, void* pAllocator, void* pLoader);
+void __cdecl hkSerializeUtil_detectFormat(void* pStream, Hk48fc0_Format* pFormat);
+void* __cdecl hkDataObjectUtil_toObjectWithRegistry(void* pData, void* pAllocator, void* pLoader);
 int __cdecl FUN_00d48950(void* pObj, void* pArg1, void* pArg2, void* pArg3);
 void __cdecl hkBinaryTagfileReader_load(void* pArg1, void* pArg2, void* pArg3);
 
@@ -3902,7 +3908,7 @@ __declspec(noinline) static int Hk48fc0_ReadTagfile(Hk48fc0_Data* pObj, void* pE
             return 1;
         }
     }
-    kBuf.FUN_00dba0d0(pObj, pAllocator);
+    kBuf.hkVersionPatchManager_applyPatches(pObj, pAllocator);
     return 0;
 }
 
@@ -3915,11 +3921,12 @@ __declspec(noinline) static void* Hk48fc0_LoadPackfile(void* pAllocator, void* p
         return 0;
     }
     hkBinaryTagfileReader_load(pAllocator, &pStream, &pFormat);
-    return FUN_00dc32c0(&pError, &pLoader, 0);
+    return hkDataObjectUtil_toObjectWithRegistry(&pError, &pLoader, 0);
 }
 
 // @fnv 0x00d48fc0
-void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* pLoader)
+// src: XBOX_PDB 0x00d48fc0
+void* __cdecl hkSerializeUtil_loadOnHeap(void* pStream, void* pError, void* pAllocator, void* pLoader)
 {
     Hk48fc0_Contents kContents;
     if (!pStream)
@@ -3950,15 +3957,15 @@ void* __cdecl FUN_00d48fc0(void* pStream, void* pError, void* pAllocator, void* 
     }
     Hk48fc0_Format kFormat;
     kFormat.m_strVersion.FUN_00cb0a60();
-    FUN_00d48af0(pStream, &kFormat);
+    hkSerializeUtil_detectFormat(pStream, &kFormat);
     switch (kFormat.m_nType)
     {
     case 4: {
         Hk48fc0_Data kData;
-        kData.FUN_00dc8030();
+        kData.hkDataWorldDict_hkDataWorldDict();
         if (!Hk48fc0_ReadTagfile(&kData, pError, pStream, pAllocator))
         {
-            void* pResult = FUN_00dc32c0(kData.ForwardToReceiver(&kContents), pAllocator, pLoader);
+            void* pResult = hkDataObjectUtil_toObjectWithRegistry(kData.ForwardToReceiver(&kContents), pAllocator, pLoader);
             kContents.FUN_00dba7f0();
             kData.FUN_00dc8080();
             kFormat.m_strVersion.FUN_00cb0c00();
@@ -4062,14 +4069,15 @@ struct hkpD500Stream;
 class hkpD500Object
 {
   public:
-    void FUN_00c8a280(hkpD500Stream* pkStream);
-    void FUN_00d50010(hkpD500Stream* pkStream);
+    void hkConstraintCinfo_SaveBinary(hkpD500Stream* pkStream);
+    void hkGenericConstraintCinfo_SaveBinary(hkpD500Stream* pkStream);
 };
 
 // @fnv 0x00d50010
-void hkpD500Object::FUN_00d50010(hkpD500Stream* pkStream)
+// src: XBOX_PDB 0x00d50010
+void hkpD500Object::hkGenericConstraintCinfo_SaveBinary(hkpD500Stream* pkStream)
 {
-    FUN_00c8a280(pkStream);
+    hkConstraintCinfo_SaveBinary(pkStream);
 }
 
 
@@ -4079,9 +4087,9 @@ class FUN_00d21ce0_cls
     FUN_00d21ce0_cls(FinishingFlag flag)
     {
         if (flag.m_bFinishing)
-            FUN_00d21ce0(m_pOwnerObject);
+            hkpBridgeConstraintAtom_init(m_pOwnerObject);
     }
-    void FUN_00d21ce0(void* owner);
+    void hkpBridgeConstraintAtom_init(void* owner);
 
     int unk00;
     int unk04;
@@ -4113,7 +4121,7 @@ FUN_00d50c00::FUN_00d50c00(FinishingFlag flag) : m_kListeners(flag)
 {
     m_data.hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(flag.m_bFinishing);
     if (flag.m_bFinishing)
-        m_kListeners.FUN_00d21ce0(this);
+        m_kListeners.hkpBridgeConstraintAtom_init(this);
 }
 
 class ObjD534
@@ -4176,12 +4184,13 @@ class ObjD534
     virtual void AttachD8(ObjD534* other, int flag);
     int unk04;
     int m_08;
-    void FUN_00c6b320(int value);
-    bool FUN_00d534e0(ObjD534* other);
+    void bhkWorld_Add_00c6b320(int value);
+    bool bhkConstraintChain_Add(ObjD534* other);
 };
 // When m_08 is nonzero: resets and attaches other (passing it m_08, returning true) if its type differs, or just resets when other is null.
 // @fnv 0x00d534e0
-bool ObjD534::FUN_00d534e0(ObjD534* other)
+// src: XBOX_PDB 0x00d534e0
+bool ObjD534::bhkConstraintChain_Add(ObjD534* other)
 {
     AutoMemContext context(16);
     int value = this ? m_08 : 0;
@@ -4196,7 +4205,7 @@ bool ObjD534::FUN_00d534e0(ObjD534* other)
             {
                 ResetA0();
                 AttachD8(other, 1);
-                other->FUN_00c6b320(value);
+                other->bhkWorld_Add_00c6b320(value);
                 result = true;
             }
         }
@@ -4376,15 +4385,16 @@ struct FUN_00d54ed0_Obj
 };
 struct FNVMemoryManager
 {
-    void __thiscall FUN_00c851c0(FUN_00d54ed0_Obj*);
-    void __thiscall FUN_00d54ed0(FUN_00d54ed0_Obj*);
+    void __thiscall bhkShape_GetViewerStrings(FUN_00d54ed0_Obj*);
+    void __thiscall bhkHeightFieldShape_GetViewerStrings(FUN_00d54ed0_Obj*);
 };
 // Calls FUN_00c851c0 on object, then appends a string from FUN_00a7d330(DAT_01268f90) via FUN_0096ae90, growing with FUN_0096ad30 first when full.
 // @fnv 0x00d54ed0
-void __thiscall FNVMemoryManager::FUN_00d54ed0(FUN_00d54ed0_Obj* object)
+// src: XBOX_PDB 0x00d54ed0
+void __thiscall FNVMemoryManager::bhkHeightFieldShape_GetViewerStrings(FUN_00d54ed0_Obj* object)
 {
     AutoMemContext scope(16);
-    this->FUN_00c851c0(object);
+    this->bhkShape_GetViewerStrings(object);
     char* result = NiViewerStrings_NiGetViewerString_Title(DAT_01268f90);
     unsigned int n = object->unk0A;
     if (n >= object->unk08)
@@ -4510,23 +4520,24 @@ class FUN_00d50c90
     FUN_00d50c90();
     static void* operator new(unsigned int bytes)
     {
-        FUN_00d50c90* p = (FUN_00d50c90*)hkRouterD539::FUN_00c85750().heap().blockAlloc(bytes);
+        FUN_00d50c90* p = (FUN_00d50c90*)hkRouterD539::hkMemoryRouter_getInstance().heap().blockAlloc(bytes);
         p->sizeAndFlags = (unsigned short)bytes;
         return p;
     }
     static void operator delete(void* p)
     {
-        hkRouterD539::FUN_00c85750().heap().blockFree(p, sizeof(FUN_00d50c90));
+        hkRouterD539::hkMemoryRouter_getInstance().heap().blockFree(p, sizeof(FUN_00d50c90));
     }
 };
 struct OwnerD500
 {
     void ReleaseObject(FUN_00d50c90*, int);
-    void FUN_00d50090(FUN_00d50c90*, int);
+    void hkGenericConstraintCinfo_CloneData(FUN_00d50c90*, int);
 };
 // Creates a new FUN_00d50c90 object if object is null, then calls ReleaseObject on it with the given argument.
 // @fnv 0x00d50090
-void OwnerD500::FUN_00d50090(FUN_00d50c90* object, int arg)
+// src: XBOX_PDB 0x00d50090
+void OwnerD500::hkGenericConstraintCinfo_CloneData(FUN_00d50c90* object, int arg)
 {
     AutoMemContext context(0x10);
     if (!object)
@@ -4666,7 +4677,7 @@ struct FUN_00dd0530
     }
     static void* operator new(unsigned int n)
     {
-        hkMemoryRouter* h = FUN_00c85750();
+        hkMemoryRouter* h = hkMemoryRouter_getInstance();
         return ((FUN_00dd0530*)((hkMemoryAllocator*)h->m_heap)->blockAlloc(n))->SetSizeAndGrow(n);
     }
     static void operator delete(void*);
@@ -4729,11 +4740,12 @@ struct Target
     virtual void v45();
     virtual void v46();
     virtual void v47(void*);
-    void FUN_00d533e0(void*);
+    void bhkConstraintChain_Init(void*);
 };
 // Allocates a FUN_00dd0530, adds each item from the Input's items array as a referenced object, then calls v35, FUN_00c905b0, and v47.
 // @fnv 0x00d533e0
-void Target::FUN_00d533e0(void* arg)
+// src: XBOX_PDB 0x00d533e0
+void Target::bhkConstraintChain_Init(void* arg)
 {
     FUN_00dd0530* p;
     AutoMemContext context(16);
@@ -5036,7 +5048,7 @@ struct hkMemoryRouterF
 
 __forceinline hkMemoryRouterF* getRouter()
 {
-    return (hkMemoryRouterF*)FUN_00c85750();
+    return (hkMemoryRouterF*)hkMemoryRouter_getInstance();
 }
 
 template <class T>

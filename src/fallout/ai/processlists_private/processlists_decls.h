@@ -27,7 +27,7 @@ extern "C" int FNV_Finite(double);
 class Crime
 {
   public:
-    void FUN_009ec400(BGSLoadGameBuffer*);
+    void Crime_InitLoadGame(BGSLoadGameBuffer*);
     TESObjectREFR* GetTarget();
 };
 int MinInt(int, int);
@@ -46,5 +46,5 @@ class MagicShaderHitEffect;
 class NiAVObject;
 class GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_011dc804;
-bool FUN_0043b300(const NiRTTI*, NiAVObject*);
+bool NiObject_IsKindOf(const NiRTTI*, NiAVObject*);
 #endif

@@ -596,7 +596,7 @@ unsigned short BaseProcess::GetSaveSize(unsigned int aiFlags, MobileObject* pmob
     pform = 0;
     pheader = pform;
 
-    if (fnv_008d0900::DAT_011de45c->FUN_00862110())
+    if (fnv_008d0900::DAT_011de45c->TESSaveLoadGame_UseSaveGameBlocks())
     {
         pform += 4;
         pform += 2;
@@ -646,7 +646,7 @@ void* __cdecl FUN_00ec43fb(void*, int, char*, char*, int);
 
 struct FUN_008a6ce0_shell
 {
-    void FUN_008a6ce0(int, int);
+    void Actor_EvaluatePackage(int, int);
 };
 
 
@@ -657,7 +657,7 @@ void BaseProcess::FinishLoadGameTES(unsigned int aiUnused1, unsigned int aiUnuse
     if (t != 0 && t != DAT_011dea3c && this->GetCurrentPackage() == 0 && static_cast<const BaseProcess*>(this)->GetPackageInfoValue() == -1)
     {
         this->SetAnimationState(0u);
-        ((FUN_008a6ce0_shell*)t)->FUN_008a6ce0(1, 1);
+        ((FUN_008a6ce0_shell*)t)->Actor_EvaluatePackage(1, 1);
     }
 }
 
@@ -670,8 +670,8 @@ struct SaveHeaderView
 struct TESSaveLoadGameHelper
 {
     unsigned int GetTimeStamp();
-    bool FUN_00862110();
-    void FUN_008579b0(void*, int);
+    bool TESSaveLoadGame_UseSaveGameBlocks();
+    void TESSaveLoadGame_SaveGameDataOLD(void*, int);
     SaveHeaderView* GetHitSound();
 };
 extern TESSaveLoadGame* g_TESSaveLoadGame;
@@ -690,9 +690,9 @@ extern const char DAT_010865e0[];
 extern const char DAT_010153a0[];
 extern const char DAT_0101536c[];
 extern const char DAT_01015318[];
-void __cdecl FUN_0040fbe0(const char*, ...);
+void __cdecl ProgramFlow(const char*, ...);
 void __cdecl FNV_Warning(const char*, ...);
-TESForm* __cdecl FUN_004839c0(unsigned int);
+TESForm* __cdecl TESForm_GetFormByNumericID(unsigned int);
 struct ProcessData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -794,29 +794,29 @@ void SavedProcess::BaseProcess_SaveGameTES(unsigned int flags, unsigned int unus
     unsigned int initial = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
     if (*g_011de4e8.Bool())
         initial = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_00862110())
+    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int tag = 0x424c4f4b;
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&tag, 4);
+        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->TESSaveLoadGame_SaveGameDataOLD(&tag, 4);
         begin = (unsigned int*)((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
-        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&length, 2);
+        ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->TESSaveLoadGame_SaveGameDataOLD(&length, 2);
     }
     data.FUN_008c6250(flags);
-    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_008579b0(&unk1c, 4);
+    ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->TESSaveLoadGame_SaveGameDataOLD(&unk1c, 4);
     if (*g_011de4e8.Bool())
     {
         unsigned int header = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
         SaveHeaderView* end = ((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->GetHitSound();
         if (end)
         {
-            TESForm* form = FUN_004839c0(end->id);
-            FUN_0040fbe0(DAT_010153a0, header - initial, end->id, ((FormView*)form)->Describe(),
+            TESForm* form = TESForm_GetFormByNumericID(end->id);
+            ProgramFlow(DAT_010153a0, header - initial, end->id, ((FormView*)form)->Describe(),
                          *(unsigned int*)&end->flags, 0xf9, DAT_010865e0);
         }
         else
-            FUN_0040fbe0(DAT_0101536c, header - initial, 0xf9, DAT_010865e0);
+            ProgramFlow(DAT_0101536c, header - initial, 0xf9, DAT_010865e0);
     }
-    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->FUN_00862110())
+    if (((TESSaveLoadGameHelper*)g_TESSaveLoadGame)->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned int uiTimestamp = ((TimeGlobal*)g_TESSaveLoadGame)->GetTimeStamp();
         unsigned int finalPosition = (unsigned int)begin;
@@ -842,9 +842,9 @@ struct Record8d
 };
 struct Reader8d
 {
-    bool FUN_00862110();
-    void FUN_008579e0(void*, unsigned);
-    Record8d* FUN_004fd3c0();
+    bool TESSaveLoadGame_UseSaveGameBlocks();
+    void TESSaveLoadGame_LoadGameDataOLD(void*, unsigned);
+    Record8d* BGSProjectile_GetExplosion();
     unsigned char FUN_008df040();
     unsigned FUN_00825c00();
 };
@@ -928,7 +928,7 @@ struct Object8d
     virtual void v75();
     virtual const char* name();
 };
-Object8d* __cdecl FUN_004839c0(unsigned);
+Object8d* __cdecl TESForm_GetFormByNumericID(unsigned);
 void __cdecl Warning_005b5e40(const char*, ...);
 struct Base8d
 {
@@ -948,16 +948,16 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
 {
     unsigned short count = 0;
     unsigned start = 0;
-    if ((*(Reader8d**)&DAT_011de45c)->FUN_00862110())
+    if ((*(Reader8d**)&DAT_011de45c)->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned tag;
-        (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&tag, 4);
+        (*(Reader8d**)&DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&tag, 4);
         if (tag != 0x424c4f4b)
         {
-            Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
+            Record8d* record = (*(Reader8d**)&DAT_011de45c)->BGSProjectile_GetExplosion();
             if (record)
             {
-                Object8d* object = FUN_004839c0(record->id);
+                Object8d* object = TESForm_GetFormByNumericID(record->id);
                 Warning_005b5e40(&DAT_01015718, &DAT_010865e0, 0x104, record->id, object->name(),
                              *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
             }
@@ -967,17 +967,17 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
             }
         }
         start = (*(Reader8d**)&DAT_011de45c)->FUN_00825c00();
-        (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&count, 2);
+        (*(Reader8d**)&DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&count, 2);
     }
     base.FUN_008c6320(arg1, arg2);
-    (*(Reader8d**)&DAT_011de45c)->FUN_008579e0(&field, 4);
-    if ((*(Reader8d**)&DAT_011de45c)->FUN_00862110())
+    (*(Reader8d**)&DAT_011de45c)->TESSaveLoadGame_LoadGameDataOLD(&field, 4);
+    if ((*(Reader8d**)&DAT_011de45c)->TESSaveLoadGame_UseSaveGameBlocks())
     {
         unsigned end = (*(Reader8d**)&DAT_011de45c)->FUN_00825c00();
-        Record8d* record = (*(Reader8d**)&DAT_011de45c)->FUN_004fd3c0();
+        Record8d* record = (*(Reader8d**)&DAT_011de45c)->BGSProjectile_GetExplosion();
         if (record)
         {
-            Object8d* object = FUN_004839c0(record->id);
+            Object8d* object = TESForm_GetFormByNumericID(record->id);
             if (end > start + count)
             {
                 Warning_005b5e40(&DAT_01015588, end - (start + count), &DAT_010865e0, 0x109, record->id, object->name(),

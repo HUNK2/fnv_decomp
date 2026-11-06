@@ -40,7 +40,7 @@ public:
     hkInfoD260* m_info;
 };
 struct FUN_00d24b50_Obj {
-    void __thiscall FUN_00d24b50(void* object, int flags, hkBool flag2, float f, hkCollectorD260* collector);
+    void __thiscall hkpSampledHeightFieldShape_castRayInternal(void* object, int flags, hkBool flag2, float f, hkCollectorD260* collector);
 };
 class hkShapeD260 : public FUN_00d24b50_Obj {
 public:

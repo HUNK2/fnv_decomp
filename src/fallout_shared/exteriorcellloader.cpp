@@ -11,7 +11,8 @@
 
 
 // @fnv 0x00527ce0
-void __thiscall ExteriorCellLoaderTask::FUN_00527ce0()
+// src: XBOX_PDB 0x00527ce0
+void __thiscall ExteriorCellLoaderTask::Finish_00527ce0()
 {
     ((IOManager*)this)->SubmitTask();
 }
@@ -95,16 +96,17 @@ extern int g_TES;
 
 struct FUN_005287b0_shell
 {
-    void FUN_005287b0(TESObjectCELL* apCell);
+    void ExteriorCellLoader_AttachLoadedCell(TESObjectCELL* apCell);
 };
 
 // If the cell has a node, add it to the TES cell buffer.
 // @fnv 0x005287b0
-void FUN_005287b0_shell::FUN_005287b0(TESObjectCELL* apCell)
+// src: XBOX_PDB 0x005287b0
+void FUN_005287b0_shell::ExteriorCellLoader_AttachLoadedCell(TESObjectCELL* apCell)
 {
     if (apCell)
     {
-        if (apCell->FUN_00545cb0())
+        if (apCell->Get3D_00545cb0())
         {
             ((TES*)g_TES)->AddToBuffer(apCell);
         }
@@ -141,7 +143,7 @@ void* FUN_00528840_shell::FUN_00528840(unsigned int flags)
 
 struct LoaderDummy
 {
-    void FUN_00528620(IntPoint2D* p);
+    void ExteriorCellLoader_LoadCellData(IntPoint2D* p);
 };
 struct MyCellEx
 {
@@ -151,20 +153,20 @@ struct MyCellEx
 // @fnv 0x00527cb0
 void ExteriorCellLoaderTask::Run()
 {
-    (*(LoaderDummy**)((char*)this + 0x18))->FUN_00528620(*(IntPoint2D**)((char*)this + 0x1c));
-    ((MyCellEx*)*(void**)((char*)this + 0x1c))->pObj->FUN_005571a0(1);
+    (*(LoaderDummy**)((char*)this + 0x18))->ExteriorCellLoader_LoadCellData(*(IntPoint2D**)((char*)this + 0x1c));
+    ((MyCellEx*)*(void**)((char*)this + 0x1c))->pObj->QueueReferences(1);
 }
 
 // @fnv 0x00527d00
 void ExteriorCellLoaderTask::Finish()
 {
-    if (!IOTask::FUN_00449130())
+    if (!IOTask::BSTask_int64_GetTaskCanceled())
     {
         if (*(int*)(*(char**)((char*)this + 0x1c) + 0xc) != 0)
         {
             if (*(unsigned char*)(*(char**)((char*)this + 0x1c) + 0x10) != 0)
             {
-                (*(FUN_005287b0_shell**)((char*)this + 0x18))->FUN_005287b0((TESObjectCELL*)*(int*)(*(char**)((char*)this + 0x1c) + 0xc));
+                (*(FUN_005287b0_shell**)((char*)this + 0x18))->ExteriorCellLoader_AttachLoadedCell((TESObjectCELL*)*(int*)(*(char**)((char*)this + 0x1c) + 0xc));
             }
         }
     }
@@ -175,7 +177,7 @@ void ExteriorCellLoaderTask::Finish()
 struct CellEffects;
 struct WorldSpaceAccess : TESWorldSpace
 {
-    CellEffects* __thiscall FUN_00585b30(int x, int y);
+    CellEffects* __thiscall TESWorldSpace_LoadCell(int x, int y);
 };
 // FUN_00546fb0 returns landscape data, not a scene node.
 struct LandscapeEffects
@@ -189,10 +191,10 @@ struct LandscapeEffects
 struct CellEffects : TESObjectCELL
 {
     void __thiscall GetOrCreateWidget();
-    LandscapeEffects* __thiscall FUN_00546fb0();
-    LandscapeEffects* __thiscall FUN_00546fb0(NiPoint2* outPosition);
-    bool __thiscall FUN_00451cd0();
-    float __thiscall FUN_005471e0();
+    LandscapeEffects* __thiscall TESObjectCELL_GetLand();
+    LandscapeEffects* __thiscall TESObjectCELL_GetLand(NiPoint2* outPosition);
+    bool __thiscall TESClimate_GetVolatilityIndex();
+    float __thiscall TESObjectCELL_GetWaterHeight();
     void __thiscall SetFlag2(bool value);
     bool __thiscall FUN_004518e0();
     void __thiscall SetByteAt54(bool value);
@@ -208,7 +210,7 @@ struct GlobalSettings
     unsigned char* __thiscall FUN_00408d60();
 };
 extern GlobalSettings DAT_011c7adc;
-void __cdecl FUN_0049c860(CellEffects* cell);
+void __cdecl BGSAutoWater_GeneratePlaceableWaterForCell(CellEffects* cell);
 struct CellLoadData : IntPoint2D
 {
     WorldSpaceAccess* worldSpace;
@@ -217,33 +219,34 @@ struct CellLoadData : IntPoint2D
 };
 struct CellLoader
 {
-    void __thiscall FUN_00528620(CellLoadData* data);
+    void __thiscall ExteriorCellLoader_LoadCellData(CellLoadData* data);
 };
 // @fnv 0x00528620
-void CellLoader::FUN_00528620(CellLoadData* pLoadData)
+// src: XBOX_PDB 0x00528620
+void CellLoader::ExteriorCellLoader_LoadCellData(CellLoadData* pLoadData)
 {
     if (pLoadData != 0)
     {
         if (pLoadData->cell == 0)
-            pLoadData->cell = pLoadData->worldSpace->FUN_00585b30(pLoadData->iX, pLoadData->iY);
+            pLoadData->cell = pLoadData->worldSpace->TESWorldSpace_LoadCell(pLoadData->iX, pLoadData->iY);
         if (pLoadData->cell == 0)
             pLoadData->cell = DAT_011c3f2c->FUN_00461330(0, pLoadData->iX, pLoadData->iY, pLoadData->worldSpace);
         pLoadData->cell->GetOrCreateWidget();
-        LandscapeEffects* pLandscape = pLoadData->cell->FUN_00546fb0();
+        LandscapeEffects* pLandscape = pLoadData->cell->TESObjectCELL_GetLand();
         if (pLandscape != 0)
         {
             pLandscape->TESObjectLAND_LoadVertices(true);
             pLandscape->TESObjectLAND_DrawLandBorder(GetTESRegionState(DAT_011dea10));
         }
-        if (!pLoadData->cell->FUN_00451cd0())
+        if (!pLoadData->cell->TESClimate_GetVolatilityIndex())
         {
             // Avoid invoking NiPoint2's out-of-line default constructor.
             float position[2];
-            pLoadData->cell->FUN_00546fb0((NiPoint2*)position)->TESObjectLAND_GetMinMaxLandHeight();
-            pLoadData->cell->SetFlag2(position[0] < pLoadData->cell->FUN_005471e0());
-            if (*DAT_011c7adc.FUN_00408d60() && pLoadData->cell->FUN_004518e0() && !pLoadData->cell->FUN_00451cd0())
+            pLoadData->cell->TESObjectCELL_GetLand((NiPoint2*)position)->TESObjectLAND_GetMinMaxLandHeight();
+            pLoadData->cell->SetFlag2(position[0] < pLoadData->cell->TESObjectCELL_GetWaterHeight());
+            if (*DAT_011c7adc.FUN_00408d60() && pLoadData->cell->FUN_004518e0() && !pLoadData->cell->TESClimate_GetVolatilityIndex())
             {
-                FUN_0049c860(pLoadData->cell);
+                BGSAutoWater_GeneratePlaceableWaterForCell(pLoadData->cell);
             }
             pLoadData->cell->SetByteAt54(true);
         }
@@ -251,7 +254,7 @@ void CellLoader::FUN_00528620(CellLoadData* pLoadData)
     }
 }
 
-void FUN_0040fca0(unsigned long ulMilliseconds);
+void BSSleep(unsigned long ulMilliseconds);
 struct QueuedTask
 {
     virtual void Unk_00();
@@ -262,8 +265,8 @@ struct QueuedTask
     int m_08;
     int m_eAnimationState;
     bool SetState(int eExpected, int eNew);
-    void FUN_0092c870();
-    void FUN_0044dd60();
+    void Model_IncManualRefCount();
+    void BSTask_int64_DecRefCount();
 };
 struct FUN_00528870_shell
 {
@@ -289,16 +292,16 @@ bool FUN_00528870_shell::RunQueuedTask(QueuedTask* pTask, void* pArg)
         case 1:
             if (pTask->SetState(eState, 6))
             {
-                pTask->FUN_0092c870();
+                pTask->Model_IncManualRefCount();
                 BSTaskManager_int64_RemoveTask(pTask);
                 pTask->Run(eState, pArg);
-                pTask->FUN_0044dd60();
+                pTask->BSTask_int64_DecRefCount();
                 return true;
             }
             break;
         case 2:
             while (pTask->m_eAnimationState == 3)
-                FUN_0040fca0(0);
+                BSSleep(0);
             break;
         case 3:
         case 4:
