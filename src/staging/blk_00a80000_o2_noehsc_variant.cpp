@@ -32,7 +32,7 @@ struct FUN_00a744a0
     void Init();
 };
 extern const void* DAT_0109e984;
-BSFadeNode* FUN_00a877a0();
+BSFadeNode* NiScreenElements_CreateObject();
 struct FUN_00a87900_class
 {
     void FUN_00a87900();
@@ -113,14 +113,14 @@ struct FUN_00a99c40_shell : public NiExtraData
     void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 extern const void* DAT_0109e47c;
-BSFadeNode* FUN_00a81fb0();
+BSFadeNode* NiSkinPartition_CreateObject();
 unsigned int __cdecl FUN_00a88ac0(unsigned int a);
 extern int DAT_0109fb94;
-void* __cdecl FUN_00a91fe0();
+void* __cdecl NiVectorExtraData_CreateObject();
 extern int DAT_010a02e4;
-NiProperty* __cdecl FUN_00a95160();
+NiProperty* __cdecl NiSpecularProperty_CreateObject();
 extern const void* DAT_010a0a6c;
-NiParticleMeshes* __cdecl FUN_00a98e70();
+NiParticleMeshes* __cdecl NiParticleMeshes_CreateObject();
 void __cdecl NiFree(void*);
 void* __cdecl NiMalloc(unsigned int);
 struct FUN_00a99800_shell
@@ -134,7 +134,7 @@ struct FUN_00a99800_shell
 };
 extern const void* DAT_010a12cc;
 void __fastcall FUN_00a71f60(void*);
-void* __cdecl FUN_00a9b330();
+void* __cdecl NiAmbientLight_CreateObject();
 extern unsigned int kVtbl_NiAlphaAccumulator;
 NiAlphaAccumulator* CreateNiAlphaAccumulator();
 struct FUN_00a9be80
@@ -245,7 +245,7 @@ struct FUN_00a87140_class
     char m_cc;
     void FUN_00a87140_ctor();
 };
-FUN_00a87140_class* FUN_00a87140();
+FUN_00a87140_class* BSSegmentedTriShape_CreateObject();
 struct FUN_00a94c00_shell
 {
     char m_iWordAt00[0xfc];
@@ -385,7 +385,7 @@ struct FUN_00a81760_obj
 
     void FUN_00a7b690();
 };
-FUN_00a81760_obj* __cdecl FUN_00a81760();
+FUN_00a81760_obj* __cdecl NiTriShapeDynamicData_CreateObject();
 struct S_a819e0_O
 {
     virtual ~S_a819e0_O()
@@ -541,7 +541,7 @@ struct SpawnedObject
 
     void InitBase() throw();
 };
-SpawnedObject* __cdecl FUN_00a866f0() throw();
+SpawnedObject* __cdecl NiSkinInstance_CreateObject() throw();
 // FUN_00a87790: thiscall, 10 bytes.
 // Loads the vtable pointer of this, reads the function pointer stored in
 // vtable slot 0xdc and tail-jumps to it, forwarding the single stack

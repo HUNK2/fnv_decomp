@@ -34,7 +34,8 @@ struct SplineBaseOperations
 };
 extern int DAT_01099d3c;
 // @fnv 0x00a51c60
-void* FUN_00a51c60()
+// src: EXE 0x00a51c60
+void* NiBSplineColorInterpolator_CreateObject()
 {
     NiBSplineColorInterpolator* p = (NiBSplineColorInterpolator*)BSFadeNode::operator new(52);
     if (p)

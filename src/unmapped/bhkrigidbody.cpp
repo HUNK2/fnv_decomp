@@ -919,7 +919,8 @@ struct SpawnedObject : public ChainB_cls
 
 // Allocates and constructs a new SpawnedObject, incrementing the three global counters in its constructors, and returns it.
 // @fnv 0x00c8ed70
-SpawnedObject* __cdecl FUN_00c8ed70()
+// src: EXE 0x00c8ed70
+SpawnedObject* __cdecl bhkRigidBody_CreateObject()
 {
     return new SpawnedObject();
 }

@@ -35,11 +35,12 @@ extern int DAT_0104dd7c;
 
 struct FUN_00623570_class
 {
-    int __fastcall FUN_00623570();
+    int __fastcall hkpContactListener_hkpContactListener();
 };
 
 // @fnv 0x00623570
-int __fastcall FUN_00623570_class::FUN_00623570()
+// src: EXE 0x00623570
+int __fastcall FUN_00623570_class::hkpContactListener_hkpContactListener()
 {
     *reinterpret_cast<int**>(this) = &DAT_0104dd7c;
     return reinterpret_cast<int>(this);

@@ -461,7 +461,8 @@ struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
 };
 
 // @fnv 0x00c9f5a0
-void* FUN_00c9f5a0()
+// src: EXE 0x00c9f5a0
+void* bhkAabbPhantom_CreateObject()
 {
     return new Object_00c9f5a0;
 }
@@ -2722,7 +2723,7 @@ class NiControllerC9E : public NiObject
   public:
     NiControllerC9E();
 
-    static NiObject* FUN_00c9ef30();
+    static NiObject* bhkSimpleShapePhantom_CreateObject();
 
     int unk08;
     int unk0C;
@@ -2731,7 +2732,8 @@ class NiControllerC9E : public NiObject
 };
 
 // @fnv 0x00c9ef30
-NiObject* NiControllerC9E::FUN_00c9ef30()
+// src: EXE 0x00c9ef30
+NiObject* NiControllerC9E::bhkSimpleShapePhantom_CreateObject()
 {
     return new NiControllerC9E;
 }
@@ -2986,7 +2988,8 @@ struct ObjectCA06
     ObjectCA06();
 };
 // @fnv 0x00ca06d0
-ObjectCA06* __cdecl FUN_00ca06d0()
+// src: EXE 0x00ca06d0
+ObjectCA06* __cdecl bhkSphereShape_CreateObject()
 {
     return new ObjectCA06;
 }
@@ -5998,7 +6001,8 @@ void __cdecl operator delete(void* ptr, S00cb39d0_S_00aa3e40& manager, unsigned 
 {}
 
 // @fnv 0x00cb39d0
-void __cdecl FUN_00cb39d0(void* arg0, void* arg1, void* arg2, void* arg3)
+// src: EXE 0x00cb39d0
+void __cdecl bhkRigidBodyT_CreateObject(void* arg0, void* arg1, void* arg2, void* arg3)
 {
     new (*(S00cb39d0_S_00aa3e40*)&DAT_011f6238, 0x50) S00cb39d0_S_00cb3860();
 }

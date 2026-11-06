@@ -181,10 +181,11 @@ struct FUN_0096a280_class
 {
     void* m_ppVirtualMethodTable;
     void __thiscall Init(void* p);
-    void* __thiscall FUN_0096a280(void* p);
+    void* __thiscall NiTMap_unsigned_int_unsigned_char_NiTMap(void* p);
 };
 // @fnv 0x0096a280
-void* __thiscall FUN_0096a280_class::FUN_0096a280(void* p)
+// src: EXE 0x0096a280
+void* __thiscall FUN_0096a280_class::NiTMap_unsigned_int_unsigned_char_NiTMap(void* p)
 {
     Init(p);
     m_ppVirtualMethodTable = &DAT_0108b474;
@@ -239,11 +240,12 @@ struct AX
 struct FUN_0096a570_Class
 {
     void* vtable;
-    AX* FUN_0096a570();
+    AX* BSSimpleArray_ItemChange_1024_BSSimpleArray();
 };
 // Sets the vtable to DAT_0108b4b4, calls FUN_006b3eb0 with 0, 0 on this, and returns this as an AX pointer.
 // @fnv 0x0096a570
-AX* FUN_0096a570_Class::FUN_0096a570()
+// src: EXE 0x0096a570
+AX* FUN_0096a570_Class::BSSimpleArray_ItemChange_1024_BSSimpleArray()
 {
     vtable = &DAT_0108b4b4;
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);

@@ -54,7 +54,7 @@ BSStripParticleSystem* BSStripParticleSystem::CreateParticleSystem(CloningProces
     BSStripParticleSystem* object = static_cast<BSStripParticleSystem*>(FUN_00aa13e0(0x110));
     if (object)
     {
-        object->FUN_00c1b5c0();
+        object->NiParticleSystem_00c1b5c0();
         *reinterpret_cast<unsigned int**>(object) = &UNK_010be35c;
     }
     else

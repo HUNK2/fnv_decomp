@@ -153,7 +153,8 @@ TESSound* FUN_004fd3a0_shell::FUN_004fd3a0()
 extern int DAT_01029ee0;
 
 // @fnv 0x00510620
-void* __fastcall FUN_00510620(void** pThis)
+// src: EXE 0x00510620
+void* __fastcall BGSOpenCloseForm_BGSOpenCloseForm(void** pThis)
 {
     *pThis = &DAT_01029ee0;
     return pThis;

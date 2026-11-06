@@ -229,7 +229,7 @@ public:
     bool FUN_0099ebe0(CombatSearch*, CombatSpot*, int);
     bool TryAssignAllyTarget(CombatSpot*, int);
     bool FUN_009a02a0(CombatPos*, int, bool);
-    bool FUN_0099ac20(int);
+    bool FindCombatLocation_0099ac20(int);
     int GetInventoryItemCount(TESForm*);
     void ProcessCoverLOSResult();
     void UpdateCombatStateData(int, float*, float*, float);

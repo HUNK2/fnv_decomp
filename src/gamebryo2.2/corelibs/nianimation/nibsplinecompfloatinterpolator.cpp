@@ -166,7 +166,8 @@ NiBSplineCompFloatInterpolator* __fastcall CloneCompFloatInterpolator(NiBSplineC
 }
 
 // @fnv 0x00a51620
-NiBSplineCompFloatInterpolator* FUN_00a51620()
+// src: EXE 0x00a51620
+NiBSplineCompFloatInterpolator* NiBSplineCompFloatInterpolator_CreateObject()
 {
     NiBSplineCompFloatInterpolator* p = (NiBSplineCompFloatInterpolator*)NiBSplineCompFloatInterpolator::operator new(0x2c);
     if (p)

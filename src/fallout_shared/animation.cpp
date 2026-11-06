@@ -3440,7 +3440,7 @@ bool FUN_004985b0_Owner::IsFlaggedAsTwo()
 
 struct S_0049c050
 {
-    void FUN_0049c100(int);
+    void NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_short_AnimSequenceBase_NiTMapBase(int);
     void* Construct(int);
 };
 extern int DAT_0101ded0;
@@ -3448,7 +3448,7 @@ extern int DAT_0101ded0;
 // @fnv 0x0049c050
 void* S_0049c050::Construct(int a)
 {
-    FUN_0049c100(a);
+    NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_short_AnimSequenceBase_NiTMapBase(a);
     *(void**)this = (void*)&DAT_0101ded0;
     return this;
 }
@@ -3567,11 +3567,12 @@ struct FUN_0049c100_shell
     int count;
     void* data;
     int unused;
-    FUN_0049c100_shell* FUN_0049c100(int n);
+    FUN_0049c100_shell* NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_short_AnimSequenceBase_NiTMapBase(int n);
 };
 // Sets the vtable, stores n in count, allocates count*4 zeroed bytes into data and returns this.
 // @fnv 0x0049c100
-FUN_0049c100_shell* FUN_0049c100_shell::FUN_0049c100(int aiCount)
+// src: EXE 0x0049c100
+FUN_0049c100_shell* FUN_0049c100_shell::NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_short_AnimSequenceBase_NiTMapBase(int aiCount)
 {
     vft = (void*)&DAT_0101def0;
     count = aiCount;

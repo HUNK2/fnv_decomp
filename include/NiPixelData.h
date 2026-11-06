@@ -55,7 +55,7 @@ public:
     }
     void AddString();
     void FUN_00a76a60(NiPalette* palette);
-    NiPixelData* FUN_00a7c030(const NiPixelData& source);
+    NiPixelData* NiPixelData_00a7c030(const NiPixelData& source);
     unsigned char* FUN_0064dac0(unsigned int level, unsigned int face);
     unsigned char* FUN_0064dac0(int level, int face);
     void* FUN_0064dac0(int level, int face, unsigned int size);

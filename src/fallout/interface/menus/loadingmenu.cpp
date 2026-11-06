@@ -655,7 +655,8 @@ float __cdecl FUN_00717820(void);
 extern const double DAT_0106e7f8;
 
 // @fnv 0x0078b9b0
-void LoadingMenu::FUN_0078b9b0(void* apData)
+// src: EXE 0x0078b9b0
+void LoadingMenu::CalcLoadScreenTypeTextWindowVerts(void* apData)
 {
     if (apData == 0)
     {
@@ -2454,7 +2455,7 @@ void LoadingMenu::FUN_0078bb60(BGSPerkEntry* entry)
     if (((fnv_0078bb60::PerkEntryX*)entry)->FUN_005f36f0())
     {
         int x = ((fnv_0078bb60::PerkEntryX*)entry)->FUN_0078bc60();
-        FUN_0078b9b0(x);
+        CalcLoadScreenTypeTextWindowVerts(x);
         switch (((fnv_0078bb60::PerkEntryX*)entry)->FUN_005a7130())
         {
         case 4:

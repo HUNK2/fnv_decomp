@@ -316,7 +316,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     if (iState == 0)
     {
         pWeapon = pState2->GetBestWeapon();
-        int aIType = pWeapon ? pWeapon->FUN_00522c80() : 6;
+        int aIType = pWeapon ? pWeapon->TESObjectWEAP_GetCombatWeaponType() : 6;
         fTime = pState2->FUN_0097ac90(aIType);
         if (pWeapon)
         {
@@ -332,7 +332,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
         iState = 1;
     }
 
-    int iType = pWeapon ? pWeapon->FUN_00522c80() : 6;
+    int iType = pWeapon ? pWeapon->TESObjectWEAP_GetCombatWeaponType() : 6;
     if (pWeapon && pWeapon != pState2->FUN_0097c150(iType))
     {
         pState2->SetAttacker(true);

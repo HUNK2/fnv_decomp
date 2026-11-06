@@ -13,7 +13,8 @@ extern int DAT_0109b72c;
 
 // Allocates a 0x1c-byte NiProperty, constructs it, sets a short field at offset 0x18 to 8 and installs the vtable, returning the object or null.
 // @fnv 0x00a5f280
-NiProperty* FUN_00a5f280()
+// src: EXE 0x00a5f280
+NiProperty* NiVertexColorProperty_CreateObject()
 {
     NiVertexColorProperty* p = static_cast<NiVertexColorProperty*>(BSFadeNode::operator new(0x1c));
     if (p)

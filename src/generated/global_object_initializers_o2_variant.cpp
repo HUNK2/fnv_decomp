@@ -9650,12 +9650,12 @@ extern void* DAT_010827e8;
 struct FUN_008699c0_shell
 {
     void FUN_00869aa0(unsigned int maxSize, unsigned int growBy);
-    void* FUN_008699c0(unsigned int maxSize, unsigned int growBy);
+    void* NiTObjectArray_TESObjectREFR_NiTObjectArray(unsigned int maxSize, unsigned int growBy);
 };
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* __thiscall FUN_00869b10(void* a, void* b);
+    void* __thiscall NiTObjectArray_BipedAnim_NiTObjectArray(void* a, void* b);
 };
 struct FUN_00869bf0_holder
 {

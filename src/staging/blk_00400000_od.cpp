@@ -141,12 +141,13 @@ extern int DAT_01012258;
 struct FUN_00405600_class
 {
     void __thiscall Init(int);
-    void* __thiscall FUN_00405600(int param_2);
+    void* __thiscall NiTMap_char_const_Setting_NiTMap(int param_2);
 };
 
 // Calls Init with param_2, stores the address of DAT_01012258 into this, and returns this.
 // @fnv 0x00405600
-void* __thiscall FUN_00405600_class::FUN_00405600(int param_2)
+// src: EXE 0x00405600
+void* __thiscall FUN_00405600_class::NiTMap_char_const_Setting_NiTMap(int param_2)
 {
     Init(param_2);
     *(int*)this = (int)&DAT_01012258;
@@ -504,7 +505,7 @@ struct FUN_004055d0 : public FUN_00405600_class
 // @fnv 0x004055d0
 FUN_004055d0::FUN_004055d0(int a, char b)
 {
-    FUN_00405600(a);
+    NiTMap_char_const_Setting_NiTMap(a);
     *(int**)this = &DAT_01012238;
     *(char*)((char*)this + 0x10) = b;
 }

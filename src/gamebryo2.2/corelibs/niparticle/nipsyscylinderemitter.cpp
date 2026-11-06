@@ -33,7 +33,8 @@ void NiPSysCylinderEmitter::LoadBinary(NiStream& stream)
 extern void* DAT_010bd8b4;
 
 // @fnv 0x00c1fbf0
-void* __cdecl FUN_00c1fbf0()
+// src: EXE 0x00c1fbf0
+void* __cdecl NiPSysCylinderEmitter_CreateObject()
 {
     BSFadeNode* pFadeNode = (BSFadeNode*)BSFadeNode::operator new(0x60);
     if (pFadeNode)

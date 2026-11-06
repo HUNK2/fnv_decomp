@@ -285,7 +285,7 @@ struct S00cb7750
 };
 void* __fastcall FUN_00c6b910(void*);
 extern int DAT_01066b94;
-BSFadeNode* FUN_00c87fc0();
+BSFadeNode* bhkPCollisionObject_CreateObject();
 struct Middle
 {
     int unk00;
@@ -1409,7 +1409,7 @@ struct Guard
 };
 void* __cdecl opnew(unsigned int);
 void __cdecl opdelete(void*);
-Node* FUN_00cb7920();
+Node* bhkMultiSphereShape_CreateObject();
 struct Shader
 {
     virtual void f00();

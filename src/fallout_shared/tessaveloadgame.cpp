@@ -219,13 +219,14 @@ bool ChangesMap::FUN_00855220(unsigned int aiFormID, bool abForceRemove)
 extern int DAT_01080514;
 struct Dummy_00863390
 {
-    void FUN_00863390(int);
+    void NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(int);
 };
 
 // @fnv 0x008552b0
-int* __fastcall FUN_008552b0(Dummy_00863390* apObject)
+// src: EXE 0x008552b0
+int* __fastcall InteriorCellNewReferencesMap_InteriorCellNewReferencesMap(Dummy_00863390* apObject)
 {
-    apObject->FUN_00863390(0x25);
+    apObject->NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(0x25);
     *(int*)apObject = (int)&DAT_01080514;
     return (int*)apObject;
 }
@@ -234,14 +235,15 @@ namespace fnv_008553e0 {
 extern int DAT_01080514;
 struct Dummy_00863390
 {
-    void FUN_00863390(int);
+    void NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(int);
 };
 
 // Calls FUN_00863390 with 0x25, stores the address of DAT_01080514 into the object, and returns the object pointer.
 // @fnv 0x008553e0
-int* __fastcall FUN_008553e0(Dummy_00863390* apObject)
+// src: EXE 0x008553e0
+int* __fastcall ExteriorCellNewReferencesMap_ExteriorCellNewReferencesMap(Dummy_00863390* apObject)
 {
-    apObject->FUN_00863390(0x25);
+    apObject->NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(0x25);
     *(int*)apObject = (int)&DAT_01080514;
     return (int*)apObject;
 }
@@ -251,14 +253,15 @@ namespace fnv_00855550 {
 extern int DAT_01080514;
 struct Dummy_00863390
 {
-    void FUN_00863390(int);
+    void NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(int);
 };
 
 // Calls FUN_00863390 with 0x25, stores the address of DAT_01080514 into the object, and returns the object pointer.
 // @fnv 0x00855550
-int* __fastcall FUN_00855550(Dummy_00863390* apObject)
+// src: EXE 0x00855550
+int* __fastcall NumericIDBufferMap_NumericIDBufferMap(Dummy_00863390* apObject)
 {
-    apObject->FUN_00863390(0x25);
+    apObject->NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(0x25);
     *(int*)apObject = (int)&DAT_01080514;
     return (int*)apObject;
 }
@@ -693,11 +696,12 @@ struct FUN_00863390_class
 {
     int m;
     void __thiscall FUN_008636d0(int);
-    int __thiscall FUN_00863390(int a);
+    int __thiscall NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(int a);
 };
 // Calls FUN_008636d0 with a, stores the address of DAT_01081e50 in m, and returns this.
 // @fnv 0x00863390
-int __thiscall FUN_00863390_class::FUN_00863390(int a)
+// src: EXE 0x00863390
+int __thiscall FUN_00863390_class::NiTPointerMap_unsigned_int_BSSimpleList_unsigned_int_NiTPointerMap(int a)
 {
     FUN_008636d0(a);
     m = (int)&DAT_01081e50;
@@ -707,7 +711,7 @@ int __thiscall FUN_00863390_class::FUN_00863390(int a)
 struct FUN_008633f0_class
 {
     void* p;
-    void* FUN_008633f0(void* a);
+    void* NiTPointerMap_unsigned_int_void_NiTPointerMap(void* a);
     void FUN_008638f0(void* a);
 };
 
@@ -715,7 +719,8 @@ extern void* DAT_01081e90;
 
 // Calls FUN_008638f0 on a, sets p to the address of DAT_01081e90, and returns this.
 // @fnv 0x008633f0
-void* FUN_008633f0_class::FUN_008633f0(void* apArg)
+// src: EXE 0x008633f0
+void* FUN_008633f0_class::NiTPointerMap_unsigned_int_void_NiTPointerMap(void* apArg)
 {
     FUN_008638f0(apArg);
     p = &DAT_01081e90;
@@ -728,12 +733,13 @@ struct FUN_00863420_class
 {
     void* vfn_0;
     void FUN_008639f0(int a);
-    FUN_00863420_class* FUN_00863420(int a);
+    FUN_00863420_class* NiTPointerMap_unsigned_char_BSSimpleList_LoadFormHeader_NiTPointerMap(int a);
 };
 
 // Calls FUN_008639f0 with a, sets vfn_0 to &DAT_01081eb0, and returns this.
 // @fnv 0x00863420
-FUN_00863420_class* FUN_00863420_class::FUN_00863420(int a)
+// src: EXE 0x00863420
+FUN_00863420_class* FUN_00863420_class::NiTPointerMap_unsigned_char_BSSimpleList_LoadFormHeader_NiTPointerMap(int a)
 {
     FUN_008639f0(a);
     vfn_0 = &DAT_01081eb0;
@@ -822,7 +828,7 @@ struct ChangeData
 typedef char _sizecheck_ChangeData[sizeof(ChangeData) == 8 ? 1 : -1];
 struct FUN_00858730_shell : public TESSaveLoadGame
 {
-    bool FUN_00858730(TESForm*);
+    bool TESSaveLoadGame_LoadForm(TESForm*);
 };
 
 struct FUN_00485d50_slg
@@ -931,7 +937,8 @@ struct LoadFormHeader_s
 };
 
 // @fnv 0x00858730
-bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
+// src: EXE 0x00858730
+bool FUN_00858730_shell::TESSaveLoadGame_LoadForm(TESForm* apForm)
 {
     if (!((FUN_00485d50_slg*)this)->GetLoading())
         return false;
@@ -1001,11 +1008,12 @@ extern int DAT_01081e70;
 struct S8633
 {
     void FUN_008637d0(int);
-    S8633* FUN_008633c0(int);
+    S8633* NiTPointerMap_unsigned_int_BSSimpleList_ExteriorCellReferenceData_NiTPointerMap(int);
 };
 // Calls FUN_008637d0 with a, sets the object's vtable pointer to DAT_01081e70, and returns this.
 // @fnv 0x008633c0
-S8633* S8633::FUN_008633c0(int a)
+// src: EXE 0x008633c0
+S8633* S8633::NiTPointerMap_unsigned_int_BSSimpleList_ExteriorCellReferenceData_NiTPointerMap(int a)
 {
     FUN_008637d0(a);
     *(void**)this = (void*)&DAT_01081e70;
@@ -6009,7 +6017,7 @@ struct B006815c0
 };
 struct Extra624
 {
-    void* FUN_00410220(unsigned char);
+    void* BaseExtraList_GetExtraData(unsigned char);
     void* FUN_0041b320();
 };
 // Retained for the repair routine: slot 0xA4 returns bool here, whereas
@@ -6227,7 +6235,7 @@ void Repair624::FUN_008624e0(Ref624* reference)
                     FUN_00573800(reference, cell, world);
                 }
             }
-            else if (reference->FUN_005d43c0()->FUN_00410220(15))
+            else if (reference->FUN_005d43c0()->BaseExtraList_GetExtraData(15))
             {
                 B006815c0 startRotation = reference->GetStartingPosition();
                 B006815c0 uiTimestamp = reference->GetStartingAngle();

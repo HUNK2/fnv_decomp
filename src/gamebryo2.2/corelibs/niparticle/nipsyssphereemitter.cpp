@@ -23,7 +23,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c1fe10()
 
 extern int DAT_010bd974;
 // @fnv 0x00c1fff0
-BSFadeNode* __cdecl FUN_00c1fff0()
+// src: EXE 0x00c1fff0
+BSFadeNode* __cdecl NiPSysSphereEmitter_CreateObject()
 {
     BSFadeNode* p = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x5c));
     if (p)

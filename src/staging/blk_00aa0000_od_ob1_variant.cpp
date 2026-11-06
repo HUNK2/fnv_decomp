@@ -3412,7 +3412,8 @@ struct MatrixPool
     unsigned int unk4c;
     unsigned int size;
     void FUN_00aa6e00(void*);
-    __forceinline void FUN_00aa6c70(void* pointer)
+// src: EXE 0x00aa6c70
+    __forceinline void MemoryPool_Free(void* pointer)
     {
         if (!pointer)
             return;
@@ -3541,7 +3542,7 @@ struct MM
         MatrixPool* pool = DAT_011f63b8[(unsigned int)pointer >> 24];
         if (pool && pool->Contains(pointer))
         {
-            pool->FUN_00aa6c70(pointer);
+            pool->MemoryPool_Free(pointer);
             return;
         }
         MatrixHeap* heap = FindItemByArg(pointer);
@@ -6111,7 +6112,8 @@ struct DeallocPool
         freeList = block;
         ++freeCount;
     }
-    void FUN_00aa6c70(void* p)
+// src: EXE 0x00aa6c70
+    void MemoryPool_Free(void* p)
     {
         if (!p)
             return;
@@ -6234,7 +6236,7 @@ struct MMDealloc
         DeallocPool* pool = DAT_011f63b8[(unsigned int)p >> 24];
         if (pool && pool->contains(p))
         {
-            pool->FUN_00aa6c70(p);
+            pool->MemoryPool_Free(p);
             return;
         }
         DeallocHeap* heap = FindItemByArg(p);

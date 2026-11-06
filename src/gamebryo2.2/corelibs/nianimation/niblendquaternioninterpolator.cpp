@@ -98,7 +98,8 @@ extern int DAT_011f4214;
 extern int DAT_0109a3ac;
 
 // @fnv 0x00a55470
-void* __cdecl FUN_00a55470()
+// src: EXE 0x00a55470
+void* __cdecl NiBlendQuaternionInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x40);
     if (p)

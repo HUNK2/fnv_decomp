@@ -1225,7 +1225,8 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 // Allocates a morph controller with no morph data.
 // @fnv 0x00a3b550
-NiGeomMorpherController* __cdecl FUN_00a3b550()
+// src: EXE 0x00a3b550
+NiGeomMorpherController* __cdecl NiGeomMorpherController_CreateObject()
 {
     return new NiGeomMorpherController(0);
 }

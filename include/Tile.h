@@ -197,7 +197,7 @@ class Tile
     bool FUN_0078a1f0();
     NodeObj* FUN_007d5280();
     void FUN_0097cd10(unsigned char value);
-    bool FUN_0099ac20();
+    bool FindCombatLocation_0099ac20();
     void* FUN_004fd3a0();
     Tile* FUN_0045cd60();
     NiNode* FUN_0056c7f0();

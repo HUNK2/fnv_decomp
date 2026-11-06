@@ -2144,11 +2144,12 @@ int FUN_0060b860_Cls::FUN_0060b860()
 struct STR_0060b9e0
 {
     void FUN_0060bd20(unsigned int, unsigned int);
-    void* FUN_0060b9e0(unsigned int, unsigned int);
+    void* NiTPrimitiveArray_FaceGenUndo_NiTPrimitiveArray(unsigned int, unsigned int);
 };
 extern int DAT_0104aae8;
 // @fnv 0x0060b9e0
-void* STR_0060b9e0::FUN_0060b9e0(unsigned int arg1, unsigned int arg2)
+// src: EXE 0x0060b9e0
+void* STR_0060b9e0::NiTPrimitiveArray_FaceGenUndo_NiTPrimitiveArray(unsigned int arg1, unsigned int arg2)
 {
     FUN_0060bd20(arg1, arg2);
     *(void**)this = &DAT_0104aae8;

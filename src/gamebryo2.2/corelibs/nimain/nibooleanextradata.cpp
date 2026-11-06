@@ -20,7 +20,8 @@ NiRTTI* __cdecl FUN_00a9af30()
 extern int DAT_010a112c;
 
 // @fnv 0x00a9af90
-void* __cdecl FUN_00a9af90()
+// src: EXE 0x00a9af90
+void* __cdecl NiBooleanExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)

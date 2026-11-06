@@ -799,7 +799,7 @@ struct FUN_00c465a0 {
     ~FUN_00c465a0();
     static void* operator new(unsigned int);
 };
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 struct FUN_00c48fe0_Class {
     int m_0000;
     int m_0004;
@@ -1073,7 +1073,7 @@ struct SpawnedObject_b9874 {
     void Init(int* arg);
     static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
-SpawnedObject_b9874* FUN_00c43190();
+SpawnedObject_b9874* BSXFlags_CreateObject();
 struct S_00c437c0_Obj {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4;
     static void* operator new(unsigned int);
@@ -1086,7 +1086,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660 {
     static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
 };
-FUN_00c43660* __cdecl FUN_00c43a30();
+FUN_00c43660* __cdecl BSValueNode_CreateObject();
 class FUN_00c43be0_cls {
 public:
     int unk00;
@@ -4967,7 +4967,7 @@ struct DerQ : FUN_00c450d0 {
   static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
   DerQ() { vtbl = (int)&DAT_010c1eb4; }
 };
-DerQ* FUN_00c4ac00();
+DerQ* BSBlastNode_CreateObject();
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct ItemW { int a, b, c; };
 struct ArrW {
@@ -5061,7 +5061,7 @@ extern NiFixedString* DAT_012031e4;
 extern int DAT_011f49e0;
 extern int DAT_010c2b64;
 
-BSBound* FUN_00c55010();
+BSBound* BSBound_CreateObject();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 extern MemoryManager g_memMgr;
 extern unsigned int DAT_0126fd98;
@@ -6240,7 +6240,7 @@ struct OwnerC4aa40 : FUN_00c4aae0_class {
     ObjC4aa40* FUN_00c4aa40(int a1);
 };
 extern unsigned int DAT_010c1fc4;
-BSDebrisNode* __cdecl FUN_00c4ae60();
+BSDebrisNode* __cdecl BSDebrisNode_CreateObject();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_010c20d4;
 struct S00c4af00_Obj : FUN_00c450d0
@@ -6297,7 +6297,7 @@ struct C4B0C0_Obj : FUN_00c450d0
     static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     __forceinline C4B0C0_Obj() { vtbl = (int)&DAT_010c20d4; }
 };
-C4B0C0_Obj* FUN_00c4b0c0();
+C4B0C0_Obj* BSDamageStage_CreateObject();
 // Same-TU body is visible, so /Ob1 tries to inline it and refuses.
 // The four locals are the caller's unreferenced 16-byte hole; the call stays.
 struct FUN_00546780_shell {
@@ -8193,7 +8193,7 @@ class S00c5fc70_Object
 {
 public:
     void FUN_00c316a0(const S00c5fc70_FixedString& kName, int iFlags);
-    S00c5fc70_Object* FUN_00c5fc70(S00c5fc70_Source* pSource, float f);
+    S00c5fc70_Object* BSPSysStripUpdateModifier_BSPSysStripUpdateModifier(S00c5fc70_Source* pSource, float f);
     void* m_vt;
     int unk04;
     int unk08;

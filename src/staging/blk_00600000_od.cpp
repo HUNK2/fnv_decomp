@@ -20,12 +20,13 @@ struct FUN_00600ad0_cls
 {
     const char* v;
     void __thiscall FUN_00600fd0(int, int);
-    FUN_00600ad0_cls* __thiscall FUN_00600ad0(int a, bool b);
+    FUN_00600ad0_cls* __thiscall BSTCaseInsensitiveStringMap_IDLE_ANIM_ROOT_BSTCaseInsensitiveStringMap(int a, bool b);
 };
 
 // Calls FUN_00600fd0 with the two arguments, sets v to a string literal, and returns this.
 // @fnv 0x00600ad0
-FUN_00600ad0_cls* __thiscall FUN_00600ad0_cls::FUN_00600ad0(int a, bool b)
+// src: EXE 0x00600ad0
+FUN_00600ad0_cls* __thiscall FUN_00600ad0_cls::BSTCaseInsensitiveStringMap_IDLE_ANIM_ROOT_BSTCaseInsensitiveStringMap(int a, bool b)
 {
     FUN_00600fd0(a, b);
     v = "@\r`";
@@ -317,14 +318,15 @@ void FUN_0061f440::ClearResponses()
 extern int DAT_0104d948;
 struct FUN_0061fa10_class
 {
-    void __thiscall FUN_0061fa70(int);
-    int __thiscall FUN_0061fa10(int a);
+    void __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_int_TESObjectREFR_int_NiTMapBase(int);
+    int __thiscall NiTMap_TESObjectREFR_int_NiTMap(int a);
 };
 // Calls FUN_0061fa70 with a, stores the address of DAT_0104d948 at this, and returns this.
 // @fnv 0x0061fa10
-int __thiscall FUN_0061fa10_class::FUN_0061fa10(int a)
+// src: EXE 0x0061fa10
+int __thiscall FUN_0061fa10_class::NiTMap_TESObjectREFR_int_NiTMap(int a)
 {
-    FUN_0061fa70(a);
+    NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_int_TESObjectREFR_int_NiTMapBase(a);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0104d948);
     return reinterpret_cast<int>(this);
 }
@@ -471,7 +473,7 @@ void* __thiscall FUN_005ffbd0_cls::FUN_00600fa0(unsigned int flags)
 extern int DAT_0104a0d0;
 struct FUN_006010a0_holder
 {
-    void __thiscall FUN_006010a0(int, bool);
+    void __thiscall NiTStringTemplateMap_NiTMap_char_const_IDLE_ANIM_ROOT_IDLE_ANIM_ROOT_NiTStringTemplateMap(int, bool);
 };
 struct FUN_00600fd0 : FUN_006010a0_holder
 {
@@ -480,7 +482,7 @@ struct FUN_00600fd0 : FUN_006010a0_holder
 // @fnv 0x00600fd0
 FUN_00600fd0::FUN_00600fd0(int a, bool b)
 {
-    FUN_006010a0(a, b);
+    NiTStringTemplateMap_NiTMap_char_const_IDLE_ANIM_ROOT_IDLE_ANIM_ROOT_NiTStringTemplateMap(a, b);
     *(void**)this = (void*)&DAT_0104a0d0;
 }
 
@@ -507,11 +509,12 @@ struct FUN_006010a0_Class
     int m_field_8;
     int m_field_c;
     unsigned char m_field_10;
-    FUN_006010a0_Class* __thiscall FUN_006010a0(int a, unsigned char b);
+    FUN_006010a0_Class* __thiscall NiTStringTemplateMap_NiTMap_char_const_IDLE_ANIM_ROOT_IDLE_ANIM_ROOT_NiTStringTemplateMap(int a, unsigned char b);
 };
 // Calls InitializeWithGlobal on this, sets the vtable to DAT_0104a070, stores b in m_field_10 and returns this.
 // @fnv 0x006010a0
-FUN_006010a0_Class* __thiscall FUN_006010a0_Class::FUN_006010a0(int a, unsigned char b)
+// src: EXE 0x006010a0
+FUN_006010a0_Class* __thiscall FUN_006010a0_Class::NiTStringTemplateMap_NiTMap_char_const_IDLE_ANIM_ROOT_IDLE_ANIM_ROOT_NiTStringTemplateMap(int a, unsigned char b)
 {
     ((FUN_006010d0_Class*)this)->InitializeWithGlobal(a);
     m_vft = &DAT_0104a070;
@@ -814,11 +817,12 @@ extern "C" void* __cdecl NiMalloc(unsigned int size);
 extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0061fa70_class
 {
-    int __thiscall FUN_0061fa70(int a);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_int_TESObjectREFR_int_NiTMapBase(int a);
 };
 // Sets the vtable, stores the count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x0061fa70
-int __thiscall FUN_0061fa70_class::FUN_0061fa70(int aiCount)
+// src: EXE 0x0061fa70
+int __thiscall FUN_0061fa70_class::NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_int_TESObjectREFR_int_NiTMapBase(int aiCount)
 {
     *reinterpret_cast<void**>(this) = &DAT_0104d968;
     reinterpret_cast<int*>(this)[1] = aiCount;

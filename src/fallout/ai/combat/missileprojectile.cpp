@@ -827,7 +827,8 @@ struct UpdateColor
     UpdateColor(float, float, float, float);
 };
 // @fnv 0x009b8030
-void MissileProjectile::FUN_009b8030(float afDeltaTime)
+// src: EXE 0x009b8030
+void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
 {
     if ((*reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x154)) && reinterpret_cast<UpdateNode*>(GetNiNode()))
         FUN_009babe0();

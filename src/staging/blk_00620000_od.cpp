@@ -277,14 +277,14 @@ extern int DAT_0104dd5c;
 struct FUN_006234b0_Class
 {
     int* m_vtbl;
-    void* __thiscall FUN_00623570();
+    void* __thiscall hkpContactListener_hkpContactListener();
     FUN_006234b0_Class* __thiscall FUN_006234b0();
 };
 
 // @fnv 0x006234b0
 FUN_006234b0_Class* __thiscall FUN_006234b0_Class::FUN_006234b0()
 {
-    FUN_00623570();
+    hkpContactListener_hkpContactListener();
     m_vtbl = &DAT_0104dd5c;
     return this;
 }
@@ -652,11 +652,12 @@ struct FUN_0062a480_Class
     int* m_vtbl;
     int m_auiShapeKeys;
     void __thiscall FUN_0061f4d0(int);
-    FUN_0062a480_Class* __thiscall FUN_0062a480();
+    FUN_0062a480_Class* __thiscall bhkArrowTargetListener_bhkArrowTargetListener();
 };
 // Calls FUN_0061f4d0(0), sets m_vtbl to &DAT_0104e254, and returns this.
 // @fnv 0x0062a480
-FUN_0062a480_Class* __thiscall FUN_0062a480_Class::FUN_0062a480()
+// src: EXE 0x0062a480
+FUN_0062a480_Class* __thiscall FUN_0062a480_Class::bhkArrowTargetListener_bhkArrowTargetListener()
 {
     FUN_0061f4d0(0);
     m_vtbl = &DAT_0104e254;
@@ -1290,18 +1291,19 @@ void __thiscall FUN_00622730_S::FUN_00622730(float f)
 
 struct FUN_00622870_Holder
 {
-    void __thiscall FUN_00622870(unsigned int, unsigned int);
+    void __thiscall NiTArray_NiPointer_bhkRigidBody_NiTNewInterface_NiPointer_bhkRigidBody_NiTArray(unsigned int, unsigned int);
 };
 struct FUN_006227e0_Holder
 {
     const char* m_p;
-    FUN_006227e0_Holder* __thiscall FUN_006227e0(unsigned int a, unsigned int b);
+    FUN_006227e0_Holder* __thiscall NiTObjectArray_NiPointer_bhkRigidBody_NiTObjectArray(unsigned int a, unsigned int b);
 };
 // Calls FUN_00622870 with the two arguments, then stores the string "@(b" at the start of this object and returns this.
 // @fnv 0x006227e0
-FUN_006227e0_Holder* __thiscall FUN_006227e0_Holder::FUN_006227e0(unsigned int a, unsigned int b)
+// src: EXE 0x006227e0
+FUN_006227e0_Holder* __thiscall FUN_006227e0_Holder::NiTObjectArray_NiPointer_bhkRigidBody_NiTObjectArray(unsigned int a, unsigned int b)
 {
-    ((FUN_00622870_Holder*)this)->FUN_00622870(a, b);
+    ((FUN_00622870_Holder*)this)->NiTArray_NiPointer_bhkRigidBody_NiTNewInterface_NiPointer_bhkRigidBody_NiTArray(a, b);
     *(const char**)this = "@(b";
     return this;
 }
@@ -1754,7 +1756,7 @@ extern int DAT_0104e3a4;
 
 struct FUN_0062d6f0_shell
 {
-    void* FUN_0062d6f0();
+    void* hkpPhantomListener_hkpPhantomListener();
 };
 
 struct FUN_0062d680_Class
@@ -1787,7 +1789,7 @@ struct FUN_0062d680_Class
     int m_uiX;
     int m_uiY;
     int m_uiZ;
-    void* __thiscall FUN_0062d6f0();
+    void* __thiscall hkpPhantomListener_hkpPhantomListener();
     void* __thiscall FUN_0062d680();
 };
 
@@ -1795,7 +1797,7 @@ struct FUN_0062d680_Class
 void* __thiscall FUN_0062d680_Class::FUN_0062d680()
 {
     ((FUN_0062a480_Class*)this)->FUN_0061f4d0(0);
-    ((FUN_0062d6f0_shell*)((char*)this + 0x14))->FUN_0062d6f0();
+    ((FUN_0062d6f0_shell*)((char*)this + 0x14))->hkpPhantomListener_hkpPhantomListener();
     m_vtbl = (int*)&DAT_0104e3a4;
     *(int*)((char*)this + 0x14) = (int)&DAT_0104e38c;
     return this;
@@ -1853,11 +1855,12 @@ void* __thiscall FUN_006317c0_Class::FUN_006317c0(unsigned int flags)
 extern int DAT_0104e4f0;
 struct FUN_00631850_Class : FUN_006318b0_Class
 {
-    FUN_00631850_Class* __thiscall FUN_00631850(int);
+    FUN_00631850_Class* __thiscall NiTMap_hkpRigidBody_bool_NiTMap(int);
 };
 // Calls the base constructor with count, installs DAT_0104e4f0 as the vtable pointer, and returns this.
 // @fnv 0x00631850
-FUN_00631850_Class* __thiscall FUN_00631850_Class::FUN_00631850(int count)
+// src: EXE 0x00631850
+FUN_00631850_Class* __thiscall FUN_00631850_Class::NiTMap_hkpRigidBody_bool_NiTMap(int count)
 {
     FUN_006318b0(count);
     *(int*)this = (int)&DAT_0104e4f0;
@@ -2212,11 +2215,12 @@ struct FUN_00622870_Class
     unsigned short m_auiShapeKeys;
     unsigned short m_kPointA;
     unsigned short m_kPointB;
-    FUN_00622870_Class* __thiscall FUN_00622870(unsigned short count, unsigned short a);
+    FUN_00622870_Class* __thiscall NiTArray_NiPointer_bhkRigidBody_NiTNewInterface_NiPointer_bhkRigidBody_NiTArray(unsigned short count, unsigned short a);
 };
 
 // @fnv 0x00622870
-FUN_00622870_Class* __thiscall FUN_00622870_Class::FUN_00622870(unsigned short count, unsigned short a)
+// src: EXE 0x00622870
+FUN_00622870_Class* __thiscall FUN_00622870_Class::NiTArray_NiPointer_bhkRigidBody_NiTNewInterface_NiPointer_bhkRigidBody_NiTArray(unsigned short count, unsigned short a)
 {
     m_vtbl = &DAT_0104dc94;
     m_uiItemCount = count;
@@ -2470,7 +2474,7 @@ struct FUN_0062a460_Class : FUN_0062a480_Class
 // @fnv 0x0062a460
 FUN_0062a460_Class::FUN_0062a460_Class()
 {
-    FUN_0062a480_Class::FUN_0062a480();
+    FUN_0062a480_Class::bhkArrowTargetListener_bhkArrowTargetListener();
     m_vtbl = (int*)&DAT_0104e228;
 }
 
@@ -6409,7 +6413,7 @@ class FUN_00621d10 : public PathingSolutionBase
 // @fnv 0x00621d10
 FUN_00621d10::FUN_00621d10()
 {
-    m_kHolder.FUN_006227e0(0, 1);
+    m_kHolder.NiTObjectArray_NiPointer_bhkRigidBody_NiTObjectArray(0, 1);
     DAT_011cc1c8++;
 }
 

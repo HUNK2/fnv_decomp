@@ -1668,7 +1668,7 @@ struct HelperC9E340
 };
 struct HelperD5D7A0
 {
-    const hkpShape* FUN_00d5d7a0(const hkpShape* child, const void* transform, int unk);
+    const hkpShape* hkpConvexTransformShape_hkpConvexTransformShape(const hkpShape* child, const void* transform, int unk);
 };
 
 struct MeshSubpartTriangle
@@ -1927,7 +1927,7 @@ const hkpShape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* buffer) 
 
             if (buffer)
             {
-                return ((HelperD5D7A0*)buffer)->FUN_00d5d7a0(childShape, &transform, 0);
+                return ((HelperD5D7A0*)buffer)->hkpConvexTransformShape_hkpConvexTransformShape(childShape, &transform, 0);
             }
         }
         return 0;

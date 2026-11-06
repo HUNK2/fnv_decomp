@@ -51,7 +51,8 @@ extern int DAT_010a0b64;
 
 // Allocates a NiLODNode, initializes its base, LOD data, switch index and modifier flag.
 // @fnv 0x00a99710
-void* __cdecl FUN_00a99710()
+// src: EXE 0x00a99710
+void* __cdecl NiLODNode_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xd4);
     if (p)

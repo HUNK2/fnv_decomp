@@ -436,7 +436,7 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
         reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())
             ->Set(Tile::GetTraitID("_ShowSubtitles"), bSubtitles);
         DAT_011d9510->m_pTiles[1]->Set(0xFC4, speaker->GetFullName(), true);
-        if (FUN_005d4a40() && !FUN_004b7210()->kTutorialManager.HasBeenShown(17))
+        if (Cmd_Default_Execute() && !FUN_004b7210()->kTutorialManager.HasBeenShown(17))
             DAT_011d9510->m_bSuppressDialogueText = true;
         else
             DAT_011d9510->BeginDialogueResponse(false);

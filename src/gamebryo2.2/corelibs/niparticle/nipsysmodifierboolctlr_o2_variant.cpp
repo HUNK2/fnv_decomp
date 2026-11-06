@@ -21,10 +21,11 @@ struct CtlrStandin
     char _pad[0x38];
     NiFixedString m_s;
     void* m_p;
-    CtlrStandin* FUN_00c31260();
+    CtlrStandin* NiPSysModifierCtlr_NiPSysModifierCtlr();
 };
 // @fnv 0x00c31260
-CtlrStandin* CtlrStandin::FUN_00c31260()
+// src: EXE 0x00c31260
+CtlrStandin* CtlrStandin::NiPSysModifierCtlr_NiPSysModifierCtlr()
 {
     ((NiTimeController_Call*)this)->SetControllerActive();
     *(void**)this = (void*)NiPSysModifierCtlr_vtable;

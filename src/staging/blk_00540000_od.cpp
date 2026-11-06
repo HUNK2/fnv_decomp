@@ -25,14 +25,14 @@
 
 struct FUN_00540700_Class
 {
-    int FUN_00540780(int);
+    int NiTPointerMap_unsigned_int_TESGrassAreaParam_NiTPointerMap(int);
     int FUN_00540700();
 };
 
 // @fnv 0x00540700
 int FUN_00540700_Class::FUN_00540700()
 {
-    return FUN_00540780(0x25);
+    return NiTPointerMap_unsigned_int_TESGrassAreaParam_NiTPointerMap(0x25);
 }
 
 struct FUN_005407b0_Class
@@ -556,7 +556,8 @@ struct FUN_00540940_Standin
     void __thiscall InitBuffer(int);
 };
 // @fnv 0x00540780
-int FUN_00540700_Class::FUN_00540780(int a)
+// src: EXE 0x00540780
+int FUN_00540700_Class::NiTPointerMap_unsigned_int_TESGrassAreaParam_NiTPointerMap(int a)
 {
     ((FUN_00540940_Standin*)this)->InitBuffer(a);
     *(void**)this = (void*)&DAT_0102e44c;

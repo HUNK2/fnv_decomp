@@ -35,7 +35,7 @@ struct S_00a370b0_Class
     float m_fTrailingValue;
 
     void FUN_00a56ff0();
-    S_00a370b0_Class* FUN_00a370b0(bool bFlags, float fWeightThreshold, unsigned char volatile ucArraySize);
+    S_00a370b0_Class* NiBlendInterpolator_NiBlendInterpolator_00a370b0(bool bFlags, float fWeightThreshold, unsigned char volatile ucArraySize);
 };
 
 struct S_00a370b0_Allocator
@@ -64,7 +64,8 @@ struct BlendItem
 };
 
 // @fnv 0x00a370b0
-S_00a370b0_Class* __thiscall S_00a370b0_Class::FUN_00a370b0(bool bFlags, float fWeightThreshold,
+// src: EXE 0x00a370b0
+S_00a370b0_Class* __thiscall S_00a370b0_Class::NiBlendInterpolator_NiBlendInterpolator_00a370b0(bool bFlags, float fWeightThreshold,
                                                             unsigned char volatile ucArraySize)
 {
     unsigned int nCount;

@@ -125,7 +125,8 @@ bool __thiscall NiLookAtInterpolator::RegisterStreamables(NiStream& arStream)
 inline void* operator new(unsigned int, NiLookAtInterpolator* p) throw() { return p; }
 
 // @fnv 0x00a4c5a0
-void* __cdecl FUN_00a4c5a0()
+// src: EXE 0x00a4c5a0
+void* __cdecl NiLookAtInterpolator_CreateObject()
 {
     void* p = NiLookAtInterpolator::operator new(0x44);
     if (p)

@@ -2069,7 +2069,7 @@ struct S_00d49660_Foo
     unsigned char unk70;
 
     void __thiscall FUN_00d248a0(int, int);
-    S_00d49660_Foo* __thiscall FUN_00d49660(int, int, float);
+    S_00d49660_Foo* __thiscall hkpStorageSampledHeightFieldShape_hkpStorageSampledHeightFieldShape(int, int, float);
 };
 extern int DAT_010cfb34;
 extern double DAT_01012070;

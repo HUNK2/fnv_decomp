@@ -25,7 +25,8 @@ inline NiPoint3::NiPoint3(float a, float b, float c) : x(a), y(b), z(c)
 
 // Calls FUN_00a71f60, sets the vtable to &DAT_0109d7b4, stores NiPoint3(1,0,0) at pThis+0xf0 and byte 3 at pThis+0x9d, then returns pThis.
 // @fnv 0x00a75c20
-void* __fastcall FUN_00a75c20(char* pObject)
+// src: EXE 0x00a75c20
+void* __fastcall NiDirectionalLight_NiDirectionalLight(char* pObject)
 {
     FUN_00a71f60(pObject);
     *(int**)pObject = &DAT_0109d7b4;
@@ -116,7 +117,7 @@ NiObject* __fastcall FUN_00a75cf0(NiDirectionalLight* light, void*, CloningProce
     NiDirectionalLight* pkObject = (NiDirectionalLight*)FUN_00aa13e0(sizeof(NiDirectionalLight));
 
     if (pkObject)
-        pkObject = (NiDirectionalLight*)FUN_00a75c20((char*)pkObject);
+        pkObject = (NiDirectionalLight*)NiDirectionalLight_NiDirectionalLight((char*)pkObject);
     else
         pkObject = 0;
 

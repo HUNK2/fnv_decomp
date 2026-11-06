@@ -86,7 +86,8 @@ void FakeSkin::FUN_00a84ce0(void* streamObject)
 
 extern int DAT_0109e574;
 // @fnv 0x00a84d30
-void* __cdecl FUN_00a84d30()
+// src: EXE 0x00a84d30
+void* __cdecl NiSkinData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x48);
     if (p)

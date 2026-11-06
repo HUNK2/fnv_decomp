@@ -341,7 +341,8 @@ struct UVControllerConstruction : NiUVController
 };
 
 // @fnv 0x00a45f50
-NiUVController* __cdecl FUN_00a45f50() throw()
+// src: EXE 0x00a45f50
+NiUVController* __cdecl NiUVController_CreateObject() throw()
 {
     NiUVController* p = new UVControllerConstruction;
     return p;

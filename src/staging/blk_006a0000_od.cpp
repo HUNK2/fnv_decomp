@@ -352,11 +352,12 @@ struct FUN_006a6290_class
 {
     void FUN_006a6370(int a);
     void* vfn;
-    FUN_006a6290_class* FUN_006a6290(int a);
+    FUN_006a6290_class* NiTMap_NavMesh_NiPointer_NiNode_NiTMap(int a);
 };
 // Calls FUN_006a6370 with the argument, sets vfn to DAT_0106b52c, and returns this.
 // @fnv 0x006a6290
-FUN_006a6290_class* FUN_006a6290_class::FUN_006a6290(int a)
+// src: EXE 0x006a6290
+FUN_006a6290_class* FUN_006a6290_class::NiTMap_NavMesh_NiPointer_NiNode_NiTMap(int a)
 {
     FUN_006a6370(a);
     vfn = &DAT_0106b52c;
@@ -367,12 +368,13 @@ struct FUN_006a62c0_class
 {
     int* m_p;
     void __thiscall ConstructIntArray(int arg);
-    FUN_006a62c0_class* FUN_006a62c0(int arg);
+    FUN_006a62c0_class* NiTMap_TESObjectCELL_NiPointer_NiNode_NiTMap(int arg);
 };
 
 // Calls ConstructIntArray with arg, sets m_p to the string "@cj", and returns this.
 // @fnv 0x006a62c0
-FUN_006a62c0_class* FUN_006a62c0_class::FUN_006a62c0(int arg)
+// src: EXE 0x006a62c0
+FUN_006a62c0_class* FUN_006a62c0_class::NiTMap_TESObjectCELL_NiPointer_NiNode_NiTMap(int arg)
 {
     ConstructIntArray(arg);
     m_p = (int*)"@cj";
@@ -1893,10 +1895,11 @@ void* __cdecl NiMalloc(unsigned int);
 void* __cdecl FillBytes(void* p, unsigned int c, unsigned int n);
 struct FUN_006b7eb0_t
 {
-    void* __thiscall FUN_006b7eb0(int a);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_int_NavMeshInfo_NiTMapBase(int a);
 };
 // @fnv 0x006b7eb0
-void* FUN_006b7eb0_t::FUN_006b7eb0(int aiCount)
+// src: EXE 0x006b7eb0
+void* FUN_006b7eb0_t::NiTMapBase_NiTPointerAllocator_unsigned_int_unsigned_int_NavMeshInfo_NiTMapBase(int aiCount)
 {
     *reinterpret_cast<void**>(this) = &DAT_0106c194;
     reinterpret_cast<int*>(this)[1] = aiCount;
@@ -1911,10 +1914,11 @@ void* __cdecl NiMalloc(unsigned int size);
 void* __cdecl memset(void* dest, int value, unsigned int count);
 struct FUN_006b8060_class
 {
-    void* __thiscall FUN_006b8060(int size);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_unsigned_int_NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMapBase(int size);
 };
 // @fnv 0x006b8060
-void* FUN_006b8060_class::FUN_006b8060(int size)
+// src: EXE 0x006b8060
+void* FUN_006b8060_class::NiTMapBase_DFALL_NiTMapItem_unsigned_int_NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_unsigned_int_NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMapBase(int size)
 {
     *reinterpret_cast<void**>(this) = &DAT_0106c1b4;
     reinterpret_cast<int*>(this)[1] = size;
@@ -1934,11 +1938,12 @@ struct FUN_006b8160_class
     int m_iWordAt04;
     void* m_8;
     int m_iThirdValue;
-    FUN_006b8160_class* FUN_006b8160(int n);
+    FUN_006b8160_class* NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_NavMeshInfo_1024_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMapBase(int n);
 };
 // Sets the vtable, stores n, allocates n*4 bytes zeroed into m_8 and returns this.
 // @fnv 0x006b8160
-FUN_006b8160_class* FUN_006b8160_class::FUN_006b8160(int aiCount)
+// src: EXE 0x006b8160
+FUN_006b8160_class* FUN_006b8160_class::NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_NavMeshInfo_1024_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMapBase(int aiCount)
 {
     unsigned int size;
     vtbl = &DAT_0106c1d4;

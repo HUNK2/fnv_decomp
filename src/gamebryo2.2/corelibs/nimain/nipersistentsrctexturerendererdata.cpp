@@ -23,13 +23,13 @@ char const* const* __cdecl FUN_00e91780()
 
 
 extern char const* const DAT_0109f0a0;
-NiObject* __cdecl FUN_00a982d0();
+NiObject* __cdecl NiPersistentSrcTextureRendererData_CreateObject();
 
 // @fnv 0x00a98460
 void __cdecl RegisterNiStreamFactory()
 {
     NiStream::UnregisterObjectLoader((char const*)&DAT_0109f0a0);
-    NiStream::RegisterObjectLoader((char const*)&DAT_0109f0a0, FUN_00a982d0);
+    NiStream::RegisterObjectLoader((char const*)&DAT_0109f0a0, NiPersistentSrcTextureRendererData_CreateObject);
 }
 
 extern "C" void __cdecl _NiFreeAlias(void*);

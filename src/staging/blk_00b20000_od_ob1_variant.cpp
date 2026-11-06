@@ -28,7 +28,7 @@ extern int DAT_010a57fc;
 struct FUN_00b3c440_class
 {
     int* vtbl;
-    int FUN_00b3c440(int a);
+    int std_out_of_range_out_of_range(int a);
 };
 extern int DAT_010a31fc;
 struct FUN_00b3c910_class

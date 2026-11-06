@@ -473,7 +473,8 @@ void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
 
 #include "../../../../include/NiMemObject.h"
 // @fnv 0x00a929b0
-void* __cdecl FUN_00a929b0()
+// src: EXE 0x00a929b0
+void* __cdecl NiTextureEffect_CreateObject()
 {
     NiTextureEffect* obj = (NiTextureEffect*)NiMemObject::operator new(0x15c);
     if (obj)

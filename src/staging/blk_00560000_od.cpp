@@ -282,11 +282,12 @@ struct FUN_0056d610_base
 struct FUN_0056d5f0_class : FUN_0056d610_base
 {
     void FUN_0056d610();
-    void* FUN_0056d5f0();
+    void* bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape();
 };
 
 // @fnv 0x0056d5f0
-void* FUN_0056d5f0_class::FUN_0056d5f0()
+// src: EXE 0x0056d5f0
+void* FUN_0056d5f0_class::bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape()
 {
     FUN_0056d610();
     *reinterpret_cast<void**>(this) = &DAT_01030534;
@@ -504,11 +505,12 @@ struct FUN_0057c470Class
 {
     int m;
     void __thiscall InitArray(int);
-    int* __thiscall FUN_0057c470(int);
+    int* __thiscall NiTPointerMap_TESObjectREFR_bool_NiTPointerMap(int);
 };
 // Calls InitArray with a, stores the address of DAT_01030f6c in m, and returns &m.
 // @fnv 0x0057c470
-int* __thiscall FUN_0057c470Class::FUN_0057c470(int a)
+// src: EXE 0x0057c470
+int* __thiscall FUN_0057c470Class::NiTPointerMap_TESObjectREFR_bool_NiTPointerMap(int a)
 {
     InitArray(a);
     m = (int)&DAT_01030f6c;
@@ -909,10 +911,11 @@ extern "C" int DAT_012681fc;
 struct FUN_0056d410_Class
 {
     void __thiscall FUN_0056d440();
-    void* __thiscall FUN_0056d410();
+    void* __thiscall bhkEntity_bhkEntity();
 };
 // @fnv 0x0056d410
-void* __thiscall FUN_0056d410_Class::FUN_0056d410()
+// src: EXE 0x0056d410
+void* __thiscall FUN_0056d410_Class::bhkEntity_bhkEntity()
 {
     FUN_0056d440();
     *(void**)(this) = &DAT_010302bc;

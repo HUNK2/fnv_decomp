@@ -5959,7 +5959,7 @@ struct TickPlayer : VSlot<AV17, 0>
     unsigned char GetByteAt798();
     void FUN_00886360(float);
     int FUN_004f8960();
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     void FUN_008c3c40(int, int);
     bool FUN_00967ae0();
     bool FUN_005721e0();
@@ -6561,10 +6561,10 @@ void TickPlayer::FUN_0093e860(float elapsed)
         }
         vf1e0();
         if (unk64a)
-            FUN_00895110(DAT_011a3b3c, DAT_011a3b40);
+            Actor_PickAnimations(DAT_011a3b3c, DAT_011a3b40);
         unk64a = !unk64a;
         if (unk64a)
-            FUN_00895110(DAT_011a3b3c, DAT_011a3b40);
+            Actor_PickAnimations(DAT_011a3b3c, DAT_011a3b40);
         UpdateFaceAnimation(elapsed);
         FUN_008885e0(FUN_00950a60(!unk64a), elapsed);
         unk64a = !unk64a;
@@ -7163,7 +7163,7 @@ axesDone:
     }
     unk64a = true;
     vf1e0();
-    FUN_00895110(DAT_011a3b3c, DAT_011a3b40);
+    Actor_PickAnimations(DAT_011a3b3c, DAT_011a3b40);
     unk68->vf41c(this);
     unk64a = unk648;
     unk649 = false;

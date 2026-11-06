@@ -128,7 +128,8 @@ void __fastcall FUN_005890c0(int* self, FUN_00845b30_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00845b30
-int* __fastcall FUN_00845b30(int* self, FUN_00845b30_arg aArg)
+// src: EXE 0x00845b30
+int* __fastcall NiTPointerMap_unsigned_int_BGSFormChanges_NiTPointerMap(int* self, FUN_00845b30_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;

@@ -94,7 +94,8 @@ NiRTTI* __cdecl FUN_00a8ff70()
 extern void* DAT_0109f81c;
 
 // @fnv 0x00a8ff80
-void* __cdecl FUN_00a8ff80()
+// src: EXE 0x00a8ff80
+void* __cdecl NiScreenGeometry_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xc4);
     if (p)
@@ -122,7 +123,8 @@ void __fastcall ConstructNiRefObject(NiRefObject*);
 extern int DAT_0109f914;
 
 // @fnv 0x00a8ffc0
-void* __cdecl FUN_00a8ffc0()
+// src: EXE 0x00a8ffc0
+void* __cdecl NiScreenPolygon_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x1c);
     if (p)
@@ -337,11 +339,12 @@ void* __thiscall NiScreenSpaceCamera::FUN_00a91e60(unsigned int flags)
 }
 
 // @fnv 0x00a91ee0
-BSFadeNode* FUN_00a91ee0()
+// src: EXE 0x00a91ee0
+BSFadeNode* NiScreenSpaceCamera_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x134);
     if (p)
-        return (BSFadeNode*)((NiScreenSpaceCamera*)p)->FUN_00a91d80();
+        return (BSFadeNode*)((NiScreenSpaceCamera*)p)->NiScreenSpaceCamera_00a91d80();
     return 0;
 }
 
@@ -474,7 +477,8 @@ void __fastcall LoadScreenPolygon(NiScreenPolygon* self, void*, NiStream& kStrea
 NiScreenGeometryData* __fastcall ConstructScreenGeometryData(NiScreenGeometryData*);
 
 // @fnv 0x00a90b20
-void* __cdecl FUN_00a90b20()
+// src: EXE 0x00a90b20
+void* __cdecl NiScreenGeometryData_CreateObject()
 {
     NiScreenGeometryData* object = static_cast<NiScreenGeometryData*>(BSFadeNode::operator new(0x70));
 
@@ -935,7 +939,8 @@ NiCamera* __fastcall ConstructScreenCameraBase(NiCamera*);
 extern void* ScreenSpaceCameraVtable;
 // Initializes the screen-space camera and its orthographic frustum, then updates world data and world bound.
 // @fnv 0x00a91d80
-NiScreenSpaceCamera* NiScreenSpaceCamera::FUN_00a91d80()
+// src: EXE 0x00a91d80
+NiScreenSpaceCamera* NiScreenSpaceCamera::NiScreenSpaceCamera_00a91d80()
 {
     ConstructScreenCameraBase(this);
     *reinterpret_cast<void**>(this) = &ScreenSpaceCameraVtable;
@@ -958,7 +963,7 @@ struct ScreenCameraCopyOperation
 NiScreenSpaceCamera* __fastcall CreateScreenSpaceCamera(NiScreenSpaceCamera* self, void*, unsigned int a1)
 {
     NiScreenSpaceCamera* p = (NiScreenSpaceCamera*)NiScreenSpaceCamera::operator new(sizeof(NiScreenSpaceCamera));
-    NiScreenSpaceCamera* r = p ? p->FUN_00a91d80() : 0;
+    NiScreenSpaceCamera* r = p ? p->NiScreenSpaceCamera_00a91d80() : 0;
     reinterpret_cast<ScreenCameraCopyOperation*>(self)->Copy(r, a1);
     return r;
 }

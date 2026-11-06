@@ -310,7 +310,7 @@ struct FUN_00cce990
     FUN_00cce990();
     static void* __cdecl operator new(unsigned int size);
 };
-FUN_00cce990* __stdcall FUN_00ccea70();
+FUN_00cce990* __stdcall bhkConvexTransformShape_CreateObject();
 struct FUN_00ccf060_stub
 {
     void __thiscall ReleaseActiveResource();
@@ -2888,7 +2888,7 @@ struct SpawnedObject : public ChainA_cls
         g_ctorCountD += 1;
     }
 };
-SpawnedObject* FUN_00cc4900();
+SpawnedObject* bhkBreakableConstraint_CreateObject();
 struct S_00cc4b90_Tls
 {
     int unk000;
@@ -6528,7 +6528,7 @@ struct FUN_00ccd100
         return FUN_00aa13e0(bytes);
     }
 };
-FUN_00ccd100* __cdecl FUN_00ccd250();
+FUN_00ccd100* __cdecl bhkCylinderShape_CreateObject();
 extern "C" void _ReadWriteBarrier(void);
 struct S_00ccd330_Arg
 {

@@ -49,12 +49,13 @@ extern "C" void* DAT_01071aec;
 struct AX
 {
     void __thiscall FUN_006b3eb0(unsigned int, unsigned int);
-    AX* __thiscall FUN_00753070();
+    AX* __thiscall BSSimpleArray_NiAVObject_1024_BSSimpleArray();
 };
 
 // Sets the object's vtable pointer to DAT_01071aec, calls FUN_006b3eb0(0, 0), and returns this.
 // @fnv 0x00753070
-AX* __thiscall AX::FUN_00753070()
+// src: EXE 0x00753070
+AX* __thiscall AX::BSSimpleArray_NiAVObject_1024_BSSimpleArray()
 {
     *(void**)this = &DAT_01071aec;
     FUN_006b3eb0(0, 0);
@@ -171,11 +172,12 @@ unsigned char FUN_00759d80_Class::FUN_00759d80()
 
 struct S007530c0
 {
-    S007530c0* __thiscall FUN_007530c0();
+    S007530c0* __thiscall BSSimpleArray_TESCaravanCard_1024_BSSimpleArray();
 };
 // Sets the vtable pointer to DAT_01071b00, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x007530c0
-S007530c0* __thiscall S007530c0::FUN_007530c0()
+// src: EXE 0x007530c0
+S007530c0* __thiscall S007530c0::BSSimpleArray_TESCaravanCard_1024_BSSimpleArray()
 {
     *(int*)this = (int)&DAT_01071b00;
     ((AX*)this)->FUN_006b3eb0(0, 0);

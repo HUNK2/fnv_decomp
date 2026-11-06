@@ -368,7 +368,8 @@ struct Obj_a73e20
 };
 
 // @fnv 0x00a73e20
-Obj_a73e20* __cdecl FUN_00a73e20()
+// src: EXE 0x00a73e20
+Obj_a73e20* __cdecl NiAdditionalGeometryData_CreateObject()
 {
     Obj_a73e20* p = (Obj_a73e20*)FUN_00aa13e0(0x2c);
     if (p)

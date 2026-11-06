@@ -743,11 +743,12 @@ struct FUN_008d0270_Class
     int m_24;
     int m_28;
     int m_2c;
-    FUN_008d0270_Class* __thiscall FUN_008d0270();
+    FUN_008d0270_Class* __thiscall BaseProcess_BaseProcess();
 };
 // Sets the vtable pointer, calls FUN_008c5e20 on the object at offset 4, zeroes m_2c, and returns this.
 // @fnv 0x008d0270
-FUN_008d0270_Class* __thiscall FUN_008d0270_Class::FUN_008d0270()
+// src: EXE 0x008d0270
+FUN_008d0270_Class* __thiscall FUN_008d0270_Class::BaseProcess_BaseProcess()
 {
     vtbl = &DAT_01085e2c;
     ((void(__thiscall*)(void*))FUN_008c5e20)((char*)this + 4);
@@ -776,11 +777,12 @@ extern "C" void __fastcall FUN_00a6d220(void*);
 extern int DAT_010867fc;
 struct FUN_008d15d0_Class
 {
-    void* __thiscall FUN_008d15d0();
+    void* __thiscall BSPlayerDistanceCheckController_BSPlayerDistanceCheckController();
 };
 // Calls FUN_00a6d220 on this, sets the vtable to DAT_010867fc, zeroes the float at +0x34 and the int at +0x38, and returns this.
 // @fnv 0x008d15d0
-void* __thiscall FUN_008d15d0_Class::FUN_008d15d0()
+// src: EXE 0x008d15d0
+void* __thiscall FUN_008d15d0_Class::BSPlayerDistanceCheckController_BSPlayerDistanceCheckController()
 {
     FUN_00a6d220(this);
     *(int*)this = (int)&DAT_010867fc;
@@ -1027,10 +1029,11 @@ extern int DAT_01086674;
 extern int DAT_01086684;
 struct FUN_008d10e0_Class : Call741e0
 {
-    void* FUN_008d10e0(int a, int b);
+    void* bhkCharacterListenerArrow_bhkCharacterListenerArrow(int a, int b);
 };
 // @fnv 0x008d10e0
-void* FUN_008d10e0_Class::FUN_008d10e0(int aiArg, int aiValue)
+// src: EXE 0x008d10e0
+void* FUN_008d10e0_Class::bhkCharacterListenerArrow_bhkCharacterListenerArrow(int aiArg, int aiValue)
 {
     FUN_00c741e0(aiArg);
     *reinterpret_cast<int**>(this) = &DAT_01086684;

@@ -256,7 +256,8 @@ struct A51BF0Base
 
 
 // @fnv 0x00a326c0
-void* __cdecl FUN_00a326c0()
+// src: EXE 0x00a326c0
+void* __cdecl NiControllerSequence_CreateObject()
 {
     void* p = A51BF0Base::operator new(0x74);
     if (p)

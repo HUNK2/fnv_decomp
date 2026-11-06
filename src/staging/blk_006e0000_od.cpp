@@ -185,11 +185,12 @@ FUN_006e1020_shell* __thiscall FUN_006e1020_shell::FUN_006e0e80()
 extern int DAT_0106ceb8;
 struct FUN_006e0ea0_Class
 {
-    int* __thiscall FUN_006e0ea0(int a1);
+    int* __thiscall NiTMap_unsigned_int_PathingLOSGrid_NiTMap(int a1);
     void __thiscall ConstructHashTable(int a1);
 };
 // @fnv 0x006e0ea0
-int* __thiscall FUN_006e0ea0_Class::FUN_006e0ea0(int aiValue)
+// src: EXE 0x006e0ea0
+int* __thiscall FUN_006e0ea0_Class::NiTMap_unsigned_int_PathingLOSGrid_NiTMap(int aiValue)
 {
     ConstructHashTable(aiValue);
     *(int**)this = &DAT_0106ceb8;
@@ -363,11 +364,12 @@ extern void* DAT_0106d4d4;
 struct FUN_006e9050_Class
 {
     void __thiscall InitSizeState(int a1, int a2);
-    void* __thiscall FUN_006e9050();
+    void* __thiscall BSSimpleArray_VirtualPathingNode_1024_BSSimpleArray();
 };
 
 // @fnv 0x006e9050
-void* __thiscall FUN_006e9050_Class::FUN_006e9050()
+// src: EXE 0x006e9050
+void* __thiscall FUN_006e9050_Class::BSSimpleArray_VirtualPathingNode_1024_BSSimpleArray()
 {
     *reinterpret_cast<void**>(this) = &DAT_0106d4d4;
     InitSizeState(0, 0);
@@ -449,11 +451,12 @@ extern int DAT_0106d698;
 struct FUN_006ecb40_Class
 {
     void __thiscall FUN_006ecc00();
-    FUN_006ecb40_Class* __thiscall FUN_006ecb40();
+    FUN_006ecb40_Class* __thiscall BSTCommonMessageQueue_PathingMessage_BSTCommonMessageQueue();
 };
 
 // @fnv 0x006ecb40
-FUN_006ecb40_Class* __thiscall FUN_006ecb40_Class::FUN_006ecb40()
+// src: EXE 0x006ecb40
+FUN_006ecb40_Class* __thiscall FUN_006ecb40_Class::BSTCommonMessageQueue_PathingMessage_BSTCommonMessageQueue()
 {
     FUN_006ecc00();
     *reinterpret_cast<long*>(this) = (long)&DAT_0106d698;
@@ -867,10 +870,11 @@ struct FUN_006f98c0_Class
 struct FUN_006f9680_Class
 {
     int m_iWordAt00;
-    int __thiscall FUN_006f9680(int a1);
+    int __thiscall BSMap_unsigned_int_BGSDistantTreeBlock_InstanceData_BSMap(int a1);
 };
 // @fnv 0x006f9680
-int __thiscall FUN_006f9680_Class::FUN_006f9680(int aiValue)
+// src: EXE 0x006f9680
+int __thiscall FUN_006f9680_Class::BSMap_unsigned_int_BGSDistantTreeBlock_InstanceData_BSMap(int aiValue)
 {
     ((FUN_006f98c0_Class*)this)->FUN_006f98c0(aiValue);
     m_iWordAt00 = (int)&DAT_0106df38;
@@ -884,11 +888,12 @@ struct FUN_006f9a00_Class
 };
 struct FUN_006f96b0_Class
 {
-    int* __thiscall FUN_006f96b0(int a1);
+    int* __thiscall BSMap_unsigned_int_BGSDistantTreeBlock_TreeGroup_BSMap(int a1);
 };
 // Calls FUN_006f9a00 with a1, then stores the address of DAT_0106df58 in the object's first field and returns this.
 // @fnv 0x006f96b0
-int* __thiscall FUN_006f96b0_Class::FUN_006f96b0(int a1)
+// src: EXE 0x006f96b0
+int* __thiscall FUN_006f96b0_Class::BSMap_unsigned_int_BGSDistantTreeBlock_TreeGroup_BSMap(int a1)
 {
     reinterpret_cast<FUN_006f9a00_Class*>(this)->FUN_006f9a00(a1);
     *reinterpret_cast<int**>(this) = &DAT_0106df58;
@@ -1489,12 +1494,13 @@ struct FUN_006ec090_Class
     int f8;
     int fC;
     void* f10;
-    FUN_006ec090_Class* __thiscall FUN_006ec090(int a1);
+    FUN_006ec090_Class* __thiscall BSTCommonLLMessageQueue_PathingMessage_BSTCommonLLMessageQueue(int a1);
 };
 // @fnv 0x006ec090
-FUN_006ec090_Class* __thiscall FUN_006ec090_Class::FUN_006ec090(int aiValue)
+// src: EXE 0x006ec090
+FUN_006ec090_Class* __thiscall FUN_006ec090_Class::BSTCommonLLMessageQueue_PathingMessage_BSTCommonLLMessageQueue(int aiValue)
 {
-    ((FUN_006ecb40_Class*)this)->FUN_006ecb40();
+    ((FUN_006ecb40_Class*)this)->BSTCommonMessageQueue_PathingMessage_BSTCommonMessageQueue();
     *(int*)this = (int)&DAT_0106d678;
     *(int*)((char*)this + 8) = aiValue;
     *(int*)((char*)this + 12) = 0;
@@ -1525,10 +1531,11 @@ struct Call_6ecb70
 };
 struct Holder_6ec340
 {
-    Holder_6ec340* __thiscall FUN_006ec340();
+    Holder_6ec340* __thiscall BSTCommonStaticMessageQueue_NiPointer_NiAVObject_256_BSTCommonStaticMessageQueue();
 };
 // @fnv 0x006ec340
-Holder_6ec340* __thiscall Holder_6ec340::FUN_006ec340()
+// src: EXE 0x006ec340
+Holder_6ec340* __thiscall Holder_6ec340::BSTCommonStaticMessageQueue_NiPointer_NiAVObject_256_BSTCommonStaticMessageQueue()
 {
     ((Call_6ecb70*)this)->FUN_006ecb70();
     *(int*)this = (int)&DAT_0106d6d0;

@@ -9889,7 +9889,7 @@ struct P130Actor
     void FUN_00884f80();
     void ForwardToVtSlot(int);
     void FUN_008b3ab0();
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     void FUN_00931fb0(bool);
     void FUN_008a73e0(int, bool);
     void FUN_00931d30(float);

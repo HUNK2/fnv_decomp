@@ -30,7 +30,8 @@ extern int DAT_01098a14;
 
 // Allocates a 0x3c-byte BSFadeNode, runs its constructor, zeroes the field at offset 0x38, sets its vtable, and returns the object or null.
 // @fnv 0x00a4b790
-void* __cdecl FUN_00a4b790()
+// src: EXE 0x00a4b790
+void* __cdecl NiMaterialColorController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x3c);
     if (p)

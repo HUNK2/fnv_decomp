@@ -169,7 +169,8 @@ extern const char* DAT_0118a2d8[];
 extern unsigned char DAT_0118a598[];
 
 // @fnv 0x005b1ba0
-bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameters, ScriptLineBuffer* line,
+// src: EXE 0x005b1ba0
+bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodeParameter* parameters, ScriptLineBuffer* line,
                           EncodeCompiler* compiler)
 
 {

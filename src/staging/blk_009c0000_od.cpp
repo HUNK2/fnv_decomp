@@ -301,10 +301,11 @@ struct Call741e0
 };
 struct FUN_009c6440_Class
 {
-    int FUN_009c6440(int a, int b);
+    int ProjectileListener_ProjectileListener(int a, int b);
 };
 // @fnv 0x009c6440
-int FUN_009c6440_Class::FUN_009c6440(int a, int aiStoredValue)
+// src: EXE 0x009c6440
+int FUN_009c6440_Class::ProjectileListener_ProjectileListener(int a, int aiStoredValue)
 {
     ((Call741e0*)this)->FUN_00c741e0(a);
     *(int*)this = (int)&DAT_01090594;

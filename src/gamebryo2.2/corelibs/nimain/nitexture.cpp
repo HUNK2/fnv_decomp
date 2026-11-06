@@ -46,7 +46,8 @@ extern int DAT_010983bc;
 
 // Allocates a 0x18-byte NiProperty, runs its constructor, installs the vtable at DAT_010983bc, and returns it (or null on allocation failure).
 // @fnv 0x00a47380
-void* __cdecl FUN_00a47380()
+// src: EXE 0x00a47380
+void* __cdecl NiSequenceStreamHelper_CreateObject()
 {
     NiProperty* p = (NiProperty*)NiRefObject::operator new(0x18);
     if (p)

@@ -370,11 +370,12 @@ bool TrapHolder::FUN_0062d570(CombatWorldStateListNode* p)
 
 struct FUN_0062d6f0_shell
 {
-    void* FUN_0062d6f0();
+    void* hkpPhantomListener_hkpPhantomListener();
 };
 
 // @fnv 0x0062d6f0
-void* FUN_0062d6f0_shell::FUN_0062d6f0()
+// src: EXE 0x0062d6f0
+void* FUN_0062d6f0_shell::hkpPhantomListener_hkpPhantomListener()
 {
     *reinterpret_cast<void**>(this) = &DAT_0104e3d0;
     return this;

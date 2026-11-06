@@ -923,12 +923,13 @@ struct FUN_00b097b0_class
     void* m_p;
     char pad[0x60];
     void FUN_00aca270(int a);
-    int* FUN_00b097b0(int a);
+    int* IdvFileError_IdvFileError(int a);
 };
 
 // Calls FUN_00aca270 with a, sets m_p to the address of DAT_010a51e0, and returns this as an int pointer.
 // @fnv 0x00b097b0
-int* FUN_00b097b0_class::FUN_00b097b0(int a)
+// src: EXE 0x00b097b0
+int* FUN_00b097b0_class::IdvFileError_IdvFileError(int a)
 {
     char pad[0x58];
     FUN_00aca270(a);

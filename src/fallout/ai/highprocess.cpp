@@ -4255,11 +4255,12 @@ struct S5580
     int b;
     int* c;
     void FUN_00905990();
-    S5580* FUN_00905580(int x);
+    S5580* BSTCommonLLMessageQueue_ActorPathingMessage_BSTCommonLLMessageQueue(int x);
 };
 // Calls FUN_00905990, sets the vtable to DAT_010883f8, stores x in a, zeroes b, points c at b, and returns this.
 // @fnv 0x00905580
-S5580* S5580::FUN_00905580(int aiValue)
+// src: EXE 0x00905580
+S5580* S5580::BSTCommonLLMessageQueue_ActorPathingMessage_BSTCommonLLMessageQueue(int aiValue)
 {
     FUN_00905990();
     *reinterpret_cast<int**>(this) = &DAT_010883f8;
@@ -12409,7 +12410,7 @@ struct Cl_008b3ab0
 };
 struct Cl_00895110
 {
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
 };
 struct Cl_00950110
 {
@@ -12444,7 +12445,7 @@ void FUN_008feab0_cls::FUN_008feab0(Actor* a1)
         }
     }
     reinterpret_cast<Cl_008b3ab0*>(a1)->FUN_008b3ab0();
-    reinterpret_cast<Cl_00895110*>(a1)->FUN_00895110(1.0f, 1.0f);
+    reinterpret_cast<Cl_00895110*>(a1)->Actor_PickAnimations(1.0f, 1.0f);
     if (!bOk)
     {
         reinterpret_cast<Cl_00950110*>(DAT_011dea3c)->FUN_00950110(true);

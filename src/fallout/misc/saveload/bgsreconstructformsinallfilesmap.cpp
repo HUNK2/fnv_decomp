@@ -206,7 +206,8 @@ void __fastcall FUN_005890c0(int* self, FUN_00844130_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00844130
-int* __fastcall FUN_00844130(int* self, FUN_00844130_arg a)
+// src: EXE 0x00844130
+int* __fastcall NiTMap_TESFile_BGSReconstructFormsInFileMap_NiTMap(int* self, FUN_00844130_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;
@@ -655,7 +656,7 @@ namespace fnv_00844040 {
 extern int DAT_0107eba8;
 struct S008442a0
 {
-    void FUN_008442a0(int);
+    void NiTMapBase_DFALL_NiTMapItem_unsigned_int_ReconstructFormData_unsigned_int_ReconstructFormData_NiTMapBase(int);
 };
 struct FUN_00844040
 {
@@ -666,7 +667,7 @@ struct FUN_00844040
 // @fnv 0x00844040
 FUN_00844040::FUN_00844040(int a)
 {
-    ((S008442a0*)this)->FUN_008442a0(a);
+    ((S008442a0*)this)->NiTMapBase_DFALL_NiTMapItem_unsigned_int_ReconstructFormData_unsigned_int_ReconstructFormData_NiTMapBase(a);
     vfptr = (int)&DAT_0107eba8;
 }
 }  // namespace fnv_00844040
@@ -675,11 +676,12 @@ extern int DAT_0107ebc8;
 struct S_844070
 {
     void FUN_00844590(int);
-    S_844070* FUN_00844070(int);
+    S_844070* NiTMap_unsigned_int_BGSReconstructFormsMap_NiTMap(int);
 };
 // Calls FUN_00844590 with a, stores the address of DAT_0107ebc8 into this, and returns this.
 // @fnv 0x00844070
-S_844070* S_844070::FUN_00844070(int a)
+// src: EXE 0x00844070
+S_844070* S_844070::NiTMap_unsigned_int_BGSReconstructFormsMap_NiTMap(int a)
 {
     FUN_00844590(a);
     *(int*)this = (int)&DAT_0107ebc8;
@@ -690,14 +692,15 @@ extern int DAT_0107ebe8;
 struct C008440a0
 {
     int m0;
-    void FUN_00844690(int);
-    C008440a0* FUN_008440a0(int);
+    void NiTMapBase_DFALL_NiTMapItem_unsigned_int_BGSReconstructCellsMap_unsigned_int_BGSReconstructCellsMap_NiTMapBase(int);
+    C008440a0* NiTMap_unsigned_int_BGSReconstructCellsMap_NiTMap(int);
 };
 // Calls FUN_00844690 with a, stores the address of DAT_0107ebe8 in m0, and returns this.
 // @fnv 0x008440a0
-C008440a0* C008440a0::FUN_008440a0(int a)
+// src: EXE 0x008440a0
+C008440a0* C008440a0::NiTMap_unsigned_int_BGSReconstructCellsMap_NiTMap(int a)
 {
-    FUN_00844690(a);
+    NiTMapBase_DFALL_NiTMapItem_unsigned_int_BGSReconstructCellsMap_unsigned_int_BGSReconstructCellsMap_NiTMapBase(a);
     m0 = (int)&DAT_0107ebe8;
     return this;
 }
@@ -707,11 +710,12 @@ struct S008440d0
 {
     int field0;
     void FUN_00844870(int);
-    S008440d0* FUN_008440d0(int);
+    S008440d0* NiTMap_unsigned_int_BGSReconstructCellSubBlocksMap_NiTMap(int);
 };
 // Calls FUN_00844870 with a, stores the address of DAT_0107ec08 in field0, and returns this.
 // @fnv 0x008440d0
-S008440d0* S008440d0::FUN_008440d0(int a)
+// src: EXE 0x008440d0
+S008440d0* S008440d0::NiTMap_unsigned_int_BGSReconstructCellSubBlocksMap_NiTMap(int a)
 {
     FUN_00844870(a);
     field0 = (int)&DAT_0107ec08;
@@ -723,11 +727,12 @@ struct C844100
 {
     int* f0;
     void FUN_00844970(int);
-    C844100* FUN_00844100(int);
+    C844100* NiTMap_unsigned_int_BGSReconstructCellBlocksMap_NiTMap(int);
 };
 // Calls FUN_00844970 with a, sets f0 to point at DAT_0107ec28, and returns this.
 // @fnv 0x00844100
-C844100* C844100::FUN_00844100(int a)
+// src: EXE 0x00844100
+C844100* C844100::NiTMap_unsigned_int_BGSReconstructCellBlocksMap_NiTMap(int a)
 {
     FUN_00844970(a);
     f0 = &DAT_0107ec28;
@@ -904,11 +909,12 @@ struct FUN_008442a0_shell
     int p2;
     void* p3;
     int p4;
-    int __thiscall FUN_008442a0(int n);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_ReconstructFormData_unsigned_int_ReconstructFormData_NiTMapBase(int n);
 };
 
 // @fnv 0x008442a0
-int __thiscall FUN_008442a0_shell::FUN_008442a0(int aiCount)
+// src: EXE 0x008442a0
+int __thiscall FUN_008442a0_shell::NiTMapBase_DFALL_NiTMapItem_unsigned_int_ReconstructFormData_unsigned_int_ReconstructFormData_NiTMapBase(int aiCount)
 {
     p1 = &DAT_0107ec68;
     p2 = aiCount;
@@ -929,12 +935,13 @@ struct FUN_00844db0_shell
     int count;
     void* data;
     int pad;
-    FUN_00844db0_shell* __thiscall FUN_00844db0(int param);
+    FUN_00844db0_shell* __thiscall NiTMapBase_DFALL_NiTMapItem_TESFile_BGSReconstructFormsInFileMap_TESFile_BGSReconstructFormsInFileMap_NiTMapBase(int param);
 };
 
 // Sets p to DAT_0107ed1c, stores param in count, allocates count*4 bytes into data, zeroes them, and returns this.
 // @fnv 0x00844db0
-FUN_00844db0_shell* __thiscall FUN_00844db0_shell::FUN_00844db0(int aiCount)
+// src: EXE 0x00844db0
+FUN_00844db0_shell* __thiscall FUN_00844db0_shell::NiTMapBase_DFALL_NiTMapItem_TESFile_BGSReconstructFormsInFileMap_TESFile_BGSReconstructFormsInFileMap_NiTMapBase(int aiCount)
 {
     unsigned int size;
     p = &DAT_0107ed1c;
@@ -1313,12 +1320,13 @@ struct MapCallProxy
 
 struct ReconstructFilesFormOperations : BGSReconstructFormsInAllFilesMap
 {
-    void FUN_00843630(TESForm*, unsigned int);
+    void BGSReconstructFormsInAllFilesMap_AddForm(TESForm*, unsigned int);
 };
 
 // Adds apForm to the per-file map keyed by its TESFile, creating the entry if missing, then increments iCount; logs an error when the form has no file.
 // @fnv 0x00843630
-void ReconstructFilesFormOperations::FUN_00843630(TESForm* apForm, unsigned int aiFlags)
+// src: EXE 0x00843630
+void ReconstructFilesFormOperations::BGSReconstructFormsInAllFilesMap_AddForm(TESForm* apForm, unsigned int aiFlags)
 {
     BGSReconstructFormsInFileMap* pformsInFileMap;
     TESFile* pfile;
@@ -2150,12 +2158,13 @@ struct ExtendedFileMap : BGSReconstructFormsInFileMap
 struct ReconstructMapHelper : BGSReconstructFormsInAllFilesMap
 {
     TESFile* FUN_00843fe0(BSSimpleList<TESFile*>* apFileList, unsigned int arg4);
-    void FUN_008438b0(ExtendedForm* form, unsigned int arg2, unsigned int arg3, unsigned int arg4, unsigned int arg5);
+    void BGSReconstructFormsInAllFilesMap_AddReference_008438b0(ExtendedForm* form, unsigned int arg2, unsigned int arg3, unsigned int arg4, unsigned int arg5);
 };
 
 // Resolves the form's source file, creates or fetches its ExtendedFileMap, adds the reference to it, and increments iCount; logs an error if no file is found.
 // @fnv 0x008438b0
-void ReconstructMapHelper::FUN_008438b0(ExtendedForm* form, unsigned int arg2, unsigned int arg3, unsigned int arg4,
+// src: EXE 0x008438b0
+void ReconstructMapHelper::BGSReconstructFormsInAllFilesMap_AddReference_008438b0(ExtendedForm* form, unsigned int arg2, unsigned int arg3, unsigned int arg4,
                                         unsigned int arg5)
 {
     if (!form)
@@ -3059,11 +3068,12 @@ struct FileReferenceOperations : public BGSReconstructFormsInFileMap
 };
 struct ReconstructFilesCellOperations : public BGSReconstructFormsInAllFilesMap
 {
-    void FUN_00843750(TESObjectCELL* apRef, unsigned int auiArg1, unsigned int auiArg2);
+    void BGSReconstructFormsInAllFilesMap_AddReference(TESObjectCELL* apRef, unsigned int auiArg1, unsigned int auiArg2);
 };
 // Adds a form reference to the per-file map, creating the map if needed, and increments iCount.
 // @fnv 0x00843750
-void ReconstructFilesCellOperations::FUN_00843750(TESObjectCELL* apRef, unsigned int auiArg1, unsigned int auiArg2)
+// src: EXE 0x00843750
+void ReconstructFilesCellOperations::BGSReconstructFormsInAllFilesMap_AddReference(TESObjectCELL* apRef, unsigned int auiArg1, unsigned int auiArg2)
 {
     if (!apRef)
         return;

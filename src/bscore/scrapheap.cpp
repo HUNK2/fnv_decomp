@@ -208,11 +208,12 @@ void SHStub::FUN_00aa5610(void* apMem)
 
 struct FUN_00aa59b0_shell : public ScrapHeapManager
 {
-    char* FUN_00aa59b0(unsigned int*);
+    char* ScrapHeapManager_RequestBuffer(unsigned int*);
 };
 
 // @fnv 0x00aa59b0
-char* FUN_00aa59b0_shell::FUN_00aa59b0(unsigned int* auiRequestedSize)
+// src: EXE 0x00aa59b0
+char* FUN_00aa59b0_shell::ScrapHeapManager_RequestBuffer(unsigned int* auiRequestedSize)
 {
     if (count == 0)
     {
@@ -278,11 +279,12 @@ char* FUN_00aa59b0_shell::FUN_00aa59b0(unsigned int* auiRequestedSize)
 
 struct FUN_00aa5b70_shell : public ScrapHeapManager
 {
-    void FUN_00aa5b70(char*, unsigned int);
+    void ScrapHeapManager_ReleaseBuffer(char*, unsigned int);
 };
 
 // @fnv 0x00aa5b70
-void FUN_00aa5b70_shell::FUN_00aa5b70(char* apBuffer, unsigned int aiCommittedSize)
+// src: EXE 0x00aa5b70
+void FUN_00aa5b70_shell::ScrapHeapManager_ReleaseBuffer(char* apBuffer, unsigned int aiCommittedSize)
 {
     int iUnused0;
     int iUnused1;
@@ -430,14 +432,14 @@ unsigned int FUN_00aa5800_s::FUN_00aa5800()
 
 struct FUN_00aa58b0_holder
 {
-    void FUN_00aa5c80();
+    void ScrapHeapManager_FreeAllBuffers();
     void FUN_00aa58b0();
 };
 
 // @fnv 0x00aa58b0
 void FUN_00aa58b0_holder::FUN_00aa58b0()
 {
-    FUN_00aa5c80();
+    ScrapHeapManager_FreeAllBuffers();
 }
 
 struct FUN_00aa5f30_holder
@@ -486,12 +488,13 @@ ScrapHeapManager* GetScrapHeapManager()
 
 struct FUN_00aa5c80_shell : ScrapHeapManager
 {
-    void FUN_00aa5c80();
+    void ScrapHeapManager_FreeAllBuffers();
 };
 
 // Frees every buffer in the entries array, then resets count and totalSize to zero and unlocks bufferLock.
 // @fnv 0x00aa5c80
-void FUN_00aa5c80_shell::FUN_00aa5c80()
+// src: EXE 0x00aa5c80
+void FUN_00aa5c80_shell::ScrapHeapManager_FreeAllBuffers()
 {
     if (!count)
         return;
@@ -520,12 +523,13 @@ struct TwoPointerRecord
 
 struct FUN_00aa5d40_shell : ScrapHeapManager
 {
-    unsigned int FUN_00aa5d40(unsigned int aiSize);
+    unsigned int ScrapHeapManager_FreeBuffers(unsigned int aiSize);
 };
 
 // Frees buffers from the end of the entry list until at least aiSize bytes are freed, updating count and totalSize, and returns the freed size.
 // @fnv 0x00aa5d40
-unsigned int FUN_00aa5d40_shell::FUN_00aa5d40(unsigned int aiSize)
+// src: EXE 0x00aa5d40
+unsigned int FUN_00aa5d40_shell::ScrapHeapManager_FreeBuffers(unsigned int aiSize)
 {
     if (!count)
         return 0;

@@ -238,7 +238,8 @@ struct Dummy658aa0
 };
 
 // @fnv 0x0064fd80
-void* __fastcall FUN_0064fd80(void* pThis)
+// src: EXE 0x0064fd80
+void* __fastcall BSFaceGenModelMap_BSFaceGenModelMap(void* pThis)
 {
     *(int**)pThis = &DAT_01065678;
     ((Dummy658aa0*)((char*)pThis + 4))->Initialize(0x25, 1);

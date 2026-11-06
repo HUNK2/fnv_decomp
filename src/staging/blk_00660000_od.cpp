@@ -87,12 +87,12 @@ const char* const* FUN_00661d30_cls::GetArg1Ptr()
     return &g_011d5ba8_arg1;
 }
 
-extern "C" void* __cdecl FUN_00665f50(void*);
+extern "C" void* __cdecl NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(void*);
 extern int DAT_01066434;
 
 struct FUN_00665c50
 {
-    void* __thiscall FUN_00665f50(int a);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(int a);
     void* __thiscall Set(int a);
 };
 
@@ -100,7 +100,7 @@ struct FUN_00665c50
 // @fnv 0x00665c50
 void* __thiscall FUN_00665c50::Set(int a)
 {
-    FUN_00665f50(a);
+    NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(a);
     *reinterpret_cast<void**>(this) = &DAT_01066434;
     return this;
 }
@@ -366,10 +366,11 @@ struct FUN_00665f50_Class
     int count;
     int* data;
     int zero;
-    void* __thiscall FUN_00665f50(int a);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(int a);
 };
 // @fnv 0x00665f50
-void* __thiscall FUN_00665f50_Class::FUN_00665f50(int aiCount)
+// src: EXE 0x00665f50
+void* __thiscall FUN_00665f50_Class::NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(int aiCount)
 {
     vtbl = &$SG6086;
     count = aiCount;

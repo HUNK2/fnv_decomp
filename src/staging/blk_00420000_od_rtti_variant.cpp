@@ -78,21 +78,21 @@ extern int DAT_01015fbc;
 struct FUN_004383b0_Class
 {
     void* p;
-    void FUN_004386b0(void*);
-    void* FUN_004383b0(void* a);
+    void NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(void*);
+    void* NiTMap_WaterZone_int_NiTMap(void* a);
 };
 extern "C" void __cdecl FUN_00438820(void*);
 extern char DAT_01015fdc;
 struct FUN_004383e0_class
 {
     void* p;
-    void* __thiscall FUN_004383e0(void* a);
+    void* __thiscall BSMap_TESFaction_bool_BSMap(void* a);
 };
 extern int DAT_01015ffc;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
-    AX* FUN_00438570();
+    AX* BSSimpleArray_DismemberedLimb_1024_BSSimpleArray();
 };
 extern int DAT_01016010;
 struct BSSimpleArrayShell
@@ -323,7 +323,7 @@ struct FUN_0042cba0_class : public BE
 };
 struct FHolder_42cbe0 : BE
 {
-    void* __thiscall FUN_0042cbe0();
+    void* __thiscall ExtraPackageData_ExtraPackageData();
 };
 extern int DAT_010151fc;
 struct FUN_0042cc10_class
@@ -576,7 +576,7 @@ void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_004386b0_Class
 {
     void* p;
-    void* __thiscall FUN_004386b0(void* a);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(void* a);
 };
 struct NiPoint3Set
 {
@@ -736,9 +736,9 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void* __thiscall FUN_00410220(unsigned char type);
+    void* __thiscall BaseExtraList_GetExtraData(unsigned char type);
     void __thiscall FUN_00410020(void* extra, bool remove);
-    void __thiscall FUN_0040ff60(void* extra);
+    void __thiscall BaseExtraList_AddExtra(void* extra);
     void __thiscall FUN_0042e060(unsigned int a, unsigned int b);
 };
 void* __cdecl operator new(unsigned int uiSize, void* pvMem);

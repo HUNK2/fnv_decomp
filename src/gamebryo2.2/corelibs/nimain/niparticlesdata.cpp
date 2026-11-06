@@ -70,7 +70,8 @@ void __fastcall FUN_00a67c00(void* object);
 extern char DAT_010a05e4[];
 
 // @fnv 0x00a96600
-void* FUN_00a96600()
+// src: EXE 0x00a96600
+void* NiParticlesData_CreateObject()
 {
     NiParticlesData* p = (NiParticlesData*)BSFadeNode::operator new(sizeof(NiParticlesData));
     if (p)

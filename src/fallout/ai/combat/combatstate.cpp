@@ -580,7 +580,7 @@ struct IMH
 void FUN_0097beb0(IMH* pIMH, int iUnused, int iValue)
 {
     CombatState* t = pIMH->FUN_00586150();
-    t->FUN_0099ac20(iValue);
+    t->FindCombatLocation_0099ac20(iValue);
 }
 
 struct FUN_0097ee60_shell
@@ -2414,11 +2414,12 @@ struct FUN_0099aa80_struct : StandInShell
     char b51;
     char b52;
 
-    FUN_0099aa80_struct* FUN_0099aa80(FUN_0099aa80_struct* other);
+    FUN_0099aa80_struct* PathingCoverLocation_PathingCoverLocation(FUN_0099aa80_struct* other);
 };
 
 // @fnv 0x0099aa80
-FUN_0099aa80_struct* FUN_0099aa80_struct::FUN_0099aa80(FUN_0099aa80_struct* other)
+// src: EXE 0x0099aa80
+FUN_0099aa80_struct* FUN_0099aa80_struct::PathingCoverLocation_PathingCoverLocation(FUN_0099aa80_struct* other)
 {
     FUN_006dcc40(other);
     vtable = &DAT_0106cbc0;
@@ -5641,7 +5642,7 @@ struct Weapon : Item
 {
     Ammo* FUN_00525980(Actor*);
     unsigned char GetByteAt102();
-    int FUN_00522c80();
+    int TESObjectWEAP_GetCombatWeaponType();
     bool FUN_0046e8c0();
     Projectile* GetOrFallback(Actor*);
 };
@@ -5987,7 +5988,7 @@ void Manager::EvaluateWeaponScores()
             }
             scoreSlot25->inRange = 1;
             scoreSlot25->range = 0.0f;
-            int categorySlot22 = scoreSlot25->weapon->FUN_00522c80();
+            int categorySlot22 = scoreSlot25->weapon->TESObjectWEAP_GetCombatWeaponType();
             if (target && (categorySlot22 == 1 || categorySlot22 == 0))
             {
                 float nearRange = 0.0f;
@@ -6016,7 +6017,7 @@ void Manager::EvaluateWeaponScores()
         {
             WeaponScore* candidateSlot0 = &scoresSlot20.FUN_006dad90(j);
             Weapon* weapon2Slot11 = candidateSlot0->weapon;
-            int category2Slot19 = candidateSlot0->weapon->FUN_00522c80();
+            int category2Slot19 = candidateSlot0->weapon->TESObjectWEAP_GetCombatWeaponType();
             float value = candidateSlot0->damage;
             if (weapon2Slot11 == current)
                 value += DAT_0106b798;
@@ -6048,7 +6049,7 @@ void Manager::EvaluateWeaponScores()
     }
     else
     {
-        int category3 = forcedSlot30->FUN_00522c80();
+        int category3 = forcedSlot30->TESObjectWEAP_GetCombatWeaponType();
         bestWeapons[category3] = forcedSlot30;
         categoryScore[category3] = DAT_0108dfac;
         types |= 1 << category3;
@@ -9263,7 +9264,8 @@ float __cdecl FUN_0097acb0(CombatController* apController, CombatPos* apFrom, Co
 
 // Finds a location for aiType using a CombatFind::CombatSpot and CombatFind::CombatSearch, then stores the result through pLocationsRes.
 // @fnv 0x0099ac20
-bool CombatState::FUN_0099ac20(int aiType)
+// src: EXE 0x0099ac20
+bool CombatState::FindCombatLocation_0099ac20(int aiType)
 {
     CombatFind::CombatRef* pActorOld = (CombatFind::CombatRef*)(*(CombatController**)((char*)this + 0x1c4))->GetFieldBC();
     CombatFind::CombatRef* pTarget = (CombatFind::CombatRef*)(*(CombatController**)((char*)this + 0x1c4))->FUN_004030b0();

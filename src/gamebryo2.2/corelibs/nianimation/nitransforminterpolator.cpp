@@ -837,7 +837,8 @@ inline void* __cdecl operator new(unsigned int, void* address)
     return address;
 }
 // @fnv 0x00a403f0
-NiTransformInterpolator* __cdecl FUN_00a403f0()
+// src: EXE 0x00a403f0
+NiTransformInterpolator* __cdecl NiTransformInterpolator_CreateObject()
 {
     void* storage = FUN_00aa13e0(sizeof(NiTransformInterpolator));
     if (storage)

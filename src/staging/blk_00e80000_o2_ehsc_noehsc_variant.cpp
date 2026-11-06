@@ -6064,7 +6064,7 @@ struct CubeMapSurface {
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e68150(int a, unsigned int b, int c, int d);
+extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
 extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e8aaf0_cls {
@@ -6473,7 +6473,7 @@ public:
     FUN_00e95b60_cls* Reset();
 };
 struct S_00e97790_This {
-    void __thiscall FUN_00e98910(void* p);
+    void __thiscall NiD3DShaderConstantManager_NiD3DShaderConstantManager(void* p);
 };
 struct FUN_00e984d0_Struct {
     int unk00;

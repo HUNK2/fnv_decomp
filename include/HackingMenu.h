@@ -172,7 +172,7 @@ public:
     int __thiscall FUN_00765870();
     void FUN_00767ff0(int, void*);
     void __thiscall FUN_0076a510();
-    void __thiscall FUN_0076a540();
+    void __thiscall TransitionToComputersMenu();
     unsigned int __thiscall CountMatchingChars(const char*, const char*);
     void __thiscall SelectWordSet(unsigned int);
     void __thiscall UpdateFade();

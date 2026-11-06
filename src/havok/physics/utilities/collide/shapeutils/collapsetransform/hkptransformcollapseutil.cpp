@@ -250,7 +250,7 @@ __forceinline const hkpConvexShape* hkpConvexTranslateShape::GetShapeForKey() co
 // Typed adapters for the original pointer-returning constructor entry points.
 // These allow construction without duplicating the shared abstract classes.
 extern "C" void FUN_00cf5990();
-extern "C" void FUN_00d5d7a0();
+extern "C" void hkpConvexTransformShape_hkpConvexTransformShape();
 extern "C" void FUN_00c9e340();
 __forceinline void* hkReferencedObject::operator new(std::size_t nbytes)
 {
@@ -391,7 +391,7 @@ hkpShape* __cdecl ProcessShape(hkpShape* shape, void* context, Cache_d74480* cac
         {
             hkpShape* mem = (hkpShape*)hkMemoryRouter::getInstance().heap().blockAlloc(0x60);
             mem->m_usMemSizeAndFlags = 0x60;
-            v = reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform&, int)>(FUN_00d5d7a0)(static_cast<hkpConvexTransformShape*>(mem), static_cast<hkpConvexShape*>(n), static_cast<hkpConvexTransformShape*>(cv)->m_kMotionTransform, 1);
+            v = reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform&, int)>(hkpConvexTransformShape_hkpConvexTransformShape)(static_cast<hkpConvexTransformShape*>(mem), static_cast<hkpConvexShape*>(n), static_cast<hkpConvexTransformShape*>(cv)->m_kMotionTransform, 1);
             n->removeReference();
             cache->SetEntryValue(shape, v);
         }
@@ -637,7 +637,7 @@ retainShape:
             return child;
         }
         hkpConvexTransformShape* p = static_cast<hkpConvexTransformShape*>(hkReferencedObject::operator new(sizeof(hkpConvexTransformShape)));
-        return reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform&, int)>(FUN_00d5d7a0)(p, cts->GetShapeForKey(), combined, 1);
+        return reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform&, int)>(hkpConvexTransformShape_hkpConvexTransformShape)(p, cts->GetShapeForKey(), combined, 1);
     }
     case HK_SHAPE_CONVEX_TRANSLATE: {
         if (transform.getRotation().IsEqualWithinTolerance(hkTransform::GetIdentityTransform().getRotation(), 0.001f))

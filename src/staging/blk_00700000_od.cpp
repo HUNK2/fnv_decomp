@@ -186,10 +186,11 @@ extern void* DAT_0106edec;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
-    AX* __thiscall FUN_00709e80(unsigned int a, unsigned int b);
+    AX* __thiscall BSSimpleArray_Tile_Value_8_BSSimpleArray(unsigned int a, unsigned int b);
 };
 // @fnv 0x00709e80
-AX* __thiscall AX::FUN_00709e80(unsigned int auiFirst, unsigned int auiSecond)
+// src: EXE 0x00709e80
+AX* __thiscall AX::BSSimpleArray_Tile_Value_8_BSSimpleArray(unsigned int auiFirst, unsigned int auiSecond)
 {
     *reinterpret_cast<void**>(this) = &DAT_0106edec;
     FUN_006b3eb0(auiFirst, auiSecond);

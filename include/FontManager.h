@@ -39,9 +39,9 @@ public:
     const char* GetFontFile(unsigned int);
     int GetCharType(char);
     TextString CollectTo(char*, int*, int, int, int*, char*, bool);
-    SStr FUN_00a16ea0(const char*, int*, unsigned int, unsigned int,
+    SStr Font_CollectTo(const char*, int*, unsigned int, unsigned int,
                      int*, char*, bool);
-    LayoutString FUN_00a16ea0(const char*, int*, unsigned int, unsigned int,
+    LayoutString Font_CollectTo(const char*, int*, unsigned int, unsigned int,
                              unsigned int*, char*, bool);
     RunNode* ParseLayout(SStr*, Info_*);
     LayoutBlock* ParseLayout(LayoutString&, LayoutResult*);

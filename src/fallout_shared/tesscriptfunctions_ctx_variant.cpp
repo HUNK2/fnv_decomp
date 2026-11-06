@@ -56,7 +56,8 @@ extern Actor* g_thePlayer;
 void FUN_00704af0();
 
 // @fnv 0x005d0300
-bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR* obj, TESObjectREFR* obj2,
+// src: EXE 0x005d0300
+bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TESObjectREFR* obj, TESObjectREFR* obj2,
                   Script* script, ScriptLocals* locals, double& result, unsigned int& opcode)
 {
     TESForm* pForm = 0;

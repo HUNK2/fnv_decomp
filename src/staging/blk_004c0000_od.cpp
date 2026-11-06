@@ -187,11 +187,12 @@ struct FUN_004d8fa0_StandIn
 {
     int m_p;
     void FUN_004d9000(int a);
-    FUN_004d8fa0_StandIn* FUN_004d8fa0(int a);
+    FUN_004d8fa0_StandIn* NiTMap_NiAVObject_TREEITEM_NiTMap(int a);
 };
 // Calls FUN_004d9000 with a, stores the address of DAT_01020fe4 in m_p, and returns this.
 // @fnv 0x004d8fa0
-FUN_004d8fa0_StandIn* __thiscall FUN_004d8fa0_StandIn::FUN_004d8fa0(int a)
+// src: EXE 0x004d8fa0
+FUN_004d8fa0_StandIn* __thiscall FUN_004d8fa0_StandIn::NiTMap_NiAVObject_TREEITEM_NiTMap(int a)
 {
     FUN_004d9000(a);
     m_p = (int)&DAT_01020fe4;

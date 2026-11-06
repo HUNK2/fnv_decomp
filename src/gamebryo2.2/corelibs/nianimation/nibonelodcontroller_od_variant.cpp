@@ -47,11 +47,11 @@ void NiBSBoneLODController::FUN_00c53ab0(NiStream& s)
 
 namespace fnv_00c53cd0 {
 extern const char g_012031b8_arg0[];
-NiObject* __cdecl FUN_00c537f0();
+NiObject* __cdecl NiBSBoneLODController_CreateObject();
 // @fnv 0x00c53cd0
 int __cdecl FUN_00c53cd0()
 {
-    return NiStream::RegisterObjectLoader(g_012031b8_arg0, FUN_00c537f0);
+    return NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
 }
 }  // namespace fnv_00c53cd0
 

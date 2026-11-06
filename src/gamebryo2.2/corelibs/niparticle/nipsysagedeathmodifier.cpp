@@ -140,7 +140,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00c2f3a0
-FUN_00c32d80* __cdecl FUN_00c2f3a0()
+// src: EXE 0x00c2f3a0
+FUN_00c32d80* __cdecl NiPSysAirFieldSpreadCtlr_CreateObject()
 {
     FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
     if (p)

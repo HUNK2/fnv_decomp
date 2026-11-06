@@ -87,11 +87,12 @@ struct Param6450
 };
 struct S6450 : Base6450
 {
-    S6450* __thiscall FUN_0067c450(Param6450 v);
+    S6450* __thiscall TESPatrolPackageData_TESPatrolPackageData(Param6450 v);
 };
 // Calls FUN_0067ad20, stores a pointer to DAT_010689e4 at offset 0 and copies v.a and v.b into bytes at offsets 4 and 5, then returns this.
 // @fnv 0x0067c450
-S6450* __thiscall S6450::FUN_0067c450(Param6450 aParams)
+// src: EXE 0x0067c450
+S6450* __thiscall S6450::TESPatrolPackageData_TESPatrolPackageData(Param6450 aParams)
 {
     FUN_0067ad20();
     *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_010689e4);

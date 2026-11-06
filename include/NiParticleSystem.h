@@ -40,7 +40,7 @@ class NiParticleSystem : public NiParticles
     void FUN_00c1b260(float time);
     void FUN_00c1b060(CloningProcess& process);
     void FUN_00c1b6f0(NiParticleSystem* destination, CloningProcess& process);
-    NiParticleSystem* FUN_00c1b5c0();
+    NiParticleSystem* NiParticleSystem_00c1b5c0();
     void CopyMemberData(NiParticleSystem* destination, CloningProcess& process);
     void InsertSorted(NiPSysModifier* modifier);
     void LoadModifiers(NiStream* stream);

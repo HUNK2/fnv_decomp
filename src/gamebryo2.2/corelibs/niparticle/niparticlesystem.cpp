@@ -217,11 +217,12 @@ void NiParticleSystem::FUN_00c1b120()
 
 void* __cdecl FUN_00aa13e0(unsigned int);
 // @fnv 0x00c1b7f0
-NiParticleSystem* __cdecl FUN_00c1b7f0()
+// src: EXE 0x00c1b7f0
+NiParticleSystem* __cdecl NiParticleSystem_CreateObject()
 {
     NiParticleSystem* p = (NiParticleSystem*)FUN_00aa13e0(0x110);
     if (p)
-        return p->FUN_00c1b5c0();
+        return p->NiParticleSystem_00c1b5c0();
     return 0;
 }
 
@@ -231,7 +232,7 @@ NiObject* NiParticleSystem::MakeClone(CloningProcess& cloning)
     void* memory = NiParticleSystem::operator new(0x110);
     NiParticleSystem* node;
     if (memory)
-        node = ((NiParticleSystem*)memory)->FUN_00c1b5c0();
+        node = ((NiParticleSystem*)memory)->NiParticleSystem_00c1b5c0();
     else
         node = 0;
     FUN_00c1b6f0(node, cloning);

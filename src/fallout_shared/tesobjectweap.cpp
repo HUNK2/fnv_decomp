@@ -2568,11 +2568,12 @@ struct CombatWeapon
 {
 	int GetWeaponType();
 	CombatProjectile* GetProjectileData(Actor* pkActor);
-	int FUN_00522c80();
+	int TESObjectWEAP_GetCombatWeaponType();
 };
 
 // @fnv 0x00522c80
-int CombatWeapon::FUN_00522c80()
+// src: EXE 0x00522c80
+int CombatWeapon::TESObjectWEAP_GetCombatWeaponType()
 {
 	switch (GetWeaponType())
 	{

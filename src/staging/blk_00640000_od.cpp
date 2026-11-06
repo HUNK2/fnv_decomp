@@ -4843,7 +4843,7 @@ struct Hldr0044
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void FUN_0044d6c0(int a);
+    void std_bad_alloc_bad_alloc(int a);
 };
 
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
@@ -4863,7 +4863,7 @@ extern "C" void __cdecl FUN_00658c10(int aiValue, int aiUnused)
     {
         if (0xFFFFFFFFu / (unsigned)aiValue < 60)
         {
-            h.FUN_0044d6c0(0);
+            h.std_bad_alloc_bad_alloc(0);
             FUN_00ec7894(&h, &DAT_01140ef8);
         }
     }
@@ -5867,7 +5867,7 @@ struct FUN_0065e310_cls
     int unk00;
     int unk04;
     int unk08;
-    void __thiscall FUN_0044d6c0(int arg);
+    void __thiscall std_bad_alloc_bad_alloc(int arg);
 };
 
 extern "C" void __stdcall FUN_00ec7894(void* obj, void* dtor);
@@ -5886,7 +5886,7 @@ extern "C" void __cdecl FUN_0065e310(int count, int)
     {
         if (0xffffffffu / (unsigned int)count < 12)
         {
-            tmp.FUN_0044d6c0(0);
+            tmp.std_bad_alloc_bad_alloc(0);
             FUN_00ec7894(&tmp, &DAT_01140ef8);
         }
     }
@@ -7105,7 +7105,7 @@ struct FUN_0044d6c0_class
     int unk00;
     int unk04;
     int unk08;
-    void* __thiscall FUN_0044d6c0(void** a);
+    void* __thiscall std_bad_alloc_bad_alloc(void** a);
 };
 
 // @fnv 0x0065e3a0
@@ -7118,7 +7118,7 @@ void __cdecl FUN_0065e3a0(int aiCount, int)
     else if (0xFFFFFFFFu / (unsigned int)aiCount < 8u)
     {
         FUN_0044d6c0_class holder;
-        holder.FUN_0044d6c0(0);
+        holder.std_bad_alloc_bad_alloc(0);
         FUN_00ec7894((Hldr0044*)&holder, (void*)&DAT_01140ef8);
     }
     FUN_00401000(aiCount << 3);

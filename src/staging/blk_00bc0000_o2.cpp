@@ -2796,7 +2796,8 @@ struct SpawnedObj_b9965
 
 // Allocates and constructs a new SpawnedObj_b9965 via its operator new and returns the pointer.
 // @fnv 0x00bc2cb0
-SpawnedObj_b9965* FUN_00bc2cb0()
+// src: EXE 0x00bc2cb0
+SpawnedObj_b9965* BSOrderedNode_CreateObject()
 {
     return new SpawnedObj_b9965();
 }
@@ -3213,7 +3214,8 @@ struct SpawnedObj_b9755
 
 // Allocates and constructs a new SpawnedObj_b9755, returning the pointer.
 // @fnv 0x00bc38c0
-SpawnedObj_b9755* FUN_00bc38c0()
+// src: EXE 0x00bc38c0
+SpawnedObj_b9755* VolumetricFogShaderProperty_CreateObject()
 {
     return new SpawnedObj_b9755();
 }
@@ -23521,7 +23523,8 @@ struct BSMaterialEmittanceMultController : NiFloatInterpController
 
 // Allocates and returns a new BSMaterialEmittanceMultController instance.
 // @fnv 0x00bc3190
-BSMaterialEmittanceMultController* FUN_00bc3190()
+// src: EXE 0x00bc3190
+BSMaterialEmittanceMultController* BSMaterialEmittanceMultController_CreateObject()
 {
     return new BSMaterialEmittanceMultController;
 }

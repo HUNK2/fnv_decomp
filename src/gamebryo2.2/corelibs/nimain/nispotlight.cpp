@@ -42,7 +42,8 @@ NiSpotLightShell* __thiscall NiSpotLightShell::FUN_00a94d60(unsigned int flags)
 
 
 // @fnv 0x00a94e20
-void* __cdecl FUN_00a94e20()
+// src: EXE 0x00a94e20
+void* __cdecl NiSpotLight_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x114);
     if (p)

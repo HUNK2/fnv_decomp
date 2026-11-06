@@ -91,7 +91,7 @@ struct Entry
 };
 struct Weapon
 {
-    int FUN_00522c80();
+    int TESObjectWEAP_GetCombatWeaponType();
 };
 struct Stamp
 {
@@ -571,7 +571,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
     else
         FUN_009aad00(3, 1);
     Weapon* weapon0 = reinterpret_cast<Weapon*>(actor15->FUN_008a1710());
-    int weapon4 = weapon0 ? weapon0->FUN_00522c80() : 6;
+    int weapon4 = weapon0 ? weapon0->TESObjectWEAP_GetCombatWeaponType() : 6;
     if (weapon0 && weapon0 != stateB->FUN_0097c150(weapon4))
         weapon4 = 7;
     FUN_009aad00(11, weapon4);

@@ -1768,7 +1768,7 @@ struct SpawnedObject : public ChainB_cls
         DAT_012682e4 += 1;
     }
 };
-SpawnedObject* FUN_00ca6670();
+SpawnedObject* bhkNiTriStripsShape_CreateObject();
 struct ArgB
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -5774,7 +5774,7 @@ struct S00cb84f0_Obj : FUN_00c87c30
         *(void**)this = (void*)&DAT_010c8914;
     }
 };
-void* __cdecl FUN_00cb84f0();
+void* __cdecl bhkOrientHingedBodyAction_CreateObject();
 void __cdecl FUN_00a6d290(void);
 struct FUN_00aa4060_Class
 {

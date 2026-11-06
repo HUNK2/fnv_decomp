@@ -39,14 +39,14 @@ struct FUN_00456a60_class
 {
     void __thiscall FUN_00456a60();
 };
-bool FUN_005b9220();
+bool Cmd_ToggleCollisionGeometry_Execute();
 extern int g_TES;
 extern char DAT_012680fc;
 struct FUN_00456a60_Class
 {
     void __thiscall FUN_00456a60();
 };
-char __cdecl FUN_005b9240();
+char __cdecl Cmd_ToggleMaterialGeometry_Execute();
 struct FUN_005b92e0_class
 {
     int __thiscall GetField59C();

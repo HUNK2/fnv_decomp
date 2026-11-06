@@ -156,7 +156,7 @@ struct S_00de2fa0_Listener
 struct S_00de2fa0 : S_00de2fa0_Base0, S_00de2fa0_Listener
 {
     virtual void PostSimulationCallback(S_00de2fa0_Arg* a);
-    void FUN_00de2da0(void* elem);
+    void drawAllContactPointsInIsland_00de2da0(void* elem);
 };
 
 // Writes profiler markers to the TLS stream, then iterates the array returned by vfn_0c and calls FUN_00de2da0 on each element.
@@ -177,7 +177,7 @@ void S_00de2fa0::PostSimulationCallback(S_00de2fa0_Arg* apArg)
     S_00de2fa0_Array* arr = vfn_0c(apArg);
     for (int i = 0; i < arr->m_iElementCount; ++i)
     {
-        FUN_00de2da0(arr->m_data[i]);
+        drawAllContactPointsInIsland_00de2da0(arr->m_data[i]);
     }
 
     hkMonitorStream* stream2 = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -566,7 +566,8 @@ struct Cont
 
 // Iterates contact records in c, and for each unskipped object whose float value is at least unk2c, draws a point via FUN_00de2aa0.
 // @fnv 0x00de2da0
-void hkpContactPointViewer::FUN_00de2da0(Cont* apCont)
+// src: EXE 0x00de2da0
+void hkpContactPointViewer::drawAllContactPointsInIsland_00de2da0(Cont* apCont)
 
 {
 

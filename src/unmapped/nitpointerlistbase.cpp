@@ -49,11 +49,12 @@ struct FUN_004edf70_t
 };
 struct FUN_004edc90_t
 {
-    void* __thiscall FUN_004edc90(int a, int b);
+    void* __thiscall NiTPrimitiveArray_enum_BSTextureManager_eTextureType_NiTPrimitiveArray(int a, int b);
 };
 // Calls FUN_004edf70 with the two arguments, then stores the address of DAT_010232bc as the object's first field and returns this.
 // @fnv 0x004edc90
-void* __thiscall FUN_004edc90_t::FUN_004edc90(int a, int b)
+// src: EXE 0x004edc90
+void* __thiscall FUN_004edc90_t::NiTPrimitiveArray_enum_BSTextureManager_eTextureType_NiTPrimitiveArray(int a, int b)
 {
     reinterpret_cast<FUN_004edf70_t*>(this)->FUN_004edf70(a, b);
     *reinterpret_cast<int**>(this) = &DAT_010232bc;

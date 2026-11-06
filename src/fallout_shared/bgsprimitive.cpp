@@ -1210,7 +1210,8 @@ void MultiBoundSphereVector::CopyTo(Vec4* pOut)
 
 // Allocates and constructs a sphere bound.
 // @fnv 0x00c4fdb0
-BSMultiBoundSphere* FUN_00c4fdb0()
+// src: EXE 0x00c4fdb0
+BSMultiBoundSphere* BSMultiBoundSphere_CreateObject()
 {
     return new BSMultiBoundSphere;
 }
@@ -2455,7 +2456,8 @@ int __thiscall MultiBoundOBBConstructor::FUN_00c36310()
 
 extern int DAT_0101ea8c;
 // @fnv 0x00c4fb10
-void* __fastcall FUN_00c4fb10(void* apObj)
+// src: EXE 0x00c4fb10
+void* __fastcall BSMultiBoundSphere_BSMultiBoundSphere(void* apObj)
 {
     static_cast<BSMultiBoundShape*>(apObj)->BSMultiBoundShape::BSMultiBoundShape();
     *(int*)apObj = (int)&DAT_0101ea8c;

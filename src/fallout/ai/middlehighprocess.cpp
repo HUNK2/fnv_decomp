@@ -23357,7 +23357,7 @@ struct P130Actor
     void FUN_00884f80();
     void ForwardToVtSlot(int);
     void FUN_008b3ab0();
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     void FUN_00931fb0(bool);
     void FUN_008a73e0(int, bool);
     void FUN_00931d30(float);
@@ -23522,7 +23522,7 @@ bool P130Process::FUN_009213e0(P130Actor* actor)
             package->CopyGlobalPosition();
             actor->SetMarker(((P130Marker*)&FurnitureMarker)->FUN_006815c0());
             package->FUN_00498230(actor);
-            actor->FUN_00895110(1.0f, 1.0f);
+            actor->Actor_PickAnimations(1.0f, 1.0f);
         }
         else if (package->FUN_004985f0())
         {

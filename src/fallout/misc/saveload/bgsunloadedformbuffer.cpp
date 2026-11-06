@@ -9,12 +9,13 @@ extern int DAT_0107f494;
 struct FUN_0084b4e0_shell
 {
     void FUN_0084b750(void* arg);
-    int FUN_0084b4e0(void* arg);
+    int NiTMap_int64_int_NiTMap(void* arg);
 };
 
 // Calls FUN_0084b750 with arg, stores the address of DAT_0107f494 into this, and returns this.
 // @fnv 0x0084b4e0
-int FUN_0084b4e0_shell::FUN_0084b4e0(void* arg)
+// src: EXE 0x0084b4e0
+int FUN_0084b4e0_shell::NiTMap_int64_int_NiTMap(void* arg)
 {
     FUN_0084b750(arg);
     *(int*)this = (int)&DAT_0107f494;

@@ -194,10 +194,11 @@ struct FUN_009f8ae0Class
 {
     void* vtbl;
     void FUN_009f90f0(int a, int b);
-    void* FUN_009f8ae0(int a, int b);
+    void* BSSimpleArray_SpectatorThreatInfo_1024_BSSimpleArray(int a, int b);
 };
 // @fnv 0x009f8ae0
-void* FUN_009f8ae0Class::FUN_009f8ae0(int a, int b)
+// src: EXE 0x009f8ae0
+void* FUN_009f8ae0Class::BSSimpleArray_SpectatorThreatInfo_1024_BSSimpleArray(int a, int b)
 {
     vtbl = &DAT_01093980;
     FUN_009f90f0(a, b);

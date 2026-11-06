@@ -8789,7 +8789,7 @@ struct ExtraFactionChanges_fake
 {
     char pad[0xc];
     void* list;
-    unsigned int FUN_008b8ca0(::TESFaction**, unsigned int, void*, void*);
+    unsigned int Actor_IntegrateFactionLists(::TESFaction**, unsigned int, void*, void*);
 };
 
 ExtraFactionChanges_fake* __fastcall FUN_0042e800(ExtraDataList*);
@@ -8803,7 +8803,7 @@ int FUN_008b8290_shell::FUN_008b8290(::TESFaction* apFaction, bool abPC)
         reinterpret_cast< ::TESRegion*>(reinterpret_cast<char*>(GetActorBase()) + 0x30)->GetDiffuseColor();
     ExtraFactionChanges_fake* pmyFactionChanges = FUN_0042e800(GetExtraData());
     ::TESFaction* pmyFactionArray[128];
-    unsigned int imyCount = reinterpret_cast<ExtraFactionChanges_fake*>(this)->FUN_008b8ca0(
+    unsigned int imyCount = reinterpret_cast<ExtraFactionChanges_fake*>(this)->Actor_IntegrateFactionLists(
         pmyFactionArray, 0x80, pmyFactionList, pmyFactionChanges ? pmyFactionChanges->list : 0);
     for (unsigned int i = 0; i < imyCount; i = i + 1)
     {
@@ -8857,7 +8857,7 @@ struct FactionReaction
 typedef char _sizecheck_FACTION_RANK[sizeof(FactionReaction) == 8 ? 1 : -1];
 struct FUN_008b8ca0_shell : public Actor
 {
-    unsigned int FUN_008b8ca0(::TESFaction**, unsigned int, void*, void*);
+    unsigned int Actor_IntegrateFactionLists(::TESFaction**, unsigned int, void*, void*);
 };
 
 void __cdecl _FNV_Warning(int, const char*, ...);
@@ -8867,7 +8867,8 @@ void* __fastcall _ref_00726070(void*);
 
 
 // @fnv 0x008b8ca0
-unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(::TESFaction** apFactionArray, unsigned int aiArraySize, void* apList1,
+// src: EXE 0x008b8ca0
+unsigned int FUN_008b8ca0_shell::Actor_IntegrateFactionLists(::TESFaction** apFactionArray, unsigned int aiArraySize, void* apList1,
                                               void* apList2)
 {
     unsigned int icount = 0;
@@ -13657,7 +13658,7 @@ class GarbageCollectorDeleteB
     ~GarbageCollectorDeleteB();
 };
 
-void __cdecl FUN_00868560(GarbageCollectorDeleteB*);
+void __cdecl GarbageCollector_Add_00868560(GarbageCollectorDeleteB*);
 
 struct FUN_008d29b0_impl : public FUN_008d29b0_shell
 {
@@ -13674,7 +13675,7 @@ void FUN_008d29b0_impl::FUN_008d29b0(GarbageCollectorDeleteB* pArg)
 
         if ((::PlayerCharacter*)this != pPlayer)
         {
-            FUN_00868560(*(GarbageCollectorDeleteB**)((char*)this + 0x1b4));
+            GarbageCollector_Add_00868560(*(GarbageCollectorDeleteB**)((char*)this + 0x1b4));
         }
         else
         {
@@ -53139,7 +53140,7 @@ struct P2C
 {
     bool FUN_00418b10();
     bool FUN_00418ab0(int a);
-    void* FUN_00410220(int a);
+    void* BaseExtraList_GetExtraData(int a);
 };
 struct InvC
 {
@@ -53725,7 +53726,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
     }
     if (apExtraData != 0)
     {
-        action40 = (int)((P2C*)apExtraData)->FUN_00410220(0x25);
+        action40 = (int)((P2C*)apExtraData)->BaseExtraList_GetExtraData(0x25);
     }
     if (action40 != 0)
     {
@@ -77006,7 +77007,7 @@ class FUN_008b7c00_cls
   public:
     char* FUN_004181e0();
     ExtraDataList* FUN_005d43c0();
-    unsigned int FUN_008b8ca0(FUN_008b7c00_item** items, unsigned int maxCount, void* p3, void* p4);
+    unsigned int Actor_IntegrateFactionLists(FUN_008b7c00_item** items, unsigned int maxCount, void* p3, void* p4);
     void FUN_008b7c00(int a1, bool a2);
 };
 
@@ -77017,7 +77018,7 @@ void FUN_008b7c00_cls::FUN_008b7c00(int a1, bool a2)
     FUN_008b7c00_item* items[0x80];
     void* p3 = ((FUN_008b7c00_sub*)(FUN_004181e0() + 0x30))->FUN_005d8a70();
     ExtraFactionChanges_fake* fc = FUN_0042e800(FUN_005d43c0());
-    unsigned int count3 = FUN_008b8ca0(items, 0x80, p3, fc != 0 ? fc->list : 0);
+    unsigned int count3 = Actor_IntegrateFactionLists(items, 0x80, p3, fc != 0 ? fc->list : 0);
     unsigned int i2;
     for (i2 = 0; i2 < count3; ++i2)
     {
@@ -77061,7 +77062,7 @@ struct ActorProxy
 {
     StatusSubobject* FUN_004181e0();
     ExtraData* FUN_005d43c0();
-    unsigned int FUN_008b8ca0(FactionEntry** entries, unsigned int capacity, void* affiliation, void* relatedData);
+    unsigned int Actor_IntegrateFactionLists(FactionEntry** entries, unsigned int capacity, void* affiliation, void* relatedData);
     void FUN_008b7d20(unsigned int value, bool flag);
 };
 
@@ -77075,7 +77076,7 @@ void ActorProxy::FUN_008b7d20(unsigned int value, bool flag)
     MoreData* payload = FUN_005d43c0()->FUN_0042e800();
 
     FactionEntry* factions[128];
-    unsigned int numFactions = FUN_008b8ca0(factions, 128, affiliation, payload ? payload->unk0C : 0);
+    unsigned int numFactions = Actor_IntegrateFactionLists(factions, 128, affiliation, payload ? payload->unk0C : 0);
 
     for (unsigned int factionIndex = 0; factionIndex < numFactions; ++factionIndex)
     {
@@ -77147,7 +77148,7 @@ struct FUN_008b7f00_cls
 {
     void* FUN_004181e0();
     ExtraDataList* FUN_005d43c0();
-    unsigned int FUN_008b8ca0(unsigned int* out, unsigned int cap, void* q, void* p);
+    unsigned int Actor_IntegrateFactionLists(unsigned int* out, unsigned int cap, void* q, void* p);
     unsigned int FUN_008b7f00();
 };
 
@@ -77159,7 +77160,7 @@ unsigned int FUN_008b7f00_cls::FUN_008b7f00()
     void* a = reinterpret_cast<SubObj30*>((char*)FUN_004181e0() + 0x30)->FUN_005d8a70();
     ExtraFactionChanges_fake* ef = FUN_0042e800(FUN_005d43c0());
     unsigned int arr[128];
-    unsigned int count2 = FUN_008b8ca0(arr, 0x80, a, ef ? ef->list : 0);
+    unsigned int count2 = Actor_IntegrateFactionLists(arr, 0x80, a, ef ? ef->list : 0);
     unsigned int i2;
     for (i2 = 0; i2 < count2; i2++)
     {
@@ -77264,7 +77265,7 @@ struct FUN_008b8490_cls
 {
     FUN_008b8490_pad* FUN_004181e0();
     FUN_008b8490_mid* FUN_005d43c0();
-    unsigned int FUN_008b8ca0(::TESFaction** apFactions, unsigned int auCount, void* apA, void* apB);
+    unsigned int Actor_IntegrateFactionLists(::TESFaction** apFactions, unsigned int auCount, void* apA, void* apB);
     bool FUN_008b8490();
 };
 
@@ -77282,7 +77283,7 @@ bool FUN_008b8490_cls::FUN_008b8490()
     found3 = false;
     p9 = FUN_004181e0()->mid.FUN_005d8a70();
     p7 = FUN_0042e800(reinterpret_cast<ExtraDataList*>(FUN_005d43c0()));
-    count2 = FUN_008b8ca0(factions, 0x80, p9, p7 ? p7->list : 0);
+    count2 = Actor_IntegrateFactionLists(factions, 0x80, p9, p7 ? p7->list : 0);
     for (i3 = 0; i3 < count2; i3++)
     {
         item = reinterpret_cast<FUN_008b8490_item*>(factions[i3]);
@@ -77319,7 +77320,7 @@ struct ExtraListView
 };
 struct WorkerActor : Actor
 {
-    unsigned int FUN_008b8ca0(::TESFaction**, unsigned int, void*, void*);
+    unsigned int Actor_IntegrateFactionLists(::TESFaction**, unsigned int, void*, void*);
     void FUN_008b8580(::TESFaction* faction, signed char rank);
 };
 // @fnv 0x008b8580
@@ -77332,7 +77333,7 @@ void WorkerActor::FUN_008b8580(::TESFaction* faction, signed char rank)
     void* p = ((ActorBaseView*)GetActorBase())->data.FUN_005d8a70();
     FactionChangesView* h = ((ExtraListView*)GetExtraData())->FUN_0042e800();
     ::TESFaction* i[128];
-    unsigned int a = FUN_008b8ca0(i, 128, p, h ? h->list : 0);
+    unsigned int a = Actor_IntegrateFactionLists(i, 128, p, h ? h->list : 0);
     if (!h)
     {
         ((ExtraListView*)GetExtraData())->FUN_0042e760();
@@ -77422,7 +77423,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
     else if (extraB && !extra9)
     {
         ::TESFaction* factions[128];
-        unsigned count = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(factions, 128, list8, extraB->list);
+        unsigned count = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(factions, 128, list8, extraB->list);
         for (unsigned i = 0; i < count; i++)
         {
             ::TESFaction* faction = factions[i];
@@ -77453,7 +77454,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
     else if (!extraB && extra9)
     {
         ::TESFaction* factions[128];
-        unsigned count = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(factions, 128, list6, extra9->list);
+        unsigned count = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(factions, 128, list6, extra9->list);
         while (list8)
         {
             FactionItem87* item1 = *list8->FUN_006815c0();
@@ -77481,9 +77482,9 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
     else
     {
         ::TESFaction* factions1[128];
-        unsigned count1 = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(factions1, 128, list8, extraB->list);
+        unsigned count1 = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(factions1, 128, list8, extraB->list);
         ::TESFaction* factions2[128];
-        unsigned count2 = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(factions2, 128, list6, extra9->list);
+        unsigned count2 = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(factions2, 128, list6, extra9->list);
         for (unsigned i = 0; i < count1; i++)
         {
             ::TESFaction* _faction1 = factions1[i];
@@ -92582,7 +92583,7 @@ struct PickActor
     int unk0a4;
     int unk0a8;
     PickRagdoll* ragdoll;
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     bool FUN_004eaf60();
     PickController* FUN_009306d0();
     bool FUN_004997b0();
@@ -92690,7 +92691,8 @@ PickWeaponExtra* PickGetWeaponExtra(PickWeapon*);
 static const char kPlayerWarning[] = "AI: Don't call Actor::PickAnimations on the 1st person pc.";
 static const char kEquipSound[] = "WPNBlade1HandEquipEnchanted";
 // @fnv 0x00895110
-void PickActor::FUN_00895110(float movementMult, float turnMult)
+// src: EXE 0x00895110
+void PickActor::Actor_PickAnimations(float movementMult, float turnMult)
 {
     PickEntry* weaponEntry2;
     float moveSpeed38;
@@ -117245,8 +117247,8 @@ int FactionActor::FUN_008b7fe0(Actor* other, int* found, ::TESFaction** first, :
     ExtraFactionChanges_fake* a = ((FactionExtraList*)other->GetExtraData())->FUN_0042e800();
     ::TESFaction* ba[128];
     ::TESFaction* eb[128];
-    unsigned int b = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(ba, 128, s, i ? i->list : 0);
-    unsigned int h = ((ExtraFactionChanges_fake*)this)->FUN_008b8ca0(eb, 128, q, a ? a->list : 0);
+    unsigned int b = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(ba, 128, s, i ? i->list : 0);
+    unsigned int h = ((ExtraFactionChanges_fake*)this)->Actor_IntegrateFactionLists(eb, 128, q, a ? a->list : 0);
     for (unsigned int index = 0; index < b; ++index)
     {
         if (!ba[index])
@@ -135209,7 +135211,7 @@ struct FactionExtraList1010
 struct FactionActor1010
 {
     FactionExtraList1010* GetExtraList();
-    unsigned int FUN_008b8ca0(::TESFaction** factions, unsigned int max, void* base, void* changes);
+    unsigned int Actor_IntegrateFactionLists(::TESFaction** factions, unsigned int max, void* base, void* changes);
 };
 
 struct FactionCheck1010
@@ -135255,7 +135257,7 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, ::TESForm* form, FactionCheck1010*
             void* baseData8 = ((FactionBase1010*)actor->GetActorBase())->factionData.FUN_005d8a70();
             FactionChanges1010* changes = ((FactionActor1010*)actor)->GetExtraList()->GetFactionChanges();
             unsigned int count7 =
-                ((FactionActor1010*)actor)->FUN_008b8ca0(aFactions, 0x80, baseData8, changes ? changes->unk0c : 0);
+                ((FactionActor1010*)actor)->Actor_IntegrateFactionLists(aFactions, 0x80, baseData8, changes ? changes->unk0c : 0);
             for (unsigned int i4 = 0; i4 < count7; i4++)
             {
                 ::TESFaction* f9 = aFactions[i4];

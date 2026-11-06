@@ -139,11 +139,12 @@ struct FUN_006836f0_class
 {
     virtual void v0();
     void FUN_00683760();
-    FUN_006836f0_class* FUN_006836f0();
+    FUN_006836f0_class* BSList_BSTempEffectDebris_BSList();
 };
 
 // @fnv 0x006836f0
-FUN_006836f0_class* __thiscall FUN_006836f0_class::FUN_006836f0()
+// src: EXE 0x006836f0
+FUN_006836f0_class* __thiscall FUN_006836f0_class::BSList_BSTempEffectDebris_BSList()
 {
     FUN_00683760();
     *reinterpret_cast<int**>(this) = &DAT_01069948;
@@ -891,10 +892,11 @@ struct AX
 {
     int* vtable;
     void FUN_006b3eb0(unsigned int, unsigned int);
-    AX* FUN_0068eb00();
+    AX* BSSimpleArray_DecalVertex_1024_BSSimpleArray();
 };
 // @fnv 0x0068eb00
-AX* AX::FUN_0068eb00()
+// src: EXE 0x0068eb00
+AX* AX::BSSimpleArray_DecalVertex_1024_BSSimpleArray()
 {
     vtable = &DAT_0106a038;
     FUN_006b3eb0(0, 0);
@@ -1218,11 +1220,12 @@ void FUN_00693bd0_class::FUN_00693bd0(unsigned short ausValue)
 extern int DAT_0106abe4;
 struct FUN_0069ada0_class : FUN_00692290_class
 {
-    FUN_0069ada0_class* FUN_0069ada0(unsigned int a, unsigned int b);
+    FUN_0069ada0_class* BSSimpleArray_unsigned_short_1024_BSSimpleArray_0069ada0(unsigned int a, unsigned int b);
 };
 // Sets the vtable pointer to DAT_0106abe4, calls the base constructor with a and b, and returns this.
 // @fnv 0x0069ada0
-FUN_0069ada0_class* FUN_0069ada0_class::FUN_0069ada0(unsigned int a, unsigned int b)
+// src: EXE 0x0069ada0
+FUN_0069ada0_class* FUN_0069ada0_class::BSSimpleArray_unsigned_short_1024_BSSimpleArray_0069ada0(unsigned int a, unsigned int b)
 {
     *(void**)this = (void*)&DAT_0106abe4;
     FUN_00692290(a, b);

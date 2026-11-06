@@ -38,7 +38,8 @@ extern void* DAT_01097e8c;
 
 // Allocates and initializes a visibility controller, returning zero on allocation failure.
 // @fnv 0x00a44f10
-void* __cdecl FUN_00a44f10()
+// src: EXE 0x00a44f10
+void* __cdecl NiVisController_CreateObject()
 {
     void* mem = BSFadeNode::operator new(0x38);
     if (mem)

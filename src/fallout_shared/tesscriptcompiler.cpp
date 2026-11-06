@@ -186,7 +186,8 @@ int __cdecl FUN_005b3cd0(unsigned short arg1, void* arg2, void* arg3, void* arg4
 
 // Calls FUN_005b3cd0 with the first four arguments and zero for the last two.
 // @fnv 0x005b3c70
-int __cdecl FUN_005b3c70(unsigned short arg1, void* arg2, void* arg3, void* arg4)
+// src: EXE 0x005b3c70
+int __cdecl Cmd_ShowMessage_Parse(unsigned short arg1, void* arg2, void* arg3, void* arg4)
 {
     return FUN_005b3cd0(arg1, arg2, arg3, arg4, 0, 0);
 }
@@ -194,7 +195,8 @@ int __cdecl FUN_005b3c70(unsigned short arg1, void* arg2, void* arg3, void* arg4
 int __cdecl FUN_005b3cd0(unsigned short, void*, void*, void*, int, int);
 
 // @fnv 0x005b3c40
-int __cdecl FUN_005b3c40(unsigned short param1, void* param2, void* param3, void* param4)
+// src: EXE 0x005b3c40
+int __cdecl Cmd_EssentialDeathReload_Parse(unsigned short param1, void* param2, void* param3, void* param4)
 {
     return FUN_005b3cd0(param1, param2, param3, param4, 1, 0);
 }
@@ -203,7 +205,8 @@ int __cdecl FUN_005b3cd0(unsigned short, void*, void*, void*, int, int);
 
 // Calls FUN_005b3cd0 with the given arguments plus 0 and 1, returning its result.
 // @fnv 0x005b3ca0
-int __cdecl FUN_005b3ca0(unsigned short arg1, void* arg2, void* arg3, void* arg4)
+// src: EXE 0x005b3ca0
+int __cdecl Cmd_ShowWarning_Parse(unsigned short arg1, void* arg2, void* arg3, void* arg4)
 {
     return FUN_005b3cd0(arg1, arg2, arg3, arg4, 0, 1);
 }

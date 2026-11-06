@@ -305,7 +305,7 @@ struct FUN_008d0270_Class
     int m_24;
     int m_28;
     int m_2c;
-    FUN_008d0270_Class* __thiscall FUN_008d0270();
+    FUN_008d0270_Class* __thiscall BaseProcess_BaseProcess();
 };
 void __cdecl CallWithParam(int);
 struct FUN_008d1130_Class : FUN_008d1160_Class
@@ -316,7 +316,7 @@ extern "C" void __fastcall FUN_00a6d220(void*);
 extern int DAT_010867fc;
 struct FUN_008d15d0_Class
 {
-    void* __thiscall FUN_008d15d0();
+    void* __thiscall BSPlayerDistanceCheckController_BSPlayerDistanceCheckController();
 };
 struct FUN_0087d4a0
 {
@@ -429,7 +429,7 @@ extern int DAT_01086674;
 extern int DAT_01086684;
 struct FUN_008d10e0_Class : Call741e0
 {
-    void* FUN_008d10e0(int a, int b);
+    void* bhkCharacterListenerArrow_bhkCharacterListenerArrow(int a, int b);
 };
 struct FUN_00929240_Class
 {

@@ -411,7 +411,7 @@ struct FUN_00474880_Helper
 struct FUN_00474790_Class
 {
     const char* m0;
-    FUN_00474790_Class* __thiscall FUN_00474790(unsigned int a, unsigned int b);
+    FUN_00474790_Class* __thiscall NiTPrimitiveArray_unsigned_int_NiTPrimitiveArray(unsigned int a, unsigned int b);
 };
 void __cdecl _Deallocate(void*);
 struct FUN_00474820_Class
@@ -615,7 +615,7 @@ struct ResourceDescriptor
     void* manager;
     unsigned int options;
 
-    ResourceDescriptor* __thiscall FUN_004705e0(unsigned int initialCount, unsigned int initialOptions);
+    ResourceDescriptor* __thiscall NiTLargeArray_TESForm_NiTMallocInterface_TESForm_NiTLargeArray(unsigned int initialCount, unsigned int initialOptions);
 };
 extern Twin_008d0360* g_011f6078;
 Twin_008d0360* __cdecl FUN_00471f70();

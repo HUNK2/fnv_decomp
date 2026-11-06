@@ -2024,7 +2024,8 @@ struct FUN_00c465a0 {
 };
 // Allocates and constructs a new FUN_00c465a0 object, returning its pointer.
 // @fnv 0x00c46740
-FUN_00c465a0* __cdecl FUN_00c46740()
+// src: EXE 0x00c46740
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject()
 {
     return new FUN_00c465a0;
 }
@@ -2982,7 +2983,8 @@ struct FUN_00c5da70_Class : public A51BF0Base {
 
 // Allocates and constructs a FUN_00c5da70_Class object, returning the new instance.
 // @fnv 0x00c5e5a0
-FUN_00c5da70_Class* __cdecl FUN_00c5e5a0()
+// src: EXE 0x00c5e5a0
+FUN_00c5da70_Class* __cdecl BSMasterParticleSystem_CreateObject()
 {
     FUN_00c5da70_Class* result = new FUN_00c5da70_Class;
     return result;
@@ -3225,7 +3227,8 @@ struct SpawnedObject_b9874 {
 };
 
 // @fnv 0x00c43190
-SpawnedObject_b9874* FUN_00c43190() {
+// src: EXE 0x00c43190
+SpawnedObject_b9874* BSXFlags_CreateObject() {
     SpawnedObject_b9874* obj = new SpawnedObject_b9874();
     obj->Init(&DAT_011f49e0);
     return obj;
@@ -3255,7 +3258,8 @@ struct SpawnedObject_b9504 : FUN_00c43660 {
 
 // Allocates and returns a new SpawnedObject_b9504 instance via its class-specific operator new.
 // @fnv 0x00c43a30
-FUN_00c43660* __cdecl FUN_00c43a30() {
+// src: EXE 0x00c43a30
+FUN_00c43660* __cdecl BSValueNode_CreateObject() {
     return new SpawnedObject_b9504();
 }
 
@@ -6523,7 +6527,8 @@ public:
 
 // Allocates and constructs a BC5CBB0Controller, returning it as a BC5CBB0Object pointer.
 // @fnv 0x00c5cbb0
-BC5CBB0Object* __cdecl FUN_00c5cbb0()
+// src: EXE 0x00c5cbb0
+BC5CBB0Object* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject()
 {
     BC5CBB0Controller* pkController = new BC5CBB0Controller;
     return pkController;

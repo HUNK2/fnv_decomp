@@ -200,7 +200,8 @@ void __fastcall FUN_005890c0(int* self, FUN_00527770_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00527770
-int* __fastcall FUN_00527770(int* self, FUN_00527770_arg a)
+// src: EXE 0x00527770
+int* __fastcall NiTMap_unsigned_int_TESObjectREFR_NiTMap(int* self, FUN_00527770_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;

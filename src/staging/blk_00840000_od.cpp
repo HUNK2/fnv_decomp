@@ -69,12 +69,13 @@ struct FUN_00843190_class
 {
     void* vtbl;
     void FUN_00844f00(int, int, int);
-    void* FUN_00843190();
+    void* BGSOffsetDataArray_BGSOffsetDataArray();
 };
 
 // Calls FUN_00844f00 with (0x20, 0, 0), sets vtbl to &DAT_0107ea60, and returns this.
 // @fnv 0x00843190
-void* FUN_00843190_class::FUN_00843190()
+// src: EXE 0x00843190
+void* FUN_00843190_class::BGSOffsetDataArray_BGSOffsetDataArray()
 {
     FUN_00844f00(0x20, 0, 0);
     vtbl = &DAT_0107ea60;
@@ -343,11 +344,12 @@ struct FUN_0084d240_class
 {
     void* m_p;
     void __thiscall InitBuffer(int);
-    void* __thiscall FUN_0084d240(int);
+    void* __thiscall NiTMap_TESGlobal_bool_NiTMap(int);
 };
 // Calls InitBuffer with a, sets m_p to &DAT_0107f714, and returns this.
 // @fnv 0x0084d240
-void* __thiscall FUN_0084d240_class::FUN_0084d240(int a)
+// src: EXE 0x0084d240
+void* __thiscall FUN_0084d240_class::NiTMap_TESGlobal_bool_NiTMap(int a)
 {
     InitBuffer(a);
     m_p = &DAT_0107f714;
@@ -524,15 +526,16 @@ extern int DAT_01080028;
 
 struct FUN_00852fa0_class
 {
-    int __thiscall FUN_008530c0(int arg);
-    int __thiscall FUN_00852fa0(int arg);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_unsigned_int_1024_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMapBase(int arg);
+    int __thiscall NiTMap_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMap(int arg);
 };
 
 // Calls FUN_008530c0 with arg, stores the address of DAT_01080028 into this, and returns this.
 // @fnv 0x00852fa0
-int __thiscall FUN_00852fa0_class::FUN_00852fa0(int arg)
+// src: EXE 0x00852fa0
+int __thiscall FUN_00852fa0_class::NiTMap_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMap(int arg)
 {
-    FUN_008530c0(arg);
+    NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_unsigned_int_1024_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMapBase(arg);
     *(int*)this = (int)&DAT_01080028;
     return (int)this;
 }
@@ -543,12 +546,13 @@ struct FUN_00852fd0_cls
 {
     void* m_p;
     void* __thiscall InitializeBuffer(void* arg);
-    void* __thiscall FUN_00852fd0(void* arg);
+    void* __thiscall NiTPointerMap_unsigned_int_unsigned_int_NiTPointerMap(void* arg);
 };
 
 // Calls InitializeBuffer with arg, stores the address of DAT_01080048 in m_p, and returns this.
 // @fnv 0x00852fd0
-void* __thiscall FUN_00852fd0_cls::FUN_00852fd0(void* arg)
+// src: EXE 0x00852fd0
+void* __thiscall FUN_00852fd0_cls::NiTPointerMap_unsigned_int_unsigned_int_NiTPointerMap(void* arg)
 {
     this->InitializeBuffer(arg);
     m_p = &DAT_01080048;
@@ -564,12 +568,13 @@ struct FUN_00853370_class
 struct FUN_00853000_class
 {
     int* p;
-    FUN_00853000_class* __thiscall FUN_00853000(int arg);
+    FUN_00853000_class* __thiscall NiTPointerMap_unsigned_int_BGSCellNumericIDArrayMap_NiTPointerMap(int arg);
 };
 
 // Calls FUN_00853370 with arg, sets p to point at DAT_01080068, and returns this.
 // @fnv 0x00853000
-FUN_00853000_class* __thiscall FUN_00853000_class::FUN_00853000(int arg)
+// src: EXE 0x00853000
+FUN_00853000_class* __thiscall FUN_00853000_class::NiTPointerMap_unsigned_int_BGSCellNumericIDArrayMap_NiTPointerMap(int arg)
 {
     ((FUN_00853370_class*)this)->FUN_00853370(arg);
     p = &DAT_01080068;
@@ -616,11 +621,12 @@ struct FUN_00854c80_class
 {
     int m_vf_00;
     void __thiscall FUN_00854ce0(int a);
-    int* __thiscall FUN_00854c80(int a);
+    int* __thiscall NiTMap_enum_ENUM_FORM_ID_BSSimpleList_SavedFormData_NiTMap(int a);
 };
 // Calls FUN_00854ce0 with a, sets m_vf_00 to the address of DAT_01080434, and returns this.
 // @fnv 0x00854c80
-int* FUN_00854c80_class::FUN_00854c80(int a)
+// src: EXE 0x00854c80
+int* FUN_00854c80_class::NiTMap_enum_ENUM_FORM_ID_BSSimpleList_SavedFormData_NiTMap(int a)
 {
     FUN_00854ce0(a);
     m_vf_00 = (int)&DAT_01080434;
@@ -679,12 +685,13 @@ struct FUN_00854ea0_class
 {
     void* m;
     void __thiscall FUN_00863360(int);
-    void* FUN_00854ea0();
+    void* ChangesMap_ChangesMap();
 };
 
 // Calls FUN_00863360 with 0x13af, sets m to point at DAT_010804a8, and returns this.
 // @fnv 0x00854ea0
-void* FUN_00854ea0_class::FUN_00854ea0()
+// src: EXE 0x00854ea0
+void* FUN_00854ea0_class::ChangesMap_ChangesMap()
 {
     FUN_00863360(0x13af);
     m = &DAT_010804a8;
@@ -926,11 +933,12 @@ struct FUN_00844690_class
     int count;
     void* data;
     int pad;
-    FUN_00844690_class* __thiscall FUN_00844690(int c);
+    FUN_00844690_class* __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_BGSReconstructCellsMap_unsigned_int_BGSReconstructCellsMap_NiTMapBase(int c);
 };
 // Sets the vtable, stores the element count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x00844690
-FUN_00844690_class* __thiscall FUN_00844690_class::FUN_00844690(int aiCount)
+// src: EXE 0x00844690
+FUN_00844690_class* __thiscall FUN_00844690_class::NiTMapBase_DFALL_NiTMapItem_unsigned_int_BGSReconstructCellsMap_unsigned_int_BGSReconstructCellsMap_NiTMapBase(int aiCount)
 {
     vtbl = &DAT_0107eca8;
     count = aiCount;
@@ -1441,10 +1449,11 @@ struct FUN_008530c0_obj
     unsigned int size;
     void* data;
     unsigned int count;
-    FUN_008530c0_obj* __thiscall FUN_008530c0(unsigned int n);
+    FUN_008530c0_obj* __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_unsigned_int_1024_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMapBase(unsigned int n);
 };
 // @fnv 0x008530c0
-FUN_008530c0_obj* __thiscall FUN_008530c0_obj::FUN_008530c0(unsigned int auiSize)
+// src: EXE 0x008530c0
+FUN_008530c0_obj* __thiscall FUN_008530c0_obj::NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleArray_unsigned_int_1024_unsigned_int_BSSimpleArray_unsigned_int_1024_NiTMapBase(unsigned int auiSize)
 {
     unsigned int tmp;
     vtbl = &DAT_01080088;
@@ -2862,7 +2871,7 @@ struct SaveGameReferenceReconstruction : public TESSaveLoadGame
     void* FUN_00861c00(void*);
     TESForm* FUN_00859a90(unsigned int key, BinaryRecord36* data);
     TESForm* FUN_00859f20(unsigned int key, BinaryRecord44* data);
-    void FUN_00858730(TESForm*);
+    void TESSaveLoadGame_LoadForm(TESForm*);
     void ProcessSourceItem(unsigned int key);
 };
 // @fnv 0x008598d0
@@ -2893,7 +2902,7 @@ void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
                         delete asSpecial;
                         return;
                     }
-                    FUN_00858730(pCreated);
+                    TESSaveLoadGame_LoadForm(pCreated);
                 }
             }
         }
@@ -2910,7 +2919,7 @@ void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
                 record2.value10 = FUN_00861c00(record2.value10);
                 TESForm* newObject2 = FUN_00859f20(key, &record2);
                 if (newObject2 != 0)
-                    FUN_00858730(newObject2);
+                    TESSaveLoadGame_LoadForm(newObject2);
                 reinterpret_cast<SourceTracker*>(&m_kChangedReferenceIDList)->FUN_00905330(&key);
             }
         }
@@ -4195,7 +4204,7 @@ struct Cell859
 struct SaveGameCellReconstruction : public TESSaveLoadGame
 {
     bool FUN_0047c850();
-    bool FUN_00858730(Cell859*);
+    bool TESSaveLoadGame_LoadForm(Cell859*);
     void ProcessSourceItem(unsigned);
     bool FUN_00859690(Cell859* cell);
 };
@@ -4205,7 +4214,7 @@ bool SaveGameCellReconstruction::FUN_00859690(Cell859* cell)
     bool result5 = false;
     if (!FUN_0047c850())
         return result5;
-    result5 = FUN_00858730(cell);
+    result5 = TESSaveLoadGame_LoadForm(cell);
     if (cell->FUN_00425fd0())
     {
         List859* list8;

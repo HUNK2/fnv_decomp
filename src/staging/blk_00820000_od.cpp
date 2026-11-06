@@ -424,12 +424,13 @@ struct FUN_0083b5e0_class
 {
     void* m_ptr;
     void InitBuffer(int);
-    void* FUN_0083b5e0(int a);
+    void* NiTPointerMap_int_unsigned_int_NiTPointerMap(int a);
 };
 
 // Calls InitBuffer with the argument, sets m_ptr to DAT_0107d9c4, and returns this.
 // @fnv 0x0083b5e0
-void* FUN_0083b5e0_class::FUN_0083b5e0(int a)
+// src: EXE 0x0083b5e0
+void* FUN_0083b5e0_class::NiTPointerMap_int_unsigned_int_NiTPointerMap(int a)
 {
     InitBuffer(a);
     m_ptr = &DAT_0107d9c4;

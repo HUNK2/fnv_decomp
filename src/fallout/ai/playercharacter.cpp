@@ -5654,7 +5654,7 @@ struct ExtObj
     void FUN_005d14d0(int arg);
 };
 void __cdecl FUN_005b5e40(const char* msg);
-void __cdecl FUN_00868d70(int arg);
+void __cdecl GarbageCollector_ClearAll(int arg);
 void __cdecl FUN_00401030(void* p);
 
 struct FUN_0093bea0_cls
@@ -6888,7 +6888,7 @@ bool FUN_0093bea0_cls::FUN_0093bea0()
                 }
             }
         }
-        FUN_00868d70(1);
+        GarbageCollector_ClearAll(1);
         kOld = m_pPositionRequest;
         FUN_00401030(kOld);
         m_pPositionRequest = 0;
@@ -22007,11 +22007,12 @@ struct PlayerView
     unsigned int unkd70;
     char animationState[96];
     void FUN_005702e0(NiNode*, bool);
-    void FUN_0094eb40(NiNode*, bool);
+    void PlayerCharacter_Set3D(NiNode*, bool);
 };
 // Calls FUN_005702e0 and, if object is null, deletes first and second and clears node, DAT_011e07d0-d8 and animationState; may warn instead.
 // @fnv 0x0094eb40
-void PlayerView::FUN_0094eb40(NiNode* apNode, bool force)
+// src: EXE 0x0094eb40
+void PlayerView::PlayerCharacter_Set3D(NiNode* apNode, bool force)
 {
     if (g_osGlobals && !((OSState*)g_osGlobals)->FUN_005dc960() && !((OSState*)g_osGlobals)->FUN_00678ce0() && !apNode)
     {
@@ -29481,7 +29482,7 @@ class xActor
     void UpdateFaceAnimation(float f);
     float FUN_00950610(float f);
     const char* GetNameX();
-    void FUN_00953060(xActor* pActor, float fRate, bool bSkip);
+    void PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSkip);
 };
 
 extern bool xFirstPerson;
@@ -29520,7 +29521,8 @@ void xUpdateShadows();
 
 // Eases pitch and yaw toward pActor's head node (or Bip01 Speaker), updates animations and shadows, and stores fRate in the focus global.
 // @fnv 0x00953060
-void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
+// src: EXE 0x00953060
+void xActor::PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSkip)
 {
     if (!pActor)
         return;
@@ -48554,7 +48556,7 @@ struct Extra
 struct ObjC
 {
     unsigned char FUN_00418b10();
-    Extra* FUN_00410220(int);
+    Extra* BaseExtraList_GetExtraData(int);
 };
 struct ListObj
 {
@@ -48695,7 +48697,7 @@ bool Cls::FUN_00967b70(ArgObj* arg)
     extra = 0;
     fres = 0.0f;
     if (slotC7)
-        extra = slotC7->FUN_00410220(0x25);
+        extra = slotC7->BaseExtraList_GetExtraData(0x25);
     if (extra)
         fres = extra->f0c;
     else
@@ -55528,7 +55530,7 @@ struct InputPlayer : InputCharacter
     InputAction* FUN_009306d0();
     int SetAnimationGroupFromFlags(unsigned char);
     void FUN_0095f6a0();
-    void FUN_00895110(float, float);
+    void Actor_PickAnimations(float, float);
     bool FUN_005a1e50();
     void FUN_0094df80();
     void FUN_00693ef0(int);
@@ -55784,7 +55786,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
         }
         firstPerson = 1;
         Update120();
-        FUN_00895110(DAT_011a3b3c, DAT_011a3b40);
+        Actor_PickAnimations(DAT_011a3b3c, DAT_011a3b40);
         firstPerson = savedPerson;
         if (FUN_005a1e50())
             FUN_0094df80();

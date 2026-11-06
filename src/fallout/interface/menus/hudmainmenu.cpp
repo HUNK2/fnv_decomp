@@ -7409,7 +7409,7 @@ double __cdecl CompassMin(float afA, float afB);
 float __cdecl ComputeObjectAngleDelta(CompassPoint aPos, CompassPoint aOrigin);
 void __cdecl FUN_00778c20(Tile* apTile, float afDistance, float afAlpha);
 void __cdecl UpdateMapMarkerHUD(CompassEvent* apEvent);
-void __cdecl FUN_0076b960(const char*, const char*, int, int, int, int, const char*);
+void __cdecl QuestUpdateManager_SetCustomQuestText(const char*, const char*, int, int, int, int, const char*);
 void __cdecl FUN_005f5950(int, int, CompassRef*, CompassRef*, int, int, int);
 void __cdecl FUN_004d5c60(bool abVal);
 int __cdecl FUN_0077b300(void*, void*);
@@ -7479,7 +7479,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
             kEvent.bSkip = false;
             if (bDiscovered)
             {
-                FUN_0076b960(DAT_011d2208.String(), pCompassMarker->pInfo->GetName(), 1, 0, -1, -1, "UIPopUpQuestNew");
+                QuestUpdateManager_SetCustomQuestText(DAT_011d2208.String(), pCompassMarker->pInfo->GetName(), 1, 0, -1, -1, "UIPopUpQuestNew");
                 FUN_005f5950(4, 1, pCompassMarker->pRef, pCompassMarker->pRef, 0, 0, 0);
                 FUN_004d5c60(true);
                 ((CompassRef*)DAT_011dea3c)->RewardXP(*DAT_011d0364.Int());

@@ -403,17 +403,17 @@ NiObject* __cdecl CreateNewObj();
 NiObject* __cdecl CreateB6AE60Obj();
 NiObject* __cdecl CreateShaderLightingProperty();
 NiObject* __cdecl CreateBlobObj();
-NiObject* __cdecl FUN_00ba8a00();
-NiObject* __cdecl FUN_00ba9250();
+NiObject* __cdecl BSShaderTextureSet_CreateObject();
+NiObject* __cdecl BSShaderProperty_CreateObject();
 NiObject* __cdecl CreateSpawnedObject90();
 NiObject* __cdecl CreateObjectDerived();
 NiObject* __cdecl CreateInstance();
-NiObject* __cdecl FUN_00bb7ef0();
-NiObject* __cdecl FUN_00bc2cb0();
-NiObject* __cdecl FUN_00bc3190();
+NiObject* __cdecl TileShaderProperty_CreateObject();
+NiObject* __cdecl BSOrderedNode_CreateObject();
+NiObject* __cdecl BSMaterialEmittanceMultController_CreateObject();
 NiObject* __cdecl CreateDerived();
 NiObject* __cdecl CreateInterpDerivedBc36();
-NiObject* __cdecl FUN_00bc38c0();
+NiObject* __cdecl VolumetricFogShaderProperty_CreateObject();
 NiObject* __cdecl CreateSpawnedObj9441();
 NiObject* __cdecl CreateShaderAccumulator();
 extern const char g_011f9140_arg0[];
@@ -440,7 +440,7 @@ extern const char g_01204378_arg0[];
 // @fnv 0x00b4f1a0
 void RegisterNiStreamFactories()
 {
-    NiStream::RegisterObjectLoader(g_01200464_arg0, FUN_00ba9250);
+    NiStream::RegisterObjectLoader(g_01200464_arg0, BSShaderProperty_CreateObject);
     NiStream::RegisterObjectLoader(g_011fa560_arg0, CreateBlobObj);
     NiStream::RegisterObjectLoader(g_011fa010_arg0, CreateNewObj);
     NiStream::RegisterObjectLoader(g_012007b0_arg0, CreateObjectDerived);
@@ -448,17 +448,17 @@ void RegisterNiStreamFactories()
     NiStream::RegisterObjectLoader("NoFaderShaderProperty", CreateObjectDerived);
     NiStream::RegisterObjectLoader(g_011fa018_arg0, CreateB6AE60Obj);
     NiStream::RegisterObjectLoader(g_011fa05c_arg0, CreateShaderLightingProperty);
-    NiStream::RegisterObjectLoader(g_01201fb0_arg0, FUN_00bc38c0);
+    NiStream::RegisterObjectLoader(g_01201fb0_arg0, VolumetricFogShaderProperty_CreateObject);
     NiStream::RegisterObjectLoader(g_012005b8_arg0, CreateSpawnedObject90);
     NiStream::RegisterObjectLoader(g_011f9f00_arg0, FUN_00b60f50);
     NiStream::RegisterObjectLoader(g_01204378_arg0, CreateShaderAccumulator);
-    NiStream::RegisterObjectLoader(g_0120044c_arg0, FUN_00ba8a00);
+    NiStream::RegisterObjectLoader(g_0120044c_arg0, BSShaderTextureSet_CreateObject);
     NiStream::RegisterObjectLoader(g_01201fa8_arg0, CreateInterpDerivedBc36);
     NiStream::RegisterObjectLoader(g_01201f9c_arg0, CreateDerived);
-    NiStream::RegisterObjectLoader(g_012007d8_arg0, FUN_00bb7ef0);
-    NiStream::RegisterObjectLoader(g_01201f90_arg0, FUN_00bc3190);
+    NiStream::RegisterObjectLoader(g_012007d8_arg0, TileShaderProperty_CreateObject);
+    NiStream::RegisterObjectLoader(g_01201f90_arg0, BSMaterialEmittanceMultController_CreateObject);
     NiStream::RegisterObjectLoader(g_011f9140_arg0, BSFadeNode::CreateObject);
-    NiStream::RegisterObjectLoader(g_01201f84_arg0, FUN_00bc2cb0);
+    NiStream::RegisterObjectLoader(g_01201f84_arg0, BSOrderedNode_CreateObject);
     NiStream::RegisterObjectLoader(g_012007c8_arg0, CreateInstance);
 }
 
@@ -4054,7 +4054,8 @@ extern "C" void* memmove(void*, const void*, unsigned int);
 extern "C" void* FUN_00ec61c0(void*, int, unsigned int);
 // Copies tangent and binormal data from extra data when present; otherwise computes per-vertex vectors from UVs and normals and updates geometry data.
 // @fnv 0x00b54b60
-NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
+// src: EXE 0x00b54b60
+NativeB66810* __cdecl BSShaderManager_CreateTangentSpaceSimple(NiGeometry* apGeometry)
 {
     if (apGeometry->GetName())
         _strnicmp(apGeometry->GetName(), DAT_0102bf34, 4);

@@ -1068,13 +1068,13 @@ struct FUN_00c1a480_class
 {
     int m_vtbl;
     int m_iWordAt04;
-    int __thiscall FUN_00a71cc0(int);
+    int __thiscall NiTriStrips_NiTriStrips(int);
     int __thiscall FUN_00c1a480(int a);
 };
 // @fnv 0x00c1a480
 int FUN_00c1a480_class::FUN_00c1a480(int aiArg)
 {
-    FUN_00a71cc0(aiArg);
+    NiTriStrips_NiTriStrips(aiArg);
     m_vtbl = (int)&DAT_010bcc90;
     return (int)this;
 }

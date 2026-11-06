@@ -546,7 +546,7 @@ bool __cdecl QueueUIMessage(const char* apText, int aiUnk, const char* apIcon, c
                             bool abUnk);
 bool __cdecl FUN_005aa680(RadioStationRef* apRef);
 void __cdecl FUN_00832240(void* apForm, bool abUnk);
-void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apStation);
+void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apStation);
 extern unsigned char DAT_011a179c;
 extern SettingString g_011d4348;
 extern SettingFloat g_011dd580;
@@ -663,7 +663,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                 FUN_00832240(pstation->form, false);
                 DAT_011dd430 = 0;
             }
-            FUN_00834260(pstation);
+            FalloutRadio_UpdateStation(pstation);
         }
         pactStations = pactStations->GetNext();
     }
@@ -679,7 +679,7 @@ void FUN_008325a0(unsigned char value)
     DAT_011dd313 = value;
 }
 
-void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apStation);
+void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apStation);
 
 // Clears bit 1 of DAT_011dd438, sets bit 0, and if DAT_011dd42c is non-null passes it to FUN_00834260.
 // @fnv 0x00832c40
@@ -688,7 +688,7 @@ void __cdecl FUN_00832c40()
     DAT_011dd438 &= 0xfffffffd;
     DAT_011dd438 |= 1;
     if (DAT_011dd42c != 0)
-        FUN_00834260((FalloutRadio::RadioStationState*)DAT_011dd42c);
+        FalloutRadio_UpdateStation((FalloutRadio::RadioStationState*)DAT_011dd42c);
 }
 
 struct FUN_00833040_shell
@@ -2081,7 +2081,8 @@ void FUN_008304a0();
 void FUN_008304c0();
 void PlayAudioMedia(int, const char*, unsigned int, bool, bool, float, unsigned int);
 // @fnv 0x008359e0
-void FUN_008359e0(RadioSource* source, bool enabled)
+// src: EXE 0x008359e0
+void FalloutRadio_SetBroadcastState(RadioSource* source, bool enabled)
 {
     if (DAT_011dd436)
         return;
@@ -3025,7 +3026,8 @@ extern char DAT_01183108;
 extern char DAT_01186584;
 
 // @fnv 0x00834260
-void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
+// src: EXE 0x00834260
+void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState)
 {
     bool aEnabled = false;
     bool aFlag = false;

@@ -211,14 +211,14 @@ extern int DAT_0108e1e8;
 struct FUN_009a3e90
 {
     void* vfn_00;
-    void __thiscall FUN_009a4290(int);
+    void __thiscall NiTMap_Actor_CombatTargetData_NiTMap(int);
     FUN_009a3e90();
 };
 // Calls FUN_009a4290 with 0x25, then sets vfn_00 to point at DAT_0108e1e8.
 // @fnv 0x009a3e90
 FUN_009a3e90::FUN_009a3e90()
 {
-    FUN_009a4290(0x25);
+    NiTMap_Actor_CombatTargetData_NiTMap(0x25);
     vfn_00 = &DAT_0108e1e8;
 }
 
@@ -226,10 +226,11 @@ extern int DAT_0108e258;
 struct FUN_009a4290_class
 {
     void __thiscall InitArray(int a);
-    int* __thiscall FUN_009a4290(int a);
+    int* __thiscall NiTMap_Actor_CombatTargetData_NiTMap(int a);
 };
 // @fnv 0x009a4290
-int* __thiscall FUN_009a4290_class::FUN_009a4290(int a)
+// src: EXE 0x009a4290
+int* __thiscall FUN_009a4290_class::NiTMap_Actor_CombatTargetData_NiTMap(int a)
 {
     InitArray(a);
     *(int**)this = &DAT_0108e258;
@@ -271,12 +272,13 @@ struct FUN_009a5d20_class
 {
     int* p;
     void Construct(int a);
-    int* FUN_009a5d20(int a);
+    int* NiTMap_unsigned_int_CombatThreat_NiTMap(int a);
 };
 
 // Calls Construct with a, sets p to point at DAT_0108e308, and returns this as an int pointer.
 // @fnv 0x009a5d20
-int* FUN_009a5d20_class::FUN_009a5d20(int a)
+// src: EXE 0x009a5d20
+int* FUN_009a5d20_class::NiTMap_unsigned_int_CombatThreat_NiTMap(int a)
 {
     Construct(a);
     p = &DAT_0108e308;

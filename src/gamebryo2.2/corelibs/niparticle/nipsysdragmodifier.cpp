@@ -79,7 +79,8 @@ void NiPSysDragModifier::LoadBinary(NiStream& kStream)
 
 
 // @fnv 0x00c2c080
-void* __cdecl FUN_00c2c080()
+// src: EXE 0x00c2c080
+void* __cdecl NiPSysDragModifier_CreateObject()
 {
     return new NiPSysDragModifier;
 }

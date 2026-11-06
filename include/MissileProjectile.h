@@ -41,7 +41,7 @@ public:
 
     void* FUN_009b7a20(unsigned int flags);
     void FUN_009b7bc0();
-    void FUN_009b8030(float deltaTime);
+    void UpdateProjectile_009b8030(float deltaTime);
     void FUN_009b8a20();
     bool FUN_009b8900(int arg1, int arg2, int arg3, Collider890* collider,
                       int arg5, int arg6);

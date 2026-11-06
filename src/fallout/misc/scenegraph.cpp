@@ -28,11 +28,12 @@ struct Base_00c517b0
 
 struct Wrapper_00878610 : Base_00c517b0
 {
-    void* FUN_00878610(char* apSceneGraphName, bool abMenuSceneGraph, void* apCamera);
+    void* SceneGraph_SceneGraph(char* apSceneGraphName, bool abMenuSceneGraph, void* apCamera);
 };
 
 // @fnv 0x00878610
-void* Wrapper_00878610::FUN_00878610(char* apSceneGraphName, bool abMenuSceneGraph, void* apCamera)
+// src: EXE 0x00878610
+void* Wrapper_00878610::SceneGraph_SceneGraph(char* apSceneGraphName, bool abMenuSceneGraph, void* apCamera)
 {
     FUN_00c517b0(apSceneGraphName, abMenuSceneGraph, apCamera);
     *(int**)this = &DAT_01083b5c;

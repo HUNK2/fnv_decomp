@@ -266,7 +266,7 @@ struct Twin_0084d030
 extern GameTimerRecord g_timeGlobal;
 extern float DAT_011d5dd4;
 void FUN_00b07060(float);
-void FUN_00b06c10(float*, float*);
+void CSpeedTreeRT_SetCamera(float*, float*);
 struct CP_008c48d0
 {
     int GetPrevPath();
@@ -306,7 +306,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
         fcamDir[0] = vecTemp.x;
         fcamDir[1] = vecTemp.y;
         fcamDir[2] = vecTemp.z;
-        FUN_00b06c10(fcamLoc, fcamDir);
+        CSpeedTreeRT_SetCamera(fcamLoc, fcamDir);
     }
     if (!abMenuMode)
     {

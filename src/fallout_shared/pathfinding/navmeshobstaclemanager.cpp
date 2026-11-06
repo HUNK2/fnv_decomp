@@ -1922,7 +1922,7 @@ bool FUN_006c5ce0_shell::FUN_006c5ce0(ObstacleTaskData* apTaskData)
 namespace fnv_006c39c0 {
 struct FUN_006c39c0_shell : public NavMeshObstacleManager
 {
-    void FUN_006c39c0();
+    void NavMeshObstacleManager_ForceUpdate();
 };
 
 void __cdecl FUN_0040fca0(unsigned long);
@@ -1972,7 +1972,8 @@ extern float DAT_0106c398;
 
 // Waits for processed and background task counts to match, runs path manager and navmesh update steps, resets offset 0x190/0x194, and waits for rendering tasks.
 // @fnv 0x006c39c0
-void FUN_006c39c0_shell::FUN_006c39c0()
+// src: EXE 0x006c39c0
+void FUN_006c39c0_shell::NavMeshObstacleManager_ForceUpdate()
 {
     unsigned int iProcessedTaskCount;
     unsigned int iBackgroundTaskCount;
@@ -5788,10 +5789,11 @@ struct C006c3640
     bool FUN_006c44d0();
     bool ClearOwnedObjects();
     void ProcessObstacleTasks();
-    void FUN_006c3640();
+    void NavMeshObstacleManager_Update();
 };
 // @fnv 0x006c3640
-void C006c3640::FUN_006c3640()
+// src: EXE 0x006c3640
+void C006c3640::NavMeshObstacleManager_Update()
 {
     AutoMemHelper mem(0x2e, true, &DAT_0106c3f0, 0x508);
     if (!*((SettingShell*)&DAT_011d73e4)->FUN_00408d60())

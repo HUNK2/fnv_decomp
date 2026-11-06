@@ -102,13 +102,13 @@ struct DataLeveledList5e5f50
 };
 Script* __fastcall FUN_00418800(ExtraDataList*);
 Script* __cdecl FUN_004826d0(BoundObj5e5f50*);
-bool __cdecl FUN_005e5b80(int, int, void*, int, unsigned char, void**, void*);
+bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, int, unsigned char, void**, void*);
 
 // @fnv 0x005e5f50
 void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char acArgumentCount,
                           void** apFunctionArgument, void* apData)
 {
-    if (!FUN_005e5b80(1, 3, apPerkOwner, aeFunctionType, acArgumentCount, apFunctionArgument, apData))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(1, 3, apPerkOwner, aeFunctionType, acArgumentCount, apFunctionArgument, apData))
         return;
     DataLeveledList5e5f50* pfunctionData = (DataLeveledList5e5f50*)apData;
     Actor* ptarget = (Actor*)*apFunctionArgument;

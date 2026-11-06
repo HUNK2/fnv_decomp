@@ -2106,7 +2106,7 @@ struct Hldr0044
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void FUN_0044d6c0(int a);
+    void std_bad_alloc_bad_alloc(int a);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
 extern "C" void __cdecl FUN_00401000(int scaled);
@@ -2124,7 +2124,7 @@ extern "C" void __cdecl FUN_00658c10(int a, int b)
     {
         if (0xFFFFFFFFu / (unsigned)a < 60)
         {
-            h.FUN_0044d6c0(0);
+            h.std_bad_alloc_bad_alloc(0);
             FUN_00ec7894(&h, &DAT_01140ef8);
         }
     }
@@ -3144,7 +3144,7 @@ struct FUN_0044d6c0_class
     int unk00;
     int unk04;
     int unk08;
-    void* __thiscall FUN_0044d6c0(void** a);
+    void* __thiscall std_bad_alloc_bad_alloc(void** a);
 };
 void __cdecl FUN_0065e3a0(int param_1, int);
 struct B65E760Item

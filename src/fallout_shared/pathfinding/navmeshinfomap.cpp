@@ -246,7 +246,8 @@ void __fastcall FUN_005890c0(int* self, FUN_006b7d90_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7d90
-int* __fastcall FUN_006b7d90(int* self, FUN_006b7d90_arg aArg)
+// src: EXE 0x006b7d90
+int* __fastcall NiTPointerMap_unsigned_int_NavMeshInfo_NiTPointerMap(int* self, FUN_006b7d90_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;
@@ -265,7 +266,8 @@ void __fastcall FUN_005890c0(int* self, FUN_006b7dc0_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7dc0
-int* __fastcall FUN_006b7dc0(int* self, FUN_006b7dc0_arg aArg)
+// src: EXE 0x006b7dc0
+int* __fastcall NiTMap_unsigned_int_NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMap(int* self, FUN_006b7dc0_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;
@@ -285,7 +287,8 @@ void __fastcall FUN_005890c0(int* self, FUN_006b7df0_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006b7df0
-int* __fastcall FUN_006b7df0(int* self, FUN_006b7df0_arg aArg)
+// src: EXE 0x006b7df0
+int* __fastcall NiTMap_unsigned_int_BSSimpleArray_NavMeshInfo_1024_NiTMap(int* self, FUN_006b7df0_arg aArg)
 {
     FUN_005890c0(self, aArg);
     *self = (int)&DAT_01031fac;

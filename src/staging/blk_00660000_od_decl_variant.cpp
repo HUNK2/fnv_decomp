@@ -44,11 +44,11 @@ struct FUN_00661d30_cls
 {
     const char* const* GetArg1Ptr();
 };
-extern "C" void* __cdecl FUN_00665f50(void*);
+extern "C" void* __cdecl NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(void*);
 extern int DAT_01066434;
 struct FUN_00665c50
 {
-    void* __thiscall FUN_00665f50(int a);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(int a);
     void* __thiscall Set(int a);
 };
 struct FUN_00665f10_class
@@ -161,7 +161,7 @@ struct FUN_00665f50_Class
     int count;
     int* data;
     int zero;
-    void* __thiscall FUN_00665f50(int a);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectTREE_NiPointer_BSTreeModel_NiTMapBase(int a);
 };
 struct FUN_006661b0_Class
 {

@@ -4438,7 +4438,7 @@ struct S_00d49660_Foo
     unsigned char unk70;
 
     void __thiscall FUN_00d248a0(int, int);
-    S_00d49660_Foo* __thiscall FUN_00d49660(int, int, float);
+    S_00d49660_Foo* __thiscall hkpStorageSampledHeightFieldShape_hkpStorageSampledHeightFieldShape(int, int, float);
 };
 
 extern int DAT_010cfb34;
@@ -4447,7 +4447,8 @@ int __cdecl FUN_00ec62c0();
 
 // Calls FUN_00d248a0(a, 0), sets unk00 to the address of DAT_010cfb34, stores b in unk60 and c in unk6c, derives unk68 from unk14, and returns this.
 // @fnv 0x00d49660
-S_00d49660_Foo* __thiscall S_00d49660_Foo::FUN_00d49660(int a, int b, float c)
+// src: EXE 0x00d49660
+S_00d49660_Foo* __thiscall S_00d49660_Foo::hkpStorageSampledHeightFieldShape_hkpStorageSampledHeightFieldShape(int a, int b, float c)
 {
     FUN_00d248a0(a, 0);
     unk00 = reinterpret_cast<int>(&DAT_010cfb34);

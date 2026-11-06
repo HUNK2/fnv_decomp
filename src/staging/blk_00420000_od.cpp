@@ -164,14 +164,15 @@ extern int DAT_01015fbc;
 struct FUN_004383b0_Class
 {
     void* p;
-    void FUN_004386b0(void*);
-    void* FUN_004383b0(void* a);
+    void NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(void*);
+    void* NiTMap_WaterZone_int_NiTMap(void* a);
 };
 // Calls FUN_004386b0 with a, sets p to the address of DAT_01015fbc, and returns this.
 // @fnv 0x004383b0
-void* FUN_004383b0_Class::FUN_004383b0(void* apArg)
+// src: EXE 0x004383b0
+void* FUN_004383b0_Class::NiTMap_WaterZone_int_NiTMap(void* apArg)
 {
-    FUN_004386b0(apArg);
+    NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(apArg);
     p = &DAT_01015fbc;
     return this;
 }
@@ -182,12 +183,13 @@ extern char DAT_01015fdc;
 struct FUN_004383e0_class
 {
     void* p;
-    void* __thiscall FUN_004383e0(void* a);
+    void* __thiscall BSMap_TESFaction_bool_BSMap(void* a);
 };
 
 // Calls FUN_00438820 with this and a, sets p to the address of DAT_01015fdc, and returns this.
 // @fnv 0x004383e0
-void* __thiscall FUN_004383e0_class::FUN_004383e0(void* apArg)
+// src: EXE 0x004383e0
+void* __thiscall FUN_004383e0_class::BSMap_TESFaction_bool_BSMap(void* apArg)
 {
     ((void(__thiscall*)(void*, void*))FUN_00438820)(this, apArg);
     p = &DAT_01015fdc;
@@ -199,11 +201,12 @@ extern int DAT_01015ffc;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
-    AX* FUN_00438570();
+    AX* BSSimpleArray_DismemberedLimb_1024_BSSimpleArray();
 };
 
 // @fnv 0x00438570
-AX* AX::FUN_00438570()
+// src: EXE 0x00438570
+AX* AX::BSSimpleArray_DismemberedLimb_1024_BSSimpleArray()
 {
     *reinterpret_cast<int*>(this) = (int)&DAT_01015ffc;
     FUN_006b3eb0(0, 0);
@@ -795,12 +798,13 @@ FUN_0042cba0_class::FUN_0042cba0_class() : BSExtraData(0x6e)
 
 struct FHolder_42cbe0 : BSExtraData
 {
-    void* __thiscall FUN_0042cbe0();
+    void* __thiscall ExtraPackageData_ExtraPackageData();
 };
 extern int DAT_010151fc;
 // Initialises the object with BSExtraData(0x70), installs the vtable pointer DAT_010151fc, zeroes the field at offset 0xc, and returns this.
 // @fnv 0x0042cbe0
-void* __thiscall FHolder_42cbe0::FUN_0042cbe0()
+// src: EXE 0x0042cbe0
+void* __thiscall FHolder_42cbe0::ExtraPackageData_ExtraPackageData()
 {
     this->BSExtraData::BSExtraData(0x70);
     *(void**)this = (void*)&DAT_010151fc;
@@ -1368,11 +1372,12 @@ void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_004386b0_Class
 {
     void* p;
-    void* __thiscall FUN_004386b0(void* a);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(void* a);
 };
 // Stores a pointer and a count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x004386b0
-void* FUN_004386b0_Class::FUN_004386b0(void* auiCount)
+// src: EXE 0x004386b0
+void* FUN_004386b0_Class::NiTMapBase_DFALL_NiTMapItem_WaterZone_int_WaterZone_int_NiTMapBase(void* auiCount)
 {
     p = &DAT_01016038;
     *(void**)((char*)this + 4) = auiCount;
@@ -1745,20 +1750,20 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void* __thiscall FUN_00410220(unsigned char type);
+    void* __thiscall BaseExtraList_GetExtraData(unsigned char type);
     void __thiscall FUN_00410020(void* extra, bool remove);
-    void __thiscall FUN_0040ff60(void* extra);
+    void __thiscall BaseExtraList_AddExtra(void* extra);
     void __thiscall FUN_0042e060(unsigned int a, unsigned int b);
 };
 // Removes the existing 0x55-type entry, allocates a new FUN_00436b20 from a and b, and installs it via FUN_0040ff60.
 // @fnv 0x0042e060
 void FUN_0042e060_class::FUN_0042e060(unsigned int a, unsigned int b)
 {
-    void* pEntry = FUN_00410220(0x55);
+    void* pEntry = BaseExtraList_GetExtraData(0x55);
     if (pEntry)
         FUN_00410020(pEntry, true);
     pEntry = new FUN_00436b20(a, b);
-    FUN_0040ff60(pEntry);
+    BaseExtraList_AddExtra(pEntry);
 }
 
 void* __cdecl operator new(unsigned int uiSize, void* pvMem);

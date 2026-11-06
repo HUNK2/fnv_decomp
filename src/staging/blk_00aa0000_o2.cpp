@@ -112,11 +112,12 @@ struct FUN_00aa2ff0_s
     unsigned int m_uiSize;      // +0x1c
     unsigned char m_bFlag20;    // +0x20
     unsigned char m_bFlag21;    // +0x21
-    FUN_00aa2ff0_s* FUN_00aa2ff0();
+    FUN_00aa2ff0_s* NiMemStream_NiMemStream();
 };
 
 // @fnv 0x00aa2ff0
-FUN_00aa2ff0_s* FUN_00aa2ff0_s::FUN_00aa2ff0()
+// src: EXE 0x00aa2ff0
+FUN_00aa2ff0_s* FUN_00aa2ff0_s::NiMemStream_NiMemStream()
 {
     FUN_00aa1d10();
     m_pVtable = &DAT_010a256c;

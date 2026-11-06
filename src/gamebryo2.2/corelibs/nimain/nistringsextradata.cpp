@@ -18,7 +18,8 @@ void* __cdecl FUN_00a94820()
 extern int DAT_010a0134;
 
 // @fnv 0x00a94930
-void* __cdecl FUN_00a94930()
+// src: EXE 0x00a94930
+void* __cdecl NiStringsExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)

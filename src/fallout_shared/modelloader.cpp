@@ -2226,7 +2226,8 @@ extern int DAT_011c3b38;
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x00449090
-void* __fastcall FUN_00449090(void* apObject)
+// src: EXE 0x00449090
+void* __fastcall BSTask_int64_BSTask(void* apObject)
 {
     *((void**)apObject) = &DAT_01017138;
     *((int*)((char*)apObject + 8)) = 0;
@@ -2331,12 +2332,13 @@ struct FUN_004492c0_shell
 {
     int vtbl;
     void FUN_0044c270(int a, int b, int c);
-    FUN_004492c0_shell* FUN_004492c0(int a, int b, int c);
+    FUN_004492c0_shell* LockFreeCaseInsensitiveStringMap_Model_LockFreeCaseInsensitiveStringMap(int a, int b, int c);
 };
 
 // Calls FUN_0044c270 with the three arguments, sets vtbl to &DAT_0101732c, and returns this.
 // @fnv 0x004492c0
-FUN_004492c0_shell* FUN_004492c0_shell::FUN_004492c0(int a, int b, int c)
+// src: EXE 0x004492c0
+FUN_004492c0_shell* FUN_004492c0_shell::LockFreeCaseInsensitiveStringMap_Model_LockFreeCaseInsensitiveStringMap(int a, int b, int c)
 {
     FUN_0044c270(a, b, c);
     vtbl = (int)&DAT_0101732c;
@@ -2438,12 +2440,13 @@ struct FUN_004496a0_shell
 {
     int vtbl;
     void FUN_0044c270(int a, int b, int c);
-    FUN_004496a0_shell* FUN_004496a0(int a, int b, int c);
+    FUN_004496a0_shell* LockFreeCaseInsensitiveStringMap_KFModel_LockFreeCaseInsensitiveStringMap(int a, int b, int c);
 };
 
 // Calls FUN_0044c270 with the three arguments, sets vtbl to &DAT_0101732c, and returns this.
 // @fnv 0x004496a0
-FUN_004496a0_shell* FUN_004496a0_shell::FUN_004496a0(int a, int b, int c)
+// src: EXE 0x004496a0
+FUN_004496a0_shell* FUN_004496a0_shell::LockFreeCaseInsensitiveStringMap_KFModel_LockFreeCaseInsensitiveStringMap(int a, int b, int c)
 {
     FUN_0044c270(a, b, c);
     vtbl = (int)&DAT_0101732c;
@@ -2472,12 +2475,13 @@ struct FUN_004497c0_shell
 {
     int vtbl;
     void FUN_0044c270(int a, int b, int c);
-    FUN_004497c0_shell* FUN_004497c0(int a, int b, int c);
+    FUN_004497c0_shell* LockFreeCaseInsensitiveStringMap_LoadedFile_LockFreeCaseInsensitiveStringMap(int a, int b, int c);
 };
 
 // Calls FUN_0044c270 with the three arguments, sets vtbl to &DAT_0101732c, and returns this.
 // @fnv 0x004497c0
-FUN_004497c0_shell* FUN_004497c0_shell::FUN_004497c0(int aiArg1, int aiArg2, int aiArg3)
+// src: EXE 0x004497c0
+FUN_004497c0_shell* FUN_004497c0_shell::LockFreeCaseInsensitiveStringMap_LoadedFile_LockFreeCaseInsensitiveStringMap(int aiArg1, int aiArg2, int aiArg3)
 {
     FUN_0044c270(aiArg1, aiArg2, aiArg3);
     vtbl = (int)&DAT_0101732c;
@@ -2573,12 +2577,13 @@ struct FUN_00449f50_shell
 {
     int vtbl;
     void FUN_0044c270(int a, int b, int c);
-    FUN_00449f50_shell* FUN_00449f50(int a, int b, int c);
+    FUN_00449f50_shell* LockFreeStringMap_Model_LockFreeStringMap(int a, int b, int c);
 };
 
 // Calls FUN_0044c270 with the three arguments, sets vtbl to &DAT_0101732c, and returns this.
 // @fnv 0x00449f50
-FUN_00449f50_shell* FUN_00449f50_shell::FUN_00449f50(int aiArg1, int aiArg2, int aiArg3)
+// src: EXE 0x00449f50
+FUN_00449f50_shell* FUN_00449f50_shell::LockFreeStringMap_Model_LockFreeStringMap(int aiArg1, int aiArg2, int aiArg3)
 {
     FUN_0044c270(aiArg1, aiArg2, aiArg3);
     vtbl = (int)&DAT_0101732c;
@@ -2621,12 +2626,13 @@ struct FUN_0044a100_shell
 {
     int vtbl;
     void FUN_0044c270(int a, int b, int c);
-    FUN_0044a100_shell* FUN_0044a100(int a, int b, int c);
+    FUN_0044a100_shell* LockFreeStringMap_LoadedFile_LockFreeStringMap(int a, int b, int c);
 };
 
 // Calls FUN_0044c270 with the three arguments, sets vtbl to &DAT_0101732c, and returns this.
 // @fnv 0x0044a100
-FUN_0044a100_shell* FUN_0044a100_shell::FUN_0044a100(int aiArg1, int aiArg2, int aiArg3)
+// src: EXE 0x0044a100
+FUN_0044a100_shell* FUN_0044a100_shell::LockFreeStringMap_LoadedFile_LockFreeStringMap(int aiArg1, int aiArg2, int aiArg3)
 {
     FUN_0044c270(aiArg1, aiArg2, aiArg3);
     vtbl = (int)&DAT_0101732c;
@@ -8907,11 +8913,12 @@ class FUN_0043d850_cls
     void* m_4c;
 
     void FUN_0043c890(void* tmp, unsigned int a3, unsigned int a4, int one, int zero);
-    FUN_0043d850_cls* FUN_0043d850(unsigned int a1, void* a2, unsigned int a3, unsigned int a4);
+    FUN_0043d850_cls* QueuedTreeModel_QueuedTreeModel(unsigned int a1, void* a2, unsigned int a3, unsigned int a4);
 };
 
 // @fnv 0x0043d850
-FUN_0043d850_cls* FUN_0043d850_cls::FUN_0043d850(unsigned int a1, void* a2, unsigned int auiArg3, unsigned int auiArg4)
+// src: EXE 0x0043d850
+FUN_0043d850_cls* FUN_0043d850_cls::QueuedTreeModel_QueuedTreeModel(unsigned int a1, void* a2, unsigned int auiArg3, unsigned int auiArg4)
 {
     FUN_0043c890((a2 != 0) ? (void*)((char*)a2 + 0x30) : 0, auiArg3, auiArg4, 1, 0);
     m_ppVirtualMethodTable = (void*)&DAT_010169d4;
@@ -15802,7 +15809,7 @@ bool FUN_005784b0(Obj3*);
 void FUN_00578300(Obj3*);
 int FUN_00570f60();
 void FUN_008cddd0(Ref3*, bool);
-void FUN_00868660(Obj3*);
+void GarbageCollector_Add_00868660(Obj3*);
 void FUN_00c45830(Obj3*);
 void FUN_00c6bd00(Obj3*, bool);
 Audio3* FUN_00453a70();
@@ -15964,7 +15971,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
                 Proc3* high = process;
                 high->ClearE(0);
             }
-            FUN_00868660(oldVar);
+            GarbageCollector_Add_00868660(oldVar);
         }
         else
             FUN_00c45830(oldVar);

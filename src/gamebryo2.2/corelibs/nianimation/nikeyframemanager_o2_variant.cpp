@@ -43,7 +43,8 @@ struct AllocatedAnimationController
     void* __thiscall FUN_00a4da20();
 };
 // @fnv 0x00a4db60
-void* __cdecl FUN_00a4db60()
+// src: EXE 0x00a4db60
+void* __cdecl NiKeyframeManager_CreateObject()
 {
     void* storage = FUN_00aa13e0(0x48);
     if (storage != 0)

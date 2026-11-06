@@ -98,7 +98,7 @@ FNV_STATIC_ASSERT(sizeof(MenuTopic) == 0x2C);
 
 InterfaceManager* FUN_004b7210();
 int FUN_007620e0();
-bool FUN_005d4a40();
+bool Cmd_Default_Execute();
 
 class INISettingCollection;
 extern SettingT<INISettingCollection> DAT_011d8934;

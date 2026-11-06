@@ -44,7 +44,8 @@ extern int DAT_0109947c;
 
 // Allocates a 0x40-byte BSFadeNode, initialises it via InitTimeController, sets its vtable to DAT_0109947c, and returns it (or null on allocation failure).
 // @fnv 0x00a4fac0
-void* __cdecl FUN_00a4fac0()
+// src: EXE 0x00a4fac0
+void* __cdecl NiColorExtraDataController_CreateObject()
 {
     void* mem = BSFadeNode::operator new(0x40);
     if (mem)

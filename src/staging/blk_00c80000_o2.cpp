@@ -552,7 +552,8 @@ struct FUN_00c9aeb0_t
 };
 // Allocates and constructs a new FUN_00c9aeb0_t object, returning its pointer.
 // @fnv 0x00c9b020
-FUN_00c9aeb0_t* FUN_00c9b020()
+// src: EXE 0x00c9b020
+FUN_00c9aeb0_t* bhkBlendController_CreateObject()
 {
     return new FUN_00c9aeb0_t;
 }
@@ -906,7 +907,8 @@ struct Object_00c8c090 : public S_00cb79d0_Base
 
 // Allocates and constructs a new Object_00c8c090, returning it as an S_00cb79d0_Base pointer.
 // @fnv 0x00c8c090
-S_00cb79d0_Base* FUN_00c8c090()
+// src: EXE 0x00c8c090
+S_00cb79d0_Base* bhkTransformShape_CreateObject()
 {
     return new Object_00c8c090;
 }
@@ -8260,7 +8262,8 @@ struct Object_00c8ae60 : Base_00c8ae60
 };
 // Allocates and constructs a new Object_00c8ae60, returning the pointer.
 // @fnv 0x00c8ae60
-Object_00c8ae60* __cdecl FUN_00c8ae60()
+// src: EXE 0x00c8ae60
+Object_00c8ae60* __cdecl bhkListShape_CreateObject()
 {
     return new Object_00c8ae60;
 }

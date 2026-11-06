@@ -11,13 +11,14 @@ void NiPSysAirFieldAirFrictionCtlr::CopyMemberData(NiPSysAirFieldAirFrictionCtlr
     NiPSysModifierCtlr::CopyMemberData(destination, cloning);
 }
 
-void __fastcall FUN_00c31260(void*);
+void __fastcall NiPSysModifierCtlr_NiPSysModifierCtlr(void*);
 extern int DAT_010c0d2c;
 
 // @fnv 0x00c32b60
-void* __fastcall FUN_00c32b60(void* pThis)
+// src: EXE 0x00c32b60
+void* __fastcall NiPSysModifierBoolCtlr_NiPSysModifierBoolCtlr(void* pThis)
 {
-    FUN_00c31260(pThis);
+    NiPSysModifierCtlr_NiPSysModifierCtlr(pThis);
     *(int**)pThis = &DAT_010c0d2c;
     return pThis;
 }

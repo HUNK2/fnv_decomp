@@ -232,7 +232,8 @@ extern NiFixedString DAT_011f49e0;
 
 // Allocates a FUN_00c53f10 object, sets its name to DAT_011f49e0, and returns it as an NiAVObject pointer.
 // @fnv 0x00c54210
-NiAVObject* FUN_00c54210()
+// src: EXE 0x00c54210
+NiAVObject* BSFurnitureMarker_CreateObject()
 {
     NiAVObject* object = reinterpret_cast<NiAVObject*>(new FUN_00c53f10);
     object->SetName(DAT_011f49e0);
@@ -376,14 +377,15 @@ struct FUN_00c54c50_shell
     unsigned short fldC;
     unsigned short fldE;
 
-    FUN_00c54c50_shell* __thiscall FUN_00c54c50(unsigned short param_1, unsigned short param_2);
+    FUN_00c54c50_shell* __thiscall NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_NiTArray(unsigned short param_1, unsigned short param_2);
 };
 
 extern int DAT_010c2b2c;
 void* __cdecl FUN_00c54bc0(unsigned int);
 
 // @fnv 0x00c54c50
-FUN_00c54c50_shell* __thiscall FUN_00c54c50_shell::FUN_00c54c50(unsigned short param_1, unsigned short param_2)
+// src: EXE 0x00c54c50
+FUN_00c54c50_shell* __thiscall FUN_00c54c50_shell::NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_NiTArray(unsigned short param_1, unsigned short param_2)
 {
     int unk04;
     int unk08;

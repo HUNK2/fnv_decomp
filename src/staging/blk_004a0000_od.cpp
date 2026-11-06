@@ -397,11 +397,12 @@ extern int DAT_0101ed6c;
 struct FUN_004a9bf0_class
 {
     void FUN_004a9c50(int);
-    void* FUN_004a9bf0(int);
+    void* NiTMap_NiTexture_bool_NiTMap(int);
 };
 // Calls FUN_004a9c50 with a, stores the address of DAT_0101ed6c at this, and returns this.
 // @fnv 0x004a9bf0
-void* FUN_004a9bf0_class::FUN_004a9bf0(int a)
+// src: EXE 0x004a9bf0
+void* FUN_004a9bf0_class::NiTMap_NiTexture_bool_NiTMap(int a)
 {
     FUN_004a9c50(a);
     *reinterpret_cast<void**>(this) = &DAT_0101ed6c;
@@ -450,11 +451,12 @@ struct FUN_004a9e90_cls
 {
     void* m_p;
     void FUN_004a9ef0(int a);
-    FUN_004a9e90_cls* FUN_004a9e90(int a);
+    FUN_004a9e90_cls* NiTMap_TESActorBase_bool_NiTMap(int a);
 };
 // Calls FUN_004a9ef0 with a, sets m_p to DAT_0101edc0, and returns this.
 // @fnv 0x004a9e90
-FUN_004a9e90_cls* FUN_004a9e90_cls::FUN_004a9e90(int a)
+// src: EXE 0x004a9e90
+FUN_004a9e90_cls* FUN_004a9e90_cls::NiTMap_TESActorBase_bool_NiTMap(int a)
 {
     FUN_004a9ef0(a);
     m_p = &DAT_0101edc0;
@@ -466,11 +468,12 @@ struct FUN_004aa020_class
 {
     void FUN_004aa080(int);
     int* m_p;
-    FUN_004aa020_class* __thiscall FUN_004aa020(int a);
+    FUN_004aa020_class* __thiscall NiTMap_int_int_NiTMap(int a);
 };
 // Calls FUN_004aa080 with a, sets m_p to point at DAT_0101ee00, and returns this.
 // @fnv 0x004aa020
-FUN_004aa020_class* __thiscall FUN_004aa020_class::FUN_004aa020(int a)
+// src: EXE 0x004aa020
+FUN_004aa020_class* __thiscall FUN_004aa020_class::NiTMap_int_int_NiTMap(int a)
 {
     FUN_004aa080(a);
     m_p = &DAT_0101ee00;
@@ -484,12 +487,13 @@ struct FUN_004aa1b0_class
 {
     void __thiscall FUN_004aa210(int);
     int* p;
-    FUN_004aa1b0_class* __thiscall FUN_004aa1b0(int a);
+    FUN_004aa1b0_class* __thiscall NiTMap_ShadowSceneLight_int_NiTMap(int a);
 };
 
 // Calls FUN_004aa210 with a, sets p to point at DAT_0101ee40, and returns this.
 // @fnv 0x004aa1b0
-FUN_004aa1b0_class* __thiscall FUN_004aa1b0_class::FUN_004aa1b0(int a)
+// src: EXE 0x004aa1b0
+FUN_004aa1b0_class* __thiscall FUN_004aa1b0_class::NiTMap_ShadowSceneLight_int_NiTMap(int a)
 {
     FUN_004aa210(a);
     p = &DAT_0101ee40;
@@ -672,11 +676,12 @@ struct FUN_004b9950_class
 {
     int* p;
     void FUN_004b99b0(int arg);
-    FUN_004b9950_class* FUN_004b9950(int arg);
+    FUN_004b9950_class* NiTMap_unsigned_int_VertexDist_NiTMap(int arg);
 };
 // Calls FUN_004b99b0 with arg, sets p to point at DAT_010205b4, and returns this.
 // @fnv 0x004b9950
-FUN_004b9950_class* FUN_004b9950_class::FUN_004b9950(int arg)
+// src: EXE 0x004b9950
+FUN_004b9950_class* FUN_004b9950_class::NiTMap_unsigned_int_VertexDist_NiTMap(int arg)
 {
     FUN_004b99b0(arg);
     p = &DAT_010205b4;
@@ -740,11 +745,12 @@ extern "C" void* DAT_01020634;
 struct FUN_004b9e00_cls
 {
     void* m_vftable;
-    void* FUN_004b9e00();
+    void* GridArray_GridArray();
 };
 
 // @fnv 0x004b9e00
-void* FUN_004b9e00_cls::FUN_004b9e00()
+// src: EXE 0x004b9e00
+void* FUN_004b9e00_cls::GridArray_GridArray()
 {
     m_vftable = &DAT_01020634;
     return this;
@@ -1474,12 +1480,13 @@ struct FUN_004b0030_Class
     int count;
     void* data;
     int pad;
-    FUN_004b0030_Class* __thiscall FUN_004b0030(int n);
+    FUN_004b0030_Class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_NiObject_bool_NiTMapBase(int n);
 };
 
 // Sets the vtable, stores n as count, allocates count*4 zeroed bytes into data and returns this.
 // @fnv 0x004b0030
-FUN_004b0030_Class* __thiscall FUN_004b0030_Class::FUN_004b0030(int aiCount)
+// src: EXE 0x004b0030
+FUN_004b0030_Class* __thiscall FUN_004b0030_Class::NiTMapBase_NiTPointerAllocator_unsigned_int_NiObject_bool_NiTMapBase(int aiCount)
 {
     vtbl = &DAT_0101fbfc;
     count = aiCount;
@@ -2044,11 +2051,12 @@ struct FUN_004aff30_Class
     unsigned int m_iElementCount;
     void* m_data;
     unsigned int m_auiShapeKeys;
-    FUN_004aff30_Class* __thiscall FUN_004aff30(unsigned int aSize);
+    FUN_004aff30_Class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_NiObject_NiObject_NiTMapBase(unsigned int aSize);
 };
 // Sets the vtable, stores aSize and allocates a zeroed array of aSize 4-byte elements into m_data.
 // @fnv 0x004aff30
-FUN_004aff30_Class* __thiscall FUN_004aff30_Class::FUN_004aff30(unsigned int aSize)
+// src: EXE 0x004aff30
+FUN_004aff30_Class* __thiscall FUN_004aff30_Class::NiTMapBase_NiTPointerAllocator_unsigned_int_NiObject_NiObject_NiTMapBase(unsigned int aSize)
 {
     unsigned int uiByteCount;
     m_vtbl = &DAT_0101fbdc;

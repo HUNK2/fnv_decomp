@@ -28,7 +28,7 @@ public:
     bool m_bSecondaryComparisonFlag;
 
     void Unused();
-    TESPatrolPackageData* __thiscall FUN_0067c450(PatrolParams aParams);
+    TESPatrolPackageData* __thiscall TESPatrolPackageData_TESPatrolPackageData(PatrolParams aParams);
     void FUN_0067c4b0(TESPackageData* apCopy);
     bool FUN_0067c500(TESPackageData* apCompare);
     void FUN_0067c570();

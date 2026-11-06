@@ -111,7 +111,7 @@ struct FUN_004d8fa0_StandIn
 {
     int m_p;
     void FUN_004d9000(int a);
-    FUN_004d8fa0_StandIn* FUN_004d8fa0(int a);
+    FUN_004d8fa0_StandIn* NiTMap_NiAVObject_TREEITEM_NiTMap(int a);
 };
 struct FUN_004d9190_Class
 {

@@ -608,7 +608,8 @@ void NiPoint3Interpolator::CollapseConstantPosData()
 
 // Allocates and returns a point3 interpolator.
 // @fnv 0x00a49a30
-NiPoint3Interpolator* __cdecl FUN_00a49a30()
+// src: EXE 0x00a49a30
+NiPoint3Interpolator* __cdecl NiPoint3Interpolator_CreateObject()
 {
     return ::new (NiPoint3Interpolator::operator new(0x20)) NiPoint3Interpolator();
 }

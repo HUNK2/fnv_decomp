@@ -76,7 +76,8 @@ struct BSGrabIKNote : ArmNoteBase
 };
 
 // @fnv 0x00a44380
-void* __cdecl FUN_00a44380()
+// src: EXE 0x00a44380
+void* __cdecl BSGrabIKNote_CreateObject()
 {
     BSGrabIKNote* node = static_cast<BSGrabIKNote*>(BSFadeNode::operator new(28));
     if (node)

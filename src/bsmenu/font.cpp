@@ -2453,7 +2453,7 @@ struct FontC {
     TexNode* m_apNode[8];
     int GetCharType(char);
     TexNode* GetNode(unsigned i) { return m_apNode[i]; }
-    SStr FUN_00a16ea0(const char* text, int* pos, unsigned mask, unsigned mask2,
+    SStr Font_CollectTo(const char* text, int* pos, unsigned mask, unsigned mask2,
                       int* value, char* pch, bool flag);
 };
 
@@ -2467,7 +2467,8 @@ inline void CopyName(char* d, int sz, const char* s, int n) { FUN_00ec8d5f(d, sz
 
 // Scans text from *pos until a stop character or mask match, expanding '&...;' settings into _buf, and returns the accumulated SStr.
 // @fnv 0x00a16ea0
-SStr FontC::FUN_00a16ea0(const char* text, int* apiPos, unsigned mask, unsigned mask2,
+// src: EXE 0x00a16ea0
+SStr FontC::Font_CollectTo(const char* text, int* apiPos, unsigned mask, unsigned mask2,
                          int* apiValue, char* apCh, bool abExpandSettings)
 {
     SStr str3;
@@ -3259,7 +3260,7 @@ __forceinline char* AllocateText(unsigned int count) {
 struct FUN_00a17390_shell : FontManager {
     Font* GetFont(unsigned int number) { return pFont[number]; }
     const char* GetFontFile(unsigned int number) { return GetFont(number)->pFontFile; }
-    LayoutString FUN_00a16ea0(const char* input, int* index, unsigned int stopMask, unsigned int allowedMask, unsigned int* outFlags, char* currentChar, bool parseEntities);
+    LayoutString Font_CollectTo(const char* input, int* index, unsigned int stopMask, unsigned int allowedMask, unsigned int* outFlags, char* currentChar, bool parseEntities);
     LayoutBlock* ParseLayout(LayoutString& source, LayoutResult* result);
 };
 inline ButtonIcon& GetIcon(Font* font, unsigned int index) { return ((FontButtonIconArray*)font->ButtonIcons)->pBuffer[index]; }
@@ -3283,13 +3284,13 @@ LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult*
     bool lineRule=false;
     LayoutBlock* block=0;
     unsigned int iconNum=0;
-    FUN_00a16ea0(input,&parsePos,0,4,&mask,&character,false);
+    Font_CollectTo(input,&parsePos,0,4,&mask,&character,false);
     if(mask==1) {
         block=new LayoutBlock(result->GetWidth(),result->GetHeight(),result->GetUnk24());
         layout=true;
         parsePos=0;
         while(true) {
-            word=FUN_00a16ea0(input,&parsePos,1,0,&mask,&character,true);
+            word=Font_CollectTo(input,&parsePos,1,0,&mask,&character,true);
             if(word.Get()) {
                 if(img) {
                     img=false;
@@ -3312,28 +3313,28 @@ LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult*
                 }
             }
             if(mask&0x20) break;
-            tagText=FUN_00a16ea0(input,&parsePos,6,0,&mask,&character,true);
+            tagText=Font_CollectTo(input,&parsePos,6,0,&mask,&character,true);
             for(unsigned int i=0;i<tagText.Length();++i) tagText[i]=toupper(tagText[i]);
             if(mask&0x20) break;
             if(mask&4) {
                 while(true) {
-                    FUN_00a16ea0(input,&parsePos,0,4,&mask,&character,false);
+                    Font_CollectTo(input,&parsePos,0,4,&mask,&character,false);
                     if(mask&0x20 || mask&2) break;
-                    paramName=FUN_00a16ea0(input,&parsePos,0x16,0,&mask,&character,true);
+                    paramName=Font_CollectTo(input,&parsePos,0x16,0,&mask,&character,true);
                     for(unsigned int i=0;i<paramName.Length();++i) paramName[i]=toupper(paramName[i]);
                     if(mask&0x20 || mask&2) break;
                     if(mask&4) attributeValue="true";
                     else {
-                        FUN_00a16ea0(input,&parsePos,0,4,&mask,&character,false);
+                        Font_CollectTo(input,&parsePos,0,4,&mask,&character,false);
                         if(mask&0x20 || mask&2) break;
                         if(mask==8) {
                             ++parsePos;
-                            attributeValue=FUN_00a16ea0(input,&parsePos,0xa,0,&mask,&character,true);
+                            attributeValue=Font_CollectTo(input,&parsePos,0xa,0,&mask,&character,true);
                             character=input[parsePos];
                             ++parsePos;
                             mask=GetCharType(character);
                         } else {
-                            attributeValue=FUN_00a16ea0(input,&parsePos,6,0,&mask,&character,true);
+                            attributeValue=Font_CollectTo(input,&parsePos,6,0,&mask,&character,true);
                             for(unsigned int i=0;i<attributeValue.Length();++i) attributeValue[i]=toupper(attributeValue[i]);
                         }
                     }

@@ -38,7 +38,8 @@ extern int DAT_0109f3fc;
 void __fastcall _Call_a5d3a0(void*);
 void __fastcall FUN_00a8afc0(void*);
 // @fnv 0x00a8b220
-void* FUN_00a8b220()
+// src: EXE 0x00a8b220
+void* NiPalette_CreateObject()
 {
     NiPalette* p = (NiPalette*)BSFadeNode::operator new(0x24);
     if (p)
@@ -269,7 +270,8 @@ void __cdecl FUN_00ec44d0(void* dst, void* src, unsigned int size);
 
 // Initializes the owner: stores the byte and count, allocates an element array, copies count*4 bytes from a3, and notifies DAT_011f4748.
 // @fnv 0x00a8b110
-void* __fastcall FUN_00a8b110(NiPalette* self, void*, unsigned char a1, unsigned int a2, void* pSrc)
+// src: EXE 0x00a8b110
+void* __fastcall NiPalette_NiPalette_00a8b110(NiPalette* self, void*, unsigned char a1, unsigned int a2, void* pSrc)
 {
     _Call_a5d3a0(self);
     *(unsigned char*)&self->unk08 = a1;
@@ -575,7 +577,8 @@ struct PaletteElement : A8b110Elem
 
 // Copies m_08, m_0C and a deep copy of the m_14 element array from src, then calls FUN_00a8afc0.
 // @fnv 0x00a8b080
-void* __fastcall FUN_00a8b080(NiPalette* self, void*, const NiPalette& src)
+// src: EXE 0x00a8b080
+void* __fastcall NiPalette_NiPalette(NiPalette* self, void*, const NiPalette& src)
 {
     _Call_a5d3a0(self);
     *(void**)self = &DAT_0109f3fc;

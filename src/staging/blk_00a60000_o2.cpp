@@ -405,7 +405,8 @@ struct NiTriBasedGeomData;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
 extern int DAT_0109dac4;
 // @fnv 0x00a7b790
-void* __cdecl FUN_00a7b790()
+// src: EXE 0x00a7b790
+void* __cdecl NiTriShapeData_CreateObject()
 {
     char* p = (char*)BSFadeNode::operator new(0x58);
     if (p)
@@ -515,7 +516,8 @@ int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
 }
 
 // @fnv 0x00a7d6e0
-void* FUN_00a7d6e0()
+// src: EXE 0x00a7d6e0
+void* NiPointLight_CreateObject()
 {
     NiDirectionalLight* obj = (NiDirectionalLight*)NiMemObject::operator new(0xfc);
     if (obj)
@@ -1827,11 +1829,12 @@ struct FUN_00a71cc0_cls
 {
     void* m_pVTable;
     void FUN_00a89720(int arg);
-    FUN_00a71cc0_cls* FUN_00a71cc0(int arg);
+    FUN_00a71cc0_cls* NiTriStrips_NiTriStrips(int arg);
 };
 
 // @fnv 0x00a71cc0
-FUN_00a71cc0_cls* FUN_00a71cc0_cls::FUN_00a71cc0(int arg)
+// src: EXE 0x00a71cc0
+FUN_00a71cc0_cls* FUN_00a71cc0_cls::NiTriStrips_NiTriStrips(int arg)
 {
     FUN_00a89720(arg);
     m_pVTable = (void*)&DAT_0109cd44;
@@ -2802,7 +2805,7 @@ class NiExtraDataMapA6F : public NiObject
     {}
     virtual ~NiExtraDataMapA6F() throw();
 
-    static NiObject* FUN_00a6f000();
+    static NiObject* NiDefaultAVObjectPalette_CreateObject();
 
     NiTFixedStringMap<NiAVObject*> m_kFormatEntries;
     void* m_pkLast;
@@ -2810,7 +2813,8 @@ class NiExtraDataMapA6F : public NiObject
 
 // Allocates and constructs a new NiExtraDataMapA6F and returns it as a NiObject pointer.
 // @fnv 0x00a6f000
-NiObject* NiExtraDataMapA6F::FUN_00a6f000()
+// src: EXE 0x00a6f000
+NiObject* NiExtraDataMapA6F::NiDefaultAVObjectPalette_CreateObject()
 {
     return new NiExtraDataMapA6F;
 }
@@ -2961,7 +2965,7 @@ bool __cdecl FUN_00a614d0(const char* a, const char* b)
 
 struct A5FC10Stub
 {
-    A5FC10Stub* __thiscall FUN_00a5fc10();
+    A5FC10Stub* __thiscall NiSourceTexture_NiSourceTexture();
 };
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -2973,7 +2977,7 @@ A5FC10Stub* __cdecl CreateA5FC10Stub()
 
     if (object)
     {
-        return object->FUN_00a5fc10();
+        return object->NiSourceTexture_NiSourceTexture();
     }
 
     return 0;

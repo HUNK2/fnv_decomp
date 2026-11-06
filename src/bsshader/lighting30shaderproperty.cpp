@@ -19,7 +19,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a756c0()
 void* __fastcall FUN_00a75650(void*);
 
 // @fnv 0x00a756d0
-void* __cdecl FUN_00a756d0()
+// src: EXE 0x00a756d0
+void* __cdecl NiMaterialProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x4c);
     if (p)

@@ -784,7 +784,8 @@ extern int DAT_010c34ac;
 
 // Initialize the capsule without introducing calls to its empty point constructors.
 // @fnv 0x00c60d50
-BSMultiBoundCapsule* __fastcall FUN_00c60d50(BSMultiBoundCapsule* capsule)
+// src: EXE 0x00c60d50
+BSMultiBoundCapsule* __fastcall BSMultiBoundCapsule_BSMultiBoundCapsule(BSMultiBoundCapsule* capsule)
 {
     FUN_00c4f980(capsule);
     *reinterpret_cast<int**>(capsule) = &DAT_010c34ac;
@@ -1240,7 +1241,8 @@ bool TESLeveledList::IsEqualToBase(BaseFormComponent* component)
 
 // Allocates and returns a new BSMultiBoundCapsule instance on the heap.
 // @fnv 0x00c610a0
-BSMultiBoundCapsule* __cdecl FUN_00c610a0(void)
+// src: EXE 0x00c610a0
+BSMultiBoundCapsule* __cdecl BSMultiBoundCapsule_CreateObject(void)
 {
     return new BSMultiBoundCapsule();
 }

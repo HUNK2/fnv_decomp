@@ -673,7 +673,7 @@ struct FUN_00c465a0 {
     ~FUN_00c465a0();
     static void* operator new(unsigned int);
 };
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 struct FUN_00c48fe0_Class {
     int m_0000;
     int m_0004;
@@ -985,7 +985,7 @@ struct SpawnedObject_b9874 {
     void Init(int* arg);
     static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
-SpawnedObject_b9874* FUN_00c43190();
+SpawnedObject_b9874* BSXFlags_CreateObject();
 struct S_00c437c0_Obj {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4;
     static void* operator new(unsigned int);
@@ -998,7 +998,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660 {
     static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
 };
-FUN_00c43660* __cdecl FUN_00c43a30();
+FUN_00c43660* __cdecl BSValueNode_CreateObject();
 class FUN_00c43be0_cls {
 public:
     int unk00;
@@ -2604,7 +2604,7 @@ struct FUN_00c5cb50_pad {
     unsigned int unk08;
     unsigned int unk0c;
 };
-BSPSysMultiTargetEmitterCtlr* __cdecl FUN_00c5cbb0();
+BSPSysMultiTargetEmitterCtlr* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
 struct EmitterObjectStub {
     void* m_ppVirtualMethodTable;
     int unk04;

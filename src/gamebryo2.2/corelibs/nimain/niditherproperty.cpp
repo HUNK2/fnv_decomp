@@ -24,7 +24,8 @@ int __cdecl FUN_00dc9bc0()
 extern void* DAT_010a0f6c;
 
 // @fnv 0x00a9a640
-void* __cdecl FUN_00a9a640()
+// src: EXE 0x00a9a640
+void* __cdecl NiDitherProperty_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x1c);
     if (p)

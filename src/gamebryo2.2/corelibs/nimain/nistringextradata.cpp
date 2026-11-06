@@ -27,7 +27,8 @@ void* __cdecl FUN_00a74220()
 extern "C" int EmptyFS;
 extern "C" void* DAT_0109d39c;
 // @fnv 0x00a74230
-void* __cdecl FUN_00a74230()
+// src: EXE 0x00a74230
+void* __cdecl NiStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)

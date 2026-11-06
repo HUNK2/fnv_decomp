@@ -41,7 +41,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
     return p;
 }
 // @fnv 0x00a4d0d0
-void* FUN_00a4d0d0()
+// src: EXE 0x00a4d0d0
+void* NiLightDimmerController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x38);
     if (p)

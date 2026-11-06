@@ -49,7 +49,8 @@ struct VisualDebuggerFactoryObject
 };
 // Allocates and constructs a VisualDebuggerFactoryObject object and returns it as a BSFadeNode pointer.
 // @fnv 0x00ccf890
-BSFadeNode* FUN_00ccf890()
+// src: EXE 0x00ccf890
+BSFadeNode* bhkConvexListShape_CreateObject()
 {
     return reinterpret_cast<BSFadeNode*>(new VisualDebuggerFactoryObject);
 }

@@ -159,7 +159,8 @@ extern int DAT_011a9bdc;
 
 // Obtains a 0x1c byte block, calls a method on it, writes a global pointer and four global values, and returns it.
 // @fnv 0x00a89490
-unsigned int* __cdecl FUN_00a89490()
+// src: EXE 0x00a89490
+unsigned int* __cdecl NiColorExtraData_CreateObject()
 {
     unsigned int* ptr = (unsigned int*)FUN_00aa13e0(0x1c);
 

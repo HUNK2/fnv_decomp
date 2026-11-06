@@ -76,7 +76,8 @@ GlobalObjectO2_00a7b618* __cdecl FUN_00c201c0()
 extern int DAT_010bda2c;
 // Allocates a 100-byte BSFadeNode, runs its constructor, zeroes the floats at offsets 0x58-0x60, sets its vtable, and returns it (or null).
 // @fnv 0x00c20350
-BSFadeNode* __cdecl FUN_00c20350()
+// src: EXE 0x00c20350
+BSFadeNode* __cdecl NiPSysBoxEmitter_CreateObject()
 {
     BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(100);
     if (node)

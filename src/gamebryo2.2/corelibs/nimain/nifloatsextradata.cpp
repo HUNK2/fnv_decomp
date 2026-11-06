@@ -16,7 +16,8 @@ void* __cdecl FUN_00a89120()
 }
 
 // @fnv 0x00a89190
-void* __cdecl FUN_00a89190()
+// src: EXE 0x00a89190
+void* __cdecl NiFloatsExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p != 0)

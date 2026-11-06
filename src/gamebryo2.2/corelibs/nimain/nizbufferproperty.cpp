@@ -213,11 +213,12 @@ class AlphaPropInit_cls
     volatile int m_44;
     void FUN_00a5c200();
     void FUN_00a5f7b0();
-    AlphaPropInit_cls* FUN_00a5fc10();
+    AlphaPropInit_cls* NiSourceTexture_NiSourceTexture();
 };
 
 // @fnv 0x00a5fc10
-AlphaPropInit_cls* AlphaPropInit_cls::FUN_00a5fc10()
+// src: EXE 0x00a5fc10
+AlphaPropInit_cls* AlphaPropInit_cls::NiSourceTexture_NiSourceTexture()
 {
     FUN_00a5c200();
     m_pVtbl = &kVtbl_0109b944;

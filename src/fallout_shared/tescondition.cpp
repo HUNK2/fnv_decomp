@@ -217,7 +217,8 @@ struct FUN_005e9530_Obj
 
 // Sets the object's vftable to DAT_01046b48 and clears bytes b4 and b5, then returns the object.
 // @fnv 0x005e9530
-void* __fastcall FUN_005e9530(FUN_005e9530_Obj* pThis)
+// src: EXE 0x005e9530
+void* __fastcall BGSPerkEntry_BGSPerkEntry(FUN_005e9530_Obj* pThis)
 {
     pThis->vftable = &DAT_01046b48;
     pThis->b4 = 0;

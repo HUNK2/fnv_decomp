@@ -18,7 +18,7 @@ public:
     void LoadPackageData(BGSLoadFormBuffer* pBuffer);
 
     void FUN_0067ad20();
-    TESEscortPackageData* FUN_0067bbf0();
+    TESEscortPackageData* TESEscortPackageData_0067bbf0();
     void FUN_0067bca0();
     void* DestroyIfFlagged(unsigned int);
     void FUN_0067bec0();

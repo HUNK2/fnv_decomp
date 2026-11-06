@@ -70,7 +70,8 @@ void* NiExtraData::CloneFloatExtraData(void* kCloning)
 namespace fnv_00a9a480 {
 
 // @fnv 0x00a9a480
-void* __cdecl FUN_00a9a480()
+// src: EXE 0x00a9a480
+void* __cdecl NiFloatExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x10);
     if (p)

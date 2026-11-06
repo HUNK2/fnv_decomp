@@ -59,7 +59,7 @@ void* __cdecl FUN_00c21e90()
     void* p = NiParticleSystem::operator new(0x118);
     if (p)
     {
-        static_cast<NiParticleSystem*>(p)->FUN_00c1b5c0();
+        static_cast<NiParticleSystem*>(p)->NiParticleSystem_00c1b5c0();
         *(float*)((char*)p + 0x110) = 0.0f;
         *(void**)((char*)p + 0) = &DAT_010bdd84;
         *(char*)((char*)p + 0x114) = 1;
@@ -195,7 +195,7 @@ NiMeshParticleSystemClone* __thiscall NiMeshParticleSystemClone::FUN_00c21e20(Cl
     NiMeshParticleSystemClone* result = static_cast<NiMeshParticleSystemClone*>(operator new(sizeof(NiMeshParticleSystemClone)));
     if (result)
     {
-        result->NiParticleSystem::FUN_00c1b5c0();
+        result->NiParticleSystem::NiParticleSystem_00c1b5c0();
         result->m_f110 = 0.0f;
         *(unsigned int*)result = (unsigned int)&DAT_010bdd84;
         *(unsigned char*)((char*)result + 0x114) = 1;
@@ -512,7 +512,8 @@ extern const void* NiParticleSystemVtable;
 // Construct the original particle base explicitly: the shared default constructor
 // currently declares a different base-construction call.
 // @fnv 0x00c1b5c0
-NiParticleSystem* NiParticleSystem::FUN_00c1b5c0()
+// src: EXE 0x00c1b5c0
+NiParticleSystem* NiParticleSystem::NiParticleSystem_00c1b5c0()
 {
     // Keep the list and time writes in the original construction order.
     volatile NiParticleSystem* state = this;

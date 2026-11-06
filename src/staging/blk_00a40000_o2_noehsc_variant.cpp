@@ -41,7 +41,7 @@ struct FUN_00a409b0_class
     FUN_00a409b0_class();
 };
 void __fastcall FUN_00a36890(void*);
-void* __cdecl FUN_00a409d0();
+void* __cdecl NiBlendTransformInterpolator_CreateObject();
 float FUN_00a42050(float a, float b, float c);
 void __fastcall FUN_00a36890(void*);
 extern int DAT_01097904;
@@ -82,7 +82,7 @@ struct FUN_00a57870_Class
     const char* m_cByteAtOffset1;
     void ReleaseString();
 };
-void* __cdecl FUN_00a42f90();
+void* __cdecl BSBlendTreadTransfInterpolator_CreateObject();
 extern "C" void NiFree(void*);
 extern MemoryManager _g_memoryManager;
 extern int DAT_010997f4;
@@ -90,10 +90,10 @@ struct BaseHolder
 {
     void FUN_00a57f20(int, int);
 };
-void* __cdecl FUN_00a50ad0();
+void* __cdecl NiBSplineFloatInterpolator_CreateObject();
 void __fastcall _Call_a5d3a0(void*);
 extern int DAT_01099e54;
-void* __cdecl FUN_00a51e10();
+void* __cdecl NiBSplineData_CreateObject();
 void* __cdecl NiMalloc(unsigned int);
 void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
 extern int DAT_0109a2a4;
@@ -804,7 +804,7 @@ struct ObjectState
     unsigned short third;
     unsigned short enabled;
 };
-NiObjectBase* __cdecl FUN_00a5f030();
+NiObjectBase* __cdecl NiNode_CreateObject();
 // Constructor of a derived object: base ctor call, then a 16-bit field and the vtable pointer.
 extern int DAT_0109b72c;
 struct FUN_00a5f1e0_cls
@@ -1006,7 +1006,7 @@ struct ControllerFields
 struct ConvertedController : ControllerFields
 {
     NiPointer<ConvertedController> next;
-    ConvertedController* FUN_00a36560();
+    ConvertedController* NiTransformController_NiTransformController();
 };
 struct ControllerInterpolator : ControllerFields
 {
@@ -1421,7 +1421,7 @@ struct FnvSourceTexture
     unsigned short unk42;
     int source;
 
-    FnvSourceTexture* __thiscall FUN_00a5fc10();
+    FnvSourceTexture* __thiscall NiSourceTexture_NiSourceTexture();
 };
 FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* size, unsigned char flags);
 

@@ -18,7 +18,7 @@ class NiIntegersExtraData : public NiExtraData
 
     void AssignPointerArray(int a, int b);
     void FUN_00a99950();
-    NiIntegersExtraData* FUN_00a99980(int a, int b);
+    NiIntegersExtraData* NiIntegersExtraData_00a99980(int a, int b);
     NiIntegersExtraData* FUN_00a99a50(int flag);
     bool FUN_00a998e0(NiIntegersExtraData* pObject);
     void FUN_00a99870(NiIntegersExtraData* pDest, void* pCloning);

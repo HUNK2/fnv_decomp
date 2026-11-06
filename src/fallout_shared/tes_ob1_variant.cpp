@@ -2533,7 +2533,7 @@ struct ReloadContext
 };
 struct ReloadPathing
 {
-    void FUN_006c39c0();
+    void NavMeshObstacleManager_ForceUpdate();
 };
 ReloadPathing* ReloadPathingGet();
 extern ReloadPlayer* reloadPlayer;

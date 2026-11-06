@@ -438,8 +438,8 @@ struct ReferencesMapH
 };
 struct ReconstructFormsH
 {
-    void FUN_00843750(TESObjectCELL* cell, unsigned int formID, bool unk);
-    void FUN_008438b0(TESWorldSpace* world, int x, int y, unsigned int formID, bool unk);
+    void BGSReconstructFormsInAllFilesMap_AddReference(TESObjectCELL* cell, unsigned int formID, bool unk);
+    void BGSReconstructFormsInAllFilesMap_AddReference_008438b0(TESWorldSpace* world, int x, int y, unsigned int formID, bool unk);
 };
 unsigned int __cdecl FUN_0084e850(SaveLoadFile* file, int type, ReferencePlacementData* data);
 TESForm* __cdecl ResolveReferenceForm(unsigned int formID, ReferencePlacementData* data, TESForm* form);
@@ -517,10 +517,10 @@ unsigned int BGSSaveLoadGame::LoadFormRecord(::SaveLoadFile* apFile, BGSLoadForm
             {
                 refData.FUN_0084e6a0(pcell, pworld);
                 if (pcell)
-                    (*(ReconstructFormsH**)((char*)this + 0x20))->FUN_00843750(pcell, iformID, false);
+                    (*(ReconstructFormsH**)((char*)this + 0x20))->BGSReconstructFormsInAllFilesMap_AddReference(pcell, iformID, false);
                 else
                     (*(ReconstructFormsH**)((char*)this + 0x20))
-                        ->FUN_008438b0(pworld, refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
+                        ->BGSReconstructFormsInAllFilesMap_AddReference_008438b0(pworld, refData.m_iGridPositionX, refData.m_iGridCoordinateY, iformID, false);
                 apLoadGameBuffer->FUN_0042ce50(true);
                 apLoadGameBuffer->SetFormPending(true);
             }
@@ -577,7 +577,7 @@ unsigned int BGSSaveLoadGame::LoadFormRecord(::SaveLoadFile* apFile, BGSLoadForm
                     refData.FUN_0084e6a0(pcell, pworld);
                     if (pcell && g_TES->IsCellBuffered(pcell, false))
                     {
-                        (*(ReconstructFormsH**)((char*)this + 0x20))->FUN_00843750(pcell, iformID, false);
+                        (*(ReconstructFormsH**)((char*)this + 0x20))->BGSReconstructFormsInAllFilesMap_AddReference(pcell, iformID, false);
                         apLoadGameBuffer->FUN_0042ce50(true);
                         apLoadGameBuffer->SetFormPending(true);
                     }
@@ -1881,7 +1881,7 @@ struct BufferArray
 };
 struct FormQueue
 {
-    void FUN_00843630(FormExtra*, bool);
+    void BGSReconstructFormsInAllFilesMap_AddForm(FormExtra*, bool);
 };
 struct ReferenceMap
 {
@@ -2130,7 +2130,7 @@ bool BGSSaveLoadGame::LoadGame(SaveLoadFile* pSaveFile, bool restoreMode)
                                 {
                                     if (!((SaveLoadGameLoadStages*)this)->RevertReference((FormExtra**)&form_, combined, false))
                                     {
-                                        ((FormQueue*&)pReconstructForms)->FUN_00843630(form_, false);
+                                        ((FormQueue*&)pReconstructForms)->BGSReconstructFormsInAllFilesMap_AddForm(form_, false);
                                         current->FUN_0042ce50(true);
                                     }
                                 }
@@ -2990,8 +2990,8 @@ class RevertFormChangesView
     unsigned int unk00;
     char* unk04;
     bool TestFormChangeFlags(TESForm*);
-    void FUN_00843630(TESForm*, int);
-    void FUN_00843750(TESForm*, unsigned int, int);
+    void BGSReconstructFormsInAllFilesMap_AddForm(TESForm*, int);
+    void BGSReconstructFormsInAllFilesMap_AddReference(TESForm*, unsigned int, int);
     void FUN_008439e0();
     void Clear();
 };
@@ -3094,7 +3094,7 @@ void BGSSaveLoadGame::FUN_00848e70(int changes, int file)
                 if (!FindFormByID(&current, name, true))
                 {
                     if (current)
-                        ((RevertFormChangesView*)pReconstructForms)->FUN_00843630(current, 8);
+                        ((RevertFormChangesView*)pReconstructForms)->BGSReconstructFormsInAllFilesMap_AddForm(current, 8);
                 }
             }
             if (current && key->TestFormChangeFlags(current))
@@ -3124,7 +3124,7 @@ void BGSSaveLoadGame::FUN_00848e70(int changes, int file)
                         if (reconstructed)
                         {
                             if (g_TES->FUN_004511e0(reconstructed, 0))
-                                ((RevertFormChangesView*)pReconstructForms)->FUN_00843750(reconstructed, form, 8);
+                                ((RevertFormChangesView*)pReconstructForms)->BGSReconstructFormsInAllFilesMap_AddReference(reconstructed, form, 8);
                         }
                     }
                     ((TESFile*&)pFormIDMap) = source;

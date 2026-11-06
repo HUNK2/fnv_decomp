@@ -511,7 +511,7 @@ void hkpVehicleLinearCastWheelCollide::CastWheel(int hitOut, hkUint32 b, hkUint8
     input.m_50 = 0;
 
     pWheelState->m_pPhantom
-        ->FUN_00cf2880(&result,
+        ->hkpAabbPhantom_linearCast(&result,
                        reinterpret_cast<const LinCastInputS&>(input), &input.m_20, 0);
 
     if (input.m_50 != 0)

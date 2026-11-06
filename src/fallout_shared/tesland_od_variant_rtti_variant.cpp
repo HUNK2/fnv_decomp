@@ -1002,7 +1002,7 @@ struct Node960
     void FUN_00a5bc40(const char*, Binary960*);
     Geometry960* FUN_0045bc00(unsigned);
 };
-void* __cdecl FUN_00b54b60(Geometry960*);
+void* __cdecl BSShaderManager_CreateTangentSpaceSimple(Geometry960*);
 void __cdecl FUN_00b57e30(Node960*, int, int);
 // Terrain texture buffers: node/color arrays and four base/layer/binary tables at 0x20/0x30/0x40 differ from Data's scalar fields.
 struct LandscapeTextureBuffers

@@ -118,10 +118,11 @@ struct CollFilterS : hkReferencedObject, FilterS
 // The shared phantom header does not yet declare this linear-cast entry point.
 struct PhantomS : hkpAabbPhantom
 {
-    void FUN_00cf2880(const hkpCollidable* collA, const LinCastInputS& input, void* castCollector, void* startCollector);
+    void hkpAabbPhantom_linearCast(const hkpCollidable* collA, const LinCastInputS& input, void* castCollector, void* startCollector);
 };
 // @fnv 0x00cf2880
-void PhantomS::FUN_00cf2880(const hkpCollidable* collA, const LinCastInputS& input, void* castCollector,
+// src: EXE 0x00cf2880
+void PhantomS::hkpAabbPhantom_linearCast(const hkpCollidable* collA, const LinCastInputS& input, void* castCollector,
                             void* startCollector)
 {
     union

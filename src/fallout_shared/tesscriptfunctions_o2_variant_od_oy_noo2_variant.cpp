@@ -561,7 +561,8 @@ extern TESX* g_TES;
 extern DataHandlerS* g_dataHandler;
 
 // @fnv 0x005df040
-bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
+// src: EXE 0x005df040
+bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
                   ScriptLocals* a5, double& result, unsigned int& a7)
 {
     result = 0.0;
@@ -744,7 +745,8 @@ Q_FUN_005dbf20::Q_FUN_005dbf20(float f)
 
 namespace fnv_005df040 {
 // @fnv 0x005df040
-bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
+// src: EXE 0x005df040
+bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESObjectREFR* a2, TESObjectREFR* a3, Script* a4,
                   ScriptLocals* a5, double& result, unsigned int& a7)
 {
     result = 0.0;

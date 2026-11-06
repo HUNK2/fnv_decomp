@@ -31,7 +31,8 @@ extern "C" void ConstructValueModifierEffect();
 
 // Constructs the value-modifier base, installs the game vtable and initializes the limb actor value.
 // @fnv 0x0080f060
-LimbConditionEffect* LimbConditionEffect::FUN_0080f060(void* a, void* b, void* c)
+// src: EXE 0x0080f060
+LimbConditionEffect* LimbConditionEffect::LimbConditionEffect_0080f060(void* a, void* b, void* c)
 {
     typedef ValueModifierEffect* (__thiscall* BaseConstructor)(ValueModifierEffect*, void*, void*, void*);
     ((BaseConstructor)&ConstructValueModifierEffect)(this, a, b, c);

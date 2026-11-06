@@ -316,7 +316,7 @@ void TESObjectREFR::SetLocationOnReference(const NiPoint3& arPoint)
     ::SetReferencePosition(this, reinterpret_cast<const NiPoint3&>(arPoint));
 }
 
-int __cdecl FUN_004da670(int, int);
+int __cdecl NiXAdapaterDesc_GetDeviceCaps(int, int);
 const char* __cdecl FUN_0086d580();
 int __cdecl sprintf(char*, const char*, ...);
 namespace main_win32 {
@@ -329,7 +329,7 @@ __declspec(dllimport) void __stdcall ExitProcess(unsigned int);
 void __fastcall FUN_0086d500(int* pThis)
 {
     char buf[512];
-    if (!FUN_004da670(pThis[2], pThis[3]))
+    if (!NiXAdapaterDesc_GetDeviceCaps(pThis[2], pThis[3]))
     {
         sprintf(buf, "Failed to initialize renderer.\n%s", FUN_0086d580());
         main_win32::MessageBoxA(0, buf, "Fallout", 0);
@@ -7737,7 +7737,7 @@ struct Service
     void FUN_006ebc50();
     void FUN_006a61b0();
     bool* FUN_00408d60();
-    void FUN_006c3640();
+    void NavMeshObstacleManager_Update();
     void FUN_00991500(bool);
     void FUN_008c7990();
     void FUN_008ca300();
@@ -7985,7 +7985,7 @@ void MainLoop::FUN_0086e650()
     if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
     {
         if (*DAT_011d73e4.FUN_00408d60())
-            GetNavMeshObstacleManager()->FUN_006c3640();
+            GetNavMeshObstacleManager()->NavMeshObstacleManager_Update();
         DAT_011f1958->FUN_00991500(DAT_011dea2b || DAT_011dea2d || paused);
     }
     if (FUN_00714a00())
@@ -10811,7 +10811,7 @@ struct FUN_00b631d0_obj
 FUN_00ad8780_audio* FUN_00453a70();
 void __cdecl FUN_008324e0(int aiValue);
 FUN_006c09f0_mgr* GetNavMeshObstacleManager();
-void FUN_00868d70(int aiValue);
+void GarbageCollector_ClearAll(int aiValue);
 void FUN_00c459d0(int aiValue);
 FUN_00b631d0_obj* FUN_00b4f5c0();
 void __cdecl FUN_0040fbe0();
@@ -10858,7 +10858,7 @@ void FUN_008774a0_shell::FUN_008774a0(bool abFlag)
     DAT_011dea10->FUN_007037c0(0x7fffffff);
     DAT_011dea10->FUN_0061cc40(0x7fffffff);
     GetNavMeshObstacleManager()->FUN_006c09f0();
-    FUN_00868d70(0);
+    GarbageCollector_ClearAll(0);
     FUN_00c459d0(0);
     DAT_011dea3c->v115(0, 0);
     DAT_011ddf38->FUN_0084a840();
@@ -12123,7 +12123,7 @@ extern bool __cdecl FUN_0070edf0();
 extern bool __cdecl FUN_007079b0();
 extern bool __cdecl FUN_007079b0(int);
 extern bool __cdecl FUN_00702360();
-extern bool __cdecl FUN_005d4a40();
+extern bool __cdecl Cmd_Default_Execute();
 extern void __cdecl FUN_00b55a10();
 extern void __cdecl FUN_00709b40();
 extern void __cdecl FUN_00a29680();
@@ -12147,7 +12147,7 @@ extern SwapMessage86* __stdcall FUN_004a0ea0(int);
 extern void __cdecl FUN_00b6da10();
 extern bool __cdecl FUN_004dc310();
 extern int DAT_011e0e80;
-extern void __cdecl FUN_004da670();
+extern void __cdecl NiXAdapaterDesc_GetDeviceCaps();
 extern char __cdecl FUN_00707000_unused();
 extern unsigned char DAT_011d890a, DAT_011c6fb8, DAT_011dea29;
 extern bool DAT_011dea40;
@@ -12289,7 +12289,7 @@ void Main86::FUN_0086ff70()
         else if (DAT_011ded3c.FUN_00559450())
             FUN_00874b90(FUN_004e3270(core, FUN_004dc310(), 0));
     }
-    if (FUN_005d4a40() == 1)
+    if (Cmd_Default_Execute() == 1)
         FUN_00b55a10();
     FUN_00709b40();
     RenderOrFallback(eventState, DAT_011dec64.FUN_00559450());
@@ -13483,7 +13483,7 @@ struct ModuleRoot
 
 struct SceneObject : ModuleRoot
 {
-    SceneObject* FUN_00878610(const char*, int, int);
+    SceneObject* SceneGraph_SceneGraph(const char*, int, int);
     void FUN_0086e420(float, float, float, float, int);
 };
 struct DataObject : ModuleRoot

@@ -264,7 +264,8 @@ void* __fastcall FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
 
 namespace fnv_00a71430 {
 // @fnv 0x00a71430
-CameraCloneStorage* FUN_00a71430()
+// src: EXE 0x00a71430
+CameraCloneStorage* NiCamera_CreateObject()
 {
     return new CameraCloneStorage();
 }

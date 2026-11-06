@@ -10,7 +10,7 @@ void* __cdecl FUN_00c29e90()
     return &g_012026d8;
 }
 
-void __cdecl FUN_00c31260(void);
+void __cdecl NiPSysModifierCtlr_NiPSysModifierCtlr(void);
 extern int DAT_010c0e44;
 
 struct FUN_00c32d80
@@ -21,7 +21,7 @@ struct FUN_00c32d80
 // @fnv 0x00c32d80
 FUN_00c32d80::FUN_00c32d80()
 {
-    FUN_00c31260();
+    NiPSysModifierCtlr_NiPSysModifierCtlr();
     *(int*)this = (int)&DAT_010c0e44;
 }
 

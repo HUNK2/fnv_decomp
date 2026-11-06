@@ -30,7 +30,8 @@ extern int g_TES;
 extern unsigned char DAT_011c7a64;
 unsigned char __cdecl FUN_005d2a40(void);
 // @fnv 0x005d2a50
-unsigned char FUN_005d2a50()
+// src: EXE 0x005d2a50
+unsigned char Cmd_ToggleWaterRadius_Execute()
 {
     ((EffectSetting*)g_TES)->GetEffectID();
     if (FUN_005d2a40())

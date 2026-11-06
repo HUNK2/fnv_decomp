@@ -30,7 +30,8 @@ void __fastcall FUN_00a6d220(void*);
 extern int DAT_01098634;
 
 // @fnv 0x00a48750
-void* __cdecl FUN_00a48750()
+// src: EXE 0x00a48750
+void* __cdecl NiRollController_CreateObject()
 {
     void* pFadeNode = BSFadeNode::operator new(0x3c);
     if (pFadeNode)

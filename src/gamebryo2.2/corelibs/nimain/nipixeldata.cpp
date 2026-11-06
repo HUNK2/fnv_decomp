@@ -509,7 +509,8 @@ class NiPalettePtr
 };
 
 // @fnv 0x00a7c030
-NiPixelData* NiPixelData::FUN_00a7c030(const NiPixelData& kSrc)
+// src: EXE 0x00a7c030
+NiPixelData* NiPixelData::NiPixelData_00a7c030(const NiPixelData& kSrc)
 {
     reinterpret_cast<NiObjectInitialization*>(this)->Construct();
     *reinterpret_cast<void**>(this) = &DAT_0109dbb4;

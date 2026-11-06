@@ -121,7 +121,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 // Allocates and constructs a NiPSysRotationModifier, sets its vtable, zeroes four floats, copies three globals and initializes two flags.
 // @fnv 0x00c20640
-NiPSysRotationModifier* FUN_00c20640()
+// src: EXE 0x00c20640
+NiPSysRotationModifier* NiPSysRotationModifier_CreateObject()
 {
     NiPSysRotationModifier* pModifier = (NiPSysRotationModifier*)BSFadeNode::operator new(56);
     if (pModifier)

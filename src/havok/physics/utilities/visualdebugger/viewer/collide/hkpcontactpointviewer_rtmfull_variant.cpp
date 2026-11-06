@@ -109,7 +109,7 @@ struct S_00de2fa0_Base0 {
 
 struct S_00de2fa0 : S_00de2fa0_Base0, hkpWorldPostSimulationListener {
     virtual void postSimulationCallback(hkpWorld* a);
-    void FUN_00de2da0(void* elem);
+    void drawAllContactPointsInIsland_00de2da0(void* elem);
 };
 
 // Writes profiler markers to the TLS stream, then iterates the array returned by vfn_0c and calls FUN_00de2da0 on each element.
@@ -127,7 +127,7 @@ void S_00de2fa0::postSimulationCallback(hkpWorld* apArg) {
 
     S_00de2fa0_Array* arr = vfn_0c(apArg);
     for (int i = 0; i < arr->m_iElementCount; ++i) {
-        FUN_00de2da0(arr->m_data[i]);
+        drawAllContactPointsInIsland_00de2da0(arr->m_data[i]);
     }
 
     hkMonitorStream* stream2 = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
@@ -425,7 +425,8 @@ struct Cont {
 };
 
 // @fnv 0x00de2da0
-void hkpContactPointViewer::FUN_00de2da0(Cont* c)
+// src: EXE 0x00de2da0
+void hkpContactPointViewer::drawAllContactPointsInIsland_00de2da0(Cont* c)
 
 {
 

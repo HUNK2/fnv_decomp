@@ -157,7 +157,8 @@ void __fastcall FUN_006c8df0(void*);
 extern int DAT_0106c92c;
 
 // @fnv 0x006c8dd0
-void* __fastcall FUN_006c8dd0(void* pThis)
+// src: EXE 0x006c8dd0
+void* __fastcall PathBuilder_FindTriangleForLocationWaterFilter_FindTriangleForLocationWaterFilter(void* pThis)
 {
     FUN_006c8df0(pThis);
     *(int**)pThis = &DAT_0106c92c;

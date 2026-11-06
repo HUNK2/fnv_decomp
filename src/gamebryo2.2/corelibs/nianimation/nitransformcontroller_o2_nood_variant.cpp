@@ -34,7 +34,8 @@ class ObjectA36810 : public FUN_00a38e00
 };
 
 // @fnv 0x00a36810
-NiObject* __cdecl FUN_00a36810()
+// src: EXE 0x00a36810
+NiObject* __cdecl NiTransformController_CreateObject()
 {
     return new ObjectA36810;
 }

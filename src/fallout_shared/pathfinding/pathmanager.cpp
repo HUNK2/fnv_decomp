@@ -416,12 +416,12 @@ struct FUN_006ebc70_shell : public PathManager
     void FUN_006ebc70();
 };
 
-void __fastcall FUN_006eb310(void*);
+void __fastcall PathManagerImpl_Pause(void*);
 
 // @fnv 0x006ebc70
 void FUN_006ebc70_shell::FUN_006ebc70()
 {
-    FUN_006eb310(*reinterpret_cast<void**>(this));
+    PathManagerImpl_Pause(*reinterpret_cast<void**>(this));
 }
 
 struct FUN_006ebc90_shell : public PathManager
@@ -442,12 +442,12 @@ struct FUN_006ebcd0_shell : public PathManager
     void FUN_006ebcd0();
 };
 
-void __fastcall FUN_006eb3b0(void*);
+void __fastcall PathManagerImpl_Resume(void*);
 
 // @fnv 0x006ebcd0
 void FUN_006ebcd0_shell::FUN_006ebcd0()
 {
-    FUN_006eb3b0(*reinterpret_cast<void**>(this));
+    PathManagerImpl_Resume(*reinterpret_cast<void**>(this));
 }
 
 struct T006ebd10
@@ -648,12 +648,13 @@ extern int DAT_0106d664;
 
 struct FUN_006ebee0_shell : AX
 {
-    AX* FUN_006ebee0();
+    AX* BSSimpleArray_RayCastPath_1024_BSSimpleArray();
 };
 
 // Sets the vtable to DAT_0106d664, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x006ebee0
-AX* FUN_006ebee0_shell::FUN_006ebee0()
+// src: EXE 0x006ebee0
+AX* FUN_006ebee0_shell::BSSimpleArray_RayCastPath_1024_BSSimpleArray()
 {
     vtable = &DAT_0106d664;
     FUN_006b3eb0(0, 0);
@@ -733,12 +734,13 @@ struct FUN_006ebe90_shell
 {
     void* vtable;
     void FUN_006b3eb0(unsigned int, unsigned int);
-    FUN_006ebe90_shell* FUN_006ebe90();
+    FUN_006ebe90_shell* BSSimpleArray_RayCastPathRequest_1024_BSSimpleArray();
 };
 
 // Sets the vtable to DAT_0106d650, calls FUN_006b3eb0 with 0 and false, and returns this.
 // @fnv 0x006ebe90
-FUN_006ebe90_shell* FUN_006ebe90_shell::FUN_006ebe90()
+// src: EXE 0x006ebe90
+FUN_006ebe90_shell* FUN_006ebe90_shell::BSSimpleArray_RayCastPathRequest_1024_BSSimpleArray()
 {
     vtable = &DAT_0106d650;
     FUN_006b3eb0(0, false);
@@ -3864,7 +3866,7 @@ class B6EB310Lock
 class B6EB310Manager
 {
   public:
-    void FUN_006eb310();
+    void PathManagerImpl_Pause();
 
     int unk000;
     int unk004;
@@ -4652,7 +4654,8 @@ class B6EB310Manager
 };
 
 // @fnv 0x006eb310
-void B6EB310Manager::FUN_006eb310()
+// src: EXE 0x006eb310
+void B6EB310Manager::PathManagerImpl_Pause()
 {
     m_kLock.Lock(g_acB6EB310Name);
     switch (m_eAnimationState)
@@ -4681,7 +4684,7 @@ class B6EB3B0Lock
 class B6EB3B0Manager
 {
   public:
-    void FUN_006eb3b0();
+    void PathManagerImpl_Resume();
 
     int unk000;
     int unk004;
@@ -5469,7 +5472,8 @@ class B6EB3B0Manager
 };
 
 // @fnv 0x006eb3b0
-void B6EB3B0Manager::FUN_006eb3b0()
+// src: EXE 0x006eb3b0
+void B6EB3B0Manager::PathManagerImpl_Resume()
 {
     m_kLock.Lock(g_acB6EB3B0Name);
     switch (m_eAnimationState)

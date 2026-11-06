@@ -839,7 +839,8 @@ void __cdecl FUN_005b5e40(int, const char*, ...);
 void __cdecl FUN_0076bad0(char*);
 // Allocates a WeatherEntry, copies the title, subtitle and icon strings, validates the fonts, and queues the entry by priority.
 // @fnv 0x0076b960
-void __cdecl FUN_0076b960(const char* title, const char* subtitle, int priority, int extra, int titleFont,
+// src: EXE 0x0076b960
+void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char* subtitle, int priority, int extra, int titleFont,
                           int subtitleFont, const char* icon)
 {
     WeatherEntry* entry = new WeatherEntry;

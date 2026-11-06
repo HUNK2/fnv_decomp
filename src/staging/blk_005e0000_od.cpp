@@ -63,7 +63,8 @@ extern GlobalObject_0045cf30 g_011de29c;
 extern void* DAT_011de134;
 // If the global bool is set, calls SetFlagByte on the object at DAT_011de134, then returns true.
 // @fnv 0x005e0160
-bool FUN_005e0160()
+// src: EXE 0x005e0160
+bool Cmd_SystemSave_Execute()
 {
     if (*g_011de29c.Bool())
         reinterpret_cast<FUN_00851d70_shell*>(DAT_011de134)->SetFlagByte();
@@ -93,12 +94,13 @@ struct FUN_005e0310_class
 {
     void* vtbl;
     void __thiscall FUN_005e08e0(void* a, void* b);
-    FUN_005e0310_class* __thiscall FUN_005e0310(void* a, void* b);
+    FUN_005e0310_class* __thiscall NiTObjectArray_NiPointer_NiTexture_NiTObjectArray(void* a, void* b);
 };
 
 // Calls FUN_005e08e0 with the two arguments, sets vtbl to DAT_0103d3f0, and returns this.
 // @fnv 0x005e0310
-FUN_005e0310_class* __thiscall FUN_005e0310_class::FUN_005e0310(void* apArg, void* apArg2)
+// src: EXE 0x005e0310
+FUN_005e0310_class* __thiscall FUN_005e0310_class::NiTObjectArray_NiPointer_NiTexture_NiTObjectArray(void* apArg, void* apArg2)
 {
     FUN_005e08e0(apArg, apArg2);
     vtbl = &DAT_0103d3f0;
@@ -129,11 +131,12 @@ struct FUN_005e0370_Class
 {
     void* vtbl;
     void FUN_005e0950(int a, int b);
-    void* FUN_005e0370(int a, int b);
+    void* NiTPrimitiveArray_TESModel_NiTPrimitiveArray(int a, int b);
 };
 // Calls FUN_005e0950 with the two arguments, sets vtbl to &DAT_0103d400, and returns this.
 // @fnv 0x005e0370
-void* FUN_005e0370_Class::FUN_005e0370(int aiArg1, int aiArg2)
+// src: EXE 0x005e0370
+void* FUN_005e0370_Class::NiTPrimitiveArray_TESModel_NiTPrimitiveArray(int aiArg1, int aiArg2)
 {
     FUN_005e0950(aiArg1, aiArg2);
     vtbl = &DAT_0103d400;
@@ -4746,14 +4749,14 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
 
 namespace s5e5d20 {
 
-bool FUN_005e5b80(int iArg0, int iArg1, void* pvArg2, void* pvArg3, unsigned char ucArg4, float** ppfValue,
+bool BGSEntryPointFunction_CheckFunctionArguments(int iArg0, int iArg1, void* pvArg2, void* pvArg3, unsigned char ucArg4, float** ppfValue,
                   Actor* pkActor);
 
 // Scales the value pointed to by ppfValue by the result of pkActor->FUN_006b9130() if FUN_005e5b80 succeeds.
 // @fnv 0x005e5d20
 void FUN_005e5d20(void* pvArg0, void* pvArg1, unsigned char ucArg2, float** ppfValue, Actor* pkActor)
 {
-    if (!FUN_005e5b80(0, 1, pvArg0, pvArg1, ucArg2, ppfValue, pkActor))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 1, pvArg0, pvArg1, ucArg2, ppfValue, pkActor))
         return;
     float* pfValue = *ppfValue;
     Actor* pkTarget = pkActor;
@@ -4770,7 +4773,7 @@ struct Base
 {
     const char* m_pVtbl;
 
-    Base* FUN_005e6420();
+    Base* BGSEntryPointFunctionData_BGSEntryPointFunctionData();
 };
 
 struct Derived : Base
@@ -4784,7 +4787,7 @@ struct Derived : Base
 // @fnv 0x005e63f0
 Derived* Derived::FUN_005e63f0()
 {
-    FUN_005e6420();
+    BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     m_pVtbl = DAT_010462c0;
     m_fValue = 0.0f;
     return this;
@@ -4800,11 +4803,12 @@ struct Holder
 {
     const char* m_pTable;
 
-    Holder* FUN_005e6420();
+    Holder* BGSEntryPointFunctionData_BGSEntryPointFunctionData();
 };
 
 // @fnv 0x005e6420
-Holder* Holder::FUN_005e6420()
+// src: EXE 0x005e6420
+Holder* Holder::BGSEntryPointFunctionData_BGSEntryPointFunctionData()
 {
     m_pTable = DAT_010462e0;
     return this;
@@ -4818,7 +4822,7 @@ struct FUN_005e6510_cls
 {
     void* vtbl;
     int m4;
-    void FUN_005e6420();
+    void BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     FUN_005e6510_cls* FUN_005e6510();
 };
 
@@ -4826,7 +4830,7 @@ struct FUN_005e6510_cls
 // @fnv 0x005e6510
 FUN_005e6510_cls* FUN_005e6510_cls::FUN_005e6510()
 {
-    FUN_005e6420();
+    BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     vtbl = &DAT_01046320;
     m4 = 0;
     return this;

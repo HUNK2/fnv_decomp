@@ -87,7 +87,7 @@ public:
     int GetWeaponType() const;
     int GetWeaponType();
     int GetCombatWeaponType();
-    int FUN_00522c80();
+    int TESObjectWEAP_GetCombatWeaponType();
     int GetReloadAnim(bool modded);
     int GetFlaggedValue(unsigned char value);
     int GetField19C();

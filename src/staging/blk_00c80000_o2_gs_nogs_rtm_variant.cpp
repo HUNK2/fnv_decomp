@@ -204,7 +204,7 @@ struct FUN_00c9aeb0_t
     ~FUN_00c9aeb0_t();
     static void* operator new(unsigned int);
 };
-FUN_00c9aeb0_t* FUN_00c9b020();
+FUN_00c9aeb0_t* bhkBlendController_CreateObject();
 struct FUN_00c9eba0_IFace
 {
     virtual void v0();
@@ -5389,7 +5389,7 @@ struct Object_00c8ae60 : Base_00c8ae60
         ++DAT_012681a0;
     }
 };
-Object_00c8ae60* __cdecl FUN_00c8ae60();
+Object_00c8ae60* __cdecl bhkListShape_CreateObject();
 // Forward a call to every child wrapper of this group's Havok object.
 class C8B4D0Wrapper
 {

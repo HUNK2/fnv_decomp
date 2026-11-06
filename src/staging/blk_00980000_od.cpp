@@ -466,10 +466,11 @@ struct FUN_0098ff80_class
 {
     int* vfn;
     void __thiscall FUN_0098ffb0(int arg);
-    int* __thiscall FUN_0098ff80(int arg);
+    int* __thiscall CombatGroupStrategyFlank_CombatGroupStrategyFlank(int arg);
 };
 // @fnv 0x0098ff80
-int* __thiscall FUN_0098ff80_class::FUN_0098ff80(int arg)
+// src: EXE 0x0098ff80
+int* __thiscall FUN_0098ff80_class::CombatGroupStrategyFlank_CombatGroupStrategyFlank(int arg)
 {
     FUN_0098ffb0(arg);
     *reinterpret_cast<int**>(this) = &DAT_0108d93c;
@@ -498,11 +499,12 @@ struct FUN_0098ffe0_class
 {
     int* m_p;
     void FUN_0098ffb0(int arg);
-    FUN_0098ffe0_class* FUN_0098ffe0(int arg);
+    FUN_0098ffe0_class* CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg);
 };
 // Calls FUN_0098ffb0 with arg, sets m_p to the address of DAT_0108d95c, and returns this.
 // @fnv 0x0098ffe0
-FUN_0098ffe0_class* FUN_0098ffe0_class::FUN_0098ffe0(int arg)
+// src: EXE 0x0098ffe0
+FUN_0098ffe0_class* FUN_0098ffe0_class::CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg)
 {
     FUN_0098ffb0(arg);
     m_p = &DAT_0108d95c;
@@ -605,12 +607,13 @@ struct FUN_00993820_class
 {
     int m_vfn;
     void FUN_00993990(int arg);
-    FUN_00993820_class* FUN_00993820(int arg);
+    FUN_00993820_class* NiTMap_Actor_int64_NiTMap(int arg);
 };
 
 // Calls FUN_00993990 with arg, sets m_vfn to the address of DAT_0108db2c, and returns this.
 // @fnv 0x00993820
-FUN_00993820_class* FUN_00993820_class::FUN_00993820(int arg)
+// src: EXE 0x00993820
+FUN_00993820_class* FUN_00993820_class::NiTMap_Actor_int64_NiTMap(int arg)
 {
     FUN_00993990(arg);
     m_vfn = (int)&DAT_0108db2c;

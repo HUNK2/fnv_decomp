@@ -441,7 +441,7 @@ bool CombatActionAttackGrenadeFlushTarget::FUN_0097b840(CombatController* apCont
 {
     if (!FUN_00979e90(apController, w, aiValue))
         return false;
-    return static_cast<Tile*>(static_cast<CombatControllerAccess*>(apController)->GetCombatState(0xb))->FUN_0099ac20();
+    return static_cast<Tile*>(static_cast<CombatControllerAccess*>(apController)->GetCombatState(0xb))->FindCombatLocation_0099ac20();
 }
 
 struct B006815c0

@@ -65,7 +65,7 @@ template <class T>
         void Filter(bool (__cdecl* apFilter)(T));
         void SetSelectedTile(Tile* apTile, bool abSelected);
         void ClearSelection(bool abClear);
-        void FUN_007a1a70();
+        void BSSimpleArray_BSStringT_char_1024_BSSimpleArray();
         void FUN_007a1c90();
         void FUN_007a27f0();
         void FUN_007a36e0();

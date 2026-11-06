@@ -3874,7 +3874,7 @@ struct Base {
   unsigned int unk24;
   unsigned int unk28;
   unsigned int unk2c;
-  void FUN_00a370b0(int, float, int);
+  void NiBlendInterpolator_NiBlendInterpolator_00a370b0(int, float, int);
 };
 struct Object : Base {
   unsigned int unk30;
@@ -3892,7 +3892,7 @@ struct Object : Base {
 // Calls FUN_00a370b0, sets the vtable and several fields from globals, and allocates an array of FUN_00a362f0 sized by count into unk50.
 // @fnv 0x00a363b0
 Object* Object::InitObject(int aiArg, float afArg, int aiArg2) {
-  FUN_00a370b0(aiArg,afArg,aiArg2);
+  NiBlendInterpolator_NiBlendInterpolator_00a370b0(aiArg,afArg,aiArg2);
   vtable = &DAT_01096784;
   unk30 = DAT_011a8400;
   unk34 = DAT_011a8404;

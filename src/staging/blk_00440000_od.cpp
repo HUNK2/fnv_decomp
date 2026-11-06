@@ -301,11 +301,12 @@ extern int DAT_010173dc;
 struct FUN_0044a9a0_Class
 {
     void __thiscall FUN_0044a450(int a);
-    int __thiscall FUN_0044a9a0(int a);
+    int __thiscall std_length_error_length_error(int a);
 };
 // Calls FUN_0044a450 with a, stores the address of DAT_010173dc at this, and returns this.
 // @fnv 0x0044a9a0
-int __thiscall FUN_0044a9a0_Class::FUN_0044a9a0(int aiValue)
+// src: EXE 0x0044a9a0
+int __thiscall FUN_0044a9a0_Class::std_length_error_length_error(int aiValue)
 {
     FUN_0044a450(aiValue);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010173dc);
@@ -364,10 +365,11 @@ struct FUN_0044d6c0_class
 {
     void* __thiscall FUN_00ec78f1(void***);
     void* m_field;
-    void* __thiscall FUN_0044d6c0(void** p);
+    void* __thiscall std_bad_alloc_bad_alloc(void** p);
 };
 // @fnv 0x0044d6c0
-void* __thiscall FUN_0044d6c0_class::FUN_0044d6c0(void** p)
+// src: EXE 0x0044d6c0
+void* __thiscall FUN_0044d6c0_class::std_bad_alloc_bad_alloc(void** p)
 {
     FUN_00ec78f1(&p);
     m_field = &DAT_010176f8;
@@ -395,11 +397,12 @@ extern int DAT_01017458;
 struct FUN_0044d7f0_class
 {
     int* vfn;
-    FUN_0044d7f0_class* __thiscall FUN_0044d7f0();
+    FUN_0044d7f0_class* __thiscall InterfacedClass_InterfacedClass();
 };
 
 // @fnv 0x0044d7f0
-FUN_0044d7f0_class* __thiscall FUN_0044d7f0_class::FUN_0044d7f0()
+// src: EXE 0x0044d7f0
+FUN_0044d7f0_class* __thiscall FUN_0044d7f0_class::InterfacedClass_InterfacedClass()
 {
     vfn = &DAT_01017458;
     return this;
@@ -412,12 +415,13 @@ extern int DAT_010176f8;
 struct FUN_0044dd10_class
 {
     void FUN_00ec7944(int);
-    FUN_0044dd10_class* FUN_0044dd10(int arg);
+    FUN_0044dd10_class* std_bad_alloc_bad_alloc_0044dd10(int arg);
 };
 
 // Calls FUN_00ec7944 with arg, stores the address of DAT_010176f8 at this, and returns this.
 // @fnv 0x0044dd10
-FUN_0044dd10_class* FUN_0044dd10_class::FUN_0044dd10(int arg)
+// src: EXE 0x0044dd10
+FUN_0044dd10_class* FUN_0044dd10_class::std_bad_alloc_bad_alloc_0044dd10(int arg)
 {
     FUN_00ec7944(arg);
     *reinterpret_cast<int**>(this) = &DAT_010176f8;

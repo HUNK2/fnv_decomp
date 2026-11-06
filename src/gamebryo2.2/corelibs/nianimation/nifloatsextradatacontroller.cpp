@@ -26,7 +26,8 @@ extern int DAT_0109928c;
 extern int EmptyFS;
 
 // @fnv 0x00a4f000
-int* __cdecl FUN_00a4f000()
+// src: EXE 0x00a4f000
+int* __cdecl NiFloatsExtraDataController_CreateObject()
 {
     int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
     if (p)

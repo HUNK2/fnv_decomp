@@ -1069,11 +1069,12 @@ struct FUN_00474880_Helper
 struct FUN_00474790_Class
 {
     const char* m0;
-    FUN_00474790_Class* __thiscall FUN_00474790(unsigned int a, unsigned int b);
+    FUN_00474790_Class* __thiscall NiTPrimitiveArray_unsigned_int_NiTPrimitiveArray(unsigned int a, unsigned int b);
 };
 // Calls FUN_00474880 with the two arguments, sets m0 to "PHG", and returns this.
 // @fnv 0x00474790
-FUN_00474790_Class* __thiscall FUN_00474790_Class::FUN_00474790(unsigned int a, unsigned int b)
+// src: EXE 0x00474790
+FUN_00474790_Class* __thiscall FUN_00474790_Class::NiTPrimitiveArray_unsigned_int_NiTPrimitiveArray(unsigned int a, unsigned int b)
 {
     ((FUN_00474880_Helper*)this)->FUN_00474880(a, b);
     m0 = "PHG";
@@ -1643,10 +1644,11 @@ struct ResourceDescriptor
     void* manager;
     unsigned int options;
 
-    ResourceDescriptor* __thiscall FUN_004705e0(unsigned int initialCount, unsigned int initialOptions);
+    ResourceDescriptor* __thiscall NiTLargeArray_TESForm_NiTMallocInterface_TESForm_NiTLargeArray(unsigned int initialCount, unsigned int initialOptions);
 };
 // @fnv 0x004705e0
-ResourceDescriptor* ResourceDescriptor::FUN_004705e0(unsigned int initialCount, unsigned int initialOptions)
+// src: EXE 0x004705e0
+ResourceDescriptor* ResourceDescriptor::NiTLargeArray_TESForm_NiTMallocInterface_TESForm_NiTLargeArray(unsigned int initialCount, unsigned int initialOptions)
 {
     vtable = &DAT_01019a34;
     count = initialCount;

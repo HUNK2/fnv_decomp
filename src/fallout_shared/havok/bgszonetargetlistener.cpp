@@ -65,12 +65,13 @@ struct FUN_0062d840_shell
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void* __thiscall FUN_0062d840(unsigned int a, unsigned int b);
+    void* __thiscall TrapEntry_TrapEntry(unsigned int a, unsigned int b);
 };
 
 // Calls FUN_0061fc10 with a and b, sets the first field to point at DAT_0104e3e8, and returns this.
 // @fnv 0x0062d840
-void* __thiscall FUN_0062d840_shell::FUN_0062d840(unsigned int a, unsigned int b)
+// src: EXE 0x0062d840
+void* __thiscall FUN_0062d840_shell::TrapEntry_TrapEntry(unsigned int a, unsigned int b)
 {
     ((FUN_0061fc10_shell*)this)->FUN_0061fc10(a, b);
     m_iWordAt00 = &DAT_0104e3e8;

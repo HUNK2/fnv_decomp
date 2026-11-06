@@ -1400,7 +1400,7 @@ struct CopyPixels
 };
 const char* __cdecl GetHResultName(long);
 void __cdecl FUN_00a29680(const char*, ...);
-void __cdecl FUN_00e68150(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face);
+void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face);
 struct TexDevice
 {
     virtual void __stdcall vf0() = 0;
@@ -1884,7 +1884,7 @@ struct CubeMapSurface
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e68150(int a, unsigned int b, int c, int d);
+extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
 extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
@@ -1948,7 +1948,7 @@ struct FUN_00e68870_cls
     int unk70;
     int unk74;
     unsigned int m_78;
-    void __thiscall FUN_00e68870(FUN_00e68870_arg* a1);
+    void __thiscall NiDX9SourceTextureData_CopyDataToSurface(FUN_00e68870_arg* a1);
 };
 extern "C" char DAT_010ed37c[];
 void __cdecl FUN_00aa1460(void* pObject, unsigned int value);
@@ -6542,7 +6542,7 @@ struct TextureAccessor
     unsigned int mipCount;
     unsigned int pixelSize;
 };
-void __cdecl FUN_00e683d0(TextureAccessor* source, unsigned int level, CopySurface* surface, unsigned int face);
+void __cdecl NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(TextureAccessor* source, unsigned int level, CopySurface* surface, unsigned int face);
 extern int DAT_010eec54;
 extern int DAT_010eec7c;
 void* __cdecl FUN_00ec61c0(void* p, int c, unsigned int n);

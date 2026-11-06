@@ -1043,7 +1043,8 @@ extern void* g_pvFormA_DB;
 extern void* g_pvFormB_DB;
 
 // @fnv 0x005db870
-bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
+// src: EXE 0x005db870
+bool __cdecl Cmd_AttachAshPile_Execute(const ScriptParameter* paramInfo, const char* scriptData, RefDB* thisObj,
                           TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result,
                           unsigned int& opcodeOffsetPtr)
 {
@@ -1339,7 +1340,8 @@ float __cdecl FUN_0040ebd0(float fA, float fB);
 void __cdecl FUN_005acc70(unsigned int* puiID, double& rdResult);
 
 // @fnv 0x005df5d0
-bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
+// src: EXE 0x005df5d0
+bool __cdecl Cmd_ObjectUnderReticle_Execute(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
                           TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result,
                           unsigned int& opcodeOffsetPtr)
 {

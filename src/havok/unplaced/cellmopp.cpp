@@ -188,10 +188,11 @@ extern "C" int DAT_012682cc;
 struct FUN_00622390_Class
 {
     void __thiscall FUN_0056e6f0();
-    void* __thiscall FUN_00622390();
+    void* __thiscall bhkBvTreeShape_bhkBvTreeShape();
 };
 // @fnv 0x00622390
-void* __thiscall FUN_00622390_Class::FUN_00622390()
+// src: EXE 0x00622390
+void* __thiscall FUN_00622390_Class::bhkBvTreeShape_bhkBvTreeShape()
 {
     FUN_0056e6f0();
     *(void**)this = &DAT_0104dbac;

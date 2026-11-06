@@ -2931,7 +2931,8 @@ struct SpawnedObject
 
 // Allocates a SpawnedObject via its operator new and returns the new instance.
 // @fnv 0x00ba8a00
-SpawnedObject* __cdecl FUN_00ba8a00()
+// src: EXE 0x00ba8a00
+SpawnedObject* __cdecl BSShaderTextureSet_CreateObject()
 {
     SpawnedObject* obj = new SpawnedObject();
     return obj;
@@ -8450,7 +8451,8 @@ S_00bb7370_Obj* S_00bb7370_Obj::FUN_00bb7370(unsigned int flags)
 void* __cdecl FUN_00aa13e0(unsigned int);
 // Allocates a 0xb0-byte TileShaderProperty with flag false, returning the pointer.
 // @fnv 0x00bb7ef0
-TileShaderProperty* __cdecl FUN_00bb7ef0()
+// src: EXE 0x00bb7ef0
+TileShaderProperty* __cdecl TileShaderProperty_CreateObject()
 {
     return new TileShaderProperty(false);
 }

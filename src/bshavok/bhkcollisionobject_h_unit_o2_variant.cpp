@@ -49,7 +49,8 @@ struct MyType
     }
 };
 // @fnv 0x00c65830
-void* FUN_00c65830()
+// src: EXE 0x00c65830
+void* bhkCollisionObject_CreateObject()
 {
     return new MyType;
 }

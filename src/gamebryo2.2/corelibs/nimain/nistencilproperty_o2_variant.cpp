@@ -61,7 +61,8 @@ extern void* DAT_0101e07c;
 
 
 // @fnv 0x00a6f410
-void* __cdecl FUN_00a6f410()
+// src: EXE 0x00a6f410
+void* __cdecl NiStencilProperty_CreateObject()
 {
     NiStencilProperty* p = (NiStencilProperty*)BSFadeNode::operator new(0x24);
     if (p)

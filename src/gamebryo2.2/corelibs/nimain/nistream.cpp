@@ -358,7 +358,7 @@ bool NiStream::Save(char*& buffer, int& size)
     // The explicit initialization and teardown below own the stream lifetime.
     unsigned int streamStorage[sizeof(NiMemStream) / sizeof(unsigned int)];
     NiMemStream& stream = *reinterpret_cast<NiMemStream*>(streamStorage);
-    stream.FUN_00aa2ff0();
+    stream.NiMemStream_NiMemStream();
     bool result = Save(reinterpret_cast<NiBinaryStream*>(&stream));
     size = stream.m_uiLogicalSize;
     buffer = stream.FUN_00aa2d60();
@@ -956,7 +956,8 @@ struct Obj
     unsigned char f14;
 };
 // @fnv 0x00a48110
-void* FUN_00a48110()
+// src: EXE 0x00a48110
+void* NiRotData_CreateObject()
 {
     Obj* p = (Obj*)BSFadeNode::operator new(0x18);
     if (p)

@@ -190,8 +190,8 @@ public:
     void FUN_0078b6a0(bool);
     void FUN_0078b6f0(bool);
     void FUN_0078b7c0(bool);
-    void FUN_0078b9b0(void*);
-    void FUN_0078b9b0(int);
+    void CalcLoadScreenTypeTextWindowVerts(void*);
+    void CalcLoadScreenTypeTextWindowVerts(int);
     void FUN_0078bb40();
     void FUN_0078bb60(int);
     void FUN_0078bb60(BGSPerkEntry*);

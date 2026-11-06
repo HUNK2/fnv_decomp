@@ -899,7 +899,8 @@ struct FUN_00c53d70
     FUN_00c53d70();
 };
 // @fnv 0x00c537f0
-FUN_00c53d70* __cdecl FUN_00c537f0()
+// src: EXE 0x00c537f0
+FUN_00c53d70* __cdecl NiBSBoneLODController_CreateObject()
 {
     return new FUN_00c53d70;
 }

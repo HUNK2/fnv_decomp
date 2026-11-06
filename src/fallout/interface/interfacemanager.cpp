@@ -12450,7 +12450,7 @@ extern GameMode* DAT_011d8a80;
 
 bool IsStartMenuFlag1Set();
 bool FUN_0070ec00();
-bool FUN_005d4a40();
+bool Cmd_Default_Execute();
 unsigned int FUN_00457fe0();
 bool FUN_00702450(int iMenuID);
 bool FUN_007024e0();
@@ -12480,7 +12480,7 @@ void TutorialState::FUN_007182e0()
     while (bRepeat)
     {
         bRepeat = false;
-        if (!FUN_005d4a40() || DAT_011d8a80->m_iMode != 2)
+        if (!Cmd_Default_Execute() || DAT_011d8a80->m_iMode != 2)
         {
             m_uiDueTime = 0;
             m_iCurrent = 41;
@@ -12614,7 +12614,7 @@ struct TutorialMessageView718
     bool IsFlagSet();
 };
 extern "C" ::TESForm* __cdecl FUN_004839c0(unsigned int);
-bool __cdecl FUN_005d4a40();
+bool __cdecl Cmd_Default_Execute();
 
 struct TutorialMessageState718
 {
@@ -12646,7 +12646,7 @@ bool TutorialMessageGate718::FUN_00718630(int aeID, unsigned int aiMenuID, unsig
             ::BGSMessage* pmsg;
             ::TESForm* pform = FUN_004839c0(aeID + 360);
             pmsg = pform ? dynamic_cast< ::BGSMessage*>(pform) : 0;
-            bshow = pmsg && ((TutorialMessageView718*)pmsg)->IsFlagSet() && FUN_005d4a40() && !kMessages[aeID].bSeen;
+            bshow = pmsg && ((TutorialMessageView718*)pmsg)->IsFlagSet() && Cmd_Default_Execute() && !kMessages[aeID].bSeen;
         }
         kMessages[aeID].bShown = bshow;
     }

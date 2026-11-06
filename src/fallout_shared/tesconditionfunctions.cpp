@@ -1732,7 +1732,8 @@ struct TLSData_0059e0f0
 __declspec(thread) TLSData_0059e0f0 g_tlsData_0059e0f0;
 
 // @fnv 0x0059e0f0
-bool __cdecl FUN_0059e0f0(TESObjectREFR* apRefObject, TESObjectREFR* apParam1, void* apParam2,
+// src: EXE 0x0059e0f0
+bool __cdecl Cmd_Shared_Eval_59e0f0(TESObjectREFR* apRefObject, TESObjectREFR* apParam1, void* apParam2,
                           double& afReturnValue)
 {
     afReturnValue = 0.0;
@@ -1837,7 +1838,8 @@ __declspec(thread) extern bool g_consoleEcho;
 
 // Writes 1.0 or 0.0 to result depending on whether Sky::GetInstance()->IsRaining() is true, logs it when console echo is on, and returns true.
 // @fnv 0x0059e8e0
-bool __cdecl FUN_0059e8e0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059e8e0
+bool __cdecl Cmd_IsRaining_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     Sky* pWeatherSky = Sky::GetInstance();
     result = pWeatherSky->IsRaining() ? 1.0f : 0.0f;
@@ -2002,7 +2004,8 @@ __declspec(thread) extern unsigned char tls_pad_0059f940[0x269];
 
 // Sets afReturnValue to 1.0 if apRefObject's vtable IsChild returns true, otherwise 0.0, logs it when TLS flag is set, and returns true.
 // @fnv 0x0059f940
-bool __cdecl FUN_0059f940(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x0059f940
+bool __cdecl Cmd_IsChild_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     if (apRefObject != 0)
@@ -2092,7 +2095,8 @@ void __cdecl DebugLog(char const*, ...);
 extern __declspec(thread) bool bVerboseMode_tls[0x269];
 
 // @fnv 0x0059fbb0
-bool __cdecl FUN_0059fbb0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x0059fbb0
+bool __cdecl Cmd_GetIsReference_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     TESObjectREFR* pobjRef = 0;
@@ -3146,7 +3150,8 @@ extern PlayerCharacter* pPlayer;
 
 // Sets result to 1.0 if pPlayer has the BGSNote passed in arg1, otherwise leaves it at 0.0, and returns true.
 // @fnv 0x005a3bf0
-bool __cdecl FUN_005a3bf0(TESObjectREFR* reference, void* pNote, void* pUnused, double& result)
+// src: EXE 0x005a3bf0
+bool __cdecl Cmd_GetHasNote_Eval(TESObjectREFR* reference, void* pNote, void* pUnused, double& result)
 {
     result = 0.0;
     BGSNote* note = (BGSNote*)pNote;
@@ -3420,7 +3425,8 @@ struct Vtable388
 
 // Sets result to 0.0, then if reference is an actor with a non-null GetLogDate, stores the result of v226() from that object; always returns true.
 // @fnv 0x005a4340
-bool __cdecl FUN_005a4340(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a4340
+bool __cdecl Cmd_GetPlantedExplosive_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     if (reference != 0 && reference->IsActor())
@@ -3441,7 +3447,8 @@ extern ProcessLists DAT_011e0e80;
 
 // Sets result to 0.0, then if reference is an actor stores whether it is talking through an activator; always returns true.
 // @fnv 0x005a43b0
-bool __cdecl FUN_005a43b0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a43b0
+bool __cdecl Cmd_IsActorTalkingThroughActivator_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     if (reference && reference->IsActor())
@@ -4049,7 +4056,8 @@ __declspec(thread) extern bool bEchoConsole;
 
 
 // @fnv 0x005a5d30
-bool __cdecl FUN_005a5d30(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a5d30
+bool __cdecl Cmd_GetObjectiveCompleted_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     TESQuest* pquest = (TESQuest*)apParam1;
     int iElementIndex = (int)apParam2;
@@ -4110,7 +4118,8 @@ struct TLSDataPad
 
 // Stores whether the player is in hardcore mode into afReturnValue and logs it when console output is enabled; always returns true.
 // @fnv 0x005a5f90
-bool __cdecl FUN_005a5f90(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a5f90
+bool __cdecl Cmd_IsHardcore_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     if (pPlayer != 0)
     {
@@ -4463,7 +4472,8 @@ struct TLSDebugData
 extern __declspec(thread) TLSDebugData g_tlsDebugData;
 // Reads a reputation value for the given type from arg1 into result and logs it when TLS debug logging is enabled; returns true.
 // @fnv 0x005a5bd0
-bool __cdecl FUN_005a5bd0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a5bd0
+bool __cdecl Cmd_GetReputation_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     TESReputation* pReputationData = (TESReputation*)arg1;
     {
@@ -4492,7 +4502,8 @@ struct ReputationStub
 void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005a5cb0
-bool __cdecl FUN_005a5cb0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a5cb0
+bool __cdecl Cmd_GetReputationThreshold_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     ReputationStub* pRep = (ReputationStub*)arg1;
     unsigned int bHigh = (unsigned int)arg2;
@@ -4583,7 +4594,8 @@ bool __cdecl GetActorInCombat(TESObjectREFR* apRefObject, void* apParam1, void* 
 bool __cdecl FUN_0059d400(TESObjectREFR* reference, void* arg1, void* arg2, double& result);
 
 // @fnv 0x0059d3a0
-bool __cdecl FUN_0059d3a0(void* apReference, void* apUnused, void* apUnused2, double* result)
+// src: EXE 0x0059d3a0
+bool __cdecl Cmd_SameFactionAsPC_Eval(void* apReference, void* apUnused, void* apUnused2, double* result)
 {
     return FUN_0059d400((TESObjectREFR*)apReference, g_thePlayer, 0, *result);
 }
@@ -4602,14 +4614,16 @@ bool __thiscall ConditionWeather::GetFlag()
 extern bool __cdecl FUN_0059f180(PlayerCharacter* reference, void* arg1, void* arg2, double& result);
 
 // @fnv 0x0059f730
-bool __cdecl FUN_0059f730(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059f730
+bool __cdecl Cmd_GetPCIsClass_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     return FUN_0059f180(g_thePlayer, arg1, arg2, result);
 }
 
 bool __cdecl FUN_0059f240(PlayerCharacter* reference, void* arg1, void* arg2, double& result);
 // @fnv 0x0059f750
-bool __cdecl FUN_0059f750(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059f750
+bool __cdecl Cmd_GetPCIsRace_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     return FUN_0059f240(g_thePlayer, arg1, arg2, result);
 }
@@ -4633,7 +4647,8 @@ bool ConditionFaction::IsFlag20Set() const
 }
 
 // @fnv 0x005a2a50
-bool __cdecl FUN_005a2a50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a2a50
+bool __cdecl Cmd_Shared_Eval_5a2a50(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     return true;
@@ -4672,7 +4687,8 @@ bool __cdecl FUN_005a2c70(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 extern int DAT_0119f344;
 
 // @fnv 0x005a3650
-bool __cdecl FUN_005a3650(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a3650
+bool __cdecl Cmd_WhichServiceMenu_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = -1.0;
     afReturnValue = *(int*)&DAT_0119f344;
@@ -4729,7 +4745,8 @@ unsigned char __thiscall ConditionPlayerCharacter::GetField()
 extern bool __cdecl FUN_0059d540(void* ref, void* arg1, void* arg2, void* arg3);
 
 // @fnv 0x0059d3c0
-bool __cdecl FUN_0059d3c0(void* ref, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059d3c0
+bool __cdecl Cmd_SameRaceAsPC_Eval(void* ref, void* arg1, void* arg2, double& result)
 {
     return FUN_0059d540(ref, g_thePlayer, 0, &result);
 }
@@ -4748,7 +4765,8 @@ namespace fnv_005a3b90 {
 
 // Sets *result to 1.0 if object's next form is a talking activator whose temp ref equals reference, otherwise 0.0; always returns true.
 // @fnv 0x005a3b90
-bool __cdecl FUN_005a3b90(TESObject* object, TESObjectREFR* reference, TESObjectREFR* pUnused, double* pfResult)
+// src: EXE 0x005a3b90
+bool __cdecl Cmd_IsTalkingActivatorActor_Eval(TESObject* object, TESObjectREFR* reference, TESObjectREFR* pUnused, double* pfResult)
 {
     *pfResult = 0.0;
     TESObjectREFR* pRef = reference;
@@ -4764,7 +4782,8 @@ bool __cdecl FUN_005a3b90(TESObject* object, TESObjectREFR* reference, TESObject
 
 // Sets *result to 0.0 if arg0 is null or equals arg1, otherwise 1.0, and returns true.
 // @fnv 0x005a4210
-bool __cdecl FUN_005a4210(void* apFirst, void* apSecond, void* apUnused, double* apfResult)
+// src: EXE 0x005a4210
+bool __cdecl Cmd_Exists_Eval(void* apFirst, void* apSecond, void* apUnused, double* apfResult)
 {
     void* tmp = apSecond;
     if (apFirst == 0 || apFirst == tmp)
@@ -4843,7 +4862,8 @@ bool ConditionFaction::IsFlag40Set()
 
 // Sets result to zero, then stores the player's value from GetActionObjectItemId into result and returns true.
 // @fnv 0x005a3af0
-bool __cdecl FUN_005a3af0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a3af0
+bool __cdecl Cmd_GetLastPlayerAction_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     result = ((ConditionPlayerCharacter*)g_thePlayer)->GetActionObjectItemId();
@@ -5383,7 +5403,8 @@ struct FUN_0059ef60_TLS
 extern __declspec(thread) FUN_0059ef60_TLS g_FUN_0059ef60_TLS;
 
 // @fnv 0x0059ef60
-bool FUN_0059ef60(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
+// src: EXE 0x0059ef60
+bool Cmd_Shared_Eval_59ef60(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
     TESObjectCELL* pcell = 0;
@@ -6262,7 +6283,8 @@ struct ItemChange_WithDtor : public InventoryStackRecord
 };
 
 // @fnv 0x0059e1a0
-bool __cdecl FUN_0059e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x0059e1a0
+bool __cdecl Cmd_Shared_Eval_59e1a0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     TESForm* pForm = apParam1 ? static_cast<TESForm*>(apParam1) : 0;
@@ -6328,7 +6350,8 @@ struct FUN_0059e7d0_Class
 void _DebugLog(const char* fmt, ...);
 __declspec(thread) bool _DebugLogEnabled;
 // @fnv 0x0059e700
-bool FUN_0059e700(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x0059e700
+bool Cmd_IsPleasant_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     Sky* pWeatherSky = Sky::GetInstance();
     afReturnValue =
@@ -6353,7 +6376,8 @@ struct FUN_0059e8c0_Class
 void _DebugLog(const char*, ...);
 __declspec(thread) bool g_pLogDebug;
 // @fnv 0x0059e7f0
-bool __cdecl FUN_0059e7f0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x0059e7f0
+bool __cdecl Cmd_IsCloudy_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     Sky* pWeatherSky = Sky::GetInstance();
     afReturnValue =
@@ -6575,7 +6599,8 @@ struct TESObjectREFR_VTable
 };
 __declspec(thread) bool g_bConditionFunctionFlags[57];
 // @fnv 0x005a2a60
-bool __cdecl FUN_005a2a60(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a2a60
+bool __cdecl Cmd_GetIsGhost_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     TESObjectREFR* actor = 0;
@@ -6849,7 +6874,8 @@ struct LogDate
 
 // Sets result to 0.0, then to 1.0 if reference is an actor whose log date passes v060; always returns true.
 // @fnv 0x005a3570
-bool __cdecl FUN_005a3570(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a3570
+bool __cdecl Cmd_GetIdleDoneOnce_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     TES* log = 0;
@@ -6895,7 +6921,8 @@ struct DebugLogFlag
 __declspec(thread) DebugLogFlag g_DebugLogFlag;
 // Sets the return value to 0.0, optionally logs it when the debug log flag is set, and returns true.
 // @fnv 0x005a3820
-bool __cdecl FUN_005a3820(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
+// src: EXE 0x005a3820
+bool __cdecl Cmd_IsPS3_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     *afReturnValue = 0.0;
     if (g_DebugLogFlag.flag)
@@ -7285,7 +7312,8 @@ __declspec(thread) unsigned char g_tlsFlag;
 
 // Stores the player's field value into result, logs it when the TLS flag is set, and returns true.
 // @fnv 0x005a5ff0
-bool __cdecl FUN_005a5ff0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a5ff0
+bool __cdecl Cmd_IsAlwaysHardcore_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     if (_g_thePlayer)
         result = _g_thePlayer->GetField();
@@ -7384,7 +7412,8 @@ extern __declspec(thread) bool g_bDebugLogEnabled;
 
 // Sets result to 1.0 if reference is an actor that is offering services, logs the outcome when debug logging is enabled, and returns true.
 // @fnv 0x005a2af0
-bool __cdecl FUN_005a2af0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a2af0
+bool __cdecl Cmd_GetOffersServicesNow_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     ActorServiceStandIn* actor = 0;
@@ -7557,7 +7586,8 @@ struct FUN_0059c4c0_VTable
 
 // Sets result to 0.0, then to 1.0 if reference is non-null and its virtual f116 returns nonzero; always returns true.
 // @fnv 0x0059c4c0
-bool __cdecl FUN_0059c4c0(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
+// src: EXE 0x0059c4c0
+bool __cdecl Cmd_HasLoaded3D_Eval(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
     if (reference && reinterpret_cast<FUN_0059c4c0_VTable*>(reference)->f116())
@@ -8231,7 +8261,8 @@ extern PlayerCharacter* _g_thePlayer;
 bool __cdecl FUN_0059d610(TESObjectREFR*, void*, void*, double&);
 
 // @fnv 0x0059d3e0
-bool __cdecl FUN_0059d3e0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059d3e0
+bool __cdecl Cmd_SameSexAsPC_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     return FUN_0059d610(reference, _g_thePlayer, 0, result);
 }
@@ -9971,7 +10002,8 @@ struct TESObjectREFRVirtualHelper
 void __cdecl _DebugLog(const char* format, double value);
 
 // @fnv 0x005a0260
-bool __cdecl FUN_005a0260(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a0260
+bool __cdecl Cmd_GetIsAlerted_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
 
@@ -11457,7 +11489,8 @@ extern int __tls_index;
 extern void __cdecl _DebugLog(const char*, ...);
 
 // @fnv 0x005a24f0
-bool __cdecl FUN_005a24f0(TESObjectREFR* reference, void* pMagicItem, void* pUnused, double& result)
+// src: EXE 0x005a24f0
+bool __cdecl Cmd_GetSpellUsageNum_Eval(TESObjectREFR* reference, void* pMagicItem, void* pUnused, double& result)
 {
     Actor* pactor;
 
@@ -11534,7 +11567,8 @@ struct FUN_005a2ed0_TLSData
 extern __declspec(thread) FUN_005a2ed0_TLSData FUN_005a2ed0_TLSData;
 
 // @fnv 0x005a2ed0
-bool __cdecl FUN_005a2ed0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a2ed0
+bool __cdecl Cmd_IsCellOwner_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     TESObjectCELL* m_pSourceCell = static_cast<TESObjectCELL*>(arg1);
     TESForm* pOwner = static_cast<TESForm*>(arg2);
@@ -11631,7 +11665,8 @@ struct FUN_005a3670_Probe : public FUN_005a3670_ProbeBase
 
 // Zeroes afReturnValue, then sets pactor to apRefObject if it is non-null and its V64() check passes; always returns true.
 // @fnv 0x005a3670
-bool FUN_005a3670(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
+// src: EXE 0x005a3670
+bool Cmd_IsRidingHorse_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
     afReturnValue = 0.0;
     Actor* pactor = 0;
@@ -12034,7 +12069,8 @@ struct FUN_005a3f00_Proxy
 };
 
 // @fnv 0x005a3f00
-bool __cdecl FUN_005a3f00(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
+// src: EXE 0x005a3f00
+bool __cdecl Cmd_IsKiller_Eval(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double* afReturnValue)
 {
     Actor* pactor;
     Actor* pact;
@@ -12081,7 +12117,8 @@ struct ScriptFactionSubAccess
 
 // If both the script and faction are non-null, stores the faction's combat reaction value into result and returns true.
 // @fnv 0x005a4090
-bool __cdecl FUN_005a4090(TESObjectREFR* reference, void* pScript, void* pFaction, double& result)
+// src: EXE 0x005a4090
+bool __cdecl Cmd_GetFactionCombatReaction_Eval(TESObjectREFR* reference, void* pScript, void* pFaction, double& result)
 {
     ScriptFactionSubAccess* script = reinterpret_cast<ScriptFactionSubAccess*>(pScript);
     TESForm* faction = reinterpret_cast<TESForm*>(pFaction);
@@ -13163,7 +13200,8 @@ extern const char str_010351ec[];
 void __cdecl FUN_00703c00(const char*, double);
 // Reads the sky state, writes 1.0 or 0.0 to output depending on FUN_0059ea80, logs it when tlsBytes[0x268] is set, and returns true.
 // @fnv 0x0059ea10
-bool __cdecl FUN_0059ea10(int first, int second, int third, double* output)
+// src: EXE 0x0059ea10
+bool __cdecl Cmd_IsSnowing_Eval(int first, int second, int third, double* output)
 {
     ConditionSky* sky = reinterpret_cast<ConditionSky*>(Sky::GetInstance());
     *output = sky->IsSnowing() ? 1.0f : 0.0f;
@@ -13660,7 +13698,8 @@ __declspec(thread) unsigned char g_tlsFlag;
 
 // Sets result to the value returned by the player's GetField6dc and logs it when g_tlsFlag is set, then returns true.
 // @fnv 0x005a2050
-bool __cdecl FUN_005a2050(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
+// src: EXE 0x005a2050
+bool __cdecl Cmd_GetAmountSoldStolen_Eval(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0.0;
     result = (double)((ConditionPlayerCharacter*)g_thePlayer)->GetField6dc();
@@ -13675,7 +13714,8 @@ void __cdecl _DebugLog(const char* apFormat, ...);
 __declspec(thread) unsigned char g_tlsFlags[0x269];
 // Sets result to 1.0 if HotkeyWheelProbeA() is true, otherwise 0.0, logs it when g_tlsFlags[0x268] is set, and returns true.
 // @fnv 0x005a37b0
-bool __cdecl FUN_005a37b0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a37b0
+bool __cdecl Cmd_IsXBox_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     result = HotkeyWheelProbeA() ? 1.0f : 0.0f;
@@ -13818,7 +13858,8 @@ union ExtendedValue
 };
 // Writes 0.0 to result, then if object passes its eligibility check and returns a value, stores that value's count as a double in result; always returns true.
 // @fnv 0x005a42b0
-bool __cdecl FUN_005a42b0(void* object, void* unusedContext, void* unusedTarget, double* result)
+// src: EXE 0x005a42b0
+bool __cdecl Cmd_GetGroupTargetCount_Eval(void* object, void* unusedContext, void* unusedTarget, double* result)
 {
     *result = 0.0;
     if (object && ((EligibilityMethod)(*(void***)object)[64])(object))
@@ -14172,7 +14213,8 @@ struct SpellData
 };
 // Walks the entry list, matches the subject's form ID, and stores the highest tier whose scaled multiplier stays within the record threshold.
 // @fnv 0x005a6170
-bool __cdecl FUN_005a6170(int unused, void* subject, int unused2, double* result)
+// src: EXE 0x005a6170
+bool __cdecl Cmd_GetCasinoWinningStage_Eval(int unused, void* subject, int unused2, double* result)
 {
     void* target = subject;
     if (target != 0)
@@ -14623,7 +14665,8 @@ void FUN_00703c00(const char*, ...);
 
 // Reads the current weather percent from the Sky object, logs it when bDebug is set, and returns true.
 // @fnv 0x0059eb60
-bool FUN_0059eb60(void* reference, void* arg1, void* arg2, double& afPercent)
+// src: EXE 0x0059eb60
+bool Cmd_GetCurrentWeatherPercent_Eval(void* reference, void* arg1, void* arg2, double& afPercent)
 {
     afPercent = reinterpret_cast<ConditionSky*>(Sky::GetInstance())->GetCurrentWeatherPercent();
     if (DAT_0126fd98.bDebug)
@@ -16001,7 +16044,8 @@ struct CriticalStageCondition : Actor
 extern const char* DAT_0119bbb0[];
 // Checks if the actor is in the given stage and logs the result when debug is enabled.
 // @fnv 0x005a2910
-bool FUN_005a2910(Actor* apActor, void* aiStage, void* apUnused, double& result)
+// src: EXE 0x005a2910
+bool Cmd_IsInCriticalStage_Eval(Actor* apActor, void* aiStage, void* apUnused, double& result)
 {
     result = 0;
     int iStage = (int)aiStage;
@@ -16048,7 +16092,8 @@ class InvB
 InvB* FUN_004bf220(Actor*);
 // Sets result to 1.0 for non-heavy armor or 2.0 for heavy armor when a type 0x18 entry is found; otherwise it remains 0.
 // @fnv 0x005a2ce0
-bool FUN_005a2ce0(Actor* apActor, void* apUnused1, void* apUnused2, double& afRating)
+// src: EXE 0x005a2ce0
+bool Cmd_GetArmorRatingUpperBody_Eval(Actor* apActor, void* apUnused1, void* apUnused2, double& afRating)
 {
     Actor* pActor = 0;
     if (apActor && apActor->IsActor())
@@ -16199,7 +16244,8 @@ void FUN_00703c00(const char*, ...);
 
 // Checks if the reference actor is the current crime victim target and sets result to 1 or 0, logging the outcome in debug mode.
 // @fnv 0x005a3460
-bool FUN_005a3460(Actor* apActor, void* apUnused1, void* apUnused2, double& result)
+// src: EXE 0x005a3460
+bool Cmd_IsActorAVictim_Eval(Actor* apActor, void* apUnused1, void* apUnused2, double& result)
 {
     Actor* pActor = 0;
     if (apActor && apActor->IsActor())
@@ -16232,7 +16278,8 @@ void FUN_00703c00(const char*, ...);
 bool FUN_00709d40();
 // Stores a 0.0 or 1.0 value into result based on FUN_00709d40, logs it when bDebug is set, and returns true.
 // @fnv 0x005a3870
-bool FUN_005a3870(void* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a3870
+bool Cmd_IsWin32_Eval(void* reference, void* arg1, void* arg2, double& result)
 {
     result = 1;
     result = FUN_00709d40() ? 0.0f : 1.0f;
@@ -16449,7 +16496,8 @@ class ActorK
 };
 // Sets result to 1 when the actor checks pass and the list call's returned object passes its boolean check.
 // @fnv 0x005a3fa0
-bool FUN_005a3fa0(ActorK* reference, void* apFormList, void* apUnused, double& result)
+// src: EXE 0x005a3fa0
+bool Cmd_IsKillerObject_Eval(ActorK* reference, void* apFormList, void* apUnused, double& result)
 {
     FormK* pList = (FormK*)apFormList;
     ActorK* pActor = 0;
@@ -16542,7 +16590,8 @@ class ActorA5 : public MobileObject
 
 // Returns the value from the shell object obtained via vfn_fe on the actor reference, or 0 if the reference is null, not an actor, or has no shell.
 // @fnv 0x005a4240
-bool __cdecl FUN_005a4240(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
+// src: EXE 0x005a4240
+bool __cdecl Cmd_GetGroupMemberCount_Eval(TESObjectREFR* reference, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0;
     if (reference && reference->IsActor())
@@ -17241,7 +17290,8 @@ class Proc
 
 // Sets result when the actor's package chain exists and the package method returns 0xe; logs a message when bDebug is set.
 // @fnv 0x005a4f30
-bool FUN_005a4f30(Actor* apActor, void* apUnused1, void* apUnused2, double& result)
+// src: EXE 0x005a4f30
+bool Cmd_GetActorAggroRadiusViolated_Eval(Actor* apActor, void* apUnused1, void* apUnused2, double& result)
 {
     result = 0;
     if (apActor && apActor->IsActor())
@@ -17589,7 +17639,8 @@ class RepR
 };
 // When pRep is non-null, stores FUN_00616a60(iType) in result and logs it if bDebug is set.
 // @fnv 0x005a5c40
-bool FUN_005a5c40(void* reference, void* apRep, void* aiType, double& afReputation)
+// src: EXE 0x005a5c40
+bool Cmd_GetReputationPct_Eval(void* reference, void* apRep, void* aiType, double& afReputation)
 {
     RepR* pRep = (RepR*)apRep;
     int iType = (int)aiType;
@@ -17869,7 +17920,8 @@ static const char str_01034eb4[] = "%s sees %s";
 static const char str_01034ea4[] = "%s can't see %s";
 // Determines whether reference can see target, using a camera raycast for the player or a visibility check for other actors, and stores the result in result.
 // @fnv 0x0059c990
-bool __cdecl FUN_0059c990(TESObjectREFR* reference, void* target, void*, double& result)
+// src: EXE 0x0059c990
+bool __cdecl Cmd_GetLineOfSight_Eval(TESObjectREFR* reference, void* target, void*, double& result)
 {
     result = 0.0;
     if (reference)
@@ -18435,7 +18487,8 @@ static bool __cdecl InFactionConditionForPlayerCallee(TESObjectREFR* reference, 
 }
 
 // @fnv 0x0059f790
-bool __cdecl FUN_0059f790(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x0059f790
+bool __cdecl Cmd_GetPCInFaction_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     return InFactionConditionForPlayerCallee((TESObjectREFR*)g_thePlayer, arg1, arg2, result);
 }

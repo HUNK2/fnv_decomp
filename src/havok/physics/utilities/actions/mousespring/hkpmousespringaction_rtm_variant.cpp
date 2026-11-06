@@ -261,7 +261,7 @@ struct Ms_cls
     float objDamping;
     int shapeKey;
     Ms_ArrInit cb;
-    Ms_cls* FUN_00cbb560(LocalM128* a0, LocalM128* a1, float a2, float a3, float a4, Ms_Ent* a5, Ms_Arr* a6);
+    Ms_cls* hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* a0, LocalM128* a1, float a2, float a3, float a4, Ms_Ent* a5, Ms_Arr* a6);
 };
 class FUN_00d01a60
 {

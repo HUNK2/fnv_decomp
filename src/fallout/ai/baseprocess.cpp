@@ -143,14 +143,15 @@ void FUN_0049bb50_shell::AddToOffset(int aiOffset)
 
 struct Dummy_00527770
 {
-    void FUN_00527770(int arg);
+    void NiTMap_unsigned_int_TESObjectREFR_NiTMap(int arg);
 };
 
 // Calls FUN_00527770 with 0x25, sets the first pointer to "@kR", and zeroes the ints at offsets 16 and 20 before returning pThis.
 // @fnv 0x00526b00
-void* __fastcall FUN_00526b00(void* pThis)
+// src: EXE 0x00526b00
+void* __fastcall LoadedReferenceMap_LoadedReferenceMap(void* pThis)
 {
-    ((Dummy_00527770*)pThis)->FUN_00527770(0x25);
+    ((Dummy_00527770*)pThis)->NiTMap_unsigned_int_TESObjectREFR_NiTMap(0x25);
     *(const char**)pThis = "@kR";
     *((int*)pThis + 4) = 0;
     *((int*)pThis + 5) = 0;

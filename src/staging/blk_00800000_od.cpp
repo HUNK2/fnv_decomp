@@ -59,11 +59,12 @@ struct FUN_00802b20_class
 {
     int* p;
     void __thiscall InitBuffer(int);
-    int __thiscall FUN_00802b20(int a);
+    int __thiscall NiTMap_unsigned_int_IDebugTextPage_NiTMap(int a);
 };
 // Calls InitBuffer with a, sets p to point at DAT_01079170, and returns this.
 // @fnv 0x00802b20
-int __thiscall FUN_00802b20_class::FUN_00802b20(int a)
+// src: EXE 0x00802b20
+int __thiscall FUN_00802b20_class::NiTMap_unsigned_int_IDebugTextPage_NiTMap(int a)
 {
     InitBuffer(a);
     p = &DAT_01079170;

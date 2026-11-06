@@ -38,7 +38,7 @@ public:
     virtual void ReleaseShader();
     virtual void vf21();
 
-    NiSingleShaderMaterial* FUN_00aa06f0(void* name, const char* filename, bool createShader);
+    NiSingleShaderMaterial* NiSingleShaderMaterial_00aa06f0(void* name, const char* filename, bool createShader);
     NiSingleShaderMaterial* Destroy(unsigned char flags);
     void BaseCleanup();
 

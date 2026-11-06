@@ -9669,11 +9669,12 @@ extern void* DAT_010827e8;
 struct FUN_008699c0_shell
 {
     void FUN_00869aa0(unsigned int maxSize, unsigned int growBy);
-    void* FUN_008699c0(unsigned int maxSize, unsigned int growBy);
+    void* NiTObjectArray_TESObjectREFR_NiTObjectArray(unsigned int maxSize, unsigned int growBy);
 };
 
 // @fnv 0x008699c0
-void* FUN_008699c0_shell::FUN_008699c0(unsigned int maxSize, unsigned int growBy)
+// src: EXE 0x008699c0
+void* FUN_008699c0_shell::NiTObjectArray_TESObjectREFR_NiTObjectArray(unsigned int maxSize, unsigned int growBy)
 {
     FUN_00869aa0(maxSize, growBy);
     *(void**)this = &DAT_010827e8;
@@ -9683,7 +9684,7 @@ void* FUN_008699c0_shell::FUN_008699c0(unsigned int maxSize, unsigned int growBy
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* __thiscall FUN_00869b10(void* a, void* b);
+    void* __thiscall NiTObjectArray_BipedAnim_NiTObjectArray(void* a, void* b);
 };
 
 struct FUN_00869bf0_holder
@@ -9695,7 +9696,8 @@ void __thiscall FUN_00869bf0_holder::FUN_00869bf0(void* a, void* b)
 {}
 
 // @fnv 0x00869b10
-void* __thiscall FUN_00869b10_shell::FUN_00869b10(void* a, void* b)
+// src: EXE 0x00869b10
+void* __thiscall FUN_00869b10_shell::NiTObjectArray_BipedAnim_NiTObjectArray(void* a, void* b)
 {
     extern void* DAT_010827f8;
     ((FUN_00869bf0_holder*)this)->FUN_00869bf0(a, b);
@@ -9743,10 +9745,11 @@ struct StandIn_00559cc0
 {
     int m0;
     void InitArray(int);
-    StandIn_00559cc0* FUN_00559cc0(int);
+    StandIn_00559cc0* NiTMap_TESObjectREFR_TESObjectREFR_NiTMap(int);
 };
 // @fnv 0x00559cc0
-StandIn_00559cc0* StandIn_00559cc0::FUN_00559cc0(int a)
+// src: EXE 0x00559cc0
+StandIn_00559cc0* StandIn_00559cc0::NiTMap_TESObjectREFR_TESObjectREFR_NiTMap(int a)
 {
     InitArray(a);
     m0 = (int)&DAT_0102f408;

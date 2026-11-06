@@ -4240,11 +4240,12 @@ struct MotorObject {
     float value40;
     float value44;
     void FUN_00d2b260(void*, int);
-    MotorObject* FUN_00e444c0();
+    MotorObject* hkpReorientAction_hkpReorientAction();
 };
 // Zeroes value40, value44, vector20 and vector30, sets vtable to DAT_010e6834, calls FUN_00d2b260(0, 0) and returns this.
 // @fnv 0x00e444c0
-MotorObject* MotorObject::FUN_00e444c0()
+// src: EXE 0x00e444c0
+MotorObject* MotorObject::hkpReorientAction_hkpReorientAction()
 {
     FUN_00d2b260(0, 0);
     value40 = 0.0f;

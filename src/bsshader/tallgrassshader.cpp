@@ -242,7 +242,8 @@ struct FUN_00ba8e50
 };
 // Allocates and constructs a new property object, returning the pointer.
 // @fnv 0x00ba9250
-FUN_00ba8e50* FUN_00ba9250()
+// src: EXE 0x00ba9250
+FUN_00ba8e50* BSShaderProperty_CreateObject()
 {
     return new FUN_00ba8e50;
 }

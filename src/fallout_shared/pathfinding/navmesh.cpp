@@ -269,7 +269,8 @@ void __fastcall FUN_005890c0(int* self, FUN_006916f0_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x006916f0
-int* __fastcall FUN_006916f0(int* self, FUN_006916f0_arg a)
+// src: EXE 0x006916f0
+int* __fastcall NiTMap_unsigned_short_NiPointer_ObstacleData_NiTMap(int* self, FUN_006916f0_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;
@@ -288,7 +289,8 @@ void __fastcall FUN_005890c0(int* self, FUN_00691720_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x00691720
-int* __fastcall FUN_00691720(int* self, FUN_00691720_arg a)
+// src: EXE 0x00691720
+int* __fastcall NiTMap_unsigned_short_NavMeshPOVData_NiTMap(int* self, FUN_00691720_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;
@@ -1607,7 +1609,7 @@ struct ProbeGrid
     ProbeCell* FUN_0054ddd0(int x, int y);
 };
 
-bool __cdecl FUN_005d4a40(void* self, void* value, int mode, float x, float y);
+bool __cdecl Cmd_Default_Execute(void* self, void* value, int mode, float x, float y);
 
 
 // @fnv 0x006908f0
@@ -1628,7 +1630,7 @@ bool NavMesh::CheckNeighborCells()
     {
         for (unsigned int westIdx = 0; westIdx < kWest->FUN_0070ec90()->GetReferenceFlags(); ++westIdx)
         {
-            if (!FUN_005d4a40(this, kWest->FUN_0070ec90()->FUN_00464f60(westIdx).FUN_00458b50(), 1, xWorld, 0.0f))
+            if (!Cmd_Default_Execute(this, kWest->FUN_0070ec90()->FUN_00464f60(westIdx).FUN_00458b50(), 1, xWorld, 0.0f))
             {
                 result = false;
             }
@@ -1641,7 +1643,7 @@ bool NavMesh::CheckNeighborCells()
     {
         for (unsigned int eastIdx = 0; eastIdx < east->FUN_0070ec90()->GetReferenceFlags(); ++eastIdx)
         {
-            if (!FUN_005d4a40(this, east->FUN_0070ec90()->FUN_00464f60(eastIdx).FUN_00458b50(), 1, xWorld, 0.0f))
+            if (!Cmd_Default_Execute(this, east->FUN_0070ec90()->FUN_00464f60(eastIdx).FUN_00458b50(), 1, xWorld, 0.0f))
             {
                 result = false;
             }
@@ -1654,7 +1656,7 @@ bool NavMesh::CheckNeighborCells()
     {
         for (unsigned int southIdx = 0; southIdx < southVal->FUN_0070ec90()->GetReferenceFlags(); ++southIdx)
         {
-            if (!FUN_005d4a40(this, southVal->FUN_0070ec90()->FUN_00464f60(southIdx).FUN_00458b50(), 0, 0.0f, yWorld))
+            if (!Cmd_Default_Execute(this, southVal->FUN_0070ec90()->FUN_00464f60(southIdx).FUN_00458b50(), 0, 0.0f, yWorld))
             {
                 result = false;
             }
@@ -1667,7 +1669,7 @@ bool NavMesh::CheckNeighborCells()
     {
         for (unsigned int northIdx = 0; northIdx < north2->FUN_0070ec90()->GetReferenceFlags(); ++northIdx)
         {
-            if (!FUN_005d4a40(this, north2->FUN_0070ec90()->FUN_00464f60(northIdx).FUN_00458b50(), 0, 0.0f, yWorld))
+            if (!Cmd_Default_Execute(this, north2->FUN_0070ec90()->FUN_00464f60(northIdx).FUN_00458b50(), 0, 0.0f, yWorld))
             {
                 result = false;
             }

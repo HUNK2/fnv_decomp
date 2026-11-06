@@ -139,7 +139,8 @@ bool NiBlendAccumTransformInterpolator::vf59(NiQuatTransform* kValue)
 
 namespace fnv_00a39700 {
 // @fnv 0x00a39700
-void* __cdecl FUN_00a39700()
+// src: EXE 0x00a39700
+void* __cdecl NiBlendAccumTransformInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(sizeof(NiBlendAccumTransformInterpolator));
     if (p)

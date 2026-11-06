@@ -140,7 +140,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 // Allocates a 12-byte NiExtraData, constructs it, sets its vtable and copies a stored int into offset 8, returning the object or null.
 // @fnv 0x00a7b380
-NiExtraData* FUN_00a7b380()
+// src: EXE 0x00a7b380
+NiExtraData* NiExtraData_CreateObject()
 {
     NiExtraData* p = (NiExtraData*)NiExtraData::operator new(sizeof(NiExtraData));
     if (p)

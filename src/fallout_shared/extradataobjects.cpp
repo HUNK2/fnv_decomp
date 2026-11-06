@@ -1022,11 +1022,12 @@ ExtraContainerChanges::ExtraContainerChanges(InventoryChanges* apChanges) : BSEx
 extern int DAT_010158e4;
 struct FUN_00431d10_stub
 {
-    void* FUN_00431d10(float p);
+    void* ExtraHealth_ExtraHealth(float p);
 };
 // Constructs a BSExtraData of type 0x25, sets its vtable to DAT_010158e4 and stores the float p at offset 0xc, returning this.
 // @fnv 0x00431d10
-void* FUN_00431d10_stub::FUN_00431d10(float afValue)
+// src: EXE 0x00431d10
+void* FUN_00431d10_stub::ExtraHealth_ExtraHealth(float afValue)
 {
     reinterpret_cast<BSExtraData*>(this)->BSExtraData::BSExtraData(0x25);
     *reinterpret_cast<int**>(this) = &DAT_010158e4;

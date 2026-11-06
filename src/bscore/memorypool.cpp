@@ -145,11 +145,12 @@ void FUN_00aa6980_stub::RegisterInPools()
 
 struct FUN_00aa6c70_shell : public MemoryPool
 {
-    void FUN_00aa6c70(void*);
+    void MemoryPool_Free(void*);
 };
 
 // @fnv 0x00aa6c70
-void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
+// src: EXE 0x00aa6c70
+void FUN_00aa6c70_shell::MemoryPool_Free(void* apPointer)
 {
     unsigned int ipageIndex;
     int u1, u2;
@@ -170,7 +171,7 @@ void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
 namespace fnv_00aa6f90 {
 struct FUN_00aa6f90_shell : public MemoryPool
 {
-    void FUN_00aa6f90();
+    void MemoryPool_FreeUnusedPagesForAllPools();
 };
 
 struct FUN_00aa6eb0_shell
@@ -182,7 +183,8 @@ struct Helper_00aa6eb0
     void FUN_00aa7260();
 };
 // @fnv 0x00aa6f90
-void FUN_00aa6f90_shell::FUN_00aa6f90()
+// src: EXE 0x00aa6f90
+void FUN_00aa6f90_shell::MemoryPool_FreeUnusedPagesForAllPools()
 {
     bool blistSorted;
     m_kCriticalSection.Lock("MemoryPool::FreeUnusedPagesForAllPools()");
@@ -212,7 +214,7 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
 namespace fnv_00aa6aa0 {
 struct FUN_00aa6aa0_shell : public MemoryPool
 {
-    void* FUN_00aa6aa0(unsigned int);
+    void* MemoryPool_Allocate(unsigned int);
 };
 
 struct Node_00aa6e60;
@@ -228,7 +230,8 @@ struct MemoryPool_PCP
 };
 // Locks the pool, allocates a new page and free list if empty, pops a free block, updates page usage, and returns the block or null.
 // @fnv 0x00aa6aa0
-void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
+// src: EXE 0x00aa6aa0
+void* FUN_00aa6aa0_shell::MemoryPool_Allocate(unsigned int requested)
 {
     void* pmem;
     {

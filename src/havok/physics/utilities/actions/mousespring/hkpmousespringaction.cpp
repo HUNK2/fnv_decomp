@@ -258,12 +258,13 @@ struct Ms_cls
     float objDamping;
     int shapeKey;
     hkArrayBase<int> cb;
-    Ms_cls* FUN_00cbb560(LocalM128* a0, LocalM128* a1, float a2, float a3, float a4, Ms_Ent* a5, hkArray<int>* a6);
+    Ms_cls* hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* a0, LocalM128* a1, float a2, float a3, float a4, Ms_Ent* a5, hkArray<int>* a6);
 };
 
 // Initializes the Ms_cls object with position, mouse, and damping parameters, copies an array, and computes a shape key via a collision test against the world.
 // @fnv 0x00cbb560
-Ms_cls* Ms_cls::FUN_00cbb560(LocalM128* apPos, LocalM128* apMouse, float afDamping, float afElasticity, float afObjDamping,
+// src: EXE 0x00cbb560
+Ms_cls* Ms_cls::hkpMouseSpringAction_hkpMouseSpringAction(LocalM128* apPos, LocalM128* apMouse, float afDamping, float afElasticity, float afObjDamping,
                              Ms_Ent* apEnt, hkArray<int>* apArr)
 {
     ((Ms_B*)this)->FUN_00d2b260(apEnt, 0);

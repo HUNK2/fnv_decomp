@@ -30220,12 +30220,13 @@ struct FrondEngine
     void FUN_00b1aed0(unsigned short, int, FrondGuide&);
     void FUN_00b1b000(FrondGuide&);
     void FUN_00b1b960(unsigned short, int, FrondGuide&);
-    void FUN_00b18fd0(FrondGeometry*, void*);
+    void CFrondEngine_Compute(FrondGeometry*, void*);
 };
 static const char vertexLimitMessage[] = "frond vertices exceed %d";
 static const char invalidModeMessage[] = "default reached in CFrondEngine::Compute()";
 // @fnv 0x00b18fd0
-void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
+// src: EXE 0x00b18fd0
+void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
 {
     geometry = output;
     auxiliary = context;

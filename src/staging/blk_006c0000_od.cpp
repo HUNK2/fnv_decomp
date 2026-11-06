@@ -185,10 +185,11 @@ extern int DAT_0106c640;
 struct Caller00822860
 {
     void FUN_00822860(unsigned int, bool);
-    Caller00822860* FUN_006c6160();
+    Caller00822860* BSSimpleArray_NiPointer_ObstacleData_1024_BSSimpleArray();
 };
 // @fnv 0x006c6160
-Caller00822860* Caller00822860::FUN_006c6160()
+// src: EXE 0x006c6160
+Caller00822860* Caller00822860::BSSimpleArray_NiPointer_ObstacleData_1024_BSSimpleArray()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106c640);
     FUN_00822860(0, false);

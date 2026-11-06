@@ -208,7 +208,8 @@ inline void* __cdecl operator new(unsigned int, void* where)
 }
 // Allocates a 0x78-byte object, constructs it, sets the bool at offset 0x40 to true, and returns it.
 // @fnv 0x00a98d30
-NiParticleMeshesData* __cdecl FUN_00a98d30()
+// src: EXE 0x00a98d30
+NiParticleMeshesData* __cdecl NiParticleMeshesData_CreateObject()
 {
     NiParticleMeshesData* pObject = ::new (NiMemObject::operator new(0x78)) NiParticleMeshesData();
     pObject->m_bHasRadii = true;

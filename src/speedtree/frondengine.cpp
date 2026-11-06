@@ -627,7 +627,7 @@ struct BadAlloc
     int vt;
     const char* w;
     int f;
-    BadAlloc* FUN_0044d6c0(const char*);
+    BadAlloc* std_bad_alloc_bad_alloc(const char*);
 };
 // Clamps n to zero, throws BadAlloc if n*4 overflows, and returns a 4-byte-per-element allocation of n*4 bytes.
 // @fnv 0x0044d670
@@ -638,7 +638,7 @@ int* FUN_0044d670(unsigned int n)
     else if ((unsigned int)-1 / n < 4)
     {
         BadAlloc e;
-        e.FUN_0044d6c0(0);
+        e.std_bad_alloc_bad_alloc(0);
         FUN_00ec7894(&e, &DAT_01140ef8);
     }
     return (int*)FUN_00401000(n * 4);

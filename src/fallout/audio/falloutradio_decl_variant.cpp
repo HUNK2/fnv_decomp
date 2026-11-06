@@ -39,7 +39,7 @@ class Conversation
 };
 TESTopic* GetTopicSubTypeName(int, int);
 FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
-void FUN_00834260(FalloutRadio::RadioStationState*);
+void FalloutRadio_UpdateStation(FalloutRadio::RadioStationState*);
 void AdvanceConversation(FalloutRadio::RadioStationState*, TESTopic*);
 bool FUN_00833ce0();
 void FUN_008304a0();
@@ -52,7 +52,8 @@ class ATM
 };
 extern ATM g_011dd5e8;
 // @fnv 0x00835be0
-void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
+// src: EXE 0x00835be0
+void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* topic)
 {
     TESTopic* a = 0;
     FalloutRadio::RadioStationState* station = 0;
@@ -83,7 +84,7 @@ void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
     {
         station->station.FUN_00833100(false);
         station->station.state = 1;
-        FUN_00834260(station);
+        FalloutRadio_UpdateStation(station);
     }
     if (DAT_011dd42c == station && DAT_011dd434)
     {

@@ -1088,7 +1088,7 @@ struct FUN_00c465a0
     ~FUN_00c465a0();
     static void* operator new(unsigned int);
 };
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 struct FUN_00c48fe0_Class
 {
     int m_0000;
@@ -1481,7 +1481,7 @@ struct SpawnedObject_b9874
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9874* FUN_00c43190();
+SpawnedObject_b9874* BSXFlags_CreateObject();
 struct S_00c437c0_Obj
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
@@ -1502,7 +1502,7 @@ struct SpawnedObject_b9504 : FUN_00c43660
         return FUN_00aa13e0(size);
     }
 };
-FUN_00c43660* __cdecl FUN_00c43a30();
+FUN_00c43660* __cdecl BSValueNode_CreateObject();
 class FUN_00c43be0_cls
 {
   public:
@@ -3304,7 +3304,7 @@ class BC5CBB0Controller : public BC5CBB0Object
     int unk5C;
     int unk60;
 };
-BC5CBB0Object* __cdecl FUN_00c5cbb0();
+BC5CBB0Object* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
 struct EmitterObjectStub
 {
     void* m_ppVirtualMethodTable;
@@ -7114,7 +7114,8 @@ struct DerQ : FUN_00c450d0
     }
 };
 // @fnv 0x00c4ac00
-DerQ* FUN_00c4ac00()
+// src: EXE 0x00c4ac00
+DerQ* BSBlastNode_CreateObject()
 {
     return new DerQ;
 }
@@ -7397,7 +7398,8 @@ struct C55010Obj : NiExtraData
 };
 
 // @fnv 0x00c55010
-C55010Obj* FUN_00c55010()
+// src: EXE 0x00c55010
+C55010Obj* BSBound_CreateObject()
 {
     C55010Obj* p = new C55010Obj(*DAT_012031e4);
     ((NiAVObject*)p)->SetName(*(const NiFixedString*)&DAT_011f49e0);
@@ -10252,7 +10254,8 @@ ObjC4aa40* OwnerC4aa40::FUN_00c4aa40(int a1)
 extern unsigned int DAT_010c1fc4;
 
 // @fnv 0x00c4ae60
-BSDebrisNode* __cdecl FUN_00c4ae60()
+// src: EXE 0x00c4ae60
+BSDebrisNode* __cdecl BSDebrisNode_CreateObject()
 {
     return new BSDebrisNode;
 }
@@ -10338,7 +10341,8 @@ struct C4B0C0_Obj : FUN_00c450d0
     }
 };
 // @fnv 0x00c4b0c0
-C4B0C0_Obj* FUN_00c4b0c0()
+// src: EXE 0x00c4b0c0
+C4B0C0_Obj* BSDamageStage_CreateObject()
 {
     return new C4B0C0_Obj;
 }
@@ -15101,7 +15105,7 @@ class S00c5fc70_Object
 {
   public:
     void FUN_00c316a0(const NiFixedString& kName, int iFlags);
-    S00c5fc70_Object* FUN_00c5fc70(const char* pSource, float f);
+    S00c5fc70_Object* BSPSysStripUpdateModifier_BSPSysStripUpdateModifier(const char* pSource, float f);
     void* m_vt;
     int unk04;
     int unk08;
@@ -15112,7 +15116,8 @@ class S00c5fc70_Object
 };
 
 // @fnv 0x00c5fc70
-S00c5fc70_Object* S00c5fc70_Object::FUN_00c5fc70(const char* pSource, float f)
+// src: EXE 0x00c5fc70
+S00c5fc70_Object* S00c5fc70_Object::BSPSysStripUpdateModifier_BSPSysStripUpdateModifier(const char* pSource, float f)
 {
     FUN_00c316a0(NiFixedString(pSource), 0x9c4);
     m_vt = &DAT_010c32c4;

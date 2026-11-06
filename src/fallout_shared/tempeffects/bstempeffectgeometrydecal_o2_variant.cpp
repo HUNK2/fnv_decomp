@@ -27,10 +27,11 @@ extern "C" void __cdecl _Call_a5d3a0();
 extern int DAT_0109e47c;
 struct FUN_00a81f90_class
 {
-    void* __thiscall FUN_00a81f90();
+    void* __thiscall NiSkinPartition_NiSkinPartition();
 };
 // @fnv 0x00a81f90
-void* __thiscall FUN_00a81f90_class::FUN_00a81f90()
+// src: EXE 0x00a81f90
+void* __thiscall FUN_00a81f90_class::NiSkinPartition_NiSkinPartition()
 {
     _Call_a5d3a0();
     *(int*)this = (int)&DAT_0109e47c;

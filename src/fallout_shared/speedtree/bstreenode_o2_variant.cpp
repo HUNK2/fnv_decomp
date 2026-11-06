@@ -290,7 +290,8 @@ struct CollisionNodeStub
     }
 };
 // @fnv 0x00c87fc0
-CollisionNodeStub* FUN_00c87fc0()
+// src: EXE 0x00c87fc0
+CollisionNodeStub* bhkPCollisionObject_CreateObject()
 {
     return new CollisionNodeStub;
 }
@@ -316,7 +317,8 @@ struct NewObjA : CollisionNodeStub
     }
 };
 // @fnv 0x00cb7640
-void* FUN_00cb7640()
+// src: EXE 0x00cb7640
+void* bhkSPCollisionObject_CreateObject()
 {
     return new NewObjA;
 }
@@ -1358,7 +1360,8 @@ void* __cdecl opnew(unsigned int);
 void __cdecl opdelete(void*);
 
 // @fnv 0x00cb7920
-Node* FUN_00cb7920()
+// src: EXE 0x00cb7920
+Node* bhkMultiSphereShape_CreateObject()
 {
     Node* p = (Node*)opnew(0x14);
     {

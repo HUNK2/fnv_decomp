@@ -337,7 +337,7 @@ extern "C" void FUN_00cf5990();
 extern "C" void FUN_00d22590();
 extern "C" void FUN_00d571a0();
 extern "C" void FUN_00d57aa0();
-extern "C" void FUN_00d5d7a0();
+extern "C" void hkpConvexTransformShape_hkpConvexTransformShape();
 __forceinline void transformPoint(hkVector4& result, const hkTransform* transform, const hkVector4* point)
 {
     reinterpret_cast<void(__thiscall*)(hkVector4*, const hkTransform*, const hkVector4*)>(FUN_00c7f640)(&result, transform, point);
@@ -616,7 +616,7 @@ const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& opti
         if (transformShapeType == 15)
         {
             hkpConvexTransformShape* newShapeMem = static_cast<hkpConvexTransformShape*>(shapeNew(0x60));
-            hkpConvexTransformShape* pRemappedShape = reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform*, int)>(FUN_00d5d7a0)(newShapeMem, childConvexShape, &parentFromChild, 1);
+            hkpConvexTransformShape* pRemappedShape = reinterpret_cast<hkpConvexTransformShape*(__thiscall*)(hkpConvexTransformShape*, const hkpConvexShape*, const hkTransform*, int)>(hkpConvexTransformShape_hkpConvexTransformShape)(newShapeMem, childConvexShape, &parentFromChild, 1);
             sharedShapeData.SetEntryValue(reinterpret_cast<int>(transformShape), reinterpret_cast<int>(pRemappedShape));
             resultsOut.m_iThirdResult++;
             return pRemappedShape;

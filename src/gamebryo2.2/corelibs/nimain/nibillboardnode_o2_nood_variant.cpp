@@ -17,7 +17,8 @@ inline NiBillboardNode::NiBillboardNode() : NiNode(0)
 inline void* __cdecl operator new(size_t, void* storage) { return storage; }
 
 // @fnv 0x00a7e770
-NiBillboardNode* FUN_00a7e770()
+// src: EXE 0x00a7e770
+NiBillboardNode* NiBillboardNode_CreateObject()
 {
     void* storage = NiNode::operator new(sizeof(NiBillboardNode));
     return storage ? ::new (storage) NiBillboardNode : 0;

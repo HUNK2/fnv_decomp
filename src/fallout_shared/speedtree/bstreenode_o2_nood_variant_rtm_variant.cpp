@@ -118,12 +118,12 @@ struct FUN_0066d400_shell
 };
 struct FUN_0066d3d0_shell
 {
-    void __thiscall FUN_0066d3d0(void*);
+    void __thiscall bhkPCollisionObject_bhkPCollisionObject(void*);
 };
 extern int DAT_01066acc;
 struct FUN_0066d3a0_shell
 {
-    void* __thiscall FUN_0066d3a0(void*);
+    void* __thiscall bhkSPCollisionObject_bhkSPCollisionObject(void*);
 };
 extern "C" void __cdecl FUN_004b5020();
 extern "C" void __cdecl FUN_0056e270();

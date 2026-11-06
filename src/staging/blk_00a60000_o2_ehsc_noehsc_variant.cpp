@@ -67,7 +67,7 @@ void __stdcall FUN_00a638c0(void* p);
 struct NiTriBasedGeomData;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData*);
 extern int DAT_0109dac4;
-void* __cdecl FUN_00a7b790();
+void* __cdecl NiTriShapeData_CreateObject();
 void __fastcall FUN_00a71f60(void*);
 extern int DAT_0109dd0c;
 extern "C" int __cdecl tolower(int);
@@ -84,7 +84,7 @@ struct A51BF0Base
 {
     static void* __cdecl operator new(unsigned int);
 };
-void* FUN_00a7d6e0();
+void* NiPointLight_CreateObject();
 extern void _NiFree(void*);
 extern int DAT_0109bc84;
 extern int DAT_0109bca4;
@@ -1133,7 +1133,7 @@ class NiExtraDataMapA6F : public NiObject
     {}
     virtual ~NiExtraDataMapA6F() throw();
 
-    static NiObject* FUN_00a6f000();
+    static NiObject* NiDefaultAVObjectPalette_CreateObject();
 
     // Vtables 0x01096114/0x0109618c identify the fixed-string map base/derived pair.
     NiTFixedStringMap<NiAVObject*> m_kFormatEntries;
@@ -1197,7 +1197,7 @@ extern "C" int __cdecl tolower(int);
 bool __cdecl FUN_00a614d0(const char* a, const char* b);
 struct A5FC10Stub
 {
-    A5FC10Stub* __thiscall FUN_00a5fc10();
+    A5FC10Stub* __thiscall NiSourceTexture_NiSourceTexture();
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 A5FC10Stub* __cdecl CreateA5FC10Stub();

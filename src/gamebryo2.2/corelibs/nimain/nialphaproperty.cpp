@@ -141,7 +141,7 @@ void CreateSdmDerived()
 
 struct NiPropertyCtorStub
 {
-    void FUN_00a9a640();
+    void NiDitherProperty_CreateObject();
 };
 extern unsigned char vftable_NiAlphaProperty[];
 __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -153,7 +153,7 @@ void FUN_00a5cef0()
     char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
     if (pAlphaProperty)
     {
-        ((NiPropertyCtorStub*)pAlphaProperty)->FUN_00a9a640();
+        ((NiPropertyCtorStub*)pAlphaProperty)->NiDitherProperty_CreateObject();
         unsigned short usFlags = 0xec;
         *(const void**)pAlphaProperty = vftable_NiAlphaProperty;
         *(unsigned short*)(pAlphaProperty + 0x18) = usFlags;
@@ -180,7 +180,7 @@ NiAlphaProperty* __cdecl CreateNiAlphaProperty()
     NiAlphaProperty* p = (NiAlphaProperty*)BSFadeNode::operator new(0x1c);
     if (p)
     {
-        ((NiPropertyCtorStub*)p)->FUN_00a9a640();
+        ((NiPropertyCtorStub*)p)->NiDitherProperty_CreateObject();
         p->m_usAlphaArg = 0xec;
         *(void**)p = vftable_NiAlphaProperty;
         *((unsigned char*)p + 0x1a) = 0;

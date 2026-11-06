@@ -1294,7 +1294,7 @@ float __cdecl ComputeWeaponDamage(CombatActorForm* form, TESObjectWEAP* weapon, 
         if (!ammo)
             ammo = pCreature->GetCreatureAmmo();
     }
-    int weaponType = weapon ? weapon->FUN_00522c80() : 6;
+    int weaponType = weapon ? weapon->TESObjectWEAP_GetCombatWeaponType() : 6;
     if (weaponType == 3)
         damage3 /= DAT_01020758;
     else if (weaponType == 4)

@@ -643,14 +643,14 @@ void __fastcall SetField22C(char* pThis, float)
 
 extern NiTPointerMap<unsigned int, unsigned int>* DAT_011c40b0;
 extern int DAT_011c40b4;
-void* __fastcall FUN_004744d0(void*, int, unsigned int);
+void* __fastcall NiTMap_unsigned_int_TESFile_NiTMap(void*, int, unsigned int);
 
 struct TempMap_00473f20
 {
     int pad[4];
     TempMap_00473f20(unsigned int n)
     {
-        FUN_004744d0(this, 0, n);
+        NiTMap_unsigned_int_TESFile_NiTMap(this, 0, n);
     }
 };
 
@@ -681,7 +681,8 @@ void __fastcall FUN_005890c0(int* self, FUN_004744d0_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
 // @fnv 0x004744d0
-int* __fastcall FUN_004744d0(int* self, FUN_004744d0_arg a)
+// src: EXE 0x004744d0
+int* __fastcall NiTMap_unsigned_int_TESFile_NiTMap(int* self, FUN_004744d0_arg a)
 {
     FUN_005890c0(self, a);
     *self = (int)&DAT_01031fac;

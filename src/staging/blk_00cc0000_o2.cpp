@@ -967,10 +967,11 @@ struct FUN_00cca950_class {
     unsigned int m_uiValue1;
     unsigned int m_uiValue2;
     unsigned int m_uiExtra2;
-    FUN_00cca950_class* FUN_00cca950();
+    FUN_00cca950_class* bhkTriangleShape_bhkTriangleShape();
 };
 // @fnv 0x00cca950
-FUN_00cca950_class* FUN_00cca950_class::FUN_00cca950()
+// src: EXE 0x00cca950
+FUN_00cca950_class* FUN_00cca950_class::bhkTriangleShape_bhkTriangleShape()
 {
     ((BhkReferenceState*)this)->Initialize();
     m_uiValue2 = 0;
@@ -1102,11 +1103,12 @@ struct BhkReferenceState {
     int m_iUnk3;
 };
 struct FUN_00ccf7c0_class : BhkReferenceState {
-    FUN_00ccf7c0_class* FUN_00ccf7c0();
+    FUN_00ccf7c0_class* bhkConvexListShape_bhkConvexListShape();
 };
 // Calls Initialize, zeroes m_iUnk2 and m_iUnk3, sets m_pVtable through four vtable assignments and increments four counters, then returns this.
 // @fnv 0x00ccf7c0
-FUN_00ccf7c0_class* FUN_00ccf7c0_class::FUN_00ccf7c0()
+// src: EXE 0x00ccf7c0
+FUN_00ccf7c0_class* FUN_00ccf7c0_class::bhkConvexListShape_bhkConvexListShape()
 {
     Initialize();
     m_iUnk2 = 0;
@@ -1241,7 +1243,8 @@ struct FadeNodeState {
 };
 // Allocates and returns a new FUN_00cce990 object via its operator new.
 // @fnv 0x00ccea70
-FUN_00cce990* __stdcall FUN_00ccea70()
+// src: EXE 0x00ccea70
+FUN_00cce990* __stdcall bhkConvexTransformShape_CreateObject()
 {
     return new FUN_00cce990;
 }
@@ -1471,7 +1474,8 @@ FUN_cc60b0_object::FUN_cc60b0_object()
 
 // Allocates and constructs a new FUN_cc60b0_object, returning its pointer.
 // @fnv 0x00cc60b0
-void* __cdecl FUN_00cc60b0()
+// src: EXE 0x00cc60b0
+void* __cdecl bhkRagdollLimitsConstraint_CreateObject()
 {
     return new FUN_cc60b0_object;
 }
@@ -1700,7 +1704,8 @@ struct Object_00cc7500 : S_00cb79d0_Base {
 
 // Allocates and constructs a new Object_00cc7500, returning the new instance.
 // @fnv 0x00cc7500
-Object_00cc7500* FUN_00cc7500()
+// src: EXE 0x00cc7500
+Object_00cc7500* bhkPrismaticConstraint_CreateObject()
 {
     return new Object_00cc7500;
 }
@@ -1791,7 +1796,8 @@ struct Object_00cc8520 : S_00cb79d0_Base {
 
 // Allocates and constructs a new Object_00cc8520 instance, returning its pointer.
 // @fnv 0x00cc8520
-void* FUN_00cc8520()
+// src: EXE 0x00cc8520
+void* bhkHingeLimitsConstraint_CreateObject()
 {
     return new Object_00cc8520;
 }
@@ -5143,7 +5149,8 @@ struct SpawnedObject : public ChainA_cls {
 
 // Allocates and constructs a new SpawnedObject via its operator new and returns the pointer.
 // @fnv 0x00cc4900
-SpawnedObject* FUN_00cc4900() {
+// src: EXE 0x00cc4900
+SpawnedObject* bhkBreakableConstraint_CreateObject() {
     return new SpawnedObject();
 }
 
@@ -7062,7 +7069,8 @@ struct SpawnedObject : public ChainB_cls {
 
 // Allocates and constructs a new SpawnedObject via its operator new and returns the pointer.
 // @fnv 0x00cc8dc0
-SpawnedObject* FUN_00cc8dc0() {
+// src: EXE 0x00cc8dc0
+SpawnedObject* bhkBallSocketConstraintChain_CreateObject() {
     return new SpawnedObject();
 }
 }  // namespace fnv_00cc8dc0
@@ -10350,7 +10358,8 @@ struct FUN_00ccd100 {
 };
 // Allocates and constructs a new FUN_00ccd100 object, returning its pointer.
 // @fnv 0x00ccd250
-FUN_00ccd100* __cdecl FUN_00ccd250() {
+// src: EXE 0x00ccd250
+FUN_00ccd100* __cdecl bhkCylinderShape_CreateObject() {
     return new FUN_00ccd100;
 }
 

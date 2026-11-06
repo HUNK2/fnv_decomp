@@ -1409,11 +1409,12 @@ struct FUN_006eae40_shell
     int unk_147c;
     Coll1480 m_sub1480;
     void FUN_006c5ec0(ObjC* pC, int a);
-    void FUN_006eae40();
+    void PathManagerImpl_Update();
 };
 
 // @fnv 0x006eae40
-void FUN_006eae40_shell::FUN_006eae40()
+// src: EXE 0x006eae40
+void FUN_006eae40_shell::PathManagerImpl_Update()
 {
     m_lockC38.Lock("PathManagerImpl::Update");
     switch (m_stateC24)

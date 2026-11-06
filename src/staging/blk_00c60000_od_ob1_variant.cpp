@@ -454,7 +454,7 @@ struct FUN_00c61b10
     ~FUN_00c61b10();
     static void* operator new(unsigned int size);
 };
-FUN_00c61b10* FUN_00c61e70();
+FUN_00c61b10* BSPSysArrayEmitter_CreateObject();
 extern "C" void* __cdecl NiMalloc(unsigned int);
 struct FUN_00c63260_class
 {
@@ -544,7 +544,7 @@ struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
     FUN_00c612b0_Class();
 };
 extern NiFixedString DAT_011f49e0;
-NiAVObject* __cdecl FUN_00c61510();
+NiAVObject* __cdecl BSWArray_CreateObject();
 struct FUN_00a7b330_shell
 {
     void FUN_00a7b330(void* a, void* b);
@@ -616,7 +616,7 @@ struct SpawnedObject_b9118
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9118* FUN_00c607d0();
+SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject();
 class C61330Base
 {
   public:
@@ -2899,7 +2899,8 @@ class FactoryObject : public NiObject
     int value;
 };
 // @fnv 0x00c64810
-FactoryObject* __cdecl FUN_00c64810()
+// src: EXE 0x00c64810
+FactoryObject* __cdecl BSReference_CreateObject()
 {
     return new FactoryObject;
 }
@@ -2938,7 +2939,8 @@ class C649F0_Object : public NiObject
     virtual ~C649F0_Object();
 };
 // @fnv 0x00c649f0
-C649F0_Object* __cdecl FUN_00c649f0()
+// src: EXE 0x00c649f0
+C649F0_Object* __cdecl BSNodeReferences_CreateObject()
 {
     return new C649F0_Object;
 }

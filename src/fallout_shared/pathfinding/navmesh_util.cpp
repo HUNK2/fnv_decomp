@@ -221,7 +221,8 @@ struct Dummy0042f800
 };
 
 // @fnv 0x006917d0
-void* __fastcall FUN_006917d0(int** pThis)
+// src: EXE 0x006917d0
+void* __fastcall BSSimpleArray_unsigned_short_1024_BSSimpleArray(int** pThis)
 {
     *pThis = &DAT_010159d4;
     reinterpret_cast<Dummy0042f800*>(pThis)->FUN_0042fcb0(0, 0);

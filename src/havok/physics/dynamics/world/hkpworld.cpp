@@ -9826,11 +9826,12 @@ struct World {
     QueryCollisionInput* m_pCollisionInput;
     C96CollisionFilter* m_pCollisionFilter;
 
-    void FUN_00c96df0(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw();
+    void hkpWorld_getPenetrations(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw();
 };
 
 // @fnv 0x00c96df0
-void World::FUN_00c96df0(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw() {
+// src: EXE 0x00c96df0
+void World::hkpWorld_getPenetrations(Collidable* collA, const QueryCollisionInput* input, Collector* collector) throw() {
 
     hkMonitorStream& ms1 = hkMonitorStream::getInstance();
     char* pos1 = ms1.m_end.m_storage;
@@ -10194,11 +10195,12 @@ struct S97_World {
     S97_CollisionFilter* m_pCollisionFilter;
     inline const S97_CollisionInput* getCollisionInput() const { return m_pCollisionInput; }
     inline const S97_CollisionFilter* getCollisionFilter() const { return m_pCollisionFilter; }
-    void FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const;
+    void hkpWorld_getClosestPoints(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const;
 };
 
 // @fnv 0x00c97850
-void S97_World::FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const
+// src: EXE 0x00c97850
+void S97_World::hkpWorld_getClosestPoints(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const
 {
     S97_Aabb aabb;
     collA->getShape()->getAabb(collA->getTransform(), input.getTolerance() - getCollisionInput()->getTolerance() * DAT_01011588, aabb);

@@ -62,9 +62,9 @@ public:
     int FUN_00418520();
     bool FUN_00418750();
     short FUN_00418770();
-    bool FUN_004127e0(ExtraShell_tesobjectcell_iso_variant*);
+    bool ExtraDataList_CompareList(ExtraShell_tesobjectcell_iso_variant*);
     void FUN_00419ad0(int);
-    void FUN_00411ec0(ExtraShell_tesobjectcell_iso_variant*);
+    void ExtraDataList_CopyList(ExtraShell_tesobjectcell_iso_variant*);
     signed char GetExtraByteValue();
     void FUN_0042dec0();
     OpacityFadeState* GetOffsetC();

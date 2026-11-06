@@ -233,7 +233,8 @@ static inline void InitScreenTextureBase(NiScreenTexture* p) throw()
 }
 
 // @fnv 0x00a958b0
-NiScreenTexture* __cdecl FUN_00a958b0()
+// src: EXE 0x00a958b0
+NiScreenTexture* __cdecl NiScreenTexture_CreateObject()
 {
     NiScreenTexture* p = (NiScreenTexture*)FUN_00aa13e0(sizeof(NiScreenTexture));
     if (p != 0)

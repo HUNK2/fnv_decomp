@@ -520,7 +520,8 @@ void __fastcall FUN_006c8df0(void*);
 extern int DAT_0106c92c;
 
 // @fnv 0x0050f6f0
-void* __fastcall FUN_0050f6f0(void* pThis)
+// src: EXE 0x0050f6f0
+void* __fastcall TESBoundAnimObject_TESBoundAnimObject(void* pThis)
 {
     FUN_006c8df0(pThis);
     *(int**)pThis = &DAT_0106c92c;
@@ -559,7 +560,8 @@ extern int DAT_01029b1c;
 void __fastcall FUN_00483370(void*);
 
 // @fnv 0x0050f8c0
-TESObject* __fastcall FUN_0050f8c0(TESObject* apObject)
+// src: EXE 0x0050f8c0
+TESObject* __fastcall TESObject_TESObject(TESObject* apObject)
 {
     FUN_00483370(apObject);
     *reinterpret_cast<int**>(apObject) = &DAT_01029b1c;

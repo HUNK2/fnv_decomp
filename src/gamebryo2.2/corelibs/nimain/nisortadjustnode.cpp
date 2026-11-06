@@ -111,7 +111,8 @@ void* __thiscall NiSortAdjustNode::Destructor(unsigned int flags)
 }
 
 // @fnv 0x00a952a0
-void* __cdecl FUN_00a952a0()
+// src: EXE 0x00a952a0
+void* __cdecl NiSortAdjustNode_CreateObject()
 {
     void* p = BSFadeNode::operator new(0xB0);
     if (p)

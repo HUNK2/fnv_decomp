@@ -84,7 +84,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a4d200()
 extern int DAT_01098dd4;
 
 // @fnv 0x00a4d500
-void* __cdecl FUN_00a4d500()
+// src: EXE 0x00a4d500
+void* __cdecl NiLightColorController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x3c);
     if (p)

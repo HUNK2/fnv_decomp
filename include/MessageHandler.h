@@ -18,6 +18,6 @@ public:
     void vprintf(const char* format, ...);
     void FUN_00aa4c40(unsigned int);
     void* __thiscall FUN_00aa4c60();
-    MessageHandler* __thiscall FUN_00c3bcf0(bool b);
+    MessageHandler* __thiscall MessageHandler_00c3bcf0(bool b);
     void* __thiscall DestroyAndFree(unsigned int flags);
 };

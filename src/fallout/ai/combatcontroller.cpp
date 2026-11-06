@@ -588,7 +588,7 @@ void CombatController::ValidateCurrentWeapon()
 {
     if ((*reinterpret_cast<TESObjectWEAP**>(&unkF0)))
     {
-        COMBAT_WEAPON_TYPE eWeaponType = (*reinterpret_cast<TESObjectWEAP**>(&unkF0))->FUN_00522c80();
+        COMBAT_WEAPON_TYPE eWeaponType = (*reinterpret_cast<TESObjectWEAP**>(&unkF0))->TESObjectWEAP_GetCombatWeaponType();
         if (m_pModifier->GetCombatWeapon(eWeaponType) != (*reinterpret_cast<TESObjectWEAP**>(&unkF0)))
             (*reinterpret_cast<TESObjectWEAP**>(&unkF0)) = 0;
     }
@@ -940,7 +940,7 @@ void CombatController::ProcessActivation(TESObjectREFR* apRef, TESBoundObject* a
 namespace fnv_0097f930 {
 struct CombatManagerSaveLoad
 {
-    ActorCombatGroup* FUN_00991f80(Actor*);
+    ActorCombatGroup* CombatManager_SplitPlayerCombatGroup(Actor*);
 };
 
 extern void* _g_thePlayer;
@@ -961,7 +961,7 @@ void CombatController::FUN_0097f930(Actor* apTarget, int iPriority, bool abHighP
         reinterpret_cast<SetPlayerCombatActorFn>(SetPlayerCombatActor)((PlayerCharacter*)_g_thePlayer, (::Actor*)m_pkAttacker, 1);
         if ((*reinterpret_cast<ActorCombatGroup**>(&m_pCombatData)) == (ActorCombatGroup*)((PlayerCharacter*)_g_thePlayer)->GetCombatGroup())
         {
-            (*reinterpret_cast<ActorCombatGroup**>(&m_pCombatData)) = ((CombatManagerSaveLoad*)fnv_0097f930::BGSSaveLoadGlobalDataWorldspacePtr)->FUN_00991f80(m_pkAttacker);
+            (*reinterpret_cast<ActorCombatGroup**>(&m_pCombatData)) = ((CombatManagerSaveLoad*)fnv_0097f930::BGSSaveLoadGlobalDataWorldspacePtr)->CombatManager_SplitPlayerCombatGroup(m_pkAttacker);
         }
     }
 

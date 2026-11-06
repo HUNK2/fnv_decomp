@@ -161,7 +161,7 @@ void __thiscall HackingMenu::FUN_0076a510()
 {
     if (gm_GetTickCount() > *(unsigned int*)((char*)this + 0x1d0))
     {
-        FUN_0076a540();
+        TransitionToComputersMenu();
     }
 }
 
@@ -2399,7 +2399,8 @@ FORenderedMenu* __cdecl FUN_00707ad0();
 
 // Creates a computer menu tile, updates tile statics, and attaches it to a rendered terminal, creating a new FORenderedTerminal if none exists.
 // @fnv 0x0076a540
-void HackingMenu::FUN_0076a540()
+// src: EXE 0x0076a540
+void HackingMenu::TransitionToComputersMenu()
 {
     (*(Tile**)((char*)this + 4))->Set(0x1772, 1);
     ((MenuCloseOperation*)this)->FUN_00a1d910();

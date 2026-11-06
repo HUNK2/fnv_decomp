@@ -81,7 +81,8 @@ struct FUN_00456a60_class
 };
 
 // @fnv 0x005b9220
-bool FUN_005b9220()
+// src: EXE 0x005b9220
+bool Cmd_ToggleCollisionGeometry_Execute()
 {
     ((FUN_00456a60_class*)g_TES)->FUN_00456a60();
     return true;
@@ -95,7 +96,8 @@ struct FUN_00456a60_Class
 };
 // Sets DAT_012680fc to 1, calls FUN_00456a60 on g_TES, resets DAT_012680fc to 0 and returns 1.
 // @fnv 0x005b9240
-char __cdecl FUN_005b9240()
+// src: EXE 0x005b9240
+char __cdecl Cmd_ToggleMaterialGeometry_Execute()
 {
     DAT_012680fc = 1;
     ((FUN_00456a60_Class*)(int)g_TES)->FUN_00456a60();

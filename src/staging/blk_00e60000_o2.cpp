@@ -2330,7 +2330,8 @@ const char* __cdecl GetHResultName(long);
 void __cdecl FUN_00a29680(const char*, ...);
 // Locks a surface level, copies pixel rows from the source buffer (clamped to the surface height and pitch), then unlocks the surface.
 // @fnv 0x00e68150
-void __cdecl FUN_00e68150(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face)
+// src: EXE 0x00e68150
+void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(CopyPixels* pSourcePixels, unsigned level, CopySurface* surface, unsigned face)
 {
     CopyDesc desc;
     long hr = surface->GetDesc(&desc);
@@ -2950,7 +2951,7 @@ struct CubeMapSurface
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e68150(int a, unsigned int b, int c, int d);
+extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
 extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e68870_arg
@@ -3014,10 +3015,11 @@ struct FUN_00e68870_cls
     int unk70;
     int unk74;
     unsigned int m_78;
-    void __thiscall FUN_00e68870(FUN_00e68870_arg* a1);
+    void __thiscall NiDX9SourceTextureData_CopyDataToSurface(FUN_00e68870_arg* a1);
 };
 // @fnv 0x00e68870
-void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
+// src: EXE 0x00e68870
+void FUN_00e68870_cls::NiDX9SourceTextureData_CopyDataToSurface(FUN_00e68870_arg* apSourceData)
 {
     int out;
     if (m_64 == 0)
@@ -3046,7 +3048,7 @@ void FUN_00e68870_cls::FUN_00e68870(FUN_00e68870_arg* apSourceData)
                              GetHResultName(r));
                 return;
             }
-            FUN_00e68150(reinterpret_cast<int>(apSourceData), m_78 + i, out, 0);
+            NiDX9SourceTextureData_CopyDataToSurfaceLevel(reinterpret_cast<int>(apSourceData), m_78 + i, out, 0);
             reinterpret_cast<CubeMapSurface*>(out)->Release();
         } while (++i < m_68 - m_78);
     }
@@ -3081,7 +3083,7 @@ struct FUN_00e68920_Tex
     virtual long __stdcall unk44();
     virtual long __stdcall GetSurfaceLevel(unsigned int level, FUN_00e68920_Surface** ppSurf);
 };
-int __cdecl FUN_00e683d0(int a, int b, FUN_00e68920_Surface* c, int d);
+int __cdecl NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(int a, int b, FUN_00e68920_Surface* c, int d);
 int __cdecl GetHResultName(int hr);
 int __cdecl FUN_00a29680(const char* fmt, unsigned int level, int code);
 struct FUN_00e68920_cls
@@ -3117,11 +3119,12 @@ struct FUN_00e68920_cls
     unsigned int unk70;
     unsigned int unk74;
     unsigned int m_78;
-    void __thiscall FUN_00e68920(int a1);
+    void __thiscall NiDX9SourceTextureData_CopyRendererDataToSurface(int a1);
 };
 // Copies renderer data into each surface level of m_pTex from m_78 up to unk68, skipping null or type 4/5 textures and logging failed GetSurfaceLevel calls.
 // @fnv 0x00e68920
-void __thiscall FUN_00e68920_cls::FUN_00e68920(int a1)
+// src: EXE 0x00e68920
+void __thiscall FUN_00e68920_cls::NiDX9SourceTextureData_CopyRendererDataToSurface(int a1)
 {
     if (m_pTex == 0)
         return;
@@ -3143,7 +3146,7 @@ void __thiscall FUN_00e68920_cls::FUN_00e68920(int a1)
                          GetHResultName(hr));
             return;
         }
-        FUN_00e683d0(a1, m_78 + i, pSurface, 0);
+        NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(a1, m_78 + i, pSurface, 0);
         pSurface->Release();
         ++i;
     } while (i < (unsigned int)(unk68 - m_78));
@@ -3235,7 +3238,7 @@ struct TextureUpdate_00e689d0 : public NiDX9SourceCubeMapData_S
     unsigned int m_meta78;
     unsigned int m_revision7c;
     unsigned int m_state80;
-    void FUN_00e68870(CreatedTexture* result);
+    void NiDX9SourceTextureData_CopyDataToSurface(CreatedTexture* result);
     void UpdateTexture();
 };
 // @fnv 0x00e689d0
@@ -3266,7 +3269,7 @@ void TextureUpdate_00e689d0::UpdateTexture()
     CreatedTexture* result = FUN_00a76640()->Create(pixels, m_kPixelFormat, pixels, m_bHasTexture);
     m_revision7c = pixels->m_revision;
     if (unk08)
-        FUN_00e68870(result);
+        NiDX9SourceTextureData_CopyDataToSurface(result);
     if (result)
     {
         InterlockedIncrement(&result->m_uiRefCount);
@@ -10290,7 +10293,8 @@ struct TextureAccessor
 };
 // Copies one mip level of the given face from source into a locked surface, row by row when the source row size differs from the surface pitch.
 // @fnv 0x00e683d0
-void __cdecl FUN_00e683d0(TextureAccessor* source, unsigned int level, CopySurface* surface, unsigned int face)
+// src: EXE 0x00e683d0
+void __cdecl NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(TextureAccessor* source, unsigned int level, CopySurface* surface, unsigned int face)
 {
     CopyDesc desc;
     long result = surface->GetDesc(&desc);

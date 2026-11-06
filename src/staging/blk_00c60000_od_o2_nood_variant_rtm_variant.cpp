@@ -297,7 +297,7 @@ struct FUN_00c65210_class
 };
 void __cdecl FUN_0044adf0(NiStream& stream, const unsigned int& count);
 extern "C" void* __cdecl NiMalloc(unsigned int size);
-NiPSysCylinderEmitter* FUN_00c61e70();
+NiPSysCylinderEmitter* BSPSysArrayEmitter_CreateObject();
 extern "C" void* __cdecl NiMalloc(unsigned int);
 extern NiPoint3 _NiPoint3_ZERO;
 extern int _DAT_011f4270;
@@ -385,7 +385,7 @@ struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
     FUN_00c612b0_Class();
 };
 extern NiFixedString DAT_011f49e0;
-NiAVObject* __cdecl FUN_00c61510();
+NiAVObject* __cdecl BSWArray_CreateObject();
 struct FUN_00a7b330_shell
 {
     void FUN_00a7b330(void* a, void* b);
@@ -457,7 +457,7 @@ struct SpawnedObject_b9118
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9118* FUN_00c607d0();
+SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject();
 class C61330Base
 {
   public:

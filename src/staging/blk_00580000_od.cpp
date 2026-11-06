@@ -130,11 +130,12 @@ extern int DAT_01031fcc;
 struct FUN_00588fd0Class
 {
     void FUN_005891c0(int);
-    int* FUN_00588fd0(int a);
+    int* NiTMap_TESFile_TESWorldSpace_OFFSET_DATA_NiTMap(int a);
 };
 // Calls FUN_005891c0 with a, stores the address of DAT_01031fcc into this, and returns this.
 // @fnv 0x00588fd0
-int* FUN_00588fd0Class::FUN_00588fd0(int a)
+// src: EXE 0x00588fd0
+int* FUN_00588fd0Class::NiTMap_TESFile_TESWorldSpace_OFFSET_DATA_NiTMap(int a)
 {
     FUN_005891c0(a);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01031fcc);

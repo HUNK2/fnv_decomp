@@ -27,7 +27,8 @@ extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESO
                         ScriptLocals*, ...);
 
 // @fnv 0x005c6c80
-bool __cdecl FUN_005c6c80(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
+// src: EXE 0x005c6c80
+bool __cdecl Cmd_DuplicateNPCStats_Execute(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj,
                           TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result,
                           unsigned int& opcodeOffsetPtr)
 {
@@ -564,7 +565,8 @@ extern char DAT_011841cc;
 extern char DAT_011846d4;
 
 // @fnv 0x005c98e0
-bool __cdecl FUN_005c98e0(const ScriptParameter* apParameters, const char* apCompiledParams,
+// src: EXE 0x005c98e0
+bool __cdecl Cmd_StopLook_Execute(const ScriptParameter* apParameters, const char* apCompiledParams,
                           TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript,
                           ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {

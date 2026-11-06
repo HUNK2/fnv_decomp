@@ -273,17 +273,18 @@ bool __thiscall BSTreeNode::SetFrondVisible(bool abVisible)
 
 struct FUN_0066d3d0_shell
 {
-    void __thiscall FUN_0066d3d0(void*);
+    void __thiscall bhkPCollisionObject_bhkPCollisionObject(void*);
 };
 extern int DAT_01066acc;
 struct FUN_0066d3a0_shell
 {
-    void* __thiscall FUN_0066d3a0(void*);
+    void* __thiscall bhkSPCollisionObject_bhkSPCollisionObject(void*);
 };
 // @fnv 0x0066d3a0
-void* __thiscall FUN_0066d3a0_shell::FUN_0066d3a0(void* arg)
+// src: EXE 0x0066d3a0
+void* __thiscall FUN_0066d3a0_shell::bhkSPCollisionObject_bhkSPCollisionObject(void* arg)
 {
-    reinterpret_cast<FUN_0066d3d0_shell*>(this)->FUN_0066d3d0(arg);
+    reinterpret_cast<FUN_0066d3d0_shell*>(this)->bhkPCollisionObject_bhkPCollisionObject(arg);
     *reinterpret_cast<void**>(this) = &DAT_01066acc;
     return this;
 }
@@ -298,12 +299,13 @@ extern void* DAT_01066b94;
 struct FUN_0066d3d0_shell
 {
     void* m0;
-    void* __thiscall FUN_0066d3d0(unsigned int a);
+    void* __thiscall bhkPCollisionObject_bhkPCollisionObject(unsigned int a);
 };
 
 // Calls FUN_00c6b950 with a, then sets m0 to point at DAT_01066b94 and returns this.
 // @fnv 0x0066d3d0
-void* __thiscall FUN_0066d3d0_shell::FUN_0066d3d0(unsigned int a)
+// src: EXE 0x0066d3d0
+void* __thiscall FUN_0066d3d0_shell::bhkPCollisionObject_bhkPCollisionObject(unsigned int a)
 {
     ((FUN_00c6b950_shell*)this)->FUN_00c6b950(a);
     m0 = &DAT_01066b94;

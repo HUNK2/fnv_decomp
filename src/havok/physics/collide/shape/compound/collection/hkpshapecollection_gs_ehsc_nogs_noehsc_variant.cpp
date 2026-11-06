@@ -142,10 +142,11 @@ extern char DAT_010c41f8;
 class CollectionAabb : public hkpShapeCollection
 {
   public:
-    void FUN_00d215d0(const hkTransform& transform, float tolerance, Aabb& out) const;
+    void hkpShapeCollection_getAabb(const hkTransform& transform, float tolerance, Aabb& out) const;
 };
 // @fnv 0x00d215d0
-void CollectionAabb::FUN_00d215d0(const hkTransform& transform, float tolerance, Aabb& out) const
+// src: EXE 0x00d215d0
+void CollectionAabb::hkpShapeCollection_getAabb(const hkTransform& transform, float tolerance, Aabb& out) const
 {
     hkMonitorStream* stream = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     char* event = stream->m_end.m_storage;

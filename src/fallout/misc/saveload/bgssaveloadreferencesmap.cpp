@@ -238,8 +238,8 @@ void __cdecl FUN_0084e930(void*, int, Info2e40*);
 TESObjectCELL* __cdecl ResolveReferenceForm(unsigned int, Info2e40*, bool);
 struct Forms2e40
 {
-    void FUN_00843750(TESObjectCELL*, unsigned int, bool);
-    void FUN_008438b0(TESWorldSpace*, int, int, unsigned int, bool);
+    void BGSReconstructFormsInAllFilesMap_AddReference(TESObjectCELL*, unsigned int, bool);
+    void BGSReconstructFormsInAllFilesMap_AddReference_008438b0(TESWorldSpace*, int, int, unsigned int, bool);
 };
 struct Target2e40
 {
@@ -281,9 +281,9 @@ void Target2e40::FUN_00852e40(unsigned int uiRefID, Forms2e40* forms)
             if (changeInfo.FUN_0084e6a0(&interior, &world))
             {
                 if (interior)
-                    forms->FUN_00843750(interior, uiRefID, false);
+                    forms->BGSReconstructFormsInAllFilesMap_AddReference(interior, uiRefID, false);
                 else
-                    forms->FUN_008438b0(world, changeInfo.x, changeInfo.y, uiRefID, false);
+                    forms->BGSReconstructFormsInAllFilesMap_AddReference_008438b0(world, changeInfo.x, changeInfo.y, uiRefID, false);
             }
             else
             {

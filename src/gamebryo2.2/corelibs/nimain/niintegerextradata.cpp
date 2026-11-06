@@ -41,7 +41,8 @@ void __fastcall DestroyIntegerExtraData(NiIntegerExtraData* data)
 }
 
 // @fnv 0x00a99cd0
-NiExtraData* FUN_00a99cd0()
+// src: EXE 0x00a99cd0
+NiExtraData* NiIntegerExtraData_CreateObject()
 {
     NiExtraData* pExtraData = static_cast<NiExtraData*>(BSFadeNode::operator new(0x10));
     if (pExtraData)

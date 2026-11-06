@@ -75,7 +75,7 @@ class BSFadeNode : public NiNode
     int FUN_004b9900(int flags);
     void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
     void FUN_00c31af0();
-    BSFadeNode* FUN_00c1b5c0();
+    BSFadeNode* NiParticleSystem_00c1b5c0();
     void* FUN_00a94ce0();
     void* FUN_00c32d80();
     void FUN_00a744a0();

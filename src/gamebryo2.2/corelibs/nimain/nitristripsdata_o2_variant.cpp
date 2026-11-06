@@ -12,7 +12,8 @@ extern const void* DAT_0109d8ac;
 NiTriBasedGeomData* __fastcall InitializeTriBasedGeomData(NiTriBasedGeomData* p);
 
 // @fnv 0x00a75e20
-NiTriStripsData* __fastcall FUN_00a75e20(NiTriStripsData* self)
+// src: EXE 0x00a75e20
+NiTriStripsData* __fastcall NiTriStripsData_NiTriStripsData(NiTriStripsData* self)
 {
     InitializeTriBasedGeomData(self);
     unsigned int v = 0;
@@ -399,7 +400,8 @@ NiTriStripsData::~NiTriStripsData()
 }
 
 // @fnv 0x00a75ec0
-NiTriBasedGeomData* __fastcall FUN_00a75ec0(NiTriBasedGeomData*)
+// src: EXE 0x00a75ec0
+NiTriBasedGeomData* __fastcall NiTriStripsData_CreateObject(NiTriBasedGeomData*)
 {
     NiTriStripsData* p = (NiTriStripsData*)BSFadeNode::operator new(sizeof(NiTriStripsData));
     if (p)

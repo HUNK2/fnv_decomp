@@ -367,7 +367,8 @@ extern const void* DAT_010c14a8;
 MessageHandler* MessageHandler::pHandler;
 // Calls FUN_00aa4c60, sets the vtable to DAT_010c14a8, stores b in bStatic, sets MessageHandler::pHandler to this and returns this.
 // @fnv 0x00c3bcf0
-MessageHandler* __thiscall MessageHandler::FUN_00c3bcf0(bool abStatic)
+// src: EXE 0x00c3bcf0
+MessageHandler* __thiscall MessageHandler::MessageHandler_00c3bcf0(bool abStatic)
 {
     FUN_00aa4c60();
     *(const void**)this = &DAT_010c14a8;
@@ -625,30 +626,30 @@ struct FUN_00c61b10;
 typedef NiObject*(__cdecl* PFN_NiObjectLoader)(void);
 
 
-NiObject* __cdecl FUN_00c64810();
-NiObject* __cdecl FUN_00c649f0();
-NiObject* __cdecl FUN_00c537f0();
-NiObject* __cdecl FUN_00c55010();
-NiObject* __cdecl FUN_00c43190();
+NiObject* __cdecl BSReference_CreateObject();
+NiObject* __cdecl BSNodeReferences_CreateObject();
+NiObject* __cdecl NiBSBoneLODController_CreateObject();
+NiObject* __cdecl BSBound_CreateObject();
+NiObject* __cdecl BSXFlags_CreateObject();
 NiObject* __cdecl CreateNamedNode();
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 NiObject* __cdecl CreatePositionModifierObject();
-NiObject* __cdecl FUN_00c54210();
-FUN_00c61b10* __cdecl FUN_00c61e70();
-NiObject* __cdecl FUN_00c61510();
-NiObject* __cdecl FUN_00c4b0c0();
-NiObject* __cdecl FUN_00c4ac00();
-NiObject* __cdecl FUN_00c43a30();
-NiObject* __cdecl FUN_00c5cbb0();
-NiObject* __cdecl FUN_00c5e5a0();
-NiObject* __cdecl FUN_00c361a0();
+NiObject* __cdecl BSFurnitureMarker_CreateObject();
+FUN_00c61b10* __cdecl BSPSysArrayEmitter_CreateObject();
+NiObject* __cdecl BSWArray_CreateObject();
+NiObject* __cdecl BSDamageStage_CreateObject();
+NiObject* __cdecl BSBlastNode_CreateObject();
+NiObject* __cdecl BSValueNode_CreateObject();
+NiObject* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
+NiObject* __cdecl BSMasterParticleSystem_CreateObject();
+NiObject* __cdecl BSMultiBound_CreateObject();
 NiObject* __cdecl CreateNewObject();
 NiObject* __cdecl CreateNewBodyCls();
 NiObject* __cdecl CreateBC36500Object();
-NiObject* __cdecl FUN_00c610a0();
-FUN_00c4fb10_shell* __cdecl FUN_00c4fdb0();
-NiObject* __cdecl FUN_00c607d0();
-NiObject* __cdecl FUN_00c4ae60();
+NiObject* __cdecl BSMultiBoundCapsule_CreateObject();
+FUN_00c4fb10_shell* __cdecl BSMultiBoundSphere_CreateObject();
+NiObject* __cdecl BSPSysSimpleColorModifier_CreateObject();
+NiObject* __cdecl BSDebrisNode_CreateObject();
 NiObject* __cdecl CreatePositionModifierInstance();
 
 extern char const g_012043dc_arg0[];
@@ -680,30 +681,30 @@ extern char const g_01204388_arg0[];
 // @fnv 0x00c3a6d0
 void FUN_00c3a6d0()
 {
-    NiStream::RegisterObjectLoader(g_012043dc_arg0, FUN_00c64810);
-    NiStream::RegisterObjectLoader(g_012043e4_arg0, FUN_00c649f0);
-    NiStream::RegisterObjectLoader(g_012031b8_arg0, FUN_00c537f0);
-    NiStream::RegisterObjectLoader(g_012031e8_arg0, FUN_00c55010);
-    NiStream::RegisterObjectLoader(g_01202de0_arg0, FUN_00c43190);
+    NiStream::RegisterObjectLoader(g_012043dc_arg0, BSReference_CreateObject);
+    NiStream::RegisterObjectLoader(g_012043e4_arg0, BSNodeReferences_CreateObject);
+    NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
+    NiStream::RegisterObjectLoader(g_012031e8_arg0, BSBound_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202de0_arg0, BSXFlags_CreateObject);
     NiStream::RegisterObjectLoader(g_012043d4_arg0, CreateNamedNode);
-    NiStream::RegisterObjectLoader(g_01202e60_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c46740));
+    NiStream::RegisterObjectLoader(g_01202e60_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSWindModifier_CreateObject));
     NiStream::RegisterObjectLoader(g_012043c8_arg0, CreatePositionModifierObject);
-    NiStream::RegisterObjectLoader(g_012031c4_arg0, FUN_00c54210);
-    NiStream::RegisterObjectLoader(g_012043b0_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c61e70));
-    NiStream::RegisterObjectLoader(g_012043a4_arg0, FUN_00c61510);
-    NiStream::RegisterObjectLoader(g_01202e8c_arg0, FUN_00c4b0c0);
-    NiStream::RegisterObjectLoader(g_01202e7c_arg0, FUN_00c4ac00);
-    NiStream::RegisterObjectLoader(g_01202de8_arg0, FUN_00c43a30);
-    NiStream::RegisterObjectLoader(g_01203340_arg0, FUN_00c5cbb0);
-    NiStream::RegisterObjectLoader(g_0120436c_arg0, FUN_00c5e5a0);
-    NiStream::RegisterObjectLoader(g_01202810_arg0, FUN_00c361a0);
+    NiStream::RegisterObjectLoader(g_012031c4_arg0, BSFurnitureMarker_CreateObject);
+    NiStream::RegisterObjectLoader(g_012043b0_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSPSysArrayEmitter_CreateObject));
+    NiStream::RegisterObjectLoader(g_012043a4_arg0, BSWArray_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e8c_arg0, BSDamageStage_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e7c_arg0, BSBlastNode_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202de8_arg0, BSValueNode_CreateObject);
+    NiStream::RegisterObjectLoader(g_01203340_arg0, BSPSysMultiTargetEmitterCtlr_CreateObject);
+    NiStream::RegisterObjectLoader(g_0120436c_arg0, BSMasterParticleSystem_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202810_arg0, BSMultiBound_CreateObject);
     NiStream::RegisterObjectLoader(g_01202e74_arg0, CreateNewObject);
     NiStream::RegisterObjectLoader(g_01202820_arg0, CreateNewBodyCls);
     NiStream::RegisterObjectLoader(g_01202818_arg0, CreateBC36500Object);
-    NiStream::RegisterObjectLoader(g_01204398_arg0, FUN_00c610a0);
-    NiStream::RegisterObjectLoader(g_01203108_arg0, reinterpret_cast<PFN_NiObjectLoader>(FUN_00c4fdb0));
-    NiStream::RegisterObjectLoader(g_01204390_arg0, FUN_00c607d0);
-    NiStream::RegisterObjectLoader(g_01202e84_arg0, FUN_00c4ae60);
+    NiStream::RegisterObjectLoader(g_01204398_arg0, BSMultiBoundCapsule_CreateObject);
+    NiStream::RegisterObjectLoader(g_01203108_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSMultiBoundSphere_CreateObject));
+    NiStream::RegisterObjectLoader(g_01204390_arg0, BSPSysSimpleColorModifier_CreateObject);
+    NiStream::RegisterObjectLoader(g_01202e84_arg0, BSDebrisNode_CreateObject);
     NiStream::RegisterObjectLoader(g_01204388_arg0, CreatePositionModifierInstance);
 }
 

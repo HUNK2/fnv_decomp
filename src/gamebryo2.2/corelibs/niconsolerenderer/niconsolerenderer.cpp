@@ -4510,14 +4510,15 @@ public:
     FUN_00e6de70_D* m_288;
     char unk028c[0x6f5 - 0x28c];
     unsigned char m_6f5;
-    bool __thiscall FUN_00e6de70(FUN_00e6de70_A* a1);
+    bool __thiscall NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1);
 };
 
 const char* __cdecl GetHResultName(int code);
 void __cdecl FUN_00a29680(const char* fmt, const char* text);
 
 // @fnv 0x00e6de70
-bool __thiscall FUN_00e6de70_cls::FUN_00e6de70(FUN_00e6de70_A* a1)
+// src: EXE 0x00e6de70
+bool __thiscall FUN_00e6de70_cls::NiDX9Renderer_UnLockDynamicTexture(FUN_00e6de70_A* a1)
 {
     if (a1 == 0) {
         return false;
@@ -18887,10 +18888,11 @@ public:
     TargetX* m_pDefaultRenderTargetGroup;
     TargetX* m_pCurrentRenderTargetGroup;
     TargetX* m_pkCurrOnscreenRenderTargetGroup;
-    bool FUN_00e6eea0(TargetX* pkTarget, unsigned int uiClearMode);
+    bool NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigned int uiClearMode);
 };
 // @fnv 0x00e6eea0
-bool RendX::FUN_00e6eea0(TargetX* pkTarget, unsigned int uiClearMode)
+// src: EXE 0x00e6eea0
+bool RendX::NiDX9Renderer_BeginUsingRenderTargetGroup(TargetX* pkTarget, unsigned int uiClearMode)
 {
     if (!m_bDeviceLost) {
     FUN_00e7cc50((int*)m_pDirect3DDevice, 1);
@@ -18952,11 +18954,12 @@ public:
     DevX* m_pDirect3DDevice;
     char pad2[0x6fc - 0x28c];
     bool m_bDeviceLost;
-    bool FUN_00e6f6e0(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
+    bool NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY);
 };
 // Copies a source surface to a destination surface via StretchRect, validating device, renderer data, pixel formats, and surfaces.
 // @fnv 0x00e6f6e0
-bool RendX::FUN_00e6f6e0(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY)
+// src: EXE 0x00e6f6e0
+bool RendX::NiDX9Renderer_FastCopy(const BufX* pkSrc, BufX* pkDest, const RectUX* pkSrcRect, unsigned int uiDestX, unsigned int uiDestY)
 {
     if (m_bDeviceLost)
         return false;
@@ -28110,7 +28113,7 @@ struct InitObject {
  virtual void slot17();
  virtual void slot18();
  virtual void Initialize();
- InitObject* FUN_00e909e0();
+ InitObject* NiDX9ErrorShader_NiDX9ErrorShader();
 };
 
 struct InitPoint { float x,y,z; };
@@ -29044,7 +29047,7 @@ bool InitRenderer::FUN_00e72e60(unsigned width,unsigned height,unsigned options,
  currentState=0; activeState=0;
  NiShaderFactory::GetInstance();
  InitObject* objectMem=(InitObject*)FUN_00aa13e0(0x40);
- InitObject* object=objectMem ? objectMem->FUN_00e909e0() : 0;
+ InitObject* object=objectMem ? objectMem->NiDX9ErrorShader_NiDX9ErrorShader() : 0;
  object->Initialize();
  AssignRefObject(object);
  return true;

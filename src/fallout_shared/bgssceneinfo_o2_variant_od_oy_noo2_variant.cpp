@@ -43,7 +43,7 @@ unsigned char __cdecl FUN_004a82c0();
 int __cdecl MinInt(int iA, int iB);
 struct FUN_004a8f50_shell
 {
-    void FUN_004a95d0(int a);
+    void NiTMap_NiTexture_TEX_USER_DATA_NiTMap(int a);
     void* FUN_004a8f50();
 };
 struct GlobalObject2_0040c150

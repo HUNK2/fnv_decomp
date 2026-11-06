@@ -783,7 +783,8 @@ struct FUN_00c61b10
 };
 // Allocates and constructs a new FUN_00c61b10 object, returning the pointer.
 // @fnv 0x00c61e70
-FUN_00c61b10* FUN_00c61e70()
+// src: EXE 0x00c61e70
+FUN_00c61b10* BSPSysArrayEmitter_CreateObject()
 {
     return new FUN_00c61b10;
 }
@@ -1013,7 +1014,8 @@ extern NiFixedString DAT_011f49e0;
 
 // Allocates a FUN_00c612b0_Class object, sets its name to DAT_011f49e0, and returns it as an NiAVObject.
 // @fnv 0x00c61510
-NiAVObject* __cdecl FUN_00c61510()
+// src: EXE 0x00c61510
+NiAVObject* __cdecl BSWArray_CreateObject()
 {
     NiAVObject* object = reinterpret_cast<NiAVObject*>(new FUN_00c612b0_Class);
     object->SetName(DAT_011f49e0);
@@ -1244,7 +1246,8 @@ struct SpawnedObject_b9118
 
 // Allocates and constructs a SpawnedObject_b9118 via its custom operator new and returns the pointer.
 // @fnv 0x00c607d0
-SpawnedObject_b9118* FUN_00c607d0()
+// src: EXE 0x00c607d0
+SpawnedObject_b9118* BSPSysSimpleColorModifier_CreateObject()
 {
     SpawnedObject_b9118* result = new SpawnedObject_b9118();
     return result;

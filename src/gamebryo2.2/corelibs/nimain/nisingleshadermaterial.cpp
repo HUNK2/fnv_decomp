@@ -72,7 +72,8 @@ extern int DAT_010a21dc;
 void InitializeMaterial();
 
 // @fnv 0x00aa06f0
-NiSingleShaderMaterial* NiSingleShaderMaterial::FUN_00aa06f0(void* arg1, char const* apcString, bool abCreateShader)
+// src: EXE 0x00aa06f0
+NiSingleShaderMaterial* NiSingleShaderMaterial::NiSingleShaderMaterial_00aa06f0(void* arg1, char const* apcString, bool abCreateShader)
 {
     typedef void (__thiscall* InitializeMaterialEntry)(NiMaterial*, void*);
     reinterpret_cast<InitializeMaterialEntry>(InitializeMaterial)(this, arg1);

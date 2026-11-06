@@ -947,7 +947,8 @@ namespace fnv_00e916d0 {
 extern int DAT_010f099c;
 
 // @fnv 0x00e916d0
-void* FUN_00e916d0()
+// src: EXE 0x00e916d0
+void* NiPersistentSrcTextureRendererData_CreateObject_00e916d0()
 {
     BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x94);
     if (p)
@@ -1441,7 +1442,7 @@ struct RTD_Obj : FUN_00e8a260
     {
         *(void**)this = &DAT_010f02fc;
     }
-    int FUN_00e8fe10(unsigned int, unsigned int);
+    int NiDX9RenderedTextureData_CreateSurf(unsigned int, unsigned int);
 };
 typedef void(__thiscall* RTD_DelFn)(void*, unsigned int);
 typedef RTD_Tex*(__thiscall* RTD_TexFn)(void*);
@@ -1452,7 +1453,7 @@ typedef void*(__thiscall* RTD_BufFn)(void*);
 void* __cdecl CreateRenderedTextureData(unsigned int a1, unsigned int a2, unsigned int a3)
 {
     RTD_Obj* p = new RTD_Obj(a1, a2);
-    if (!p->FUN_00e8fe10(a1, a3))
+    if (!p->NiDX9RenderedTextureData_CreateSurf(a1, a3))
     {
         if (p)
             (*(RTD_DelFn**)p)[0](p, 1);
@@ -1980,7 +1981,7 @@ struct TexOwner
 struct TexRecord
 {
     void** m_ppVirtualMethodTable;
-    int FUN_00e90340(TexOwner* owner, unsigned int flag);
+    int CreateSurf_00e90340(TexOwner* owner, unsigned int flag);
     unsigned int _04;
     TexHolder* m_08;
     char _0c[0x60];
@@ -2023,7 +2024,7 @@ TexRecord* __cdecl CreateDynamicTexture(TexOwner* owner)
 
     volatile unsigned char ucDeviceFlag = dev->m_6f5;
 
-    if (pRecord->FUN_00e90340(owner, *(volatile unsigned int*)&ucDeviceFlag) == 0)
+    if (pRecord->CreateSurf_00e90340(owner, *(volatile unsigned int*)&ucDeviceFlag) == 0)
     {
         if (pRecord != 0)
         {
@@ -2063,7 +2064,7 @@ struct FUN_00e909e0_cls
     void FUN_00e818a0();
     void InitErrorShaderPass();
     void AssignFixedString(void** out);
-    FUN_00e909e0_cls* FUN_00e909e0();
+    FUN_00e909e0_cls* NiDX9ErrorShader_NiDX9ErrorShader();
 };
 
 extern int DAT_0109b220;
@@ -2071,7 +2072,8 @@ extern int DAT_010f0764;
 extern void* __cdecl FUN_00a5b690(const char* s);
 
 // @fnv 0x00e909e0
-FUN_00e909e0_cls* FUN_00e909e0_cls::FUN_00e909e0()
+// src: EXE 0x00e909e0
+FUN_00e909e0_cls* FUN_00e909e0_cls::NiDX9ErrorShader_NiDX9ErrorShader()
 {
     FUN_00e818a0();
     m_24 = 0;
@@ -5507,11 +5509,12 @@ struct OwnerProxy
     IDirect3DTexture9* texture;
     int unk68;
     IDirect3DSurface9* surface;
-    PixelProxy* FUN_00e8fe10(TextureProxy*, int);
+    PixelProxy* NiDX9RenderedTextureData_CreateSurf(TextureProxy*, int);
 };
 // Creates a D3D texture and optional render target from source dimensions and format, storing the result in texture and surface.
 // @fnv 0x00e8fe10
-PixelProxy* OwnerProxy::FUN_00e8fe10(TextureProxy* source, int multisample)
+// src: EXE 0x00e8fe10
+PixelProxy* OwnerProxy::NiDX9RenderedTextureData_CreateSurf(TextureProxy* source, int multisample)
 {
     if (!source)
         return 0;
@@ -5658,7 +5661,8 @@ const char* __cdecl GetD3DErrorString(long hr);
 void __cdecl NiOutputDebugStringStandIn(const char* pcFormat, ...);
 
 // @fnv 0x00e90340
-const NiPixelFormatStandIn* NiDX9DynamicTextureData::FUN_00e90340(DynamicTextureStandIn* pkTexture, bool bDynamic)
+// src: EXE 0x00e90340
+const NiPixelFormatStandIn* NiDX9DynamicTextureData::CreateSurf_00e90340(DynamicTextureStandIn* pkTexture, bool bDynamic)
 {
     if (!pkTexture)
         return 0;
@@ -6847,9 +6851,9 @@ struct FnvOutput : SourceTextureConstruction::FUN_00e8a260
     bool LoadFromFilename(int kind, FnvDevice*, const SourcePixelFormat*, unsigned);
     void* FUN_00e8a300(const SourcePixelFormat*, const SourcePixelFormat*, void*);
     void CreateTextureFromInput(FnvResource*, int);
-    void FUN_00e68920(FnvResource*);
+    void NiDX9SourceTextureData_CopyRendererDataToSurface(FnvResource*);
     void FUN_00e68010(FnvResource*);
-    void FUN_00e68870(FnvResource*);
+    void NiDX9SourceTextureData_CopyDataToSurface(FnvResource*);
 };
 static bool FnvIsPowerOfTwo(unsigned value)
 {
@@ -7021,7 +7025,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         if (!output->m_64)
             output->CreateTextureFromInput(existing, texture);
         if (output->m_64)
-            output->FUN_00e68920(existing);
+            output->NiDX9SourceTextureData_CopyRendererDataToSurface(existing);
     }
     else
     {
@@ -7043,7 +7047,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         if (!output->m_64)
             output->FUN_00e68010(chosen);
         if (output->m_64)
-            output->FUN_00e68870(chosen);
+            output->NiDX9SourceTextureData_CopyDataToSurface(chosen);
         output->m_68 = reinterpret_cast<CachedFields*>(chosen)->mipLevels;
         FnvResource* secondary = reinterpret_cast<CachedFields*>(cached)->secondary;
         if (secondary)

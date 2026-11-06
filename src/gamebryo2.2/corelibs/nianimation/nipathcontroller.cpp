@@ -159,7 +159,8 @@ extern float DAT_01012054;
 
 // Allocates a NiPathController, constructs its base, and initializes its fields; returns null on allocation failure.
 // @fnv 0x00a4b270
-NiPathController* __cdecl FUN_00a4b270() throw()
+// src: EXE 0x00a4b270
+NiPathController* __cdecl NiPathController_CreateObject() throw()
 {
     NiPathController* p = (NiPathController*)FUN_00aa13e0(0x64);
     if (p != 0)

@@ -25,7 +25,8 @@ void* __cdecl FUN_00a42e80()
 extern int DAT_0109780c;
 
 // @fnv 0x00a42ee0
-void* __cdecl FUN_00a42ee0()
+// src: EXE 0x00a42ee0
+void* __cdecl BSFrustumFOVController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x38);
     if (p)

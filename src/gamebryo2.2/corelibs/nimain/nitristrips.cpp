@@ -92,7 +92,8 @@ char const* const* __cdecl FUN_00a71d20()
 
 // Allocates 0xc4 bytes, constructs a NiGeometry in place, sets its vtable to NiParticleMeshes::vftable, and returns the pointer or 0 on failure.
 // @fnv 0x00a9b150
-void* __cdecl FUN_00a9b150()
+// src: EXE 0x00a9b150
+void* __cdecl NiParticles_CreateObject()
 {
     void* pObject = BSFadeNode::operator new(0xc4);
     if (pObject)

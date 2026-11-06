@@ -98,7 +98,8 @@ struct FUN_00a57f20_shell
 };
 
 // @fnv 0x00a50840
-void* __cdecl FUN_00a50840()
+// src: EXE 0x00a50840
+void* __cdecl NiBSplinePoint3Interpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x2c);
     if (p)

@@ -135,7 +135,7 @@ bool Script::IsConsolePlatform()
 // @fnv 0x006ebc50
 void __fastcall ProcessPendingTasks(ScriptLocals* locals)
 {
-    locals->m_pOwnerScript->FUN_006eae40();
+    locals->m_pOwnerScript->PathManagerImpl_Update();
 }
 
 // @fnv 0x005ab7d0
@@ -2174,7 +2174,7 @@ ScriptReferencedObject::ScriptReferencedObject(ScriptReferencedObject* src)
 
 void FUN_005acc70(const unsigned int*, double*);
 ScriptFunctionInfo* FUN_005b1120(int);
-void FUN_005accb0(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
+void Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*,
                   ScriptLocals*);
 void FUN_00401460(void*, const void*, unsigned int);
 // @fnv 0x005ac7a0
@@ -2335,7 +2335,7 @@ bool ReadScriptValue(double* value, const char* data, unsigned int* offset, TESO
             if (skip)
             {
                 if (k)
-                    FUN_005accb0(k, data, offset, ba, container, script, locals);
+                    Script_ParseParameters(k, data, offset, ba, container, script, locals);
             }
             else
             {
@@ -2379,7 +2379,8 @@ extern const char extractUnimplemented[];
 bool ReadScriptValue(double*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*,
                      bool);
 // @fnv 0x005accb0
-bool __cdecl FUN_005accb0(const ExtractParameter* parameters, const char* data, unsigned int* offset,
+// src: EXE 0x005accb0
+bool __cdecl Script_ParseParameters(const ExtractParameter* parameters, const char* data, unsigned int* offset,
                           TESObjectREFR* reference, TESObjectREFR* container, Script* script,
                           ScriptLocals* locals, ...)
 {

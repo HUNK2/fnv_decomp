@@ -39,7 +39,8 @@ void __fastcall FUN_00a36890(void* pThis);
 extern int DAT_0109a67c;
 
 // @fnv 0x00a565c0
-void* __cdecl FUN_00a565c0()
+// src: EXE 0x00a565c0
+void* __cdecl NiBlendBoolInterpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x34);
     if (p)

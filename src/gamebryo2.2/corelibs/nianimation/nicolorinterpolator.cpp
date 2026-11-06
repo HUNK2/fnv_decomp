@@ -172,7 +172,8 @@ extern int DAT_011a9434;
 extern int DAT_011a9438;
 extern int DAT_011a943c;
 // @fnv 0x00a3c130
-NiColorInterpolator* FUN_00a3c130()
+// src: EXE 0x00a3c130
+NiColorInterpolator* NiColorInterpolator_CreateObject()
 {
     NiColorInterpolator* p = (NiColorInterpolator*)NiColorInterpolator::operator new(0x24);
     if (p)

@@ -1837,7 +1837,7 @@ struct MotorObject {
     float value40;
     float value44;
     void FUN_00d2b260(void*, int);
-    MotorObject* FUN_00e444c0();
+    MotorObject* hkpReorientAction_hkpReorientAction();
 };
 struct LoadedFlag { int finishing; };
 extern "C" int DAT_010ec004;

@@ -267,7 +267,7 @@ struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
         f14 = 0;
     }
 };
-void* FUN_00c9f5a0();
+void* bhkAabbPhantom_CreateObject();
 struct FUN_00c877b0
 {
     virtual ~FUN_00c877b0();
@@ -1869,7 +1869,7 @@ class NiControllerC9E : public NiObject
   public:
     NiControllerC9E();
 
-    static NiObject* FUN_00c9ef30();
+    static NiObject* bhkSimpleShapePhantom_CreateObject();
 
     unsigned int m_uiRefCount;
     int unk08;
@@ -2010,7 +2010,7 @@ struct ObjectCA06
     int unk10;
     ObjectCA06();
 };
-ObjectCA06* __cdecl FUN_00ca06d0();
+ObjectCA06* __cdecl bhkSphereShape_CreateObject();
 extern const char* DAT_01268288;
 struct FUN_00ca0ac0_class : SphereShape
 {

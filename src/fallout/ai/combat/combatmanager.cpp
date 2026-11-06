@@ -1399,10 +1399,11 @@ extern const char UNK_0108dab0[];
 void __cdecl FUN_005b5e40(const char*, unsigned int, unsigned int);
 struct FUN_00991f80_shell : CombatManager
 {
-    FUN_00985d10* FUN_00991f80(Actor* actor);
+    FUN_00985d10* CombatManager_SplitPlayerCombatGroup(Actor* actor);
 };
 // @fnv 0x00991f80
-FUN_00985d10* FUN_00991f80_shell::FUN_00991f80(Actor* apActor)
+// src: EXE 0x00991f80
+FUN_00985d10* FUN_00991f80_shell::CombatManager_SplitPlayerCombatGroup(Actor* apActor)
 {
     ActorCombatGroup* pGroup = g_thePlayer->GetCombatGroup();
     reinterpret_cast<void (__thiscall*)(ActorCombatGroup*, Actor*)>(&ActorCombatGroup_RemoveActor)(pGroup, apActor);

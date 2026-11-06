@@ -847,7 +847,8 @@ extern int DAT_0126830c;
 
 // Allocates and constructs a new bhkConstraint, returning the pointer.
 // @fnv 0x00ca99f0
-bhkConstraint* FUN_00ca99f0()
+// src: EXE 0x00ca99f0
+bhkConstraint* bhkMalleableConstraint_CreateObject()
 {
     bhkConstraint* constraint = (bhkConstraint*)
         bhkConstraint::operator new(sizeof(bhkConstraint));
@@ -879,7 +880,8 @@ extern int DAT_01268318;
 
 // Allocates and constructs a new bhkConstraint object, returning the pointer.
 // @fnv 0x00caa1c0
-bhkConstraint* __cdecl FUN_00caa1c0()
+// src: EXE 0x00caa1c0
+bhkConstraint* __cdecl bhkLimitedHingeConstraint_CreateObject()
 {
     bhkConstraint* constraint = (bhkConstraint*)
         bhkConstraint::operator new(sizeof(bhkConstraint));
@@ -1113,7 +1115,8 @@ extern int DAT_01268434;
 
 // Allocates and constructs a new bhkConstraint object, returning the pointer.
 // @fnv 0x00cbdae0
-bhkConstraint* __cdecl FUN_00cbdae0()
+// src: EXE 0x00cbdae0
+bhkConstraint* __cdecl bhkHingeConstraint_CreateObject()
 {
     bhkConstraint* constraint = (bhkConstraint*)
         bhkConstraint::operator new(sizeof(bhkConstraint));
@@ -3074,7 +3077,8 @@ struct SpawnedObject : public ChainB_cls
 
 // Allocates and constructs a SpawnedObject, returning the new instance.
 // @fnv 0x00ca6670
-SpawnedObject* FUN_00ca6670()
+// src: EXE 0x00ca6670
+SpawnedObject* bhkNiTriStripsShape_CreateObject()
 {
     return new SpawnedObject();
 }
@@ -11400,7 +11404,8 @@ struct S00cb84f0_Obj : FUN_00c87c30
 
 // Allocates a new S00cb84f0_Obj instance and returns its pointer, or null if allocation fails.
 // @fnv 0x00cb84f0
-void* __cdecl FUN_00cb84f0()
+// src: EXE 0x00cb84f0
+void* __cdecl bhkOrientHingedBodyAction_CreateObject()
 {
     S00cb84f0_Obj* p = new S00cb84f0_Obj;
     if (p)

@@ -212,7 +212,8 @@ extern bool DAT_011de958;
 extern __declspec(thread) bool bCollecting;
 
 // @fnv 0x00868d70
-void FUN_00868d70(bool abTryLock)
+// src: EXE 0x00868d70
+void GarbageCollector_ClearAll(bool abTryLock)
 {
     if (DAT_011de958)
         return;
@@ -447,7 +448,8 @@ void __cdecl FUN_00868770(int* a, int b)
 
 // Adds a temporary-effect pointer to the active or deferred garbage queue.
 // @fnv 0x00868490
-void __cdecl FUN_00868490(int aiEffect)
+// src: EXE 0x00868490
+void __cdecl GarbageCollector_Add(int aiEffect)
 {
     TwoPointerRecord e(0x10, "GarbageCollector::Add(BSTempEffect)");
     if (DAT_tlsFlag)
@@ -465,7 +467,8 @@ void __cdecl FUN_00868490(int aiEffect)
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // @fnv 0x00868560
-void __cdecl FUN_00868560(GarbageCollectorDeleteB* apObject)
+// src: EXE 0x00868560
+void __cdecl GarbageCollector_Add_00868560(GarbageCollectorDeleteB* apObject)
 {
     TwoPointerRecord autoEvent(4, "GarbageCollector::Add(BipedAnim)");
 
@@ -489,7 +492,8 @@ void __cdecl FUN_00868560(GarbageCollectorDeleteB* apObject)
 
 // Marks a non-null object for collection and queues its smart pointer.
 // @fnv 0x00868660
-void FUN_00868660(NiAVObject* apObject)
+// src: EXE 0x00868660
+void GarbageCollector_Add_00868660(NiAVObject* apObject)
 {
     TwoPointerRecord autoEvent(2, "GarbageCollector::Add(NiAVObject)");
 

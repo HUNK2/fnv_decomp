@@ -18,7 +18,8 @@ NiRTTI* __cdecl FUN_00a93740()
 extern int DAT_0109ff64;
 
 // @fnv 0x00a93870
-void* __cdecl FUN_00a93870()
+// src: EXE 0x00a93870
+void* __cdecl NiSwitchStringExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x18);
     if (p)

@@ -135,7 +135,8 @@ FUN_00a409b0_class::FUN_00a409b0_class()
 void __fastcall FUN_00a36890(void*);
 
 // @fnv 0x00a409d0
-void* __cdecl FUN_00a409d0()
+// src: EXE 0x00a409d0
+void* __cdecl NiBlendTransformInterpolator_CreateObject()
 {
     void* p = NiObject::operator new(0x30);
     if (p)
@@ -153,7 +154,8 @@ extern int DAT_010975fc;
 
 // Allocates a 0x40-byte BSFadeNode, initialises it via InitTimeController, sets its vtable to DAT_010975fc and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a411f0
-int* __cdecl FUN_00a411f0()
+// src: EXE 0x00a411f0
+int* __cdecl NiFloatExtraDataController_CreateObject()
 {
     int* p = static_cast<int*>(NiObject::operator new(0x40));
     if (p)
@@ -294,7 +296,8 @@ void FUN_00a57870_Class::ReleaseString()
 
 // Allocates a 0x34-byte BSFadeNode, runs FUN_00a36890 on it, zeroes the float at offset 0x30, sets its vtable, and returns it (or null).
 // @fnv 0x00a42f90
-void* __cdecl FUN_00a42f90()
+// src: EXE 0x00a42f90
+void* __cdecl BSBlendTreadTransfInterpolator_CreateObject()
 {
     void* p = NiObject::operator new(0x34);
     if (p)
@@ -339,7 +342,8 @@ struct BaseHolder
 };
 // Allocates a 0x24-byte BSFadeNode, initialises it via FUN_00a57f20, sets its vtable and a 0xffff field, and returns it (or null).
 // @fnv 0x00a50ad0
-void* __cdecl FUN_00a50ad0()
+// src: EXE 0x00a50ad0
+void* __cdecl NiBSplineFloatInterpolator_CreateObject()
 {
     void* p = NiObject::operator new(0x24);
     if (p)
@@ -356,7 +360,8 @@ void __fastcall _Call_a5d3a0(void*);
 extern int DAT_01099e54;
 
 // @fnv 0x00a51e10
-void* __cdecl FUN_00a51e10()
+// src: EXE 0x00a51e10
+void* __cdecl NiBSplineData_CreateObject()
 {
     void* p = NiObject::operator new(0x18);
     if (p)
@@ -639,7 +644,8 @@ FUN_00a44f90_class::FUN_00a44f90_class()
 namespace fnv_00a47f20 {
 
 // @fnv 0x00a47f20
-void* FUN_00a47f20()
+// src: EXE 0x00a47f20
+void* NiSequence_CreateObject()
 {
     NiSequence* p = static_cast<NiSequence*>(NiObject::operator new(0x34));
 
@@ -692,7 +698,8 @@ struct FUN_00a5d3a0_class : NiObject
 };
 
 // @fnv 0x00a537f0
-void* FUN_00a537f0()
+// src: EXE 0x00a537f0
+void* NiBoolData_CreateObject()
 {
     FUN_00a5d3a0_class* p = (FUN_00a5d3a0_class*)NiObject::operator new(0x18);
     if (p)
@@ -1783,7 +1790,8 @@ struct ObjectState
     unsigned short enabled;
 };
 // @fnv 0x00a5f030
-NiObjectBase* __cdecl FUN_00a5f030()
+// src: EXE 0x00a5f030
+NiObjectBase* __cdecl NiNode_CreateObject()
 {
     NiObjectBase* object = static_cast<NiObjectBase*>(FUN_00aa13e0(0xac));
     if (object)
@@ -2190,7 +2198,7 @@ struct ControllerFields
 struct ConvertedController : ControllerFields
 {
     NiPointer<ConvertedController> next;
-    ConvertedController* FUN_00a36560();
+    ConvertedController* NiTransformController_NiTransformController();
 };
 struct ControllerInterpolator : ControllerFields
 {
@@ -2325,7 +2333,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     else
     {
         ConvertedController* fresh = static_cast<ConvertedController*>(NiObject::operator new(0x38));
-        fresh = fresh ? fresh->FUN_00a36560() : 0;
+        fresh = fresh ? fresh->NiTransformController_NiTransformController() : 0;
         if (controller != fresh)
         {
             if (controller)
@@ -3251,7 +3259,7 @@ struct FnvSourceTexture
     unsigned short unk42;
     int source;
 
-    FnvSourceTexture* __thiscall FUN_00a5fc10();
+    FnvSourceTexture* __thiscall NiSourceTexture_NiSourceTexture();
 };
 
 // Allocates a FnvSourceTexture, sets its dimensions, flags, source, and filename, then deletes it if not loaded when DAT_011a9594 is set.
@@ -3260,7 +3268,7 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
 {
     FnvSourceTexture* object = (FnvSourceTexture*)FUN_00aa13e0(0x48);
     if (object)
-        object = object->FUN_00a5fc10();
+        object = object->NiSourceTexture_NiSourceTexture();
     else
         object = 0;
 
@@ -3313,7 +3321,7 @@ struct RefCounted
 
 struct FUN_00a5fc10_class
 {
-    void* __thiscall FUN_00a5fc10();
+    void* __thiscall NiSourceTexture_NiSourceTexture();
 };
 struct Texture
 {
@@ -3390,7 +3398,7 @@ struct OwnerTriple
 Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTriple* apOwnerFields)
 {
     void* memory = FUN_00aa13e0(0x48);
-    Texture* object = memory ? static_cast<Texture*>(((FUN_00a5fc10_class*)memory)->FUN_00a5fc10()) : 0;
+    Texture* object = memory ? static_cast<Texture*>(((FUN_00a5fc10_class*)memory)->NiSourceTexture_NiSourceTexture()) : 0;
     OwnerTriple* storage = reinterpret_cast<OwnerTriple*>(&object->m_pSharedOwner);
     storage->m_pSharedOwner = apOwnerFields->m_pSharedOwner;
     storage->m_pFlagTarget = apOwnerFields->m_pFlagTarget;

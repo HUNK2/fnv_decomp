@@ -275,7 +275,7 @@ NiPixelData* NiImageConverter::ConvertImageData(const NiPixelData& kSrc, const N
         }
     }
     void* pNewPixelData = BSFadeNode::operator new(0x74);
-    return pNewPixelData ? ((NiPixelData*)pNewPixelData)->FUN_00a7c030(kSrc) : 0;
+    return pNewPixelData ? ((NiPixelData*)pNewPixelData)->NiPixelData_00a7c030(kSrc) : 0;
 }
 
 struct FUN_00aa27d0

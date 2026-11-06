@@ -221,7 +221,7 @@ struct LcCtlr : LcObject
     virtual void v48();
     virtual LcSourceInterp* GetInterpolator(unsigned short usIndex) const;
     virtual void SetInterpolator(void* pkInterp, unsigned short usIndex);
-    void FUN_00a36560();
+    void NiTransformController_NiTransformController();
 };
 
 struct LcCtlrNew : LcCtlr

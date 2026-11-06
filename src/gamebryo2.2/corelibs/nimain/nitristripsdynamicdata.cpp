@@ -79,7 +79,8 @@ extern int DAT_0109fc54;
 
 // Allocates the dynamic strips data, constructs its shared base, initializes the active counts and vtable, and returns it or null.
 // @fnv 0x00a923f0
-void* __cdecl FUN_00a923f0()
+// src: EXE 0x00a923f0
+void* __cdecl NiTriStripsDynamicData_CreateObject()
 {
     void* pNode = BSFadeNode::operator new(0x54);
     if (pNode)

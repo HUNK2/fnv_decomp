@@ -114,14 +114,14 @@ class E5DF0Actor
     E5DF0Counter m_kCounter;
 };
 
-bool FUN_005e5b80(int iUnused, int iType, E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult,
+bool BGSEntryPointFunction_CheckFunctionArguments(int iUnused, int iType, E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult,
                   BGSEntryPointFunctionDataTwoValue* pkModifier);
 
 // Validates the modifier, then adds the counter value times ReadValueA to the result.
 // @fnv 0x005e5df0
 void FUN_005e5df0(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, BGSEntryPointFunctionDataTwoValue* pkModifier)
 {
-    if (!FUN_005e5b80(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
         return;
 
     float* pfOut3 = *ppfResult;
@@ -149,14 +149,14 @@ void BGSEntryPointFunctionDataActivateChoice::FUN_005e6c60(const char* text)
     }
 }
 
-bool __cdecl FUN_005e5b80(int, int, void*, void*, unsigned char, void*, void*);
+bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*, unsigned char, void*, void*);
 // Calls FUN_005e5b80 to validate arguments, then writes the result of a5->FUN_006b9130() into the float pointed to by *a4.
 // @fnv 0x005e5c70
 void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** ppValue,
                           BGSEntryPointFunctionDataOneValue* apSource)
 {
     BGSEntryPointFunctionDataOneValue* pSource;
-    if (!FUN_005e5b80(0, 1, apArg1, apArg2, a3, ppValue, apSource))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 1, apArg1, apArg2, a3, ppValue, apSource))
         return;
     {
         float* pValue;
@@ -393,7 +393,8 @@ typedef unsigned int (__thiscall *EntryPointDataTypeCall)(BGSEntryPointFunctionD
 
 // Checks the function type, argument count, non-null arguments, and, when present, data type; warns and returns false on mismatches.
 // @fnv 0x005e5b80
-bool FUN_005e5b80(int aeExpectedFunctionType, unsigned char acExpectedFunctionData, TESObjectREFR* apPerkOwner,
+// src: EXE 0x005e5b80
+bool BGSEntryPointFunction_CheckFunctionArguments(int aeExpectedFunctionType, unsigned char acExpectedFunctionData, TESObjectREFR* apPerkOwner,
                   int aeFunctionType, unsigned char acArgumentCount, void** apFunctionArgument, void* apData)
 {
     if (aeExpectedFunctionType != aeFunctionType)
@@ -495,13 +496,13 @@ struct FUN_005e61b0_Local
     void* pLocals;
 };
 
-bool __cdecl FUN_005e5b80(int, int, void*, void*, bool, void*, void*);
+bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*, bool, void*, void*);
 
 // Runs the challenge name object's script when it starts locked; otherwise adds the challenge pointer to pList.
 // @fnv 0x005e61b0
 void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
 {
-    if (!FUN_005e5b80(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
         return;
 
     G2* pChallenge = apLocal->pList;

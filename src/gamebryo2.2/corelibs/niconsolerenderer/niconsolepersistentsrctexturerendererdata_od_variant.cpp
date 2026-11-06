@@ -92,7 +92,8 @@ BSMultiBound* BSMultiBoundStreamOperations::CloneBound(int a)
 extern int _data_011c16bc;
 
 // @fnv 0x00c361a0
-BSMultiBound* FUN_00c361a0()
+// src: EXE 0x00c361a0
+BSMultiBound* BSMultiBound_CreateObject()
 {
     return new BSMultiBound;
 }

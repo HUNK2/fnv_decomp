@@ -10,7 +10,8 @@
 extern int DAT_0102e394;
 
 // @fnv 0x00a7f8e0
-void* __cdecl FUN_00a7f8e0()
+// src: EXE 0x00a7f8e0
+void* __cdecl NiBinaryExtraData_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)
@@ -183,7 +184,7 @@ extern void* __cdecl NiMalloc(unsigned int stSize);
 // @fnv 0x00a7f920
 NiExtraData* NiBinaryExtraData::FUN_00a7f920(CloningProcess& kCloning)
 {
-    NiBinaryExtraData* pkClone = (NiBinaryExtraData*)FUN_00a7f8e0();
+    NiBinaryExtraData* pkClone = (NiBinaryExtraData*)NiBinaryExtraData_CreateObject();
     FUN_00a7b330(pkClone, &kCloning);
     if (m_uiSize > 0)
     {

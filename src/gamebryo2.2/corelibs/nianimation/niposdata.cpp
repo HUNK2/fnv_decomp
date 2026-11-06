@@ -139,7 +139,8 @@ struct BaseUnk
     int _04;
 };
 // @fnv 0x00a49020
-NiPosData* FUN_00a49020()
+// src: EXE 0x00a49020
+NiPosData* NiPosData_CreateObject()
 {
     NiPosData* p = (NiPosData*)BSFadeNode::operator new(sizeof(NiPosData));
     if (p)

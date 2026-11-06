@@ -547,12 +547,13 @@ struct Standin
     int unk1c;
     hkTransform m_kMotionTransform;
 
-    Standin* FUN_00d5d7a0(const hkpConvexShape* childShape, const hkTransform& transform, int refPolicy);
+    Standin* hkpConvexTransformShape_hkpConvexTransformShape(const hkpConvexShape* childShape, const hkTransform& transform, int refPolicy);
 };
 
 // Calls FUN_00c9e340 with childShape and its m_fSphereRadius, sets the vtable, copies the four rows of transform into m_kMotionTransform, and returns this.
 // @fnv 0x00d5d7a0
-Standin* Standin::FUN_00d5d7a0(const hkpConvexShape* childShape, const hkTransform& transform, int refPolicy)
+// src: EXE 0x00d5d7a0
+Standin* Standin::hkpConvexTransformShape_hkpConvexTransformShape(const hkpConvexShape* childShape, const hkTransform& transform, int refPolicy)
 {
     ((BaseHelper*)this)->FUN_00c9e340(0xc, childShape->m_fSphereRadius, childShape, refPolicy);
     this->vtable = &DAT_010d102c;

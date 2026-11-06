@@ -3622,7 +3622,8 @@ FUN_0067b950::FUN_0067b950()
 
 extern int DAT_01068960;
 // @fnv 0x0067bbf0
-TESEscortPackageData* TESEscortPackageData::FUN_0067bbf0()
+// src: EXE 0x0067bbf0
+TESEscortPackageData* TESEscortPackageData::TESEscortPackageData_0067bbf0()
 {
     FUN_0067ad20();
     *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01068960);

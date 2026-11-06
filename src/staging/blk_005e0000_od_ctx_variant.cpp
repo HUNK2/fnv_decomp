@@ -38,7 +38,7 @@ struct FUN_00851d70_shell
 };
 extern GlobalObject_0045cf30 g_011de29c;
 extern void* DAT_011de134;
-bool FUN_005e0160();
+bool Cmd_SystemSave_Execute();
 extern "C" void __cdecl FUN_004b0220(int);
 extern int DAT_0103d3e8;
 struct FUN_005e02e0
@@ -52,7 +52,7 @@ struct FUN_005e0310_class
 {
     void* vtbl;
     void __thiscall FUN_005e08e0(void* a, void* b);
-    FUN_005e0310_class* __thiscall FUN_005e0310(void* a, void* b);
+    FUN_005e0310_class* __thiscall NiTObjectArray_NiPointer_NiTexture_NiTObjectArray(void* a, void* b);
 };
 struct ActorCombatGroup;
 struct FUN_005e0340Class
@@ -67,7 +67,7 @@ struct FUN_005e0370_Class
 {
     void* vtbl;
     void FUN_005e0950(int a, int b);
-    void* FUN_005e0370(int a, int b);
+    void* NiTPrimitiveArray_TESModel_NiTPrimitiveArray(int a, int b);
 };
 struct QuantityData
 {
@@ -2410,13 +2410,13 @@ struct Body55
 namespace s5e5d20 {
 
 
-bool FUN_005e5b80(int iArg0, int iArg1, void* pvArg2, void* pvArg3, unsigned char ucArg4, float** ppfValue,
+bool BGSEntryPointFunction_CheckFunctionArguments(int iArg0, int iArg1, void* pvArg2, void* pvArg3, unsigned char ucArg4, float** ppfValue,
                   Actor* pkActor);
 
 // @fnv 0x005e5d20
 void FUN_005e5d20(void* pvArg0, void* pvArg1, unsigned char ucArg2, float** ppfValue, Actor* pkActor)
 {
-    if (!FUN_005e5b80(0, 1, pvArg0, pvArg1, ucArg2, ppfValue, pkActor))
+    if (!BGSEntryPointFunction_CheckFunctionArguments(0, 1, pvArg0, pvArg1, ucArg2, ppfValue, pkActor))
         return;
     float* pfValue = *ppfValue;
     Actor* pkTarget = pkActor;
@@ -2432,7 +2432,7 @@ struct Base
 {
     const char* m_pVtbl;
 
-    Base* FUN_005e6420();
+    Base* BGSEntryPointFunctionData_BGSEntryPointFunctionData();
 };
 
 struct Derived : Base
@@ -2445,7 +2445,7 @@ struct Derived : Base
 // @fnv 0x005e63f0
 Derived* Derived::FUN_005e63f0()
 {
-    FUN_005e6420();
+    BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     m_pVtbl = DAT_010462c0;
     m_fValue = 0.0f;
     return this;
@@ -2460,11 +2460,12 @@ struct Holder
 {
     const char* m_pTable;
 
-    Holder* FUN_005e6420();
+    Holder* BGSEntryPointFunctionData_BGSEntryPointFunctionData();
 };
 
 // @fnv 0x005e6420
-Holder* Holder::FUN_005e6420()
+// src: EXE 0x005e6420
+Holder* Holder::BGSEntryPointFunctionData_BGSEntryPointFunctionData()
 {
     m_pTable = DAT_010462e0;
     return this;
@@ -2476,7 +2477,7 @@ struct FUN_005e6510_cls
 {
     void* vtbl;
     int m4;
-    void FUN_005e6420();
+    void BGSEntryPointFunctionData_BGSEntryPointFunctionData();
     FUN_005e6510_cls* FUN_005e6510();
 };
 extern int DAT_01048bb4, DAT_01048ba0, DAT_01048b88, DAT_01048b68, DAT_01048b54;

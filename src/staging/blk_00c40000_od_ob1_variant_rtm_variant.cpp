@@ -902,7 +902,7 @@ struct FUN_00c465a0
     ~FUN_00c465a0();
     static void* operator new(unsigned int);
 };
-FUN_00c465a0* __cdecl FUN_00c46740();
+FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
 struct FUN_00c48fe0_Class
 {
     int m_0000;
@@ -1293,7 +1293,7 @@ struct SpawnedObject_b9874
         return FUN_00aa13e0(size);
     }
 };
-SpawnedObject_b9874* FUN_00c43190();
+SpawnedObject_b9874* BSXFlags_CreateObject();
 struct S_00c437c0_Obj
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
@@ -1314,7 +1314,7 @@ struct SpawnedObject_b9504 : FUN_00c43660
         return FUN_00aa13e0(size);
     }
 };
-FUN_00c43660* __cdecl FUN_00c43a30();
+FUN_00c43660* __cdecl BSValueNode_CreateObject();
 class FUN_00c43be0_cls
 {
   public:
@@ -3175,7 +3175,7 @@ class BC5CBB0Controller : public BC5CBB0Object
     int unk5C;
     int unk60;
 };
-BC5CBB0Object* __cdecl FUN_00c5cbb0();
+BC5CBB0Object* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
 struct EmitterObjectStub
 {
     void* m_ppVirtualMethodTable;
@@ -6070,7 +6070,7 @@ struct DerQ : FUN_00c450d0
         vtbl = (int)&DAT_010c1eb4;
     }
 };
-DerQ* FUN_00c4ac00();
+DerQ* BSBlastNode_CreateObject();
 struct S_00c4aca0_Base
 {
     S_00c4aca0_Base();
@@ -6289,7 +6289,7 @@ struct C55010Obj : NiExtraData
         m_18 = DAT_011f426c;
     }
 };
-C55010Obj* FUN_00c55010();
+C55010Obj* BSBound_CreateObject();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* p);
 struct MemMgr
 {
@@ -8150,7 +8150,7 @@ struct OwnerC4aa40 : FUN_00c4aae0_class
 extern unsigned int DAT_010c1fc4;
 // BSDebrisNode : BSRangeNode. The range-node constructor is FUN_00c450d0;
 // this derived constructor only replaces the vtable (0x10c1fc4).
-BSDebrisNode* __cdecl FUN_00c4ae60();
+BSDebrisNode* __cdecl BSDebrisNode_CreateObject();
 void* __cdecl FUN_00aa13e0(unsigned int size);
 extern int DAT_010c20d4;
 struct S00c4af00_Obj : FUN_00c450d0
@@ -8219,7 +8219,7 @@ struct C4B0C0_Obj : FUN_00c450d0
         vtbl = (int)&DAT_010c20d4;
     }
 };
-C4B0C0_Obj* FUN_00c4b0c0();
+C4B0C0_Obj* BSDamageStage_CreateObject();
 // Same-TU body is visible, so /Ob1 tries to inline it and refuses.
 // The four locals are the caller's unreferenced 16-byte hole; the call stays.
 struct FUN_00546780_shell
@@ -11048,7 +11048,7 @@ class S00c5fc70_Object
 {
   public:
     void FUN_00c316a0(const S00c5fc70_FixedString& kName, int iFlags);
-    S00c5fc70_Object* FUN_00c5fc70(S00c5fc70_Source* pSource, float f);
+    S00c5fc70_Object* BSPSysStripUpdateModifier_BSPSysStripUpdateModifier(S00c5fc70_Source* pSource, float f);
     void* m_vt;
     int unk04;
     int unk08;

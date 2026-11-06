@@ -588,7 +588,8 @@ struct RegionList : public FUN_004f66c0_node
 };
 
 // @fnv 0x005a6280
-bool FUN_005a6280(void* apUnused, void* apRegion, void* apUnused2, double& result)
+// src: EXE 0x005a6280
+bool Cmd_PlayerInRegion_Eval(void* apUnused, void* apRegion, void* apUnused2, double& result)
 {
     result = 0.0;
     TESForm* region = (TESForm*)apRegion;

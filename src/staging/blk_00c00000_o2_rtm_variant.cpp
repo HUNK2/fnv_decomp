@@ -346,7 +346,7 @@ struct FUN_00c1a480_class
 {
     int m_vtbl;
     int m_iWordAt04;
-    int __thiscall FUN_00a71cc0(int);
+    int __thiscall NiTriStrips_NiTriStrips(int);
     int __thiscall FUN_00c1a480(int a);
 };
 struct FUN_00a7fb20_class

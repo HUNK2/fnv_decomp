@@ -790,7 +790,8 @@ void S00a46970_Ctlr::FUN_00a46970(S00a46970_Stream& kStream)
 }
 
 // @fnv 0x00a46950
-NiTextureTransformController* __cdecl FUN_00a46950()
+// src: EXE 0x00a46950
+NiTextureTransformController* __cdecl NiTextureTransformController_CreateObject()
 {
     void* storage = BSFadeNode::operator new(sizeof(NiTextureTransformController));
     if (storage != 0)

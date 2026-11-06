@@ -455,7 +455,8 @@ struct Dummy_007a1a70
 
 // Sets the object's vtable to DAT_01075530 and calls FUN_007a63f0 with 0, 0, returning the object.
 // @fnv 0x007a1a70
-Dummy_007a1a70* __fastcall FUN_007a1a70(Dummy_007a1a70* pThis)
+// src: EXE 0x007a1a70
+Dummy_007a1a70* __fastcall BSSimpleArray_BSStringT_char_1024_BSSimpleArray(Dummy_007a1a70* pThis)
 {
     pThis->vtable = &DAT_01075530;
     pThis->FUN_007a63f0(0, 0);

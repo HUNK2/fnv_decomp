@@ -1862,7 +1862,8 @@ class RefObjC86D : public TESObjectDoorController
 };
 
 // @fnv 0x00c86de0
-RefObjC86D* __cdecl FUN_00c86de0()
+// src: EXE 0x00c86de0
+RefObjC86D* __cdecl bhkMouseSpringAction_CreateObject()
 {
     return new RefObjC86D;
 }

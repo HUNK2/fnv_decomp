@@ -109,14 +109,14 @@ int __cdecl MinInt(int iA, int iB)
 
 struct FUN_004a8f50_shell
 {
-    void FUN_004a95d0(int a);
+    void NiTMap_NiTexture_TEX_USER_DATA_NiTMap(int a);
     void* FUN_004a8f50();
 };
 
 // @fnv 0x004a8f50
 void* __thiscall FUN_004a8f50_shell::FUN_004a8f50()
 {
-    ((FUN_004a8f50_shell*)((char*)this + 4))->FUN_004a95d0(0x25);
+    ((FUN_004a8f50_shell*)((char*)this + 4))->NiTMap_NiTexture_TEX_USER_DATA_NiTMap(0x25);
     return this;
 }
 
@@ -257,13 +257,14 @@ void* This_004a8050::GetNextProc()
 extern int DAT_0101ecec;
 struct FUN_004a95d0_shell
 {
-    void* FUN_004a95d0(int a);
+    void* NiTMap_NiTexture_TEX_USER_DATA_NiTMap(int a);
     void FUN_004a97e0(int a);
 };
 
 // Calls FUN_004a97e0(a), stores the address of DAT_0101ecec into this, and returns this.
 // @fnv 0x004a95d0
-void* FUN_004a95d0_shell::FUN_004a95d0(int a)
+// src: EXE 0x004a95d0
+void* FUN_004a95d0_shell::NiTMap_NiTexture_TEX_USER_DATA_NiTMap(int a)
 {
     FUN_004a97e0(a);
     *(int*)this = (int)&DAT_0101ecec;

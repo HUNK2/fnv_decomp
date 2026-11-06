@@ -197,10 +197,11 @@ struct NiTimeController_Call
 };
 struct S_00a36560
 {
-    void* FUN_00a36560();
+    void* NiTransformController_NiTransformController();
 };
 // @fnv 0x00a36560
-void* S_00a36560::FUN_00a36560()
+// src: EXE 0x00a36560
+void* S_00a36560::NiTransformController_NiTransformController()
 {
     ((NiTimeController_Call*)this)->SetControllerActive();
     *(void**)this = &DAT_0109687c;

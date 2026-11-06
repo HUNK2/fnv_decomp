@@ -581,7 +581,7 @@ struct SpawnedObject : public ChainB_cls
         DAT_012681bc += 1;
     }
 };
-SpawnedObject* __cdecl FUN_00c8ed70();
+SpawnedObject* __cdecl bhkRigidBody_CreateObject();
 struct HavokShape
 {
     void FUN_00c8f080();

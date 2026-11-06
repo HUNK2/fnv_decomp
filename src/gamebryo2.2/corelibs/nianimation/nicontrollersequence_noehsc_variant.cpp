@@ -130,7 +130,7 @@ struct FUN_00a316a0_shell
 {
     void* __thiscall FUN_00a316a0();
 };
-void* __cdecl FUN_00a326c0();
+void* __cdecl NiControllerSequence_CreateObject();
 extern char DAT_01096584;
 extern void* _EmptyFS;
 extern int(__stdcall* DAT_00fdf1c4)(void*);

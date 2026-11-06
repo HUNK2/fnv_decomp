@@ -162,7 +162,8 @@ struct S_00a47150_Obj : NiObject
 };
 // Allocates and constructs a new S_00a47150_Obj via its operator new and returns the pointer.
 // @fnv 0x00a47150
-S_00a47150_Obj* __cdecl FUN_00a47150()
+// src: EXE 0x00a47150
+S_00a47150_Obj* __cdecl NiStringPalette_CreateObject()
 {
     return new S_00a47150_Obj;
 }

@@ -4987,7 +4987,7 @@ struct S97_World {
     S97_CollisionFilter* m_pCollisionFilter;
     inline const S97_CollisionInput* getCollisionInput() const { return m_pCollisionInput; }
     inline const S97_CollisionFilter* getCollisionFilter() const { return m_pCollisionFilter; }
-    void FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const;
+    void hkpWorld_getClosestPoints(const S97_Collidable* collA, const S97_CollisionInput& input, void* collector) const;
 };
 namespace std{ class type_info; }
 typedef float TR;

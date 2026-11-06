@@ -31,7 +31,8 @@ void NiIntegersExtraData::FUN_00a99950()
 }
 
 // @fnv 0x00a99980
-NiIntegersExtraData* NiIntegersExtraData::FUN_00a99980(int a, int b)
+// src: EXE 0x00a99980
+NiIntegersExtraData* NiIntegersExtraData::NiIntegersExtraData_00a99980(int a, int b)
 {
     NiExtraData::FUN_00a7b2e0();
     *(int*)this = (int)&DAT_010a0c7c;
@@ -41,7 +42,8 @@ NiIntegersExtraData* NiIntegersExtraData::FUN_00a99980(int a, int b)
 }
 
 // @fnv 0x00a99a10
-NiExtraData* FUN_00a99a10()
+// src: EXE 0x00a99a10
+NiExtraData* NiIntegersExtraData_CreateObject()
 {
     NiIntegersExtraData* data = static_cast<NiIntegersExtraData*>(NiIntegersExtraData::operator new(sizeof(NiIntegersExtraData)));
     if (data)

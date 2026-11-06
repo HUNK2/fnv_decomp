@@ -8110,7 +8110,7 @@ struct CubeMapSurface {
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e68150(int a, unsigned int b, int c, int d);
+extern "C" void __cdecl NiDX9SourceTextureData_CopyDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
 extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e8aaf0_cls {
@@ -8156,7 +8156,7 @@ void FUN_00e8aaf0_cls::FUN_00e8aaf0(int pData, int iFace) {
                 FUN_00a29680("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
                 return;
             }
-            FUN_00e68150(pData, i, iFace, orig);
+            NiDX9SourceTextureData_CopyDataToSurfaceLevel(pData, i, iFace, orig);
             reinterpret_cast<CubeMapSurface*>(iFace)->Release();
         } while (++i < m_68);
     }
@@ -8189,7 +8189,7 @@ struct CubeMapSurface {
     virtual void v01();
     virtual void __stdcall Release();
 };
-extern "C" void __cdecl FUN_00e683d0(int a, unsigned int b, int c, int d);
+extern "C" void __cdecl NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(int a, unsigned int b, int c, int d);
 extern "C" void* __cdecl GetHResultName(int r);
 extern "C" void __cdecl FUN_00a29680(const char* fmt, unsigned int i, void* s);
 struct FUN_00e8ab70_cls {
@@ -8235,7 +8235,7 @@ void FUN_00e8ab70_cls::FUN_00e8ab70(int aiData, int a2) {
                 FUN_00a29680("NiDX9SourceCubeMapData::CopyDataToSurface> Failed GetSurfaceLevel (%d)- %s", i, GetHResultName(r));
                 return;
             }
-            FUN_00e683d0(aiData, i, a2, orig);
+            NiDX9SourceTextureData_CopyRendererDataToSurfaceLevel(aiData, i, a2, orig);
             reinterpret_cast<CubeMapSurface*>(a2)->Release();
         } while (++i < m_68);
     }
@@ -9205,7 +9205,7 @@ FUN_00e95b60_cls* FUN_00e95b60_cls::Reset() {
 }
 
 struct S_00e97790_This {
-    void __thiscall FUN_00e98910(void* p);
+    void __thiscall NiD3DShaderConstantManager_NiD3DShaderConstantManager(void* p);
 };
 
 
@@ -9227,7 +9227,7 @@ int FUN_00e97790_Class::InitFromSource(int a, int apSource)
     int zero = 0;
     int sixteen = zero + 0x10;
 
-    pThis->FUN_00e98910(reinterpret_cast<void*>(a));
+    pThis->NiD3DShaderConstantManager_NiD3DShaderConstantManager(reinterpret_cast<void*>(a));
 
     *reinterpret_cast<int*>(this) =
         reinterpret_cast<int>(&DAT_010f1550);
@@ -14374,12 +14374,13 @@ struct FUN_00e98910_Class {
     FUN_00e98910_Target* unk80;
     void* unk84;
 
-    FUN_00e98910_Class* __thiscall FUN_00e98910(int* context);
+    FUN_00e98910_Class* __thiscall NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context);
 };
 
 // @fnv 0x00e98910
 FUN_00e98910_Class* __thiscall
-FUN_00e98910_Class::FUN_00e98910(int* context) {
+// src: EXE 0x00e98910
+FUN_00e98910_Class::NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context) {
     this->unk00 = &DAT_0101dce4;
     this->unk04 = 0;
 

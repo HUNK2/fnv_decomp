@@ -110,7 +110,8 @@ bool FUN_004029d0_shell::FUN_004029d0(int aiFlag)
 extern int DAT_01011d68;
 
 // @fnv 0x00402d30
-int* __fastcall FUN_00402d30(int* this_ptr)
+// src: EXE 0x00402d30
+int* __fastcall BaseFormComponent_BaseFormComponent(int* this_ptr)
 {
     *this_ptr = (int)&DAT_01011d68;
     return this_ptr;

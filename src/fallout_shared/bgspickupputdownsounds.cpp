@@ -96,7 +96,8 @@ void __fastcall FUN_0047b540(void* pThis);
 
 // Initialises the BaseFormComponent base, installs the vtable from DAT_0101abd8, calls FUN_0047b540, and returns pThis.
 // @fnv 0x0047b4f0
-void* __fastcall FUN_0047b4f0(BaseFormComponent* apComponent)
+// src: EXE 0x0047b4f0
+void* __fastcall BGSPickupPutdownSounds_BGSPickupPutdownSounds(BaseFormComponent* apComponent)
 {
     apComponent->BaseFormComponent::BaseFormComponent();
     *(int**)apComponent = &DAT_0101abd8;

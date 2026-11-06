@@ -132,7 +132,8 @@ extern int _DAT_011a9424;
 extern int _DAT_011a9428;
 extern int _DAT_011a942c;
 // @fnv 0x00a55a80
-void* FUN_00a55a80()
+// src: EXE 0x00a55a80
+void* NiBlendPoint3Interpolator_CreateObject()
 {
     void* p = BSFadeNode::operator new(64);
     if (p)

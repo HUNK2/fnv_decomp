@@ -280,7 +280,7 @@ struct Object_00c9f5a0 : S_00cb79d0_Base, A51BF0Base
         f14 = 0;
     }
 };
-void* FUN_00c9f5a0();
+void* bhkAabbPhantom_CreateObject();
 struct FUN_00c877b0
 {
     virtual ~FUN_00c877b0();
@@ -1859,7 +1859,7 @@ class NiControllerC9E : public NiObject
   public:
     NiControllerC9E();
 
-    static NiObject* FUN_00c9ef30();
+    static NiObject* bhkSimpleShapePhantom_CreateObject();
 
     int unk08;
     int unk0C;

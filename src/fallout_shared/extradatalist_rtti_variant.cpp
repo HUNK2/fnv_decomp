@@ -123,7 +123,7 @@ void __cdecl FUN_00806130(int a, int b);
 struct OwnQ
 {
     ResQ* FUN_00418460();
-    BSExtraData* FUN_00410220(int iType);
+    BSExtraData* BaseExtraList_GetExtraData(int iType);
     void FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3);
 };
 // @fnv 0x00426720
@@ -141,7 +141,7 @@ void OwnQ::FUN_00426720(unsigned int uiFlags, int a2, P3Q* p3)
         }
         if (uiFlags & 0)
         {
-            NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(FUN_00410220(0x33));
+            NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(BaseExtraList_GetExtraData(0x33));
             if (pTarget)
                 FUN_00806130((int)pTarget->GetActiveEffectList(), 0);
         }
@@ -1165,10 +1165,11 @@ class ExtraDataLoader : public ExtraDataList
     void ResetB(bool a);                           // 0x41ab70
     void ResetC(bool a);                           // 0x41a960
     void ResetD();                                 // 0x422670
-    void FUN_00428150(LoadBuffer* buf);
+    void ExtraDataList_LoadGame_00428150(LoadBuffer* buf);
 };
 // @fnv 0x00428150
-void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
+// src: EXE 0x00428150
+void ExtraDataLoader::ExtraDataList_LoadGame_00428150(LoadBuffer* buf)
 {
     LoadRef* pRef = buf->GetRef();
     LoadRef* actor = buf->GetActor();

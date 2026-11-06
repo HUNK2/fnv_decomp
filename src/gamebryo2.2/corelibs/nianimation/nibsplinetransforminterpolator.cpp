@@ -182,7 +182,8 @@ NiBSplineTransformInterpolator* __fastcall FUN_00a50110(NiBSplineTransformInterp
 
 // Allocates and constructs a spline transform interpolator with invalid control-point handles.
 // @fnv 0x00a50180
-NiBSplineTransformInterpolator* FUN_00a50180()
+// src: EXE 0x00a50180
+NiBSplineTransformInterpolator* NiBSplineTransformInterpolator_CreateObject()
 {
     return ::new (BSFadeNode::operator new(sizeof(NiBSplineTransformInterpolator))) BSplineTransformConstruction(0, 0xffff, 0xffff, 0xffff, 0);
 }

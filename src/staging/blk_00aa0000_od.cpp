@@ -2468,7 +2468,7 @@ void VirtualReservationSearch::FUN_00aa65b0()
 extern unsigned int DAT_011f6bd0;
 extern _RTL_CRITICAL_SECTION DAT_011f6bb8;
 
-void __fastcall FUN_00aa6f90(MemoryPool* pPool);
+void __fastcall MemoryPool_FreeUnusedPagesForAllPools(MemoryPool* pPool);
 void __cdecl FUN_00fdb2a0();
 int FUN_00ec658f(void(__cdecl* fn)());
 
@@ -2487,7 +2487,7 @@ void FUN_00aa7030()
     {
         if (DAT_011f67b8[i] != 0)
         {
-            FUN_00aa6f90(DAT_011f67b8[i]);
+            MemoryPool_FreeUnusedPagesForAllPools(DAT_011f67b8[i]);
         }
     }
     DAT_00fdf100(&DAT_011f6bb8);

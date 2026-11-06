@@ -9,7 +9,8 @@ struct FakeBase
 };
 extern int DAT_0102e1dc;
 // @fnv 0x00a7f740
-void* FUN_00a7f740()
+// src: EXE 0x00a7f740
+void* BSPackedAdditionalGeometryData_CreateObject()
 {
     void* p = BSFadeNode::operator new(52);
     if (p)

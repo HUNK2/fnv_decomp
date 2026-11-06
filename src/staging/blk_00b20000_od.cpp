@@ -30,12 +30,13 @@ extern int DAT_010a57fc;
 struct FUN_00b3c440_class
 {
     int* vtbl;
-    int FUN_00b3c440(int a);
+    int std_out_of_range_out_of_range(int a);
 };
 
 // Calls FUN_0044a450 on this and a, installs the DAT_010a57fc vtable pointer, and returns this.
 // @fnv 0x00b3c440
-int FUN_00b3c440_class::FUN_00b3c440(int aiValue)
+// src: EXE 0x00b3c440
+int FUN_00b3c440_class::std_out_of_range_out_of_range(int aiValue)
 {
     int pad[24];
     reinterpret_cast<void(__thiscall*)(FUN_00b3c440_class*, int)>(FUN_0044a450)(this, aiValue);

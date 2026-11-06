@@ -116,7 +116,7 @@ struct FUN_0083b5e0_class
 {
     void* m_ptr;
     void InitBuffer(int);
-    void* FUN_0083b5e0(int a);
+    void* NiTPointerMap_int_unsigned_int_NiTPointerMap(int a);
 };
 struct S7010
 {

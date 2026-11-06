@@ -28,7 +28,7 @@ bool Renderer::SetBackgroundColor(NiColor& color)
 // @fnv 0x00452540
 bool Renderer::CanRender()
 {
-    return !DAT_011c70e9 || FUN_005d4a40();
+    return !DAT_011c70e9 || Cmd_Default_Execute();
 }
 
 double __cdecl FUN_00ec9ac0(double, double);
@@ -1598,7 +1598,8 @@ int __cdecl FUN_00b4f380(int);
 
 // Initializes the renderer device, queries GPU capabilities, writes RendererInfo.txt, and caches float/bool settings into globals.
 // @fnv 0x004da670
-int __cdecl FUN_004da670(int aiWidth, int aiHeight)
+// src: EXE 0x004da670
+int __cdecl NiXAdapaterDesc_GetDeviceCaps(int aiWidth, int aiHeight)
 {
     S4eb0 tracker10(4, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Renderer.cpp", 377);
     DAT_011c6fc0 = aiWidth;

@@ -20,7 +20,8 @@ void* __cdecl FUN_00a46b60()
 extern void* DAT_0109827c;
 
 // @fnv 0x00a46b70
-void* __cdecl FUN_00a46b70()
+// src: EXE 0x00a46b70
+void* __cdecl NiTextKeyExtraData_CreateObject()
 {
     NiTextKeyExtraData* p = static_cast<NiTextKeyExtraData*>(BSFadeNode::operator new(sizeof(NiTextKeyExtraData)));
     if (p)
