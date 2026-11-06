@@ -1,0 +1,4 @@
+{
+ "note": "EH code of units the owner has built against the game at a commit where it differs from main (compare_builds.py eh). The check accepts these digests as they are. Updated by the owner.",
+ "units": {}
+}
